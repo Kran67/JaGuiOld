@@ -3,7 +3,7 @@ import { ThemedControl } from "/scripts/core/themedcontrol.js";
 import { Tools } from "/scripts/core/tools.js";
 import "/scripts/components/containers/layout.js";
 import "/scripts/core/captioncontrol.js";
-import "/scripts/components/common/windowButtons.js";
+import "/scripts/components/common/windowbuttons.js";
 import { Keyboard } from "/scripts/core/keyboard.js";
 import { Mouse } from "/scripts/core/mouse.js";
 import { Events } from "/scripts/core/events.js";

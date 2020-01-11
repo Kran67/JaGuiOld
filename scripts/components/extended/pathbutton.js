@@ -1,5 +1,5 @@
 ﻿//#region Import
-import { ButtonGlyph } from "/scripts/components/common/buttonGlyph.js";
+import { ButtonGlyph } from "/scripts/components/common/buttonglyph.js";
 import { Color, Colors } from "/scripts/core/color.js";
 import { PathData } from "/scripts/core/path.js";
 import { Rect } from "/scripts/core/geometry.js";
