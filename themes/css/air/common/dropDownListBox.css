@@ -1,0 +1,43 @@
+﻿.air.DropDownListBox:hover {
+}
+
+.air.DropDownListBox.pressed,
+.air.DropDownListBox.opened,
+.air.DropDownListBox.opened:hover {
+}
+
+.air.DropDownListBox,
+.air.DropDownListBox.disabled,
+.air.DropDownListBox.disabled.focused {
+    border: 1px solid #515151;
+    background-image: linear-gradient(to bottom,#494949 0,#4A4A4A 100%);
+    box-shadow: 0 0 0 1px #1C1C1C inset,0 0 0 2px #6A6A6A inset;
+}
+
+.air.DropDownListBoxInput {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
+.air.DropDownListBox.editable .DropDownListBoxContent {
+    border: 1px solid #202020;
+    background-color: #333;
+}
+
+.air.DropDownListBox.focused {
+    box-shadow: 0 0 6px 2px #65C8E0,0 0 0 1px #1C1C1C inset,0 0 0 2px #6A6A6A inset;
+}
+
+.air.PopupListBox .ListBoxItemPopup:hover,
+.air.ListBoxItemPopup.selected {
+    background-color: #2B6472;
+}
+
+.air.ListBox .ListBoxContent .ListBoxItemPopup {
+    border-radius: 0;
+}
+
+.air.PopupListBox .ListBoxItemPopup.disabled:hover {
+    background-color: transparent;
+}

@@ -1,0 +1,62 @@
+﻿.carbon.Button,
+.carbon.Button.disabled:hover,
+.carbon.TextButton,
+.carbon.TextButton.disabled:hover {
+  border-radius: 3px;
+  border: 1px solid #222;
+  background-image: linear-gradient(to bottom,#505050 0,#303030 100%);
+}
+
+.carbon.Button.stayspressed.pressed,
+.carbon.Button.stayspressed.pressed:hover,
+.carbon.TextButton.stayspressed.pressed,
+.carbon.TextButton.stayspressed.pressed:hover {
+  background-color: #F5AB28;
+  background-image: none;
+  color: #000;
+}
+
+.carbon.CaptionButton.stayspressed.pressed {
+  color: #000;
+}
+
+.carbon.Button:hover,
+.carbon.TextButton:hover {
+  background-image: linear-gradient(to bottom,#707070 0,#303030 100%);
+}
+
+.carbon.Button.pressed,
+.carbon.TextButton.pressed {
+  background-image: linear-gradient(to bottom,#404040 0,#303030 100%);
+}
+
+.carbon.Button.focused,
+.carbon.TextButton.focused {
+  box-shadow: 0 0 6px #F69E2D;
+}
+
+.carbon.SpeedButton,
+.carbon.SpeedButton.disabled:hover {
+  border-radius: 3px;
+  border: 1px solid #404040;
+  background-image: linear-gradient(to bottom,#505050 0,#303030 100%);
+}
+
+.carbon.SpeedButton.stayspressed.pressed,
+.carbon.SpeedButton.stayspressed.pressed:hover {
+  background-color: #F5AB28;
+  background-image: none;
+  color: #000;
+}
+
+.carbon.SpeedButton:hover {
+  background-image: linear-gradient(to bottom,#707070 0,#303030 100%);
+}
+
+.carbon.SpeedButton.pressed {
+  background-image: linear-gradient(to bottom,#404040 0,#303030 100%);
+}
+
+.carbon.SpeedButton.focused {
+  box-shadow: 0 0 6px #F69E2D;
+}

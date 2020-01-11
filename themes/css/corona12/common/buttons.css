@@ -1,0 +1,60 @@
+﻿.corona12.Button,
+.corona12.Button.disabled:hover,
+.corona12.TextButton,
+.corona12.TextButton.disabled:hover {
+    padding: 1px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    background: linear-gradient(to bottom,#FDFDFD,#C9D9EA) content-box, linear-gradient(to bottom,#F9FAFB,#C6D7E7) padding-box, linear-gradient(to bottom right,#CBD7E2,#98A5B3) border-box;
+}
+
+    .corona12.Button.stayspressed.pressed,
+    .corona12.Button.stayspressed.pressed:hover,
+    .corona12.TextButton.stayspressed.pressed,
+    .corona12.TextButton.stayspressed.pressed:hover {
+        background-color: #F5AB28;
+        background-image: none;
+        color: #000;
+    }
+
+.corona12.CaptionButton.stayspressed.pressed {
+    color: #000;
+}
+
+.corona12.Button:hover,
+.corona12.TextButton:hover {
+    background: linear-gradient(to bottom,#FDFDFD,#CEDCEC) content-box, linear-gradient(to bottom,#CCF1C0,#95DD7C) padding-box, linear-gradient(to bottom,#DCE8DA,#7DC366) border-box;
+}
+
+.corona12.Button.pressed,
+.corona12.TextButton.pressed {
+    background: linear-gradient(to bottom,#B7C3D5,#FFF) content-box, linear-gradient(to bottom,#BDCBDA,#FFF) padding-box, linear-gradient(to bottom right,#98A5B3,#CBD7E2) border-box;
+}
+
+.corona12.Button.focused:not(:hover):not(.pressed),
+.corona12.TextButton.focused:not(:hover):not(.pressed) {
+    background: linear-gradient(to bottom,#FDFDFD,#C9D9EA) content-box, linear-gradient(to bottom,#DBFFD9,#D2FFD4) padding-box, linear-gradient(to bottom,#C0FFCC,#C0FFCC) border-box;
+}
+
+.corona12.SpeedButton,
+.corona12.SpeedButton.disabled:hover {
+    padding: 1px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    background: none;
+}
+
+    .corona12.SpeedButton.stayspressed.pressed,
+    .corona12.SpeedButton.stayspressed.pressed:hover {
+        background-color: #F5AB28;
+        background-image: none;
+        color: #000;
+    }
+
+    .corona12.SpeedButton:hover {
+        background: linear-gradient(to bottom,#FDFDFD,#CEDCEC) content-box, linear-gradient(to bottom,#CCF1C0,#95DD7C) padding-box, linear-gradient(to bottom,#DCE8DA,#7DC366) border-box;
+    }
+
+    .corona12.SpeedButton.pressed {
+        background: linear-gradient(to bottom,#B7C3D5,#FFF) content-box, linear-gradient(to bottom,#BDCBDA,#FFF) padding-box, linear-gradient(to bottom right,#98A5B3,#CBD7E2) border-box;
+    }

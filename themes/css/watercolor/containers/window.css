@@ -1,0 +1,129 @@
+﻿.watercolor.Window {
+    background-color: #3573D6;
+    overflow: hidden;
+    border: 1px solid #7DB1FB;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(to bottom, #5297F9, #3573D6), linear-gradient(to bottom, #5297F9, #5297F9);
+    background-position: 0 21px, left top;
+    background-size: 2px calc(100% - 22px), 100% 21px;
+}
+
+    .watercolor.Window.inactive {
+        background-color: #2C60B2;
+        border: 1px solid #6896E0;
+        background-image: none;
+    }
+
+    .watercolor.Window:not(.maximized) {
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, .7);
+    }
+
+    .watercolor.Window:not(.none):before {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 160px;
+        height: 21px;
+        background-repeat: no-repeat;
+        background-image: url(../../../images/watercolor/titlebar.png);
+        background-position: left top;
+    }
+
+    .watercolor.Window.inactive:before {
+        content: none;
+    }
+
+    .watercolor.Window.rolledUp {
+        max-height: 26px;
+    }
+
+    .watercolor.Window .watercolor.WindowLayout {
+        overflow: visible;
+    }
+
+    .watercolor.Window:not(.none) .watercolor.WindowTitleBar {
+        margin-top: -1px;
+        height: 20px;
+        min-height: 20px;
+        max-height: 20px;
+        position: relative;
+        overflow: visible;
+    }
+
+    .watercolor.Window:not(.none) .watercolor.WindowIcon {
+        background-position-y:0;
+    }
+
+    .watercolor.Window[data-buttons="5"]:before {
+        width: 142px;
+    }
+
+    .watercolor.Window[data-buttons="4"]:before {
+        width: 124px;
+    }
+
+    .watercolor.Window[data-buttons="3"]:before {
+        width: 106px;
+    }
+
+    .watercolor.Window[data-buttons="2"]:before, .watercolor.Window.dialog:before {
+        width: 88px;
+    }
+
+    .watercolor.Window[data-buttons="1"]:before {
+        width: 70px;
+    }
+
+    .watercolor.Window .watercolor.WindowTitle {
+        color: #FFF;
+        font-size: 10pt;
+        height: 17px;
+        min-height: 17px;
+        max-height: 17px;
+        line-height: 15px;
+    }
+
+    .watercolor.Window.inactive .watercolor.WindowTitle {
+        color: #7AA1FF;
+    }
+
+    .watercolor.Window .watercolor.WindowTitleButton {
+        background-color: #3173D6;
+        border: 1px solid #86ABE6;
+        width: 16px;
+        min-width: 16px;
+        max-width: 16px;
+        height: 16px;
+        min-height: 16px;
+        max-height: 16px;
+        z-index: 1;
+        color: #CEDEF7;
+        top: -2px;
+    }
+
+    .watercolor.Window.inactive .watercolor.WindowTitleButton {
+        background-color: #2963B5;
+        border-color: #80A0D1;
+        color: #FFF;
+    }
+
+    .watercolor.Window:not(.inactive) .watercolor.WindowTitleButton:not(.disabled):hover {
+        border-color: #CCDCF5;
+        color: #FFF;
+    }
+
+    .watercolor.Window:not(.inactive) .watercolor.WindowTitleButton.pressed:not(.disabled) {
+        background-color: #1052B5;
+        border-color: #0D1D36;
+        color: #CEDEF7;
+    }
+
+    .watercolor.Window .watercolor.WindowCloseButton {
+        margin-right: 1px;
+    }
+
+    .watercolor.Window .watercolor.WindowContent {
+        background-color: #EBEBE4;
+        box-shadow: 0 0 0 1px #336FCE, 0 0 0 2px #3573D6;
+    }

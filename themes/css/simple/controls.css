@@ -1,0 +1,81 @@
+﻿.simple.Tab,
+.simple.Tab.disabled:hover {
+    border: 1px solid #6694E3;
+    background-color: #FFF;
+}
+
+.simple.TabControl.focused .simple.Tab.selected {
+    color: #6694E3;
+}
+
+.simple.Tab.selected,
+.simple.Tab.selected:hover {
+    height: 20px;
+    margin-top: 0;
+    padding-top: 2px;
+    border-bottom: none;
+}
+
+.simple.TabControl.tabsBottom > .TabsContainer .Tab.selected,
+.simple.TabControl.tabsBottom > .TabsContainer .Tab.selected:hover {
+    padding-top: 4px;
+    height: 20px;
+    border-top: none;
+}
+
+.simple.TabControl.tabsBottom > .TabsContainer .Tab {
+    padding-top: 1px;
+    vertical-align: top;
+    margin-top: 0;
+}
+
+.simple.TabsContent {
+    border: 1px solid #6694E3;
+    background-color: #FFF;
+}
+
+.simple.ItemsWheel {
+    border: 1px solid #BBB;
+    background-color: #FFF;
+}
+
+.simple.ItemsWheelSep {
+    background-color: #6F6F6F;
+}
+
+.simple.ItemsWheelContent {
+    border-left: 1px solid #6F6F6F;
+    border-right: 1px solid #6F6F6F;
+}
+
+.simple.NumberWheel.focused {
+    border-color: #6694E3;
+}
+
+.simple.PopupBox {
+    background-color: #FFF;
+}
+
+.simple.ToolTip {
+    box-shadow: rgba(0,0,0,0.5) 3px 3px 3px;
+    border-radius: 3px;
+    padding: 2px;
+    border: 1px solid #686868;
+    background-color: #2B8EDF;
+    z-index: 999999;
+    color: #FFF;
+}
+
+.simple.TabControlLeftBtn:before,
+.simple.TabControlRightBtn:before {
+    font-family: Jagui;
+    font-size: 4pt;
+}
+
+.simple.TabControlLeftBtn:before {
+    content: "*";
+}
+
+.simple.TabControlRightBtn:before {
+    content: ")";
+}

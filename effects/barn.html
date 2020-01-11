@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Barn</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null, img;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let frame = 0;
+        let orientation = "vertical";
+        let direction = "out";
+        let size;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        function barn() {
+            const ctx = document.getElementById("c").getContext("2d");
+            let x;
+            let y;
+            let x1;
+            let y1;
+            let w;
+            let h;
+            let w1;
+            let h1;
+            if (!started) {
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                [].forEach.call(document.querySelectorAll("button"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+                if (orientation === "vertical") {
+                    size = Math.ceil(img.width / 2);
+                } else {
+                    size = Math.ceil(img.height / 2);
+                }
+            }
+            if (orientation === "vertical") {
+                y = 0;
+                y1 = 0;
+                w = frame;
+                w1 = frame;
+                if (direction === "out") {
+                    x = size;
+                    h1 = h = img.height;
+                    x1 = size - frame;
+                } else {
+                    x = 0;
+                    h1 = h = img.height;
+                    x1 = img.width - frame;
+                }
+            } else {
+                x1 = x = 0;
+                h1 = h = frame;
+                w1 = w = img.width;
+                if (direction === "out") {
+                    y = size - frame;
+                    y1 = size;
+                } else {
+                    y = 0;
+                    y1 = img.height - frame;
+                }
+            }
+            ctx.drawImage(img, x, y, w, h, x, y, w, h);
+            ctx.drawImage(img, x1, y1, w1, h1, x1, y1, w1, h1);
+            frame += 2;
+            if (frame > size) {
+                frame = 0;
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("button"), a => a.removeAttribute("disabled"));
+                return;
+            }
+            rAF(barn);
+        }
+        function init(value) {
+            const a = value.split(" ");
+            [orientation, direction] = a;
+            handle = rAF(barn);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400" style="border:1px solid red"></canvas><br />
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].text); }">
+            <option></option>
+            <option>vertical out</option>
+            <option>vertical in</option>
+            <option>horizontal out</option>
+            <option>horizontal in</option>
+        </select><br />
+    </div>
+</body>
+</html>

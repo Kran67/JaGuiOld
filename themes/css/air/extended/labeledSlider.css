@@ -1,0 +1,8 @@
+﻿.air.LabeledSlider {}
+
+.air.LabeledSlider .Slider {}
+
+.air.LabeledSlider .Label,
+.air.LabeledSlider .ValueLabel {}
+
+.air.LabeledSlider .ValueLabel {}

@@ -1,0 +1,30 @@
+﻿.carbon.PageContent {}
+
+.carbon.PageControl.tabsBottom > .TabsContainer .TabSheet:hover {
+  background-image: linear-gradient(to top,#4F4F4F 0,#404040 100%);
+}
+
+.carbon.PageControl.tabsBottom > .TabsContainer .TabSheet.selected,
+.carbon.PageControl.tabsBottom > .TabsContainer .TabSheet.selected:hover {
+  background-image: linear-gradient(to top,#606060 0,#404040 100%);
+  padding-top:4px;
+  height: 20px;
+  border-top:none;
+}
+
+.carbon.PageControl.tabsBottom > .PagesContent {
+  background-image: linear-gradient(to top,#404040 0,#303030 100%);
+}
+
+.carbon.PageControl.tabsBottom > .TabsContainer .TabSheet {
+  color: #E0E0E0;
+  border: 1px solid #303030;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  background-image: linear-gradient(to top,#303030 0,#404040 100%);
+  padding-top: 1px;
+  vertical-align:top;
+  margin-top:0;
+}

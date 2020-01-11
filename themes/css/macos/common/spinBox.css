@@ -1,0 +1,30 @@
+.macos.SpinBox {
+    border-radius: 12px;
+    border: 1px solid #C3C3C3;
+    border-top-color: #7C7C7C;
+    border-bottom-color: #DDD;
+    background-color: #FFF;
+    text-align: center;
+}
+
+.macos.SpinBoxMinusBtn,
+.macos.SpinBoxPlusBtn,
+.macos.SpinBoxMinusBtn.disabled,
+.macos.SpinBoxPlusBtn.disabled,
+.macos.SpinBoxMinusBtn.disabled:hover,
+.macos.SpinBoxPlusBtn.disabled:hover {
+    border-radius: 50%;
+}
+
+.macos.SpinBoxMinusBtn:hover,
+.macos.SpinBoxPlusBtn:hover {
+    opacity: 0.7;
+}
+
+.macos.SpinBoxMinusBtn:before {
+    content: "*";
+}
+
+.macos.SpinBoxPlusBtn:before {
+    content: ")";
+}

@@ -1,0 +1,5 @@
+﻿.carbon.ImageControl {
+  border: 1px solid #303030;
+  border-radius: 3px;
+  background-image: linear-gradient(to bottom,#303030 0,#404040 70%, #404040 100%);
+}

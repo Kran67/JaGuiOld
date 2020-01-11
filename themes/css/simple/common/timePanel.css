@@ -1,0 +1,22 @@
+.simple.TimePanel {
+    background-color: #FFF;
+    border: 1px solid #686868;
+}
+
+.simple.TimePanel.focused {
+    border: 1px solid #6694E3;
+}
+
+.simple.TimePanel.focused .TimePanel_Hours.focused,
+.simple.TimePanel.focused .TimePanel_Minutes.focused,
+.simple.TimePanel.focused .TimePanel_Seconds.focused,
+.simple.TimePanel.focused .TimePanel_Meridiem.focused {
+    box-shadow: none;
+}
+
+.simple.TimePanel.focused .TimePanel_Hours.focused .ItemsWheelContent .ItemsWheelItem,
+.simple.TimePanel.focused .TimePanel_Minutes.focused .ItemsWheelContent .ItemsWheelItem,
+.simple.TimePanel.focused .TimePanel_Seconds.focused .ItemsWheelContent .ItemsWheelItem,
+.simple.TimePanel.focused .TimePanel_Meridiem.focused .ItemsWheelContent .ItemsWheelItem {
+    color: #6694E3;
+}

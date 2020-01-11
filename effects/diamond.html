@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Diagonal</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        let img;
+        let ctx;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let amount = 0;
+        let op;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        function mulDiv(value, multi, divider) {
+            return ~~((value * multi) / divider);
+        }
+        function createPolygonRgnEx(ctx, img, pts, noClip) {
+            let i;
+            let l;
+            if (!noClip) {
+                ctx.save();
+            }
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, pts[0].y);
+            for (i = 1, l = pts.length; i < l; i++) {
+                ctx.lineTo(pts[i].x, pts[i].y);
+            }
+            if (!noClip) {
+                ctx.clip();
+                if (img) {
+                    ctx.drawImage(img, 0, 0);
+                } else {
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+        function diamond() {
+            let x;
+            let y;
+            if (!started) {
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                [].forEach.call(document.querySelectorAll("button"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+            }
+            const w = img.width;
+            const h = img.height;
+            if (img.width >= img.height) {
+                x = mulDiv(img.width, amount, 100);
+                y = mulDiv(x, img.height, img.width);
+            } else {
+                y = mulDiv(img.height, amount, 100);
+                x = mulDiv(y, img.width, img.height);
+            }
+            amount++;
+            const s = ~~(Math.min(w, h) / 10) + 1;
+            const d = mulDiv(s, amount, 50);
+            x = 0;
+            while (x < w) {
+                x += s;
+                y = 0;
+                while (y < h) {
+                    y += s;
+                    createPolygonRgnEx(ctx, img, [{ x: x - d, y: y }, { x: x, y: y - d }, { x: x + d, y: y }, { x: x, y: y + d }]);
+                    y += s;
+                }
+                x += s;
+            }
+
+            if (amount > 101) {
+                amount = 0;
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("button"), a => a.removeAttribute("disabled"));
+                return;
+            }
+            handle = rAF(diamond);
+        }
+        function init() {
+            ctx = document.getElementById("c").getContext("2d");
+            handle = rAF(diamond);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400" style="border:1px solid red"></canvas><br />
+    <div>
+        <button onclick="init();">shred</button>
+    </div>
+</body>
+</html>

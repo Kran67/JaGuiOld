@@ -1,0 +1,50 @@
+.simple.TreeViewItem .CheckboxCheck {
+    position: relative;
+    margin-right: 2px;
+    float: left;
+}
+
+.simple.TreeViewContent {
+    background-color: #FFF;
+}
+
+.simple.TreeView {
+    border: 1px solid #686868;
+    border-radius: 2px;
+    background-color: #FFF;
+}
+
+.simple.TreeViewItem {
+}
+
+.simple.TreeViewItem.selected {
+    background-color: #2B8EDF;
+    color: #FFF;
+}
+
+.simple.TreeView.focused {
+    border: 1px solid #6694E3;
+}
+
+.simple.TreeViewItem .Checkbox {
+    margin-left: 19px;
+    padding-left: 0;
+}
+
+.simple.TVI_Expanded:before {
+    color: #000;
+    content: "7";
+}
+
+.simple.TVI_Collapsed:before {
+    color: #000;
+    content: ")";
+}
+
+.simple.TreeViewItem .TreeViewRoot.TVIHasChild.expanded:before {
+    content: "7";
+}
+
+.simple.TreeViewItem .TreeViewRoot.TVIHasChild:before {
+    content: ")";
+}

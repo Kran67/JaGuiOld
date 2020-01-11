@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Blur</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        function boxesForGauss(sigma, n)  // standard deviation, number of boxes
+        {
+            const wIdeal = Math.sqrt((12 * sigma * sigma / n) + 1);  // Ideal averaging filter width
+            let wl = Math.floor(wIdeal);
+            if (wl % 2 === 0) {
+                wl--;
+            }
+            const wu = wl + 2;
+
+            const mIdeal = (12 * sigma * sigma - n * wl * wl - 4 * n * wl - 3 * n) / (-4 * wl - 4);
+            const m = Math.round(mIdeal);
+
+            const sizes = [];
+            for (let i = 0; i < n; i++) {
+                sizes.push(i < m ? wl : wu);
+            }
+            return sizes;
+        }
+        function gaussBlur_4(scl, tcl, w, h, r) {
+            const bxs = boxesForGauss(r, 3);
+            boxBlur_4(scl, tcl, w, h, (bxs[0] - 1) / 2);
+            boxBlur_4(tcl, scl, w, h, (bxs[1] - 1) / 2);
+            boxBlur_4(scl, tcl, w, h, (bxs[2] - 1) / 2);
+        }
+        function boxBlur_4(scl, tcl, w, h, r) {
+            for (let i = 0; i < scl.length; i++) {
+                tcl[i] = scl[i];
+            }
+            boxBlurH_4(tcl, scl, w, h, r);
+            boxBlurT_4(scl, tcl, w, h, r);
+        }
+        function boxBlurH_4(scl, tcl, w, h, r) {
+            const iArr = 1 / (r + r + 1);
+            for (let i = 0; i < h; i++) {
+                let ti = i * w;
+                let li = ti;
+                let ri = ti + r;
+                const fv = scl[ti];
+                const lv = scl[ti + w - 1];
+                let val = (r + 1) * fv;
+                let j;
+                for (j = 0; j < r; j++) val += scl[ti + j];
+                for (j = 0; j <= r; j++) { val += scl[ri++] - fv; tcl[ti++] = Math.round(val * iArr); }
+                for (j = r + 1; j < w - r; j++) { val += scl[ri++] - scl[li++]; tcl[ti++] = Math.round(val * iArr); }
+                for (j = w - r; j < w; j++) { val += lv - scl[li++]; tcl[ti++] = Math.round(val * iArr); }
+            }
+        }
+
+        function boxBlurT_4(scl, tcl, w, h, r) {
+            const iArr = 1 / (r + r + 1);
+            for (let i = 0; i < w; i++) {
+                let ti = i;
+                let li = ti;
+                let ri = ti + r * w;
+                const fv = scl[ti];
+                const lv = scl[ti + w * (h - 1)];
+                let val = (r + 1) * fv;
+                let j;
+                for (j = 0; j < r; j++) val += scl[ti + j * w];
+                for (j = 0; j <= r; j++) { val += scl[ri] - fv; tcl[ti] = Math.round(val * iArr); ri += w; ti += w; }
+                for (j = r + 1; j < h - r; j++) { val += scl[ri] - scl[li]; tcl[ti] = Math.round(val * iArr); li += w; ri += w; ti += w; }
+                for (j = h - r; j < h; j++) { val += lv - scl[li]; tcl[ti] = Math.round(val * iArr); li += w; ti += w; }
+            }
+        }
+
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        let img;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let frame = 0;
+        let steps = 10;
+        let dir = 1;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        function _blur() {
+            let ctx = document.getElementById("c").getContext("2d");
+            let i = 0;
+            let offset = 0;
+            if (!started) {
+                if (!img || img === imgA) {
+                    if (!img) {
+                        ctx.drawImage(imgA, 0, 0);
+                    }
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                [].forEach.call(document.querySelectorAll("button"), x => x.setAttribute("disabled", "disabled"));
+                started = true;
+            }
+            if (dir === -1) {
+                ctx.drawImage(img, 0, 0);
+            }
+            let len = img.width * img.height;
+            let rSrc = new Uint8Array(len);           // source arrays
+            let gSrc = new Uint8Array(len);
+            let bSrc = new Uint8Array(len);
+            let aSrc = new Uint8Array(len);
+            let rTrg = new Uint8Array(len);           // target arrays
+            let gTrg = new Uint8Array(len);
+            let bTrg = new Uint8Array(len);
+            let aTrg = new Uint8Array(len);
+            let iData = ctx.getImageData(0, 0, img.width, img.height);
+            let rgba = iData.data;
+
+            for (; i < len; i++) {
+                rSrc[i] = rgba[offset++];
+                gSrc[i] = rgba[offset++];
+                bSrc[i] = rgba[offset++];
+                aSrc[i] = rgba[offset++];
+            }
+            gaussBlur_4(rSrc, rTrg, img.width, img.height, frame*2);
+            gaussBlur_4(gSrc, gTrg, img.width, img.height, frame*2);
+            gaussBlur_4(bSrc, bTrg, img.width, img.height, frame*2);
+            gaussBlur_4(aSrc, aTrg, img.width, img.height, frame*2);
+            for (i = 0, offset = 0; i < len; i++) {
+                rgba[offset++] = rTrg[i];
+                rgba[offset++] = gTrg[i];
+                rgba[offset++] = bTrg[i];
+                rgba[offset++] = aTrg[i];
+            }
+            ctx.putImageData(iData, 0, 0);
+            frame+=dir;
+            if (frame>steps) {
+                dir = -1;
+            }
+            if (frame < 0) {
+                frame = 0;
+                dir = 1;
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("button"), x => x.removeAttribute("disabled"));
+                return;
+            }
+            rAF(_blur);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400" style="border:1px solid red"></canvas><br />
+    <div>
+        <button onclick="handle = rAF(_blur)">blur</button><br />
+    </div>
+</body>
+</html>

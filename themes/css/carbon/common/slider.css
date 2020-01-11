@@ -1,0 +1,146 @@
+﻿.carbon.Slider .thumb,
+.carbon.Slider input[type='range']::-webkit-slider-thumb {
+    background-image: linear-gradient(to bottom,#606060 0,#303030 100%);
+    border: 1px solid #303030;
+    min-width: 14px;
+    max-width: 14px;
+    min-height: 14px;
+    max-height: 14px;
+    border-radius: 50%;
+    margin-top: -4px;
+}
+
+.carbon.Slider.orientation-vertical input[type='range']::-webkit-slider-thumb {
+    background-image: linear-gradient(to top,#606060 0,#303030 100%);
+}
+
+.carbon.Slider .thumb,
+.carbon.Slider input[type='range']::-moz-range-thumb {
+    background-image: linear-gradient(to bottom,#606060 0,#303030 100%);
+    border: 1px solid #303030;
+    min-width: 14px;
+    max-width: 14px;
+    min-height: 14px;
+    max-height: 14px;
+    border-radius: 50%;
+    margin-top: -4px;
+}
+
+.carbon.Slider.orientation-vertical input[type='range']::-moz-range-thumb {
+    background-image: linear-gradient(to top,#606060 0,#303030 100%);
+}
+
+.carbon.Slider input[type='range']::-webkit-slider-thumb:hover {
+    background-image: linear-gradient(to bottom,#808080 0,#303030 100%);
+}
+
+.carbon.Slider.orientation-vertical input[type='range']::-webkit-slider-thumb:hover {
+    background-image: linear-gradient(to top,#808080 0,#303030 100%);
+}
+
+.carbon.Slider input[type='range']::-moz-range-thumb:hover {
+    background-image: linear-gradient(to bottom,#808080 0,#303030 100%);
+}
+
+.carbon.Slider.orientation-vertical input[type='range']::-moz-range-thumb:hover {
+    background-image: linear-gradient(to top,#808080 0,#303030 100%);
+}
+
+.carbon.SliderRange {
+    top: 5px;
+    bottom: 5px;
+    background-image: linear-gradient(to bottom,#F4BB40 0,#674704 100%);
+    left: 0;
+}
+
+.carbon.Slider.orientation-vertical .SliderRange {
+    background-image: linear-gradient(to top,#F4BB40 0,#674704 100%);
+}
+
+.carbon.Slider {
+    box-shadow: none;
+}
+
+    .carbon.Slider:before {
+        content: "";
+        background-color: #FFF;
+        border: 1px solid #303030;
+        flex: 1;
+        border-radius: 3px;
+        align-self: stretch;
+        margin: 4px 7px;
+        background-image: linear-gradient(to bottom,#303030 0,#606060 100%);
+    }
+
+    .carbon.Slider.orientation-vertical:before {
+        background-image: linear-gradient(to top,#303030 0,#606060 100%);
+    }
+
+.carbon.SliderLeftToolTip,
+.carbon.SliderRightToolTip {
+    border-radius: 3px;
+    border: 1px solid #303030;
+    background-image: linear-gradient(to bottom,#F5CD76 0,#9F7009 100%);
+    padding: 2px;
+    z-index: 999999;
+    overflow: visible;
+    color: #000;
+}
+
+    .carbon.SliderLeftToolTip.top,
+    .carbon.SliderRightToolTip.top {
+        top: -25px;
+    }
+
+    .carbon.SliderLeftToolTip.bottom,
+    .carbon.SliderRightToolTip.bottom {
+        bottom: -25px;
+    }
+
+.carbon.SliderLeftToolTipArrow.top,
+.carbon.SliderRightToolTipArrow.top {
+    border-top: 5px solid #303030;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 0 solid transparent;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.carbon.SliderLeftToolTipArrow.bottom,
+.carbon.SliderRightToolTipArrow.bottom {
+    border-bottom: 5px solid #303030;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 0 solid transparent;
+    top: -5px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.carbon.SliderLeftToolTipArrowFront.top,
+.carbon.SliderRightToolTipArrowFront.top {
+    border-top: 4px solid #9F7009;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 0 solid transparent;
+    bottom: -4px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.carbon.SliderLeftToolTipArrowFront.bottom,
+.carbon.SliderRightToolTipArrowFront.bottom {
+    border-bottom: 4px solid #F5CD76;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 0 solid transparent;
+    top: -4px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.carbon.Slider.focused:before {
+    box-shadow: 0 0 6px #F69E2D;
+}

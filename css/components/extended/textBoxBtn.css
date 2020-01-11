@@ -1,0 +1,15 @@
+﻿button.TextBoxBtnButton {
+    position: relative !important;
+    width: 20px !important;
+    order: 2;
+}
+
+button.TextBoxBtnButton:before {
+    content: "…";
+}
+
+input.TextBoxBtnInput {
+    position: static;
+    flex: 1;
+    order: 1;
+}

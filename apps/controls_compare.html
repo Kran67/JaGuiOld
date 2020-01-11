@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Controls compare</title>
+        <meta charset="utf-8" />
+        <style type="text/css">
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+            }
+
+            .container {
+                display: flex;
+                height: 100%;
+            }
+
+            .controls {
+                flex: 1;
+                border: none;
+            }
+
+            .spacer {
+                border-left: 1px solid black;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <iframe class="controls" src="controls/index.html" id="html"></iframe>
+            <div class="spacer"></div>
+            <iframe class="controls" src="controlsgl/index.html" id="webgl"></iframe>
+        </div>
+        <script type="text/javascript">
+            var html = document.getElementById("html");
+            var webgl = document.getElementById("webgl");
+        </script>
+    </body>
+
+</html>

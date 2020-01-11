@@ -1,0 +1,18 @@
+﻿div.ColorQuad {
+    background: linear-gradient(to top, #000 0, rgba(0, 0, 0, 0) 100%),linear-gradient(to right, #FFF 0, rgba(255, 255, 255, 0) 100%);
+    overflow: visible;
+}
+
+div.ColorQuad.hsl {
+    background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0) 50%, rgb(0, 0, 0) 100%), linear-gradient(to right, rgb(127, 127, 127) 0%, rgba(127, 127, 127, 0) 100%);
+}
+
+div.ColorQuadIndicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid #FFF;
+    z-index: 1;
+    box-shadow: inset 0 0 0 1px #000;
+    transition: transform linear 0.1s;
+}

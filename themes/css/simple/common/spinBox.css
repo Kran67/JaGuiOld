@@ -1,0 +1,30 @@
+.simple.SpinBox {
+    border: 1px solid #686868;
+    background-color: #FFF;
+    text-align: center;
+}
+
+.simple.SpinBoxMinusBtn,
+.simple.SpinBoxPlusBtn,
+.simple.SpinBoxMinusBtn.disabled,
+.simple.SpinBoxPlusBtn.disabled,
+.simple.SpinBoxMinusBtn.disabled:hover,
+.simple.SpinBoxPlusBtn.disabled:hover {
+    background: none;
+    border: none;
+}
+
+.simple.SpinBoxMinusBtn:hover,
+.simple.SpinBoxPlusBtn:hover {
+    background: none;
+    background-color: #FFF;
+    opacity: 0.7;
+}
+
+.simple.SpinBoxMinusBtn:before {
+    content: "*";
+}
+
+.simple.SpinBoxPlusBtn:before {
+    content: ")";
+}

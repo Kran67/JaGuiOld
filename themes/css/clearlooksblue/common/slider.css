@@ -1,0 +1,181 @@
+﻿.carbon.SliderThumb {
+  min-width:14px;
+  max-width:14px;
+  min-height:14px;
+  max-height:14px;
+}
+
+.carbon.SliderThumb.orientation-horizontal {
+  top: -5px;
+  left: -5px;
+  border: 1px solid #303030;
+  border-radius: 50%;
+  background-image: linear-gradient(to bottom,#606060 0,#303030 100%);
+}
+
+.carbon.SliderThumb.orientation-horizontal:hover {
+  background-image: linear-gradient(to bottom,#808080 0,#303030 100%);
+}
+
+.carbon.SliderThumb.orientation-vertical {
+  top: -5px;
+  left: -5px;
+  border: 1px solid #303030;
+  border-radius: 50%;
+  background-image: linear-gradient(to right,#606060 0,#303030 100%);
+}
+
+.carbon.SliderThumb.orientation-vertical:hover {
+  background-image: linear-gradient(to right,#808080 0,#303030 100%);
+}
+
+.carbon.SliderRange.orientation-horizontal {
+  top: 5px;
+  bottom: 5px;
+  background-image: linear-gradient(to bottom,#F4BB40 0,#674704 100%);
+}
+
+.carbon.SliderRange.orientation-vertical {
+  left: 5px;
+  right: 5px;
+  background-image: linear-gradient(to right,#F4BB40 0,#674704 100%);
+}
+
+.carbon.Slider {
+  box-shadow: 0 0 0 rgba(0,0,0,1);
+  border: 1px solid #303030;
+  border-radius: 3px;
+}
+
+.carbon.Slider.orientation-horizontal {
+  background-image: linear-gradient(to bottom,#303030 0,#606060 100%);
+  margin:0 4px;
+}
+
+.carbon.Slider.orientation-vertical {
+  background-image: linear-gradient(to right,#303030 0,#606060 100%);
+  margin:4px 0;
+}
+
+.carbon.SliderLeftToolTip,
+.carbon.SliderRightToolTip {
+  border-radius: 3px;
+  border: 1px solid #303030;
+  background-image: linear-gradient(to bottom,#F5CD76 0,#9F7009 100%);
+  padding: 2px;
+  z-index: 999999;
+  overflow:visible;
+  color:#000;
+}
+
+.carbon.SliderLeftToolTip.top,
+.carbon.SliderRightToolTip.top {
+  top: -30px;
+}
+
+.carbon.SliderLeftToolTip.right,
+.carbon.SliderRightToolTip.right {
+  left: 15px;
+}
+
+.carbon.SliderLeftToolTip.bottom,
+.carbon.SliderRightToolTip.bottom {
+  bottom:-30px;
+}
+
+.carbon.SliderLeftToolTip.left,
+.carbon.SliderRightToolTip.left {
+  right:15px;
+}
+
+.carbon.SliderLeftToolTipArrow.top,
+.carbon.SliderRightToolTipArrow.top {
+  border-top: 5px solid #303030;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 0 solid transparent;
+  bottom: -5px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.carbon.SliderLeftToolTipArrow.right,
+.carbon.SliderRightToolTipArrow.right {
+  border-right: 5px solid #303030;
+  border-bottom: 5px solid transparent;
+  border-top: 5px solid transparent;
+  border-left: 0 solid transparent;
+  left: -5px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.carbon.SliderLeftToolTipArrow.bottom,
+.carbon.SliderRightToolTipArrow.bottom {
+  border-bottom: 5px solid #303030;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 0 solid transparent;
+  top: -5px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.carbon.SliderLeftToolTipArrow.left,
+.carbon.SliderRightToolTipArrow.left {
+  border-left: 5px solid #303030;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 0 solid transparent;
+  right: -5px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.carbon.SliderLeftToolTipArrowFront.top,
+.carbon.SliderRightToolTipArrowFront.top {
+  border-top: 4px solid #9F7009;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 0 solid transparent;
+  bottom: -4px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.carbon.SliderLeftToolTipArrowFront.right,
+.carbon.SliderRightToolTipArrowFront.right {
+  border-right: 5px solid #CA9E3F;
+  border-bottom: 5px solid transparent;
+  border-top: 5px solid transparent;
+  border-left: 0 solid transparent;
+  left: -4px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.carbon.SliderLeftToolTipArrowFront.bottom,
+.carbon.SliderRightToolTipArrowFront.bottom {
+  border-bottom: 4px solid #F5CD76;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 0 solid transparent;
+  top: -4px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.carbon.SliderLeftToolTipArrowFront.left,
+.carbon.SliderRightToolTipArrowFront.left {
+  border-left: 5px solid #CA9E3F;
+  border-bottom: 5px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 0 solid transparent;
+  right: -4px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.carbon.Slider.focused {
+  box-shadow: 0 0 6px #F69E2D;
+}

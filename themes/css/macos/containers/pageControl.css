@@ -1,0 +1,27 @@
+.macos.PagesContent {
+    border: 1px solid #C3C3C3;
+    border-top-color: #A8A8A8;
+    border-bottom-color: #CECECE;
+    background: none;
+    background-color: #E0E0E0;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 0 0 #BFBFBF,inset 0 2px 0 0 #D5D5D5, inset 0 0 0 1px #DCDCDC;
+    margin-top: -9px;
+}
+
+.macos.PageContent {
+    top: 8px;
+}
+
+.macos.PageControl.tabsBottom > .TabsContainer .TabSheet:hover {
+}
+
+.macos.PageControl.tabsBottom > .TabsContainer .TabSheet.selected,
+.macos.PageControl.tabsBottom > .TabsContainer .TabSheet.selected:hover {
+}
+
+.macos.PageControl.tabsBottom > .PagesContent {
+}
+
+.macos.PageControl.tabsBottom > .TabsContainer .TabSheet {
+}

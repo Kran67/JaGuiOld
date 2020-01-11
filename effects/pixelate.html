@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Pixelate</title>
+	<meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(30);
+        let handle = null;
+        const imgA = new Image();
+        const imgB = new Image();
+        let amount = 1;
+        let isBusy = false;
+        let dir = 0;
+        let img;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+
+        function pixelate() {
+            const ctx = document.getElementById("c").getContext("2d");
+            const w = ctx.canvas.width * amount;
+            const h = ctx.canvas.height * amount;
+            if (!isBusy) {
+                isBusy = true;
+                ctx.save();
+                ctx.webkitImageSmoothingEnabled = false;
+                ctx.mozImageSmoothingEnabled = false;
+                ctx.msImageSmoothingEnabled = false;
+                ctx.imageSmoothingEnabled = false;
+                if (!img) {
+                    img = imgA;
+                }
+            } else {
+                ctx.drawImage(img, 0, 0, w, h);
+                ctx.drawImage(ctx.canvas, 0, 0, w, h, 0, 0, img.width, img.height);
+                if (dir === 1) {
+                    amount += 0.02;
+                } else {
+                    amount -= 0.02;
+                    if (amount<=0) {
+                        dir = 1;
+                        if (img === imgA) {
+                            img = imgB;
+                        } else {
+                            img = imgA;
+                        }
+                    }
+                }
+                if (amount>=1 && dir !== 0) {
+                    amount = 1;
+                    dir = 0;
+                    ctx.restore();
+                    cancelAnimationFrameRate(handle);
+                    isBusy = false;
+                    return;
+                }
+            }
+            handle = rAF(pixelate);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400" style="border:1px solid red"></canvas><br />
+    <button onclick="handle = rAF(pixelate)">pixelate</button><br />
+</body>
+</html>

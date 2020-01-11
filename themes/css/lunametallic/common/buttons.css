@@ -1,0 +1,71 @@
+﻿.lunametallic.Button,
+.lunametallic.Button.disabled:hover,
+.lunametallic.TextButton,
+.lunametallic.TextButton.disabled:hover {
+    border-radius: 3px;
+    border: 1px solid #003C74;
+    background-image: linear-gradient(to bottom,#FDFDFE,#C8C7D9), linear-gradient(to bottom,transparent,transparent);
+    box-shadow: 0 0 0 1px #D2CECB;
+    background-origin: initial,padding-box;
+    padding: 2px;
+    background-repeat: no-repeat;
+}
+
+    .lunametallic.Button.stayspressed.pressed,
+    .lunametallic.Button.stayspressed.pressed:hover,
+    .lunametallic.TextButton.stayspressed.pressed,
+    .lunametallic.TextButton.stayspressed.pressed:hover {
+        background-color: #F5AB28;
+        background-image: none;
+        color: #000;
+    }
+
+.lunametallic.CaptionButton.stayspressed.pressed {
+    color: #000;
+}
+
+.lunametallic.Button:hover,
+.lunametallic.TextButton:hover {
+    background-origin: content-box,padding-box;
+    background-image: linear-gradient(to bottom,#FDFDFE,#C8C7D9), linear-gradient(to bottom,#FEEDC9,#E69A06);
+}
+
+.lunametallic.Button.pressed,
+.lunametallic.TextButton.pressed {
+    background-origin: content-box,padding-box;
+    background-image: linear-gradient(to bottom,#B6B5C8,#FCFCFD), linear-gradient(to bottom,#CDE6FF,#6A83EE);
+}
+
+.lunametallic.Button.focused:not(.pressed):not(:hover),
+.lunametallic.TextButton.focused:not(.pressed):not(:hover) {
+    background-origin: content-box,padding-box;
+    background-image: linear-gradient(to bottom,#FDFDFE,#C8C7D9), linear-gradient(to bottom,#CDE6FF,#6A83EE);
+}
+
+.lunametallic.SpeedButton,
+.lunametallic.SpeedButton.disabled:hover {
+    border-radius: 3px;
+    border: 1px solid transparent;
+    background: none;
+}
+
+    .lunametallic.SpeedButton.stayspressed.pressed,
+    .lunametallic.SpeedButton.stayspressed.pressed:hover {
+        background-color: #F5AB28;
+        background-image: none;
+        color: #000;
+    }
+
+    .lunametallic.SpeedButton:hover {
+        border-color: #CECEC3;
+        background-image: linear-gradient(to bottom,#FEFEFD,#D7D2C6);
+    }
+
+    .lunametallic.SpeedButton.pressed {
+        border-color: #9D9D92;
+        background-image: linear-gradient(to bottom,#DCDAD1,#EBEAE5);
+    }
+
+        .lunametallic.SpeedButton.pressed span {
+            color: #FFF;
+        }

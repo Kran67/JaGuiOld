@@ -1,0 +1,23 @@
+﻿.air.PopupButton,
+.air.PopupButton.disabled:hover {
+    border: 1px solid #515151;
+    background-image: linear-gradient(to bottom,#494949 0,#4A4A4A 100%);
+    box-shadow: 0 0 0 1px #1C1C1C inset,0 0 0 2px #6A6A6A inset;
+}
+
+.air.PopupButton.stayspressed.pressed,
+.air.PopupButton.stayspressed.pressed:hover {
+    background-color: #65C8E0;
+    background-image: none;
+    color: #000;
+}
+
+.air.PopupButton:hover {
+}
+
+.air.PopupButton.pressed {
+}
+
+.air.PopupButton.focused {
+    box-shadow: 0 0 6px 2px #65C8E0,0 0 0 1px #1C1C1C inset,0 0 0 2px #6A6A6A inset;
+}

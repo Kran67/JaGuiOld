@@ -1,0 +1,94 @@
+﻿.FindReplaceDlg {
+    height: 72px;
+    width: 280px;
+}
+
+.FindReplaceDlg.replace {
+    height: 100px;
+}
+
+.frDlgReplaceDdlb,
+.frDlgNextBtn,
+.frDlgAllBtn {
+    visibility: hidden;
+}
+
+.FindReplaceDlg.replace .frDlgReplaceDdlb,
+.FindReplaceDlg.replace .frDlgNextBtn,
+.FindReplaceDlg.replace .frDlgAllBtn {
+    visibility: visible;
+}
+
+.frDlgCaseBtn {
+    left: 24px;
+    width: 21px;
+    height: 21px;
+}
+
+.frDlgWordBtn {
+    left: 48px;
+    width: 21px;
+    height: 21px;
+}
+
+.frDlgRegExpBtn {
+    left: 72px;
+    width: 21px;
+    height: 21px;
+}
+
+.frDlgFindDdlb {
+    left: 24px;
+    top: 4px;
+    height: 21px;
+    width: 197px;
+}
+
+.frDlgNextSplitBtn {
+    left: 224px;
+    top: 4px;
+    height: 23px;
+    width: 33px;
+}
+
+.frDlgReplaceDdlb {
+    left: 24px;
+    top: 29px;
+    height: 21px;
+    width: 197px;
+}
+
+.frDlgDestinationDdlb {
+    left: 96px;
+    top: 54px;
+    height: 21px;
+    width: 173px;
+}
+
+.frDlgNextBtn {
+    top: 29px;
+    left: 224px;
+    width: 21px;
+    height: 21px;
+}
+
+.frDlgAllBtn {
+    top: 29px;
+    left: 248px;
+    width: 21px;
+    height: 21px;
+}
+
+.frDlgCaseBtn,
+.frDlgWordBtn,
+.frDlgRegExpBtn,
+.frDlgDestinationDdlb {
+    top: 29px;
+}
+
+.FindReplaceDlg.replace .frDlgCaseBtn,
+.FindReplaceDlg.replace .frDlgWordBtn,
+.FindReplaceDlg.replace .frDlgRegExpBtn,
+.FindReplaceDlg.replace .frDlgDestinationDdlb {
+    top: 54px;
+}

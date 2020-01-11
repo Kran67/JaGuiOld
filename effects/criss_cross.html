@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>crissCross</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        let ctx;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let amount = 0;
+        let op;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let lastImg = imgA;
+        let nextImg = imgB;
+        function mulDiv(value, multi, divider) {
+            return ~~((value * multi) / divider);
+        }
+        function createBarRgn(x, y, w, h, xMode, yMode) {
+            let x1;
+            let y1;
+            const d = ~~(Math.min(w, h) / 50) + 1;
+            if (x <= w) {
+                y1 = 0;
+            } else {
+                y1 = d;
+            }
+            ctx.save();
+            ctx.beginPath();
+            while (y1 < h + d) {
+                if (x > w) {
+                    if ([1, 4].indexOf(xMode) > -1) {
+                        ctx.rect(2 * w - x, y1, w, d);
+                    } else if ([2, 5].indexOf(xMode) > -1) {
+                        ctx.rect(0, y1, x - w, d);
+                    }
+                }
+                else {
+                    if ([1, 5].indexOf(xMode) > -1) {
+                        ctx.rect(w - x, y1, w, d);
+                    } else if ([2, 4].indexOf(xMode) > -1) {
+                        ctx.rect(0, y1, x, d);
+                    } else if (xMode === 3) {
+                        ctx.rect(0, y1 + d, x, d);
+                        ctx.rect(w - x, y1, w, d);
+                    }
+                }
+                y1 += 2 * d;
+            }
+            if (y <= h) {
+                x1 = 0;
+            } else {
+                x1 = d;
+            }
+            while (x1 < w + d) {
+                if (y > h) {
+                    if ([1, 4].indexOf(yMode) > -1) {
+                        ctx.rect(x1, 2 * h - y, d, h);
+                    } else if ([2, 5].indexOf(yMode) > -1) {
+                        ctx.rect(x1, 0, d, y - h);
+                    }
+                }
+                else {
+                    if ([1, 5].indexOf(yMode) > -1) {
+                        ctx.rect(x1, h - y, d, h);
+                    } else if ([2, 4].indexOf(yMode) > -1) {
+                        ctx.rect(x1, 0, d, y);
+                    } else if (yMode === 3) {
+                        ctx.rect(x1, h - y, d, h);
+                        ctx.rect(x1 + d, 0, d, y);
+                    }
+                }
+                x1 += 2 * d;
+            }
+            ctx.clip();
+            ctx.drawImage(nextImg, 0, 0);
+            ctx.restore();
+        }
+        function crissCross() {
+            let x;
+            let y;
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+            }
+            let w = ctx.canvas.width;
+            let h = ctx.canvas.height;
+            if (w>= h) {
+                x = mulDiv(w, amount, 100);
+                y = mulDiv(x, h, w);
+            } else {
+                y = mulDiv(h, amount, 100);
+                x = mulDiv(y, w, h);
+            }
+            amount++;
+            switch (op) {
+                case 0: // reveal from bottom right
+                    createBarRgn(2 * x, 2 * y, w, h, 1, 1);
+                    break;
+                case 1: // reveal from top right
+                    createBarRgn(2 * x, 2 * y, w, h, 1, 2);
+                    break;
+                case 2: // reveal from bottom left
+                    createBarRgn(2 * x, 2 * y, w, h, 2, 1);
+                    break;
+                case 3: // reveal from top left
+                    createBarRgn(2 * x, 2 * y, w, h, 2, 2);
+                    break;
+                case 4: // reveal bounce from top left
+                    createBarRgn(2 * x, 2 * y, w, h, 4, 4);
+                    break;
+                case 5: // reveal bounce from bottom left
+                    createBarRgn(2 * x, 2 * y, w, h, 4, 5);
+                    break;
+                case 6: // reveal bounce from top right
+                    createBarRgn(2 * x, 2 * y, w, h, 5, 4);
+                    break;
+                case 7: // reveal bounce from bottom right
+                    createBarRgn(2 * x, 2 * y, w, h, 5, 5);
+                    break;
+                case 8: // reveal from right top and bottom
+                    createBarRgn(x, y, w, h, 1, 3);
+                    break;
+                case 9: // reveal from left top and bottom
+                    createBarRgn(x, y, w, h, 2, 3);
+                    break;
+                case 10: // reveal from left right and bottom
+                    createBarRgn(x, y, w, h, 3, 1);
+                    break;
+                case 11: // reveal from left right and top
+                    createBarRgn(x, y, w, h, 3, 2);
+                    break;
+                case 12: // reveal from top left right and bottom
+                    createBarRgn(x, y, w, h, 3, 3);
+                    break;
+            }
+            if (amount > 100) {
+                amount = 0;
+                [lastImg, nextImg] = [nextImg, lastImg];
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                return;
+            }
+            handle = rAF(crissCross);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            op = ~~value;
+            handle = rAF(crissCross);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400" style="border:1px solid red"></canvas><br />
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">reveal from bottom right</option>
+            <option value="1">reveal from top right</option>
+            <option value="2">reveal from bottom left</option>
+            <option value="3">reveal from top left</option>
+            <option value="4">reveal bounce from top left</option>
+            <option value="5">reveal bounce from bottom left</option>
+            <option value="6">reveal bounce from top right</option>
+            <option value="7">reveal bounce from bottom right</option>
+            <option value="8">reveal from right top and bottom</option>
+            <option value="9">reveal from left top and bottom</option>
+            <option value="10">reveal from left right and bottom</option>
+            <option value="11">reveal from left right and top</option>
+            <option value="12">reveal from top left right and bottom</option>
+        </select><br />
+    </div>
+</body>
+</html>

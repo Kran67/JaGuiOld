@@ -1,0 +1,94 @@
+﻿.windows8.Window {
+  overflow: hidden;
+  background-color: #63B4FB;
+}
+
+.windows8.Window:not(.none) {
+  border: 1px solid #4C8AC0;
+}
+
+.windows8.Window.inactive {
+  border-color: #D3D3D3;
+  background-color: #EBEBEB;
+}
+
+.windows8.Window:not(.none) .windows8.WindowLayout {
+  margin: 6px;
+  overflow: visible;
+}
+
+.windows8.Window .windows8.WindowTitleBar {
+  margin: 0;
+  height: 24px;
+  min-height: 24px;
+  max-height: 24px;
+  background-size: auto auto;
+  left: 0;
+  right: 0;
+  overflow: visible;
+  background-position:left top;
+}
+
+.windows8.Window.inactive .windows8.WindowTitleBar {
+  background-color: #EBEBEB;
+}
+
+.windows8.Window .windows8.WindowTitle {
+  color: #000;
+  font-size: 10pt;
+  height: 24px;
+  min-height: 24px;
+  max-height: 24px;
+  line-height: 15px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.windows8.Window .windows8.WindowTitleButton {
+  top: -6px;
+  background-color: #63B4FB;
+  width: 45px;
+  min-width: 45px;
+  max-width: 45px;
+  height: 20px;
+  min-height: 20px;
+  max-height: 20px;
+  font-size: 8px;
+  margin-right: 1px;
+  border: none;
+}
+
+.windows8.Window.inactive .windows8.WindowTitleButton {
+  background-color: #EBEBEB;
+}
+
+.windows8.Window:not(.inactive) .windows8.WindowTitleButton:not(.disabled):hover {
+  background-color: #3665B3;
+}
+
+.windows8.Window:not(.inactive) .windows8.WindowTitleButton.pressed:not(.disabled) {
+  background-color: #3D6099;
+}
+
+.windows8.Window .windows8.WindowCloseButton {
+  background-color: #C75050;
+  margin-right: 0;
+}
+
+.windows8.Window.inactive .windows8.WindowCloseButton {
+  background-color: #BCBCBC;
+}
+
+.windows8.Window:not(.inactive) .windows8.WindowCloseButton:not(.disabled):hover {
+  background-color: #E04343;
+}
+
+.windows8.Window:not(.inactive) .windows8.WindowCloseButton.pressed:not(.disabled) {
+  background-color: #993D3D;
+}
+
+.windows8.Window .windows8.WindowContent {
+  background-color: #F0F0F0;
+  overflow: hidden;
+}

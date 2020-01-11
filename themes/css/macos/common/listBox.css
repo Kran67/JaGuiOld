@@ -1,0 +1,38 @@
+.macos.ListBoxItem .CheckboxCheck {
+    position: relative;
+    margin-right: 2px;
+    float: left;
+}
+
+.macos.ListBoxContent {
+    background-color: #FFF;
+}
+
+.macos.ListBox {
+    border: 1px solid #BEBEBE;
+    border-top-color: #8E8E8E;
+    background-color: #FFF;
+}
+
+.macos.ListBoxItem {
+}
+
+.macos.ListBox.usealternatecolor .ListBoxItem.alternate {
+    background-color: #EDF3FE;
+}
+
+.macos.VListBoxItem.isheader,
+.macos.PopupListBox .macos.VListBoxItem.isheader:hover {
+    background-color: #7D7D7D;
+    color: #FFF;
+    font-style: italic;
+}
+
+.macos.ListBoxItem.selected {
+    background: linear-gradient(to bottom, #329AE5 0, #0065D1 100%);
+    color: #FFF;
+}
+
+.macos.ListBox.focused {
+    box-shadow: 0 0 4px 1px #699BD3;
+}

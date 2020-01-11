@@ -1,0 +1,17 @@
+.simple.AngleButton,
+.simple.AngleButton.disabled:hover {
+    border: 1px solid #BBB;
+    background-image: linear-gradient(to bottom,#F9F9F9 0,#E3E3E3 100%);
+}
+
+.simple.AngleButton:hover {
+    border: 1px solid #939393;
+}
+
+/*.simple.AngleButton.pressed {
+  background-image: linear-gradient(to bottom,#404040 0,#303030 100%);
+}*/
+
+.simple.AngleButton.focused {
+    border: 1px solid #6694E3;
+}

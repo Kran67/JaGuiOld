@@ -1,0 +1,675 @@
+﻿//import { Rect, Point, Vector, Matrix } from "/scripts/core/geometry.js";
+//import { Bounds } from "/scripts/core/bounds.js";
+//import { Gradient, GradientPoint } from "/scripts/core/gradient.js";
+//import { Browser } from "./browser.js";
+import { Color } from "/scripts/core/color.js";
+import { Text } from "/scripts/core/text.js";
+class Convert {
+    /**
+     * Convert a enum to a string
+     * @param   {Enum}      e       the enum to convert
+     * @param   {}          v
+     * @returns     {}
+     */
+    static enum2Str(e, v) {
+        for (let prop in e) {
+            if (e.hasOwnProperty(prop) && e[prop] === v) {
+                return prop;
+            }
+        }
+    }
+    /**
+     * Convert a rect to string
+     * @param       {Rect}          r       a rect to convert
+     * @returns     {String}        the result
+     */
+    static rect2Str(r) {
+        if (r instanceof Core.classes.Rect) {
+            return `left:${r.left} top:${r.top} right:${r.right} bottom:${r.bottom} width:${r.width} height:${r.height}`;
+        }
+        return String.EMPTY;
+    }
+    /**
+     * Convert a string to a rect
+     * @param       {String}        s       the string to convert
+     * @returns     {Rect}          the new rect instance from the string
+     */
+    static str2Rect(s) {
+        if (s && typeof s === Types.CONSTANTS.STRING && s.indexOf(",")>-1) {
+            const a = s.split(",");
+            const l = a[0] | 0;
+            const t = a[1] | 0;
+            const r = a[2] | 0;
+            const b = a[3] | 0;
+            return new Core.classes.Rect(l, t, r, b);
+        }
+        return null;
+    }
+    /**
+     * Convert a string to bound
+     * @param       {String}        s       the string to convert
+     * @param       {Component}     o       the owner component
+     * @returns     {Bounds}        the new bounds instance
+     */
+    static str2Bound(s, o) {
+        if (s && typeof s === Types.CONSTANTS.STRING && s.indexOf(",") > -1) {
+            const a = s.split(",");
+            const l = a[0] | 0;
+            const t = a[1] | 0;
+            const r = a[2] | 0;
+            const b = a[3] | 0;
+            return new Core.classes.Bounds(new Core.classes.Rect(l, t, r, b), o);
+        }
+        return null;
+    }
+    /**
+     * Convert a point to a string
+     * @param       {Point}         p       the point to convert
+     * @returns     {String}        the result
+     */
+    static point2Str(p) {
+        if (p instanceof Core.classes.Point) {
+            return `X:${p.x} Y:${p.y}`;
+        }
+        return String.EMPTY;
+    }
+    /**
+     * Convert a string to a point
+     * @param       {String}        s       the string to convert
+     * @returns     {Point}         the new point instance
+     */
+    static str2Point(s) {
+        if (typeof s === Types.CONSTANTS.STRING && s.indexOf(",") > -1) {
+            const a = s.split(",");
+            const x = a[0] | 0;
+            const y = a[1] | 0;
+            return new Core.classes.Point(x, y);
+        }
+        return null;
+    }
+    /**
+     * Convert a vector to a string
+     * @param       {Vector}        a       the vector to convert
+     * @returns     {String}        the result
+     */
+    static vector2Str(a) {
+        if (a instanceof Core.classes.Vector) {
+            return `X:${a.x} Y:${a.y} Z:${a.z}`;
+        }
+        return String.EMPTY;
+    }
+    /**
+     * Convert a matrix to a string
+     * @param       {Matrix}        a       the matrix to convert
+     * @returns     {String}        the result
+     */
+    static matrix2Str(a) {
+        if (a instanceof Core.classes.Matrix) {
+            return `m11:${a.m11} m12:${a.m12} m13:${a.m13}\n
+                m21:${a.m21} m22:${a.m22} m23:${a.m23}\n
+                m31:${a.m31} m32:${a.m32} m33:${a.m33}`;
+        }
+        return String.EMPTY;
+    }
+    /**
+     * Convert a integer number to a string
+     * @param       {Number}        a       the integer to convert
+     * @returns     {String}        the result
+     */
+    static intToStr(a) {
+        if (typeof a === Types.CONSTANTS.NUMBER) {
+            return String(~~a);
+        }
+        return String.EMPTY;
+    }
+    /**
+     * Convert a float number to a string
+     * @param       {Number}        a       the float to convert
+     * @returns     {String}        the result
+     */
+    static floatToStr(a) {
+        if (typeof a === Types.CONSTANTS.NUMBER) {
+            return String(a);
+        }
+        return String.EMPTY;
+    }
+    /**
+     * Convert a float number to a string
+     * @param       {Number}        a       the float to convert
+     * @returns     {Integer}        the result
+     */
+    static floatToInt(a) {
+        if (typeof a === Types.CONSTANTS.NUMBER) {
+            return ~~a;
+        }
+        return 0;
+    }
+    /**
+     * Convert a boolean to a string
+     * @param       {Boolean}        a       the boolean to convert
+     * @returns     {String}        the result
+     */
+    static boolToStr(a) {
+        if (typeof a === Types.CONSTANTS.BOOLEAN) {
+            if (a) {
+                return "true";
+            } else {
+                return "false";
+            }
+        }
+        return "false";
+    }
+    /**
+     * Convert a string to a integer
+     * @param       {String}        a       the string to convert
+     * @returns     {Integer}       the result
+     */
+    static strToInt(a) {
+        return ~~a;
+    }
+    /**
+     * Convert a string to a float
+     * @param       {String}        a       the string to convert
+     * @returns     {Number}        the result
+     */
+    static strToFloat(a) {
+        a = a*1;
+        return a;
+    }
+    /**
+     * Convert a string to a boolean
+     * @param       {String}        a       the string to convert
+     * @returns     {Boolean}       the result
+     */
+    static strToBool(a) {
+        if (typeof a === Types.CONSTANTS.STRING && (a.toLowerCase() === "true" || a.toLowerCase() === "false")) {
+            if (a.toLowerCase() === "true") {
+                return true;
+            } else if (a.toLowerCase() === "false") {
+                return false;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+    /**
+     * Convert a integer to a boolean
+     * @param       {String}        a       the integer to convert
+     * @returns     {Boolean}       the result
+     */
+    static intToBool(a) {
+        if (typeof a === Types.CONSTANTS.NUMBER) {
+            a = a | 0;
+        }
+        if (a > 1) {
+            a = 1;
+        }
+        return a === 1;
+    }
+    /**
+     * Convert a degres to a radian
+     * @param       {Number}        a       the degres to convert
+     * @returns     {Number}        the result
+     */
+    static deg2Rad(a) {
+        a = a | 0;
+        return a * Math.PI / 180;
+    }
+    /**
+     * Convert a radian to a degres
+     * @param       {Number}        a       the radian to convert
+     * @returns     {Number}        the result
+     */
+    static rad2Deg(a) {
+        a = a | 0;
+        return a * 180 / Math.PI;
+    }
+    /**
+     * Convert a decimal to a binary
+     * @param       {Number}        a       the decimal to convert
+     * @returns     {Number}        the result
+     */
+    static dec2Bin(a) {
+        a = ~~a;
+        return a.toString(2);
+    }
+    /**
+     * Convert a decimal to an hexadecimal
+     * @param       {Number}        a       the decimal to convert
+     * @returns     {Number}        the result
+     */
+    static dec2Hex(a) {
+        a = ~~a;
+        return a.toString(16);
+    }
+    /**
+     * Convert a decimal to an octal
+     * @param       {Number}        a       the decimal to convert
+     * @returns     {Number}        the result
+     */
+    static dec2Oct(a) {
+        a = ~~a;
+        return a.toString(8);
+    }
+    /**
+     * Convert a binary to an hexadecimal
+     * @param       {Number}        a       the binary to convert
+     * @returns     {Number}        the result
+     */
+    static bin2Hex(a) {
+        if (typeof a === Types.CONSTANTS.STRING) {
+            return _conv.dec2Hex(parseInt(a, 2));
+        }
+        return String.EMPTY;
+    }
+    /**
+     * Convert a binary to a decimal
+     * @param       {Number}        a       the binary to convert
+     * @returns     {Number}        the result
+     */
+    static bin2Dec(a) {
+        if (typeof a === Types.CONSTANTS.STRING) {
+            return parseInt(a, 2);
+        }
+        return String.EMPTY;
+    }
+    /**
+     * Convert a binary to an octal
+     * @param       {Number}        a       the binary to convert
+     * @returns     {Number}        the result
+     */
+    static bin2Oct(a) {
+        if (typeof a === Types.CONSTANTS.STRING) {
+            return parseInt(a, 2).toString(8);
+        }
+        return String.EMPTY;
+    }
+    /**
+     * Convert an hexadecimal to a binary
+     * @param       {Number}        a       the hexadecimal to convert
+     * @returns     {Number}        the result
+     */
+    static hex2Bin(a) {
+        if (typeof a === Types.CONSTANTS.STRING) {
+            return parseInt(a, 16).toString(2);
+        }
+        return String.EMPTY;
+    }
+    /**
+     * Convert an hexadecimal to a decimal
+     * @param       {Number}        a       the hexadecimal to convert
+     * @returns     {Number}        the result
+     */
+    static hex2Dec(a) {
+        if (typeof a === Types.CONSTANTS.STRING) {
+            return parseInt(a, 16);
+        }
+        return String.EMPTY;
+    }
+    /**
+     * Convert an hexadecimal to an octal
+     * @param       {Number}        a       the hexadecimal to convert
+     * @returns     {Number}        the result
+     */
+    static hex2Oct(a) {
+        if (typeof a === Types.CONSTANTS.STRING) {
+            return parseInt(a, 16).toString(8);
+        }
+        return String.EMPTY;
+    }
+    /**
+     * Convert an octal to a decimal
+     * @param       {Number}        a       the octal to convert
+     * @returns     {Number}        the result
+     */
+    static oct2Dec(a) {
+        if (typeof a === Types.CONSTANTS.STRING) {
+            return parseInt(a.toString(), 8);
+        }
+        return String.EMPTY;
+    }
+    /**
+     * Convert an octal to a binary
+     * @param       {Number}        a       the octal to convert
+     * @returns     {Number}        the result
+     */
+    static oct2Bin(a) {
+        if (typeof a === Types.CONSTANTS.STRING) {
+            return parseInt(a.toString(), 8).toString(2);
+        }
+        return String.EMPTY;
+    }
+    /**
+     * Convert an octal to an hexadecimal
+     * @param       {Number}        a       the octal to convert
+     * @returns     {Number}        the result
+     */
+    static oct2Hex(a) {
+        if (typeof a === Types.CONSTANTS.STRING) {
+            return parseInt(a.toString(), 8).toString(16);
+        }
+        return String.EMPTY;
+    }
+    /**
+     * Convert a number to a byte
+     * @param       {Number}        value       the number to convert
+     * @returns     {Number}        the result
+     */
+    static toByte(value) {
+        return value & 0xFF;
+    }
+    /**
+     * Convert a number to a word
+     * @param       {Number}        value       the number to convert
+     * @returns     {Number}        the result
+     */
+    static toWord(value) {
+        return value & 0xFFFF;
+    }
+    /**
+     * Convert a number to a long word
+     * @param       {Number}        value       the number to convert
+     * @returns     {Number}        the result
+     */
+    static toLongWord(value) {
+        return value & 0xFFFFFFFF;
+    }
+    /**
+     * Convert a number to a integer 64
+     * @param       {Number}        value       the number to convert
+     * @returns     {Number}        the result
+     */
+    static toInt64(value) {
+        return value & 0xFFFFFFFFFFFFFFFF;
+    }
+    /**
+     * Convert a number to another unit
+     * @param       {Object}        params             Parameters
+     * @param       {Number}        params.value       the number to convert
+     * @param       {String}        params.from        base unit
+     * @param       {String}        params.to          convert unit
+     * @param       {Number}        params.base        decimal base
+     * @param       {Number}        params.dpi         dot per image
+     * @param       {Number}        params.decimals    number of decimal
+     * @returns     {String}        the result
+     */
+    static cssUnit(params/*value, from, to, base, dpi, decimals*/) {
+        //1em == 16px == 0.17in == 12pt == 1pc == 4.2mm == 0.42cm
+        if (typeof params.value !== Types.CONSTANTS.NUMBER) {
+            params.value = 1;
+        }
+        if (isNaN(params.params.base)) {
+            params.base = 10;
+        }
+        if (isNaN(params.dpi)) {
+            params.dpi = 72;
+        }
+        params.decimals = params.decimals | 0;
+        const units = `${params.from}-${params.to}`;
+        const formulas = {
+            "cm-em": params.value / 0.42175176,
+            "cm-in": params.value * 0.39,
+            "cm-mm": params.value * 10,
+            "cm-pc": params.value / 0.42175176,
+            "cm-pt": params.value * 28.3464566929,
+            "cm-%": params.value / params.base * 100 / 2.54 * params.dpi,
+            "cm-px": params.value / 2.54 * params.dpi,
+            "cm-rem": params.value / 0.42175176,
+
+            "em-cm": params.value * 0.42175176,
+            "em-in": params.value * 0.166044,
+            "em-mm": params.value / 0.237106301584,
+            "em-pc": params.value,
+            "em-pt": params.value * 11.955168,
+            "em-%": params.value * 100,
+            "em-px": params.value * params.base,
+            "em-rem": params.value,
+
+            "in-cm": params.value * 2.54,
+            "in-em": params.value / 0.166044,
+            "in-mm": params.value * 2.54 * 10,
+            "in-pc": params.value / 0.166044,
+            "in-pt": params.value / 0.014842519685,
+            "in-%": params.value / params.base * 100 * params.dpi,
+            "in-px": params.value * params.dpi,
+            "in-rem": params.value / 0.166044,
+
+            "mm-cm": params.value / 10,
+            "mm-em": params.value * 0.237106301584,
+            "mm-in": params.value * 0.39 / 10,
+            "mm-pc": params.value / 4.42175176,
+            "mm-pt": params.value / 0.352777777778,
+            "mm-%": params.value / params.base * 100 / 2.54 * params.dpi / 10,
+            "mm-px": params.value / 2.54 * params.dpi / 10,
+            "mm-rem": params.value * 0.237106301584,
+
+            "pc-cm": params.value * 0.42175176,
+            "pc-em": params.value,
+            "pc-in": params.value * 0.166044,
+            "pc-mm": params.value * 4.42175176,
+            "pc-pt": params.value / 0.0836458341698,
+            "pc-%": params.value * 100,
+            "pc-px": params.value * params.base,
+            "pc-rem": params.value,
+
+            "pt-cm": params.value / 28.3464566929,
+            "pt-em": params.value / 11.955168,
+            "pt-in": params.value * 0.014842519685,
+            "pt-mm": params.value * 0.352777777778,
+            "pt-pc": params.value * 0.0836458341698,
+            "pt-%": params.value / (params.base - 4) * 100,
+            "pt-px": params.value * 96 / 72,
+            "pt-rem": params.value / 11.955168,
+
+            "%-cm": params.value * params.base / 100 * 2.54 / params.dpi,
+            "%-em": params.value / 100,
+            "%-in": params.value * params.base / 100 / params.dpi,
+            "%-mm": params.value * params.base / 100 * 2.54 / params.dpi * 10,
+            "%-pc": params.value / 100,
+            "%-pt": params.value * (params.base - 4) / 100,
+            "%-px": params.value * params.base / 100,
+            "%-rem": params.value / 100,
+
+            "px-cm": params.value * 2.54 / params.dpi,
+            "px-em": params.value / params.base,
+            "px-in": params.value / params.dpi,
+            "px-mm": params.value * 2.54 / params.dpi * 10,
+            "px-pc": params.value / params.base,
+            "px-pt": params.value * 72 / 96,
+            "px-%": params.value / params.base * 100,
+            "px-rem": params.value / params.base,
+
+            "rem-cm": params.value * 0.42175176,
+            "rem-em": params.value,
+            "rem-in": params.value * 0.166044,
+            "rem-mm": params.value / 0.237106301584,
+            "rem-pc": params.value,
+            "rem-pt": params.value * 11.955168,
+            "rem-%": params.value * 100,
+            "rem-px": params.value * params.base
+        };
+        const result = formulas[units] || false;
+        return isNaN(result) ? "N/A" : Math.round(result, params.decimals) + params.to;
+    }
+    /**
+     * Convert a component property to a css property
+     * @param       {Object}        animationObj        Object that contains properties
+     * @param       {Boolean}       endValue            indicate using stopValue or startValue
+     * @returns     {String}        the css property
+     */
+    static propertyToCssProperty(animationObj, endValue) {
+        let result = String.EMPTY;
+        if (!endValue) {
+            endValue = false;
+        }
+        switch (animationObj.propertyName) {
+            case "width":
+            case "height":
+            case "left":
+            case "top":
+            case "right":
+            case "bottom":
+                result = `${Core.browser.getVendorPrefix(animationObj.propertyName)}${animationObj.propertyName}:${(endValue ? animationObj.stopValue : animationObj.startValue)}${Types.CSSUNITS.PX};`;
+                break;
+            case "opacity":
+                result = `${Core.browser.getVendorPrefix(animationObj.propertyName)}${animationObj.propertyName}:${(endValue ? animationObj.stopValue : animationObj.startValue)};`;
+                break;
+            case "rotateAngle":
+                result = `${Core.browser.getVendorPrefix("transform")}transform:rotate(${(endValue ? animationObj.stopValue : animationObj.startValue)}deg);`;
+                break;
+            case "background.color":
+                result = `${Core.browser.getVendorPrefix("background-color")}background-color:${(endValue ? animationObj.stopValue.toARGBString() : animationObj.startValue.toARGBString())};`;
+                break;
+            case "bitmap":
+                result = `opacity:${(endValue ? 1 : 0)};`;
+                break;
+            case "rotateCenter":
+                //result = String;
+                break;
+            case "scale.x":
+                result = "transform:scaleX";
+                break;
+            case "scale.y":
+                result = "transform:scaleY";
+                break;
+            case "borderWidth":
+                //return "";
+                break;
+            case "bordersRadius":
+                //return "";
+                break;
+            case "shadowColor":
+                //return "";
+                break;
+            case "shadowOffsetX":
+                //return "";
+                break;
+            case "shadowOffsetY":
+                //return "";
+                break;
+            case "shadowBlur":
+                //return "";
+                break;
+            case "borderDash":
+                //return "";
+                break;
+            case "outline":
+                //return "";
+                break;
+            case "margin":
+                //return "";
+                break;
+            case "padding":
+                //return "";
+                break;
+        }
+        return result;
+    }
+    /**
+     * Convert a css gredient to a gradient instance
+     * @param       {String}        cssGradient         css gradient
+     * @returns     {Gradient}      the gradient instance
+     */
+    static cssGradient2Gradient(cssGradient) {
+        const gradient = new Core.classes.Gradient(window);
+        const PO = Types.CSSUNITS.PO;
+        if (cssGradient.indexOf("gradient") !== -1) {
+            cssGradient = cssGradient.replace("-o-", String.EMPTY);
+            cssGradient = cssGradient.replace("-moz-", String.EMPTY);
+            cssGradient = cssGradient.replace("-ms-", String.EMPTY);
+            cssGradient = cssGradient.replace("-webkit-", String.EMPTY);
+            if (cssGradient.indexOf("linear") !== -1) { // linear gradient
+                gradient.style = Types.GRADIENTSTYLES.LINEAR;
+                cssGradient = cssGradient.replace("linear-gradient(", String.EMPTY);
+                cssGradient = cssGradient.replace("%)", PO);
+                cssGradient = Text.replace(cssGradient, "transparent", "rgba(0,0,0,0)");
+                cssGradient = Text.replace(cssGradient, ", rgb", "|rgb");
+                const gradValues = cssGradient.split("|");
+                gradient.startPosition.assign(new Core.classes.Point());
+                if (gradValues[0].indexOf("top") !== -1) {
+                    gradient.stopPosition = new Core.classes.Point(0, 1);
+                } else if (gradValues[0].indexOf("left") !== -1) {
+                    gradient.stopPosition.assign(new Core.classes.Point(1, 0));
+                }
+                gradient.items.clear();
+                gradValues.forEach(grad => {
+                    const colorOffset = grad.replace(") ", ")|"), color = colorOffset.split("|")[0], offset = +colorOffset.split("|")[1].replace(PO, String.EMPTY);
+                    gradient.items.push(new Core.classes.GradientPoint(offset / 100, Color.parse(color)));
+                });
+            }
+        }
+        return gradient;
+    }
+    /**
+     * Convert seconds in minutes
+     * @param       {Number}        seconds     the number of seconds
+     * @returns     {String}        the result
+     */
+    static sec2min(seconds) {
+        const mins = ~~(seconds % 3600 / 60);
+        const secs = seconds % 60;
+        return `${mins} minute(s) ${secs} seconde(s)`;
+    }
+    /**
+     * Convert seconds in hours
+     * @param       {Number}        seconds     the number of seconds
+     * @returns     {String}        the result
+     */
+    static sec2hrs(seconds) {
+        const hrs = ~~(seconds / 3600);
+        const mins = ~~(seconds % 3600 / 60);
+        const secs = seconds % 60;
+        return `${hrs} heure(s) ${mins} minute(s) ${secs} seconde(s)`;
+    }
+    /**
+     * Convert seconds in days
+     * @param       {Number}        seconds     the number of seconds
+     * @returns     {String}        the result
+     */
+    static sec2day(seconds) {
+    }
+    /**
+     * Convert seconds in weeks
+     * @param       {Number}        seconds     the number of seconds
+     * @returns     {String}        the result
+     */
+    static sec2week(seconds) {
+    }
+    /**
+     * Convert seconds in years
+     * @param       {Number}        seconds     the number of seconds
+     * @returns     {String}        the result
+     */
+    static sec2year(seconds) {
+    }
+    /**
+     * Convert a nodeList to an Array
+     * @param       {NodeList}  nodeList      The nodeList to convert
+     * @returns     {Array}         The new array
+     */
+    static nodeListToArray(nodeList) {
+        return Array.from(nodeList);
+    }
+    // Optimisation
+    /*for (let i=0;i<10000;i++) -> let i=10000; while(i--) ...
+
+    x=x*2; -> x=x << 1;
+    x=x*64; -> x=x << 6;
+
+    x=x / 2; -> x=x >> 1;
+    x=x / 64; -> x=x >> 6;
+
+    x=int(1.232) -> x=1.232 >> 0;
+
+    i++ -> i=-~i;
+    i-- -> i=~-i;
+
+    i=-i; -> i=~i+1;
+
+    x=131 % 4; -> x=131 & (4 - 1);
+
+    (i % 2)==0; -> (i & 1)
+    */
+}
+export { Convert };

@@ -1,0 +1,105 @@
+﻿.carbon.Calendar {
+  border: 1px solid #222;
+  border-radius: 5px;
+  background-image: linear-gradient(to bottom,#707070 0,#303030 100%);
+}
+
+.carbon.CalendarContent {
+  border: 1px solid #303030;
+  background-color: #404040;
+}
+
+.carbon.CalendarPrevMonth:hover,
+.carbon.CalendarThisDay:hover,
+.carbon.CalendarNextMonth:hover {
+  background-color: #707070;
+  opacity: 0.7;
+  border-radius: 50%;
+}
+
+/*.carbon.CalendarPrevMonth.disabled:hover,
+.carbon.CalendarThisDay.disabled:hover,
+.carbon.CalendarNextMonth.disabled:hover {
+  background-color: transparent;
+  opacity: 1;
+  border-radius: 0;
+}*/
+
+.carbon.CalendarWeekdays  {
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.carbon.CalendarWeekNum {
+  border-right: 1px solid #E0E0E0;
+}
+
+.carbon.CalendarOutMonth {
+  color: #B0B0B0;
+}
+
+.carbon.CalendarNow {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAQCAYAAAAS7Y8mAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My4zNqnn4iUAAAIOSURBVDhPpVRbK0RRFB6SEiIvvMjwIlEkRcgl5F6KxjV3hZF5wAxzzrjfclcSjx7lD8iDZy/mnJlhBqW8oLzvfZgn396zJbnPfLU653x7r7W+vdY6W/cTXu6OwqhzLo+qtmaiyAMwC7GPy+Tc7DNFZmaCtVDHdK7m3gwXrp+huTciqDpZTBTrwIcgb2afkJGsil6upVPHbDb2VhNFMoo1M7gUEeodyJqBYGPk3GKFSgN1zGRChV673tMjWCpRbOVQN4h9OcKFw/t4GkRdS0nEDjHM1zmfKJYQ1LVUwrMqciPURAv6X6AXK1EQNoEEnT5CnUrnQdXJMu/DSRAn/QRitLFyoabr4aw2UNpFPdsBBWVAvetRDpmpLWRqqWsxQawFBAg0woZZhl5MgMl7fxywWvQmjqlFOSpZBiu6bRBrAQFxGoidT0WMDh3EJEg1Ys1vYDSTeUkd0+WcgOJRZGrnH34CpYzFAFjw7NGudkIEKRkwe1btejeKE/8Emp4CfzOsn7qWIwTNj5DIC65IjdSzFSzoX4FGReK0tb6fSurQ3FvvQd9AnbOl4q/rhoJ479PZlxPyfHcYTC9X9US11UDhOMyCcc1/vj34XhA2ZPEj+RIM4XKpw7MIfAHeK9CHVtQQ9wjWsQ9cJS6sv5VP82yzazIbQZowLUY4SzB21BFwfUwpdS6kaTf7ocLlG+h0r2x4dtP3nIHMAAAAAElFTkSuQmCC);
+}
+
+.carbon.CalendarSelected,
+.carbon.CalendarThisMonth:hover,
+.carbon.CalendarDay:hover,
+.carbon.CalendarMonth:hover,
+.carbon.CalendarMDC:hover {
+  background-color: rgba(147,102,57,0.5);
+  border-radius: 5px;
+}
+
+.carbon.CalendarThis {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAAmCAYAAABdw2IeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My4zNqnn4iUAAATXSURBVFjDzVlvTBNnHL5ZxD+NqGyZTpc5wzYS0gSyJcaQgagZDYZkcZosilmj/HFBJqCB0vYKFSoyqeCcc8vm0M2JY9kH/aLGZImJ24dlo7TX3tUKlI24TbIl2z707lr9sOcI9t5rCwIrvXuTS8j17t7nfX7P7y8UlYL18K+fVwtc70aB6ykS2O6dvKdtH+9/v4n3dtBht4UODzYrryEbzTPHcTkP4bl9vK9rqxA8l/Po3+ASaqFWdOL7Zby/qzLsbrElAJrHxXtam3lf5w5x7Ep2SgCKIxfWg8HtvPdYBZhpSQXIJMxbBO508TzN/JNOCJzJh3mrwoNm2xw3poW7Z+sj41fXRcavZUcn7uSKI325uFeIw+7AVZdUKoNmGiyXi2MDT80aqBD8eC1YrJZe/l9seRxvJPv+o38COjHUv5b3ndgWHqKPJgD2nyyZHVCu97Ww22pOZMvazHvbK3i2u0gc/twQfXDbELl/3YAPG3jWZQRbNWBLIRE8X/6k/SK/fKPHN8vxrjX2LvwBhOXO+CJO+joetio3PNYIvRaKw33Ln6jtUP8qnuvdAq+vhTnfFe6dz5qtNXHglyAfeW+PvRZyWDSd6bfgIRvBpA3gS+BcmVSaFhguVhDlO/FKEm/vM8D0hMnpBiH4yYtUmpc4cjEDOI7IVnXsVDwQZtr18PgW4oF6gXWtpFRakM9bhOYblT96HXsIYdeD1RWUigtSeJWwMC3/wPXkyeHJjNj4UT6l8hJDl18mdTuVNu/oeKajTk57bXsoDSxgyU4Ai3CUS5ifFkcvbdACWHH0S4OMy0JPabV9LxHTKiiNLGh2M+FgZilELANqy+ObyFr5mgHr6yKjwQEppRoIj7NF7t9YqhWwYU/roRhYxlkqSaCUcCyTVoAKw+efIYsnnj2VQyEKmIiUVqodvbq2yxa3N0UnflgCsE45pfm7C7QAFKE0A4WMLAGPo+xxJIhRjVCRowkJBD4sUJSIXO+aKRHbY/GVZ3uy1QYa+fVbHcxeI0uz00R4nAwW1ZXqYNHtboorvDeQxUtMBvjhOVXNf+/T1QAo+xBzfLfyJIyzKQY2cMagKquM0ySzam0WQ19lxZeFB+STdJSoBRQJqUjRKLKugmS91ptElqhRxfysq1DRwjAdu6ajPo+suNDbP5tWoFxPsaLNH7JVIVstnqbX+UIPfVgJdsvSEvh/v5UBzy9TAqUbcG/mNgo1wS7iZOhkO59e0Dp17OuV2HOvYhbhthxGBfj8bEyxRjFY8LQeFEYu6BeAzUXYKx+WbIgbMb2Hgn/dXDrJUuVEr61WHP4sZfoVguc2IvK8Ez+GguwOIp3OrTGN/vFdJiJDddyJzShuNiMFzmu4ERm/molAX4D6wyQ5b9wcyyoN5tAULp5fXh6/tgpyqEyYm3odjbz/5DZobX30we2MaaeNf/t16Ir1kwD93bshp6PJJ4v2eqT2vBSIfyAL4ExJN5HYGbIfBvD98FyjwJ4yApQRFpD+rga4OmnEOcP4swV9lVEcvbg0hd46oEMGKYYjNKVoom2R2hLUHlkLF2JC/SuEwAdGaO7InOezbmmY11kpcKc3RX+7uTydiQY9/KUXpHksJPA2zL0fIUhqgyYvSECKHlWT/8xgnFuFu2fzHv75Y8pHT/8B48uoQeKkaPoAAAAASUVORK5CYII=);
+}
+
+.carbon.CalendarMonths,
+.carbon.CalendarDecades,
+.carbon.CalendarCenturies {
+  background-color: #404040;
+}
+
+.carbon.CalendarThisMonth {
+
+}
+
+.carbon.CalendarWeekDay {
+
+}
+
+.carbon.CalendarWeeks {
+
+}
+
+.carbon.CalendarWeek {
+
+}
+
+.carbon.CalendarDay {
+
+}
+
+.carbon.CalendarMonths {
+
+}
+
+.carbon.CalendarMonth {
+
+}
+
+.carbon.CalendarDecades {
+
+}
+
+.carbon.CalendarDecade {
+
+}
+
+.carbon.CalendarCenturies {
+
+}
+
+.carbon.CalendarCentury {
+
+}

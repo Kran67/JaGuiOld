@@ -1,0 +1,29 @@
+﻿div.SplitToolButton {
+    float: left;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    width: 23px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+div.SplitToolButton button.BitmapButton {
+    flex: 1;
+}
+
+div.SplitToolButton button.PopupButton {
+    width: 14px;
+    border-left: none;
+}
+
+div.SplitToolButton button.BitmapButton,
+div.SplitToolButton button.PopupButton {
+    position: relative;
+}
+
+div.SplitToolButton img {
+    max-height: 16px;
+    max-width: 16px;
+}

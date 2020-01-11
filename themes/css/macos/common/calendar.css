@@ -1,0 +1,209 @@
+.macos.Calendar {
+    border: 1px solid #BEBEBE;
+    border-left-color: #E1E1E1;
+    border-right-color: #F3F3F3;
+    border-bottom-color: #EEE;
+    background-color: #FFF;
+    min-width: 177px;
+    max-width: 177px;
+}
+
+.macos.CalendarContent {
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid #E1E1E1;
+    border-left-color: #F8F8F8;
+    border-right-color: #FBFBFB;
+    border-bottom-color: #FFF;
+    background-color: #FFF;
+}
+
+.macos.CalendarHeader {
+    margin-left: 1px;
+    margin-right: 1px;
+    height: 21px;
+}
+
+.macos.CalendarPrevMonth {
+    background-color: #A6A6A6;
+    color: #FFF;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    top: 4px;
+}
+
+.macos.CalendarPrevMonth:before {
+    font-size: 5pt;
+    content: "Z";
+}
+
+.macos.CalendarThisDay {
+    left: 13px;
+    border-radius: 50%;
+    background-color: #B5B5B5;
+    width: 12px;
+    height: 12px;
+    top: 4px;
+}
+
+.macos.CalendarThisDay:before {
+    font-size: 3pt;
+    color: #FFF;
+    content: "3";
+}
+
+.macos.CalendarNextMonth {
+    background-color: #A6A6A6;
+    color: #FFF;
+    border-radius: 50%;
+    left: 26px;
+    width: 12px;
+    height: 12px;
+    top: 4px;
+}
+
+.macos.CalendarNextMonth:before {
+    font-size: 5pt;
+    content: "V";
+}
+
+.macos.CalendarPrevMonth:hover,
+.macos.CalendarThisDay:hover,
+.macos.CalendarNextMonth:hover {
+}
+
+/*.macos.CalendarPrevMonth.disabled:hover,
+.macos.CalendarThisDay.disabled:hover,
+.macos.CalendarNextMonth.disabled:hover {
+  background-color: transparent;
+  opacity: 1;
+  border-radius: 0;
+}*/
+
+.macos.CalendarWeekdays {
+    left: 0;
+    right: 0;
+    height: 15px;
+    top: 22px;
+}
+
+.macos.CalendarWeekNum {
+    width: 18px;
+    display: block;
+    opacity: 0.5;
+}
+
+.macos.CalendarOutMonth {
+    color: #B0B0B0;
+}
+
+.macos.CalendarNow,
+.macos.CalendarThis {
+    border: 1px solid #72B2F1;
+}
+
+.macos.CalendarMonths,
+.macos.CalendarDecades,
+.macos.CalendarCenturies {
+    background-color: #404040;
+}
+
+.macos.CalendarThisMonth {
+    color: #808080;
+    font-weight: normal;
+}
+
+.macos.CalendarWeekDay {
+    color: #808080;
+}
+
+.macos.CalendarWeek {
+    left: 0px;
+    right: 0px;
+    height: 16px;
+}
+
+.macos.CalendarWeek:before {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #EBEBEB;
+}
+
+.macos.CalendarWeek.CalendarSecondWeek {
+    margin-top: 2px;
+}
+
+.macos.CalendarWeek.CalendarThirdWeek {
+    margin-top: 4px;
+}
+
+.macos.CalendarWeek.CalendarFourthWeek {
+    margin-top: 6px;
+}
+
+.macos.CalendarWeek.CalendarFifthWeek {
+    margin-top: 8px;
+}
+
+.macos.CalendarWeek.CalendarSixthWeek {
+    margin-top: 10px;
+}
+
+.macos.CalendarDay {
+    border-radius: 0;
+}
+
+.macos.CalendarMonths,
+.macos.CalendarDecades,
+.macos.CalendarCenturies {
+    background-color: #FFF;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.macos.CalendarMonth {
+}
+
+.macos.CalendarDecade {
+}
+
+.macos.CalendarCentury {
+}
+
+.macos.CalendarOutMonth {
+    color: #EBEBEB;
+}
+
+.macos.CalendarDay:hover,
+.macos.CalendarMDC:hover,
+.macos.CalendarMDC:hover,
+.macos.CalendarMDC:hover,
+.macos.CalendarSelected,
+.macos.CalendarSelected,
+.macos.CalendarSelected,
+.macos.CalendarSelected {
+    background-color: #72B2F1;
+    color: #FFF;
+}
+
+.macos.CalendarDay:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.macos.CalendarDay:nth-child(2) {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}

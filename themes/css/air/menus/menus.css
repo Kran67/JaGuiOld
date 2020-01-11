@@ -1,0 +1,70 @@
+.air.MainMenu {
+    background-image: linear-gradient(to bottom,#1C1C1C 0,#484848 100%);
+}
+
+.air.MenuItem:hover,
+.air.MenuItem.active {
+    background-image: linear-gradient(to bottom,#2571B6 0,#074777 100%);
+}
+
+.air.MenuItem.disabled:hover,
+.air.MenuItem.disabled {
+    background-image: none;
+}
+
+.air.PopupMenu {
+    background-color: #484848;
+}
+
+.air.subMenu {
+    border: 1px solid #1C1C1C;
+}
+
+.air.subMenu:before {
+    top: 0;
+    left: 0;
+    width: 29px;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    content: "";
+    z-index: -1;
+    position: absolute;
+}
+
+.air.MenuItemSep {
+    background-color: #FFF;
+    width: 200%;
+}
+
+.air.subMenu .MenuItemCaption {
+    padding-left: 35px;
+    line-height: 20px;
+}
+
+.air.MenuItem.ischecked .MenuItemCaption {
+    background-image: none;
+}
+
+.air.MenuItem.ischecked .MenuItemCaption:before,
+.air.MenuItem.ischecked.isradioitem .MenuItemCaption:before {
+    position: absolute;
+    left: 5px;
+    width: 20px;
+    height: 18px;
+    text-align: center;
+    font-family: "JaGui";
+}
+
+.air.MenuItem.ischecked .MenuItemCaption:before {
+    content: "4";
+    font-size: 8pt;
+    border: 1px solid #65C8E0;
+    background-color: rgba(101,200,224,0.3);
+    color: #65C8E0;
+}
+
+.air.MenuItem.ischecked.isradioitem .MenuItemCaption:before {
+    content: "3";
+    font-size: 5pt;
+    top: 0;
+}

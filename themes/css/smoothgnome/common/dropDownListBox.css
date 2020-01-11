@@ -1,0 +1,46 @@
+﻿.carbon.DropDownListBox:hover {
+  background-image: linear-gradient(to bottom,#707070 0,#303030 100%);
+}
+
+.carbon.DropDownListBox.pressed,
+.carbon.DropDownListBox.opened,
+.carbon.DropDownListBox.opened:hover {
+  background-image: linear-gradient(to bottom,#404040 0,#303030 100%);
+}
+
+.carbon.DropDownListBox,
+.carbon.DropDownListBox.disabled,
+.carbon.DropDownListBox.disabled.focused {
+  border: 1px solid #222;
+  border-radius: 3px;
+  background-image: linear-gradient(to bottom,#505050 0,#303030 100%);
+  box-shadow:none;
+}
+
+.carbon.DropDownListBoxInput {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
+.carbon.DropDownListBox.editable .DropDownListBoxContent {
+  border: 1px solid #202020;
+  background-color: #333;
+}
+
+.carbon.DropDownListBox.focused {
+  box-shadow: 0 0 6px #F69E2D;
+}
+
+.carbon.PopupListBox .ListBoxItemPopup:hover,
+.carbon.ListBoxItemPopup.selected {
+  background-color: #936639;
+}
+
+.carbon.ListBox .ListBoxContent .ListBoxItemPopup {
+  border-radius: 3px;
+}
+
+.carbon.PopupListBox .ListBoxItemPopup.disabled:hover {
+  background-color: transparent;
+}

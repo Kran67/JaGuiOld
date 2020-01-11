@@ -1,0 +1,11 @@
+﻿button.BitmapButton {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+span.BitmapButtonCaption {
+    margin: 0;
+    overflow: hidden;
+    text-align: center;
+    transform: none;
+}

@@ -1,0 +1,123 @@
+﻿.guistyle.Window {
+    background-color: #F5F3F6;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.guistyle.Window.maximized {
+    box-shadow: inset 0 0 0 1px #9C0000 !important;
+}
+
+.guistyle.Window.maximized.inactive {
+    box-shadow: inset 0 0 0 1px #A2A2A2 !important;
+}
+
+.guistyle.Window:not(.none) {
+    box-shadow: inset 0 0 0 1px #9C0000, 5px 5px 5px rgba(0, 0, 0, .7);
+    background-image: linear-gradient(to bottom, #FFA891, #FFA891),
+    linear-gradient(to bottom, #FE4914, #C81204),
+    linear-gradient(to bottom, #B20C00, #B20C00),
+    linear-gradient(to bottom, #9C0000, #9C0000),
+    linear-gradient(to bottom, #D81A00, #D81A00),
+    linear-gradient(to bottom, #FFA891, #FFA891),
+    linear-gradient(to bottom, #9C0000, #9C0000);
+    background-position: 1px 1px, 1px 2px, 1px 20px, 1px 21px, 1px calc(100% - 1px), 1px calc(100% - 2px), 1px calc(100% - 3px);
+    background-size: calc(100% - 2px) 1px, calc(100% - 2px) 18px, calc(100% - 2px) 1px, calc(100% - 2px) 1px, calc(100% - 2px) 1px, calc(100% - 2px) 1px, calc(100% - 2px) 1px;
+}
+
+.guistyle.Window.inactive {
+    box-shadow: inset 0 0 0 1px #A2A2A2, 5px 5px 5px rgba(0, 0, 0, .7);
+    background-image: linear-gradient(to bottom, #E1E1E1, #E1E1E1),
+    linear-gradient(to bottom, #DADADA, #B8B8B8),
+    linear-gradient(to bottom, #B9B9B9, #B9B9B9),
+    linear-gradient(to bottom, #A2A2A2, #A2A2A2),
+    linear-gradient(to bottom, #BCBCBC, #BCBCBC),
+    linear-gradient(to bottom, #E1E1E1, #E1E1E1),
+    linear-gradient(to bottom, #A2A2A2, #A2A2A2);
+}
+
+.guistyle.Window.rolledUp {
+    max-height: 24px;
+}
+
+.guistyle.Window .guistyle.WindowTitleBar {
+    margin: 0;
+    height: 19px;
+    min-height: 19px;
+    max-height: 19px;
+    background-position: 2px 0;
+}
+
+.guistyle.Window .guistyle.WindowTitle {
+    color: #FFF;
+    text-shadow: 1px 1px #7B0000;
+    font-size: 8pt;
+    height: 18px;
+    line-height: 18px;
+    max-height: 18px;
+    min-height: 18px;
+    font-weight: bold;
+    top: -1px;
+}
+
+.guistyle.Window.inactive .guistyle.WindowTitle {
+    color: #808080;
+    text-shadow: none;
+}
+
+.guistyle.Window button.guistyle.WindowTitleButton {
+    background-image: linear-gradient(to bottom, #FEFAF9, #D5D0CF);
+    box-shadow: inset 0 2px 0 0 #D11D05, inset 0 -2px 0 0 #EE2901, inset 2px 0 0 0 #E22005, inset -2px 0 0 0 #E22005;
+    border: none;
+    border-radius: 50%;
+    width: 15px;
+    min-width: 15px;
+    max-width: 15px;
+    height: 15px;
+    min-height: 15px;
+    max-height: 15px;
+    top: 0;
+    margin-right: 3px;
+}
+
+.guistyle.Window.inactive button.guistyle.WindowTitleButton {
+    box-shadow: inset 0 2px 0 0 #BCBCBC, inset 0 -2px 0 0 #C2C2C2, inset 2px 0 0 0 #C0C0C0, inset -2px 0 0 0 #C0C0C0;
+}
+
+.guistyle.Window button.guistyle.WindowCloseButton {
+    margin-right: 2px;
+}
+
+.guistyle.Window:not(.inactive) button.guistyle.WindowTitleButton:not(.disabled):hover {
+    background-image: linear-gradient(to bottom, #FE360D, #AA1401);
+}
+
+.guistyle.Window:not(.inactive) button.guistyle.WindowTitleButton.pressed:not(.disabled) {
+    background-image: linear-gradient(to bottom right, #878787, #DADADA);
+}
+
+.guistyle.Window button.guistyle.WindowTitleButton:before {
+    height: 6px;
+    font-size: 5px;
+}
+
+.guistyle.Window:not(.inactive) button.guistyle.WindowTitleButton:not(.disabled):before {
+    color: #950600;
+}
+
+.guistyle.Window.inactive button.guistyle.WindowTitleButton:not(.disabled):before {
+    color: #AFAFAF;
+}
+
+.guistyle.Window:not(.inactive) button.guistyle.WindowTitleButton:not(.disabled):hover:before {
+    color: #FFF;
+}
+
+.guistyle.Window:not(.inactive) button.guistyle.WindowTitleButton.pressed:not(.disabled):before {
+    color: #9D0303;
+}
+
+.guistyle.Window .guistyle.WindowContent {
+    top: 19px;
+    background-color: #EBEBEB;
+}

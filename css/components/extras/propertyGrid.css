@@ -1,0 +1,172 @@
+﻿div.PropertyGridContent {
+    left: 0;
+    top: 0;
+    z-index: 1;
+    right: 0;
+    bottom: 16px;
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridLeftContent,
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridRightContent {
+    top: 0;
+    width: 50%;
+    bottom: 0;
+    min-width: 50px;
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridLeftContent {
+    left: 0;
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridRightContent {
+    right: 0;
+    width: auto;
+    left: 50%;
+}
+
+div.PropertyGrid.scrollbars-vertical > div.PropertyGridContent {
+    right: 16px;
+    bottom: 16px;
+}
+
+div.PropertyGrid.scrollbars-vertical > div.ScrollBar.orientation-vertical {
+    bottom: 16px;
+    height: auto;
+}
+
+div.PropertyGrid.scrollbars-vertical > div.ScrollBar.orientation-horizontal {
+    bottom: -20px;
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem,
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridRightContent > div.PropertyGridItem {
+    white-space: nowrap;
+    box-sizing: border-box;
+    right: 0;
+    left: 0;
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem > span {
+    line-height: 15px;
+    font-family: tahoma;
+    font-size: 8pt;
+    padding-left: 2px;
+    white-space: nowrap;
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem.reference > span {
+    color: maroon;
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem > div.sep {
+    width: 16px;
+    height: 100%;
+    position: relative;
+    float: left;
+    box-sizing: border-box;
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem.grid {
+    border-bottom: 1px dotted #808080;
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridRightContent > div.PropertyGridItem.grid {
+    border-bottom: 1px dotted #808080;
+}
+
+div.PropertyGrid.viewgutter > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem > div.sep:last-of-type {
+    border-right: 1px solid #808080;
+}
+
+div.PropertyGrid.viewgutter > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem > div.firstChild {
+    border-top: 1px solid #808080;
+    border-top-right-radius: 4px;
+}
+
+div.PropertyGrid.viewgutter > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem > div.sep:last-of-type {
+    border-right-radius: 4px;
+}
+
+div.PropertyGrid.viewgutter > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem > div.lastChild {
+    border-bottom: 1px solid #808080;
+    border-bottom-right-radius: 4px;
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridRightContent > div.PropertyGridItem {
+    padding-left: 2px;
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem.TVIHasChild > div.sep:last-of-type:before,
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem.selected:not(.TVIHasChild) > div.sep:last-of-type:before {
+    color: #000;
+    content: "+";
+    font-family: Tahoma;
+    font-weight: bold;
+    font-size: 10px;
+    top: 3px;
+    line-height: 9px;
+    height: 10px;
+    left: 2px;
+    border: 1px solid #000;
+    background-image: linear-gradient(to bottom,#FAFBFB 0,#E3E3E3 100%);
+    border-radius: 2px;
+    position: absolute;
+    width: 10px;
+    text-align: center;
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem.TVIHasChild.expanded > div.sep:last-of-type:before {
+    content: "-";
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem.selected:not(.TVIHasChild) > div.sep:last-of-type:before {
+    content: 'L';
+    position: absolute;
+    width: 10px;
+    font-family: JaGui;
+    font-size: 8pt;
+    background-image: none;
+    border-radius: 0;
+    border: none;
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridRightContent > div.PropertyGridItem.color {
+    padding-left: 22px;
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridRightContent > div.PropertyGridItem.color > span {
+    overflow: visible;
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridRightContent > div.PropertyGridItem.color > span > div {
+    left: -20px;
+    width: 16px;
+    height: 16px;
+}
+
+div.PropertyGrid > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem.TVIHasChild {
+    text-align: left;
+}
+
+div.PropertyGrid > div.PropertyGridInfo {
+    height: 16px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+
+div.PropertyGrid div.TextBox,
+div.PropertyGrid div.SpinBox,
+div.PropertyGrid div.DropDownListBox,
+div.PropertyGrid div.DropDownCalendar,
+div.PropertyGrid button.ColorButton,
+div.PropertyGrid div.TextBoxBtn {
+    box-shadow: none !important;
+    border: none !important;
+    min-height: 16px !important;
+    max-height: 16px !important;
+}
+
+div.PropertyGrid div.DropDownCalendar {
+}

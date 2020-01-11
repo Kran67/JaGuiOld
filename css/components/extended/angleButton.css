@@ -1,0 +1,26 @@
+﻿button.AngleButton {
+    overflow: hidden;
+    white-space: nowrap;
+    border-radius: 50%;
+}
+
+div.AngleButtonCaption {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+div.AngleButtonKnob {
+    left: 0;
+    top: 0;
+    font-family: jagui;
+    font-size: 3pt;
+    width: 100%;
+    height: 100%;
+    text-align: right;
+    padding-right: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    transition: transform linear 0.2s;
+}

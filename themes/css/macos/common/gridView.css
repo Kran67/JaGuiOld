@@ -1,0 +1,30 @@
+.macos.GridView {
+    border: 1px solid #BEBEBE;
+    border-top-color: #C0C0C0;
+    background-color: #FFF;
+}
+
+.macos.GridViewContent {
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.macos.GridViewViewPort {
+    background-color: #FFF;
+}
+
+.macos.GridViewHeader.GridViewRowLine {
+    border-bottom: 1px solid #CCC;
+}
+
+.macos.GridViewHeader,
+.macos.GridViewRowIndic {
+    background-color: #FFF;
+    border-bottom: none;
+}
+
+.macos.GridViewRowLine {
+    border-bottom: 1px solid #CCC;
+}

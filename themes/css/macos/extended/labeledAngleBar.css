@@ -1,0 +1,8 @@
+.macos.LabeledAngleBar {}
+
+.macos.LabeledAngleBar .AngleButton {}
+
+.macos.LabeledAngleBar .Label,
+.macos.LabeledAngleBar .ValueLabel {}
+
+.macos.LabeledAngleBar .ValueLabel {}

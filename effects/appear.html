@@ -1,0 +1,243 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>appear transition</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            if (typeof handle === "function") {
+                handle();
+            }
+        };
+        let rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        const imgA = new Image();
+        const imgB = new Image();
+        let amount = 100;
+        let started = false;
+        let op = 0;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let lastImg = imgA;
+        let nextImg = imgB;
+        let startIdx;
+        let endIdx;
+        let parts;
+        let size;
+        let canStop = false;
+        let ctx;
+        function appear() {
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), x => x.setAttribute("disabled", "disabled"));
+                started = true;
+                ctx.save();
+                ctx.webkitImageSmoothingEnabled = false;
+                ctx.mozImageSmoothingEnabled = false;
+                ctx.msImageSmoothingEnabled = false;
+                ctx.imageSmoothingEnabled = false;
+                if (op>4) {
+                    if ([5, 6].indexOf(op) > -1) {
+                        parts = new Array(ctx.canvas.width).fill(op===5?-1:ctx.canvas.width);
+                        startIdx = op===5?parts.length-1:0;
+                    } else if ([7, 8].indexOf(op) > -1) {
+                        parts = new Array(ctx.canvas.height).fill(op===7?-1:ctx.canvas.height);
+                        startIdx = op===7?parts.length-1:0;
+                    }
+                    endIdx = startIdx;
+                    amount = parts.length * size;
+                }
+            } else {
+                if (op < 5) {
+                    amount -= amount > 50 ? 1 : 0.75;
+                } else {
+                    amount--;
+                }
+                if (amount < 1) {
+                    amount = 1;
+                }
+                const w = ctx.canvas.width;
+                const h = ctx.canvas.height;
+                const wA = ctx.canvas.width * amount;
+                const hA = ctx.canvas.height * amount;
+                if (op>4) {
+                    ctx.drawImage(lastImg, 0, 0);
+                }
+                switch (op) {
+                    case 0: // Contract to top left
+                        ctx.drawImage(nextImg, 0, 0, wA, hA);
+                        break;
+                    case 1: // Contract to bottom left
+                        ctx.drawImage(nextImg, 0, -(hA - h), wA, hA);
+                        break;
+                    case 2: // Contract to bottom right
+                        ctx.drawImage(nextImg, -(wA - w), -(hA - h), wA, hA);
+                        break;
+                    case 3: // Contract to top right
+                        ctx.drawImage(nextImg, -(wA - w), 0, wA, hA);
+                        break;
+                    case 4: // Contract to middle
+                        ctx.drawImage(nextImg, -(wA - w) / 2, -(hA - h) / 2, wA, hA);
+                        break;
+                    case 5: // Parts from left
+                        for (let i = startIdx; i > endIdx; i--) {
+                            ctx.drawImage(nextImg, i, 0, size, h, parts[i], 0, size, h);
+                        }
+                        if (amount % size === 0) {
+                            endIdx-=size;
+                        }
+                        for (let i = startIdx; i > endIdx; i--) {
+                            if (parts[i]<i) {
+                                parts[i]+=size;
+                                if (parts[i]>i) {
+                                    parts[i] = i;
+                                }
+                            }
+                        }
+                        canStop = parts[0] === 0;
+                        break;
+                    case 6: // Parts from right
+                        for (let i = startIdx; i < endIdx; i++) {
+                            ctx.drawImage(nextImg, i, 0, size, h, parts[i], 0, size, h);
+                        }
+                        if (amount % size === 0) {
+                            endIdx+=size;
+                        }
+                        for (let i = startIdx; i < endIdx; i++) {
+                            if (parts[i]>i) {
+                                parts[i]-=size;
+                                if (parts[i]<i) {
+                                    parts[i] = i;
+                                }
+                            }
+                        }
+                        canStop = parts[parts.length-1] === ctx.canvas.width-1;
+                        break;
+                    case 7: // Parts from top
+                        for (let i = startIdx; i > endIdx; i--) {
+                            ctx.drawImage(nextImg, 0, i, w, size, 0, parts[i], w, size);
+                        }
+                        if (amount % size === 0) {
+                            endIdx-=size;
+                        }
+                        for (let i = startIdx; i > endIdx; i--) {
+                            if (parts[i]<i) {
+                                parts[i]+=size;
+                                if (parts[i]>i) {
+                                    parts[i] = i;
+                                }
+                            }
+                        }
+                        canStop = parts[0] === 0;
+                        break;
+                    case 8: // Parts from bottom
+                        for (let i = startIdx; i < endIdx; i++) {
+                            ctx.drawImage(nextImg, 0, i, w, size, 0, parts[i], w, size);
+                        }
+                        if (amount % size === 0) {
+                            endIdx+=size;
+                        }
+                        for (let i = startIdx; i < endIdx; i++) {
+                            if (parts[i]>i) {
+                                parts[i]-=size;
+                                if (parts[i]<i) {
+                                    parts[i] = i;
+                                }
+                            }
+                        }
+                        canStop = parts[parts.length-1] === ctx.canvas.height-1;
+                        break;
+                }
+                if (amount <= 1 || canStop) {
+                    if (op > 4) {
+                        ctx.drawImage(nextImg, 0, 0);
+                    }
+                    amount = 100;
+                    canStop = false;
+                    [lastImg, nextImg] = [nextImg, lastImg];
+                    ctx.restore();
+                    cancelAnimationFrameRate(handle);
+                    started = false;
+                    [].forEach.call(document.querySelectorAll("select"), x => x.removeAttribute("disabled"));
+                    return;
+                }
+            }
+            handle = rAF(appear);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            op = ~~value;
+            size = ~~document.querySelector("input").value;
+            handle = rAF(appear);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        select {
+            width: 220px;
+            margin-bottom: 2px;
+            margin-right: 2px;
+            height: 21px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas>
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">Contract to top left</option>
+            <option value="1">Contract to bottom left</option>
+            <option value="2">Contract to bottom right</option>
+            <option value="3">Contract to top right</option>
+            <option value="4">Contract to middle</option>
+            <option value="5">Parts from left</option>
+            <option value="6">Parts from right</option>
+            <option value="7">Parts from top</option>
+            <option value="8">Parts from bottom</option>
+        </select><br />
+        <input type="range" min="1" max="8" value="1" />
+    </div>
+</body>
+</html>

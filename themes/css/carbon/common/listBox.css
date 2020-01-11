@@ -1,0 +1,38 @@
+﻿.carbon.ListBoxItem .CheckboxCheck {
+    position: relative;
+    margin-right: 2px;
+    float: left;
+}
+
+.carbon.ListBoxContent {
+    background-color: #404040;
+}
+
+.carbon.ListBox {
+    border: 1px solid #303030;
+    border-radius: 2px;
+    background-color: #404040;
+}
+
+.carbon.ListBoxItem {
+    border-radius: 3px;
+}
+
+.carbon.ListBox.usealternatecolor .ListBoxItem.alternate {
+    background-color: rgba(0,0,0,0.2);
+}
+
+.carbon.VListBoxItem.isheader,
+.carbon.PopupListBox .carbon.VListBoxItem.isheader:hover {
+    background-color: #F9DDA2;
+    color: #404040;
+    font-style: italic;
+}
+
+.carbon.ListBoxItem.selected {
+    background-color: #936639;
+}
+
+.carbon.ListBox.focused {
+    box-shadow: 0 0 6px #F69E2D;
+}

@@ -1,0 +1,133 @@
+﻿.haiku.Window {
+    background-repeat: no-repeat;
+}
+
+.haiku.Window:not(.none) {
+    background-image: linear-gradient(to bottom, #D0D0D0, #D0D0D0), linear-gradient(to bottom, #F0F0F0, #F0F0F0), linear-gradient(to bottom, #989898, #989898), linear-gradient(to right, #989898, #989898), linear-gradient(to bottom, #989898, #989898), linear-gradient(to bottom, #E0E0E0, #E0E0E0), linear-gradient(to right, #E0E0E0, #E0E0E0), linear-gradient(to right, #F0F0F0, #F0F0F0), linear-gradient(to right, #989898, #989898);
+    background-position: 3px 24px, left 22px, left bottom, right 22px, left 21px, 2px 23px, 2px 22px, 1px 22px, left top;
+    background-size: calc(100% - 4px) calc(100% - 25px), calc(100% - 1px) 1px, 100% 1px, 1px 100%, 100% 1px, calc(100% - 3px) 1px, 1px calc(100% - 23px), 1px calc(100% - 23px), 1px 100%;
+}
+
+.haiku.Window .haiku.WindowLayout {
+    display: block;
+    overflow: visible;
+}
+
+.haiku.Window:not(.none) .haiku.WindowTitleBar {
+    margin: 0;
+    background-image: linear-gradient(to bottom, #FFE687, #FFCB00);
+    box-shadow: inset 1px 1px 0 0 #FFF4CD, inset -1px 0 0 0 #ECBC00;
+    height: 20px;
+    min-height: 20px;
+    max-height: 20px;
+    background-size: auto auto;
+    left: -4px !important;
+    top: -4px !important;
+    border: 1px solid #989898;
+    border-right-color: #6C6C6C;
+    border-bottom-width: 0;
+    position: relative;
+    display: table;
+    background-position: left top;
+}
+
+.haiku.Window:not(.none).dialog .haiku.WindowTitleBar {
+    padding-left: 24px;
+}
+
+.haiku.Window.inactive .haiku.WindowTitleBar {
+    background-image: linear-gradient(to bottom, #F6F6F6 0, #E8E8E8 100%);
+    box-shadow: inset 1px 1px 0 0 #F8F8F8, inset -1px 0 0 0 #D6D6D6;
+}
+
+.haiku.Window .haiku.WindowTitle {
+    font-size: 10pt;
+    height: 20px;
+    min-height: 20px;
+    max-height: 20px;
+    line-height: 24px;
+    text-align: center;
+    position: relative;
+    margin-left: 11px;
+    margin-right: 35px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.haiku.Window .haiku.WindowTitleButton {
+    position: absolute;
+    float: none;
+    left: 4px;
+    font-size: 8px;
+    margin-right: 1px;
+}
+
+.haiku.Window:not(.inactive) .haiku.WindowTitleButton {
+    background-image: linear-gradient(to bottom right, #FFFCF2, #FFCB00);
+    border: 1px solid #B38F00;
+}
+
+.haiku.Window.inactive .haiku.WindowTitleButton {
+    background-image: linear-gradient(to bottom right, #FBFBFB, #E8E8E8);
+    border: 1px solid #A3A3A3;
+}
+
+.haiku.Window:not(.inactive) .haiku.WindowTitleButton.pressed:not(.disabled), .haiku.Window .haiku.WindowMaxRestoreButton.pressed:not(.disabled):before {
+    background-image: linear-gradient(to bottom right, #FFCB00, #FFFCF2);
+}
+
+.haiku.Window .haiku.WindowTitleButton:before {
+    content: none;
+}
+
+.haiku.Window .haiku.WindowCloseButton {
+    width: 12px;
+    min-width: 12px;
+    max-width: 12px;
+    height: 12px;
+    min-height: 12px;
+    max-height: 12px;
+}
+
+.haiku.Window .haiku.WindowMaxRestoreButton {
+    right: 4px;
+    left: auto;
+    width: 10px;
+    min-width: 10px;
+    max-width: 10px;
+    height: 10px;
+    min-height: 10px;
+    max-height: 10px;
+    margin-top: 1px;
+    top: 6px;
+}
+
+.haiku.Window .haiku.WindowMinimizeButton {
+    right: 10px;
+    left: auto;
+    width: 7px;
+    min-width: 7px;
+    max-width: 7px;
+    height: 7px;
+    min-height: 7px;
+    max-height: 7px;
+    top: 4px;
+}
+
+.haiku.Window .haiku.WindowHelpButton, .haiku.Window .haiku.WindowRollUpDownButton, .haiku.Window .haiku.WindowStayOnOffButton {
+    display: none;
+}
+
+.haiku.Window .haiku.WindowContent {
+    background-color: #D8D8D8;
+    overflow: hidden;
+    top: 23px;
+    bottom: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.haiku.Window:not(.none) .haiku.WindowContent:last-child {
+    border: 1px solid #9D9D9D;
+}

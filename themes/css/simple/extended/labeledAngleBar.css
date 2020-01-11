@@ -1,0 +1,8 @@
+.simple.LabeledAngleBar {}
+
+.simple.LabeledAngleBar .AngleButton {}
+
+.simple.LabeledAngleBar .Label,
+.simple.LabeledAngleBar .ValueLabel {}
+
+.simple.LabeledAngleBar .ValueLabel {}

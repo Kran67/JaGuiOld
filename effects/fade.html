@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Fade</title>
+	<meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        const img = new Image();
+        let opacity = 0;
+        let isBusy = false;
+        img.src = "mustang.jpg";
+        function fade() {
+            const ctx = document.getElementById("c").getContext("2d");
+            if (!isBusy) {
+                isBusy = true;
+                ctx.clearRect(0, 0, img.width, img.height);
+            }
+            ctx.save();
+            ctx.globalAlpha = opacity;
+            ctx.drawImage(img, 0, 0);
+            ctx.restore();
+            opacity+=0.00125;
+            if (opacity >= 1) {
+                opacity = 0;
+                cancelAnimationFrameRate(handle);
+                isBusy = false;
+                return;
+            }
+            rAF(fade);
+        }
+
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right:10px;
+        }
+        select {
+            width:220px;
+            margin-bottom:2px;
+            margin-right:2px;
+            height: 21px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas><br />
+    <button onclick="handle = rAF(fade)">fade</button><br />
+</body>
+</html>

@@ -1,0 +1,11 @@
+﻿div.ToolBar {
+    position: relative;
+    height: 40px;
+    order: 3;
+}
+
+div.ToolBarContainer {
+    position: relative;
+    height: 40px;
+    order: 3;
+}

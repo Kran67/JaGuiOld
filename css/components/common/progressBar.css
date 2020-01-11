@@ -1,0 +1,89 @@
+﻿div.ProgressBar {
+}
+
+div.ProgressBar.orientation-horizontal {
+}
+
+div.ProgressBar.orientation-vertical {
+}
+
+div.ProgressBarProgress {
+    margin: 1px;
+    overflow: hidden;
+}
+
+div.ProgressBarProgress.orientation-horizontal {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transition: width 1s linear;
+}
+
+div.ProgressBarProgress.orientation-vertical {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: height 1s linear;
+}
+
+div.ProgressBarIndic {
+    animation-duration: 16s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+}
+
+div.ProgressBarIndic.orientation-horizontal {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 62px;
+    animation-name: moveHorizontal;
+}
+
+div.ProgressBarIndic.orientation-vertical {
+    right: 0;
+    left: 0;
+    bottom: 0;
+    height: 62px;
+    animation-name: moveVertical;
+}
+
+@keyframes moveHorizontal {
+    from {
+        transform: translateX(-62px);
+    }
+
+    to {
+        transform: translateX(3000px);
+    }
+}
+
+@-webkit-keyframes moveHorizontal {
+    from {
+        transform: translateX(-62px);
+    }
+
+    to {
+        transform: translateX(3000px);
+    }
+}
+
+@keyframes moveVertical {
+    from {
+        transform: translateY(calc(100% + 62px));
+    }
+
+    to {
+        transform: translateY(-3000px);
+    }
+}
+
+@-webkit-keyframes moveVertical {
+    from {
+        transform: translateY( calc(100% + 62px));
+    }
+
+    to {
+        transform: translateY(-3000px);
+    }
+}

@@ -1,0 +1,43 @@
+.simple.Expander {
+    border: 1px solid #686868;
+    border-radius: 2px;
+    background-color: #FFF;
+}
+
+.simple.ExpanderHeader {
+    color: #000;
+    height: 25px;
+    line-height: 25px;
+}
+
+.simple.ExpanderContent {
+    top: 25px;
+}
+
+.simple.ExpanderButton,
+.simple.ExpanderButton:hover {
+    border: none;
+    background: none;
+    font-family: jagui;
+    font-size: 8pt;
+}
+
+.simple.ExpanderCheckboxCheck {
+    width: 20px;
+    max-width: 20px;
+    font-size: 11pt;
+    background: none;
+    border: none;
+}
+
+.simple.ExpanderCheckboxCheck:before {
+    opacity: 1;
+    content: "0";
+    color: #000;
+}
+
+.simple.ExpanderCheckboxCheck.checked:before {
+    opacity: 0.2;
+    content: "0";
+    font-size: 11pt;
+}

@@ -1,0 +1,22 @@
+.macos.spinIndic,
+.macos.win8loader .win8circle:after {
+    background-color: #3875D7;
+}
+
+.macos.ballIndic,
+.macos.ball1Indic {
+    border-right: 5px solid #3875D7;
+    border-bottom: 5px solid #3875D7;
+    box-shadow: 0 0 35px rgba(0,0,0,0.9);
+}
+
+.macos.circleIndic,
+.macos.circle1Indic {
+    border-top: 5px solid #3875D7;
+    border-bottom: 5px solid #3875D7;
+    box-shadow: 0 0 35px rgba(0,0,0,0.9);
+}
+
+.macos.circle1Indic {
+    box-shadow: 0 0 15px rgba(0,0,0,0.9);
+}

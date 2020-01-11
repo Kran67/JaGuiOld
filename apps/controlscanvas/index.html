@@ -1,0 +1,156 @@
+﻿<!doctype html>
+<html data-renderer="canvas">
+
+    <head>
+        <title>Controls</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="css/controls.css" />
+        <script src="./../../scripts/core/core.js"></script>
+        <script src="./../../scripts/core/corecanvas.js"></script>
+        <script type="module">
+            import { Controls } from "./js/controls.js";
+            import "./themes/themes.js";
+            Core.apps.createApp(Controls);
+        </script>
+    </head>
+
+    <body>
+    <!-- Mettre les thèmes dans le themeManifest -->
+        <object class="window mainWindow" id="window1" type="application/json">
+            {
+                "themes": [
+                    "air", "blend", "carbon", "classic10k", "clearlooksblue", "corona12", "cruz", "deanachm", "extreme", "guistyle", "haiku", "lunablue", "lunahomestead", "lunametallic", "macos", "modern", "prolcd", "rainbow", "simple", "smoothgnome", "sustenance", "ubuntu", "vista", "watercolor", "windows8"
+                ],
+                "mainForm": "Window1",
+                "windows": [
+                    {
+                        "className": "Window1",
+                        "properties": {
+                            "name": "Window1",
+                            "borderStyle": "sizeable",
+                            "windowState": "maximized",
+                            "width": 640,
+                            "height": 480,
+                            "left": 100,
+                            "top": 50,
+                            "onCloseQuery": "closeQuery",
+                            "buttons": ["maxRestore", "minimize", "help", "rollUpDown", "stayOnOff"]
+                        },
+                        "childs": [
+                            {
+                                "className": "WindowTitleBar",
+                                "properties": {},
+                                "childs": [
+                                    {
+                                        "className": "WindowTitle",
+                                        "properties": {
+                                            "caption": "Window1"
+                                        }
+                                    }, {
+                                        "className": "WindowStayOnOffButton",
+                                        "properties": {}
+                                    }, {
+                                        "className": "WindowRollUpDownButton",
+                                        "properties": {}
+                                    }, {
+                                        "className": "WindowHelpButton",
+                                        "properties": {}
+                                    }, {
+                                        "className": "WindowMinimizeButton",
+                                        "properties": {}
+                                    }, {
+                                        "className": "WindowMaxRestoreButton",
+                                        "properties": {}
+                                    }, {
+                                        "className": "WindowCloseButton",
+                                        "properties": {}
+                                    }
+                                ]
+                            }, {
+                                "className": "WindowContent",
+                                "properties": {
+                                    "popupmenu": "PopupMenu1"
+                                },
+                                "childs": [
+                                    {
+                                        "className" : "Label",
+                                        "properties": {
+                                            "name": "Label1",
+                                            "left": 900,
+                                            "top": 410,
+                                            "fontSize": 22.5,
+                                            "onclick": "Label1_onClick",
+                                            "showtooltip": true,
+                                            "tooltip": "Click here to change font",
+                                            "textDecoration": { "underline": true, "overline": true, "lineThrough": true, "style": "wavy"},
+                                            "backColor": "#F00"
+                                        }
+                                    },
+                                    {
+                                        "className": "Button",
+                                        "properties": {
+                                            "name": "Button1",
+                                            "left": 10,
+                                            "top": 10,
+                                            "width": 68,
+                                            "height": 19,
+                                            "dragmode": "automatic",
+                                            "onclick": "Button1_onClick",
+                                            "tooltip": "Create 1 million of Listbox items in ListBox2",
+                                            "showtooltip": true,
+                                            "taborder": 0,
+                                            "caption": "{theme}"
+                                        }
+                                    },
+                                    {
+                                        "className": "Button",
+                                        "properties": {
+                                            "name": "RoundButton1",
+                                            "left": 100,
+                                            "top": 10,
+                                            "width": 68,
+                                            "height": 19,
+                                            "onclick": "RoundButton1_onClick",
+                                            "taborder": 1,
+                                            "borderRadius": 19,
+                                            "caption": "Open file"
+                                        }
+                                    },
+                                    {
+                                        "className": "Button",
+                                        "properties": {
+                                            "name": "CircleButton1",
+                                            "left": 200,
+                                            "top": 10,
+                                            "width": 48,
+                                            "height": 48,
+                                            "taborder": 2,
+                                            "borderRadius": 47,
+                                            "caption": "Circle Button",
+                                            "wordWrap": true,
+                                            "enabled": false
+                                        }
+                                    },
+                                    {
+                                        "className": "SpeedButton",
+                                        "properties": {
+                                            "name": "SpeedButton1",
+                                            "onclick": "SpeedButton1_onClick",
+                                            "left": 350,
+                                            "top": 180,
+                                            "height": 21,
+                                            "width": 25,
+                                            "caption": "S"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        </object>
+    </body>
+
+</html>

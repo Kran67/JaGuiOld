@@ -1,0 +1,25 @@
+.air.GridView {
+    border: 1px solid #1C1C1C;
+    background-color: #484848;
+}
+
+.air.GridViewContent {
+    border: 1px solid #1C1C1C;
+}
+
+.air.GridViewViewPort {
+    background-color: #484848;
+}
+
+.air.GridViewHeader.GridViewRowLine {
+    border-bottom: 1px solid #1C1C1C;
+}
+
+.air.GridViewHeader,
+.air.GridViewRowIndic {
+    background-color: #484848;
+}
+
+.air.GridViewRowLine {
+    border-bottom: 1px solid #1C1C1C;
+}

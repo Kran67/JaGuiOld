@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Push</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        let img;
+        let ctx;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let amount = 0;
+        let op;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        function mulDiv(value, multi, divider) {
+            return ~~((value * multi) / divider);
+        }
+        function push() {
+            let x;
+            let y;
+            let w;
+            let h;
+            if (!started) {
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+            }
+            w = img.width;
+            h = img.height;
+            if (img.width >= img.height) {
+                x = mulDiv(img.width, amount, 100);
+                y = mulDiv(x, img.height, img.width);
+            } else {
+                y = mulDiv(img.height, amount, 100);
+                x = mulDiv(y, img.width, img.height);
+            }
+            amount++;
+            switch (op) {
+                case 0: // right
+                    ctx.drawImage(img===imgA?imgB:imgA, x, 0);
+                    ctx.drawImage(img, x - w, 0);
+                    break;
+                case 1: // left
+                    ctx.drawImage(img===imgA?imgB:imgA, -x, 0);
+                    ctx.drawImage(img, w - x, 0);
+                    break;
+                case 2: // squeeze right
+                    ctx.drawImage(img===imgA?imgB:imgA, x, 0, w-x, h);
+                    ctx.drawImage(img, x - w, 0);
+                    break;
+                case 3: // squeeze left
+                    ctx.drawImage(img===imgA?imgB:imgA, 0, 0, w-x, h);
+                    ctx.drawImage(img, w - x, 0);
+                    break;
+                case 4: // down
+                    ctx.drawImage(img===imgA?imgB:imgA, 0, y);
+                    ctx.drawImage(img, 0, y-h);
+                    break;
+                case 5: // up
+                    ctx.drawImage(img===imgA?imgB:imgA, 0, -y);
+                    ctx.drawImage(img, 0, h-y);
+                    break;
+                case 6: // sqeeze down
+                    ctx.drawImage(img===imgA?imgB:imgA, 0, y, w, h-y);
+                    ctx.drawImage(img, 0, y-h);
+                    break;
+                case 7: // sqeeze up
+                    ctx.drawImage(img===imgA?imgB:imgA, 0, 0, w, h-y);
+                    ctx.drawImage(img, 0, h-y);
+                    break;
+                case 8: // double sqeeze right
+                    ctx.drawImage(img===imgA?imgB:imgA, x, 0, w-x, h);
+                    ctx.drawImage(img, 0, 0, x, h);
+                    break;
+                case 9: // double sqeeze left
+                    ctx.drawImage(img===imgA?imgB:imgA, 0, 0, w-x, h);
+                    ctx.drawImage(img, w - x, 0, x, h);
+                    break;
+                case 10: // double sqeeze down
+                    ctx.drawImage(img===imgA?imgB:imgA, 0, y, w, h-y);
+                    ctx.drawImage(img, 0, 0, w, y);
+                    break;
+                case 11: // double sqeeze up
+                    ctx.drawImage(img===imgA?imgB:imgA, 0, 0, w, h-y);
+                    ctx.drawImage(img, 0, h-y, w, y);
+                    break;
+            }
+            if (amount > 100) {
+                amount = 0;
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                return;
+            }
+            handle = rAF(push);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            op = ~~value;
+            handle = rAF(push);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400" style="border:1px solid red"></canvas><br />
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">right</option>
+            <option value="1">left</option>
+            <option value="2">squeeze right</option>
+            <option value="3">squeeze left</option>
+            <option value="4">down</option>
+            <option value="5">up</option>
+            <option value="6">sqeeze down</option>
+            <option value="7">sqeeze up</option>
+            <option value="8">double sqeeze right</option>
+            <option value="9">double sqeeze left</option>
+            <option value="10">double sqeeze down</option>
+            <option value="11">double sqeeze up</option>
+        </select><br />
+    </div>
+</body>
+</html>

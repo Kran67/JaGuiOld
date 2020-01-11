@@ -1,0 +1,39 @@
+﻿.carbon.Splitter.orientation-horizontal {
+    border-bottom: 1px solid #303030;
+    border-top: 1px solid #6D6D6D;
+    background-color: #505050;
+}
+
+.carbon.Splitter.orientation-vertical {
+    border-right: 1px solid #303030;
+    border-left: 1px solid #6D6D6D;
+    background-color: #505050;
+}
+
+.carbon.Splitter.orientation-horizontal:before {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAHklEQVQIW2NkYGD4D8QgwMgI4+Tm5jKAOAxABlgWAFuzBZCcNaxyAAAAAElFTkSuQmCC);
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 27px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+
+.carbon.Splitter.orientation-vertical:before {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAHklEQVQIW2NkYGD4D8QgwMgI4+Tm5jKAOAxABlgWAFuzBZCcNaxyAAAAAElFTkSuQmCC);
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 27px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.carbon.Splitter:hover:before {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAJElEQVQIW2P8ulrjPwMDAwN36A1GRhgneK4CAyNI1MPDAywLAOY6CbLm3HvHAAAAAElFTkSuQmCC);
+}

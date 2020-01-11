@@ -1,0 +1,53 @@
+.macos.Checkbox {
+    padding-left: 16px;
+}
+
+.macos.CheckboxCheck {
+    max-width: 12px;
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    border: 1px solid #636363;
+    border-bottom-color: #666;
+    background-image: linear-gradient(to bottom,#FFF 0,#D7D7D7 45%,#D7D7D7 45%, #FFF 100%);
+    box-shadow: 0 1px 1px 0 #6E6E6E, inset 1px 0 0 rgba(152,152,152,0.5), inset -1px 0 0 rgba(152,152,152,0.5), inset -1px 0 0 0 #F3F3F3;
+    font-size: 9pt;
+    font-weight: bold;
+    overflow: visible;
+}
+
+.macos.Checkbox.pressed .macos.CheckboxCheck,
+.macos.Checkbox.pressed .macos.CheckboxCheck.checked {
+    background-image: linear-gradient(to bottom,#EDEDED 0,#C0C0C0 45%,#C0C0C0 45%, #EEE 100%);
+    border: 1px solid #545454;
+    box-shadow: 0 1px 1px 0 #6E6E6E, inset 1px 0 0 rgba(152,152,152,0.8), inset -1px 0 0 rgba(152,152,152,0.8), inset 0 -1px 0 0 #E2E2E2;
+}
+
+.macos.CheckboxCheck.checked,
+.macos.CheckboxCheck.grayed {
+    background-image: linear-gradient(to bottom,#C8DEF4 0,#5FA1E4 45%,#5FA1E4 45%, #B6EAF5 100%);
+    box-shadow: 0 1px 1px 0 #6E6E6E, inset 1px 0 0 rgba(87,156,226,0.5), inset -1px 0 0 rgba(87,156,226,0.5), inset 0 -1px 0 0 #B6EAF5;
+    border: 1px solid #474992;
+    border-bottom-color: #717171;
+    color: #000;
+}
+
+.macos.CheckboxCheck.checked {
+    padding-left: 4px;
+    padding-bottom: 4px;
+}
+
+.macos.CheckboxCheck.checked:before,
+.macos.CheckboxCheck.grayed:before {
+    content: "4";
+}
+
+.macos.CheckboxCheck.grayed:before {
+    color: #000;
+    content: "-";
+    font-family: "Tahoma";
+    font-size: 13pt;
+}
+
+.macos.Checkbox.focused .CheckboxCheck {
+}

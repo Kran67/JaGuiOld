@@ -1,0 +1,12 @@
+﻿.macos.CircularProgressBar,
+.macos.CircularProgressBar:after {
+    border: 1px solid #A3A3A3;
+}
+
+.macos.CircularProgressBar svg circle.CircularProgressBar_back {
+    stroke: #DDD;
+}
+
+.macos.CircularProgressBar svg circle.CircularProgressBar_progress {
+    stroke: #4B90DF;
+}

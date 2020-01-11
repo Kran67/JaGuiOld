@@ -1,0 +1,32 @@
+.simple.DropDownListBox,
+.simple.DropDownListBox.disabled,
+.simple.DropDownListBox.disabled.focused {
+    border: 1px solid #BBB;
+    background-color: #FFF;
+}
+
+.simple.DropDownListBoxInput {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
+.simple.DropDownListBox.editable .DropDownListBoxContent {
+    border: 1px solid #BBB;
+    background-color: #FFF;
+}
+
+.simple.DropDownListBox.focused {
+    border-color: #6694E3;
+}
+
+.simple.PopupListBox .ListBoxItemPopup:hover,
+.simple.ListBoxItemPopup.selected {
+    background-color: #2B8EDF;
+    color: #FFF;
+}
+
+.simple.PopupListBox .ListBoxItemPopup.disabled:hover {
+    background-color: transparent;
+    color: #000;
+}

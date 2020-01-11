@@ -1,0 +1,215 @@
+﻿.rainbow.Window {
+    overflow: visible;
+    background-color: #BBB7C6;
+    background-repeat: no-repeat;
+}
+
+.rainbow.Window.maximized {
+    box-shadow: inset 0 1px 0 0 #DCE4E6 !important;
+}
+
+.rainbow.Window:not(.none) {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    box-shadow: inset 0 1px 0 0 #DCE4E6, 0 2px 8px 2px rgba(0, 0, 0, 0.5);
+    background-image: linear-gradient(to bottom, #1F3342, #233846 12%, #253D4B 25%, #29424F 37%, #2C4652 50%, #2F4853 62%, #324A54 75%, #334853 88%, #354650), linear-gradient(to bottom, #203646, #243C4C 12%, #274250 25%, #2B4755 37%, #2F4D59 50%, #324E5A 62%, #34505A 75%, #374E59 88%, #394C57), linear-gradient(to bottom, #203748, #253D4E 12%, #294453 25%, #2E4C58 37%, #31505D 50%, #35535E 62%, #38545F 75%, #3A525D 88%, #3D4F5A), linear-gradient(to bottom, #20384A, #264051 12%, #2A4857 25%, #2F4F5D 37%, #345562 50%, #395864 62%, #3B5964 75%, #3E5762 88%, #40535E), linear-gradient(to bottom, #814260, #784759 12%, #6F4C54 25%, #674E4F 37%, #5E514B 50%, #565247 62%, #515344 75%, #4D5142 88%, #4B5042), linear-gradient(to bottom, #8F4769, #844C5F 12%, #7B515A 25%, #715554 37%, #67574F 50%, #5E584B 62%, #575847 75%, #525745 88%, #505544), linear-gradient(to bottom, #95486B, #8A4D62 12%, #80525C 25%, #765656 37%, #6B5950 50%, #625B4B 62%, #5B5B49 75%, #555946 88%, #525745), linear-gradient(to bottom, #9E496F, #924F65 12%, #87555D 25%, #7B5958 37%, #705C52 50%, #665E4D 62%, #5E5D49 75%, #595C46 88%, #565A46), linear-gradient(to right, #213B4C, #65818F 12%, #80A5B0 25%, #9CC1CB 36%, #B0CCD8 50%, #BBC2D5 62%, #C1A9C7 75%, #C98BB3 88%, #A74C73), linear-gradient(to right, #445963, #656273 12%, #7F667B 25%, #936E83 37%, #9A7785 50%, #92767B 62%, #7F7069 75%, #6D6954 88%, #595C46);
+    background-size: 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 100% 23px, calc(100% - 8px) 4px;
+    background-position: left top, 1px top, 2px top, 3px top, 100% top, calc(100% - 1px) top, calc(100% - 2px) top, calc(100% - 3px) top, left top, 4px bottom;
+}
+
+.rainbow.Window.rolledUp {
+    max-height: 27px;
+}
+
+.rainbow.Window .rainbow.WindowTitleBar {
+    height: 19px;
+    min-height: 19px;
+    max-height: 19px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    text-align: center;
+}
+
+.rainbow.Window:not(.none) .rainbow.WindowIcon {
+    background-position-y: 0;
+}
+
+.rainbow.Window .rainbow.WindowTitleBar:before {
+    content: "";
+    position: absolute;
+    right: 12px;
+    top: 2px;
+    bottom: 0;
+    height: 9px;
+    width: 108px;
+    border: 1px solid #4E2A3B;
+    border-bottom-color: #F0D6E3;
+    border-radius: 4px;
+    background-color: #8A4B68;
+    box-shadow: inset 0 1px 0 0 #64364B, inset 0 2px 0 0 #743F58, inset 0 3px 0 0 #814661, inset 0 -1px 0 0 #743F58, inset 0 -2px 0 0 #814661;
+    box-sizing: border-box;
+}
+
+.rainbow.Window[data-buttons="5"] .rainbow.WindowTitleBar:before {
+    width: 90px;
+}
+
+.rainbow.Window[data-buttons="4"] .rainbow.WindowTitleBar:before {
+    width: 72px;
+}
+
+.rainbow.Window[data-buttons="3"] .rainbow.WindowTitleBar:before {
+    width: 54px;
+}
+
+.rainbow.Window[data-buttons="2"] .rainbow.WindowTitleBar:before, .rainbow.Window.dialog .rainbow.WindowTitleBar:before {
+    width: 36px;
+}
+
+.rainbow.Window[data-buttons="1"] .rainbow.WindowTitleBar:before {
+    width: 18px;
+}
+
+.rainbow.Window .rainbow.WindowTitle {
+    height: 19px;
+    min-height: 19px;
+    max-height: 19px;
+    line-height: 16px;
+    color: #000;
+}
+
+.rainbow.Window.inactive .rainbow.WindowTitle {
+    color: #737373;
+}
+
+.rainbow.Window .rainbow.WindowTitleButton {
+    width: 14px;
+    height: 6px;
+    min-width: 14px;
+    min-height: 6px;
+    max-width: 14px;
+    max-height: 6px;
+    border-radius: 3px;
+    margin-right: 4px;
+    border: 1px solid transparent;
+    background: none;
+    top: 3px;
+}
+
+.rainbow.Window .rainbow.WindowTitleButton:before {
+    content: none;
+}
+
+.rainbow.Window .rainbow.WindowCloseButton {
+    margin-right: 14px;
+}
+
+.rainbow.Window:not(.inactive) .rainbow.WindowCloseButton {
+    border-color: #00213D;
+    background-image: linear-gradient(to bottom, #E6EDF3, #5787AF);
+}
+
+.rainbow.Window.inactive .rainbow.WindowCloseButton {
+    border-color: #1E2741;
+    background-image: linear-gradient(to bottom, #C4B9C5, #66759A);
+}
+
+.rainbow.Window:not(.inactive) .rainbow.WindowCloseButton:hover:not(.disabled) {
+    background-image: linear-gradient(to bottom, #FFF, #608EB3);
+}
+
+.rainbow.Window:not(.inactive) .rainbow.WindowCloseButton.pressed:not(.disabled) {
+    background-image: linear-gradient(to bottom, #161617, #43739A);
+}
+
+.rainbow.Window .rainbow.WindowMaxRestoreButton {
+    border-color: #2F2C01;
+    background-image: linear-gradient(to bottom, #EEECD9, #B0A952);
+}
+
+.rainbow.Window.inactive .rainbow.WindowMaxRestoreButton {
+    border-color: #3F2F17;
+    background-image: linear-gradient(to bottom, #CAB8B3, #A58D59);
+}
+
+.rainbow.Window:not(.inactive) .rainbow.WindowMaxRestoreButton:hover:not(.disabled) {
+    background-image: linear-gradient(to bottom, #FFF, #B6B060);
+}
+
+.rainbow.Window:not(.inactive) .rainbow.WindowMaxRestoreButton.pressed:not(.disabled), .rainbow.Window.maximized:not(.inactive) .rainbow.WindowMaxRestoreButton {
+    background-image: linear-gradient(to bottom, #161614, #9C9540);
+}
+
+.rainbow.Window .rainbow.WindowMinimizeButton {
+    border-color: #681117;
+    background-image: linear-gradient(to bottom, #F6E6E6, #C35757);
+}
+
+.rainbow.Window.inactive .rainbow.WindowMinimizeButton {
+    border-color: #690101;
+    background-image: linear-gradient(to bottom, #CFB4BC, #B2535C);
+}
+
+.rainbow.Window:not(.inactive) .rainbow.WindowMinimizeButton:hover:not(.disabled) {
+    background-image: linear-gradient(to bottom, #FFF, #C35757);
+}
+
+.rainbow.Window:not(.inactive) .rainbow.WindowMinimizeButton.pressed:not(.disabled), .rainbow.Window.minimized:not(.inactive) .rainbow.WindowMinimizeButton:not(.disabled) {
+    background-image: linear-gradient(to bottom, #161614, #AF4343);
+}
+
+.rainbow.Window .rainbow.WindowHelpButton {
+    border-color: #013316;
+    background-image: linear-gradient(to bottom, #D9EAE0, #529F73);
+}
+
+.rainbow.Window.inactive .rainbow.WindowHelpButton {
+    border-color: #2B3B2F;
+    background-image: linear-gradient(to bottom, #C3BBBD, #6E977E);
+}
+
+.rainbow.Window:not(.inactive) .rainbow.WindowHelpButton:hover:not(.disabled) {
+    background-image: linear-gradient(to bottom, #FFF, #60A67E);
+}
+
+.rainbow.Window:not(.inactive) .rainbow.WindowHelpButton.pressed:not(.disabled) {
+    background-image: linear-gradient(to bottom, #141615, #408B60);
+}
+
+.rainbow.Window .rainbow.WindowRollUpDownButton {
+    border-color: #580169;
+    background-image: linear-gradient(to bottom, #F3E6F6, #B157C3);
+}
+
+.rainbow.Window.inactive .rainbow.WindowRollUpDownButton {
+    border-color: #260037;
+    background-image: linear-gradient(to bottom, #C1B4C4, #7F2591);
+}
+
+.rainbow.Window:not(.inactive) .rainbow.WindowRollUpDownButton:hover:not(.disabled) {
+    background-image: linear-gradient(to bottom, #FFF, #B560C6);
+}
+
+.rainbow.Window:not(.inactive) .rainbow.WindowRollUpDownButton.pressed:not(.disabled), .rainbow.Window.rolledUp:not(.inactive) .rainbow.WindowRollUpDownButton:not(.disabled) {
+    background-image: linear-gradient(to bottom, #171617, #9D43AF);
+}
+
+.rainbow.Window .rainbow.WindowStayOnOffButton {
+    border-color: #016969;
+    background-image: linear-gradient(to bottom, #E6F6F6, #57C3C3);
+}
+
+.rainbow.Window.inactive .rainbow.WindowStayOnOffButton {
+    border-color: #003737;
+    background-image: linear-gradient(to bottom, #B4C4C4, #259191);
+}
+
+.rainbow.Window:not(.inactive) .rainbow.WindowStayOnOffButton:hover:not(.disabled) {
+    background-image: linear-gradient(to bottom, #FFF, #60C6C6);
+}
+
+.rainbow.Window:not(.inactive) .rainbow.WindowStayOnOffButton.pressed:not(.disabled), .rainbow.Window:not(.inactive) .rainbow.WindowStayOnOffButton.isstayon:not(.disabled) {
+    background-image: linear-gradient(to bottom, #161717, #43AFAF);
+}

@@ -1,0 +1,288 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Bars</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        let img;
+        let ctx;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let hz = 0;
+        let _bars = [];
+        let amount = 0;
+        let op;
+        let size;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        function mulDiv(value, multi, divider) {
+            return ~~((value*multi) / divider);
+        }
+        function bars() {
+            let x;
+            let y;
+            let w;
+            let h;
+            let x1;
+            let y1;
+            let bar;
+            if (!started) {
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+                for (x = 0,w = !hz?img.width:img.height;x<w;x++) {
+                    _bars.push(x);
+                }
+                if (op<2) {
+                    _bars.sort(() => Math.random() - 0.5);
+                }
+                size = ~~document.querySelector("input").value;
+            }
+            w = img.width;
+            h = img.height;
+            if (img.width>=img.height) {
+                x = mulDiv(img.width, amount, 100);
+                y = mulDiv(x, img.height, img.width);
+            } else {
+                y = mulDiv(img.height, amount, 100);
+                x = mulDiv(y, img.width, img.height);
+            }
+            if (op<2) {
+                for (x = 0;x<size;x++) {
+                    bar = _bars.splice(0, 1)[0];
+                    if (_bars.length>=0) {
+                        ctx.drawImage(img, hz?0:bar, hz?bar:0, hz?img.width:1, hz?1:img.height, hz?0:bar, hz?bar:0, hz?img.width:1, hz?1:img.height);
+                    }
+                    if (_bars.length===0) {
+                        break;
+                    }
+                }
+            } else {
+                x1 = x * 2;
+                y1 = y * 2;
+                ctx.save();
+                switch (op) {
+                    case 2: // in from right
+                        if (amount<=50) {
+                            ctx.beginPath();
+                            for (let i = 0;i<h;i+=size*2) {
+                                ctx.rect(w - x1, i, x1, size);
+                            }
+                            ctx.closePath();
+                        } else {
+                            ctx.beginPath();
+                            ctx.rect(w - (x1 - w), 0, x1 - w, h);
+                            ctx.closePath();
+                        }
+                        break;
+                    case 3: // in from left
+                        if (amount<=50) {
+                            ctx.beginPath();
+                            for (let i = 0;i<h;i+=size*2) {
+                                ctx.rect(0, i, x1, size);
+                            }
+                            ctx.closePath();
+                        } else {
+                            ctx.beginPath();
+                            ctx.rect(0, 0, x1 - w, h);
+                            ctx.closePath();
+                        }
+                        break;
+                    case 4: // left then right
+                        if (amount<=50) {
+                            ctx.beginPath();
+                            for (let i = 0;i<h;i+=size*2) {
+                                ctx.rect(0, i, x1, size);
+                            }
+                            ctx.closePath();
+                        } else {
+                            ctx.beginPath();
+                            ctx.rect(w - (x1 - w), 0, x1 - w, h);
+                            ctx.closePath();
+                        }
+                        break;
+                    case 5: // right then left
+                        if (amount<=50) {
+                            ctx.beginPath();
+                            for (let i = 0;i<h;i+=size*2) {
+                                ctx.rect(w - x1, i, x1, size);
+                            }
+                            ctx.closePath();
+                        } else {
+                            ctx.beginPath();
+                            ctx.rect(0, 0, x1 - w, h);
+                            ctx.closePath();
+                        }
+                        break;
+                    case 6: // from both sides
+                        ctx.beginPath();
+                        for (let i = 0;i<h;i+=size*2) {
+                            ctx.rect(0, i, x, size);
+                            ctx.rect(w - x, i + size, x, size);
+                        }
+                        ctx.closePath();
+                        break;
+                    case 7: // from bottom
+                        if (amount<=50) {
+                            ctx.beginPath();
+                            for (let i = 0;i<w;i+=size*2) {
+                                ctx.rect(i, h - y1, size, y1);
+                            }
+                            ctx.closePath();
+                        } else {
+                            ctx.beginPath();
+                            ctx.rect(0, h - (y1 - h), w, y1 - h);
+                            ctx.closePath();
+                        }
+                        break;
+                    case 8: // from top
+                        if (amount<=50) {
+                            ctx.beginPath();
+                            for (let i = 0;i<w;i+=size*2) {
+                                ctx.rect(i, 0, size, y1);
+                            }
+                            ctx.closePath();
+                        } else {
+                            ctx.beginPath();
+                            ctx.rect(0, 0, w, y1 - h);
+                            ctx.closePath();
+                        }
+                        break;
+                    case 9: // top then bottom
+                        if (amount<=50) {
+                            ctx.beginPath();
+                            for (let i = 0;i<w;i+=size*2) {
+                                ctx.rect(i, 0, size, y1);
+                            }
+                            ctx.closePath();
+                        } else {
+                            ctx.beginPath();
+                            ctx.rect(0, h - (y1 - h), w, y1 - h);
+                            ctx.closePath();
+                        }
+                        break;
+                    case 10: // bottom then top
+                        if (amount<=50) {
+                            ctx.beginPath();
+                            for (let i = 0;i<w;i+=size*2) {
+                                ctx.rect(i, h - y1, size, y1);
+                            }
+                            ctx.closePath();
+                        } else {
+                            ctx.beginPath();
+                            ctx.rect(0, 0, w, y1 - h);
+                            ctx.closePath();
+                        }
+                        break;
+                    case 11: // from top and bottom
+                        ctx.beginPath();
+                        for (let i = 0;i<w;i+=size*2) {
+                            ctx.rect(i, 0, size, y);
+                            ctx.rect(i + size, h - y, size, y);
+                        }
+                        ctx.closePath();
+                        break;
+                }
+                ctx.clip();
+                ctx.drawImage(img, 0, 0);
+                ctx.restore();
+            }
+            amount++;
+            if ((_bars.length === 0 && op<2) || (amount>100 && op>1)) {
+                amount = 0;
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                return;
+            }
+            handle = rAF(bars);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            op = ~~value;
+            hz = op === 0;
+            handle = rAF(bars);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400" style="border:1px solid red"></canvas><br />
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">random horizontal</option>
+            <option value="1">random vertical</option>
+            <option value="2">in from right</option>
+            <option value="3">in from left</option>
+            <option value="4">left then right</option>
+            <option value="5">right then left</option>
+            <option value="6">from both sides</option>
+            <option value="7">from bottom</option>
+            <option value="8">from top</option>
+            <option value="9">top then bottom</option>
+            <option value="10">bottom then top</option>
+            <option value="11">from top and bottom</option>
+        </select><br />
+        <input type="range" min="1" max="8" value="1" />
+    </div>
+</body>
+</html>

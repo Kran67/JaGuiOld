@@ -1,0 +1,28 @@
+.macos.CalloutPanel {
+    border: 1px solid #C3C3C3;
+    border-top-color: #A8A8A8;
+    border-bottom-color: #CECECE;
+    background-color: #E0E0E0;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 0 0 #BFBFBF,inset 0 2px 0 0 #D5D5D5, inset 0 0 0 1px #DCDCDC;
+}
+
+.macos.CalloutPanelArrow.calloutposition-top {
+    border: 1px solid transparent;
+    border-bottom-color: #A8A8A8;
+}
+
+.macos.CalloutPanelArrow.calloutposition-right {
+    border: 1px solid transparent;
+    border-left-color: #C3C3C3;
+}
+
+.macos.CalloutPanelArrow.calloutposition-bottom {
+    border: 1px solid transparent;
+    border-top-color: #CECECE;
+}
+
+.macos.CalloutPanelArrow.calloutposition-left {
+    border: 1px solid transparent;
+    border-right-color: #C3C3C3;
+}

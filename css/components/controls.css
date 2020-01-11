@@ -1,0 +1,362 @@
+﻿.basefont,
+.Control,
+input.Control,
+.Control.Button,
+textarea.Control {
+    font-family: "Tahoma";
+    font-size: 8pt;
+}
+
+.Control,
+/*div.Control,*/
+span.Control,
+jagui-label.Control,
+svg.Control,
+img.Control {
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/*div*/.Control,
+span.Control,
+jagui-label.Control,
+img.Control,
+fieldset.Control,
+svg.Control,
+input.Control,
+.Control.Button,
+canvas.Control {
+    position: absolute;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/*div*/.Control,
+span.Control,
+jagui-label.Control,
+img.Control,
+svg.Control,
+input.Control,
+.Control.Button,
+canvas.Control {
+    padding: 0;
+}
+
+input.Control {
+    margin: 0;
+}
+
+.Control::-moz-focus-inner {
+    border: 0;
+}
+
+.Control:focus {
+    outline: none;
+}
+
+.Control::-ms-clear,
+.Control::-ms-reveal {
+    display: none;
+}
+
+.Control.disabled {
+    opacity: 0.5;
+}
+
+.Control.hidden {
+    visibility: hidden !important;
+}
+
+.Control.noDisplay {
+    display: none !important;
+}
+
+.Control.center {
+    padding: 0;
+    text-align: center;
+}
+
+.Control.horizontalCenter {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.Control.verticalCenter {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.Control.centerCenter {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.Control.repaint {
+    transform: translateZ(0);
+}
+
+.noEvents {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 999;
+}
+
+
+
+label.Tab {
+    text-align: center;
+    height: 17px;
+    display: inline-block;
+    padding: 0 10px;
+    font-size: 8pt;
+    position: relative;
+    margin-top: 3px;
+}
+
+div.TabControl {
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+div.TabControlHeader {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    z-index: 1;
+    margin-left: 2px;
+}
+
+div.TabsContainer {
+    position: static;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+    flex: 1;
+}
+
+div.TabsContent {
+    position: relative;
+    flex: 1;
+}
+
+div.TabControl.tabsBottom > div.TabControlHeader {
+    order: 2;
+}
+
+div.TabControl.tabsBottom > button.TabControlLeftBtn,
+div.TabControl.tabsBottom > button.TabControlRightBtn {
+}
+
+div.TabControl.showTabsCloseBtn > div.TabsContainer label.Tab {
+    padding-right: 30px;
+}
+
+    div.TabControl.showTabsCloseBtn > div.TabsContainer label.Tab:before {
+        position: absolute;
+        content: "C";
+        top: 50%;
+        right: 5px;
+        font-family: JaGui;
+        transform: translate(0,-50%);
+    }
+
+.Button.TabControlLeftBtn,
+.Button.TabControlRightBtn {
+    height: 19px;
+    font-family: Jagui;
+    font-size: 4pt;
+    padding: 0 2px;
+    width: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    button.TabControlLeftBtn:before,
+    button.TabControlRightBtn:before {
+    }
+
+div.ItemsWheel {
+    width: 20px;
+    height: 40px;
+    border-radius: 2px;
+}
+
+div.ItemsWheelTopGradient {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    z-index: 1;
+    background-image: linear-gradient(to bottom,rgba(0,0,0,0.9) 0,rgba(0,0,0,0) 100%);
+}
+
+div.ItemsWheelSep {
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+}
+
+div.ItemsWheelContent {
+    left: 0;
+    right: 0;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    transition: top linear 0.1s;
+}
+
+div.ItemsWheelBottomGradient {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    z-index: 1;
+    background-image: linear-gradient(to top,rgba(0,0,0,0.9) 0,rgba(0,0,0,0) 100%);
+}
+
+div.ItemsWheelItem {
+    left: 0;
+    width: 100%;
+    height: 15px;
+    line-height: 15px;
+    position: relative;
+    text-align: center;
+}
+
+.ShortCutIcon {
+    display: flex;
+    min-width: 64px;
+    max-width: 64px;
+    overflow: visible;
+    flex-direction: column;
+    align-items: center;
+    max-height: 64px;
+}
+
+    /*.ShortCutIcon.inDesigner {
+        display: block;
+    }*/
+
+.ShortCutIconImg {
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 32px 32px;
+    min-width: 32px;
+    min-height: 32px;
+}
+
+.ShortCutIconCaption {
+    text-align: center;
+    word-wrap: break-word;
+    white-space: normal;
+    max-height: 32px;
+}
+
+div.PopupBox {
+    box-shadow: 3px 3px 2px rgba(0,0,0,.7);
+    z-index: 10000;
+}
+
+div.ToolTip {
+    opacity: 0;
+    visibility: hidden;
+}
+
+    div.ToolTip.fade {
+        opacity: 1;
+        visibility: visible;
+        -webkit-transition: opacity 0.5s ease-in-out;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+div.scrollContent div:first-child {
+    left: 0;
+    top: 0;
+}
+
+div.scrollContent.scrollbars-none > div {
+    right: 0;
+    bottom: 0;
+}
+
+div.scrollContent.scrollbars-none div.ScrollBar.orientation-horizontal,
+div.scrollContent.scrollbars-none div.ScrollBar.orientation-vertical {
+    visibility:hidden;
+}
+
+div.scrollContent.scrollbars-vertical > div {
+    right: 16px;
+    bottom: 0;
+}
+
+    div.scrollContent.scrollbars-vertical div.ScrollBar.orientation-vertical {
+        left: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 16px;
+        height: auto;
+    }
+
+div.scrollContent.scrollbars-vertical div.ScrollBar.orientation-horizontal {
+    bottom: -20px;
+}
+
+div.scrollContent.scrollbars-horizontal > div {
+    right: 0;
+    bottom: 16px;
+    width: auto;
+}
+
+div.scrollContent.scrollbars-horizontal div.ScrollBar.orientation-horizontal {
+    right: 0;
+    width: auto;
+    bottom:0;
+    left:0;
+}
+
+div.scrollContent.scrollbars-horizontal div.ScrollBar.orientation-vertical {
+    right: -20px;
+    bottom: -16px;
+    height: 16px;
+    width: auto;
+}
+
+div.scrollContent.scrollbars-both > div {
+    right: 16px;
+    bottom: 16px;
+}
+
+div.scrollContent.scrollbars-both div.ScrollBar.orientation-horizontal {
+    left:0;
+    bottom:0;
+    right: 16px;
+    width: auto;
+}
+
+div.scrollContent.scrollbars-both div.ScrollBar.orientation-vertical {
+    bottom: 16px;
+    height: auto;
+    right: 0;
+    width: 16px;
+    left:auto;
+    top:0;
+}
+
+@supports ( -webkit-box-reflect: below 0px ) {
+    .Control.reflected {
+        -webkit-box-reflect: below 0px linear-gradient(to bottom, transparent, transparent 50%, black);
+    }
+}

@@ -1,0 +1,13 @@
+﻿.carbon.Memo {
+    border: 1px solid #202020;
+    background-color: #333;
+}
+
+.carbon.MemoViewPort,
+.carbon.MemoViewPort textarea {
+    background-color: #333;
+}
+
+.carbon.Memo.focused {
+    box-shadow: 0 0 6px #F69E2D;
+}

@@ -1,0 +1,17 @@
+﻿.haiku.BitmapButton,
+.haiku.BitmapButton.disabled:hover {
+  border: 1px solid #909090;
+  background-image: linear-gradient(to bottom,#EBEBEB 0,#DBDBDB 100%);
+  box-shadow: 1px 1px 0 0 #E7E7E7,0 1px 0 0 #E7E7E7,1px 0 0 0 #E7E7E7, -1px -1px 0 0 #C8C8C8, 0 -1px 0 0 #C8C8C8, -1px 0 0 0 #C8C8C8, inset 1px 1px 0 0 #F7F7F7, inset -1px -1px 0 0 #C6C6C6;
+}
+
+.haiku.BitmapButton.stayspressed.pressed,
+.haiku.BitmapButton.stayspressed.pressed:hover,
+.haiku.BitmapButton.pressed {
+  background-image: linear-gradient(to bottom,#C1C1C1 0,#C6C6C6 100%);
+  box-shadow: 1px 1px 0 0 #E7E7E7,0 1px 0 0 #E7E7E7,1px 0 0 0 #E7E7E7, -1px -1px 0 0 #C8C8C8, 0 -1px 0 0 #C8C8C8, -1px 0 0 0 #C8C8C8, inset 2px 2px 0 0 #B8B8B8;
+}
+
+.haiku.BitmapButton.focused {
+  border-color: #0000E5;
+}

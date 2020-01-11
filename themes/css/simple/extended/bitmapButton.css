@@ -1,0 +1,25 @@
+.simple.BitmapButton,
+.simple.BitmapButton.disabled:hover {
+    border-radius: 3px;
+    border: 1px solid #BBB;
+    background-image: linear-gradient(to bottom,#F9F9F9 0,#E3E3E3 100%);
+}
+
+.simple.BitmapButton.stayspressed.pressed,
+.simple.BitmapButton.stayspressed.pressed:hover {
+    background-color: #6694E3;
+    background-image: none;
+    color: #000;
+}
+
+.simple.BitmapButton:hover {
+    border-color: #939393;
+}
+
+.simple.BitmapButton.pressed {
+    background-image: linear-gradient(to bottom,#DDD 0,#F5F5F5 100%);
+}
+
+.simple.BitmapButton.focused {
+    border: 1px solid #6694E3;
+}

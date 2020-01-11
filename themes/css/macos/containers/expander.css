@@ -1,0 +1,108 @@
+.macos.Expander {
+}
+
+.macos.ExpanderHeader {
+    border: 1px solid #AAA;
+    color: #3F3D3D;
+    height: 23px;
+    background-image: linear-gradient(to bottom,#EFEFEF 0,#CACACA 100%);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    box-shadow: inset 0 1px 0 0 #FFF;
+    font-weight: bold;
+}
+
+.macos.ExpanderHeader:hover {
+    color: #7E7C7C;
+}
+
+.macos.ExpanderCaption {
+    height: 23px;
+    order: 1;
+}
+
+.macos.ExpanderContent {
+    background-color: #F5F5F5;
+    border: 1px solid #C1C1C1;
+    border-top-width: 0;
+}
+
+.macos.ExpanderButton,
+.macos.ExpanderButton:hover {
+    border-radius: 50%;
+    border: 1px solid #0E0E0E;
+    border-bottom-color: #858235;
+    border-left-color: #7A3013;
+    border-right-color: #7A3013;
+    background-color: #FF6A00;
+    width: 14px;
+    min-width: 14px;
+    max-width: 14px;
+    height: 14px;
+    min-height: 14px;
+    max-height: 14px;
+    background-image: radial-gradient(150% 120% at center 90%, rgba(253,252,146,1), rgba(253,252,146,0.2) 50%), radial-gradient(75% 50% at center 10%, rgba(255,255,255,1), rgba(255,255,255,0.2) 50%);
+    box-shadow: inset 0 1px 0 0 #9A482A,0 1px 0 0 #FFF;
+    background-size: auto auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+    order: 3;
+    margin-right: 5px;
+}
+
+.macos.ExpanderButton:before {
+    content: "";
+    font-family: Tahoma;
+    -webkit-transform: none;
+    transform: none;
+    font-weight: bold;
+    font-size: 12pt;
+    opacity: 0.3;
+    line-height: 0;
+}
+
+.macos.ExpanderButton:hover:before {
+    content: "+";
+    opacity: 0.4;
+    text-shadow: 0 1px 0 #000;
+    font-size: 9pt;
+}
+
+.macos.ExpanderButton.expanded:hover:before {
+    content: "-";
+    font-size: 12pt;
+}
+
+.macos.ExpanderCheckbox {
+    width: 15px;
+    order: 2;
+}
+
+.macos.CheckboxCheck.ExpanderCheckboxCheck,
+.macos.CheckboxCheck.ExpanderCheckboxCheck.checked,
+.macos.ExpanderHeader .macos.Checkbox.pressed .macos.CheckboxCheck.ExpanderCheckboxCheck {
+    width: 15px;
+    height: 100%;
+    font-size: 8pt;
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+.macos.CheckboxCheck.ExpanderCheckboxCheck:before {
+    opacity: 1;
+    content: "N";
+    background: none;
+}
+
+.macos.CheckboxCheck.ExpanderCheckboxCheck.checked:before {
+    opacity: 0.2;
+}
+
+.macos.ExpanderCheckboxCheck.checked {
+    padding: 0;
+}
+
+.macos.Checkbox.ExpanderCheckbox {
+    padding-left: 20px;
+}

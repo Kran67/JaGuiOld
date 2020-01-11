@@ -1,0 +1,21 @@
+.macos.StatusBar {
+    height: 22px;
+    border-top: 1px solid #C1C1C1;
+    background-color: #E8E8E8;
+    box-shadow: inset 0 1px 0 0 #F4F4F4;
+}
+
+.macos.StatusBarPanel.lowered,
+.macos.StatusBarPanel.raised,
+.macos.StatusBarPanel.single,
+.macos.StatusBarSimplePanel {
+    border-left: 1px solid #FFF;
+}
+
+.macos.StatusBarSizer {
+    right: 2px;
+    bottom: 2px;
+    width: 11px;
+    height: 11px;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwgAADsIBFShKgAAAABl0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuNUmK/OAAAAAmSURBVChTY2AgACoqKv4TUoNfHmYC+Sahm0C6SbhMIN4kQiaA5AG0PyQKD/7QYwAAAABJRU5ErkJggg==);
+}

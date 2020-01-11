@@ -1,0 +1,10 @@
+.macos.TextBox {
+    border: 1px solid #C3C3C3;
+    border-top-color: #7C7C7C;
+    border-bottom-color: #DDD;
+    background-color: #FFF;
+}
+
+.macos.TextBox.focused {
+    box-shadow: 0 0 4px 1px #699BD3;
+}

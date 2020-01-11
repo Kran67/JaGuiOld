@@ -1,0 +1,24 @@
+﻿div.SplitButton {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+div.SplitButton button.BitmapButton {
+    flex: 1;
+    height: 100% !important;
+}
+
+div.SplitButton button.BitmapButton,
+div.SplitButton button.PopupButton {
+    position: relative;
+}
+
+div.SplitButton button.PopupButton {
+    width: 14px !important;
+    border-left: none;
+}
+
+div.SplitButton div.PopupButtonArrow {
+    right: 3px;
+}

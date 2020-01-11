@@ -1,0 +1,25 @@
+﻿div.Checkbox {
+    box-shadow: none;
+    padding-left: 20px;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+}
+
+input.CheckboxInput {
+    display: none;
+}
+
+div.CheckboxCheck {
+    box-shadow: none;
+    left: 0;
+    font-family: jagui;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.CheckboxCheck:before,
+div.CheckboxCheck:before {
+    content: "";
+}

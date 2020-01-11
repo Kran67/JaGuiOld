@@ -1,0 +1,53 @@
+﻿.air.ScrollBar {
+    background-color: #484848;
+    border: 1px solid #1E1E1E;
+}
+
+.air.ScrollBarFirstButton,
+.air.ScrollBarLastButton {
+    box-shadow: inset 0 0 0 1px #595959;
+    border: none;
+    border-radius: 0;
+}
+
+.air.ScrollBarFirstButton {
+    border-right: 1px solid #1C1C1C;
+}
+
+.air.ScrollBarLastButton {
+    border-left: 1px solid #1C1C1C;
+}
+
+button.ScrollBarFirstButton:before {
+    color: #000;
+}
+
+button.ScrollBarLastButton:before {
+    color: #000;
+}
+
+
+.air.ScrollBarFirstButton:hover,
+.air.ScrollBarLastButton:hover {
+    background-image: none;
+    background-color: #585858;
+}
+
+.air.ScrollBar input[type='range'] {
+    background-color: #484848;
+    margin: 0 -1px;
+}
+
+    .air.ScrollBar.disabled input[type='range']::-webkit-slider-thumb,
+    .air.ScrollBar input[type='range']::-webkit-slider-thumb {
+        width: 15px;
+        border-left: 1px solid #1C1C1C;
+        border-right: 1px solid #1C1C1C;
+        background-color: #484848;
+        box-shadow: inset 0 0 0 1px #595959;
+    }
+
+        .air.ScrollBar input[type='range']::-webkit-slider-thumb:hover {
+            background-image: none;
+            background-color: #585858;
+        }

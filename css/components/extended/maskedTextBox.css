@@ -1,0 +1,38 @@
+﻿div.MaskedTextBox {
+    min-height: 20px;
+}
+
+input.MaskedTextBoxInput {
+    margin: 0;
+    padding: 0 2px;
+    border: none;
+    background-color: transparent;
+    white-space: nowrap;
+    flex: 1;
+    position: static;
+}
+
+div.MaskedTextBox.required:before {
+    position: absolute;
+    content: "*";
+    color: red;
+    height: 100%;
+    right: -10px;
+    top: 0;
+}
+
+div.MaskedTextBox.haserror {
+    box-shadow: 0 0 0 1px red;
+}
+
+div.MaskedTextBox.haserror:after {
+    position: absolute;
+    content: "";
+    right: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 7px 7px 0;
+    border-color: transparent red transparent transparent;
+}

@@ -1,0 +1,202 @@
+﻿.classic10k.Window {
+    background-color: #D4D0C8;
+    background-repeat: no-repeat;
+}
+
+.classic10k.Window:not(.none) {
+    box-shadow: inset 0 0 0 1px #3D463D, inset 2px 0 0 0 #ECEAE6, inset 0 2px 0 0 #ECEAE6, inset -2px 0 0 0 #C0BCAF, inset 0 -2px 0 0 #C0BCAF;
+    background-position: calc(100% - 18px) 5px, calc(100% - 19px) 5px, 31px 6px, 30px 5px, 29px 4px, 27px 4px, 26px 3px, 25px 2px, 25px 2px;
+    background-size: 1px 11px, 1px 11px, calc(100% - 37px) 10px, calc(100% - 36px) 11px, calc(100% - 34px) 13px, 1px 13px, calc(100% - 30px) 15px, calc(100% - 28px) 17px, calc(100% - 28px) 18px;
+    background-image: linear-gradient(to bottom, #798A97, #798A97), linear-gradient(to bottom, #4E5961, #4E5961), linear-gradient(to bottom, #65737E, #65737E), linear-gradient(to bottom, #798A97, #798A97), linear-gradient(to bottom, #4E5961, #4E5961), linear-gradient(to bottom, #4E5961, #4E5961), linear-gradient(to bottom, #D4D0C8, #D4D0C8), linear-gradient(to bottom, #4E5961, #4E5961), linear-gradient(to bottom, #EBE7DD, #EBE7DD);
+}
+
+.classic10k.Window.rolledUp {
+    max-height: 24px;
+}
+
+.classic10k.Window.none {
+    box-shadow: none;
+}
+
+.classic10k.Window .classic10k.WindowTitleBar {
+    margin: 0;
+    position: relative;
+    text-align: center;
+    color: #D4D0C8;
+    height: 19px;
+    line-height: 19px;
+    max-height: 19px;
+    min-height: 19px;
+    background-position-y: top;
+}
+
+.classic10k.Window:not(.none) .classic10k.WindowTitleBar {
+    padding-left: 24px;
+}
+
+    .classic10k.Window .classic10k.WindowTitle {
+        font-size: 7pt;
+        z-index: 1;
+        height: 19px;
+        line-height: 19px;
+        max-height: 19px;
+        min-height: 19px;
+        font-family: "verdana";
+    }
+
+.classic10k.Window:not(.none) .classic10k.WindowTitle {
+    line-height: 14px;
+}
+
+.classic10k.Window.inactive .classic10k.WindowTitle {
+    color: #31383E;
+}
+
+.classic10k.Window button.classic10k.WindowTitleButton {
+    z-index: 1;
+    width: 9px;
+    min-width: 9px;
+    max-width: 9px;
+    height: 9px;
+    min-height: 9px;
+    max-height: 9px;
+    background: none;
+    border: none;
+    background-position: center center;
+    background-repeat: no-repeat;
+    top: 5px;
+    margin-right: 4px;
+    background-image: url('../../../images/classic10k/windowbtns.png');
+}
+
+.classic10k.Window:not(.none) button.classic10k.WindowTitleButton {
+    top: 2px;
+}
+
+.classic10k.Window button.classic10k.WindowTitleButton.disabled {
+    opacity: 1;
+}
+
+.classic10k.Window button.classic10k.WindowCloseButton, .classic10k.Window button.classic10k.WindowCloseButton.disabled {
+    background-position: left top;
+}
+
+.classic10k.Window button.classic10k.WindowCloseButton:not(.disabled):hover {
+    background-position: -9px top;
+}
+
+.classic10k.Window button.classic10k.WindowCloseButton.pressed:not(.disabled), .classic10k.Window button.classic10k.WindowCloseButton.pressed:not(.disabled):hover {
+    background-position: -18px top;
+}
+
+.classic10k.WindowCloseButton:before, .classic10k.WindowMinimizeButton:before, .classic10k.WindowMaxRestoreButton:before, .classic10k.WindowHelpButton:before, .classic10k.WindowRollUpDownButton:before, .classic10k.WindowStayOnOffButton:before {
+    display: none;
+}
+
+.classic10k.Window button.classic10k.WindowMaxRestoreButton, .classic10k.Window button.classic10k.WindowMaxRestoreButton.disabled {
+    background-position: left -9px;
+}
+
+.classic10k.Window button.classic10k.WindowMaxRestoreButton:not(.disabled):hover {
+    background-position: -9px -9px;
+}
+
+.classic10k.Window button.classic10k.WindowMaxRestoreButton.pressed:not(.disabled), .classic10k.Window button.classic10k.WindowMaxRestoreButton.pressed:not(.disabled):hover {
+    background-position: -18px -9px;
+}
+
+.classic10k.Window.maximized button.classic10k.WindowMaxRestoreButton, .classic10k.Window.maximized button.classic10k.WindowMaxRestoreButton.disabled {
+    background-position: left -18px;
+}
+
+.classic10k.Window.maximized button.classic10k.WindowMaxRestoreButton:not(.disabled):hover {
+    background-position: -9px -18px;
+}
+
+.classic10k.Window.maximized button.classic10k.WindowMaxRestoreButton.pressed:not(.disabled), .classic10k.Window.maximized button.classic10k.WindowMaxRestoreButton.pressed:not(.disabled):hover {
+    background-position: -18px -18px;
+}
+
+.classic10k.Window button.classic10k.WindowMinimizeButton, .classic10k.Window button.classic10k.WindowMinimizeButton.disabled {
+    background-position: left -27px;
+}
+
+.classic10k.Window button.classic10k.WindowMinimizeButton:not(.disabled):hover {
+    background-position: -9px -27px;
+}
+
+.classic10k.Window button.classic10k.WindowMinimizeButton.pressed:not(.disabled), .classic10k.Window button.classic10k.WindowMinimizeButton.pressed:not(.disabled):hover {
+    background-position: -18px -27px;
+}
+
+.classic10k.Window.minimized button.classic10k.WindowMinimizeButton, .classic10k.Window.minimized button.classic10k.WindowMinimizeButton.disabled {
+    background-position: left -18px;
+}
+
+.classic10k.Window.minimized button.classic10k.WindowMinimizeButton:not(.disabled):hover {
+    background-position: -9px -18px;
+}
+
+.classic10k.Window.minimized button.classic10k.WindowMinimizeButton.pressed:not(.disabled), .classic10k.Window.minimized button.classic10k.WindowMinimizeButton.pressed:not(.disabled):hover {
+    background-position: -18px -18px;
+}
+
+.classic10k.Window button.classic10k.WindowHelpButton, .classic10k.Window button.classic10k.WindowHelpButton.disabled {
+    background-position: left -36px;
+}
+
+.classic10k.Window button.classic10k.WindowHelpButton:not(.disabled):hover {
+    background-position: -9px -36px;
+}
+
+.classic10k.Window button.classic10k.WindowHelpButton.pressed:not(.disabled), .classic10k.Window button.classic10k.WindowHelpButton.pressed:not(.disabled):hover {
+    background-position: -18px -36px;
+}
+
+.classic10k.Window button.classic10k.WindowRollUpDownButton, .classic10k.Window button.classic10k.WindowRollUpDownButton.disabled {
+    background-position: left -45px;
+}
+
+.classic10k.Window button.classic10k.WindowRollUpDownButton:not(.disabled):hover {
+    background-position: -9px -45px;
+}
+
+.classic10k.Window button.classic10k.WindowRollUpDownButton.pressed:not(.disabled), .classic10k.Window button.classic10k.WindowRollUpDownButton.pressed:not(.disabled):hover {
+    background-position: -18px -54px;
+}
+
+.classic10k.Window button.classic10k.WindowRollUpDownButton.isup, .classic10k.Window button.classic10k.WindowRollUpDownButton.isup.disabled {
+    background-position: left -54px;
+}
+
+.classic10k.Window button.classic10k.WindowRollUpDownButton.isup:not(.disabled):hover {
+    background-position: -9px -54px;
+}
+
+.classic10k.Window button.classic10k.WindowRollUpDownButton.pressed.isup:not(.disabled), .classic10k.Window button.classic10k.WindowRollUpDownButton.pressed.isup:not(.disabled):hover {
+    background-position: -18px -54px;
+}
+
+.classic10k.Window button.classic10k.WindowStayOnOffButton, .classic10k.Window button.classic10k.WindowStayOnOffButton.disabled {
+    background-position: left -63px;
+}
+
+.classic10k.Window button.classic10k.WindowStayOnOffButton:not(.disabled):hover {
+    background-position: -9px -63px;
+}
+
+.classic10k.Window button.classic10k.WindowStayOnOffButton.pressed:not(.disabled), .classic10k.Window button.classic10k.WindowStayOnOffButton.pressed:not(.disabled):hover {
+    background-position: -18px -63px;
+}
+
+.classic10k.Window button.classic10k.WindowStayOnOffButton.isstayon, .classic10k.Window button.classic10k.WindowStayOnOffButton.isstayon.disabled {
+    background-position: left -72px;
+}
+
+.classic10k.Window button.classic10k.WindowStayOnOffButton.isstayon:not(.disabled):hover {
+    background-position: -9px -72px;
+}
+
+.classic10k.Window button.classic10k.WindowStayOnOffButton.pressed.isstayon:not(.disabled), .classic10k.Window button.classic10k.WindowStayOnOffButton.pressed.isstayon:not(.disabled):hover {
+    background-position: -18px -72px;
+}

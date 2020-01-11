@@ -1,0 +1,11 @@
+﻿.fontDlgGbPreview {
+    color: black;
+}
+
+.fontDlgLblPreview {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    font-family: Arial;
+    font-size: 8pt;
+}

@@ -1,0 +1,117 @@
+.simple.MainMenu {
+    background-color: #E0ECFF;
+}
+
+.simple.MenuItem:hover,
+.simple.MenuItem.active {
+    background-color: #6694E3;
+}
+
+.simple.MenuItem.disabled:hover,
+.simple.MenuItem.disabled {
+    background-color: #E0ECFF;
+}
+
+.simple.MenuItem.disabled:hover .simple.MenuItemCaption,
+.simple.MenuItem.disabled .simple.MenuItemCaption {
+    color: #000;
+}
+
+.simple.MainMenu .MenuItem {
+    border: 1px solid transparent;
+}
+
+.simple.MainMenu .MenuItem .MenuItemCaption {
+    color: navy;
+}
+
+.simple.MainMenu .MenuItem:hover,
+.simple.MainMenu .MenuItem.active {
+    background-color: #FFF;
+    border: 1px solid #6694E3;
+    border-radius: 2px;
+}
+
+.simple.MainMenu .simple.MenuItem.active .simple.MenuItemCaption,
+.simple.MainMenu .simple.MenuItem:hover .simple.MenuItemCaption {
+    color: #6694E3;
+}
+
+.simple.PopupMenu {
+    background-color: #FFF;
+}
+
+.simple.subMenu {
+    border: 1px solid #6694E3;
+}
+
+.simple.subMenu:before {
+    top: 0;
+    left: 0;
+    width: 29px;
+    bottom: 0;
+    background-color: rgba(255,255,255,0.5);
+    content: "";
+    z-index: -1;
+    position: absolute;
+}
+
+.simple.subMenu .simple.MenuItem:hover .simple.MenuItemCaption,
+.simple.subMenu .simple.MenuItem:hover .simple.MenuItemShortCut,
+.simple.subMenu .simple.MenuItem:hover .simple.MenuItemHasSubMenu,
+.simple.subMenu .simple.MenuItem.active .simple.MenuItemCaption,
+.simple.subMenu .simple.MenuItem.active .simple.MenuItemShortCut,
+.simple.subMenu .simple.MenuItem.active .simple.MenuItemHasSubMenu {
+    color: #FFF;
+}
+
+.simple.subMenu .simple.MenuItem.disabled:hover .simple.MenuItemCaption,
+.simple.subMenu .simple.MenuItem.disabled .simple.MenuItemCaption {
+    color: #000;
+}
+
+
+
+.simple.MenuItemSep {
+    background-color: #000;
+    width: 200%;
+}
+
+.simple.subMenu .MenuItemCaption {
+    padding-left: 35px;
+    line-height: 20px;
+}
+
+.simple.MenuItem.ischecked .MenuItemCaption {
+    background-image: none;
+}
+
+.simple.MenuItem.ischecked .MenuItemCaption:before,
+.simple.MenuItem.ischecked.isradioitem .MenuItemCaption:before {
+    position: absolute;
+    left: 5px;
+    width: 20px;
+    height: 18px;
+    text-align: center;
+    font-family: "JaGui";
+    color: #6694E3;
+}
+
+.simple.MenuItem.ischecked .MenuItemCaption:before {
+    content: "4";
+    top: 1px;
+    font-size: 8pt;
+    border: 1px solid #6694E3;
+    color: #6694E3;
+}
+
+.simple.MenuItem.ischecked:hover .MenuItemCaption:before {
+    border-color: #FFF;
+    color: #FFF;
+}
+
+.simple.MenuItem.ischecked.isradioitem .MenuItemCaption:before {
+    content: "3";
+    font-size: 5pt;
+    top: 0;
+}

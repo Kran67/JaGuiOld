@@ -1,0 +1,413 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Reveal</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            if (typeof handle === "function") {
+                handle();
+            }
+        };
+        let rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        const imgA = new Image();
+        const imgB = new Image();
+        let amount = 0;
+        let started = false;
+        let op = 0;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let lastImg = imgA;
+        let nextImg = imgB;
+        let ctx;
+        let opa = 0;
+        function mulDiv(value, multi, divider) {
+            return ~~((value * multi) / divider);
+        }
+        function reveal() {
+            let x;
+            let y;
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+            } else {
+                amount++;
+                const w = ctx.canvas.width;
+                const h = ctx.canvas.height;
+                if (w >= h) {
+                    x = mulDiv(w, amount, 100);
+                    y = mulDiv(x, h, w);
+                } else {
+                    y = mulDiv(h, amount, 100);
+                    x = mulDiv(y, w, h);
+                }
+                let x1;
+                let y1;
+                let h1;
+                let w1;
+                switch (op) {
+                    case 0: // from left
+                        ctx.drawImage(nextImg, 0, 0, x, h, 0, 0, x, h);
+                        break;
+                    case 1: // from right
+                        ctx.drawImage(nextImg, w - x, 0, x, h, w - x, 0, x, h);
+                        break;
+                    case 2: // out from middle
+                        x1 = (w - x) / 2;
+                        ctx.drawImage(img, x1, 0, x, h, x1, 0, x, h);
+                        break;
+                    case 3: // in from sides
+                        x1 = x / 2;
+                        ctx.drawImage(nextImg, 0, 0, x1, h, 0, 0, x1, h);
+                        ctx.drawImage(nextImg, w - x1, 0, x1, h, w - x1, 0, x1, h);
+                        break;
+                    case 4: // from top
+                        ctx.drawImage(img, 0, 0, w, y, 0, 0, w, y);
+                        break;
+                    case 5: // from bottom
+                        ctx.drawImage(nextImg, 0, h - y, w, y, 0, h - y, w, y);
+                        break;
+                    case 6: // from middle (horizontal)
+                        y1 = ~~((h - y) / 2);
+                        ctx.drawImage(nextImg, 0, y1, w, y, 0, y1, w, y);
+                        break;
+                    case 7: // from top left
+                        ctx.drawImage(nextImg, 0, 0, x, y, 0, 0, x, y);
+                        break;
+                    case 8: // from bottom left
+                        ctx.drawImage(nextImg, 0, h - y, x, y, 0, h - y, x, y);
+                        break;
+                    case 9: // from bottom right
+                        ctx.drawImage(nextImg, w - x, h - y, x, y, w - x, h - y, x, y);
+                        break;
+                    case 10: // from top right
+                        ctx.drawImage(nextImg, w - x, 0, x, y, w - x, 0, x, y);
+                        break;
+                    case 11: // out from centre
+                        x1 = ~~((w - x) / 2);
+                        y1 = ~~((h - y) / 2);
+                        ctx.drawImage(nextImg, x1, y1, x, y, x1, y1, x, y);
+                        break;
+                    case 12: // in to centre
+                        x1 = x / 2;
+                        y1 = y / 2;
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.drawImage(lastImg, x1, y1, w - x, h - y, x1, y1, w - x, h - y);
+                        break;
+                    case 13: // V from left
+                        h1 = ~~(h / 2);
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.moveTo(0, h1 - y);
+                        ctx.lineTo(2 * x, h1);
+                        ctx.lineTo(0, h1 + y);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 14: // V from right
+                        h1 = ~~(h / 2);
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.moveTo(w, h1 - y);
+                        ctx.lineTo(w - 2 * x, h1);
+                        ctx.lineTo(w, h1 + y);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 15: // V from top
+                        w1 = ~~(w / 2);
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.moveTo(w1 - x, 0);
+                        ctx.lineTo(w1, 2 * y);
+                        ctx.lineTo(w1 + x, 0);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 16: // V from bottom
+                        w1 = ~~(w / 2);
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.moveTo(w1 - x, h);
+                        ctx.lineTo(w1, h - 2 * y);
+                        ctx.lineTo(w1 + x, h);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 17: // diamond out from centre
+                        w1 = ~~(w / 2);
+                        h1 = ~~(h / 2);
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.moveTo(w1 - x, h1);
+                        ctx.lineTo(w1, h1 - y);
+                        ctx.lineTo(w1 + x, h1);
+                        ctx.lineTo(w1, h1 + y);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 18: // diamond in to centre
+                        w1 = ~~(w / 2);
+                        h1 = ~~(h / 2);
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.moveTo(x - w1, h1);
+                        ctx.lineTo(w1, y - h1);
+                        ctx.lineTo(3 * w1 - x, h1);
+                        ctx.lineTo(w1, 3 * h1 - y);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(lastImg, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 19: // diagonal from top left
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.moveTo(0, 0);
+                        ctx.lineTo(2 * x, 0);
+                        ctx.lineTo(0, 2 * y);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 20: // diagonal from top right
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.moveTo(w, 0);
+                        ctx.lineTo(w - 2 * x, 0);
+                        ctx.lineTo(w, 2 * y);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 21: // diagonal from bottom left
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.moveTo(0, h);
+                        ctx.lineTo(2 * x, h);
+                        ctx.lineTo(0, h - 2 * y);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 22: // diagonal from bottom right
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.moveTo(w, h);
+                        ctx.lineTo(w - 2 * x, h);
+                        ctx.lineTo(w, h - 2 * y);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 23: // in to center width gradient
+                        {
+                            const ratio = h / w;
+                            ctx.save();
+                            ctx.globalAlpha = opa / 100;
+                            ctx.beginPath();
+                            ctx.rect(0, 0, x, h);
+                            ctx.closePath();
+                            ctx.clip();
+                            ctx.drawImage(nextImg, 0, 0);
+                            ctx.restore();
+
+                            ctx.save();
+                            ctx.globalAlpha = opa / 100;
+                            ctx.beginPath();
+                            ctx.rect(0, h, w, -x * ratio);
+                            ctx.closePath();
+                            ctx.clip();
+                            ctx.drawImage(nextImg, 0, 0);
+                            ctx.restore();
+
+                            ctx.save();
+                            ctx.globalAlpha = opa / 100;
+                            ctx.beginPath();
+                            ctx.rect(0, 0, w, x * ratio);
+                            ctx.closePath();
+                            ctx.clip();
+                            ctx.drawImage(nextImg, 0, 0);
+                            ctx.restore();
+
+                            ctx.save();
+                            ctx.globalAlpha = opa / 100;
+                            ctx.beginPath();
+                            ctx.rect(w, h, -x, -h);
+                            ctx.closePath();
+                            ctx.clip();
+                            ctx.drawImage(nextImg, 0, 0);
+
+                            ctx.restore();
+                            opa = x / 100;;
+                        }
+                        break;
+                    case 24: // ) from left and right
+                        {
+                            const ray = Math.sqrt((w*w)+(h*h))/2;
+                            ctx.save();
+                            ctx.globalAlpha=opa/100;
+                            ctx.beginPath();
+                            ctx.arc(-ray+x, h/2, ray, 0, Math.PI*2, false);
+                            ctx.closePath();
+                            ctx.clip();
+                            ctx.drawImage(nextImg,0,0);
+                            ctx.restore();
+    
+                            ctx.save();
+                            ctx.globalAlpha=opa/100;
+                            ctx.beginPath();
+                            ctx.arc(w+ray-x, h/2, ray, 0, Math.PI*2, false);
+                            ctx.closePath();
+                            ctx.clip();
+                            ctx.drawImage(nextImg,0,0);
+                            ctx.restore();
+                            opa = x / 100;
+                        }
+                        break;
+                    case 25: // ) from top and bottom
+                        {
+                            const ray = Math.sqrt((w*w)+(h*h))/2;
+                            ctx.save();
+                            ctx.globalAlpha=opa/100;
+                            ctx.beginPath();
+                            ctx.arc(w/2, -ray+y, ray, 0, Math.PI*2, false);
+                            ctx.closePath();
+                            ctx.clip();
+                            ctx.drawImage(nextImg,0,0);
+                            ctx.restore();
+    
+                            ctx.save();
+                            ctx.globalAlpha=opa/100;
+                            ctx.beginPath();
+                            ctx.arc(w/2, h+ray-y, ray, 0, Math.PI*2, false);
+                            ctx.closePath();
+                            ctx.clip();
+                            ctx.drawImage(nextImg,0,0);
+                            ctx.restore();
+                            opa = y / 100;
+                        }
+                        break;
+                }
+                if (amount > 100) {
+                    ctx.drawImage(nextImg, 0, 0);
+                    amount = 0;
+                    [lastImg, nextImg] = [nextImg, lastImg];
+                    ctx.restore();
+                    cancelAnimationFrameRate(handle);
+                    started = false;
+                    [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                    return;
+                }
+            }
+            handle = rAF(reveal);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            op = ~~value;
+            handle = rAF(reveal);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        select {
+            width: 220px;
+            margin-bottom: 2px;
+            margin-right: 2px;
+            height: 21px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas>
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">from left</option>
+            <option value="1">from right</option>
+            <option value="2">out from middle</option>
+            <option value="3">in from sides</option>
+            <option value="4">from top</option>
+            <option value="5">from bottom</option>
+            <option value="6">from middle (horizontal)</option>
+            <option value="7">from top left</option>
+            <option value="8">from bottom left</option>
+            <option value="9">from bottom right</option>
+            <option value="10">from top right</option>
+            <option value="11">out from center</option>
+            <option value="12">in to center</option>
+            <option value="13">V from left</option>
+            <option value="14">V from right</option>
+            <option value="15">V from top</option>
+            <option value="16">V from bottom</option>
+            <option value="17">diamond out from centre</option>
+            <option value="18">diamond in to centre</option>
+            <option value="19">diagonal from top left</option>
+            <option value="20">diagonal from top right</option>
+            <option value="21">diagonal from bottom left</option>
+            <option value="22">diagonal from bottom right</option>
+            <option value="23">in to center width gradient</option>
+            <option value="24">) from left and right</option>
+            <option value="25">) from top and bottom</option>
+        </select><br />
+    </div>
+</body>
+</html>

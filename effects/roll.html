@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Roll</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(6);
+        let handle = null, img;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let frame = 0;
+        let size = 1;
+        let x;
+        let y;
+        let offset = 2;
+        let orientH;
+        let maxFrames;
+        let dir;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        const buffer = document.createElement("canvas");
+        imgA.onload=function() {
+            buffer.width = this.width;
+            buffer.height = this.height;
+        }
+        const cbx = buffer.getContext("2d");
+        function shade(ctx, dx, dy, dw, dh, x, y, w, h) {
+            const s = ctx.createLinearGradient(x, y, w, h);
+            s.addColorStop(0.0, 'rgba(0,0,0,0.5)');
+            s.addColorStop(0.2, 'rgba(0,0,0,0)');
+            s.addColorStop(0.3, 'rgba(254,254,254,0)');
+            s.addColorStop(0.45, 'rgba(254,254,254,0.5)');
+            s.addColorStop(0.6, 'rgba(254,254,254,0)');
+            s.addColorStop(0.66, 'rgba(0,0,0,0)');
+            s.addColorStop(1.0, 'rgba(0,0,0,0.5)');
+            ctx.save();
+            ctx.translate(dx,dy);
+            ctx.fillStyle = s;
+            ctx.fillRect(0, 0, w, h);
+            ctx.restore();
+        };
+
+        function shadow(ctx, dx, dy, dw, dh, x, y, w, h, dir) {
+            const s = ctx.createLinearGradient(x, y, w, h);
+            s.addColorStop(dir?0:1, 'rgba(0,0,0,0.5)');
+            s.addColorStop(dir?1:0, 'rgba(0,0,0,0)');
+            ctx.save();
+            ctx.translate(dx,dy);
+            ctx.fillStyle = s;
+            ctx.fillRect(0, 0, w, dh);
+            ctx.restore();
+        };
+        function roll() {
+            const ctx = document.getElementById("c").getContext("2d");
+            if (!started) {
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+                frame = orientH?img.width:img.height;
+                frame = offset>0?0:frame;
+                cbx.save();
+                cbx.translate(orientH?img.width:0, !orientH?img.height:0);
+                cbx.scale(orientH?-1:1,!orientH?-1:1);
+                cbx.drawImage(img===imgB?imgA:imgB,0,0);
+                cbx.restore();
+                maxFrames = orientH?img.width:img.height;
+                maxFrames = offset>0?maxFrames:0;
+            }
+            if (orientH) {
+                ctx.drawImage(buffer,img.width - frame - (offset < 0?size:0), 0, size, img.height, frame-(offset < 0?size:0), 0, size, img.height);
+            } else {
+                ctx.fillStyle = "red";
+                ctx.fillRect(0, img.height - frame, img.width, size);
+                ctx.drawImage(buffer,0, img.height - frame, img.width, size, 0, img.height - frame, img.width, size);
+            }
+            //shade(ctx, orientH?frame-(offset < 0?size:0):0, !orientH?frame-(offset < 0?size:0):0, !orientH?img.width:0, orientH?img.height:0, 0, 0, orientH?size:0, !orientH?size:0);
+            shade(ctx, 0, img.height - frame, null, null, 0, 0, 0, size);
+            ctx.save();
+            ctx.beginPath();
+            if (offset<0) {
+                ctx.rect(orientH?frame:0, dir==="up"?frame:0, img.width-(orientH?frame:0), img.height-(!orientH?frame:0));
+            } else {
+                ctx.rect(0, dir==="up"?img.height-frame:0, orientH?frame:img.width, !orientH?frame:img.height);
+            }
+            ctx.clip();
+            ctx.drawImage(img, 0, 0);
+            ctx.restore();
+            //if ((frame>0 && offset<0) || (frame<img.width && offset>0)) {
+            //    shadow(ctx, orientH?frame-(offset > 0?size:0):0, !orientH?frame-(offset > 0?size:0):0, !orientH?img.width:0, orientH?img.height:0, /0, /0, orientH?size:0, !orientH?size:0, offset<0);
+            //}
+            if (size < 26) {
+                size++;
+                frame-=offset<0?1:-1;
+            } else {
+                frame+=offset;
+            }
+            if (frame < -4 || (frame > maxFrames + offset && offset>0)) {
+                frame = 0;
+                size = 0;
+                [].forEach.call(document.querySelectorAll("select"), x => x.removeAttribute("disabled"));
+                cancelAnimationFrameRate(handle);
+                started = false;
+                return;
+            }
+            rAF(roll);
+        }
+        function init(value) {
+            dir = value;
+            orientH = dir==="right" || dir==="left";
+            offset = (dir==="right" || dir==="up")?4:-4;
+            handle = rAF(roll);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas><br />
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].text); }">
+            <option></option>
+            <option>left</option>
+            <option>right</option>
+            <option>down</option>
+            <option>up</option>
+        </select><br />
+    </div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+﻿div.ScrollBar {
+    display: flex;
+    height: 16px;
+    width: 121px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+}
+
+div.ScrollBar.orientation-vertical {
+    flex-direction: column;
+}
+
+    div.ScrollBar > div {
+        position: relative;
+        order: 2;
+        flex:1;
+    }
+
+    div.ScrollBar.orientation-vertical button.ScrollBarFirstButton:before,
+    div.ScrollBar.orientation-vertical button.ScrollBarLastButton:before {
+        transform: rotate(90deg);
+    }
+
+    div.ScrollBar.orientation-vertical button.ScrollBarFirstButton:before,
+    div.ScrollBar.orientation-vertical button.ScrollBarLastButton:before {
+        display: inline-block;
+    }
+
+button.ScrollBarFirstButton {
+    position: relative;
+    order: 1;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 0;
+    width: 18px;
+    font-family: Jagui;
+    font-size: 5pt;
+}
+
+button.ScrollBarLastButton {
+    position: relative;
+    order: 3;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 3px;
+    font-family: Jagui;
+    font-size: 5pt;
+    width: 18px;
+}
+
+    button.ScrollBarFirstButton:before,
+    button.ScrollBarLastButton:before {
+        content: "";
+        font-family: jagui;
+        font-size: 5pt;
+    }
+
+button.ScrollBarFirstButton:before {
+    content: "*";
+}
+
+button.ScrollBarLastButton:before {
+    content: ")";
+}
+
+    div.ScrollBar .ScrollBar_thumb {
+        top:0;
+        left:0;
+        bottom:0;
+    }
+
+    div.ScrollBar.orientation-vertical .ScrollBar_thumb {
+        top:0;
+        left:0;
+        right:0;
+        bottom:auto;
+    }
+
+div.ScrollBar.orientation-vertical button.ScrollBarFirstButton,
+div.ScrollBar.orientation-vertical button.ScrollBarLastButton {
+    height:18px;
+    width: auto;
+}

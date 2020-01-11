@@ -1,0 +1,21 @@
+.simple.RadioButtonCheck {
+    border: 1px solid #BBB;
+    background-color: #FFF;
+    border-radius: 50%;
+    max-width: 12px;
+    width: 12px;
+    height: 12px;
+    color: #2B8EDF;
+    font-size: 5pt;
+    box-shadow: none;
+}
+
+.simple.RadioButtonCheck.checked:before {
+    content: "3";
+    color: #2B8EDF;
+    font-size: 3pt;
+}
+
+.simple.RadioButton.focused .RadioButtonCheck {
+    border-color: #6694E3;
+}

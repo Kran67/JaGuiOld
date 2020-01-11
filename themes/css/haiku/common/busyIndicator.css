@@ -1,0 +1,22 @@
+﻿.haiku.ballIndic,
+.haiku.ball1Indic {
+  border-right: 5px solid #3399FF;
+  border-bottom: 5px solid #3399FF;
+  box-shadow: 0 0 35px rgba(0,0,0,0.9);
+}
+
+.haiku.circleIndic,
+.haiku.circle1Indic {
+  border-top: 5px solid #3399FF;
+  border-bottom: 5px solid #3399FF;
+  box-shadow: 0 0 35px rgba(0,0,0,0.9);
+}
+
+.haiku.circle1Indic {
+  box-shadow: 0 0 15px rgba(0,0,0,0.9);
+}
+
+.haiku.spinIndic,
+.haiku.win8loader .win8circle:after {
+  background-color: #000;
+}

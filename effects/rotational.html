@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Rotational</title>
+    <meta charset="utf-8" />
+    <script src="../scripts/core/ext_math.js"></script>
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let amount = 0;
+        let op;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let lastImg = imgA;
+        let nextImg = imgB;
+        let ctx;
+        function mulDiv(value, multi, divider) {
+            return ~~((value * multi) / divider);
+        }
+        function createPolygonRgnEx(pts) {
+            let i;
+            let l;
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, pts[0].y);
+            for (i = 1, l = pts.length; i < l; i++) {
+                ctx.lineTo(pts[i].x, pts[i].y);
+            }
+            ctx.clip();
+            ctx.drawImage(nextImg, 0, 0);
+            ctx.restore();
+        }
+        function rotatePoints(pts, xOrg, yOrg, angle) {
+            let xPrime;
+            let yPrime;
+            let i;
+            const w = Math.sinCos(angle);
+            const sin = w.sin;
+            const cos = w.cos;
+            for (i = 0; i < pts.length; i++)
+            {
+                xPrime = pts[i].x - xOrg;
+                yPrime = pts[i].y - yOrg;
+                pts[i].x = Math.round(xPrime * cos - yPrime * sin) + xOrg;
+                pts[i].y = Math.round(xPrime * sin + yPrime * cos) + yOrg;
+            }
+        }
+        function rotational() {
+            let x;
+            let y;
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+            }
+            const w = ctx.canvas.width;
+            const h = ctx.canvas.height;
+            if (w >= h) {
+                x = mulDiv(w, amount, 100);
+                y = mulDiv(x, h, w);
+            } else {
+                y = mulDiv(h, amount, 100);
+                x = mulDiv(y, w, h);
+            }
+            amount++;
+            const mW = ~~(w / 2);
+            const mH = ~~(h / 2);
+            const mX = ~~(x / 2);
+            const mY = ~~(y / 2);
+            const pts = [];
+            if (op === 0) {
+                pts.push({ x: mW - mX, y: mH - mY});
+                pts.push({ x: mW + mX, y: mH - mY});
+                pts.push({ x: mW + mX, y: mH + mY});
+                pts.push({ x: mW - mX, y: mH + mY});
+            } else
+            {
+                const dX = 2 * x;
+                const dY = 2 * y;
+                pts.push({ x: mW - dX, y: mH});
+                pts.push({ x: mW - mX, y: mH - mY});
+                pts.push({ x: mW, y: mH - dY});
+                pts.push({ x: mW + mX, y: mH - mY});
+                pts.push({ x: mW + dX, y: mH});
+                pts.push({ x: mW + mX, y: mH + mY});
+                pts.push({ x: mW, y: mH + dY});
+                pts.push({ x: mW - mX, y: mH + mY});
+            }
+            const angle = Math.PI * amount / 50;
+            rotatePoints(pts, mW, mH, angle);
+            ctx.drawImage(lastImg, 0, 0);
+            createPolygonRgnEx(pts);
+            if (amount > 99) {
+                ctx.drawImage(nextImg, 0, 0);
+                [nextImg, lastImg] = [lastImg, nextImg];
+                amount = 0;
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                return;
+            }
+            handle = rAF(rotational);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            op = ~~value;
+            handle = rAF(rotational);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="c" width="500" height="400" style="border:1px solid red"></canvas><br />
+<div>
+    <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+        <option></option>
+        <option value="0">rectangle in center</option>
+        <option value="1">star in center</option>
+    </select><br />
+</div>
+</body>
+</html>

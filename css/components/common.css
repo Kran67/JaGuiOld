@@ -1,0 +1,15 @@
+﻿.confirmation {
+    background-image: url(../../themes/images/common/confirmation.png);
+}
+
+.information {
+    background-image: url(../../themes/images/common/information.png);
+}
+
+.error {
+    background-image: url(../../themes/images/common/error.png);
+}
+
+.warning {
+    background-image: url(../../themes/images/common/warning.png);
+}

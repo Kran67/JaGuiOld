@@ -1,0 +1,23 @@
+﻿.simple.Toggle {
+    border-radius: 3px;
+    border: 1px solid #BBB;
+}
+
+.simple.Toggle:before {
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+    background-color: #6694E3;
+    color: #000;
+}
+
+.simple.Toggle:after {
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+    background-color: #FFF;
+}
+
+.simple.Toggle .simple.CheckboxCheck {
+    border-radius: 3px;
+    border: 1px solid #BBB;
+    background-image: linear-gradient(to bottom,#F9F9F9 0,#E3E3E3 100%);
+}

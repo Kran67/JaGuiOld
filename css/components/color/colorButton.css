@@ -1,0 +1,11 @@
+﻿button.ColorButton {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+div.ColorButtonColor {
+    left: 5px;
+    top: 5px;
+    right: 5px;
+    bottom: 5px;
+}

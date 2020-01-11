@@ -1,0 +1,51 @@
+﻿.modern.Window {
+  background-color: rgba(243, 243, 243, 1);
+  background-repeat: no-repeat;
+}
+
+.modern.Window.maximized {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.9) !important;
+}
+
+.modern.Window:not(.none) {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.9), 5px 5px 5px rgba(0, 0, 0, .7);
+  background-size: 100% 29px;
+  background-image: linear-gradient(to bottom, #FAFAFA, #BBB);
+}
+
+.modern.Window.inactive {
+  background-image: linear-gradient(to bottom, #FFF, #FFF);
+  box-shadow: inset 0 0 0 1px #BBB, 5px 5px 5px rgba(0, 0, 0, .7);
+}
+
+.modern.Window.rolledUp {
+  max-height: 30px;
+}
+
+.modern.Window .modern.WindowTitleBar {
+  margin: 0;
+}
+
+.modern.Window .modern.WindowTitle {
+  font-size: 10pt;
+}
+
+.modern.Window:not(.none) .modern.WindowTitle {
+  line-height: 21px;
+}
+
+.modern.Window .modern.WindowTitleButton {
+  border: none;
+  background-image: linear-gradient(to bottom, #F6F6F6, #CDCDCD);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px #ACACAC;
+  color: #121212;
+}
+
+.modern.Window .modern.WindowTitleButton:hover, .modern.Window .modern.WindowTitleButton.pressed {
+  background-image: linear-gradient(to bottom, #E1E1E1, #CDCDCD);
+}
+
+.modern.Window:not(.none) button.modern.WindowTitleButton {
+  top: 1px;
+}

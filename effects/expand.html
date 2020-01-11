@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>expand transition</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            if (typeof handle === "function") {
+                handle();
+            }
+        };
+        let rAF = requestAnimationFrameRate(60);
+        let handle = null, ctx;
+        const imgA = new Image();
+        const imgB = new Image();
+        let amount = 0;
+        let started = false;
+        let dir;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let img;
+        function mulDiv(value, multi, divider) {
+            return ~~((value*multi) / divider);
+        }
+        function expand() {
+            let x;
+            let y;
+            let x1;
+            let y1;
+            let w1;
+            let h1;
+            let x2;
+            let y2;
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                started = true;
+            } else {
+                amount++;
+                if (img.width>=img.height) {
+                    x = mulDiv(img.width, amount, 100);
+                    y = mulDiv(x, img.height, img.width);
+                } else {
+                    y = mulDiv(img.height, amount, 100);
+                    x = mulDiv(y, img.width, img.height);
+                }
+                //ctx.clearRect(0,0,img.width,img.height);
+                switch (dir) {
+                    case 0: // from right
+                        ctx.drawImage(img, 0, 0, img.width, img.height, img.width - x, 0, x, img.height);
+                        break;
+                    case 1: // from left
+                        ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, x, img.height);
+                        break;
+                    case 2: // from top
+                        ctx.drawImage(img, 0, 0, img.width, img.height, 0, img.height - y, img.width, y);
+                        break;
+                    case 3: // from bottom
+                        ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, img.width, y);
+                        break;
+                    case 4: // from bottom right
+                        ctx.drawImage(img, 0, 0, img.width, img.height, img.width - x, img.height - y, x, y);
+                        break;
+                    case 5: // from top right
+                        ctx.drawImage(img, 0, 0, img.width, img.height, img.width - x, 0, x, y);
+                        break;
+                    case 6: // from top left
+                        ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, x, y);
+                        break;
+                    case 7: // from bottom left
+                        ctx.drawImage(img, 0, 0, img.width, img.height, 0, img.height - y, x, y);
+                        break;
+                    case 8: // in from right
+                        w1 = Math.max((2 * img.width) - x, img.width);
+                        x1 = Math.min(x, img.width);
+                        ctx.drawImage(img, 0, 0, x1, img.height, 0, 0, w1, img.height);
+                        break;
+                    case 9: // in from left
+                        x1 = Math.min(0, x - img.width);
+                        w1 = Math.max((2 * img.width) - x, img.width);
+                        ctx.drawImage(img, img.width - x, 0, x, img.height, x1, 0, w1, img.height);
+                        break;
+                    case 10: // in from top
+                        y1 = Math.max(0, img.height - y);
+                        h1 = Math.max((2 * img.height) - y, img.height);
+                        y2 = Math.min(y - img.height, 0);
+                        ctx.drawImage(img, 0, y1, img.width, y, 0, y2, img.width, h1);
+                        break;
+                    case 11: // in from bottom
+                        h1 = Math.max((2 * img.height) - y, img.height);
+                        ctx.drawImage(img, 0, 0, img.width, y, 0, 0, img.width, h1);
+                        break;
+                    case 12: // in to middle
+                        x1 = Math.max(~~((img.width - x) / 2), 0);
+                        w1 = Math.max((3 * img.width) - (2 * x), img.width);
+                        x2 = Math.min(x - img.width, 0);
+                        ctx.drawImage(img, x1, 0, x, img.height, x2, 0, w1, img.height);
+                        break;
+                    case 13: // in from sides
+                        w1 = ~~(img.width / 2);
+                        x2 = Math.min(~~(x / 2), w1);
+                        ctx.drawImage(img, 0, 0, w1, img.height, 0, 0, x2, img.height);
+                        x1 = Math.max(img.width - x2, w1);
+                        ctx.drawImage(img, w1, 0, w1, img.height, x1, 0, x2, img.height);
+                        break;
+                    case 14: // in to middle (horizontal)
+                        y1 = (img.height - y) / 2;
+                        y2 = y - img.height;
+                        y2 = y2>0?0:y2;
+                        h1 = (3 * img.height) - (2 * y);
+                        h1 = h1<img.height?img.height:h1;
+                        ctx.drawImage(img, 0, y1, img.width, y, 0, y2, img.width, h1);
+                        break;
+                    case 15: // in from top and bottom
+                        h1 = ~~(img.height / 2);
+                        y1 = Math.min(~~(y / 2), h1);
+                        ctx.drawImage(img, 0, 0, img.width, h1, 0, 0, img.width, y1);
+                        y = Math.max(img.height - y1, h1);
+                        ctx.drawImage(img, 0, h1, img.width, h1, 0, img.height - y1, img.width, y1);
+                        break;
+                    case 16: // out from middle
+                        x1 = Math.max((img.width - x) / 2, 0);
+                        ctx.drawImage(img, 0, 0, img.width, img.height, x1, 0, x, img.height);
+                        break;
+                    case 17: // out from middle (horizontal)
+                        y1 = Math.max((img.height - y) / 2, 0);
+                        ctx.drawImage(img, 0, 0, img.width, img.height, 0, y1, img.width, y);
+                        break;
+                    case 18: // out from centre
+                        x1 = Math.max((img.width - x) / 2, 0);
+                        y1 = Math.max((img.height - y) / 2, 0);
+                        ctx.drawImage(img, 0, 0, img.width, img.height, x1, y1, x, y);
+                        break;
+                }
+                if (amount>100) {
+                    amount = 0;
+                    cancelAnimationFrameRate(handle);
+                    started = false;
+                    [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                    return;
+                }
+            }
+            handle = rAF(expand);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            dir = ~~value;
+            rAF(expand);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 220px;
+            margin-bottom: 2px;
+            margin-right: 2px;
+            height: 21px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas>
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">from right</option>
+            <option value="1">from left</option>
+            <option value="2">from top</option>
+            <option value="3">from bottom</option>
+            <option value="4">from bottom right</option>
+            <option value="5">from top right</option>
+            <option value="6">from top left</option>
+            <option value="7">from bottom left</option>
+            <option value="8">in from right</option>
+            <option value="9">in from left</option>
+            <option value="10">in from top</option>
+            <option value="11">in from bottom</option>
+            <option value="12">in to middle</option>
+            <option value="13">in from sides</option>
+            <option value="14">in to middle (horizontal)</option>
+            <option value="15">in from top and bottom</option>
+            <option value="16">out from middle</option>
+            <option value="17">out from middle (horizontal)</option>
+            <option value="18">out from centre</option>
+        </select><br />
+    </div>
+</body>
+</html>

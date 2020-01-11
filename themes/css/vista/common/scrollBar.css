@@ -1,0 +1,200 @@
+﻿.carbon.ScrollBar.orientation-horizontal {
+  border-radius: 3px;
+  background-image: linear-gradient(to bottom,#606060 0,#303030 100%);
+}
+
+.carbon.ScrollBar.orientation-vertical {
+  border-radius: 3px;
+  background-image: linear-gradient(to right,#606060 0,#303030 100%);
+}
+
+.carbon.ScrollBarFirstButton.orientation-horizontal,
+.carbon.ScrollBarLastButton.orientation-horizontal {
+  background-image: linear-gradient(to bottom,#606060 0,#303030 100%);
+}
+
+.carbon.ScrollBarFirstButton.orientation-vertical,
+.carbon.ScrollBarLastButton.orientation-vertical {
+  background-image: linear-gradient(to right,#606060 0,#303030 100%);
+}
+
+.carbon.ScrollBarFirstButton,
+.carbon.ScrollBarLastButton {
+  border:none;
+  color:#000;
+}
+
+.carbon.ScrollBarFirstButton:hover,
+.carbon.ScrollBarLastButton:hover {
+  color: #202020;
+}
+
+.carbon.ScrollBarFirstButton.orientation-horizontal:before {
+  line-height:16px;
+  content:"*";
+}
+
+.carbon.ScrollBarFirstButton.orientation-vertical:before {
+  line-height:18px;
+  content:"#";
+}
+
+.carbon.ScrollBarLastButton.orientation-horizontal:before {
+  line-height:16px;
+  content:")";
+}
+
+.carbon.ScrollBarLastButton.orientation-vertical:before {
+  line-height:18px;
+  content:"8";
+}
+
+.carbon.ScrollBarInner.orientation-horizontal {
+  left: 18px;
+  top: 2px;
+  right: 18px;
+  bottom: 2px;
+  border-radius: 6px;
+  background-image: linear-gradient(to bottom,#303030 0,#606060 100%);
+}
+
+.carbon.ScrollBarInner.orientation-vertical {
+  left: 2px;
+  top: 18px;
+  right: 2px;
+  bottom: 18px;
+  border-radius: 6px;
+  background-image: linear-gradient(to right,#303030 0,#606060 100%);
+}
+
+.carbon.ScrollBarThumb.orientation-horizontal:hover {
+  background-image: linear-gradient(to bottom,#F9DDA2 0,#674704 100%);
+}
+
+.carbon.ScrollBarThumb.orientation-horizontal,
+.carbon.ScrollBarThumb.orientation-horizontal.disabled {
+  top: 0;
+  bottom: 0;
+  border: 1px solid #404040;
+  background-image: linear-gradient(to bottom,#F4BB40 0,#674704 100%);
+  border-radius: 8px;
+}
+
+.carbon.ScrollBar.focused .ScrollBarThumb.orientation-horizontal {
+  -webkit-animation: scrollBarFocusH 1s infinite linear;
+  -moz-animation: scrollBarFocusH 1s infinite linear;
+  -o-animation: scrollBarFocusH 1s infinite linear;
+  -ms-animation: scrollBarFocusH 1s infinite linear;
+  animation: scrollBarFocusH 1s infinite linear;
+}
+
+@keyframes scrollBarFocusH {
+  from {
+    background-image: linear-gradient(to bottom,#F4BB40 0,#674704 100%);
+  }
+  to {
+    background-image: linear-gradient(to bottom,#F9DDA2 0,#674704 100%);
+  }
+}
+
+@-webkit-keyframes scrollBarFocusH {
+  from {
+    background-image: linear-gradient(to bottom,#F4BB40 0,#674704 100%);
+  }
+  to {
+    background-image: linear-gradient(to bottom,#F9DDA2 0,#674704 100%);
+  }
+}
+
+@-moz-keyframes scrollBarFocusH {
+  from {
+    background-image: linear-gradient(to bottom,#F4BB40 0,#674704 100%);
+  }
+  to {
+    background-image: linear-gradient(to bottom,#F9DDA2 0,#674704 100%);
+  }
+}
+
+@-o-keyframes scrollBarFocusH {
+  from {
+    background-image: linear-gradient(to bottom,#F4BB40 0,#674704 100%);
+  }
+  to {
+    background-image: linear-gradient(to bottom,#F9DDA2 0,#674704 100%);
+  }
+}
+
+@keyframes scrollBarFocusH {
+  from {
+    background-image: linear-gradient(to bottom,#F4BB40 0,#674704 100%);
+  }
+  to {
+    background-image: linear-gradient(to bottom,#F9DDA2 0,#674704 100%);
+  }
+}
+
+.carbon.ScrollBarThumb.orientation-vertical:hover {
+  background-image: linear-gradient(to right,#F9DDA2 0,#674704 100%);
+}
+
+.carbon.ScrollBarThumb.orientation-vertical,
+.carbon.ScrollBarThumb.orientation-vertical.disabled {
+  left: 0;
+  right: 0;
+  border: 1px solid #404040;
+  background-image: linear-gradient(to right,#F4BB40 0,#674704 100%);
+  border-radius: 8px;
+}
+
+.carbon.ScrollBar.focused .ScrollBarThumb.orientation-vertical {
+  -webkit-animation: scrollBarFocusV 1s infinite linear;
+  -moz-animation: scrollBarFocusV 1s infinite linear;
+  -o-animation: scrollBarFocusV 1s infinite linear;
+  -ms-animation: scrollBarFocusV 1s infinite linear;
+  animation: scrollBarFocusV 1s infinite linear;
+}
+
+@keyframes scrollBarFocusV {
+  from {
+    background-image: linear-gradient(to right,#F4BB40 0,#674704 100%);
+  }
+  to {
+    background-image: linear-gradient(to right,#F9DDA2 0,#674704 100%);
+  }
+}
+
+@-webkit-keyframes scrollBarFocusV {
+  from {
+    background-image: linear-gradient(to right,#F4BB40 0,#674704 100%);
+  }
+  to {
+    background-image: linear-gradient(to right,#F9DDA2 0,#674704 100%);
+  }
+}
+
+@-moz-keyframes scrollBarFocusV {
+  from {
+    background-image: linear-gradient(to right,#F4BB40 0,#674704 100%);
+  }
+  to {
+    background-image: linear-gradient(to right,#F9DDA2 0,#674704 100%);
+  }
+}
+
+@-o-keyframes scrollBarFocusV {
+  from {
+    background-image: linear-gradient(to right,#F4BB40 0,#674704 100%);
+  }
+  to {
+    background-image: linear-gradient(to right,#F9DDA2 0,#674704 100%);
+  }
+}
+
+@keyframes scrollBarFocusV {
+  from {
+    background-image: linear-gradient(to right,#F4BB40 0,#674704 100%);
+  }
+  to {
+    background-image: linear-gradient(to right,#F9DDA2 0,#674704 100%);
+  }
+}

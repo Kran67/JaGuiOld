@@ -1,0 +1,19 @@
+.macos.ListBoxItemColor {
+}
+
+.macos.ListBoxItemColor.disabled:hover {
+    background-color: transparent;
+}
+
+.macos.ListBoxItemColor:hover,
+.macos.ListBoxItemColor.selected {
+    background-color: #3875D7;
+    color: #FFF;
+}
+
+.macos.Color {
+    left: 1px;
+    top: 1px;
+    width: 12px;
+    height: 12px;
+}

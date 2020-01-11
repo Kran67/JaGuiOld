@@ -1,0 +1,25 @@
+.simple.CalloutPanel {
+    border: 1px solid #BCBCBC;
+    border-radius: 2px;
+    background-color: #FFF;
+}
+
+.simple.CalloutPanelArrow.calloutposition-top {
+    border: 1px solid transparent;
+    border-bottom-color: #BCBCBC;
+}
+
+.simple.CalloutPanelArrow.calloutposition-right {
+    border: 1px solid transparent;
+    border-left-color: #BCBCBC;
+}
+
+.simple.CalloutPanelArrow.calloutposition-bottom {
+    border: 1px solid transparent;
+    border-top-color: #BCBCBC;
+}
+
+.simple.CalloutPanelArrow.calloutposition-left {
+    border: 1px solid transparent;
+    border-right-color: #BCBCBC;
+}

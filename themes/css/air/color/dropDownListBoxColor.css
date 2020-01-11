@@ -1,0 +1,19 @@
+﻿.air.ListBoxItemColor {
+    border-radius: 0;
+}
+
+.air.ListBoxItemColor.disabled:hover {
+    background-color: transparent;
+}
+
+.air.ListBoxItemColor:hover,
+.air.ListBoxItemColor.selected {
+    background-color: #2B6472;
+}
+
+.air.Color {
+    left: 1px;
+    top: 1px;
+    width: 12px;
+    height: 12px;
+}

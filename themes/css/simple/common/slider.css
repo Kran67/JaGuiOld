@@ -1,0 +1,113 @@
+.simple.Slider .thumb,
+.simple.Slider input[type='range']::-webkit-slider-thumb {
+    background-color: #F1F1F1;
+    border: 1px solid #686868;
+    height: 14px;
+    width: 7px;
+    margin-top: -4px;
+}
+
+.simple.Slider .thumb,
+.simple.Slider input[type='range']::-moz-range-thumb {
+    background-color: #F1F1F1;
+    border: 1px solid #686868;
+    height: 14px;
+    width: 7px;
+    margin-top: -4px;
+}
+
+    .simple.Slider input[type='range']::-webkit-slider-thumb:hover {
+        border-color: #939393;
+    }
+
+.simple.Slider input[type='range']::-moz-range-thumb:hover {
+    border-color: #939393;
+}
+
+.simple.Slider {
+    box-shadow: none;
+}
+
+    .simple.Slider:before {
+        content: "";
+        background-color: #FFF;
+        border: 1px solid #B7B7B7;
+        flex: 1;
+        align-self: stretch;
+        margin: 4px 2px;
+    }
+
+.simple.SliderLeftToolTip,
+.simple.SliderRightToolTip {
+    border: 1px solid #686868;
+    background-color: #2B8EDF;
+    z-index: 999999;
+    overflow: visible;
+    color: #FFF;
+    padding: 2px;
+}
+
+.simple.SliderRange {
+    top: 5px;
+    bottom: 5px;
+    background-color: #2B8EDF;
+    left: 0;
+}
+
+.simple.SliderLeftToolTip.top,
+.simple.SliderRightToolTip.top {
+    top: -25px;
+}
+
+.simple.SliderLeftToolTip.bottom,
+.simple.SliderRightToolTip.bottom {
+    bottom: -25px;
+}
+
+.simple.SliderLeftToolTipArrow.top,
+.simple.SliderRightToolTipArrow.top {
+    border-top: 5px solid #686868;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 0 solid transparent;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.simple.SliderLeftToolTipArrow.bottom,
+.simple.SliderRightToolTipArrow.bottom {
+    border-bottom: 5px solid #686868;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 0 solid transparent;
+    top: -5px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.simple.SliderLeftToolTipArrowFront.top,
+.simple.SliderRightToolTipArrowFront.top {
+    border-top: 4px solid #2B8EDF;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 0 solid transparent;
+    bottom: -4px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.simple.SliderLeftToolTipArrowFront.bottom,
+.simple.SliderRightToolTipArrowFront.bottom {
+    border-bottom: 4px solid #2B8EDF;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 0 solid transparent;
+    top: -4px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.simple.Slider.focused:before {
+    border: 1px solid #6694E3;
+}

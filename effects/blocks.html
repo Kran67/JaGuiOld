@@ -1,0 +1,710 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>block transition</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        const transitions = {
+            get toRightBottom() {
+                return [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 3, y: 0 }, { x: 4, y: 0 },
+                    { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 4, y: 1 },
+                    { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 3, y: 2 }, { x: 4, y: 2 },
+                    { x: 0, y: 3 }, { x: 1, y: 3 }, { x: 2, y: 3 }, { x: 3, y: 3 }, { x: 4, y: 3 },
+                    { x: 0, y: 4 }, { x: 1, y: 4 }, { x: 2, y: 4 }, { x: 3, y: 4 }, { x: 4, y: 4 }
+                ];
+            },
+            get toLeftBottom() {
+                return [{ x: 4, y: 0 }, { x: 3, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 0 },
+                    { x: 4, y: 1 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 1, y: 1 }, { x: 0, y: 1 },
+                    { x: 4, y: 2 }, { x: 3, y: 2 }, { x: 2, y: 2 }, { x: 1, y: 2 }, { x: 0, y: 2 },
+                    { x: 4, y: 3 }, { x: 3, y: 3 }, { x: 2, y: 3 }, { x: 1, y: 3 }, { x: 0, y: 3 },
+                    { x: 4, y: 4 }, { x: 3, y: 4 }, { x: 2, y: 4 }, { x: 1, y: 4 }, { x: 0, y: 4 }
+                ];
+            },
+            get toRightTop() {
+                return [{ x: 0, y: 4 }, { x: 1, y: 4 }, { x: 2, y: 4 }, { x: 3, y: 4 }, { x: 4, y: 4 },
+                    { x: 0, y: 3 }, { x: 1, y: 3 }, { x: 2, y: 3 }, { x: 3, y: 3 }, { x: 4, y: 3 },
+                    { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 3, y: 2 }, { x: 4, y: 2 },
+                    { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 4, y: 1 },
+                    { x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 3, y: 0 }, { x: 4, y: 0 }
+                ];
+            },
+            get toLeftTop() {
+                return [{ x: 4, y: 4 }, { x: 3, y: 4 }, { x: 2, y: 4 }, { x: 1, y: 4 }, { x: 0, y: 4 },
+                    { x: 4, y: 3 }, { x: 3, y: 3 }, { x: 2, y: 3 }, { x: 1, y: 3 }, { x: 0, y: 3 },        
+                    { x: 4, y: 2 }, { x: 3, y: 2 }, { x: 2, y: 2 }, { x: 1, y: 2 }, { x: 0, y: 2 },
+                    { x: 4, y: 1 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 1, y: 1 }, { x: 0, y: 1 },
+                    { x: 4, y: 0 }, { x: 3, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 0 }
+                ];
+            },
+            get toBottomRight() {
+                return [{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }, { x: 0, y: 4 },
+                    { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 1, y: 3 }, { x: 1, y: 4 },
+                    { x: 2, y: 0 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 2, y: 3 }, { x: 2, y: 4 },
+                    { x: 3, y: 0 }, { x: 3, y: 1 }, { x: 3, y: 2 }, { x: 3, y: 3 }, { x: 3, y: 4 },
+                    { x: 4, y: 0 }, { x: 4, y: 1 }, { x: 4, y: 2 }, { x: 4, y: 3 }, { x: 4, y: 4 }
+                ];
+            },
+            get toBottomLeft() {
+                return [{ x: 4, y: 0 }, { x: 4, y: 1 }, { x: 4, y: 2 }, { x: 4, y: 3 }, { x: 4, y: 4 },
+                    { x: 3, y: 0 }, { x: 3, y: 1 }, { x: 3, y: 2 }, { x: 3, y: 3 }, { x: 3, y: 4 },
+                    { x: 2, y: 0 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 2, y: 3 }, { x: 2, y: 4 },
+                    { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 1, y: 3 }, { x: 1, y: 4 },
+                    { x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }, { x: 0, y: 4 }
+                ];
+            },
+            get toTopRight() {
+                return [{ x: 0, y: 4 }, { x: 0, y: 3 }, { x: 0, y: 2 }, { x: 0, y: 1 }, { x: 0, y: 0 },
+                    { x: 1, y: 4 }, { x: 1, y: 3 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 1, y: 0 },
+                    { x: 2, y: 4 }, { x: 2, y: 3 }, { x: 2, y: 2 }, { x: 2, y: 1 }, { x: 2, y: 0 },
+                    { x: 3, y: 4 }, { x: 3, y: 3 }, { x: 3, y: 2 }, { x: 3, y: 1 }, { x: 3, y: 0 },
+                    { x: 4, y: 4 }, { x: 4, y: 3 }, { x: 4, y: 2 }, { x: 4, y: 1 }, { x: 4, y: 0 }
+                ];
+            },
+            get toTopLeft() {
+                return [{ x: 4, y: 4 }, { x: 4, y: 3 }, { x: 4, y: 2 }, { x: 4, y: 1 }, { x: 4, y: 0 },
+                    { x: 3, y: 4 }, { x: 3, y: 3 }, { x: 3, y: 2 }, { x: 3, y: 1 }, { x: 3, y: 0 },        
+                    { x: 2, y: 4 }, { x: 2, y: 3 }, { x: 2, y: 2 }, { x: 2, y: 1 }, { x: 2, y: 0 },
+                    { x: 1, y: 4 }, { x: 1, y: 3 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 1, y: 0 },
+                    { x: 0, y: 4 }, { x: 0, y: 3 }, { x: 0, y: 2 }, { x: 0, y: 1 }, { x: 0, y: 0 }
+                ];
+            },
+            get random() {
+                return [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 3, y: 0 }, { x: 4, y: 0 },
+                    { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 4, y: 1 },
+                    { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 3, y: 2 }, { x: 4, y: 2 },
+                    { x: 0, y: 3 }, { x: 1, y: 3 }, { x: 2, y: 3 }, { x: 3, y: 3 }, { x: 4, y: 3 },
+                    { x: 0, y: 4 }, { x: 1, y: 4 }, { x: 2, y: 4 }, { x: 3, y: 4 }, { x: 4, y: 4 }
+                ];
+            },
+            get spiralFromTopLeft() {
+                return [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 3, y: 0 }, { x: 4, y: 0 },
+                    { x: 4, y: 1 }, { x: 4, y: 2 }, { x: 4, y: 3 }, { x: 4, y: 4 }, { x: 3, y: 4 },
+                    { x: 2, y: 4 }, { x: 1, y: 4 }, { x: 0, y: 4 }, { x: 0, y: 3 }, { x: 0, y: 2 },
+                    { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 3, y: 2 },
+                    { x: 3, y: 3 }, { x: 2, y: 3 }, { x: 1, y: 3 }, { x: 1, y: 2 }, { x: 2, y: 2 }
+                ];
+            },
+            get spiralFromTopRight() {
+                return [{ x: 4, y: 0 }, { x: 3, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 0 },
+                    { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }, { x: 0, y: 4 }, { x: 1, y: 4 },
+                    { x: 2, y: 4 }, { x: 3, y: 4 }, { x: 4, y: 4 }, { x: 4, y: 3 }, { x: 4, y: 2 },
+                    { x: 4, y: 1 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 2 },
+                    { x: 1, y: 3 }, { x: 2, y: 3 }, { x: 3, y: 3 }, { x: 3, y: 2 }, { x: 2, y: 2 }
+                ];
+            },
+            get spiralFromBottomLeft() {
+                return [{ x: 0, y: 4 }, { x: 0, y: 3 }, { x: 0, y: 2 }, { x: 0, y: 1 }, { x: 0, y: 0 },
+                    { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 3, y: 0 }, { x: 4, y: 0 }, { x: 4, y: 1 },
+                    { x: 4, y: 2 }, { x: 4, y: 3 }, { x: 4, y: 4 }, { x: 3, y: 4 }, { x: 2, y: 4 },
+                    { x: 1, y: 4 }, { x: 1, y: 3 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 2, y: 1 },
+                    { x: 3, y: 1 }, { x: 3, y: 2 }, { x: 3, y: 3 }, { x: 2, y: 3 }, { x: 2, y: 2 }
+                ];
+            },
+            get spiralFromBottomRight() {
+                return [{ x: 4, y: 4 }, { x: 3, y: 4 }, { x: 2, y: 4 }, { x: 1, y: 4 }, { x: 0, y: 4 },
+                    { x: 0, y: 3 }, { x: 0, y: 2 }, { x: 0, y: 1 }, { x: 0, y: 0 }, { x: 1, y: 0 },
+                    { x: 2, y: 0 }, { x: 3, y: 0 }, { x: 4, y: 0 }, { x: 4, y: 1 }, { x: 4, y: 2 },
+                    { x: 4, y: 3 }, { x: 3, y: 3 }, { x: 2, y: 3 }, { x: 1, y: 3 }, { x: 1, y: 2 },
+                    { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 3, y: 2 }, { x: 2, y: 2 }
+                ];
+            },
+            get spiralFromCenterToTopRight() {
+                return [{ x: 2, y: 2 }, { x: 3, y: 2 }, { x: 3, y: 3 }, { x: 2, y: 3 }, { x: 1, y: 3 },
+                    { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 4, y: 1 },
+                    { x: 4, y: 2 }, { x: 4, y: 3 }, { x: 4, y: 4 }, { x: 3, y: 4 }, { x: 2, y: 4 },
+                    { x: 1, y: 4 }, { x: 0, y: 4 }, { x: 0, y: 3 }, { x: 0, y: 2 }, { x: 0, y: 1 },
+                    { x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 3, y: 0 }, { x: 4, y: 0 }
+                ];
+            },
+            get spiralFromCenterToTopLeft() {
+                return [{ x: 2, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 3 }, { x: 2, y: 3 }, { x: 3, y: 3 },
+                    { x: 3, y: 2 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 1, y: 1 }, { x: 0, y: 1 },
+                    { x: 0, y: 2 }, { x: 0, y: 3 }, { x: 0, y: 4 }, { x: 1, y: 4 }, { x: 2, y: 4 },
+                    { x: 3, y: 4 }, { x: 4, y: 4 }, { x: 4, y: 3 }, { x: 4, y: 2 }, { x: 4, y: 1 },
+                    { x: 4, y: 0 }, { x: 3, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 0 }
+                ];
+            },
+            get spiralFromCenterToBottomRight() {
+                return [{ x: 2, y: 2 }, { x: 3, y: 2 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 1, y: 1 },
+                    { x: 1, y: 2 }, { x: 1, y: 3 }, { x: 2, y: 3 }, { x: 3, y: 3 }, { x: 4, y: 3 },
+                    { x: 4, y: 2 }, { x: 4, y: 1 }, { x: 4, y: 0 }, { x: 3, y: 0 }, { x: 2, y: 0 },
+                    { x: 1, y: 0 }, { x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 },
+                    { x: 0, y: 4 }, { x: 1, y: 4 }, { x: 2, y: 4 }, { x: 3, y: 4 }, { x: 4, y: 4 }
+                ];
+            },
+            get spiralFromCenterToBottomLeft() {
+                return [{ x: 2, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 },
+                    { x: 3, y: 2 }, { x: 3, y: 3 }, { x: 2, y: 3 }, { x: 1, y: 3 }, { x: 0, y: 3 },
+                    { x: 0, y: 2 }, { x: 0, y: 1 }, { x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 },
+                    { x: 3, y: 0 }, { x: 4, y: 0 }, { x: 4, y: 1 }, { x: 4, y: 2 }, { x: 4, y: 3 },
+                    { x: 4, y: 4 }, { x: 3, y: 4 }, { x: 2, y: 4 }, { x: 1, y: 4 }, { x: 0, y: 4 }
+                ];
+            },
+            get snakeFromTopRightToBottomLeft() {
+                return [{ x: 4, y: 0 }, { x: 3, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 0 },
+                    { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 4, y: 1 },
+                    { x: 4, y: 2 }, { x: 3, y: 2 }, { x: 2, y: 2 }, { x: 1, y: 2 }, { x: 0, y: 2 },
+                    { x: 0, y: 3 }, { x: 1, y: 3 }, { x: 2, y: 3 }, { x: 3, y: 3 }, { x: 4, y: 3 },
+                    { x: 4, y: 4 }, { x: 3, y: 4 }, { x: 2, y: 4 }, { x: 1, y: 4 }, { x: 0, y: 4 }
+                ];
+            },
+            get snakeFromTopLeftToBottomRight() {
+                return [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 3, y: 0 }, { x: 4, y: 0 },
+                    { x: 4, y: 1 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 1, y: 1 }, { x: 0, y: 1 },
+                    { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 3, y: 2 }, { x: 4, y: 2 },
+                    { x: 4, y: 3 }, { x: 3, y: 3 }, { x: 2, y: 3 }, { x: 1, y: 3 }, { x: 0, y: 3 },
+                    { x: 0, y: 4 }, { x: 1, y: 4 }, { x: 2, y: 4 }, { x: 3, y: 4 }, { x: 4, y: 4 }
+                ];
+            },
+            get snakeFromBottomLeftToTopRight() {
+                return [{ x: 0, y: 4 }, { x: 0, y: 3 }, { x: 0, y: 2 }, { x: 0, y: 1 }, { x: 0, y: 0 },
+                    { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 1, y: 3 }, { x: 1, y: 4 },
+                    { x: 2, y: 4 }, { x: 2, y: 3 }, { x: 2, y: 2 }, { x: 2, y: 1 }, { x: 2, y: 0 },
+                    { x: 3, y: 0 }, { x: 3, y: 1 }, { x: 3, y: 2 }, { x: 3, y: 3 }, { x: 3, y: 4 },
+                    { x: 4, y: 4 }, { x: 4, y: 3 }, { x: 4, y: 2 }, { x: 4, y: 1 }, { x: 4, y: 0 }
+                ];
+            },
+            get snakeFromBottomRightToTopLeft() {
+                return [{ x: 4, y: 4 }, { x: 3, y: 4 }, { x: 2, y: 4 }, { x: 1, y: 4 }, { x: 0, y: 4 },
+                    { x: 0, y: 3 }, { x: 1, y: 3 }, { x: 2, y: 3 }, { x: 3, y: 3 }, { x: 4, y: 3 },
+                    { x: 4, y: 2 }, { x: 3, y: 2 }, { x: 2, y: 2 }, { x: 1, y: 2 }, { x: 0, y: 2 },
+                    { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 4, y: 1 },
+                    { x: 4, y: 0 }, { x: 3, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 0 }
+                ];
+            },
+            get biFromTopLeftAndBottomRight() {
+                return [{ x: 0, y: 0 }, { x: 4, y: 4 }, { x: 1, y: 0 }, { x: 3, y: 4 }, { x: 2, y: 0 },
+                    { x: 2, y: 4 }, { x: 3, y: 0 }, { x: 1, y: 4 }, { x: 4, y: 0 }, { x: 0, y: 4 },
+                    { x: 4, y: 1 }, { x: 0, y: 3 }, { x: 3, y: 1 }, { x: 1, y: 3 }, { x: 2, y: 1 },
+                    { x: 2, y: 3 }, { x: 1, y: 1 }, { x: 3, y: 3 }, { x: 0, y: 1 }, { x: 4, y: 3 },
+                    { x: 0, y: 2 }, { x: 4, y: 2 }, { x: 1, y: 2 }, { x: 3, y: 2 }, { x: 2, y: 2 }
+                ];
+            },
+            get biFromTopRightAndBottomLeft() {
+                return [{ x: 4, y: 0 }, { x: 0, y: 4 }, { x: 3, y: 0 }, { x: 1, y: 4 }, { x: 2, y: 0 },
+                    { x: 2, y: 4 }, { x: 1, y: 0 }, { x: 3, y: 4 }, { x: 0, y: 0 }, { x: 4, y: 4 },
+                    { x: 0, y: 1 }, { x: 4, y: 3 }, { x: 1, y: 1 }, { x: 3, y: 3 }, { x: 2, y: 1 },
+                    { x: 2, y: 3 }, { x: 3, y: 1 }, { x: 1, y: 3 }, { x: 4, y: 1 }, { x: 0, y: 3 },
+                    { x: 0, y: 2 }, { x: 4, y: 2 }, { x: 1, y: 2 }, { x: 3, y: 2 }, { x: 2, y: 2 }
+                ];
+            },
+            get biFromBottomLeftAndTopRight() {
+                return [{ x: 0, y: 4 }, { x: 4, y: 0 }, { x: 1, y: 4 }, { x: 3, y: 0 }, { x: 2, y: 4 },
+                    { x: 2, y: 0 }, { x: 3, y: 4 }, { x: 1, y: 0 }, { x: 4, y: 4 }, { x: 0, y: 0 },
+                    { x: 4, y: 3 }, { x: 0, y: 1 }, { x: 3, y: 3 }, { x: 1, y: 1 }, { x: 2, y: 3 },
+                    { x: 2, y: 1 }, { x: 1, y: 3 }, { x: 3, y: 1 }, { x: 0, y: 3 }, { x: 4, y: 1 },
+                    { x: 0, y: 2 }, { x: 4, y: 2 }, { x: 1, y: 2 }, { x: 3, y: 2 }, { x: 2, y: 2 }
+                ];
+            },
+            get biFromBottomRightAndTopLeft() {
+                return [{ x: 4, y: 4 }, { x: 0, y: 0 }, { x: 3, y: 4 }, { x: 1, y: 0 }, { x: 2, y: 4 },
+                    { x: 2, y: 0 }, { x: 1, y: 4 }, { x: 3, y: 0 }, { x: 0, y: 4 }, { x: 4, y: 0 },
+                    { x: 0, y: 3 }, { x: 4, y: 1 }, { x: 1, y: 3 }, { x: 3, y: 1 }, { x: 2, y: 3 },
+                    { x: 2, y: 1 }, { x: 3, y: 3 }, { x: 1, y: 1 }, { x: 4, y: 3 }, { x: 0, y: 1 },
+                    { x: 4, y: 2 }, { x: 0, y: 2 }, { x: 3, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 }
+                ];
+            },
+            get biFromCenterBottom() {
+                return [{ x: 2, y: 2 }, { x: 3, y: 2 }, { x: 1, y: 2 }, { x: 4, y: 2 }, { x: 0, y: 2 },
+                    { x: 4, y: 3 }, { x: 0, y: 1 }, { x: 3, y: 3 }, { x: 1, y: 1 }, { x: 2, y: 3 },
+                    { x: 2, y: 1 }, { x: 1, y: 3 }, { x: 3, y: 1 }, { x: 0, y: 3 }, { x: 4, y: 1 },
+                    { x: 0, y: 4 }, { x: 4, y: 0 }, { x: 1, y: 4 }, { x: 3, y: 0 }, { x: 2, y: 4 },
+                    { x: 2, y: 0 }, { x: 3, y: 4 }, { x: 1, y: 0 }, { x: 4, y: 4 }, { x: 0, y: 0 }
+                ];
+            },
+            get biFromCenterTop() {
+                return [{ x: 2, y: 2 }, { x: 3, y: 2 }, { x: 1, y: 2 }, { x: 4, y: 2 }, { x: 0, y: 2 },
+                    { x: 4, y: 1 }, { x: 0, y: 3 }, { x: 3, y: 1 }, { x: 1, y: 3 }, { x: 2, y: 1 },
+                    { x: 2, y: 3 }, { x: 1, y: 1 }, { x: 3, y: 3 }, { x: 0, y: 1 }, { x: 4, y: 3 },
+                    { x: 0, y: 0 }, { x: 4, y: 4 }, { x: 1, y: 0 }, { x: 3, y: 4 }, { x: 2, y: 0 },
+                    { x: 2, y: 4 }, { x: 3, y: 0 }, { x: 1, y: 4 }, { x: 4, y: 0 }, { x: 0, y: 4 }
+                ];
+            },
+            get biFromCenterLeft() {
+                return [{ x: 2, y: 2 }, { x: 2, y: 1 }, { x: 2, y: 3 }, { x: 2, y: 0 }, { x: 2, y: 4 },
+                    { x: 1, y: 0 }, { x: 3, y: 4 }, { x: 1, y: 1 }, { x: 3, y: 3 }, { x: 1, y: 2 },
+                    { x: 3, y: 2 }, { x: 1, y: 3 }, { x: 3, y: 1 }, { x: 1, y: 4 }, { x: 3, y: 0 },
+                    { x: 0, y: 4 }, { x: 4, y: 0 }, { x: 0, y: 3 }, { x: 4, y: 1 }, { x: 0, y: 2 },
+                    { x: 4, y: 2 }, { x: 0, y: 1 }, { x: 4, y: 3 }, { x: 0, y: 0 }, { x: 4, y: 4 }
+                ];
+            },
+            get biFromCenterRight() {
+                return [{ x: 2, y: 2 }, { x: 2, y: 1 }, { x: 2, y: 3 }, { x: 2, y: 0 }, { x: 2, y: 4 },
+                    { x: 3, y: 4 }, { x: 1, y: 0 }, { x: 3, y: 3 }, { x: 1, y: 1 }, { x: 3, y: 2 },
+                    { x: 1, y: 2 }, { x: 3, y: 1 }, { x: 1, y: 3 }, { x: 3, y: 0 }, { x: 1, y: 4 },
+                    { x: 4, y: 0 }, { x: 0, y: 4 }, { x: 4, y: 1 }, { x: 0, y: 3 }, { x: 4, y: 2 },
+                    { x: 0, y: 2 }, { x: 4, y: 3 }, { x: 0, y: 1 }, { x: 4, y: 4 }, { x: 0, y: 0 }
+                ];
+            },
+            get barLeftToRight() {
+                return [[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }, { x: 0, y: 4 }],
+                    [{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 1, y: 3 }, { x: 1, y: 4 }],
+                    [{ x: 2, y: 0 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 2, y: 3 }, { x: 2, y: 4 }],
+                    [{ x: 3, y: 0 }, { x: 3, y: 1 }, { x: 3, y: 2 }, { x: 3, y: 3 }, { x: 3, y: 4 }],
+                    [{ x: 4, y: 0 }, { x: 4, y: 1 }, { x: 4, y: 2 }, { x: 4, y: 3 }, { x: 4, y: 4 }]
+                ];
+            },
+            get barRightToLeft() {
+                return [[{ x: 4, y: 0 }, { x: 4, y: 1 }, { x: 4, y: 2 }, { x: 4, y: 3 }, { x: 4, y: 4 }],
+                    [{ x: 3, y: 0 }, { x: 3, y: 1 }, { x: 3, y: 2 }, { x: 3, y: 3 }, { x: 3, y: 4 }],
+                    [{ x: 2, y: 0 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 2, y: 3 }, { x: 2, y: 4 }],
+                    [{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 1, y: 3 }, { x: 1, y: 4 }],
+                    [{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }, { x: 0, y: 4 }]
+                ];
+            },
+            get barTopToBottom() {
+                return [[{ x: 4, y: 0 }, { x: 3, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 0 }],
+                    [{ x: 4, y: 1 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 1, y: 1 }, { x: 0, y: 1 }],
+                    [{ x: 4, y: 2 }, { x: 3, y: 2 }, { x: 2, y: 2 }, { x: 1, y: 2 }, { x: 0, y: 2 }],
+                    [{ x: 4, y: 3 }, { x: 3, y: 3 }, { x: 2, y: 3 }, { x: 1, y: 3 }, { x: 0, y: 3 }],
+                    [{ x: 4, y: 4 }, { x: 3, y: 4 }, { x: 2, y: 4 }, { x: 1, y: 4 }, { x: 0, y: 4 }]
+                ];
+            },
+            get barBottomToTop() {
+                return [[{ x: 0, y: 4 }, { x: 1, y: 4 }, { x: 2, y: 4 }, { x: 3, y: 4 }, { x: 4, y: 4 }],
+                    [{ x: 0, y: 3 }, { x: 1, y: 3 }, { x: 2, y: 3 }, { x: 3, y: 3 }, { x: 4, y: 3 }],
+                    [{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 3, y: 2 }, { x: 4, y: 2 }],
+                    [{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 4, y: 1 }],
+                    [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 3, y: 0 }, { x: 4, y: 0 }]
+                ];
+            },
+            get barBottomLeftToTopRight() {
+                return [[{ x: 0, y: 4 }, { x: 0, y: 3 }, { x: 0, y: 2 }, { x: 0, y: 1 }, { x: 0, y: 0 }, { x: 1, y: 4 }, { x: 2, y: 4 }, { x: 3, y: 4 }, { x: 4, y: 4 }],
+                    [{ x: 1, y: 3 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 3 }, { x: 3, y: 3 }, { x: 4, y: 3 }],
+                    [{ x: 2, y: 2 }, { x: 2, y: 1 }, { x: 2, y: 0 }, { x: 3, y: 2 }, { x: 4, y: 2 }],
+                    [{ x: 3, y: 1 }, { x: 3, y: 0 }, { x: 4, y: 1 }],
+                    [{ x: 4, y: 0 }]
+                ];
+            },
+            get barBottomRightToTopLeft() {
+                return [[{ x: 4, y: 4 }, { x: 3, y: 4 }, { x: 2, y: 4 }, { x: 1, y: 4 }, { x: 0, y: 4 }, { x: 4, y: 3 }, { x: 4, y: 2 }, { x: 4, y: 1 }, { x: 4, y: 0 }],
+                    [{ x: 3, y: 3 }, { x: 2, y: 3 }, { x: 1, y: 3 }, { x: 0, y: 3 }, { x: 3, y: 2 }, { x: 3, y: 1 }, { x: 3, y: 0 }],
+                    [{ x: 2, y: 2 }, { x: 2, y: 1 }, { x: 2, y: 0 }, { x: 1, y: 2 }, { x: 0, y: 2 }],
+                    [{ x: 1, y: 1 }, { x: 0, y: 1 }, { x: 1, y: 0 }],
+                    [{ x: 0, y: 0 }]
+                ];
+            },
+            get barTopLeftToBottomRight() {
+                return [[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 3, y: 0 }, { x: 4, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }, { x: 0, y: 4 }],
+                    [{ x: 1, y: 1 }, { x: 1, y: 2 }, { x: 1, y: 3 }, { x: 1, y: 4 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 4, y: 1 }],
+                    [{ x: 2, y: 2 }, { x: 2, y: 3 }, { x: 2, y: 4 }, { x: 3, y: 2 }, { x: 4, y: 2 }],
+                    [{ x: 3, y: 3 }, { x: 3, y: 4 }, { x: 4, y: 3 }],
+                    [{ x: 4, y: 4 }]
+                ];
+            },
+            get barTopRightToBottomLeft() {
+                return [[{ x: 4, y: 0 }, { x: 3, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 0 }, { x: 4, y: 1 }, { x: 4, y: 2 }, { x: 4, y: 3 }, { x: 4, y: 4 }],
+                    [{ x: 3, y: 1 }, { x: 3, y: 2 }, { x: 3, y: 3 }, { x: 3, y: 4 }, { x: 2, y: 1 }, { x: 1, y: 1 }, { x: 0, y: 1 }],
+                    [{ x: 2, y: 2 }, { x: 1, y: 2 }, { x: 0, y: 2 }, { x: 2, y: 3 }, { x: 2, y: 4 }],
+                    [{ x: 1, y: 3 }, { x: 0, y: 3 }, { x: 1, y: 4 }],
+                    [{ x: 0, y: 4 }]
+                ];
+            },
+            get crossCenterToEdge() {
+                return [[{ x: 2, y: 2 }],
+                    [{ x: 2, y: 1 }, { x: 1, y: 2 }, { x: 2, y: 3 }, { x: 3, y: 2 }],
+                    [{ x: 2, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 3 }, { x: 2, y: 4 }, { x: 3, y: 3 }, { x: 4, y: 2 }, { x: 3, y: 1 }],
+                    [{ x: 1, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 3 }, { x: 1, y: 4 }, { x: 3, y: 4 }, { x: 4, y: 3 }, { x: 4, y: 1 }, { x: 3, y: 0 }],
+                    [{ x: 0, y: 0 }, { x: 0, y: 4 }, { x: 4, y: 0 }, { x: 4, y: 4 }]
+                ];
+            },
+            get crossEdgeToCenter() {
+                return [[{ x: 0, y: 0 }, { x: 4, y: 0 }, { x: 0, y: 4 }, { x: 4, y: 4 }],
+                    [{ x: 1, y: 0 }, { x: 0, y: 1 }, { x: 3, y: 0 }, { x: 4, y: 1 }, { x: 4, y: 3 }, { x: 3, y: 4 }, { x: 0, y: 3 }, { x: 1, y: 4 }],
+                    [{ x: 2, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 3 }, { x: 2, y: 4 }, { x: 3, y: 3 }, { x: 4, y: 2 }, { x: 3, y: 1 }],
+                    [{ x: 2, y: 1 }, { x: 1, y: 2 }, { x: 2, y: 3 }, { x: 3, y: 2 }],
+                    [{ x: 2, y: 2 }]
+                ];
+            },
+            get squareCenterToEdge() {
+                return [[{ x: 2, y: 2 }],
+                    [{ x: 1, y: 1 }, { x: 1, y: 2 }, { x: 1, y: 3 }, { x: 2, y: 3 }, { x: 3, y: 3 }, { x: 3, y: 2 }, { x: 3, y: 1 }, { x: 2, y: 1 }],
+                    [{ x: 2, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }, { x: 0, y: 4 }, { x: 1, y: 4 }, { x: 2, y: 4 }, { x: 3, y: 4 }, { x: 4, y: 4 }, { x: 4, y: 3 }, { x: 4, y: 2 }, { x: 4, y: 1 }, { x: 4, y: 0 }, { x: 3, y: 0 }]
+                ];
+            },
+            get squareEdgeToCenter() {
+                return [[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }, { x: 0, y: 4 }, { x: 1, y: 4 }, { x: 2, y: 4 }, { x: 3, y: 4 }, { x: 4, y: 4 }, { x: 4, y: 3 }, { x: 4, y: 2 }, { x: 4, y: 1 }, { x: 4, y: 0 }, { x: 3, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 0 }],
+                    [{ x: 1, y: 1 }, { x: 1, y: 2 }, { x: 1, y: 3 }, { x: 2, y: 3 }, { x: 3, y: 3 }, { x: 3, y: 2 }, { x: 3, y: 1 }, { x: 2, y: 1 }],
+                    [{ x: 2, y: 2 }]
+                ];
+            },
+            get barCenterToEdge() {
+                return [[{ x: 0, y : 2 }, { x: 1, y : 2 }, { x: 2, y : 2 }, { x: 3, y : 2 }, { x: 4, y : 2 }],
+                    [{ x: 0, y : 1 }, { x: 1, y : 1 }, { x: 2, y : 1 }, { x: 3, y : 1 }, { x: 4, y : 1 }, { x: 0, y : 3 }, { x: 1, y : 3 }, { x: 2, y : 3 }, { x: 3, y : 3 }, { x: 4, y : 3 }],
+                    [{ x: 0, y : 0 }, { x: 1, y : 0 }, { x: 2, y : 0 }, { x: 3, y : 0 }, { x: 4, y : 0 }, { x: 0, y : 4 }, { x: 1, y : 4 }, { x: 2, y : 4 }, { x: 3, y : 4 }, { x: 4, y : 4 }]
+                ];
+            },
+            get barEdgeToCenter() {
+                return [[{ x: 0, y : 0 }, { x: 1, y : 0 }, { x: 2, y : 0 }, { x: 3, y : 0 }, { x: 4, y : 0 }, { x: 0, y : 4 }, { x: 1, y : 4 }, { x: 2, y : 4 }, { x: 3, y : 4 }, { x: 4, y : 4 }],
+                    [{ x: 0, y : 1 }, { x: 1, y : 1 }, { x: 2, y : 1 }, { x: 3, y : 1 }, { x: 4, y : 1 }, { x: 0, y : 3 }, { x: 1, y : 3 }, { x: 2, y : 3 }, { x: 3, y : 3 }, { x: 4, y : 3 }],
+                    [{ x: 0, y : 2 }, { x: 1, y : 2 }, { x: 2, y : 2 }, { x: 3, y : 2 }, { x: 4, y : 2 }]
+                ];
+            },
+            get diagonalCenterToEdge() {
+                return [[{ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 2 }, { x: 3, y: 3 }, { x: 4, y: 4 }],
+                    [{ x: 1, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 2 }, { x: 4, y: 3 }, { x: 0, y: 1 }, { x: 1, y: 2 }, { x: 2, y: 3 }, { x: 3, y: 4 }],
+                    [{ x: 2, y: 0 }, { x: 3, y: 1 }, { x: 4, y: 2 }, { x: 0, y: 2 }, { x: 1, y: 3 }, { x: 2, y: 4 }],
+                    [{ x: 3, y: 0 }, { x: 4, y: 1 }, { x: 0, y: 3 }, { x: 1, y: 4 }],
+                    [{ x: 4, y: 0 }, { x: 0, y: 4 }]
+                ];
+            },
+            get diagonalEdgeToCenter() {
+                return [[{ x: 4, y: 0 }, { x: 0, y: 4 }],
+                    [{ x: 3, y: 0 }, { x: 4, y: 1 }, { x: 0, y: 3 }, { x: 1, y: 4 }],
+                    [{ x: 2, y: 0 }, { x: 3, y: 1 }, { x: 4, y: 2 }, { x: 0, y: 2 }, { x: 1, y: 3 }, { x: 2, y: 4 }],
+                    [{ x: 1, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 2 }, { x: 4, y: 3 }, { x: 0, y: 1 }, { x: 1, y: 2 }, { x: 2, y: 3 }, { x: 3, y: 4 }],
+                    [{ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 2 }, { x: 3, y: 3 }, { x: 4, y: 4 }]
+                ];
+            },
+            get diagonalTopLeftToBottomRight() {
+                return [[{ x: 0, y: 0 }],
+                    [{ x: 1, y: 0 }, { x: 0, y: 1 }],
+                    [{ x: 2, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 2 }],
+                    [{ x: 3, y: 0 }, { x: 2, y: 1 }, { x: 1, y: 2 }, { x: 0, y: 3 }],
+                    [{ x: 4, y: 0 }, { x: 3, y: 1 }, { x: 2, y: 2 }, { x: 1, y: 3 }, { x: 0, y: 4 }],
+                    [{ x: 4, y: 1 }, { x: 3, y: 2 }, { x: 2, y: 3 }, { x: 1, y: 4 }],
+                    [{ x: 4, y: 2 }, { x: 3, y: 3 }, { x: 2, y: 4 }],
+                    [{ x: 4, y: 3 }, { x: 3, y: 4 }],
+                    [{ x: 4, y: 4 }]
+                ];
+            },
+            get diagonalTopRightToBottomLeft() {
+                return [[{ x: 4, y: 0 }],
+                    [{ x: 3, y: 0 }, { x: 4, y: 1 }],
+                    [{ x: 2, y: 0 }, { x: 3, y: 1 }, { x: 4, y: 2 }],
+                    [{ x: 1, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 2 }, { x: 4, y: 3 }],
+                    [{ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 2 }, { x: 3, y: 3 }, { x: 4, y: 4 }],
+                    [{ x: 0, y: 1 }, { x: 1, y: 2 }, { x: 2, y: 3 }, { x: 3, y: 4 }],
+                    [{ x: 0, y: 2 }, { x: 1, y: 3 }, { x: 2, y: 4 }],
+                    [{ x: 0, y: 3 }, { x: 1, y: 4 }],
+                    [{ x: 0, y: 4 }]
+                ];
+            },
+            get diagonalBottomLeftToTopRight() {
+                return [[{ x: 0, y: 4 }],
+                    [{ x: 0, y: 3 }, { x: 1, y: 4 }],
+                    [{ x: 0, y: 2 }, { x: 1, y: 3 }, { x: 2, y: 4 }],
+                    [{ x: 0, y: 1 }, { x: 1, y: 2 }, { x: 2, y: 3 }, { x: 3, y: 4 }],
+                    [{ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 2 }, { x: 3, y: 3 }, { x: 4, y: 4 }],
+                    [{ x: 1, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 2 }, { x: 4, y: 3 }],
+                    [{ x: 2, y: 0 }, { x: 3, y: 1 }, { x: 4, y: 2 }],
+                    [{ x: 3, y: 0 }, { x: 4, y: 1 }],
+                    [{ x: 4, y: 0 }]
+                ];
+            },
+            get diagonalBottomRightToTopLeft() {
+                return [[{ x: 4, y: 4 }],
+                    [{ x: 4, y: 3 }, { x: 3, y: 4 }],
+                    [{ x: 4, y: 2 }, { x: 3, y: 3 }, { x: 2, y: 4 }],
+                    [{ x: 4, y: 1 }, { x: 3, y: 2 }, { x: 2, y: 3 }, { x: 1, y: 4 }],
+                    [{ x: 4, y: 0 }, { x: 3, y: 1 }, { x: 2, y: 2 }, { x: 1, y: 3 }, { x: 0, y: 4 }],
+                    [{ x: 3, y: 0 }, { x: 2, y: 1 }, { x: 1, y: 2 }, { x: 0, y: 3 }],
+                    [{ x: 2, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 2 }],
+                    [{ x: 1, y: 0 }, { x: 0, y: 1 }],
+                    [{ x: 0, y: 0 }]
+                ];
+            },
+            get interlaceLeftToRightToLeft() {
+                return [[{ x: 0, y: 0 }, { x: 0, y: 2 }, { x: 0, y: 4 }],
+                    [{ x: 1, y: 0 }, { x: 1, y: 2 }, { x: 1, y: 4 }],
+                    [{ x: 2, y: 0 }, { x: 2, y: 2 }, { x: 2, y: 4 }],
+                    [{ x: 3, y: 0 }, { x: 3, y: 2 }, { x: 3, y: 4 }],
+                    [{ x: 4, y: 0 }, { x: 4, y: 2 }, { x: 4, y: 4 }],
+                    [{ x: 4, y: 1 }, { x: 4, y: 3 }],
+                    [{ x: 3, y: 1 }, { x: 3, y: 3 }],
+                    [{ x: 2, y: 1 }, { x: 2, y: 3 }],
+                    [{ x: 1, y: 1 }, { x: 1, y: 3 }],
+                    [{ x: 0, y: 1 }, { x: 0, y: 3 }]
+                ];
+            },
+            get interlaceRightToLeftToRight() {
+                return [[{ x: 4, y: 0 }, { x: 4, y: 2 }, { x: 4, y: 4 }],
+                    [{ x: 3, y: 0 }, { x: 3, y: 2 }, { x: 3, y: 4 }],
+                    [{ x: 2, y: 0 }, { x: 2, y: 2 }, { x: 2, y: 4 }],
+                    [{ x: 1, y: 0 }, { x: 1, y: 2 }, { x: 1, y: 4 }],
+                    [{ x: 0, y: 0 }, { x: 0, y: 2 }, { x: 0, y: 4 }],
+                    [{ x: 0, y: 1 }, { x: 0, y: 3 }],
+                    [{ x: 1, y: 1 }, { x: 1, y: 3 }],
+                    [{ x: 2, y: 1 }, { x: 2, y: 3 }],
+                    [{ x: 3, y: 1 }, { x: 3, y: 3 }],
+                    [{ x: 4, y: 1 }, { x: 4, y: 3 }]
+                ];
+            },
+            get interlaceTopToBottomToTop() {
+                return [[{ x: 0, y: 0}, { x: 2, y: 0}, { x: 4, y: 0}],
+                    [{ x: 0, y: 1}, { x: 2, y: 1}, { x: 4, y: 1}],
+                    [{ x: 0, y: 2}, { x: 2, y: 2}, { x: 4, y: 2}],
+                    [{ x: 0, y: 3}, { x: 2, y: 3}, { x: 4, y: 3}],
+                    [{ x: 0, y: 4}, { x: 2, y: 4}, { x: 4, y: 4}],
+                    [{ x: 1, y: 4}, { x: 3, y: 4}],
+                    [{ x: 1, y: 3}, { x: 3, y: 3}],
+                    [{ x: 1, y: 2}, { x: 3, y: 2}],
+                    [{ x: 1, y: 1}, { x: 3, y: 1}],
+                    [{ x: 1, y: 0}, { x: 3, y: 0}]
+                ];
+            },
+            get interlaceBottomToTopToBottom() {
+                return [[{ x: 0, y: 4}, { x: 2, y: 4}, { x: 4, y: 4}],
+                    [{ x: 0, y: 3}, { x: 2, y: 3}, { x: 4, y: 3}],
+                    [{ x: 0, y: 2}, { x: 2, y: 2}, { x: 4, y: 2}],
+                    [{ x: 0, y: 1}, { x: 2, y: 1}, { x: 4, y: 1}],
+                    [{ x: 0, y: 0}, { x: 2, y: 0}, { x: 4, y: 0}],
+                    [{ x: 1, y: 0}, { x: 3, y: 0}],
+                    [{ x: 1, y: 1}, { x: 3, y: 1}],
+                    [{ x: 1, y: 2}, { x: 3, y: 2}],
+                    [{ x: 1, y: 3}, { x: 3, y: 3}],
+                    [{ x: 1, y: 4}, { x: 3, y: 4}]
+                ];
+            },
+            get interlaceToRightTwice() {
+                return [[{ x: 0, y: 0 }, { x: 0, y: 2 }, { x: 0, y: 4 }],
+                    [{ x: 1, y: 0 }, { x: 1, y: 2 }, { x: 1, y: 4 }],
+                    [{ x: 2, y: 0 }, { x: 2, y: 2 }, { x: 2, y: 4 }],
+                    [{ x: 3, y: 0 }, { x: 3, y: 2 }, { x: 3, y: 4 }],
+                    [{ x: 4, y: 0 }, { x: 4, y: 2 }, { x: 4, y: 4 }],
+                    [{ x: 0, y: 1 }, { x: 0, y: 3 }],
+                    [{ x: 1, y: 1 }, { x: 1, y: 3 }],
+                    [{ x: 2, y: 1 }, { x: 2, y: 3 }],
+                    [{ x: 3, y: 1 }, { x: 3, y: 3 }],
+                    [{ x: 4, y: 1 }, { x: 4, y: 3 }]
+                ];
+            },
+            get interlaceToLeftTwice() {
+                return [[{ x: 4, y: 0 }, { x: 4, y: 2 }, { x: 4, y: 4 }],
+                    [{ x: 3, y: 0 }, { x: 3, y: 2 }, { x: 3, y: 4 }],
+                    [{ x: 2, y: 0 }, { x: 2, y: 2 }, { x: 2, y: 4 }],
+                    [{ x: 1, y: 0 }, { x: 1, y: 2 }, { x: 1, y: 4 }],
+                    [{ x: 0, y: 0 }, { x: 0, y: 2 }, { x: 0, y: 4 }],
+                    [{ x: 4, y: 1 }, { x: 4, y: 3 }],
+                    [{ x: 3, y: 1 }, { x: 3, y: 3 }],
+                    [{ x: 2, y: 1 }, { x: 2, y: 3 }],
+                    [{ x: 1, y: 1 }, { x: 1, y: 3 }],
+                    [{ x: 0, y: 1 }, { x: 0, y: 3 }]
+                ];
+            },
+            get interlaceToTopTwice() {
+                return [[{ x: 0, y: 4}, { x: 2, y: 4}, { x: 4, y: 4}],
+                    [{ x: 0, y: 3}, { x: 2, y: 3}, { x: 4, y: 3}],
+                    [{ x: 0, y: 2}, { x: 2, y: 2}, { x: 4, y: 2}],
+                    [{ x: 0, y: 1}, { x: 2, y: 1}, { x: 4, y: 1}],
+                    [{ x: 0, y: 0}, { x: 2, y: 0}, { x: 4, y: 0}],
+                    [{ x: 1, y: 4}, { x: 3, y: 4}],
+                    [{ x: 1, y: 3}, { x: 3, y: 3}],
+                    [{ x: 1, y: 2}, { x: 3, y: 2}],
+                    [{ x: 1, y: 1}, { x: 3, y: 1}],
+                    [{ x: 1, y: 0}, { x: 3, y: 0}]
+                ];
+            },
+            get interlaceToBottomTwice() {
+                return [[{ x: 0, y: 0}, { x: 2, y: 0}, { x: 4, y: 0}],
+                    [{ x: 0, y: 1}, { x: 2, y: 1}, { x: 4, y: 1}],
+                    [{ x: 0, y: 2}, { x: 2, y: 2}, { x: 4, y: 2}],
+                    [{ x: 0, y: 3}, { x: 2, y: 3}, { x: 4, y: 3}],
+                    [{ x: 0, y: 4}, { x: 2, y: 4}, { x: 4, y: 4}],
+                    [{ x: 1, y: 0}, { x: 3, y: 0}],
+                    [{ x: 1, y: 1}, { x: 3, y: 1}],
+                    [{ x: 1, y: 2}, { x: 3, y: 2}],
+                    [{ x: 1, y: 3}, { x: 3, y: 3}],
+                    [{ x: 1, y: 4}, { x: 3, y: 4}]
+                ];
+            } // => ok
+        };
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            if (typeof handle === "function") {
+                handle();
+            }
+        };
+        let rAF;
+        let handle = null;
+        const img = new Image();
+        let largeur;
+        let hauteur;
+        let transitionName = "blockToRightBottom";
+        let blocks;
+        let started = false;
+        img.onload = function () {
+            largeur = Math.ceil(img.width / 5);
+            hauteur = Math.ceil(img.height / 5);
+        };
+        img.src = "mustang.jpg";
+
+        function highFPS(transitionName) {
+            cancelAnimationFrameRate(handle);
+            rAF = requestAnimationFrameRate(60);
+            block(transitionName);
+        }
+
+        function mediumFPS(transitionName) {
+            cancelAnimationFrameRate(handle);
+            rAF = requestAnimationFrameRate();
+            block(transitionName);
+        }
+
+        function lowFPS(transitionName) {
+            cancelAnimationFrameRate(handle);
+            rAF = requestAnimationFrameRate(15);
+            block(transitionName);
+        }
+
+        function veryLowFPS(transitionName) {
+            cancelAnimationFrameRate(handle);
+            rAF = requestAnimationFrameRate(7);
+            block(transitionName);
+        }
+
+        function block(transitionName) {
+            const ctx = document.getElementById("c").getContext("2d");
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("button"), x => x.setAttribute("disabled", "disabled"));
+                started = true;
+                ctx.clearRect(0, 0, img.width, img.height);
+                blocks = transitions[transitionName].slice();
+                if (transitionName === "random") {
+                    blocks.sort(() => Math.random() - 0.5);
+                }
+            } else {
+                let i;
+                let l;
+                let b = blocks.splice(0, 1);
+                if (Array.isArray(b) && Array.isArray(b[0])) {
+                    b = b[0];
+                }
+                for (i=0,l=b.length;i<l;i++) {
+                    const x = b[i].x * largeur;
+                    const y = b[i].y * hauteur;
+                    ctx.drawImage(img, x, y, largeur, hauteur, x, y, largeur, hauteur);
+                }
+                if (blocks.length === 0) {
+                    cancelAnimationFrameRate(handle);
+                    started = false;
+                    [].forEach.call(document.querySelectorAll("button"), a => a.removeAttribute("disabled"));
+                    return;
+                }
+            }
+            handle = rAF(block);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right:10px;
+        }
+        select {
+            width:220px;
+            margin-bottom:2px;
+            margin-right:2px;
+            height: 21px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas>
+    <div>
+        <label>medium FPS</label> : <select onchange="if (this.selectedIndex>0) { mediumFPS(this.options[this.selectedIndex].text); }">
+            <option></option>
+            <option>toRightBottom</option>
+            <option>toLeftBottom</option>
+            <option>toRightTop</option>
+            <option>toLeftTop</option>
+            <option>toBottomRight</option>
+            <option>toBottomLeft</option>
+            <option>toTopRight</option>
+            <option>toTopLeft</option>
+            <option>random</option>
+            <option>spiralFromTopLeft</option>
+            <option>spiralFromTopRight</option>
+            <option>spiralFromBottomLeft</option>
+            <option>spiralFromBottomRight</option>
+            <option>spiralFromCenterToTopRight</option>
+            <option>spiralFromCenterToTopLeft</option>
+            <option>spiralFromCenterToBottomRight</option>
+            <option>spiralFromCenterToBottomLeft</option>
+            <option>snakeFromTopRightToBottomLeft</option>
+            <option>snakeFromTopLeftToBottomRight</option>
+            <option>snakeFromBottomLeftToTopRight</option>
+            <option>snakeFromBottomRightToTopLeft</option>
+            <option>biFromTopLeftAndBottomRight</option>
+            <option>biFromTopRightAndBottomLeft</option>
+            <option>biFromBottomLeftAndTopRight</option>
+            <option>biFromBottomRightAndTopLeft</option>
+            <option>biFromCenterBottom</option>
+            <option>biFromCenterTop</option>
+            <option>biFromCenterLeft</option>
+            <option>biFromCenterRight</option>
+        </select><br />
+        <label>lowFPS</label> : <select onchange="if (this.selectedIndex>0) { lowFPS(this.options[this.selectedIndex].text); }">
+            <option></option>
+            <option>barLeftToRight</option>
+            <option>barRightToLeft</option>
+            <option>barTopToBottom</option>
+            <option>barBottomToTop</option>
+            <option>barBottomLeftToTopRight</option>
+            <option>barBottomRightToTopLeft</option>
+            <option>barTopLeftToBottomRight</option>
+            <option>barTopRightToBottomLeft</option>
+            <option>crossCenterToEdge</option>
+            <option>crossEdgeToCenter</option>
+            <option>barCenterToEdge</option>
+            <option>barEdgeToCenter</option>
+            <option>diagonalCenterToEdge</option>
+            <option>diagonalEdgeToCenter</option>
+            <option>diagonalTopLeftToBottomRight</option>
+            <option>diagonalTopRightToBottomLeft</option>
+            <option>diagonalBottomLeftToTopRight</option>
+            <option>diagonalBottomRightToTopLeft</option>
+            <option>interlaceLeftToRightToLeft</option>
+            <option>interlaceRightToLeftToRight</option>
+            <option>interlaceTopToBottomToTop</option>
+            <option>interlaceBottomToTopToBottom</option>
+            <option>interlaceToRightTwice</option>
+            <option>interlaceToLeftTwice</option>
+            <option>interlaceToTopTwice</option>
+            <option>interlaceToBottomTwice</option>
+</select><br />
+        <label>veryLowFPS</label> : <select onchange="if (this.selectedIndex>0) { veryLowFPS(this.options[this.selectedIndex].text); }">
+            <option></option>
+            <option>squareCenterToEdge</option>
+            <option>squareEdgeToCenter</option>
+        </select>
+    </div>
+</body>
+</html>

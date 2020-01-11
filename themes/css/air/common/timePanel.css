@@ -1,0 +1,22 @@
+﻿.air.TimePanel {
+    background-color: #393939;
+    border: 1px solid #1C1C1C;
+}
+
+.air.TimePanel.focused {
+    box-shadow: 0 0 6px 2px #65C8E0;
+}
+
+.air.TimePanel.focused .TimePanel_Hours.focused,
+.air.TimePanel.focused .TimePanel_Minutes.focused,
+.air.TimePanel.focused .TimePanel_Seconds.focused,
+.air.TimePanel.focused .TimePanel_Meridiem.focused {
+    box-shadow: none;
+}
+
+.air.TimePanel.focused .TimePanel_Hours.focused .ItemsWheelContent .ItemsWheelItem,
+.air.TimePanel.focused .TimePanel_Minutes.focused .ItemsWheelContent .ItemsWheelItem,
+.air.TimePanel.focused .TimePanel_Seconds.focused .ItemsWheelContent .ItemsWheelItem,
+.air.TimePanel.focused .TimePanel_Meridiem.focused .ItemsWheelContent .ItemsWheelItem {
+    color: #65C8E0;
+}

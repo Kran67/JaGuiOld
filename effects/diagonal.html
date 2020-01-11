@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Diagonal</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        let img;
+        let ctx;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let amount = 0;
+        let op;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        function mulDiv(value, multi, divider) {
+            return ~~((value * multi) / divider);
+        }
+        function createPolygonRgnEx(ctx, img, pts, noClip) {
+            let i;
+            let l;
+            if (!noClip) {
+                ctx.save();
+            }
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, pts[0].y);
+            for (i=1, l = pts.length; i < l; i++) {
+                ctx.lineTo(pts[i].x, pts[i].y);
+            }
+            if (!noClip) {
+                ctx.clip();
+                if (img) {
+                    ctx.drawImage(img, 0, 0);
+                } else {
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+        function diagonal() {
+            let x;
+            let y;
+            if (!started) {
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+            }
+            let w = img.width;
+            let h = img.height;
+            if (img.width >= img.height) {
+                x = mulDiv(img.width, amount, 100);
+                y = mulDiv(x, img.height, img.width);
+            } else {
+                y = mulDiv(img.height, amount, 100);
+                x = mulDiv(y, img.width, img.height);
+            }
+            amount++;
+            const mW = ~~(w / 2);
+            const mH = ~~(h / 2);
+            const mX = ~~(x / 2);
+            const mY = ~~(y / 2);
+            switch (op) {
+                case 0: // sweep from top left bottom right anticlockwise
+                    createPolygonRgnEx(ctx, img, [{ x:0, y:h}, { x:0, y:0}, { x:x, y:h}]);
+                    createPolygonRgnEx(ctx, img, [{x:w, y:h}, { x:w, y:0}, { x:w - x, y:0}]);
+                    break;
+                case 1: // sweep from top left bottom right clockwise
+                    createPolygonRgnEx(ctx, img, [{x:w, y:0}, { x:0, y:0}, {x:w, y:y}]);
+                    createPolygonRgnEx(ctx, img, [{x:w, y:h}, { x:0, y:h}, {x:0, y:h - y}]);
+                    break;
+                case 2: // cross In
+                    createPolygonRgnEx(ctx, img, [{x:0, y:mH - mY}, {x:mX, y:mH}, {x:0, y:mH + mY}]);
+                    createPolygonRgnEx(ctx, img, [{x:w, y:mH - mY}, {x:w - mX, y:mH}, {x:w, y:mH + mY}]);
+                    createPolygonRgnEx(ctx, img, [{x:mW - mX, y:0}, {x:mW, y:mY}, {x:mW + mX, y:0}]);
+                    createPolygonRgnEx(ctx, img, [{x:mW - mX, y:h}, {x:mW, y:h - mY}, {x:mW + mX, y:h}]);
+                    break;
+                case 3: // cross Out
+                    {
+                        ctx.drawImage(img, 0, 0);
+                        const img1=img===imgA?imgB:imgA;
+                        createPolygonRgnEx(ctx, img1, [{x:0, y:mY}, {x:mW - mX, y:mH}, {x:0, y:h - mY}]);
+                        createPolygonRgnEx(ctx, img1, [{x:w, y:mY}, {x:mW + mX, y:mH}, {x:w, y:h - mY}]);
+                        createPolygonRgnEx(ctx, img1, [{x:mX, y:0}, {x:mW, y:mH - mY}, {x:w - mX, y:0}]);
+                        createPolygonRgnEx(ctx, img1, [{x:mX, y:h}, {x:mW, y:mH + mY}, {x:w - mX, y:h}]);
+                    }
+                    break;
+                case 4: // box out
+                    createPolygonRgnEx(ctx, img, [{x:-mX, y:mH}, {x:mW, y:-mY}, {x:2 * mW + mX, y:mH}, {x:mW, y:2 * mH + mY}]);
+                    {
+                        const img1=img===imgA?imgB:imgA;
+                        createPolygonRgnEx(ctx, img1, [{x:mX, y:mH}, {x:mW, y:mY}, {x:2 * mW - mX, y:mH}, {x:mW, y:2 * mH - mY}]);
+                    }
+                    break;
+            }
+            if (amount > 101) {
+                amount = 0;
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                return;
+            }
+            handle = rAF(diagonal);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            op = ~~value;
+            handle = rAF(diagonal);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400" style="border:1px solid red"></canvas><br />
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">sweep from top left bottom right anticlockwise</option>
+            <option value="1">sweep from top left bottom right clockwise</option>
+            <option value="2">cross In</option>
+            <option value="3">cross Out</option>
+            <option value="4">box Out</option>
+        </select><br />
+    </div>
+</body>
+</html>

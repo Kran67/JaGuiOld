@@ -1,0 +1,12 @@
+﻿.air.CircularProgressBar,
+.air.CircularProgressBar:after {
+    border: 1px solid #3D3D3D;
+}
+
+.air.CircularProgressBar svg circle.CircularProgressBar_back {
+    stroke: #1F1F1F;
+}
+
+.air.CircularProgressBar svg circle.CircularProgressBar_progress {
+    stroke: #165C97;
+}

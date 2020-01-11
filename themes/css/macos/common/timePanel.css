@@ -1,0 +1,23 @@
+.macos.TimePanel {
+    border: 1px solid #BEBEBE;
+    border-top-color: #8E8E8E;
+    background-color: #FFF;
+}
+
+.macos.TimePanel.focused {
+    border-color: #1F90D2;
+}
+
+.macos.TimePanel.focused .TimePanel_Hours.focused,
+.macos.TimePanel.focused .TimePanel_Minutes.focused,
+.macos.TimePanel.focused .TimePanel_Seconds.focused,
+.macos.TimePanel.focused .TimePanel_Meridiem.focused {
+    box-shadow: none;
+}
+
+.macos.TimePanel.focused .TimePanel_Hours.focused .ItemsWheelContent .ItemsWheelItem,
+.macos.TimePanel.focused .TimePanel_Minutes.focused .ItemsWheelContent .ItemsWheelItem,
+.macos.TimePanel.focused .TimePanel_Seconds.focused .ItemsWheelContent .ItemsWheelItem,
+.macos.TimePanel.focused .TimePanel_Meridiem.focused .ItemsWheelContent .ItemsWheelItem {
+    color: #1F90D2;
+}

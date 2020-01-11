@@ -1,0 +1,12 @@
+﻿.SpeedButton {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.SpeedButtonCaption {
+    margin: 0;
+    overflow: hidden;
+    text-align: center;
+    transform: none;
+    position: static;
+}

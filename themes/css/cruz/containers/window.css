@@ -1,0 +1,249 @@
+﻿.cruz.Window {
+    background-color: #E0E0E0;
+    background-repeat: no-repeat;
+}
+
+    .cruz.Window.maximized {
+        box-shadow: inset 0 1px #C8C8C8 !important;
+    }
+
+    .cruz.Window:not(.none) {
+        box-shadow: inset 0 1px #C8C8C8, 5px 5px 5px rgba(0, 0, 0, .7);
+        border-top-left-radius: 9px;
+        border-top-right-radius: 9px;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        background-image: linear-gradient(to bottom, #FFF, #FFF 34%, #F6F6F6 34%, #E3E3E3) /*13*/
+        , linear-gradient(to right, #E9E9E9, #E9E9E9) /*12*/
+        , linear-gradient(to bottom, #E5E5E5, #E5E5E5) /*11*/
+        , linear-gradient(to right, #E9E9E9, #E9E9E9) /*10*/
+        , linear-gradient(to right, #E5E5E5, #E5E5E5) /*9*/
+        , linear-gradient(to bottom, #E2E2E2, #E2E2E2) /*8*/
+        , linear-gradient(to right, #E5E5E5, #E5E5E5) /*7*/
+        , linear-gradient(to right, #E2E2E2, #E2E2E2) /*6*/
+        , linear-gradient(to bottom, #DEDEDE, #DEDEDE) /*5*/
+        , linear-gradient(to right, #E2E2E2, #E2E2E2) /*4*/
+        , linear-gradient(to right, #C8C8C8, #C8C8C8) /*3*/
+        , linear-gradient(to bottom, #C8C8C8, #C8C8C8) /*2*/
+        , linear-gradient(to right, #C8C8C8, #C8C8C8) /*1*/
+        ;
+        background-size: 100% 23px /*13*/
+        , 1px 100% /*12*/
+        , calc(100% - 7px) 1px /*11*/
+        , 1px 100% /*10*/
+        , 1px 100% /*9*/
+        , calc(100% - 5px) 1px /*8*/
+        , 1px 100% /*7*/
+        , 1px 100% /*6*/
+        , calc(100% - 4px) 1px /*5*/
+        , 1px 100% /*4*/
+        , 1px 100% /*3*/
+        , 100% 1px /*2*/
+        , 1px 100% /*1*/
+        ;
+        background-position: left top /*13*/
+        , 3px -3px /*12*/
+        , 3px calc(100% - 3px) /*11*/
+        , calc(100% - 3px) -3px /*10*/
+        , 2px -2px /*9*/
+        , 2px calc(100% - 2px) /*8*/
+        , calc(100% - 2px) -2px /*7*/
+        , 1px -1px /*6*/
+        , 2px calc(100% - 1px) /*5*/
+        , calc(100% - 1px) -1px /*4*/
+        , left top /*3*/
+        , left bottom /*2*/
+        , right top /*1*/
+        ;
+        border-top: 1px solid #000;
+    }
+
+    .cruz.Window .cruz.WindowLayout {
+        overflow: visible;
+        margin: 3px;
+    }
+
+    .cruz.Window.rolledUp {
+        max-height: 24px;
+    }
+
+    .cruz.Window .cruz.WindowTitleBar {
+        margin: 0;
+        height: 22px;
+        min-height: 22px;
+        max-height: 22px;
+        position: relative;
+        padding-right: 2px;
+        overflow: visible;
+  text-align: center;
+    }
+
+        .cruz.Window .cruz.WindowTitleBar:before {
+            position: absolute;
+            content: "";
+            left: 50px;
+            top: -1px;
+            right: 183px;
+            height: 18px;
+            box-shadow: inset 2px 0 0 #EBEBEB, inset -2px 0 0 #EBEBEB, inset 0 2px 0 #E5E5E5, inset 0 -2px 0 #F2F2F2;
+            border-radius: 9px;
+            z-index: 1;
+        }
+
+        .cruz.Window .cruz.WindowTitleBar:after {
+            position: absolute;
+            content: "";
+            width: 127px;
+            top: -1px;
+            right: 3px;
+            height: 18px;
+            border-radius: 9px;
+            z-index: 1;
+            background-image: linear-gradient(to bottom, #DFDFDF, #F6F6F6);
+        }
+
+    .cruz.Window[data-buttons="5"] .cruz.WindowTitleBar:before {
+        right: 162px;
+    }
+
+    .cruz.Window[data-buttons="5"] .cruz.WindowTitleBar:after {
+        width: 106px;
+    }
+
+    .cruz.Window[data-buttons="4"] .cruz.WindowTitleBar:before {
+        right: 141px;
+    }
+
+    .cruz.Window[data-buttons="4"] .cruz.WindowTitleBar:after {
+        width: 85px;
+    }
+
+    .cruz.Window[data-buttons="3"] .cruz.WindowTitleBar:before {
+        right: 120px;
+    }
+
+    .cruz.Window[data-buttons="3"] .cruz.WindowTitleBar:after {
+        width: 64px;
+    }
+
+    .cruz.Window[data-buttons="2"] .cruz.WindowTitleBar:before, .cruz.Window.dialog .cruz.WindowTitleBar:before {
+        right: 99px;
+    }
+
+    .cruz.Window[data-buttons="2"] .cruz.WindowTitleBar:after, .cruz.Window.dialog .cruz.WindowTitleBar:after {
+        width: 43px;
+    }
+
+    .cruz.Window[data-buttons="1"] .cruz.WindowTitleBar:before {
+        right: 78px;
+    }
+
+    .cruz.Window[data-buttons="1"] .cruz.WindowTitleBar:after {
+        width: 22px;
+    }
+
+    .cruz.Window .cruz.WindowTitle {
+        height: 22px;
+        min-height: 22px;
+        max-height: 22px;
+        line-height: 16px;
+        font-size: 7pt;
+        font-weight: bold;
+        text-shadow: -2px -2px 0 #FFF;
+        color: #808080;
+        top: 1px;
+    }
+
+    .cruz.Window button.cruz.WindowTitleButton {
+        border-radius: 50%;
+        z-index: 2;
+        width: 19px;
+        height: 19px;
+        margin-right: 3px;
+        border: none;
+        background-color: transparent;
+        background-position: center center;
+        background-repeat: no-repeat;
+        top: -1px;
+        background-image: url(../../../images/cruz/windowbtns.png);
+    }
+
+        .cruz.Window button.cruz.WindowTitleButton:before {
+            display: none;
+        }
+
+    .cruz.Window button.cruz.WindowCloseButton, .cruz.Window button.cruz.WindowCloseButton.pressed:not(.disabled):hover {
+        background-position: left top;
+    }
+
+    .cruz.Window:not(.inactive) button.cruz.WindowCloseButton:not(.disabled):hover {
+        background-position: -19px top;
+    }
+
+    .cruz.Window button.cruz.WindowMaxRestoreButton, .cruz.Window button.cruz.WindowMaxRestoreButton.pressed:not(.disabled):hover {
+        background-position: left -19px;
+    }
+
+    .cruz.Window:not(.inactive) button.cruz.WindowMaxRestoreButton:not(.disabled):hover {
+        background-position: -19px -19px;
+    }
+
+    .cruz.Window.maximized button.cruz.WindowMaxRestoreButton, .cruz.Window.maximized button.cruz.WindowMaxRestoreButton.pressed:not(.disabled):hover, .cruz.Window.minimized button.cruz.WindowMinimizeButton, .cruz.Window.minimized button.cruz.WindowMinimizeButton.pressed:not(.disabled):hover {
+        background-position: left -38px;
+    }
+
+    .cruz.Window.maximized:not(.inactive) button.cruz.WindowMaxRestoreButton:not(.disabled):hover, .cruz.Window.minimized:not(.inactive) button.cruz.WindowMinimizeButton:not(.disabled):hover {
+        background-position: -19px -38px;
+    }
+
+    .cruz.Window button.cruz.WindowMinimizeButton, .cruz.Window button.cruz.WindowMinimizeButton.pressed:not(.disabled):hover {
+        background-position: left -57px;
+    }
+
+    .cruz.Window:not(.inactive) button.cruz.WindowMinimizeButton:not(.disabled):hover {
+        background-position: -19px -57px;
+    }
+
+    .cruz.Window button.cruz.WindowHelpButton, .cruz.Window button.cruz.WindowHelpButton.pressed:not(.disabled):hover {
+        background-position: left -76px;
+    }
+
+    .cruz.Window:not(.inactive) button.cruz.WindowHelpButton:not(.disabled):hover {
+        background-position: -19px -76px;
+    }
+
+    .cruz.Window button.cruz.WindowRollUpDownButton, .cruz.Window button.cruz.WindowRollUpDownButton.pressed:not(.disabled):hover {
+        background-position: left -95px;
+    }
+
+    .cruz.Window:not(.inactive) button.cruz.WindowRollUpDownButton:not(.disabled):hover {
+        background-position: -19px -95px;
+    }
+
+    .cruz.Window.rolledUp button.cruz.WindowRollUpDownButton, .cruz.Window.rolledup button.cruz.WindowRollUpDownButton.pressed:not(.disabled):hover {
+        background-position: left -19px;
+    }
+
+    .cruz.Window:not(.inactive).rolledUp button.cruz.WindowRollUpDownButton:not(.disabled):hover {
+        background-position: -19px -19px;
+    }
+
+    .cruz.Window button.cruz.WindowStayOnOffButton, .cruz.Window button.cruz.WindowStayOnOffButton.pressed:not(.disabled):hover {
+        background-position: left -114px;
+    }
+
+    .cruz.Window:not(.inactive) button.cruz.WindowStayOnOffButton:not(.disabled):hover {
+        background-position: -19px -114px;
+    }
+
+    .cruz.Window button.cruz.WindowStayOnOffButton.isstayon, .cruz.Window button.cruz.WindowStayOnOffButton.isstayon.pressed:not(.disabled):hover {
+        background-position: left -133px;
+    }
+
+    .cruz.Window:not(.inactive) button.cruz.WindowStayOnOffButton.isstayon:not(.disabled):hover {
+        background-position: -19px -133px;
+    }
+
+    .cruz.Window .cruz.WindowContent {
+        background-color: #E0E0E0;
+    }

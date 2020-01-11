@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Rectangles</title>
+    <meta charset="utf-8" />
+    <script src="../scripts/core/ext_math.js"></script>
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        let ctx;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let amount = 0;
+        let op;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let lastImg = imgA;
+        let nextImg = imgB;
+        function mulDiv(value, multi, divider) {
+            return ~~((value * multi) / divider);
+        }
+        function rectangles() {
+            let x;
+            let y;
+            let d;
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+            }
+            const w = ctx.canvas.width;
+            const h = ctx.canvas.height;
+            if (w >= h) {
+                x = mulDiv(w, amount, 100);
+                y = mulDiv(x, h, w);
+            } else {
+                y = mulDiv(h, amount, 100);
+                x = mulDiv(y, w, h);
+            }
+            amount++;
+            ctx.drawImage(lastImg, 0, 0);
+            ctx.save();
+            ctx.beginPath();
+            switch (op) {
+                case 0: // from left and disapear to right
+                case 1: // from right and disapear to left
+                    {
+                        const sW = x;
+                        const sH = ~~(h / 20);
+                        if ((sW !== 0) && (sH !== 0)) {
+                            d = mulDiv(sH, amount, 100);
+                            y = -sH;
+                            while (y < h) {
+                                ctx.rect(0, y - d, w, d);
+                                y += 3 * sH;
+                            }
+                            d = mulDiv(sW, amount, 100);
+                            if (op === 0) {
+                                x = 0;
+                                while (x < w) {
+                                    ctx.rect(x, 0, d, h);
+                                    x += sW;
+                                }
+                            } else {
+                                x = w;
+                                while (x > 0) {
+                                    ctx.rect(x - d, 0, d, h);
+                                    x -= sW;
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case 2: // from up and disapear to bottom
+                case 3: // from bottom and disapear to up
+                    {
+                        const sW = ~~(w / 20);
+                        const sH = y;
+                        if ((sW !== 0) && (sH !== 0)) {
+                            d = mulDiv(sW, amount, 100);
+                            x = -sW;
+                            while (x < w) {
+                                ctx.rect(x - d, 0, d, h);
+                                x += 3 * sW;
+                            }
+                            d = mulDiv(sH, amount, 100);
+                            if (op === 2) {
+                                y = 0;
+                                while (y < h) {
+                                    ctx.rect(0, y, w, d);
+                                    y += sH;
+                                }
+                            } else {
+                                y = h;
+                                while (y > 0) {
+                                    ctx.rect(0, y - d, w, d);
+                                    y -= sH;
+                                }
+                            }
+                        }
+                    }
+                    break;
+            }
+            ctx.clip();
+            ctx.drawImage(nextImg, 0, 0);
+            ctx.restore();
+            if (amount > 100) {
+                [lastImg, nextImg] = [nextImg, lastImg];
+                amount = 0;
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                return;
+            }
+            handle = rAF(rectangles);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            op = ~~value;
+            handle = rAF(rectangles);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400" style="border:1px solid red"></canvas><br />
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">from left and disapear to right</option>
+            <option value="1">from right and disapear to left</option>
+            <option value="2">from up and disapear to bottom</option>
+            <option value="3">from bottom and disapear to up</option>
+        </select><br />
+    </div>
+</body>
+</html>

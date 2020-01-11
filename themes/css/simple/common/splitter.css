@@ -1,0 +1,47 @@
+.simple.Splitter.orientation-horizontal {
+    border-bottom: 1px solid #686868;
+    border-top: 1px solid #6D6D6D;
+    background-color: #FFF;
+}
+
+.simple.Splitter.orientation-vertical {
+    border-right: 1px solid #686868;
+    border-left: 1px solid #6D6D6D;
+    background-color: #FFF;
+}
+
+.simple.Splitter.orientation-horizontal:before {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAABCAYAAAAb4BS0AAAAFUlEQVQIW2OMjIz8z8DAwLB8+XJGABpqBAIGC9LkAAAAAElFTkSuQmCC);
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    background-position: center center;
+    background-repeat: repeat-x;
+}
+
+.simple.Splitter.orientation-vertical:before {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAADCAYAAABS3WWCAAAAEklEQVQIW2OMjIz8zwgmGIAAACcDBBhTyWi1AAAAAElFTkSuQmCC);
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 8px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    background-position: center center;
+    background-repeat: repeat-y;
+}
+
+.simple.Splitter.orientation-horizontal:hover:before {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAABCAYAAAAb4BS0AAAAFUlEQVQIW2PU7rv/n4GBgeFqkSIjAB7SBAJx4NyXAAAAAElFTkSuQmCC);
+}
+
+.simple.Splitter.orientation-vertical:hover:before {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAADCAYAAABS3WWCAAAAEklEQVQIW2PU7rv/nxFMMAABADEsBTL1rP+CAAAAAElFTkSuQmCC);
+}

@@ -1,0 +1,17 @@
+﻿div.LabeledMemo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+div.LabeledMemo div.Memo {
+    position: relative;
+    height: 100% !important;
+    flex: 1;
+}
+
+div.LabeledMemo label.Label {
+    position: static;
+    white-space: nowrap;
+}

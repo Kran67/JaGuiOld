@@ -1,0 +1,22 @@
+﻿button.ToolButton,
+div.ToolButtonSep {
+    float: left;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    width: 23px;
+}
+
+div.ToolButtonSep {
+    width: 0;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+button.ToolButton img {
+    background-repeat: no-repeat;
+}
+
+span.ToolButtonCaption {
+    transform: none;
+}

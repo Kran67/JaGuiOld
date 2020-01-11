@@ -1,0 +1,32 @@
+﻿div.DropDownSlider {
+    max-width: 50px;
+    min-width: 50px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+div.DropDownSliderCaption {
+    white-space: nowrap;
+    overflow: hidden;
+    flex: 1;
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.PopupSlider {
+    border-radius: 3px;
+    height: 24px;
+    width: 110px;
+    padding: 0 5px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+div.PopupSlider div.Slider {
+    position: relative;
+    flex: 1;
+}

@@ -1,0 +1,207 @@
+﻿.macos.Tab,
+.macos.Tab.disabled:hover {
+    margin: 0;
+    box-shadow: 0 1px 0 0 #C7C7C7;
+    text-align: center;
+    height: 17px;
+    display: inline-block;
+    padding: 0 10px;
+    font-size: 8pt;
+    border: 1px solid rgba(215,215,215,0.8);
+    border-top: 1px solid #797979;
+    border-bottom: 1px solid #525252;
+    border-left: none;
+    background-image: linear-gradient(to bottom,#F6F6F6 0,#E5E5E5 45%, #D9D9D9 45%, #FFF 100%);
+    border-right: 1px solid rgba(215,215,215,0.8);
+}
+
+.macos.TabControl .TabSheetsContainer .macos.Tab:last-child {
+    border-right: none;
+}
+
+.macos.TabControl.focused .macos.Tab.selected {
+    border-top: 1px solid #16167B;
+    border-bottom: 1px solid #525252;
+    border-left: none;
+    background-image: linear-gradient(to bottom,#E3EDFA 0,#A1CAF3 45%, #7EB6EF 45%, #D7FFFF 100%);
+}
+
+.macos.Tab:hover {
+}
+
+.macos.TabControl.tabsBottom > .TabsContainer .Tab:hover {
+}
+
+.macos.Tab.selected,
+.macos.Tab.selected:hover {
+    border-top: 1px solid #16167B;
+    border-bottom: 1px solid #525252;
+    border-left: none;
+    background-image: linear-gradient(to bottom,#E3EDFA 0,#A1CAF3 45%, #7EB6EF 45%, #D7FFFF 100%);
+}
+
+.macos.Tab.pressed {
+    background-image: linear-gradient(to bottom,#E2E2E2 0,#CDCDCD 45%, #BBB 45%, #E7E7E7 100%);
+}
+
+.macos.TabControl.tabsBottom > .TabsContainer .Tab.selected,
+.macos.TabControl.tabsBottom > .TabsContainer .Tab.selected:hover {
+    background-image: linear-gradient(to top,#606060 0,#404040 100%);
+    padding-top: 4px;
+    height: 20px;
+    border-top: none;
+}
+
+.macos.TabControl.tabsBottom > .TabsContainer .Tab {
+    color: #E0E0E0;
+    border: 1px solid #303030;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    background-image: linear-gradient(to top,#303030 0,#404040 100%);
+    padding-top: 1px;
+    vertical-align: top;
+    margin-top: 0;
+}
+
+.macos.TabControlHeader {
+    padding: 0 4px;
+    justify-content: center;
+}
+
+
+.macos.TabsContent {
+    border: 1px solid #303030;
+    border-radius: 3px;
+    background-image: linear-gradient(to bottom,#404040 0,#303030 100%);
+}
+
+.macos.TabControl .TabsContainer {
+    height: 17px;
+    text-align: center;
+    order: 2;
+    flex: initial;
+}
+
+.macos.TabControl.noButtons .TabsContainer .macos.Tab:last-child {
+    border-right: 1px solid #A6A6A6;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.macos.TabControl.noButtons .TabsContainer .macos.Tab:first-child {
+    border-left: 1px solid #A6A6A6;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+.macos.TabControl.focused.noButtons .macos.Tab.selected:last-child,
+.macos.TabControl.noButtons .macos.Tab.selected:last-child {
+    border-right: 1px solid #16167B;
+}
+
+.macos.TabControl.focused.noButtons .macos.Tab.selected:first-child,
+.macos.TabControl.noButtons .macos.Tab.selected:first-child {
+    border-left: 1px solid #16167B;
+}
+
+.macos.TabControl.tabsBottom > .TabsContent {
+    background-image: linear-gradient(to top,#404040 0,#303030 100%);
+}
+
+.macos.ItemsWheel {
+    border: 1px solid #BEBEBE;
+    background-color: #E8E8E8;
+}
+
+.macos.ItemsWheelSep {
+    background-color: #BEBEBE;
+}
+
+.macos.ItemsWheelContent {
+    border-left: 1px solid #BEBEBE;
+    border-right: 1px solid #BEBEBE;
+}
+
+.macos.ItemsWheel.focused {
+    border-color: #1F90D2;
+}
+
+.macos.PopupBox {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    background-color: rgba(232,232,232,0.9);
+    box-shadow: 0 2px 10px 0 #777;
+    opacity: 0.8;
+}
+
+.macos.ToolTip {
+    box-shadow: rgba(0,0,0,0.5) 3px 3px 3px;
+    border-radius: 13px;
+    padding: 2px 4px;
+    background-color: #1F90D2;
+    z-index: 999999;
+    color: #FFF;
+}
+
+.macos.TabControlLeftBtn:before,
+.macos.TabControlRightBtn:before {
+    font-family: Jagui;
+    font-size: 4pt;
+}
+
+.macos.TabControlLeftBtn:before {
+    content: "*";
+    font-size: 5pt;
+}
+
+.macos.TabControlRightBtn:before {
+    content: ")";
+    font-size: 5pt;
+}
+
+.macos.TabControl .macos.TabControlLeftBtn,
+.macos.TabControl .macos.TabControlLeftBtn:hover {
+    border-radius: 4px;
+    background: none;
+    width: 16px;
+    height: 17px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+    box-shadow: 0 1px 0 0 #C7C7C7;
+    border-top: 1px solid #797979;
+    border-bottom: 1px solid #525252;
+    background-image: linear-gradient(to bottom,#F6F6F6 0,#E5E5E5 45%, #D9D9D9 45%, #FFF 100%);
+    border-left-color: #A6A6A6;
+    order: 1;
+    position: relative;
+}
+
+.macos.TabControl .macos.TabControlRightBtn,
+.macos.TabControl .macos.TabControlRightBtn:hover {
+    border-radius: 4px;
+    background: none;
+    width: 16px;
+    height: 17px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+    box-shadow: 0 1px 0 0 #C7C7C7;
+    border-top: 1px solid #797979;
+    border-bottom: 1px solid #525252;
+    background-image: linear-gradient(to bottom,#F6F6F6 0,#E5E5E5 45%, #D9D9D9 45%, #FFF 100%);
+    border-right-color: #A6A6A6;
+    order: 3;
+    position: relative;
+}
+
+.macos.TabControl .macos.TabControlLeftBtn.pressed,
+.macos.TabControl .macos.TabControlRightBtn.pressed {
+    background-image: linear-gradient(to bottom,#E2E2E2 0,#CDCDCD 45%, #BBB 45%, #E7E7E7 100%);
+}
+
+.macos.ghostSplitter {
+    background-color: rgba(26,67,243,0.43);
+}

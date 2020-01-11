@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Build</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            if (typeof handle === "function") {
+                handle();
+            }
+        };
+        let rAF = requestAnimationFrameRate(60);
+        let handle = null, ctx;
+        const imgA = new Image();
+        const imgB = new Image();
+        let amount = 0;
+        let started = false;
+        let dir;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let img;
+        function mulDiv(value, multi, divider) {
+            return ~~((value*multi) / divider);
+        }
+        function build() {
+            let x;
+            let y;
+            let n;
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                started = true;
+            } else {
+                amount++;
+                if (img.width>=img.height) {
+                    x = mulDiv(img.width, amount, 100);
+                    y = mulDiv(x, img.height, img.width);
+                } else {
+                    y = mulDiv(img.height, amount, 100);
+                    x = mulDiv(y, img.width, img.height);
+                }
+                switch (dir) {
+                    case 0: // right
+                        n = Math.min(img.width - x, ~~(img.width / 10));
+                        ctx.drawImage(img, 0, 0, x, img.height, 0, 0, x, img.height);
+                        ctx.drawImage(img, x, 0, n, img.height, x, 0, img.width - x, img.height);
+                        break;
+                    case 1: // left
+                        x = img.width - x;
+                        n = Math.max(x - ~~(img.width / 10), 0);
+                        ctx.drawImage(img, x, 0, x, img.height, x, 0, x, img.height);
+                        ctx.drawImage(img, n, 0, x - n, img.height, 0, 0, x, img.height);
+                        break;
+                    case 2: // bottom
+                        n = Math.min(img.height - y, ~~(img.height / 10));
+                        ctx.drawImage(img, 0, 0, img.width, y, 0, 0, img.width, y);
+                        ctx.drawImage(img, 0, y, img.width, n, 0, y, img.width, img.height - y);
+                        break;
+                    case 3: // top
+                        y = img.height - y;
+                        n = Math.max(y - ~~(img.height / 10), 0);
+                        ctx.drawImage(img, 0, y, img.width, y, 0, y, img.width, y);
+                        ctx.drawImage(img, 0, n, img.width, y - n, 0, 0, img.width, y);
+                        break;
+                }
+
+                if (amount>100) {
+                    amount = 0;
+                    cancelAnimationFrameRate(handle);
+                    started = false;
+                    [].forEach.call(document.querySelectorAll("select"), x => x.removeAttribute("disabled"));
+                    return;
+                }
+            }
+            handle = rAF(build);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            dir = ~~value;
+            rAF(build);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        select {
+            width: 220px;
+            margin-bottom: 2px;
+            margin-right: 2px;
+            height: 21px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas>
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">from right</option>
+            <option value="1">from left</option>
+            <option value="2">from top</option>
+            <option value="3">from bottom</option>
+        </select><br />
+    </div>
+</body>
+</html>

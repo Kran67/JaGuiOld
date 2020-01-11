@@ -1,0 +1,15 @@
+.macos.Memo {
+    border: 1px solid #C3C3C3;
+    border-top-color: #7C7C7C;
+    border-bottom-color: #DDD;
+    background-color: #FFF;
+}
+
+.macos.MemoViewPort,
+.macos.MemoViewPort textarea {
+    background-color: #FFF;
+}
+
+.macos.Memo.focused {
+    box-shadow: 0 0 4px 1px #699BD3;
+}

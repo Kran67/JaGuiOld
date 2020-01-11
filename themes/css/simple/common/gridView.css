@@ -1,0 +1,25 @@
+.simple.GridView {
+    border: 1px solid #686868;
+    background-color: #FFF;
+}
+
+.simple.GridViewContent {
+    border: 1px solid #BBB;
+}
+
+.simple.GridViewViewPort {
+    background-color: #FFF;
+}
+
+.simple.GridViewHeader.GridViewRowLine {
+    border-bottom: 1px solid #BBB;
+}
+
+.simple.GridViewHeader,
+.simple.GridViewRowIndic {
+    background-color: #E0ECFF;
+}
+
+.simple.GridViewRowLine {
+    border-bottom: 1px solid #BBB;
+}

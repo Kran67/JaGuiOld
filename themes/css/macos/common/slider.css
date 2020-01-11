@@ -1,0 +1,180 @@
+.macos.Slider .thumb,
+.macos.Slider input[type="range"]::-webkit-slider-thumb {
+    min-width: 11px;
+    max-width: 11px;
+    min-height: 11px;
+    max-height: 11px;
+}
+
+.macos.Slider input[type="range"]::-webkit-slider-thumb {
+    border: 1px solid #222E91;
+    border-top-color: #6C5C9E;
+    border-bottom-width: 0;
+    background-image: linear-gradient(to bottom,#E3EFFB 0,#82BBEF 85%, #82BBEF 95%, #87C0F5 100%);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    margin-top: -4px;
+    box-shadow: -4px 6px 0 -5px #222E91, -3px 7px 0 -5px #222E91, -2px 8px 0 -5px #222E91, -1px 9px 0 -5px #222E91, 0 10px 0 -5px #222E91, 1px 9px 0 -5px #222E91,
+        2px 8px 0 -5px #222E91, 3px 7px 0 -5px #222E91, 4px 6px 0 -5px #222E91, -3px 6px 0 -5px #95B5DC, -2px 6px 0 -5px #95CCF7, -1px 6px 0 -5px #95CCF7,
+        0 6px 0 -5px #95CCF7, 1px 6px 0 -5px #95CCF7, 2px 6px 0 -5px #95CCF7, 3px 6px 0 -5px #95B5DC, -2px 7px 0 -5px #9DBCDE, -1px 7px 0 -5px #A4D8F9, 0 7px 0 -5px #A4D8F9,
+        1px 7px 0 -5px #A4D8F9, 2px 7px 0 -5px #9DBCDE, -1px 8px 0 -5px #A4C2DF, 0 8px 0 -5px #B3E5FB, 1px 8px 0 -5px #A4C2DF, 0 9px 0 -5px #82A1CC;
+}
+
+.macos.Slider input[type="range"]::-moz-range-thumb {
+    border: 1px solid #222E91;
+    border-top-color: #6C5C9E;
+    border-bottom-width: 0;
+    background-image: linear-gradient(to bottom,#E3EFFB 0,#82BBEF 85%, #82BBEF 95%, #87C0F5 100%);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    margin-top: -4px;
+    box-shadow: -4px 6px 0 -5px #222E91, -3px 7px 0 -5px #222E91, -2px 8px 0 -5px #222E91, -1px 9px 0 -5px #222E91, 0 10px 0 -5px #222E91, 1px 9px 0 -5px #222E91,
+        2px 8px 0 -5px #222E91, 3px 7px 0 -5px #222E91, 4px 6px 0 -5px #222E91, -3px 6px 0 -5px #95B5DC, -2px 6px 0 -5px #95CCF7, -1px 6px 0 -5px #95CCF7,
+        0 6px 0 -5px #95CCF7, 1px 6px 0 -5px #95CCF7, 2px 6px 0 -5px #95CCF7, 3px 6px 0 -5px #95B5DC, -2px 7px 0 -5px #9DBCDE, -1px 7px 0 -5px #A4D8F9, 0 7px 0 -5px #A4D8F9,
+        1px 7px 0 -5px #A4D8F9, 2px 7px 0 -5px #9DBCDE, -1px 8px 0 -5px #A4C2DF, 0 8px 0 -5px #B3E5FB, 1px 8px 0 -5px #A4C2DF, 0 9px 0 -5px #82A1CC;
+}
+
+.macos.SliderRange {
+    top: 5px;
+    bottom: 5px;
+    background-image: linear-gradient(to bottom,#3563AC 0,#79ACF0 100%);
+    left:0;
+}
+
+.macos.Slider {
+    background-image: none;
+}
+
+.macos.Slider:before {
+    content:"";
+    flex:1;
+    background-color: #B2B1B1;
+    box-shadow: inset 0 1px 0 0 #939190;
+    border-radius: 3px;
+    border: 1px solid #6A605D;
+    border-bottom-color: #A59E9D;
+    align-self:stretch;
+    margin:5px 7px 4px 7px;
+}
+
+.macos.SliderLeftToolTip,
+.macos.SliderRightToolTip {
+    border-radius: 3px;
+    border: 1px solid #5E6BA2;
+    background-image: linear-gradient(to bottom,#E3EFFB 0,#82BBEF 85%, #82BBEF 95%, #87C0F5 100%);
+    padding: 2px;
+    z-index: 999999;
+    overflow: visible;
+    color: #000;
+}
+
+.macos.SliderLeftToolTip.top,
+.macos.SliderRightToolTip.top {
+    top: -30px;
+}
+
+/*.macos.SliderLeftToolTip.right,
+.macos.SliderRightToolTip.right {
+    left: 15px;
+}*/
+
+.macos.SliderLeftToolTip.bottom,
+.macos.SliderRightToolTip.bottom {
+    bottom: -30px;
+}
+
+/*.macos.SliderLeftToolTip.left,
+.macos.SliderRightToolTip.left {
+    right: 15px;
+}*/
+
+.macos.SliderLeftToolTipArrow.top,
+.macos.SliderRightToolTipArrow.top {
+    border-top: 5px solid #5E6BA2;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 0 solid transparent;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+/*.macos.SliderLeftToolTipArrow.right,
+.macos.SliderRightToolTipArrow.right {
+    border-right: 5px solid #5E6BA2;
+    border-bottom: 5px solid transparent;
+    border-top: 5px solid transparent;
+    border-left: 0 solid transparent;
+    left: -5px;
+    top: 50%;
+    transform: translate(0, -50%);
+}*/
+
+.macos.SliderLeftToolTipArrow.bottom,
+.macos.SliderRightToolTipArrow.bottom {
+    border-bottom: 5px solid #5E6BA2;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 0 solid transparent;
+    top: -5px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+/*.macos.SliderLeftToolTipArrow.left,
+.macos.SliderRightToolTipArrow.left {
+    border-left: 5px solid #5E6BA2;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 0 solid transparent;
+    right: -5px;
+    top: 50%;
+    transform: translate(0, -50%);
+}*/
+
+.macos.SliderLeftToolTipArrowFront.top,
+.macos.SliderRightToolTipArrowFront.top {
+    border-top: 4px solid #87C0F5;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 0 solid transparent;
+    bottom: -4px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+/*.macos.SliderLeftToolTipArrowFront.right,
+.macos.SliderRightToolTipArrowFront.right {
+    border-right: 5px solid #AAD0F4;
+    border-bottom: 5px solid transparent;
+    border-top: 5px solid transparent;
+    border-left: 0 solid transparent;
+    left: -4px;
+    top: 50%;
+    transform: translate(0, -50%);
+}*/
+
+.macos.SliderLeftToolTipArrowFront.bottom,
+.macos.SliderRightToolTipArrowFront.bottom {
+    border-bottom: 4px solid #E3EFFB;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 0 solid transparent;
+    top: -4px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+/*.macos.SliderLeftToolTipArrowFront.left,
+.macos.SliderRightToolTipArrowFront.left {
+    border-left: 5px solid #AAD0F4;
+    border-bottom: 5px solid transparent;
+    border-top: 5px solid transparent;
+    border-right: 0 solid transparent;
+    right: -4px;
+    top: 50%;
+    transform: translate(0, -50%);
+}*/
+
+.macos.Slider.focused {
+}

@@ -1,0 +1,58 @@
+﻿.classic10k.Button,
+.classic10k.Button.disabled:hover,
+.classic10k.TextButton,
+.classic10k.TextButton.disabled:hover {
+  border: 1px solid #3D463D;
+  background-color: #D4D0C8;
+  box-shadow:inset 1px 1px 0 #ECEAE6, inset -1px -1px 0 #C0BCAF;
+}
+
+.classic10k.Button.stayspressed.pressed,
+.classic10k.Button.stayspressed.pressed:hover,
+.classic10k.TextButton.stayspressed.pressed,
+.classic10k.TextButton.stayspressed.pressed:hover {
+  background-color: #F5AB28;
+  background-image: none;
+  color: #000;
+}
+
+.classic10k.CaptionButton.stayspressed.pressed {
+  color: #000;
+}
+
+.classic10k.Button:hover,
+.classic10k.TextButton:hover {
+  background-color: #DBD8D1;
+}
+
+.classic10k.Button.pressed,
+.classic10k.TextButton.pressed {
+  background-color: #D4D0C8;
+  box-shadow:inset -1px -1px 0 #ECEAE6;
+}
+
+/*.classic10k.Button.focused,
+.classic10k.TextButton.focused {
+  box-shadow: 0 0 6px #F69E2D;
+}*/
+
+.classic10k.SpeedButton,
+.classic10k.SpeedButton.disabled:hover {
+  border: none;
+  background-color: #D4D0C8;
+}
+
+.classic10k.SpeedButton.stayspressed.pressed,
+.classic10k.SpeedButton.stayspressed.pressed:hover {
+  background-color: #F5AB28;
+  background-image: none;
+  color: #000;
+}
+
+.classic10k.SpeedButton:hover {
+  background-color: #DBD8D1;
+}
+
+.classic10k.SpeedButton.pressed {
+  background-color: #D4D0C8;
+}

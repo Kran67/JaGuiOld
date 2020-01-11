@@ -1,0 +1,25 @@
+﻿.carbon.CalloutPanel {
+    border: 1px solid #303030;
+    border-radius: 2px;
+    background-image: linear-gradient(to bottom,#404040 0,#404040 70%,#303030 100%);
+}
+
+.carbon.CalloutPanelArrow.calloutposition-top {
+    border: 1px solid transparent;
+    border-bottom-color: #303030;
+}
+
+.carbon.CalloutPanelArrow.calloutposition-right {
+    border: 1px solid transparent;
+    border-left-color: #303030;
+}
+
+.carbon.CalloutPanelArrow.calloutposition-bottom {
+    border: 1px solid transparent;
+    border-top-color: #303030;
+}
+
+.carbon.CalloutPanelArrow.calloutposition-left {
+    border: 1px solid transparent;
+    border-right-color: #303030;
+}

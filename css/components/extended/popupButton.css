@@ -1,0 +1,12 @@
+﻿button.PopupButton {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+div.PopupButtonArrow {
+    right: 4px;
+    font-family: jagui;
+    font-size: 5pt;
+    top: 50%;
+    transform: translateY(-50%);
+}

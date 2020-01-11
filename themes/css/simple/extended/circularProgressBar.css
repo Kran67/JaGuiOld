@@ -1,0 +1,12 @@
+﻿.simple.CircularProgressBar,
+.simple.CircularProgressBar:after {
+    border: 1px solid #808080;
+}
+
+.simple.CircularProgressBar svg circle.CircularProgressBar_back {
+    stroke: #FFF;
+}
+
+.simple.CircularProgressBar svg circle.CircularProgressBar_progress {
+    stroke: #6694E3;
+}

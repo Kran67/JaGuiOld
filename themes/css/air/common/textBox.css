@@ -1,0 +1,8 @@
+﻿.air.TextBox {
+    border: 1px solid #393939;
+    background-color: #191919;
+}
+
+.air.TextBox.focused {
+    box-shadow: 0 0 6px 2px #65C8E0;
+}

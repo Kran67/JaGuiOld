@@ -1,0 +1,184 @@
+﻿.prolcd.Window {
+    background-color: #CECECE;
+}
+
+.prolcd.Window:not(.none) {
+    border: 1px solid #989898;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+}
+
+.prolcd.Window:not(.none):before {
+    content: "";
+    background-image: linear-gradient(to bottom, #F7F7F7, #D5D5D5);
+    border-bottom: 1px solid #C4C5C4;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    box-shadow: inset 0 1px 0 #E5E4E5, inset 0 2px 0 #EBEAEB;
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    right: 1px;
+    height: 26px;
+}
+
+.prolcd.Window.rolledUp {
+    max-height: 30px;
+}
+
+.prolcd.Window .prolcd.WindowLayout {
+    overflow: visible;
+}
+
+.prolcd.Window .prolcd.WindowTitleBar {
+    height: 22px;
+    min-height: 22px;
+    max-height: 22px;
+    text-align: center;
+    position: relative;
+    background-position-y: top;
+}
+
+.prolcd.Window .prolcd.WindowTitleBar:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 4px;
+    height: 17px;
+    width: 109px;
+    border: 1px solid #555655;
+    border-radius: 5px / 8px;
+    background-color: #CFD5B3;
+    box-shadow: inset 0 1px 0 #8B8F78, inset 0 2px 0 #ADB396, inset 0 3px 0 #C4CAAA;
+}
+
+.prolcd.Window[data-buttons="5"] .prolcd.WindowTitleBar:before {
+    width: 90px;
+}
+
+.prolcd.Window[data-buttons="4"] .prolcd.WindowTitleBar:before {
+    width: 73px;
+}
+
+.prolcd.Window[data-buttons="3"] .prolcd.WindowTitleBar:before {
+    width: 55px;
+}
+
+.prolcd.Window[data-buttons="2"] .prolcd.WindowTitleBar:before, .prolcd.Window.dialog .prolcd.WindowTitleBar:before {
+    width: 37px;
+}
+
+.prolcd.Window[data-buttons="1"] .prolcd.WindowTitleBar:before {
+    width: 19px;
+}
+
+.prolcd.Window .prolcd.WindowTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight: bold;
+    color: #4F4F4F;
+    height: 22px;
+    min-height: 22px;
+    max-height: 22px;
+    line-height: 19px;
+}
+
+.prolcd.Window.inactive .prolcd.WindowTitle {
+    color: #949494;
+}
+
+.prolcd.Window .prolcd.WindowTitleButton {
+    border: none;
+    background: none;
+    background-position: left top;
+    background-repeat: no-repeat;
+    width: 9px;
+    height: 10px;
+    max-width: 9px;
+    max-height: 10px;
+    min-width: 9px;
+    min-height: 10px;
+    margin-top: 1px;
+    margin-right: 9px;
+    top: 3px;
+    background-image: url('../../../images/prolcd/windowbtns.png');
+}
+
+.prolcd.Window .prolcd.WindowTitleButton:before {
+    content: "";
+}
+
+.prolcd.Window .prolcd.WindowCloseButton {
+    background-position: left top;
+}
+
+.prolcd.Window:not(.inactive) .prolcd.WindowCloseButton.pressed:not(.disabled) {
+    background-position: -9px top;
+}
+
+.prolcd.Window .prolcd.WindowMaxRestoreButton {
+    background-position: left -10px;
+}
+
+.prolcd.Window:not(.inactive) .prolcd.WindowMaxRestoreButton.pressed:not(.disabled) {
+    background-position: -9px -10px;
+}
+
+.prolcd.Window .prolcd.WindowMinimizeButton {
+    background-position: left -20px;
+}
+
+.prolcd.Window:not(.inactive) .prolcd.WindowMinimizeButton.pressed:not(.disabled) {
+    background-position: -9px -20px;
+}
+
+.prolcd.Window .prolcd.WindowHelpButton {
+    background-position: left -30px;
+}
+
+.prolcd.Window:not(.inactive) .prolcd.WindowHelpButton.pressed:not(.disabled) {
+    background-position: -9px -30px;
+}
+
+.prolcd.Window .prolcd.WindowRollUpDownButton {
+    background-position: left -40px;
+}
+
+.prolcd.Window:not(.inactive) .prolcd.WindowRollUpDownButton.pressed:not(.disabled) {
+    background-position: -9px -40px;
+}
+
+.prolcd.Window.rolledUp:not(.inactive) .prolcd.WindowRollUpDownButton {
+    background-position: left -50px;
+}
+
+.prolcd.Window.rolledUp:not(.inactive) .prolcd.WindowRollUpDownButton.pressed:not(.disabled) {
+    background-position: -9px -50px;
+}
+
+.prolcd.Window .prolcd.WindowStayOnOffButton {
+    background-position: left -60px;
+}
+
+.prolcd.Window:not(.inactive) .prolcd.WindowStayOnOffButton.pressed:not(.disabled) {
+    background-position: -9px -60px;
+}
+
+.prolcd.Window:not(.inactive) .prolcd.WindowStayOnOffButton.isstayon {
+    background-position: left -70px;
+}
+
+.prolcd.Window:not(.inactive) .prolcd.WindowStayOnOffButton.isstayon.pressed:not(.disabled) {
+    background-position: -9px -70px;
+}
+
+.prolcd.Window.inactive .prolcd.WindowCloseButton, .prolcd.Window.inactive .prolcd.WindowMaxRestoreButton, .prolcd.Window.inactive .prolcd.WindowMinimizeButton, .prolcd.Window.inactive .prolcd.WindowHelpButton, .prolcd.Window.inactive .prolcd.WindowRollUpDownButton, .prolcd.Window.inactive .prolcd.WindowStayOnOffButton {
+    background-position-x: -18px;
+}
+
+.prolcd.Window .prolcd.WindowContent {
+    background-color: #D6D6D5;
+    box-shadow: 2px 0 0 0 #D1D2D1, -2px 0 0 0 #D1D2D1, 0 2px 0 0 #C9C8C8;
+}

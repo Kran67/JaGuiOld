@@ -1,0 +1,19 @@
+﻿.carbon.ListBoxItemColor {
+    border-radius: 3px;
+}
+
+.carbon.ListBoxItemColor.disabled:hover {
+    background-color: transparent;
+}
+
+.carbon.ListBoxItemColor:hover,
+.carbon.ListBoxItemColor.selected {
+    background-color: #936639;
+}
+
+.carbon.Color {
+    left: 1px;
+    top: 1px;
+    width: 12px;
+    height: 12px;
+}

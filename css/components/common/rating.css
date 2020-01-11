@@ -1,0 +1,50 @@
+﻿div.Rating,
+div.RatingProgress {
+    background-size: auto auto;
+}
+
+div.Rating.orientation-horizontal {
+    width: 90px;
+    height: 16px;
+}
+
+div.Rating.orientation-horizontal,
+div.RatingProgress.orientation-horizontal,
+div.RatingProgress.orientation-horizontal.disabled {
+    background-repeat: repeat-x;
+    background-position: left top;
+}
+
+div.RatingProgress.orientation-horizontal {
+    border: none;
+    height: 100%;
+    left: 0;
+    margin: 0;
+    outline: none;
+    overflow: hidden;
+    padding: 0;
+    top: 0;
+}
+
+div.Rating.orientation-vertical {
+    width: 90px;
+    height: 16px;
+}
+
+div.Rating.orientation-vertical,
+div.RatingProgress.orientation-vertical,
+div.RatingProgress.orientation-vertical.disabled {
+    background-repeat: repeat-y;
+    background-position: left top;
+}
+
+div.RatingProgress.orientation-vertical {
+    border: none;
+    width: 100%;
+    top: 0;
+    margin: 0;
+    outline: none;
+    overflow: hidden;
+    padding: 0;
+    left: 0;
+}

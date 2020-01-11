@@ -1,0 +1,68 @@
+﻿.lunablue.Button,
+.lunablue.Button.disabled:hover,
+.lunablue.TextButton,
+.lunablue.TextButton.disabled:hover {
+    border-radius: 3px;
+    border: 1px solid #003C74;
+    background-image: linear-gradient(to bottom,#FFF,#ECE9D8), linear-gradient(to bottom,#FEFEFE,#D7D1C7);
+    box-shadow: 0 0 0 1px #E0DCC9;
+    background-origin: content-box,padding-box;
+    padding: 2px;
+    background-repeat: no-repeat;
+}
+
+    .lunablue.Button.stayspressed.pressed,
+    .lunablue.Button.stayspressed.pressed:hover,
+    .lunablue.TextButton.stayspressed.pressed,
+    .lunablue.TextButton.stayspressed.pressed:hover {
+        background-color: #F5AB28;
+        background-image: none;
+        color: #000;
+    }
+
+.lunablue.CaptionButton.stayspressed.pressed {
+    color: #000;
+}
+
+.lunablue.Button:hover,
+.lunablue.TextButton:hover {
+    background-image: linear-gradient(to bottom,#FFF,#ECE9D8), linear-gradient(to bottom,#FFEEC9,#E69A06);
+}
+
+.lunablue.Button.pressed,
+.lunablue.TextButton.pressed {
+    background-image: linear-gradient(to bottom,#E5E4DD,#E2E2DA), linear-gradient(to bottom,#CDE6FF,#6A83EE);
+}
+
+.lunablue.Button.focused:not(.pressed):not(:hover),
+.lunablue.TextButton.focused:not(.pressed):not(:hover) {
+    background-image: linear-gradient(to bottom,#FFF,#ECE9D8), linear-gradient(to bottom,#CDE6FF,#6A83EE);
+}
+
+.lunablue.SpeedButton,
+.lunablue.SpeedButton.disabled:hover {
+    border-radius: 3px;
+    border: 1px solid transparent;
+    background: none;
+}
+
+    .lunablue.SpeedButton.stayspressed.pressed,
+    .lunablue.SpeedButton.stayspressed.pressed:hover {
+        background-color: #F5AB28;
+        background-image: none;
+        color: #000;
+    }
+
+    .lunablue.SpeedButton:hover {
+        border-color: #CECEC3;
+        background-image: linear-gradient(to bottom,#FEFEFD,#D7D2C6);
+    }
+
+    .lunablue.SpeedButton.pressed {
+        border-color: #9D9D92;
+        background-image: linear-gradient(to bottom,#DCDAD1,#EBEAE5);
+    }
+
+        .lunablue.SpeedButton.pressed span {
+            color: #FFF;
+        }

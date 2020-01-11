@@ -1,0 +1,22 @@
+﻿.ace_editor, .ace_text-input, .ace_gutter, .ace_layer, .ace_gutter-cell, .ace_gutter-active-line, .ace_scroller,
+.ace_content, .ace_print-margin, .ace_active-line, .ace_line, .ace_line span, .ace_cursor, .ace_scrollbar,
+.ace_scrollbar-inner, .ace_editor div {
+    background-size: auto auto;
+}
+
+.aceEditor {
+    width: 100%;
+    height: 100%;
+}
+
+.ace_line,
+.ace_gutter-cell,
+.ace_line span,
+.ace_line_group {
+    position: static;
+}
+
+.AceWrapper {
+    min-width: 100px;
+    min-height: 100px;
+}

@@ -1,0 +1,12 @@
+﻿.carbon.SplitButton .PopupButtonArrow {
+}
+
+.carbon.SplitButton .BitmapButton {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.carbon.SplitButton .PopupButton {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}

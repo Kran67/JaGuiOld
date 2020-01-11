@@ -1,0 +1,52 @@
+﻿.haiku.Button,
+.haiku.Button.disabled:hover,
+.haiku.TextButton,
+.haiku.TextButton.disabled:hover {
+    border: 1px solid #909090;
+    background-image: linear-gradient(to bottom,#EBEBEB 0,#DBDBDB 100%);
+    box-shadow: 1px 1px 0 0 #E7E7E7,0 1px 0 0 #E7E7E7,1px 0 0 0 #E7E7E7, -1px -1px 0 0 #C8C8C8, 0 -1px 0 0 #C8C8C8, -1px 0 0 0 #C8C8C8, inset 1px 1px 0 0 #F7F7F7, inset -1px -1px 0 0 #C6C6C6;
+}
+
+    .haiku.Button.stayspressed.pressed,
+    .haiku.Button.stayspressed.pressed:hover,
+    .haiku.TextButton.stayspressed.pressed,
+    .haiku.TextButton.stayspressed.pressed:hover {
+        background-image: linear-gradient(to bottom,#C1C1C1 0,#C6C6C6 100%);
+        box-shadow: 1px 1px 0 0 #E7E7E7,0 1px 0 0 #E7E7E7,1px 0 0 0 #E7E7E7, -1px -1px 0 0 #C8C8C8, 0 -1px 0 0 #C8C8C8, -1px 0 0 0 #C8C8C8, inset 2px 2px 0 0 #B8B8B8;
+    }
+
+.haiku.CaptionButton.stayspressed.pressed {
+    color: #000;
+}
+
+.haiku.Button.pressed,
+.haiku.TextButton.pressed,
+.haiku.SpeedButton.pressed {
+    background-image: linear-gradient(to bottom,#C1C1C1 0,#C6C6C6 100%);
+    box-shadow: 1px 1px 0 0 #E7E7E7,0 1px 0 0 #E7E7E7,1px 0 0 0 #E7E7E7, -1px -1px 0 0 #C8C8C8, 0 -1px 0 0 #C8C8C8, -1px 0 0 0 #C8C8C8, inset 2px 2px 0 0 #B8B8B8;
+}
+
+.haiku.Button.focused,
+.haiku.TextButton.focused {
+    border-color: #0000E5;
+}
+
+.haiku.SpeedButton,
+.haiku.SpeedButton.disabled:hover {
+    border-radius: 0;
+    border: none;
+    background: none;
+}
+
+    .haiku.SpeedButton.stayspressed.pressed,
+    .haiku.SpeedButton.stayspressed.pressed:hover {
+        background-image: linear-gradient(to bottom,#C1C1C1 0,#C6C6C6 100%);
+        box-shadow: 1px 1px 0 0 #E7E7E7,0 1px 0 0 #E7E7E7,1px 0 0 0 #E7E7E7, -1px -1px 0 0 #C8C8C8, 0 -1px 0 0 #C8C8C8, -1px 0 0 0 #C8C8C8, inset 2px 2px 0 0 #B8B8B8;
+    }
+
+    .haiku.SpeedButton.pressed {
+        color: #FFF;
+        border:1px solid #727272;
+        border-bottom-color: #909090;
+        border-right-color: #909090;
+    }

@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Rotate</title>
+    <meta charset="utf-8" />
+    <script src="../scripts/core/ext_math.js"></script>
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let amount = 0;
+        let op;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let lastImg = imgA;
+        let nextImg = imgB;
+        let ctx;
+        function mulDiv(value, multi, divider) {
+            return ~~((value * multi) / divider);
+        }
+        function backEase(s, c, op) {
+            const k=1.70158;
+            return op === 0 ? (c/=s)*c*((k+1)*c-k): ((c=c/s-1)*c*((k+1)*c+k)+1);
+        }
+        function rotate() {
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), x => x.setAttribute("disabled", "disabled"));
+                started = true;
+            }
+            const w = ctx.canvas.width;
+            const h = ctx.canvas.height;
+            const steps = 100;
+            const a = (Math.PI * 2) / steps;
+            const d = 1 / steps;
+            const val = backEase(steps, amount, op) * steps;
+            const z = op === 0 ? 1 - (val * d) : val * d;
+            const wW = Math.max(w * z, 1);
+            const hH = Math.max(h * z, 1);
+            ctx.drawImage(op === 0 ? nextImg : lastImg, 0, 0);
+            ctx.save();
+            ctx.translate(w / 2, h / 2);
+            ctx.rotate(a * val);
+            console.log(a * val);
+            ctx.drawImage(op === 0 ? lastImg : nextImg, 0, 0, w, h, 0 - (wW / 2), 0 - (hH / 2), wW, hH);
+            ctx.restore();
+            amount++;
+            if (amount > steps) {
+                ctx.drawImage(nextImg, 0, 0);
+                [nextImg, lastImg] = [lastImg, nextImg];
+                amount = 0;
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("select"), x => x.removeAttribute("disabled"));
+                return;
+            }
+            handle = rAF(rotate);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            op = ~~value;
+            handle = rAF(rotate);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="c" width="500" height="400" style="border:1px solid red"></canvas><br />
+<div>
+    <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+        <option></option>
+        <option value="0">in</option>
+        <option value="1">out</option>
+    </select><br />
+</div>
+</body>
+</html>

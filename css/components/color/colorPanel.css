@@ -1,0 +1,49 @@
+﻿div.ColorPanel {
+    min-width: 100px;
+    min-height: 100px;
+}
+
+div.ColorPanel div.ColorQuad {
+    left: 5px;
+    top: 5px;
+    width: auto !important;
+    height: auto !important;
+    min-height: 0px;
+    min-width: 0px;
+    right: 42px;
+    bottom: 42px;
+    background-color: rgb(0, 0, 255);
+}
+
+div.ColorPanel div.AlphaSlider {
+    width: auto !important;
+    height: 6px;
+    bottom: 15px;
+    left: 0px;
+    right: 42px;
+}
+
+div.ColorPanel div.HUESlider.orientation-vertical {
+    width: auto !important;
+    height: 6px;
+    bottom: 15px;
+    left: 0px;
+    right: 42px;
+    transform-origin: 139px 8px;
+}
+
+div.ColorPanel div.ColorBox[data-type='secondaryColorBox'] {
+    right: 1px;
+    bottom: 1px;
+    width: 25px !important;
+    height: 25px !important;
+    box-shadow: rgb(255, 255, 255) 0px 0px 0px 1000px inset;
+}
+
+div.ColorPanel div.ColorBox[data-type='primaryColorBox'] {
+    right: 11px;
+    bottom: 11px;
+    width: 25px !important;
+    height: 25px !important;
+    box-shadow: rgb(0, 0, 255) 0px 0px 0px 1000px inset;
+}

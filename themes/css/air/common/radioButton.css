@@ -1,0 +1,23 @@
+﻿.air.RadioButtonCheck {
+    border-radius: 50%;
+    border: 1px solid #1C1C1C;
+    background-color: #585858;
+    max-width: 13px;
+    width: 13px;
+    height: 13px;
+    font-size: 5pt;
+    box-shadow: none;
+}
+
+.air.RadioButtonCheck.checked:before {
+    content: "3";
+    color: #000;
+}
+
+.air.RadioButton:hover .RadioButtonCheck {
+    background-color: #686868;
+}
+
+.air.RadioButton.focused .RadioButtonCheck {
+    box-shadow: 0 0 6px 2px #65C8E0;
+}

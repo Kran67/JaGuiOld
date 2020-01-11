@@ -1,0 +1,36 @@
+﻿.air.ProgressBar {
+}
+
+.air.ProgressBar.orientation-horizontal {
+    border: 1px solid #3D3D3D;
+    background-color: #1F1F1F;
+}
+
+.air.ProgressBar.orientation-vertical {
+    border: 1px solid #3D3D3D;
+    background-color: #1F1F1F;
+}
+
+.air.ProgressBarProgress {
+}
+
+.air.ProgressBarProgress.orientation-horizontal {
+    background-image: linear-gradient(to bottom,#2571B6 0,#074777 100%);
+}
+
+.air.ProgressBarProgress.orientation-vertical {
+    background-image: linear-gradient(to right,#2571B6 0,#074777 100%);
+}
+
+.air.ProgressBarIndic {
+}
+
+.air.ProgressBarIndic.orientation-horizontal {
+    background-image: linear-gradient(to right,rgba(255,255,255,0) 0, rgba(37,113,182,0.7),rgba(255,255,255,0) 100%);
+    border-radius: 9px;
+}
+
+.air.ProgressBarIndic.orientation-vertical {
+    background-image: linear-gradient(to bottom,rgba(255,255,255,0) 0, rgba(37,113,182,0.7),rgba(255,255,255,0) 100%);
+    border-radius: 9px;
+}

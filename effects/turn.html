@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Turn</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let amount = 0;
+        let op;
+        let ctx;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let lastImg = imgA;
+        let nextImg = imgB;
+        const vit = 3;
+        let limit;
+        function shadow(x,y,w,h,amount,dir) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.shadowBlur=8;
+            ctx.shadowColor="#000";
+            ctx.moveTo(x,y);
+            ctx.lineWidth=3;
+            if ([0,1].indexOf(op) > -1) {
+                ctx.shadowOffsetX=5*dir;
+                ctx.lineTo(x,h);
+            } else {
+                ctx.shadowOffsetY=5*dir;
+                ctx.lineTo(w,y);
+            }
+            ctx.closePath();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.lineWidth=2;
+            if ([0,1].indexOf(op) > -1) {
+                ctx.shadowOffsetX=-3*dir;
+                ctx.moveTo(x+amount*(op===0?-1:1),y);
+                ctx.lineTo(x+amount*(op===0?-1:1),h);
+            } else {
+                ctx.shadowOffsetY=-3*dir;
+                ctx.moveTo(x, y+amount*(op===2?-1:1));
+                ctx.lineTo(w, y+amount*(op===2?-1:1));
+            }
+            ctx.closePath();
+            ctx.stroke();
+            ctx.restore();
+        }
+        function turn() {
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+            }
+            const w = ctx.canvas.width;
+            const h = ctx.canvas.height;
+            amount+=vit;
+            if (op < 2) {
+                limit = w / 2;
+            } else {
+                limit = h / 2;
+            }
+            switch (op) {
+                case 0: // to left
+                    ctx.drawImage(nextImg,w-amount,0,amount,h,w-amount,0,amount,h);
+                    ctx.drawImage(nextImg,0,0,amount,h,w-amount-amount,0,amount,h);
+                    shadow(w-amount,0,w,h,amount,1);
+                    break;
+                case 1: // to right
+                    ctx.drawImage(nextImg,0,0,amount,h,0,0,amount,h);
+                    ctx.drawImage(nextImg,w-amount,0,amount,h,amount,0,amount,h);
+                    shadow(amount,0,w,h,amount,-1);
+                    break;
+                case 2: // to top
+                    ctx.drawImage(nextImg,0,h-amount,w,amount,0,h-amount,w,amount);
+                    ctx.drawImage(nextImg,0,0,w,amount,0,h-amount-amount,w,amount);
+                    shadow(0,h-amount,w,h,amount,1);
+                    break;
+                case 3: // to bottom
+                    ctx.drawImage(nextImg,0,0,w,amount,0,0,w,amount);
+                    ctx.drawImage(nextImg,0,h-amount,w,amount,0,amount,w,amount);
+                    shadow(0,amount,w,h,amount,-1);
+                    break;
+            }
+            if (amount > limit) {
+                ctx.drawImage(nextImg, 0, 0);
+                amount = 0;
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                [nextImg, lastImg] = [lastImg, nextImg];
+                return;
+            }
+            rAF(turn);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            op = ~~value;
+            handle = rAF(turn);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas><br />
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">to left</option>
+            <option value="1">to right</option>
+            <option value="2">to top</option>
+            <option value="3">to bottom</option>
+        </select><br />
+    </div>
+</body>
+</html>

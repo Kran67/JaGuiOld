@@ -1,0 +1,264 @@
+.macos.Window {
+    background-color: #C3C3C3;
+    background-repeat: no-repeat;
+}
+
+.macos.Window.maximized {
+    box-shadow: inset 0 0 0 1px #C1C1C1, inset 0 2px 0 0 #DFE5DD !important;
+}
+
+.macos.Window:not(.none) {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    box-shadow: inset 0 0 0 1px #C1C1C1, inset 0 2px 0 0 #DFE5DD, 0 3px 10px 2px rgba(0, 0, 0, .7);
+    background-size: 100% 26px, calc(100% - 2px) 1px;
+    background-image: linear-gradient(to bottom, #D0D0D0, #BFBFBF);
+    background-position: left top, 1px 26px;
+}
+
+.macos.Window.inactive {
+    box-shadow: inset 0 0 0 1px #C1C1C1, inset 0 2px 0 0 #D8DDE1, 0 3px 10px 2px rgba(0, 0, 0, .7);
+    background-image: linear-gradient(to bottom, #BDC1C5, #ADB0B4);
+}
+
+.macos.Window.rolledUp {
+    max-height: 26px;
+}
+
+.macos.Window .macos.WindowContent {
+    background-color: #E8E8E8;
+}
+
+.macos.Window:not(.none) .macos.WindowTitleBar {
+    padding-left: 0;
+    background-image: none;
+    height: 23px;
+    min-height: 23px;
+    max-height: 23px;
+  text-align: center;
+}
+
+.macos.Window .macos.WindowTitle {
+    height: 23px;
+    line-height: 20px;
+    max-height: 23px;
+    min-height: 23px;
+    font-size: 10pt;
+    color: #050505;
+    text-shadow: 1px 1px #D8DDE1;
+    order:6;
+}
+
+.macos.Window.inactive .macos.WindowTitle {
+    color: #7D7F81;
+}
+
+.macos.Window .macos.WindowTitleButton {
+    float: left;
+    position: relative;
+    width: 14px;
+    min-width: 14px;
+    max-width: 14px;
+    height: 14px;
+    min-height: 14px;
+    max-height: 14px;
+    top: 45%;
+    transform: translateY(-50%);
+    margin-right: 0;
+    margin-left: 7px;
+    padding: 0;
+    border-radius: 50%;
+    border: none;
+    color: transparent;
+    font-size: 5pt;
+}
+
+.macos.Window.inactive .macos.WindowTitleButton {
+    background-color: #8C8C8C;
+    background-image: radial-gradient(150% 120% at center 90%, #DADADA, rgba(218, 218, 218, 0.2) 50%), radial-gradient(75% 50% at center 10%, #FFF, rgba(255, 255, 255, 0.2) 50%);
+    box-shadow: 0 1px 0 0 #000, inset 0 2px 0 0 #5C5C5C, 0 0 0 #FFF;
+    opacity: 0.5;
+    border: none;
+}
+
+.macos.Window .macos.WindowTitleButton:before {
+    content: "";
+}
+
+.macos.Window .macos.WindowCloseButton {
+    border: 1px solid #0E0E0E;
+    border-bottom-color: #804E46;
+    border-left-color: #590F13;
+    border-right-color: #590F13;
+    background-color: #C80000;
+    background-image: radial-gradient(150% 120% at center 90%, rgba(249, 181, 170, 1), rgba(249, 181, 170, 0.2) 50%), radial-gradient(75% 50% at center 10%, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.2) 50%);
+    box-shadow: inset 0 1px 0 0 #75262A, 0 1px 0 0 #FFF;
+    margin-left: 4px;
+}
+
+.macos.Window .macos.WindowCloseButton:before {
+    content: "B";
+    font-weight: bold;
+}
+
+.macos.Window:not(.inactive) .macos.WindowCloseButton:not(.disabled):hover {
+    color: #670100;
+}
+
+.macos.Window:not(.inactive) .macos.WindowCloseButton.pressed:not(.disabled) {
+    background-color: #640000;
+}
+
+.macos.Window .macos.WindowMaxRestoreButton {
+    border: 1px solid #0E0E0E;
+    border-bottom-color: #668138;
+    border-left-color: #1A3C11;
+    border-right-color: #1A3C11;
+    background-color: #00C800;
+    background-image: radial-gradient(150% 120% at center 90%, rgba(219, 253, 149, 1), rgba(219, 253, 149, 0.2) 50%), radial-gradient(75% 50% at center 10%, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.2) 50%);
+    box-shadow: inset 0 1px 0 0 #2C5E29, 0 1px 0 0 #FFF;
+    order:1;
+}
+
+.macos.Window .macos.WindowMaxRestoreButton:before {
+    font-family: Tahoma;
+    line-height: 0;
+    font-size: 9pt;
+    font-weight: bold;
+    margin-top: -2px;
+}
+
+.macos.Window:not(.inactive) .macos.WindowMaxRestoreButton:not(.disabled):hover {
+    color: #297310;
+}
+
+.macos.Window:not(.inactive) .macos.WindowMaxRestoreButton:not(.disabled):hover:before {
+    content: "+";
+    text-shadow: 0 1px 0 #297310;
+}
+
+.macos.Window:not(.inactive) .macos.WindowMaxRestoreButton.pressed:not(.disabled) {
+    background-color: #006400;
+}
+
+.macos.Window .macos.WindowMinimizeButton {
+    border: 1px solid #200C0E;
+    border-bottom-color: #858135;
+    border-left-color: #7A2F12;
+    border-right-color: #7A2F12;
+    background-color: #FF6400;
+    background-image: radial-gradient(150% 120% at center 90%, rgba(253, 252, 146, 1), rgba(253, 252, 146, 0.2) 50%), radial-gradient(75% 50% at center 10%, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.2) 50%);
+    box-shadow: inset 0 1px 0 0 #9A482A, 0 1px 0 0 #FFF;
+    order:2;
+}
+
+.macos.Window .macos.WindowMinimizeButton:before {
+    font-family: Tahoma;
+    line-height: 0;
+    font-size: 9pt;
+    font-weight: bold;
+    margin-top: -2px;
+}
+
+.macos.Window:not(.inactive) .macos.WindowMinimizeButton:not(.disabled):hover {
+    color: #9E6013;
+}
+
+.macos.Window:not(.inactive) .macos.WindowMinimizeButton:not(.disabled):hover:before {
+    content: "-";
+    text-shadow: 0 1px 0 #9E6013, 1px 0 0 #9E6013, 1px 1px 0 #9E6013, -1px 0 0 #9E6013, -1px 1px 0 #9E6013;
+}
+
+.macos.Window .macos.WindowMinimizeButton.pressed:not(.disabled) {
+    background-color: #803200;
+}
+
+.macos.Window .macos.WindowHelpButton {
+    border: 1px solid #0C1820;
+    border-bottom-color: #593585;
+    border-left-color: #12297A;
+    border-right-color: #12297A;
+    background-color: #001CFF;
+    background-image: radial-gradient(150% 120% at center 90%, rgba(194, 255, 255, 1), rgba(194, 255, 255, 0.2) 50%), radial-gradient(75% 50% at center 10%, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.2) 50%);
+    box-shadow: inset 0 1px 0 0 #2A449A, 0 1px 0 0 #FFF;
+    order:3;
+}
+
+.macos.Window .macos.WindowHelpButton:before {
+    content: "9";
+    font-family: jagui;
+    line-height: 13px;
+    font-size: 7pt;
+}
+
+.macos.Window:not(.inactive) .macos.WindowHelpButton:not(.disabled):hover {
+    color: #242E7D;
+}
+
+.macos.Window:not(.inactive) .macos.WindowHelpButton.pressed:not(.disabled) {
+    background-color: #000E80;
+}
+
+.macos.Window .macos.WindowRollUpDownButton {
+    border: 1px solid #0E0E0E;
+    border-bottom-color: #533881;
+    border-left-color: #533881;
+    border-right-color: #533881;
+    background-color: #C800C8;
+    background-image: radial-gradient(150% 120% at center 90%, rgba(224, 212, 249, 1), rgba(224, 212, 249, 0.2) 50%), radial-gradient(75% 50% at center 10%, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.2) 50%);
+    box-shadow: inset 0 1px 0 0 #5B295E, 0 1px 0 0 #FFF;
+    order:4;
+}
+
+.macos.Window .macos.WindowRollUpDownButton:before {
+    content: ">";
+    font-family: jagui;
+    line-height: 15px;
+    font-size: 7pt;
+}
+
+.macos.Window.rolledUp .macos.WindowRollUpDownButton:before {
+    content: "=";
+}
+
+.macos.Window:not(.inactive) .macos.WindowRollUpDownButton:not(.disabled):hover {
+    color: #773177;
+}
+
+.macos.Window:not(.inactive) .macos.WindowRollUpDownButton:not(.disabled):hover:before {
+    text-shadow: 0 1px 0 #773177;
+}
+
+.macos.Window .macos.WindowRollUpDownButton.pressed:not(.disabled) {
+    background-color: #640064;
+}
+
+.macos.Window .macos.WindowStayOnOffButton {
+    border: 1px solid #0E0E0E;
+    border-bottom-color: #467880;
+    border-left-color: #0F5955;
+    border-right-color: #0F5955;
+    background-color: #00C8C8;
+    background-image: radial-gradient(150% 120% at center 90%, #AAEEF9, rgba(170, 238, 249, 0.2) 50%), radial-gradient(75% 50% at center 10%, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.2) 50%);
+    box-shadow: inset 0 1px 0 0 #267571, 0 1px 0 0 #FFF;
+    order:5;
+}
+
+.macos.Window .macos.WindowStayOnOffButton:before {
+    content: "@";
+    font-family: jagui;
+    line-height: 15px;
+    font-size: 8pt;
+}
+
+.macos.Window .macos.WindowStayOnOffButton.isstayon:before {
+    content: "?";
+}
+
+.macos.Window:not(.inactive) .macos.WindowStayOnOffButton:not(.disabled):hover {
+    color: #2D4E4E;
+}
+
+.macos.Window:not(.inactive) .macos.WindowStayOnOffButton.pressed:not(.disabled) {
+    background-color: #006464;
+}

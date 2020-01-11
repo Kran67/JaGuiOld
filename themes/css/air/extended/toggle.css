@@ -1,0 +1,23 @@
+﻿.air.Toggle {
+    border: 1px solid #515151;
+    box-shadow: 0 0 0 1px #1C1C1C inset,0 0 0 2px #6A6A6A inset;
+}
+
+.air.Toggle:before {
+    background-image: linear-gradient(to bottom,#074777 0,#2571B6 100%);
+    color: #FFF;
+}
+
+.air.Toggle:after {
+    background-color: #484848;
+}
+
+.air.Toggle .air.CheckboxCheck {
+    border: 1px solid #515151;
+    background-image: linear-gradient(to bottom,#494949 0,#4A4A4A 100%);
+    box-shadow: 0 0 0 1px #1C1C1C inset,0 0 0 2px #6A6A6A inset;
+}
+
+.air.Toggle.focused {
+    box-shadow: 0 0 6px 2px #65C8E0,0 0 0 1px #1C1C1C inset,0 0 0 2px #6A6A6A inset;
+}

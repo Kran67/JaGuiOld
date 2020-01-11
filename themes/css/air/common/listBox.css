@@ -1,0 +1,36 @@
+﻿.air.ListBoxItem .CheckboxCheck {
+    position: relative;
+    margin-right: 2px;
+    float: left;
+}
+
+.air.ListBoxContent {
+    background-color: #484848;
+}
+
+.air.ListBox {
+    border: 1px solid #1C1C1C;
+    background-color: #484848;
+}
+
+.air.ListBoxItem {
+}
+
+.air.ListBox.usealternatecolor .ListBoxItem.alternate {
+    background-color: rgba(0,0,0,0.2);
+}
+
+.air.VListBoxItem.isheader,
+.air.PopupListBox .air.VListBoxItem.isheader:hover {
+    background-color: #1D434C;
+    color: #FFF;
+    font-style: italic;
+}
+
+.air.ListBoxItem.selected {
+    background-color: #2B6472;
+}
+
+.air.ListBox.focused {
+    box-shadow: 0 0 6px 2px #65C8E0;
+}

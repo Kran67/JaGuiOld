@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Pivot</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            if (typeof handle === "function") {
+                handle();
+            }
+        };
+        let rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        const imgA = new Image();
+        const imgB = new Image();
+        let amount = 0;
+        let started = false;
+        let op = 0;
+        let d90;
+        let steps = 60;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let lastImg = imgA;
+        let nextImg = imgB;
+        let ctx;
+        function pivot() {
+            let z;
+            let angle;
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+                d90 = Math.PI / 2;
+            } else {
+                angle = d90 / steps;
+                amount++;
+                z = (angle * amount);
+                const w = ctx.canvas.width;
+                const h = ctx.canvas.height;
+                ctx.save();
+                if ([4,5,6,7].indexOf(op)>-1) {
+                    ctx.drawImage(nextImg, 0, 0, w, h);
+                }
+                switch (op) {
+                    case 0: // from top left
+                    case 4: // out top left
+                        ctx.translate(0, 0);
+                        ctx.rotate((op===0?-d90:0) + z);
+                        ctx.drawImage(op===0?nextImg:lastImg, 0, 0, w, h);
+                        break;
+                    case 1: // from bottom left
+                    case 5: // out bottom left
+                        ctx.translate(0, h);
+                        ctx.rotate((op===1?-d90:0) + z);
+                        ctx.drawImage(op===1?nextImg:lastImg, 0, -h, w, h);
+                        break;
+                    case 2: // from bottom right
+                    case 6: // out bottom right
+                        ctx.translate(w, h);
+                        ctx.rotate((op===2?d90:0) - z);
+                        ctx.drawImage(op===2?nextImg:lastImg, -w, -h, w, h);
+                        break;
+                    case 3: // from top right
+                    case 7: // out top right
+                        ctx.translate(w, 0);
+                        ctx.rotate((op===3?d90:0) - z);
+                        ctx.drawImage(op===3?nextImg:lastImg, -w, 0, w, h);
+                        break;
+                    case 8: // from top left and right
+                        break;
+                    case 9: // from bottom left and right
+                        break;
+                    case 10: // from left top and bottom
+                        break;
+                    case 11: // from right top and bottom
+                        break;
+                    case 12: // out top left and right
+                        break;
+                    case 13: // out bottom left and right
+                        break;
+                    case 14: // out left top and bottom
+                        break;
+                    case 15: // out right top and bottom
+                        break;
+                }
+                ctx.restore();
+                if (amount>=steps) {
+                    [nextImg, lastImg] = [lastImg, nextImg];
+                    amount = 0;
+                    ctx.restore();
+                    cancelAnimationFrameRate(handle);
+                    started = false;
+                    [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                    return;
+                }
+            }
+            handle = rAF(pivot);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            op = ~~value;
+            handle = rAF(pivot);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        select {
+            width: 220px;
+            margin-bottom: 2px;
+            margin-right: 2px;
+            height: 21px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas>
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">from top left</option>
+            <option value="1">from bottom left</option>
+            <option value="2">from bottom right</option>
+            <option value="3">from top right</option>
+            <option value="4">out top left</option>
+            <option value="5">out bottom left</option>
+            <option value="6">out bottom right</option>
+            <option value="7">out top right</option>
+            <option value="8">from top left and right</option>
+            <option value="9">from bottom left and right</option>
+            <option value="10">from left top and bottom</option>
+            <option value="11">from right top and bottom</option>
+            <option value="12">out top left and right</option>
+            <option value="13">out bottom left and right</option>
+            <option value="14">out left top and bottom</option>
+            <option value="15">out right top and bottom</option>
+        </select><br />
+        <input type="range" min="1" max="8" value="1" />
+    </div>
+</body>
+</html>

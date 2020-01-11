@@ -1,0 +1,45 @@
+﻿div.SpinBox {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+input.SpinBoxInput {
+    flex: 1;
+    text-align: center;
+    position: static;
+    order: 2;
+}
+
+button.SpinBoxMinusBtn {
+    position: relative;
+    order: 1;
+    width: 16px;
+    font-family: Jagui;
+    font-size: 4pt;
+    margin: 1px 0 1px 1px;
+}
+
+button.SpinBoxMinusBtn:before,
+button.SpinBoxPlusBtn:before {
+    content: "";
+}
+
+button.SpinBoxPlusBtn {
+    position: relative;
+    order: 3;
+    width: 16px;
+    font-family: Jagui;
+    font-size: 4pt;
+    margin: 1px 1px 1px 0;
+}
+
+div.SpinBox button.SpinBoxMinusBtn {
+    order: 1;
+    width: 16px !important;
+}
+
+div.SpinBox button.SpinBoxPlusBtn {
+    order: 3;
+    width: 16px !important;
+}

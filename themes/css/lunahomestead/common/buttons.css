@@ -1,0 +1,69 @@
+﻿.lunahomestead.Button,
+.lunahomestead.Button.disabled:hover,
+.lunahomestead.TextButton,
+.lunahomestead.TextButton.disabled:hover {
+    border-radius: 3px;
+    border: 1px solid #376206;
+    background-image: linear-gradient(to bottom,#FEFFF2 ,#F4EFDC), linear-gradient(to bottom,#FEFEF4,#E4D2BA);
+    box-shadow: 0 0 0 1px #ECE9DA;
+    background-origin: content-box,padding-box;
+    padding: 2px;
+    background-repeat: no-repeat;
+}
+
+    .lunahomestead.Button.stayspressed.pressed,
+    .lunahomestead.Button.stayspressed.pressed:hover,
+    .lunahomestead.TextButton.stayspressed.pressed,
+    .lunahomestead.TextButton.stayspressed.pressed:hover {
+        background-color: #F5AB28;
+        background-image: none;
+        color: #000;
+    }
+
+.lunahomestead.CaptionButton.stayspressed.pressed {
+    color: #000;
+}
+
+.lunahomestead.Button:hover,
+.lunahomestead.TextButton:hover {
+    background-image: linear-gradient(to bottom,#FEFFF2 ,#F3EEDB), linear-gradient(to bottom,#FCC595,#CF7225);
+}
+
+.lunahomestead.Button.pressed,
+.lunahomestead.TextButton.pressed {
+    background-image: linear-gradient(to bottom,#EEE6D2,#ECE4CE), linear-gradient(to bottom,#C2D18F,#A8A766);
+}
+
+.lunahomestead.Button.focused:not(.pressed):not(:hover),
+.lunahomestead.TextButton.focused:not(.pressed):not(:hover) {
+    background-image: linear-gradient(to bottom,#FEFFF2,#F3EEDB), linear-gradient(to bottom,#C2D18F,#A8A766);
+}
+
+.lunahomestead.SpeedButton,
+.lunahomestead.SpeedButton.disabled:hover {
+    border-radius: 3px;
+    border: 1px solid transparent;
+    background: none;
+}
+
+    .lunahomestead.SpeedButton.stayspressed.pressed,
+    .lunahomestead.SpeedButton.stayspressed.pressed:hover {
+        background-color: #F5AB28;
+        background-image: none;
+        color: #000;
+    }
+
+    .lunahomestead.SpeedButton:hover {
+        border-color: #CECEC3;
+        background-image: linear-gradient(to bottom,#FEFEFD,#D7D2C6);
+    }
+
+    .lunahomestead.SpeedButton.pressed {
+        border-color: #9D9D92;
+        background-image: linear-gradient(to bottom,#DCDAD1,#EBEAE5);
+    }
+
+
+        .lunahomestead.SpeedButton.pressed span {
+            color: #FFF;
+        }

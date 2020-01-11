@@ -1,0 +1,109 @@
+﻿.air.Tab {
+    border-top: 1px solid #1C1C1C;
+    border-left: 1px solid #1C1C1C;
+    border-right: 1px solid #1C1C1C;
+    background-color: #484848;
+    background-image: none;
+}
+
+.air.TabControl.focused .air.Tab.selected {
+    color: #65C8E0;
+}
+
+.air.Tab:hover {
+    background-color: #383838;
+}
+
+.air.TabControl.tabsBottom > .TabControlHeader > .TabsContainer .Tab:hover {
+    background-color: #383838;
+}
+
+.air.Tab.selected,
+.air.Tab.selected:hover {
+    background-color: #484848;
+    height: 20px;
+    margin-top: 0;
+    padding-top: 2px;
+    border-bottom: none;
+}
+
+.air.TabControl.tabsBottom > .TabControlHeader > .TabsContainer .Tab.selected,
+.air.TabControl.tabsBottom > .TabControlHeader > .TabsContainer .Tab.selected:hover {
+    background-color: #484848;
+    padding-top: 4px;
+    height: 20px;
+    border-top: none;
+}
+
+.air.TabControl.tabsBottom > .TabControlHeader > .TabsContainer .Tab {
+    border: 1px solid #303030;
+    border-radius: 0;
+    background-image: linear-gradient(to top,#303030 0,#404040 100%);
+    padding-top: 1px;
+    vertical-align: top;
+    margin-top: 0;
+}
+
+.air.TabsContent {
+    border: 1px solid #1C1C1C;
+    background-color: #484848;
+    padding: 1px;
+    box-shadow: inset 0 0 0 1px #6A6A6A;
+}
+
+.air.TabControl.tabsBottom > .TabControlHeader > .TabsContent {
+    border: 1px solid #1C1C1C;
+    background-color: #484848;
+    padding: 1px;
+    box-shadow: inset 0 0 0 1px #6A6A6A;
+}
+
+.air.ItemsWheel {
+    border: 1px solid #1C1C1C;
+    background-color: #484848;
+}
+
+.air.ItemsWheelSep {
+    background-color: #6A6A6A;
+}
+
+.air.ItemsWheelContent {
+    border-left: 1px solid #6A6A6A;
+    border-right: 1px solid #6A6A6A;
+}
+
+.air.NumberWheel.focused {
+    box-shadow: 0 0 6px 2px #65C8E0;
+}
+
+.air.PopupBox {
+    background-color: #484848;
+}
+
+.air.ToolTip {
+    box-shadow: rgba(0,0,0,0.5) 3px 3px 3px;
+    padding: 2px;
+    border: 1px solid #1C1C1C;
+    background-image: linear-gradient(to bottom,#2571B6 0,#074777 100%);
+    z-index: 999999;
+    color: #FFF;
+}
+
+.air.TabControlLeftBtn:before,
+.air.TabControlRightBtn:before {
+    line-height: 19px;
+    font-family: Jagui;
+    font-size: 4pt;
+}
+
+.air.TabControlLeftBtn:before {
+    content: "*";
+}
+
+.air.TabControlRightBtn:before {
+    content: ")";
+}
+
+.air.ghostSplitter {
+    background-color: rgba(101,200,224,0.43);
+}

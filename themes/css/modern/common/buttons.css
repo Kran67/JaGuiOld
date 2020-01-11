@@ -1,0 +1,58 @@
+﻿.modern.Button,
+.modern.Button.disabled:hover,
+.modern.TextButton,
+.modern.TextButton.disabled:hover {
+  border-radius: 5px;
+  border: 1px solid #B7B7B7;
+  background-image: linear-gradient(to bottom,#F5F5F5,#D9D9D9);
+}
+
+.modern.Button.stayspressed.pressed,
+.modern.Button.stayspressed.pressed:hover,
+.modern.TextButton.stayspressed.pressed,
+.modern.TextButton.stayspressed.pressed:hover {
+  background-color: #F5AB28;
+  background-image: none;
+  color: #000;
+}
+
+.modern.CaptionButton.stayspressed.pressed {
+  color: #000;
+}
+
+.modern.Button:hover,
+.modern.TextButton:hover {
+  background-image: linear-gradient(to bottom,#D7D7D7,#D9D9D9);
+}
+
+.modern.Button.pressed,
+.modern.TextButton.pressed {
+  background-image: linear-gradient(to bottom,#464646,#D9D9D9);
+}
+
+.modern.Button.focused,
+.modern.TextButton.focused {
+  box-shadow: 0 0 6px #005ACC;
+}
+
+.modern.SpeedButton,
+.modern.SpeedButton.disabled:hover {
+  border-radius: 10px;
+  border: 1px solid #ACACAC;
+  background-image: linear-gradient(to bottom,#F9F9F9,#CECECE);
+}
+
+.modern.SpeedButton.stayspressed.pressed,
+.modern.SpeedButton.stayspressed.pressed:hover {
+  background-color: #F5AB28;
+  background-image: none;
+  color: #000;
+}
+
+.modern.SpeedButton:hover {
+  background-image: linear-gradient(to bottom,#D7D7D7,#D9D9D9);
+}
+
+.modern.SpeedButton.pressed {
+  background-image: linear-gradient(to bottom,#464646,#D9D9D9);
+}

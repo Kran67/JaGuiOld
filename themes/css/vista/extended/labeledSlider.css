@@ -1,0 +1,8 @@
+﻿.carbon.LabeledSlider {}
+
+.carbon.LabeledSlider .Slider {}
+
+.carbon.LabeledSlider .Label,
+.carbon.LabeledSlider .ValueLabel {}
+
+.carbon.LabeledSlider .ValueLabel {}

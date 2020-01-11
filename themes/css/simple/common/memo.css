@@ -1,0 +1,13 @@
+.simple.Memo {
+    border: 1px solid #686868;
+    background-color: #FFF;
+}
+
+.simple.MemoViewPort,
+.simple.MemoViewPort textarea {
+    background-color: #FFF;
+}
+
+.simple.Memo.focused {
+    border: 1px solid #6694E3;
+}

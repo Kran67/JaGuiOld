@@ -1,0 +1,74 @@
+﻿.air.Window {
+    background-color: rgba(28, 28, 28, 0.9);
+    overflow: hidden;
+    background-repeat: no-repeat;
+}
+
+
+.air.Window.maximized {
+    box-shadow: none !important;
+}
+
+.air.Window:not(.none) {
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, .7);
+}
+
+.air.Window:not(.none) {
+    background-size: 100% 29px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, .7);
+}
+
+.air.Window .air.WindowTitleBar {
+    margin: 0;
+}
+
+.air.Window:not(none) .air.WindowTitleBar {
+    background-color: #000;
+}
+
+.air.Window.inactive:not(none) .air.WindowTitleBar {
+    background-color: #505050;
+}
+
+.air.Window .air.WindowTitle {
+    font-size: 10pt;
+}
+
+.air.Window:not(.none) .air.WindowTitle {
+    line-height: 21px;
+    flex:1;
+}
+
+.air.Window button.air.WindowTitleButton {
+    border-radius: 50%;
+    border: none;
+    background-color: #686868;
+}
+
+.air.Window:not(.none) button.air.WindowTitleButton {
+    top: 1px;
+}
+
+.air.Window button.air.WindowTitleButton:not(.disabled):hover {
+    background-color: #FFF;
+}
+
+.air.Window button.air.WindowTitleButton:not(.disabled):hover:before {
+    color: #000;
+}
+
+.air.Window button.air.WindowTitleButton.pressed:not(.disabled) {
+    background-color: #505050;
+}
+
+.air.Window button.air.WindowTitleButton.pressed:not(.disabled):before {
+    color: #FFF;
+}
+
+.air.Window.inactive .air.WindowTitle {
+    color: #202020;
+}
+
+.air.WindowContent {
+    background-color:#505050;
+}

@@ -1,0 +1,56 @@
+﻿.cruz.Button,
+.cruz.Button.disabled:hover,
+.cruz.TextButton,
+.cruz.TextButton.disabled:hover,
+.cruz.SpeedButton,
+.cruz.SpeedButton.disabled:hover {
+    border-radius: 4px;
+    border: 1px solid #8D7A68;
+    background-image: linear-gradient(to bottom,#EFEBE7,#ECE5DE);
+    box-shadow: none;
+}
+
+    .cruz.Button.stayspressed.pressed,
+    .cruz.Button.stayspressed.pressed:hover,
+    .cruz.TextButton.stayspressed.pressed,
+    .cruz.TextButton.stayspressed.pressed:hover {
+        background-color: #F5AB28;
+        background-image: none;
+        color: #000;
+    }
+
+.cruz.CaptionButton.stayspressed.pressed {
+    color: #000;
+}
+
+.cruz.Button:hover,
+.cruz.TextButton:hover,
+.cruz.SpeedButton:hover {
+    background-image: linear-gradient(to bottom,#FFFFFE,#F2EBDF);
+    box-shadow: inset -1px -1px #ECE4DD, inset 1px 1px #FFF;
+}
+
+.cruz.Button.pressed,
+.cruz.TextButton.pressed,
+.cruz.SpeedButton.pressed {
+    border-color: #000;
+    background-image: linear-gradient(to bottom,#D0C8C1,#C4BBB3);
+    box-shadow: inset 1px 1px #CCBCAD, inset -1px -1px #C4BBB2;
+}
+
+.cruz.Button.focused,
+.cruz.TextButton.focused {
+    border-color: #000;
+}
+
+.cruz.SpeedButton,
+.cruz.SpeedButton.disabled:hover {
+    border-color: #C0B5A9;
+}
+
+    .cruz.SpeedButton.stayspressed.pressed,
+    .cruz.SpeedButton.stayspressed.pressed:hover {
+        background-color: #F5AB28;
+        background-image: none;
+        color: #000;
+    }

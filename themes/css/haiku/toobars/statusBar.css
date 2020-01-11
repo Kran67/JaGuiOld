@@ -1,0 +1,34 @@
+﻿.haiku.StatusBar {
+  left: 0;
+  height: 22px;
+  border-top: 1px solid #D7D7D7;
+  background-color: #F0F0F0;
+}
+
+.haiku.StatusBarPanel.lowered {
+  border:1px solid #909090;
+  border-bottom-color:#C8C8C8;
+  border-right-color:#C8C8C8;
+}
+
+.haiku.StatusBarPanel.raised {
+  border:1px solid #909090;
+  border-top-color:#C8C8C8;
+  border-left-color:#C8C8C8;
+}
+
+.haiku.StatusBarPanel.single {
+  border-left:1px solid #909090;
+}
+
+.haiku.StatusBarSimplePanel {
+  border:1px solid #909090;
+}
+
+.haiku.StatusBarSizer {
+  right: 2px;
+  bottom: 2px;
+  width: 11px;
+  height: 11px;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwgAADsIBFShKgAAAABl0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuNUmK/OAAAAAmSURBVChTY2AgACoqKv4TUoNfHmYC+Sahm0C6SbhMIN4kQiaA5AG0PyQKD/7QYwAAAABJRU5ErkJggg==);
+}

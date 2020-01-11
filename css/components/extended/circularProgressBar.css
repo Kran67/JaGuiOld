@@ -1,0 +1,32 @@
+﻿div.CircularProgressBar {
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+div.CircularProgressBar:after {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    left: 8px;
+    bottom: 8px;
+    content: attr(data-value)"%";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+div.CircularProgressBar svg circle.CircularProgressBar_back {
+    fill: transparent;
+    stroke-width: 8px;
+}
+
+div.CircularProgressBar svg circle.CircularProgressBar_progress {
+    fill: transparent;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s linear;
+    transform-origin: center center;
+    transform: rotate(-90deg);
+    stroke-width: 5px;
+}

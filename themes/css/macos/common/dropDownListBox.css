@@ -1,0 +1,58 @@
+.macos.DropDownListBox:hover {
+}
+
+.macos.DropDownListBox.pressed,
+.macos.DropDownListBox.opened,
+.macos.DropDownListBox.opened:hover {
+    border-top-color: #5F5F5F;
+    border-bottom-color: #595959;
+    background-image: linear-gradient(to bottom,#B9B9B9 0,#C4C4C4 45%, #C4C4C4 50%,#FDFDFD 100%);
+}
+
+.macos.DropDownListBox,
+.macos.DropDownListBox.disabled,
+.macos.DropDownListBox.disabled.focused {
+    border: 1px solid #858585;
+    border-bottom-color: #606060;
+    border-radius: 5px;
+    background-image: linear-gradient(to bottom,#FBFBFB 0,#DFDFDE 50%, #DFDFDE 55%,#FFF 100%);
+    box-shadow: none;
+}
+
+.macos.DropDownListBoxInput {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
+.macos.DropDownListBox.editable .DropDownListBoxContent {
+    border: 1px solid #202020;
+    background-color: #333;
+}
+
+.macos.DropDownListBox.focused {
+}
+
+.macos.DropDownListBoxArrow {
+    width: 17px;
+    border-left: 1px solid #13156E;
+    background-image: linear-gradient(to bottom,#D6E2F2 0, #78B4E9 50%, #78B4E9 55%,#D1FFFF 100%);
+    transform: none;
+    margin: 0;
+}
+
+.macos.DropDownListBoxArrow:before {
+    content: "2";
+    font-size: 6pt;
+}
+
+.macos.ListBoxItemPopup:hover,
+.macos.ListBoxItemPopup.selected {
+    background-color: #3875D7;
+    color: #FFF;
+}
+
+.macos.PopupListBox .ListBoxItemPopup.disabled:hover {
+    background-color: transparent;
+    color: #000;
+}

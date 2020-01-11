@@ -1,0 +1,126 @@
+﻿.air.Slider .thumb,
+.air.Slider input[type='range']::-webkit-slider-thumb {
+    min-width: 14px;
+    max-width: 14px;
+    min-height: 14px;
+    max-height: 14px;
+    background-image: none;
+    background-color: #484848;
+    border-radius: 0;
+    border: 1px solid #303030;
+}
+
+.air.Slider input[type='range']::-webkit-slider-thumb:hover {
+    background-color: #585858;
+}
+
+.air.Slider .thumb,
+.air.Slider input[type='range']::-moz-range-thumb {
+    background-image: none;
+    background-color: #484848;
+    border-radius: 0;
+    border: 1px solid #303030;
+    min-width: 14px;
+    max-width: 14px;
+    min-height: 14px;
+    max-height: 14px;
+}
+
+.air.Slider input[type='range']::-webkit-slider-thumb {
+    margin-top: -4px;
+}
+
+.air.Slider input[type='range']::-moz-range-thumb {
+    margin-top: -4px;
+}
+
+.air.SliderRange {
+    top: 5px;
+    bottom: 5px;
+    background-image: linear-gradient(to bottom,#2571B6 0,#074777 100%);
+    left:0;
+}
+
+.air.Slider {
+    box-shadow: none;
+}
+
+.air.Slider:before {
+    content:"";
+    flex:1;
+    border: 1px solid #1C1C1C;
+    border-radius: 0;
+    background-image: none;
+    background-color: #1F1F1F;
+    margin: 4px 7px;
+    align-self:stretch;
+}
+
+.air.SliderLeftToolTip,
+.air.SliderRightToolTip {
+    border-radius: 3px;
+    border: 1px solid #1C1C1C;
+    background-image: linear-gradient(to bottom,#2571B6 0,#074777 100%);
+    padding: 2px;
+    z-index: 999999;
+    overflow: visible;
+    color: #FFF;
+}
+
+.air.SliderLeftToolTip.top,
+.air.SliderRightToolTip.top {
+    top: -30px;
+}
+
+.air.SliderLeftToolTip.bottom,
+.air.SliderRightToolTip.bottom {
+    bottom: -30px;
+}
+
+.air.SliderLeftToolTipArrow.top,
+.air.SliderRightToolTipArrow.top {
+    border-top: 5px solid #1C1C1C;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 0 solid transparent;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.air.SliderLeftToolTipArrow.bottom,
+.air.SliderRightToolTipArrow.bottom {
+    border-bottom: 5px solid #1C1C1C;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 0 solid transparent;
+    top: -5px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.air.SliderLeftToolTipArrowFront.top,
+.air.SliderRightToolTipArrowFront.top {
+    border-top: 4px solid #074777;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 0 solid transparent;
+    bottom: -4px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.air.SliderLeftToolTipArrowFront.bottom,
+.air.SliderRightToolTipArrowFront.bottom {
+    border-bottom: 4px solid #2571B6;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 0 solid transparent;
+    top: -4px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.air.Slider.focused:before {
+    box-shadow: 0 0 6px 2px #65C8E0;
+}

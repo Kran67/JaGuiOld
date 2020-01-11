@@ -1,0 +1,36 @@
+﻿.extreme.Button,
+.extreme.TextButton,
+.extreme.SpeedButton {
+    border-radius: 4px;
+    border: 1px solid #525252;
+    background-image: linear-gradient(to bottom,#FBFBFB,#BABABA);
+}
+
+    .extreme.Button.stayspressed.pressed,
+    .extreme.Button.stayspressed.pressed:hover,
+    .extreme.TextButton.stayspressed.pressed,
+    .extreme.TextButton.stayspressed.pressed:hover {
+        background-color: #F5AB28;
+        background-image: none;
+        color: #000;
+    }
+
+.extreme.CaptionButton.stayspressed.pressed {
+    color: #000;
+}
+
+.extreme.Button.focused,
+.extreme.TextButton.focused {
+    box-shadow: 0 0 6px 0 #3D74B3, inset 0 0 6px 0 #4F4848;
+}
+
+.extreme.SpeedButton {
+    border-radius: 40px;
+}
+
+    .extreme.SpeedButton.stayspressed.pressed,
+    .extreme.SpeedButton.stayspressed.pressed:hover {
+        background-color: #F5AB28;
+        background-image: none;
+        color: #000;
+    }

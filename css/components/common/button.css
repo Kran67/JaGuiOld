@@ -1,0 +1,26 @@
+﻿.Control.Button.buttonPaddingDownText,
+.Control.BitmapStateButton.buttonPaddingDownText {
+    padding: 1px 0 0 1px;
+}
+
+.Button,
+.TextButton {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    white-space: normal;
+}
+
+.ButtonCaption {
+    left: 50%;
+    position: absolute;
+    text-align: center;
+    top: 49%;
+    transform: translate(-50%,-50%);
+    vertical-align: middle;
+}

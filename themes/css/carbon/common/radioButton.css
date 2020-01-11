@@ -1,0 +1,19 @@
+﻿.carbon.RadioButtonCheck {
+    border: 1px solid #202020;
+    border-radius: 50%;
+    background-image: linear-gradient(to bottom,#606060 0,#303030 100%);
+    max-width: 16px;
+    width: 16px;
+    height: 16px;
+    color: #F5AB28;
+    font-size: 5pt;
+    box-shadow: none;
+}
+
+.carbon.RadioButtonCheck.checked:before {
+    content: "3";
+}
+
+.carbon.RadioButton.focused .RadioButtonCheck {
+    box-shadow: 0 0 6px #F69E2D;
+}

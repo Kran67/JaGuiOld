@@ -1,0 +1,8 @@
+﻿.haiku.SplitButton .BitmapButton {}
+
+.haiku.SplitButton .BitmapButton,
+.haiku.SplitButton .PopupButton {}
+
+.haiku.SplitButton .PopupButton {}
+
+.haiku.SplitButton .PopupButtonArrow {}

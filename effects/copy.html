@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Copy</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            if (typeof handle === "function") {
+                handle();
+            }
+        };
+        let rAF = requestAnimationFrameRate(60);
+        let handle = null, mW, mH, ctx, cbx;
+        const imgA = new Image();
+        const imgB = new Image();
+        let amount = 0, started = false, hz, dir;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let img;
+        let mask = document.createElement("canvas");
+        imgA.onload = function() {
+            mask.width = imgA.width;
+            mask.height = imgA.height;
+            cbx = mask.getContext("2d");
+        }
+        function mulDiv(value, multi, divider) {
+            return ~~((value*multi) / divider);
+        }
+        function copy() {
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                started = true;
+            } else {
+                amount++;
+                let x;
+                let y;
+                if (img.width>=img.height) {
+                    x = mulDiv(img.width, amount, 100);
+                    y = mulDiv(x, img.height, img.width);
+                } else {
+                    y = mulDiv(img.height, amount, 100);
+                    x = mulDiv(y, img.width, img.height);
+                }
+                cbx.clearRect(0,0,img.width, img.height);
+                cbx.globalCompositeOperation = 'source-over';
+                cbx.fillStyle = "red";
+                cbx.fillRect(0,0,x-77,img.height);
+                const grad = cbx.createLinearGradient(x, 0, x+77, 0);
+                grad.addColorStop(0, "rgba(0,0,0,0.0)");
+                grad.addColorStop(1, "rgba(0,0,0,0.0)");
+                cbx.fillStyle = grad;
+                cbx.fillRect(x-77, 0, 77, img.height);
+                //cbx.globalCompositeOperation = 'source-in';
+                //cbx.drawImage(img, 0, 0, x, img.height, 0, 0, x, img.height);
+                //cbx.
+                ctx.drawImage(mask, 0, 0);
+                if (amount>100) {
+                    amount = 0;
+                    cancelAnimationFrameRate(handle);
+                    started = false;
+                    [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                    return;
+                }
+            }
+            handle = rAF(copy);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            dir = value;
+            hz = value==="right" || value==="left";
+            rAF(copy);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        select {
+            width: 220px;
+            margin-bottom: 2px;
+            margin-right: 2px;
+            height: 21px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas>
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].text); }">
+            <option></option>
+            <option>right</option>
+            <option>left</option>
+            <option>top</option>
+            <option>bottom</option>
+        </select><br />
+    </div>
+</body>
+</html>

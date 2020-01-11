@@ -1,0 +1,13 @@
+﻿.air.colorDlgBtnRGB {
+    border-radius: 0;
+    border-right: none;
+}
+
+.air.colorDlgBtnHSL {
+    border-radius: 0;
+}
+
+.air.colorDlgBtnHSV {
+    border-radius: 0;
+    border-left: none;
+}

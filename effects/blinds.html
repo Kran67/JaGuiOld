@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Blinds</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        let img;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let frame = 0;
+        let orientation = "vertical";
+        let direction = "down";
+        let right;
+        let down;
+        let w;
+        let h;
+        let ox;
+        let oy;
+        let steps = 60;
+        let size;
+        let x;
+        let y;
+        let w1;
+        let h1;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        function barn() {
+            let ctx = document.getElementById("c").getContext("2d");
+            let s;
+            let i;
+            if (!started) {
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                [].forEach.call(document.querySelectorAll("select"), x => x.setAttribute("disabled", "disabled"));
+                started = true;
+                size = ~~document.querySelector("input").value;
+                right = (direction === "right" ? 1 : 0);
+                down = (direction === "down" ? 1 : 0);
+                w = orientation === "horizontal" ? (img.width / size) : img.width;
+                h = orientation === "horizontal" ? img.height : (img.height / size);
+                ox = w / steps;
+                oy = h / steps;
+            }
+            if (orientation === "horizontal") {
+                s = frame * ox;
+                for (i = 0; i < size; i++) {
+                    if (direction === "right") {
+                        ctx.drawImage(img, i * w, 0, Math.max(w - (w - s), 1), h, i * w, 0, Math.max(w - (w - s), 1), h);
+                    } else {
+                        ctx.drawImage(img, (i * w)  + (w - s), 0, Math.max(s, 1), h, (i * w)  + (w - s), 0, Math.max(s, 1), h);
+                    }
+                }
+            } else {
+                s = frame * oy;
+                for (i = 0; i < size; i++) {
+                    if (direction === "down") {
+                        ctx.drawImage(img, 0, i * h, w, Math.max(h - (h - s), 1), 0, i * h, w, Math.max(h - (h - s), 1));
+                    } else {
+                        ctx.drawImage(img, 0, (i * h) + (h - s) , w, Math.max(s, 1), 0, (i * h) + (h - s), w, Math.max(s, 1));
+                    }
+                }
+            }
+            frame++;
+            if (frame > steps) {
+                frame = 0;
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("select"), x => x.removeAttribute("disabled"));
+                return;
+            }
+            rAF(barn);
+        }
+        function init(value) {
+            const a = value.split(" ");
+            [orientation, direction] = a;
+            handle = rAF(barn);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400" style="border:1px solid red"></canvas><br />
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].text); }">
+            <option></option>
+            <option>vertical down</option>
+            <option>vertical up</option>
+            <option>horizontal right</option>
+            <option>horizontal left</option>
+        </select><br />
+        <input type="range" min="2" max="20" value="8" />
+    </div>
+</body>
+</html>

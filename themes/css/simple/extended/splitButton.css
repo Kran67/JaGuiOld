@@ -1,0 +1,12 @@
+.simple.SplitButton .PopupButtonArrow {
+}
+
+.simple.SplitButton .BitmapButton {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.simple.SplitButton .PopupButton {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}

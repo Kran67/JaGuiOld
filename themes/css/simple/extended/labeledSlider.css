@@ -1,0 +1,8 @@
+.simple.LabeledSlider {}
+
+.simple.LabeledSlider .Slider {}
+
+.simple.LabeledSlider .Label,
+.simple.LabeledSlider .ValueLabel {}
+
+.simple.LabeledSlider .ValueLabel {}

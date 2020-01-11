@@ -1,0 +1,48 @@
+﻿.air.Button,
+.air.Button.disabled:hover,
+.air.TextButton,
+.air.TextButton.disabled:hover {
+    border: 1px solid #515151;
+    background-image: linear-gradient(to bottom,#494949,#4A4A4A);
+    box-shadow: 0 0 0 1px #1C1C1C inset,0 0 0 2px #6A6A6A inset;
+}
+
+.air.Button.stayspressed.pressed,
+.air.Button.stayspressed.pressed:hover,
+.air.TextButton.stayspressed.pressed,
+.air.TextButton.stayspressed.pressed:hover {
+    background-color: #65C8E0;
+    background-image: none;
+    color: #FFF;
+}
+
+.air.CaptionButton.stayspressed.pressed {
+    color: #FFF;
+}
+
+.air.Button:hover,
+.air.TextButton:hover {
+}
+
+.air.Button.pressed,
+.air.TextButton.pressed {
+}
+
+.air.Button.focused,
+.air.TextButton.focused {
+    box-shadow: 0 0 6px 2px #65C8E0,0 0 0 1px #1C1C1C inset,0 0 0 2px #6A6A6A inset;
+}
+
+.air.SpeedButton,
+.air.SpeedButton.disabled:hover {
+    border: 1px solid #515151;
+    background-image: linear-gradient(to bottom,#494949,#4A4A4A);
+    box-shadow: 0 0 0 1px #1C1C1C inset,0 0 0 2px #6A6A6A inset;
+}
+
+.air.SpeedButton.stayspressed.pressed,
+.air.SpeedButton.stayspressed.pressed:hover {
+    background-color: #65C8E0;
+    background-image: none;
+    color: #000;
+}

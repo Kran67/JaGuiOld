@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Quarters</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            if (typeof handle === "function") {
+                handle();
+            }
+        };
+        let rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        const imgA = new Image();
+        const imgB = new Image();
+        let amount = 0;
+        let started = false;
+        let op = 0;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let img;
+        function mulDiv(value, multi, divider) {
+            return ~~((value*multi) / divider);
+        }
+        function quarters() {
+            const ctx = document.getElementById("c").getContext("2d");
+            let x;
+            let y;
+            let x1;
+            let y1;
+            let w1;
+            let h1;
+            let x2;
+            let y2;
+            let w2;
+            let h2;
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                started = true;
+            } else {
+                amount++;
+                const w = img.width;
+                const h = img.height;
+                if (img.width>=img.height) {
+                    x = mulDiv(img.width, amount, 100);
+                    y = mulDiv(x, img.height, img.width);
+                } else {
+                    y = mulDiv(img.height, amount, 100);
+                    x = mulDiv(y, img.width, img.height);
+                }
+                switch (op) {
+                    case 0: // Reveal in to middle
+                        x1 = ~~(x / 2);
+                        y1 = ~~(y / 2);
+                        ctx.drawImage(img, 0, 0, x1, y1, 0, 0, x1, y1);
+                        ctx.drawImage(img, 0, h - y1, x1, y1, 0, h - y1, x1, y1);
+                        ctx.drawImage(img, w - x1, h - y1, x1, y1, w - x1, h - y1, x1, y1);
+                        ctx.drawImage(img, w - x1, 0, x1, y1, w - x1, 0, x1, y1);
+                        break;
+                    case 1: // Expand to middle
+                        x1 = ~~(x / 2);
+                        y1 = ~~(y / 2);
+                        w1 = ~~(w / 2);
+                        h1 = ~~(h / 2);
+                        w2 = Math.min(x1, w1);
+                        h2 = Math.min(y1, h1);
+                        x2 = Math.max(w - x1, w1);
+                        y2 = Math.max(h - y1, h1);
+                        ctx.drawImage(img, 0, 0, w1, h1, 0, 0, w2, h2);
+                        ctx.drawImage(img, 0, h1, w1, h1, 0, y2, w2, h2);
+                        ctx.drawImage(img, w1, h1, w1, h1, x2, y2, w2, h2);
+                        ctx.drawImage(img, w1, 0, w1, h1, x2, 0, w2, h2);
+                        break;
+                    case 2: // Slide in to middle
+                        x1 = ~~(x / 2);
+                        y1 = ~~(y / 2);
+                        w1 = ~~(w / 2);
+                        h1 = ~~(h / 2);
+                        x2 = Math.min(x1 - w1, 0);
+                        y2 = Math.min(y1 - h1, 0);
+                        ctx.drawImage(img, 0, 0, w1, h1, x2, 0, w1, h1);
+                        ctx.drawImage(img, 0, 0, w1, h1, x2, 0, w1, h1);
+                        ctx.drawImage(img, w1, 0, w1, h1, w1, y2, w1, h1);
+                        x2 = Math.max(w - x1, w1);
+                        ctx.drawImage(img, w1, h1, w1, h1, x2, h1, w1, h1);
+                        y2 = Math.max(h - y1, h1);
+                        ctx.drawImage(img, 0, h1, w1, h1, 0, y2, w1, h1);
+                        break;
+                }
+                if (amount>100) {
+                    amount = 0;
+                    ctx.restore();
+                    cancelAnimationFrameRate(handle);
+                    started = false;
+                    [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                    return;
+                }
+            }
+            handle = rAF(quarters);
+        }
+        function init(value) {
+            op = ~~value;
+            handle = rAF(quarters);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        select {
+            width: 220px;
+            margin-bottom: 2px;
+            margin-right: 2px;
+            height: 21px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas>
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">Reveal in to middle</option>
+            <option value="1">Expand to middle</option>
+            <option value="2">Slide in to middle</option>
+        </select><br />
+    </div>
+</body>
+</html>

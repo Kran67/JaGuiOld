@@ -1,0 +1,61 @@
+﻿.carbon.Window {
+    background-repeat: no-repeat;
+    background-color: #333;
+}
+
+.carbon.Window.maximized {
+    box-shadow: inset 0 0 0 1px #222, inset 0 0 0 4px #000 !important;
+}
+
+.carbon.Window:not(.none) {
+    border-radius: 9px;
+    background-position: top left;
+    background-size: 100% 25px;
+    background-image: linear-gradient(to bottom, #000, #000);
+    box-shadow: inset 0 0 0 1px #222, inset 0 0 0 4px #000, 5px 5px 5px rgba(0, 0, 0, .7);
+}
+
+.carbon.Window.inactive {
+    background-image: linear-gradient(to bottom, #505050, #505050);
+}
+
+.carbon.Window:not(.none) {
+    background-size: 100% 29px;
+}
+
+.carbon.Window .carbon.WindowTitleBar {
+    margin: 0;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+}
+
+.carbon.Window .carbon.WindowTitle {
+    font-size: 10pt;
+}
+
+.carbon.Window.inactive .carbon.WindowTitle {
+    color: #A5A5A5;
+}
+
+.carbon.Window:not(.none) .carbon.WindowTitle {
+    line-height: 21px;
+}
+
+.carbon.Window:not(.none) .carbon.Button.WindowTitleButton {
+    top: 1px;
+}
+
+.carbon.Window .carbon.Button.WindowTitleButton {
+    border: none;
+    box-shadow: inset 0 0 0 1px #222;
+    border-radius: 50%;
+    background-image: linear-gradient(to bottom, #505050, #303030);
+}
+
+.carbon.Window .carbon.Button.WindowTitleButton:not(.disabled):hover {
+    background-image: linear-gradient(to bottom, #707070, #303030);
+}
+
+.carbon.Window .carbon.Button.WindowTitleButton.pressed:not(.disabled) {
+    background-image: linear-gradient(to bottom, #404040, #303030);
+}

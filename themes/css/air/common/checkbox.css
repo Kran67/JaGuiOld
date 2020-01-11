@@ -1,0 +1,36 @@
+﻿.air.CheckboxCheck {
+    border: 1px solid #1C1C1C;
+    border-radius: 2px;
+    background-color: #585858;
+    max-width: 13px;
+    width: 13px;
+    height: 13px;
+    color: #000;
+    padding-left: 1px;
+    padding-top: 1px;
+    box-shadow: none;
+    font-size: 6.5pt;
+}
+
+.air.CheckboxCheck.checked:before,
+.air.CheckboxCheck.grayed:before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: "C";
+    right: 0;
+    bottom: 0;
+    padding: 1px 0 0 1px;
+}
+
+.air.Checkbox:hover .CheckboxCheck {
+    background-color: #686868;
+}
+
+.air.CheckboxCheck.grayed:before {
+    content: "[";
+}
+
+.air.Checkbox.focused .CheckboxCheck {
+    box-shadow: 0 0 6px 2px #65C8E0;
+}

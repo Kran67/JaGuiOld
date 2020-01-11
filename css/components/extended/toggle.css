@@ -1,0 +1,46 @@
+﻿div.Toggle {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+div.Toggle:before,
+div.Toggle:after {
+    content: attr(data-checked);
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 0;
+}
+
+div.Toggle:after {
+    content: attr(data-unchecked);
+    left: 50%;
+}
+
+div.Toggle div.CheckboxCheck {
+    width: 52%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    max-width: none;
+    height: auto;
+    transition: ease left 0.5s;
+    z-index: 1;
+}
+
+div.Toggle div.CheckboxCheck.checked {
+    left: 49%;
+}
+
+div.Toggle div.CheckboxCheck.checked:before,
+div.Toggle div.CheckboxCheck.grayed:before {
+    content: "";
+}

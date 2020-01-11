@@ -1,0 +1,27 @@
+.simple.PageContent {
+}
+
+.simple.PageControl.tabsBottom > .TabsContainer .TabSheet:hover {
+    background-color: #FFF;
+}
+
+.simple.PageControl.tabsBottom > .TabsContainer .TabSheet.selected,
+.simple.PageControl.tabsBottom > .TabsContainer .TabSheet.selected:hover {
+    background-color: #FFF;
+    padding-top: 4px;
+    height: 20px;
+    border-top: none;
+}
+
+.simple.PageControl.tabsBottom > .PagesContent {
+    background-color: #FFF;
+}
+
+.simple.PageControl.tabsBottom > .TabsContainer .TabSheet {
+    color: #000;
+    border: 1px solid #6694E3;
+    background-color: #FFF;
+    padding-top: 1px;
+    vertical-align: top;
+    margin-top: 0;
+}

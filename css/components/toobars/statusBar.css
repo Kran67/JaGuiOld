@@ -1,0 +1,25 @@
+﻿div.StatusBar {
+    z-index: 9;
+    position: relative;
+    order: 5;
+}
+
+div.StatusBarPanel {
+    bottom: 1px;
+    padding: 0 2px;
+    top: 1px;
+    line-height: 15px;
+}
+
+div.StatusBarSimplePanel {
+    left: 1px;
+    top: 1px;
+    right: 1px;
+    bottom: 1px;
+    padding-left: 2px;
+}
+
+div.StatusBarSizer {
+    background-repeat: no-repeat;
+    z-index: 1;
+}

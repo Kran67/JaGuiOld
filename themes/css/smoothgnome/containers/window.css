@@ -1,0 +1,227 @@
+﻿.smoothgnome.Window {
+    background-color: #EAE8E3;
+    background-repeat: no-repeat;
+}
+
+.smoothgnome.Window.maximized {
+    box-shadow: inset 0 1px 0 0 #DEE4EB, inset 0 0 0 1px #506984 !important;
+}
+
+.smoothgnome.Window:not(.none) {
+    box-shadow: inset 0 1px 0 0 #DEE4EB, inset 0 0 0 1px #506984, 5px 5px 5px rgba(0, 0, 0, .7);
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border: 1px solid #000;
+    background-image: linear-gradient(to right, #6683A3, #6683A3),
+        linear-gradient(to right, #6683A3, #6683A3),
+        linear-gradient(to right, #6683A3, #6683A3),
+        linear-gradient(to bottom, #6683A3, #6683A3),
+        linear-gradient(to bottom, #6683A3, #6683A3),
+        linear-gradient(to right, #6683A3, #6683A3),
+        linear-gradient(to bottom, #506984, #506984),
+        linear-gradient(to bottom, #6683A3, #6683A3),
+        linear-gradient(to bottom, #B0BFCF, #758FAC);
+    background-position: 1px 22px, 2px 22px, calc(100% - 2px) 22px, 2px calc(100% - 1px), 2px calc(100% - 2px), calc(100% - 1px) 22px, 2px 22px, 2px 21px, left top;
+    background-size: 1px calc(100% - 21px), 1px calc(100% - 21px), 1px calc(100% - 21px), calc(100% - 4px) 1px, calc(100% - 4px) 1px, 1px calc(100% - 21px), calc(100% - 4px) 1px, calc(100% - 4px) 1px, 100% 22px;
+}
+
+.smoothgnome.Window.inactive {
+    box-shadow: inset 0 1px 0 0 #FFF, inset 0 0 0 1px #E4E2DC, 5px 5px 5px rgba(0, 0, 0, .7);
+    background-image: linear-gradient(to right, #EAE8E3, #EAE8E3),
+        linear-gradient(to right, #7F7A6F, #7F7A6F),
+        linear-gradient(to right, #7F7A6F, #7F7A6F),
+        linear-gradient(to bottom, #EAE8E3, #EAE8E3),
+        linear-gradient(to bottom, #7F7A6F, #7F7A6F),
+        linear-gradient(to right, #EAE8E3, #EAE8E3),
+        linear-gradient(to bottom, #7F7A6F, #7F7A6F),
+        linear-gradient(to bottom, #E4E2DC, #E4E2DC),
+        linear-gradient(to bottom, #B0BFCF, #758FAC);
+}
+
+.smoothgnome.Window.rolledUp {
+    max-height: 26px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowTitleBar {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    height: 20px;
+    min-height: 20px;
+    max-height: 20px;
+    overflow: visible;
+}
+
+.smoothgnome.Window:not(.none) .smoothgnome.WindowIcon {
+    background-position: 1px 0;
+}
+
+.smoothgnome.Window .smoothgnome.WindowTitle {
+    font-size: 8pt;
+    font-weight: bold;
+    text-shadow: 0 0 5px #6683A3;
+    color: #FFF;
+    height: 17px;
+    min-height: 17px;
+    max-height: 17px;
+    line-height: 15px;
+    padding: 0;
+}
+
+.smoothgnome.Window.inactive .smoothgnome.WindowTitle {
+    text-shadow: none;
+    color: #8C8B88;
+}
+
+.smoothgnome.Window .smoothgnome.WindowTitleButton {
+    height: 14px;
+    min-height: 14px;
+    max-height: 14px;
+    width: 14px;
+    min-width: 14px;
+    max-width: 14px;
+    border: 1px solid #526881;
+    border-top-color: #556B83;
+    border-bottom-color: #4F667F;
+    border-radius: 3px;
+    background-image: url(../../../images/smoothgnome/windowbtns.png), linear-gradient(to bottom, #FFF, #EEEDE9);
+    box-shadow: inset -1px 0 0 0 #D8D6D2, inset 0 -1px 0 0 #BFBDB5;
+    margin-right: 4px;
+    top: 0;
+}
+
+.smoothgnome.Window.inactive .smoothgnome.WindowTitleButton {
+    border: 1px solid #989890;
+    border-top-color: #9A9A91;
+    border-bottom-color: #94958E;
+}
+
+.smoothgnome.Window .smoothgnome.WindowTitleButton.pressed:not(.disabled) {
+    background-image: url(../../../images/smoothgnome/windowbtns.png), linear-gradient(to bottom, #EDEBE7, #FFF);
+    box-shadow: inset 0 1px 0 0 #B8B6AD;
+}
+
+.smoothgnome.Window .smoothgnome.WindowTitleButton:before {
+    content: none;
+}
+
+.smoothgnome.Window .smoothgnome.WindowCloseButton {
+    background-position: left top;
+}
+
+.smoothgnome.Window .smoothgnome.WindowCloseButton:not(.disabled):hover {
+    background-position: -12px top;
+}
+
+.smoothgnome.Window .smoothgnome.WindowCloseButton.pressed:not(.disabled) {
+    background-position: -24px top;
+}
+
+.smoothgnome.Window .smoothgnome.WindowMaxRestoreButton {
+    background-position: left -12px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowMaxRestoreButton:not(.disabled):hover {
+    background-position: -12px -12px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowMaxRestoreButton.pressed:not(.disabled) {
+    background-position: -24px -12px;
+}
+
+.smoothgnome.Window.maximized .smoothgnome.WindowMaxRestoreButton {
+    background-position: left -24px;
+}
+
+.smoothgnome.Window.maximized .smoothgnome.WindowMaxRestoreButton:not(.disabled):hover {
+    background-position: -12px -24px;
+}
+
+.smoothgnome.Window.maximized .smoothgnome.WindowMaxRestoreButton.pressed:not(.disabled) {
+    background-position: -24px -24px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowMinimizeButton {
+    background-position: left -36px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowMinimizeButton:not(.disabled):hover {
+    background-position: -12px -36px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowMinimizeButton.pressed:not(.disabled) {
+    background-position: -24px -36px;
+}
+
+.smoothgnome.Window.minimized .smoothgnome.WindowMinimizeButton {
+    background-position: left -24px;
+}
+
+.smoothgnome.Window.minimized .smoothgnome.WindowMinimizeButton:not(.disabled):hover {
+    background-position: -12px -24px;
+}
+
+.smoothgnome.Window.minimized .smoothgnome.WindowMinimizeButton.pressed:not(.disabled) {
+    background-position: -24px -24px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowHelpButton {
+    background-position: left -48px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowHelpButton:not(.disabled):hover {
+    background-position: -12px -48px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowHelpButton.pressed:not(.disabled) {
+    background-position: -24px -48px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowRollUpDownButton {
+    background-position: left -60px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowRollUpDownButton:not(.disabled):hover {
+    background-position: -12px -60px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowRollUpDownButton.pressed:not(.disabled) {
+    background-position: -24px -60px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowRollUpDownButton.isup {
+    background-position: left -12px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowRollUpDownButton.isup:not(.disabled):hover {
+    background-position: -12px -12px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowRollUpDownButton.isup.pressed:not(.disabled) {
+    background-position: -24px -12px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowStayOnOffButton {
+    background-position: left -72px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowStayOnOffButton:not(.disabled):hover {
+    background-position: -12px -72px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowStayOnOffButton.pressed:not(.disabled) {
+    background-position: -24px -72px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowStayOnOffButton.isstayon {
+    background-position: left -84px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowStayOnOffButton.isstayon:not(.disabled):hover {
+    background-position: -12px -84px;
+}
+
+.smoothgnome.Window .smoothgnome.WindowStayOnOffButton.isstayon.pressed:not(.disabled) {
+    background-position: -24px -84px;
+}

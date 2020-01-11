@@ -1,0 +1,69 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>draganddrop</title>
+  <link rel="Stylesheet" href="../styles/default.css" />
+    <script type="text/javascript" src="../gui/core.js"></script>
+    <script type="text/javascript" src="../gui/ext_array.js"></script>
+    <script type="text/javascript" src="../gui/ext_string.js"></script>
+    <script type="text/javascript" src="../gui/ext_math.js"></script>
+    <script type="text/javascript" src="../gui/ext_date.js"></script>
+    <script type="text/javascript" src="../gui/types.js"></script>
+    <script type="text/javascript" src="../gui/browser.js"></script>
+    <script type="text/javascript" src="../gui/convertion.js"></script>
+    <script type="text/javascript" src="../gui/geometry.js"></script>
+    <script type="text/javascript" src="../gui/mouse_keyboard.js"></script>
+    <script type="text/javascript" src="../gui/colors.js"></script>
+    <script type="text/javascript" src="../gui/animation.js"></script>
+    <script type="text/javascript" src="../gui/alias.js"></script>
+    <script type="text/javascript" src="../gui/canvas.js"></script>
+    <script type="text/javascript" src="../gui/app.js"></script>
+    <script type="text/javascript" src="../gui/objects.js"></script>
+    <!--script type="text/javascript" src="../gui/effects.js"></script-->
+    <!--script type="text/javascript" src="../gui/actions.js"></script-->
+    <script type="text/javascript" src="../gui/layouts.js"></script>
+    <script type="text/javascript" src="../gui/controls.js"></script>
+    <!--script type="text/javascript" src="../gui/listbox.js"></script-->
+    <!--script type="text/javascript" src="../gui/grid.js"></script-->
+    <!--script type="text/javascript" src="../gui/textbox.js"></script-->
+    <!--script type="text/javascript" src="../gui/memo.js"></script-->
+    <!--script type="text/javascript" src="../gui/tabcontrol.js"></script-->
+    <!--script type="text/javascript" src="../gui/treeview.js"></script-->
+    <!--script type="text/javascript" src="../gui/dbctrls.js"></script-->
+    <script type="text/javascript" src="../styles/style.js"></script>
+    <script type="text/javascript">
+        function init() {
+            var app = $j.app(0, 0, 600, 300), obj, obj1;
+            obj = new $j.label;
+            with (obj) {
+                align = $j.aligns.CLIENT;
+                textalign = $j.textAlign.CENTER;
+                vertTextAlign = $j.textAlign.CENTER;
+                font.size = 11;
+                font.style = $j.fontStyle.BOLD;
+                text = 'Under construction';
+            }
+            app.root.addObject(obj);
+            obj1 = new $j.floatAnimation;
+            with (obj1) {
+                animationtype = _animt.INOUT;
+                autoreverse = true;
+                enabled = true;
+                duration = 1;
+                interpolation = $j.interpolationTypes.BACK;
+                loop = true;
+                startvalue = 11;
+                stopvalue = 50;
+                propertyname = 'font.size';
+            }
+            obj.addObject(obj1);
+            app.run();
+        }
+    </script>
+    <style type="text/css">
+        body { text-align:center;margin:0px;padding:0px;background-color:#505050; }
+    </style>
+</head>
+<body onload="init();">
+</body>
+</html>

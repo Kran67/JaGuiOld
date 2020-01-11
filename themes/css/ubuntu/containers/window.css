@@ -1,0 +1,147 @@
+﻿.ubuntu.Window {
+    background-color: #F2F1F0;
+    background-repeat: no-repeat;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+}
+
+    .ubuntu.Window:not(.maximized) {
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, .7);
+    }
+
+    .ubuntu.Window:not(.none) {
+        box-shadow: inset 0 1px 0 0 #484741,
+        inset 0 2px 0 0 #65645E,
+        5px 5px 5px rgba(0, 0, 0, .7);
+        background-image: linear-gradient(to bottom, #A1998E, #A1998E),
+        linear-gradient(to bottom, #3E3D39, #3E3D39 12px, #A1998E 70px),
+        linear-gradient(to bottom, #3E3D39, #3E3D39 12px, #A1998E 70px),
+        linear-gradient(to bottom, #403F3A, #403F3A),
+        linear-gradient(to bottom, #484741, #484741),
+        linear-gradient(to bottom, #484741, #484741),
+        linear-gradient(to bottom, #575651, #3C3B37),
+        url(../../../images/ubuntu/left.png), url(../../../images/ubuntu/right.png);
+        background-position: left bottom, right 27px, left 27px, 1px 26px, right 7px, left 7px, left top, 1px 27px, calc(100% - 1px) 27px;
+        background-size: 100% 1px, 1px calc(100% - 27px), 1px calc(100% - 27px), calc(100% - 2px) 1px, 1px 20px, 1px 20px, 100% 26px, 3px 44px, 3px 44px;
+    }
+
+    .ubuntu.Window.inactive:not(.none) {
+        box-shadow: inset 0 1px 0 0 #46443F,
+        inset 0 2px 0 0 #53524D,
+        5px 5px 5px rgba(0, 0, 0, .7);
+        background-image: linear-gradient(to bottom, #C2B9B1, #C2B9B1),
+        linear-gradient(to bottom, #3F3E3A, #3F3E3A 12px, #C2B9B1 70px),
+        linear-gradient(to bottom, #3F3E3A, #3F3E3A 12px, #C2B9B1 70px),
+        linear-gradient(to bottom, #3C3B37, #3C3B37),
+        linear-gradient(to bottom, #484741, #484741),
+        linear-gradient(to bottom, #484741, #484741),
+        linear-gradient(to bottom, #494844, #3C3B37),
+        url(../../../images/ubuntu/left.png), url(../../../images/ubuntu/right.png);
+    }
+
+        .ubuntu.Window:not(.none):before {
+            content: "";
+            position: absolute;
+            border-top: 1px solid #363632;
+            height: 19px;
+            min-height: 19px;
+            max-height: 19px;
+            background-image: linear-gradient(to bottom, #3C3B37, transparent);
+            box-sizing: border-box;
+            border-radius: 19px;
+            right: 10px;
+            width: 120px;
+            top: 4px;
+        }
+
+    .ubuntu.Window:before .ubuntu.Window.inactive {
+        border: 1px solid #46443F;
+    }
+
+    .ubuntu.Window[data-buttons="5"]:before {
+        width: 100px;
+    }
+
+    .ubuntu.Window[data-buttons="4"]:before {
+        width: 80px;
+    }
+
+    .ubuntu.Window[data-buttons="3"]:before {
+        width: 60px;
+    }
+
+    .ubuntu.Window[data-buttons="2"]:before, .ubuntu.Window.dialog:before {
+        width: 40px;
+    }
+
+    .ubuntu.Window[data-buttons="1"]:before {
+        width: 20px;
+    }
+
+    .ubuntu.Window .ubuntu.WindowTitleBar {
+        margin: 0;
+        height: 23px;
+        min-height: 23px;
+        max-height: 23px;
+    }
+
+    .ubuntu.Window .ubuntu.WindowTitle {
+        font-size: 10pt;
+        height: 18px;
+        min-height: 18px;
+        max-height: 18px;
+        line-height: 18px;
+        font-weight: bold;
+        text-shadow: 0 0 2px #000;
+        color: #DFDBD2;
+        padding-left: 2px;
+    }
+
+    .ubuntu.Window.inactive .ubuntu.WindowTitle {
+        text-shadow: none;
+        color: #807D78;
+    }
+
+    .ubuntu.Window .ubuntu.WindowTitleButton {
+        border-radius: 50%;
+        border: none;
+        margin-right: 4px;
+        background-image: linear-gradient(to bottom, #94938E, #5A5955);
+        width: 16px;
+        min-width: 16px;
+        max-width: 16px;
+        height: 16px;
+        min-height: 16px;
+        max-height: 16px;
+        top: 2px;
+    }
+
+        .ubuntu.Window .ubuntu.WindowTitleButton:before {
+            color: #3A3935;
+            text-shadow: 0 1px 0 #7E7D76;
+            font-size: 7pt;
+        }
+
+        .ubuntu.Window:not(.inactive) .ubuntu.WindowTitleButton:not(.disabled):hover {
+            background-image: linear-gradient(to bottom, #D8D9D9, #9E9E9E);
+        }
+
+        .ubuntu.Window:not(.inactive) .ubuntu.WindowTitleButton.pressed:not(.disabled) {
+            background-image: linear-gradient(to bottom, #787770, #7E7D76);
+        }
+
+    .ubuntu.Window .ubuntu.WindowCloseButton {
+        margin-right: 8px;
+    }
+
+    .ubuntu.Window:not(.inactive) .ubuntu.WindowCloseButton {
+        background-image: linear-gradient(to bottom, #F79674, #DF5106);
+    }
+
+        .ubuntu.Window:not(.inactive) .ubuntu.WindowCloseButton:not(.disabled):hover {
+            background-image: linear-gradient(to bottom, #FAA589, #E45306);
+        }
+
+        .ubuntu.Window:not(.inactive) .ubuntu.WindowCloseButton.pressed:not(.disabled) {
+            background-image: linear-gradient(to bottom, #EA6F3B, #ED7443);
+        }

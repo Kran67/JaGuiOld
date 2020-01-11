@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Dissolve</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null, img;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let blocks;
+        let steps = 60;
+        let frame = 0;
+        let nbIteration;
+        let size;
+        let maxBlocksPerLine;
+        let blockSize = 1;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        function dissolve() {
+            const ctx = document.getElementById("c").getContext("2d");
+            let i, l, x, y;
+            if (!started) {
+                if (!img || img !== imgB) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                [].forEach.call(document.querySelectorAll("button"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+                maxBlocksPerLine = Math.ceil(img.width / blockSize);
+                blocks = new Array(img.width * img.height);
+                for (i = 0, l = blocks.length; i < l; i++) {
+                    blocks[i] = i;
+                }
+                blocks.sort(() => Math.random() - 0.5);
+                nbIteration = Math.ceil(blocks.length / steps);
+                size = blocks.length - nbIteration;
+            }
+            l = Math.min(nbIteration * frame, size);
+            for (i = l; i < (l + nbIteration); i++) {
+                y = Math.floor(blocks[i] / maxBlocksPerLine);
+                x = blocks[i] - (y * maxBlocksPerLine);
+                ctx.drawImage(img, x * blockSize, y * blockSize, blockSize, blockSize, x * blockSize, y * blockSize, blockSize, blockSize);
+            }
+            frame++;
+            if (frame > steps) {
+                frame = 0;
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("button"), a => a.removeAttribute("disabled"));
+                return;
+            }
+            rAF(dissolve);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400" style="border:1px solid red"></canvas><br />
+    <button onclick="handle = rAF(dissolve)">dissolve</button><br />
+
+</body>
+</html>

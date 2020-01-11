@@ -1,0 +1,238 @@
+﻿jagui-window.clearlooksblue {
+  overflow: hidden;
+  background-color: #EFEBE7;
+  background-repeat: no-repeat;
+  --activeRadialColor1:#B2CCED;
+  --activeRadialColor2:#455D7C;
+  --offset1:8px;
+  --offset2:16px;
+  --offset3:16px;
+  --offset4:8px;
+}
+
+jagui-window.clearlooksblue.maximized {
+    box-shadow: none !important;
+      --activeRadialColor1:transparent;
+      --activeRadialColor2:transparent;
+      --offset1:0;
+      --offset2:24px;
+      --offset3:0px;
+      --offset4:2px;
+}
+
+jagui-window.clearlooksblue:not(.none) {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.7);
+  background-position: 1px calc(100% - 1px),
+      calc(100% - 1px) 25px,
+      1px 25px, left bottom,
+      right 24px,
+      left 24px,
+      calc(100% - 1px) var(--offset4),
+      1px var(--offset4),
+      left 24px,
+      right var(--offset1),
+      left var(--offset1),
+      var(--offset1) top,
+      left top,
+      right top,
+      left top;
+  background-size: calc(100% - 2px) 1px,
+      1px calc(100% - 26px),
+      1px calc(100% - 26px),
+      100% 1px,
+      1px 100%,
+      1px 100%,
+      1px var(--offset2),
+      1px var(--offset2),
+      100% 1px,
+      1px var(--offset2),
+      1px var(--offset2),
+      calc(100% - var(--offset3)) 24px,
+      8px 8px,
+      8px 8px,
+      100% 24px;
+  background-image: linear-gradient(to bottom, #DCD4CC, #DCD4CC),
+      linear-gradient(to right, #DCD4CC, #DCD4CC),
+      linear-gradient(to right, #FFF, #FFF),
+      linear-gradient(to bottom, #000, #000),
+      linear-gradient(to right, #000, #000),
+      linear-gradient(to right, #000, #000),
+      linear-gradient(to right, #9EBDE5, #9EBDE5),
+      linear-gradient(to right, #9EBDE5, #9EBDE5),
+      linear-gradient(to bottom, #4E76A8, #4E76A8),
+      linear-gradient(to right, #455D7C, #455D7C),
+      linear-gradient(to right, #455D7C, #455D7C),
+      linear-gradient(to bottom, #455D7C 1px, #B2CCED 1px, #B2CCED 2px, transparent 2px, transparent 100%),
+      radial-gradient(8px at 100% 100%, transparent 0, transparent 6px, var(--activeRadialColor1) 6px, var(--activeRadialColor1) 7px, var(--activeRadialColor2) 7px),
+      radial-gradient(8px at 0 100%, transparent 0, transparent 6px, var(--activeRadialColor1) 6px, var(--activeRadialColor1) 7px, var(--activeRadialColor2) 7px),
+      linear-gradient(to bottom, #99BAE3, #8CB0DC 50%, #84AAD8 50%, #7AA1D1);
+}
+
+jagui-window.clearlooksblue.inactive:not(.none) {
+        background-image: linear-gradient(to bottom, #DCD4CC, #DCD4CC),
+            linear-gradient(to right, #DCD4CC, #DCD4CC),
+            linear-gradient(to right, #FFF, #FFF),
+            linear-gradient(to bottom, #000, #000),
+            linear-gradient(to right, #000, #000),
+            linear-gradient(to right, #000, #000),
+            linear-gradient(to right, #F5F4F4, #F5F4F4),
+            linear-gradient(to right, #F5F4F4, #F5F4F4),
+            linear-gradient(to bottom, #9A8E7C, #9A8E7C),
+            linear-gradient(to right, #3D3A37, #3D3A37),
+            linear-gradient(to right, #3D3A37, #3D3A37),
+            linear-gradient(to bottom, #3D3A37 1px, #F7F7F7 1px, #F7F7F7 2px, transparent 2px, transparent 100%),
+            radial-gradient(8px at 100% 100%, transparent 0, transparent 6px, #F7F7F7 6px, #F7F7F7 7px, #3D3A37 7px),
+            radial-gradient(8px at 0 100%, transparent 0, transparent 6px, #F7F7F7 6px, #F7F7F7 7px, #3D3A37 7px),
+            linear-gradient(to bottom, #EDECEB, #DEDBD8);
+    }
+
+jagui-window.clearlooksblue.rolledUp {
+  max-height: 26px;
+}
+
+jagui-window.clearlooksblue jagui-windowtitlebar {
+  margin: 0;
+  text-align: center;
+}
+
+jagui-window.clearlooksblue:not(.none) jagui-windowtitlebar {
+  padding-left: 24px;
+  height: 21px;
+  min-height: 21px;
+  max-height: 21px;
+}
+
+jagui-window.clearlooksblue jagui-windowtitle {
+  color: #FFF;
+  font-size: 10pt;
+  text-shadow: 0 0 5px #000;
+  overflow: visible;
+}
+
+jagui-window.clearlooksblue:not(.none) jagui-windowtitle {
+  height: 21px;
+  line-height: 19px;
+  max-height: 21px;
+  min-height: 21px;
+}
+
+jagui-window.clearlooksblue.inactive jagui-windowtitle {
+  color: #6A6968;
+  text-shadow: none;
+}
+
+jagui-window.clearlooksblue .WindowTitleButton {
+  margin-right: 4px;
+  overflow: visible;
+  box-shadow: inset 0 0 0 1px #48668A, inset -2px 0 0 0 #86ABD9, inset 2px 0 0 0 #9EBDE5, inset 0 2px 0 0 #B2CCED, 0 0 2px 0 #86AAD8;
+  border: none;
+  background-image: linear-gradient(to bottom, #9EBDE5, #91B3DF 43%, #86ABD9 43%, #78A0D1);
+  border-radius: 4px;
+  width: 16px;
+  min-width: 16px;
+  max-width: 16px;
+  height: 16px;
+  min-height: 16px;
+  max-height: 16px;
+  top: 3px;
+}
+
+jagui-window.clearlooksblue.inactive .WindowTitleButton {
+  box-shadow: inset 0 0 0 1px #8F8370, inset -2px 0 0 0 #D0C8BB, inset 2px 0 0 0 #FFF, inset 0 2px 0 0 #FFF;
+  background-image: linear-gradient(to bottom, #F4F2EE, #EFECE7 43%, #EEEBE6 43%, #E9E5DF);
+}
+
+jagui-window.clearlooksblue .WindowTitleButton:after {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: 18px;
+  height: 18px;
+  background-image: linear-gradient(to bottom, #82A8D7, #94B6E1);
+  border-radius: 4px;
+  z-index: -1;
+}
+
+jagui-window.clearlooksblue.inactive .WindowTitleButton:after {
+  background-image: none;
+}
+
+jagui-window.clearlooksblue:not(.none) .WindowTitleButton {
+  top: 1px;
+}
+
+jagui-window.clearlooksblue:not(.inactive) .WindowTitleButton:not(.disabled):hover {
+  box-shadow: inset 0 0 0 1px #48668A, inset -2px 0 0 0 #89B2E6, inset 2px 0 0 0 #A0C1EF, inset 0 2px 0 0 #B3D0F5, 0 0 2px 0 #86AAD8;
+  background-image: linear-gradient(to bottom, #A0C1EF, #93B8EA 49%, #89B2E6 50%, #78A6DE);
+}
+
+jagui-window.clearlooksblue:not(.inactive) .WindowTitleButton.pressed:not(.disabled) {
+  box-shadow: inset 0 0 0 1px #48668A, inset -2px 0 0 0 #7C9EC6, inset 2px 0 0 0 #93AED1, inset 0 2px 0 0 #A5BCD9, 0 0 2px 0 #86AAD8;
+  background-image: linear-gradient(to bottom, #93AED1, #87A5CC 49%, #7C9EC6 50%, #6C90BD);
+}
+
+jagui-window.clearlooksblue jagui-windowclosebutton {
+  margin-right: 3px;
+}
+
+jagui-window.clearlooksblue .WindowTitleButton:before {
+  background: none;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-image: url('../../../images/clearlooksblue/windowbtns.png');
+  background-size: 20px 80px;
+  width: 10px;
+  height: 10px;
+}
+
+jagui-window.clearlooksblue .WindowTitleButton:before {
+  content: "";
+}
+
+jagui-window.clearlooksblue jagui-windowclosebutton.WindowTitleButton:before {
+  background-position: 0 0;
+}
+
+jagui-window.clearlooksblue jagui-windowmaxrestorebutton.WindowTitleButton:before {
+  background-position: 0 -10px;
+}
+
+jagui-window.clearlooksblue jagui-windowminimizebutton.WindowTitleButton:before {
+  background-position: 0 -30px;
+}
+
+jagui-window.clearlooksblue.maximized jagui-windowmaxrestorebutton.WindowTitleButton:before,
+jagui-window.clearlooksblue.minimized jagui-windowminimizebutton.WindowTitleButton:before {
+  background-position: 0 -20px;
+}
+
+jagui-window.clearlooksblue jagui-windowhelpbutton.WindowTitleButton:before {
+  background-position: 0 -40px;
+}
+
+jagui-window.clearlooksblue jagui-windowrollupdownbutton.WindowTitleButton:before {
+  background-position: 0 -50px;
+}
+
+jagui-window.clearlooksblue.rolledUp jagui-windowrollupdownbutton.WindowTitleButton:before {
+  background-position: 0 -10px;
+}
+
+jagui-window.clearlooksblue jagui-windowstayonoffbutton.WindowTitleButton:before {
+  background-position: 0 -60px;
+}
+
+jagui-window.clearlooksblue jagui-windowstayonoffbutton.isstayon:before {
+  background-position: 0 -70px;
+}
+
+jagui-window.clearlooksblue.inactive .WindowTitleButton:before {
+  background-position-x: -10px;
+}
+
+jagui-window.clearlooksblue jagui-windowcontent {
+  background-color: #EFEBE7;
+}

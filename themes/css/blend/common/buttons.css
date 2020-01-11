@@ -1,0 +1,59 @@
+﻿.blend.Button,
+.blend.Button.disabled:hover,
+.blend.TextButton,
+.blend.TextButton.disabled:hover {
+    border-radius: 3px;
+    border: 1px solid;
+    background-image: linear-gradient(to bottom, #626262, #626262 50%, #505050 50%, #505050);
+    border-image: linear-gradient(#A1A1A1, #A1A1A1 50%, #E0E0E0 50%, #E0E0E0) 1;
+}
+
+    .blend.Button.stayspressed.pressed,
+    .blend.Button.stayspressed.pressed:hover,
+    .blend.TextButton.stayspressed.pressed,
+    .blend.TextButton.stayspressed.pressed:hover {
+        background-color: #FFF;
+        background-image: none;
+        color: #000;
+    }
+
+.blend.CaptionButton.stayspressed.pressed {
+    color: #000;
+}
+
+.blend.Button:hover,
+.blend.TextButton:hover {
+    background-image: linear-gradient(to bottom, #707070, #707070);
+}
+
+.blend.Button.pressed,
+.blend.TextButton.pressed {
+    background-image: linear-gradient(to bottom, #5B5B5B, #5B5B5B 50%, #404040 50%, #404040);
+}
+
+.blend.Button.focused,
+.blend.TextButton.focused {
+    box-shadow: 0 0 6px 1px #F69E2D;
+}
+
+.blend.SpeedButton,
+.blend.SpeedButton.disabled:hover {
+    border-radius: 10px;
+    background-color: #606060;
+    border: none;
+}
+
+    .blend.SpeedButton.stayspressed.pressed,
+    .blend.SpeedButton.stayspressed.pressed:hover {
+        background-color: #F5AB28;
+        background-image: none;
+        color: #000;
+    }
+
+    .blend.SpeedButton:hover {
+        background-color: #707070;
+    }
+
+    .blend.SpeedButton.pressed {
+        background-color: #404040;
+    }

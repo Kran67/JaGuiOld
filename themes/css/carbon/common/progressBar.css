@@ -1,0 +1,36 @@
+﻿.carbon.ProgressBar {
+}
+
+.carbon.ProgressBar.orientation-horizontal {
+    border: 1px solid #303030;
+    background-image: linear-gradient(to bottom,#303030 0,#606060 100%);
+}
+
+.carbon.ProgressBar.orientation-vertical {
+    border: 1px solid #303030;
+    background-image: linear-gradient(to right,#303030 0,#606060 100%);
+}
+
+.carbon.ProgressBarProgress {
+}
+
+.carbon.ProgressBarProgress.orientation-horizontal {
+    background-image: linear-gradient(to bottom,#F5CD76 0,#9F7009 100%);
+}
+
+.carbon.ProgressBarProgress.orientation-vertical {
+    background-image: linear-gradient(to right,#F5CD76 0,#9F7009 100%);
+}
+
+.carbon.ProgressBarIndic {
+}
+
+.carbon.ProgressBarIndic.orientation-horizontal {
+    background-image: linear-gradient(to right,rgba(255,255,255,0) 0, rgba(241,211,132,0.7),rgba(255,255,255,0) 100%);
+    border-radius: 9px;
+}
+
+.carbon.ProgressBarIndic.orientation-vertical {
+    background-image: linear-gradient(to bottom,rgba(255,255,255,0) 0, rgba(241,211,132,0.7),rgba(255,255,255,0) 100%);
+    border-radius: 9px;
+}

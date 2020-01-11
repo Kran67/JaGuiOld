@@ -1,0 +1,94 @@
+﻿.blend.Window {
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-color: #505050;
+}
+
+    .blend.Window:not(.none) {
+        border-radius: 9px;
+        background-position: top left;
+        background-size: 100% 25px;
+        background-image: linear-gradient(to bottom, #313131, #1D1D1D);
+        box-shadow: inset 0 0 0 4px #202020;
+    }
+
+.blend.Window.inactive {
+  background-image: linear-gradient(to bottom, #505050, #505050);
+  box-shadow: inset 0 0 0 4px #A1A1A1;
+}
+
+.blend.Window:not(.none) {
+  background-size: 100% 29px;
+}
+
+.blend.Window .blend.WindowTitleBar {
+  margin: 0;
+  text-align: center;
+}
+
+.blend.Window:not(.none) .blend.WindowTitleBar {
+  padding-left: 0;
+  padding-right: 20px;
+  justify-content: flex-start;
+}
+
+.blend.Window .blend.WindowTitleBar.WindowIcon {
+  background-position-x: calc(100% - 2px);
+}
+
+    .blend.Window .blend.WindowTitle {
+        color: #FCFCFC;
+        font-size: 10pt;
+        left: 50%;
+        padding:0;
+        order:6;
+    }
+
+.blend.Window.inactive .blend.WindowTitle {
+  color: #A1A1A1;
+}
+
+.blend.Window:not(.none) .blend.WindowTitle {
+  line-height: 21px;
+}
+
+.blend.Window button.blend.WindowTitleButton {
+  background-color: #A5A5A5;
+  border-radius: 50%;
+  border: none;
+  float: left;
+  color: #DEDEDE;
+}
+
+.blend.Window:not(.none) button.blend.WindowTitleButton {
+  top: 1px;
+}
+
+.blend.Window button.blend.WindowTitleButton:not(.disabled):hover {
+  background-color: #FFF;
+  color: #000;
+}
+
+.blend.Window button.blend.WindowTitleButton.pressed:not(.disabled) {
+  background-color: #A5A5A5;
+}
+
+.blend.Window:not(.none) button.blend.WindowStayOnOffButton {
+    order:5;
+}
+
+.blend.Window:not(.none) button.blend.WindowRollUpDownButton {
+    order:4;
+}
+
+.blend.Window:not(.none) button.blend.WindowHelpButton {
+    order:3;
+}
+
+.blend.Window:not(.none) button.blend.WindowMinimizeButton {
+    order:2;
+}
+
+.blend.Window:not(.none) button.blend.WindowMaxRestoreButton {
+    order:1;
+}

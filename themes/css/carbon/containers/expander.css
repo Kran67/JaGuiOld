@@ -1,0 +1,41 @@
+﻿.carbon.Expander {
+    border: 1px solid #303030;
+    border-radius: 2px;
+    background-image: linear-gradient(to bottom,#404040 0,#404040 70%,#303030 100%);
+}
+
+.carbon.ExpanderHeader {
+    color: #E0E0E0;
+    height: 25px;
+}
+
+.carbon.ExpanderContent {
+}
+
+.carbon.ExpanderButton,
+.carbon.ExpanderButton:hover {
+    border: none;
+    background: none;
+    font-family: jagui;
+    font-size: 8pt;
+}
+
+.carbon.ExpanderCheckboxCheck {
+    width: 20px;
+    max-width: 20px;
+    font-size: 11pt;
+    background: none;
+    border: none;
+}
+
+.carbon.ExpanderCheckboxCheck:before {
+    opacity: 1;
+    content: "0";
+    color: #E0E0E0;
+}
+
+.carbon.ExpanderCheckboxCheck.checked:before {
+    opacity: 0.2;
+    content: "0";
+    font-size: 11pt;
+}

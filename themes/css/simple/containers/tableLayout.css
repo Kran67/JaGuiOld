@@ -1,0 +1,3 @@
+.simple.TableLayout.showcells > div {
+    outline: 1px #000 dotted;
+}

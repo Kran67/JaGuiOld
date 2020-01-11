@@ -1,0 +1,38 @@
+﻿.ButtonGlyph .paddingDownText {
+    padding-left: 1px !important;
+    padding-top: 1px !important;
+}
+
+.ButtonGlyph .marginDownText {
+    margin-left: 1px !important;
+    margin-top: 1px !important;
+}
+
+.ButtonGlyph {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.ButtonGlyph.layoutLeft {
+    flex-direction: row-reverse;
+}
+
+.ButtonGlyph.layoutRight {
+    flex-direction: row;
+}
+
+.ButtonGlyph.layoutTop {
+    flex-direction: column-reverse;
+}
+
+.ButtonGlyph.layoutBottom {
+    flex-direction: column;
+}
+
+.ButtonGlyph img,
+.ButtonGlyph .ButtonCaption,
+.ButtonGlyph canvas {
+    position: static;
+}

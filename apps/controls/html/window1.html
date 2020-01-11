@@ -1,0 +1,1507 @@
+﻿<!doctype html>
+<html>
+    <head>
+        <title>Window1</title>
+    </head>
+    <body>
+        <template>
+            <jagui-window id="_oNun9840" class="Control csr_default Window sizeable normal {theme} controls" data-class="Window1" data-buttons="6">
+                <properties>
+                    { "name": "Window1", "borderStyle": "sizeable", "windowState":"maximized", "width": 640, "left":100,
+                    "top":50, "height": 480, "onCloseQuery": "closeQuery",
+                    "buttons": ["minimize", "maxRestore", "help", "rollUpDown", "stayOnOff"] }
+                </properties>
+                <jagui-windowlayout id="_ctpjpyi" data-class="Layout" class="Control Layout WindowLayout {theme}">
+                    <jagui-windowtitlebar id="_oNun98d0" data-class="WindowTitleBar" class="Control WindowTitleBar {theme} WindowIcon logo">
+                        <jagui-windowtitle id="_oNun98l0" data-class="WindowTitle" class="WindowTitle {theme}">Window1</jagui-windowtitle>
+                        <jagui-windowstayonoffbutton id="_0vk2vwd" data-class="WindowStayOnOffButton"
+                                class="Control Button WindowTitleButton WindowStayOnOffButton {theme}"></jagui-windowstayonoffbutton>
+                        <jagui-windowrollupdownbutton id="_oNun98K" data-class="WindowRollUpDownButton"
+                                class="Control Button WindowTitleButton WindowRollUpDownButton {theme}"></jagui-windowrollupdownbutton>
+                        <jagui-windowhelpbutton id="_oNun98E" data-class="WindowHelpButton"
+                                class="Control Button WindowTitleButton WindowHelpButton {theme}"></jagui-windowhelpbutton>
+                        <jagui-windowminimizebutton id="_oNun98t" data-class="WindowMinimizeButton"
+                                class="Control Button WindowTitleButton WindowMinimizeButton {theme}"></jagui-windowminimizebutton>
+                        <jagui-windowmaxrestorebutton id="_oNun98x" data-class="WindowMaxRestoreButton"
+                                class="Control Button WindowTitleButton WindowMaxRestoreButton {theme}"></jagui-windowmaxrestorebutton>
+                        <jagui-windowclosebutton id="_oNun98p" data-class="WindowCloseButton"
+                            class="Control Button WindowTitleButton WindowCloseButton {theme}"></jagui-windowclosebutton>
+                    </jagui-windowtitlebar>
+                    <!--<div id="_9tuaold" name="MainMenu1" data-class="MainMenu" class="Control ShortCutIcon MainMenu">
+                    <properties>
+                        { "images": "imageList1", "menus": [{"caption":"&File","shortcut":"Alt+F","enabled":true,"visible":true,"items":[ {"caption":"&New","shortcut":"Ctrl+N","enabled":true,"visible":true,"imageIndex":0,"items":[]},{"caption":"&Open","shortcut":"Ctrl+O","enabled":true,"visible":true,"imageIndex":1,"onClick":"alert('Open');","items":[]},{"caption":"-","shortcut":"Ctrl+O","enabled":true,"visible":true,"items":[]},{"caption":"&Save","shortcut":"Ctrl+S","enabled":true,"visible":true,"imageIndex":2,"items":[]},{"caption":"Save
+                        &As...","shortcut":"Ctrl+A","enabled":true,"visible":true,"imageIndex":3,"items":[]},{"caption":"-","shortcut":"Ctrl+O","enabled":true,"visible":true,"items":[]},
+                        {"caption":"O&thers","shortcut":"Ctrl+t","enabled":true,"visible":true,"imageIndex":4,"items":[{"caption":"New","shortcut":"","enabled":true,"visible":true,"items":[
+                        {"caption":"New","shortcut":"","enabled":true,"visible":true,"items":[]}]}, {"caption":"Save A&s...","shortcut":"Ctrl+s","enabled":true,"visible":true,"items":[]}
+                        ]}, {"caption":"-","shortcut":"Ctrl+O","enabled":true,"visible":true,"items":[]},{"caption":"&Quit","shortcut":"Ctrl+Q","enabled":true,"visible":true,"imageIndex":5,"onClick":"this.form.close()","items":[]}]},
+                        {"caption":"&Edit","shortcut":"Alt+E","enabled":true,"visible":true,"items":[ {"caption":"Undo","shortcut":"Ctrl+Z","enabled":true,"visible":true,"items":[]},{"caption":"Redo","shortcut":"Ctrl+Y","enabled":false,"visible":true,"items":[]},
+                        {"caption":"-","shortcut":"","enabled":true,"visible":true,"items":[]},{"caption":"Cut","shortcut":"Ctrl+X","enabled":true,"visible":true,"action":"EditCut1","items":[],"hint":"Cut|Cuts
+                        the selection and puts it on the Clipboard"}, {"caption":"Copy","shortcut":"Ctrl+C","enabled":true,"visible":true,"items":[]},
+                        {"caption":"Paste","shortcut":"Ctrl+V","enabled":true,"visible":true,"items":[]} ]}, {"caption":"&Themes","shortcut":"Alt+T","enabled":true,"visible":true,"items":[
+                        {name:"Mnu_Air","caption":"Air","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_Haiku","caption":"Haiku","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_Blend","caption":"Blend","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_{theme}","caption":"{theme}","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true,"isChecked":true},
+                        {name:"Mnu_ClearlooksBlue","caption":"Clearlooks Blue","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_Corona12","caption":"Corona12","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_Extreme","caption":"Extreme","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_GUIStyle","caption":"GUIStyle","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_LunaBlue","caption":"LunaBlue","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_LunaHomestead","caption":"LunaHomestead","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_LunaMetallic","caption":"LunaMetallic","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_MacOS","caption":"MacOS","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_Modern","caption":"Modern","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_Simple","caption":"Simple","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_Smoothgnome","caption":"SmoothGnome","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_Ubuntu","caption":"Ubuntu","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_Vista","caption":"Vista","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_Watercolor","caption":"WaterColor","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                        {name:"Mnu_Windows8","caption":"Windows8","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true}
+                        ]} ]}
+                    </properties>
+                    <div class="Control ShortCutIconImg mainMenu">
+                        <div class="Control ShortCutIconCaption">MainMenu1</div>
+                    </div>-->
+                    <!--{name:"Mnu_ProLCD","caption":"ProLCD","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+            {name:"Mnu_Sustenance","caption":"Sustenance","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},-->
+                    <!--</div>
+                <div id="_ou8mg7j" name="ToolBar1" data-class="ToolBar" class="Control ToolBar {theme} csr_default">
+                    <button id="_kdw1y34" name="ToolButton1" data-class="ToolButton" class="Control ButtonGlyph ToolButton {theme} csr_default"
+                        style="width: 70px;">
+                        <properties>{ "onclick": "ToolButton1_onClick", layout: "layoutLeft", glyphsize: 16, glyphspacing: 4, glyphmargin:0
+                            }
+                        </properties>
+                        <span class="Control ButtonCaption ToolButtonCaption">Home</span>
+                        <img alt="" src="images/home.png" draggable="false" width="16" height="16" />
+                    </button>
+                    <button id="_p662jeb" name="ToolButton2" data-class="ToolButton" class="Control ButtonGlyph ToolButton {theme} csr_default"
+                        style="width: 98px;">
+                        <properties>{"action":"EditCut1", "hint":"Cut|Cuts the selection and puts it on the Clipboard", "layout":"layoutRight",
+                            "glyphsize":1", "glyphspacing":4, "glyphmargin":0}</properties>
+                        <span class="Control ButtonCaption ToolButtonCaption">Cut</span>
+                        <img alt="" src="images/duck.png" draggable="false" width="16" height="16" />
+                    </button>
+                    <div id="_p672jeb" name="SplitToolButton1" data-class="SplitToolButton" class="Control SplitToolButton {theme} csr_default"
+                        style="width: 127px;">
+                        <properties>{"popupmenu":"PopupMenu1"}</properties>
+                        <button id="_kdw1y35" name="SplitToolButton_Btn" data-class="BitmapButton" class="Control ButtonGlyph BitmapButton {theme} csr_default">
+                            <properties>{"layout":"layoutRight", "glyphsize":16, "glyphspacing":4, "glyphmargin":0}</properties>
+                            <span class="Control ButtonCaption BitmapButtonCaption">SplitToolButton1</span>
+                            <img alt="" src="images/duck.png" draggable="false" width="16" height="16" />
+                        </button>
+                        <button id="_kdw2y34" name="SplitToolButton_PopBtn" data-class="PopupButton" class="Control PopupButton {theme} csr_default">
+                            <span class="Control ButtonCaption"></span>
+                            <div class="Control PopupButtonArrow">8</div>
+                        </button>
+                    </div>
+                    <label id="_3zuzu8m" name="Label3" data-class="Label" class="Control csr_default Label {theme} verticalCenter" style="left: 300px;">Shapes :</label>
+                    <div id="_p632j89b" data-class="Layout" class="Control Layout" name="ShapesLayout1" style="left: 350px;top: 0;bottom: 0;right: 0;">
+                        <div id="_34qkqx3" name="Line1" data-class="Line" class="Control Line verticalCenter" style="width: 20px;height: 20px;">
+                            <properties>{"linedirection":"topleft-bottomright"}</properties>
+                            <svg class="Control svgShape">
+                                <line x1="0" y1="0" x2="100%" y2="100%" stroke="white" stroke-width="2" />
+                            </svg>
+                        </div>
+                        <div id="_34qksx3" name="Rectangle1" data-class="Rectangle" class="Control Rectangle verticalCenter" style="left: 30px;width: 20px;height: 10px;">
+                            <properties>{ "fillcolor":"white", "strokecolor":"black", "strokewidth":"2"}</properties>
+                            <svg class="Control svgShape">
+                                <rect width="100%" height="100%" />
+                            </svg>
+                        </div>
+                        <div id="_34fksx3" name="RoundRect1" data-class="RoundRect" class="Control RoundRect verticalCenter" style="left: 60px;width: 20px;height: 10px;">
+                            <properties>{"topleftradius":3, "toprightradius":3, "bottomleftradius":3, "bottomrightradius":3, "fillcolor":"white","strokecolor":"black",
+                                "strokewidth":2}
+                            </properties>
+                            <svg class="Control svgShape">
+                                <path d="M20 0 L180 0 Q200 0 200 20 L200 80 Q200 100 180 100 L20 100 Q0 100 0 80 L0 20 Q0 0 20 0 Z" />
+                            </svg>
+                        </div>
+                        <div id="_5vitou0" name="Ellipse1" data-class="Ellipse" class="Control Ellipse verticalCenter" style="left: 120px;width: 20px;height: 10px;">
+                            <properties>{"fillcolor":"white", "strokecolor":"black", "strokewidth":2}</properties>
+                            <svg class="Control svgShape">
+                                <ellipse cx="50%" cy="50%" rx="50%" ry="50%" />
+                            </svg>
+                        </div>
+                        <div id="_b1vg1w2" name="Circle1" data-class="Circle" class="Control Circle verticalCenter" style="left: 150px;width: 20px;height: 20px;">
+                            <properties>{"fillcolor":"white", "strokecolor":"black", "strokewidth":1}</properties>
+                            <svg class="Control svgShape">
+                                <circle cx="50%" cy="50%" r="10" />
+                            </svg>
+                        </div>
+                        <div id="_7s5fimh" name="Path1" data-class="Path" class="Control Path verticalCenter" style="left: 180px;width: 20px;height: 20px;">
+                            <properties>{"fillcolor":"white", "strokecolor":"black", "strokewidth":1}</properties>
+                            <svg class="Control svgShape">
+                                <path d="m10.0429,0.60451c2.56769,0 4.65071,2.10669 4.65071,4.70101c0,2.59433 -2.08302,4.69899 -4.65071,4.69899c-2.56767,0 -4.65071,2.10668 -4.65071,4.70102c0,2.59431 2.08305,4.69897 4.65071,4.69897c5.13536,0 9.30346,-4.21134 9.30346,-9.39999c0,-5.18864 -4.1681,-9.4 -9.30346,-9.4zm0,3.23195c-0.80281,0 -1.45397,0.65792 -1.45397,1.46906c0,0.81114 0.65116,1.46907 1.45397,1.46907c0.80281,0 1.45398,-0.65793 1.45398,-1.46907c0,-0.81114 -0.65117,-1.46906 -1.45398,-1.46906zm0,9.40001c0.8024,0 1.45398,0.65834 1.45398,1.46907c0,0.81071 -0.65158,1.46906 -1.45398,1.46906c-0.80239,0 -1.45397,-0.65835 -1.45397,-1.46906c0,-0.81073 0.65158,-1.46907 1.45397,-1.46907zm9.09477,-3.22597c0,5.1848 -4.15991,9.3879 -9.29145,9.3879c-5.13153,0 -9.29146,-4.2031 -9.29146,-9.3879c0,-5.18479 4.15993,-9.3879 9.29146,-9.3879c5.13153,0 9.29145,4.2031 9.29145,9.3879z"
+                                />
+                            </svg>
+                        </div>
+                        <div id="_b1zg1w2" name="Pie1" data-class="Pie" class="Control Pie verticalCenter" style="left: 210px;width: 20px;height: 20px;">
+                            <properties>{"startangle":0, "endangle":270,"fillcolor":"white", "strokecolor":"black", "strokewidth":1}</properties>
+                            <svg class="Control svgShape">
+                                <path d="M10,10 L10,0 A10,10 0 1 0 20,10 z" />
+                            </svg>
+                        </div>
+                        <div id="_b1zg8w2" name="Chord1" data-class="Chord" class="Control Chord verticalCenter" style="left: 240px;width: 20px;height: 20px;">
+                            <properties>{"startangle":270, "endangle":540, "fillcolor":"white", "strokecolor":"black", "strokewidth":1}</properties>
+                            <svg class="Control svgShape">
+                                <path d="M10,0 A10,10 0 1 1 0,10 z" />
+                            </svg>
+                        </div>
+                        <div id="_b8zg8w2" name="Arc1" data-class="Arc" class="Control Arc verticalCenter" style="left: 270px;width: 20px;height: 20px;">
+                            <properties>{"startangle":190, "endangle":380, "fillcolor":"white", "strokecolor":"black", "strokewidth":1}</properties>
+                            <svg class="Control svgShape">
+                                <path d="M 0.15,8.2C 1.1,2.8 6.3,-0.8 11.7,0.15 C 17.1,1.1 20.8,6.3 19.8,11.7 C 19.7,12.3 19.5,12.8 19.4,13.4" />
+                            </svg>
+                        </div>
+                        <div id="_uj4malc" name="Polygon1" data-class="Polygon" class="Control Polygon verticalCenter" style="left: 300px;width: 20px;height: 20px;">
+                            <properties>{"sides":3}</properties>
+                            <svg class="Control svgShape">
+                                <path d="M20,10 L5,19 L5,1 Z" fill="black" stroke="white" stroke-width="1" />
+                            </svg>
+                        </div>
+                        <div id="_pak7sc0" name="Polygon2" data-class="Polygon" class="Control Polygon verticalCenter" style="left: 330px;width: 20px;height: 20px;">
+                            <properties>{ "sides":4 }</properties>
+                            <svg class="Control svgShape">
+                                <path d="M20,10 L10,20 L0,10 L10,0 Z" fill="black" stroke="white" stroke-width="1" />
+                            </svg>
+                        </div>
+                        <div id="_j2q8z8v" name="Polygon3" data-class="Polygon" class="Control Polygon verticalCenter" style="left: 360px;width: 20px;height: 20px;">
+                            <properties>{ "sides":5 }</properties>
+                            <svg class="Control svgShape">
+                                <path d="M20,10 L13,20 L2,16 L2,4 L13,0 Z" fill="black" stroke="white" stroke-width="1" />
+                            </svg>
+                        </div>
+                        <div id="_msdno66" name="Polygon4" data-class="Polygon" class="Control Polygon verticalCenter" style="left: 390px;width: 20px;height: 20px;">
+                            <properties>{ "sides":6 }</properties>
+                            <svg class="Control svgShape">
+                                <path d="M20,10 L15,19 L5,19 L0,10 L5,1 L15,1 Z" fill="black" stroke="white" stroke-width="1" />
+                            </svg>
+                        </div>
+                        <div id="_vjv5pla" name="Polygon5" data-class="Polygon" class="Control Polygon verticalCenter" style="left: 420px;width: 20px;height: 20px;">
+                            <properties>{ "sides":7 }</properties>
+                            <svg class="Control svgShape">
+                                <path d="M20,10 L16,18 L8,20 L1,14 L1,6 L8,0 L16,2 Z" fill="black" stroke="white" stroke-width="1" />
+                            </svg>
+                        </div>
+                        <div id="_1acl0ia" name="Polygon6" data-class="Polygon" class="Control Polygon verticalCenter" style="left: 450px;width: 20px;height: 20px;">
+                            <properties>{ "sides":8 }</properties>
+                            <svg class="Control svgShape">
+                                <path d="M20,10 L17,17 L10,20 L3,17 L0,10 L3,3 L10,0 L17,3 Z" fill="black" stroke="white" stroke-width="1" />
+                            </svg>
+                        </div>
+                        <div id="_jpf4djo" name="Polygon7" data-class="Polygon" class="Control Polygon verticalCenter" style="left: 480px;width: 20px;height: 20px;">
+                            <properties>{ "sides":9 }</properties>
+                            <svg class="Control svgShape">
+                                <path d="M20,10 L18,16 L12,20 L5,19 L1,13 L1,7 L5,1 L12,0 L18,4 Z" fill="black" stroke="white" stroke-width="1" />
+                            </svg>
+                        </div>
+                        <div id="_wge97e3" name="Polygon8" data-class="Polygon" class="Control Polygon verticalCenter" style="left: 510px;width: 20px;height: 20px;">
+                            <properties>{ "sides":10 }</properties>
+                            <svg class="Control svgShape">
+                                <path d="M20,10 L18,16 L13,20 L7,20 L2,16 L0,10 L2,4 L7,0 L13,0 L18,4 Z" fill="black" stroke="white" stroke-width="1" />
+                            </svg>
+                        </div>
+                        <div id="_78hpt9i" name="Star1" data-class="Star" class="Control Star verticalCenter" style="left: 540px;width: 20px;height: 20px;">
+                            <properties>{ "spikes":4 }</properties>
+                            <svg class="Control svgShape">
+                                <path d="M10,0 L10,0 L14,6 L20,10 L14,14 L10,20 L6,14 L0,10 L6,6 Z" fill="black" stroke="white" stroke-width="1" />
+                            </svg>
+                        </div>
+                        <div id="_pegik2k" name="Star2" data-class="Star" class="Control Star verticalCenter" style="left: 570px;width: 20px;height: 20px;">
+                            <properties>{ "spikes":5 }</properties>
+                            <svg class="Control svgShape">
+                                <path d="M10,0 L10,0 L13,6 L20,7 L15,12 L16,18 L10,15 L4,18 L5,12 L0,7 L7,6 Z" fill="black" stroke="white" stroke-width="1"
+                                />
+                            </svg>
+                        </div>
+                        <div id="_hhlvgdv" name="Star3" data-class="Star" class="Control Star verticalCenter" style="left: 600px;width: 20px;height: 20px;">
+                            <properties>{ "spikes":8 }</properties>
+                            <svg class="Control svgShape">
+                                <path d="M10,0 L10,0 L12,5 L17,3 L15,8 L20,10 L15,12 L17,17 L12,15 L10,20 L8,15 L3,17 L5,12 L0,10 L5,8 L3,3 L8,5 Z" fill="black"
+                                    stroke="white" stroke-width="1" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>-->
+                    <jagui-windowcontent id="_oNun9920" name="Window1_content" data-class="WindowContent"
+                        class="Control WindowContent {theme} csr_default"><properties>{ "popupmenu":"PopupMenu1" }</properties>
+                        <jagui-label id="_oPsKhiN0" data-class="Label" class="Control csr_default Label {theme} csr_default"><properties>{ "name": "Label1", "left": 900, "top": 410, "fontSize": 22.5, "onclick": "Label1_onClick", "showtooltip": true, "tooltip": "Click here to change font","textDecoration": { "underline": true, "overline": true, "lineThrough": true, "style": "wavy"}, "backColor": "#F00", "caption": "TEST" }</properties></jagui-label>
+                        <jagui-button id="_oNun99A0" draggable="true" data-class="Button" class="Control Button {theme} csr_default"><properties>{ "dragmode": "automatic", "onclick": "Button1_onClick", "tooltip": "Create 1 million of Listbox items in ListBox2", "showtooltip": true, "taborder": 0, "left": 10, "top": 10, "height": 19, "width": 68, "name": "Button1", "caption":"{theme}" }</properties></jagui-button>
+                        <jagui-button id="_oPsKhiT0" data-class="Button" class="Control Button {theme} csr_default"><properties>{ "name":"RoundButton1", "onclick": "RoundButton1_onClick", "taborder": 1, "left": 100, "top": 10, "height": 19, "width": 68, "borderRadius": 19, "caption": "Open file" }</properties></jagui-button>
+                        <jagui-circlebutton id="_oPsSjC20" data-class="CircleButton" class="Control Button CircleButton {theme} csr_default disabled">
+                            <properties>{ "name":"CircleButton1", "enabled": false, "wordWrap": true, "taborder": 2, "left": 200, "top": 10, "height": 48, "width": 48, "caption": "Circle Button" }</properties></jagui-circlebutton>
+                    <!--<div id="_qgeryk3" name="SplitButton1" data-class="SplitButton" class="Control SplitButton {theme} csr_default" style="left:10px;top:40px;height:21px;width:80px;">
+                        <properties>{ "popupmenu": "PopupMenu1", "taborder": 3 }</properties>
+                        <button id="_uz5k8xb" name="SplitButton_Btn" data-class="BitmapButton" class="Control ButtonGlyph BitmapButton {theme} csr_default">
+                            <span class="Control ButtonCaption BitmapButtonCaption">SplitButton1</span>
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="
+                                width="0" height="0" alt="" draggable="false" />
+                        </button>
+                        <button id="_9lky5x5" name="SplitButton_PopBtn" data-class="PopupButton" class="Control PopupButton {theme} csr_default">
+                            <span class="Control ButtonCaption"></span>
+                            <div class="Control PopupButtonArrow">8</div>
+                        </button>
+                    </div>-->
+                        <jagui-bitmapbutton id="_ins5crl" data-class="BitmapButton" class="Control Button ButtonGlyph BitmapButton {theme} csr_default"><properties>{ "name": "BitmapButton1", "taborder":4, "layout":"layoutLeft", "top": 10, "left": 280, "height": 58, "width": 98 }</properties><span class="Control ButtonCaption BitmapButtonCaption">BitmapButton</span><img width="32" height="32" alt="" src="images/duck.png" draggable="false" /></jagui-bitmapbutton>
+                        <jagui-bitmapbutton id="_ghyd6y8" data-class="BitmapButton" class="Control Button ButtonGlyph BitmapButton {theme} csr_default"><properties>{ "name":"BitmapButton2", "taborder": 5, "layout":"layoutRight", "top": 10, "left": 400, "height": 58, "width": 98 }</properties><span class="Control ButtonCaption BitmapButtonCaption">BitmapButton</span><img width="32" height="32" alt="" src="images/duck.png" draggable="false" /></jagui-bitmapbutton>
+                        <jagui-bitmapbutton id="_t62jno1" data-class="BitmapButton" class="Control Button ButtonGlyph BitmapButton {theme} csr_default"><properties>{ "name":"BitmapButton3", "taborder": 6, "layout":"layoutTop", "top": 10, "left": 520, "height": 58, "width": 98 }</properties><span class="Control ButtonCaption BitmapButtonCaption">BitmapButton</span><img width="32" height="32" alt="" src="images/duck.png" draggable="false" /></jagui-bitmapbutton>
+                        <jagui-bitmapbutton id="_g3ur4r2" data-class="BitmapButton" class="Control Button ButtonGlyph BitmapButton {theme} csr_default"><properties>{ "name":"BitmapButton4", "taborder": 7, "layout":"layoutBottom", "top": 10, "left": 640, "height": 58, "width": 98 }</properties><span class="Control ButtonCaption BitmapButtonCaption">BitmapButton</span><img width="32" height="32" alt="" src="images/duck.png" draggable="false" /></jagui-bitmapbutton>
+                    <jagui-pathbutton id="_k9uq7gb" data-class="PathButton" class="Control Button ButtonGlyph PathButton {theme} csr_default"><properties>{ "name":"PathButton1", "taborder": 8, "layout": "layoutLeft", "path": "TSAzNjkuNTYxLDMwOC40MDggQyAzNjkuNTYxLDMxNS42NzkgMzY0LjYzMCwzMjEuODg2IDM1NC43NjQsMzI3LjAyMiBMIDM1NC43NjQsMzI3LjAyMiBDIDM0NC44OTgsMzMyLjE2MiAzMzIuOTc0LDMzNC43MzAgMzE4Ljk5NiwzMzQuNzI3IEwgMzE4Ljk5NiwzMzQuNzI3IEMgMzEyLjI0OSwzMzQuNzMwIDMwNS43OTcsMzM0LjA0OCAyOTkuNjMzLDMzMi42ODYgTCAyOTkuNjMzLDMzMi42ODYgQyAyOTkuMjY3LDMzNi41OTMgMjk2LjgwNywzMzkuODI2IDI5Mi4yNTEsMzQyLjM4NCBMIDI5Mi4yNTEsMzQyLjM4NCBDIDI4Ny42OTYsMzQ0Ljk0NSAyODIuMzU1LDM0Ni4yMjEgMjc2LjIzMiwzNDYuMjIxIEwgMjc2LjIzMiwzNDYuMjIxIEMgMjcyLjM2MSwzNDYuMjIxIDI2OS4wNDEsMzQ0LjY1MCAyNjYuMjc1LDM0MS40OTQgTCAyNjYuMjc1LDM0MS40OTQgQyAyNzAuOTk5LDM0MS4xMDUgMjc0Ljg1MiwzMzkuNzA4IDI3Ny44NDAsMzM3LjMwOCBMIDI3Ny44NDAsMzM3LjMwOCBDIDI4MC44MjgsMzM0LjkxMSAyODIuMzE4LDMzMS44NDYgMjgyLjMxOCwzMjguMTIwIEwgMjgyLjMxOCwzMjguMTIwIEMgMjgyLjMxOCwzMjcuNTQ5IDI4Mi4yODEsMzI2Ljk3OSAyODIuMjA3LDMyNi40MDEgTCAyODIuMjA3LDMyNi40MDEgQyAyNzMuMDYzLDMyMS4zNTYgMjY4LjQ4OCwzMTUuMzU3IDI2OC40ODgsMzA4LjQwOCBMIDI2OC40ODgsMzA4LjQwOCBDIDI2OC40ODgsMzAxLjE0NCAyNzMuNDIyLDI5NC45NTAgMjgzLjI4OCwyODkuODI4IEwgMjgzLjI4OCwyODkuODI4IEMgMjkzLjE1NCwyODQuNzA4IDMwNS4wNTgsMjgyLjE0NyAzMTguOTk2LDI4Mi4xNDQgTCAzMTguOTk2LDI4Mi4xNDQgQyAzMzIuOTc0LDI4Mi4xNDcgMzQ0Ljg5OCwyODQuNzA4IDM1NC43NjQsMjg5LjgyOCBMIDM1NC43NjQsMjg5LjgyOCBDIDM2NC42MzAsMjk0Ljk1MCAzNjkuNTYxLDMwMS4xNDQgMzY5LjU2MSwzMDguNDA4IEwgMzY5LjU2MSwzMDguNDA4IFo=", "top": 90, "left": 280, "height": 58, "width": 98, "caption": "PathButton" }</properties><span class="Control ButtonCaption PathButtonCaption includeCaption"></span><canvas width="32" height="32"></canvas></jagui-pathbutton>
+                    <jagui-pathbutton id="_nszmr4a" data-class="PathButton" class="Control Button ButtonGlyph PathButton {theme} csr_default"><properties>{ "name":"PathButton2", "taborder": 9, "layout": "layoutRight", "path": "TSAzNDIuMjMzLDMzMi40MTcgQyAzNDIuMjMzLDMzOC41ODAgMzM5Ljk4NCwzNDMuODQ0IDMzNS40ODUsMzQ4LjIwOCBMIDMzNS40ODUsMzQ4LjIwOCBDIDMzMC45ODcsMzUyLjU3OSAzMjUuNTYyLDM1NC43NjEgMzE5LjIxOCwzNTQuNzYxIEwgMzE5LjIxOCwzNTQuNzYxIEMgMzEyLjgzOSwzNTQuNzYxIDMwNy40MDgsMzUyLjU3OSAzMDIuOTI2LDM0OC4yMDggTCAzMDIuOTI2LDM0OC4yMDggQyAyOTguNDQ4LDM0My44NDQgMjk2LjIwNiwzMzguNTgwIDI5Ni4yMDYsMzMyLjQxNyBMIDI5Ni4yMDYsMzMyLjQxNyBDIDI5Ni4yMDYsMzI3LjYyMyAyOTcuNjI2LDMyMy4zMTAgMzAwLjQ2NiwzMTkuNDc2IEwgMzAwLjQ2NiwzMTkuNDc2IEMgMzAzLjMwNiwzMTUuNjQ2IDMwNi45NzUsMzEyLjk0MCAzMTEuNDczLDMxMS4zNjIgTCAzMTEuNDczLDMxMS4zNjIgQyAzMDkuODUyLDMwOS41NzYgMzA5LjA1OSwzMDcuMzU0IDMwOS4wOTYsMzA0LjcwMiBMIDMwOS4wOTYsMzA0LjcwMiBDIDMwNS40MTAsMzAzLjg0NiAzMDIuNTUwLDMwMS44MTUgMzAwLjUyMywyOTguNjA5IEwgMzAwLjUyMywyOTguNjA5IEMgMjk4LjQ5NSwyOTUuNDA3IDI5Ny40NzgsMjkxLjM4NSAyOTcuNDc4LDI4Ni41NDggTCAyOTcuNDc4LDI4Ni41NDggTCAyOTcuNDc4LDI2Ni4wMzAgTCAzNDAuOTYwLDI2Ni4wMzAgTCAzNDAuOTYwLDI4Ni41NDggQyAzNDAuOTYwLDI5Ny4wNDIgMzM2Ljk1OSwzMDMuMDU3IDMyOC45NTYsMzA0LjU5NSBMIDMyOC45NTYsMzA0LjU5NSBMIDMyOC45NTYsMzA0Ljc1NiBDIDMyOC43NzEsMzA3LjQwOCAzMjcuOTQyLDMwOS41NTYgMzI2LjQ2NSwzMTEuMjAxIEwgMzI2LjQ2NSwzMTEuMjAxIEMgMzMxLjExNSwzMTIuNzA4IDMzNC44NzgsMzE1LjM3NyAzMzcuNzUxLDMxOS4yMDQgTCAzMzcuNzUxLDMxOS4yMDQgQyAzNDAuNzM5LDMyMy4xNDUgMzQyLjIzMywzMjcuNTQ5IDM0Mi4yMzMsMzMyLjQxNyBMIDM0Mi4yMzMsMzMyLjQxNyBaIE0gMzI0LjgwNywzMDIuNjA3IEwgMzI0LjgwNywyNjcuMzczIEwgMzEzLjUyMSwyNjcuMzczIEwgMzEzLjUyMSwzMDIuNjA3IFogTSAzMjYuNzQ0LDMwNC45MTcgQyAzMjUuNjM2LDMwNS4wMjggMzI0LjQ1OCwzMDUuMDgxIDMyMy4yMDIsMzA1LjA3OCBMIDMyMy4yMDIsMzA1LjA3OCBMIDMxMi45NjcsMzA1LjA3OCBDIDMxMi40MTYsMzA1LjA4MSAzMTEuODc5LDMwNS4wNjUgMzExLjM2MiwzMDUuMDI0IEwgMzExLjM2MiwzMDUuMDI0IEMgMzExLjQ3NiwzMDcuNTY5IDMxMi4zMDYsMzA5LjQ0OSAzMTMuODUzLDMxMC42NjQgTCAzMTMuODUzLDMxMC42NjQgQyAzMTUuNjI2LDMxMC4yNzUgMzE3LjQxMSwzMTAuMDc3IDMxOS4yMTgsMzEwLjA3MyBMIDMxOS4yMTgsMzEwLjA3MyBDIDMyMC44NDIsMzEwLjA3NyAzMjIuNDMwLDMxMC4yMzggMzIzLjk3OCwzMTAuNTU3IEwgMzIzLjk3OCwzMTAuNTU3IEMgMzI1LjU2MiwzMDkuMzA4IDMyNi40ODUsMzA3LjQyOCAzMjYuNzQ0LDMwNC45MTcgTCAzMjYuNzQ0LDMwNC45MTcgWiBNIDMzOS40MTMsMzMyLjY4NiBMIDMzNC41NDIsMzI5LjY3OCBMIDMzNy44NjIsMzI1LjA1OSBMIDMzMi4xNjUsMzI0LjE0NiBMIDMzMy40MzgsMzE4LjYxMyBMIDMyNy42ODQsMzE5LjkwMiBMIDMyNi43OTcsMzE0LjM3MCBMIDMyMi4wNDEsMzE3LjY0NiBMIDMxOC45NDIsMzEyLjgxMyBMIDMxNS45MDEsMzE3Ljc1NCBMIDMxMS4xNDEsMzE0LjM3MCBMIDMxMC4zMTIsMzIwLjA2MyBMIDMwNC41MDQsMzE4LjYxMyBMIDMwNi4wNTIsMzI0LjE5OSBMIDMwMC4wNzYsMzI1LjA1OSBMIDMwMy43MjksMzI5LjczMSBMIDI5OC41MjksMzMyLjY4NiBMIDMwMy43MjksMzM1LjU4NiBMIDMwMC4wNzYsMzQwLjI1OSBMIDMwNS45OTgsMzQxLjA2NCBMIDMwNC41MDQsMzQ2LjcwNCBMIDMxMC4yNTgsMzQ1LjI1NCBMIDMxMS4xNDEsMzUxLjA1NSBMIDMxNS44NDQsMzQ3LjU2MyBMIDMxOC45NDIsMzUyLjUwNSBMIDMyMS45ODQsMzQ3LjY3MSBMIDMyNi43OTcsMzUxLjA1NSBMIDMyNy43MzcsMzQ1LjQxNSBMIDMzMy40MzgsMzQ2LjcwNCBMIDMzMi4xMDgsMzQxLjIyNiBMIDMzNy44NjIsMzQwLjI1OSBMIDMzNC40ODgsMzM1LjY5MyBa", "top": 90, "left": 400, "height": 58, "width": 98, "caption": "PathButton" }</properties><span class="Control ButtonCaption PathButtonCaption includeCaption"></span><canvas width="32" height="32"></canvas></jagui-pathbutton>
+                    <jagui-pathbutton id="_sfmj8p1" data-class="PathButton" class="Control Button ButtonGlyph PathButton {theme} csr_default"><properties>{ "name":"PathButton3", "taborder": 10, "layout": "layoutTop", "path": "TSAzNzYuNzU1LDMwMi42NjEgTCAzNzAuMzM3LDMwNC43MDIgQyAzNjUuNjkxLDMxMy4wMTQgMzYxLjg3NCwzMjEuNTM0IDM1OC44ODYsMzMwLjI2OSBMIDM1OC44ODYsMzMwLjI2OSBDIDM1Ni4wMTAsMzM4LjYxNCAzNTMuNTM5LDM0OC4xNzQgMzUxLjQ3MSwzNTguOTUwIEwgMzUxLjQ3MSwzNTguOTUwIEwgMzU1Ljk1MiwzNjQuOTEyIEwgMzUzLjQwOCwzNjYuNzM4IEwgMzUwLjA4OCwzNjIuMzM0IEMgMzM5Ljk4NCwzNjAuNTA4IDMyOS45MzYsMzU5LjU5NSAzMTkuOTM5LDM1OS41OTUgTCAzMTkuOTM5LDM1OS41OTUgQyAzMDkuOTgzLDM1OS41OTUgMjk5Ljk0OSwzNjAuNTA4IDI4OS44NDQsMzYyLjMzNCBMIDI4OS44NDQsMzYyLjMzNCBMIDI4Ni41MjQsMzY2LjczOCBMIDI4My45ODAsMzY0LjkxMiBMIDI4OC40NjEsMzU4Ljk1MCBDIDI4Ni4zOTcsMzQ4LjE3NCAyODMuOTI2LDMzOC42MTQgMjgxLjA0NiwzMzAuMjY5IEwgMjgxLjA0NiwzMzAuMjY5IEMgMjc4LjA1OCwzMjEuNTM0IDI3NC4yNDEsMzEzLjAxNCAyNjkuNTk1LDMwNC43MDIgTCAyNjkuNTk1LDMwNC43MDIgTCAyNjMuMTc3LDMwMi42NjEgTCAyNjQuMTc0LDI5OS43NjEgTCAyNzAuMzcxLDMwMS42OTQgQyAyODAuMzY4LDI5Ni4zOTcgMjg5LjA1MiwyOTEuMTE3IDI5Ni40MjcsMjg1Ljg1MCBMIDI5Ni40MjcsMjg1Ljg1MCBDIDMwNC4zMTksMjgwLjE5NyAzMTEuNjQxLDI3My44NzUgMzE4LjM4OCwyNjYuODkwIEwgMzE4LjM4OCwyNjYuODkwIEwgMzE4LjM4OCwyNjEuMDg5IEwgMzIxLjU0NCwyNjEuMDg5IEwgMzIxLjU0NCwyNjYuODkwIEMgMzI4LjI5MSwyNzMuODc1IDMzNS42MTMsMjgwLjE5NyAzNDMuNTA1LDI4NS44NTAgTCAzNDMuNTA1LDI4NS44NTAgQyAzNTAuODgzLDI5MS4xMTcgMzU5LjU4OCwyOTYuMzk3IDM2OS42MTksMzAxLjY5NCBMIDM2OS42MTksMzAxLjY5NCBMIDM3NS43NTgsMjk5Ljc2MSBaIE0gMzY1LjY5MSwzMDIuOTMwIEMgMzU2Ljc2NSwyOTguMjQzIDM0OC42ODgsMjkzLjMzNiAzNDEuNDU3LDI4OC4yMTMgTCAzNDEuNDU3LDI4OC4yMTMgQyAzMzQuODU3LDI4My41NjAgMzI4LjIxNywyNzcuOTA0IDMyMS41NDQsMjcxLjI0MCBMIDMyMS41NDQsMjcxLjI0MCBMIDMyMS41NDQsMjgzLjE2NCBDIDMyNC42NDIsMjg2LjUzNCAzMjkuNzY4LDI5MC43NzggMzM2LjkyMiwyOTUuODk0IEwgMzM2LjkyMiwyOTUuODk0IEMgMzQzLjU2MiwzMDAuNjYwIDM0OS4zNTMsMzA0LjIwNSAzNTQuMjk0LDMwNi41MjggTCAzNTQuMjk0LDMwNi41MjggWiBNIDM1MC4yNTYsMzA3LjgxNyBDIDM0Ni4wNTMsMzA1Ljc0MyAzNDAuOTA3LDMwMi41NTcgMzM0LjgyMSwyOTguMjU3IEwgMzM0LjgyMSwyOTguMjU3IEMgMzI5LjI4OCwyOTQuMzU2IDMyNC44NjQsMjkwLjc3OCAzMjEuNTQ0LDI4Ny41MTUgTCAzMjEuNTQ0LDI4Ny41MTUgTCAzMjEuNTQ0LDI5Ny41NTkgQyAzMjQuMDg4LDMwMC40MjUgMzI2LjkxMiwzMDIuOTcwIDMzMC4wMDcsMzA1LjE4OSBMIDMzMC4wMDcsMzA1LjE4OSBDIDMzMy4xMDUsMzA3LjQxMSAzMzYuMzE0LDMwOS4zOTUgMzM5LjYzNCwzMTEuMTQ3IEwgMzM5LjYzNCwzMTEuMTQ3IFogTSAzNjYuMDc3LDMwNi4wNDUgTCAzNTQuNDA1LDMwOS42OTcgQyAzNTIuMTE5LDMxMy43MTIgMzQ5LjY0OCwzMTkuNTgzIDM0Ni45ODksMzI3LjMxNCBMIDM0Ni45ODksMzI3LjMxNCBDIDM0NC40NDUsMzM0LjczMCAzNDIuNzg3LDM0MS4wNTEgMzQyLjAxMSwzNDYuMjc0IEwgMzQyLjAxMSwzNDYuMjc0IEwgMzQ5LjAzNywzNTUuNjc0IEMgMzUwLjg4MywzNDYuMTEzIDM1My4xNzAsMzM3LjI1NCAzNTUuODk5LDMyOS4wODcgTCAzNTUuODk5LDMyOS4wODcgQyAzNTguMzY5LDMyMS43ODYgMzYxLjc2MywzMTQuMTA1IDM2Ni4wNzcsMzA2LjA0NSBMIDM2Ni4wNzcsMzA2LjA0NSBaIE0gMzM1Ljc2MCwzMTIuMzgzIEMgMzMyLjg4NCwzMTAuODEyIDMzMC4yNjUsMzA5LjIwMCAzMjcuOTA1LDMwNy41NDkgTCAzMjcuOTA1LDMwNy41NDkgQyAzMjUuOTE1LDMwNi4xOTMgMzIzLjc5MywzMDQuMzQ2IDMyMS41NDQsMzAyLjAxNyBMIDMyMS41NDQsMzAyLjAxNyBMIDMyMS41NDQsMzE2Ljg0MSBaIE0gMzUwLjE5OSwzMTEuMDQwIEwgMzQwLjI0MiwzMTQuMjA5IEMgMzM2LjkyNSwzMTkuNzYxIDMzNC40ODgsMzI2LjQyMiAzMzIuOTM3LDMzNC4xODkgTCAzMzIuOTM3LDMzNC4xODkgTCAzMzkuNTI0LDM0Mi45NDQgQyAzNDAuMjYyLDMzOC40NzMgMzQxLjc1MywzMzIuODY3IDM0NC4wMDIsMzI2LjEzMyBMIDM0NC4wMDIsMzI2LjEzMyBDIDM0Ni4wMzMsMzIwLjEyMSAzNDguMDk3LDMxNS4wODkgMzUwLjE5OSwzMTEuMDQwIEwgMzUwLjE5OSwzMTEuMDQwIFogTSAzMTguMzg4LDI4My4xNjQgTCAzMTguMzg4LDI3MS4yNDAgQyAzMTEuNzE1LDI3Ny45MDQgMzA1LjA5NSwyODMuNTYwIDI5OC41MjksMjg4LjIxMyBMIDI5OC41MjksMjg4LjIxMyBDIDI5MS4yNjQsMjkzLjMzNiAyODMuMTg4LDI5OC4yNDMgMjc0LjI5OCwzMDIuOTMwIEwgMjc0LjI5OCwzMDIuOTMwIEwgMjg1LjYzOCwzMDYuNTI4IEMgMjkwLjU4MCwzMDQuMjA1IDI5Ni4zNzAsMzAwLjY2MCAzMDMuMDEwLDI5NS44OTQgTCAzMDMuMDEwLDI5NS44OTQgQyAzMTAuMTY3LDI5MC43NzggMzE1LjI5MywyODYuNTM0IDMxOC4zODgsMjgzLjE2NCBMIDMxOC4zODgsMjgzLjE2NCBaIE0gMzM1LjkyNSwzMTUuNTUyIEwgMzIyLjIwNSwzMTkuODQ5IEwgMzMwLjU2MSwzMzEuMDIxIEMgMzMxLjIyNSwzMjguMDE2IDMzMS45NjAsMzI1LjIwNiAzMzIuNzczLDMyMi41ODggTCAzMzIuNzczLDMyMi41ODggQyAzMzMuNDc0LDMyMC40ODAgMzM0LjUyNSwzMTguMTMzIDMzNS45MjUsMzE1LjU1MiBMIDMzNS45MjUsMzE1LjU1MiBaIE0gMzE4LjM4OCwyOTcuNTU5IEwgMzE4LjM4OCwyODcuNTE1IEMgMzE1LjA3MiwyOTAuNzc4IDMxMC42NDQsMjk0LjM1NiAzMDUuMTEyLDI5OC4yNTcgTCAzMDUuMTEyLDI5OC4yNTcgQyAyOTkuMDI5LDMwMi41NTcgMjkzLjg4MywzMDUuNzQzIDI4OS42NzcsMzA3LjgxNyBMIDI4OS42NzcsMzA3LjgxNyBMIDMwMC4yOTgsMzExLjE0NyBDIDMwMy42MTgsMzA5LjM5NSAzMDYuODI3LDMwNy40MTEgMzA5LjkyNiwzMDUuMTg5IEwgMzA5LjkyNiwzMDUuMTg5IEMgMzEzLjAyNCwzMDIuOTcwIDMxNS44NDQsMzAwLjQyNSAzMTguMzg4LDI5Ny41NTkgTCAzMTguMzg4LDI5Ny41NTkgWiBNIDMxOC4zODgsMzE2Ljg0MSBMIDMxOC4zODgsMzAyLjAxNyBDIDMxNi4xMzksMzA0LjM0NiAzMTQuMDIxLDMwNi4xOTMgMzEyLjAyNywzMDcuNTQ5IEwgMzEyLjAyNywzMDcuNTQ5IEMgMzA5LjY2NywzMDkuMjAwIDMwNy4wNDksMzEwLjgxMiAzMDQuMTcyLDMxMi4zODMgTCAzMDQuMTcyLDMxMi4zODMgWiBNIDMyOC43ODgsMzMzLjkyMSBMIDMxOS45OTMsMzIyLjE1OCBMIDMxMS4xNDEsMzMzLjkyMSBDIDMxNC4zNTAsMzMzLjQyNCAzMTcuMjg0LDMzMy4xNzIgMzE5LjkzOSwzMzMuMTY5IEwgMzE5LjkzOSwzMzMuMTY5IEMgMzIyLjU5NSwzMzMuMTcyIDMyNS41NDUsMzMzLjQyNCAzMjguNzg4LDMzMy45MjEgTCAzMjguNzg4LDMzMy45MjEgWiBNIDMxNy43MjQsMzE5Ljg0OSBMIDMwNC4wMDQsMzE1LjU1MiBDIDMwNS40MDcsMzE4LjEzMyAzMDYuNDYxLDMyMC40ODAgMzA3LjE1OSwzMjIuNTg4IEwgMzA3LjE1OSwzMjIuNTg4IEMgMzA3Ljk3MiwzMjUuMjA2IDMwOC43MDcsMzI4LjAxNiAzMDkuMzcyLDMzMS4wMjEgTCAzMDkuMzcyLDMzMS4wMjEgWiBNIDMzNy42NDAsMzQ1LjY4NCBMIDMzMS40NDMsMzM3LjQ2NiBDIDMyNy42MTAsMzM2LjY4MCAzMjMuNzkzLDMzNi4yODggMzE5Ljk5MywzMzYuMjg0IEwgMzE5Ljk5MywzMzYuMjg0IEMgMzE2LjE1OSwzMzYuMjg4IDMxMi4zMjIsMzM2LjY4MCAzMDguNDg1LDMzNy40NjYgTCAzMDguNDg1LDMzNy40NjYgTCAzMDIuMzQ2LDM0NS42ODQgQyAzMDcuMjEzLDM0NC45NzIgMzEzLjA3OCwzNDQuNjEzIDMxOS45MzksMzQ0LjYwOSBMIDMxOS45MzksMzQ0LjYwOSBDIDMyNi44MzQsMzQ0LjYxMyAzMzIuNzM2LDM0NC45NzIgMzM3LjY0MCwzNDUuNjg0IEwgMzM3LjY0MCwzNDUuNjg0IFogTSAzMDYuOTkyLDMzNC4xODkgQyAzMDYuMjkzLDMzMC42ODUgMzA1LjM1MywzMjcuMjEwIDMwNC4xNzIsMzIzLjc3MCBMIDMwNC4xNzIsMzIzLjc3MCBDIDMwMy4wNjQsMzIwLjUxMyAzMDEuNTcwLDMxNy4zMjggMjk5LjY5MCwzMTQuMjA5IEwgMjk5LjY5MCwzMTQuMjA5IEwgMjg5LjczNCwzMTEuMDQwIEMgMjkxLjgzNSwzMTUuMDg5IDI5My45MDAsMzIwLjEyMSAyOTUuOTI3LDMyNi4xMzMgTCAyOTUuOTI3LDMyNi4xMzMgQyAyOTguMTgwLDMzMi44NjcgMjk5LjY3MywzMzguNDczIDMwMC40MDksMzQyLjk0NCBMIDMwMC40MDksMzQyLjk0NCBaIE0gMzQ3LjQ5MCwzNTguODQzIEwgMzQwLjI0MiwzNDkuMTc1IEMgMzM1LjI2NCwzNDguMjA4IDMyOC41MTMsMzQ3LjcyNSAzMTkuOTkzLDM0Ny43MjUgTCAzMTkuOTkzLDM0Ny43MjUgQyAzMTEuNDQwLDM0Ny43MjUgMzA0LjY3MiwzNDguMjA4IDI5OS42OTAsMzQ5LjE3NSBMIDI5OS42OTAsMzQ5LjE3NSBMIDI5Mi41MDAsMzU4Ljg0MyBDIDMwMi4yMDEsMzU3LjMwNSAzMTEuMzQ2LDM1Ni41MzMgMzE5LjkzOSwzNTYuNTMzIEwgMzE5LjkzOSwzNTYuNTMzIEMgMzI4LjU3MCwzNTYuNTMzIDMzNy43NTUsMzU3LjMwNSAzNDcuNDkwLDM1OC44NDMgTCAzNDcuNDkwLDM1OC44NDMgWiBNIDI5Ny45MjEsMzQ2LjI3NCBDIDI5Ny4xNDksMzQxLjA1MSAyOTUuNDg3LDMzNC43MzAgMjkyLjkzOSwzMjcuMzE0IEwgMjkyLjkzOSwzMjcuMzE0IEMgMjkwLjI4NywzMTkuNTgzIDI4Ny44MTcsMzEzLjcxMiAyODUuNTI3LDMwOS42OTcgTCAyODUuNTI3LDMwOS42OTcgTCAyNzMuODU1LDMwNi4wNDUgQyAyNzguMTcyLDMxNC4xMDUgMjgxLjU2MywzMjEuNzg2IDI4NC4wMzQsMzI5LjA4NyBMIDI4NC4wMzQsMzI5LjA4NyBDIDI4Ni43NjYsMzM3LjI1NCAyODkuMDUyLDM0Ni4xMTMgMjkwLjg5NSwzNTUuNjc0IEwgMjkwLjg5NSwzNTUuNjc0IFo", "top": 90, "left": 520, "height": 58, "width": 98, "caption": "PathButton" }</properties><span class="Control ButtonCaption PathButtonCaption includeCaption"></span><canvas width="32" height="32" class=""></canvas></jagui-pathbutton>
+                    <jagui-pathbutton id="_rhftqrd" data-class="PathButton" class="Control Button ButtonGlyph PathButton {theme} csr_default"><properties>{ "name":"PathButton4", "taborder": 11, "layout": "layoutBottom", "path": "TSAzNTcuNjY4LDMyMi44MDMgQyAzNTcuNjY4LDMyNy4zMTggMzU1LjgyNSwzMzMuMzg3IDM1Mi4xMzYsMzQxLjAxMSBMIDM1Mi4xMzYsMzQxLjAxMSBDIDM0OS4wMDAsMzQ3LjQ5MyAzNDUuNjI3LDM1My4wNjIgMzQyLjAxMSwzNTcuNzE1IEwgMzQyLjAxMSwzNTcuNzE1IEMgMzQ3Ljk1MCwzNDAuMTM4IDM1MC45MTcsMzI5LjU5MCAzNTAuOTE3LDMyNi4wNzkgTCAzNTAuOTE3LDMyNi4wNzkgQyAzNTAuOTE3LDMyNS4wMDggMzUwLjc3MywzMjQuMjAzIDM1MC40NzcsMzIzLjY2MiBMIDM1MC40NzcsMzIzLjY2MiBDIDM0OS44MTMsMzIyLjUyMSAzNDcuMDY3LDMyMS4yODUgMzQyLjIzMywzMTkuOTU2IEwgMzQyLjIzMywzMTkuOTU2IEMgMzQzLjAwOCwzMjEuNTAwIDM0My4zOTQsMzIyLjkzMCAzNDMuMzk0LDMyNC4yNTMgTCAzNDMuMzk0LDMyNC4yNTMgQyAzNDMuMzk0LDMzMi41NjUgMzM5LjUwMywzNDIuNzMzIDMzMS43MjIsMzU0Ljc2MSBMIDMzMS43MjIsMzU0Ljc2MSBDIDMzMi45NDEsMzQ5Ljk2NCAzMzQuMTM5LDM0NS4xNTAgMzM1LjMxNywzNDAuMzEzIEwgMzM1LjMxNywzNDAuMzEzIEMgMzM2LjY4NCwzMzQuMjMwIDMzNy4zNjUsMzI5LjM5NiAzMzcuMzY1LDMyNS44MTEgTCAzMzcuMzY1LDMyNS44MTEgQyAzMzcuMzY1LDMyMy4xMjggMzM3LjAxNiwzMjEuMjg1IDMzNi4zMTQsMzIwLjI3OCBMIDMzNi4zMTQsMzIwLjI3OCBDIDMzNS42OTAsMzE5LjM4NSAzMzQuMDI4LDMxOC4yNTcgMzMxLjMzNiwzMTYuODk1IEwgMzMxLjMzNiwzMTYuODk1IEMgMzMxLjc0MiwzMTkuMTkxIDMzMS45NDQsMzIxLjY5NSAzMzEuOTQ0LDMyNC40MTQgTCAzMzEuOTQ0LDMyNC40MTQgQyAzMzEuOTQ0LDMyNy43MTEgMzMxLjU0MSwzMzAuOTM3IDMzMC43MjgsMzM0LjA4NSBMIDMzMC43MjgsMzM0LjA4NSBDIDMyOS45MTYsMzM3LjIzOCAzMjguNzAxLDM0MC4yNjIgMzI3LjA3NiwzNDMuMTU5IEwgMzI3LjA3NiwzNDMuMTU5IEMgMzI0Ljc5MCwzNDcuMTM0IDMyMi40NDcsMzQ5LjEyMSAzMjAuMDUwLDM0OS4xMjEgTCAzMjAuMDUwLDM0OS4xMjEgQyAzMTcuNjE2LDM0OS4xMjEgMzE1LjI1NiwzNDcuMTM0IDMxMi45NjcsMzQzLjE1OSBMIDMxMi45NjcsMzQzLjE1OSBDIDMxMS4zMDksMzQwLjI2MiAzMTAuMDczLDMzNy4yMzggMzA5LjI2MSwzMzQuMDg1IEwgMzA5LjI2MSwzMzQuMDg1IEMgMzA4LjQ0OCwzMzAuOTM3IDMwOC4wNDIsMzI3LjcxMSAzMDguMDQyLDMyNC40MTQgTCAzMDguMDQyLDMyNC40MTQgQyAzMDguMDQyLDMyMS42OTUgMzA4LjIyNywzMTkuMTkxIDMwOC41OTYsMzE2Ljg5NSBMIDMwOC41OTYsMzE2Ljg5NSBDIDMwNS45MDQsMzE4LjI1NyAzMDQuMjQ2LDMxOS4zODUgMzAzLjYxOCwzMjAuMjc4IEwgMzAzLjYxOCwzMjAuMjc4IEMgMzAyLjkyMCwzMjEuMjg1IDMwMi41NjcsMzIzLjEyOCAzMDIuNTY3LDMyNS44MTEgTCAzMDIuNTY3LDMyNS44MTEgQyAzMDIuNTY3LDMyOS4zOTYgMzAzLjI1MiwzMzQuMjMwIDMwNC42MTUsMzQwLjMxMyBMIDMwNC42MTUsMzQwLjMxMyBDIDMwNS44MzMsMzQ1LjE1MCAzMDcuMDMyLDM0OS45NjQgMzA4LjIxMCwzNTQuNzYxIEwgMzA4LjIxMCwzNTQuNzYxIEMgMzAwLjQyOSwzNDIuNzcwIDI5Ni41MzgsMzMyLjU5OCAyOTYuNTM4LDMyNC4yNTMgTCAyOTYuNTM4LDMyNC4yNTMgQyAyOTYuNTM4LDMyMi45MzAgMjk2Ljk0NCwzMjEuNTAwIDI5Ny43NTMsMzE5Ljk1NiBMIDI5Ny43NTMsMzE5Ljk1NiBDIDI5Mi44ODYsMzIxLjI4NSAyOTAuMTQwLDMyMi41MjEgMjg5LjUxMiwzMjMuNjYyIEwgMjg5LjUxMiwzMjMuNjYyIEMgMjg5LjE4MCwzMjQuMjAzIDI4OS4wMTIsMzI1LjAwOCAyODkuMDEyLDMyNi4wNzkgTCAyODkuMDEyLDMyNi4wNzkgQyAyODkuMDEyLDMyOS42OTggMjkyLjAwMCwzNDAuMjQ1IDI5Ny45NzUsMzU3LjcxNSBMIDI5Ny45NzUsMzU3LjcxNSBDIDI5NC4zNjMsMzUzLjA5NiAyOTAuOTY5LDM0Ny41MzAgMjg3Ljc5NywzNDEuMDExIEwgMjg3Ljc5NywzNDEuMDExIEMgMjg0LjExMSwzMzMuMzg3IDI4Mi4yNjQsMzI3LjMxOCAyODIuMjY0LDMyMi44MDMgTCAyODIuMjY0LDMyMi44MDMgQyAyODIuMjY0LDMyMS40MTAgMjgyLjUyMywzMjAuMzg5IDI4My4wMzYsMzE5Ljc0MSBMIDI4My4wMzYsMzE5Ljc0MSBDIDI4NC4wNzAsMzE4LjQ1NiAyOTMuMTQ0LDMxNS42NjMgMzEwLjI1OCwzMTEuMzYyIEwgMzEwLjI1OCwzMTEuMzYyIEwgMzEwLjUzMywzMTAuODI1IEMgMzAzLjA4NCwzMTEuNDczIDI5Ny40NDEsMzExLjc5NSAyOTMuNjA0LDMxMS43OTIgTCAyOTMuNjA0LDMxMS43OTIgQyAyOTEuMTMzLDMxMS43OTUgMjg5LjYyMywzMTEuNjM0IDI4OS4wNjksMzExLjMwOSBMIDI4OS4wNjksMzExLjMwOSBDIDI4Ny43MDYsMzEwLjU2MCAyODcuMDIxLDMwNy4yMzAgMjg3LjAyMSwzMDEuMzE4IEwgMjg3LjAyMSwzMDEuMzE4IEMgMjg3LjAyMSwyODkuMzYxIDI4OS42NjAsMjc5LjY1OSAyOTQuOTMzLDI3Mi4yMDcgTCAyOTQuOTMzLDI3Mi4yMDcgQyAyOTMuMTY0LDI4NC4xMzQgMjkyLjI3OCwyOTIuMzg5IDI5Mi4yNzgsMjk2Ljk2OCBMIDI5Mi4yNzgsMjk2Ljk2OCBDIDI5Mi4yNzgsMzAyLjQ1MCAyOTMuMDkxLDMwNS43OTcgMjk0LjcxMiwzMDcuMDEyIEwgMjk0LjcxMiwzMDcuMDEyIEMgMjk1LjM0MCwzMDcuNDgyIDI5Ni42MTIsMzA3LjcxMyAyOTguNTI5LDMwNy43MTAgTCAyOTguNTI5LDMwNy43MTAgQyAzMDAuMDgwLDMwNy43MTMgMzAxLjYyNywzMDcuNjA2IDMwMy4xNzUsMzA3LjM4OCBMIDMwMy4xNzUsMzA3LjM4OCBDIDMwMC45MjYsMzA1LjI0MyAyOTkuODAxLDMwMi40MzMgMjk5LjgwMSwyOTguOTU1IEwgMjk5LjgwMSwyOTguOTU1IEMgMjk5LjgwMSwyODYuNzgzIDMwMi44MDksMjc2LjgxMyAzMDguODE4LDI2OS4wMzggTCAzMDguODE4LDI2OS4wMzggQyAzMDYuODI3LDI3OS43MTMgMzA1LjgzMCwyODguMDcyIDMwNS44MzAsMjk0LjEyMSBMIDMwNS44MzAsMjk0LjEyMSBDIDMwNS44MzAsMzAwLjkyOSAzMDYuNDU4LDMwNC43MjIgMzA3LjcxMywzMDUuNTA4IEwgMzA3LjcxMywzMDUuNTA4IEMgMzA4LjI2NywzMDUuODcwIDMwOS4yMDcsMzA2LjA0OCAzMTAuNTMzLDMwNi4wNDUgTCAzMTAuNTMzLDMwNi4wNDUgQyAzMTIuMTk1LDMwNi4wNDggMzE0LjMzMywzMDUuODMzIDMxNi45NTIsMzA1LjQwMCBMIDMxNi45NTIsMzA1LjQwMCBDIDMxMy44MTYsMzAzLjY0OCAzMTIuMjQ5LDMwMC41MzMgMzEyLjI0OSwyOTYuMDU1IEwgMzEyLjI0OSwyOTYuMDU1IEMgMzEyLjI0OSwyOTMuNTg3IDMxMi44NzYsMjkxLjM2OCAzMTQuMTI4LDI4OS4zOTUgTCAzMTQuMTI4LDI4OS4zOTUgQyAzMTUuNjA1LDI4Ny4wNzIgMzE3LjU0MiwyODUuOTA3IDMxOS45MzksMjg1LjkwMyBMIDMxOS45MzksMjg1LjkwMyBDIDMyMi4zMzYsMjg1LjkwNyAzMjQuMjczLDI4Ny4wNTEgMzI1Ljc0NywyODkuMzQxIEwgMzI1Ljc0NywyODkuMzQxIEMgMzI3LjAzOSwyOTEuMzQ4IDMyNy42ODQsMjkzLjU4NyAzMjcuNjg0LDI5Ni4wNTUgTCAzMjcuNjg0LDI5Ni4wNTUgQyAzMjcuNjg0LDMwMC41MzMgMzI2LjExNiwzMDMuNjQ4IDMyMi45ODEsMzA1LjQwMCBMIDMyMi45ODEsMzA1LjQwMCBDIDMyNS42MzksMzA1LjgzMyAzMjcuNzc4LDMwNi4wNDggMzI5LjM5OSwzMDYuMDQ1IEwgMzI5LjM5OSwzMDYuMDQ1IEMgMzMwLjc2MiwzMDYuMDQ4IDMzMS43MjIsMzA1Ljg3MCAzMzIuMjc2LDMwNS41MDggTCAzMzIuMjc2LDMwNS41MDggQyAzMzMuNTMxLDMwNC43MjIgMzM0LjE1NiwzMDAuOTI5IDMzNC4xNTYsMjk0LjEyMSBMIDMzNC4xNTYsMjk0LjEyMSBDIDMzNC4xNTYsMjg4LjE0NiAzMzMuMTQyLDI3OS43ODQgMzMxLjExNSwyNjkuMDM4IEwgMzMxLjExNSwyNjkuMDM4IEMgMzM3LjEyNywyNzYuODEzIDM0MC4xMzEsMjg2Ljc4MyAzNDAuMTMxLDI5OC45NTUgTCAzNDAuMTMxLDI5OC45NTUgQyAzNDAuMTMxLDMwMi40MzMgMzM5LjAwNywzMDUuMjQzIDMzNi43NTgsMzA3LjM4OCBMIDMzNi43NTgsMzA3LjM4OCBDIDMzOC4zMDgsMzA3LjYwNiAzMzkuODU2LDMwNy43MTMgMzQxLjQwNCwzMDcuNzEwIEwgMzQxLjQwNCwzMDcuNzEwIEMgMzQzLjM1NywzMDcuNzEzIDM0NC42MzAsMzA3LjQ4MiAzNDUuMjIwLDMwNy4wMTIgTCAzNDUuMjIwLDMwNy4wMTIgQyAzNDYuODQ1LDMwNS43OTcgMzQ3LjY1NCwzMDIuNDUwIDM0Ny42NTQsMjk2Ljk2OCBMIDM0Ny42NTQsMjk2Ljk2OCBDIDM0Ny42NTQsMjkyLjQyMiAzNDYuNzg4LDI4NC4xNzEgMzQ1LjA1NiwyNzIuMjA3IEwgMzQ1LjA1NiwyNzIuMjA3IEMgMzUwLjMzMCwyNzkuNjkzIDM1Mi45NjUsMjg5LjM5OCAzNTIuOTY1LDMwMS4zMTggTCAzNTIuOTY1LDMwMS4zMTggQyAzNTIuOTY1LDMwNy4yMzAgMzUyLjI2NywzMTAuNTYwIDM1MC44NjMsMzExLjMwOSBMIDM1MC44NjMsMzExLjMwOSBDIDM1MC4zNDYsMzExLjYzNCAzNDguODUzLDMxMS43OTUgMzQ2LjM4MiwzMTEuNzkyIEwgMzQ2LjM4MiwzMTEuNzkyIEMgMzQyLjU0OCwzMTEuNzk1IDMzNi44ODUsMzExLjQ3MyAzMjkuMzk5LDMxMC44MjUgTCAzMjkuMzk5LDMxMC44MjUgTCAzMjkuNjc0LDMxMS4zNjIgQyAzNDYuNzg4LDMxNS42NjMgMzU1Ljg2MiwzMTguNDU2IDM1Ni44OTIsMzE5Ljc0MSBMIDM1Ni44OTIsMzE5Ljc0MSBDIDM1Ny40MDksMzIwLjM4OSAzNTcuNjY4LDMyMS40MTAgMzU3LjY2OCwzMjIuODAzIEwgMzU3LjY2OCwzMjIuODAzIFo", "top": 90, "left": 640, "height": 58, "width": 98, "caption": "PathButton" }</properties><span class="Control ButtonCaption PathButtonCaption includeCaption"></span><canvas width="32" height="32" class=""></canvas></jagui-pathbutton>
+                    <!--<div id="_aa5kx4r" data-dragkind="dock" data-dragmode="automatic" name="Panel1" data-class="Panel" class="Control Panel {theme}"
+                        data-taborder="12" style="left: 160px;top: 80px;width: 98px;height: 78px;">
+                        <label id="_oPsThiN0" name="Label2" data-class="Label" class="Control csr_default Label {theme}" style="left: 10px;top: 10px;">Panel</label>
+                    </div>
+                    <div id="_r27fklu" data-dragkind="dock" data-dragmode="automatic" name="CalloutPanel1" data-class="CalloutPanel" class="Control CalloutPanel {theme} csr_default"
+                        data-calloutposition="top" data-calloutoffset="0" data-calloutlength="11" data-calloutwidth="23" data-taborder="13"
+                        style="left: 10px;top: 80px;width: 118px;height: 78px;">
+                        <div class="Control CalloutPanelViewport {theme}"></div>
+                        <div class="Control CalloutPanelArrow {theme} calloutposition-top"></div>
+                    </div>
+                    <button id="_4dh2zs9" name="ColorButton1" data-class="ColorButton" class="Control ColorButton {theme} csr_default" data-color="red"
+                        data-taborder="14" style="top: 170px;left: 80px;width: 40px;height: 40px;">
+                        <span class="Control ButtonCaption"></span>
+                        <div class="Control ColorButtonColor {theme}"></div>
+                    </button>-->
+                    <jagui-cornerbutton id="_7hes89u" data-class="CornerButton" class="Control CornerButton csr_default {theme}"><properties>{ "name": "CornerButton1",  
+                        "topLeftCorner":{"x":15,"y":15, "type":"sharp", "unit":"px"}, "topRightCorner":{ "x":15,"y":15, "type":"scoop", "unit":"px"}, "bottomLeftCorner":{"x":15,"y":15, "type":"notch", "unit":"px"}, "bottomRightCorner":{"x":15,"y":15, "type":"bevel", "unit":"px"} , "onClick":"Core.dialogs.prompt('prompt','test','blabla')", "tabOrder": 15, "top": 180, "left": 150, "width": 68, "height": 50, "caption":"CornerButton" }</properties><div class="Control Button CornerButton {theme} includeCaption" style="clip-path:url(#CornerButton1Clip);"><svg width="100%" height="100%" class="CornerButtonSvg"><defs><clipPath id="CornerButton1Clip"><use xlink:href="#CornerButton1ClipPath" /></clipPath></defs><linearGradient id="CornerButton1Gradient" x1="0" x2="0" y1="0" y2="100%"><stop offset="0%" class="carbon first-corner-button-color"/><stop offset="100%" class="carbon secondary-corner-button-color"/></linearGradient><path stroke="url(#CornerButton1Gradient)" class="CornerButtonClipPath" id="CornerButton1ClipPath" d="M 0 0 Z" /></svg></div></jagui-cornerbutton>
+                    <!--<button id="_wzzma7y" name="PopupButton1" data-class="PopupButton" class="Control PopupButton {theme} csr_default" data-popupmenu="PopupMenu1"
+                        data-taborder="16" style="left: 250px;top: 180px;height: 19px;width: 88px;">
+                        <span class="Control ButtonCaption">PopupButton</span>
+                        <div class="Control PopupButtonArrow">8</div>
+                    </button>-->
+                    <jagui-speedbutton id="_fyycis9" name="SpeedButton1" data-class="SpeedButton" class="Control ButtonGlyph SpeedButton {theme} csr_default"><properties>
+                        { "onclick":"SpeedButton1_onClick", "top": 180,"left": 350,"width": 25,"height": 21, "caption": "S" }</properties><span class="Control {theme} SpeedButtonCaption includeCaption"></span><img width="0" height="0" alt="" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQIW2NkAAIAAAoAAggA9GkAAAAASUVORK5CYII=" /></jagui-speedbutton>
+                    <!--<label id="_onqaoim" name="ValueLabel1" data-class="ValueLabel" class="Control csr_default ValueLabel {theme}" style="top: 180px;left: 390px;">ValueLabel</label>
+                    <img id="_tyej49b" name="Icon1" data-class="Icon" class="Control Icon {theme} confirmation" src="#" alt="" draggable="false"
+                        data-onclick="$j.dialogs.confirm('Confirmation dialog')" data-showtooltip="true" data-tooltip="Click here to show confirmation dialog"
+                        style="left: 350px;top: 360px;">
+                    <img id="_6skljjm" name="Icon2" data-class="Icon" class="Control Icon {theme} information" src="#" alt="" draggable="false"
+                        data-onclick="$j.dialogs.information('Information dialog')" data-showtooltip="true" data-tooltip="Click here to show information dialog"
+                        style="left: 390px;top: 360px;">
+                    <img id="_a96ysyo" name="Icon3" data-class="Icon" class="Control Icon {theme} warning" src="#" alt="" draggable="false" data-onclick="$j.dialogs.warning('Warning dialog')"
+                        data-showtooltip="true" data-tooltip="Click here to show warning dialog" style="left: 430px;top: 360px;">
+                    <img id="_bd6cw7z" name="Icon4" data-class="Icon" class="Control Icon {theme} error" src="#" alt="" draggable="false" data-onclick="$j.dialogs.error('Error dialog')"
+                        data-showtooltip="true" data-tooltip="Click here to show error dialog" style="left: 470px;top: 360px;">
+                    <fieldset id="_y7xu1b8" name="GroupBox1" data-class="GroupBox" class="Control GroupBox {theme}" data-taborder="17" style="left: 10px;top: 220px;width: 75px;height: 25px;">
+                        <legend class="Control GroupBoxLegend {theme}">GroupBox1</legend>
+                    </fieldset>
+                    <div id="_p6fup8t" name="ColorBox1" data-class="ColorBox" class="Control ColorBox" data-color="blue" style="left: 570px;top: 250px;width: 50px;height: 50px;"></div>
+                    <div id="_v8pztto" name="ProgressBar1" data-class="ProgressBar" class="Control ProgressBar {theme} orientation-horizontal"
+                        data-value="75" data-orientation="horizontal" data-taborder="18" style="top: 220px;left: 150px;width: 100px;height: 17px;">
+                        <div class="Control ProgressBarProgress {theme} orientation-horizontal" style="width: 72px;">
+                            <div class="Control {theme} ProgressBarIndic orientation-horizontal"></div>
+                        </div>
+                    </div>
+                    <div id="_v8pzttp" name="ProgressBar2" data-class="ProgressBar" class="Control ProgressBar {theme} orientation-vertical"
+                        data-value="50" data-orientation="vertical" data-taborder="19" style="top: 160px;left: 640px;height: 100px;width: 17px;">
+                        <div class="Control ProgressBarProgress {theme} orientation-vertical" style="height: 47px;">
+                            <div class="Control {theme} ProgressBarIndic orientation-vertical"></div>
+                        </div>
+                    </div>
+                    <div id="_n9e4isb" name="Checkbox1" data-class="Checkbox" class="Control Checkbox {theme}" data-ischecked="true" data-state="checked"
+                        data-taborder="20" style="top: 180px;left: 470px; height:15px;">
+                        <input type="checkbox" class="Control CheckboxInput" />
+                        <div class="Control {theme} CheckboxCheck checked"></div>Checkbox1
+                    </div>
+                    <div id="_n9e4ief" name="Checkbox2" data-class="Checkbox" class="Control Checkbox {theme}" data-allowgrayed="true" data-state="unchecked"
+                        data-taborder="21" style="top: 200px;left: 470px; height:15px;">
+                        <input type="checkbox" class="Control CheckboxInput" />
+                        <div class="Control {theme} CheckboxCheck grayed"></div>Checkbox2
+                    </div>
+                    <div id="_n9e4isf" name="RadioButton1" data-class="RadioButton" class="Control RadioButton {theme}" data-ischecked="true"
+                        data-taborder="22" style="top: 180px;left: 550px;height:15px;">
+                        <input type="radio" class="Control RadioButtonInput" />
+                        <div class="Control {theme} RadioButtonCheck"></div>RadioButton1
+                    </div>
+                    <div id="_n9e4ihg" name="RadioButton2" data-class="RadioButton" class="Control RadioButton {theme}" data-taborder="23" style="top: 200px;left: 550px;height:15px;">
+                        <input type="radio" class="Control RadioButtonInput" />
+                        <div class="Control {theme} RadioButtonCheck"></div>RadioButton2
+                    </div>
+                    <div id="_n9e4ish" name="PathCheckbox1" data-class="PathCheckbox" class="Control PathCheckbox {theme}" data-ischecked="true"
+                        data-taborder="24" style="top: 220px;left: 470px;height:15px;">
+                        <input type="checkbox" class="Control PathCheckboxInput" />
+                        <div class="Control PathCheckboxCheck {theme}"></div>PathCheckbox1
+                    </div>
+                    <div id="_n9esish" name="PathCheckbox2" data-class="PathCheckbox" class="Control PathCheckbox {theme}" data-ischecked="true"
+                        data-svgviewbox="0 0 31 28" data-checksvg="bTMwLjkyMTI0LDcuMjU1OTdjMCw0LjE3MzE5IC0yLjY5MjY4LDguNDMwNTEgLTguMDc4NCwxMi43NzEybDAsMGMtMy43NDY0NSwzLjAxMjczOSAtOC4zOTIyNyw1LjgwMjI2OSAtMTMuOTM5MzAxLDguMzcwNDNsMCwwYzAuMjAxNzMxLC0xLjAyOTM2OSAwLjMwMTg2MSwtMi4wMTQzMiAwLjMwMTg2MSwtMi45NTMwM2wwLDBjMCwtMi40MjM5NSAtMC43OTE5NjEsLTQuNjI3OTgxIC0yLjM3NjI2LC02LjYxMDYybDAsMGMtMS40NzY1MSwtMS41ODkwMiAtMi45NjAzMSwtMy4xNzI5NSAtNC40NTE3NSwtNC43NTIxNWwwLDBjLTEuNTgzOTIsLTEuOTI5MTIgLTIuMzc3MzUsLTQuMDQxMDIgLTIuMzc3MzUsLTYuMzM2ODAxbDAsMGMwLC0yLjI1MzkxIDAuNzgyNSwtNC4xMDgwMiAyLjM0Njc3LC01LjU2MjY5bDAsMGMxLjU2NDYzLC0xLjQ1MzU3IDMuNTE1NTksLTIuMTgwNzMgNS44NTE0MywtMi4xODE4MmwwLDBjMS41OTg4NDksMC4wMDEwOSAzLjA4MjY1LDAuNDA1NjQgNC40NTE3MzksMS4yMTI1MmwwLDBjMS40OTE0NDEsMC44ODczNyAyLjQzODUyLDIuMDQxMjcgMi44NDA4OCwzLjQ2MTcxbDAsMGMxLjYzODkxLC0zLjExNDcgNC4wNTY2NjksLTQuNjczMTQgNy4yNTE4NSwtNC42NzQyM2wwLDBjMi4xNDkwNCwwLjAwMTA5IDQuMDI5MDExLDAuNjc5NDUgNS42Mzk4NywyLjAzMzk4bDAsMGMxLjY5MjgxLDEuNDIyNjMgMi41Mzg2NiwzLjE2MzEzIDIuNTM4NjYsNS4yMjE1bDAsMHo="
+                        data-taborder="25" style="top: 220px;left: 350px;height:15px;">
+                        <input type="checkbox" class="Control PathCheckboxInput" />
+                        <div class="Control PathCheckboxCheck {theme}"></div>PathCheckbox2
+                    </div>
+                    <button id="_n8e4ish" name="AngleButton1" data-class="AngleButton" class="Control AngleButton {theme} csr_default" data-taborder="26"
+                        style="top: 220px;left: 100px;width: 30px;height: 30px;" data-showvalue="false">
+                        <div class="Control AngleButtonCaption">0°</div>
+                        <div class="Control AngleButtonKnob">3</div>
+                    </button>
+                    <div id="_n4efish" name="ColorQuad1" data-class="ColorQuad" class="Control ColorQuad hsl" data-color="blue" data-format="hsl"
+                        data-colorbox="ColorBox1" style="left: 640px;top: 280px;width: 100px;height: 100px;">
+                        <div class="Control ColorQuadIndicator"></div>
+                    </div>
+                    <div id="_n8efish" name="ColorPicker1" data-class="ColorPicker" class="Control ColorPicker" data-colorquad="ColorQuad1" data-color="blue"
+                        style="top: 10px;left: 1120px;width: 50px;height: 140px;">
+                        <div class="Control ColorPickerIndicator"></div>
+                    </div>
+                    <div id="_n5efish" name="TextBox1" data-class="TextBox" class="Control TextBox {theme} required haserror" data-required="true"
+                        data-haserror="true" data-errormsg="This field is required" data-taborder="27" style="left: 750px;top: 310px;width: 135px;height: 20px;">
+                        <input type="text" placeholder="type your text here" value="TextBox1" class="Control csr_text TextBoxInput {theme}" />
+                    </div>
+                    <div id="_n5eeish" name="PasswordTextBox1" data-class="PasswordTextBox" class="Control TextBox PasswordTextBox {theme}" data-length="0"
+                        data-taborder="28" style="left: 750px;top: 340px;width: 135px;height: 20px;">
+                        <input type="password" placeholder="type your password here" class="Control csr_text {theme} TextBoxInput PasswordTextBoxInput"
+                        />
+                        <button id="_qdD6Irs" data-class="TextButton" class="Control TextButton {theme} PasswordTextBoxButton csr_default"></button>
+                    </div>
+                    <div id="_n5ejish" name="RoundTextBox1" data-class="RoundTextBox" class="Control TextBox RoundTextBox {theme}" data-filterchars="a1"
+                        data-taborder="29" style="left: 750px;top: 370px;width: 135px;height: 20px;">
+                        <input type="text" placeholder="Only a and 1 char valid" value="" class="Control csr_text TextBoxInput RoundTextBoxInput {theme}"
+                        />
+                    </div>
+                    <div id="_n8eeish" name="TextBoxClearBtn1" data-class="TextBoxClearBtn" class="Control TextBox TextBoxClearBtn {theme}" data-length="0"
+                        data-taborder="30" style="left: 900px;top: 340px;width: 135px;height: 20px">
+                        <input type="text" placeholder="type your text here" class="Control csr_text TextBoxInput TextBoxClearBtnInput {theme}" />
+                        <button id="_qdD8Irs" data-class="TextButton" class="Control TextButton TextBoxClearBtnButton {theme} csr_default"></button>
+                    </div>
+                    <div id="_r5efish" name="MaskedTextBox1" data-class="MaskedTextBox" class="Control TextBox MaskedTextBox {theme}" data-mask="(99)aa-*9a"
+                        data-blankspace="_" data-taborder="31" style="left: 1010px;top: 310px;width: 80px;height: 20px;">
+                        <input type="text" class="Control csr_text MaskedTextBoxInput {theme}" />
+                    </div>
+                    <!--<div id="_TCtALMr" data-class="Clock" name="Clock1" class="Clock {theme}" style="left:1290px;top:370px;"></div>-->
+                        <!--<canvas id="_s5efish" data-class="PlotGrid" class="Control PlotGrid" name="PlotGrid1" width="170" height="170" data-onpaint="PlotGrid1_onPaint"
+                        style="left: 1190px;top: 10px;width: 170px;height: 170px;"></canvas>
+                    <canvas id="_a5efish" data-class="PaintBox" class="Control PaintBox" name="PaintBox1" width="170" height="170" data-onpaint="PaintBox1_onPaint"
+                        data-onclick="PaintBox1_onClick" data-tooltip="Click to change drawing method" data-showtooltip="true"
+                        style="left: 1370px;top: 10px;width: 170px;height: 170px;background-color: #000;"></canvas>
+                    <button id="_g3xr4r2" name="IPhoneButton1" data-class="IPhoneButton" class="Control IPhoneButton {theme} csr_default" style="top: 220px;left: 280px;height: 50px;width: 50px;">
+                        <span class="Control IPhoneButtonCaption"></span>
+                        <img alt="" src="images/duck.png" draggable="false" style="width: 32px;height: 32px;left: 9px;top: 9px;" />
+                        <div class="Control IPhoneButtonHalo"></div>
+                    </button>
+                    <div id="_n5ejirh" name="SpinBox1" data-class="SpinBox" class="Control TextBox SpinBox {theme}" data-taborder="32" style="left: 900px;top: 310px;width: 81px;height: 20px;">
+                        <input type="text" value="0" class="Control csr_text TextBoxInput SpinBoxInput {theme}" />
+                        <button id="_qdJ6Irs" data-class="TextButton" class="Control TextButton {theme} SpinBoxMinusBtn csr_default"></button>
+                        <button id="_qdZ6Irs" data-class="TextButton" class="Control TextButton {theme} SpinBoxPlusBtn csr_default"></button>
+                    </div>
+                    <div id="_s5ejirh" name="Rating1" data-class="Rating" class="Control Rating {theme} orientation-horizontal csr_default" data-nbitem="5"
+                        data-value="2" data-precision="exactPrecision" data-orientation="horizontal" data-normalimg="" data-hoveredimg=""
+                        data-selectedimg="" data-taborder="33" style="left: 510px;top: 360px;width: 90px;height: 16px;">
+                        <div style="width: 36px;" class="Control RatingProgress orientation-horizontal"></div>
+                    </div>
+                    <div id="_w5ejirh" name="Rating2" data-class="Rating" class="Control Rating {theme} orientation-horizontal csr_default" data-nbitem="5"
+                        data-value="4" data-precision="halfAnItem" data-orientation="horizontal" data-normalimg="images/heartN.png"
+                        data-selectedimg="images/heartS.png" data-hoveredimg="images/heartH.png" data-taborder="34" style="left: 510px;top: 380px;width: 90px;height: 16px;background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAQCAYAAAAbBi9cAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuM4zml1AAAAFPSURBVDhPlVM9S8NQFH2bi5sUHFzFwbq6uPg7RBAHt+7+gnyn+SQJSaYQY6IJLuoPEToIXYWOIkrp0FrPS18G68MmB04I75x7373v3UcaxHF8NBwOC03TPmRZXqqqOrZt+4LJJAiCM13Xx1SDZ4r/Z8ScMnmFMAzPRVGcCoKwXKdpmtee5w2g/9GwtkDCqzpJFEV9SZJm66aGMM9RxZynUSJ24TjOMUE7NzxDF6LVJ4LPG0/sQkVRvohhGFyxKwn6H/GELkRX77SiiCd2Ic75ns5Hn14jz9CS367rntQjgKpCjqEVEftQJ6Eoy3Ibfb7wjP8R5/taVVWPpVnB9/1dDFfrg8cTmhRFccjCfwMT2sPIb6wMczPKsuyAhfFhWdYW3tcdLwElNnrM83yH2TcDN3GJnT+bBDiPGTYYMLkb0jTdwyXc0iqSJNlnyxwQ8gOffkB++ontZAAAAABJRU5ErkJggg==');">
+                        <div style="width: 72px;" class="Control RatingProgress orientation-horizontal"></div>
+                    </div>
+                    <div id="_9sac9o2" name="Rating3" data-class="Rating" class="Control Rating {theme} orientation-vertical csr_default" data-nbitem="5"
+                        data-value="2" data-precision="exactPrecision" data-orientation="vertical" data-normalimg="" data-hoveredimg=""
+                        data-selectedimg="" data-taborder="35" style="left: 600px;top: 306px;width: 18px;height: 80px;">
+                        <div style="height: 36px;" class="Control RatingProgress orientation-vertical"></div>
+                    </div>
+                    <div id="_6qtwmwz" name="Rating4" data-class="Rating" class="Control Rating {theme} orientation-vertical csr_default" data-nbitem="5"
+                        data-value="4" data-precision="halfAnItem" data-orientation="vertical" data-normalimg="images/heartN.png"
+                        data-selectedimg="images/heartS.png" data-hoveredimg="images/heartH.png" data-taborder="36" style="left: 620px;top: 306px;width: 18px;height: 80px;background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAQCAYAAAAbBi9cAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuM4zml1AAAAFPSURBVDhPlVM9S8NQFH2bi5sUHFzFwbq6uPg7RBAHt+7+gnyn+SQJSaYQY6IJLuoPEToIXYWOIkrp0FrPS18G68MmB04I75x7373v3UcaxHF8NBwOC03TPmRZXqqqOrZt+4LJJAiCM13Xx1SDZ4r/Z8ScMnmFMAzPRVGcCoKwXKdpmtee5w2g/9GwtkDCqzpJFEV9SZJm66aGMM9RxZynUSJ24TjOMUE7NzxDF6LVJ4LPG0/sQkVRvohhGFyxKwn6H/GELkRX77SiiCd2Ic75ns5Hn14jz9CS367rntQjgKpCjqEVEftQJ6Eoy3Ibfb7wjP8R5/taVVWPpVnB9/1dDFfrg8cTmhRFccjCfwMT2sPIb6wMczPKsuyAhfFhWdYW3tcdLwElNnrM83yH2TcDN3GJnT+bBDiPGTYYMLkb0jTdwyXc0iqSJNlnyxwQ8gOffkB++ontZAAAAABJRU5ErkJggg==');">
+                        <div style="height: 72px;" class="Control RatingProgress orientation-vertical"></div>
+                    </div>
+                    <div id="_oNHn99A1" name="PageControl1" data-class="PageControl" class="Control TabControl PageControl {theme}" data-activetab="Tab1"
+                        data-taborder="37" style="width: 200px;top: 250px;left: 350px;height: 100px;">
+                        <div class="Control TabControlHeader {theme}">
+                            <div class="Control TabsContainer {theme}">
+                                <label id="_oNHn09A1" data-class="TabSheet" name="Tab1" class="Control Tab TabSheet selected csr_default {theme}">tab1</label>
+                                <label id="_oNHn19A1" data-class="TabSheet" name="Tab2" class="Control Tab TabSheet csr_default {theme}">tab2</label>
+                                <label id="_oNHn29A1" data-class="TabSheet" name="Tab3" class="Control Tab TabSheet csr_default {theme}">tab3</label>
+                                <label id="_oNHn39A1" data-class="TabSheet" name="Tab4" class="Control Tab TabSheet csr_default {theme}">tab4</label>
+                                <label id="_oNHn49A1" data-class="TabSheet" name="Tab5" class="Control Tab TabSheet csr_default {theme}">tab5</label>
+                            </div>
+                            <button id="_TvonYrR" class="Control Button TabControlLeftBtn {theme} csr_default" data-enabled="false"></button>
+                            <button id="_WMvUgoP" class="Control Button TabControlRightBtn {theme} csr_default" data-enabled="true"></button>
+                        </div>
+                        <div id="_VzJzvjA" data-class="Layout" class="Control TabsContent PagesContent {theme}">
+                            <div class="Control PageContent {theme}" data-tab="Tab1">
+                                <button id="_oNun99A1" name="Button2" data-class="Button" style="left: 10px;top: 10px;height: 19px;width: 68px;" class="Control Button csr_default {theme}"
+                                    data-taborder="0">Cut</button>
+                            </div>
+                            <div class="Control PageContent hidden {theme}" data-tab="Tab2">
+                                <div id="_34qksx5" name="Rectangle2" data-class="Rectangle" class="Control Rectangle" data-align="left" style="left: 0;top: 0;bottom: 0;width:20px;"
+                                    data-fillcolor="black" data-strokecolor="white" data-strokewidth="1">
+                                    <svg class="Control svgShape">
+                                        <rect width="100%" height="100%" />
+                                    </svg>
+                                </div>
+                                <div id="_38qksx5" name="Rectangle3" data-class="Rectangle" class="Control Rectangle" data-align="client" style="top: 0;right: 0;bottom: 0;left:25px;"
+                                    data-fillcolor="black" data-strokecolor="white" data-strokewidth="1">
+                                    <svg class="Control svgShape">
+                                        <rect width="100%" height="100%" />
+                                    </svg>
+                                </div>
+                                <div id="_34qssx5" name="Splitter1" data-class="Splitter" class="Control csr_wResize Splitter orientation-vertical {theme}"
+                                    data-orientation="vertical" data-align="left" data-collapsible="true" style="left: 20px;"></div>
+                            </div>
+                            <div class="Control PageContent hidden {theme}" data-tab="Tab3">
+                                <div id="_34qksx6" name="Rectangle4" data-class="Rectangle" class="Control Rectangle" data-align="client" style="right:55px;top:0;bottom:0;left:0;"
+                                    data-fillcolor="black" data-strokecolor="white" data-strokewidth="1">
+                                    <svg class="Control svgShape">
+                                        <rect width="100%" height="100%" />
+                                    </svg>
+                                </div>
+                                <div id="_38qksx7" name="Rectangle5" data-class="Rectangle" class="Control Rectangle" data-align="right" style="width:50px;top:0;right:0;bottom:0;"
+                                    data-fillcolor="black" data-strokecolor="white" data-strokewidth="1">
+                                    <svg class="Control svgShape">
+                                        <rect width="100%" height="100%" />
+                                    </svg>
+                                </div>
+                                <div id="_34qssx8" name="Splitter2" data-class="Splitter" class="Control csr_wResize Splitter orientation-vertical {theme}"
+                                    data-orientation="vertical" data-align="right" data-collapsible="false" style="right:50px;top:0;bottom:0;"></div>
+                            </div>
+                            <div class="Control PageContent hidden {theme}" data-tab="Tab4">
+                                <div id="_34qksx9" name="Rectangle6" data-class="Rectangle" class="Control Rectangle" data-align="top" style="top:0;height:20px;left:0;right:0;"
+                                    data-fillcolor="black" data-strokecolor="white" data-strokewidth="1">
+                                    <svg class="Control svgShape">
+                                        <rect width="100%" height="100%" />
+                                    </svg>
+                                </div>
+                                <div id="_38qksxA" name="Rectangle7" data-class="Rectangle" class="Control Rectangle" data-align="client" style="top:25px;right:0;bottom:0;left:0;"
+                                    data-fillcolor="black" data-strokecolor="white" data-strokewidth="1">
+                                    <svg class="Control svgShape">
+                                        <rect width="100%" height="100%" />
+                                    </svg>
+                                </div>
+                                <div id="_34qssxB" name="Splitter3" data-class="Splitter" class="Control csr_nResize Splitter orientation-horizontal {theme}"
+                                    data-orientation="horizontal" data-align="top" data-collapsible="true" style="top:20px;right:0;left:0;"></div>
+                            </div>
+                            <div class="Control PageContent hidden {theme}" data-tab="Tab5">
+                                <div id="_34qksxC" name="Rectangle8" data-class="Rectangle" class="Control Rectangle" data-align="client" style="top:0;height:55px;left:0;right:0;"
+                                    data-fillcolor="black" data-strokecolor="white" data-strokewidth="1">
+                                    <svg class="Control svgShape">
+                                        <rect width="100%" height="100%" />
+                                    </svg>
+                                </div>
+                                <div id="_38qksxD" name="Rectangle9" data-class="Rectangle" class="Control Rectangle" data-align="bottom" style="height:19px;right:0;left:0;bottom:0;"
+                                    data-fillcolor="black" data-strokecolor="white" data-strokewidth="1">
+                                    <svg class="Control svgShape">
+                                        <rect width="100%" height="100%" />
+                                    </svg>
+                                </div>
+                                <div id="_34qssxE" name="Splitter4" data-class="Splitter" class="Control csr_nResize Splitter orientation-horizontal {theme}"
+                                    data-orientation="horizontal" data-align="bottom" data-collapsible="false" style="bottom:19px;right:0;left:0;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="_ie6m02t" data-class="Calendar" name="Calendar1" class="Control Calendar {theme} viewweeknum" data-viewweeknum="true"
+                        data-date="October 08, 2014 00:00:00" data-taborder="38" style="left: 750px;top: 460px;">
+                        <div class="Control CalendarContent {theme}">
+                            <div class="Control CalendarHeader {theme}">
+                                <div class="Control CalendarPrevMonth {theme}"></div>
+                                <div title="Aller à aujourd'hui" class="Control CalendarThisDay {theme}"></div>
+                                <div class="Control CalendarNextMonth {theme}"></div>
+                                <div class="Control CalendarThisMonth {theme}">Octobre 2014</div>
+                            </div>
+                            <div class="Control CalendarWeekdays {theme}">
+                                <div class="Control CalendarWeekNum {theme}">se</div>
+                                <div class="Control CalendarWeekDay {theme}">Lu</div>
+                                <div class="Control CalendarWeekDay {theme}">Ma</div>
+                                <div class="Control CalendarWeekDay {theme}">Me</div>
+                                <div class="Control CalendarWeekDay {theme}">Je</div>
+                                <div class="Control CalendarWeekDay {theme}">Ve</div>
+                                <div class="Control CalendarWeekDay {theme}">Sa</div>
+                                <div class="Control CalendarWeekDay {theme}">Di</div>
+                            </div>
+                            <div class="Control CalendarWeeks {theme}">
+                                <div class="Control CalendarWeek CalendarFirstWeek {theme} alternate" data-week="0">
+                                    <div class="Control CalendarWeekNum {theme}">40</div>
+                                    <div class="Control CalendarDay {theme}">29</div>
+                                    <div class="Control CalendarDay {theme}">30</div>
+                                    <div class="Control CalendarDay {theme}">1</div>
+                                    <div class="Control CalendarDay {theme}">2</div>
+                                    <div class="Control CalendarDay {theme}">3</div>
+                                    <div class="Control CalendarDay {theme}">4</div>
+                                    <div class="Control CalendarDay {theme}">5</div>
+                                </div>
+                                <div class="Control CalendarWeek CalendarSecondWeek {theme}" data-week="1">
+                                    <div class="Control CalendarWeekNum {theme}">41</div>
+                                    <div class="Control CalendarDay {theme}">6</div>
+                                    <div class="Control CalendarDay {theme}">7</div>
+                                    <div class="Control CalendarDay {theme}"></div>
+                                    <div class="Control CalendarDay {theme}">9</div>
+                                    <div class="Control CalendarDay {theme}">10</div>
+                                    <div class="Control CalendarDay {theme}">11</div>
+                                    <div class="Control CalendarDay {theme}">12</div>
+                                </div>
+                                <div class="Control CalendarWeek CalendarThirdWeek {theme} alternate" data-week="2">
+                                    <div class="Control CalendarWeekNum {theme}">42</div>
+                                    <div class="Control CalendarDay {theme}">13</div>
+                                    <div class="Control CalendarDay {theme}">14</div>
+                                    <div class="Control CalendarDay {theme}">15</div>
+                                    <div class="Control CalendarDay {theme}">16</div>
+                                    <div class="Control CalendarDay {theme}">17</div>
+                                    <div class="Control CalendarDay {theme}">18</div>
+                                    <div class="Control CalendarDay {theme}">19</div>
+                                </div>
+                                <div class="Control CalendarWeek CalendarFourthWeek {theme}" data-week="3">
+                                    <div class="Control CalendarWeekNum {theme}">43</div>
+                                    <div class="Control CalendarDay {theme}">20</div>
+                                    <div class="Control CalendarDay {theme}">21</div>
+                                    <div class="Control CalendarDay {theme}">22</div>
+                                    <div class="Control CalendarDay {theme}">23</div>
+                                    <div class="Control CalendarDay {theme}">24</div>
+                                    <div class="Control CalendarDay {theme}">25</div>
+                                    <div class="Control CalendarDay {theme}">26</div>
+                                </div>
+                                <div class="Control CalendarWeek CalendarFifthWeek {theme} alternate" data-week="4">
+                                    <div class="Control CalendarWeekNum {theme}">44</div>
+                                    <div class="Control CalendarDay {theme}">27</div>
+                                    <div class="Control CalendarDay {theme}">28</div>
+                                    <div class="Control CalendarDay {theme}">29</div>
+                                    <div class="Control CalendarDay {theme}">30</div>
+                                    <div class="Control CalendarDay {theme}">31</div>
+                                    <div class="Control CalendarDay {theme}">1</div>
+                                    <div class="Control CalendarDay {theme}">2</div>
+                                </div>
+                                <div class="Control CalendarWeek CalendarSixthWeek {theme}" data-week="5">
+                                    <div class="Control CalendarWeekNum {theme}">45</div>
+                                    <div class="Control CalendarDay {theme}">3</div>
+                                    <div class="Control CalendarDay {theme}">4</div>
+                                    <div class="Control CalendarDay {theme}">5</div>
+                                    <div class="Control CalendarDay {theme}">6</div>
+                                    <div class="Control CalendarDay {theme}">7</div>
+                                    <div class="Control CalendarDay {theme}"></div>
+                                    <div class="Control CalendarDay {theme}">9</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Control CalendarMonths {theme}">
+                            <div data-month="0" class="Control CalendarMDC CalendarMonth {theme}">Jan</div>
+                            <div data-month="1" class="Control CalendarMDC CalendarMonth {theme}">Fev</div>
+                            <div data-month="2" class="Control CalendarMDC CalendarMonth {theme}">Mars</div>
+                            <div data-month="3" class="Control CalendarMDC CalendarMonth {theme}">Avr</div>
+                            <div data-month="4" class="Control CalendarMDC CalendarMonth {theme}">Mai</div>
+                            <div data-month="5" class="Control CalendarMDC CalendarMonth {theme}">Jun</div>
+                            <div data-month="6" class="Control CalendarMDC CalendarMonth {theme}">Juil</div>
+                            <div data-month="7" class="Control CalendarMDC CalendarMonth {theme}">Aout</div>
+                            <div data-month="8" class="Control CalendarMDC CalendarMonth {theme}">Sep</div>
+                            <div data-month="9" class="Control CalendarMDC CalendarMonth {theme}">Oct</div>
+                            <div data-month="10" class="Control CalendarMDC CalendarMonth {theme}">Nov</div>
+                            <div data-month="11" class="Control CalendarMDC CalendarMonth {theme}">Dec</div>
+                        </div>
+                        <div class="Control CalendarDecades {theme}">
+                            <div data-decade="0" class="Control CalendarMDC CalendarDecade {theme}"></div>
+                            <div data-decade="1" class="Control CalendarMDC CalendarDecade {theme}"></div>
+                            <div data-decade="2" class="Control CalendarMDC CalendarDecade {theme}"></div>
+                            <div data-decade="3" class="Control CalendarMDC CalendarDecade {theme}"></div>
+                            <div data-decade="4" class="Control CalendarMDC CalendarDecade {theme}"></div>
+                            <div data-decade="5" class="Control CalendarMDC CalendarDecade {theme}"></div>
+                            <div data-decade="6" class="Control CalendarMDC CalendarDecade {theme}"></div>
+                            <div data-decade="7" class="Control CalendarMDC CalendarDecade {theme}"></div>
+                            <div data-decade="8" class="Control CalendarMDC CalendarDecade {theme}"></div>
+                            <div data-decade="9" class="Control CalendarMDC CalendarDecade {theme}"></div>
+                            <div data-decade="10" class="Control CalendarMDC CalendarDecade {theme}"></div>
+                            <div data-decade="11" class="Control CalendarMDC CalendarDecade {theme}"></div>
+                        </div>
+                        <div class="Control CalendarCenturies {theme}">
+                            <div data-century="0" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
+                            <div data-century="1" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
+                            <div data-century="2" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
+                            <div data-century="3" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
+                            <div data-century="4" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
+                            <div data-century="5" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
+                            <div data-century="6" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
+                            <div data-century="7" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
+                            <div data-century="8" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
+                            <div data-century="9" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
+                            <div data-century="10" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
+                        </div>
+                    </div>
+                    <div id="_2txje9o" name="Expander1" data-class="Expander" class="Control Expander {theme}" data-height="100" data-taborder="39"
+                        style="left: 10px;width: 130px;height: 100px;top: 260px;" data-expanded="true">
+                        <div class="Control ExpanderHeader {theme}">
+                            <button id="_DYeUkBC" data-class="button" class="Control Button ExpanderButton {theme} expanded csr_default"></button>
+                            <div id="_n9t4ish" data-class="Checkbox" class="Control Checkbox ExpanderCheckbox {theme}" data-ischecked="true" data-state="checked">
+                                <input type="checkbox" class="Control CheckboxInput" />
+                                <div class="Control {theme} CheckboxCheck ExpanderCheckboxCheck"></div>
+                            </div>
+                            <label class="Control csr_default ExpanderCaption {theme}">Expander1</label>
+                        </div>
+                        <div class="Control ExpanderContent {theme}" data-enabled="false">
+                            <button id="_zru0co7" name="Button3" data-class="Button" class="Control Button {theme} csr_default" style="left: 10px;top: 10px;height: 19px;width: 68px;"
+                                data-enabled="false" data-taborder="0">Button</button>
+                        </div>
+                    </div>
+                    <div id="_9ub1bjl" name="Expander2" data-class="Expander" class="Control Expander {theme}" data-height="100" data-taborder="40"
+                        data-viewcheck="false" style="left: 10px;width: 130px;height: 25px;top: 370px;">
+                        <div class="Control ExpanderHeader {theme}">
+                            <button id="_CFppgtv" data-class="button" class="Control Button ExpanderButton {theme}"></button>
+                            <div id="_n9e4iSb" data-class="Checkbox" class="Control Checkbox ExpanderCheckbox {theme}" data-ischecked="false" data-state="unchecked">
+                                <input type="checkbox" class="Control CheckboxInput" />
+                                <div class="Control {theme} CheckboxCheck ExpanderCheckboxCheck"></div>
+                            </div>
+                            <label class="Control csr_default ExpanderCaption {theme}">Expander2</label>
+                        </div>
+                        <div class="Control ExpanderContent {theme}"></div>
+                    </div>
+                    <div id="_pc7r8n8" name="Slider1" data-class="Slider" class="Control Slider {theme} orientation-horizontal csr_default" data-values="[20,0]"
+                        data-orientation="horizontal" data-mode="normal" data-frequency="1" data-showvalues="true" data-tooltipsposition="top"
+                        data-min="0" data-max="100" data-taborder="41" style="top: 250px;left: 150px;width: 100px;height: 6px;">
+                        <div class="Control SliderRange {theme} orientation-horizontal" style="display:none;"></div>
+                        <input type="range" id="_pc7r9n8" data-class="Thumb" class="Control {theme} csr_default" data-jsonname="leftthumb" />
+                        <input type="range" id="_pc7r9n9" data-class="Thumb" class="Control {theme} csr_default" style="display:none;" />
+                    </div>
+                    <div id="_pc7r8n9" name="Slider2" data-class="Slider" class="Control Slider {theme} orientation-vertical csr_default" data-values="[20,0]"
+                        data-orientation="vertical" data-mode="normal" data-showvalues="true" data-tooltipsposition="top" data-min="0"
+                        data-max="100" data-taborder="42" style="top: 204px;left: 623px;height: 6px;width: 100px;">
+                        <div class="Control SliderRange" style="display:none;"></div>
+                        <input type="range" id="_pc7r8nA" data-class="Thumb" class="Control {theme} csr_default" data-jsonname="leftthumb" />
+                        <input type="range" id="_pc7r8nB" data-class="Thumb" class="Control {theme} csr_default" style="display:none;" />
+                    </div>
+                    <div id="_2r42oca" name="Slider3" data-class="Slider" class="Control Slider {theme} orientation-horizontal csr_default" data-values="[20,80]"
+                        data-mode="range" data-orientation="horizontal" data-showvalues="true" data-tooltipsposition="bottom"
+                        data-taborder="43" style="top: 275px;left: 150px;width: 100px;height: 6px;">
+                        <div class="Control SliderRange {theme}" style="display:none;"></div>
+                        <input type="range" id="_2r42ocb" data-class="Thumb" class="Control {theme} csr_default" data-jsonname="leftthumb" />
+                        <input type="range" id="_2r42occ" data-class="Thumb" class="Control {theme} csr_default" />
+                    </div>
+                    <div id="_2r42ocz" name="Slider4" data-class="Slider" class="Control Slider {theme} orientation-vertical csr_default" data-values="[20,80]"
+                        data-mode="range" data-orientation="vertical" data-showvalues="true" data-tooltipsposition="bottom" data-taborder="44"
+                        style="top: 204px;left: 652px;width: 100px;height: 6px;">
+                        <div class="Control SliderRange {theme}" style="display:block;"></div>
+                        <input type="range" id="_2r42odz" data-class="Thumb" class="Control {theme} csr_default" data-jsonname="leftthumb" />
+                        <input type="range" id="_2r42oez" data-class="Thumb" class="Control {theme} csr_default" />
+                    </div>
+                    <div id="_dqf6yqo" name="AlphaSlider1" data-class="AlphaSlider" class="Control Slider AlphaSlider {theme} orientation-horizontal csr_default"
+                        data-values="[0.5,0]" data-mode="normal" data-orientation="horizontal" data-showvalues="true" data-taborder="45"
+                        style="top: 330px;left: 150px;width: 100px;height: 6px;">
+                        <input type="range" id="_dqf6yqp" data-class="Thumb" class="Control {theme} csr_default" />
+                    </div>
+                    <div id="_b6o9oyw" name="AlphaSlider2" data-class="AlphaSlider" class="Control Slider AlphaSlider {theme} orientation-vertical csr_default"
+                        data-values="[0.5,0]" data-mode="normal" data-orientation="vertical" data-showvalues="true" data-tooltipsposition="bottom"
+                        data-taborder="46" style="top: 350px;left: 220px;width: 100px;height: 6px;">
+                        <input type="range" id="_b6o9oyx" data-class="Thumb" class="Control {theme} csr_default" />
+                    </div>
+                    <div id="_5ss0qyc" name="BWSlider1" data-class="BWSlider" class="Control Slider BWSlider {theme} orientation-horizontal csr_default"
+                        data-values="[0.5,0]" data-mode="normal" data-orientation="horizontal" data-showvalues="true" data-taborder="47"
+                        style="top: 360px;left: 150px;width: 100px;height: 6px;">
+                        <input type="range" id="_5ss0qyd" data-class="Thumb" class="Control {theme} csr_default" />
+                    </div>
+                    <div id="_nymbdgf" name="BWSlider2" data-class="BWSlider" class="Control Slider BWSlider {theme} orientation-vertical csr_default"
+                        data-values="[0.5,0]" data-mode="normal" data-orientation="vertical" data-showvalues="true" data-tooltipsposition="bottom"
+                        data-taborder="48" style="top: 350px;left: 250px;width: 100px;height: 6px;">
+                        <input type="range" id="_nymbdgg" data-class="Thumb" class="Control {theme} csr_default" />
+                    </div>
+                    <div id="_jj9mcls" name="HUESlider1" data-class="HUESlider" class="Control Slider HUESlider {theme} orientation-horizontal csr_default"
+                        data-values="[0.5,0]" data-mode="normal" data-orientation="horizontal" data-showvalues="true" data-taborder="49"
+                        style="top: 390px;left: 150px;width: 100px;height: 6px;">
+                        <input type="range" id="_jj9mclt" data-class="Thumb" class="Control {theme} csr_default" />
+                    </div>
+                    <div id="_phy0xzc" name="HUESlider3" data-class="HUESlider" class="Control Slider HUESlider {theme} orientation-vertical csr_default"
+                        data-values="[0.5,0]" data-mode="normal" data-orientation="vertical" data-showvalues="true" data-tooltipsposition="bottom"
+                        data-taborder="50" style="top: 350px;left: 280px;width: 100px;height: 6px;">
+                        <input type="range" id="_phy0xzd" data-class="Thumb" class="Control {theme} csr_default" />
+                    </div>
+                    <div id="_vxawq18" name="ScrollBar1" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0"
+                        data-contentsize="0" data-orientation="horizontal" data-taborder="51" style="left: 150px;top: 300px;width: 100px;height: 16px;">
+                        <div id="_vxawq18_3" class="Control {theme} csr_default">
+                            <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                        </div>
+                        <button id="_vxawq18_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                        <button id="_vxawq18_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                    </div>
+                    <div id="_vxawq15" name="ScrollBar2" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="10"
+                        data-contentsize="150" data-orientation="vertical" data-taborder="52" style="left: 720px;top: 160px;height: 100px;width: 16px;">
+                        <div id="_vxawq15_3" class="Control {theme} csr_default">
+                            <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                        </div>
+                        <button id="_vxawq15_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                        <button id="_vxawq15_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                    </div>
+                    <div id="_qcley4d" name="ScrollBox1" data-class="ScrollBox" class="Control scrollContent ScrollBox {theme} scrollbars-none"
+                        data-scrollbars="none" data-taborder="53" style="left: 750px;top: 10px;width: 140px;height: 140px;">
+                        <div class="Control ScrollBoxViewPort {theme}">
+                            <div class="Control ScrollBoxContent {theme}">
+                                <button id="_6gbvpio" name="Button4" data-class="Button" style="left: 10px;top: 200px;height: 19px;width: 68px;" class="Control Button csr_default {theme}"
+                                    data-taborder="0">
+                                    Button4
+                                </button>
+                            </div>
+                        </div>
+                        <div id="_rpudmjo" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
+                            data-orientation="horizontal">
+                            <div id="_rpudmjo_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_rpudmjo_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_rpudmjo_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                        <div id="_3j20g8d" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
+                            data-orientation="vertical">
+                            <div id="_3j20g8d_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_3j20g8d_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_3j20g8d_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                    </div>
+                    <div id="_d90aprb" name="ListBox1" data-class="ListBox" class="Control scrollContent ListBox {theme} usealternatecolor orientation-vertical scrollbars-vertical"
+                        data-scrollbars="vertical" data-usealternatecolor="true" data-orientation="vertical" data-taborder="54"
+                        style="left: 900px;top: 10px;width: 100px;height: 140px;">
+                        <div class="Control ListBoxContent {theme} orientation-vertical"></div>
+                        <div id="_3hjirwj" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
+                            data-orientation="horizontal">
+                            <div id="_3hjirwj_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_3hjirwj_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_3hjirwj_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                        <div id="_qte8z95" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
+                            data-orientation="vertical">
+                            <div id="_qte8z95_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_qte8z95_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_qte8z95_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                        <properties>
+                            [{"text":"Item1","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":0}, {"text":"Item2","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":16},
+                            {"text":"Item3","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":32}, {"text":"Item4","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":48},
+                            {"text":"Item5","height":16,"isChecked":false,"enabled":true,"isHeader":true,"top":64}, {"text":"Item6","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":80},
+                            {"text":"Item7","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":112}, {"text":"Item8","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":128},
+                            {"text":"Item9","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":144}, {"text":"Item10","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":160},
+                            {"text":"Item11","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":176}, {"text":"Item12","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":192},
+                            {"text":"Item13","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":208}, {"text":"Item14","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":224},
+                            {"text":"Item15","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":240}, {"text":"Item16","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":256},
+                            {"text":"Item17","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":272}]
+                        </properties>
+                    </div>
+                    <div id="_d905prb" name="ListBox2" data-class="ListBox" class="Control scrollContent ListBox {theme} scrollbars-none viewcheckboxes usealternatecolor orientation-vertical"
+                        data-scrollbars="none" data-viewcheckboxes="true" data-usealternatecolor="true" data-selectedindex="2"
+                        data-orientation="vertical" data-taborder="55" style="left: 900px;top: 160px;width: 100px;height: 140px;">
+                        <div class="Control ListBoxContent {theme} orientation-vertical"></div>
+                        <div id="_wnfsigg" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
+                            data-orientation="horizontal">
+                            <div id="_wnfsigg_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_wnfsigg_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton"></button>
+                            <button id="_wnfsigg_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton"></button>
+                        </div>
+                        <div id="_wnfsig1" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
+                            data-orientation="vertical">
+                            <div id="_wnfsig1_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_wnfsig1_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_wnfsig1_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                        <properties>
+                            [{"text":"Item1","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":0,"cssImage":"button"}, {"text":"Item2","height":16,"isChecked":true,"enabled":true,"isHeader":false,"top":16},
+                            {"text":"Item3","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":32}, {"text":"Item4","height":16,"isChecked":true,"enabled":true,"isHeader":false,"top":48},
+                            {"text":"Item5","height":16,"isChecked":true,"enabled":true,"isHeader":false,"top":64}, {"text":"Item6","height":16,"isChecked":true,"enabled":false,"isHeader":false,"top":80},
+                            {"text":"Item7","height":16,"isChecked":true,"enabled":true,"isHeader":false,"top":96}]
+                        </properties>
+                    </div>
+                    <div id="_pghpwb3" name="ListBox3" data-class="ListBox" class="Control scrollContent ListBox {theme} scrollbars-horizontal usealternatecolor orientation-horizontal"
+                        data-itemsheight="32" data-scrollbars="horizontal" data-viewcheckboxes="false" data-usealternatecolor="true"
+                        data-orientation="horizontal" data-taborder="56" style="left: 750px;top: 160px;width: 140px;height: 140px;">
+                        <div class="Control ListBoxContent {theme} orientation-horizontal"></div>
+                        <div id="_am7nzni" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
+                            data-orientation="horizontal">
+                            <div id="_am7nzni_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_am7nzni_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_am7nzni_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                        <div id="_am7nzn1" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
+                            data-orientation="vertical">
+                            <div id="_am7nzn1_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_am7nzn1_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_am7nzn1_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                        <properties>
+                            [{"text":"Item1","height":32,"isChecked":false,"enabled":true,"isHeader":false,"left":0}, {"text":"Item2","height":32,"isChecked":true,"enabled":true,"isHeader":false,"left":32},
+                            {"text":"Item3","height":32,"isChecked":false,"enabled":true,"isHeader":false,"left":64}, {"text":"Item4","height":32,"isChecked":true,"enabled":true,"isHeader":false,"left":96},
+                            {"text":"Item5","height":32,"isChecked":true,"enabled":true,"isHeader":false,"left":0}, {"text":"Item6","height":32,"isChecked":true,"enabled":true,"isHeader":false,"left":0},
+                            {"text":"Item7","height":32,"isChecked":true,"enabled":true,"isHeader":false,"left":0}]
+                        </properties>
+                    </div>
+                    <div id="_z045aep" name="ColorPanel1" data-class="ColorPanel" class="Control ColorPanel" data-taborder="57" style="left: 1120px;top: 200px;width: 160px;height: 160px;">
+                        <div id="_y4enk58" data-class="ColorQuad" class="Control ColorQuad hsl" data-color="blue" data-format="hsl" style="left:5px;top:5px;">
+                            <div class="Control ColorQuadIndicator"></div>
+                        </div>
+                        <div id="_f66h3sy" data-class="AlphaSlider" class="Control Slider AlphaSlider {theme} orientation-horizontal" data-values="[1,0]"
+                            data-orientation="horizontal" data-taborder="0" style="width:92px;height:6px;">
+                            <input type="range" id="_f66h3sz" data-class="Thumb" class="Control {theme} csr_default" />
+                        </div>
+                        <div id="_0km5xu9" data-class="HUESlider" class="Control Slider HUESlider {theme} orientation-vertical" data-values="[0.65,0]"
+                            data-orientation="vertical" data-taborder="1" style="width:92px;height:6px;">
+                            <input type="range" id="_0km5xua" data-class="Thumb" class="Control {theme} csr_default" />
+                        </div>
+                        <div id="_ngyfio6" data-class="ColorBox" data-color="white" data-type="secondaryColorBox" style="right: 1px;bottom: 1px;width: 25px;height: 25px;"
+                            class="Control ColorBox"></div>
+                        <div id="_b7acwka" data-class="ColorBox" data-color="blue" data-type="primaryColorBox" style="right: 11px;bottom: 11px;width: 25px;height: 25px;"
+                            class="Control ColorBox"></div>
+                    </div>
+                    <!--<div id="_d9tuexn" name="GradientEdit1" data-class="GradientEdit" class="Control GradientEdit" data-colorquad="ColorQuad1" style="left: 1120px;top: 370px;width: 160px;height: 20px;">
+              <div class="Control GradientEdit_gradient"></div>
+              <div class="Control GradientEdit_colorStops">
+                <div class="Control ColorPickerIndicator" data-offset="0" style="background-color: black;left: 0;"></div>
+                <div class="Control ColorPickerIndicator" data-offset="100" style="background-color: white;left: 150px;"></div>
+              </div>
+            </div>-->
+                        <!--<div id="_s7jvaz2" name="LabeledAngleBar1" data-class="LabeledAngleBar" class="Control LabeledAngleBar" data-taborder="58"
+                        style="left: 1010px;top: 410px;width: 205px;height: 20px;">
+                        <label id="_zshfs89" data-class="Label" class="Control csr_default Label {theme}" data-autosize="false">LabeledAngleBar :&nbsp;</label>
+                        <button id="_zimtf4d" data-class="AngleButton" class="Control AngleButton {theme} csr_default" data-taborder="0" data-showvalue="false">
+                            <div class="Control AngleButtonCaption hidden">0°</div>
+                            <div class="Control AngleButtonKnob">3</div>
+                        </button>
+                        <label id="_6vkmx9d" data-class="ValueLabel" class="Control csr_default ValueLabel {theme}">0</label>
+                    </div>
+                    <div id="_mj38hac" name="LabeledColorButton1" data-class="LabeledColorButton" class="Control LabeledColorButton" data-taborder="59"
+                        style="left: 1010px;top: 440px;width: 205px;height: 20px;">
+                        <label id="_syx8x4k" data-class="Label" class="Control csr_default Label {theme}" data-autosize="false">LabeledColorButton :&nbsp;</label>
+                        <button id="_vib5iba" data-class="ColorButton" class="Control ColorButton {theme} csr_default" data-color="red" data-taborder="0">
+                            <span class="Control ButtonCaption"></span>
+                            <div class="Control ColorButtonColor {theme}" style="background-color: red;"></div>
+                        </button>
+                    </div>
+                    <div id="_iy8lo99" name="LabeledTextBox1" data-class="LabeledTextBox" class="Control LabeledTextBox" data-taborder="60" style="left: 1010px;top: 470px;width: 205px;height: 20px;">
+                        <label id="_81snoxl" data-class="Label" class="Control csr_default Label {theme}">LabeledTextBox :&nbsp;</label>
+                        <div id="_14unk86" data-class="TextBox" class="Control TextBox {theme}" data-taborder="0">
+                            <input type="text" placeholder="type your text here" value="TextBox1" class="Control csr_text TextBoxInput {theme}" />
+                        </div>
+                    </div>
+                    <div id="_hrtunkt" name="LabeledSlider1" data-class="LabeledSlider" class="Control LabeledSlider" data-taborder="61" style="left: 1010px;top: 500px;width: 205px;height: 20px;">
+                        <label id="_0jh347n" data-class="Label" class="Control csr_default Label {theme}">LabeledSlider :&nbsp;</label>
+                        <div id="_jfx3lef" data-class="Slider" class="Control Slider {theme} orientation-horizontal" data-values="[20,0]" data-orientation="horizontal"
+                            data-mode="normal" data-frequency="1" data-min="0" data-max="100">
+                            <div class="Control SliderRange {theme}" style="display:none;"></div>
+                            <input type="range" id="_jfx3leg" data-class="Thumb" class="Control {theme} csr_default" data-jsonname="leftthumb" />
+                            <input type="range" id="_jfx3leh" data-class="Thumb" class="Control {theme} csr_default" style="display:none;" />
+                        </div>
+                        <label id="_8rcjpyk" data-class="ValueLabel" class="Control csr_default ValueLabel {theme}" data-jsonname="valuelabel">20</label>
+                    </div>
+                    <div id="_feijqi4" name="LabeledImage1" data-class="LabeledImage" class="Control LabeledImage" data-taborder="62" style="left: 1010px;top: 600px;width: 205px;height: 60px;">
+                        <label id="_aoob9m4" data-class="Label" class="Control csr_default Label {theme}">LabeledImage :&nbsp;</label>
+                        <div id="_sty26rj" name="ImageControl1" data-class="ImageControl" class="Control ImageControl {theme}">
+                            <img src="images/bag.png" alt="" draggable="false" style="left: 20px;top: 0;width: 60px;height: 60px;" />
+                        </div>
+                    </div>
+                    <div id="_v03cbfk" name="LabeledMemo1" data-class="LabeledMemo" class="Control LabeledMemo" data-taborder="63" style="left: 1010px;top: 530px;width: 205px;height: 60px;">
+                        <label id="_akta9lz" data-class="Label" class="Control csr_default Label {theme}">LabeledMemo :&nbsp;</label>
+                        <div id="_9ssnxfh" data-class="Memo" class="Control {theme} scrollContent Memo scrollbars-none" data-scrollbars="none" data-taborder="0">
+                            <div class="Control MemoViewPort {theme}">
+                                <textarea class="Control csr_text MemoInput {theme}" style="width:96px;height:54px;">Memo1</textarea>
+                            </div>
+                            <div id="_as3gutq" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
+                                data-orientation="horizontal">
+                                <div id="_as3gutq_3" class="Control {theme} csr_default">
+                                    <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                                </div>
+                                <button id="_as3gutq_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                                <button id="_as3gutq_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                            </div>
+                            <div id="_zs8fchd" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
+                                data-orientation="vertical">
+                                <div id="_zs8fchd_3" class="Control {theme} csr_default">
+                                    <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                                </div>
+                                <button id="_zs8fchd_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                                <button id="_zs8fchd_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="_n2vg450" name="TreeView1" data-class="TreeView" class="Control scrollContent TreeView {theme} scrollbars-vertical"
+                        data-scrollbars="vertical" data-taborder="64" style="left: 1010px;top: 10px;width: 100px;height: 140px;">
+                        <div class="Control TreeViewContent {theme}"></div>
+                        <div id="_hhfkbmc" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
+                            data-orientation="horizontal">
+                            <div id="_hhfkbmc_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_hhfkbmc_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_hhfkbmc_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                        <div id="_rxiyqpy" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
+                            data-orientation="vertical">
+                            <div id="_rxiyqpy_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_rxiyqpy_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_rxiyqpy_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                        <properties>
+                            [{"text":"Item1","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":true,"items":[]}, {"text":"Item2","height":16,"isChecked":false,"enabled":true,"expanded":true,"visible":true,
+                            "items":[ {"text":"Item3","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":true,"items":[]},
+                            {"text":"Item4","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":true,
+                            "items":[ {"text":"Item5","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":false,"items":[]},
+                            {"text":"Item6","height":16,"isChecked":true,"enabled":false,"expanded":false,"visible":false,"items":[]}
+                            ] } ] }, {"text":"Item7","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":true,"items":[]},
+                            {"text":"Item8","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":true,"items":[]},
+                            {"text":"Item9","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":true,"items":[]},
+                            {"text":"Item10","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":true,"items":[]},
+                            {"text":"Item11","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":true,"items":[]},
+                            {"text":"Item12","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":true,"items":[]},
+                            {"text":"Item13","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":true,"items":[]},
+                            {"text":"Item14","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":true,"items":[]},
+                            {"text":"Item15","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":true,"items":[]},
+                            {"text":"Item16","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":true,"items":[]},
+                            {"text":"Item17","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":true,"items":[]}
+                            ]
+                        </properties>
+                    </div>
+                    <div id="_faqc3ci" name="TreeView2" data-class="TreeView" class="Control scrollContent TreeView {theme} viewcheckboxes scrollbars-both"
+                        data-scrollbars="both" data-viewcheckboxes="true" data-taborder="65" data-images="imageList1" style="left: 1010px;top: 160px;width: 100px;height: 140px;">
+                        <div class="Control TreeViewContent {theme}"></div>
+                        <div id="_ysbexpp" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
+                            data-orientation="horizontal">
+                            <div id="_ysbexpp_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_ysbexpp_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_ysbexpp_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                        <div id="_8iivvty" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
+                            data-orientation="vertical">
+                            <div id="_8iivvty_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_8iivvty_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_8iivvty_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                        <properties>
+                            [{ "text":"Item1","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":true,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":0,"items":[]
+                            }, { "text":"Item2","height":16,"isChecked":false,"enabled":true,"expanded":true,"visible":true,"allowgrayed":true,"state":"grayed","isChecked":false,"imageIndex":1,
+                            "items":[ { "text":"Item3","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":true,"allowgrayed":false,"state":"unchecked","isChecked":true,"imageIndex":2,"items":[]
+                            }, {"text":"Item4","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":true,"allowgrayed":true,"state":"grayed","isChecked":false,"imageIndex":3,
+                            "items":[ {"text":"Item5","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":true,"imageIndex":4,"items":[]},
+                            {"text":"Item6","height":16,"isChecked":true,"enabled":false,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":5,"items":[]},
+                            {"text":"Item7","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":6,"items":[]},
+                            {"text":"Item8","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":7,"items":[]},
+                            {"text":"Item9","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":8,"items":[]},
+                            {"text":"Item10","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":9,"items":[]},
+                            {"text":"Item11","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":10,"items":[]},
+                            {"text":"Item12","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":11,"items":[]},
+                            {"text":"Item13","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":12,"items":[]},
+                            {"text":"Item14","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"cssImage":"button","items":[]}
+                            ] } ] } ]
+                        </properties>
+                    </div>
+                    <div id="_t61e8xz" name="imageList1" data-class="ImageList" class="Control ShortCutIcon imageList" style="left: 0;top: 400px;">
+                        <properties>["images/home.png","images/duck.png","images/clock.png","images/earth.png","images/folder.png"]</properties>
+                        <div class="Control ShortCutIconImg imagelist">
+                            <div class="Control ShortCutIconCaption">imageList1</div>
+                        </div>
+                    </div>
+                    <div id="_t61e8xs" name="PopupMenu1" data-class="PopupMenu" class="Control PopupMenu ShortCutIcon" data-images="imageList1"
+                        style="left: 40px;top: 400px;">
+                        <properties>[{"caption":"File","shortcut":"","enabled":true,"visible":true,"items":[ {"caption":"New","shortcut":"","enabled":true,"visible":true,"imageIndex":0,"items":[]},
+                            {"caption":"Open","shortcut":"","enabled":true,"visible":true,"imageIndex":1,"items":[]}, {"caption":"-","shortcut":"","enabled":true,"visible":true,"items":[]},
+                            {"caption":"Save","shortcut":"","enabled":true,"visible":true,"imageIndex":2,"items":[]}, {"caption":"Save
+                            As...","shortcut":"","enabled":true,"visible":true,"imageIndex":3,"items":[]}, {"caption":"-","shortcut":"","enabled":true,"visible":true,"items":[]},
+                            {"caption":"Others","shortcut":"","enabled":true,"visible":true,"imageIndex":4,"items":[ {"caption":"New","shortcut":"","enabled":true,"visible":true,"items":[
+                            {"caption":"New","shortcut":"","enabled":true,"visible":true,"items":[]} ]}, {"caption":"Save
+                            As...","shortcut":"","enabled":true,"visible":true,"items":[]} ]}, {"caption":"-","shortcut":"","enabled":true,"visible":true,"items":[]},
+                            {"caption":"Quit","shortcut":"","enabled":true,"visible":true,"imageIndex":5,"items":[]} ]},
+                            {"caption":"Edit","shortcut":"","enabled":true,"visible":true,"items":[]}, {"caption":"View","shortcut":"","enabled":true,"visible":true,"items":[]}
+                            ]
+                        </properties>
+                        <div class="Control ShortCutIconImg popupmenu">
+                            <div class="Control ShortCutIconCaption">PopupMenu1</div>
+                        </div>
+                    </div>
+                    <div id="_gkawh6l" name="Memo1" data-class="Memo" class="Control scrollContent Memo {theme} scrollbars-none" data-scrollbars="none"
+                        data-taborder="66" style="left: 1290px;top: 410px;width: 134px;height: 94px;">
+                        <div class="Control MemoViewPort {theme}">
+                            <textarea class="Control csr_text MemoInput {theme}">Memo1</textarea>
+                        </div>
+                        <div id="_menybp2" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
+                            data-orientation="horizontal">
+                            <div id="_menybp2_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_menybp2_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_menybp2_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                        <div id="_mr5e76o" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
+                            data-orientation="vertical">
+                            <div id="_mr5e76o_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_mr5e76o_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_mr5e76o_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                    </div>
+                    <div id="_xh655zu" name="DropDownListBox1" data-class="DropDownListBox" class="Control DropDownListBox {theme}" data-editable="false"
+                        data-taborder="67" style="left: 900px;top: 370px;width:100px;">
+                        <div class="Control DropDownListBoxContent">
+                            <input type="text" readonly="readonly" class="Control csr_default DropDownListBoxInput {theme}" />
+                        </div>
+                        <span class="Control DropDownListBoxArrow {theme}"></span>
+                        <properties>[{"text":"Item1","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":0}, {"text":"Item2","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":16},
+                            {"text":"Item3","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":32}, {"text":"Item4","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":48},
+                            {"text":"Item5","height":13,"isChecked":false,"enabled":true,"isHeader":true,"top":64}, {"text":"Item6","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":80},
+                            {"text":"Item7","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":112}, {"text":"Item8","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":128},
+                            {"text":"Item9","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":144}, {"text":"Item10","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":160},
+                            {"text":"Item11","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":176}, {"text":"Item12","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":192},
+                            {"text":"Item13","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":208}, {"text":"Item14","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":224},
+                            {"text":"Item15","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":240}, {"text":"Item16","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":256},
+                            {"text":"Item17","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":272}]
+                        </properties>
+                    </div>
+                    <div id="_xh685zu" name="DropDownListBoxColor1" data-class="DropDownListBoxColor" class="Control DropDownListBox DropDownListBoxColor {theme}"
+                        data-editable="false" data-value="" data-taborder="68" style="left: 1010px;top: 370px;width:100px;">
+                        <div class="Control DropDownListBoxColorColorBox {theme}"></div>
+                        <div class="Control DropDownListBoxColorContent DropDownListBoxContent {theme}">
+                            <input type="text" readonly="readonly" class="Control csr_default DropDownListBoxInput DropDownListBoxColorInput {theme}"
+                            />
+                        </div>
+                        <span class="Control DropDownListBoxArrow {theme}"></span>
+                    </div>
+                    <div id="_ffZZpnr" name="TextBoxBtn1" data-class="TextBoxBtn" class="Control TextBox TextBoxBtn {theme}" style="left: 1120px;top: 370px;width:121px;height:21px;">
+                        <input type="text" class="Control csr_text TextBoxInput TextBoxBtnInput {theme}">
+                        <button id="_qdDoIrs" data-class="Button" class="Control Button TextBoxBtnButton {theme}"></button>
+                    </div>
+                    <div id="_ug741sz" name="DropDownCalendar1" data-class="DropDownCalendar" class="Control DropDownListBox DropDownCalendar {theme}"
+                        data-date="October 08, 2014 00:00:00" data-taborder="69" style="left: 750px;top: 400px;width:80px;">
+                        <div class="Control DropDownCalendarCaption {theme}">12/12/2012</div>
+                        <span class="Control DropDownListBoxArrow {theme}"></span>
+                    </div>
+                    <div id="_lsz7abb" name="DropDownSlider1" data-class="DropDownSlider" class="Control DropDownListBox DropDownSlider {theme}"
+                        data-value="0" data-horizalign="center" data-taborder="70" style="left: 840px;top: 400px;">
+                        <div class="Control DropDownSliderCaption {theme}">0</div>
+                        <span class="Control DropDownListBoxArrow {theme}"></span>
+                    </div>
+                    <div id="_o6c2uuq" name="DropDownTimePanel1" data-class="DropDownTimePanel" class="Control DropDownListBox DropDownTimePanel {theme}"
+                        data-horizalign="center" data-text="08:10:00 AM" data-use24h="false" data-viewseconds="true" data-taborder="71"
+                        style="left: 750px;top: 430px;">
+                        <div class="Control DropDownTimePanelCaption {theme}"></div>
+                        <span class="Control DropDownListBoxArrow {theme}"></span>
+                    </div>
+                    <div id="_p1zyh72" name="NumberWheel1" data-class="NumberWheel" class="Control ItemsWheel NumberWheel {theme}" data-min="0"
+                        data-max="99" data-value="0" data-taborder="72" style="left: 570px;top: 306px;width: 20px;height: 40px;">
+                        <div class="Control ItemsWheelTopGradient {theme}"></div>
+                        <div class="Control ItemsWheelSep {theme}"></div>
+                        <div class="Control ItemsWheelContent {theme}"></div>
+                        <div class="Control ItemsWheelBottomGradient {theme}"></div>
+                    </div>
+                    <div id="_s6xy7kd" name="TimePanel1" data-class="TimePanel" class="Control TimePanel {theme}" data-use24h="false" data-viewseconds="true"
+                        data-time="00:10 AM" data-taborder="73" style="left: 10px;top: 170px;height:43px;">
+                        <div id="_ny1x1fy" data-class="NumberWheel" class="Control ItemsWheel NumberWheel {theme} TimePanel_Hours" data-min="0" data-max="12"
+                            data-taborder="0">
+                            <div class="Control ItemsWheelTopGradient {theme}"></div>
+                            <div class="Control ItemsWheelSep {theme}"></div>
+                            <div class="Control ItemsWheelContent {theme}"></div>
+                            <div class="Control ItemsWheelBottomGradient {theme}"></div>
+                        </div>
+                        <div id="_onz7mj0" data-class="NumberWheel" class="Control ItemsWheel NumberWheel {theme} TimePanel_Minutes" data-min="0"
+                            data-max="59" data-taborder="1">
+                            <div class="Control ItemsWheelTopGradient {theme}"></div>
+                            <div class="Control ItemsWheelSep {theme}"></div>
+                            <div class="Control ItemsWheelContent {theme}"></div>
+                            <div class="Control ItemsWheelBottomGradient {theme}"></div>
+                        </div>
+                        <div id="_7nxyb6h" data-class="NumberWheel" class="Control ItemsWheel NumberWheel {theme} TimePanel_Seconds" data-min="0"
+                            data-max="59" data-taborder="2" data-visible="false">
+                            <div class="Control ItemsWheelTopGradient {theme}"></div>
+                            <div class="Control ItemsWheelSep {theme}"></div>
+                            <div class="Control ItemsWheelContent {theme}"></div>
+                            <div class="Control ItemsWheelBottomGradient {theme}"></div>
+                        </div>
+                        <div id="_mbuzeko" data-class="ItemsWheel" class="Control ItemsWheel {theme} TimePanel_Meridiem" data-taborder="3" data-visible="false">
+                            <div class="Control ItemsWheelTopGradient {theme}"></div>
+                            <div class="Control ItemsWheelSep {theme}"></div>
+                            <div class="Control ItemsWheelContent {theme}"></div>
+                            <div class="Control ItemsWheelBottomGradient {theme}"></div>
+                        </div>
+                    </div>
+                    <div id="_1fnkjpf" name="ImageControl1" data-class="ImageControl" class="Control ImageControl {theme}" style="left: 1290px;top: 520px;width: 100px;height: 60px;">
+                        <img src="images/home.png" alt="" draggable="false" style="left: 42px;top: 22px;" />
+                    </div>
+                    <div id="_9fmke7c" name="ImageViewer1" data-class="ImageViewer" class="Control scrollContent ImageViewer {theme} scrollbars-both"
+                        data-scrollbars="both" data-src="images/meduse.png" style="left: 1290px;top: 200px;width: 160px;height: 160px;">
+                        <div class="Control ImageViewerViewPort">
+                            <div class="Control ImageViewerContent" style="height: 240px;width: 320px;"></div>
+                        </div>
+                        <div id="_m8ex135" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
+                            data-orientation="horizontal">
+                            <div id="_m8ex135_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_m8ex135_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_m8ex135_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                        <div id="_gv618gd" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
+                            data-orientation="vertical">
+                            <div id="_gv618gd_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_gv618gd_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_gv618gd_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                    </div>-->
+                    <div id="_5yd1lbk" data-class="BitmapStateButton" class="Control BitmapStateButton"><properties>{ "name":"BitmapStateButton1", "left":110, "top": 40, "width": 32, "height": 32, "bitmap": "images/power.png", "caption": "" }</properties></div>
+                    <!--<div id="_s8saz79" name="BusyIndicator1" data-class="BusyIndicator" class="Control BusyIndicator {theme}" data-style="spin" style="left: 950px;top: 460px;width: 45px;height: 45px;"></div>
+            <div id="_qlqh7sf" name="BusyIndicator2" data-class="BusyIndicator" class="Control usyIndicator {theme} win8loader" data-style="win8Circle" style="left: 955px;top: 505px;width: 35px;height: 35px;"></div>
+            <div id="_k2c4id9" name="BusyIndicator3" data-class="BusyIndicator" class="Control usyIndicator {theme}" data-style="ball" style="left: 955px;top: 550px;width: 35px;height: 35px;"></div>
+            <div id="_sz5p7de" name="BusyIndicator3" data-class="BusyIndicator" class="Control usyIndicator {theme}" data-style="circle" data-showtooltip="true" data-tooltip="BusyIndicator3" style="left: 955px;top: 600px;width: 35px;height: 35px;"></div>-->
+                        <!--<div id="_12rl9i5" name="OpenDialog1" data-class="OpenDialog" class="Control ShortCutIcon OpenDialog" style="left: 0;top: 400px;">
+                        <div class="Control ShortCutIconImg opendialog">
+                            <div class="Control ShortCutIconCaption">openDialog1</div>
+                        </div>
+                    </div>
+                    <div id="_12rl9i8" name="FindReplaceDialog1" data-class="FindReplaceDialog" class="Control ShortCutIcon FindReplaceDialog"
+                        style="left: 0;top: 400px;">
+                        <div class="Control ShortCutIconImg findreplacedialog">
+                            <div class="Control ShortCutIconCaption">findReplaceDialog1</div>
+                        </div>
+                    </div>
+                    <div id="_12rl9i9" name="FontDialog1" data-class="FontDialog" class="Control FontDialog ShortCutIcon" style="left: 0;top: 400px;">
+                        <div class="Control ShortCutIconImg fontdialog">
+                            <div class="Control ShortCutIconCaption">fontDialog1</div>
+                        </div>
+                    </div>
+                    <div id="_12rl9ia" name="ColorDialog1" data-class="ColorDialog" class="Control ColorDialog ShortCutIcon" style="left: 0;top: 400px;">
+                        <div class="Control ShortCutIconImg colordialog">
+                            <div class="Control ShortCutIconCaption">colorDialog1</div>
+                        </div>
+                    </div>
+                    <div id="_15rl9ia" name="DataSource1" data-class="DataSource" class="Control DataSource ShortCutIcon" data-type="file" data-dataset="DataFile1"
+                        style="left: 0;top: 400px;">
+                        <div class="Control ShortCutIconImg dataSource">
+                            <div class="Control ShortCutIconCaption">DataSource1</div>
+                        </div>
+                    </div>
+                    <div id="_25rl9ia" name="DataFile1" data-class="DataFile" class="Control DataFile ShortCutIcon" data-type="auto" data-url="data.json"
+                        data-keyfields="id" style="left: 0;top: 400px;">
+                        <div class="Control ShortCutIconImg datafile">
+                            <div class="Control ShortCutIconCaption">DataFile1</div>
+                        </div>
+                    </div>
+                    <div id="_1gspfce" name="GridView1" data-class="GridView" class="Control GridView {theme} colsizing" data-scrollbars="none"
+                        data-source="DataSource1" data-autocols="false" data-showpager="false" data-showheader="true" data-usealternatecolor="true"
+                        data-showrowindicator="true" data-sortable="true" data-horzline="true" data-vertline="true" data-rowsizing="false"
+                        data-colsizing="true" data-rowmoving="false" data-colmoving="false" data-editing="false" data-tabs="false"
+                        data-alwaysshoweditor="false" data-stretchlastcol="false" data-autosizecols="false" data-showfooter="false"
+                        data-fixedcols="0" data-fixedrows="0" data-rangeselect="false" data-animatedscroll="true" data-rowsheight=""
+                        data-taborder="78" style="left:10px;top:410px;width:728px;height:200px;">
+                        <data type="header">[{"fieldName":"id","visible":false}, {"caption":"Nom","fieldName":"LastName","width":100}, {"caption":"Prénom","fieldName":"FirstName","width":90},
+                            {"caption":"Année nai.","fieldName":"YearOfBirth","dataType":"integer","width":70,"cellEditor":{"class":"SpinBox"}},
+                            {"caption":"Popularité","fieldName":"Popularity","dataType":"integer","width":95,"cellEditor":{"class":"SpinBox","classProperties":{"min":0,"max":5,"maxWidth":90}},"cellTemplate":"Rating"},
+                            {"caption":"En vie","fieldName":"Living","dataType":"boolean","width":40,"cellEditor":{"class":"Checkbox"},"cellTemplate":"Checkbox"},
+                            {"caption":"Durée de vie","fieldName":"LifeTime","dataType":"integer","width":75,"cellEditor":{"class":"SpinBox","classProperties":{"min":0,"max":100}},"cellTemplate":"ProgressBar"},
+                            {"caption":"Couleur","fieldName":"FavColor","width":80,"cellEditor":{"class":"ColorButton","classProperties":{}},"cellTemplate":"Color"},
+                            {"caption":"Sexe","fieldName":"Sex","width":40,"cellEditor":{"class":"Image","classProperties":{}},"cellTemplate":"Image"},
+                            {"caption":"SparkLines","fieldName":"Lines","width":90,"cellEditor":{"class":"Image","classProperties":{}},"cellTemplate":"SparkLines","sortable":false}
+                            ]
+                        </properties>
+                        <div class="Control GridViewContent {theme} scrollContent scrollbars-none">
+                            <div class="Control GridViewViewPort {theme}"></div>
+                            <div id="_fukxgus" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
+                                data-orientation="horizontal">
+                                <div id="_fukxgus_3" class="Control {theme} csr_default">
+                                    <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                                </div>
+                                <button id="_fukxgus_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                                <button id="_fukxgus_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                            </div>
+                            <div id="_xk4bk0d" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
+                                data-orientation="vertical">
+                                <div id="_xk4bk0d_3" class="Control {theme} csr_default">
+                                    <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                                </div>
+                                <button id="_xk4bk0d_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                                <button id="_xk4bk0d_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                            </div>
+                        </div>
+                        <!--<div id="" data-class="Pager" class="Pager" data-theme="{theme}">
+                  <div id="" data-class="Button" class="Button NavButton NavBtnFirst" data-theme="{theme}">
+                    <span></span>
+                  </div>
+                  <div id="" data-class="Button" class="Button NavButton NavBtnPrev" data-theme="{theme}">
+                    <span></span>
+                  </div>
+                  <div id="" data-class="Button" class="Button NavButton" data-theme="{theme}">
+                    <span>1</span>
+                  </div>
+                  <div id="" data-class="Button" class="Button NavButton" data-theme="{theme}">
+                    <span>2</span>
+                  </div>
+                  <div id="" data-class="Button" class="Button NavButton" data-theme="{theme}">
+                    <span>3</span>
+                  </div>
+                  <div id="" data-class="Button" class="Button NavButton NavBtnNext" data-theme="{theme}">
+                    <span></span>
+                  </div>
+                  <div id="" data-class="Button" class="Button NavButton NavBtnLast" data-theme="{theme}">
+                    <span></span>
+                  </div>
+                  <div id="" data-class="TextBox" class="TextBox NavItemsPerPage" data-theme="{theme}">
+                    <input type=text value="10" class="csr_text" data-theme="{theme}" />
+                  </div>
+                  <label id="" data-class="Label" class="Label csr_default NavLblItems" data-theme="{theme}">items per page</label>
+                  <label id="" data-class="Label" class="Label csr_default NavLblCurItems" data-theme="{theme}">1 - 10 of 50 items</label>
+                </div>-->
+                        <!--</div>
+                    <img id="_6rxnesg" name="Image5" data-class="Icon" class="Control Icon {theme} csr_default" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAoElEQVRYR+3XUQ7AIAgDULn/oVn4MFnMTKDt5j7wAnuriGju7uPgsgZ0AtkEzGy8Ua/pIgxALDWiBIiPq5MoAyIFJQICKBEwQIWgAAoEDWAREgCDkAFQhBSAICSA2SXvY0W2Y8KAezNiGhMEWO+FTwG7P0cRpQTW21CxDSXAU2GxiDRgNzgfB6xnv1oLdAK/AEwEMrJJEmAeVg3oBI4ncAHcpwawrvQXSwAAAABJRU5ErkJggg=="
+                        alt="" data-tooltip="Normal selection" width="32" height="32" data-showtooltip="true" style="top: 620px;left:10px;"
+                    />
+                    <img id="_snshb8y" name="Image6" data-class="Icon" class="Control Icon {theme} csr_help" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA0klEQVRYR+2WQQ7FIAhEy/0PbePPNyFmgKG1tgtcdWHKY4ARaa2148UjBVAKfFIBETl2DQecgg7Qzw4IE6AHZ5UYwMhOoiRcgP7DCEIHH8FmIA8iBPAgUPChAgtBAVgQWwEQxHaAGYIFuN0Dc3dfaUzrwaV7gIXwVEEQKQA071rebPBfSdFboCW2vmE2fwfNuCjlhCzEUgV0FizAlc0uLIF2Nm21aLSWKWDV1wOIGjQ1huZltScgL3hUAeSC0VPL9ER6LV+9rKQBmKwydwqgFCgFTqkRMLC8LQh+AAAAAElFTkSuQmCC"
+                        alt="" data-showtooltip="true" data-tooltip="Selection help" width="32" height="32" style="top: 620px;left:50px;"
+                    />
+                    <img id="_86mxx0n" name="Image7" data-class="Icon" class="Control Icon {theme} csr_progress" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA7ElEQVRYR+2W2w7CMAxD1///6KIiIk2VYzu7sD10b4iQnjl2Suu99+3Bpy2ApQBSoLW2/cub0IQDYDwuRNSrMKF+KcAodpVQwOx7CjDeyIG4TYGQ1IXIRsZ+LxVwIeghxNQ2gBrHDLD/fIkCSom90ebDWaJKClQgQjEV50MAbByZEtmOOAyAIOa8q/3w7VFdxSjzsbSQ3ArCAnAczWpOpQDJCnf6L+txmAMtR5A1QW+EzIdgZjPat6GSWN2EWRwtD6D8l5YNud5Lf0rZSC5VgDVzzeUApSZ8NYC7429TwG3s1pVM6Dat1C2ApcAHLJJ1sJHjflsAAAAASUVORK5CYII="
+                        alt="" data-showtooltip="true" data-tooltip="Background working" width="32" height="32" style="top: 620px;left:90px;"
+                    />
+                    <img id="_66o8tmz" name="Image8" data-class="Icon" class="Control Icon {theme} csr_wait" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAx0lEQVRYR+2WwQ6AMAhD5f8/emZGzEI21w4VD3jxII5HKaiUUsoWeEkCpAKIAiJC2xT1NmRCBUAOZWJrVRQAIwMCCwMcgSIbcigap8VACvwOQKu0dwbUrUAv+esANUHrA9tvdgIoE2p1FuKS8twViFHbaYJN2EvUtmEENhtdGsAqsSK7S4FwgF7FHhWoFthE7RSsQsAASAIkxpqSArAj1tv7n30LQjahKhD6LRglHynyyCLKX7JwBWZ99DyH94Anyd27CRCuwA7Z9C2w817CkAAAAABJRU5ErkJggg=="
+                        alt="" data-showtooltip="true" data-tooltip="Busy" width="32" height="32" style="top: 620px;left:130px;"
+                    />
+                    <img id="_v9d6p7e" name="Image9" data-class="Icon" class="Control Icon {theme} csr_crosshair" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAWklEQVRYR+3XMQoAIAxDUXP/Q1cQXBSHUqVYvrND+ggVZWbWEo8I8LWApNGeSI1CHSAAAgggUFNgTvXqhV7X9raK0wN4Jq/ZAQQQQACBrwQ8YU93Q/8CAtwQ6EN6x6H+b1XgAAAAAElFTkSuQmCC"
+                        alt="" data-showtooltip="true" data-tooltip="Precision" width="32" height="32" style="top: 620px;left:170px;"
+                    />
+                    <img id="_2krxbrq" name="Image10" data-class="Icon" class="Control Icon {theme} csr_text" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAVUlEQVRYR+3VMQoAIAxDUXP/Q0e6OIhLqaCF7yYIDU9IZdvj4REBEECgnYCk1RpRIfs9WymlHojh1R4jAAIIIIAAAv0EvlrH2d1/el/6AgIggMANgQkrAbWhif3FugAAAABJRU5ErkJggg=="
+                        alt="" data-showtooltip="true" data-tooltip="Text selection" width="32" height="32" style="top: 620px;left:210px;"
+                    />
+                    <img id="_t314dwe" name="Image11" data-class="Icon" class="Control Icon {theme} csr_verticalText" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAXUlEQVRYR+2VwQkAMAgDzf5DWxygNPhRyvk2Ei+CysyMwRIGIAABCEBgPQFJ0X0Xjvb5C5wht1/maPcbqO1qk0450e0n4OT4/w108nc1zxtwB3X7MAABCEAAAuMEDrJxpqFkJZu1AAAAAElFTkSuQmCC"
+                        alt="" data-showtooltip="true" data-tooltip="Vertical text selection" width="32" height="32" style="top: 620px;left:250px;"
+                    />
+                    <img id="_b5c2xbn" name="Image12" data-class="Icon" class="Control Icon {theme} csr_notAllowed" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2XSw7AIAhEy/0PbWMTG0uQGYzWDd0W5TF8VCmllOvgJwmQCqQCMwqIiNm4Mx0dasORY00TAaEBtHPtBP0fzToKoN8cRRexrVAQwJJ9JQQNUJ1Gomu2ENbrAsshC0HbMQBewXkRMiq4KfA2YCLcCvBUcDeQLCW2AyCIZQDVEZPr3g6p0wZTqA29m5t2yEQfHkSwp41DCq5hTkNWTlQTloIwBW+uVHS/HkYjiFFNINn7dbQCn0WnLiQ73i9TCqwESYBU4LgCNwwo96E1DL+1AAAAAElFTkSuQmCC"
+                        alt="" data-showtooltip="true" data-tooltip="Unavailable" width="32" height="32" style="top: 620px;left:290px;"
+                    />
+                    <img id="_fbpdord" name="Image13" data-class="Icon" class="Control Icon {theme} csr_nResize" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAbElEQVRYR+2XwQkAIAwDzf5DVxSEPvxohCimC/Q4rGkREVGEBQPYwNMGABR2iLanoDUfxUBsAeTmLMQywKw5A7EMkD9N6RtoIAawARuwgT8NXJEF0jQcYSTdBzIEs4z0QHt6JzxxUNmADcgNVFYHuKH2gcnjAAAAAElFTkSuQmCC"
+                        alt="" data-showtooltip="true" data-tooltip="Vertical resize" width="32" height="32" style="top: 620px;left:330px;"
+                    />
+                    <img id="_9qhhiog" name="Image14" data-class="Icon" class="Control Icon {theme} csr_eResize" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAbElEQVRYR+2VQQrAIAwE3f8/OsWDIIWaLB60MDkncRiVVUREO1gCAAMYwAAGfmFAUnMiw+lPs6Av6+UCVGeWAOPw6rIRqs7cJ8C8ZDetV/buNfDWeeQNzBAuQLU//QW795/NA4ABDGAAAxh4AJs9pqHOJVCRAAAAAElFTkSuQmCC"
+                        alt="" data-showtooltip="true" data-tooltip="Horizontal resize" width="32" height="32" style="top: 620px;left:370px;"
+                    />
+                    <img id="_zwmk0zp" name="Image15" data-class="Icon" class="Control Icon {theme} csr_neResize" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAlUlEQVRYR+2WUQ6AMAhD5f6HxmCyZZnGdUDYT/0zcfZRCiqqqtfBSwhAB+gAHchwQEReqwzdb2mLaIYoBzALRohyABM30QZRCtDEWxDm+79vXTgDO2JfICGAqPiTG+8YZojDAJEer/51IAfGZGdV3gOLtMAz36vK3QB2EJ1xBGKrBeMLsyAgAKQS7zMEoAN0gA4cd+AGkNGyoa8VIksAAAAASUVORK5CYII="
+                        alt="" data-showtooltip="true" data-tooltip="Diagonal resize 1" width="32" height="32" style="top: 620px;left:410px;"
+                    />
+                    <img id="_12bleqm" name="Image16" data-class="Icon" class="Control Icon {theme} csr_nwResize" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAh0lEQVRYR+3WQQ6AMAgFUbn/oTGYNGm0CygTu/legOeoVHN3vw5eJoAKqIAKZAqY2WdVUfsrtYjeAGp43FUZQA4vA2J41CAR6QLzUBKRAqwOSwqxDXieH/A4WgAC0QasEJUyCGBGjJ2R/VIwwECMF/Z3wO62RAp0zgoE0PmpFkAFVEAFjhe4AZDRsqEMEN+AAAAAAElFTkSuQmCC"
+                        alt="" data-showtooltip="true" data-tooltip="Diagonal resize 2" width="32" height="32" style="top: 620px;left:450px;"
+                    />
+                    <img id="_69jh3hz" name="Image17" data-class="Icon" class="Control Icon {theme} csr_move" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAq0lEQVRYR+2VSw7AIAhE5f6HprGJCWkU+ahoo8tu5hVmGEBETIEPLsCdwNETAIDkDZE5BVm8PA+ECYCKeyHUADVxD4QagB7NUA9kkGUALSHt91rldFdQdl5zOgeQxSTpYAF6UesBSCCaAJzbte3NTWLfCZS/DPUAhdCaUGLAN8qeNlx2B1qmCwHYogtC2/CbDsmx4e7G2SbUXkRTGY0QmbaCEXAuD1yAX0zgAdF13KFN968zAAAAAElFTkSuQmCC"
+                        alt="" data-showtooltip="true" data-tooltip="Move" width="32" height="32" style="top: 620px;left:490px;"
+                    />
+                    <img id="_fpn6ure" name="Image19" data-class="Icon" class="Control Icon {theme} csr_pointer" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAsElEQVRYR+2WUQrAIAxD1/sfuqJQKIIzmRUndF9jiH1NE6eoqj4HH0mAVIBVQESaZaO8S5mwFrfC/n0lRAlwtwI2+xVDhihgyfiSjjAAnw4GZAtAhUFj+grQSzs6B5Dvo7NiCsBKyx5WMEDtAJXVukXWTz3AduSlDgHwnSMbbgVgfzoI8HQEzDx7wKMASPE2XuZCgm7KJOYuALQzSilmBL8BQOKI3hEoDyCF2TUJkAoUY24qsJDEKQIAAAAASUVORK5CYII="
+                        alt="" data-showtooltip="true" data-tooltip="Link selection" width="32" height="32" style="top: 620px;left:530px;"
+                    />
+                    <img id="_681mkrk" name="Image20" data-class="Icon" class="Control Icon {theme} csr_cell" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAuklEQVRYR+2V0Q6AIAhFw///Zmk80IjpBNRcG72WcjwXCRARr4MPJEAaSAO/MwAAzakRHSfuOUAAuhhDRSDCAFSMCx8BkDlsBWhl3otAQlnjGEbQynz07/IYmQKQfRCNZApAK4805TKArQZ05pYmpDWWRhwaoI1KKc9mpLnW+mLSN4UbdxmArEYwPQBLQW3TZEDnSwDy1J5rtwSgNwc+MUDF9em58GcAo0noee/uAc/mlm8TIA2kgeMGbosA4qGw+sHFAAAAAElFTkSuQmCC"
+                        alt="" data-showtooltip="true" data-tooltip="Cell" width="32" height="32" style="top: 620px;left:570px;"
+                    />
+                    <img id="_skxxruf" name="Image21" data-class="Icon" class="Control Icon {theme} csr_colResize" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAlUlEQVRYR+2VOw7AMAhDQ+5/ZyoqUXXgJzJQqc6SJR/zYgdiZl6DgyAABECgS4CIliRY526S2zGEgP8Q8EyWEaiaMzShHCLD6leZgL33vS/rda6A6HIRlQnQNV4BGltTgF5uZVsrsgToPgu/R+KbBB48Bx7InjB8gjf60RRE/3vFhJX+gF4AAm0CFYNV1kAACIDAOIELubQVsKOC2YYAAAAASUVORK5CYII="
+                        alt="" data-showtooltip="true" data-tooltip="Col Resize" width="32" height="32" style="top: 620px;left:610px;"
+                    />
+                    <img id="_g8mtbx9" name="Image22" data-class="Icon" class="Control Icon {theme} csr_rowResize" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAnElEQVRYR+2W4QrAIAiEs/d/5hwGgT8Wlle4gcHYj43u6zg1YmYugYsSIB1AHCCigmbYHUIRHwuBcAFocRRiG0DE5Wmt9becfgB5nNgG0D0rNAMCkgAnRgiUgesAb+U2E53lwaqMbztQa4Vb7b8dOBEyaw8oA9mIQhzQky9sGobeB0aqQ29EGsJqNFfL0Np85TvUB1YErH8SIB14AM6twaGs/YGMAAAAAElFTkSuQmCC"
+                        alt="" data-showtooltip="true" data-tooltip="Row Resize" width="32" height="32" style="top: 620px;left:650px;"
+                    />
+                    <img id="_ltxfbuo" name="Image23" data-class="Icon" class="Control Icon {theme} csr_copy" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA7ElEQVRYR+2W2w4CMQhEe/n/X24NJmMqaTcDbDWa9nmFwzCAuffe0xdfPgBHAUaBnHPa5VXKhAIgj4GwwtIAkpwJznwzTj0FUEpJrbXn71YJoNIYnFLM4gEEFKBV8C0KzIJeKcFUDqWoFtyVbLbxQwAScPSH56TQAGJCbTRMhrXv5ilgEniVoBXQxkL1b9U4NqYbAJtRKtdv2xTMes6058qcZgX0XfgoAJLdCUEpgNU79nasPKICDYBjtHK9F4ICWJkISUWZWuvrYlo2YghAn2ePCr8PABXYv2y6PWEFLP12n+NokvAmPAB/rcADHS8qsAm4r8YAAAAASUVORK5CYII="
+                        alt="" data-showtooltip="true" data-tooltip="Copy" width="32" height="32" style="top: 620px;left:690px;"
+                    />
+                    <img id="_vkte9i1" name="Image24" data-class="Icon" class="Control Icon {theme} csr_zoomIn" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAy0lEQVRYR+2VgQqAIAxEnf//zRoLFmtonqaFsCAKse3tNi/KOefw40UO4Aq4AtspQEQ313hrI7APSGKbsLaOehsEwElalSJ7SlAQQIwxpJSu7zkZ33atBTkEUKrsqR29EE0FNIAdQKlIko60YS8AqfjTFnBSKy0PJcuu+z0i/xkbcUIkOLJn6BQgsuvA00+Bpa5ZsV7vgYBaANuq+k+gEFMBZGDlqZ2yVsR0AA3B7y0llgCUju6nCqAzA/tAT8DevctagII4gCvwuwIHXkDloUkcB2kAAAAASUVORK5CYII="
+                        alt="" data-showtooltip="true" data-tooltip="Zoom In" width="32" height="32" style="top: 620px;left:730px;"
+                    />
+                    <img id="_hed1hlu" name="Image25" data-class="Icon" class="Control Icon {theme} csr_zoomOut" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAwElEQVRYR+2UbQuAIAyEm///N7tQWAypdvOFEtaXIM093nZHzMzHhw8FQCgQCmynQErp0NExGiNwDhBRjau24NN3NNsggFLEuimy5w7q/wCem5X5yDmj6td9pgIaQPrdVpD2eGDljL0ALG2XKFD7BLigp//QDKAACGS3DQXiLYjkcCsvWghzCNsfnqJYHFLeHiu6Ad4GUdsUVWIqgG7VXbuGZsCyoF73KDFdgSvhAOvCNvTc3rt3mQIoSACEAqHACYxa3KGKTVXTAAAAAElFTkSuQmCC"
+                        alt="" data-showtooltip="true" data-tooltip="Zoom Out" width="32" height="32" style="top: 620px;left:770px;"
+                    />
+                    <img id="_h64qvju" name="Image26" data-class="Icon" class="Control Icon {theme} csr_alias" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA2klEQVRYR+2WzQ7EIAiEi+//zLrhQENYGoefbPegp6Yl8jGMWFprrevFRQfgKIAoQEQX4lWOk8XPc86tvSETysZRCCg+osBOCa0Al94GMMa45XyC0Mk58Q72blVEAd1fW12kTdoYsAe8hPodWrF1ZRqAN7JJMxAlAA9ie+5MQBmgCtECUIFoA8hCQAB6Dny5WI1f+YYMoLY5kHF+aQ7YgfNTAGlFJwTkAW/M6sorKsAAnrE6ICCAp+n2OoA9+5lWlBT4CwCBQP+AUtdx9IaLxJdbEEnmxR6Ao8AHCnoesCeXJ9cAAAAASUVORK5CYII="
+                        alt="" data-showtooltip="true" data-tooltip="Alias" width="32" height="32" style="top: 620px;left:810px;"
+                    />
+                    <img id="_fchdrqk" name="Image27" data-class="Icon" class="Control Icon {theme} csr_noDrop" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABOUlEQVRYR+1Xiw7DIAis/f9vrgtm15yI+KjbuqRLlqyzwnEcoCHGGLcffsID4NYMhBCSOj4pk6oGxDkc8+/Ven0A/A8DyP1qQQ4zgMpYVR1TAFZWx2UAV1MjneYcRpzfWh/o+X+kVyQAFqU9jvZ9347jSP5mm1VKgeWsxyDekQAEjK4QFiy/ywwVAGQRxsSgfLGZDWqaNWB5rgWRpRr888twOpRLNTsscVolfFYBU+RFWgPlsaTFzeCyMuzJOwNgpiBIHuGsCwtE2s8HklEAAKNFzF3SpJ3OGUUjmgHhAUCJZrR/A4CeFZauihRoSrlBtcSX1fY7Qg/Eabt2KNWp0KWJ51rKvEoy+4AVoddIvEbDTGq7Rbf0juUtQbbWexqZezNClLWRK+sYRj3OTJZvfTGZjWpk33M5fQGMXaWwndzUmgAAAABJRU5ErkJggg=="
+                        alt="" data-showtooltip="true" data-tooltip="No Drop" width="32" height="32" style="top: 620px;left:930px;"
+                    />
+                    <img id="_6ndulju" name="Image28" data-class="Icon" class="Control Icon {theme} csr_contextMenu" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABBUlEQVRYR+2WSw4EIQhE/dz/yjphEhKHRiwj0ptxbZpnVQGde+89vXjyH0AqkHNOka48LCAAOlEQKgAVj1LiAVBKSa21rwoREFMF2AICumnHFGAcDTeVgABu2gEDEMSYD6/hqQJQCLkduRB3hrcdWwowjKcSEAC//kYwIQCejPRyeU5b1JwD5Pfo+cz/k/FtKiA/rAFoYd3pkOUuWEFIAKu4Zpe6C+jieNmyYQdA27LmMpqlXgIh63uWE/iXjIuSMrXWn40ZAiD3AQO5W2CFSMsC2oLHFjCY1hVhFmjqhFpgAaxGspsFEiI8AzMAdPxKpeA5sOoOBAAaxciHPO+4KHAC9DrAB7OxV7CJuAmcAAAAAElFTkSuQmCC"
+                        alt="" data-showtooltip="true" data-tooltip="Context Menu" width="32" height="32" style="top: 620px;left:850px;"
+                    />
+                    <img id="_e9atet3" name="Image29" data-class="Icon" class="Control Icon {theme} csr_allScroll" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA7ElEQVRYR+2W2QrFIAxEb/z/b9aLhUBIE7O12EL7Ji45juNUGGOM38YPPoBXKwAAh3sqNkp7AIujf7MQKQBevAIRBuDFZ5vuPqpECGAW4wVphGBfBCIEcEdePR9gJbmliGfuUoHqPffMVwGo2yOm4qac7blW710UTATwhoy1Q886JwApZCQF6Dhth561LgHQ/gcpADwzemCaB245Aiy81YQconoLVvPNJPSEiRZInrkmgJV21f53AbTWTs8vlJnKHfFMWAHtNZR9FYUBpJzIFj/Wyj7LPTnvMWgagCoROXMOVQLw7NAa8wFsV+APj3P3oUnrkhoAAAAASUVORK5CYII="
+                        alt="" data-showtooltip="true" data-tooltip="All Scroll" width="32" height="32" style="top: 620px;left:890px;"
+                    />
+                    <div id="_4bsjxcq" name="FlowLayout1" data-class="FlowLayout" class="Control FlowLayout" data-layout="horizontal" data-hgap="5"
+                        data-vgap="5" data-taborder="74" style="left:1470px;top:200px;width:300px;height:100px;">
+                        <button id="_1s4mwa2" name="FlowButton1" data-class="Button" style="left: 5px;top: 5px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="0">Button1</button>
+                        <button id="_2f527cd" name="FlowButton2" data-class="Button" style="left: 78px;top: 5px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="1">Button2</button>
+                        <button id="_6a8gu0p" name="FlowButton3" data-class="Button" style="left: 151px;top: 5px;height: 39px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="2">Button3</button>
+                        <button id="_cfbp67b" name="FlowButton4" data-class="Button" style="left: 224px;top: 5px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="3">Button4</button>
+                        <button id="_65vkdnd" name="FlowButton5" data-class="Button" style="left: 5px;top: 49px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="4">Button5</button>
+                        <button id="_mctdkes" name="FlowButton6" data-class="Button" style="left: 78px;top: 49px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="5">Button6</button>
+                        <button id="_fwb85m1" name="FlowButton7" data-class="Button" style="left: 151px;top: 49px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="6">Button7</button>
+                        <button id="_0yvuva1" name="FlowButton8" data-class="Button" style="left: 224px;top: 49px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="7">Button8</button>
+                        <button id="_fc6iz1m" name="FlowButton9" data-class="Button" style="left: 5px;top: 73px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="8">Button9</button>
+                        <button id="_smvwpul" name="FlowButton10" data-class="Button" style="left: 78px;top: 73px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="9">Button10</button>
+                    </div>
+                    <div id="_x02pgmr" name="FlowLayout2" data-class="FlowLayout" class="Control FlowLayout" data-layout="vertical" data-hgap="10"
+                        data-vgap="10" data-taborder="75" style="left:1470px;top:300px;width:200px;height:190px;">
+                        <button id="_go4a9w0" name="FlowButton11" data-class="Button" style="left: 5px;top: 5px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="0">Button11</button>
+                        <button id="_x61xg3n" name="FlowButton12" data-class="Button" style="left: 78px;top: 5px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="1">Button12</button>
+                        <button id="_mnscosm" name="FlowButton13" data-class="Button" style="left: 151px;top: 5px;height: 19px;width: 98px;" class="Control Button {theme} csr_default"
+                            data-taborder="2">Button13</button>
+                        <button id="_c56xlzi" name="FlowButton14" data-class="Button" style="left: 224px;top: 5px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="3">Button14</button>
+                        <button id="_5trtzwl" name="FlowButton15" data-class="Button" style="left: 5px;top: 49px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="4">Button15</button>
+                        <button id="_8x8jd7k" name="FlowButton16" data-class="Button" style="left: 78px;top: 49px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="5">Button16</button>
+                        <button id="_10odrfu" name="FlowButton17" data-class="Button" style="left: 151px;top: 49px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="6">Button17</button>
+                        <button id="_4smzh7d" name="FlowButton18" data-class="Button" style="left: 224px;top: 49px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="7">Button18</button>
+                        <button id="_htlh0ua" name="FlowButton19" data-class="Button" style="left: 5px;top: 73px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="8">Button19</button>
+                        <button id="_wd72mki" name="FlowButton20" data-class="Button" style="left: 78px;top: 73px;height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="9">Button20</button>
+                    </div>
+                    <div id="_ge4wf36" name="GridLayout" data-class="GridLayout" class="Control GridLayout" data-itemwidth="64" data-itemheight="64"
+                        data-hgap="5" data-vgap="5" data-taborder="76" style="left:1470px;top:500px;width:300px;height:200px;">
+                        <button id="_z8zmhdd" name="GridButton1" data-class="Button" style="height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="0" data-onclick="showBorderDialogWindow">Button1</button>
+                        <button id="_benkzgz" name="GridButton2" data-class="Button" style="height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="1" data-onclick="showBorderNoneWindow">Button2</button>
+                        <button id="_1vy5n5b" name="GridButton3" data-class="Button" style="height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="2" data-onclick="showBorderSingleWindow">Button3</button>
+                        <button id="_dvsqjny" name="GridButton4" data-class="Button" style="height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="3" data-onclick="showBorderSizeableWindow">Button4</button>
+                        <button id="_0q91yiq" name="GridButton5" data-class="Button" style="height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="4" data-onclick="showBorderSizeToolWinWindow">Button5</button>
+                        <button id="_6nqx10d" name="GridButton6" data-class="Button" style="height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="5" data-onclick="showBorderToolWindow">Button6</button>
+                        <button id="_8ifrmnt" name="GridButton7" data-class="Button" style="height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="6">Button7</button>
+                        <button id="_z0qpksi" name="GridButton8" data-class="Button" style="height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="7">Button8</button>
+                        <button id="_j7473dn" name="GridButton9" data-class="Button" style="height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="8">Button9</button>
+                        <button id="_0qhr2dh" name="GridButton10" data-class="Button" style="height: 19px;width: 68px;" class="Control Button {theme} csr_default"
+                            data-taborder="9">Button10</button>
+                    </div>
+                    <div id="_ge4wf37" name="TableLayout1" data-class="TableLayout" data-showcells="true" data-rows="10,50,40;%,%,%" data-cols="10,50,40;%,%,%"
+                        class="Control TableLayout {theme} showcells" data-taborder="77" style="left:1550px;top:10px;width:250px;height:170px;">
+                        <div class="Control" data-row="0" data-col="0" data-colspan="1" data-rowspan="1" data-visible="true" style="left:0;top:0;width:25px;height:16px;">
+                            <button id="_ge4wf38" name="TableButton1" data-class="Button" style="left: 0;top: 0;width:100%;height:100%;" class="Control Button {theme} csr_default"
+                                data-row="0" data-col="0" data-taborder="0">TableButton1</button>
+                        </div>
+                        <div class="Control" data-row="0" data-col="1" data-colspan="1" data-rowspan="1" data-visible="true" style="left:25px;top:0;width:124px;height:16px;">
+                            <button id="_ge4wf39" name="TableButton2" data-class="Button" style="left: 0;top: 0;width:100%;height:100%;" class="Control Button {theme} csr_default"
+                                data-row="0" data-col="1" data-taborder="1">TableButton2</button>
+                        </div>
+                        <div class="Control" data-row="0" data-col="2" data-colspan="1" data-rowspan="1" data-visible="true" style="left:149px;top:0;width:99px;height:16px;">
+                            <button id="_ge4wf3a" name="TableButton3" data-class="Button" style="left: 0;top: 0;width:100%;height:100%;" class="Control Button {theme} csr_default"
+                                data-row="0" data-col="2" data-taborder="2">TableButton3</button>
+                        </div>
+                        <div class="Control" data-row="1" data-col="0" data-colspan="1" data-rowspan="1" data-visible="true" style="left:0;top:16px;width:25px;height:84px;">
+                        </div>
+                        <div class="Control" data-row="1" data-col="1" data-colspan="1" data-rowspan="1" data-visible="true" style="left:25px;top:16px;width:124px;height:84px;"></div>
+                        <div class="Control" data-row="1" data-col="2" data-colspan="1" data-rowspan="1" data-visible="true" style="left:149px;top:16px;width:99px;height:84px;">
+                        </div>
+                        <div class="Control" data-row="2" data-col="0" data-colspan="1" data-rowspan="1" data-visible="true" style="left:0;top:100px;width:25px;height:67px;">
+                            <button id="_ge4wf3d" name="TableButton6" data-class="Button" style="left: 0;top: 0;width:100%;height:100%;" class="Control Button {theme} csr_default"
+                                data-row="2" data-col="0" data-taborder="3">TableButton6</button>
+                        </div>
+                        <div class="Control" data-row="2" data-col="1" data-colspan="2" data-rowspan="1" data-visible="true" style="left:25px;top:100px;width:223px;height:67px;">
+                            <button id="_ge4wf3e" name="TableButton7" data-class="Button" style="left: 0;top: 0;width:100%;height:100%;" class="Control Button {theme} csr_default"
+                                data-row="2" data-col="1" data-taborder="4">TableButton7</button>
+                        </div>
+                        <div class="Control" data-row="2" data-col="2" data-colspan="0" data-rowspan="1" data-visible="false">
+                        </div>
+                    </div>
+                    <div id="ActionList1" name="actionList1" data-class="ActionList" class="Control actionList ShortCutIcon" data-imagelist="imageList1">
+                        <properties>[{"class":"EditCut",name:"EditCut1","caption":"Cu&t",checked:false,"enabled":true,groupIndex:-1,"hint":"Cut|Cuts
+                            the selection and puts it on the Clipboard","imageIndex":0,"shortcut":"CTRL+X","visible":true,"autoCheck":false,onHint:"",onChange:"","onExecute":"","onUpdate":""}]</properties>
+                        <div class="Control ShortCutIconImg actionList">
+                            <div class="Control ShortCutIconCaption">actionList1</div>
+                        </div>
+                    </div>
+                    <div id="_PqiWJsg" name="PropertyGrid" data-class="PropertyGrid" class="Control scrollContent PropertyGrid {theme} scrollbars-none orientation-vertical viewgutter"
+                        data-scrollbars="none" style="left: 1680px;top: 300px;width: 200px;height: 190px;">
+                        <div class="Control PropertyGridContent {theme}">
+                            <div class="Control PropertyGridLeftContent {theme}"></div>
+                            <div class="Control PropertyGridRightContent {theme}"></div>
+                        </div>
+                        <div id="_JoFAooR" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
+                            data-orientation="vertical">
+                            <div id="_JoFAooR_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_JoFAooR_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_JoFAooR_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                        <div class="Control PropertyGridInfo {theme}"></div>
+                        <div id="_oNGeXHo" name="TextBoxEd" data-class="TextBox" class="Control TextBox {theme}">
+                            <input type="text" value="" class="Control csr_text TextBoxInput {theme}" />
+                        </div>
+                        <div id="_tmPwzwM" name="SpinBoxEd" data-class="SpinBox" class="Control TextBox SpinBox {theme}">
+                            <input type="text" value="0" class="Control csr_text TextBoxInput SpinBoxInput {theme}" />
+                            <button id="_NVuwgPD" data-class="TextButton" class="Control TextButton {theme} SpinBoxMinusBtn csr_default"></button>
+                            <button id="_UQbrqJX" data-class="TextButton" class="Control TextButton {theme} SpinBoxPlusBtn csr_default"></button>
+                        </div>
+                        <div id="_jGUnuZK" name="DropDownListBoxEd" data-class="DropDownListBox" class="Control DropDownListBox {theme}" data-editable="false">
+                            <div class="Control DropDownListBoxContent">
+                                <input type="text" readonly="readonly" class="Control csr_default DropDownListBoxInput {theme}" />
+                            </div>
+                            <span class="Control DropDownListBoxArrow {theme}"></span>
+                        </div>
+                        <div id="_TkCXThb" name="DropDownCalendarEd" data-class="DropDownCalendar" class="Control DropDownListBox DropDownCalendar {theme}">
+                            <div class="Control DropDownCalendarCaption {theme}">12/12/2012</div>
+                            <span class="Control DropDownListBoxArrow {theme}"></span>
+                        </div>
+                        <button id="_YvIOFQV" name="ColorButtonEd" data-class="ColorButton" class="Control ColorButton {theme} csr_default">
+                            <span class="Control ButtonCaption"></span>
+                            <div class="Control ColorButtonColor {theme}"></div>
+                        </button>
+                        <div id="_gFLMrdC" name="TextBoxBtnEd" data-class="TextBoxBtn" class="Control TextBox TextBoxBtn {theme}">
+                            <input type="text" class="Control csr_text TextBoxInput TextBoxBtnInput {theme}">
+                            <button id="_JYqgSQW" data-class="Button" class="Control Button TextBoxBtnButton {theme}"></button>
+                        </div>
+                    </div>
+                    <fieldset id="_TUlHPSS" name="RadioGroup1" data-class="RadioGroup" class="Control RadioGroup {theme}" style="left: 1240px;top: 600px;width: 200px;height: 100px;">
+                        <legend class="Control GroupBoxLegend {theme}">RadioGroup1</legend>
+                        <properties>[ {"caption":"radio1","isChecked":false,"enabled":true}, {"caption":"radio2","isChecked":false,"enabled":true}
+                            ]
+                        </properties>
+                    </fieldset>
+                    <div id="_YCHNiJq" name="Toggle1" data-class="Toggle" class="Control Toggle {theme} csr_default" data-ischecked="false" data-state="unchecked"
+                        style="left: 1120px;top: 160px;width: 50px;height: 21px;" data-unchecked="NO" data-checked="YES">
+                        <input type="checkbox" class="Control CheckboxInput" />
+                        <div class="Control {theme} CheckboxCheck csr_default"></div>
+                    </div>
+                    <div id="_CKdfPOT" name="Toggle2" data-class="Toggle" class="Control Toggle {theme} csr_default" data-ischecked="true" data-state="checked"
+                        style="left: 1050px;top: 340px;width: 50px;height: 21px;" data-unchecked="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAB4UlEQVQ4T6XTT4hNcRQH8M95byIWRCKKRmMxC8rCWM3CQpEFE4nF2LCgZMUUMjRmCmVhPTUiWQoLFDYWNorsZK3MFFlY+FMz7+jOu093xpuZGnd57jnf8/19v98T/vNL9iTD6IrFYiXLG1yvcSb5GhxbFFiyPnkc9CTvgr7gUyQd2IsXwe+FmCZbk6fBRtzFqeBXMVeAXcZQ8jE4GzyZCzDZVTJa0WCkzmC1NxpMBOtaxeRZCfqh2pjsTR4FS3ExuDZ7acHsQOFGsK0COJncqjXr35P+ZCxYggvB9Xbspw1I6jiUDAXdFdDx5F5wLqhhMBiZS4YZbpZmnE6uBKuqQw3u1+mfz6C20UjWJg+C3grL74WWms/NOZ85+0fSmzwPliUZ/F1axuJEMPGPAW2AupPXwepkMtjX4EhwvAWazQQcDV7NiMYs+9ckb4LNZb3Q7mppUl9yu6VluagI7FgLo0q/o8zY7nL4fbAjmKro1pk8DLaXPYUEBeDo9AW0Gqe4VuN8pakneNtGhuW4g8NlbyHFuuBbK2cH8aA12GC0zsl5zqq4nBs1BpKXwf7gZ3EBXZoMVpabfgRbgvH5MlX2bgg+/9VsiuEalyqsbtYZWAiobc6STY3mmexEZ8nqy2LA/gA9/JRGQkYHwAAAAABJRU5ErkJggg=="
+                        data-checked="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAPCAYAAAAGRPQsAAABpUlEQVQ4T6WTv2sUQRzFP99NYmNu71DBRpO/IGodFQwEUoaIprCNaVIEbAIiZmf3iD8JFmojQVsLC0EQIYaARLAzjTbp1FrZXSU2N092zWFibnNiphq+3/d982beG2O/6+7Rg/zYvII4Yvviul47jdkS6A5J/uT/yaJwFqlJT3CBKF0uRBlxYwTvbyItkOQvuioVhgvvYbqMD8ZJ0pX2jBH1v4JgDBDYIi6dw4p9h+UIUPgAMYUxQZy93I4yXG0d2ck/Rd0izq92JIvqt0FziFmS7P7fGKM8rX4etRaxYOC3Qi4RZ093gOfr05ge4XlNTzaGw+8ma1du1A7z055jnEFKafUNsfD1c9l2tWG8rRJoE3pP4L596qR8p5uu0cD7VYxTeD2jmV/EhYeAdcRxTFO4/HGVSbujca0xSF/rPbKCeIQgmAEmEe+Is+FKc8podHQtnEE8RPqC2bESYjqLy9f2ik4FGQfw/RtbhhTzK8TZaLcMVv+AKIyB+ZJANro9nP/+Zm1k4aDsLbI3JOm5rcjsKa5amaMXhR/xfoLm9w/drlj0fwHnVI8tNcQSrQAAAABJRU5ErkJggg==">
+                        <div></div>
+                        <div></div>
+                        <input type="checkbox" class="Control CheckboxInput" />
+                        <div class="Control {theme} CheckboxCheck csr_default checked"></div>
+                    </div>
+                    <div id="_OqrszxN" name="CircularProgressBar1" data-class="CircularProgressBar" class="Control CircularProgressBar {theme} csr_default"
+                        data-value="50" style="left: 1230px;top: 410px;width:50px;height:50px;">
+                        <svg width="100%" height="100%">
+                            <circle class="Control CircularProgressBar_back" cx="50%" cy="50%" r="20" />
+                            <circle class="Control CircularProgressBar_progress" cx="50%" cy="50%" r="20" />
+                        </svg>
+                    </div>
+                    <!--<div id="_UtALzfi" name="BatteryIndicator1" data-class="BatteryIndicator" class="Control BatteryIndicator csr_default incharge showpercent showlegend" data-value="100" style="top:660px;left:10px;height:64px;"></div>
+            <div id="_uZasQeK" name="SegmentLedLabel1" data-class="SegmentLedLabel" class="Control SegmentLedLabel csr_default sixteen" data-caption="Welcome to JaGui" data-maxlength="10" data-autoscroll="true" data-scrollspeed="1" data-segmenttype="16" data-scrolltype="reverse" data-scrolldir="right2left" data-color="lime" style="top:660px;left:150px;height: 54px;"></div>-->
+                    </jagui-windowcontent>
+                    <!--<div id="_ou8mg7s" name="StatusBar1" data-class="StatusBar" class="Control StatusBar {theme}" data-autohint="true" style="height:19px;">
+                    <div class="Control StatusBarSimplePanel {theme}" style="display:none;"></div>
+                    <div class="Control StatusBarSizer {theme} csr_nwResize"></div>
+                    <!--[{"alignment":"left","bevel":"lowered",text:"Hello","width":50},{"alignment":"center","bevel":"lowered",text:"World","width":50}]-->
+                    <!--</div>-->
+                </jagui-windowlayout>
+            </jagui-window>
+        </template>
+    </body>
+
+</html>

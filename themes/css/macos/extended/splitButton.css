@@ -1,0 +1,8 @@
+.macos.SplitButton .BitmapButton {}
+
+.macos.SplitButton .BitmapButton,
+.macos.SplitButton .PopupButton {}
+
+.macos.SplitButton .PopupButton {}
+
+.macos.SplitButton .PopupButtonArrow {}

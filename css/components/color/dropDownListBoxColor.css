@@ -1,0 +1,25 @@
+﻿div.DropDownListBoxColorContent {
+    left: 22px;
+}
+
+div.DropDownListBoxColorColorBox {
+    left: 2px;
+    top: 2px;
+    bottom: 2px;
+    width: 16px;
+}
+
+input.DropDownListBoxColorInput {
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
+span.ListBoxItemColorCaption {
+    margin-left: 15px;
+}

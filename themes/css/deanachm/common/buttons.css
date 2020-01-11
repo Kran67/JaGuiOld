@@ -1,0 +1,53 @@
+﻿.deanachm.Button,
+.deanachm.Button.disabled:hover,
+.deanachm.TextButton,
+.deanachm.TextButton.disabled:hover,
+.deanachm.SpeedButton,
+.deanachm.SpeedButton.disabled:hover {
+    border-radius: 5px;
+    border: 1px solid #000;
+    border-image: linear-gradient(to bottom, #CED1E1, #A8A8BF 80%, #A8A8BF) 1;
+    background-image: linear-gradient(to bottom,#FFF,#F0F0F0 80%, #F0F0F0);
+    box-shadow: 0 1px 1px #A8A8BF;
+}
+
+    .deanachm.Button.stayspressed.pressed,
+    .deanachm.Button.stayspressed.pressed:hover,
+    .deanachm.TextButton.stayspressed.pressed,
+    .deanachm.TextButton.stayspressed.pressed:hover {
+        background-color: #F5AB28;
+        background-image: none;
+        color: #000;
+    }
+
+.deanachm.CaptionButton.stayspressed.pressed {
+    color: #000;
+}
+
+.deanachm.Button.pressed,
+.deanachm.TextButton.pressed,
+.deanachm.SpeedButton.pressed {
+    box-shadow: 0 -1px 1px #A8A8BF;
+}
+
+.deanachm.Button.pressed,
+.deanachm.TextButton.pressed,
+.deanachm.SpeedButton.pressed,
+.deanachm.Button.focused,
+.deanachm.TextButton.focused {
+    border-color: #A8A8BF;
+    border-image: none;
+}
+
+.deanachm.SpeedButton,
+.deanachm.SpeedButton.disabled:hover {
+    border: none;
+    border-image: none;
+}
+
+    .deanachm.SpeedButton.stayspressed.pressed,
+    .deanachm.SpeedButton.stayspressed.pressed:hover {
+        background-color: #F5AB28;
+        background-image: none;
+        color: #000;
+    }

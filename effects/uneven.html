@@ -1,0 +1,318 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Uneven</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        let ctx;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let amount = 0;
+        let op;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let lastImg = imgA;
+        let nextImg = imgB;
+        function mulDiv(value, multi, divider) {
+            return ~~((value * multi) / divider);
+        }
+        function random(max) {
+            return ~~(Math.random() * max);
+        }
+        function createPourRgn(x, y, w, h, xMode, yMode) {
+            let n;
+            let r;
+            let mR;
+            ctx.save();
+            ctx.beginPath();
+            let d = ~~(Math.min(w, h) / 200) + 1;
+            let wD = w % d;
+            let hD = h % d;
+            let mW = ~~(w / 2);
+            let mH = ~~(h / 2);
+            if (xMode !== 0) {
+                if (x < w) {
+                    n = ~~(w / 10);
+                } else {
+                    n = 0;
+                }
+                let y1 = 0;
+                while (y1 < h) {
+                    r = x + (random(2 * n) - n);
+                    if (xMode === 1) {
+                        ctx.rect(w - r, y1, w, d + hD);
+                    } else if (xMode === 2) {
+                        ctx.rect(0, y1, r, d + hD);
+                    } else if (xMode === 3) {
+                        mR = ~~(r / 2);
+                        ctx.rect(mW - mR, y1, mR, d + hD);
+                        ctx.rect(mW, y1, mR, d + hD);
+                    }
+                    else {
+                        mR = ~~(r / 2);
+                        ctx.rect(w - mR, y1, w, d + hD);
+                        ctx.rect(0, y1, mR, d + hD);
+                    }
+                    y1 += d;
+                }
+            }
+            if (yMode !== 0) {
+                if (y < h) {
+                    n = ~~(h / 10);
+                } else {
+                    n = 0;
+                }
+                let x1 = 0;
+                while (x1 < w) {
+                    r = y + random(2 * n) - n;
+                    if (yMode === 1) {
+                        ctx.rect(x1, h - r, d + wD, h);
+                    } else if (yMode === 2) {
+                        ctx.rect(x1, 0, d + wD, r);
+                    } else if (yMode === 3) {
+                        mR = ~~(r / 2);
+                        ctx.rect(x1, mH - mR, d + wD, mR);
+                        ctx.rect(x1, mH, d + wD, mR);
+                    }
+                    else {
+                        mR = ~~(r / 2);
+                        ctx.rect(x1, h - mR, d + wD, h);
+                        ctx.rect(x1, 0, d + wD, mR);
+                    }
+                    x1 += d;
+                }
+            }
+            ctx.clip();
+            ctx.drawImage(nextImg, 0, 0);
+            ctx.restore();
+        }
+        function blind(x, y, w, h) {
+            let s;
+            if (x === 0) {
+                return;
+            }
+            ctx.drawImage(lastImg, 0, 0);
+            ctx.save();
+            ctx.beginPath();
+            if ([18, 19].indexOf(op)>-1) {
+                s = x;
+            } else {
+                s = y;
+            }
+            const d = mulDiv(s, amount, 100);
+            switch (op) {
+                case 18: // blind from left
+                    x = 0;
+                    while (x < w) {
+                        ctx.rect(x, 0, d, h);
+                        x += s;
+                    }
+                    break;
+                case 19: // blind from right
+                    x = w;
+                    while (x > 0) {
+                        ctx.rect(x - d, 0, d, h);
+                        x -= s;
+                    }
+                    break;
+                case 20: // blind from top
+                    y = 0;
+                    while (y < h) {
+                        ctx.rect(0, y, w, d);
+                        y += s;
+                    }
+                    break;
+                case 21: // blind from bottom
+                    y = h;
+                    while (y > 0) {
+                        ctx.rect(0, y - d, w, d);
+                        y -= s;
+                    }
+                    break;
+            }
+            ctx.clip();
+            ctx.drawImage(nextImg, 0, 0);
+            ctx.restore();
+        }
+        function uneven() {
+            let x;
+            let y;
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+            }
+            const w = ctx.canvas.width;
+            const h = ctx.canvas.height;
+            if (w >= h) {
+                x = mulDiv(w, amount, 100);
+                y = mulDiv(x, h, w);
+            } else {
+                y = mulDiv(h, amount, 100);
+                x = mulDiv(y, w, h);
+            }
+            amount++;
+            switch (op) {
+                case 0: // shred from right
+                    createPourRgn(x, 0, w, h, 1, 0);
+                    break;
+                case 1: // shred from left
+                    createPourRgn(x, 0, w, h, 2, 0);
+                    break;
+                case 2: // shred out from middle (horizontal)
+                    createPourRgn(x, 0, w, h, 3, 0);
+                    break;
+                case 3: // shred in to middle (horizontal)
+                    createPourRgn(x, 0, w, h, 4, 0);
+                    break;
+                case 4: // shred from bottom
+                    createPourRgn(0, y, w, h, 0, 1);
+                    break;
+                case 5: // shred from top
+                    createPourRgn(0, y, w, h, 0, 2);
+                    break;
+                case 6: // shred from horizon
+                    createPourRgn(0, y, w, h, 0, 3);
+                    break;
+                case 7: // shred in to horizon
+                    createPourRgn(0, y, w, h, 0, 4);
+                    break;
+                case 8: // shred from bottom and right
+                    createPourRgn(x, y, w, h, 1, 1);
+                    break;
+                case 9: // shred from top and right
+                    createPourRgn(x, y, w, h, 1, 2);
+                    break;
+                case 10: // shred from bottom and left
+                    createPourRgn(x, y, w, h, 2, 1);
+                    break;
+                case 11: // shred from top and left
+                    createPourRgn(x, y, w, h, 2, 2);
+                    break;
+                case 12: // shred from horizon and right
+                    createPourRgn(x, y, w, h, 1, 3);
+                    break;
+                case 13: // shred from horizon and left
+                    createPourRgn(x, y, w, h, 2, 3);
+                    break;
+                case 14: // shred from bottom and vert middle
+                    createPourRgn(x, y, w, h, 3, 1);
+                    break;
+                case 15: // shred from top and vert middle
+                    createPourRgn(x, y, w, h, 3, 2);
+                    break;
+                case 16: // shred from centre
+                    createPourRgn(x, y, w, h, 3, 3);
+                    break;
+                case 17: // shred to centre
+                    createPourRgn(x, y, w, h, 4, 4);
+                    break;
+                case 18: // blind from left
+                case 19: // blind from right
+                case 20: // blind from top
+                case 21: // blind from bottom
+                    blind(x, y, w, h);
+                    break;
+            }
+            if (amount > 100) {
+                amount = 0;
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                [nextImg, lastImg] = [lastImg, nextImg];
+                return;
+            }
+            handle = rAF(uneven);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            op = ~~value;
+            handle = rAF(uneven);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400" style="border:1px solid red"></canvas><br />
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">shred from right</option>
+            <option value="1">shred from left</option>
+            <option value="2">shred out from middle (horizontal)</option>
+            <option value="3">shred in to middle (horizontal)</option>
+            <option value="4">shred from bottom</option>
+            <option value="5">shred from top</option>
+            <option value="6">shred from horizon</option>
+            <option value="7">shred in to horizon</option>
+            <option value="8">shred from bottom and right</option>
+            <option value="9">shred from top and right</option>
+            <option value="10">shred from bottom and left</option>
+            <option value="11">shred from top and left</option>
+            <option value="12">shred from horizon and right</option>
+            <option value="13">shred from horizon and left</option>
+            <option value="14">shred from bottom and vert middle</option>
+            <option value="15">shred from top and vert middle</option>
+            <option value="16">shred from centre</option>
+            <option value="17">shred to centre</option>
+            <option value="18">blind from left</option>
+            <option value="19">blind from right</option>
+            <option value="20">blind from top</option>
+            <option value="21">blind from bottom</option>
+        </select><br />
+    </div>
+</body>
+</html>

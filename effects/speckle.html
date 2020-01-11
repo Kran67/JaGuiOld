@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Speckle</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        let img;
+        let ctx;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let amount = 0;
+        let op;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        function mulDiv(value, multi, divider) {
+            return ~~((value * multi) / divider);
+        }
+        function random(max) {
+            return ~~(Math.random() * max);
+        }
+        function createSwarmRgn(ctx, img, x, y, w, h, xMode, yMode) {
+            let x1;
+            let y1;
+            let n = 0;
+            let m;
+            let i;
+            let c;
+            let l;
+            let s;
+            ctx.save();
+            ctx.beginPath();
+            if (xMode !== 0) {
+                if (x < w) {
+                    n = ~~(w / 10);
+                }
+                m = ~~(n / 20);
+                if (m < 2) {
+                    m = 2;
+                }
+                s = ~~(m / 2);
+                l = ~~(n / m);
+                c = ~~((3 * n) / (4 * m));
+                y1 = 0;
+                while (y1 < h) {
+                    if (xMode === 1) {
+                        ctx.rect(w - x, y1, w, m);
+                        for (i = l; i > 1; i--) {
+                            if (random(i) <= (i <= c ? 1 : 0)) {
+                                x1 = (w - x) - (i * m);
+                                ctx.rect(x1, y1, m, m);
+                            }
+                        }
+                    } else {
+                        ctx.rect(0, y1, x, m);
+                        for (i = l; i > 1; i--) {
+                            if (random(i) <= (i <= c ? 1 : 0)) {
+                                x1 = x + (i * m);
+                                ctx.rect(x1 - m, y1, m, m);
+                            }
+                        }
+                    }
+                    y1 += s;
+                }
+            }
+            if (yMode !== 0) {
+                if (y < h) {
+                    n = ~~(h / 10);
+                }
+                m = ~~(n / 20);
+                if (m < 2) {
+                    m = 2;
+                }
+                s = ~~(m / 2);
+                l = ~~(n / m);
+                c = ~~((3 * n) / (4 * m));
+                x1 = 0;
+                while (x1 < w) {
+                    if (yMode === 1) {
+                        ctx.rect(x1, h - y, m, h);
+                        for (i = l; i > 1; i--) {
+                            if (random(i) <= (i <= c ? 1 : 0)) {
+                                y1 = (h - y) - (i * m);
+                                ctx.rect(x1, y1, m, m);
+                            }
+                        }
+                    } else {
+                        ctx.rect(x1, 0, m, y);
+                        for (i = l; i > 1; i--) {
+                            if (random(i) <= (i <= c ? 1 : 0)) {
+                                y1 = y + (i * m);
+                                ctx.rect(x1, y1 - m, m, m);
+                            }
+                        }
+                    }
+                    x1 += s;
+                }
+            }
+            ctx.clip();
+            ctx.drawImage(img, 0, 0);
+            ctx.restore();
+        }
+        function speckle() {
+            let x;
+            let y;
+            if (!started) {
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+            }
+            const w = img.width;
+            const h = img.height;
+            if (img.width >= img.height) {
+                x = mulDiv(img.width, amount, 100);
+                y = mulDiv(x, img.height, img.width);
+            } else {
+                y = mulDiv(img.height, amount, 100);
+                x = mulDiv(y, img.width, img.height);
+            }
+            amount++;
+            switch (op) {
+                case 0: // from right
+                    createSwarmRgn(ctx, img, x, y, w, h, 1, 0);
+                    break;
+                case 1: // from left
+                    createSwarmRgn(ctx, img, x, y, w, h, 2, 0);
+                    break;
+                case 2: // from bottom
+                    createSwarmRgn(ctx, img, x, y, w, h, 0, 1);
+                    break;
+                case 3: // from top
+                    createSwarmRgn(ctx, img, x, y, w, h, 0, 2);
+                    break;
+            }
+            if (amount > 101) {
+                amount = 0;
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                return;
+            }
+            handle = rAF(speckle);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            op = ~~value;
+            handle = rAF(speckle);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="c" width="500" height="400" style="border:1px solid red"></canvas><br />
+<div>
+    <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+        <option></option>
+        <option value="0">from right</option>
+        <option value="1">from left</option>
+        <option value="2">from bottom</option>
+        <option value="3">from top</option>
+    </select><br />
+</div>
+</body>
+</html>

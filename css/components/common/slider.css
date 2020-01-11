@@ -1,0 +1,70 @@
+﻿div.SliderRange {
+    display: none;
+}
+
+div.Slider {
+    overflow: visible;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 14px;
+}
+
+    div.Slider.orientation-vertical {
+        transform: rotate(90deg);
+        transform-origin: center center;
+    }
+
+    div.Slider input[type='range'] {
+        -webkit-appearance: none;
+        width: 100%;
+        background-color: transparent;
+        overflow: visible;
+        height: 100%;
+    }
+
+        div.Slider input[type='range']:focus {
+            outline: none;
+        }
+
+        div.Slider input[type='range']::-webkit-slider-runnable-track {
+            height: 6px;
+        }
+
+        div.Slider input[type='range']::-moz-range-track {
+            height: 6px;
+        }
+
+        div.Slider input[type='range']::-webkit-slider-thumb {
+            position: relative;
+            -webkit-appearance: none;
+            border: 1px solid #000;
+            z-index: 1;
+        }
+
+        div.Slider input[type='range']::-moz-range-thumb {
+            position: relative;
+            border: 1px solid #000;
+            z-index: 1;
+        }
+
+        div.Slider input[type='range']:nth-child(1)::-webkit-slider-thumb {
+            z-index: 2;
+        }
+
+        div.Slider input[type='range']:nth-child(1)::-moz-range-thumb {
+            z-index: 2;
+        }
+
+div.SliderLeftToolTip,
+div.SliderRightToolTip {
+    visibility: hidden;
+}
+
+    div.SliderLeftToolTip.top,
+    div.SliderRightToolTip.top,
+    div.SliderLeftToolTip.bottom,
+    div.SliderRightToolTip.bottom {
+        transform: translateX(-50%);
+    }

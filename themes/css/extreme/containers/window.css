@@ -1,0 +1,53 @@
+﻿.extreme.Window {
+    background-color: #E6E6E6;
+}
+
+    .extreme.Window.maximized {
+        box-shadow: inset 0 0 0 1px #4F4C4B !important;
+    }
+
+    .extreme.Window:not(.none) {
+        border-radius: 9px;
+        box-shadow: inset 0 0 0 1px #4F4C4B, 5px 5px 5px rgba(0, 0, 0, .7);
+    }
+
+    .extreme.Window.inactive {
+        box-shadow: inset 0 0 0 1px #222, 5px 5px 5px rgba(0, 0, 0, .7);
+    }
+
+.extreme.WindowTitleBar {
+    margin: 0;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+}
+
+.extreme.WindowTitle {
+    font-size: 10pt;
+}
+
+.extreme.Window.inactive .extreme.WindowTitle {
+    color: #A5A5A5;
+}
+
+.extreme.Window:not(.none) .extreme.WindowTitle {
+    line-height: 21px;
+}
+
+.extreme.Window:not(.none) button.extreme.WindowTitleButton {
+    top: 1px;
+}
+
+.extreme.Window button.extreme.WindowTitleButton {
+    border: none;
+    box-shadow: inset 0 0 0 1px #AFAFAF;
+    background-image: linear-gradient(to bottom, #FBFBFB, #BABABA);
+    border-radius: 50%;
+}
+
+    .extreme.Window button.extreme.WindowTitleButton:not(.disabled):hover {
+        background-image: linear-gradient(to bottom, #E1E1E1, #CDCDCD);
+    }
+
+        .extreme.Window button.extreme.WindowTitleButton.pressed:not(.disabled) {
+        background-image: linear-gradient(to bottom, #FBFBFB, #BABABA);
+    }

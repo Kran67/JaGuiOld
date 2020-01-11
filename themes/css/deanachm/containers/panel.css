@@ -1,0 +1,5 @@
+﻿.carbon.Panel {
+  border: 1px solid #303030;
+  border-radius: 2px;
+  background-image: linear-gradient(to bottom,#404040 0,#404040 70%,#303030 100%);
+}

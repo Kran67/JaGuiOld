@@ -1,0 +1,29 @@
+.simple.ColorButton,
+.simple.ColorButton.disabled:hover {
+    border-radius: 3px;
+    border: 1px solid #DDD;
+    background-image: linear-gradient(to bottom,#F9F9F9 0,#E3E3E3 100%);
+}
+
+.simple.ColorButton.stayspressed.pressed,
+.simple.ColorButton.stayspressed.pressed:hover {
+    background-color: #6694E3;
+    background-image: none;
+    color: #000;
+}
+
+.simple.ColorButton:hover {
+    border-color: #939393;
+}
+
+.simple.ColorButton.pressed {
+    background-image: linear-gradient(to bottom,#DDD 0,#F5F5F5 100%);
+}
+
+.simple.ColorButton.focused {
+    border-color: #6694E3;
+}
+
+.simple.ColorButtonColor {
+    border: 1px solid #BBB;
+}

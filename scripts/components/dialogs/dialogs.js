@@ -1,0 +1,5 @@
+class Dialogs {
+
+}
+
+export { Dialogs };

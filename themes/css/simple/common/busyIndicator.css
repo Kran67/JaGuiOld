@@ -1,0 +1,22 @@
+.simple.spinIndic,
+.simple.win8loader .win8circle:after {
+    background-color: #6694E3;
+}
+
+.simple.ballIndic,
+.simple.ball1Indic {
+    border-right: 5px solid #6694E3;
+    border-bottom: 5px solid #6694E3;
+    box-shadow: 0 0 35px #328EFE;
+}
+
+.simple.circleIndic,
+.simple.circle1Indic {
+    border-top: 5px solid #6694E3;
+    border-bottom: 5px solid #6694E3;
+    box-shadow: 0 0 35px #328EFE;
+}
+
+.simple.circle1Indic {
+    box-shadow: 0 0 15px #328EFE;
+}

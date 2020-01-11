@@ -1,0 +1,58 @@
+.simple.Window {
+    background-color: #9DCBFE;
+    box-shadow: inset 0 0 0 1px rgba(46, 58, 70, 0.9), 5px 5px 5px rgba(0, 0, 0, .7);
+}
+
+.simple.Window .simple.WindowTitleBar {
+    margin: 0;
+    background-color: #E0ECFF;
+    height: 23px;
+    min-height: 23px;
+    max-height: 23px;
+    margin-bottom: 2px;
+}
+
+.simple.Window.inactive .simple.WindowTitleBar {
+    background-color: #F7F7F7;
+}
+
+.simple.Window:not(.none) .simple.WindowIcon {
+    background-position-y: 4px;
+}
+
+.simple.WindowTitle {
+    font-size: 10pt;
+}
+
+.simple.Window button.simple.WindowTitleButton {
+    background-color: transparent;
+    border: none;
+}
+
+.simple.WindowCloseButton:before {
+    content: "C";
+}
+
+.simple.WindowMinimizeButton:before {
+    content: ":";
+}
+
+.simple.WindowMaxRestoreButton:before {
+    content: ";";
+}
+
+.simple.WindowHelpButton:before {
+    content: "9";
+}
+
+.simple.WindowRollUpDownButton:before {
+    content: ">";
+}
+
+.simple.WindowStayOnOffButton:before {
+    content: "@";
+}
+
+.simple.WindowContent {
+    background-color: #FFF;
+}

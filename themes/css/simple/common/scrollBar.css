@@ -1,0 +1,30 @@
+.simple.ScrollBar {
+    background-color: #FFF;
+}
+
+    .simple.ScrollBar .ScrollBarFirstButton,
+    .simple.ScrollBar .ScrollBarLastButton {
+        border: 1px solid #BBB;
+        border-radius: 3px;
+        background-image: linear-gradient(to bottom, rgb(249, 249, 249) 40%, rgb(227, 227, 227) 70%);
+        width: 14px;
+        color: #000;
+    }
+
+    .simple.ScrollBar.orientation-vertical .ScrollBarFirstButton,
+    .simple.ScrollBar.orientation-vertical .ScrollBarLastButton {
+        background-image: linear-gradient(to top, rgb(249, 249, 249) 40%, rgb(227, 227, 227) 70%);
+    }
+
+    .simple.ScrollBar .thumb,
+    .simple.ScrollBar.disabled input[type='range']::-webkit-slider-thumb,
+    .simple.ScrollBar input[type='range']::-webkit-slider-thumb {
+        min-width: 15px;
+        border: 1px solid #BBB;
+        background-color: #F1F1F1;
+        border-radius: 3px;
+    }
+
+        .simple.ScrollBar input[type='range']::-webkit-slider-thumb:hover {
+            border-color: #939393;
+        }

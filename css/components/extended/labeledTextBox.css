@@ -1,0 +1,16 @@
+﻿div.LabeledTextBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+div.LabeledTextBox div.TextBox {
+    position: relative;
+    flex: 1;
+}
+
+div.LabeledTextBox label.Label {
+    position: static;
+    white-space: nowrap;
+}

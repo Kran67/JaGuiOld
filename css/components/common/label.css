@@ -1,0 +1,264 @@
+﻿@font-face {
+  font-family: lasenter;
+  src: url(/fonts/lasenter.ttf);
+}
+
+:root {
+    --neon-color: #f40;
+    --outlined-color: #000;
+    --neonlasenter-color1: #28D7FE;
+    --neonlasenter-color2: #1041FF;
+    --neonclip-color1: #A9FFDC;
+    --neonclip-color2: #00CC2A;
+    --neonclip-color3: #16FA19;
+    --prettyshadow-color1: #2196f3;
+    --prettyshadow-color2: #0d47a1;
+    --outlinedneon-color1: red;
+    --outlinedneon-color2: blue;
+    --reflect-color: #00000077;
+    --cloudy-color1: rgba(255,255,255,0.6);
+    --cloudy-color2: rgba(255,255,255,0.4);
+    --cloudy-color3: rgba(255,255,255,0.3);
+}
+
+label.Label {
+    overflow: visible;
+    display:flex;
+    justify-content:flex-start;
+    align-items:flex-start;
+}
+
+/* https://codepen.io/GeorgePark/pen/bapRBQ */
+label.Label.neon {
+    animation: flickerNeon 1.5s infinite alternate;
+}
+
+@keyframes flickerNeon {
+    
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+      
+        text-shadow:
+            -0.2rem -0.2rem 1rem #fff,
+            0.2rem 0.2rem 1rem #fff,
+            0 0 2rem var(--neon-color),
+            0 0 4rem var(--neon-color),
+            0 0 6rem var(--neon-color),
+            0 0 8rem var(--neon-color),
+            0 0 10rem var(--neon-color);
+    }
+    
+    20%, 24%, 55% {        
+        text-shadow: none;
+        box-shadow: none;
+    }    
+}
+
+/* https://codepen.io/mostlymatthew/pen/zxbbzq */
+label.Label.outlined {
+    text-shadow: 2px 0 0 var(--outlined-color),
+        2px 2px 0 var(--outlined-color),
+        0 2px 0 var(--outlined-color),
+        -2px 0 0 var(--outlined-color),
+        -2px -2px 0.1px var(--outlined-color),
+        0 -2px 0px var(--outlined-color),
+        2px -2px 0 var(--outlined-color),
+        -2px 2px 0 var(--outlined-color);
+}
+
+label.Label.engraved {
+    text-shadow: 0 2px 0 rgba(255,255,2555,0.75), 0 -2px 2px rgba(0,0,0,0.75);
+}
+
+label.Label.embossed {
+    text-shadow: -2px -2px 2px #999, 0 -2px 2px #999, -2px 0 2px #999, 2px 0 2px #000, 0 2px 2px #000, 2px 2px 2px #000;
+}
+
+label.Label.rainbows {
+    text-shadow: -0.2px 0.2px 0 hsla(7.2, 60%, 45%, 1),
+        -0.4px 0.4px 0 hsla(14.4, 60%, 45%, 1),
+        -0.6px 0.6px 0 hsla(21.6, 60%, 45%, 1),
+        -0.8px 0.8px 0 hsla(28.8, 60%, 45%, 1),
+        -1px 1px 0 hsla(36, 60%, 45%, 1),
+        -1.2px 1.2px 0 hsla(43.2, 60%, 45%, 1),
+        -1.4px 1.4px 0 hsla(50.4, 60%, 45%, 1),
+        -1.6px 1.6px 0 hsla(57.6, 60%, 45%, 1),
+        -1.8px 1.8px 0 hsla(64.8, 60%, 45%, 1),
+        -2px 2px 0 hsla(72, 60%, 45%, 1),
+        -2.2px 2.2px 0 hsla(79.2, 60%, 45%, 1),
+        -2.4px 2.4px 0 hsla(86.4, 60%, 45%, 1),
+        -2.6px 2.6px 0 hsla(93.6, 60%, 45%, 1),
+        -2.8px 2.8px 0 hsla(100.8, 60%, 45%, 1),
+        -3px 3px 0 hsla(108, 60%, 45%, 1),
+        -3.2px 3.2px 0 hsla(115.2, 60%, 45%, 1),
+        -3.4px 3.4px 0 hsla(122.4, 60%, 45%, 1),
+        -3.6px 3.6px 0 hsla(129.6, 60%, 45%, 1),
+        -3.8px 3.8px 0 hsla(136.8, 60%, 45%, 1),
+        -4px 4px 0 hsla(144, 60%, 45%, 1),
+        -4.2px 4.2px 0 hsla(151.2, 60%, 45%, 1),
+        -4.4px 4.4px 0 hsla(158.4, 60%, 45%, 1),
+        -4.6px 4.6px 0 hsla(165.6, 60%, 45%, 1),
+        -4.8px 4.8px 0 hsla(172.8, 60%, 45%, 1),
+        -5px 5px 0 hsla(180, 60%, 45%, 1),
+        -5.2px 5.2px 0 hsla(187.2, 60%, 45%, 1),
+        -5.4px 5.4px 0 hsla(194.4, 60%, 45%, 1),
+        -5.6px 5.6px 0 hsla(201.6, 60%, 45%, 1),
+        -5.8px 5.8px 0 hsla(208.8, 60%, 45%, 1),
+        -6px 6px 0 hsla(216, 60%, 45%, 1),
+        -6.2px 6.2px 0 hsla(223.2, 60%, 45%, 1),
+        -6.4px 6.4px 0 hsla(230.4, 60%, 45%, 1),
+        -6.6px 6.6px 0 hsla(237.6, 60%, 45%, 1),
+        -6.8px 6.8px 0 hsla(244.8, 60%, 45%, 1),
+        -7px 7px 0 hsla(252, 60%, 45%, 1),
+        -7.2px 7.2px 0 hsla(259.2, 60%, 45%, 1),
+        -7.4px 7.4px 0 hsla(266.4, 60%, 45%, 1),
+        -7.6px 7.6px 0 hsla(273.6, 60%, 45%, 1),
+        -7.8px 7.8px 0 hsla(280.8, 60%, 45%, 1),
+        -8px 8px 0 hsla(288, 60%, 45%, 1),
+        -8.2px 8.2px 0 hsla(295.2, 60%, 45%, 1),
+        -8.4px 8.4px 0 hsla(302.4, 60%, 45%, 1),
+        -8.6px 8.6px 0 hsla(309.6, 60%, 45%, 1),
+        -8.8px 8.8px 0 hsla(316.8, 60%, 45%, 1),
+        -9px 9px 0 hsla(324, 60%, 45%, 1),
+        -9.2px 9.2px 0 hsla(331.2, 60%, 45%, 1),
+        -9.4px 9.4px 0 hsla(338.4, 60%, 45%, 1),
+        -9.6px 9.6px 0 hsla(345.6, 60%, 45%, 1),
+        -9.8px 9.8px 0 hsla(352.8, 60%, 45%, 1),
+        -10px 10px 0 hsla(360, 60%, 45%, 1),
+        0px 0px 0px hsla(0,0%,0%,0);
+}
+
+label.Label.stickers {
+    text-shadow: 0 0 0 #FFD,
+        0 0 0 #FFD,
+        0 0 0 #FFD,
+        0 0 0 #FFD,
+        0 1px 0 #FFD,
+        0 1px 0 #FFD,
+        0 -1px 0 #FFD,
+        0 -1px 0 #FFD,
+        0 2px 0 #FFD,
+        0 2px 0 #FFD,
+        0 -2px 0 #FFD,
+        0 -2px 0 #FFD,
+        1px 0 0 #FFD,
+        -1px 0 0 #FFD,
+        -1px 0 0 #FFD,
+        1px 0 0 #FFD,
+        1px 1px 0 #FFD,
+        -1px 1px 0 #FFD,
+        -1px -1px 0 #FFD,
+        1px -1px 0 #FFD,
+        1px 2px 0 #FFD,
+        -1px 2px 0 #FFD,
+        -1px -2px 0 #FFD,
+        1px -2px 0 #FFD,
+        2px 0 0 #FFD,
+        -2px 0 0 #FFD,
+        -2px 0 0 #FFD,
+        2px 0 0 #FFD,
+        2px 1px 0 #FFD,
+        -2px 1px 0 #FFD,
+        -2px -1px 0 #FFD,
+        2px -1px 0 #FFD,
+        2px 2px 0 #FFD,
+        -2px 2px 0 #FFD,
+        -2px -2px 0 #FFD,
+        2px -2px 0 #FFD,
+        0 0 0 hsla(0,0%,0%,0),
+        -4px 2px 2px #000;
+}
+
+label.Label.thickness {
+    text-shadow: 0 1px 0 #4a6868,
+        0 2px 0 #405959,
+        0 3px 0 #354a4a,
+        0 0 0 hsla(0,0%,0%,0),
+        -4px 4px 6px black;
+}
+
+/* https://codepen.io/Trinca/pen/XKwKby */
+label.Label.neonlasenter {
+    text-shadow: 2px 0 5px var(--neonlasenter-color1),
+        2px 0 2px var(--neonlasenter-color2),
+        2px 0 2px var(--neonlasenter-color2),
+        2px 0 15px var(--neonlasenter-color2),
+        2px 0 10px var(--neonlasenter-color2),
+        2px 0 192px var(--neonlasenter-color2);
+}
+
+/* http://markdotto.com/playground/3d-text/ */
+label.Label.text3d {
+    text-shadow: 0 1px 0 #ccc,
+        0 2px 0 #c9c9c9,
+        0 3px 0 #bbb,
+        0 4px 0 #b9b9b9,
+        0 5px 0 #aaa,
+        0 3px 5px rgba(0,0,0,1),
+        0 5px 10px rgba(0,0,0,1),
+        0 10px 10px rgba(0,0,0,0.2),
+        0 20px 20px rgba(0,0,0,0.15);
+}
+
+/* https://codepen.io/MoorLex/pen/BzgyyY */
+label.Label.prettyshadow {
+    text-shadow: 1px 1px 0 var(--prettyshadow-color1), 2px 2px 0 var(--prettyshadow-color2);
+}
+
+
+label.Label.gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+/* https://codepen.io/imbaniac/pen/ZOBoxJ/ */
+label.Label.reflect:after {
+    content:attr(data-text);
+    transform:rotateX(180deg);
+    background-image: linear-gradient(180deg,rgba(255,255,255,0) 10%,var(--reflect-color));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    position:absolute;
+    top:100%;
+    left: 0;
+}
+
+/* https://codepen.io/redouglas/pen/gobsm */
+label.Label.shine {
+    overflow:hidden;
+    text-shadow: none !important;
+}
+label.Label.shine:after {
+    content:attr(data-text);
+    position:absolute;
+    color:transparent;
+    background-size: 25% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation-name: shimmer;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-image: linear-gradient(to right, rgba(0,0,0,0), #FFF 50%, rgba(0,0,0,0));
+    left:0;
+    width:400%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -50% 0;
+  }
+  100% {
+    background-position: 500% 0;
+  }
+}
+
+/* https://www.midwinter-dg.com/blog_demos/css-text-shadows/ */
+label.Label.cloudy {
+     text-shadow: 0 0 5px var(--cloudy-color1), 0 0 15px var(--cloudy-color2), 0 0 25px var(--cloudy-color3), 0 0 90px var(--cloudy-color3);
+}
+
+label.Label.burning {
+    text-shadow: 0 -1px 2px #fff, 0 -2px 5px #ff0, 0 -10px 10px #ff8000, 0 -18px 20px #f00;
+}

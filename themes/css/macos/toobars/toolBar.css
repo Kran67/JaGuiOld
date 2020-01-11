@@ -1,0 +1,10 @@
+.macos.ToolBar,
+.macos.ToolBarContainer {
+    background: linear-gradient(to bottom, #DADADA 0, #BAB9BA 100%);
+    max-height: 30px;
+}
+
+.macos.ToolBar {
+    border-bottom: 1px solid #515151;
+    padding: 4px;
+}

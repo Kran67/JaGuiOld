@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Rectangular</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        let img;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let frame = 0;
+        let size;
+        let w;
+        let h;
+        let offset = 2;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        function rectangular() {
+            const ctx = document.getElementById("c").getContext("2d");
+            let j;
+            let i;
+            if (!started) {
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+                size = ~~document.querySelector("input").value;
+                w=Math.floor(img.width/size);
+                h=Math.floor(img.height/size);
+                frame = offset>0?0:200;
+            }
+            if (offset<0) {
+                ctx.drawImage(img, 0, 0);
+            }
+            ctx.save();
+            ctx.beginPath();
+            for (j=0; j<size+1; j++){
+                for (i=0; i<size+1; i++) {
+                    const frame2 = ~~(frame / 2);
+                    ctx.rect(w*i-frame2, h*j-frame2, frame, frame);
+                    ctx.closePath();
+                }
+            }
+            ctx.clip();
+            if (offset>0) {
+                ctx.drawImage(img, 0, 0);
+            } else {
+                ctx.drawImage(img===imgA?imgB:imgA, 0, 0);
+            }
+            ctx.restore();
+            frame+=offset;
+            if ((frame >= 200 && offset>0) || (frame < 0 && offset<0)) {
+                frame = 0;
+                [].forEach.call(document.querySelectorAll("select"), x => x.removeAttribute("disabled"));
+                cancelAnimationFrameRate(handle);
+                started = false;
+                return;
+            }
+            rAF(rectangular);
+        }
+        function init(value) {
+            offset = value==="in"?2:-2;
+            handle = rAF(rectangular);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas><br />
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].text); }">
+            <option></option>
+            <option>in</option>
+            <option>out</option>
+        </select><br />
+        <input type="range" min="2" max="20" value="5" />
+    </div>
+</body>
+</html>

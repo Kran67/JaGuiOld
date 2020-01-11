@@ -1,0 +1,55 @@
+.simple.SplitToolButton:hover .BitmapButtonCaption {
+    text-shadow: 0 0 8px rgba(43,142,223,0.9);
+}
+
+.simple.SplitToolButton:hover .BitmapButton img {
+    -webkit-filter: drop-shadow(0 0 4px rgba(43,142,223,0.9));
+    filter: url(../shadow.svg#drop-shadow);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=0, OffY=0,Color='#2B8EDF')";
+    filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=0, OffY=0, Color='#2B8EDF')";
+}
+
+.simple.SplitToolButton .BitmapButtonCaption,
+.simple.SplitToolButton.disabled .BitmapButtonCaption {
+    text-shadow: none;
+}
+
+.simple.SplitToolButton .BitmapButton img,
+.simple.SplitToolButton.disabled .BitmapButton img {
+    -webkit-filter: none;
+    filter: unset;
+    -ms-filter: "";
+    filter: "";
+}
+
+.simple.SplitToolButton:hover .BitmapButton,
+.simple.SplitToolButton:hover .PopupButton {
+    outline: 1px solid rgba(43,142,223,0.9);
+    outline-offset: -1px;
+}
+
+.simple.SplitToolButton .PopupButton:hover,
+.simple.SplitToolButton.opened {
+    background-color: rgba(43,142,223,0.5);
+}
+
+.simple.SplitToolButton .BitmapButton,
+.simple.SplitToolButton .PopupButton,
+.simple.SplitToolButton.disabled .BitmapButton,
+.simple.SplitToolButton.disabled .PopupButton {
+    background: none;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+.simple.SplitToolButton .BitmapButton {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-right: -1px;
+}
+
+.simple.SplitToolButton .PopupButton {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}

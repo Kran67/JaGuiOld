@@ -1,0 +1,45 @@
+.simple.ToolButton,
+.simple.ToolButton.disabled:hover {
+    outline: none;
+    background: none;
+    border: none;
+}
+
+.simple.ToolButton:hover {
+    outline: 1px solid rgba(43,142,223,0.9);
+    outline-offset: -1px;
+}
+
+.simple.ToolButton:hover .ToolButtonCaption {
+    text-shadow: 0 0 8px rgba(43,142,223,0.9);
+}
+
+.simple.ToolButton.disabled:hover .ToolButtonCaption {
+    text-shadow: none;
+}
+
+.simple.ToolButtonCaption {
+    text-shadow: none;
+}
+
+.simple.ToolButton:hover img {
+    -webkit-filter: drop-shadow(0 0 4px rgba(43,142,223,0.9));
+    filter: url(../shadow.svg#drop-shadow);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=0, OffY=0,Color='#2B8EDF')";
+    filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=0, OffY=0, Color='#2B8EDF')";
+}
+
+.simple.ToolButton img,
+.simple.ToolButton.disabled:hover img {
+    -webkit-filter: none;
+    filter: none;
+    -ms-filter: none;
+    filter: none;
+}
+
+.simple.ToolButtonSep {
+    background-color: #BCBCBC;
+    height: calc(100% - 4px);
+    margin: 2px;
+    width: 1px;
+}

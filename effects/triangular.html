@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Triangular</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let amount = 0;
+        let op;
+        let size;
+        let ctx;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let lastImg = imgA;
+        let nextImg = imgB;
+        function mulDiv(value, multi, divider) {
+            return ~~((value * multi) / divider);
+        }
+        function createPolygonRgnEx(pts) {
+            let i;
+            let l;
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, pts[0].y);
+            for (i=1, l = pts.length; i < l; i++) {
+                ctx.lineTo(pts[i].x, pts[i].y);
+            }
+            ctx.clip();
+            ctx.drawImage(nextImg, 0, 0);
+            ctx.restore();
+        }
+        function triangular() {
+            let x;
+            let y;
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+            }
+            const w = ctx.canvas.width;
+            const h = ctx.canvas.height;
+            if (w >= h) {
+                x = mulDiv(w, amount, 100);
+                y = mulDiv(x, h, w);
+            } else {
+                y = mulDiv(h, amount, 100);
+                x = mulDiv(y, w, h);
+            }
+            if (op===0) {
+                amount++;
+            } else {
+                amount--;
+            }
+            const sW = ~~(w / 10) + 1;
+            const sH = ~~(h / 10) + 1;
+            const dW = mulDiv(sW, amount, 50);
+            const dH = mulDiv(sH, amount, 50);
+            if (op===0) {
+                x = 0;
+                while (x < w) {
+                    x += sW;
+                    y = 0;
+                    while (y < h + sH) {
+                        y += sH;
+                        createPolygonRgnEx([{x:x - dW, y:y - dH}, {x:x, y:y + dH}, {x:x + dW, y:y - dH}]);
+                        y += sH;
+                    }
+                    x += sW;
+                }
+            } else {
+                ctx.drawImage(lastImg, 0, 0);
+                x = w;
+                while (x > 0) {
+                    x -= sW;
+                    y = 0;
+                    while (y < h + sH) {
+                        y += sH;
+                        createPolygonRgnEx([{x:x - dW, y:y - dH}, {x:x, y:y + dH}, {x:x + dW, y:y - dH}]);
+                        y += sH;
+                    }
+                    x -= sW;
+                }
+            }
+            if (amount > 100 || amount < 0) {
+                amount = op===0?0:100;
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                if (op===0) {
+                    [nextImg, lastImg] = [lastImg, nextImg];
+                }
+                return;
+            }
+            rAF(triangular);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            op = ~~value;
+            amount = op===0?0:100;
+            if (op===1) {
+                [nextImg, lastImg] = [lastImg, nextImg];
+            }
+            handle = rAF(triangular);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas><br />
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">in</option>
+            <option value="1">out</option>
+        </select><br />
+        <input type="range" min="2" max="20" value="5" />
+    </div>
+</body>
+</html>

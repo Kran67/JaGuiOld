@@ -1,0 +1,24 @@
+﻿div.HListBoxItem {
+    width: 32px;
+    text-align: left;
+    bottom: 0;
+    top: 0;
+}
+
+div.VListBoxItem {
+    height: 16px;
+    text-align: left;
+    padding-left: 2px;
+    right: 0;
+    left: 0;
+}
+
+div.ListBoxItem div.icon {
+    width: 16px;
+    float: left;
+    margin: 0 2px;
+    padding: 0;
+    position: relative;
+    background-position: center center;
+    height: 100%;
+}

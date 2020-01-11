@@ -1,0 +1,10 @@
+﻿.haiku.ToolBar {
+  background-color: #D8D8D8;
+  border-bottom: 1px solid #9B9B9B;
+  box-shadow: inset 1px 1px 0 0 #FFF;
+}
+
+.haiku.ToolBarContainer {
+  background-color: #D8D8D8;
+  border-bottom: 1px solid #9B9B9B;
+}

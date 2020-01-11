@@ -1,0 +1,93 @@
+.macos.Button,
+.macos.Button.disabled:hover,
+.macos.TextButton,
+.macos.TextButton.disabled:hover {
+    border-radius: 12px;
+    border: 1px solid #88888A;
+    background-color: #F8F9F7;
+    background-image: linear-gradient(to bottom,rgba(136,136,138,0.4) 0, rgba(247,246,249,0) 10px), 
+        linear-gradient(to right,#D8D8D8 0,#F8F9F7 8px, transparent 8px, transparent calc(100% - 8px),#F8F9F7 calc(100% - 8px), #D8D8D8 100%);
+    box-shadow: 0 1px 2px 0 #A7ACB4;
+}
+
+    .macos.Button:before,
+    .macos.Button.disabled:hover:before,
+    .macos.TextButton:before,
+    .macos.TextButton.disabled:hover:before {
+        position: absolute;
+        content: "";
+        left: 5px;
+        top: 0;
+        height: 7px;
+        right: 5px;
+        background-image: linear-gradient(to bottom, rgba(249,249,249,0.7) 0, rgba(249,249,249,0.7) 100%);
+        border-radius: 5px 5px 3px 3px;
+    }
+
+    .macos.Button:hover,
+    .macos.TextButton:hover {
+        border-color: #3F608B;
+        border-top-color: #272761;
+        border-right-color: #3C638E;
+        border-bottom-color: #5B777C;
+        background-color: #8DC0F5;
+        background-image: linear-gradient(to bottom,rgba(38,38,86,0.4) 0, rgba(33,52,166,0.8) 4px,rgba(127,183,241,0) 10px), 
+            linear-gradient(to right,#3D87D7 0,#8DC0F5 8px, transparent 8px, transparent calc(100% - 8px),#8DC0F5 calc(100% - 8px), #3D87D7 100%);
+    }
+
+        .macos.Button:hover:before,
+        .macos.TextButton:hover:before {
+            background-image: linear-gradient(to bottom, #DDE3F9 0, #92C4F9 100%);
+        }
+
+    .macos.Button.pressed,
+    .macos.TextButton.pressed,
+    .macos.Button.focused:not(.pressed):not(:hover),
+    .macos.TextButton.focused:not(.pressed):not(:hover),
+    .macos.Button.stayspressed.pressed:not(:hover),
+    .macos.Button.stayspressed.pressed:hover:not(:hover),
+    .macos.TextButton.stayspressed.pressed:not(:hover),
+    .macos.TextButton.stayspressed.pressed:hover:not(:hover) {
+        border-color: #425C7F;
+        border-top-color: #292950;
+        border-right-color: #3F5F81;
+        border-bottom-color: #596F73;
+        background-color: #8CB5E0;
+        background-image: linear-gradient(to bottom,rgba(41,41,85,0.4) 0, rgba(41,55,148,0.8) 4px,rgba(127,172,221,0) 10px), 
+            linear-gradient(to right,#4580C2 0,#8DC0F5 8px, transparent 8px, transparent calc(100% - 8px),#8DC0F5 calc(100% - 8px), #4580C2 100%);
+    }
+
+        .macos.Button.pressed:before:not(:hover),
+        .macos.TextButton.pressed:before:not(:hover),
+        .macos.Button.focused:not(.pressed):before:not(:hover),
+        .macos.TextButton.focused:not(.pressed):before:not(:hover),
+        .macos.Button.stayspressed.pressed:before:not(:hover),
+        .macos.Button.stayspressed.pressed:hover:before:not(:hover),
+        .macos.TextButton.stayspressed.pressed:before:not(:hover),
+        .macos.TextButton.stayspressed.pressed:hover:before:not(:hover) {
+            background-image: linear-gradient(to bottom, #D2D8ED 0, #91B9E6 100%);
+        }
+
+.macos.SpeedButton,
+.macos.SpeedButton.disabled:hover {
+    border: 1px solid #CCE1E7;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 3px;
+}
+
+    .macos.SpeedButton:hover {
+        border-color: #A3A3A3;
+        border-bottom-color: #595959;
+        background-color: #EEE;
+        box-shadow: inset 0 1px 0 0 #FEFEFE,inset 0 2px 0 0 #F6F6F6,inset 0 3px 0 0 #E1E1E1,inset 0 4px 0 0 #E4E4E4,inset 0 -1px 0 0 #FCFCFC,inset 0 -2px 0 0 #FAFAFA,inset 0 -3px 0 0 #F7F7F7;
+    }
+
+    .macos.SpeedButton.stayspressed.pressed,
+    .macos.SpeedButton.stayspressed.pressed:hover,
+    .macos.SpeedButton.pressed {
+        border-color: #6F6F6F;
+        border-bottom-color: #1C1C1C;
+        background-color: #C3C3C3;
+        box-shadow: inset 0 1px 0 0 #D4D4D4,inset 0 2px 0 0 #CACACA,inset 0 3px 0 0 #B4B4B4,inset 0 4px 0 0 #B9B9B9,inset 0 5px 0 0 #BFBFBF,inset 0 -1px 0 0 #D1D1D1,inset 0 -2px 0 0 #CFCFCF,inset 0 -3px 0 0 #CDCDCD;
+    }

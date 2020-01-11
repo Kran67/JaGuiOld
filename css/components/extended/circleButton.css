@@ -1,0 +1,6 @@
+﻿.Control.Button.CircleButton,
+.Control.Button.CircleButton:hover,
+.Control.Button.CircleButton.disabled:hover{
+    overflow: hidden;
+    border-radius: 50%;
+}

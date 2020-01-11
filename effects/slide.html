@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>expand transition</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            if (typeof handle === "function") {
+                handle();
+            }
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        let ctx;
+        const imgA = new Image();
+        const imgB = new Image();
+        let amount = 0;
+        let started = false;
+        let dir;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let lastImg = imgA;
+        let nextImg = imgB;
+        function mulDiv(value, multi, divider) {
+            return ~~((value*multi) / divider);
+        }
+        function slide() {
+            let x;
+            let y;
+            let x1;
+            let y1;
+            let y2;
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+            } else {
+                const w = ctx.canvas.width;
+                const h = ctx.canvas.height;
+                amount++;
+                if (w>=h) {
+                    x = mulDiv(w, amount, 100);
+                    y = mulDiv(x, h, w);
+                } else {
+                    y = mulDiv(h, amount, 100);
+                    x = mulDiv(y, w, h);
+                }
+                switch (dir) {
+                    case 0: // in from right
+                        x1 = Math.max(w - x, 0);
+                        ctx.drawImage(nextImg, 0, 0, w, h, x1, 0, w, h);
+                        break;
+                    case 1: // in from left
+                        x1 = Math.min(x - w, 0);
+                        ctx.drawImage(nextImg, 0, 0, w, h, x1, 0, w, h);
+                        break;
+                    case 2: // in from bottom
+                        y1 = Math.max(h - y, 0);
+                        ctx.drawImage(nextImg, 0, 0, w, h, 0, y1, w, h);
+                        break;
+                    case 3: // in from top
+                        y1 = Math.min(y - h, 0);
+                        ctx.drawImage(nextImg, 0, 0, w, h, 0, y1, w, h);
+                        break;
+                    case 4: // in from top and bottom
+                        y2 = ~~(y / 2);
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.rect(0,0,w,y2);
+                        ctx.rect(0,h-y2,w,y2);
+                        ctx.clip();
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 5: // in from bottom right
+                        x1 = Math.max(0, w - x);
+                        y1 = Math.max(0, h - y);
+                        ctx.drawImage(nextImg, x1, y1);
+                        break;
+                    case 6: // in from top right
+                        x1 = Math.max(0, w - x);
+                        y1 = Math.min(0, y - h);
+                        ctx.drawImage(nextImg, x1, y1);
+                        break;
+                    case 7: // in from top left
+                        x1 = Math.min(0, x - w);
+                        y1 = Math.min(y - h, 0);
+                        ctx.drawImage(nextImg, x1, y1);
+                        break;
+                    case 8: // in from bottom left
+                        x1 = Math.min(x - w, 0);
+                        y1 = Math.max(0, h - y);
+                        ctx.drawImage(nextImg, x1, y1);
+                        break;
+                    case 9: // out from right
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.drawImage(lastImg, x, 0);
+                        break;
+                    case 10: // out from left
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.drawImage(lastImg, -x, 0);
+                        break;
+                    case 11: // out from bottom
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.drawImage(lastImg, 0, y);
+                        break;
+                    case 12: // out from top
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.drawImage(lastImg, 0, -y);
+                        break;
+                    case 13: // swap from left
+                        if (amount <= 50) {
+                            ctx.drawImage(nextImg, x, 0);
+                            ctx.drawImage(lastImg, -x, 0);
+                        } else {
+                            ctx.drawImage(lastImg, x - w, 0);
+                            ctx.drawImage(nextImg, w - x, 0);
+                        }
+                        break;
+                    case 14: // swap from right
+                        if (amount <= 50) {
+                            ctx.drawImage(nextImg, -x, 0);
+                            ctx.drawImage(lastImg, x, 0);
+                        } else {
+                            ctx.drawImage(lastImg, w - x, 0);
+                            ctx.drawImage(nextImg, x - w, 0);
+                        }
+                        break;
+                    case 15: // swap from top
+                        if (amount <= 50) {
+                            ctx.drawImage(nextImg, 0, y);
+                            ctx.drawImage(lastImg, 0, -y);
+                        } else {
+                            ctx.drawImage(lastImg, 0, y - h);
+                            ctx.drawImage(nextImg, 0, h - y);
+                        }
+                        break;
+                    case 16: // swap from bottom
+                        if (amount <= 50) {
+                            ctx.drawImage(nextImg, 0, -y);
+                            ctx.drawImage(lastImg, 0, y);
+                        } else {
+                            ctx.drawImage(lastImg, 0, h - y);
+                            ctx.drawImage(nextImg, 0, y - h);
+                        }
+                        break;
+                }
+                if (amount>=100) {
+                    [lastImg, nextImg] = [nextImg, lastImg];
+                    amount = 0;
+                    cancelAnimationFrameRate(handle);
+                    started = false;
+                    [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                    return;
+                }
+            }
+            handle = rAF(slide);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            dir = ~~value;
+            rAF(slide);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 220px;
+            margin-bottom: 2px;
+            margin-right: 2px;
+            height: 21px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas>
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">in from right</option>
+            <option value="1">in from left</option>
+            <option value="2">in from bottom</option>
+            <option value="3">in from top</option>
+            <option value="4">in from top and bottom</option>
+            <option value="5">in from bottom right</option>
+            <option value="6">in from top right</option>
+            <option value="7">in from top left</option>
+            <option value="8">in from bottom left</option>
+            <option value="9">out from right</option>
+            <option value="10">out from left</option>
+            <option value="11">out from bottom</option>
+            <option value="12">out from top</option>
+            <option value="13">swap from left</option>
+            <option value="14">swap from right</option>
+            <option value="15">swap from top</option>
+            <option value="16">swap from bottom</option>
+        </select><br />
+    </div>
+</body>
+</html>

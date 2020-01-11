@@ -1,0 +1,20 @@
+﻿:root {
+    --first-corner-button-color: #222;
+    --secondary-corner-button-color: #222;
+}
+
+.carbon.secondary-corner-button-color {
+    stop-color: var(--secondary-corner-button-color);
+}
+
+.carbon.first-corner-button-color {
+    stop-color: var(--first-corner-button-color);
+}
+
+.carbon.pressed .carbon.CornerButton {
+    background-image: linear-gradient(to bottom, #404040, #303030);
+}
+
+jagui-cornerbutton.carbon.focused {
+    filter: drop-shadow(0 0 3px #F69E2D);
+}

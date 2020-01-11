@@ -1,0 +1,212 @@
+﻿div.Calendar {
+    max-height: 148px;
+    max-width: 187px;
+    min-height: 148px;
+    min-width: 187px;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+div.CalendarContent {
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+}
+
+div.CalendarHeader {
+    height: 21px;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+div.CalendarPrevMonth {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    font-family: jagui;
+    width: 21px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.CalendarPrevMonth:before {
+    content: "*";
+}
+
+div.CalendarThisDay {
+    left: 22px;
+    top: 0;
+    font-family: jagui;
+    width: 21px;
+    bottom: 0;
+    font-size: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.CalendarThisDay:before {
+    content: "3";
+}
+
+div.CalendarNextMonth {
+    left: 43px;
+    top: 0;
+    bottom: 0;
+    font-family: jagui;
+    width: 21px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.CalendarNextMonth:before {
+    content: ")";
+}
+
+div.CalendarThisMonth {
+    right: 0;
+    top: 0;
+    bottom: 0;
+    text-align: center;
+    line-height: 21px;
+    font-weight: bold;
+    width: 105px;
+}
+
+div.CalendarWeekdays {
+    left: 6px;
+    right: 6px;
+    height: 15px;
+    top: 22px;
+}
+
+div.CalendarWeekNum,
+div.CalendarWeekDay {
+    position: relative;
+    float: left;
+    width: 23px;
+    text-align: center;
+    line-height: 16px;
+    height: 100%;
+    font-size: 8pt;
+}
+
+div.CalendarWeekNum {
+    display: none;
+}
+
+div.Calendar.viewweeknum div.CalendarWeekNum {
+    width: 18px;
+    display: block;
+    opacity: 0.5;
+}
+
+div.Calendar.viewweeknum div.CalendarWeekDay,
+div.Calendar.viewweeknum div.CalendarDay {
+    width: 22px;
+}
+
+div.CalendarWeeks {
+    left: 6px;
+    right: 6px;
+    top: 38px;
+    bottom: 0px;
+    height: auto;
+}
+
+div.Calendar.viewweeknum div.CalendarWeeks,
+div.Calendar.viewweeknum div.CalendarWeekdays {
+    left: 0;
+    right: 0;
+}
+
+div.CalendarWeek {
+    left: 0px;
+    right: 0px;
+    height: 16px;
+}
+
+div.CalendarFirstWeek {
+    top: 0px;
+}
+
+div.CalendarSecondWeek {
+    top: 16px;
+}
+
+div.CalendarThirdWeek {
+    top: 32px;
+}
+
+div.CalendarFourthWeek {
+    top: 48px;
+}
+
+div.CalendarFifthWeek {
+    top: 64px;
+}
+
+div.CalendarSixthWeek {
+    top: 80px;
+}
+
+div.CalendarDay {
+    position: relative;
+    float: left;
+    width: 23px;
+    text-align: center;
+    line-height: 16px;
+    height: 100%;
+    font-size: 8pt;
+}
+
+div.CalendarMonths,
+div.CalendarDecades,
+div.CalendarCenturies {
+    top: 27px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    overflow: hidden;
+    z-index: -1;
+    transform: scale(1.7);
+    opacity: 0;
+    transition: all linear 0.4s;
+}
+
+div.zoomOut {
+    transform: scale(1);
+    opacity: 1;
+    z-index: 1;
+}
+
+div.CalendarMDC {
+    position: relative;
+    float: left;
+    width: 43px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+}
+
+div.CalendarMDCx2 {
+    line-height: 19px;
+}
+
+div.CalendarMonth,
+div.CalendarDecades,
+div.CalendarCenturies {
+}
+
+div.CalendarDecade {
+}
+
+div.CalendarCentury {
+}

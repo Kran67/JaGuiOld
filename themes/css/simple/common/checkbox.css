@@ -1,0 +1,27 @@
+.simple.CheckboxCheck {
+    border: 1px solid #BBB;
+    background-color: #FFF;
+    max-width: 12px;
+    width: 12px;
+    height: 12px;
+    color: #2B8EDF;
+    box-shadow: none;
+}
+
+.simple.CheckboxCheck.checked:before,
+.simple.CheckboxCheck.grayed:before {
+    content: "5";
+    font-size: 4.5pt;
+}
+
+.simple.CheckboxCheck.grayed:before {
+    color: #2B8EDF;
+    content: "-";
+    font-family: "Tahoma";
+    font-size: 13pt;
+    font-weight: bold;
+}
+
+.simple.Checkbox.focused .CheckboxCheck {
+    border-color: #6694E3;
+}

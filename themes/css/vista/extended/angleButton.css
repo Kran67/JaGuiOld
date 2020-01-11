@@ -1,0 +1,17 @@
+﻿.carbon.AngleButton,
+.carbon.AngleButton.disabled:hover {
+  border: 1px solid #222;
+  background-image: linear-gradient(to bottom,#505050 0,#303030 100%);
+}
+
+.carbon.AngleButton:hover {
+  background-image: linear-gradient(to bottom,#707070 0,#303030 100%);
+}
+
+.carbon.AngleButton.pressed {
+  background-image: linear-gradient(to bottom,#404040 0,#303030 100%);
+}
+
+.carbon.AngleButton.focused {
+  box-shadow: 0 0 6px #F69E2D;
+}

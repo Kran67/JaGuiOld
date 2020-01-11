@@ -1,0 +1,60 @@
+.macos.SplitToolButton {
+    background-image: linear-gradient(to bottom, #FEFEFE 0, #B8B8B8 100%);
+    border: 1px solid #555;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 0 #B9B9B9;
+}
+
+.macos.SplitToolButton .BitmapButton,
+.macos.SplitToolButton .PopupButton,
+.macos.SplitToolButton.disabled .BitmapButton,
+.macos.SplitToolButton.disabled .PopupButton,
+.macos.SplitToolButton.opened .BitmapButton:hover,
+.macos.SplitToolButton.opened .PopupButton:hover {
+    border: none;
+    border-radius: 0;
+    background: none;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    box-shadow: none;
+}
+
+.macos.SplitToolButton .BitmapButton img,
+.macos.SplitToolButton.disabled .BitmapButton img {
+    background: none;
+    border-radius: 0;
+    border: 1px solid transparent;
+    border-bottom-width: 0;
+    border-top-width: 0;
+    box-shadow: none;
+}
+
+.macos.SplitToolButton .BitmapButton:hover,
+.macos.SplitToolButton .PopupButton:hover {
+    border-left-color: #B9B9B9;
+    border-right-color: #B9B9B9;
+    background-color: rgba(202,202,202,0.5);
+}
+
+.macos.SplitToolButton .BitmapButton.pressed:hover,
+.macos.SplitToolButton .PopupButton.pressed:hover {
+    background: none;
+    background-color: #959595;
+    box-shadow: inset 0 0 10px 0 #B9B9B9;
+}
+
+.macos.SplitToolButton.opened {
+    background: none;
+    background-color: #959595;
+    box-shadow: inset 0 0 10px 0 #B9B9B9;
+}
+
+.macos.SplitButton .BitmapButton {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.macos.SplitButton .PopupButton {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}

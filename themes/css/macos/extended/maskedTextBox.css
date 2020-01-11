@@ -1,0 +1,9 @@
+.macos.MaskedTextBox {}
+
+.macos.MaskedTextBoxInput {}
+
+.macos.MaskedTextBox.required:before {}
+
+.macos.MaskedTextBox.haserror {}
+
+.macos.MaskedTextBox.haserror:after {}

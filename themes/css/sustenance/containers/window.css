@@ -1,0 +1,223 @@
+﻿.sustenance.Window {
+    background-color: #EDECE1;
+    background-repeat: no-repeat;
+}
+.sustenance.Window:not(.none) {
+    background-image: linear-gradient(to bottom, #77B1EC, #245EDE), linear-gradient(to right, #245EDE, #245EDE), linear-gradient(to right, #245EDE, #245EDE), linear-gradient(to bottom, #245EDE, #245EDE), linear-gradient(to right, #5E98E8, #5E98E8), linear-gradient(to right, #5E98E8, #5E98E8), linear-gradient(to bottom, #5E98E8, #5E98E8), linear-gradient(to bottom, #2C53A6, #2C53A6), linear-gradient(to bottom, #2C53A6, #2C53A6), linear-gradient(to right, #2C53A6, #2C53A6), linear-gradient(to right, #2C53A6, #2C53A6);
+    background-position: left top, left 27px, right 27px, left bottom, 1px 27px, calc(100% - 1px) 27px, 1px calc(100% - 1px), 2px 27px, 2px calc(100% - 2px), 2px 27px, calc(100% - 2px) 27px;
+    background-size: 100% 27px, 1px calc(100% - 27px), 1px calc(100% - 27px), calc(100% - 1px) 1px, 1px calc(100% - 26px), 1px calc(100% - 26px), calc(100% - 2px) 1px, calc(100% - 3px) 1px, calc(100% - 3px) 1px, 1px calc(100% - 26px), 1px calc(100% - 26px);
+    border: 1px solid #1C3F8B;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+}
+
+.sustenance.Window:not(.maximized) {
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, .7);
+}
+
+.sustenance.Window.rolledUp {
+    max-height: 32px;
+}
+
+.sustenance.Window:not(.none):before {
+    content: "";
+    border: 1px solid #3F71C7;
+    border-left-color: #224EAD;
+    border-right-color: #224EAD;
+    border-bottom-color: #234FAE;
+    border-radius: 9px;
+    box-shadow: 0 -1px 0 0 #2254C4, 0 1px 0 0 #5F97E3, 1px 0 0 0 #4881E1, -1px 0 0 0 #4881E1;
+    background-image: linear-gradient(to bottom, #5A93E2, #1B4FC1);
+    height: 18px;
+    min-height: 18px;
+    max-height: 18px;
+    line-height: 18px;
+    top: 5px;
+    left: 30px;
+    right: 148px;
+    position: absolute;
+}
+
+.sustenance.Window .sustenance.WindowLayout {
+    overflow: visible;
+}
+
+.sustenance.Window .sustenance.WindowTitleBar {
+    height: 27px;
+    min-height: 27px;
+    max-height: 27px;
+    border-top: 1px solid #67A1E9;
+    position: absolute;
+    margin-top: -4px;
+    background-position-y: 5px;
+}
+
+.sustenance.Window .sustenance.WindowTitle {
+    font-size: 8pt;
+    font-weight: bold;
+    color: #FFF;
+    height: 18px;
+    min-height: 18px;
+    max-height: 18px;
+    line-height: 18px;
+    padding-top: 5px;
+    text-align: center;
+    text-shadow: 1px 1px 0 #0C214E;
+}
+
+.sustenance.Window.inactive .sustenance.WindowTitle {
+    color: #92B5EF;
+}
+
+.sustenance.Window[data-buttons="5"]:before {
+    right: 127px;
+}
+
+.sustenance.Window[data-buttons="4"]:before {
+    right: 106px;
+}
+
+.sustenance.Window[data-buttons="3"]:before {
+    right: 85px;
+}
+
+.sustenance.Window[data-buttons="2"]:before, .sustenance.Window.dialog:before {
+    right: 64px;
+}
+
+.sustenance.Window[data-buttons="1"]:before {
+    right: 45px;
+}
+
+.sustenance.Window .sustenance.WindowTitleButton {
+    border: none;
+    overflow: visible;
+    width: 24px;
+    min-width: 24px;
+    max-width: 24px;
+    height: 19px;
+    min-height: 19px;
+    max-height: 19px;
+    background-color: transparent;
+    top: 3px;
+    margin-left: -3px;
+    margin-right: 0;
+    background-image: url('../../../images/sustenance/leftbackbuttons.png');
+    justify-content: flex-start;
+    padding-left: 3px;
+}
+
+.sustenance.Window .sustenance.WindowTitleButton.disabled {
+    opacity: 1;
+}
+
+.sustenance.Window .sustenance.WindowTitleButton:before {
+    border-radius: 50%;
+    content: "";
+    height: 13px;
+    min-height: 13px;
+    max-height: 13px;
+    width: 13px;
+    min-width: 13px;
+    max-width: 13px;
+    box-sizing: border-box;
+    z-index: 1;
+    border: 1px solid #204BAA;
+}
+
+.sustenance.Window .sustenance.WindowTitleButton.disabled:before {
+    opacity: 0.5;
+}
+
+.sustenance.Window .sustenance.WindowCloseButton {
+    width: 31px;
+    min-width: 31px;
+    max-width: 31px;
+    height: 25px;
+    min-height: 25px;
+    max-height: 25px;
+    margin-right: 1px;
+    margin-left: -10px;
+    z-index: 1;
+    top: 0;
+    background-image: url('../../../images/sustenance/rightbackbuttons.png');
+    padding-left: 8px;
+}
+
+.sustenance.Window[data-buttons="1"] .sustenance.WindowCloseButton {
+    background-image: url('../../../images/sustenance/closebackbutton.png');
+}
+
+.sustenance.Window .sustenance.WindowCloseButton:before {
+    height: 20px;
+    min-height: 20px;
+    max-height: 20px;
+    width: 20px;
+    min-width: 20px;
+    max-width: 20px;
+    border-color: #92232D;
+    background-image: radial-gradient(0 0, circle, #F07575, #B4201F);
+    background-image: -webkit-radial-gradient(0 0, circle, #F07575, #B4201F);
+}
+
+.sustenance.Window .sustenance.WindowCloseButton.pressed:not(.disabled):before {
+    border-color: #761111;
+    background-image: radial-gradient(0 0, circle, #590909, #F07575);
+    background-image: -webkit-radial-gradient(0 0, circle, #590909, #F07575);
+}
+
+.sustenance.Window.inactive .sustenance.WindowCloseButton:before, .sustenance.Window.inactive .sustenance.WindowMinimizeButton:before, .sustenance.Window.inactive .sustenance.WindowHelpButton:before, .sustenance.Window.inactive .sustenance.WindowRollUpDownButton:before, .sustenance.Window.inactive .sustenance.WindowStayOnOffButton:before {
+    border-color: #204BAA;
+    background-image: radial-gradient(0 0, circle, #659FE8, #1C4EBE);
+    background-image: -webkit-radial-gradient(0 0, circle, #659FE8, #1C4EBE);
+}
+
+.sustenance.Window .sustenance.WindowMaxRestoreButton:before {
+    background-image: radial-gradient(0 0, circle, #659FE8, #1C4EBE);
+    background-image: -webkit-radial-gradient(0 0, circle, #659FE8, #1C4EBE);
+}
+
+.sustenance.Window .sustenance.WindowMaxRestoreButton.pressed:not(.disabled):before, .sustenance.Window .sustenance.WindowMaxRestoreButton.isrestore:not(.disabled):before {
+    background-image: radial-gradient(0 0, circle, #13378A, #6099E2);
+    background-image: -webkit-radial-gradient(0 0, circle, #13378A, #6099E2);
+}
+
+.sustenance.Window .sustenance.WindowMinimizeButton:before {
+    background-image: radial-gradient(0 0, circle, #E4E598, #A2A020);
+    background-image: -webkit-radial-gradient(0 0, circle, #E4E598, #A2A020);
+}
+
+.sustenance.Window .sustenance.WindowMinimizeButton.pressed:not(.disabled):before, .sustenance.Window.minimized .sustenance.WindowMinimizeButton:not(.disabled):before {
+    background-image: radial-gradient(0 0, circle, #A2A020, #E4E598);
+    background-image: -webkit-radial-gradient(0 0, circle, #A2A020, #E4E598);
+}
+
+.sustenance.Window .sustenance.WindowHelpButton:before {
+    background-image: radial-gradient(0 0, circle, #ACE598, #0EA821);
+    background-image: -webkit-radial-gradient(0 0, circle, #ACE598, #0EA821);
+}
+
+.sustenance.Window .sustenance.WindowHelpButton.pressed:not(.disabled):before {
+    background-image: radial-gradient(0 0, circle, #0EA821, #ACE598);
+    background-image: -webkit-radial-gradient(0 0, circle, #0EA821, #ACE598);
+}
+
+.sustenance.Window .sustenance.WindowRollUpDownButton:before {
+    background-image: radial-gradient(0 0, circle, #E598D1, #A22084);
+    background-image: -webkit-radial-gradient(0 0, circle, #E598D1, #A22084);
+}
+
+.sustenance.Window .sustenance.WindowRollUpDownButton.pressed:not(.disabled):before, .sustenance.Window .sustenance.WindowRollUpDownButton.isup:not(.disabled):before {
+    background-image: radial-gradient(0 0, circle, #A22084, #E598D1);
+    background-image: -webkit-radial-gradient(0 0, circle, #A22084, #E598D1);
+}
+
+.sustenance.Window .sustenance.WindowStayOnOffButton:before {
+    background-image: radial-gradient(0 0, circle, #C1FDFF, #49B1CB);
+    background-image: -webkit-radial-gradient(0 0, circle, #C1FDFF, #49B1CB);
+}
+
+.sustenance.Window .sustenance.WindowStayOnOffButton.pressed:not(.disabled):before, .sustenance.Window .sustenance.WindowStayOnOffButton.isstayon:not(.disabled):before {
+    background-image: radial-gradient(0 0, circle, #49B1CB, #C1FDFF);
+    background-image: -webkit-radial-gradient(0 0, circle, #49B1CB, #C1FDFF);
+}

@@ -1,0 +1,33 @@
+.simple.StatusBar {
+    height: 22px;
+    border-top: 1px solid #6694E3;
+    background-color: #FFF;
+}
+
+.simple.StatusBarPanel.lowered {
+    border: 1px solid #686868;
+    border-bottom-color: #BBB;
+    border-right-color: #BBB;
+}
+
+.simple.StatusBarPanel.raised {
+    border: 1px solid #686868;
+    border-top-color: #BBB;
+    border-left-color: #BBB;
+}
+
+.simple.StatusBarPanel.single {
+    border-left: 1px solid #686868;
+}
+
+.simple.StatusBarSimplePanel {
+    border: 1px solid #686868;
+}
+
+.simple.StatusBarSizer {
+    right: 2px;
+    bottom: 2px;
+    width: 9px;
+    height: 9px;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwgAADsIBFShKgAAAABl0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuNUmK/OAAAAAmSURBVChTY2AgACoqKv4TUoNfHmYC+Sahm0C6SbhMIN4kQiaA5AG0PyQKD/7QYwAAAABJRU5ErkJggg==);
+}

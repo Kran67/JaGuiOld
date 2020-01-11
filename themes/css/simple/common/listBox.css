@@ -1,0 +1,38 @@
+.simple.ListBoxItem .CheckboxCheck {
+    position: relative;
+    margin-right: 2px;
+    float: left;
+}
+
+.simple.ListBoxContent {
+    background-color: #FFF;
+}
+
+.simple.ListBox {
+    border: 1px solid #686868;
+    border-radius: 2px;
+    background-color: #FFF;
+}
+
+.simple.ListBoxItem {
+}
+
+.simple.ListBox.usealternatecolor .ListBoxItem.alternate {
+    background-color: rgba(0,0,0,0.2);
+}
+
+.simple.VListBoxItem.isheader,
+.simple.PopupListBox .simple.VListBoxItem.isheader:hover {
+    background-color: #7CB1DD;
+    color: #FFF;
+    font-style: italic;
+}
+
+.simple.ListBoxItem.selected {
+    background-color: #2B8EDF;
+    color: #FFF;
+}
+
+.simple.ListBox.focused {
+    border: 1px solid #6694E3;
+}

@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Curl</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null, img;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let frame = 0;
+        let size = 1;
+        let x;
+        let y;
+        let offset = 2;
+        let dir;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        const buffer = document.createElement("canvas");
+        imgA.onload=function() {
+            buffer.width = this.width;
+            buffer.height = this.height;
+        }
+        const cbx = buffer.getContext("2d");
+        function shade(ctx, dx, dy, dw, dh, x, y, w, h) {
+            const s = ctx.createLinearGradient(x, y, w, h);
+            s.addColorStop(0.0, 'rgba(0,0,0,0.5)');
+            s.addColorStop(0.2, 'rgba(0,0,0,0)');
+            s.addColorStop(0.3, 'rgba(254,254,254,0)');
+            s.addColorStop(0.45, 'rgba(254,254,254,0.5)');
+            s.addColorStop(0.6, 'rgba(254,254,254,0)');
+            s.addColorStop(0.66, 'rgba(0,0,0,0)');
+            s.addColorStop(1.0, 'rgba(0,0,0,0.5)');
+            ctx.save();
+            ctx.translate(dx,0);
+            ctx.fillStyle = s;
+            ctx.fillRect(0, 0, w, dh);
+            ctx.restore();
+        };
+
+        function shadow(ctx, dx, dy, dw, dh, x, y, w, h) {
+            const s = ctx.createLinearGradient(x, y, w, h);
+            s.addColorStop(0.0, 'rgba(0,0,0,0.5)');
+            s.addColorStop(1.0, 'rgba(0,0,0,0)');
+            ctx.save();
+            ctx.translate(dx,0);
+            ctx.fillStyle = s;
+            ctx.fillRect(0, 0, w, dh);
+            ctx.restore();
+        };
+        function curl() {
+            const ctx = document.getElementById("c").getContext("2d");
+            if (!started) {
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+                frame = (dir==="right" || dir==="left")?img.width:img.height;
+                cbx.save();
+                cbx.translate(img.width, 0);
+                cbx.scale(-1,1);
+                cbx.drawImage(img===imgB?imgA:imgB,0,0);
+                cbx.restore();
+            }
+            ctx.drawImage(buffer,img.width - frame - size, 0, size, img.height, frame-size, 0, size, img.height);
+            shade(ctx, frame-size, 0, 0, img.height, 0, 0, size, 0);
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(frame, 0, img.width-frame, img.height);
+            ctx.clip();
+            ctx.drawImage(img, 0, 0);
+            ctx.restore();
+            if (frame>0) {
+                shadow(ctx, frame, 0, 0, img.height, 0, 0, size, 0);
+            }
+            if (size < 26 && frame > 26) {
+                size++;
+                frame--;
+            } else {
+                frame+=offset;
+            }
+            if (frame < -1) {
+                frame = 0;
+                size = 0;
+                [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                cancelAnimationFrameRate(handle);
+                started = false;
+                return;
+            }
+            rAF(curl);
+        }
+        function init(value) {
+            dir = value;
+            offset = (dir==="right" || dir==="down")?4:-4;
+            handle = rAF(curl);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas><br />
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].text); }">
+            <option></option>
+            <option>left</option>
+            <option>right</option>
+            <option>down</option>
+            <option>up</option>
+        </select><br />
+    </div>
+</body>
+</html>

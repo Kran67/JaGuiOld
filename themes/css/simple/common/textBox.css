@@ -1,0 +1,9 @@
+.simple.TextBox {
+    border: 1px solid #686868;
+    background-color: #FFF;
+    border-radius: 2px;
+}
+
+.simple.TextBox.focused {
+    border: 1px solid #6694E3;
+}

@@ -1,0 +1,54 @@
+﻿.air.PropertyGrid > .PropertyGridContent {
+    background-color: #484848;
+}
+
+.air.PropertyGrid {
+    border: 1px solid #1C1C1C;
+    background-color: #484848;
+}
+
+.air.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent {
+    border-right: 1px solid #6A6A6A;
+}
+
+.air.PropertyGrid > .PropertyGridContent > .PropertyGridRightContent {
+    border-left: 1px solid rgba(0,0,0,0.2);
+}
+
+.air.PropertyGrid > .PropertyGridContent .PropertyGridItem {
+    overflow: hidden;
+    border-radius: 0;
+}
+
+.air.PropertyGrid.focused {
+    box-shadow: 0 0 6px 2px #65C8E0;
+}
+
+.air.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent .PropertyGridItem.selected {
+    background-color: #65C8E0;
+}
+
+.air.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent .PropertyGridItem.selected span {
+    color: #000;
+}
+
+.air.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent .PropertyGridItem > .sep {
+    background-color: #505050;
+}
+
+.air.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent .PropertyGridItem.selected:not(.TVIHasChild) > div.sep:last-of-type:before {
+    color: #65C8E0;
+}
+
+.air.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent .PropertyGridItem.grid {
+    border-bottom: 1px dotted #6A6A6A;
+}
+
+.air.PropertyGrid > .PropertyGridContent > .PropertyGridRightContent .PropertyGridItem.grid {
+    border-bottom: 1px dotted #6A6A6A;
+}
+
+.air.PropertyGrid > .PropertyGridInfo {
+    background-color: #484848;
+    border-top: 1px solid #1C1C1C;
+}

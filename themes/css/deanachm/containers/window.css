@@ -1,0 +1,264 @@
+﻿.deanachm.Window {
+    background-repeat: no-repeat;
+    background-color: #F0F0F0;
+}
+
+.deanachm.Window.maximized {
+    box-shadow: inset 0 0 0 1px #16336F !important;
+}
+
+.deanachm.Window:not(.none) {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    box-shadow: inset 0 0 0 1px #16336F, 5px 5px 5px rgba(0, 0, 0, .7);
+    background-image: url(../../../images/deanachm/bottom_right.png)/* bottom - right */
+    , linear-gradient(to bottom, #204186, #234893 45%, #244A97 46%, #244B9B)/* top gradient */
+    , linear-gradient(to bottom, #2D5DBF, #2D5DBF)/* 1 top */
+    , linear-gradient(to bottom, #1F4083, #1F4083)/* 2 top */
+    , linear-gradient(to bottom, #2B51A1, #2B51A1)/* 3 top */
+    , linear-gradient(to bottom, #244B9B, #244B9B)/* 4 top */
+    , linear-gradient(to bottom, #1B3874, #1B3874)/* 5 top */
+    , linear-gradient(to right, #2955AE, #2955AE)/* 1 - left */
+    , linear-gradient(to right, #234A98, #234A98)/* 2 - left  */
+    , linear-gradient(to right, #244B9B, #244B9B)/* 3 - left */
+    , linear-gradient(to right, #4B78D3, #4B78D3)/* 1 - right */
+    , linear-gradient(to right, #386AD0, #386AD0)/* 2 - right */
+    , linear-gradient(to right, #2B59B6, #2B59B6)/* 3 - right */
+    , linear-gradient(to bottom, #244B9B, #244B9B)/* 1 - bottom */
+    , linear-gradient(to bottom, #2955AE, #2955AE)/* 2 - bottom */
+    , linear-gradient(to bottom, #21458E, #21458E)/* 3 - bottom */
+    ;
+    background-size: 83px 3px/* bottom - right */
+    , calc(100% - 6px) 15px/* top gradient */
+    , 100% 1px/* 1 - top */
+    , calc(100% - 6px) 1px/* 2 - top */
+    , calc(100% - 8px) 1px/* 3 - top */
+    , calc(100% - 6px) 1px/* 4 - top */
+    , calc(100% - 7px) 1px/* 5 - top */
+    , 1px 100%/* 1 - left */
+    , 1px 100%/* 2 - left */
+    , 1px 100%/* 3 - left */
+    , 1px 100%/* 1 - right */
+    , 1px 100%/* 2 - right */
+    , 1px 100%/* 3 - right */
+    , 100% 1px/* 1 - bottom */
+    , 100% 1px/* 2 - bottom */
+    , 100% 1px/* 3 - bottom */
+    ;
+    background-position: calc(100% - 1px) calc(100% - 1px)/* bottom - right */
+    , 3px 3px/* top gradient */
+    , 1px 1px/* 1 - top */
+    , 3px 2px/* 2 - top */
+    , 4px 18px/* 3 - top */
+    , 3px 19px/* 4 - top */
+    , 3px 20px/* 5 - top */
+    , 1px top/* 1 - left */
+    , 2px top/* 2 - left */
+    , 3px top/* 3 - left */
+    , calc(100% - 1px) top/* 1 - right */
+    , calc(100% - 2px) top/* 2 - right */
+    , calc(100% - 3px) top/* 3 - right */
+    , left calc(100% - 1px)/* 1 - bottom */
+    , left calc(100% - 2px)/* 2 - bottom */
+    , left calc(100% - 3px)/* 3 - bottom */
+    ;
+}
+
+.deanachm.Window:after {
+    position: absolute;
+    content: "";
+    right: 3px;
+    top: 1px;
+    width: 150px;
+    height: 20px;
+    background-image: url(../../../images/deanachm/top_right.png);
+    background-repeat: no-repeat;
+}
+
+.deanachm.Window.none:after {
+    content: none;
+}
+
+.deanachm.Window[data-buttons="5"]:after {
+    width: 132px;
+}
+
+.deanachm.Window[data-buttons="4"]:after {
+    width: 114px;
+}
+
+.deanachm.Window[data-buttons="3"]:after {
+    width: 96px;
+}
+
+.deanachm.Window[data-buttons="2"]:after, .deanachm.Window.dialog:after {
+    width: 78px;
+}
+
+.deanachm.Window[data-buttons="1"]:after {
+    width: 60px;
+}
+
+.deanachm.Window.rolledUp {
+    max-height: 24px;
+}
+
+.deanachm.Window .deanachm.WindowTitleBar {
+    margin: 0;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    height: 18px;
+    min-height: 18px;
+    max-height: 18px;
+    position: relative;
+    overflow: visible;
+}
+
+.deanachm.Window:not(.none) .deanachm.WindowTitleBar {
+    background-position: 2px 0;
+}
+
+.deanachm.Window .deanachm.WindowTitle {
+    font-size: 7pt;
+    height: 17px;
+    line-height: 17px;
+    max-height: 17px;
+    min-height: 17px;
+    padding-left: 0;
+    text-shadow: 0 0 3px #15336E;
+    color: #FFF;
+}
+
+.deanachm.Window.inactive .deanachm.WindowTitle {
+    text-shadow: 0 0 3px #2B57B2;
+    color: #193268;
+}
+
+.deanachm.Window button.deanachm.WindowTitleButton {
+    width: 15px;
+    height: 15px;
+    min-width: 15px;
+    max-width: 15px;
+    min-height: 15px;
+    max-height: 15px;
+    border-radius: 50%;
+    border: none;
+    margin-right: 3px;
+    background-image: url('../../../images/deanachm/back_buttons.png');
+    background-repeat: no-repeat;
+    top: 0;
+    z-index: 1;
+}
+
+.deanachm.Window button.deanachm.WindowTitleButton:before {
+    width: 9px;
+    height: 9px;
+    background-image: url('../../../images/deanachm/windowbtns.png');
+    background-repeat: no-repeat;
+    content: "";
+}
+
+.deanachm.Window.inactive button.deanachm.WindowTitleButton:not(.disabled):before {
+    background-position: left top;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowCloseButton:before {
+    background-position: left -9px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowCloseButton:not(.disabled):hover:before {
+    background-position: -9px -9px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowCloseButton.pressed:not(.disabled):before {
+    background-position: -18px -9px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowMaxRestoreButton:before, .deanachm.Window.maximized:not(.inactive) button.deanachm.WindowMaxRestoreButton:before {
+    background-position: left -18px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowMaxRestoreButton:not(.disabled):hover:before {
+    background-position: -9px -18px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowMaxRestoreButton.pressed:not(.disabled):before {
+    background-position: -18px -18px;
+}
+
+.deanachm.Window.maximized:not(.inactive) button.deanachm.WindowMaxRestoreButton:not(.disabled):hover:before {
+    background-position: -9px -27px;
+}
+
+.deanachm.Window.maximized:not(.inactive) button.deanachm.WindowMaxRestoreButton.pressed:not(.disabled):before {
+    background-position: -18px -27px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowMinimizeButton:before, .deanachm.Window.minimized:not(.inactive) button.deanachm.WindowMinimizeButton:before, .deanachm.Window:not(.inactive) button.deanachm.WindowRollUpDownButton:before, .deanachm.Window:not(.inactive) button.deanachm.WindowStayOnOffButton:before {
+    background-position: left -36px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowMinimizeButton:not(.disabled):hover:before {
+    background-position: -9px -36px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowMinimizeButton.pressed:not(.disabled):before {
+    background-position: -18px -36px;
+}
+
+.deanachm.Window.minimized:not(.inactive) button.deanachm.WindowMinimizeButton:not(.disabled):hover:before {
+    background-position: -9px -45px;
+}
+
+.deanachm.Window.minimized:not(.inactive) button.deanachm.WindowMinimizeButton.pressed:not(.disabled):before {
+    background-position: -18px -45px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowHelpButton:before {
+    background-position: left -36px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowHelpButton:not(.disabled):hover:before {
+    background-position: -9px -54px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowHelpButton.pressed:not(.disabled):before {
+    background-position: -18px -54px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowRollUpDownButton:not(.disabled):hover:before {
+    background-position: -9px -63px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowRollUpDownButton.pressed:not(.disabled):before {
+    background-position: -18px -63px;
+}
+
+.deanachm.Window.rolledUp:not(.inactive) button.deanachm.WindowRollUpDownButton:not(.disabled):hover:before {
+    background-position: -9px -72px;
+}
+
+.deanachm.Window.rolledUp:not(.inactive) button.deanachm.WindowRollUpDownButton.pressed:not(.disabled):before {
+    background-position: -18px -72px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowStayOnOffButton:not(.disabled):hover:before {
+    background-position: -9px -81px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowStayOnOffButton.pressed:not(.disabled):before {
+    background-position: -18px -81px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowStayOnOffButton.isstayon:not(.disabled):hover:before {
+    background-position: -9px -90px;
+}
+
+.deanachm.Window:not(.inactive) button.deanachm.WindowStayOnOffButton.isstayon.pressed:not(.disabled):before {
+    background-position: -18px -90px;
+}
+
+.deanachm.Window .deanachm.WindowLayout {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}

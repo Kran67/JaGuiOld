@@ -1,0 +1,43 @@
+﻿div.TextBox {
+    min-height: 20px;
+    overflow: visible;
+    display: flex;
+    flex-direction: row;
+}
+
+input.TextBoxInput {
+    margin: 0;
+    padding: 0 2px;
+    border: none;
+    background-color: transparent;
+    white-space: nowrap;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    position: static;
+}
+
+div.TextBox.required:before {
+    position: absolute;
+    content: "*";
+    color: red;
+    height: 100%;
+    right: -10px;
+    top: 0;
+}
+
+div.TextBox.required.haserror {
+    border-color: red;
+}
+
+div.TextBox.haserror:after {
+    position: absolute;
+    content: "";
+    right: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 7px 7px 0;
+    border-color: transparent red transparent transparent;
+}

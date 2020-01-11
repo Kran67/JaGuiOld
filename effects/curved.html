@@ -1,0 +1,291 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Curved</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            if (typeof handle === "function") {
+                handle();
+            }
+        };
+        let rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        const imgA = new Image();
+        const imgB = new Image();
+        let amount = 0;
+        let started = false;
+        let op = 0;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let img;
+        CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, radius, bordersColor) {
+            const r = x + width,b = y + height;
+            if (radius == undefined) {
+                radius = 5;
+            }
+            if (typeof radius === 'number') {
+                radius = { tl: radius, tr: radius, br: radius, bl: radius };
+            } else {
+                var defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 };
+                for (var side in defaultRadius) {
+                    if (defaultRadius.hasOwnProperty(side)) {
+                        radius[side] = radius[side] || defaultRadius[side];
+                    }
+                }
+            }
+            if (bordersColor) {
+                this.save();
+                if (radius.tl + radius.tr + radius.br + radius.bl > 0) {
+                    this.translate(0.5,0.5);
+                }
+                if (bordersColor === Types.CONSTANTS.STRING) {
+                    bordersColor = { left:bordersColor, top:bordersColor, right:bordersColor, bottom:bordersColor };
+                }
+            }
+            if (radius.tl + radius.tr + radius.bl + radius.br <= 0) {
+                if (bordersColor) {
+                    this.rectWithBordersColor(x, y, width, height, bordersColor);
+                } else {
+                    this.rect(x, y, width, height);
+                }
+            } else {
+                this.beginPath();
+                this.moveTo(x+radius.tl-0.5, y);
+                this.lineTo(r-radius.tr, y);
+                this.quadraticCurveTo(r, y, r, y+radius.tr);
+                if (bordersColor) {
+                    this.strokeStyle = bordersColor.top;
+                    this.stroke();
+                    this.beginPath();
+                    this.moveTo(r, y+radius.tr);
+                }
+                this.lineTo(r, b-radius.br+0.5);
+                if (bordersColor) {
+                    this.strokeStyle = bordersColor.right;
+                    this.stroke();
+                    this.beginPath();
+                    this.moveTo(r, b-radius.br+0.5);
+                }
+                this.quadraticCurveTo(r, b, r-radius.br, b);
+                this.lineTo(x+radius.bl-0.5, b);
+                this.quadraticCurveTo(x, b, x, b-radius.bl-0.5);
+                if (bordersColor) {
+                    this.strokeStyle = bordersColor.bottom;
+                    this.stroke();
+                    this.beginPath();
+                    this.moveTo(x, b-radius.bl+0.5);
+                }
+                this.lineTo(x, y+radius.tl);
+                if (bordersColor) {
+                    this.strokeStyle = bordersColor.left;
+                    this.stroke();
+                    this.beginPath();
+                    this.moveTo(x, y+radius.tl);
+                }
+                this.quadraticCurveTo(x, y, x+radius.tl, y);
+                if (bordersColor) {
+                    this.strokeStyle = bordersColor.top;
+                    this.stroke();
+                }
+            }
+            if (bordersColor) {
+                this.restore();
+            }
+        };
+
+        function mulDiv(value, multi, divider) {
+            return ~~((value*multi) / divider);
+        }
+        function curved() {
+            let ctx = document.getElementById("c").getContext("2d");
+            let w;
+            let h;
+            let x;
+            let y;
+            let x1;
+            let y1;
+            let w1;
+            let h1;
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                started = true;
+            } else {
+                amount++;
+                w = img.width;
+                h = img.height;
+                if (img.width>=img.height) {
+                    x = mulDiv(img.width, amount, 100);
+                    y = mulDiv(x, img.height, img.width);
+                } else {
+                    y = mulDiv(img.height, amount, 100);
+                    x = mulDiv(y, img.width, img.height);
+                }
+                w1 = w * 0.5;
+                h1 = h * 0.5;
+                x1 = 2 * x;
+                y1 = 2 * y;
+                switch (op) {
+                    case 0: // Reveal from left
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.ellipse(0, h1, x1, y, 0, 0, 2*Math.PI, false);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(img, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 1: // Reveal from right
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.ellipse(w, h1, x1, y, 0, 0, 2*Math.PI, false);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(img, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 2: // Reveal from top
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.ellipse(w1, 0, x, y1, 0, 0, 2*Math.PI, false);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(img, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 3: // Reveal from bottom
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.ellipse(w1, h, x, y1, 0, 0, 2*Math.PI, false);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(img, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 4: // reveal from top left
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.ellipse(0, 0, x1, y1, 0, 0, 2*Math.PI, false);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(img, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 5: // reveal from top right
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.ellipse(w, 0, x1, y1, 0, 0, 2*Math.PI, false);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(img, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 6: // reveal from bottom left
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.ellipse(0, h, x1, y1, 0, 0, 2*Math.PI, false);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(img, 0, 0);
+                        ctx.restore();
+                        break;
+                    case 7: // reveal from bottom right
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.ellipse(w, h, x1, y1, 0, 0, 2*Math.PI, false);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(img, 0, 0);
+                        ctx.restore();
+                        break;
+                }
+                if (amount>100) {
+                    amount = 0;
+                    ctx.restore();
+                    cancelAnimationFrameRate(handle);
+                    started = false;
+                    [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                    return;
+                }
+            }
+            handle = rAF(curved);
+        }
+        function init(value) {
+            op = ~~value;
+            handle = rAF(curved);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        select {
+            width: 220px;
+            margin-bottom: 2px;
+            margin-right: 2px;
+            height: 21px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas>
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">Reveal from left</option>
+            <option value="1">Reveal from right</option>
+            <option value="2">Reveal from top</option>
+            <option value="3">Reveal from bottom</option>
+            <option value="4">reveal from top left</option>
+            <option value="5">reveal from top right</option>
+            <option value="6">reveal from bottom left</option>
+            <option value="7">reveal from bottom right</option>
+        </select><br />
+    </div>
+</body>
+</html>

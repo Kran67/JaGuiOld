@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Elliptic</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null, img;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let frame = 0;
+        let size;
+        let x;
+        let y;
+        let ox;
+        let oy;
+        let offset = 2;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        function elliptic() {
+            const ctx = document.getElementById("c").getContext("2d");
+            if (!started) {
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+                x=Math.floor(img.width/2);
+                y=Math.floor(img.height/2);
+                ox = img.width>img.height?img.width/img.height:1;
+                oy = img.width<img.height?img.height/img.width:1;
+                frame = offset>0?0:img.height;
+            }
+            if (offset<0) {
+                ctx.drawImage(img, 0, 0);
+            }
+            ctx.save();
+            ctx.beginPath();
+            ctx.ellipse(x, y, frame*ox, frame*oy, 0, 0, Math.PI*2, true);
+            ctx.closePath();
+            ctx.clip();
+            if (offset>0) {
+                ctx.drawImage(img, 0, 0);
+            } else {
+                ctx.drawImage(img===imgA?imgB:imgA, 0, 0);
+            }
+            ctx.restore();
+            frame+=offset;
+            if ((frame >= img.height && offset>0) || (frame <= 0 && offset<0)) {
+                frame = 0;
+                [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                cancelAnimationFrameRate(handle);
+                started = false;
+                return;
+            }
+            rAF(elliptic);
+        }
+        function init(value) {
+            offset = value==="in"?2:-2;
+            handle = rAF(elliptic);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas><br />
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].text); }">
+            <option></option>
+            <option>in</option>
+            <option>out</option>
+        </select><br />
+    </div>
+</body>
+</html>

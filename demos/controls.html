@@ -1,0 +1,151 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title></title>
+  <link rel="Stylesheet" href="../styles/default.css" />
+    <script type="text/javascript" src="core.js"></script>
+    <script type="text/javascript" src="ext_array.js"></script>
+    <script type="text/javascript" src="ext_string.js"></script>
+    <script type="text/javascript" src="ext_math.js"></script>
+    <script type="text/javascript" src="ext_date.js"></script>
+    <script type="text/javascript" src="types.js"></script>
+    <script type="text/javascript" src="browser.js"></script>
+    <script type="text/javascript" src="convertion.js"></script>
+    <script type="text/javascript" src="geometry.js"></script>
+    <script type="text/javascript" src="mouse_keyboard.js"></script>
+    <script type="text/javascript" src="colors.js"></script>
+    <script type="text/javascript" src="animation.js"></script>
+    <script type="text/javascript" src="alias.js"></script>
+    <script type="text/javascript" src="canvas.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="objects.js"></script>
+    <script type="text/javascript" src="effects.js"></script>
+    <!--script type="text/javascript" src="tests.js"></script-->
+    <script type="text/javascript">
+        function test() {
+          var self=this,_a=0,
+            getA=function() { alert(_a); },
+            setA=function(v) { _a=v; onChange(); },
+            onChange=function() { alert(self.Class); };
+          self.get=function() { getA(); }
+          $j.property(self,"a",getA,setA);
+        }
+        function test1() {
+          var self=this;
+          test.apply(self);
+          self.Class="test1";
+          self.a=0;
+          //self.get=function() { _a=0; getA(); };
+        }
+        function test2() {
+          var self=this;
+          test.apply(self);
+          self.Class="test2";
+          self.a=1;
+          //self.get=function() { _a=1; getA(); };
+        }
+        var obj1,obj2,c=0;
+        function init() {
+            var app = $j.app.create(300,300);
+            app.setBounds(0,0,640,480);
+            //app.showupdaterects=true;
+            app.root.fill.style=$j.brushStyle.SOLID;
+            app.root.fill.color=_colors.parse("#525152");
+            app.run();
+
+        }
+        function anim() {
+          //a.a=0;
+          //b.a=1;
+          obj1.rotateAngle+=5;
+          obj2.width+=1;
+          c++;
+          if (c<100) setTimeout(anim, 60);
+        }
+        function _destroy()
+        {
+          a.free();
+          destroy(a);
+          jaGui.free();
+          //destroy(jaGui);
+          jaGui = null;
+          delete jaGui;
+          a = null;
+          delete a;
+        }
+        function debugMouse()
+        {
+          $j.doc.getElementById("screen").innerHTML=_conv.point2Str($j.mouse.screenPos);
+          $j.doc.getElementById("window").innerHTML=_conv.point2Str($j.mouse.windowPos);
+          $j.doc.getElementById("document").innerHTML=_conv.point2Str($j.mouse.documentPos);
+          $j.doc.getElementById("target").innerHTML=_conv.point2Str($j.mouse.targetPos);
+          switch ($j.mouse.Button)
+          {
+            case $j.mouseButtons.NONE:
+              $j.doc.getElementById("button").innerHTML="NONE";
+              break;
+            case $j.mouseButtons.LEFT:
+              $j.doc.getElementById("button").innerHTML="LEFT";
+              break;
+            case $j.mouseButtons.MIDDLE:
+              $j.doc.getElementById("button").innerHTML="MIDDLE";
+              break;
+            case $j.mouseButtons.RIGHT:
+              $j.doc.getElementById("button").innerHTML="RIGHT";
+              break;
+          }
+          switch ($j.mouse.wheelDir)
+          {
+            case $j.mouseWheelDir.NONE:
+              $j.doc.getElementById("wheel").innerHTML="NONE";
+              break;
+            case $j.mouseWheelDir.UP:
+              $j.doc.getElementById("wheel").innerHTML="UP";
+              break;
+            case $j.mouseWheelDir.DOWN:
+              $j.doc.getElementById("wheel").innerHTML="DOWN";
+              break;
+          }
+          $j.doc.getElementById("wheelDelta").innerHTML=$j.mouse.wheelDelta;
+          switch ($j.keyBoard.keyEvent)
+          {
+            case $j.keybordEvent.NONE:
+              $j.doc.getElementById("keyEvent").innerHTML="NONE";
+              break;
+            case $j.keybordEvent.DOWN:
+              $j.doc.getElementById("keyEvent").innerHTML="DOWN";
+              break;
+          }
+          $j.doc.getElementById("keyCode").innerHTML=$j.keyBoard.keyCode;
+          if ($j.keyBoard.ctrl) $j.doc.getElementById("ctrlkey").innerHTML="true";
+          else $j.doc.getElementById("ctrlkey").innerHTML="false";
+          if ($j.keyBoard.alt) $j.doc.getElementById("altkey").innerHTML="true";
+          else $j.doc.getElementById("altkey").innerHTML="false";
+          if ($j.keyBoard.shift) $j.doc.getElementById("shiftkey").innerHTML="true";
+          else $j.doc.getElementById("shiftkey").innerHTML="false";
+        }
+    </script>
+</head>
+<body onload="init();" style="padding-top:310px;">
+  <!--button onClick="_destroy();">Delete jaGui</button>
+  <button onClick="jaGui.Apps[0].Transparency=0.2;">Change transparency</button>
+  <button onClick="jaGui.Apps[0].Transparency=100;">Restore transparency</button-->
+  <!--div style="position:absolute;bottom:12px;font-size:8pt;">
+    <span id="browser"></span>
+  </div>
+  <div style="position:absolute;bottom:0px;font-size:8pt;">
+    <span>Screen : </span><span id="screen">X:0 Y:0</span> - 
+    <span>Window : </span><span id="window">X:0 Y:0</span> - 
+    <span>Document : </span><span id="document">X:0 Y:0</span> - 
+    <span>Target : </span><span id="target">X:0 Y:0</span> - 
+    <span>Button : </span><span id="button">NONE</span> - 
+    <span>Wheel : </span><span id="wheel">NONE</span> - 
+    <span>Wheel delta : </span><span id="wheelDelta">0</span> - 
+    <span>keyEvent : </span><span id="keyEvent">NONE</span> - 
+    <span>keyCode : </span><span id="keyCode">0</span> - 
+    <span>Ctrl key : </span><span id="ctrlkey">false</span> - 
+    <span>Alt key : </span><span id="altkey">false</span> - 
+    <span>Shift key : </span><span id="shiftkey">false</span>
+  </div-->
+</body>
+</html>

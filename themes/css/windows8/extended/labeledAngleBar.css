@@ -1,0 +1,8 @@
+﻿.carbon.LabeledAngleBar {}
+
+.carbon.LabeledAngleBar .AngleButton {}
+
+.carbon.LabeledAngleBar .Label,
+.carbon.LabeledAngleBar .ValueLabel {}
+
+.carbon.LabeledAngleBar .ValueLabel {}

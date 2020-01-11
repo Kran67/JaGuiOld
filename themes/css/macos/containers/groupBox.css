@@ -1,0 +1,10 @@
+.macos.GroupBox {
+    border: 1px solid #9B9B9B;
+    border-left-color: #C1C1C1;
+    border-right-color: #C1C1C1;
+    border-bottom-color: #DADADA;
+    border-radius: 6px;
+}
+
+.macos.GroupBoxLegend {
+}

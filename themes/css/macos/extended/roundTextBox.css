@@ -1,0 +1,4 @@
+.macos.RoundTextBox,
+.macos.RoundTextBoxInput {
+    border-radius: 12px;
+}

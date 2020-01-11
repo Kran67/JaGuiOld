@@ -1,0 +1,18 @@
+﻿div.LabeledImage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    height: 60px;
+}
+
+div.LabeledImage div.ImageControl {
+    position: relative;
+    height: 100% !important;
+    flex: 1;
+}
+
+div.LabeledImage label.Label {
+    position: static;
+    white-space: nowrap;
+}

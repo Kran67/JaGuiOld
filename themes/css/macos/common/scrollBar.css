@@ -1,0 +1,76 @@
+.macos.ScrollBar {
+    border-radius: 0;
+    background-image: linear-gradient(to bottom,#E3E3E3 0,#E3E3E3 50%, #E3E3E3 50%,#F9F9F9 100%);
+    border-top-color: #C7C7C7;
+    border: 1px solid #C9C9C9;
+    border-bottom-color: #F2F2F2;
+    height: 15px;
+    min-height: 15px;
+    max-height: 15px;
+}
+
+.macos.ScrollBarFirstButton,
+.macos.ScrollBarFirstButton:hover,
+.macos.ScrollBarFirstButton.disabled {
+    border-radius: 0;
+    width: 20px;
+    min-width: 20px;
+    max-width: 20px;
+    background-image: linear-gradient(to bottom,rgba(245,245,245,0.9) 0,rgba(246,246,246,0.9) 100%);
+    background-position: left 1px;
+    background-repeat: no-repeat;
+    background-size: 16px 5px;
+    border: none;
+    padding-right: 5px;
+    background-color: transparent;
+}
+
+.macos.ScrollBarLastButton,
+.macos.ScrollBarLastButton:hover,
+.macos.ScrollBarLastButton.disabled {
+    border-radius: 0;
+    width: 20px;
+    min-width: 20px;
+    max-width: 20px;
+    background-image: linear-gradient(to bottom,rgba(245,245,245,0.9) 0,rgba(246,246,246,0.9) 100%);
+    background-position: right 1px;
+    background-repeat: no-repeat;
+    background-size: 16px 5px;
+    border: none;
+    padding-left: 5px;
+    background-color: transparent;
+}
+
+.macos.ScrollBar input[type='range'] {
+    border-radius: 8px;
+    background-image: linear-gradient(to bottom,#C5C5C5 0,#FAFAFA 80%,#F2F2F2 100%);
+    border-left: 1px solid #AAA;
+    border-right: 1px solid #AAA;
+}
+
+    .macos.ScrollBar.disabled input[type='range']::-webkit-slider-thumb,
+    .macos.ScrollBar input[type='range']::-webkit-slider-thumb {
+        width: 15px;
+        border: 1px solid #0E6CC5;
+        border-top-color: #0049C0;
+        border-bottom-color: #5C5C5C;
+        background-color: #8DC0F5;
+        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAGCAYAAADKfB7nAAAAy0lEQVQYV0WPwU0FMQxEn+2ETunht0ABHDhypQQq+BUgcaWCf17HNvJmEZEsj5TMy4w8fzzqycCGYhRmilIME6Yqq2BFsrLILKLg8CRRPBK5fa6aKpjJNqqisgGmkCcAVkLBBnrgJawI5OVeNQW0U/QoDOlEIFwmh2jzgsytj+BMI69fVRNQhXmZ/rbJBnj87wZ0Il8bJO8/VVYwBqjA6BR9YVv34+rYCzw5T+ujIALk7btqKvRvPV2lK0jDBrjvHh25O7XpuCodC34BbGNxo4BLqtcAAAAASUVORK5CYII=) left bottom repeat-x, linear-gradient(to bottom,rgba(11,68,192,0.4) 0, rgba(7,107,204,0.8) 4px,rgba(127,183,241,0) 10px, rgba(0,0,0,0) 10px, rgba(0,0,0,0) 100%), linear-gradient(to top, #92D2FF 0,rgba(149,201,249,0.4) 4px, rgba(0,0,0,0) 4px, rgba(0,0,0,0) 100%), linear-gradient(to right, #3D87D7 0,#8DC0F5 4px, rgba(141,192,245,0) 4px, rgba(0,0,0,0) 100%), linear-gradient(to left, #3D87D7 0,#8DC0F5 4px, rgba(141,192,245,0) 4px, rgba(0,0,0,0) 100%);
+        border-radius: 8px;
+        box-shadow: 0 1px 0 1px #ADADAD;
+    }
+
+/*.macos.ScrollBar input[type='range']::-webkit-slider-thumb:before {
+    position: absolute;
+    content: "";
+    left: 2px;
+    top: 0;
+    height: 2px;
+    right: 2px;
+    background-image: linear-gradient(to bottom,#BACEE8 0,#B2CBE9 100%);
+    border-radius: 5px 5px 3px 3px;
+    border: 1px solid #74A8E3;
+    border-top-color: #A6B9DC;
+    border-bottom-color: #80B0E0;
+    box-sizing: content-box;
+}*/

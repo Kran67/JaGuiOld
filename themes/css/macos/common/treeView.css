@@ -1,0 +1,46 @@
+.macos.TreeViewItem .CheckboxCheck {
+    position: relative;
+    margin-right: 2px;
+    float: left;
+}
+
+.macos.TreeViewContent {
+    background-color: #FFF;
+}
+
+.macos.TreeView {
+    border: 1px solid #BEBEBE;
+    border-top-color: #8E8E8E;
+    background-color: #FFF;
+}
+
+.macos.TreeViewItem {
+}
+
+.macos.TreeViewItem.selected {
+    background: linear-gradient(to bottom, #329AE5 0, #0065D1 100%);
+    color: #FFF;
+}
+
+.macos.TreeView.focused {
+    box-shadow: 0 0 4px 1px #699BD3;
+}
+
+.macos.TreeViewItem .Checkbox {
+    margin-left: 16px;
+    padding-left: 0;
+}
+
+.macos.TreeViewItem .TreeViewRoot.TVIHasChild.expanded:before {
+    color: #747474;
+    content: "7";
+}
+
+.macos.TreeViewItem .TreeViewRoot.TVIHasChild:before {
+    color: #747474;
+    content: ")";
+}
+
+.macos.TreeViewItem .TreeViewRoot {
+    font-size: 6pt;
+}

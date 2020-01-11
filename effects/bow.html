@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Bow</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            if (typeof handle === "function") {
+                handle();
+            }
+        };
+        let rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        let mW;
+        let mH;
+        let ctx;
+        let cbx;
+        const imgA = new Image();
+        const imgB = new Image();
+        let amount = 0;
+        let started = false;
+        let hz;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let img;
+        let mask = document.createElement("canvas");
+        imgA.onload = function() {
+            mask.width = imgA.width;
+            mask.height = imgA.height;
+            cbx = mask.getContext("2d");
+        }
+        function mulDiv(value, multi, divider) {
+            return ~~((value*multi) / divider);
+        }
+        function drawHorizontal(x, y, mH, w) {
+            cbx.beginPath();
+            cbx.moveTo(0, mH - y);
+            cbx.lineTo(x, mH);
+            cbx.lineTo(0, mH + y);
+            cbx.fill();
+            cbx.moveTo(w, mH - y);
+            cbx.lineTo(w - x, mH);
+            cbx.lineTo(w, mH + y);
+            cbx.fill();
+        }
+        function drawVertical(x, y, mW, h) {
+            cbx.beginPath();
+            cbx.moveTo(mW - x, 0);
+            cbx.lineTo(mW, 2 * y);
+            cbx.lineTo(mW + x, 0);
+            cbx.fill();
+            cbx.beginPath();
+            cbx.moveTo(mW - x, h);
+            cbx.lineTo(mW, h - 2 * y);
+            cbx.lineTo(mW + x, h);
+            cbx.fill();
+        }
+        function bow() {
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), x => x.setAttribute("disabled", "disabled"));
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                started = true;
+                mW = img.width / 2;
+                mH = img.height / 2;
+                cbx.clearRect(0,0,img.width, img.height);
+            } else {
+                amount++;
+                let x;
+                let y;
+                if (img.width>=img.height) {
+                    x = mulDiv(img.width, amount, 100);
+                    y = mulDiv(x, img.height, img.width);
+                } else {
+                    y = mulDiv(img.height, amount, 100);
+                    x = mulDiv(y, img.width, img.height);
+                }
+                cbx.globalCompositeOperation = 'source-over';
+                if (hz) {
+                    drawHorizontal(x, y, mH, img.width);
+                } else {
+                    drawVertical(x, y, mW, img.height);
+                }
+                cbx.globalCompositeOperation = 'source-in';
+                cbx.drawImage(img, 0, 0);
+                ctx.drawImage(mask, 0, 0);
+                if (amount>100) {
+                    amount = 0;
+                    cancelAnimationFrameRate(handle);
+                    started = false;
+                    [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                    return;
+                }
+            }
+            handle = rAF(bow);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            hz = value==="horizontal";
+            rAF(bow);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        select {
+            width: 220px;
+            margin-bottom: 2px;
+            margin-right: 2px;
+            height: 21px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas>
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].text); }">
+            <option></option>
+            <option>horizontal</option>
+            <option>vertical</option>
+        </select><br />
+    </div>
+</body>
+</html>

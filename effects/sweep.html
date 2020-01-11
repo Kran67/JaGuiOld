@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Sweep</title>
+    <meta charset="utf-8" />
+    <script src="../scripts/core/ext_math.js"></script>
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            handle();
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        let img;
+        let ctx;
+        const imgA = new Image();
+        const imgB = new Image();
+        let started = false;
+        let amount = 0;
+        let op;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        function mulDiv(value, multi, divider) {
+            return ~~((value * multi) / divider);
+        }
+        function createPolygonRgnEx(ctx, img, pts, noClip) {
+            let i;
+            let l;
+            if (!noClip) {
+                ctx.save();
+            }
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, pts[0].y);
+            for (i=1, l = pts.length; i < l; i++) {
+                ctx.lineTo(pts[i].x, pts[i].y);
+            }
+            if (!noClip) {
+                ctx.clip();
+                if (img) {
+                    ctx.drawImage(img, 0, 0);
+                } else {
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+        function createSliceRgn(ctx, img, mX, mY, radius, startAngle, endAngle, numPts) {
+            const pts = [];
+            let i;
+            pts.push({ x: mX, y: mY });
+            const delta = (endAngle - startAngle) / numPts;
+            for (i = 1; i < numPts; i++) {
+                const x = Math.sinCos(startAngle);
+                const sin = x.sin;
+                const cos = x.cos;
+                pts.push({ x: mX + Math.round(radius * cos), y:mY + Math.round(radius * sin)});
+                startAngle += delta;
+            }
+            createPolygonRgnEx(ctx, img, pts);
+        }
+        function sweep() {
+            let x;
+            let y;
+            if (!started) {
+                if (!img || img === imgA) {
+                    img = imgB;
+                } else {
+                    img = imgA;
+                }
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+            }
+            const w = img.width;
+            const h = img.height;
+            if (img.width >= img.height) {
+                x = mulDiv(img.width, amount, 100);
+                y = mulDiv(x, img.height, img.width);
+            } else {
+                y = mulDiv(img.height, amount, 100);
+                x = mulDiv(y, img.width, img.height);
+            }
+            amount++;
+            const mX = ~~(w / 2);
+            const mY = ~~(h / 2);
+            const mPi = Math.PI / 2;
+            const endAngle = ((op===0?1:-1)*Math.PI * amount / 50) - mPi;
+            createSliceRgn(ctx, img, mX, mY, w * h, -mPi, endAngle, amount);
+            if (amount > 101) {
+                amount = 0;
+                cancelAnimationFrameRate(handle);
+                started = false;
+                [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                return;
+            }
+            handle = rAF(sweep);
+        }
+        function init(value) {
+            ctx = document.getElementById("c").getContext("2d");
+            op = ~~value;
+            handle = rAF(sweep);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 210px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="c" width="500" height="400" style="border:1px solid red"></canvas><br />
+<div>
+    <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+        <option></option>
+        <option value="0">clockwise</option>
+        <option value="1">anticlockwise</option>
+    </select><br />
+</div>
+</body>
+</html>

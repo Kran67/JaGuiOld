@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>starBurst</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.requestAnimationFrameRate = function (fps) {
+            let starter;
+            if (typeof fps !== 'number') {
+                fps = 30;
+            }
+            const period = 1000 / fps;
+            const jitter = period * 0.1;
+            const limit = period - jitter;
+            function requestAnimationFrameAtFps(renderFrameCallBack) {
+                return (function () {
+                    let handle = null;
+                    const rAf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+                        window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+                    function renderer(time) {
+                        starter = starter || time;
+                        const lastPeriod = time - starter;
+                        if (lastPeriod < limit) {
+                            handle = rAf(renderer);
+                        } else {
+                            renderFrameCallBack(lastPeriod);
+                            starter = time;
+                        }
+                    }
+                    handle = rAf(renderer);
+                    return function () {
+                        window.cancelAnimationFrame(handle);
+                    };
+                })();
+            }
+            return requestAnimationFrameAtFps;
+        };
+        window.cancelAnimationFrameRate = function (handle) {
+            if (typeof handle === "function") {
+                handle();
+            }
+        };
+        const rAF = requestAnimationFrameRate(60);
+        let handle = null;
+        let ctx;
+        const imgA = new Image();
+        const imgB = new Image();
+        let amount = 0;
+        let started = false;
+        let op;
+        let rayon = 1;
+        let canStop = false;
+        imgA.src = "levant.jpg";
+        imgB.src = "mustang.jpg";
+        let lastImg = imgA;
+        let nextImg = imgB;
+        function mulDiv(value, multi, divider) {
+            return ~~((value * multi) / divider);
+        }
+        function createPolygonRgnEx(pts) {
+            let i;
+            let l;
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, pts[0].y);
+            for (i = 1, l = pts.length; i < l; i++) {
+                ctx.lineTo(pts[i].x, pts[i].y);
+            }
+            ctx.clip();
+            ctx.drawImage(nextImg, 0, 0);
+            ctx.restore();
+        }
+        function starBurst() {
+            "use strict";
+            if (!started) {
+                [].forEach.call(document.querySelectorAll("select"), a => a.setAttribute("disabled", "disabled"));
+                started = true;
+                rayon = 1;
+                if (op === 2) {
+                    amount = -Math.PI / 2;
+                    rayon = Math.sqrt((ctx.canvas.width * ctx.canvas.width) + (ctx.canvas.height * ctx.canvas.height) / 2);
+                }
+            } else {
+                const w = ctx.canvas.width;
+                const h = ctx.canvas.height;
+                const mW = ~~(w / 2);
+                const mH = ~~(h / 2);
+                let x;
+                let y;
+                if (w >= h) {
+                    x = mulDiv(w, amount, 100);
+                    y = mulDiv(x, h, w);
+                } else {
+                    y = mulDiv(h, amount, 100);
+                    x = mulDiv(y, w, h);
+                }
+                if (op > 1) {
+                    amount += Math.PI / 80;
+                } else {
+                    amount++;
+                }
+                switch (op) {
+                    case 0: // clockwise from center
+                        createPolygonRgnEx([{ x: mW, y: mH }, { x: 0, y: 0 }, { x: x, y: 0 }]);
+                        createPolygonRgnEx([{ x: mW, y: mH }, { x: 0, y: h }, { x: 0, y: h - y }]);
+                        createPolygonRgnEx([{ x: mW, y: mH }, { x: w, y: h }, { x: w - x, y: h }]);
+                        createPolygonRgnEx([{ x: mW, y: mH }, { x: w, y: 0 }, { x: w, y: y }]);
+                        canStop = amount > 100;
+                        break;
+                    case 1: // anticlockwise from center
+                        createPolygonRgnEx([{ x: mW, y: mH }, { x: 0, y: 0 }, { x: 0, y: y }]);
+                        createPolygonRgnEx([{ x: mW, y: mH }, { x: 0, y: h }, { x: x, y: h }]);
+                        createPolygonRgnEx([{ x: mW, y: mH }, { x: w, y: h }, { x: w, y: h - y }]);
+                        createPolygonRgnEx([{ x: mW, y: mH }, { x: w, y: 0 }, { x: w - x, y: 0 }]);
+                        canStop = amount > 100;
+                        break;
+                    case 2: //
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.moveTo(w / 2, h / 2);
+                        ctx.lineTo(w / 2, h / 2 - rayon);
+                        ctx.arc(w / 2, h / 2, rayon, -Math.PI / 2, amount, false);
+
+                        ctx.moveTo(w / 2, h / 2);
+                        ctx.lineTo(w / 2, h / 2 - rayon);
+                        ctx.arc(w / 2, h / 2, rayon, -Math.PI / 2, -amount - Math.PI, true);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.restore();
+                        canStop = amount >= Math.PI - Math.PI / 2;
+                        break;
+                    case 3: //
+                        ctx.save();
+                        ctx.beginPath();
+
+                        for (let i = -Math.PI / 2; i <= Math.PI + Math.PI / 2; i += Math.PI / 2) {
+                            ctx.moveTo(w / 2, h / 2);
+                            ctx.arc(w / 2, h / 2, rayon, i, i + amount, false);
+                        }
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(nextImg, 0, 0);
+                        ctx.restore();
+                        rayon += 8;
+                        canStop = amount > Math.PI / 2;
+                        break;
+                }
+
+                if (canStop) {
+                    if (op > 1) {
+                        ctx.drawImage(nextImg, 0, 0);
+                    }
+                    canStop = false;
+                    [lastImg, nextImg] = [nextImg, lastImg];
+                    amount = 0;
+                    cancelAnimationFrameRate(handle);
+                    started = false;
+                    [].forEach.call(document.querySelectorAll("select"), a => a.removeAttribute("disabled"));
+                    return;
+                }
+            }
+            handle = rAF(starBurst);
+        }
+        function init(value) {
+            "use strict";
+            ctx = document.getElementById("c").getContext("2d");
+            op = ~~value;
+            rAF(starBurst);
+        }
+    </script>
+    <style type="text/css">
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            border: 1px solid red;
+            background-image: url(levant.jpg);
+            margin-right: 10px;
+        }
+
+        button {
+            width: 220px;
+            margin-bottom: 2px;
+            margin-right: 2px;
+            height: 21px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="400"></canvas>
+    <div>
+        <select onchange="if (this.selectedIndex>0) { init(this.options[this.selectedIndex].value); }">
+            <option></option>
+            <option value="0">clockwise from center</option>
+            <option value="1">anticlockwise from center</option>
+            <option value="2">from top to bottom </option>
+            <option value="3">clockwise from center to edge</option>
+        </select><br />
+    </div>
+</body>
+</html>
