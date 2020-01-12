@@ -1,0 +1,268 @@
+﻿
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <script type="text/javascript">
+      var form1=[[0,0,1,0],[0,0,1,0],[0,0,1,0],[0,0,1,0]],
+          form2=[[0,1,0],[1,1,1],[0,0,0]],
+          form3=[[0,0,1],[1,1,1],[0,0,0]],
+          form4=[[1,0,0],[1,1,1],[0,0,0]],
+          form5=[[0,1,1],[1,1,0],[0,0,0]],
+          form6=[[1,1,0],[0,1,1],[0,0,0]],
+          form7=[[1,1],[1,1]],
+          tableau=[[0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0]],
+          _top=18,
+          _left=4,
+          lastTop=0,
+          lastLeft=0,
+          lastForm=null;
+          newForm=true,
+          pause=false,
+          currentForm=null,
+          formIndex=-1,
+          maxHeight=-1,
+          num=0,
+          formInfo=null,
+          gameOver=false,
+          interval=250;
+      function drawTableau() {
+        var div,cell,rendu,i,j,l,m,maxLength=0,asValue=false;
+        rendu=document.getElementById('rendu');
+        rendu.innerHTML='';
+        for (i=0,l=tableau.length;i<l;i++) {
+          div=document.createElement("div");
+          div.className="row";
+          rendu.appendChild(div);
+          for (j=0,m=tableau[i].length;j<m;j++) {
+            cell=document.createElement("div");
+            cell.className="cellule";
+            cell.id=i+"-"+j;
+            if (tableau[i][j]>0) {
+              cell.className+=" form"+tableau[i][j];
+            }
+            div.appendChild(cell);
+          }
+        }
+        // on place la forme dans le tableau
+        if (currentForm!==null) {
+          l=currentForm.length;
+          for (i=0;i<l;i++) {
+            m=currentForm[i].length;
+            for (j=0;j<m;j++) {
+              if (i+_top<tableau.length) {
+                if (j+_left<tableau[i+_top].length) {
+                  if (currentForm[i][j]>0) {
+                    cell=document.getElementById((i+_top)+"-"+(j+_left));
+                    cell.className="cellule form"+num;
+                  }
+                }
+              }
+            }
+          }
+          lastForm=currentForm;
+        }
+
+      }
+      function createNewForm() {
+        if (currentForm!==null) {
+          l=currentForm.length;
+          for (i=0;i<l;i++) {
+            m=currentForm[i].length;
+            for (j=0;j<m;j++) {
+              if (i+_top<tableau.length) {
+                if (j+_left<tableau[i+_top].length) {
+                  tableau[i+_top][j+_left]=(currentForm[i][j]===0)?tableau[i+_top][j+_left]:num;
+                }
+              }
+            }
+          }
+        }
+        num=Math.round(Math.random()*7);
+        while (num===0) {
+          num=Math.round(Math.random()*7);
+        }
+        num=1;
+        formIndex=num;
+        currentForm=window["form"+num];
+        formInfo=getTBFNEL();
+        newForm=false;
+        _top=0;
+        _left=4;
+        lastForm=null;
+      }
+      function getTBFNEL() {
+        var i,l,j,m,k,top=0,bottom=0,valueT=false,valueB=false,left=0,top=0,maxWidth=0;
+        // left -> right
+        maxWidth=0;
+        k=currentForm[0].length-1;
+        right=k+1;
+        for (i=0,l=currentForm.length;i<l;i++) {
+          for (j=0,m=currentForm[0].length;j<m;j++) {
+
+            k--;
+          }
+        }
+        // top -> bottom
+        maxHeight=0;
+        j=currentForm.length-1;
+        bottom=j;
+        for (i=0,l=currentForm.length;i<l;i++) {
+          if (currentForm[i].join('').replace(/[1-9]/g,'1')!=="000") {
+            maxHeight++;
+            asValueT=true;
+          }
+          if (!asValueT) top++;
+          if (currentForm[j].join('').replace(/[1-9]/g,'1')==="000"&&!valueB) bottom--;
+          else valueB=true;
+          j--;
+        }
+        return { top:top, bottom:bottom, maxHeight:maxHeight, left:left, right:right, maxWidth:maxWidth};
+      }
+      function LineHasZero(index) {
+      }
+      function getSumOfLine(tab,index) {
+        var i,l,sum=0;
+        for (i=0,l=tab[index].length;i<l;i++) {
+          sum+=tab[index][i];
+        }
+        return sum;
+      }
+      function moveForm(x,y) {
+        var canMove=true,i,l,cellsTab,cellsForm;
+        // on test si on est en bas
+        if (canMove&&(_top+y+formInfo.maxHeight>tableau.length)) canMove=false;
+        // teste les cases
+        if (canMove) {
+          l=0;
+          for (i=formInfo.top;i<=formInfo.bottom;i++) {
+            cellsForm=currentForm[i].join('').replace(/[1-9]/g,'1');
+            cellsTab=tableau[_top+l+y].slice(_left,_left+currentForm[0].length).join('').replace(/[1-9]/g,'1');
+            if ((parseInt(cellsForm,2)&parseInt(cellsTab,2))!==0) canMove=canMove&&false;
+            l++;
+          }
+        }
+        if (canMove) {
+          _left+=x;
+          _top+=y;
+        }
+        if (!canMove) newForm=true;
+        if (newForm&&_top===0) gameOver=true;
+        // lignes pleines?
+
+      }
+      function clearTableau() {
+        tableau.length=0;
+        tableau=new Array(22);
+        for (var i=0;i<tableau.length;i++) {
+          tableau[i]=new Array(13).join('0').split('');
+        }
+      }
+      function loop() {
+        if (!pause&&!gameOver) {
+          lastTop=_top;
+          lastLeft=_left;
+          if (newForm) createNewForm();
+          moveForm(0,1);
+          drawTableau();
+        }
+        if (!gameOver) setTimeout(loop,interval);
+        else alert('Game Over');
+      }
+      function startGame() {
+        document.addEventListener('keydown',function(event) {
+          switch (event.keyCode) {
+            case 37: // left
+              _left--;
+              if (_left<0) _left=0;
+              break;
+            case 32: // space
+              break;
+            case 39: // right
+              _left++;
+              if (_left>11) _left=11;
+              break;
+            case 38: // top
+              break;
+            case 40: // bottom
+              break;
+          }
+          console.log(event.keyCode); 
+        },false);
+
+        clearTableau();
+        gameOver=false;
+        newForm=true;
+        currentForm=null;
+        loop();
+      }
+    </script>
+    <style type="text/css">
+      .cellule {
+        position:relative;
+        float:left;
+        width:20px;
+        height:20px;
+        box-sizing:border-box;
+      }
+      .form1, .form2, .form3, .form4, .form5, .form6, .form7 {
+        border:1px solid #000;
+      }
+
+      .form1 {
+        background-color:red;
+      }
+      .form2 {
+        background-color:blue;
+      }
+      .form3 {
+        background-color:yellow;
+      }
+      .form4 {
+        background-color:green;
+      }
+      .form5 {
+        background-color:fuchsia;
+      }
+      .form6 {
+        background-color:orange;
+      }
+      .form7 {
+        background-color:brown;
+      }
+      .row {
+        height:20px;
+      }
+    </style>
+</head>
+<body>
+  <div id='rendu' style='position:absolute;left:60px;width:240px;height:440px;border-bottom:1px solid #000;border-left:1px solid #000;border-right:1px solid #000;'></div>
+  <button onclick="startGame();">start</button><br /><button onclick="pause=!pause;">pause</button>
+</body>
+</html>
+<!--
+  replace(/[1-9]/g,'1')
+  "001"&"100"===0
+-->
