@@ -352,7 +352,7 @@ const Application = (() => {
                 case Types.RENDERERS.HTML:
                     wins = document.querySelectorAll(`jagui-window.${this.name}`);
                     wins.forEach(win => {
-                        let props = {}
+                        let props = {};
                         const properties = win.querySelector("properties");
                         if (properties) {
                             props = JSON.parse(properties.innerText);
