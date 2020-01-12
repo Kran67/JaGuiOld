@@ -520,7 +520,11 @@ const Application = (() => {
                             //} else if (obj instanceof Core.classes.CustomTextControl) {
                             //    obj.placeHolder = c[key];
                         }
+                    } else {
+                        obj.update();
                     }
+                } else {
+                    obj.update();
                 }
             }
         }
