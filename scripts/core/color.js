@@ -533,7 +533,7 @@ const Color = (function () {
                 }
             ];
             //#endregion Variables déclaration
-            if (!strColor) {
+            if (strColor == undefined) {
                 return strColor;
             }
             if (typeof strColor !== Types.CONSTANTS.STRING) {

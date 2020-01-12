@@ -1,15 +1,20 @@
-﻿import { BaseClass } from "/scripts/core/baseclass.js";
+﻿//#region Import
+import { BaseClass } from "/scripts/core/baseclass.js";
 import { Text } from "/scripts/core/text.js";
 import { Tools } from "/scripts/core/tools.js";
 import * as Canvas from "/scripts/core/canvas.js";
-//#region PathPoint
+//#endregion Import
+//#region _KINDS
 const _KINDS = Object.freeze({
     MOVETO: "moveTo",
     LINETO: "lineTo",
     CURVETO: "curveTo",
     CLOSE: "close"
 });
+//#endregion _KINDS
+//#region PathPoint
 const PathPoint = (() => {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
@@ -19,6 +24,8 @@ const PathPoint = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#endregion Private
+    //#region PathPoint
     class PathPoint extends BaseClass {
         //#region KINDS
         /**
@@ -28,6 +35,7 @@ const PathPoint = (() => {
             return _KINDS;
         }
         //#endregion
+        //#region Constructor
         constructor() {
             super();
             const priv = internal(this);
@@ -36,7 +44,9 @@ const PathPoint = (() => {
             priv.cp1 = new Core.classes.Point;
             priv.cp2 = new Core.classes.Point;
         }
+        //#endregion
         //#region Getter / Setter
+        //#region kind
         get kind() {
             return internal(this).kind;
         }
@@ -48,6 +58,8 @@ const PathPoint = (() => {
                 }
             }
         }
+        //#endregion kind
+        //#region point
         get point() {
             return internal(this).point;
         }
@@ -59,6 +71,8 @@ const PathPoint = (() => {
                 }
             }
         }
+        //#endregion point
+        //#region control point 1
         get cp1() {
             return internal(this).cp1;
         }
@@ -70,6 +84,8 @@ const PathPoint = (() => {
                 }
             }
         }
+        //#endregion control point 1
+        //#region control point 2
         get cp2() {
             return internal(this).cp2;
         }
@@ -81,16 +97,20 @@ const PathPoint = (() => {
                 }
             }
         }
+        //#endregion control point 2
         //#endregion
         //#region Methods
+        //#region destroy
         destroy() {
             this.point.destroy();
             this.cp1.destroy();
             this.cp2.destroy();
         }
+        //#endregion destroy
         //#endregion
     }
     return PathPoint;
+    //#endregion
 })();
 //#endregion
 //#region PathData
@@ -104,7 +124,9 @@ const PathData = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#region PathData
     class PathData extends BaseClass {
+        //#region Constructor
         constructor(owner) {
             super();
             const priv = internal(this);
@@ -114,7 +136,9 @@ const PathData = (() => {
             priv.originalPathString = null;
             priv.owner = owner;
         }
+        //#endregion Constructor
         //#region getters/setters
+        //#region startPoint
         get startPoint() {
             return internal(this).startPoint;
         }
@@ -128,15 +152,21 @@ const PathData = (() => {
                 }
             }
         }
+        //#endregion startPoint
+        //#region data
         get data() {
             return internal(this).data;
         }
+        //#endregion data
+        //#region originalBounds
         get originalBounds() {
             return internal(this).originalBounds;
         }
         get originalPathString() {
             return internal(this).originalPathString;
         }
+        //#endregion originalBounds
+        //#region originalPathString
         set originalPathString(newValue) {
             const priv = internal(this);
             if (typeof newValue === Types.CONSTANTS.STRING) {
@@ -145,9 +175,13 @@ const PathData = (() => {
                 }
             }
         }
+        //#endregion originalPathString
+        //#region owner
         get owner() {
             return internal(this).owner;
         }
+        //#endregion owner
+        //#region pathString
         get pathString() {
             let i = 0;
             const result = [];
@@ -456,6 +490,8 @@ const PathData = (() => {
                 }
             }
         }
+        //#endregion pathString
+        //#region lastPoint
         get lastPoint() {
             const data = internal(this).data;
             if (data.length > 0) {
@@ -464,9 +500,13 @@ const PathData = (() => {
                 return new Core.classes.Point;
             }
         }
+        //#endregion lastPoint
+        //#region isEmpty
         get isEmpty() {
             return internal(this).data.length === 0;
         }
+        //#endregion isEmpty
+        //#region bounds
         get bounds() {
             const data = internal(this).data;
             if (data.length === 0) {
@@ -493,8 +533,10 @@ const PathData = (() => {
             }
             return result;
         }
+        //#endregion bounds
         //#endregion
         //#region Methods
+        //#region assign
         assign(source) {
             if (source instanceof Core.classes.PathData) {
                 source.copyDataTo(this.data);
@@ -502,6 +544,8 @@ const PathData = (() => {
                 this.updateOwner();
             }
         }
+        //#endregion assign
+        //#region copyDataTo
         copyDataTo(dest) {
             const data = this.data;
             if (Array.isArray(dest)) {
@@ -516,6 +560,8 @@ const PathData = (() => {
                 });
             }
         }
+        //#endregion copyDataTo
+        //#region addArcSvgPart
         addArcSvgPart(center, ray, angle, sweep) {
             const NUMBER = Types.CONSTANTS.NUMBER;
             const _2PI = Types.CONSTANTS._2PI;
@@ -572,6 +618,8 @@ const PathData = (() => {
                 }
             }
         }
+        //#endregion addArcSvgPart
+        //#region addArcSvg
         /**
          * @param       {Object}        params
          * @param       {Point}         params.p1
@@ -707,6 +755,8 @@ const PathData = (() => {
                 }
             }
         }
+        //#endregion addArcSvg
+        //#region calculateBezierCoefficients
         calculateBezierCoefficients(bezier) {
             const result = {};
             result.cx = 3 * (bezier[1].x - bezier[0].x);
@@ -717,6 +767,8 @@ const PathData = (() => {
             result.ay = bezier[3].y - bezier[0].y - result.cy - result.by;
             return result;
         }
+        //#endregion calculateBezierCoefficients
+        //#region pointOnBezier
         /**
          * @param       {Point}         p
          * @param       {Number}        ax
@@ -739,6 +791,8 @@ const PathData = (() => {
                 return result;
             }
         }
+        //#endregion pointOnBezier
+        //#region createBezier
         createBezier(bezier, coef) {
             if (coef !== 0) {
                 const dt = 1 / (1 * coef - 1);
@@ -752,6 +806,8 @@ const PathData = (() => {
                 return result;
             }
         }
+        //#endregion createBezier
+        //#region drawArcWithBezier
         /**
          * @param   {Path}          p
          * @param   {Number}        cx
@@ -807,6 +863,8 @@ const PathData = (() => {
                 p.curveTo(pts[1], pts[2], pts[3]);
             }
         }
+        //#endregion drawArcWithBezier
+        //#region moveTo
         moveTo(point) {
             if (point instanceof Core.classes.Point) {
                 const pathPoint = new Core.classes.PathPoint;
@@ -816,6 +874,8 @@ const PathData = (() => {
                 this.startPoint.setValues(point.x, point.y);
             }
         }
+        //#endregion moveTo
+        //#region moveToRel
         moveToRel(point) {
             if (point instanceof Core.classes.Point) {
                 const pathPoint = new Core.classes.PathPoint;
@@ -826,6 +886,8 @@ const PathData = (() => {
                 this.startPoint.setValues(pathPoint.point.x, pathPoint.point.y);
             }
         }
+        //#endregion moveToRel
+        //#region lineTo
         lineTo(point) {
             if (point instanceof Core.classes.Point) {
                 const pathPoint = new Core.classes.PathPoint;
@@ -834,6 +896,8 @@ const PathData = (() => {
                 this.data.push(pathPoint);
             }
         }
+        //#endregion lineTo
+        //#region lineToRel
         lineToRel(point) {
             if (point instanceof Core.classes.Point) {
                 const pathPoint = new Core.classes.PathPoint;
@@ -843,6 +907,8 @@ const PathData = (() => {
                 this.data.push(pathPoint);
             }
         }
+        //#endregion lineToRel
+        //#region hLineTo
         hLineTo(x) {
             const data = this.data;
             if (typeof x === Types.CONSTANTS.NUMBER) {
@@ -852,6 +918,8 @@ const PathData = (() => {
                 this.data.push(pathPoint);
             }
         }
+        //#endregion hLineTo
+        //#region hLineToRel
         hLineToRel(a) {
             const pathPoint = new Core.classes.PathPoint;
             if (typeof a === Types.CONSTANTS.NUMBER) {
@@ -861,6 +929,8 @@ const PathData = (() => {
                 this.data.push(pathPoint);
             }
         }
+        //#endregion hLineToRel
+        //#region vLineTo
         vLineTo(y) {
             const data = this.data;
             if (typeof y === Types.CONSTANTS.NUMBER) {
@@ -870,6 +940,8 @@ const PathData = (() => {
                 data.push(pathPoint);
             }
         }
+        //#endregion vLineTo
+        //#region vLineToRel
         vLineToRel(y) {
             const lastPoint = this.lastPoint;
             if (typeof y === Types.CONSTANTS.NUMBER) {
@@ -879,6 +951,8 @@ const PathData = (() => {
                 this.data.push(pathPoint);
             }
         }
+        //#endregion vLineToRel
+        //#region curveTo
         curveTo(point1, point2, endpoint) {
             const p1 = point1;
             const p2 = point2;
@@ -900,6 +974,8 @@ const PathData = (() => {
                 data.push(pathPoint);
             }
         }
+        //#endregion curveTo
+        //#region curveToRel
         curveToRel(point1, point2, endpoint) {
             const p1 = point1;
             const p2 = point2;
@@ -922,6 +998,8 @@ const PathData = (() => {
                 data.push(pathPoint);
             }
         }
+        //#endregion curveToRel
+        //#region smoothCurveTo
         smoothCurveTo(point2, endpoint) {
             const p2 = point2;
             const e = endpoint;
@@ -950,6 +1028,8 @@ const PathData = (() => {
                 data.push(pathPoint);
             }
         }
+        //#endregion smoothCurveTo
+        //#region smoothCurveToRel
         smoothCurveToRel(point2, endpoint) {
             const p2 = point2;
             const e = endpoint;
@@ -980,6 +1060,8 @@ const PathData = (() => {
                 data.push(pathPoint);
             }
         }
+        //#endregion smoothCurveToRel
+        //#region closePath
         closePath() {
             const pathPoint = new Core.classes.PathPoint;
             const startPoint = this.startPoint;
@@ -987,6 +1069,8 @@ const PathData = (() => {
             pathPoint.point.setValues(startPoint.x, startPoint.y);
             this.data.push(pathPoint);
         }
+        //#endregion closePath
+        //#region addEllipse
         addEllipse(rect) { // à voir
             const CURVE2KAPPA = Canvas.CURVE2KAPPA;
             if (rect instanceof Core.classes.Rect) {
@@ -1004,6 +1088,8 @@ const PathData = (() => {
                 this.originalPathString = this.pathString;
             }
         }
+        //#endregion addEllipse
+        //#region addRectangle
         addRectangle(r, radius) {
             let ulr = radius.topLeft;
             let urr = radius.topRight;
@@ -1078,6 +1164,8 @@ const PathData = (() => {
                 this.closePath();
             }
         }
+        //#endregion addRectangle
+        //#region addPie
         addPie(rect, object) {
             const r = rect;
             const o = object;
@@ -1098,6 +1186,8 @@ const PathData = (() => {
                 //}
             }
         }
+        //#endregion addPie
+        //#region addArc
         addArc(center, radius, startangle, angle) {
             const c = center;
             const r = radius;
@@ -1156,6 +1246,8 @@ const PathData = (() => {
                 }
             }
         }
+        //#endregion addArc
+        //#region addCallout
         addCallout(rect, object) {
             const bordersRadius = object.bordersRadius;
             let ulr = bordersRadius.topLeft;
@@ -1345,11 +1437,15 @@ const PathData = (() => {
                 this.closePath();
             }
         }
+        //#endregion addCallout
+        //#region clear
         clear() {
             this.data.length = 0;
             //this.onChange.invoke();
             this.updateOwner();
         }
+        //#endregion clear
+        //#region flatten
         flatten(coef) {
             const oldPathData = [];
             const curPoint = new Core.classes.Point;
@@ -1442,6 +1538,8 @@ const PathData = (() => {
                 this.updateOwner();
             }
         }
+        //#endregion flatten
+        //#region scale
         scale(x, y) {
             const NUMBER = Types.CONSTANTS.NUMBER;
             const KINDS = PathPoint.KINDS;
@@ -1456,6 +1554,8 @@ const PathData = (() => {
                 }
             }
         }
+        //#endregion scale
+        //#region offset
         offset(x, y) {
             const KINDS = PathPoint.KINDS;
             const data = this.data;
@@ -1467,6 +1567,8 @@ const PathData = (() => {
                 });
             }
         }
+        //#endregion offset
+        //#region applyMatrix
         applyMatrix(matrix) {
             const m = matrix;
             const KINDS = PathPoint.KINDS;
@@ -1483,6 +1585,8 @@ const PathData = (() => {
                 }
             }
         }
+        //#endregion applyMatrix
+        //#region flattenToPolygon
         flattenToPolygon(flattenCoef) {
             const curPoint = new Core.classes.Point;
             let f = flattenCoef;
@@ -1547,6 +1651,8 @@ const PathData = (() => {
                 };
             }
         }
+        //#endregion flattenToPolygon
+        //#region resizeToRect
         resizeToRect(rect) {
             const r = rect;
             if (r instanceof Core.classes.Rect && !r.isEmpty && !this.isEmpty) {
@@ -1565,6 +1671,8 @@ const PathData = (() => {
                 }
             }
         }
+        //#endregion resizeToRect
+        //#region reduce
         reduce(x, y) {
             const NUMBER = Types.CONSTANTS.NUMBER;
             if (typeof x !== NUMBER) {
@@ -1582,6 +1690,8 @@ const PathData = (() => {
                 });
             }
         }
+        //#endregion reduce
+        //#region extend
         extend(x, y) {
             const NUMBER = Types.CONSTANTS.NUMBER;
             if (typeof x !== NUMBER) {
@@ -1598,6 +1708,8 @@ const PathData = (() => {
                 });
             }
         }
+        //#endregion extend
+        //#region inflate
         inflate(x, y) {
             const NUMBER = Types.CONSTANTS.NUMBER;
             if (typeof x !== NUMBER) {
@@ -1616,21 +1728,29 @@ const PathData = (() => {
                 });
             }
         }
+        //#endregion inflate
+        //#region destroy
         destroy() {
             super.destroy();
             this.startPoint.destroy();
             this.data.destroy();
             this.originalBounds.destroy();
         }
+        //#endregion destroy
+        //#region updateOwner
         updateOwner() {
             if (this.owner) {
                 this.owner.update();
             }
         }
+        //#endregion updateOwner
         //#endregion
     }
     return PathData;
+    //#endregion
 })();
+//#endregion
+//#region PathData defineProperties
 Object.defineProperties(PathData, {
     "startPoint": {
         enumerable: true
@@ -1639,6 +1759,6 @@ Object.defineProperties(PathData, {
         enumerable: true
     }
 });
-//#endregion
+//#endregion PathData defineProperties
 Core.classes.register(Types.CATEGORIES.INTERNAL, PathPoint, PathData);
 export { PathPoint, PathData };

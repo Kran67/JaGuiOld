@@ -64,7 +64,7 @@ class Text {
         return " \t'\",;.!~@#$%^&*?=<>()[]:\\+-".indexOf(c) !== -1;
     }
     static getTok(string, position) {
-        let i = position;
+        let i = 0;
         if (typeof string === Types.CONSTANTS.STRING) {
             let result = String.EMPTY;
             const len = string.length;
@@ -74,7 +74,7 @@ class Text {
             while (position <= len && string.charAt(position) === String.SPACE) {
                 position++;
             }
-            for (; i < len; i++) {
+            for (i = position; i < len; i++) {
                 if ("zmlchvsqtaZMLCHVSQTA".indexOf(string.charAt(i)) === -1) {
                     break;
                 }
@@ -84,7 +84,7 @@ class Text {
         }
     }
     static getNum(string, position) {
-        let i = position;
+        let i = 0;
         if (typeof string === Types.CONSTANTS.STRING) {
             let result = String.EMPTY;
             const len = string.length;
@@ -94,7 +94,7 @@ class Text {
             while (position <= len && string.charAt(position) === String.SPACE) {
                 position++;
             }
-            for (; i < len; i++) {
+            for (i = position; i < len; i++) {
                 if (string.charAt(i) === "e") {
                     result += string.charAt(i);
                     continue;

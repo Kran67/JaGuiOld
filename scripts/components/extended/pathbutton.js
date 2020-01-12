@@ -30,12 +30,12 @@ const PathButton = (() => {
                 if (props.hasOwnProperty("path")) {
                     priv.path.pathString = atob(props.path);
                 }
-                priv.glyphNormalStrokeColor = props.hasOwnProperty("glyphNormalStrokeColor")?props.glyphNormalStrokeColor:new Color(Colors.BLACK);
-                priv.glyphNormalFillColor = props.hasOwnProperty("glyphNormalFillColor")?props.glyphNormalFillColor:new Color(Colors.WHITE);
-                priv.glyphHoveredStrokeColor = props.hasOwnProperty("glyphHoveredStrokeColor")?props.glyphHoveredStrokeColor:new Color(Colors.BLACK);
-                priv.glyphHoveredFillColor = props.hasOwnProperty("glyphHoveredFillColor")?props.glyphHoveredFillColor:new Color(Colors.WHITE);
-                priv.glyphPressedStrokeColor = props.hasOwnProperty("glyphPressedStrokeColor")?props.glyphPressedStrokeColor:new Color(Colors.BLACK);
-                priv.glyphPressedFillColor = props.hasOwnProperty("glyphPressedFillColor")?props.glyphPressedFillColor:new Color(Colors.WHITE);
+                priv.glyphNormalStrokeColor = props.hasOwnProperty("glyphNormalStrokeColor")?Color.parse(props.glyphNormalStrokeColor):new Color(Colors.BLACK);
+                priv.glyphNormalFillColor = props.hasOwnProperty("glyphNormalFillColor")?Color.parse(props.glyphNormalFillColor):new Color(Colors.WHITE);
+                priv.glyphHoveredStrokeColor = props.hasOwnProperty("glyphHoveredStrokeColor")?Color.parse(props.glyphHoveredStrokeColor):new Color(Colors.BLACK);
+                priv.glyphHoveredFillColor = props.hasOwnProperty("glyphHoveredFillColor")?Color.parse(props.glyphHoveredFillColor):new Color(Colors.WHITE);
+                priv.glyphPressedStrokeColor = props.hasOwnProperty("glyphPressedStrokeColor")?Color.parse(props.glyphPressedStrokeColor):new Color(Colors.BLACK);
+                priv.glyphPressedFillColor = props.hasOwnProperty("glyphPressedFillColor")?Color.parse(props.glyphPressedFillColor):new Color(Colors.WHITE);
                 priv.ctx = null;
                 this.canFocused = true;
             }
