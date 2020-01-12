@@ -21,7 +21,7 @@ import "/scripts/components/extended/cornerbutton.js";
 //import { StatusBar } from "/scripts/components/toolbars/statusBar.js";
 //import { ToolBar } from "/scripts/components/toolbars/toolBar.js";
 //import { ToolButton } from "/scripts/components/toolbars/toolButton.js";
-//import { ValueLabel } from "/scripts/components/extended/valueLabel.js";
+import "/scripts/components/extended/valueLabel.js";
 //import { PathCheckbox } from "/scripts/components/extended/pathCheckbox.js";
 //import { AngleButton } from "/scripts/components/extended/angleButton.js";
 //import { ProgressBar } from "/scripts/components/common/progressBar.js";

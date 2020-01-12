@@ -37,30 +37,30 @@ const CaptionControl = (() => {
                 if (!Core.isHTMLRenderer) {
                     themeName = this.app.themeName;
                     theme = Core.themes[themeName];
-                    captionControlTheme = theme[this.constructor.name]?theme[this.constructor.name]:{};
+                    captionControlTheme = theme[this.constructor.name] ? theme[this.constructor.name] : {};
                 } else {
                     theme = {};
                     captionControlTheme = {};
-                   priv.caption = props.hasOwnProperty("caption") ? props.caption : this.constructor.name;
+                    priv.caption = props.hasOwnProperty("caption") ? props.caption : this.constructor.name;
                 }
-                priv.wordWrap = captionControlTheme.hasOwnProperty("wordWrap")?captionControlTheme.wordWrap:props.hasOwnProperty("wordWrap")?props.wordWrap:false;
-                priv.horizAlign = props.hasOwnProperty("horizAlign")?props.horizAlign:captionControlTheme.hasOwnProperty("horizAlign")?captionControlTheme.horizAlign:props.hasOwnProperty("horizAlign")?props.horizAlign:Types.TEXTALIGNS.LEFT;
-                priv.color = Color.parse(captionControlTheme.hasOwnProperty("color")?captionControlTheme.color:theme.DEFAULTTEXTCOLOR?theme.DEFAULTTEXTCOLOR:props.hasOwnProperty("color")?Color.parse(props.color):null);
+                priv.wordWrap = captionControlTheme.hasOwnProperty("wordWrap") ? captionControlTheme.wordWrap : props.hasOwnProperty("wordWrap") ? props.wordWrap : false;
+                priv.horizAlign = props.hasOwnProperty("horizAlign") ? props.horizAlign : captionControlTheme.hasOwnProperty("horizAlign") ? captionControlTheme.horizAlign : props.hasOwnProperty("horizAlign") ? props.horizAlign : Types.TEXTALIGNS.LEFT;
+                priv.color = Color.parse(captionControlTheme.hasOwnProperty("color") ? captionControlTheme.color : theme.DEFAULTTEXTCOLOR ? theme.DEFAULTTEXTCOLOR : props.hasOwnProperty("color") ? Color.parse(props.color) : null);
                 if (props.hasOwnProperty("color")) {
                     if (typeof props.color === CONSTANTS.STRING) {
                         priv.color = Color.parse(props.color);
                     }
                 }
-                priv.fontFamily = props.hasOwnProperty("fontFamily")?props.fontFamily:captionControlTheme.hasOwnProperty("fontFamily")?captionControlTheme.fontFamily:props.hasOwnProperty("fontFamily")?props.fontFamily:null;
-                priv.fontSize = props.hasOwnProperty("fontSize")?props.fontSize:captionControlTheme.hasOwnProperty("fontSize")?captionControlTheme.fontSize:props.hasOwnProperty("fontSize")?props.fontSize:8;
-                priv.fontSizeUnit = props.hasOwnProperty("fontSizeUnit")?props.fontSizeUnit:Types.CSSUNITS.PT;
-                priv.fontBold = props.hasOwnProperty("fontBold") && typeof props.fontBold === CONSTANTS.BOOLEAN?props.fontBold:captionControlTheme.hasOwnProperty("fontBold")?captionControlTheme.fontBold:props.hasOwnProperty("fontBold")?props.fontBold:false;
-                priv.fontStyle = props.hasOwnProperty("fontStyle")?props.fontStyle:captionControlTheme.hasOwnProperty("fontStyle")?captionControlTheme.fontStyle:props.hasOwnProperty("fontStyle")?props.fontStyle:Types.FONTSTYLES.NORMAL;
-                priv.textDecoration = new TextDecoration(this, props.hasOwnProperty("textDecoration")?props.textDecoration:captionControlTheme.hasOwnProperty("textDecoration")?captionControlTheme.textDecoration:props.hasOwnProperty("textDecoration")?props.textDecoration:null);
-                priv.textShadows = new TextShadows(this, props.hasOwnProperty("textShadow")?props.textShadow:captionControlTheme.hasOwnProperty("textShadow")?captionControlTheme.textShadow:props.hasOwnProperty("textShadow")?props.textShadow:null);
-                priv.textTransform = props.hasOwnProperty("textTransform")?props.textTransform:captionControlTheme.hasOwnProperty("textTransform")?captionControlTheme.textTransform:props.hasOwnProperty("textTransform")?props.textTransform:Types.TEXTTRANSFORMS.NONE;
-                priv.vertAlign = props.hasOwnProperty("vertAlign")?props.vertAlign:captionControlTheme.hasOwnProperty("vertAlign")?captionControlTheme.vertAlign:props.hasOwnProperty("vertAlign")?props.vertAlign:VERTTEXTALIGNS.TOP;
-                priv.backColor = Color.parse(captionControlTheme.hasOwnProperty("backColor")?captionControlTheme.backColor:props.hasOwnProperty("backColor")?Color.parse(props.backColor):Colors.TRANSPARENT.toRGBAString());
+                priv.fontFamily = props.hasOwnProperty("fontFamily") ? props.fontFamily : captionControlTheme.hasOwnProperty("fontFamily") ? captionControlTheme.fontFamily : props.hasOwnProperty("fontFamily") ? props.fontFamily : null;
+                priv.fontSize = props.hasOwnProperty("fontSize") ? props.fontSize : captionControlTheme.hasOwnProperty("fontSize") ? captionControlTheme.fontSize : props.hasOwnProperty("fontSize") ? props.fontSize : 8;
+                priv.fontSizeUnit = props.hasOwnProperty("fontSizeUnit") ? props.fontSizeUnit : Types.CSSUNITS.PT;
+                priv.fontBold = props.hasOwnProperty("fontBold") && typeof props.fontBold === CONSTANTS.BOOLEAN ? props.fontBold : captionControlTheme.hasOwnProperty("fontBold") ? captionControlTheme.fontBold : props.hasOwnProperty("fontBold") ? props.fontBold : false;
+                priv.fontStyle = props.hasOwnProperty("fontStyle") ? props.fontStyle : captionControlTheme.hasOwnProperty("fontStyle") ? captionControlTheme.fontStyle : props.hasOwnProperty("fontStyle") ? props.fontStyle : Types.FONTSTYLES.NORMAL;
+                priv.textDecoration = new TextDecoration(this, props.hasOwnProperty("textDecoration") ? props.textDecoration : captionControlTheme.hasOwnProperty("textDecoration") ? captionControlTheme.textDecoration : props.hasOwnProperty("textDecoration") ? props.textDecoration : null);
+                priv.textShadows = new TextShadows(this, props.hasOwnProperty("textShadow") ? props.textShadow : captionControlTheme.hasOwnProperty("textShadow") ? captionControlTheme.textShadow : props.hasOwnProperty("textShadow") ? props.textShadow : null);
+                priv.textTransform = props.hasOwnProperty("textTransform") ? props.textTransform : captionControlTheme.hasOwnProperty("textTransform") ? captionControlTheme.textTransform : props.hasOwnProperty("textTransform") ? props.textTransform : Types.TEXTTRANSFORMS.NONE;
+                priv.vertAlign = props.hasOwnProperty("vertAlign") ? props.vertAlign : captionControlTheme.hasOwnProperty("vertAlign") ? captionControlTheme.vertAlign : props.hasOwnProperty("vertAlign") ? props.vertAlign : VERTTEXTALIGNS.TOP;
+                priv.backColor = Color.parse(captionControlTheme.hasOwnProperty("backColor") ? captionControlTheme.backColor : props.hasOwnProperty("backColor") ? Color.parse(props.backColor) : Colors.TRANSPARENT.toRGBAString());
                 if (props.hasOwnProperty("backColor")) {
                     if (typeof props.backColor === CONSTANTS.STRING) {
                         priv.backColor = Color.parse(props.backColor);
@@ -68,8 +68,8 @@ const CaptionControl = (() => {
                         priv.backColor = props.backColor;
                     }
                 }
-                priv.autoSize = props.hasOwnProperty("autoSize")?props.autoSize:captionControlTheme.hasOwnProperty("autoSize")?captionControlTheme.autoSize:props.hasOwnProperty("autoSize")?props.autoSize:true;
-                priv.textOverflow = props.hasOwnProperty("textOverflow")?props.textOverflow:captionControlTheme.hasOwnProperty("textOverflow")?captionControlTheme.textOverflow:props.hasOwnProperty("textOverflow")?props.textOverflow:Types.TEXTOVERFLOWS.CLIP;
+                priv.autoSize = props.hasOwnProperty("autoSize") ? props.autoSize : captionControlTheme.hasOwnProperty("autoSize") ? captionControlTheme.autoSize : props.hasOwnProperty("autoSize") ? props.autoSize : true;
+                priv.textOverflow = props.hasOwnProperty("textOverflow") ? props.textOverflow : captionControlTheme.hasOwnProperty("textOverflow") ? captionControlTheme.textOverflow : props.hasOwnProperty("textOverflow") ? props.textOverflow : Types.TEXTOVERFLOWS.CLIP;
                 this.addBindableProperties(["caption", "horizAlign", "wordWrap", "color", "fontFamily", "fontSize", "fontSizeUnit",
                     "fontBold", "fontStyle", "textTransform", "vertAlign", "backColor", "autSize", "textOverflow"]);
             }
@@ -142,7 +142,7 @@ const CaptionControl = (() => {
         get vertAlign() {
             return internal(this).vertAlign;
         }
-        set vertAlign (newValue) {
+        set vertAlign(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             const form = this.form;
@@ -355,7 +355,7 @@ const CaptionControl = (() => {
         get autoSize() {
             return internal(this).autoSize;
         }
-        set autoSize (newValue) {
+        set autoSize(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             const CONSTANTS = Types.CONSTANTS;
@@ -444,7 +444,7 @@ const CaptionControl = (() => {
             const TEXTDECORATIONS = Types.TEXTDECORATIONS;
             const textDecoration = priv.textDecoration;
             let textDecorationStr = String.EMPTY;
-            const color = priv.color?priv.color.toRGBAString():priv.color;
+            const color = priv.color ? priv.color.toRGBAString() : priv.color;
             const TEXTALIGNS = Types.TEXTALIGNS;
             const VERTTEXTALIGNS = Types.VERTTEXTALIGNS;
             const isHtmlRenderer = Core.isHTMLRenderer;
@@ -490,7 +490,7 @@ const CaptionControl = (() => {
             if (priv.fontSize) {
                 htmlElementStyle.fontSize = `${priv.fontSize}${priv.fontSizeUnit}`;
             }
-            htmlElementStyle.fontWeight = priv.fontBold?FONTSTYLES.BOLD:FONTSTYLES.NORMAL;
+            htmlElementStyle.fontWeight = priv.fontBold ? FONTSTYLES.BOLD : FONTSTYLES.NORMAL;
             htmlElementStyle.fontStyle = priv.fontStyle;
             if (textDecoration) {
                 if (textDecoration.underline) {
@@ -546,7 +546,9 @@ const CaptionControl = (() => {
                         break;
                 }
             }
-            htmlElementStyle.backgroundColor = priv.backColor.toRGBAString();
+            if (priv.backColor.alpha !== 0) {
+                htmlElementStyle.backgroundColor = priv.backColor.toRGBAString();
+            }
         }
         //#endregion updateCssProperties
         //#region loaded
