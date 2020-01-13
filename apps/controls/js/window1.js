@@ -15,7 +15,7 @@ import "/scripts/components/extended/circlebutton.js";
 import "/scripts/components/extended/bitmapbutton.js";
 import "/scripts/components/extended/pathbutton.js";
 import "/scripts/components/containers/panel.js";
-//import { CalloutPanel } from "/scripts/components/containers/calloutPanel.js";
+import "/scripts/components/containers/calloutPanel.js";
 //import { ColorButton } from "/scripts/components/color/colorButton.js";
 import "/scripts/components/extended/cornerbutton.js";
 //import { StatusBar } from "/scripts/components/toolbars/statusBar.js";
