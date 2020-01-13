@@ -412,8 +412,8 @@
         });
         return props;
     }
-    static getLeftTopFromTranslation(HTMLElement) {
-        let mat = getComputedStyle(HTMLElement).transform;
+    static getLeftTopFromTranslation(htmlElement) {
+        let mat = getComputedStyle(htmlElement).transform;
         mat = mat.match(/-?[\d\.]+/g);
         return {
             left: ~~mat[4],

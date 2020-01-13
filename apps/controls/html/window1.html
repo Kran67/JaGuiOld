@@ -263,7 +263,7 @@
                         <div class="Control ColorButtonColor {theme}"></div>
                     </button>-->
                     <jagui-cornerbutton id="_7hes89u" data-class="CornerButton" class="Control CornerButton csr_default {theme}"><properties>{ "name": "CornerButton1",  
-                        "topLeftCorner":{"x":15,"y":15, "type":"sharp", "unit":"px"}, "topRightCorner":{ "x":15,"y":15, "type":"scoop", "unit":"px"}, "bottomLeftCorner":{"x":15,"y":15, "type":"notch", "unit":"px"}, "bottomRightCorner":{"x":15,"y":15, "type":"bevel", "unit":"px"} , "onClick":"Core.dialogs.prompt('prompt','test','blabla')", "tabOrder": 15, "top": 180, "left": 150, "width": 68, "height": 50, "caption":"CornerButton" }</properties><div class="Control Button CornerButton {theme} includeCaption" style="clip-path:url(#CornerButton1Clip);"><svg width="100%" height="100%" class="CornerButtonSvg"><defs><clipPath id="CornerButton1Clip"><use xlink:href="#CornerButton1ClipPath" /></clipPath></defs><linearGradient id="CornerButton1Gradient" x1="0" x2="0" y1="0" y2="100%"><stop offset="0%" class="carbon first-corner-button-color"/><stop offset="100%" class="carbon secondary-corner-button-color"/></linearGradient><path stroke="url(#CornerButton1Gradient)" class="CornerButtonClipPath" id="CornerButton1ClipPath" d="M 0 0 Z" /></svg></div></jagui-cornerbutton>
+                        "topLeftCorner":{"x":15,"y":15, "type":"sharp", "unit":"px"}, "topRightCorner":{ "x":15,"y":15, "type":"scoop", "unit":"px"}, "bottomLeftCorner":{"x":15,"y":15, "type":"notch", "unit":"px"}, "bottomRightCorner":{"x":15,"y":15, "type":"bevel", "unit":"px"} , "onClick":"Core.dialogs.prompt('prompt','test','blabla')", "tabOrder": 15, "top": 165, "left": 150, "width": 68, "height": 50, "caption":"CornerButton" }</properties><div class="Control Button CornerButton {theme} includeCaption" style="clip-path:url(#CornerButton1Clip);"><svg width="100%" height="100%" class="CornerButtonSvg"><defs><clipPath id="CornerButton1Clip"><use xlink:href="#CornerButton1ClipPath" /></clipPath></defs><linearGradient id="CornerButton1Gradient" x1="0" x2="0" y1="0" y2="100%"><stop offset="0%" class="carbon first-corner-button-color"/><stop offset="100%" class="carbon secondary-corner-button-color"/></linearGradient><path stroke="url(#CornerButton1Gradient)" class="CornerButtonClipPath" id="CornerButton1ClipPath" d="M 0 0 Z" /></svg></div></jagui-cornerbutton>
                     <!--<button id="_wzzma7y" name="PopupButton1" data-class="PopupButton" class="Control PopupButton {theme} csr_default" data-popupmenu="PopupMenu1"
                         data-taborder="16" style="left: 250px;top: 180px;height: 19px;width: 88px;">
                         <span class="Control ButtonCaption">PopupButton</span>
@@ -285,20 +285,10 @@
                     <fieldset id="_y7xu1b8" name="GroupBox1" data-class="GroupBox" class="Control GroupBox {theme}" data-taborder="17" style="left: 10px;top: 220px;width: 75px;height: 25px;">
                         <legend class="Control GroupBoxLegend {theme}">GroupBox1</legend>
                     </fieldset>
-                    <div id="_p6fup8t" name="ColorBox1" data-class="ColorBox" class="Control ColorBox" data-color="blue" style="left: 570px;top: 250px;width: 50px;height: 50px;"></div>
-                    <div id="_v8pztto" name="ProgressBar1" data-class="ProgressBar" class="Control ProgressBar {theme} orientation-horizontal"
-                        data-value="75" data-orientation="horizontal" data-taborder="18" style="top: 220px;left: 150px;width: 100px;height: 17px;">
-                        <div class="Control ProgressBarProgress {theme} orientation-horizontal" style="width: 72px;">
-                            <div class="Control {theme} ProgressBarIndic orientation-horizontal"></div>
-                        </div>
-                    </div>
-                    <div id="_v8pzttp" name="ProgressBar2" data-class="ProgressBar" class="Control ProgressBar {theme} orientation-vertical"
-                        data-value="50" data-orientation="vertical" data-taborder="19" style="top: 160px;left: 640px;height: 100px;width: 17px;">
-                        <div class="Control ProgressBarProgress {theme} orientation-vertical" style="height: 47px;">
-                            <div class="Control {theme} ProgressBarIndic orientation-vertical"></div>
-                        </div>
-                    </div>
-                    <div id="_n9e4isb" name="Checkbox1" data-class="Checkbox" class="Control Checkbox {theme}" data-ischecked="true" data-state="checked"
+                    <div id="_p6fup8t" name="ColorBox1" data-class="ColorBox" class="Control ColorBox" data-color="blue" style="left: 570px;top: 250px;width: 50px;height: 50px;"></div>-->
+                    <jagui-progressbar id="_v8pztto" data-class="ProgressBar" class="Control ProgressBar {theme} orientation-horizontal"><properties>{ "name": "ProgressBar1", "value": 75, "orientation": "horizontal", "tabOrder": 18, "top": 220, "left": 150, "width": 100, "height": 17 }</properties><div class="Control ProgressBarProgress {theme} orientation-horizontal"><div class="Control {theme} ProgressBarIndic orientation-horizontal"></div></div></jagui-progressbar>
+                    <jagui-progressbar id="_v8pzttp" name="ProgressBar2" data-class="ProgressBar" class="Control ProgressBar {theme} orientation-vertical"><properties>{ "name": "ProgressBar2", "value": 50, "orientation": "vertical", "tabOrder": 19, "top": 160, "left": 640, "width": 17, "height": 100 }</properties><div class="Control ProgressBarProgress {theme} orientation-vertical" style="height: 47px;"><div class="Control {theme} ProgressBarIndic orientation-vertical"></div></div></jagui-progressbar>
+                    <!--<div id="_n9e4isb" name="Checkbox1" data-class="Checkbox" class="Control Checkbox {theme}" data-ischecked="true" data-state="checked"
                         data-taborder="20" style="top: 180px;left: 470px; height:15px;">
                         <input type="checkbox" class="Control CheckboxInput" />
                         <div class="Control {theme} CheckboxCheck checked"></div>Checkbox1
