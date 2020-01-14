@@ -366,6 +366,9 @@
         //obj._props[prop] = set;
         //obj[prop] = value;
         params.component.addPropertyEnum(params.propName, params.enum);
+        if (params.hasOwnProperty("value")) {
+            params.variable[params.propName] = params.value;
+        }
         if (params.forceUpdate === undefined) {
             params.forceUpdate = false;
         }
@@ -387,8 +390,8 @@
         //params.component[params.propName] = params.value;
         //params.variable = params.value;
         Object.defineProperty(params.component, params.propName, {
-    get: () => { return params.variable[params.propName]; },
-    set: setter,
+            get: () => { return params.variable[params.propName]; },
+            set: setter,
             enumerable: params.enumerable
         });
     }

@@ -74,8 +74,8 @@ const CustomTabControl = (() => {
                 priv.btnRight.tag = Types.DIRECTIONS.RIGHT;
                 priv.btnRight.onClick.addListener(this.moveTabs);
                 priv.btnRight.canFocused = false;
-                priv.tabStyle = _tabStyles.TABS;
-                priv.tabPosition = _tabPositions.TOP;
+                //priv.tabStyle = _tabStyles.TABS;
+                //priv.tabPosition = _tabPositions.TOP;
                 this.autoCapture = true;
                 this.width = 200;
                 this.height = 200;
@@ -83,13 +83,15 @@ const CustomTabControl = (() => {
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "tabStyle",
-                    enum: _tabStyles
+                    enum: _tabStyles,
+                    value: _tabStyles.TABS
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "tabPosition",
                     enum: _tabPositions,
-                    setter: this._tabPosition
+                    setter: this._tabPosition,
+                    value: _tabPositions.TOP
                 });
                 this.onChange = new Core.classes.NotifyEvent(this);
                 this.canFocused = true;

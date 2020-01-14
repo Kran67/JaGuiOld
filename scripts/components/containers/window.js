@@ -46,12 +46,13 @@ const WindowTitleBar = (() => {
                 priv.stayOnOffBtn = null;
                 priv.startDragOff = new Core.classes.Point;
                 priv.visibleBtns = 0;
-                priv.horizAlign = textAligns.LEFT;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "horizAlign",
                     enum: textAligns,
-                    forceUpdate: true
+                    forceUpdate: true,
+                    variable: priv,
+                    value: textAligns.LEFT
                 });
                 //#endregion
                 //#region Public
@@ -658,12 +659,12 @@ const BaseWindow = (() => {
                 priv.activeControl = null;
                 priv.canClose = true;
                 priv.moveable = true;
-                priv.borderStyle = props.borderStyle ? props.borderStyle : BORDERSTYLES.SIZEABLE;
-                priv.windowState = props.windowState ? props.windowState : WINDOWSTATES.NORMAL;
-                priv.position = props.formPosition ? props.formPosition : FORMPOSITIONS.DESIGNED;
-                priv.bordersType = props.bordersType ? props.bordersType : BORDERSTYPES.NONE;
-                priv.modalResult = MODALRESULTS.NONE;
-                priv.showingMode = props.showingMode ? props.showingMode : SHOWINGMODES.NORMAL;
+                //priv.borderStyle = props.borderStyle ? props.borderStyle : BORDERSTYLES.SIZEABLE;
+                //priv.windowState = props.windowState ? props.windowState : WINDOWSTATES.NORMAL;
+                //priv.position = props.formPosition ? props.formPosition : FORMPOSITIONS.DESIGNED;
+                //priv.bordersType = props.bordersType ? props.bordersType : BORDERSTYPES.NONE;
+                //priv.modalResult = MODALRESULTS.NONE;
+                //priv.showingMode = props.showingMode ? props.showingMode : SHOWINGMODES.NORMAL;
                 priv.stayOn = props.stayOn ? props.stayOn : false;
                 priv.enabledShadow = props.enabledShadow ? props.enabledShadow : true;
                 //priv.minimizeAnimation = new RectAnimation(this, { inForm: false });
@@ -673,39 +674,45 @@ const BaseWindow = (() => {
                     component: this,
                     propName: "position",
                     enum: FORMPOSITIONS,
-                    variable: priv
+                    variable: priv,
+                    value: props.formPosition ? props.formPosition : FORMPOSITIONS.DESIGNED
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "windowState",
                     enum: WINDOWSTATES,
                     setter: this._windowState,
-                    variable: priv
+                    variable: priv,
+                    value: props.windowState ? props.windowState : WINDOWSTATES.NORMAL
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "borderStyle",
                     enum: BORDERSTYLES,
                     setter: this._borderStyle,
-                    variable: priv
+                    variable: priv,
+                    value: props.borderStyle ? props.borderStyle : BORDERSTYLES.SIZEABLE
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "bordersType",
                     enum: BORDERSTYPES,
-                    variable: priv
+                    variable: priv,
+                    value: props.bordersType ? props.bordersType : BORDERSTYPES.NONE
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "modalResult",
                     enum: MODALRESULTS,
-                    variable: priv
+                    variable: priv,
+                    value: MODALRESULTS.NONE
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "showingMode",
                     enum: SHOWINGMODES,
-                    variable: priv
+                    variable: priv,
+                    value: props.showingMode ? props.showingMode : SHOWINGMODES.NORMAL
                 });
                 //#endregion Private
                 //#region Public

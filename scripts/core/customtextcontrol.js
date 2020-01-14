@@ -31,8 +31,8 @@ const CustomTextControl = (function () {
                 priv.autoTranslate = true;
                 priv.required = false;
                 priv.errorMsg = String.EMPTY;
-                priv.horizAlign = Types.TEXTALIGNS.CENTER;
-                priv.type = Types.HTMLINPUTTYPES.TEXT;
+                //priv.horizAlign = Types.TEXTALIGNS.CENTER;
+                //priv.type = Types.HTMLINPUTTYPES.TEXT;
                 this.addBindableProperties(["text", "readOnly", "placeHolder", "autoTranslate", "horizAlign"]);
                 //#region Private
                 //#endregion
@@ -40,7 +40,8 @@ const CustomTextControl = (function () {
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "horizAlign",
-                    enum: textAligns
+                    enum: textAligns,
+                    value: Types.TEXTALIGNS.CENTER
                 });
                 textAligns = null;
                 let htmlInputTypes = Types.HTMLINPUTTYPES;
@@ -48,7 +49,8 @@ const CustomTextControl = (function () {
                     component: this,
                     propName: "type",
                     enum: htmlInputTypes,
-                    forceUpdate: true
+                    forceUpdate: true,
+                    value: Types.HTMLINPUTTYPES.TEXT
                 });
                 htmlInputTypes = null;
                 this.onChange = new Core.classes.NotifyEvent(this);

@@ -36,12 +36,12 @@ const ProgressBar = (() => {
                 priv.min = props.hasOwnProperty("min")?props.min:0;
                 priv.max = props.hasOwnProperty("max")?props.max:100;
                 this.hitTest = false;
-                priv.orientation = props.hasOwnProperty("orientation")?props.orientation:orientations.NONE;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "orientation",
                     enum: orientations,
-                    variable: priv
+                    variable: priv,
+                    value: props.hasOwnProperty("orientation")?props.orientation:orientations.NONE
                 });
                 delete this.tabOrder;
             }

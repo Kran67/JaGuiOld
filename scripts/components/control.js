@@ -67,11 +67,11 @@ const Control = (() => {
                 priv.bottom = props.hasOwnProperty("bottom") && typeof props.bottom === Types.CONSTANTS.NUMBER ? props.bottom : null;
                 priv.doubleClick = false;
                 priv.component = false;
-                priv.anchor = props.hasOwnProperty("anchor") && Array.isArray(props.anchor) ? props.anchor : [Types.ANCHORS.LEFT, Types.ANCHORS.TOP];
-                priv.align = props.hasOwnProperty("align") ? props.align : Types.ALIGNS.NONE;
-                priv.cursor = props.hasOwnProperty("cursor") && typeof props.cursor === Types.CONSTANTS.STRING ? props.cursor : Types.CUSTOMCURSORS.DEFAULT;
-                priv.dragKind = props.hasOwnProperty("dragKind") && typeof props.dragKind === Types.CONSTANTS.STRING ? props.dragKind : Types.DRAGKINDS.DRAG;
-                priv.dragMode = props.hasOwnProperty("dragMode") && typeof props.dragMode === Types.CONSTANTS.STRING ? props.dragMode : Types.DRAGMODES.MANUAL;
+                //priv.anchor = props.hasOwnProperty("anchor") && Array.isArray(props.anchor) ? props.anchor : [Types.ANCHORS.LEFT, Types.ANCHORS.TOP];
+                //priv.align = props.hasOwnProperty("align") ? props.align : Types.ALIGNS.NONE;
+                //priv.cursor = props.hasOwnProperty("cursor") && typeof props.cursor === Types.CONSTANTS.STRING ? props.cursor : Types.CUSTOMCURSORS.DEFAULT;
+                //priv.dragKind = props.hasOwnProperty("dragKind") && typeof props.dragKind === Types.CONSTANTS.STRING ? props.dragKind : Types.DRAGKINDS.DRAG;
+                //priv.dragMode = props.hasOwnProperty("dragMode") && typeof props.dragMode === Types.CONSTANTS.STRING ? props.dragMode : Types.DRAGMODES.MANUAL;
                 priv.forceDisplayVisibility = false;
                 priv.clipped = props.hasOwnProperty("clipped") && typeof props.clipped === Types.CONSTANTS.BOOLEAN ? props.clipped : true;
                 priv.reflected = props.hasOwnProperty("reflected") && typeof props.reflected === Types.CONSTANTS.BOOLEAN ? props.reflected : false;
@@ -110,7 +110,8 @@ const Control = (() => {
                     propName: "anchor",
                     enum: anchors,
                     setter: this._anchor,
-                    variable: internal(this)
+                    variable: priv,
+                    value: props.hasOwnProperty("anchor") && Array.isArray(props.anchor) ? props.anchor : [Types.ANCHORS.LEFT, Types.ANCHORS.TOP]
                 });
                 anchors = null;
                 const aligns = Types.ALIGNS;
@@ -118,30 +119,34 @@ const Control = (() => {
                     component: this,
                     propName: "align",
                     enum: aligns,
-                    variable: internal(this),
-                    setter: this._align
+                    variable: priv,
+                    setter: this._align,
+                    value: props.hasOwnProperty("align") ? props.align : Types.ALIGNS.NONE
                 });
                 const customCursors = Types.CUSTOMCURSORS;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "cursor",
                     enum: customCursors,
-                    variable: internal(this),
-                    setter: this._cursor
+                    variable: priv,
+                    setter: this._cursor,
+                    value: props.hasOwnProperty("cursor") && typeof props.cursor === Types.CONSTANTS.STRING ? props.cursor : Types.CUSTOMCURSORS.DEFAULT
                 });
                 const dragKinds = Types.DRAGKINDS;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "dragKind",
                     enum: dragKinds,
-                    variable: internal(this)
+                    variable: priv,
+                    value: props.hasOwnProperty("dragKind") && typeof props.dragKind === Types.CONSTANTS.STRING ? props.dragKind : Types.DRAGKINDS.DRAG
                 });
                 const dragModes = Types.DRAGMODES;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "dragMode",
                     enum: dragModes,
-                    variable: internal(this)
+                    variable: priv,
+                    value: props.hasOwnProperty("dragMode") && typeof props.dragMode === Types.CONSTANTS.STRING ? props.dragMode : Types.DRAGMODES.MANUAL
                 });
                 // gestion des propriétés spéciales (Objets)
                 if (props.margin) {

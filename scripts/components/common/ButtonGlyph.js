@@ -54,13 +54,13 @@ const ButtonGlyph = (() => {
                 priv.glyphMargin = props.hasOwnProperty("glyphMargin")?props.glyphMargin:0;
                 priv.glyph = {};
                 priv.showCaption = props.hasOwnProperty("showCaption")?props.showCaption:true;
-                priv.layout = props.hasOwnProperty("layout")?props.layout:_BUTTONLAYOUTGLYPHS.LEFT;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "layout",
                     enum: _BUTTONLAYOUTGLYPHS,
                     setter: this._layout,
-                    variable: priv
+                    variable: priv,
+                    value: props.hasOwnProperty("layout")?props.layout:_BUTTONLAYOUTGLYPHS.LEFT
                 });
                 priv.glyphHTMLElement = Types.HTMLELEMENTS.IMG;
                 this.addBindableProperties(["glyphSize", "glyphSpacing", "glyphMargin", "layout"]);

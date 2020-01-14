@@ -44,12 +44,12 @@ const CustomButton = (() => {
                 priv.staysPressed = props.hasOwnProperty("staysPressed")?props.staysPressed:false;
                 priv.repeatClick = props.hasOwnProperty("repeatClick")?props.repeatClick:false;
                 priv.action = null;
-                priv.modalResult = props.hasOwnProperty("modalResult")?props.modalResult:modalResult.NONE;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "modalResult",
                     enum: modalResult,
-                    variable: priv
+                    variable: priv,
+                    value: props.hasOwnProperty("modalResult")?props.modalResult:modalResult.NONE
                 });
                 this.hitTest.all = true;
                 this.autoCapture = true;

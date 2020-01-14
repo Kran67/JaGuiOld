@@ -7,7 +7,7 @@ import "/scripts/components/common/speedbutton.js";
 //import { ListBox, ListBoxItem } from "/scripts/components/common/listbox.js";
 //import { Image } from "/scripts/components/common/image.js";
 //import { Animation } from "/scripts/animation.js";
-//import { GroupBox } from "/scripts/components/containers/groupBox.js";
+import "/scripts/components/containers/groupBox.js";
 //import { Checkbox } from "/scripts/components/common/checkbox.js";
 //import { RadioButton } from "/scripts/components/common/radioButton.js";
 import "/scripts/components/extended/circlebutton.js";

@@ -30,12 +30,13 @@ const CalloutPanel = (() => {
                 priv.calloutLength = props.hasOwnProperty("calloutLength")?props.calloutLength:11;
                 priv.calloutWidth = props.hasOwnProperty("calloutWidth")?props.calloutWidth:23;
                 priv.clipChilds = false;
-                priv.calloutPosition = props.hasOwnProperty("calloutPosition") ? props.calloutPosition : calloutPositions.TOP;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "calloutPosition",
                     enum: calloutPositions,
-                    variable: priv
+                    variable: priv,
+                    forceUpdate: true,
+                    value:props.hasOwnProperty("calloutPosition") ? props.calloutPosition : calloutPositions.TOP
                 });
                 priv.content = null;
                 priv.arrow = null;
