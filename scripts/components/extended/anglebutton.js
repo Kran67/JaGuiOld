@@ -36,10 +36,10 @@ const AngleButton = (() => {
                     this.width = 30;
                     this.height = 30;
                 }
-                priv.frequency = 1;
-                priv.tracking = true;
-                priv.value = 0;
-                priv.showValue = true;
+                priv.frequency = props.hasOwnProperty("frequency")?props.frequency:1;
+                priv.tracking = props.hasOwnProperty("tracking")?props.tracking:true;
+                priv.value = props.hasOwnProperty("value")?props.value:0;
+                priv.showValue = props.hasOwnProperty("showValue")?props.showValue:true;
                 this.autoCapture = true;
                 this.caption = String.EMPTY;
                 this.canFocused = true;
