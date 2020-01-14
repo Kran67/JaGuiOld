@@ -1,9 +1,9 @@
-﻿//import { Rect, Point, Vector, Matrix } from "/scripts/core/geometry.js";
-//import { Bounds } from "/scripts/core/bounds.js";
+﻿import { Rect, Point, Vector, Matrix } from "/scripts/core/geometry.js";
 //import { Gradient, GradientPoint } from "/scripts/core/gradient.js";
 //import { Browser } from "./browser.js";
 import { Color } from "/scripts/core/color.js";
 import { Text } from "/scripts/core/text.js";
+import { Tools } from "/scripts/core/tools.js";
 class Convert {
     /**
      * Convert a enum to a string
@@ -24,7 +24,7 @@ class Convert {
      * @returns     {String}        the result
      */
     static rect2Str(r) {
-        if (r instanceof Core.classes.Rect) {
+        if (r instanceof Rect) {
             return `left:${r.left} top:${r.top} right:${r.right} bottom:${r.bottom} width:${r.width} height:${r.height}`;
         }
         return String.EMPTY;
@@ -35,13 +35,13 @@ class Convert {
      * @returns     {Rect}          the new rect instance from the string
      */
     static str2Rect(s) {
-        if (s && typeof s === Types.CONSTANTS.STRING && s.indexOf(",")>-1) {
+        if (Tools.isString(s) && s.indexOf(",") > -1) {
             const a = s.split(",");
-            const l = a[0] | 0;
-            const t = a[1] | 0;
-            const r = a[2] | 0;
-            const b = a[3] | 0;
-            return new Core.classes.Rect(l, t, r, b);
+            const l = a[0] * 1;
+            const t = a[1] * 1;
+            const r = a[2] * 1;
+            const b = a[3] * 1;
+            return new Rect(l, t, r, b);
         }
         return null;
     }
@@ -52,13 +52,13 @@ class Convert {
      * @returns     {Bounds}        the new bounds instance
      */
     static str2Bound(s, o) {
-        if (s && typeof s === Types.CONSTANTS.STRING && s.indexOf(",") > -1) {
+        if (Tools.isString(s) && s.indexOf(",") > -1) {
             const a = s.split(",");
-            const l = a[0] | 0;
-            const t = a[1] | 0;
-            const r = a[2] | 0;
-            const b = a[3] | 0;
-            return new Core.classes.Bounds(new Core.classes.Rect(l, t, r, b), o);
+            const l = a[0] * 1;
+            const t = a[1] * 1;
+            const r = a[2] * 1;
+            const b = a[3] * 1;
+            return new Core.classes.Bounds(new Rect(l, t, r, b), o);
         }
         return null;
     }
@@ -68,7 +68,7 @@ class Convert {
      * @returns     {String}        the result
      */
     static point2Str(p) {
-        if (p instanceof Core.classes.Point) {
+        if (p instanceof Point) {
             return `X:${p.x} Y:${p.y}`;
         }
         return String.EMPTY;
@@ -79,11 +79,11 @@ class Convert {
      * @returns     {Point}         the new point instance
      */
     static str2Point(s) {
-        if (typeof s === Types.CONSTANTS.STRING && s.indexOf(",") > -1) {
+        if (Tools.isString(s) && s.indexOf(",") > -1) {
             const a = s.split(",");
-            const x = a[0] | 0;
-            const y = a[1] | 0;
-            return new Core.classes.Point(x, y);
+            const x = a[0] * 1;
+            const y = a[1] * 1;
+            return new Point(x, y);
         }
         return null;
     }
@@ -93,7 +93,7 @@ class Convert {
      * @returns     {String}        the result
      */
     static vector2Str(a) {
-        if (a instanceof Core.classes.Vector) {
+        if (a instanceof Vector) {
             return `X:${a.x} Y:${a.y} Z:${a.z}`;
         }
         return String.EMPTY;
@@ -104,7 +104,7 @@ class Convert {
      * @returns     {String}        the result
      */
     static matrix2Str(a) {
-        if (a instanceof Core.classes.Matrix) {
+        if (a instanceof Matrix) {
             return `m11:${a.m11} m12:${a.m12} m13:${a.m13}\n
                 m21:${a.m21} m22:${a.m22} m23:${a.m23}\n
                 m31:${a.m31} m32:${a.m32} m33:${a.m33}`;
@@ -117,7 +117,7 @@ class Convert {
      * @returns     {String}        the result
      */
     static intToStr(a) {
-        if (typeof a === Types.CONSTANTS.NUMBER) {
+        if (Tools.isNumber(a)) {
             return String(~~a);
         }
         return String.EMPTY;
@@ -128,7 +128,7 @@ class Convert {
      * @returns     {String}        the result
      */
     static floatToStr(a) {
-        if (typeof a === Types.CONSTANTS.NUMBER) {
+        if (Tools.isNumber(a)) {
             return String(a);
         }
         return String.EMPTY;
@@ -139,7 +139,7 @@ class Convert {
      * @returns     {Integer}        the result
      */
     static floatToInt(a) {
-        if (typeof a === Types.CONSTANTS.NUMBER) {
+        if (Tools.isNumber(a)) {
             return ~~a;
         }
         return 0;
@@ -150,7 +150,7 @@ class Convert {
      * @returns     {String}        the result
      */
     static boolToStr(a) {
-        if (typeof a === Types.CONSTANTS.BOOLEAN) {
+        if (Tools.isBool(a)) {
             if (a) {
                 return "true";
             } else {
@@ -173,7 +173,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static strToFloat(a) {
-        a = a*1;
+        a = a * 1;
         return a;
     }
     /**
@@ -182,7 +182,7 @@ class Convert {
      * @returns     {Boolean}       the result
      */
     static strToBool(a) {
-        if (typeof a === Types.CONSTANTS.STRING && (a.toLowerCase() === "true" || a.toLowerCase() === "false")) {
+        if (Tools.isString(a) && (a.toLowerCase() === "true" || a.toLowerCase() === "false")) {
             if (a.toLowerCase() === "true") {
                 return true;
             } else if (a.toLowerCase() === "false") {
@@ -199,7 +199,7 @@ class Convert {
      * @returns     {Boolean}       the result
      */
     static intToBool(a) {
-        if (typeof a === Types.CONSTANTS.NUMBER) {
+        if (Tools.isNumber(a)) {
             a = a | 0;
         }
         if (a > 1) {
@@ -213,8 +213,11 @@ class Convert {
      * @returns     {Number}        the result
      */
     static deg2Rad(a) {
-        a = a | 0;
-        return a * Math.PI / 180;
+        if (Tools.isNumber(a)) {
+            return a * Math.PI / 180;
+        } else {
+            return a;
+        }
     }
     /**
      * Convert a radian to a degres
@@ -222,8 +225,11 @@ class Convert {
      * @returns     {Number}        the result
      */
     static rad2Deg(a) {
-        a = a | 0;
-        return a * 180 / Math.PI;
+        if (Tools.isNumber(a)) {
+            return a * 180 / Math.PI;
+        } else {
+            return a;
+        }
     }
     /**
      * Convert a decimal to a binary
@@ -258,7 +264,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static bin2Hex(a) {
-        if (typeof a === Types.CONSTANTS.STRING) {
+        if (Tools.isString(a)) {
             return _conv.dec2Hex(parseInt(a, 2));
         }
         return String.EMPTY;
@@ -269,7 +275,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static bin2Dec(a) {
-        if (typeof a === Types.CONSTANTS.STRING) {
+        if (Tools.isString(a)) {
             return parseInt(a, 2);
         }
         return String.EMPTY;
@@ -280,7 +286,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static bin2Oct(a) {
-        if (typeof a === Types.CONSTANTS.STRING) {
+        if (Tools.isString(a)) {
             return parseInt(a, 2).toString(8);
         }
         return String.EMPTY;
@@ -291,7 +297,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static hex2Bin(a) {
-        if (typeof a === Types.CONSTANTS.STRING) {
+        if (Tools.isString(a)) {
             return parseInt(a, 16).toString(2);
         }
         return String.EMPTY;
@@ -302,7 +308,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static hex2Dec(a) {
-        if (typeof a === Types.CONSTANTS.STRING) {
+        if (Tools.isString(a)) {
             return parseInt(a, 16);
         }
         return String.EMPTY;
@@ -313,7 +319,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static hex2Oct(a) {
-        if (typeof a === Types.CONSTANTS.STRING) {
+        if (Tools.isString(a)) {
             return parseInt(a, 16).toString(8);
         }
         return String.EMPTY;
@@ -324,7 +330,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static oct2Dec(a) {
-        if (typeof a === Types.CONSTANTS.STRING) {
+        if (Tools.isString(a)) {
             return parseInt(a.toString(), 8);
         }
         return String.EMPTY;
@@ -335,7 +341,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static oct2Bin(a) {
-        if (typeof a === Types.CONSTANTS.STRING) {
+        if (Tools.isString(a)) {
             return parseInt(a.toString(), 8).toString(2);
         }
         return String.EMPTY;
@@ -346,7 +352,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static oct2Hex(a) {
-        if (typeof a === Types.CONSTANTS.STRING) {
+        if (Tools.isString(a)) {
             return parseInt(a.toString(), 8).toString(16);
         }
         return String.EMPTY;
@@ -396,7 +402,7 @@ class Convert {
      */
     static cssUnit(params/*value, from, to, base, dpi, decimals*/) {
         //1em == 16px == 0.17in == 12pt == 1pc == 4.2mm == 0.42cm
-        if (typeof params.value !== Types.CONSTANTS.NUMBER) {
+        if (Tools.isNumber(params.value)) {
             params.value = 1;
         }
         if (isNaN(params.params.base)) {

@@ -75,8 +75,7 @@ const AngleButton = (() => {
                             self.onChanged.invoke();
                         }
                     }
-                }
-
+                };
             }
         }
         //#endregion Constructor
@@ -159,13 +158,14 @@ const AngleButton = (() => {
             super.mouseDown();
             if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
                 priv.saveValue = priv.internalValue;
+                this.valueFromPoint(this.documentToClient());
             }
         }
         //#endregion mouseDown
         //#region mouseMove
         mouseMove() {
             super.mouseMove();
-            if ((Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) && this.isPressed) {
+            if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.isPressed) {
                 this.valueFromPoint(this.documentToClient());
             }
         }
