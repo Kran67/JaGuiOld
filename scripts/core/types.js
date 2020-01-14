@@ -773,6 +773,7 @@ const Types = Object.freeze({
     CSSVALUES: Object.freeze({
         VISIBLE: "visible",
         HIDDEN: "hidden",
+        NORMAL: "normal",
         NONE: "none",
         INLINEBLOCK: "inline-block"
     }),
