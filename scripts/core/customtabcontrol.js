@@ -1,9 +1,12 @@
-﻿import { ThemedControl } from "/scripts/core/themedcontrol.js";
+﻿//#region Imports
+import { ThemedControl } from "/scripts/core/themedcontrol.js";
 //import { Classes } from "/scripts/core/classes.js";
 //import { NotifyEvent } from "/scripts/core/events.js";
 import { Tools } from "/scripts/core/tools.js";
 import { Css } from "/scripts/core/css.js";
 import { Convert } from "/scripts/core/convert.js";
+//#endregion Imports
+//#region CustomTabControl constants
 const _tabStyles = Object.freeze({
     TABS: "tabs",
     BUTTONS: "buttons",
@@ -15,8 +18,10 @@ const _tabPositions = Object.freeze({
     LEFT: "left",
     RIGHT: "right"
 });
+//#endregion CustomTabControl constants
 //#region CustomTabControl
 const CustomTabControl = (() => {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
@@ -26,8 +31,14 @@ const CustomTabControl = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#endregion Private
+    //#region CustomTabControl
     class CustomTabControl extends ThemedControl {
+        //#region constructor
         constructor(owner, props) {
+            //#region Variables déclaration
+            const DIRECTIONS = Types.DIRECTIONS;
+            //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
@@ -65,13 +76,13 @@ const CustomTabControl = (() => {
                 priv.activeTab = null;
                 priv.images = null;
                 priv.canChange = true;
-                priv.showTabsCloseBtn = false;
+                priv.showTabsCloseBtn = props.hasOwnProperty("showTabsCloseBtn") ? props.showTabsCloseBtn :false;
                 this.addBindableProperties(["activeTab", "showTabsCloseBtn", "tabStyle", "tabPosition"]);
                 //#region Private
-                priv.btnLeft.tag = Types.DIRECTIONS.LEFT;
+                priv.btnLeft.tag = DIRECTIONS.LEFT;
                 priv.btnLeft.onClick.addListener(this.moveTabs);
                 priv.btnLeft.canFocused = false;
-                priv.btnRight.tag = Types.DIRECTIONS.RIGHT;
+                priv.btnRight.tag = DIRECTIONS.RIGHT;
                 priv.btnRight.onClick.addListener(this.moveTabs);
                 priv.btnRight.canFocused = false;
                 //priv.tabStyle = _tabStyles.TABS;
@@ -97,103 +108,141 @@ const CustomTabControl = (() => {
                 this.canFocused = true;
             }
         }
-        //#region Setters
+        //#region constructor
+        //#region Getter / Setters
+        //#region tabContent
         get tabContent() {
             return internal(this).tabContent;
         }
         set tabContent(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof HTMLElement) {
                 if (priv.tabContent !== newValue) {
                     priv.tabContent = newValue;
                 }
             }
         }
+        //#endregion tabContent
+        //#region tabs
         get tabs() {
             return internal(this).tabs;
         }
+        //#endregion tabs
+        //#region btnLeft
         get btnLeft() {
             return internal(this).btnLeft;
         }
         set btnLeft(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof HTMLElement) {
                 if (priv.btnLeft !== newValue) {
                     priv.btnLeft = newValue;
                 }
             }
         }
+        //#endregion btnLeft
+        //#region btnRight
         get btnRight() {
             return internal(this).btnRight;
         }
         set btnRight(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof HTMLElement) {
                 if (priv.btnRight !== newValue) {
                     priv.btnRight = newValue;
                 }
             }
         }
+        //#endregion btnRight
+        //#region tabsHeader
         get tabsHeader() {
             return internal(this).tabsHeader;
         }
         set tabsHeader(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof HTMLElement) {
                 if (priv.tabsHeader !== newValue) {
                     priv.tabsHeader = newValue;
                 }
             }
         }
+        //#endregion tabsHeader
+        //#region tabs_Container
         get tabs_Container() {
             return internal(this).tabs_Container;
         }
         set tabs_Container(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof HTMLElement) {
                 if (priv.tabs_Container !== newValue) {
                     priv.tabs_Container = newValue;
                 }
             }
         }
+        //#endregion tabs_Container
+        //#region firstVisibleTab
         get firstVisibleTab() {
             return internal(this).firstVisibleTab;
         }
         set firstVisibleTab(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (typeof newValue === Types.CONSTANTS.NUMBER) {
                 if (priv.firstVisibleTab !== newValue) {
                     priv.firstVisibleTab = newValue;
                 }
             }
         }
+        //#endregion firstVisibleTab
+        //#region lastVisibleTab
         get lastVisibleTab() {
             return internal(this).lastVisibleTab;
         }
         set lastVisibleTab(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (typeof newValue === Types.CONSTANTS.NUMBER) {
                 if (priv.lastVisibleTab !== newValue) {
                     priv.lastVisibleTab = newValue;
                 }
             }
         }
+        //#endregion lastVisibleTab
+        //#region tabClass
         get tabClass() {
             return internal(this).tabClass;
         }
         set tabClass(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (typeof newValue === Types.CONSTANTS.STRING) {
                 if (priv.tabClass !== newValue) {
                     priv.tabClass = newValue;
                 }
             }
         }
+        //#endregion tabClass
+        //#region activeTab
         get activeTab() {
             return internal(this).activeTab;
         }
         set activeTab(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof Core.classes.Tab) {
                 if (priv.activeTab !== newValue) {
                     priv.activeTab = newValue;
@@ -201,35 +250,47 @@ const CustomTabControl = (() => {
                 }
             }
         }
+        //#endregion activeTab
+        //#region images
         get images() {
             return internal(this).images;
         }
         set images(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof Core.classes.ImageList) {
                 if (priv.images !== newValue) {
                     priv.images = newValue;
                 }
             }
         }
+        //#endregion images
+        //#region canChange
         get canChange() {
             return internal(this).canChange;
         }
         set canChange(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.canChange !== newValue) {
                     priv.canChange = newValue;
                 }
             }
         }
+        //#endregion canChange
+        //#region showTabsCloseBtn
         get showTabsCloseBtn() {
             return internal(this).showTabsCloseBtn;
         }
         set showTabsCloseBtn(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.showTabsCloseBtn !== newValue) {
                     priv.showTabsCloseBtn = newValue;
                     if (newValue) {
@@ -240,48 +301,66 @@ const CustomTabControl = (() => {
                 }
             }
         }
+        //#endregion showTabsCloseBtn
+        //#region activeTabIndex
         get activeTabIndex() {
             return internal(this).tabs.indexOf(internal(this).activeTab);
         }
         set activeTabIndex(index) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (index >= 0 && index <= priv.tabs.length - 1) {
                 priv.tabs[index].show();
                 //if (this.tabsheets.indexOf(this.activeTab)<this.firstVisibleTab) this.updateTabs(Types.directions.LEFT);
                 //if (this.tabsheets.indexOf(this.activeTab)>this.lastVisibleTab) this.updateTabs(Types.directions.RIGHT);
             }
         }
+        //#endregion activeTabIndex
+        //#region width
         get width() {
             return internal(this).width;
         }
         set width(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 if (priv.width !== newValue) {
                     priv.width = newValue;
                 }
             }
         }
+        //#endregion width
+        //#region height
         get height() {
             return internal(this).height;
         }
         set height(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 if (priv.height !== newValue) {
                     priv.height = newValue;
                 }
             }
         }
+        //#endregion height
+        //#region TABSTYLES
         static get TABSTYLES() {
             return internal(this).tabStyles;
         }
         static get TABPOSITIONS() {
             return internal(this).tabPositions;
         }
+        //#endregion TABSTYLES
+        //#region _tabPosition
         _tabPosition(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
             if (Tools.valueInSet(newValue, _tabPositions)) {
                 if (priv.tabPosition !== newValue) {
                     priv.tabPosition = newValue;
@@ -293,8 +372,10 @@ const CustomTabControl = (() => {
                 }
             }
         }
+        //#endregion _tabPosition
         //#endregion
         //#region Methods
+        //#region changeActiveTab
         changeActiveTab(tab) {
             if (tab !== this.activeTab) {
                 tab.show();
@@ -302,8 +383,12 @@ const CustomTabControl = (() => {
             //if (this.tabsheets.indexOf(this.activeTab)<=this.firstVisibleTab) this.updateTabs(Types.directions.LEFT);
             //if (this.tabsheets.indexOf(this.activeTab)>this.lastVisibleTab) this.updateTabs(Types.directions.RIGHT);
         }
+        //#endregion changeActiveTab
+        //#region deleteTab
         deleteTab(index) {
+            //#region Variables déclaration
             const tabs = this.tabs;
+            //#endregion Variables déclaration
             if (index >= 0 && index <= tabs.length - 1) {
                 const tab = tabs[index];
                 //this.tabContent.removeChild(tab._HTMLPage);
@@ -313,14 +398,22 @@ const CustomTabControl = (() => {
                 this.checkViewBtns();
             }
         }
+        //#endregion deleteTab
+        //#region getTab
         getTab(index) {
+            //#region Variables déclaration
             const tabs = this.tabs;
+            //#endregion Variables déclaration
             if (index >= 0 || index <= tabs.length - 1) {
                 return tabs[index];
             }
         }
+        //#endregion getTab
+        //#region newTab
         newTab(caption) {
+            //#region Variables déclaration
             const tabs = this.tabs;
+            //#endregion Variables déclaration
             if (!caption) {
                 caption = `tab${tabs.length + 1}`;
             }
@@ -335,19 +428,11 @@ const CustomTabControl = (() => {
                 withTpl: true
             });
             tabs.push(tab);
-            //tpl=Core.templates["Page"];
-            //a=tpl.split("{theme}");
-            //tpl=a.join(this.getThemeName());
-            //a=tpl.split("{name}");
-            //tpl=a.join(tab.name);
-            //div.innerHTML=tpl;
-            //tab._HTMLPage=div.firstElementChild;
-            //CSS.addClass(tab._HTMLPage,"basecss");
-            //this.tabContent.HTMLElement.appendChild(div.firstElementChild);
             this.changeActiveTab(tab);
             this.checkViewBtns();
             this.change();
         }
+        //#endregion newTab
         /*insertTab:function(tab,index) {
           let tpl,a,div=document.createElement(Types.HTMLElements.DIV);
           if (!(tab instanceof TabSheet)) return;
@@ -371,9 +456,12 @@ const CustomTabControl = (() => {
           this.checkLastVisibleTab();
           this.checkViewBtns();
         },*/
+        //#region moveTab
         moveTab(fromIndex, toIndex) {
+            //#region Variables déclaration
             const tabs = this.tabs;
             const tabsContainer = this.tabs_Container;
+            //#endregion Variables déclaration
             if (fromIndex >= 0 && fromIndex <= tabs.length - 1 && 
                 toIndex >= 0 && toIndex <= tabs.length - 1) {
                 const curTab = this.getTab(fromIndex);
@@ -389,10 +477,14 @@ const CustomTabControl = (() => {
                 this.change();
             }
         }
+        //#endregion moveTab
+        //#region findNextTab
         findNextTab(goForward, checkTabVisible) {
+            //#region Variables déclaration
             const tabs = this.tabs;
             let startIndex = this.activeTabIndex;
             let result = null;
+            //#endregion Variables déclaration
             if (tabs.length !== 0) {
                 if (startIndex === -1) {
                     if (goForward) {
@@ -423,24 +515,34 @@ const CustomTabControl = (() => {
             }
             return result;
         }
+        //#endregion findNextTab
+        //#region selectNextTab
         selectNextTab(goForward, checkTabVisible) {
+            //#region Variables déclaration
             const tab = this.findNextTab(goForward, checkTabVisible);
+            //#endregion Variables déclaration
             if (tab && tab !== this.activeTab && this.canChange) {
                 this.changeActiveTab(tab);
                 this.change();
             }
         }
+        //#endregion selectNextTab
+        //#region change
         change() {
             if (!this.updating) {
                 this.onChange.invoke();
             }
         }
+        //#endregion change
+        //#region getChildsHTMLElement
         getChildsHTMLElement() {
+            //#region Variables déclaration
             const htmlElement = this.HTMLElement;
             const tabContent = this.tabContent;
             const btnLeft = this.btnLeft;
             const btnRight = this.btnRight;
             const tabs = this.tabs;
+            //#endregion Variables déclaration
             if (htmlElement) {
                 const tabsContainer = htmlElement.querySelector(".TabsContainer");
                 const nodes = tabsContainer.childNodes;
@@ -474,21 +576,15 @@ const CustomTabControl = (() => {
             this.checkViewBtns();
             this.checkLastVisibleTab();
         }
-        updateFromHTML() {
-            super.updateFromHTML();
-            //data = this.HTMLElement.dataset.activetab;
-            //if (data) this.activeTab = this.form[data];
-            //data = this.HTMLElement.dataset.tabsposition;
-            //if (data) this.setTabPosition = data;
-            //data = this.HTMLElement.dataset.showtabsclosebtn;
-            //if (data) this.showTabsCloseBtn = Convert.strToBool(data);
-            //if (this._tabPosition!==Types.tabPositions.TOP) CSS.addClass(this.HTMLElement,"tabs"+this._tabPosition.capitalise());
-        }
+        //#endregion getChildsHTMLElement
+        //#region checkViewBtns
         checkViewBtns() {
+            //#region Variables déclaration
             const tabsContainer = this.tabs_Container;
             const btnRight = this.btnRight;
             const btnLeft = this.btnLeft;
             const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
             btnRight.enabled = (tabsContainer.scrollLeft < tabsContainer.scrollWidth - tabsContainer.offsetWidth);
             btnLeft.enabled = (tabsContainer.scrollLeft > 0);
             Css.removeClass(htmlElement, "noButtons");
@@ -501,12 +597,14 @@ const CustomTabControl = (() => {
                 btnRight.visible = true;
             }
         }
+        //#endregion checkViewBtns
+        //#region moveTabs
         moveTabs() {
+            //#region Variables déclaration
             const DIRECTIONS = Types.DIRECTIONS;
             let owner = this.owner;
             const tabsContainer = owner.tabs_Container;
-            //enabled = Convert.strToBool(this.HTMLElement.dataset.enabled);
-            //if (!enabled) return;
+            //#endregion Variables déclaration
             owner = _owner;
             owner.checkLastVisibleTab();
             const firstVisibleTabWidth = owner.tabs[owner.firstVisibleTab].HTMLElement.offsetWidth;
@@ -524,12 +622,16 @@ const CustomTabControl = (() => {
             owner.checkViewBtns();
             owner.change();
         }
+        //#endregion moveTabs
+        //#region scrollToTab
         scrollToTab(tab) {
+            //#region Variables déclaration
             const tabsContainer = this.tabs_Container;
             const tw = tab.HTMLElement.offsetWidth;
             const tl = tab.HTMLElement.offsetLeft;
             const tcw = tabsContainer.offsetWidth;
             const tcsl = tabsContainer.scrollLeft;
+            //#endregion Variables déclaration
             if (tl + tw - tcsl > tcw) {
                 tabsContainer.scrollLeft += tl + tw - tcw;
             } else if (tl < tcsl) {
@@ -537,12 +639,16 @@ const CustomTabControl = (() => {
             }
             this.checkViewBtns();
         }
+        //#endregion scrollToTab
+        //#region checkLastVisibleTab
         checkLastVisibleTab() {
+            //#region Variables déclaration
             const tabs = this.tabs;
             let i = 0;
             const l = tabs.length;
             const tabsContainer = this.tabs_Container;
             const btnLeft = this.btnLeft;
+            //#endregion Variables déclaration
             this.lastVisibleTab = -1;
             for (i = this.firstVisibleTab; i < l; i++) {
                 if (tabs[i].HTMLElement.offsetLeft + tabs[i].HTMLElement.offsetWidth + tabsContainer.offsetLeft > btnLeft.offsetLeft) {
@@ -554,16 +660,22 @@ const CustomTabControl = (() => {
                 this.lastVisibleTab = tabs.length - 1;
             }
         }
+        //#endregion checkLastVisibleTab
+        //#region destroy
         destroy() {
             this.tabs.destroy();
             this.onChange.destroy();
             super.destroy();
         }
+        //#endregion destroy
+        //#region keyDown
         keyDown() {
+            //#region Variables déclaration
             const DIRECTIONS = Types.DIRECTIONS;
             const VKEYSCODES = Keyboard.VKEYSCODES;
             const activeTab = this.activeTab;
             const tabs = this.tabs;
+            //#endregion Variables déclaration
             super.keyDown();
             switch (Core.keyboard.keyCode) {
                 case VKEYSCODES.VK_LEFT:
@@ -586,8 +698,12 @@ const CustomTabControl = (() => {
                     break;
             }
         }
+        //#endregion keyDown
+        //#region getTabOrderList
         getTabOrderList(list, children) {
+            //#region Variables déclaration
             const tabList = this.tabContent.tabList;
+            //#endregion Variables déclaration
             if (children) {
                 children = true;
             }
@@ -602,20 +718,28 @@ const CustomTabControl = (() => {
                 }
             }
         }
+        //#endregion getTabOrderList
+        //#region closeTab
         closeTab(tab) {
             tab.onClose.invoke();
             tab.hide();
             this.tabs.remove(tab);
             tab.destroy();
         }
+        //#endregion closeTab
+        //#region loaded
         loaded() {
             super.loaded();
             this.checkViewBtns();
         }
+        //#endregion loaded
         //#endregion
     }
     return CustomTabControl;
+    //#region CustomTabControl
 })();
+//#endregion
+//#region CustomTabControl defineProperties
 Object.defineProperties(CustomTabControl, {
     "tabs": {
         enumerable: true

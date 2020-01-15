@@ -16,21 +16,27 @@ const BaseEffect = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#region BaseEffect
     class BaseEffect extends Component {
         /**
          * Create a new instance of BaseEffect.
          * @param   {owner}     owner   the owner of the effect
          */
+        //#region constructor
         constructor(owner) {
             super(owner);
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             priv.enabled = false;
             priv.trigger = String.EMPTY;
             priv.prepareBeforePaint = false;
             priv.applyOnChilds = false;
             priv.disablePaint = false;
         }
+        //#region constructor
         //#region Getter/Setter
+        //#region enabled
         /**
          * Get the enabled property
          */
@@ -41,9 +47,11 @@ const BaseEffect = (() => {
          * Set the enabled property
          */
         set enabled(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const owner = priv.owner;
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.enabled !== newValue) {
                     //let lastRect = owner.screenRect();
                     priv.enabled = newValue;
@@ -51,6 +59,8 @@ const BaseEffect = (() => {
                 }
             }
         }
+        //#endregion enabled
+        //#region trigger
         /**
          * Get the trigger property
          */
@@ -61,13 +71,17 @@ const BaseEffect = (() => {
          * Set the trigger property
          */
         set trigger(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            //#endregion Variables déclaration
+            if (String.isNullOrEmpty(newValue)) {
                 if (priv.trigger !== newValue) {
                     priv.trigger = newValue;
                 }
             }
         }
+        //#endregion trigger
+        //#region prepareBeforePaint
         /**
          * Get the prepareBeforePaint property
          */
@@ -78,13 +92,17 @@ const BaseEffect = (() => {
          * Set the prepareBeforePaint property
          */
         set prepareBeforePaint(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.prepareBeforePaint !== newValue) {
                     priv.prepareBeforePaint = newValue;
                 }
             }
         }
+        //#endregion prepareBeforePaint
+        //#region applyOnChilds
         /**
          * Get the applyOnChilds property
          */
@@ -95,13 +113,17 @@ const BaseEffect = (() => {
          * Set the applyOnChilds property
          */
         set applyOnChilds(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.applyOnChilds !== newValue) {
                     priv.applyOnChilds = newValue;
                 }
             }
         }
+        //#endregion applyOnChilds
+        //#region disablePaint
         /**
          * Get the disablePaint property
          * @return  {Boolean}
@@ -114,13 +136,16 @@ const BaseEffect = (() => {
          * @param   {Boolean}  newValue    -
          */
         set disablePaint(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.disablePaint !== newValue) {
                     priv.disablePaint = newValue;
                 }
             }
         }
+        //#endregion disablePaint
         //#endregion
         //#region Methods
         /**
@@ -140,14 +165,16 @@ const BaseEffect = (() => {
          * @param {String} trigger - the trigger property
          */
         applyTrigger(instance, trigger) {
-            let startValue = false;
-            let line = null;
-            let setter = null;
+            //#region Variables déclaration
             let prop = null;
             let value = null;
+            //#endregion Variables déclaration
             if (instance && this.trigger.toLowerCase().indexOf(trigger.toLowerCase()) > -1) {
+                let line = null;
                 line = this._trigger;
+                let setter = null;
                 setter = line.split(";");
+                let startValue = false;
                 startValue = false;
                 while (setter.length > 0) {
                     prop = setter[0].split("=")[0];
@@ -163,7 +190,9 @@ const BaseEffect = (() => {
         //#endregion
     }
     return BaseEffect;
+    //#endregion BaseEffect
 })();
+//#region BaseEffect defineProperties
 Object.defineProperties(BaseEffect, {
     "enabled": {
         enumerable: true
@@ -181,6 +210,7 @@ Object.defineProperties(BaseEffect, {
         enumerable: true
     }
 });
+//#endregion BaseEffect defineProperties
 //#endregion
 Core.classes.register(Types.CATEGORIES.INTERNAL, BaseEffect);
 export { BaseEffect };

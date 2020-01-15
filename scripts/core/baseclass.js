@@ -1,3 +1,6 @@
+//#region Import
+import { Tools } from "/scripts/core/tools.js";
+//#endregion Import
 //#region BaseClass
 /**
  * Base class of all object in JaGui
@@ -12,22 +15,24 @@ const BaseClass = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#region BaseClass
     class BaseClass {
         /**
          * Create a new instance of BaseClass.
          */
         constructor() {
-            this.tag = null;
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
+            this.tag = null;
             priv.propsEnums = {};
-            //Object.defineProperty(this, "propsEnums", {
-            //    get: function () { return _propsEnums; },
-            //    enumerable: false
-            //});
         }
+        //#region Getter / Setter
         get propsEnums() {
             return internal(this).propsEnums;
         }
+        //#endregion Getter / Setter
+        //#region Methods
         /**
          * Mixin for classes
          * @param       {Class}         _baseClass      The baseClass to mixin
@@ -63,26 +68,20 @@ const BaseClass = (() => {
          * @override
          */
         destroy() {
-            if (typeof this.tag === Types.CONSTANTS.OBJECT && typeof this.tag.destroy === Types.CONSTANTS.FUNCTION) {
+            if (Tools.isObject(this.tag) && Tools.isFunc(this.tag.destroy)) {
                 this.tag.destroy();
             }
             this.tag = null;
             this.propsEnums.clear();
             this.propsEnums = null;
-            //for (let key in privateData) {
-            //    if (privateData.hasOwnProperty(key)) {
-            //        if (privateData[key].destroy && typeof privateData[key].destroy === Types.CONSTANTS.FUNCTION) {
-            //            privateData[key].destroy();
-            //            delete privateData[key];
-            //        }
-            //    }
-            //}
         }
         addPropertyEnum(propName, _enum) {
             this.propsEnums[propName] = _enum;
         }
+        //#endregion Methods
     }
     return BaseClass;
+    //#endregion BaseClass
 })();
 //#endregion
 Core.classes.register(Types.CATEGORIES.INTERNAL, BaseClass);

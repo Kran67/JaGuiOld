@@ -46,10 +46,13 @@ Object.freeze(CANVAS);
  * @param   {Number}    newHeight   the new height
  */
 CanvasRenderingContext2D.prototype.resize = function(newWidth, newHeight) {
+    //#region Variables déclaration
+    const PX = Types.CSSUNITS.PX;
+    //#endregion Variables déclaration
     this.canvas.width = newWidth;
     this.canvas.height = newHeight;
-    this.canvas.style.width = newWidth + Types.CSSUNITS.PX;
-    this.canvas.style.height = newHeight + Types.CSSUNITS.PX;
+    this.canvas.style.width = `${newWidth}${PX}`;
+    this.canvas.style.height = `${newHeight}${PX}`;
 };
 /**
  * Clear the canvas
@@ -69,8 +72,10 @@ CanvasRenderingContext2D.prototype.clearShadow = function() {
 };
 
 CanvasRenderingContext2D.prototype.drawImg = function(instance, img, params) {
+    //#region Variables déclaration
     let left = params.x;
     let top = params.y;
+    //#endregion Variables déclaration
     if (params.align) {
         switch (params.align) {
             case Types.TEXTALIGNS.RIGHT:
@@ -79,10 +84,10 @@ CanvasRenderingContext2D.prototype.drawImg = function(instance, img, params) {
         }
     }
     if (instance instanceof Core.classes.WindowButton) {
-        if (typeof left === Types.CONSTANTS.STRING) {
+        if (String.isNullOrEmpty(left)) {
             left = -eval(eval(left));
         }
-        if (typeof top === Types.CONSTANTS.STRING) {
+        if (String.isNullOrEmpty(top)) {
             top = -eval(eval(top));
         }
         if (instance.isPressed && params.hasOwnProperty("pressedOffset")) {
@@ -102,11 +107,11 @@ CanvasRenderingContext2D.prototype.drawImg = function(instance, img, params) {
  * @param   {PathData}      path        the path object
  */
 CanvasRenderingContext2D.prototype.drawPath = function(comp,path,clip) {
+    //#region Variables déclaration
     let cp = null;
     const sp=new Point();
-    let result = null;
-    let lastX = 0;
-    let lastY = 0;
+    const KINDS = Core.classes.PathPoint.KINDS;
+    //#endregion Variables déclaration
     if (path instanceof Core.classes.PathData) {
         //if (!comp.borderDash) comp.borderDash=$j.types.canvas.strokeDashs.SOLID;
         //if (!$j.tools.isNull(this.useNativeDash&&comp.borderDash)) this.setDash(comp.borderDash);
@@ -118,23 +123,23 @@ CanvasRenderingContext2D.prototype.drawPath = function(comp,path,clip) {
                 let i=0;
                 const pathData=path.data;
                 this.beginPath();
-                var l=pathData.length;
+                const l = pathData.length;
                 while (i<l){
-                    if (pathData[i].kind===Core.classes.PathPoint.KINDS.MOVETO){
+                    if (pathData[i].kind === KINDS.MOVETO){
                         cp=pathData[i].point;
                         this.moveTo(cp.x,cp.y);
                         sp.assign(cp);
-                    }else if (pathData[i].kind===Core.classes.PathPoint.KINDS.LINETO){
+                    }else if (pathData[i].kind === KINDS.LINETO){
                         cp=pathData[i].point;
                         this.lineTo(cp.x,cp.y);
-                    }else if (pathData[i].kind===Core.classes.PathPoint.KINDS.CURVETO){
+                    }else if (pathData[i].kind === KINDS.CURVETO){
                         const cp1=pathData[i].point;
                         i++;
                         const cp2=pathData[i].point;
                         i++;
                         this.bezierCurveTo(cp1.x,cp1.y,cp2.x,cp2.y,pathData[i].point.x,pathData[i].point.y);
                         cp=pathData[i].point;
-                    }else if (pathData[i].kind===Core.classes.PathPoint.KINDS.CLOSE) {
+                    }else if (pathData[i].kind === KINDS.CLOSE) {
                         this.closePath();
                     }
                     i++;
@@ -269,8 +274,11 @@ CanvasRenderingContext2D.prototype.prepareText = function(rect, calcRect) {
  * @param   {Rect}          rect        the rect of the text
  */
 CanvasRenderingContext2D.prototype.drawText = function(instance, shape, params, state) {
+    //#region Variables déclaration
     let offsetX = 0;
     let caption = null;
+    const TEXTALIGNS = Types.TEXTALIGNS;
+    //#endregion Variables déclaration
     if (shape.ref != undefined) {
         caption = instance[shape.ref].caption;
     }
@@ -282,7 +290,7 @@ CanvasRenderingContext2D.prototype.drawText = function(instance, shape, params, 
         this.textAlign = shape.textAlign;
         let logoShape = null;
         switch (shape.textAlign) {
-            case Types.TEXTALIGNS.CENTER:
+            case TEXTALIGNS.CENTER:
                 offsetX = instance.width;
                 if (shape.alignWithButtonsAndIcon != undefined && shape.alignWithButtonsAndIcon) {
                     offsetX -= (instance.visibleButtons * Core.themes[instance.themeName].WindowButton.width);
@@ -300,7 +308,7 @@ CanvasRenderingContext2D.prototype.drawText = function(instance, shape, params, 
                     }
                 }
                 break;
-            case Types.TEXTALIGNS.RIGHT:
+            case TEXTALIGNS.RIGHT:
                 offsetX = instance.width - textM.width;
                 break;
         }
@@ -360,6 +368,7 @@ CanvasRenderingContext2D.prototype.drawPolyline = function(a) {
  * @param   {Color}         params.fillColor       the fill color
  */
 CanvasRenderingContext2D.prototype.drawDigit = function(params) {
+    //#region Variables déclaration
     const width = 10 * params.height / 13;
     const segmentA = [];
     const segmentB = [];
@@ -370,6 +379,7 @@ CanvasRenderingContext2D.prototype.drawDigit = function(params) {
     const segmentG = [];
     const getX = (_x, _width) => { return _x * _width / 12; };
     const getY = (_y, _height) => { return _y * _height / 15; };
+    //#endregion Variables déclaration
     params.outlineColor.alpha = ((40 * 100) / 255) / 100;
     //Segment A
     segmentA[0] = segmentA[4] = new Core.classes.Point(params.x + getX(2.8, width), params.y + getY(1, params.height));
@@ -457,8 +467,10 @@ CanvasRenderingContext2D.prototype.drawDigit = function(params) {
  * @param   {Control}           object      the control for properties
  */
 CanvasRenderingContext2D.prototype.drawReflection = function(canvas, object) {
+    //#region Variables déclaration
     const h = (object.owner.height * object.length);
     const c = newCanvas;
+    //#endregion Variables déclaration
     c.width = object.owner.width;
     c.height = h;
     const ctx = c.getContext("2d");
@@ -726,6 +738,9 @@ CanvasRenderingContext2D.prototype.drawRegularPolygon = function(r, comp, clip) 
  * @param   {Array}     data        the data to draw
  */
 CanvasRenderingContext2D.prototype.drawSpark = function(data) {
+    //#region Variables déclaration
+    const SPARKTYPES = CANVAS.SPARKTYPES;
+    //#endregion Variables déclaration
     if (data && data.values.length > 0) {
         let type = data.type;
         if (!type) {
@@ -734,17 +749,17 @@ CanvasRenderingContext2D.prototype.drawSpark = function(data) {
         this.save();
         this.translate(0.5, 0.5);
         switch (type) {
-            case CANVAS.SPARKTYPES.LINE:
+            case SPARKTYPES.LINE:
                 this.drawSparkLine(data);
                 break;
-            case CANVAS.SPARKTYPES.BAR:
+            case SPARKTYPES.BAR:
                 this.translate(-0.5, -0.5);
                 this.drawSparkBar(data);
                 break;
-            case CANVAS.SPARKTYPES.PIE:
+            case SPARKTYPES.PIE:
                 this.drawSparkPie(data);
                 break;
-            case CANVAS.SPARKTYPES.BOXPLOT:
+            case SPARKTYPES.BOXPLOT:
                 this.drawSparkBoxPlot(data);
                 break;
         }
@@ -756,6 +771,7 @@ CanvasRenderingContext2D.prototype.drawSpark = function(data) {
  * @param   {Array}     data        the data to draw
  */
 CanvasRenderingContext2D.prototype.drawSparkLine = function(data) {
+    //#region Variables déclaration
     let color = data.color;
     let minColor = data.minColor;
     let maxColor = data.maxColor;
@@ -766,6 +782,7 @@ CanvasRenderingContext2D.prototype.drawSparkLine = function(data) {
     const xValues = [];
     const yValues = [];
     const path = [];
+    //#endregion Variables déclaration
     if (!color) {
         color = "black";
     }
@@ -786,7 +803,6 @@ CanvasRenderingContext2D.prototype.drawSparkLine = function(data) {
     const minX = Math.min.apply(Math, xValues);
     const rangeX = maxX - minX === 0 ? 1 : maxX - minX;
     const rangeY = maxY - minY === 0 ? 1 : maxY - minY;
-    //yvalues = yvalues.length - 1;
     height -= 3;
     for (i = 0; i < l; i++) {
         const x = xValues[i];
@@ -832,6 +848,7 @@ CanvasRenderingContext2D.prototype.drawSparkLine = function(data) {
  * @param   {Array}     data        the data to draw
  */
 CanvasRenderingContext2D.prototype.drawSparkBar = function(data) {
+    //#region Variables déclaration
     const height = this.canvas.height;
     const width = this.canvas.width;
     const l = data.values.length;
@@ -843,6 +860,7 @@ CanvasRenderingContext2D.prototype.drawSparkBar = function(data) {
     const maxColor = data.maxColor;
     const offset = ~~((width - (barWidth * l) - (l - 1)) / 2);
     const rangeHeight = height / (max - min);
+    //#endregion Variables déclaration
     if (min < 0) {
         yOrg = ~~(max * rangeHeight);
     } else {
@@ -875,6 +893,7 @@ CanvasRenderingContext2D.prototype.drawSparkBar = function(data) {
  * @param   {Array}     data        the data to draw
  */
 CanvasRenderingContext2D.prototype.drawSparkPie = function(data) {
+    //#region Variables déclaration
     const height = this.canvas.height;
     const width = this.canvas.width;
     const l = data.values.length;
@@ -883,6 +902,7 @@ CanvasRenderingContext2D.prototype.drawSparkPie = function(data) {
     let total = 0;
     const colors = data.colors.split(",");
     let i = 0;
+    //#endregion Variables déclaration
     for (; i < l; i++) {
         total += data.values[i];
     }
@@ -915,6 +935,7 @@ CanvasRenderingContext2D.prototype.drawSparkPie = function(data) {
  * @param   {Array}     data        the data to draw
  */
 CanvasRenderingContext2D.prototype.drawSparkBoxPlot = function(data) {
+    //#region Variables déclaration
     const height = this.canvas.height;
     let width = this.canvas.width;
     let l = 0;
@@ -946,6 +967,7 @@ CanvasRenderingContext2D.prototype.drawSparkBoxPlot = function(data) {
             }
         }
     };
+    //#endregion Variables déclaration
     if (!data.boxLineColor) {
         data.boxLineColor = "#000";
     }
@@ -1105,8 +1127,10 @@ CanvasRenderingContext2D.prototype.drawSparkBoxPlot = function(data) {
  * @param {Number} [radius.bl = 0] Bottom left
  */
 CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, radius, bordersColor) {
+    //#region Variables déclaration
     const r = x + width;
     const b = y + height;
+    //#endregion Variables déclaration
     if (radius == undefined) {
         radius = 5;
     }
@@ -1128,7 +1152,7 @@ CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, rad
         if (radius.tl + radius.tr + radius.br + radius.bl !== 0) {
             this.translate(0.5,0.5);
         }
-        if (bordersColor === Types.CONSTANTS.STRING) {
+        if (Tools.isString(bordersColor)) {
             bordersColor = { left:bordersColor, top:bordersColor, right:bordersColor, bottom:bordersColor };
         }
     }
@@ -1205,10 +1229,12 @@ CanvasRenderingContext2D.prototype._measureText = CanvasRenderingContext2D.proto
  * @param   {String}    text    the text to get metrics
  */
 CanvasRenderingContext2D.prototype.measureText = function(text) {
+    //#region Variables déclaration
     const metrics = this._measureText(text);
     let block;
     const isInDoc = document.querySelector(".textSizer");
     const textSpan = isInDoc?isInDoc:document.createElement("span");
+    //#endregion Variables déclaration
     textSpan.innerHTML = text;
     textSpan.style.font = this.font;
     textSpan.className = "textSizer";
@@ -1276,6 +1302,7 @@ CanvasRenderingContext2D.prototype.measureText = function(text) {
 };
 
 CanvasRenderingContext2D.prototype.wavy = function(from, to, frequency, amplitude, step, negative) { 
+    //#region Variables déclaration
     const fx = from.x;
     const fy = from.y;
     const tx = to.x;
@@ -1285,6 +1312,7 @@ CanvasRenderingContext2D.prototype.wavy = function(from, to, frequency, amplitud
     const distance = Math.sqrt((fx - tx) * (fx - tx) + (fy - ty) * (fy - ty));
     const a = amplitude * (!negative ? 1 : -1);
     const f = Math.PI * frequency;
+    //#endregion Variables déclaration
     for (; i <= distance; i += step) 
     {
         const waveOffsetLength = Math.sin((i / distance) * f) * a;
@@ -1295,7 +1323,7 @@ CanvasRenderingContext2D.prototype.wavy = function(from, to, frequency, amplitud
 }
 
 CanvasRenderingContext2D.prototype.rectWithBordersColor = function(x, y, width, height, bordersColor) { 
-    if (typeof bordersColor === Types.CONSTANTS.STRING) {
+    if (Tools.isString(bordersColor)) {
         bordersColor = { left:bordersColor, top:bordersColor, right:bordersColor, bottom:bordersColor };
     }
     this.beginPath();
@@ -1321,7 +1349,9 @@ CanvasRenderingContext2D.prototype.rectWithBordersColor = function(x, y, width, 
 }
 
 CanvasRenderingContext2D.prototype.clipRegion = function(clippingData, left, top, width, height) {
+    //#region Variables déclaration
     const clip = [clippingData.left,clippingData.top];
+    //#endregion Variables déclaration
     this.save();
     if (clippingData.hasOwnProperty("right")) {
         clip.push(width-left-clippingData.right);

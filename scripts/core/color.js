@@ -1,6 +1,6 @@
 ﻿//#region Imports
 import { Bindable } from "/scripts/core/bindable.js";
-//import { Control } from "/scripts/components/control.js";
+import { Tools } from "/scripts/core/tools.js";
 import { Convert } from "/scripts/core/convert.js";
 //#endregion Imports
 //#region Color
@@ -43,7 +43,7 @@ const Color = (function () {
             priv.updating = false;
             if (arguments.length > 0) {
                 for (let i = 0, l = arguments.length; i < l; i++) {
-                    let arg = arguments[i];
+                    const arg = arguments[i];
                     if (arg instanceof Color) {
                         this.assign(arg);
                     }
@@ -70,7 +70,7 @@ const Color = (function () {
             const priv = internal(this);
             const owner = this.owner;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            if (Tools.isNumber(newValue)) {
                 if (newValue !== priv.red) {
                     newValue = newValue & 0xFF;
                     priv.red = newValue;
@@ -100,7 +100,7 @@ const Color = (function () {
             const priv = internal(this);
             const owner = this.owner;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            if (Tools.isNumber(newValue)) {
                 if (newValue !== priv.green) {
                     newValue = newValue & 0xFF;
                     priv.green = newValue;
@@ -130,7 +130,7 @@ const Color = (function () {
             const priv = internal(this);
             const owner = this.owner;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            if (Tools.isNumber(newValue)) {
                 if (newValue !== priv.blue) {
                     newValue = newValue & 0xFF;
                     priv.blue = newValue;
@@ -160,7 +160,7 @@ const Color = (function () {
             const priv = internal(this);
             const owner = this.owner;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            if (Tools.isNumber(newValue)) {
                 if (newValue !== priv.alpha) {
                     if (newValue > 1) {
                         newValue = 1;
@@ -191,7 +191,7 @@ const Color = (function () {
             const priv = internal(this);
             const owner = this.owner;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            if (Tools.isNumber(newValue)) {
                 if (newValue !== priv.hue) {
                     //newValue=newValue%360;
                     if (newValue < 0) {
@@ -226,7 +226,7 @@ const Color = (function () {
             const priv = internal(this);
             const owner = this.owner;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            if (Tools.isNumber(newValue)) {
                 if (newValue !== priv.saturation) {
                     if (newValue < 0) {
                         newValue = 0;
@@ -260,7 +260,7 @@ const Color = (function () {
             const priv = internal(this);
             const owner = this.owner;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            if (Tools.isNumber(newValue)) {
                 if (newValue !== priv.value) {
                     if (newValue < 0) {
                         newValue = 0;
@@ -294,7 +294,7 @@ const Color = (function () {
             const priv = internal(this);
             const owner = this.owner;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            if (Tools.isNumber(newValue)) {
                 if (newValue !== priv.lightness) {
                     if (newValue < 0) {
                         newValue = 0;
@@ -337,8 +337,7 @@ const Color = (function () {
             //#region Variables déclaration
             const owner = this.owner;
             //#endregion Variables déclaration
-            if (typeof hue === Types.CONSTANTS.NUMBER && typeof saturation === Types.CONSTANTS.NUMBER &&
-                typeof value === Types.CONSTANTS.NUMBER) {
+            if (Tools.isNumber(hue) && Tools.isNumber(saturation) && Tools.isNumber(value)) {
                 this.hue = hue;
                 this.saturation = saturation;
                 this.value = value;
@@ -360,8 +359,7 @@ const Color = (function () {
             //#region Variables déclaration
             const owner = this.owner;
             //#endregion Variables déclaration
-            if (typeof hue === Types.CONSTANTS.NUMBER && typeof saturation === Types.CONSTANTS.NUMBER &&
-                typeof lightness === Types.CONSTANTS.NUMBER) {
+            if (Tools.isNumber(hue) && Tools.isNumber(saturation) && Tools.isNumber(lightness)) {
                 this.hue = hue;
                 this.saturation = saturation;
                 this.lightness = lightness;
@@ -536,7 +534,7 @@ const Color = (function () {
             if (strColor == undefined) {
                 return strColor;
             }
-            if (typeof strColor !== Types.CONSTANTS.STRING) {
+            if (!Tools.isString(strColor)) {
                 strColor = String.EMPTY;
             }
             if (strColor === String.EMPTY) {
@@ -577,12 +575,11 @@ const Color = (function () {
          */
         static changeHSL(c, h, s, l) {
             //#region Variables déclaration
-            const NUMBER = Types.CONSTANTS.NUMBER;
             const a = c.alpha;
             const hsl = c.RGB2HSL();
             const result = new Color;
             //#endregion Variables déclaration
-            if (typeof h === NUMBER && typeof s === NUMBER && typeof l === NUMBER) {
+            if (Tools.isNumber(h) && Tools.isNumber(s) && Tools.isNumber(l)) {
                 hsl.h = hsl.h + h;
                 if (hsl.h < 0) {
                     hsl.h = 0;
@@ -770,7 +767,7 @@ const Color = (function () {
             //#region Variables déclaration
             let alpha = this.alpha;
             //#endregion Variables déclaration
-            if (typeof opacity === Types.CONSTANTS.NUMBER) {
+            if (Tools.isNumber(opacity)) {
                 if (opacity < 1) {
                     alpha = this.alpha = alpha * 0xFF * opacity / 0xFF;
                 }
@@ -808,17 +805,17 @@ const Color = (function () {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (source instanceof Color) {
-            priv.alpha = source.alpha;
-            priv.red = source.red;
-            priv.green = source.green;
-            priv.blue = source.blue;
-            priv.hue = source.hue;
-            priv.saturation = source.saturation;
-            priv.value = source.value;
-            priv.lightness = source.lightness;
-            if (owner && !owner.loading) {
-                owner.update();
-            }
+                priv.alpha = source.alpha;
+                priv.red = source.red;
+                priv.green = source.green;
+                priv.blue = source.blue;
+                priv.hue = source.hue;
+                priv.saturation = source.saturation;
+                priv.value = source.value;
+                priv.lightness = source.lightness;
+                if (owner && !owner.loading) {
+                    owner.update();
+                }
             }
         }
         /**

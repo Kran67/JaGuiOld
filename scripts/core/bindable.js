@@ -7,6 +7,7 @@ import { BaseClass } from "/scripts/core/baseclass.js";
  * @extends {BaseClass}
  */
 const Bindable = (() => {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
@@ -16,6 +17,8 @@ const Bindable = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#endregion Private
+    //#region Bindable
     class Bindable extends BaseClass {
         /**
          * Create a new instance of Bindable.
@@ -28,9 +31,11 @@ const Bindable = (() => {
             //#endregion
             //Tools.Debugger.log(arguments,this,t);
         }
+        //#region Getter / Setter
         get dataBindings() {
             return internal(this).dataBindings;
         }
+        //#endregion Getter / Setter
         //#region Methods
         /**
          * Add properties can be binded
@@ -126,12 +131,13 @@ const Bindable = (() => {
          * @override
          */
         destroy() {
-            _private.dataBindings.destroy();
+            internal(this).dataBindings.destroy();
             super.destroy();
         }
         //#endregion
     }
     return Bindable;
+    //#endregion Bindable
 })();
 Core.classes.register(Types.CATEGORIES.INTERNAL, Bindable);
 //#endregion

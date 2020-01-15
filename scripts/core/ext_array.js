@@ -10,12 +10,14 @@ if (!Array.prototype.convertToCollection) {
      * @param       {Class}             itemClass       The item class for all items in the collection
      */
     Array.prototype.convertToCollection = function (owner, itemClass) {
+        //#region Variables déclaration
         let _updating = false;
         let _owner = owner;
         let _itemClass = itemClass;
         this._push = this.push;
         this._sort = this.sort;
         const _isCollection = false;
+        //#endregion Variables déclaration
         Object.defineProperty(this, "updating", {
             get: function () { return _updating; },
             set: function (newValue) { _updating = newValue; },
@@ -36,7 +38,9 @@ if (!Array.prototype.convertToCollection) {
             enumerable: false
         });
         this.push = function (a) {
+            //#region Variables déclaration
             let canPush = false;
+            //#endregion Variables déclaration
             if (typeof _itemClass === typeof a || !canPush && a instanceof _itemClass) {
                 canPush = true;
             }

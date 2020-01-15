@@ -1,8 +1,11 @@
-﻿import { Bindable } from "/scripts/core/bindable.js";
+﻿//#region Imports
+import { Bindable } from "/scripts/core/bindable.js";
 import { Tools } from "/scripts/core/tools.js";
 import { Rect } from "/scripts/core/geometry.js";
+//#endregion Imports
 //#region Component
 const Component = (() => {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
@@ -12,7 +15,10 @@ const Component = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#endregion Private
+    //#region Class Component
     class Component extends Bindable {
+        //#region constructor
         constructor(owner, props) {
             props = !props ? {} : props;
             super(owner);
@@ -30,16 +36,14 @@ const Component = (() => {
             priv.updating = false;
             priv.designInstance = false;
             priv.component = true;
-            priv.name = props.name ? props.name : String.EMPTY;
+            priv.name = props.hasOwnProperty("name") ? props.name : String.EMPTY;
             priv.cssBorder = new Rect;
             priv.inForm = this instanceof Core.classes.BaseWindow ? false : props.hasOwnProperty("inForm") ? props.inForm : true;
-            priv.visible = props.hasOwnProperty("visible") && typeof props.visible === Types.CONSTANTS.BOOLEAN ? props.visible : true;
-            priv.left = props.hasOwnProperty("left") && typeof props.left === Types.CONSTANTS.NUMBER ? props.left : 0;
-            priv.top = props.hasOwnProperty("top") && typeof props.top === Types.CONSTANTS.NUMBER ? props.top : 0;
-            //#region Private
+            priv.visible = props.hasOwnProperty("visible") && Tools.isBool(props.visible) ? props.visible : true;
+            priv.left = props.hasOwnProperty("left") && Tools.isNumber(props.left) ? props.left : 0;
+            priv.top = props.hasOwnProperty("top") && Tools.isNumber(props.top) ? props.top : 0;
             if (owner instanceof Core.classes.Application) {
                 priv.app = owner;
-                //priv.app.windows.push(this);
             } else {
                 priv.app = priv.owner.app;
             }
@@ -50,23 +54,26 @@ const Component = (() => {
                 priv.form = this;
             }
             Core.classes.newCollection(this, this, Core.classes.Component, "components");
-            //#endregion
-            //this._tag=null;
             if (priv.owner instanceof Core.classes.Component) {
                 priv.owners.addRange(priv.owner.owners);
                 priv.owners.push(priv.owner);
             }
-            //Tools.Debugger.log(arguments, this, t);
         }
+        //#endregion constructor
         //#region Getter / Setters
+        //#region owner
         get owner() {
             return internal(this).owner;
         }
         set owner(newValue) {
             internal(this).owner = newValue;
         }
+        //#endregion owner
+        //#region componentIndex
         get componentIndex() {
+            //#region Variables déclaration
             const owner = internal(this).owner;
+            //#endregion Variables déclaration
             if (owner && owner.components.length > 0) {
                 return owner.components.indexOf(this);
             } else {
@@ -74,8 +81,10 @@ const Component = (() => {
             }
         }
         set componentIndex(newValue) {
+            //#region Variables déclaration
             const owner = internal(this).owner;
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 if (newValue < 0) {
                     newValue = 0;
                 }
@@ -93,184 +102,234 @@ const Component = (() => {
                 }
             }
         }
+        //#endregion componentIndex
+        //#region owners
         get owners() {
             return internal(this).owners;
         }
+        //#endregion owners
+        //#region app
         get app() {
             return internal(this).app;
         }
         set app(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof Core.classes.Application) {
                 if (priv.app !== newValue) {
                     priv.app = newValue;
                 }
             }
         }
+        //#endregion app
+        //#region form
         get form() {
             return internal(this).form;
         }
         set form(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof Core.classes.Window) {
                 if (priv.form !== newValue) {
                     priv.form = newValue;
                 }
             }
         }
+        //#endregion form
+        //#region loading
         get loading() {
             return internal(this).loading;
         }
         set loading(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (priv.loading !== newValue) {
                 priv.loading = newValue;
             }
         }
+        //#endregion loading
+        //#region destroying
         get destroying() {
             return internal(this).destroying;
         }
+        //#endregion destroying
+        //#region HTMLElement
         get HTMLElement() {
             return internal(this).HTMLElement;
         }
         set HTMLElement(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof HTMLElement) {
                 if (priv.HTMLElement !== newValue) {
                     priv.HTMLElement = newValue;
                 }
             }
         }
+        //#endregion HTMLElement
+        //#region HTMLElementStyle
         get HTMLElementStyle() {
             return internal(this).HTMLElementStyle;
         }
         set HTMLElementStyle(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof CSSStyleDeclaration) {
                 if (priv.HTMLElementStyle !== newValue) {
                     priv.HTMLElementStyle = newValue;
                 }
             }
         }
+        //#endregion HTMLElementStyle
+        //#region designing
         get designing() {
             return internal(this).designing;
         }
         set designing(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.designing !== newValue) {
                     priv.designing = newValue;
                 }
             }
         }
+        //#endregion designing
+        //#region internalId
         get internalId() {
             return internal(this).internalId;
         }
         set internalId(newValue) {
             internal(this).internalId = newValue;
         }
+        //#endregion internalId
+        //#region updating
         get updating() {
             return internal(this).updating;
         }
         set updating(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.updating !== newValue) {
                     priv.updating = newValue;
                 }
             }
         }
+        //#endregion updating
+        //#region designInstance
         get designInstance() {
             return internal(this).designInstance;
         }
         set designInstance(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.designInstance !== newValue) {
                     priv.designInstance = newValue;
                 }
             }
         }
+        //#endregion designInstance
+        //#region name
         get name() {
             return internal(this).name;
         }
         set name(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const form = priv.form;
             let name = priv.name;
-            if (typeof newValue === Types.CONSTANTS.STRING && newValue.trim() !== String.EMPTY) {
+            //#endregion Variables déclaration
+            if (String.isNullOrEmpty(newValue) && newValue.trim() !== String.EMPTY) {
                 if (priv.name !== newValue) {
-                    //if ((newValue!==String.EMPTY) && !Tools.isValidIdent(newValue)) throw $j.errMsg.INVALIDNAME.format(newValue);
-                    //if (this.owner instanceof Component) this.owner.validateRename(this,this._name,newValue);
-                    //else this.validateRename(null,this._name,newValue);
                     if (form !== this && form && form[name]) {
                         delete form[name];
                     }
-                    ////if ((this.owner instanceof Control)&&(this instanceof Control)){
-                    ////  if (this.owner.controlsName.indexOf(this._name)>-1) this.owner.controlsName.remove(this._name);
-                    ////}
-                    //this._app.removeName(this);
                     name = priv.name = newValue;
-                    //this._app.addName(this);
-                    //if (this instanceof Control) this.objName=newValue;
                     if (form !== this && this !== form.layout && this !== form.content) {
                         if (form) {
                             if (!form[name]) form[name] = this;
                         }
                     }
-                    //if ((this.owner instanceof Control)&&(this instanceof Control)){
-                    //  if (this.owner.controlsName.indexOf(this._name)===-1) this.owner.controlsName.push(this._name);
-                    //}
                 }
             }
         }
+        //#endregion name
+        //#region component
         get component() {
             return internal(this).component;
         }
         set component(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.component !== newValue) {
                     priv.component = newValue;
                 }
             }
         }
+        //#endregion component
+        //#region inForm
         get inForm() {
             return internal(this).inForm;
         }
         set inForm(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.inForm !== newValue) {
                     priv.inForm = newValue;
                 }
             }
         }
+        //#endregion inForm
+        //#region visible
         get visible() {
             return internal(this).visible;
         }
         set visible(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.visible !== newValue) {
                     priv.visible = newValue;
                 }
             }
         }
+        //#endregion visible
+        //#region template
         get template() {
+            //#region Variables déclaration
             const priv = internal(this);
             let html = Core.classes.getTemplate(this.constructor.name);
             let a = html.split("{name}");
+            //#endregion Variables déclaration
             html = a.join(priv.name);
             a = html.split("{internalId}");
             html = a.join(priv.internalId);
             return html;
         }
-        get _properties() {
+        //#region template
+        //#region properties
+        get properties() {
+            //#region Variables déclaration
             const priv = internal(this);
             let prop = null;
             const htmlElement = priv.HTMLElement;
             const props = Tools.getPropertiesFromObject(this);
+            //#endregion Variables déclaration
             if (!priv.component) {
                 prop = "width";
                 props.push({ property: prop, value: htmlElement.offsetWidth, categories: Core.classes.getPropertyCategories(prop) });
@@ -283,8 +342,12 @@ const Component = (() => {
             props.push({ property: prop, value: htmlElement.offsetTop, categories: Core.classes.getPropertyCategories(prop) });
             return props;
         }
+        //#endregion properties
+        //#region events
         get events() {
+            //#region Variables déclaration
             const props = [];
+            //#endregion Variables déclaration
             for (let prop in this) {
                 if (this.hasOwnProperty(prop)) {
                     if (prop.startsWith('on') && this[prop] instanceof Core.classes.NotifyEvent) {
@@ -294,7 +357,10 @@ const Component = (() => {
             }
             return props;
         }
+        //#endregion events
+        //#region isVisible
         get isVisible() {
+            //#region Variables déclaration
             const priv = internal(this);
             let visible = priv.visible;
             const htmlElement = priv.HTMLElement;
@@ -302,10 +368,12 @@ const Component = (() => {
             const left = priv.left;
             const top = priv.top;
             const owners = priv.owners;
+            const oHtmlElement = owner.HTMLElement;
+            //#endregion Variables déclaration
             // si le composant dépasse de son parent
             if (Core.isHTMLRenderer) {
-                if (htmlElement.offsetLeft + htmlElement.offsetWidth < 0 || htmlElement.offsetLeft > owner.HTMLElement.offsetWidth ||
-                    htmlElement.offsetTop + htmlElement.offsetHeight < 0 || htmlElement.offsetTop > owner.HTMLElement.offsetHeight) {
+                if (htmlElement.offsetLeft + htmlElement.offsetWidth < 0 || htmlElement.offsetLeft > oHtmlElement.offsetWidth ||
+                    htmlElement.offsetTop + htmlElement.offsetHeight < 0 || htmlElement.offsetTop > oHtmlElement.offsetHeight) {
                     visible = false;
                 }
             } else if (Core.isCanvasRenderer) {
@@ -321,40 +389,54 @@ const Component = (() => {
             }
             return visible;
         }
+        //#endregion isVisible
+        //#region zOrder
         get zOrder() {
+            //#region Variables déclaration
             const priv = internal(this);
             const owner = priv.owner;
+            //#endregion Variables déclaration
             if (owner && priv.HTMLElement) {
                 return owner.components.length + 1;
             }
             return -1;
         }
+        //#endregion zOrder
+        //#region contentLeft
         get contentLeft() {
+            //#region Variables déclaration
             const priv = internal(this);
             let left = priv.left;
             const margin = this.margin;
             const padding = this.padding;
             const right = this.right;
+            //#endregion Variables déclaration
             left += margin.left + padding.left;
             if (right != null) {
                 left = priv.owner.contentWidth - this.width - right - padding.right - margin.right;
             }
             return left;
         }
+        //#endregion contentLeft
+        //#region left
         get left() {
+            //#region Variables déclaration
             const priv = internal(this);
             let left = priv.left;
             const margin = this.margin;
             const padding = this.padding;
             const right = this.right;
+            //#endregion Variables déclaration
             if (right != null) {
                 left = priv.owner.contentWidth - this.width - right - padding.right - margin.right;
             }
             return left;
         }
         set left(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 const lastLeft = Core.isHTMLRenderer ? priv.HTMLElement.offsetLeft : priv.left;
                 if (lastLeft !== newValue) {
                     if (!priv.loading) {
@@ -368,25 +450,35 @@ const Component = (() => {
                 }
             }
         }
+        //#endregion left
+        //#region contentTop
         get contentTop() {
+            //#region Variables déclaration
             const priv = internal(this);
             const top = priv.top;
             const margin = this.margin;
             const padding = this.padding;
+            //#endregion Variables déclaration
             return top + margin.top + padding.top;
         }
+        //#endregion contentTop
+        //#region top
         get top() {
+            //#region Variables déclaration
             const priv = internal(this);
-            let top = priv.top;// + (priv.owner.padding?priv.owner.padding.top:0);
+            let top = priv.top;
             const bottom = this.bottom;
+            //#endregion Variables déclaration
             if (bottom != null) {
                 top = priv.owner.height - this.height - bottom - this.margin.bottom;
             }
             return top;
         }
         set top(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 const lastTop = (Core.isHTMLRenderer ? priv.HTMLElement.offsetTop : priv.top);
                 if (lastTop !== newValue) {
                     if (!priv.loading) {
@@ -400,33 +492,18 @@ const Component = (() => {
                 }
             }
         }
-        //get cssBorder() {
-        //    return internal(this).cssBorder;
-        //}
-        //getCSSBorder() {
-        //    let HTMLElement = this.HTMLElement;
-        //    let cssBorder = this.cssBorder;
-        //    if (HTMLElement) {
-        //        cssBorder.left = ~~parseFloat(getComputedStyle(HTMLElement).borderLeftWidth);
-        //        cssBorder.top = ~~parseFloat(getComputedStyle(HTMLElement).borderTopWidth);
-        //        cssBorder.right = ~~parseFloat(getComputedStyle(HTMLElement).borderRightWidth);
-        //        cssBorder.bottom = ~~parseFloat(getComputedStyle(HTMLElement).borderBottomWidth);
-        //    }
-        //    return this.cssBorder;
-        //}
-        //#endregion
+        //#endregion top
         //#region Methods
         //#region moveTo
         moveTo(x, y) {
             //#region Variables déclaration
             const priv = internal(this);
-            const NUMBER = Types.CONSTANTS.NUMBER;
             const htmlElement = priv.HTMLElement;
             const htmlElementStyle = priv.HTMLElementStyle;
             const isHtmlRenderer = Core.isHTMLRenderer;
             const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
-            if (typeof x === NUMBER && typeof y === NUMBER || this instanceof Core.classes.Control) {
+            if (Tools.isNumber(x) && Tools.isNumber(y) || this instanceof Core.classes.Control) {
                 priv.left = x;
                 priv.top = y;
                 if (isHtmlRenderer && htmlElement && priv.inForm) {
@@ -436,8 +513,11 @@ const Component = (() => {
             }
         }
         //#endregion moveTo
+        //#region getBoundingClientRect
         getBoundingClientRect() {
+            //#region Variables déclaration
             const margin = this.margin;
+            //#endregion Variables déclaration
             if (Core.isHTMLRenderer) {
                 return this.HTMLElement.getBoundingClientRect();
             } else {
@@ -452,55 +532,36 @@ const Component = (() => {
                 return boundingClientRect;
             }
         }
+        //#endregion getBoundingClientRect
+        //#region destroy
         destroy() {
+            //#region Variables déclaration
             const htmlElement = this.HTMLElement;
             const owner = this.owner;
             const owners = this.owners;
+            //#endregion Variables déclaration
             this.destroying();
             this.destroyComponents();
-            //if (this instanceof Control) {
             if (htmlElement) {
                 htmlElement.parentNode.removeChild(htmlElement);
             }
-            //if (Core.isHTMLRenderer) {
-            //    this.HTMLElement = null;
-            //    this.HTMLElementStyle = null;
-            //}
-            //}
             if (owner) {
                 if (!(owner instanceof Core.classes.Application)) {
                     owner.remove(this);
                 }
             }
-            //Tools.Debugger.log(arguments, this, t);
-            //this.app = null;
-            //this.form = null;
-            //this._name = null;
-            //this._left = null;
-            //this._top = null;
-            //this._tag = null;
-            //this._componentIndex = null;
-            //this._owner = null;
             if (owners) {
                 owners.destroy();
             }
-            //this._owners = null;
-            //this.components = null;
-            //this.loading = null;
-            //this.destroying = null;
-            //this._designing = null;
-            //this._updating = null;
-            //this._designInstance = null;
-            //if (Core.isHTMLRenderer) {
-            //    if (this.cssBorder) this.cssBorder.destroy();
-            //    //this.cssBorder = null;
-            //}
-            //this._internalId = null;
             super.destroy();
         }
+        //#endregion destroy
+        //#region loaded
         loaded() {
+            //#region Variables déclaration
             const htmlElement = this.HTMLElement;
             const form = this.form;
+            //#endregion Variables déclaration
             this.loading = false;
             this.components.forEach(comp => {
                 if (comp.loaded) {
@@ -516,22 +577,12 @@ const Component = (() => {
                     if (properties) {
                         htmlElement.removeChild(properties);
                     }
-                    //data = this.HTMLElement.dataset.popupmenu;
-                    //if (data) {
-                    //    if (this.form[data]) {
-                    //        if (this.form[data] instanceof Core.classes.PopupMenu) {
-                    //            this.popupMenu = this.form[data];
-                    //            this.popupMenu.control = this;
-                    //        }
-                    //    }
-                    //}
                 }
-                //this.getCSSBorder();
             }
             if (this.hasOwnProperty("action")) {
                 if (form[this._action]) {
                     this.action = form[this.action];
-                } else if (typeof this.action === Types.CONSTANTS.STRING) {
+                } else if (!String.isNullOrEmpty(this.action)) {
                     const action = this.action;
                     const app = this.app;
                     if (action.includes(".")) {
@@ -545,16 +596,16 @@ const Component = (() => {
                     }
                 }
             }
-            //if (this._inForm&&this.form!==this) {
-            //  this.form._controls.remove(this);
-            //  this.form._controls.push(this);
-            //}
             this.moveTo(this.left, this.top);
         }
+        //#endregion loaded
+        //#region insert
         insert(component) {
+            //#region Variables déclaration
             const components = this.components;
             const form = this.form;
             const controls = form.controls;
+            //#endregion Variables déclaration
             if (components.indexOf(component) === -1) {
                 components.push(component);
                 component.app = this.app;
@@ -567,20 +618,22 @@ const Component = (() => {
                         }
                     }
                 }
-                //Tools.Debugger.log(arguments, this, t);
             }
         }
+        //#endregion insert
+        //#region remove
         remove(component) {
+            //#region Variables déclaration
             const components = this.components;
             const form = this.form;
             const controls = form.controls;
+            //#endregion Variables déclaration
             if (components.indexOf(component) > -1) {
                 let idx = components.indexOf(component);
                 if (idx > -1) {
                     components.removeAt(idx);
                 }
                 if (form[component.name]) {
-                    //if (component.xmlNode) Xml.delNode(component.xmlNode);
                     form[component.name] = null;
                     delete form[component.name];
                 }
@@ -588,32 +641,40 @@ const Component = (() => {
                 if (idx > -1) {
                     controls.removeAt(idx);
                 }
-                //Tools.Debugger.log(arguments, this, t);
             }
         }
+        //#endregion remove
+        //#region insertComponent
         insertComponent(component) {
             if (component.owner !== component.app) {
                 component.owner.remove(component);
             }
             this.insert(component);
-            //Tools.Debugger.log(arguments, this, t);
         }
+        //#endregion insertComponent
+        //#region getComponent
         getComponent(index) {
+            //#region Variables déclaration
             const components = this.components;
+            //#endregion Variables déclaration
             if (components.length === 0 || index >= components.length) {
                 throw Core.errMsg.LISTINDEXERROR.format(index);
             }
             return components[index];
-            //Tools.Debugger.log(arguments, this, t);
         }
+        //#endregion getComponent
+        //#region beforeDestruction
         beforeDestruction() {
             if (!this.destroying) {
                 this._destroying();
             }
-            //Tools.Debugger.log(arguments, this, t);
         }
+        //#endregion beforeDestruction
+        //#region destroyComponents
         destroyComponents() {
+            //#region Variables déclaration
             let instance;
+            //#endregion Variables déclaration
             const components = this.components;
             if (components) {
                 while (components.length > 0) {
@@ -624,8 +685,12 @@ const Component = (() => {
             }
             //Tools.Debugger.log(arguments, this, t);
         }
+        //#endregion destroyComponents
+        //#region _destroying
         _destroying() {
+            //#region Variables déclaration
             const components = this.components;
+            //#endregion Variables déclaration
             if (!this.destroying) {
                 this.destroying = true;
                 if (components) {
@@ -636,9 +701,13 @@ const Component = (() => {
             }
             //Tools.Debugger.log(arguments, this, t);
         }
+        //#endregion _destroying
+        //#region findComponent
         findComponent(name) {
+            //#region Variables déclaration
             const components = this.components;
-            if (name !== String.EMPTY) {
+            //#endregion Variables déclaration
+            if (!String.isNullOrEmpty(name)) {
                 if (components) {
                     const ret = components.find(comp => {
                         return comp.name === name;
@@ -646,33 +715,46 @@ const Component = (() => {
                     return ret?ret:null;
                 }
             }
-            //Tools.Debugger.log(arguments, this, t);
             return null;
         }
+        //#endregion findComponent
+        //#region _updating
         _updating() {
             this.updating = true;
-            //Tools.Debugger.log(arguments, this, t);
         }
+        //#endregion _updating
+        //#region updated
         updated() {
             this.updating = false;
-            //Tools.Debugger.log(arguments, this, t);
         }
+        //#endregion updated
+        //#region validateRename
         validateRename(component, curName, newName) {
+            //#region Variables déclaration
             const owner = this.owner;
+            //#endregion Variables déclaration
             if (this.designing && owner) {
                 if (!(owner instanceof Core.classes.App)) {
                     owner.validateRename(component, curName, newName);
                 }
             }
-            //Tools.Debugger.log(arguments, this, t);
         }
+        //#endregion validateRename
+        //#region setChildOrder
         setChildOrder(child, order) { }
+        //#endregion setChildOrder
+        //#region beginUpdate
         beginUpdate() { }
+        //#endregion beginUpdate
+        //#region endUpdate
         endUpdate() { }
+        //#endregion endUpdate
+        //#region getHTMLElement
         getHTMLElement(id) {
+            //#region Variables déclaration
             const internalId = this.internalId;
             const htmlElement = this.HTMLElement = document.getElementById(id);
-
+            //#endregion Variables déclaration
             if (htmlElement) {
                 this.HTMLElementStyle = htmlElement.style;
                 if (!htmlElement.jsObj) {
@@ -687,8 +769,13 @@ const Component = (() => {
                 this.internalId = id;
             }
         }
+        //#endregion getHTMLElement
+        //#region getChilds
         getChilds() { }
+        //#endregion getChilds
+        //#region bindEvents
         bindEvents() {}
+        //#endregion bindEvents
         /*updateFromHTML() {
             let properties = this.HTMLElement.querySelector("properties"), props;
             if (!properties) return;
@@ -703,37 +790,48 @@ const Component = (() => {
             }
             this.HTMLElement.removeChild(properties);
         }*/
+        //#region clientToDocument
         clientToDocument() {
+            //#region Variables déclaration
             const result = new Core.classes.Point;
             const bRect = this.getBoundingClientRect();
+            //#endregion Variables déclaration
             result.setValues(bRect.left, bRect.top);
             return result;
         }
-        bindEventToHTML(eventName) {
-            const _const = Types.CONSTANTS;
+        //#endregion clientToDocument
+        //#region bindEventToHTML
+        bindEventToHTML(eventName) { // à vérifier
+            //#region Variables déclaration
+            const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
             const form = this.form;
-            if (typeof eventName === _const.STRING && this.HTMLElement) {
-                const data = this.HTMLElement.dataset[eventName.toLowerCase()];
+            if (Tools.isString(eventName) && htmlElement) {
+                const data = htmlElement.dataset[eventName.toLowerCase()];
                 if (data) {
-                    if (typeof form[data] === _const.FUNCTION) {
+                    if (Tools.isFunc(form[data])) {
                         this[eventName].addListener(form[data]);
-                    } else if (typeof data === _const.STRING) {
-                        if (data !== String.EMPTY) {
+                    } else if (Tools.isString(data)) {
+                        if (!String.isNullOrEmpty(data)) {
                             this[eventName].addListener(new Function(data));
                         }
                     }
                 }
             }
         }
+        //#endregion bindEventToHTML
         //#endregion
     }
     return Component;
 })();
+//#endregion Component
+//#region Component defineProperties
 Object.defineProperties(Component, {
     "name": {
         enumerable: true
     }
 });
+//#endregion Component defineProperties
 //#endregion
 Core.classes.register(Types.CATEGORIES.COMMON, Component);
 export { Component };

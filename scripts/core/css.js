@@ -1,4 +1,7 @@
-﻿//#region CSS
+﻿//#region Import
+import { Tools } from "/scripts/core/tools.js";
+//#endregion Import
+//#region CSS
 /**
  * Class representing a Css.
  */
@@ -703,27 +706,30 @@ class Css {
     //    },
     static addCSSRule(selector, style) {
         if (selector !== "#") {
-        if (style === String.EMPTY) {
-            Core.rtStyle.sheet.insertRule([selector, "{}"].join(String.EMPTY), 0);
-        } else {
-            Core.rtStyle.sheet.insertRule([selector, " {", style, "}"].join(String.EMPTY), 0);
-        }
+            if (Tools.isNullOrpty(style)) {
+                Core.rtStyle.sheet.insertRule([selector, "{}"].join(String.EMPTY), 0);
+            } else {
+                Core.rtStyle.sheet.insertRule([selector, " {", style, "}"].join(String.EMPTY), 0);
+            }
         }
     }
     static removeCSSRule(selector, ruleType) {
+        //#region Variables déclaration
         const rulesIndex = [];
+        const CSSRULETYPES = Types.CSSRULETYPES;
         let i = 0;
+        //#endregion Variables déclaration
         if (!ruleType) {
-            ruleType = Types.CSSRULETYPES.STYLE_RULE;
+            ruleType = CSSRULETYPES.STYLE_RULE;
         }
         const l = Core.rtStyle.sheet.cssRules.length;
         for (; i < l; i++) {
             if (Core.rtStyle.sheet.cssRules[i].type === ruleType) {
-                if (ruleType === Types.CSSRULETYPES.STYLE_RULE) {
+                if (ruleType === CSSRULETYPES.STYLE_RULE) {
                     if (Core.rtStyle.sheet.cssRules[i].selectorText === selector) {
                         rulesIndex.push(i);
                     }
-                } else if (ruleType === Types.CSSRULETYPES.KEYFRAMES_RULE) {
+                } else if (ruleType === CSSRULETYPES.KEYFRAMES_RULE) {
                     if (Core.rtStyle.sheet.cssRules[i].cssText.includes(selector)) {
                         rulesIndex.push(i);
                     }

@@ -395,3 +395,6 @@ String.uniqueId = function(size) {
     size > 2 && size < 8 || (size = 7);
     return `_${Math.random().toString(36).split(".")[1].substring(0, size)}`;
 };
+String.isNullOrEmpty = function(str) {
+    return str === String.EMPTY || str == undefined;
+};

@@ -7,6 +7,7 @@ class Browser {
      * Create a new instance of Browser.
      */
     constructor() {
+        //#region Variables déclaration
         const _n = navigator;
         const _av = _n.appVersion;
         let _ie = false;
@@ -20,6 +21,7 @@ class Browser {
         let _webkit = false;
         let _coreVersion = ~~parseFloat(_av);
         let _vendorPrefix = null;
+        //#endregion Variables déclaration
         _opera = window.opera !== undefined;
         _khtml = _av.indexOf("Konqueror") !== -1;
         _webkit = _av.indexOf("WebKit") !== -1;
@@ -149,7 +151,9 @@ class Browser {
      * @return      {String}            Return all browser information in a string
      */
     toString() {
+        //#region Variables déclaration
         let info = "Browser : ";
+        //#endregion Variables déclaration
         if (this.ie) {
             info += "Internet Explorer";
         } else if (this.khtml) {
@@ -176,7 +180,9 @@ class Browser {
      * @return      {String}                        Return the vendor prefix of css property
      */
     getVendorPrefix(cssProperty) {
+        //#region Variables déclaration
         let ret = false;
+        //#endregion Variables déclaration
         if (this.ie && this.msCSSPrefix.indexOf(cssProperty) > -1) {
             ret = true;
         } else if (this.ff && this.mozillaCSSPrefix.indexOf(cssProperty) > -1) {

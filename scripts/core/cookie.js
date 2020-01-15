@@ -1,6 +1,7 @@
 ﻿/**
  * Cookie management class
  */
+//#region Cookie
 class Cookie {
     /**
      * Create/Modify a cookie
@@ -9,7 +10,9 @@ class Cookie {
      * @param       {Number}        days        the cookie time duration (days)
      */
     static create(name, value, days) {
+        //#region Variables déclaration
         let expires = null;
+        //#endregion Variables déclaration
         if (days) {
             const date = new Date();
             date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
@@ -26,11 +29,10 @@ class Cookie {
      * @returns     {String}        the cookie value
      */
     static read(name) {
+        //#region Variables déclaration
         const nameEq = `${name}=`;
         const ca = document.cookie.split(";");
-        //while (c.charAt(0) === String.SPACE) {
-        //    c = c.substring(1, c.length);
-        //}
+        //#endregion Variables déclaration
         ca.forEach(c => {
             c = c.trim();
             if (c.indexOf(nameEq) === 0) {
@@ -47,4 +49,5 @@ class Cookie {
         create(name, String.EMPTY, -1);
     }
 }
+//#endregion Cookie
 export { Cookie };

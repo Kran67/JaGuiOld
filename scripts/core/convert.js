@@ -1,9 +1,12 @@
-﻿import { Rect, Point, Vector, Matrix } from "/scripts/core/geometry.js";
+﻿//#region Imports
+import { Rect, Point, Vector, Matrix } from "/scripts/core/geometry.js";
 //import { Gradient, GradientPoint } from "/scripts/core/gradient.js";
 //import { Browser } from "./browser.js";
 import { Color } from "/scripts/core/color.js";
 import { Text } from "/scripts/core/text.js";
 import { Tools } from "/scripts/core/tools.js";
+//#endregion Imports
+//#region Convert
 class Convert {
     /**
      * Convert a enum to a string
@@ -678,4 +681,5 @@ class Convert {
     (i % 2)==0; -> (i & 1)
     */
 }
+//#region Convert
 export { Convert };

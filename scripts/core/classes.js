@@ -1,13 +1,21 @@
+//#region import
 import { Tools } from "/scripts/core/tools.js";
 //import { ToolBar } from "/scripts/components/toolbars/toolbar.js";
 //import { Component } from "/scripts/core/component.js";
 //import { Window } from "/scripts/components/containers/window.js";
+//#endregion import
+//#region Classes
 class Classes {
+    //#region nameSpace
     static nameSpace(namespace) {
         Core.classes[namespace] = {};
     }
+    //#endregion nameSpace
+    //#region register
     static register() {
+        //#region Variables déclaration
         const category = arguments[0];
+        //#endregion Variables déclaration
         if (Tools.valueInSet(category, Types.CATEGORIES) || Tools.valueInSet(category, Types.INTERNALCATEGORIES)) {
             if (!Core.classes[category]) {
                 Core.classes.nameSpace(category);
@@ -21,18 +29,24 @@ class Classes {
             });
         }
     }
+    //#endregion register
+    //#region registerTemplates
     static registerTemplates(arrayOfTemplate) {
         if (Array.isArray(arrayOfTemplate)) {
             arrayOfTemplate.forEach(tpl => {
                 let className = tpl.Class;
-                className = (typeof className !== Types.CONSTANTS.STRING) ? Tools.getFuncName(className) : className;
+                className = !String.isNullOrEmpty(className) ? Tools.getFuncName(className) : className;
                 Core.templates[className] = tpl.template.replace(new RegExp("{className}", 'g'), className);
             });
         }
     }
+    //#endregion registerTemplates
+    //#region registerPropertiesInCategory
     static registerPropertiesInCategory(category, properties) {
+        //#region Variables déclaration
         const propertiesCategories = Types.PROPERTIESCATEGORIES;
-        if (Types.PROPERTIESCATEGORIES[category]) {
+        //#endregion Variables déclaration
+        if (propertiesCategories[category]) {
             if (Array.isArray(properties)) {
                 properties.forEach(prop => {
                     propertiesCategories[category].properties.push(prop);
@@ -42,10 +56,14 @@ class Classes {
             }
         }
     }
+    //#endregion registerPropertiesInCategory
+    //#region getPropertyCategories
     static getPropertyCategories(prop) {
+        //#region Variables déclaration
         const cat = [];
         const propertiesCategories = Types.PROPERTIESCATEGORIES;
         const keys = Object.keys(propertiesCategories);
+        //#endregion Variables déclaration
         keys.forEach(key => {
             if (propertiesCategories[key].indexOf(prop) > -1) {
                 cat.push(propertiesCategories[key]);
@@ -54,6 +72,8 @@ class Classes {
         cat.push(propertiesCategories.MISCELLANEOUS);
         return cat;
     }
+    //#endregion getPropertyCategories
+    //#region getTemplate
     static getTemplate(className) {
         if (Core.templates[className]) {
             return Core.templates[className];
@@ -61,6 +81,8 @@ class Classes {
             return String.EMPTY;
         }
     }
+    //#endregion getTemplate
+    //#region createComponent
     /**
      *
      * @param {Object}      params
@@ -72,7 +94,10 @@ class Classes {
      * @param {Object}      params.internalId
      */
     static createComponent(params) {
+        //#region Variables déclaration
         let obj = null;
+        const isHTMLRenderer = Core.isHTMLRenderer;
+        //#endregion Variables déclaration
         if (this.checkClassAndOwnerClass(params.class, params.owner)) {
             if (!params.name) {
                 params.name = String.EMPTY;
@@ -86,7 +111,7 @@ class Classes {
             }
             obj = new params.class(params.owner, params.props);
             if (obj instanceof Core.classes.Component) {
-                if (typeof params.withTpl !== Types.CONSTANTS.BOOLEAN && !params.withTpl) {
+                if (!Tools.isBool(params.withTpl) && !params.withTpl) {
                     params.withTpl = true;
                 }
                 if (!params.props) {
@@ -97,7 +122,7 @@ class Classes {
                 } else {
                     obj.internalId = params.internalId;
                 }
-                if (params.withTpl && Core.isHTMLRenderer) {
+                if (params.withTpl && isHTMLRenderer) {
                     const tpl = obj.template;
                     if (!params.props.parentHTML) {
                         params.owner.insertTemplate(tpl);
@@ -108,7 +133,7 @@ class Classes {
                     }
                 }
                 if (!(obj instanceof Core.classes.Window)) {
-                    if (Core.isHTMLRenderer) {
+                    if (isHTMLRenderer) {
                         obj.getHTMLElement(obj.internalId);
                     }
                     if (obj.HTMLElement) {
@@ -126,8 +151,12 @@ class Classes {
         }
         return obj;
     }
+    //#endregion createComponent
+    //#region checkClassAndOwnerClass
     static checkClassAndOwnerClass(Class, owner) {
+        //#region Variables déclaration
         let result = true;
+        //#endregion Variables déclaration
         if (Core.classes.ToolBar) {
             if (Class.name === "ToolButtonSep" && !(owner instanceof Core.classes.ToolBar)) {
                 result = false;
@@ -141,6 +170,8 @@ class Classes {
         }
         return result;
     }
+    //#endregion checkClassAndOwnerClass
+    //#region newCollection
     static newCollection(obj, owner, itemsClass, propName) {
         if (!propName) {
             propName = "items";
@@ -152,28 +183,38 @@ class Classes {
         });
         obj[propName].convertToCollection(owner, itemsClass);
     }
+    //#endregion newCollection
+    //#region getClassName
     static getClassName(Class) {
         //if (Class.name !== undefined) return Class.name;
         //else return Class.toString().match(/^function\s*([^\s(]+)/)[1];
     }
+    //#endregion getClassName
+    //#region registerPropertyEditor
     static registerPropertyEditor(propertyType, editorPath) {
         if (!Core.classes.propertiesEditors) {
             Core.classes.propertiesEditors = {};
         }
         Core.classes.propertiesEditors[propertyType] = editorPath;
     }
+    //#endregion registerPropertyEditor
+    //#region registerCollectionEditor
     static registerCollectionEditor(collectionItemsClass, editorPath) {
         if (!Core.classes.collectionsEditors) {
             Core.classes.collectionsEditors = {};
         }
         Core.classes.collectionsEditors[this.getClassName(collectionItemsClass)] = editorPath;
     }
+    //#endregion registerCollectionEditor
+    //#region registerComponentEditor
     static registerComponentEditor(componentClass, editorPath) {
         if (!Core.classes.componentsEditors) {
             Core.classes.componentsEditors = {};
         }
         Core.classes.componentsEditors[this.getClassName(componentClass)] = editorPath;
     }
+    //#endregion registerComponentEditor
 }
+//#endregion Classes
 Core.classes = Classes;
 export { Classes };

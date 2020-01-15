@@ -2754,11 +2754,10 @@ Object.defineProperties(Control, {
 //#endregion
 //#region Templates
 const ControlTpl = "<div id='{internalId}' data-name='{name}' data-class='{className}' class='Control {className}' style='width:100px;height:100px;'></div>";
-const ToolTipTpl = "<div class='Control ToolTip {theme}'>{text}</div>";
+//const ToolTipTpl = "<div class='Control ToolTip {theme}'>{text}</div>";
 Core.classes.register(Types.CATEGORIES.INTERNAL, Control);
 Core.classes.registerTemplates([
-    { Class: Control, template: ControlTpl },
-    { Class: "ToolTip", template: ToolTipTpl }
+    { Class: Control, template: ControlTpl }
 ]);
 //#endregion
 export { Control };

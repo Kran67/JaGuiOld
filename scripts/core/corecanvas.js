@@ -34,11 +34,12 @@ const PerfGraph = class PerfGraph {
     getGraphAverage() {
         //#region Variables déclaration
         let avg = 0;
+        const GRAPH_HISTORY_COUNT = this.GRAPH_HISTORY_COUNT;
         //#endregion Variables déclaration
-        for (let i = 0; i < this.GRAPH_HISTORY_COUNT; i++) {
+        for (let i = 0; i < GRAPH_HISTORY_COUNT; i++) {
             avg += this.values[i];
         }
-        return avg / this.GRAPH_HISTORY_COUNT;
+        return avg / GRAPH_HISTORY_COUNT;
     }
     //#endregion getGraphAverage
     //#region renderGraph
@@ -48,10 +49,13 @@ const PerfGraph = class PerfGraph {
         let i = 0;
         const fontName = "serif";
         const ctx = Core.perfCanvas.getContext("2d");
-        //#endregion Variables déclaration
         const avg = this.getGraphAverage();
         const w = ctx.canvas.width;
         const h = ctx.canvas.height;
+        const GRAPH_HISTORY_COUNT = this.GRAPH_HISTORY_COUNT;
+        const GRAPH_RENDER_PERCENT = this.GRAPH_RENDER_PERCENT;
+        const GRAPH_RENDER_FPS = this.GRAPH_RENDER_FPS;
+        //#endregion Variables déclaration
         ctx.save();
         ctx.clear();
         if (this.show) {
@@ -61,35 +65,35 @@ const PerfGraph = class PerfGraph {
             ctx.fill();
             ctx.beginPath();
             ctx.moveTo(x, y + h);
-            if (this.style === this.GRAPH_RENDER_FPS) {
-                for (i = 0; i < this.GRAPH_HISTORY_COUNT; i++) {
-                    let v = 1.0 / (0.00001 + this.values[(this.head + i) % this.GRAPH_HISTORY_COUNT]);
+            if (this.style === GRAPH_RENDER_FPS) {
+                for (i = 0; i < GRAPH_HISTORY_COUNT; i++) {
+                    let v = 1.0 / (0.00001 + this.values[(this.head + i) % GRAPH_HISTORY_COUNT]);
                     let vx = null;
                     let vy = null;
                     if (v > 80.0) {
                         v = 80.0;
                     }
-                    vx = x + (i / (this.GRAPH_HISTORY_COUNT - 1)) * w;
+                    vx = x + (i / (GRAPH_HISTORY_COUNT - 1)) * w;
                     vy = y + h - ((v / 80.0) * h);
                     ctx.lineTo(vx, vy);
                 }
             }
-            else if (this.style === this.GRAPH_RENDER_PERCENT) {
-                for (i = 0; i < this.GRAPH_HISTORY_COUNT; i++) {
-                    let v = this.values[(this.head + i) % this.GRAPH_HISTORY_COUNT] * 1.0;
+            else if (this.style === GRAPH_RENDER_PERCENT) {
+                for (i = 0; i < GRAPH_HISTORY_COUNT; i++) {
+                    let v = this.values[(this.head + i) % GRAPH_HISTORY_COUNT] * 1.0;
                     let vx = null;
                     let vy = null;
                     if (v > 100.0) {
                         v = 100.0;
                     }
-                    vx = x + (i / (this.GRAPH_HISTORY_COUNT - 1)) * w;
+                    vx = x + (i / (GRAPH_HISTORY_COUNT - 1)) * w;
                     vy = y + h - ((v / 100.0) * h);
                     ctx.lineTo(vx, vy);
                 }
             }
             else {
-                for (i = 0; i < this.GRAPH_HISTORY_COUNT; i++) {
-                    let v = this.values[(this.head + i) % this.GRAPH_HISTORY_COUNT] * 1000.0;
+                for (i = 0; i < GRAPH_HISTORY_COUNT; i++) {
+                    let v = this.values[(this.head + i) % GRAPH_HISTORY_COUNT] * 1000.0;
                     let vx = null;
                     let vy = null;
                     if (v > 20.0) {
@@ -110,7 +114,7 @@ const PerfGraph = class PerfGraph {
                 ctx.fillStyle = "rgba(240, 240, 240, 0.75)";
                 ctx.fillText(this.name, x + 3, y + 1);
             }
-            if (this.style === this.GRAPH_RENDER_FPS) {
+            if (this.style === GRAPH_RENDER_FPS) {
                 ctx.font = `18px ${fontName}`;
                 ctx.textAlign = "right";
                 ctx.textBaseline = "top";
@@ -124,7 +128,7 @@ const PerfGraph = class PerfGraph {
                 str = `${(avg * 1000).toFixed(2)} ms`;
                 ctx.fillText(str, x + w - 3, y + h - 1);
             }
-            else if (this.style === this.GRAPH_RENDER_PERCENT) {
+            else if (this.style === GRAPH_RENDER_PERCENT) {
                 ctx.fontSize(18.0);
                 ctx.textAlign = "right";
                 ctx.textBaseline = "top";
@@ -156,7 +160,6 @@ Core.initCanvas = function () {
     const canvasStyle = canvas.style;
     const perfCanvasStyle = perfCanvas.style;
     const fps = new PerfGraph();
-    //let prevt = 0.0;
     //#endregion Variables déclaration
     isCoreReady = this.apps && this.apps.activeApplication;
     if (isCoreReady) {
@@ -169,7 +172,6 @@ Core.initCanvas = function () {
         this.metrics = {};
         document.body.appendChild(canvas);
         document.body.appendChild(perfCanvas);
-        //canvas.tabIndex = 1;
         canvasStyle.position = "absolute";
         canvasStyle.left = 0;
         canvasStyle.right = 0;
@@ -263,7 +265,7 @@ Core.loadFonts = (path, fonts, callback) => {
                     // use font here
                     document.fonts.add(loaded_face);
                     Core.themes.fonts[font.alias] = loaded_face;
-                    if (callback && typeof callback === Types.CONSTANTS.FUNCTION) {
+                    if (callback && Tools.isFunc(callback)) {
                         callback();
                     }
                 }).catch((error) => {
@@ -272,7 +274,7 @@ Core.loadFonts = (path, fonts, callback) => {
             }
         } else {
             Core.themes.fonts[font.alias] = { status: "loaded" };
-            if (callback && typeof callback === Types.CONSTANTS.FUNCTION) {
+            if (callback && Tools.isFunc(callback)) {
                 callback();
             }
         }
@@ -311,7 +313,7 @@ Object.defineProperty(Core, "showFPS", {
         return this.fps.show;
     },
     set: function (newValue) {
-        if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+        if (Tools.isBool(newValue)) {
             this.fps.show = newValue;
         }
     }
@@ -348,7 +350,7 @@ Core.internalMouseEvent = function (mouseEventArg) {
         Core.mouse.getMouseInfos(mouseEventArg);
     }
     if (!activeWin) {
-        if (Core.mouse.button !== Core.mouse.constructor.MOUSEBUTTONS.NONE) {
+        if (Core.mouse.button !== Core.mouse.MOUSEBUTTONS.NONE) {
             activeApp.activeWindow = activeApp.lastActiveWindow.length ? activeApp.lastActiveWindow.last : activeApp.windows.first;
         } else {
             return;

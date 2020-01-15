@@ -18,12 +18,14 @@ const Bounds = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#region Bounds
     class Bounds extends Rect {
         /**
          * Create a new instance of Bounds.
          * @param   {Object}    rect        Properties to initialize the Bounds.
          * @param   {Object}    owner       Owner of the Bounds.
          */
+        //#region constructor
         constructor(rect, owner) {
             if (!(rect instanceof Core.classes.Rect)) {
                 rect = new Core.classes.Rect;
@@ -36,7 +38,8 @@ const Bounds = (() => {
             //#endregion
             this.onChange = new Core.classes.NotifyEvent(owner);
         }
-        //#region Getters
+        //#endregion constructor
+        //#region Getters / Setter
         /**
          * @return {Number} the width of the bounds
          */
@@ -91,9 +94,11 @@ const Bounds = (() => {
         //        this.setValues(this.left, this.top, this.right, newValue);
         //    }
         //}
+        //#region properties
         get properties() {
             return Tools.getPropertiesFromObject(this);
         }
+        //#endregion properties
         //#endregion
         //#region Methods
         /**
@@ -159,6 +164,7 @@ const Bounds = (() => {
         //#endregion
     }
     return Bounds;
+    //#endregion Bounds
 })();
 //#endregion
 Core.classes.register(Types.CATEGORIES.COMMON, Bounds);

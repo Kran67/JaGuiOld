@@ -1,25 +1,33 @@
 ﻿//#region Imports
+import { Tools } from "/scripts/core/tools.js";
 //#endregion
+//#region Events
 class Events {
     //#region Methods
+    //#region bind
     static bind(object, eventName, callBack) {
-        const CONSTANTS = Types.CONSTANTS;
-        if (typeof callBack === CONSTANTS.FUNCTION && object && typeof eventName === CONSTANTS.STRING) {
+        if (Tools.isFunc(callBack) && object && Tools.isString(eventName)) {
             object.addEventListener(eventName, callBack, true);
         }
     }
+    //#endregion bind
+    //#region unBind
     static unBind(object, eventName, callBack) {
-        const CONSTANTS = Types.CONSTANTS;
-        if (typeof callBack === CONSTANTS.FUNCTION && object && typeof eventName === CONSTANTS.STRING) {
+        if (Tools.isFunc(callBack) && object && Tools.isString(eventName)) {
             object.removeEventListener(eventName, callBack, true);
         }
     }
+    //#endregion unBind
+    //#region stop
     static stop(eventArg) {
         eventArg.cancelBubble = true;
         eventArg.stopPropagation();
         eventArg.preventDefault();
     }
+    //#endregion stop
+    //#region whichTransitionEvent
     static whichTransitionEvent() {
+        //#region Variables déclaration
         const el = document.createElement('fakeelement'), transitions = {
             transition: 'transitionend',
             OTransition: 'oTransitionEnd',
@@ -27,13 +35,17 @@ class Events {
             WebkitTransition: 'webkitTransitionEnd'
         };
         const props = Object.keys(transitions);
+        //#endregion Variables déclaration
         for (let i = 0; i < props.length; i++) {
             if (el.style[props[i]] !== undefined) {
                 return transitions[props[i]];
             }
         }
     }
+    //#endregion whichTransitionEvent
+    //#region whichAnimationEvent
     static whichAnimationEvent() {
+        //#region Variables déclaration
         const el = document.createElement('fakeelement'), transitions = {
             animation: 'animationend',
             OAnimation: 'oAnimationEnd',
@@ -41,14 +53,17 @@ class Events {
             WebkitAnimation: 'webkitAnimationEnd'
         };
         const props = Object.keys(transitions);
+        //#endregion Variables déclaration
         for (let i = 0; i < props.length; i++) {
             if (el.style[props[i]] !== undefined) {
                 return transitions[props[i]];
             }
         }
     }
+    //#endregion whichAnimationEvent
     //#endregion Methods
 }
+//#endregion Events
 /**
  * Class representing a NotifyEvent.
  */
@@ -58,10 +73,12 @@ class NotifyEvent {
      * Create a new instance of NotifyEvent.
      * @param       {Component}     sender      The component can invoke the event
      */
+    //#region constructor
     constructor(sender) {
-        //let _stopPropagation = false;
+        //#region Variables déclaration
         const _listeners = [];
         const _sender = sender;
+        //#endregion Variables déclaration
         Object.defineProperties(this, {
             //"stopPropagation": {
             //    get: () => {
@@ -87,31 +104,38 @@ class NotifyEvent {
             }
         });
     }
+    //#region constructor
+    //#region Getter / Setter
     /**
-        * Check if the notifyEvent has listeners
-        */
+     * Check if the notifyEvent has listeners
+     */
+    //#region hasListener
     get hasListener() {
         return this.listeners.length > 0;
     }
+    //#region hasListener
+    //#region Getter / Setter
     //#region Methods
     /**
      * Add a listener to the event
      * @param       {Function}      f       The fonction to execute when component invoke the event
      * @param       {Number}        d       The delay before executing the function
      */
+    //#region addListener
     addListener(f, d) {
-        const CONSTANTS = Types.CONSTANTS;
-        if (typeof f === CONSTANTS.FUNCTION) {
+        if (Tools.isFunc(f)) {
             d = d | 0;
             this.listeners.push({ func: f, delay: d });
         }
     }
+    //#endregion addListener
     /**
      * Remove a listener to the event
      * @param       {Function}      f       The fonction to execute when component invoke the event
      */
+    //#region removeListener
     removeListener(f) {
-        if (typeof f === Types.CONSTANTS.FUNCTION) {
+        if (Tools.isFunc(f)) {
             const index = this.listeners.findIndex(elem => {
                 return elem.func === f;
             });
@@ -121,22 +145,26 @@ class NotifyEvent {
             }
         }
     }
+    //#endregion removeListener
     /**
      * Copy all listeners to another NotifyEvent
      * @param       {Array}      notifyEvent        The notifyEvent to add listeners
      */
+    //#region copyListenerTo
     copyListenerTo(notifyEvent) {
         if (notifyEvent && notifyEvent instanceof Core.classes.NotifyEvent) {
             this.listeners.forEach(listener => {
-                if (typeof this.listeners[i].func === Types.CONSTANTS.FUNCTION) {
+                if (Tools.isFunc(this.listeners[i].func)) {
                     notifyEvent.addListener(listener.func, listener.delay);
                 }
             });
         }
     }
+    //#endregion copyListenerTo
     /**
      * Execute all listeners
      */
+    //#region invoke
     invoke() {
         if (this.hasListener/* && this.stopPropagation*/) {
             this.listeners.forEach(listener => {
@@ -152,9 +180,11 @@ class NotifyEvent {
             });
         }
     }
+    //#endregion invoke
     /**
      * Clear the listeners
      */
+    //#region clearListeners
     clearListeners() {
         //for (let i = 0, l = this.listeners.length; i < l; i++) {
         //    if (this.listeners[i] && this.listeners[i].func) {
@@ -163,12 +193,15 @@ class NotifyEvent {
         //}
         this.listeners.length = 0;
     }
+    //#endregion clearListeners
     /**
      * Destroy all properties of the instance
      */
+    //#region destroy
     destroy() {
         this.listeners.destroy();
     }
+    //#endregion destroy
     //#endregion
 }
 //#endregion
@@ -181,15 +214,19 @@ class TimerEvent {
      * Create a new instance of TimerEvent.
      * @param       {Component}     sender      The component can invoke the event
      */
+    //#region constructor
     constructor() {
         Core.looper.addListener(this, "_onTimerEvent");
     }
+    //#region constructor
     //#region Methods
     /**
      * Function to execute when the timer tick
      * @override
      */
+    //#region _onTimerEvent
     _onTimerEvent() { }
+    //#endregion _onTimerEvent
     //#endregion
 }
 //#endregion

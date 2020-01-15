@@ -47,7 +47,7 @@ const CaptionControl = (() => {
                 priv.horizAlign = props.hasOwnProperty("horizAlign") ? props.horizAlign : captionControlTheme.hasOwnProperty("horizAlign") ? captionControlTheme.horizAlign : props.hasOwnProperty("horizAlign") ? props.horizAlign : Types.TEXTALIGNS.LEFT;
                 priv.color = Color.parse(captionControlTheme.hasOwnProperty("color") ? captionControlTheme.color : theme.DEFAULTTEXTCOLOR ? theme.DEFAULTTEXTCOLOR : props.hasOwnProperty("color") ? Color.parse(props.color) : null);
                 if (props.hasOwnProperty("color")) {
-                    if (typeof props.color === CONSTANTS.STRING) {
+                    if (Tools.isString(props.color)) {
                         priv.color = Color.parse(props.color);
                     }
                 }
@@ -62,7 +62,7 @@ const CaptionControl = (() => {
                 priv.vertAlign = props.hasOwnProperty("vertAlign") ? props.vertAlign : captionControlTheme.hasOwnProperty("vertAlign") ? captionControlTheme.vertAlign : props.hasOwnProperty("vertAlign") ? props.vertAlign : VERTTEXTALIGNS.TOP;
                 priv.backColor = Color.parse(captionControlTheme.hasOwnProperty("backColor") ? captionControlTheme.backColor : props.hasOwnProperty("backColor") ? Color.parse(props.backColor) : Colors.TRANSPARENT.toRGBAString());
                 if (props.hasOwnProperty("backColor")) {
-                    if (typeof props.backColor === CONSTANTS.STRING) {
+                    if (Tools.isString(props.backColor)) {
                         priv.backColor = Color.parse(props.backColor);
                     } else if (props.backColor instanceof Color) {
                         priv.backColor = props.backColor;
@@ -85,7 +85,7 @@ const CaptionControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            if (Tools.isString(newValue)) {
                 if (priv.caption !== newValue) {
                     priv.caption = Text.replace(newValue, Types.CONSTANTS.HOTKEYPREFIX, String.EMPTY);
                     //if ((this.loading||this.form.loading)&&!Tools.Debugger.useFragment) return;
@@ -103,7 +103,7 @@ const CaptionControl = (() => {
             const priv = internal(this);
             const form = this.form;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (priv.wordWrap !== newValue) {
                     priv.wordWrap = newValue;
                     if (this.loading || form.loading) {
@@ -168,9 +168,8 @@ const CaptionControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const form = this.form;
-            const CONSTANTS = Types.CONSTANTS;
             //#endregion Variables déclaration
-            if (typeof newValue === CONSTANTS.STRING) {
+            if (Tools.isString(newValue)) {
                 newValue = Color.parse(newValue);
             }
             if (newValue instanceof Color) {
@@ -194,9 +193,8 @@ const CaptionControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const form = this.form;
-            const CONSTANTS = Types.CONSTANTS;
             //#endregion Variables déclaration
-            if (typeof newValue === CONSTANTS.STRING) {
+            if (Tools.isString(newValue)) {
                 if (priv.fontFamily !== newValue) {
                     priv.fontFamily = newValue;
                     if (this.loading || form.loading) {
@@ -217,9 +215,8 @@ const CaptionControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const form = this.form;
-            const CONSTANTS = Types.CONSTANTS;
             //#endregion Variables déclaration
-            if (typeof newValue === CONSTANTS.NUMBER) {
+            if (Tools.isNumber(newValue)) {
                 if (priv.fontSize !== newValue) {
                     priv.fontSize = newValue;
                     if (this.loading || form.loading) {
@@ -264,7 +261,7 @@ const CaptionControl = (() => {
             const priv = internal(this);
             const form = this.form;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (priv.fontBold !== newValue) {
                     priv.fontBold = newValue;
                     if (this.loading || form.loading) {
@@ -358,9 +355,8 @@ const CaptionControl = (() => {
         set autoSize(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
-            const CONSTANTS = Types.CONSTANTS;
             //#endregion Variables déclaration
-            if (typeof newValue === CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (newValue !== priv.autoSize) {
                     priv.autoSize = newValue;
                     if (!this.loading && !this.form.loading) {
@@ -401,9 +397,8 @@ const CaptionControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const form = this.form;
-            const CONSTANTS = Types.CONSTANTS;
             //#endregion Variables déclaration
-            if (typeof newValue !== CONSTANTS.STRING) {
+            if (Tools.isString(newValue)) {
                 newValue = Color.parse(newValue);
             }
             if (newValue instanceof Color) {
@@ -448,19 +443,21 @@ const CaptionControl = (() => {
             const TEXTALIGNS = Types.TEXTALIGNS;
             const VERTTEXTALIGNS = Types.VERTTEXTALIGNS;
             const isHtmlRenderer = Core.isHTMLRenderer;
+            const CSSVALUES = Types.CSSVALUES;
+            const DISPLAYS = Types.DISPLAYS;
             //#endregion Variables déclaration
             if (priv.autoSize) {
                 if (isHtmlRenderer) {
                     htmlElementStyle.width = String.EMPTY;
                     htmlElementStyle.height = String.EMPTY;
-                    htmlElementStyle.display = Types.DISPLAYS.INLINE;
+                    htmlElementStyle.display = DISPLAYS.INLINE;
                 }
             } else {
                 this.beginUpdate();
                 if (isHtmlRenderer) {
                     htmlElementStyle.width = this.width;
                     htmlElementStyle.height = this.height;
-                    htmlElementStyle.display = Types.DISPLAYS.FLEX;
+                    htmlElementStyle.display = DISPLAYS.FLEX;
                     // change font properties
 
                 } else {
@@ -470,9 +467,9 @@ const CaptionControl = (() => {
                 this.endUpdate();
             }
             if (this.clipped) {
-                htmlElementStyle.overflow = Types.CSSVALUES.HIDDEN;
+                htmlElementStyle.overflow = CSSVALUES.HIDDEN;
             } else {
-                htmlElementStyle.overflow = Types.CSSVALUES.VISIBLE;
+                htmlElementStyle.overflow = CSSVALUES.VISIBLE;
             }
             if (color) {
                 this.HTMLElementStyle.color = color;
@@ -522,7 +519,7 @@ const CaptionControl = (() => {
             }
             htmlElementStyle.textTransform = priv.textTransform;
             if (priv.horizAlign !== TEXTALIGNS.LEFT || priv.vertAlign !== VERTTEXTALIGNS.TOP) {
-                htmlElementStyle.display = Types.DISPLAYS.FLEX;
+                htmlElementStyle.display = DISPLAYS.FLEX;
                 switch (priv.horizAlign) {
                     case TEXTALIGNS.LEFT:
                         htmlElementStyle.justifyContent = "flex-start";
