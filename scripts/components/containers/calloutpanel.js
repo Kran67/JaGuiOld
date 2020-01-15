@@ -164,6 +164,9 @@ const CalloutPanel = (() => {
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
                 //CSS.removeClassFromSet(priv.arrow, Types.CALLOUTPOSITIONS, "calloutposition");
+                Object.entries(Types.CALLOUTPOSITIONS).forEach(entry => {
+                    priv.arrow.classList.remove(`calloutposition-${Types.CALLOUTPOSITIONS[entry.first]}`);
+                });
                 switch (priv.calloutPosition) {
                     case calloutPositions.TOP:
                         pos = ~~((htmlElement.offsetWidth - priv.calloutWidth) / 2) - priv.calloutOffset;

@@ -6,12 +6,14 @@
 
 .carbon.CalloutPanelArrow.calloutposition-top {
     border: 1px solid transparent;
-    border-bottom-color: #303030;
+    border-bottom-color: #404040;
+    filter: drop-shadow(0 0 0 #191919)drop-shadow(0 0 0 #191919);
 }
 
 .carbon.CalloutPanelArrow.calloutposition-right {
     border: 1px solid transparent;
-    border-left-color: #303030;
+    border-left-color: #404040;
+    filter: drop-shadow(0 0 0 #191919)drop-shadow(0 0 0 #191919);
 }
 
 .carbon.CalloutPanelArrow.calloutposition-bottom {
@@ -21,5 +23,6 @@
 
 .carbon.CalloutPanelArrow.calloutposition-left {
     border: 1px solid transparent;
-    border-right-color: #303030;
+    border-right-color: #404040;
+    filter: drop-shadow(0 0 0 #191919)drop-shadow(0 0 0 #191919);
 }
