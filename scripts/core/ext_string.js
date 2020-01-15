@@ -6,35 +6,37 @@
 /**********************************************************************************/
 Object.defineProperties(String, {
     "EMPTY": {
-        get: function() {
+        get: function () {
             return "";
         }
     },
     "SPACE": {
-        get: function() {
+        get: function () {
             return " ";
         }
     },
     "isEmpty": {
-        get: function() {
+        get: function () {
             return this.trim().length < 1;
         }
     },
     "uuid": {
-        get: function() {
+        get: function () {
             const _p8 = (s) => {
                 const p = (`${Math.random().toString(16)}000000000`).substr(2, 8);
                 return s ? `-${p.substr(0, 4)}-${p.substr(4, 4)}` : p;
-            }
+            };
             return _p8() + _p8(true) + _p8(true) + _p8();
         }
     }
 });
 Object.defineProperties(String.prototype, {
     "reverse": {
-        get: function() {
+        get: function () {
+            //#region Variables déclaration
             let temp = String.EMPTY;
             let z = this.length - 1;
+            //#endregion Variables déclaration
             while (z >= 0) {
                 temp += this.charAt(z);
                 z--;
@@ -45,28 +47,28 @@ Object.defineProperties(String.prototype, {
     // Méthode capitalise ->
     // Retourne la nouvelle chaine
     "capitaliseWords": {
-        get: function() {
+        get: function () {
             return this.replace(/\w+/g, function (a) {
                 return [a.charAt(0).toUpperCase(), a.substr(1).toLowerCase()].join(String.EMPTY);
             });
         }
     },
     "firstCharUpper": {
-        get: function() {
+        get: function () {
             return [this.charAt(0).toUpperCase(), this.substr(1).toLowerCase()].join(String.EMPTY);
         }
     },
     // Méthode isNumeric ->
     // Retourne vrai ou faux
     "isNumeric": {
-        get: function() {
+        get: function () {
             return +this === this;
         }
     },
     // Méthode isBoolean ->
     // Retourne vrai ou faux
     "isBoolean": {
-        get: function() {
+        get: function () {
             return this && ("true" === this.trim() || "false" === this.trim());
         }
     }
@@ -90,7 +92,7 @@ Object.defineProperties(String.prototype, {
 // Retourne la nouvelle chaine
 // ~~~ à compléter : si la chaîne où insérer est vide,mettre des espaces à gauche
 if (!String.prototype.insert) {
-    String.prototype.insert = function(s, p) {
+    String.prototype.insert = function (s, p) {
         const thisOk = this.length > 0,
             strok = s.length > 0;
         if (!strok) {
@@ -120,8 +122,10 @@ if (!String.prototype.insert) {
 // Paramètre len : nombre de caractères
 // Retourne la nouvelle chaine
 if (!String.prototype.remove) {
-    String.prototype.remove = function(p, l) {
+    String.prototype.remove = function (p, l) {
+        //#region Variables déclaration
         let s = this.substr(0, p);
+        //#endregion Variables déclaration
         s += this.substr(p + l);
         return s;
     };
@@ -131,16 +135,18 @@ if (!String.prototype.remove) {
 // Paramètre len : nombre de caractères
 // Retourne la nouvelle chaine
 if (!String.prototype.removeTxt) {
-    String.prototype.removeTxt = function(t) { return this.replace(t, String.EMPTY); };
+    String.prototype.removeTxt = function (t) { return this.replace(t, String.EMPTY); };
 }
 // Méthode compareTo ->
 // Retourne la nouvelle chaine
 if (!String.prototype.compareTo) {
-    String.prototype.compareTo = function(s) {
+    String.prototype.compareTo = function (s) {
+        //#region Variables déclaration
         const a = this.toString();
         const b = s.toString();
         let i = 0;
         const n = Math.max(a.length, b.length);
+        //#endregion Variables déclaration
         for (; i < n && a.charAt(i) === b.charAt(i); ++i);
         if (i === n) {
             return 0;
@@ -152,7 +158,7 @@ if (!String.prototype.compareTo) {
 // Paramètre _char : caractère à dupliquer
 // Paramètre len : nombre de caractères
 // Retourne la nouvelle chaine
-String.dupeString = function(c, l) {
+String.dupeString = function (c, l) {
     if (l <= 0 || !c) {
         return String.EMPTY;
     }
@@ -160,7 +166,7 @@ String.dupeString = function(c, l) {
 };
 if (!String.prototype.mul) {
     // Repeat a string <l> times ("asdf".mul(4) == "asdfasdfasdfasdf")
-    String.prototype.mul = function(l) {
+    String.prototype.mul = function (l) {
         if (l <= 0) {
             return String.EMPTY;
         }
@@ -255,7 +261,7 @@ if (!String.prototype.format) {
      *  @param * Each parameter is treated as a formating value.
      *  @return The formated String.
      */
-    String.prototype.format = function() {
+    String.prototype.format = function () {
         const sf = this.match(/(%(\(\w+\)){0,1}[ 0-]{0,1}(\+){0,1}(\d+){0,1}(\.\d+){0,1}[dibouxXeEfFgGcrs%])|([^%]+)/g);
         if (sf) {
             if (sf.join(String.EMPTY) !== this.toString()) {
@@ -287,7 +293,7 @@ if (!String.prototype.format) {
             } else if (s.slice(0, 1) === "%") {
                 const frmt = new Tools.formatSpecifier(s);//get the formating object
                 if (frmt.key) {//an object was given as formating value
-                    if (typeof arguments[0] === "object" && arguments.length === 1) {
+                    if (Tools.isObject(arguments[0]) && arguments.length === 1) {
                         obj = arguments[0][frmt.key];
                     } else {
                         throw "Object or associative array expected as formating value.";
@@ -312,10 +318,10 @@ if (!String.prototype.format) {
                     if (frmt.paddingFlag === "0") {
                         frmt.paddingFlag = String.SPACE;//padding only spaces
                     }
-                    if (typeof obj === "number") {//get the character code
+                    if (Tools.isNumber(obj)) {//get the character code
                         s = String.fromCharCode(obj);
                         s = Tools.pad(s, frmt.paddingFlag, frmt.minLength);
-                    } else if (typeof obj === "string") {
+                    } else if (Tools.isString(obj)) {
                         if (obj.length === 1) {//make sure it's a single character
                             s = obj;
                             s = Tools.pad(s, frmt.paddingFlag, frmt.minLength);
@@ -325,7 +331,7 @@ if (!String.prototype.format) {
                     } else {
                         throw "Character or Byte required.";
                     }
-                } else if (typeof obj === "number") {
+                } else if (Tools.isNumber(obj)) {
                     //get sign of the number
                     if (obj < 0) {
                         obj = -obj;
@@ -391,10 +397,10 @@ if (!String.prototype.format) {
         return rslt;
     };
 }
-String.uniqueId = function(size) {
+String.uniqueId = function (size) {
     size > 2 && size < 8 || (size = 7);
     return `_${Math.random().toString(36).split(".")[1].substring(0, size)}`;
 };
-String.isNullOrEmpty = function(str) {
+String.isNullOrEmpty = function (str) {
     return str === String.EMPTY || str == undefined;
 };

@@ -1,4 +1,7 @@
-﻿/***********************/
+﻿//#region imports
+import { Tools } from "/scripts/core/tools.js";
+//#endregion imports
+/***********************/
 /*                     */
 /* date.js extend Date */
 /*                     */
@@ -54,8 +57,10 @@ Object.defineProperty(Date.prototype, "shortMonthName", {
      * @returns     {String}        the short month name of the date
      */
     get: function () {
+        //#region Variables déclaration
         let cMonth = String.EMPTY;
         const nMonth = this.getMonth();
+        //#endregion Variables déclaration
         cMonth = Date.monthNames[nMonth];
         if (nMonth === 5 || nMonth === 6) {
             cMonth.remove(2, 1);
@@ -115,87 +120,101 @@ if (!Date.prototype.addDays) {
      * @returns     {Date}          the new date
      */
     Date.prototype.addDays = function (d) {
-        d = d || 0;
-        const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
-        a.setDate(this.getDate() + d);
-        return a;
+        if (Tools.isNumber(y)) {
+            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
+            a.setDate(this.getDate() + d);
+            return a;
+        }
+        return this;
     };
 }
 if (!Date.prototype.addMonths) {
     /**
      * Add months on the current date
-     * @param       {Number}        d       the number of months to add
+     * @param       {Number}        m       the number of months to add
      * @returns     {Date}          the new date
      */
     Date.prototype.addMonths = function (m) {
-        m = m || 0;
-        const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
-        if (a.getMonth() + m > 11) {
-            a.setMonth(0);
-            a.setFullYear(a.getFullYear() + 1);
-        } else {
-            a.setMonth(a.getMonth() + m);
+        if (Tools.isNumber(y)) {
+            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
+            if (a.getMonth() + m > 11) {
+                a.setMonth(0);
+                a.setFullYear(a.getFullYear() + 1);
+            } else {
+                a.setMonth(a.getMonth() + m);
+            }
+            return a;
         }
-        return a;
+        return this;
     };
 }
 if (!Date.prototype.addYears) {
     /**
      * Add years on the current date
-     * @param       {Number}        d       the number of years to add
+     * @param       {Number}        y       the number of years to add
      * @returns     {Date}          the new date
      */
     Date.prototype.addYears = function (y) {
-        y = y || 0;
-        const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
-        a.setFullYear(a.getFullYear() + y);
-        return a;
+        if (Tools.isNumber(y)) {
+            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
+            a.setFullYear(a.getFullYear() + y);
+            return a;
+        }
+        return this;
     };
 }
 if (!Date.prototype.addHours) {
     /**
      * Add hours on the current date
-     * @param       {Number}        d       the number of hours to add
+     * @param       {Number}        a       the number of hours to add
      * @returns     {Date}          the new date
      */
     Date.prototype.addHours = function (a) {
-        a = a || 0;
-        return this.addMilliseconds(a * 3600000);
+        if (Tools.isNumber(a)) {
+            return this.addMilliseconds(a * 3600000);
+        }
+        return this;
     };
 }
 if (!Date.prototype.addMinutes) {
     /**
      * Add minutes on the current date
-     * @param       {Number}        d       the number of minutes to add
+     * @param       {Number}        a       the number of minutes to add
      * @returns     {Date}          the new date
      */
     Date.prototype.addMinutes = function (a) {
-        a = a || 0;
-        return this.addMilliseconds(a * 60000);
+        if (Tools.isNumber(a)) {
+            return this.addMilliseconds(a * 60000);
+        }
+        return this;
     };
 }
 if (!Date.prototype.addSeconds) {
     /**
      * Add seconds on the current date
-     * @param       {Number}        d       the number of seconds to add
+     * @param       {Number}        a       the number of seconds to add
      * @returns     {Date}          the new date
      */
     Date.prototype.addSeconds = function (a) {
-        a = a || 0;
-        return this.addMilliseconds(a * 1000);
+        if (Tools.isNumber(a)) {
+            return this.addMilliseconds(a * 1000);
+        }
+        return this;
     };
 }
 if (!Date.prototype.addMilliseconds) {
     /**
      * Add millieconds on the current date
-     * @param       {Number}        d       the number of millieconds to add
+     * @param       {Number}        m       the number of millieconds to add
      * @returns     {Date}          the new date
      */
     Date.prototype.addMilliseconds = function (m) {
-        m = m || 0;
-        const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
-        a.setMilliseconds(a.getMilliseconds() + m);
-        return a;
+        if (Tools.isNumber(a)) {
+            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
+            a.setMilliseconds(a.getMilliseconds() + m);
+            return a;
+        }
+        return this;
     };
 }
 if (!Date.prototype.compareTo) {
@@ -236,7 +255,9 @@ Object.defineProperty(Date.prototype, "isLeapYear", {
      * @returns     {Boolean}       true if the current date is a leap year otherwise false
      */
     get: function () {
+        //#region Variables déclaration
         const y = this.getFullYear();
+        //#endregion Variables déclaration
         return Math.mod(y, 4) === 0 && Math.mod(y, 100) !== 0 || Math.mod(y, 400) === 0;
     }
 });
@@ -246,8 +267,9 @@ Object.defineProperty(Date.prototype, "isLeapYear", {
  * @returns     {Boolean}       true if date is within a LeapYear, otherwise false.
 */
 Date.isLeapYear = function (a) {
-    a = a || 0;
-    return Math.mod(a, 4) === 0 && Math.mod(a, 100) !== 0 || Math.mod(a, 400) === 0;
+    if (Tools.isNumber(y)) {
+        return Math.mod(a, 4) === 0 && Math.mod(a, 100) !== 0 || Math.mod(a, 400) === 0;
+    }
 };
 /**
  * Get the number of days in the month, given a year and month value. Automatically corrects for LeapYear.
@@ -256,9 +278,10 @@ Date.isLeapYear = function (a) {
  * @returns     {Number}        The number of days in the month.
  */
 Date.getDaysInMonth = function (y, m) {
-    y = y || 0;
-    m = m || 0;
-    return [31, Date.isLeapYear(y) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m];
+    if (Tools.isNumber(y) && Tools.isNumber(m)) {
+        return [31, Date.isLeapYear(y) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m];
+    }
+    return 0;
 };
 Object.defineProperty(Date.prototype, "daysInMonth", {
     /**
@@ -301,8 +324,10 @@ if (!Date.prototype.addWeeks) {
      * @returns     {Date}          the new date
      */
     Date.prototype.addWeeks = function (a) {
-        a = a || 0;
-        return this.addMilliseconds(a * 604800000);
+        if (Tools.isNumber(a)) {
+            return this.addMilliseconds(a * 604800000);
+        }
+        return this;
     };
 }
 if (!Date.prototype.JJMMAAAA) {
@@ -312,7 +337,9 @@ if (!Date.prototype.JJMMAAAA) {
      * @returns     {String}        the string date
      */
     Date.prototype.JJMMAAAA = function (a) {
-        a = a || "/";
+        if (!Tools.isString(a)) {
+            a = "/";
+        }
         return String(this.day).padLeft(2, '0') + a + String(this.month).padLeft(2, '0') + a + this.year;
     };
 }
@@ -323,7 +350,9 @@ if (!Date.prototype.HHMMSS) {
      * @returns     {String}        the string date
      */
     Date.prototype.HHMMSS = function (a) {
-        a = a || ":";
+        if (!Tools.isString(a)) {
+            a = ":";
+        }
         return String(this.hours).padLeft(2, '0') + a + String(this.minutes).padLeft(2, '0') + a + String(this.seconds).padLeft(2, '0');
     };
 }
@@ -361,9 +390,11 @@ Object.defineProperty(Date.prototype, "firstDayOfWeek", {
      * @returns     {Date}      the new date
      */
     get: function () {
+        //#region Variables déclaration
         const w = this.week;
         let d = this.clone();
         let w1 = d.week;
+        //#endregion Variables déclaration
         while (w === w1) {
             d = d.addDays(-1);
             w1 = d.week;
@@ -414,10 +445,12 @@ Object.defineProperty(Date.prototype, "firstDayOfWeek", {
  */
 Date.prototype.toString = function (format) {
     format = format || String.EMPTY;
+    //#region Variables déclaration
     const p = (s) => {
         return s.toString().length === 1 ? "0" + s : s;
-    }
+    };
     const self = this;
+    //#endregion Variables déclaration
     return format ? format.replace(/dd?d?d?|MM?M?M?|yy?y?y?|hh?|HH?|mm?|ss?|tt?|zz?z?/g,
         (f) => {
             if (f === "hh") {
@@ -473,7 +506,9 @@ Object.defineProperty(Date.prototype, "yearDay", {
      * @returns     {Number}        the day of the year
      */
     get: function () {
+        //#region Variables déclaration
         const month = this.getMonth(), day = this.getDate(), offset = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+        //#endregion Variables déclaration
         //l'année bissextile n'est utile qu'à partir de mars
         return day + offset[month] + this.isLeapYear | 0;
     }
@@ -484,7 +519,9 @@ Object.defineProperty(Date.prototype, "yearDay2", {
      * @returns     {Number}        the day of the year
      */
     get: function () {
+        //#region Variables déclaration
         const here = new Date(this.getTime());
+        //#endregion Variables déclaration
         here.setMonth(0, 1);
         return Math.round((this - here) / (60 * 60 * 24 * 1000));
     }
@@ -496,7 +533,9 @@ Object.defineProperty(Date.prototype, "week", {
      * @returns     {Number}        the week number
      */
     get: function () {
+        //#region Variables déclaration
         const tempDate = new Date(this);
+        //#endregion Variables déclaration
         tempDate.setDate(tempDate.getDate() - (tempDate.getDay() + 6) % 7 + 3);
         const dms = tempDate.valueOf();
         tempDate.setMonth(0);
@@ -562,7 +601,7 @@ Date.isDate = function (a) {
  * @returns     {Boolean}       true if the string is a french date otherwise false
  */
 Date.dateExists = function (a) {
-    if (a != undefined && typeof a === Types.CONSTANTS.STRING) {
+    if (a != undefined && Tools.isString(a)) {
         const d = a.split("/"), c = d[0] + d[1] + d[2];
         if (a.length !== 10 || a.charAt(2) !== "/" || a.charAt(5) !== "/") {
             return false;

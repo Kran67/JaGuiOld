@@ -1,4 +1,7 @@
-﻿/***********************/
+﻿//#region Imports
+import { Tools } from "/scripts/core/tools.js";
+//#endregion Imports
+/***********************/
 /*                     */
 /* date.js extend Date */
 /*                     */
@@ -11,9 +14,12 @@ if (!Math.intCeiling) {
      * @returns     {Number}        the int result
      */
     Math.intCeiling = function (value, precision) {
-        value = value || 0;
-        precision = precision || 1;
-        return Math.ceil(value / precision) * precision;
+        if (Tools.isNumber(value)) {
+            precision = precision || 1;
+            return Math.ceil(value / precision) * precision;
+        } else {
+            return value;
+        }
     };
 }
 if (!Math.intFloor) {
@@ -24,9 +30,12 @@ if (!Math.intFloor) {
      * @returns     {Number}        the int result
      */
     Math.intFloor = function (value, precision) {
-        value = value || 0;
-        precision = precision || 1;
-        return Math.floor(value / precision) * precision;
+        if (Tools.isNumber(value)) {
+            precision = precision || 1;
+            return Math.floor(value / precision) * precision;
+        } else {
+            return value;
+        }
     };
 }
 if (!Math.intRound) {
@@ -37,9 +46,12 @@ if (!Math.intRound) {
      * @returns     {Number}        the int result
      */
     Math.intRound = function (value, precision) {
-        value = value || 0;
-        precision = precision || 1;
-        return Math.round(value / precision) * precision;
+        if (Tools.isNumber(value)) {
+            precision = precision || 1;
+            return Math.round(value / precision) * precision;
+        } else {
+            return value;
+        }
     };
 }
 if (!Math.sqr) {
@@ -49,10 +61,10 @@ if (!Math.sqr) {
      * @returns     {Number}        the result in absolute value
      */
     Math.sqr = function (value) {
-        if (typeof value !== "number") {
-            return value;
+        if (Tools.isNumber(value)) {
+            return Math.abs2(value) * Math.abs(value);
         }
-        return Math.abs2(value) * Math.abs(value);
+        return value;
     };
 }
 if (!Math.frac) {
@@ -62,40 +74,41 @@ if (!Math.frac) {
      * @returns     {Number}        the fractional part
      */
     Math.frac = function (value) {
-        if (typeof value !== "number") {
-            return value;
+        if (Tools.isNumber(value)) {
+            return +value - ~~value;
         }
-        return +value - ~~value;
+        return value;
     };
 }
 if (!Math.RSqrt) {
     /**
      * Return the inverse of the sqrt
-     * @param       {Number}        value
+     * @param       {Number}        value value to evaluate
+     * @return {Number} the inverse of the sqrt
      */
     Math.RSqrt = function (value) {
-        if (typeof value !== "number") {
-            return value;
+        if (Tools.isNumber(value)) {
+            const r = Math.abs2(value);
+            if (r > 0) {
+                return 1 / Math.sqrt(r);
+            } else {
+                return 1;
+            }
         }
-        const r = Math.abs2(value);
-        if (r > 0) {
-            return 1 / Math.sqrt(r);
-        } else {
-            return 1;
-        }
+        return value;
     };
 }
 if (!Math.mod) {
     Math.mod = function (value, value1) {
-        if (typeof value !== "number" || typeof value1 !== "number") {
-            return 0;
+        if (Tools.isNumber(value) || Tools.isNumber(value1)) {
+            return value & value1 - 1;
         }
-        return value & value1 - 1;
+        return 0;
     };
 }
 if (!Math.maxFloat) {
     Math.maxFloat = function (value, value1) {
-        if (typeof value === "number" && typeof value1 === "number") {
+        if (Tools.isNumber(value) && Tools.isNumber(value1)) {
             if (value > value1) {
                 return value;
             } else {
@@ -107,7 +120,7 @@ if (!Math.maxFloat) {
 }
 if (!Math.sinCos) {
     Math.sinCos = function (value) {
-        if (typeof value === "number") {
+        if (Tools.isNumber(value)) {
             const s = Math.sin(value), c = Math.cos(value);
             return { sin: s, cos: c };
         }

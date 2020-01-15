@@ -1,9 +1,12 @@
-﻿import { BaseClass } from "/scripts/core/baseclass.js";
+﻿//#region Imports
+import { BaseClass } from "/scripts/core/baseclass.js";
 import { Color } from "/scripts/core/color.js";
 import * as Canvas from "/scripts/core/canvas.js";
+//#endregion Imports
 //#region Font
 // TODO : support of databinding
 const Font = (() => {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
@@ -13,8 +16,11 @@ const Font = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#endregion Private
+    //#region Font
     class Font extends BaseClass {
         //#region statics
+        //#region getTextHeight
         static getTextHeight(text, font) {
             if (typeof text !== Types.CONSTANTS.STRING) {
                 return 0;
@@ -34,9 +40,12 @@ const Font = (() => {
             document.documentElement.removeChild(d);
             return h;
         }
+        //#endregion getTextHeight
+        //#region getCharWidth
         static getCharWidth(font, char) {
             return Font.fontsInfos[font.family].sizes[font.size].chars[char.charCodeAt(0)];
         }
+        //#region getCharWidth
         //#endregion
         //#region constructor
         constructor(owner) {
@@ -57,6 +66,8 @@ const Font = (() => {
                 this.stringify();
             }
         }
+        //#endregion
+        //#region underline
         get underline() {
             return internal(this).underline;
         }
@@ -72,6 +83,8 @@ const Font = (() => {
                 }
             }
         }
+        //#endregion underline
+        //#region strikeout
         get strikeout() {
             return internal(this).strikeout;
         }
@@ -87,6 +100,8 @@ const Font = (() => {
                 }
             }
         }
+        //#endregion strikeout
+        //#region size
         get size() {
             return internal(this).size;
         }
@@ -102,6 +117,8 @@ const Font = (() => {
                 }
             }
         }
+        //#endregion size
+        //#region sizeUnit
         get sizeUnit() {
             return internal(this).sizeUnit;
         }
@@ -114,6 +131,8 @@ const Font = (() => {
                 }
             }
         }
+        //#endregion sizeUnit
+        //#region family
         get family() {
             return internal(this).family;
         }
@@ -129,6 +148,8 @@ const Font = (() => {
                 }
             }
         }
+        //#endregion family
+        //#region style
         get style() {
             return internal(this).style;
         }
@@ -153,6 +174,8 @@ const Font = (() => {
                 }
             }
         }
+        //#endregion style
+        //#region string
         get string() {
             return internal(this).string;
         }
@@ -164,6 +187,8 @@ const Font = (() => {
                 }
             }
         }
+        //#endregion string
+        //#region height
         get height() {
             return internal(this).height;
         }
@@ -175,12 +200,18 @@ const Font = (() => {
                 }
             }
         }
+        //#endregion height
+        //#region owner
         get owner() {
             return internal(this).owner;
         }
+        //#endregion owner
+        //#region brush
         get brush() {
             return internal(this).brush;
         }
+        //#endregion brush
+        //#region isEmpty
         get isEmpty() {
             const priv = internal(this);
             return priv.underline === false &&
@@ -191,8 +222,10 @@ const Font = (() => {
                 priv.brush.style === Types.BRUSHSTYLES.NONE &&
                 priv.brush.color.equals(Colors.TRANSPARENT);
         }
+        //#region isEmpty
         //#endregion
         //#region Methods
+        //#region stringify
         stringify() {
             const FONTSTYLES = Types.FONTSTYLES;
             const style = this.style;
@@ -220,6 +253,8 @@ const Font = (() => {
             }
             this.string = str;
         }
+        //#endregion stringify
+        //#region toCss
         toCss(object) {
             const FONTSTYLES = Types.FONTSTYLES;
             const _style = this.style;
@@ -247,6 +282,8 @@ const Font = (() => {
                 }
             }
         }
+        //#endregion toCss
+        //#region toCssString
         toCssString() {
             const style = this.style;
             let str = String.EMPTY;
@@ -269,6 +306,8 @@ const Font = (() => {
             str += ";";
             return str;
         }
+        //#endregion toCssString
+        //#region fromString
         fromString(str) {
             const FONTSTYLES = Types.FONTSTYLES;
             const CSSUNITS = Types.CSSUNITS;
@@ -304,6 +343,8 @@ const Font = (() => {
                 }
             }
         }
+        //#endregion fromString
+        //#region assign
         assign(source) {
             if (source instanceof Core.classes.Font) {
                 this.family = source.family;
@@ -318,6 +359,8 @@ const Font = (() => {
                 this.string = source.string;
             }
         }
+        //#rendegion assign
+        //#region equals
         equals(font) {
             return font.size === this.size &&
                 font.family === this.family &&
@@ -326,6 +369,8 @@ const Font = (() => {
                 font.strikeout === this.strikeout &&
                 font.sizeUnit === this.sizeUnit;
         }
+        //#endregion equals
+        //#region reset
         reset() {
             this.underline = this.strikeout = false;
             this.size = 10;
@@ -336,6 +381,8 @@ const Font = (() => {
             this.brush.clear();
             this.stringify();
         }
+        //#ndregion reset
+        //#region generateChars
         generateChars() {
             const canvas = Canvas.newCanvas();
             const ctx = canvas.getContext("2d");
@@ -348,13 +395,17 @@ const Font = (() => {
                 Font.fontsInfos[family].sizes[size].chars[i] = ctx.measureText(String.fromCharCode(i)).width;
             }
         }
+        //#endregion generateChars
+        //#region destroy
         destroy() {
             this.onChange.destroy();
             this.brush.destroy();
         }
+        //#endregion destroy
         //#endregion
     }
     return Font;
+    //#region Font
 })();
 Object.defineProperties(Font, {
     "underline": {

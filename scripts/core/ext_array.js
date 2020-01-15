@@ -211,8 +211,7 @@ if (!Array.prototype.insert) {
      * @param       {Any}           i       The new value to insert
      */
     Array.prototype.insert = function (a, i) {
-        if (i != undefined) {
-            a = a || 0;
+        if (i != undefined && Tools.isNumber(a)) {
             this.splice(a, 0, i);
             //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
             if (this.isCollection) {
@@ -249,11 +248,12 @@ if (!Array.prototype.removeAt) {
      * @param       {Number}        a       The index of the value to remove
      */
     Array.prototype.removeAt = function (a) {
-        a = a || 0;
-        a = this.splice(a, 1);
-        //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
-        if (this.isCollection) {
-            this.onChange.invoke(Types.OPERATIONS.REMOVE, a.first);
+        if (Tools.isNumber(a)) {
+            a = this.splice(a, 1);
+            //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
+            if (this.isCollection) {
+                this.onChange.invoke(Types.OPERATIONS.REMOVE, a.first);
+            }
         }
     };
 }
