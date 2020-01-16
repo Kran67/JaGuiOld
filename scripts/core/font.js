@@ -2,6 +2,7 @@
 import { BaseClass } from "/scripts/core/baseclass.js";
 import { Color } from "/scripts/core/color.js";
 import * as Canvas from "/scripts/core/canvas.js";
+import { Tools } from "/scripts/core/tools.js";
 //#endregion Imports
 //#region Font
 // TODO : support of databinding
@@ -22,30 +23,30 @@ const Font = (() => {
         //#region statics
         //#region getTextHeight
         static getTextHeight(text, font) {
-            if (typeof text !== Types.CONSTANTS.STRING) {
-                return 0;
-            }
-            if (font) {
-                if (!(font instanceof Core.classes.Font)) {
-                    return 0;
+            if (Tools.isString(text)) {
+                if (font) {
+                    if (!(font instanceof Core.classes.Font)) {
+                        return 0;
+                    }
                 }
+                const d = document.createElement("div");
+                if (font) {
+                    font.toCss(d);
+                }
+                d.innerHTML = text;
+                document.documentElement.appendChild(d);
+                const h = d.offsetHeight - 1;
+                document.documentElement.removeChild(d);
+                return h;
             }
-            const d = document.createElement("div");
-            //$j.CSS.addClass(d,"basecss");
-            //d.style.position="absolute";
-            if (font) font.toCss(d);
-            d.innerHTML = text;
-            document.documentElement.appendChild(d);
-            const h = d.offsetHeight - 1;
-            document.documentElement.removeChild(d);
-            return h;
+            return 0;
         }
         //#endregion getTextHeight
         //#region getCharWidth
         static getCharWidth(font, char) {
             return Font.fontsInfos[font.family].sizes[font.size].chars[char.charCodeAt(0)];
         }
-        //#region getCharWidth
+        //#endregion getCharWidth
         //#endregion
         //#region constructor
         constructor(owner) {
@@ -67,13 +68,16 @@ const Font = (() => {
             }
         }
         //#endregion
+        //#region Getter / Setter
         //#region underline
         get underline() {
             return internal(this).underline;
         }
         set underline(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (newValue !== priv.underline) {
                     priv.underline = newValue;
                     if (Core.isHTMLRenderer) {
@@ -89,8 +93,10 @@ const Font = (() => {
             return internal(this).strikeout;
         }
         set strikeout(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (newValue !== priv.strikeout) {
                     priv.strikeout = newValue;
                     if (Core.isHTMLRenderer) {
@@ -106,8 +112,10 @@ const Font = (() => {
             return internal(this).size;
         }
         set size(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 if (newValue !== priv.size) {
                     priv.size = newValue;
                     if (Core.isHTMLRenderer) {
@@ -123,8 +131,10 @@ const Font = (() => {
             return internal(this).sizeUnit;
         }
         set sizeUnit(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (Tools.valueInSet(newValue, Types.CSSUNITS) {
+            //#endregion Variables déclaration
+            if (Tools.valueInSet(newValue, Types.CSSUNITS)) {
                 if (newValue !== priv.sizeUnit) {
                     priv.sizeUnit = newValue;
                     this.onChange.invoke();
@@ -137,8 +147,10 @@ const Font = (() => {
             return internal(this).family;
         }
         set family(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            //#endregion Variables déclaration
+            if (Tools.isString(newValue)) {
                 if (newValue !== priv.family) {
                     priv.family = newValue;
                     if (Core.isHTMLRenderer) {
@@ -154,7 +166,9 @@ const Font = (() => {
             return internal(this).style;
         }
         set style(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (Tools.valueInSet(newValue, Types.BRUSHSTYLES)) {
                 if (newValue !== priv.style) {
                     priv.style = newValue;
@@ -165,12 +179,6 @@ const Font = (() => {
                     if (priv.owner.allowUpdate) {
                         priv.owner.form.addControlToRedraw(priv.owner);
                     }
-                    //if(this.owner._allowUpdate){
-                    //  this.owner.form.updateRects.push(this.owner.getClipParentRect());
-                    //  this.owner.update();
-                    //  this.owner.form.updateRects.push(this.owner.getClipParentRect());
-                    //  //$j.canvas.needUpdate=true;
-                    //}
                 }
             }
         }
@@ -180,8 +188,10 @@ const Font = (() => {
             return internal(this).string;
         }
         set string(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            //#endregion Variables déclaration
+            if (Tools.isString(newValue)) {
                 if (priv.string !== newValue) {
                     priv.string = newValue;
                 }
@@ -193,8 +203,10 @@ const Font = (() => {
             return internal(this).height;
         }
         set height(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 if (priv.height !== newValue) {
                     priv.height = newValue;
                 }
@@ -213,7 +225,9 @@ const Font = (() => {
         //#endregion brush
         //#region isEmpty
         get isEmpty() {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             return priv.underline === false &&
                 priv.strikeout === false &&
                 priv.size === 10 &&
@@ -222,46 +236,53 @@ const Font = (() => {
                 priv.brush.style === Types.BRUSHSTYLES.NONE &&
                 priv.brush.color.equals(Colors.TRANSPARENT);
         }
-        //#region isEmpty
+        //#endregion isEmpty
         //#endregion
         //#region Methods
         //#region stringify
         stringify() {
+            //#region Variables déclaration
+            const priv = internal(this);
             const FONTSTYLES = Types.FONTSTYLES;
             const style = this.style;
             let str = String.Empty;
             const size = tihs.size;
             const family = this.family;
-            //this.string = String.EMPTY;
+            //#endregion Variables déclaration
             if (style === FONTSTYLES.BOLD) {
                 str += " bold";
             }
             if (style === FONTSTYLES.ITALIC) {
                 str += " italic";
             }
-            str += String.SPACE + size + this.sizeUnit + String.SPACE + family;
+            str += String.SPACE + size + priv.sizeUnit + String.SPACE + family;
             str.trim();
-            this.height = Font.getTextHeight("°_", this);
+            priv.height = Font.getTextHeight("°_", this);
             if (!Font.fontsInfos[family]) {
                 Font.fontsInfos[family] = {};
                 Font.fontsInfos[family].sizes = {};
                 if (!Font.fontsInfos[family].sizes[size]) {
                     Font.fontsInfos[family].sizes[size] = {};
                     Font.fontsInfos[family].sizes[size].chars = {};
-                    if (!Font.fontsInfos[family].sizes[size].chars.A) this.generateChars();
+                    if (!Font.fontsInfos[family].sizes[size].chars.A) {
+                        this.generateChars();
+                    }
                 }
             }
-            this.string = str;
+            priv.string = str;
         }
         //#endregion stringify
         //#region toCss
         toCss(object) {
+            //#region Variables déclaration
             const FONTSTYLES = Types.FONTSTYLES;
             const _style = this.style;
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (object instanceof HTMLElement) {
                 const style = object.style;
-                style.fontFamily = this.family;
-                style.fontSize = `${this.size}${this.sizeUnit}`;
+                style.fontFamily = priv.family;
+                style.fontSize = `${priv.size}${priv.sizeUnit}`;
                 style.fontWeight = String.EMPTY;
                 style.fontStyle = String.EMPTY;
                 style.textDecoration = String.EMPTY;
@@ -271,10 +292,10 @@ const Font = (() => {
                 if (_style === FONTSTYLES.ITALIC) {
                     style.fontStyle = "italic";
                 }
-                if (this.underline) {
+                if (priv.underline) {
                     style.textDecoration = "underline";
                 }
-                if (this.strikeout) {
+                if (priv.strikeout) {
                     if (style.textDecoration !== String.EMPTY) {
                         style.textDecoration += ",";
                     }
@@ -285,22 +306,24 @@ const Font = (() => {
         //#endregion toCss
         //#region toCssString
         toCssString() {
+            //#region Variables déclaration
             const style = this.style;
             let str = String.EMPTY;
             const FONTSTYLES = Types.FONTSTYLES;
-            str += this.size + this.sizeUnit;
-            str += String.SPACE + '"' + this._family + '"';
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            str += priv.size + priv.sizeUnit;
+            str += String.SPACE + '"' + priv._family + '"';
             if (style === FONTSTYLES.BOLD) {
                 str += String.SPACE + "bold";
             }
             if (style === FONTSTYLES.ITALIC) {
                 str += String.SPACE + "italic";
             }
-            if (this.underline) {
+            if (priv.underline) {
                 str += String.SPACE + "underline";
             }
-            if (this.strikeout) {
-                //if(object.style.textDecoration!==String.EMPTY) str+=",";
+            if (priv.strikeout) {
                 str += String.SPACE + "line-through";
             }
             str += ";";
@@ -309,33 +332,36 @@ const Font = (() => {
         //#endregion toCssString
         //#region fromString
         fromString(str) {
+            //#region Variables déclaration
             const FONTSTYLES = Types.FONTSTYLES;
             const CSSUNITS = Types.CSSUNITS;
-            if (typeof str === Types.CONSTANTS.STRING) {
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Tools.isString(str)) {
                 str = str.toLowerCase();
-                this.size = 0;
-                this.family = String.EMPTY;
-                this.style = FONTSTYLES.NORMAL;
-                this.underline = false;
-                this.strikeout = false;
+                priv.size = 0;
+                priv.family = String.EMPTY;
+                priv.style = FONTSTYLES.NORMAL;
+                priv.underline = false;
+                priv.strikeout = false;
                 str = str.split(String.SPACE);
                 str.forEach(s => {
                     if (!isNaN(~~parseFloat(s))) {
                         if (s.endsWith(CSSUNITS.PO)) {
-                            this.sizeUnit = CSSUNITS.PO;
+                            priv.sizeUnit = CSSUNITS.PO;
                         } else if (s.endsWith(CSSUnits.REM)) {
-                            this.sizeUnit = CSSUnits.REM;
+                            priv.sizeUnit = CSSUnits.REM;
                         } else {
-                            this.sizeUnit = str[i].substr(str[i].length - 2, 2).toLowerCase();
+                            priv.sizeUnit = s.substr(s.length - 2, 2).toLowerCase();
                         }
-                        this.size = ~~parseFloat(str[i]);
+                        priv.size = ~~parseFloat(s);
                     }
                     else if (s.includes("bold")) {
                         Tools.include(this, "style", FONTSTYLES.BOLD);
                     } else if (s.includes("italic")) {
                         Tools.include(this, "style", FONTSTYLES.ITALIC);
                     } else {
-                        this.family = str[i].replace(/"/g, String.EMPTY);
+                        priv.family = s.replace(/"/g, String.EMPTY);
                     }
                 });
                 if (!Core.isHTMLRenderer) {
@@ -347,50 +373,50 @@ const Font = (() => {
         //#region assign
         assign(source) {
             if (source instanceof Core.classes.Font) {
-                this.family = source.family;
-                this.size = source.size;
-                this.strikeout = source.strikeout;
-                this.style = source.style;
-                this.underline = source.underline;
-                this.sizeUnit = source.sizeUnit;
+                priv.family = source.family;
+                priv.size = source.size;
+                priv.strikeout = source.strikeout;
+                priv.style = source.style;
+                priv.underline = source.underline;
+                priv.sizeUnit = source.sizeUnit;
                 this.onChange.invoke();
-                this.brush.assign(source.brush);
-                //this._stringify();
-                this.string = source.string;
+                priv.brush.assign(source.brush);
+                priv.string = source.string;
             }
         }
-        //#rendegion assign
+        //#endregion assign
         //#region equals
         equals(font) {
-            return font.size === this.size &&
-                font.family === this.family &&
-                font.style === this.style &&
-                font.underline === this.underline &&
-                font.strikeout === this.strikeout &&
-                font.sizeUnit === this.sizeUnit;
+            return font.size === priv.size &&
+                font.family === priv.family &&
+                font.style === priv.style &&
+                font.underline === priv.underline &&
+                font.strikeout === priv.strikeout &&
+                font.sizeUnit === priv.sizeUnit;
         }
         //#endregion equals
         //#region reset
         reset() {
-            this.underline = this.strikeout = false;
-            this.size = 10;
-            this.sizeUnit = Types.CSSUNITS.PT;
-            this.family = "Tahoma";
-            this.style = Types.FONTSTYLES.NORMAL;
-            this.height = 0;
-            this.brush.clear();
+            priv.underline = priv.strikeout = false;
+            priv.size = 10;
+            priv.sizeUnit = Types.CSSUNITS.PT;
+            priv.family = "Tahoma";
+            priv.style = Types.FONTSTYLES.NORMAL;
+            priv.height = 0;
+            priv.brush.clear();
             this.stringify();
         }
-        //#ndregion reset
+        //#endregion reset
         //#region generateChars
         generateChars() {
+            //#region Variables déclaration
             const canvas = Canvas.newCanvas();
             const ctx = canvas.getContext("2d");
-            const family = this.family;
-            const size = this.size;
-            ctx.font = this._string;
+            const family = priv.family;
+            const size = priv.size;
+            //#endregion Variables déclaration
+            ctx.font = priv.string;
             Font.fontsInfos[family].sizes[size].chars[String.SPACE] = ctx.measureText(String.SPACE).width;
-            //Tools.font.fontsInfos[this._family].sizes[this._size].chars["\t"]=ctx.measureText("\t").width;
             for (let i = 32; i < 255; i++) {
                 Font.fontsInfos[family].sizes[size].chars[i] = ctx.measureText(String.fromCharCode(i)).width;
             }
@@ -405,8 +431,10 @@ const Font = (() => {
         //#endregion
     }
     return Font;
-    //#region Font
+    //#endregion Font
 })();
+//#endregion
+//#region Font defineProperties
 Object.defineProperties(Font, {
     "underline": {
         enumerable: true

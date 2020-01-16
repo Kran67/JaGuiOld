@@ -1,11 +1,14 @@
-﻿import { BaseClass } from "/scripts/core/baseclass.js";
+﻿//#region Imports
+import { BaseClass } from "/scripts/core/baseclass.js";
 import { Colors } from "/scripts/core/color.js";
 import { Interpolation } from "/scripts/core/interpolations.js";
 //import { Position } from "/scripts/core/position.js";
 //import { Point } from "/scripts/core/geometry.js";
 import { Tools } from "/scripts/core/tools.js";
+//#endregion Imports
 //#region GradientPoint
 const GradientPoint = (() => {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
@@ -15,10 +18,13 @@ const GradientPoint = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#endregion Private
+    //#region GradientPoint
     class GradientPoint extends BaseClass {
+        //#region constructor
         constructor(offset, color) {
             super(offset, color);
-            if (typeof offset !== Types.CONSTANTS.NUMBER) {
+            if (!Tools.isNumber(offset)) {
                 offset = 0;
             }
             if (!(color instanceof Core.classes.Color)) {
@@ -28,37 +34,52 @@ const GradientPoint = (() => {
             priv.offset = offset;
             priv.color = color;
         }
+        //#endregion constructor
+        //#region Getter / Setter
+        //#region offset
         get offset() {
             return internal(this).offset;
         }
         set offset(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 if (priv.offset !== newValue) {
                     priv.offset = newValue;
                 }
             }
         }
+        //#endregion offset
+        //#region color
         get color() {
             return internal(this).color;
         }
         set color(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const color = priv.color;
+            //#endregion Variables déclaration
             if (newValue instanceof Core.classes.Color) {
                 if (color.equals(newValue)) {
                     color.assign(newValue);
                 }
             }
         }
+        //#endregion color
+        //#endregion Getter / Setter
         //#region Methods
+        //#region destroy
         destroy() {
             this.color.destroy();
         }
+        //#endregion destroy
         //#endregion
     }
     return GradientPoint;
+    //#endregion GradientPoint
 })();
+//#region GradientPoint defineProperties
 Object.defineProperties(GradientPoint, {
     "offset": {
         enumerable: true
@@ -67,10 +88,12 @@ Object.defineProperties(GradientPoint, {
         enumerable: true
     }
 });
+//#endregion GradientPoint defineProperties
 //#endregion
 //#region Gradient
 // TODO : support of databinding
 const Gradient = (() => {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
@@ -80,7 +103,10 @@ const Gradient = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#endregion Private
+    //#region Gradient
     class Gradient extends BaseClass {
+        //#region constructor
         constructor(owner) {
             super(owner);
             const priv = internal(this);
@@ -94,13 +120,17 @@ const Gradient = (() => {
                 items.push(new Core.classes.GradientPoint(1, Colors.WHITE));
             }
         }
-        //#region Setters
+        //#endregion constructor
+        //#region Getter / Setters
+        //#region startPosition
         get startPosition() {
             return internal(this).startPosition;
         }
         set startPosition(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const owner = priv.owner;
+            //#endregion Variables déclaration
             if (newValue instanceof Core.classes.Position) {
                 if (!newValue.equals(priv.startPosition)) {
                     priv.startPosition.assign(newValue);
@@ -112,13 +142,17 @@ const Gradient = (() => {
                 }
             }
         }
+        //#endregion startPosition
+        //#region stopPosition
         get stopPosition() {
             return internal(this).stopPosition;
         }
         set stopPosition(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const stopPosition = priv.stopPosition;
             const owner = priv.owner;
+            //#endregion Variables déclaration
             if (newValue instanceof Core.classes.Position) {
                 if (!newValue.equals(stopPosition)) {
                     stopPosition.assign(newValue);
@@ -130,13 +164,17 @@ const Gradient = (() => {
                 }
             }
         }
+        //#endregion stopPosition
+        //#region style
         get style() {
             return internal(this).style;
         }
         set style(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const style = priv.style;
             const owner = priv.owner;
+            //#endregion Variables déclaration
             if (Tools.valueInSet(newValue, Gradientstyles)) {
                 if (newValue !== style) {
                     priv.style = newValue;
@@ -148,33 +186,50 @@ const Gradient = (() => {
                 }
             }
         }
-        //#endregion Setter
+        //#endregion style
+        //#endregion Getter / Setter
         //#region Methods
+        //#region assign
         assign(source) {
+            //#region Variables déclaration
+            const priv = internal(this);
             const items = this.items;
+            //#endregion Variables déclaration
             if (source instanceof Core.classes.Gradient) {
-                this.startPosition.assign(source.startPosition);
-                this.stopPosition.assign(source.stopPosition);
-                this.style = source.style;
+                priv.startPosition.assign(source.startPosition);
+                priv.stopPosition.assign(source.stopPosition);
+                priv.style = source.style;
                 items.length = 0;
                 source.items.forEach(item => {
                     items.push(new Core.classes.GradientPoint(item.offset, item.color));
                 });
             }
         }
+        //#endregion assign
+        //#region positionChanged
         positionChanged() {
             this.onChange.invoke();
         }
+        //#endregion positionChanged
+        //#region change
         change() {
             this.owner.onChange.invoke();
         }
+        //#endregion change
+        //#region interpolateColor
         interpolateColor(offset) {
+            //#region Variables déclaration
             const items = this.items;
-            if (typeof offset === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(offset)) {
                 const result = Colors.TRANSPARENT.clone();
                 if (items.length > 1) {
-                    if (offset < 0) offset = 0;
-                    if (offset > 1) offset = 1;
+                    if (offset < 0) {
+                        offset = 0;
+                    }
+                    if (offset > 1) {
+                        offset = 1;
+                    }
                     items.sort((a, b) => {
                         return a.offset > b.offset;
                     });
@@ -204,15 +259,20 @@ const Gradient = (() => {
                 }
             }
         }
+        //#endregion interpolateColor
+        //#region destroy
         destroy() {
             this.startPosition.destroy();
             this.stopPosition.destroy();
             this.items.destroy();
         }
+        //#endregion destroy
         //#endregion
     }
     return Gradient;
+    //#endregion Gradient
 })();
+//#region Gradient defineProperties
 Object.defineProperties(Gradient, {
     "startPosition": {
         enumerable: true
@@ -227,6 +287,7 @@ Object.defineProperties(Gradient, {
         enumerable: true
     }
 });
+//#endregion Gradient defineProperties
 //#endregion
 Core.classes.register(Types.CATEGORIES.INTERNAL, GradientPoint, Gradient);
 export { GradientPoint, Gradient };

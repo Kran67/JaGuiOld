@@ -1,7 +1,10 @@
-﻿import { Control } from "/scripts/components/control.js";
+﻿//#region Imports
+import { Control } from "/scripts/components/control.js";
 import { Color } from "/scripts/core/color.js";
-//#region GraphicControl final
+//#endregion Imports
+//#region GraphicControl
 const GraphicControl = (function () {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
@@ -11,7 +14,10 @@ const GraphicControl = (function () {
         // Return private properties object
         return _private.get(key);
     };
+    //#region Private
+    //#region GraphicControl
     class GraphicControl extends Control {
+        //#region constructor
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
@@ -27,8 +33,10 @@ const GraphicControl = (function () {
                 delete this.tabOrder;
             }
         }
-        //#region Setters
-        get() {
+        //#endregion constructor
+        //#region Getter / Setters
+        //#region fillColor
+        get fillColor() {
             return internal(this).fillColor;
         }
         set fillColor(newValue) {
@@ -40,6 +48,8 @@ const GraphicControl = (function () {
                 }
             }
         }
+        //#endregion fillColor
+        //#region strokeColor
         get strokeColor() {
             return internal(this).strokeColor;
         }
@@ -52,6 +62,8 @@ const GraphicControl = (function () {
                 }
             }
         }
+        //#endregion strokeColor
+        //#region strokeWidth
         get strokeWidth() {
             return internal(this).strokeWidth;
         }
@@ -65,6 +77,8 @@ const GraphicControl = (function () {
                 }
             }
         }
+        //#endregion strokeWidth
+        //#region strokeDash
         get strokeDash() {
             return internal(this).strokeDash;
         }
@@ -77,6 +91,8 @@ const GraphicControl = (function () {
                 }
             }
         }
+        //#endregion strokeDash
+        //#region strokeDashOffset
         get strokeDashOffset() {
             return internal(this).strokeDashOffset;
         }
