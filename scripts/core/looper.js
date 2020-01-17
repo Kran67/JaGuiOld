@@ -1,6 +1,10 @@
-﻿import { BaseClass } from "/scripts/core/baseclass.js";
+﻿//#region Imports
+import { BaseClass } from "/scripts/core/baseclass.js";
+import { Tools } from "/scripts/core/tools.js";
+//#endregion Imports
 //#region Looper
 const Looper = (() => {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
@@ -10,7 +14,10 @@ const Looper = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#endregion Private
+    //#region Looper
     class Looper extends BaseClass {
+        //#region constructor
         constructor() {
             super();
             const priv = internal(this);
@@ -22,19 +29,27 @@ const Looper = (() => {
             priv.rAF = null;
             priv.isBusy = false;
         }
-        //#region Getter/Setter
+        //#endregion constructor
+        //#region Getter / Setter
+        //#region listeners
         get listeners() {
             return internal(this).listeners;
         }
+        //#endregion listeners
+        //#region functions
         get functions() {
             return internal(this).functions;
         }
+        //#endregion functions
+        //#region fps
         get fps() {
             return internal(this).fps;
         }
         set fps(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 if (priv.fps !== newValue) {
                     this.stop();
                     priv.fps = newValue;
@@ -43,60 +58,89 @@ const Looper = (() => {
                 }
             }
         }
+        //#endregion fps
+        //#region handle
         get handle() {
             return internal(this).handle;
         }
         set handle(newValue) {
-            if (internal(this).handle !== newValue) {
-                internal(this).handle = newValue;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (priv.handle !== newValue) {
+                priv.handle = newValue;
             }
         }
+        //#endregion handle
+        //#region paused
         get paused() {
             return internal(this).paused;
         }
         set paused(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.paused !== newValue) {
                     priv.paused = newValue;
                 }
             }
         }
+        //#endregion paused
+        //#region rAF
         get rAF() {
             return internal(this).rAF;
         }
         set rAF(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (priv.rAF !== newValue) {
                 priv.rAF = newValue;
             }
         }
+        //#endregion rAF
+        //#region isBusy
         get isBusy() {
             return internal(this).isBusy;
         }
         set isBusy(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.isBusy !== newValue) {
                     priv.isBusy = newValue;
                 }
             }
         }
-        //#endregion
+        //#endregion isBusy
+        //#endregion Getter / Setter
         //#region Methods
+        //#region start
         start() {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             priv.rAF = window.requestAnimationFrameRate(priv.fps);
-            this.handle = priv.rAF(this.loop);
+            priv.handle = priv.rAF(Core.looper.loop);
         }
+        //#endregion start
+        //#region stop
         stop() {
-            const handle = this.handle;
-            if (handle !== null) {
-                window.cancelAnimationFrameRate(handle);
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (priv.handle !== null) {
+                window.cancelAnimationFrameRate(priv.handle);
             }
-            this.handle = null;
+            priv.handle = null;
         }
+        //#endregion stop
+        //#region pause
         pause() { }
+        //#endregion pause
+        //#region loop
         loop(elapsedTime) {
             if (!Core.looper.paused && !Core.looper.isBusy && Core.looper.handle) {
                 Core.looper.isBusy = true;
@@ -108,34 +152,49 @@ const Looper = (() => {
                 });
                 Core.looper.isBusy = false;
                 Core.looper.rAF(Core.looper.loop);
-                //console.log('loop');
             }
         }
+        //#endregion loop
+        //#region addListener
         addListener(obj, func) {
-            if (obj && this.listeners.indexOf(obj) === -1) {
-                this.removeListener(obj);
-                this.listeners.push(obj);
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (obj && priv.listeners.indexOf(obj) === -1) {
+                priv.removeListener(obj);
+                priv.listeners.push(obj);
                 if (!func) {
                     func = "processTick";
                 }
-                this.functions.push(func);
+                priv.functions.push(func);
             }
         }
+        //#endregion addListener
+        //#region removeListener
         removeListener(obj) {
-            const listeners = this.listeners;
-            const index = listeners.indexOf(obj);
+            //#region Variables déclaration
+            const priv = internal(this);
+            const index = priv.listeners.indexOf(obj);
+            //#endregion Variables déclaration
             if (index !== -1) {
-                listeners.splice(index, 1);
-                this.functions.splice(index, 1);
+                priv.listeners.splice(index, 1);
+                priv.functions.splice(index, 1);
             }
         }
+        //#endregion removeListener
+        //#region removeAllListeners
         removeAllListeners() {
-            this.listeners.length = 0;
-            this.functions.length = 0;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.listeners.length = 0;
+            priv.functions.length = 0;
         }
-        //#endregion
+        //#endregion removeAllListeners
+        //#endregion Methods
     }
     return Looper;
+    //#endregion Looper
 })();
 //#endregion
 Core.looper = new Looper;

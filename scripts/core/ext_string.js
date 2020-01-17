@@ -15,11 +15,11 @@ Object.defineProperties(String, {
             return " ";
         }
     },
-    "isEmpty": {
-        get: function () {
-            return this.trim().length < 1;
-        }
-    },
+    //"isEmpty": {
+    //    get: function () {
+    //        return this.trim().length < 1;
+    //    }
+    //},
     "uuid": {
         get: function () {
             const _p8 = (s) => {
@@ -70,6 +70,13 @@ Object.defineProperties(String.prototype, {
     "isBoolean": {
         get: function () {
             return this && ("true" === this.trim() || "false" === this.trim());
+        }
+    },
+    // Méthode isEmpty ->
+    // Retourne vrai ou faux
+    "isEmpty": {
+        get: function () {
+            return this === String.EMPTY;
         }
     }
 });

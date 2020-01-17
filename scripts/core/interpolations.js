@@ -4,6 +4,7 @@ import { Convert } from "/scripts/core/convert.js";
 import { Tools } from "/scripts/core/tools.js";
 import { Animation } from "/scripts/core/animation.js";
 //#endregion
+//#region Interpolation 
 class Interpolation {
     //#region INTERPOLATIONTYPES
     /**
@@ -33,13 +34,14 @@ class Interpolation {
      * @param  {Number}     t   the time
      * @return {Number}         the single interpolation result
      */
+    //#region single
     static single(s, s1, t) {
-        const NUMBER = Types.CONSTANTS.NUMBER;
-        if (typeof s === NUMBER && typeof s1 === NUMBER && typeof t === NUMBER) {
+        if (Tools.isNumber(s) && Tools.isNumber(s1) && Tools.isNumber(t)) {
             return s + (s1 - s) * t;
         }
         return s;
     }
+    //#endregion single
     /**
      * Rotation interpolation function
      * @param   {Number}    s   the first value to interpolate
@@ -47,12 +49,14 @@ class Interpolation {
      * @param   {Number}    t   the time
      * @return  {Number}        the rotation interpolation result
      */
+    //#region rotation
     static rotation(s, s1, t) {
-        s = s | 0;
-        s1 = s1 | 0;
-        t = t | 0;
-        return Interpolation.interpolateSingle(s, s1, t);
+        if (Tools.isNumber(s) && Tools.isNumber(s1) && Tools.isNumber(t)) {
+            return Interpolation.interpolateSingle(s, s1, t);
+        }
+        return 0;
     }
+    //#endregion rotation
     /**
      * Color interpolation function
      * @param   {Color}     c   first color to interpolate
@@ -60,10 +64,10 @@ class Interpolation {
      * @param   {Number}    t   the time
      * @return  {Color}         the color interpolation
      */
+    //#region color
     static color(c, c1, t) {
-        if (c instanceof Core.classes.Color && c1 instanceof Core.classes.Color) {
-            //t = t | 0;
-            const result = new Core.classes.Color;
+        if (c instanceof Color && c1 instanceof Color && Tools.isNumber(t)) {
+            const result = new Color;
             result.beginUpdate();
             result.alpha = c.alpha + (c1.alpha - c.alpha) * t;
             result.red = Convert.toByte(c.red + Math.trunc((c1.red - c.red) * t));
@@ -72,8 +76,9 @@ class Interpolation {
             result.endUpdate();
             return result;
         }
-        return new Core.classes.Color(Colors.TRANSPARENT);
+        return new Color(Colors.TRANSPARENT);
     }
+    //#endregion color
     /**
      * Linear interpolation function
      * @param   {Number}    t   the time
@@ -82,14 +87,14 @@ class Interpolation {
      * @param   {Number}    d   the third value to interpolate
      * @return  {Number}        the linear interpolation result
      */
+    //#region linear
     static linear(t, b, c, d) {
-        //let NUMBER = Types.CONSTANTS.NUMBER;
-        //t = t | 0;
-        //b = b | 0;
-        //c = c | 0;
-        //d = d | 1;
-        return c * t / d + b;
+        if (Tools.isNumber(t) && Tools.isNumber(b) && Tools.isNumber(c) && Tools.isNumber(d)) {
+            return c * t / d + b;
+        }
+        return 0;
     }
+    //#endregion linear
     /**
      * Sinusoidal interpolation function
      * @param   {Object}    params
@@ -100,24 +105,26 @@ class Interpolation {
      * @param   {String}    params.a   the type of the animation of the interpolation
      * @return  {Number}        the sinusoidal interpolation result
      */
+    //#region sine
     static sine(params) {
+        //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
-        //params.t = params.t | 0;
-        //params.b = params.b | 0;
-        //params.c = params.c | 0;
-        //params.d = params.d | 0;
-        //if (typeof a!==_const.NUMBER) a=_animt.IN;
-        if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-            params.a = ANIMATIONTYPES.IN;
+        //#endregion Variables déclaration
+        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d)) {
+            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
+                params.a = ANIMATIONTYPES.IN;
+            }
+            if (params.a === ANIMATIONTYPES.IN) {
+                return -params.c * Math.cos(params.t / params.d * (Math.PI * 0.5)) + params.c + params.b;
+            } else if (params.a === ANIMATIONTYPES.OUT) {
+                return params.c * Math.sin(params.t / params.d * (Math.PI * 0.5)) + params.b;
+            } else if (params.a === ANIMATIONTYPES.INOUT) {
+                return -params.c / 2 * (Math.cos(Math.PI * params.t / params.d) - 1) + params.b;
+            }
         }
-        if (params.a === ANIMATIONTYPES.IN) {
-            return -params.c * Math.cos(params.t / params.d * (Math.PI * 0.5)) + params.c + params.b;
-        } else if (params.a === ANIMATIONTYPES.OUT) {
-            return params.c * Math.sin(params.t / params.d * (Math.PI * 0.5)) + params.b;
-        } else if (params.a === ANIMATIONTYPES.INOUT) {
-            return -params.c / 2 * (Math.cos(Math.PI * params.t / params.d) - 1) + params.b;
-        }
+        return 0;
     }
+    //#endregion sine
     /**
      * Quint interpolation function
      * @param   {Object}    params
@@ -128,32 +135,34 @@ class Interpolation {
      * @param   {String}    params.a   the type of the animation of the interpolation
      * @return  {Number}        the quint interpolation result
      */
+    //#region quint
     static quint(params) {
+        //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
-        //params.t = params.t | 0;
-        //params.b = params.b | 0;
-        //params.c = params.c | 0;
-        //params.d = params.d | 0;
-        //if (typeof a!==_const.NUMBER) a=_animt.IN;
-        if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-            params.a = ANIMATIONTYPES.IN;
-        }
-        if (params.a === ANIMATIONTYPES.IN) {
-            params.t = params.t / params.d;
-            return params.c * params.t * params.t * params.t * params.t * params.t + params.b;
-        } else if (params.a === ANIMATIONTYPES.OUT) {
-            params.t = params.t / params.d - 1;
-            return params.c * (params.t * params.t * params.t * params.t * params.t + 1) + params.b;
-        } else if (params.a === ANIMATIONTYPES.INOUT) {
-            params.t = params.t / (params.d * 0.5);
-            if (params.t < 1) {
-                return params.c / 2 * params.t * params.t * params.t * params.t * params.t + params.b;
-            } else {
-                params.t = params.t - 2;
-                return params.c / 2 * (params.t * params.t * params.t * params.t * params.t + 2) + params.b;
+        //#endregion Variables déclaration
+        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d)) {
+            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
+                params.a = ANIMATIONTYPES.IN;
+            }
+            if (params.a === ANIMATIONTYPES.IN) {
+                params.t = params.t / params.d;
+                return params.c * params.t * params.t * params.t * params.t * params.t + params.b;
+            } else if (params.a === ANIMATIONTYPES.OUT) {
+                params.t = params.t / params.d - 1;
+                return params.c * (params.t * params.t * params.t * params.t * params.t + 1) + params.b;
+            } else if (params.a === ANIMATIONTYPES.INOUT) {
+                params.t = params.t / (params.d * 0.5);
+                if (params.t < 1) {
+                    return params.c / 2 * params.t * params.t * params.t * params.t * params.t + params.b;
+                } else {
+                    params.t = params.t - 2;
+                    return params.c / 2 * (params.t * params.t * params.t * params.t * params.t + 2) + params.b;
+                }
             }
         }
+        return 0;
     }
+    //#endregion quint
     /**
      * Quartezain interpolation function
      * @param   {Object}    params
@@ -164,32 +173,34 @@ class Interpolation {
      * @param   {String}    params.a   the type of the animation of the interpolation
      * @return  {Number}        the quartezain interpolation result
      */
+    //#region quart
     static quart(params) {
+        //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
-        //params.t = params.t | 0;
-        //params.b = params.b | 0;
-        //params.c = params.c | 0;
-        //params.d = params.d | 0;
-        //if (typeof a!==_const.NUMBER) a=_animt.IN;
-        if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-            params.a = ANIMATIONTYPES.IN;
-        }
-        if (params.a === ANIMATIONTYPES.IN) {
-            params.t = params.t / params.d;
-            return params.c * params.t * params.t * params.t * params.t + params.b;
-        } else if (params.a === ANIMATIONTYPES.OUT) {
-            params.t = params.t / params.d - 1;
-            return -params.c * (params.t * params.t * params.t * params.t - 1) + params.b;
-        } else if (params.a === ANIMATIONTYPES.INOUT) {
-            params.t = params.t / (params.d * 0.5);
-            if (params.t < 1) {
-                return params.c / 2 * params.t * params.t * params.t * params.t + params.b;
-            } else {
-                params.t = params.t - 2;
-                return -params.c / 2 * (params.t * params.t * params.t * params.t - 2) + params.b;
+        //#endregion Variables déclaration
+        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d)) {
+            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
+                params.a = ANIMATIONTYPES.IN;
+            }
+            if (params.a === ANIMATIONTYPES.IN) {
+                params.t = params.t / params.d;
+                return params.c * params.t * params.t * params.t * params.t + params.b;
+            } else if (params.a === ANIMATIONTYPES.OUT) {
+                params.t = params.t / params.d - 1;
+                return -params.c * (params.t * params.t * params.t * params.t - 1) + params.b;
+            } else if (params.a === ANIMATIONTYPES.INOUT) {
+                params.t = params.t / (params.d * 0.5);
+                if (params.t < 1) {
+                    return params.c / 2 * params.t * params.t * params.t * params.t + params.b;
+                } else {
+                    params.t = params.t - 2;
+                    return -params.c / 2 * (params.t * params.t * params.t * params.t - 2) + params.b;
+                }
             }
         }
+        return 0;
     }
+    //#endregion quart
     /**
      * Quadratic interpolation function
      * @param   {Object}    params
@@ -200,32 +211,34 @@ class Interpolation {
      * @param   {String}    params.a   the type of the animation of the interpolation
      * @return  {Number}        thue quadratic interpolation result
      */
+    //#region quad
     static quad(params) {
+        //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
-        //params.t = params.t | 0;
-        //params.b = params.b | 0;
-        //params.c = params.c | 0;
-        //params.d = params.d | 0;
-        //if (typeof a!==_const.NUMBER) a=_animt.IN;
-        if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-            params.a = ANIMATIONTYPES.IN;
-        }
-        if (params.a === ANIMATIONTYPES.IN) {
-            params.t = params.t / params.d;
-            return params.c * params.t * params.t + params.b;
-        } else if (params.a === ANIMATIONTYPES.OUT) {
-            params.t = params.t / params.d;
-            return -params.c * params.t * (params.t - 2) + params.b;
-        } else if (params.a === ANIMATIONTYPES.INOUT) {
-            params.t = params.t / (params.d * 0.5);
-            if (params.t < 1) {
-                return params.c / 2 * params.t * params.t + params.b;
-            } else {
-                params.t = params.t - 1;
-                return -params.c / 2 * (params.t * (params.t - 2) - 1) + params.b;
+        //#endregion Variables déclaration
+        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d)) {
+            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
+                params.a = ANIMATIONTYPES.IN;
+            }
+            if (params.a === ANIMATIONTYPES.IN) {
+                params.t = params.t / params.d;
+                return params.c * params.t * params.t + params.b;
+            } else if (params.a === ANIMATIONTYPES.OUT) {
+                params.t = params.t / params.d;
+                return -params.c * params.t * (params.t - 2) + params.b;
+            } else if (params.a === ANIMATIONTYPES.INOUT) {
+                params.t = params.t / (params.d * 0.5);
+                if (params.t < 1) {
+                    return params.c / 2 * params.t * params.t + params.b;
+                } else {
+                    params.t = params.t - 1;
+                    return -params.c / 2 * (params.t * (params.t - 2) - 1) + params.b;
+                }
             }
         }
+        return 0;
     }
+    //#endregion quad
     /**
      * Exponential interpolation function
      * @param   {Object}    params
@@ -236,45 +249,47 @@ class Interpolation {
      * @param   {String}    params.a   the type of the animation of the interpolation
      * @return  {Number}        the exponential interpolation result
      */
+    //#region expo
     static expo(params) {
+        //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
-        //params.t = params.t | 0;
-        //params.b = params.b | 0;
-        //params.c = params.c | 0;
-        //params.d = params.d | 0;
-        //if (typeof a!==_const.NUMBER) a=_animt.IN;
-        if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-            params.a = ANIMATIONTYPES.IN;
-        }
-        if (params.a === ANIMATIONTYPES.IN) {
-            if (params.t === 0) {
-                return params.b;
+        //#endregion Variables déclaration
+        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d)) {
+            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
+                params.a = ANIMATIONTYPES.IN;
             }
-            else {
-                return params.c * Math.pow(2, 10 * (params.t / params.d - 1)) + params.b;
-            }
-        } else if (params.a === ANIMATIONTYPES.OUT) {
-            if (params.t === params.d) {
-                return params.b + params.c;
-            } else {
-                return params.c * (-Math.pow(2, -10 * params.t / params.d) + 1) + params.b;
-            }
-        } else if (params.a === ANIMATIONTYPES.INOUT) {
-            if (params.t === 0) {
-                return params.b;
-            }
-            if (params.t === params.d) {
-                return params.b + params.c;
-            }
-            params.t = params.t / (params.d * 0.5);
-            if (params.t < 1) {
-                return params.c / 2 * Math.pow(2, 10 * (params.t - 1)) + params.b;
-            } else {
-                params.t = params.t - 1;
-                return params.c / 2 * (-Math.pow(2, -10 * params.t) + 2) + params.b;
+            if (params.a === ANIMATIONTYPES.IN) {
+                if (params.t === 0) {
+                    return params.b;
+                }
+                else {
+                    return params.c * Math.pow(2, 10 * (params.t / params.d - 1)) + params.b;
+                }
+            } else if (params.a === ANIMATIONTYPES.OUT) {
+                if (params.t === params.d) {
+                    return params.b + params.c;
+                } else {
+                    return params.c * (-Math.pow(2, -10 * params.t / params.d) + 1) + params.b;
+                }
+            } else if (params.a === ANIMATIONTYPES.INOUT) {
+                if (params.t === 0) {
+                    return params.b;
+                }
+                if (params.t === params.d) {
+                    return params.b + params.c;
+                }
+                params.t = params.t / (params.d * 0.5);
+                if (params.t < 1) {
+                    return params.c / 2 * Math.pow(2, 10 * (params.t - 1)) + params.b;
+                } else {
+                    params.t = params.t - 1;
+                    return params.c / 2 * (-Math.pow(2, -10 * params.t) + 2) + params.b;
+                }
             }
         }
+        return 0;
     }
+    //#endregion expo
     /**
      * Elastic interpolation function
      * @param   {Object}    params
@@ -287,81 +302,82 @@ class Interpolation {
      * @param   {String}    params.a   the type of the animation of the interpolation
      * @return  {Number}        the elastic interpolation result
      */
+    //#region elastic
     static elastic(params) {
+        //#region Variables déclaration
         let s = null;
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
-        //params.t = params.t | 0;
-        //params.b = params.b | 0;
-        //params.c = params.c | 0;
-        //params.d = params.d | 0;
-        //params.a1 = params.a1 | 0;
-        //params.p = params.p | 0;
-        //if (typeof a!==_const.NUMBER) a=_animt.IN;
-        if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-            params.a = ANIMATIONTYPES.IN;
-        }
-        if (params.a === ANIMATIONTYPES.IN) {
-            if (params.t === 0) {
-                return params.b;
+        //#endregion Variables déclaration
+        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d) && 
+            Tools.isNumber(params.a1) && Tools.isNumber(params.p)) {
+            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
+                params.a = ANIMATIONTYPES.IN;
             }
-            params.t = params.t / params.d;
-            if (params.t === 1) {
-                return params.b + params.c;
-            }
-            if (params.p === 0) {
-                params.p = params.d * 0.3;
-            }
-            if (params.a1 === 0 || params.a1 < Math.abs(params.c)) {
-                params.a1 = params.c;
-                s = params.p * 0.25;
-            } else {
-                s = params.p / (2 * Math.PI) * Math.asin(params.c / params.a1);
-            }
-            params.t = params.t - 1;
-            return -(params.a1 * Math.pow(2, 10 * params.t) * Math.sin((params.t * params.d - s) * (2 * Math.PI) / params.p)) + params.b;
-        } else if (params.a === ANIMATIONTYPES.OUT) {
-            if (params.t === 0) {
-                return params.b;
-            }
-            params.t = params.t / params.d;
-            if (params.t === 1) {
-                return params.b + params.c;
-            }
-            if (params.p === 0) {
-                params.p = params.d * 0.3;
-            }
-            if (params.a1 === 0 || params.a1 < Math.abs(params.c)) {
-                params.a1 = params.c;
-                s = params.p * 0.25;
-            } else {
-                s = params.p / (2 * Math.PI) * Math.asin(params.c / params.a1);
-            }
-            return params.a1 * Math.pow(2, -10 * params.t) * Math.sin((params.t * params.d - s) * (2 * Math.PI) / params.p) + params.c + params.b;
-        } else if (params.a === ANIMATIONTYPES.INOUT) {
-            if (params.t === 0) {
-                return params.b;
-            }
-            params.t = params.t / (params.d * 0.5);
-            if (params.t === 2) {
-                return params.b + params.c;
-            }
-            if (params.p === 0) params.p = params.d * (0.3 * 1.5);
-            if (params.a1 === 0 || params.a1 < Math.abs(params.c)) {
-                params.a1 = params.c;
-                s = params.p * 0.25;
-            }
-            else {
-                s = params.p / (2 * Math.PI) * Math.asin(params.c / params.a1);
-            }
-            if (params.t < 1) {
+            if (params.a === ANIMATIONTYPES.IN) {
+                if (params.t === 0) {
+                    return params.b;
+                }
+                params.t = params.t / params.d;
+                if (params.t === 1) {
+                    return params.b + params.c;
+                }
+                if (params.p === 0) {
+                    params.p = params.d * 0.3;
+                }
+                if (params.a1 === 0 || params.a1 < Math.abs(params.c)) {
+                    params.a1 = params.c;
+                    s = params.p * 0.25;
+                } else {
+                    s = params.p / (2 * Math.PI) * Math.asin(params.c / params.a1);
+                }
                 params.t = params.t - 1;
-                return -0.5 * (params.a1 * Math.pow(2, 10 * params.t) * Math.sin((params.t * params.d - s) * (2 * Math.PI) / params.p)) + params.b;
-            } else {
-                params.t = params.t - 1;
-                return params.a1 * Math.pow(2, -10 * params.t) * Math.sin((params.t * params.d - s) * (2 * Math.PI) / params.p) * 0.5 + params.c + params.b;
+                return -(params.a1 * Math.pow(2, 10 * params.t) * Math.sin((params.t * params.d - s) * (2 * Math.PI) / params.p)) + params.b;
+            } else if (params.a === ANIMATIONTYPES.OUT) {
+                if (params.t === 0) {
+                    return params.b;
+                }
+                params.t = params.t / params.d;
+                if (params.t === 1) {
+                    return params.b + params.c;
+                }
+                if (params.p === 0) {
+                    params.p = params.d * 0.3;
+                }
+                if (params.a1 === 0 || params.a1 < Math.abs(params.c)) {
+                    params.a1 = params.c;
+                    s = params.p * 0.25;
+                } else {
+                    s = params.p / (2 * Math.PI) * Math.asin(params.c / params.a1);
+                }
+                return params.a1 * Math.pow(2, -10 * params.t) * Math.sin((params.t * params.d - s) * (2 * Math.PI) / params.p) + params.c + params.b;
+            } else if (params.a === ANIMATIONTYPES.INOUT) {
+                if (params.t === 0) {
+                    return params.b;
+                }
+                params.t = params.t / (params.d * 0.5);
+                if (params.t === 2) {
+                    return params.b + params.c;
+                }
+                if (params.p === 0) params.p = params.d * (0.3 * 1.5);
+                if (params.a1 === 0 || params.a1 < Math.abs(params.c)) {
+                    params.a1 = params.c;
+                    s = params.p * 0.25;
+                }
+                else {
+                    s = params.p / (2 * Math.PI) * Math.asin(params.c / params.a1);
+                }
+                if (params.t < 1) {
+                    params.t = params.t - 1;
+                    return -0.5 * (params.a1 * Math.pow(2, 10 * params.t) * Math.sin((params.t * params.d - s) * (2 * Math.PI) / params.p)) + params.b;
+                } else {
+                    params.t = params.t - 1;
+                    return params.a1 * Math.pow(2, -10 * params.t) * Math.sin((params.t * params.d - s) * (2 * Math.PI) / params.p) * 0.5 + params.c + params.b;
+                }
             }
         }
+        return 0;
     }
+    //#endregion elastic
     /**
      * Cubic interpolation function
      * @param   {Object}    params
@@ -372,32 +388,34 @@ class Interpolation {
      * @param   {String}    params.a   the type of the animation of the interpolation
      * @return  {Number}        the cubic interpolation result
      */
+    //#region cubic
     static cubic(params) {
+        //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
-        //params.t = params.t | 0;
-        //params.b = params.b | 0;
-        //params.c = params.c | 0;
-        //params.d = params.d | 0;
-        //if (typeof a!==_const.NUMBER) a=_animt.IN;
-        if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-            params.a = ANIMATIONTYPES.IN;
-        }
-        if (params.a === ANIMATIONTYPES.IN) {
-            params.t = params.t / params.d;
-            return params.c * params.t * params.t * params.t + params.b;
-        } else if (params.a === ANIMATIONTYPES.OUT) {
-            params.t = params.t / params.d - 1;
-            return params.c * (params.t * params.t * params.t + 1) + params.b;
-        } else if (params.a === ANIMATIONTYPES.INOUT) {
-            params.t = params.t / (params.d * 0.5);
-            if (params.t < 1) {
-                return params.c / 2 * params.t * params.t * params.t + params.b;
-            } else {
-                params.t = params.t - 2;
-                return params.c / 2 * (params.t * params.t * params.t + 2) + params.b;
+        //#endregion Variables déclaration
+        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d)) {
+            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
+                params.a = ANIMATIONTYPES.IN;
+            }
+            if (params.a === ANIMATIONTYPES.IN) {
+                params.t = params.t / params.d;
+                return params.c * params.t * params.t * params.t + params.b;
+            } else if (params.a === ANIMATIONTYPES.OUT) {
+                params.t = params.t / params.d - 1;
+                return params.c * (params.t * params.t * params.t + 1) + params.b;
+            } else if (params.a === ANIMATIONTYPES.INOUT) {
+                params.t = params.t / (params.d * 0.5);
+                if (params.t < 1) {
+                    return params.c / 2 * params.t * params.t * params.t + params.b;
+                } else {
+                    params.t = params.t - 2;
+                    return params.c / 2 * (params.t * params.t * params.t + 2) + params.b;
+                }
             }
         }
+        return 0;
     }
+    //#endregion cubic
     /**
      * Circular interpolation function
      * @param   {Object}    params
@@ -408,32 +426,34 @@ class Interpolation {
      * @param   {String}    params.a   the type of the animation of the interpolation
      * @return  {Number}        the circular interpolation result
      */
+    //#region circ
     static circ(params) {
+        //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
-        //params.t = params.t | 0;
-        //params.b = params.b | 0;
-        //params.c = params.c | 0;
-        //params.d = params.d | 0;
-        //if (typeof a!==_const.NUMBER) a=_animt.IN;
-        if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-            params.a = ANIMATIONTYPES.IN;
-        }
-        if (params.a === ANIMATIONTYPES.IN) {
-            params.t = params.t / params.d;
-            return -params.c * (Math.sqrt(1 - params.t * params.t) - 1) + params.b;
-        } else if (params.a === ANIMATIONTYPES.OUT) {
-            params.t = params.t / params.d - 1;
-            return params.c * Math.sqrt(1 - params.t * params.t) + params.b;
-        } else if (params.a === ANIMATIONTYPES.INOUT) {
-            params.t = params.t / (params.d * 0.5);
-            if (params.t < 1) {
-                return -params.c / 2 * (Math.sqrt(1 - params.t * params.t) - 1) + params.b;
-            } else {
-                params.t = params.t - 2;
-                return params.c / 2 * (Math.sqrt(1 - params.t * params.t) + 1) + params.b;
+        //#endregion Variables déclaration
+        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d)) {
+            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
+                params.a = ANIMATIONTYPES.IN;
+            }
+            if (params.a === ANIMATIONTYPES.IN) {
+                params.t = params.t / params.d;
+                return -params.c * (Math.sqrt(1 - params.t * params.t) - 1) + params.b;
+            } else if (params.a === ANIMATIONTYPES.OUT) {
+                params.t = params.t / params.d - 1;
+                return params.c * Math.sqrt(1 - params.t * params.t) + params.b;
+            } else if (params.a === ANIMATIONTYPES.INOUT) {
+                params.t = params.t / (params.d * 0.5);
+                if (params.t < 1) {
+                    return -params.c / 2 * (Math.sqrt(1 - params.t * params.t) - 1) + params.b;
+                } else {
+                    params.t = params.t - 2;
+                    return params.c / 2 * (Math.sqrt(1 - params.t * params.t) + 1) + params.b;
+                }
             }
         }
+        return 0;
     }
+    //#endregion circ
     /**
      * Bouncing interpolation function
      * @param   {Object}    params
@@ -444,55 +464,54 @@ class Interpolation {
      * @param   {String}    params.a   the type of the animation interpolation
      * @return  {Number}        the bouncing interpolation result
      */
+    //#region bounce
     static bounce(params) {
+        //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
-        //params.t = params.t | 0;
-        //params.b = params.b | 0;
-        //params.c = params.c | 0;
-        //params.d = params.d | 0;
-        //if (typeof a!==_const.NUMBER) a=_animt.IN;
-        if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-            params.a = ANIMATIONTYPES.IN;
-        }
-        const _easeOut = (t1, b1, c1, d1) => {
-            //if (!t1 || !b1 || !c1 || !d1) return 0;
-            t1 = t1 | 0;
-            b1 = b1 | 0;
-            c1 = c1 | 0;
-            d1 = d1 | 0;
-            t1 = t1 / d1;
-            if (t1 < 0.3636363636363636) {
-                return c1 * (7.5625 * t1 * t1) + b1;
-            } else if (t1 < 0.7272727272727273) {
-                t1 = t1 - 0.5454545454545455;
-                return c1 * (7.5625 * t1 * t1 + 0.75) + b1;
-            } else if (t1 < 0.9090909090909091) {
-                t1 = t1 - 0.8181818181818182;
-                return c1 * (7.5625 * t1 * t1 + 0.9375) + b1;
-            } else {
-                t1 = t1 - 0.9545454545454545;
-                return c1 * (7.5625 * t1 * t1 + 0.984375) + b1;
+        //#endregion Variables déclaration
+        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d)) {
+            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
+                params.a = ANIMATIONTYPES.IN;
+            }
+            const easeOut = (t1, b1, c1, d1) => {
+                if (Tools.isNumber(t1) && Tools.isNumber(b1) && Tools.isNumber(c1) && Tools.isNumber(d1)) {
+                    t1 = t1 / d1;
+                    if (t1 < 0.3636363636363636) {
+                        return c1 * (7.5625 * t1 * t1) + b1;
+                    } else if (t1 < 0.7272727272727273) {
+                        t1 = t1 - 0.5454545454545455;
+                        return c1 * (7.5625 * t1 * t1 + 0.75) + b1;
+                    } else if (t1 < 0.9090909090909091) {
+                        t1 = t1 - 0.8181818181818182;
+                        return c1 * (7.5625 * t1 * t1 + 0.9375) + b1;
+                    } else {
+                        t1 = t1 - 0.9545454545454545;
+                        return c1 * (7.5625 * t1 * t1 + 0.984375) + b1;
+                    }
+                }
+                return 0;
+            }
+            const easeIn = (t1, b1, c1, d1) => {
+                if (Tools.isNumber(t1) && Tools.isNumber(b1) && Tools.isNumber(c1) && Tools.isNumber(d1)) {
+                    return c - easeOut(d1 - t1, 0, c1, d1) + b1;
+                }
+                return 0;
+            }
+            if (params.a === ANIMATIONTYPES.IN) {
+                return easeIn(params.t, params.b, params.c, params.d);
+            } else if (params.a === ANIMATIONTYPES.OUT) {
+                return easeOut(params.t, params.b, params.c, params.d);
+            } else if (params.a === ANIMATIONTYPES.INOUT) {
+                if (params.t < params.d * 0.5) {
+                    return easeIn(params.t * 2, 0, params.c, params.d) * 0.5 + params.b;
+                } else {
+                    return easeOut(params.t * 2 - params.d, 0, params.c, params.d) * 0.5 + params.c * 0.5 + params.b;
+                }
             }
         }
-        const _easeIn = (t1, b1, c1, d1) => {
-            //t1 = t1 | 0;
-            //b1 = b1 | 0;
-            //c1 = c1 | 0;
-            //d1 = d1 | 0;
-            return c - _easeOut(d1 - t1, 0, c1, d1) + b1;
-        }
-        if (params.a === ANIMATIONTYPES.IN) {
-            return _easeIn(params.t, params.b, params.c, params.d);
-        } else if (params.a === ANIMATIONTYPES.OUT) {
-            return _easeOut(params.t, params.b, params.c, params.d);
-        } else if (params.a === ANIMATIONTYPES.INOUT) {
-            if (params.t < params.d * 0.5) {
-                return _easeIn(params.t * 2, 0, params.c, params.d) * 0.5 + params.b;
-            } else {
-                return _easeOut(params.t * 2 - params.d, 0, params.c, params.d) * 0.5 + params.c * 0.5 + params.b;
-            }
-        }
+        return 0;
     }
+    //#endregion bounce
     /**
      * Backing interpolation function
      * @param   {Object}    params
@@ -504,50 +523,55 @@ class Interpolation {
      * @param   {String}    params.a   the type of the animation interpolation
      * @return  {Number}    the backing interpolation result
      */
+    //#region back
     static back(params) {
+        //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
-        //params.t = params.t | 0;
-        //params.b = params.b | 0;
-        //params.c = params.c | 0;
-        //params.d = params.d | 0;
-        //params.s = params.s | 0;
-        //if (typeof a!==_const.NUMBER) a=_animt.IN;
-        if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-            params.a = ANIMATIONTYPES.IN;
-        }
-        if (params.a === ANIMATIONTYPES.IN) {
-            if (params.s === 0) params.s = 1.70158;
-            params.t = params.t / params.d;
-            return params.c * params.t * params.t * ((params.s + 1) * params.t - params.s) + params.b;
-        } else if (params.a === ANIMATIONTYPES.OUT) {
-            if (params.s === 0) params.s = 1.70158;
-            params.t = params.t / params.d - 1;
-            return params.c * (params.t * params.t * ((params.s + 1) * params.t + params.s) + 1) + params.b;
-        } else if (params.a === ANIMATIONTYPES.INOUT) {
-            if (params.s === 0) params.s = 1.70158;
-            params.t = params.t / (params.d * 0.5);
-            if (params.t < 1) {
-                params.s = params.s * 1.525;
-                return params.c / 2 * (params.t * params.t * ((params.s + 1) * params.t - params.s)) + params.b;
-            } else {
-                params.t = params.t - 2;
-                params.s = params.s * 1.525;
-                return params.c / 2 * (params.t * params.t * ((params.s + 1) * params.t + params.s) + 2) + params.b;
+        //#endregion Variables déclaration
+        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d) && 
+            Tools.isNumber(params.s)) {
+            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
+                params.a = ANIMATIONTYPES.IN;
+            }
+            if (params.a === ANIMATIONTYPES.IN) {
+                if (params.s === 0) params.s = 1.70158;
+                params.t = params.t / params.d;
+                return params.c * params.t * params.t * ((params.s + 1) * params.t - params.s) + params.b;
+            } else if (params.a === ANIMATIONTYPES.OUT) {
+                if (params.s === 0) params.s = 1.70158;
+                params.t = params.t / params.d - 1;
+                return params.c * (params.t * params.t * ((params.s + 1) * params.t + params.s) + 1) + params.b;
+            } else if (params.a === ANIMATIONTYPES.INOUT) {
+                if (params.s === 0) params.s = 1.70158;
+                params.t = params.t / (params.d * 0.5);
+                if (params.t < 1) {
+                    params.s = params.s * 1.525;
+                    return params.c / 2 * (params.t * params.t * ((params.s + 1) * params.t - params.s)) + params.b;
+                } else {
+                    params.t = params.t - 2;
+                    params.s = params.s * 1.525;
+                    return params.c / 2 * (params.t * params.t * ((params.s + 1) * params.t + params.s) + 2) + params.b;
+                }
             }
         }
+        return 0;
     }
+    //#endregion back
     /**
      * Cholesky decomposition function
      * @param   {Number}    b   the first value for cholesky decomposition
      * @param   {Number}    c   the second value for cholesky decomposition
      * @return  {Array}         the cholesky decomposition result
      */
+    //#region choleskyDecomposition
     static choleskyDecomposition(b, c) {
+        //#region Variables déclaration
         const result = [];
         const d = 0;
         const f = c - 1;
         const m1 = new Array(f + 1);
         const m2 = new Array(f);
+        //#endregion Variables déclaration
         m1[d] = Math.sqrt(2);
         m2[d] = 1.0 / m1[d];
         for (let k = d + 1; k < f; k++) {
@@ -566,6 +590,7 @@ class Interpolation {
         }
         return result;
     }
+    //#endregion choleskyDecomposition
     /**
      * Hermit interpolation function
      * @param   {Number}    s   the first value for the hermit interpolation
@@ -573,6 +598,7 @@ class Interpolation {
      * @param   {Number}    c   the third value for the hermit interpolation
      * @return  {Number}        the hermit interpolation result
      */
+    //#region hermitInterpolate
     static hermitInterpolate(s, x, c) {
         if (s.length > 0) {
             let i = 0;
@@ -589,11 +615,13 @@ class Interpolation {
             return 0;
         }
     }
+    //#endregion hermitInterpolate
     /**
      * Calculate the hermite factors
      * @param   {Array}     v   the vector
      * @return  {Array}         the hermite calculation factors result
      */
+    //#region calcHermiteFactors
     static calcHermiteFactors(v) {
         if (v.length > 0) {
             const n = v.length - 1;
@@ -624,5 +652,8 @@ class Interpolation {
         }
         return spline;
     }
+    //#endregion calcHermiteFactors
+    //#endregion Interpolation functions
 }
+//#endregion Interpolation 
 export { Interpolation };

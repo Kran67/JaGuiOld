@@ -1737,5 +1737,5 @@ Object.defineProperties(Matrix, {
 });
 //#endregion Matrix defineProperties
 //#endregion
-Core.classes.register(Types.CATEGORIES.INTERNAL, Point, Rect, Vector, Matrix, Line);
-export { Geometry, Point, Rect, Vector, Matrix, Line };
+Core.classes.register(Types.CATEGORIES.INTERNAL, Point, Rect, Vector, Matrix );
+export { Geometry, Point, Rect, Vector, Matrix };

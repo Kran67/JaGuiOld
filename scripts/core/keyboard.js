@@ -1,5 +1,7 @@
-﻿import { BaseClass } from "/scripts/core/baseclass.js";
+﻿//#region Imports
+import { BaseClass } from "/scripts/core/baseclass.js";
 import { Tools } from "/scripts/core/tools.js";
+//#endregion Imports
 //#region VKeysCodes
 /**
  * @type    {Object}
@@ -141,6 +143,7 @@ const _KEYBORDEVENTS = Object.freeze({
 //#endregion
 //#region Keyboard
 const Keyboard = (() => {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
@@ -150,7 +153,10 @@ const Keyboard = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#endregion Private
+    //#region Keyboard
     class Keyboard extends BaseClass {
+        //#region constructor
         constructor() {
             super();
             const priv = internal(this);
@@ -182,105 +188,150 @@ const Keyboard = (() => {
                 }
             }
         }
+        //#endregion constructor
+        //#region Static
+        //#region VKEYSCODES
         static get VKEYSCODES() {
             return _VKEYSCODES;
         }
+        //#endregion VKEYSCODES
+        //#region KEYBORDEVENTS
         static KEYBORDEVENTS() {
             return _KEYBORDEVENTS;
         }
+        //#endregion KEYBORDEVENTS
+        //#endregion Static
+        //#region Getter / Setter
+        //#region ctrl
         get ctrl() {
             return _ctrl;
         }
         set ctrl(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
                 if (priv.ctrl !== newValue) {
                     priv.ctrl = newValue;
                 }
             }
         }
+        //#endregion ctrl
+        //#region alt
         get alt() {
             return internal(this).alt;
         }
         set alt(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
                 if (priv.alt !== newValue) {
                     priv.alt = newValue;
                 }
             }
         }
+        //#endregion alt
+        //#region shift
         get shift() {
             return internal(this).shift;
         }
         set shift(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
                 if (priv.shift !== newValue) {
                     priv.shift = newValue;
                 }
             }
         }
+        //#endregion shift
+        //#region meta
         get meta() {
             return internal(this).meta;
         }
         set meta(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
                 if (priv.meta !== newValue) {
                     priv.meta = newValue;
                 }
             }
         }
+        //#endregion meta
+        //#region keyCode
         get keyCode() {
             return internal(this).keyCode;
         }
         set keyCode(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (Tools.valueInSet(newValue, Keyboard.VKEYSCODES)) {
                 if (priv.keyCode !== newValue) {
                     priv.keyCode = newValue;
                 }
             }
         }
+        //#endregion keyCode
+        //#region keyEvent
         get keyEvent() {
             return internal(this).keyEvent;
         }
         set keyEvent(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (Tools.valueInSet(newValue, Keyboard.KEYBORDEVENTS)) {
                 if (priv.keyEvent !== newValue) {
                     priv.keyEvent = newValue;
                 }
             }
         }
+        //#endregion keyEvent
+        //#region keyChar
         get keyChar() {
             return internal(this).keyChar;
         }
         set keyChar(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (typeof newValue === Types.CONSTANTS.STRING) {
                 if (priv.keyChar !== newValue) {
                     priv.keyChar = newValue;
                 }
             }
         }
+        //#endregion keyChar
+        //#region keyCodeTable
         get keyCodeTable() {
             return internal(this).keyCodeTable;
         }
+        //#endregion keyCodeTable
+        //#region event
         get event() {
             return internal(this).event;
         }
         set event(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof KeyboardEvent) {
                 if (priv.event !== newValue) {
                     priv.event = newValue;
                 }
             }
         }
+        //#endregion event
+        //#region isNavigationKey
         get isNavigationKey() {
+            //#region Variables déclaration
             const VKEYSCODES = Keyboard.VKEYSCODES;
+            //#endregion Variables déclaration
             return [
                 VKEYSCODES.VK_BACKSPACE,
                 VKEYSCODES.VK_PRIOR,
@@ -299,57 +350,70 @@ const Keyboard = (() => {
                 VKEYSCODES.VK_RETURN
             ].indexOf(_keyCode) > -1;
         }
+        //#endregion isNavigationKey
+        //#endregion Getter / Setter
         //#region Methods
+        //#region getKeyboardInfos
         getKeyboardInfos(keyboardEventArg) {
+            //#region Variables déclaration
+            const priv = internal(this);
             const VKEYSCODES = Keyboard.VKEYSCODES;
             const KEYBORDEVENTS = Keyboard.KEYBORDEVENTS;
-            this.event = keyboardEventArg;
-            this.ctrl = keyboardEventArg.ctrlKey;
-            this.alt = keyboardEventArg.altKey;
-            this.shift = keyboardEventArg.shiftKey;
+            //#endregion Variables déclaration
+            priv.event = keyboardEventArg;
+            priv.ctrl = keyboardEventArg.ctrlKey;
+            priv.alt = keyboardEventArg.altKey;
+            priv.shift = keyboardEventArg.shiftKey;
             if (keyboardEventArg.type === "keypress") {
-                this.keyCode = (keyboardEventArg.charCode !== 0) ? keyboardEventArg.charCode : keyboardEventArg.keyCode;
+                priv.keyCode = (keyboardEventArg.charCode !== 0) ? keyboardEventArg.charCode : keyboardEventArg.keyCode;
             } else {
-                this.keyCode = keyboardEventArg.keyCode;
+                priv.keyCode = keyboardEventArg.keyCode;
             }
-            this.meta = keyboardEventArg.metaKey;
+            priv.meta = keyboardEventArg.metaKey;
             if (Core.browser.ff && (keyboardEventArg.type === "keypress")) {
-                this.keyCode = keyboardEventArg.charCode !== 0 && this.keyCodeTable[keyboardEventArg.charCode] ? this.keyCodeTable[keyboardEventArg.charCode] : keyboardEventArg.keyCode;
-                this.keyChar = keyboardEventArg.charCode !== 0 ? String.fromCharCode(keyboardEventArg.charCode) : String.EMPTY;
+                priv.keyCode = keyboardEventArg.charCode !== 0 && priv.keyCodeTable[keyboardEventArg.charCode] ? priv.keyCodeTable[keyboardEventArg.charCode] : keyboardEventArg.keyCode;
+                priv.keyChar = keyboardEventArg.charCode !== 0 ? String.fromCharCode(keyboardEventArg.charCode) : String.EMPTY;
             } else {
                 const keyCode = keyboardEventArg.which || keyboardEventArg.keyCode;
                 if (keyCode === VKEYSCODES.VK_SHIFT || keyCode === VKEYSCODES.VK_CONTROL || keyCode === VKEYSCODES.VK_ALT) {
-                    this.keyChar = String.EMPTY;
+                    priv.keyChar = String.EMPTY;
                 } else {
-                    this.keyChar = String.fromCharCode(keyCode);
+                    priv.keyChar = String.fromCharCode(keyCode);
                 }
             }
-            if (!this.shift) {
-                this.keyChar = this.keyChar.toLowerCase();
+            if (!priv.shift) {
+                priv.keyChar = this.keyChar.toLowerCase();
             }
             if (!Core.isKeyDown) {
-                this.keyEvent = KEYBORDEVENTS.NONE;
+                priv.keyEvent = KEYBORDEVENTS.NONE;
             } else {
-                this.keyEvent = KEYBORDEVENTS.DOWN;
+                priv.keyEvent = KEYBORDEVENTS.DOWN;
             }
             if (typeof Core.onGetMouseInfos === Types.CONSTANTS.FUNCTION) {
                 Core.onGetMouseInfos();
             }
         }
+        //#endregion getKeyboardInfos
+        //#region stopEvent
         stopEvent() {
-            this.event.cancelBubble = true;
-            this.event.stopPropagation();
-            this.event.preventDefault();
-            this.ctrl = false;
-            this.alt = false;
-            this.shift = false;
-            this.keyCode = Keyboard.VKEYSCODES.NONE;
-            this.keyEvent = Keyboard.KEYBORDEVENTS.NONE;
-            this.keyChar = String.EMPTY;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.event.cancelBubble = true;
+            priv.event.stopPropagation();
+            priv.event.preventDefault();
+            priv.ctrl = false;
+            priv.alt = false;
+            priv.shift = false;
+            priv.keyCode = Keyboard.VKEYSCODES.NONE;
+            priv.keyEvent = Keyboard.KEYBORDEVENTS.NONE;
+            priv.keyChar = String.EMPTY;
         }
+        //#endregion stopEvent
         //#endregion
     }
     return Keyboard;
+    //#endregion Keyboard
 })();
 //#endregion
 Core.keyboard = new Keyboard;

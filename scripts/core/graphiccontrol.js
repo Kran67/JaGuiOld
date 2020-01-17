@@ -1,6 +1,7 @@
 ﻿//#region Imports
 import { Control } from "/scripts/components/control.js";
-import { Color } from "/scripts/core/color.js";
+import { Color,  Colors } from "/scripts/core/color.js";
+import { Tools } from "/scripts/core/tools.js";
 //#endregion Imports
 //#region GraphicControl
 const GraphicControl = (function () {
@@ -14,21 +15,20 @@ const GraphicControl = (function () {
         // Return private properties object
         return _private.get(key);
     };
-    //#region Private
+    //#endregion Private
     //#region GraphicControl
     class GraphicControl extends Control {
         //#region constructor
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                //DrawingInfo.mixin(this);
                 super(owner, props);
                 const priv = internal(this);
-                priv.fillColor = new Core.classes.Color(Colors.WHITE);
-                priv.strokeColor = new Core.classes.Color(Colors.BLACK);
-                priv.strokeWidth = 1;
-                priv.strokeDash = "[]";
-                priv.strokeDashOffset = 0;
+                priv.fillColor = props.hasOwnProperty("fillColor") ? Color.parse(props.fillColor) : new Color(Colors.WHITE);
+                priv.strokeColor = props.hasOwnProperty("strokeColor") ? Color.parse(props.strokeColor) : new Color(Colors.BLACK);
+                priv.strokeWidth = props.hasOwnProperty("strokeWidth") ? props.strokeWidth : 1;
+                priv.strokeDash = props.hasOwnProperty("strokeDash") ? props.strokeDash : "[]";
+                priv.strokeDashOffset = props.hasOwnProperty("strokeDashOffset") ? props.strokeDashOffset : 0;
                 this.addBindableProperties(["fillColor", "strokeColor", "strokeWidth", "strokeDash", "strokeDashOffset"]);
                 delete this.tabOrder;
             }
@@ -40,8 +40,10 @@ const GraphicControl = (function () {
             return internal(this).fillColor;
         }
         set fillColor(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (newValue instanceof Core.classes.Color) {
+            //#endregion Variables déclaration
+            if (newValue instanceof Color) {
                 if (!priv.fillColor.equals(newValue)) {
                     priv.fillColor.assign(newValue);
                     this.update();
@@ -54,8 +56,10 @@ const GraphicControl = (function () {
             return internal(this).strokeColor;
         }
         set strokeColor(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (newValue instanceof Core.classes.Color) {
+            //#endregion Variables déclaration
+            if (newValue instanceof Color) {
                 if (!priv.strokeColor.equals(newValue)) {
                     priv.strokeColor.assign(newValue);
                     this.update();
@@ -68,8 +72,10 @@ const GraphicControl = (function () {
             return internal(this).strokeWidth;
         }
         set strokeWidth(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 if (newValue < 0) newValue = 0;
                 if (priv.strokeWidth !== newValue) {
                     priv.strokeWidth = newValue;
@@ -83,8 +89,10 @@ const GraphicControl = (function () {
             return internal(this).strokeDash;
         }
         set strokeDash(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            //#endregion Variables déclaration
+            if (Tools.isString(newValue)) {
                 if (priv.strokeDash !== newValue) {
                     priv.strokeDash = newValue;
                     this.update();
@@ -97,17 +105,23 @@ const GraphicControl = (function () {
             return internal(this).strokeDashOffset;
         }
         set strokeDashOffset(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 if (priv.strokeDashOffset !== newValue) {
                     priv.strokeDashOffset = newValue;
                     this.update();
                 }
             }
         }
+        //#endregion strokeDashOffset
         //#endregion
         //#region Methods
+        //#region changed
         changed() { }
+        //#endregion changed
+        //#region update
         update() {
             if (!this.loading) {
                 //if (this._fillColor)) {
@@ -121,13 +135,20 @@ const GraphicControl = (function () {
                 super.update();
             }
         }
+        //#endregion update
+        //#region loaded
         loaded() {
             super.loaded();
             this.update();
         }
+        //#endregion loaded
+        //#region destroy
         destroy() {
-            const fillColor = this.fillColor;
-            const strokeColor = this.strokeColor;
+            //#region Variables déclaration
+            const priv = internal(this);
+            const fillColor = priv.fillColor;
+            const strokeColor = priv.strokeColor;
+            //#endregion Variables déclaration
             if (fillColor) {
                 fillColor.destroy();
             }
@@ -136,6 +157,7 @@ const GraphicControl = (function () {
             }
             super.destroy();
         }
+        //#endregion destroy
         //reset GraphicControl_reset(){
         //  this.background.clear();
         //  this.color.assign(_colors.TRANSPARENT);
@@ -183,7 +205,9 @@ const GraphicControl = (function () {
         //#endregion
     }
     return GraphicControl;
+    //#endregion GraphicControl
 })();
+//#region GraphicControl defineProperties
 Object.defineProperties(GraphicControl, {
     "fillColor": {
         enumerable: true
@@ -201,6 +225,7 @@ Object.defineProperties(GraphicControl, {
         enumerable: true
     }
 });
+//#endregion GraphicControl defineProperties
 //#endregion
 Core.classes.register(Types.CATEGORIES.INTERNAL, GraphicControl);
 export { GraphicControl };
