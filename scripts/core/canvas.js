@@ -115,7 +115,7 @@ CanvasRenderingContext2D.prototype.drawPath = function(comp,path,clip) {
     if (path instanceof Core.classes.PathData) {
         //if (!comp.borderDash) comp.borderDash=$j.types.canvas.strokeDashs.SOLID;
         //if (!$j.tools.isNull(this.useNativeDash&&comp.borderDash)) this.setDash(comp.borderDash);
-        if (!path.empty){
+        if (!path.isEmpty){
             const b=path.bounds;
             const w=b.width;
             const h=b.height;

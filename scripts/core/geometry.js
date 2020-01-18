@@ -10,42 +10,42 @@ class Geometry {
         //#region Variables déclaration
         const CONSTANTS = Types.CONSTANTS;
         //#endregion Variables déclaration
-        if (!Tools.isNumber(a)) {
-            a = 0;
+        if (Tools.isNumber(a)) {
+            a = a * 1;
+            let result = a - (a * CONSTANTS.INV360 | 0) * 360;
+            if (result < -180) {
+                result = result + 360;
+            }
+            return result;
         }
-        a = a * 1;
-        let result = a - (a * CONSTANTS.INV360 | 0) * 360;
-        if (result < -180) {
-            result = result + 360;
-        }
-        return;
+        return a;
     }
     static createRotationMatrix(a) {
         //#region Variables déclaration
         const CONSTANTS = Types.CONSTANTS;
         //#endregion Variables déclaration
-        if (!Tools.isNumber(a)) {
-            a = 0;
+        if (Tools.isNumber(a)) {
+            a = a * 1;
+            let x = Math.sinCos(a);
+            let cosine = x.cos;
+            let sine = x.sin;
+
+            const result = CONSTANTS.ZEROMATRIX.clone();
+            result.m11 = cosine;
+            result.m12 = sine;
+            result.m13 = 0;
+
+            result.m21 = -sine;
+            result.m22 = cosine;
+            result.m23 = 0;
+
+            result.m31 = 0;
+            result.m32 = 0;
+            result.m33 = 1;
+            cosine = sine = x = null;
+            return result;
         }
-        a = a * 1;
-        let x = Math.sinCos(a);
-        let cosine = x.cos;
-        let sine = x.sin;
-
-        const result = CONSTANTS.ZEROMATRIX.clone();
-        result.m11 = cosine;
-        result.m12 = sine;
-        result.m13 = 0;
-
-        result.m21 = -sine;
-        result.m22 = cosine;
-        result.m23 = 0;
-
-        result.m31 = 0;
-        result.m32 = 0;
-        result.m33 = 1;
-        cosine = sine = x = null;
-        return result;
+        return a;
     }
     static vectorLine(p, p1) {
         if (p instanceof Core.classes.Point && p1 instanceof Core.classes.Point) {
@@ -97,7 +97,7 @@ const Point = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (!Tools.isNumber(newValue)) {
+            if (Tools.isNumber(newValue)) {
                 priv.x = newValue;
             }
         }
@@ -110,7 +110,7 @@ const Point = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (!Tools.isNumber(newValue)) {
+            if (Tools.isNumber(newValue)) {
                 priv.y = newValue;
             }
         }
@@ -688,7 +688,7 @@ const Rect = (() => {
                 //a.add(this);
                 const result = new Core.classes.Rect(0xF000, 0xF000, -0xF000, -0xF000);
                 a.forEach(x => {
-                    if ((x instanceof Core.classes.Point)) {
+                    if (x instanceof Core.classes.Point) {
                         if (x.x < result.left) {
                             result.left = x.x;
                         }
@@ -762,28 +762,28 @@ const Rect = (() => {
         //#region fit
         fit(b) {
             if (b instanceof Core.classes.Rect) {
-                let _ratio = 1;
+                let ratio = 1;
                 if (b.isEmpty) {
-                    return { rect: this, ratio: _ratio };
+                    return { rect: this, ratio: ratio };
                 }
                 if (this.width / b.width > this.height / b.height) {
-                    _ratio = this.width / b.width;
+                    ratio = this.width / b.width;
                 } else {
-                    _ratio = this.height / b.height;
+                    ratio = this.height / b.height;
                 }
-                if (_ratio < 1) {
+                if (ratio < 1) {
                     this.right = this.width;
                     this.bottom = this.height;
                     this.left = 0;
                     this.top = 0;
                 } else {
-                    this.right = Math.round(this.width / _ratio);
-                    this.bottom = Math.round(this.height / _ratio);
+                    this.right = Math.round(this.width / ratio);
+                    this.bottom = Math.round(this.height / ratio);
                     this.left = 0;
                     this.top = 0;
                 }
                 this.center(b);
-                return { rect: this, ratio: _ratio };
+                return { rect: this, ratio: ratio };
             }
             return 0;
         }
@@ -1737,5 +1737,5 @@ Object.defineProperties(Matrix, {
 });
 //#endregion Matrix defineProperties
 //#endregion
-Core.classes.register(Types.CATEGORIES.INTERNAL, Point, Rect, Vector, Matrix );
+Core.classes.register(Types.CATEGORIES.INTERNAL, Point, Rect, Vector, Matrix);
 export { Geometry, Point, Rect, Vector, Matrix };
