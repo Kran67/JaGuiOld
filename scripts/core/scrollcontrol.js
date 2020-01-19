@@ -1,6 +1,9 @@
-﻿import { ThemedControl } from "/scripts/core/themedcontrol.js";
+﻿//#region Imports
+import { ThemedControl } from "/scripts/core/themedcontrol.js";
+//#endregion Imports
 //#region ScrollControl
 class ScrollControl extends ThemedControl {
+    //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
@@ -9,6 +12,7 @@ class ScrollControl extends ThemedControl {
             //#endregion
         }
     }
+    //#endregion constructor
 }
 Object.seal(ScrollControl);
 //#endregion

@@ -8,10 +8,10 @@ class TextShadowsItem {
     //#region Constructor
     constructor(owner, props) {
         props = !props ? {} : props;
-        this.offset = new Point(props.offset.x ? props.offset.x : 0, props.offset.y? props.offset.y: 0);
+        this.offset = new Point(props.offset.x ? props.offset.x : 0, props.offset.y ? props.offset.y : 0);
         this.color = owner.color;
         if (props.color) {
-            if (typeof props.color === Types.CONSTANTS.STRING) {
+            if (Tools.isString(props.color)) {
                 this.color = Color.parse(props.color);
             }
         }
@@ -19,10 +19,12 @@ class TextShadowsItem {
     }
     //#endregion Constructor
     //#region Methods
+    //#region toCss
     toCss() {
         const PX = Types.CSSUNITS.PX;
-        return `${this.offset.x}${PX} ${this.offset.y}${PX} ${this.blur}${PX} ${(this.color?this.color:Colors.BLACK).toRGBAString()}`;
+        return `${this.offset.x}${PX} ${this.offset.y}${PX} ${this.blur}${PX} ${(this.color ? this.color : Colors.BLACK).toRGBAString()}`;
     }
+    //#endregion toCss
     //#region destroy
     destroy() {
         this.offset.destroy();
@@ -35,8 +37,8 @@ class TextShadowsItem {
         delete this.blur;
         super.destroy();
     }
-//#endregion destroy
-//#endregion Methods
+    //#endregion destroy
+    //#endregion Methods
 }
 //#endregion TextShadowsItem
 //#region TextShadows
@@ -45,7 +47,6 @@ class TextShadows {
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
-            //#region Private
             Core.classes.newCollection(this, this, TextShadowsItem);
             if (props.textShadows) {
                 props.textShadows.forEach(item => {
@@ -64,7 +65,6 @@ class TextShadows {
     //#endregion destroy
     //#endregion Methods
 }
-//#endregion TextShadows
 //#region TextShadows defineProperties
 Object.defineProperties(TextShadows, {
     "items": {
@@ -72,5 +72,6 @@ Object.defineProperties(TextShadows, {
     }
 });
 //#endregion TextShadows defineProperties
+//#endregion TextShadows
 Object.seal(TextShadows);
 export { TextShadows };

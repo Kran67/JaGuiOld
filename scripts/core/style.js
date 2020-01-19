@@ -1,6 +1,9 @@
-﻿import { BaseClass } from "/scripts/core/baseclass.js";
+﻿//#region Imports
+import { BaseClass } from "/scripts/core/baseclass.js";
+//#endregion Imports
 //#region Style
 class Style extends BaseClass {
+    //#region constructor
     constructor(parentClasses, props) {
         if (!Array.isArray(parentClasses)) {
             parentClasses = [];
@@ -20,6 +23,7 @@ class Style extends BaseClass {
             });
         }
     }
+    //#endregion constructor
 }
 //#endregion
 Core.classes.register(Types.CATEGORIES.INTERNAL, Style);

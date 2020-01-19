@@ -1,5 +1,8 @@
-﻿import { BaseClass } from "/scripts/core/baseclass.js";
+﻿//#region Imports
+import { BaseClass } from "/scripts/core/baseclass.js";
 import { Window } from "/scripts/components/containers/window.js";
+import { Tools } from "/scripts/core/tools.js";
+//#endregion Imports
 //#region ThemeManifest
 const ThemeManifest = (() => {
     //#region Private
@@ -18,13 +21,11 @@ const ThemeManifest = (() => {
         //#region Constructor
         constructor(owner) {
             super(owner);
-            //#region Private
             const priv = internal(this);
             priv.themes = [];
             priv.lastThemeName = Core.defaultTheme;
             priv.owner = owner;
             priv.themeName = Core.defaultTheme;
-            //#endregion Private
         }
         //#endregion Constructor
         //#region getters / setters
@@ -41,7 +42,7 @@ const ThemeManifest = (() => {
             //#region Variables declaration
             const priv = internal(this);
             //#endregion Variables declaration
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            if (Tools.is(newValue)) {
                 if (priv.lastThemeName !== newValue) {
                     priv.lastThemeName = newValue;
                 }
@@ -61,7 +62,7 @@ const ThemeManifest = (() => {
             //#region Variables declaration
             const priv = internal(this);
             //#endregion Variables declaration
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            if (Tools.isString(newValue)) {
                 if (newValue !== priv.themeName) {
                     document.body.classList.add("changingTheme");
                     priv.lastThemeName = priv.themeName;
@@ -105,19 +106,21 @@ const ThemeManifest = (() => {
             const lastThemeName = this.lastThemeName;
             const themeName = this.themeName;
             const isHtmlRenderer = Core.isHTMLRenderer;
+            const wHTMLElement = window.HTMLElement=
             //#endregion Variables declaration
             window.themeName = themeName;
             if (isHtmlRenderer) {
-                window.HTMLElement.classList.remove(lastThemeName);
-                window.HTMLElement.classList.add(themeName);
-                const ctrls = window.HTMLElement.querySelectorAll(`.${lastThemeName}`);
+                wHTMLElement.classList.remove(lastThemeName);
+                wHTMLElement.classList.add(themeName);
+                const ctrls = wHTMLElement.querySelectorAll(`.${lastThemeName}`);
                 ctrls.forEach(ctrl => {
                     ctrl.classList.remove(lastThemeName);
                     ctrl.classList.add(themeName);
                     if (ctrl.jsObj) {
-                        if (ctrl.jsObj.themeName) {
-                            if (ctrl.jsObj.themeName !== themeName) {
-                                ctrl.jsObj.themeName = themeName;
+                        const jsObj = ctrl.jsObj;
+                        if (jsObj.themeName) {
+                            if (jsObj.themeName !== themeName) {
+                                jsObj.themeName = themeName;
                             }
                         }
                     }
@@ -145,8 +148,8 @@ const ThemeManifest = (() => {
                 }
                 window.alignButtons();
                 window.captionChanged();
-                if (Core.themes[themeName].onThemeChanged) {
-                    Core.themes[themeName].onThemeChanged.invoke(window);
+                if (theme.onThemeChanged) {
+                    theme.onThemeChanged.invoke(window);
                 }
             }
             window.onThemeChanged.invoke();
@@ -162,16 +165,19 @@ const ThemeManifest = (() => {
             }
         }
         //#endregion addThemes
+        //#region addTheme
         addTheme(themeName) {
             //#region Variables declaration
             const themes = this.themes;
             //#endregion Variables declaration
-            if (typeof themeName === Types.CONSTANTS.STRING) {
+            if (Tools.isString(themeName)) {
                 if (themes.indexOf(themeName) === -1) {
                     themes.push(themeName);
                 }
             }
         }
+        //#endregion addTheme
+        //#region destroy
         destroy() {
             //#region Variables declaration
             const priv = internal(this);
@@ -179,16 +185,19 @@ const ThemeManifest = (() => {
             priv.themes.clear();
             super.destroy();
         }
-        //#endregion
+        //#endregion destroy
+        //#endregion Methods
     }
     return ThemeManifest;
-    //#region Class ThemeManifest
+    //#endregion Class ThemeManifest
 })();
+//#region ThemeManifest defineProperties
 Object.defineProperties(ThemeManifest, {
     "themeName": {
         enumerable: true
     }
 });
-//#endregion
+//#endregion ThemeManifest defineProperties
+//#endregion ThemeManifest
 Core.classes.register(Types.CATEGORIES.INTERNAL, ThemeManifest);
 export { ThemeManifest };

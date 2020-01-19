@@ -1,7 +1,12 @@
-﻿/**
+﻿//#region Imports
+import { Tools } from "/scripts/core/tools.js";
+//#endregion Imports
+/**
  *
  */
+//#region Xhr
 class Xhr {
+    //#region Methods
     /**
      *
      * @param {Object}      params
@@ -11,13 +16,12 @@ class Xhr {
      * @param {Boolean}     params.xml
      * @param {Object}      params.parameters
      */
+    //#region load
     static load(params) {
-        const BOOLEAN = Types.CONSTANTS.BOOLEAN;
-        const FUNCTION = Types.CONSTANTS.FUNCTION;
-        if (typeof params.async !== BOOLEAN) {
+        if (!Tools.isBool(params.async)) {
             params.async = false;
         }
-        if (typeof params.xml !== BOOLEAN) {
+        if (!Tools.isBool(params.xml)) {
             params.xml = false;
         }
         if (!params.callback) {
@@ -26,7 +30,7 @@ class Xhr {
         const xmlHTTPR = window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") : new XMLHttpRequest();
         xmlHTTPR.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
-                if (typeof params.callback === FUNCTION) {
+                if (Tools.isFunc(params.callback)) {
                     if (params.async) {
                         if (!params.xml) {
                             callback(this.responseText, params.parameters);
@@ -40,7 +44,7 @@ class Xhr {
         xmlHTTPR.open("GET", params.url, params.async);
         xmlHTTPR.send(null);
         if (!params.async) {
-            if (typeof params.callback === FUNCTION) {
+            if (Tools.isFunc(params.callback)) {
                 if (!params.xml) {
                     callback(xmlHTTPR.responseText, params.parameters);
                 } else {
@@ -49,5 +53,8 @@ class Xhr {
             }
         }
     }
+    //#endregion load
+    //#endregion Methods
 }
+//#endregion Xhr
 export { Xhr };

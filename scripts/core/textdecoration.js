@@ -1,8 +1,7 @@
-﻿//#region Import
+﻿//#region Imports
 import { Tools } from "/scripts/core/tools.js";
 import { Color } from "/scripts/core/color.js";
-//#endregion Import
-
+//#endregion Imports
 //#region TextDecoration
 const TextDecoration = (() => {
     //#region Private
@@ -16,28 +15,27 @@ const TextDecoration = (() => {
         return _private.get(key);
     };
     //#endregion Private
+    //#region TextDecoration
     class TextDecoration {
-        //#region Constructor
+        //#region constructor
         constructor(owner, props) {
-            const CONSTANTS = Types.CONSTANTS;
             props = !props ? {} : props;
             if (owner) {
-                //#region Private
                 const priv = internal(this);
                 priv.owner = owner;
-                priv.underline = typeof props.underline === CONSTANTS.BOOLEAN ? props.underline : false;
-                priv.overline = typeof props.overline === CONSTANTS.BOOLEAN ? props.overline : false;
-                priv.lineThrough = typeof props.lineThrough === CONSTANTS.BOOLEAN ? props.lineThrough : false;
+                priv.underline = Tools.isBool(props.underline) ? props.underline : false;
+                priv.overline = Tools.isBool(props.overline) ? props.overline : false;
+                priv.lineThrough = Tools.isBool(props.lineThrough) ? props.lineThrough : false;
                 priv.color = owner.color;
                 if (props.color) {
-                    if (typeof props.color === CONSTANTS.STRING) {
+                    if (Tools.isString(props.color)) {
                         priv.color = Color.parse(props.color);
                     }
                 }
                 priv.style = props.style ? props.style : Types.TEXTDECORATIONSTYLES.SOLID;
             }
         }
-        //#endregion
+        //#endregion constructor
         //#region Getters/Setters
         //#region underline
         get underline() {
@@ -48,7 +46,7 @@ const TextDecoration = (() => {
             const priv = internal(this);
             const form = priv.owner.form;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (priv.underline !== newValue) {
                     priv.underline = newValue;
                     if (priv.owner.loading || form.loading) {
@@ -70,7 +68,7 @@ const TextDecoration = (() => {
             const priv = internal(this);
             const form = priv.owner.form;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (priv.overline !== newValue) {
                     priv.overline = newValue;
                     if (priv.owner.loading || form.loading) {
@@ -92,7 +90,7 @@ const TextDecoration = (() => {
             const priv = internal(this);
             const form = priv.owner.form;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (priv.lineThrough !== newValue) {
                     priv.lineThrough = newValue;
                     if (priv.owner.loading || form.loading) {
@@ -115,7 +113,7 @@ const TextDecoration = (() => {
             const form = priv.owner.form;
             const CONSTANTS = Types.CONSTANTS;
             //#endregion Variables déclaration
-            if (typeof newValue !== CONSTANTS.STRING) {
+            if (Tools.isString(newValue)) {
                 newValue = Color.parse(newValue);
             }
             if (newValue instanceof Color) {
@@ -157,8 +155,8 @@ const TextDecoration = (() => {
         //#endregion Getters/Setters
     }
     return TextDecoration;
+    //#endregion TextDecoration
 })();
-//#endregion TextDecoration
 //#region TextDecoration defineProperties
 Object.defineProperties(TextDecoration, {
     "underline": {
@@ -178,5 +176,6 @@ Object.defineProperties(TextDecoration, {
     }
 });
 //#endregion TextDecoration defineProperties
+//#endregion TextDecoration
 Object.seal(TextDecoration);
 export { TextDecoration };

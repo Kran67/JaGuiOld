@@ -1,16 +1,19 @@
-﻿import { Convert } from "/scripts/core/convert.js";
-//import { Point } from "/scripts/core/geometry.js";
+﻿//#region Imports
+import { Convert } from "/scripts/core/convert.js";
+import { Tools } from "/scripts/core/tools.js";
+//#endregion Imports
+//#region Text
 class Text {
     //#region Methods
+    //#region wrapText
     static wrapText(text, withSpace) {
-        const CONSTANTS = Types.CONSTANTS;
-        if (typeof text !== CONSTANTS.STRING) {
+        if (!Tools.isString(text)) {
             return [];
         }
         if (text === String.EMPTY) {
             return text.split();
         }
-        if (typeof withSpace === CONSTANTS.UNDEFINED) {
+        if (!Tools.isBool(withSpace)) {
             withSpace = false;
         }
         if (withSpace) {
@@ -24,10 +27,14 @@ class Text {
         text = text.split("[|]");
         return text;
     }
+    //#endregion wrapText
+    //#region wordWrapText
     static wordWrapText(ctx, text, maxWidth) {
+        //#region Variables déclaration
         let line = String.EMPTY;
         const lines = [];
         let words = text.replace(text, String.SPACE, "\f ");
+        //#endregion Variables déclaration
         words = words.split(String.SPACE);
         words.forEach(word => {
             const testLine = line + word;
@@ -45,6 +52,8 @@ class Text {
         lines.push(line);
         return lines;
     }
+    //#endregion wordWrapText
+    //#region findWordBreak
     static findWordBreak(text, col, step) {
         if (step < 0) {
             col += step;
@@ -60,12 +69,18 @@ class Text {
         }
         return step < 0 ? 0 : text.length;
     }
+    //#endregion findWordBreak
+    //#region isWordSeparator
     static isWordSeparator(c) {
         return " \t'\",;.!~@#$%^&*?=<>()[]:\\+-".indexOf(c) !== -1;
     }
+    //#endregion isWordSeparator
+    //#region getTok
     static getTok(string, position) {
+        //#region Variables déclaration
         let i = 0;
-        if (typeof string === Types.CONSTANTS.STRING) {
+        //#endregion Variables déclaration
+        if (Tools.isString(string)) {
             let result = String.EMPTY;
             const len = string.length;
             if (position > len) {
@@ -83,9 +98,13 @@ class Text {
             return { s: result, pos: i };
         }
     }
+    //#endregion getTok
+    //#region getNum
     static getNum(string, position) {
+        //#region Variables déclaration
         let i = 0;
-        if (typeof string === Types.CONSTANTS.STRING) {
+        //#endregion Variables déclaration
+        if (Tools.isString(string)) {
             let result = String.EMPTY;
             const len = string.length;
             if (position > len) {
@@ -114,8 +133,10 @@ class Text {
             return { Result: result, Pos: i };
         }
     }
+    //#endregion getNum
+    //#region getPoint
     static getPoint(string, position) {
-        if (typeof string === Types.CONSTANTS.STRING) {
+        if (Tools.isString(string)) {
             const len = string.length;
             if (position > len) {
                 return null;
@@ -138,8 +159,10 @@ class Text {
             return { Point: new Core.classes.Point(Convert.strToFloat(x), Convert.strToFloat(y)), Pos: position };
         }
     }
+    //#endregion getPoint
+    //#region getTextSizes
     static getTextSizes(text, _class, htmlObj) {
-        if (typeof text === Types.CONSTANTS.STRING) {
+        if (Tools.isString(text)) {
             //if (font!==null) {
             //  if (!(font instanceof $j.classes.Font)) return;
             //}
@@ -164,14 +187,22 @@ class Text {
             return { w: width, h: height };
         }
     }
+    //#endregion getTextSizes
+    //#region replace
     static replace(s, f, r) {
         return s.replace(new RegExp(f, "g"), r);
     }
+    //#endregion replace
+    //#region getLastNumber
     static getLastNumber(str) {
         return str.match(/\d+$/)[0];
     }
+    //#endregion getLastNumber
+    //#region setTextNode
     static setTextNode(element, text) {
+        //#region Variables déclaration
         const includeCaption = element.querySelector(".includeCaption");
+        //#endregion Variables déclaration
         if (includeCaption) {
             element = includeCaption;
         }
@@ -195,10 +226,14 @@ class Text {
             }
         }
     }
+    //#endregion setTextNode
+    //#region formatHTML
     static formatHTML(code, stripWhiteSpaces, stripEmptyLines, indentSize) {
+        //#region Variables déclaration
         const whitespace = String.SPACE.repeat(indentSize ? ~~indentSize : 4); // Default indenting 4 whitespaces
         let pos = 0;
         const result = [];
+        //#endregion Variables déclaration
         for (; pos <= code.length; pos++) {
             let nextSpace = String.EMPTY;
             let currentCode = String.EMPTY;
@@ -248,5 +283,8 @@ class Text {
         }
         return result.join(String.EMPTY);
     }
+    //#endregion formatHTML
+    //#endregion Methods
 }
+//#endregion Text
 export { Text };

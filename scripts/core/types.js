@@ -28,8 +28,6 @@ const CONSTANTS = Object.freeze({
     EPSILON: 1e-40,
     GRIPSIZE: 3,
     ROTSIZE: 10,
-    //IDENTITYMATRIX: new Geometry.Matrix(new Geometry.Vector(1, 0, 0), new Geometry.Vector(0, 1, 0), new Geometry.Vector(0, 0, 1)),
-    //ZEROMATRIX: new Geometry.Matrix,
     //#region CLOSEPOLYGON
     CLOSEPOLYGON: Object.freeze({
         x: 0xFFFF,
@@ -72,7 +70,6 @@ const CONSTANTS = Object.freeze({
     STAYONBTNGLYPH: "?",
     BTNGLYPHFONTFACE: "jagui",
     UNSET: "unset"
-    //PSEUDOCLASSBEFORE: Browser.webkit ? ":" : ""
 });
 //#endregion
 //#region

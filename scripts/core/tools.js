@@ -1,44 +1,54 @@
-﻿class Tools {
-    /*constructor() {
-        this.HTMLParentElement = null;
-        //afterLoadScripts: null,
-        //scripts: [],
-        //loadedScripts: [],
-        this.windowsHTML = [];
-        //idx: 0,
-        //currentProgress: "progressOuter",
-        //step: 0,
-    }*/
+﻿//#region Tools
+class Tools {
     //#region Methods
+    //#region isNumber
     static isNumber(value) {
         return typeof value === Types.CONSTANTS.NUMBER;
     }
+    //#endregion isNumber
+    //#region isString
     static isString(value) {
         return typeof value === Types.CONSTANTS.STRING;
     }
+    //#endregion isString
+    //#region isBool
     static isBool(value) {
         return typeof value === Types.CONSTANTS.BOOLEAN;
     }
+    //#endregion isBool
+    //#region isObject
     static isObject(value) {
         return typeof value === Types.CONSTANTS.OBJECT;
     }
+    //#endregion isObject
+    //#region isFunc
     static isFunc(value) {
         return typeof value === Types.CONSTANTS.FUNCTION;
     }
+    //#endregion isFunc
+    //#region isArray
     static isArray(value) {
         return typeof value === Types.CONSTANTS.ARRAY;
     }
+    //#endregion isArray
+    //#region isDate
     static isDate(value) {
         return typeof value === Types.CONSTANTS.DATE;
     }
+    //#endregion isDate
+    //#region include
     static include(object, property, value) {
         if (!bitTest(object[property], value)) {
             object[property].push(value);
         }
     }
+    //#endregion include
+    //#region bitTest
     static bitTest(flags, value) {
         return flags.indexOf(value) !== -1;
     }
+    //#endregion bitTest
+    //#region exclude
     static exclude(object, property, value) {
         if (bitTest(object[property], value)) {
             const idx = object[property].indexOf(value);
@@ -47,12 +57,16 @@
             }
         }
     }
+    //#endregion exclude
+    //#region isValidIdent
     static isValidIdent(ident, allowDots) {
+        //#region Variables déclaration
         const CONSTANTS = Types.CONSTANTS;
         const alphaChars = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,_";
         const alpha = alphaChars.split(",");
         const alphaNumeric = (`${alpha.join(",")},0,1,2,3,4,5,6,7,8,9`).split(",");
         const alphaNumericDot = (alphaNumeric.join(",") + ",.").split(",");
+        //#endregion Variables déclaration
         if (typeof ident === CONSTANTS.STRING) {
             if (typeof allowDots !== CONSTANTS.BOOLEAN) {
                 allowDots = false;
@@ -77,6 +91,8 @@
         }
         return false;
     }
+    //#endregion isValidIdent
+    //#region valueInSet
     static valueInSet(value, set) {
         if (typeof set === Types.CONSTANTS.OBJECT) {
             const names = Object.getOwnPropertyNames(set);
@@ -88,7 +104,10 @@
         }
         return false;
     }
+    //#endregion valueInSet
+    //#region emptyFunc
     static emptyFunc() { }
+    //#endregion emptyFunc
     //loadNextScript () {
     //    $j.tools.idx++;
     //    if ($j.tools.idx >= $j.tools.scripts.length) {
@@ -182,6 +201,7 @@
         //    }
         //}
     }*/
+    //#region loadFormRes
     static loadFormRes(resName) {
         //let fileText, p, style;
         if (Core.isHTMLRenderer) {
@@ -217,9 +237,13 @@
         //Tools.windowsHTML.push(Tools.uri.base() + resName + ".html?rnd=" + new Date().getTime());
         Core.apps.activeApplication.loadedWindowsHTML++;
     }
+    //#endregion loadFormRes
+    //#region getObjectFromString
     static getObjectFromString(_object, stringProp) {
+        //#region Variables déclaration
         const tabs = stringProp.split(".").shift();
         let obj = _object.first;
+        //#endregion Variables déclaration
         if (typeof obj === Types.CONSTANTS.OBJECT && obj) {
             tabs.forEach(tab => {
                 obj = obj[tab];
@@ -228,9 +252,12 @@
         }
         return { object: _object, property: stringProp };
     }
+    //#endregion getObjectFromString
+    //#region execFunc
     static execFunc(object, func, param, timeToWait) {
         setTimeout(() => { object[func](param); }, timeToWait ? timeToWait : 0);
     }
+    //#endregion execFunc
     //getPath (subfolder) {
     //    let path = subfolder.toUpperCase();
     //    path = Core.folders[path];
@@ -267,6 +294,7 @@
     //    node.addEventListener("error", function () { });
     //    document.getElementsByTagName("head")[0].appendChild(node);
     //}
+    //#region clone
     static clone(object) {
         //answer a new instance of target's type
         if (typeof object === Types.CONSTANTS.OBJECT) {
@@ -277,8 +305,9 @@
             return object;
         }
     }
+    //#endregion clone
+    //#region copy
     static copy(object) {
-        //let Types = require("types");
         //answer a shallow copy of target
         if (typeof object === Types.CONSTANTS.OBJECT) {
             const value = object.valueOf();
@@ -308,6 +337,8 @@
         }
         return object;
     }
+    //#endregion copy
+    //#region getLocale
     static getLocale() {
         if (Core.apps.activeApplication.locale) {
             if (Core.locales[Core.apps.activeApplication.locale]) {
@@ -319,12 +350,18 @@
             return Core.locales[Core.currentLocale];
         }
     }
+    //#endregion getLocale
+    //#region getDefaultLocale
     static getDefaultLocale() {
         return Core.locales[Core.currentLocale];
     }
+    //#endregion getDefaultLocale
+    //#region localeExist
     static localeExist(locale) {
         return Core.locales[Core.currentLocale];
     }
+    //#endregion localeExist
+    //#region getFuncName
     static getFuncName(func) {
         if (func.name) {
             return func.name;
@@ -332,14 +369,20 @@
             return func.toString().match(/^function\s*([^\s(]+)/)[1];
         }
     }
+    //#endregion getFuncName
+    //#region addResizeListener
     static addResizeListener(obj) {
-        obj._hasResizeEvent = true;
+        obj.hasResizeEvent = true;
         //obj._resizeDatas.width=obj.HTMLElement.offsetWidth;
         //obj._resizeDatas.height=obj.HTMLElement.offsetHeight;
         Core.looper.addListener(obj, "resized");
     }
+    //#endregion addResizeListener
+    //#region removeResizeListeners
     static removeResizeListeners(form) {
+        //#region Variables déclaration
         let i = Core.looper.listeners.length - 1;
+        //#endregion Variables déclaration
         Core.looper.stop();
         while (i >= 0) {
             if (Core.looper.listeners[i].form === form) {
@@ -349,6 +392,7 @@
         }
         if (Core.looper.listeners.length > 0) Core.looper.start();
     }
+    //#endregion removeResizeListeners
     /**
      * Add a property whose value is contained in a set
      * @method addPropertyFromEnum
@@ -362,6 +406,7 @@
      * @param {Boolean}     params.enumerable
      * @param {Any}         params.variable
      */
+    //#region addPropertyFromEnum
     static addPropertyFromEnum(params) {
         //obj._props[prop] = set;
         //obj[prop] = value;
@@ -395,9 +440,13 @@
             enumerable: params.enumerable
         });
     }
+    //#endregion addPropertyFromEnum
+    //#region getPropertiesFromObject
     static getPropertiesFromObject(obj) {
+        //#region Variables déclaration
         const props = [];
         const keys = Object.keys(obj);
+        //#endregion Variables déclaration
         keys.forEach(propName => {
             if (propName !== "rotateAngle" && propName !== "rotateCenter") {
                 if (obj.hasOwnProperty(propName)) {
@@ -415,16 +464,24 @@
         });
         return props;
     }
+    //#endregion getPropertiesFromObject
+    //#region getLeftTopFromTranslation
     static getLeftTopFromTranslation(htmlElement) {
+        //#region Variables déclaration
         let mat = getComputedStyle(htmlElement).transform;
+        //#endregion Variables déclaration
         mat = mat.match(/-?[\d\.]+/g);
         return {
             left: ~~mat[4],
             top: ~~mat[5]
         };
     }
+    //#endregion getLeftTopFromTranslation
+    //#region getNextValueFromEnum
     static getNextValueFromEnum(_enum, currentValue) {
+        //#region Variables déclaration
         const values = [];
+        //#endregion Variables déclaration
         if (!_enum) {
             return currentValue;
         }
@@ -445,8 +502,12 @@
         }
         return values[curIndex];
     }
+    //#endregion getNextValueFromEnum
+    //#region getPreviousValueFromEnum
     static getPreviousValueFromEnum(_enum, currentValue) {
+        //#region Variables déclaration
         const values = [];
+        //#endregion Variables déclaration
         if (!_enum) {
             return currentValue;
         }
@@ -467,8 +528,12 @@
         }
         return values[curIndex];
     }
+    //#endregion getPreviousValueFromEnum
+    //#region getValueIndexFromEnum
     static getValueIndexFromEnum(_enum, currentValue) {
+        //#region Variables déclaration
         const values = [];
+        //#endregion Variables déclaration
         if (!_enum) {
             return currentValue;
         }
@@ -482,6 +547,8 @@
         const curIndex = values.indexOf(currentValue);
         return curIndex;
     }
+    //#endregion getValueIndexFromEnum
+    //#region getEnumNameFromValue
     static getEnumNameFromValue(_enum, currentValue) {
         if (!_enum) {
             return currentValue;
@@ -495,6 +562,8 @@
         });
         return enumName;
     }
+    //#endregion getEnumNameFromValue
+
     //setData:function(HTMLObj,name,value) {
     //  if (HTMLObj.dataset!==null) HTMLObj.dataset[name]=value;
     //  else if (HTMLObj.getAttribute(name)!==null) HTMLObj.setAttribute(name,value);
@@ -504,17 +573,19 @@
     //  else if (HTMLObj.getAttribute("data-"+name)!==null) return HTMLObj.getAttribute("data-"+name);
     //  else return null;
     //}
-    //#endregion Methods
+    //#region checkTrigger
     static checkTrigger(instance, obj) {
+        //#region Variables déclaration
         let trigger = true;
         let value = null;
+        //#endregion Variables déclaration
         if (obj.triggers) {
             obj.triggers.forEach((trig, i) => {
                 if (trig.ref !== undefined) {
                     instance = instance[trig.ref];
                 }
-                if (instance[trig.prop]!==undefined) {
-                    if (i>0)  {
+                if (instance[trig.prop] !== undefined) {
+                    if (i > 0) {
                         trigger = Tools[trig.bExp](trigger, Tools[trig.op](instance[trig.prop], trig.value));
                     } else {
                         trigger = Tools[trig.op](instance[trig.prop], trig.value);
@@ -528,12 +599,18 @@
             value: value
         };
     }
+    //#endregion checkTrigger
+    //#region storeValue
     static storeValue(dic, name, value) {
         dic[name] = value;
     }
+    //#endregion storeValue
+    //#region processRadius
     static processRadius(instance, dic, radius) {
-        let trigger=false;
+        //#region Variables déclaration
+        let trigger = false;
         let params = {};
+        //#endregion Variables déclaration
         if (radius.triggers) {
             trigger = Tools.checkTrigger(instance, radius);
             if (trigger.isOK) {
@@ -542,7 +619,7 @@
                     Tools.storeValue(dic, radius.storedName, trigger.value);
                 }
             }
-        } else if (radius.hasOwnProperty("tl") && radius.hasOwnProperty("tr") && radius.hasOwnProperty("br") && 
+        } else if (radius.hasOwnProperty("tl") && radius.hasOwnProperty("tr") && radius.hasOwnProperty("br") &&
             radius.hasOwnProperty("bl")) {
             const keys = Object.keys(radius);
             keys.forEach(key => {
@@ -571,6 +648,8 @@
         }
         return params;
     }
+    //#endregion processRadius
+    //#region processShadow
     static processShadow(instance, shadow, ctx) {
         if (shadow.triggers) {
             const trigger = Tools.checkTrigger(instance, shadow);
@@ -579,22 +658,26 @@
                     const value = trigger.value;
                     ctx.shadowBlur = value.blur;
                     ctx.shadowColor = value.color;
-                    ctx.shadowOffsetX = value.offsetX?value.offsetX:0;
-                    ctx.shadowOffsetY = value.offsetY?value.offsetY:0;
+                    ctx.shadowOffsetX = value.offsetX ? value.offsetX : 0;
+                    ctx.shadowOffsetY = value.offsetY ? value.offsetY : 0;
                 }
             }
         } else {
             ctx.shadowBlur = shadow.blur;
             ctx.shadowColor = shadow.color;
-            ctx.shadowOffsetX = shadow.offsetX?shadow.offsetX:0;
-            ctx.shadowOffsetY = shadow.offsetY?shadow.offsetY:0;
+            ctx.shadowOffsetX = shadow.offsetX ? shadow.offsetX : 0;
+            ctx.shadowOffsetY = shadow.offsetY ? shadow.offsetY : 0;
         }
     }
+    //#endregion processShadow
+    //#region processStyle
     static processStyle(instance, shape, state, suffixFunc, params) {
+        //#region Variables déclaration
         const ctx = Core.ctx;
         const GRADDIRS = Types.GRADIENTDIRECTIONS;
         const changingTheme = document.body.classList.contains("changingTheme");
-        const themeName = changingTheme?instance.app.themeManifest.lastThemeName:instance.themeName;
+        const themeName = changingTheme ? instance.app.themeManifest.lastThemeName : instance.themeName;
+        //#endregion Variables déclaration
         if (!suffixFunc) {
             suffixFunc = String.EMPTY;
         }
@@ -605,7 +688,7 @@
             const style = shape[`${prop}Style`];
             if (style) {
                 let color = style[_state];
-                const to = style.iteration != undefined?style.iteration:1;
+                const to = style.iteration != undefined ? style.iteration : 1;
                 if (!color || !instance.enabled) {
                     _state = "normal";
                     color = style[_state];
@@ -615,9 +698,9 @@
                 }
                 if (color) {
                     if (Array.isArray(color)) {
-                        const grad = ctx.createLinearGradient(0, 0, 
-                            [GRADDIRS.TORIGHT, GRADDIRS.TOBOTTOMRIGHT].indexOf(style.gradientDir)>-1?shape.width?shape.width:instance.width:0, 
-                            [GRADDIRS.TOBOTTOM, GRADDIRS.TOBOTTOMRIGHT].indexOf(style.gradientDir)>-1?shape.height?shape.height:instance.height:0);
+                        const grad = ctx.createLinearGradient(0, 0,
+                            [GRADDIRS.TORIGHT, GRADDIRS.TOBOTTOMRIGHT].indexOf(style.gradientDir) > -1 ? shape.width ? shape.width : instance.width : 0,
+                            [GRADDIRS.TOBOTTOM, GRADDIRS.TOBOTTOMRIGHT].indexOf(style.gradientDir) > -1 ? shape.height ? shape.height : instance.height : 0);
                         color.forEach(cs => {
                             grad.addColorStop(cs.offset, cs.color);
                         });
@@ -630,7 +713,7 @@
                         const shadow = Tools.processShadow(instance, style.shadow, ctx);
                     }
                     // lineWidth
-                    if (style.lineWidth && style.lineWidth>0) {
+                    if (style.lineWidth && style.lineWidth > 0) {
                         ctx.lineWidth = style.lineWidth;
                     }
                     // Clip
@@ -638,7 +721,7 @@
                         ctx.clip();
                     }
                     let idx = 0;
-                    for (; idx<to; idx++) {
+                    for (; idx < to; idx++) {
                         ctx[`${prop}${suffixFunc}`](...params);
                     }
                 }
@@ -646,6 +729,8 @@
         });
         ctx.clearShadow();
     }
+    //#endregion processStyle
+    //#region processBorders
     static processBorders(instance, borders) {
         if (borders.triggers) {
             const trigger = Tools.checkTrigger(instance, borders);
@@ -658,38 +743,62 @@
             return borders;
         }
     }
+    //#endregion processBorders
+    //#region equal
     static equal(left, right) {
         return left === right;
     }
+    //#endregion equal
+    //#region notEqual
     static notEqual(left, right) {
         return left !== right;
     }
+    //#endregion notEqual
+    //#region lessThan
     static lessThan(left, right) {
         return left < right;
     }
+    //#endregion lessThan
+    //#region greaterThan
     static greaterThan(left, right) {
         return left > right;
     }
+    //#endregion greaterThan
+    //#region lessThanOrEqual
     static lessThanOrEqual(left, right) {
         return left <= right;
     }
+    //#endregion lessThanOrEqual
+    //#region greaterThanOrEqual
     static greaterThanOrEqual(left, right) {
         return left >= right;
     }
+    //#endregion greaterThanOrEqual
+    //#region isFalse
     static isFalse(value) {
         return typeof value === Types.CONSTANTS.BOOLEAN && !value;
     }
+    //#endregion isFalse
+    //#region isTrue
     static isTrue(value) {
         return typeof value === Types.CONSTANTS.BOOLEAN && value;
     }
+    //#endregion isTrue
+    //#region or
     static or(left, right) {
         return left || right;
     }
+    //#endregion or
+    //#region and
     static and(left, right) {
         return left && right;
     }
+    //#endregion and
+    //#region indexOf
     static indexOf(left, right) {
-        return right.indexOf(left)>-1;
+        return right.indexOf(left) > -1;
     }
+    //#endregion indexOf
+    //#endregion Methods
 }
 export { Tools };

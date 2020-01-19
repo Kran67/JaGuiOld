@@ -4,6 +4,7 @@ import { Interpolation } from "/scripts/core/interpolations.js";
 //#endregion
 //#region Spline
 const Spline = (function () {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
@@ -13,7 +14,10 @@ const Spline = (function () {
         // Return private properties object
         return _private.get(key);
     };
+    //#endregion Private
+    //#region Spline
     class Spline extends BaseClass {
+        //#region constructor
         constructor(a) {
             super();
             const priv = internal(this);
@@ -27,37 +31,61 @@ const Spline = (function () {
             //    priv.y[i] = a[i].y;
             //}
         }
+        //#endregion constructor
+        //#region Getter / Setter
+        //#region x
         get x() {
             return internal(this).x;
         }
+        //#endregion x
+        //#region y
         get y() {
             return internal(this).y;
         }
+        //#endregion y
+        //#region len
         get len() {
             return internal(this).len;
         }
+        //#endregion len
+        //#region matX
         get matX() {
             return internal(this).matX;
         }
+        //#endregion matX
+        //#region matY
         get matY() {
             return internal(this).matY;
         }
+        //#endregion matY
+        //#endregion Getter / Setter
         //#region Methods
+        //#region splineXY
         splineXY(t) {
-            const len = this.len;
-            const x = Interpolation.hermitInterpolate(this.matX, t, len);
-            const y = Interpolation.hermitInterpolate(this.matY, t, len);
+            //#region Variables déclaration
+            const priv = internal(this);
+            const len = priv.len;
+            const x = Interpolation.hermitInterpolate(priv.matX, t, len);
+            const y = Interpolation.hermitInterpolate(priv.matY, t, len);
+            //#endregion Variables déclaration
             return new Core.classes.Point(x, y);
         }
+        //#endregion splineXY
+        //#region destroy
         destroy() {
-            this.x.destroy();
-            this.y.destroy();
-            this.matX.destroy();
-            this.matY.destroy();
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.x.destroy();
+            priv.y.destroy();
+            priv.matX.destroy();
+            priv.matY.destroy();
         }
-        //#endregion
+        //#endregion destroy
+        //#endregion Methods
     }
     return Spline;
+    //#endregion Spline
 })();
 //#endregion
 Core.classes.register(Types.CATEGORIES.INTERNAL, Spline);
