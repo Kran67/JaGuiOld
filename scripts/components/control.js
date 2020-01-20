@@ -1,4 +1,5 @@
-﻿import { Component } from "/scripts/core/component.js";
+﻿//#region Imports
+import { Component } from "/scripts/core/component.js";
 import { Events } from "/scripts/core/events.js";
 import "/scripts/core/sizeconstraints.js";
 import "/scripts/core/padding.js";
@@ -9,8 +10,10 @@ import "/scripts/core/hittest.js";
 import { Tools } from "/scripts/core/tools.js";
 import { Mouse } from "/scripts/core/mouse.js";
 import { Rect } from "/scripts/core/geometry.js";
+//#endregion Imports
 //#region Control
 const Control = (() => {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
@@ -20,6 +23,8 @@ const Control = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#endregion Private
+    //#region Control
     class Control extends Component {
         //#region Constructor
         constructor(owner, props) {
@@ -28,7 +33,7 @@ const Control = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 priv.allowUpdate = true;
-                priv.autoTranslate = props.hasOwnProperty("autoTranslate") && typeof props.autoTranslate === Types.CONSTANTS.BOOLEAN ? props.autoTranslate : false;
+                priv.autoTranslate = props.hasOwnProperty("autoTranslate") && Tools.isBool(props.autoTranslate) ? props.autoTranslate : false;
                 priv.isMouseOver = false;
                 priv.isFocused = false;
                 priv.isPressed = false;
@@ -43,38 +48,33 @@ const Control = (() => {
                 priv.tabList = [];
                 priv.stopEvent = true;
                 priv.constraints = new Core.classes.SizeConstraints(this);
-                priv.ownerShowToolTip = props.hasOwnProperty("ownerShowToolTip") && typeof props.ownerShowToolTip === Types.CONSTANTS.BOOLEAN ? props.ownerShowToolTip : true;
-                priv.autoCapture = false;
+                priv.ownerShowToolTip = props.hasOwnProperty("ownerShowToolTip") && Tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : true;
+                priv.autoCapture = props.hasOwnProperty("autoCapture")?props.autoCapture:false;
                 priv.padding = new Core.classes.Padding(this);
                 priv.margin = new Core.classes.Margin(this);
                 priv.popupMenu = null;
-                priv.opacity = props.hasOwnProperty("opacity") && typeof props.opacity === Types.CONSTANTS.NUMBER ? props.opacity : 1;
-                priv.width = props.hasOwnProperty("width") && typeof props.width === Types.CONSTANTS.NUMBER ? props.width : 50;
-                priv.height = props.hasOwnProperty("height") && typeof props.height === Types.CONSTANTS.NUMBER ? props.height : 50;
+                priv.opacity = props.hasOwnProperty("opacity") && Tools.isNumber(props.opacity) ? props.opacity : 1;
+                priv.width = props.hasOwnProperty("width") && Tools.isNumber(props.width) ? props.width : 50;
+                priv.height = props.hasOwnProperty("height") && Tools.isNumber(props.height) ? props.height : 50;
                 priv.scale = new Core.classes.Scale(this);
                 priv.canFocused = false;
                 priv.showFocus = true;
-                priv.enabled = props.hasOwnProperty("enabled") && typeof props.enabled === Types.CONSTANTS.BOOLEAN ? props.enabled : true;
+                priv.enabled = props.hasOwnProperty("enabled") && Tools.isBool(props.enabled) ? props.enabled : true;
                 priv.rotateCenter = new Core.classes.RotateCenter(this);
-                priv.toolTip = String.EMPTY;
-                priv.showToolTip = props.hasOwnProperty("showToolTip") && typeof props.showToolTip === Types.CONSTANTS.BOOLEAN ? props.showToolTip : false;
+                priv.toolTip = props.hasOwnProperty("toolTip")?props.toolTip:String.EMPTY;
+                priv.showToolTip = props.hasOwnProperty("showToolTip") && Tools.isBool(props.showToolTip) ? props.showToolTip : false;
                 priv.hitTest = new Core.classes.HitTest;
-                priv.rotateAngle = props.hasOwnProperty("rotateAngle") && typeof props.rotateAngle === Types.CONSTANTS.NUMBER ? props.rotateAngle : 0;
+                priv.rotateAngle = props.hasOwnProperty("rotateAngle") && Tools.isNumber(props.rotateAngle) ? props.rotateAngle : 0;
                 priv.customStyle = null;
                 priv.cssClasses = String.EMPTY;
-                priv.tabOrder = props.hasOwnProperty("tabOrder") && typeof props.tabOrder === Types.CONSTANTS.NUMBER ? props.tabOrder : 0;
-                priv.right = props.hasOwnProperty("right") && typeof props.right === Types.CONSTANTS.NUMBER ? props.right : null;
-                priv.bottom = props.hasOwnProperty("bottom") && typeof props.bottom === Types.CONSTANTS.NUMBER ? props.bottom : null;
+                priv.tabOrder = props.hasOwnProperty("tabOrder") && Tools.isNumber(props.tabOrder) ? props.tabOrder : 0;
+                priv.right = props.hasOwnProperty("right") && Tools.isNumber(props.right) ? props.right : null;
+                priv.bottom = props.hasOwnProperty("bottom") && Tools.isNumber(props.bottom) ? props.bottom : null;
                 priv.doubleClick = false;
                 priv.component = false;
-                //priv.anchor = props.hasOwnProperty("anchor") && Array.isArray(props.anchor) ? props.anchor : [Types.ANCHORS.LEFT, Types.ANCHORS.TOP];
-                //priv.align = props.hasOwnProperty("align") ? props.align : Types.ALIGNS.NONE;
-                //priv.cursor = props.hasOwnProperty("cursor") && typeof props.cursor === Types.CONSTANTS.STRING ? props.cursor : Types.CUSTOMCURSORS.DEFAULT;
-                //priv.dragKind = props.hasOwnProperty("dragKind") && typeof props.dragKind === Types.CONSTANTS.STRING ? props.dragKind : Types.DRAGKINDS.DRAG;
-                //priv.dragMode = props.hasOwnProperty("dragMode") && typeof props.dragMode === Types.CONSTANTS.STRING ? props.dragMode : Types.DRAGMODES.MANUAL;
                 priv.forceDisplayVisibility = false;
-                priv.clipped = props.hasOwnProperty("clipped") && typeof props.clipped === Types.CONSTANTS.BOOLEAN ? props.clipped : true;
-                priv.reflected = props.hasOwnProperty("reflected") && typeof props.reflected === Types.CONSTANTS.BOOLEAN ? props.reflected : false;
+                priv.clipped = props.hasOwnProperty("clipped") && Tools.isBool(props.clipped) ? props.clipped : true;
+                priv.reflected = props.hasOwnProperty("reflected") && Tools.isBool(props.reflected) ? props.reflected : false;
                 this.onMouseDown = new Core.classes.NotifyEvent(this);
                 this.onMouseMove = new Core.classes.NotifyEvent(this);
                 this.onMouseUp = new Core.classes.NotifyEvent(this);
@@ -130,7 +130,7 @@ const Control = (() => {
                     enum: customCursors,
                     variable: priv,
                     setter: this._cursor,
-                    value: props.hasOwnProperty("cursor") && typeof props.cursor === Types.CONSTANTS.STRING ? props.cursor : Types.CUSTOMCURSORS.DEFAULT
+                    value: props.hasOwnProperty("cursor") && Tools.isStirng(props.cursor) ? props.cursor : Types.CUSTOMCURSORS.DEFAULT
                 });
                 const dragKinds = Types.DRAGKINDS;
                 Tools.addPropertyFromEnum({
@@ -138,7 +138,7 @@ const Control = (() => {
                     propName: "dragKind",
                     enum: dragKinds,
                     variable: priv,
-                    value: props.hasOwnProperty("dragKind") && typeof props.dragKind === Types.CONSTANTS.STRING ? props.dragKind : Types.DRAGKINDS.DRAG
+                    value: props.hasOwnProperty("dragKind") && Tools.isString(props.dragKind) ? props.dragKind : Types.DRAGKINDS.DRAG
                 });
                 const dragModes = Types.DRAGMODES;
                 Tools.addPropertyFromEnum({
@@ -146,7 +146,7 @@ const Control = (() => {
                     propName: "dragMode",
                     enum: dragModes,
                     variable: priv,
-                    value: props.hasOwnProperty("dragMode") && typeof props.dragMode === Types.CONSTANTS.STRING ? props.dragMode : Types.DRAGMODES.MANUAL
+                    value: props.hasOwnProperty("dragMode") && Tools.isString(props.dragMode) ? props.dragMode : Types.DRAGMODES.MANUAL
                 });
                 // gestion des propriétés spéciales (Objets)
                 if (props.margin) {
@@ -157,15 +157,20 @@ const Control = (() => {
                 }
 
             }
-            //Tools.Debugger.log(arguments, this, t);
         }
-        //#endregion
+        //#endregion Constructor
         //#region Setters methods
+        //#region bounds
         get bounds() {
-            return new Rect(this.left, this.top, this.width, this.height);
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            return new Rect(this.left, this.top, priv.width, priv.height);
         }
         set bounds(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof Rect) {
                 this.beginUpdate();
                 this.left = newValue.left;
@@ -175,24 +180,32 @@ const Control = (() => {
                 this.endUpdate();
             }
         }
+        //#endregion bounds
+        //#region clipped
         get clipped() {
             return internal(this).clipped;
         }
         set clipped(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.clipped !== newValue) {
                     priv.clipped = newValue;
                 }
             }
         }
+        //#endregion clipped
+        //#region reflected
         get reflected() {
             return internal(this).reflected;
         }
         set reflected(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.reflected !== newValue) {
                     priv.reflected = newValue;
                     if (Core.isHTMLRenderer) {
@@ -205,45 +218,61 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion reflected
+        //#region forceDisplayVisibility
         get forceDisplayVisibility() {
             return internal(this).forceDisplayVisibility;
         }
         set forceDisplayVisibility(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.forceDisplayVisibility !== newValue) {
                     priv.forceDisplayVisibility = newValue;
                 }
             }
         }
+        //#endregion forceDisplayVisibility
+        //#region allowUpdate
         get allowUpdate() {
             return internal(this).allowUpdate;
         }
         set allowUpdate(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.allowUpdate !== newValue) {
                     priv.allowUpdate = newValue;
                 }
             }
         }
+        //#endregion allowUpdate
+        //#region autoTranslate
         get autoTranslate() {
             return internal(this).autoTranslate;
         }
         set autoTranslate(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.autoTranslate !== newValue) {
                     priv.autoTranslate = newValue;
                 }
             }
         }
+        //#endregion autoTranslate
+        //#region isMouseOver
         get isMouseOver() {
             return internal(this).isMouseOver;
         }
         set isMouseOver(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.hitTest.mouseMove) {
                     if (priv.isMouseOver !== newValue) {
                         priv.isMouseOver = newValue;
@@ -252,14 +281,18 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion isMouseOver
+        //#region isFocused
         get isFocused() {
             return internal(this).isFocused;
         }
         set isFocused(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const form = this.form;
             const htmlElement = this.HTMLElement;
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.isFocused !== newValue) {
                     priv.isFocused = newValue;
                     let lastFc;
@@ -292,13 +325,17 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion isFocused
+        //#region isPressed
         get isPressed() {
             return internal(this).isPressed;
         }
         set isPressed(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.hitTest.mouseDown) {
                     if (priv.isPressed !== newValue) {
                         priv.isPressed = newValue;
@@ -310,13 +347,17 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion isPressed
+        //#region closePopups
         get closePopups() {
             return internal(this).closePopups;
         }
         set closePopups(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const components = this.components;
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.closePopups !== newValue) {
                     priv.closePopups = newValue;
                     components.forEach(comp => {
@@ -327,112 +368,156 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion closePopups
+        //#region wrapper
         get wrapper() {
             return internal(this).wrapper;
         }
         set wrapper(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            //#endregion Variables déclaration
+            if (Tools.isString(newValue)) {
                 if (priv.wrapper !== newValue) {
                     priv.wrapper = newValue;
                 }
             }
         }
+        //#endregion wrapper
+        //#region forceMouseWheel
         get forceMouseWheel() {
             return internal(this).forceMouseWheel;
         }
         set forceMouseWheel(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.forceMouseWheel !== newValue) {
                     priv.forceMouseWheel = newValue;
                 }
             }
         }
+        //#endregion forceMouseWheel
+        //#region hasResizeEvent
         get hasResizeEvent() {
             return internal(this).hasResizeEvent;
         }
         set hasResizeEvent(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.hasResizeEvent !== newValue) {
                     priv.hasResizeEvent = newValue;
                 }
             }
         }
+        //#endregion hasResizeEvent
+        //#region resizeData
         get resizeData() {
             return internal(this).resizeData;
         }
+        //#endregion resizeData
+        //#region tabList
         get tabList() {
             return internal(this).tabList;
         }
+        //#endregion tabList
+        //#region stopEvent
         get stopEvent() {
             return internal(this).stopEvent;
         }
         set stopEvent(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.stopEvent !== newValue) {
                     priv.stopEvent = newValue;
                 }
             }
         }
+        //#endregion stopEvent
+        //#region constraints
         get constraints() {
             return internal(this).constraints;
         }
         set constraints(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof Core.classes.Constraints) {
                 if (priv.constraints !== newValue) {
                     priv.constraints.assign(newValue);
                 }
             }
         }
+        //#endregion constraints
+        //#region ownerShowToolTip
         get ownerShowToolTip() {
             return internal(this).ownerShowToolTip;
         }
         set ownerShowToolTip(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.ownerShowToolTip !== newValue) {
                     priv.ownerShowToolTip = newValue;
                 }
             }
         }
+        //#endregion ownerShowToolTip
+        //#region autoCapture
         get autoCapture() {
             return internal(this).autoCapture;
         }
         set autoCapture(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.autoCapture !== newValue) {
                     priv.autoCapture = newValue;
                 }
             }
         }
+        //#endregion autoCapture
+        //#region padding
         get padding() {
             return internal(this).padding;
         }
+        //#endregion padding
+        //#region margin
         get margin() {
             return internal(this).margin;
         }
+        //#endregion margin
+        //#region popupMenu
         get popupMenu() {
             return internal(this).popupMenu;
         }
         set popupMenu(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof Core.classes.PopupMenu) {
                 if (priv.popupMenu !== newValue) {
                     priv.popupMenu = newValue;
                 }
             }
         }
+        //#endregion popupMenu
+        //#region opacity
         get opacity() {
             return internal(this).opacity;
         }
         set opacity(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 if (newValue > 1) {
                     newValue = 1;
                 }
@@ -448,18 +533,24 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion opacity
+        //#region contentWidth
         get contentWidth() {
+            //#region Variables déclaration
             const priv = internal(this);
             const owner = this.owner;
             let width = priv.width;
             const margin = priv.margin;
             const padding = priv.padding;
-            if (typeof width === Types.CONSTANTS.STRING && width.endsWith("%")) {
+            //#endregion Variables déclaration
+            if (Tools.isString(width) && width.endsWith("%")) {
                 width = owner.contentWidth * (parseFloat(width) / 100);
             }
             width -= margin.left + margin.right + padding.left + padding.right;
             return width;
         }
+        //#endregion contentWidth
+        //#region width
         get width() {
             if (!Core.isHTMLRenderer) {
                 const priv = internal(this);
@@ -469,9 +560,11 @@ const Control = (() => {
             }
         }
         set width(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 if (priv.width !== newValue) {
                     if (!Core.isHTMLRenderer) {
                         priv.width = newValue;
@@ -488,18 +581,24 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion width
+        //#region contentHeight
         get contentHeight() {
+            //#region Variables déclaration
             const priv = internal(this);
             const owner = this.owner;
             let height = priv.height;
             const margin = priv.margin;
             const padding = priv.padding;
-            if (typeof height === Types.CONSTANTS.STRING && height.endsWith("%")) {
+            //#endregion Variables déclaration
+            if (Tools.isString(height) && height.endsWith("%")) {
                 height = owner.contentWidth * (parseFloat(height) / 100);
             }
             height -= (margin.top + margin.bottom + padding.top + padding.bottom);
             return height;
         }
+        //#endregion contentHeight
+        //#region height
         get height() {
             if (!Core.isHTMLRenderer) {
                 const priv = internal(this);
@@ -509,9 +608,11 @@ const Control = (() => {
             }
         }
         set height(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 if (priv.height !== newValue) {
                     if (!Core.isHTMLRenderer) {
                         priv.height = newValue;
@@ -523,17 +624,20 @@ const Control = (() => {
                         } else {
                             htmlElementStyle.height = `${newValue}${Types.CSSUNITS.PX}`;
                         }
-                        //this._boundingClientRect.bottom=this._boundingClientRect.top+this.HTMLElement.offsetHeight;
                     }
                 }
             }
         }
+        //#endregion height
+        //#region scale
         get scale() {
             return internal(this).scale;
         }
         set scale(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const scale = priv.scale;
+            //#endregion Variables déclaration
             if (newValue instanceof Core.classes.Point) {
                 if (!scale.equals(newValue)) {
                     scale.assign(newValue);
@@ -543,28 +647,34 @@ const Control = (() => {
                         } else {
                             this.applyTransforms();
                         }
-                        //="scale("+newValue.x+","+newValue.y+")";
-                        //else Css.updateInlineCSS(this,Types.jsCSSProperties.TRANSFORM);
                     }
                 }
             }
         }
+        //#endregion scale
+        //#region canFocused
         get canFocused() {
             return internal(this).canFocused;
         }
         set canFocused(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 priv.canFocused = newValue;
             }
         }
+        //#endregion canFocused
+        //#region showFocus
         get showFocus() {
             return internal(this).showFocus;
         }
         set showFocus(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.showFocus !== newValue) {
                     priv.showFocus = newValue;
                     if (!newValue) {
@@ -575,16 +685,19 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion showFocus
+        //#region enabled
         get enabled() {
             return internal(this).enabled;
         }
         set enabled(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.enabled !== newValue) {
                     priv.enabled = newValue;
-                    //this.HTMLElement.dataset.enabled = internal(this).enabled;
                     Core.isHTMLRenderer && htmlElement.classList.remove("disabled");
                     if (!newValue) {
                         Core.isHTMLRenderer && htmlElement.classList.add("disabled");
@@ -599,13 +712,17 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion enabled
+        //#region rotateCenter
         get rotateCenter() {
             return _rotateCenter;
         }
         set rotateCenter(newValue) {
+            //#region Variables déclaration
             const PO = Types.CSSUNITS.PO;
             const priv = internal(this);
             const rotateCenter = priv.rotateCenter;
+            //#endregion Variables déclaration
             if (newValue instanceof Core.classes.Point) {
                 if (!rotateCenter.equals(newValue)) {
                     rotateCenter.assign(newValue);
@@ -615,37 +732,46 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion rotateCenter
+        //#region toolTip
         get toolTip() {
             return internal(this).toolTip;
         }
         set toolTip(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            //#endregion Variables déclaration
+            if (Tools.isString(newValue)) {
                 if (priv.toolTip !== newValue) {
                     priv.toolTip = newValue;
-                    //if (this.HTMLElement) {
-                    //    this.HTMLElement.dataset.tooltip = internal(this).toolTip;
-                    //}
                 }
             }
         }
+        //#endregion toolTip
+        //#region showToolTip
         get showToolTip() {
             return internal(this).showToolTip;
         }
         set showToolTip(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.showToolTip !== newValue) {
                     priv.showToolTip = newValue;
                 }
             }
         }
+        //#endregion showToolTip
+        //#region hitTest
         get hitTest() {
             return internal(this).hitTest;
         }
         set hitTest(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const hitTest = priv.hitTest;
+            //#endregion Variables déclaration
             if (Array.isArray(newValue)) {
                 switch (newValue.length) {
                     case 1:
@@ -684,22 +810,22 @@ const Control = (() => {
                         hitTest.mouseDblClick = newValue.last;
                         break;
                 }
-            } else if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            } else if (Tools.isBool(newValue)) {
                 hitTest.mouseDown = hitTest.mouseMove =
                     hitTest.mouseUp = hitTest.mouseWheel = hitTest.mouseDblClick = newValue;
             }
         }
+        //#endregion hitTest
+        //#region rotateAngle
         get rotateAngle() {
             return internal(this).rotateAngle;
         }
         set rotateAngle(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            //let bcr = this.HTMLElement.getBoundingClientRect();
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 if (priv.rotateAngle !== newValue) {
-                    //if (this._rotateAngle===0) {
-                    //  this._boundingClientRect.setValues(bcr.left,bcr.top,bcr.right,bcr.bottom);
-                    //}
                     priv.rotateAngle = newValue;
                     this.propertyChanged(Types.BINDABLEPROPERTIES.ROTATEANGLE);
                     if (!this.loading && !this.form.loading && Core.isHTMLRenderer) {
@@ -708,34 +834,46 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion rotateAngle
+        //#region customStyle
         get customStyle() {
             return internal(this).customStyle;
         }
         set customStyle(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (priv.customStyle !== newValue) {
                 priv.customStyle = newValue;
             }
         }
+        //#endregion customStyle
+        //#region cssClasses
         get cssClasses() {
             return internal(this).cssClasses;
         }
         set cssClasses(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            //#endregion Variables déclaration
+            if (Tools.isString(newValue)) {
                 if (priv.cssClasses !== newValue) {
                     priv.cssClasses = newValue;
                     this.HTMLElement.classList.add(priv.cssClasses);
                 }
             }
         }
+        //#endregion cssClasses
+        //#region tabOrder
         get tabOrder() {
             return internal(this).tabOrder;
         }
         set tabOrder(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const tabList = this.owner.tabList;
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 const curIndex = tabList.indexOf(this);
                 if (curIndex >= 0) {
                     const count = tabList.length;
@@ -754,16 +892,19 @@ const Control = (() => {
                     priv.tabOrder = newValue;
                     tabList.push(this);
                 }
-                //this.HTMLElement.dataset.taborder = newValue;
             }
         }
+        //#endregion tabOrder
+        //#region right
         get right() {
             return internal(this).right;
         }
         set right(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
-            if (typeof newValue === Types.CONSTANTS.NUMBER || newValue === null) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue) || newValue === null) {
                 if (priv.right !== newValue) {
                     priv.right = newValue;
                     this.propertyChanged(Types.BINDABLEPROPERTIES.RIGHT);
@@ -776,13 +917,17 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion right
+        //#region bottom
         get bottom() {
             return internal(this).bottom;
         }
         set bottom(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
-            if (typeof newValue == Types.CONSTANTS.NUMBER || newValue === null) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue) || newValue === null) {
                 if (priv.bottom !== newValue) {
                     priv.bottom = newValue;
                     this.propertyChanged(Types.BINDABLEPROPERTIES.BOTTOM);
@@ -795,35 +940,35 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion bottom
+        //#region doubleClick
         get doubleClick() {
             return internal(this).doubleClick;
         }
         set doubleClick(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.doubleClick !== newValue) {
                     priv.doubleClick = newValue;
                 }
             }
         }
+        //#endregion doubleClick
+        //#region visible
         get visible() {
             return super.visible;
         }
         set visible(newValue) {
+            //#region Variables déclaration
             const htmlElement = this.HTMLElement;
             const owner = this.owner;
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (super.visible !== newValue) {
                     super.visible = newValue;
-                    //if (this._visible){
-                    //}          if (!this.loading){
-                    //if (this._align!==Types.ALIGNS.NONE) this._alignmentNeeded=true;
-                    //if (this._owner&&(this._align!==Types.ALIGNS.NONE)) {
-                    //  this._owner.disableAlign=false;
-                    //  this._owner.realign();
-                    //}
-                    //  }
                     this.propertyChanged(Types.BINDABLEPROPERTIES.VISIBLE);
                     if (Core.isHTMLRenderer) {
                         if (newValue) {
@@ -844,17 +989,20 @@ const Control = (() => {
                     if (owner && owner.update) {
                         owner.update();
                     }
-                    //this.updateFromHTML();
                 }
             }
         }
+        //#endregion visible
+        //#region display
         get display() {
             return this.HTMLElementStyle.display;
         }
         set display(newValue) {
+            //#region Variables déclaration
             const htmlElementStyle = this.HTMLElementStyle;
             const owner = this.owner;
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            //#endregion Variables déclaration
+            if (Tools.isString(newValue)) {
                 if (Core.isHTMLRenderer) {
                     if (htmlElementStyle.display !== newValue) {
                         htmlElementStyle.display = newValue;
@@ -865,9 +1013,13 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion display
+        //#region isEnabled
         get isEnabled() {
+            //#region Variables déclaration
             let enabled = internal(this).enabled;
             const owners = this.owners;
+            //#endregion Variables déclaration
             if (enabled) {
                 owners.forEach(owner => {
                     enabled = enabled && owner.enabled;
@@ -875,28 +1027,44 @@ const Control = (() => {
             }
             return enabled;
         }
+        //#endregion isEnabled
+        //#region localRect
         get localRect() {
+            //#region Variables déclaration
             const priv = internal(this);
             const padding = priv.padding;
+            //#endregion Variables déclaration
             return new Core.classes.Rect(padding.left, padding.top, padding.right, padding.bottom);
         }
+        //#endregion localRect
+        //#region template
         get template() {
+            //#region Variables déclaration
             let html = super.template;
             const a = html.split("{cssClasses}");
+            //#endregion Variables déclaration
             html = a.join(internal(this).cssClasses);
             return html;
         }
+        //#endregion template
+        //#region _anchor
         _anchor(newValue) {
+            //#region Variables déclaration
             const anchor = this.anchor;
+            //#endregion Variables déclaration
             if (Array.isArray(newValue)) {
                 anchor.length = 0;
                 anchor.addRange(newValue);
             }
         }
+        //#endregion _anchor
+        //#region _align
         _align(newValue) {
+            //#region Variables déclaration
             const owner = this.owner;
             const priv = internal(this);
             let align = priv.align;
+            //#endregion Variables déclaration
             if (Tools.valueInSet(newValue, Types.ALIGNS)) {
                 if (align !== newValue) {
                     align = priv.align = newValue;
@@ -911,10 +1079,14 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion _align
+        //#region _cursor
         _cursor(newValue) {
+            //#region Variables déclaration
             const htmlElement = this.HTMLElement;
             const priv = internal(this);
             let cursor = priv.cursor;
+            //#endregion Variables déclaration
             if (Tools.valueInSet(newValue, Types.CUSTOMCURSORS)) {
                 if (cursor !== newValue) {
                     htmlElement.classList.remove(cursor);
@@ -923,11 +1095,24 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion _cursor
+        //#region getDataSetValue
+        getDataSetValue(dataName) {
+            return this.HTMLElement.dataset[dataName];
+        }
+        setDataSetValue(dataName, value) {
+            this.HTMLElement.dataset[dataName] = value;
+        }
+        //#endregion getDataSetValue
+        //#endregion Getter / Setter
+        //#region Methods
+        //#region setBounds
         setBounds(l, t, w, h) {
+            //#region Variables déclaration
             const PX = Types.CSSUNITS.PX;
             const htmlElementStyle = this.HTMLElementStyle;
-            const NUMBER = Types.CONSTANTS.NUMBER;
-            if (typeof l === NUMBER && typeof t === NUMBER && typeof w === NUMBER && typeof h === NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(l) && Tools.isNumber(t) && Tools.isNumber(w) && Tools.isNumber(h)) {
                 if (!Core.isHTMLRenderer) {
                     this.left = l;
                     this.top = t;
@@ -939,32 +1124,22 @@ const Control = (() => {
                     htmlElementStyle.width = `${w}${PX}`;
                     htmlElementStyle.height = `${h}${PX}`;
                 }
-                //if (this.HTMLElement) {
-                //  //style=this.HTMLElement.style;
-                //  this.HTMLElementStyle.left=l+Types.CSSUnits.PX;
-                //  this.HTMLElementStyle.top=t+Types.CSSUnits.PX;
-                //  this.HTMLElementStyle.width=w+Types.CSSUnits.PX;
-                //  this.HTMLElementStyle.height=h+Types.CSSUnits.PX;
-                //}
             }
         }
+        //#endregion setBounds
+        //#region setDimension
         setDimension(width, height) {
+            //#region Variables déclaration
             const PX = Types.CSSUNITS.PX;
             const htmlElementStyle = this.HTMLElementStyle;
-            const NUMBER = Types.CONSTANTS.NUMBER;
-            if (typeof width === NUMBER && typeof height === NUMBER) {
-                //this._boundingClientRect.right=this._boundingClientRect.left+width;
-                //this._boundingClientRect.bottom=this._boundingClientRect.top+height;
+            //#endregion Variables déclaration
+            if (Tools.isNumber(width) && Tools.isNumber(height)) {
                 htmlElementStyle.width = `${width}${PX}`;
                 htmlElementStyle.height = `${height}${PX}`;
             }
         }
-        //setTabStop:function(newValue) {
-        //  if (typeof newValue!==Types.CONSTANTS.BOOLEAN) return;
-        //  if (this.tabStop!==newValue) this.tabStop=newValue;
-        //},,
-        //#endregion
-        //#region Methods
+        //#endregion setDimension
+        //#region resize
         resize() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -975,6 +1150,8 @@ const Control = (() => {
                 htmlElementStyle.height = `${priv.height}${Types.CSSUNITS.PX}`;
             }
         }
+        //#endregion resize
+        //#region update
         update() {
             if (Core.isHTMLRenderer) {
                 this.applyTransforms();
@@ -982,14 +1159,17 @@ const Control = (() => {
                 Core.canvas.needRedraw = true;
             }
         }
+        //#endregion update
+        //#region realignChilds
         realignChilds() {
+            //#region Variables déclaration
+            const priv = internal(this);
             const PX = Types.CSSUNITS.PX;
             const ALIGNS = Types.ALIGNS;
             const comps = this.components;
-            const padding = this.padding;
+            const padding = priv.padding;
             const width = this.contentWidth;// - padding.left - padding.right;
             let height = this.contentHeight;// - padding.top - padding.bottom;
-            const priv = internal(this);
             let l = padding.left;
             let t = padding.top;
             let r = padding.right;
@@ -1068,6 +1248,7 @@ const Control = (() => {
                 }
                 child.realignChilds();
             };
+            //#endregion Variables déclaration
             if (comps.length === 0 || !priv.allowUpdate) {
                 return null;
             }
@@ -1270,32 +1451,48 @@ const Control = (() => {
             //});
             //#endregion
         }
+        //#endregion realignChilds
+        //#region insertTemplate
         insertTemplate(tpl) {
+            //#region Variables déclaration
             const htmlElement = this.HTMLElement;
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (!priv.allowUpdate) {
-                this.wrapper += tpl;
+                priv.wrapper += tpl;
             } else if (htmlElement) {
                 const div = document.createElement(Types.HTMLELEMENTS.DIV);
                 div.innerHTML = tpl;
                 htmlElement.appendChild(div.firstElementChild);
             }
         }
+        //#endregion insertTemplate
+        //#region setFocus
         setFocus() {
-            if (!this.canFocused || !this.visible || !this.isEnabled) {
-                return null;
-            }
-            this.enterFocus();
-        }
-        beginUpdate() {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
+            if (priv.canFocused && this.visible && this.isEnabled) {
+                this.enterFocus();
+            }
+        }
+        //#endregion setFocus
+        //#region beginUpdate
+        beginUpdate() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             priv.allowUpdate = false;
             if (Core.isHTMLRenderer) {
-                this.wrapper = this.HTMLElement.innerHTML;
+                priv.wrapper = this.HTMLElement.innerHTML;
             }
         }
+        //#endregion beginUpdate
+        //#region endUpdate
         endUpdate() {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             priv.allowUpdate = true;
             this.realignChilds();
             //this.update();
@@ -1308,9 +1505,13 @@ const Control = (() => {
             //this._wrapper = String.EMPTY;
             //this.wrapperClass.clear();
         }
+        //#endregion endUpdate
+        //#region bringToFront
         bringToFront() {
+            //#region Variables déclaration
             const comps = this.owner.components;
             const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
             if (htmlElement) {
                 if (this.owner) {
                     let parentNode = htmlElement.parentNode;
@@ -1324,9 +1525,13 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion bringToFront
+        //#region sendToBack
         sendToBack() {
+            //#region Variables déclaration
             const comps = this.owner.components;
             const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
             if (htmlElement) {
                 if (this.owner) {
                     let parentNode = htmlElement.parentNode;
@@ -1340,10 +1545,14 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion sendToBack
+        //#region forwardOne
         forwardOne() {
             //+1
+            //#region Variables déclaration
             const comps = this.owner.components;
             const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
             if (this.owner && htmlElement) {
                 let parentNode = htmlElement.parentNode;
                 if (parentNode.children.length > 1) {
@@ -1374,10 +1583,14 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion forwardOne
+        //#region backOne
         backOne() {
             //-1
+            //#region Variables déclaration
             const htmlElement = this.HTMLElement;
             const comps = this.owner.components;
+            //#endregion Variables déclaration
             if (this.owner && htmlElement) {
                 parentNode = htmlElement.parentNode;
                 if (parentNode.children.length > 1) {
@@ -1399,26 +1612,28 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion backOne
+        //#region mouseDown
         mouseDown() {
+            //#region Variables déclaration
+            const priv = internal(this);
             const form = this.form;
-            if (this.enabled && (this instanceof Core.classes.Control)) {
+            //#endregion Variables déclaration
+            if (priv.enabled && (this instanceof Core.classes.Control)) {
                 if (this.hitTest.mouseDown) {
                     if (form && form instanceof Core.classes.Window) {
-                        //if (this!==this.form.focusedControl) {
-                        //  console.log("hidePopups");
-                        if (this.closePopups) {
+                        if (priv.closePopups) {
                             if (form.mainMenu) {
                                 form.mainMenu.isActive = false;
                             }
                             form.closePopups();
                         }
-                        //}
-                        if (!this.canFocused && this !== form.content) {
+                        if (!priv.canFocused && this !== form.content) {
                             const parentCanFocused = this.owner;
                             if (parentCanFocused && form.focusedControl !== parentCanFocused) {
                                 parentCanFocused.setFocus();
                             }
-                        } else if (!this.isFocused && form.focusedControl !== this) {
+                        } else if (!priv.isFocused && form.focusedControl !== this) {
                             this.setFocus();
                         }
                     }
@@ -1438,16 +1653,21 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion mouseDown
+        //#region mouseUp
         mouseUp() {
-            let target = Core.mouse.event.target, clicked = false;
+            //#region Variables déclaration
+            const priv = internal(this);
+            let target = Core.mouse.event.target;
+            let clicked = false;
+            //#endregion Variables déclaration
             if (!target.jsObj) {
                 target = target.parentNode;
             }
             if (this instanceof Core.classes.Control) {
-                //if (this!==target.jsObj) return;
                 this.releaseCapture();
                 this.onMouseUp.invoke();
-                clicked = this.isPressed && !this.doubleClick;
+                clicked = priv.isPressed && !priv.doubleClick;
                 this.isPressed = false;
                 this.doubleClick = false;
                 if (clicked && Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
@@ -1458,7 +1678,12 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion mouseUp
+        //#region mouseWheel
         mouseWheel() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (this instanceof Core.classes.Control) {
                 //if (this.scrollContainer!==null) this.scrollContainer.mouseWheel.apply(this.scrollContainer,arguments);
                 //else {
@@ -1467,50 +1692,58 @@ const Control = (() => {
                 //  } else clearTimeout(this.wheelTimer);
                 //  this.onMouseWheel.invoke(arguments);
                 //}
-                if (!this.hitTest.mouseWheel) {
+                if (!priv.hitTest.mouseWheel) {
                     this.owner.mouseWheel();
                 }
             }
         }
+        //#endregion mouseWheel
+        //#region mouseMove
         mouseMove() {
             if (this instanceof Core.classes.Control) {
                 this.onMouseMove.invoke();
             }
         }
+        //#endregion mouseMove
+        //#region mouseEnter
         mouseEnter() {
+            //#region Variables déclaration
+            const priv = internal(this);
             const CUSTOMCURSORS = Types.CUSTOMCURSORS;
-            const cursor = this.cursor;
+            const cursor = priv.cursor;
             const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
             if (this instanceof Core.classes.Control) {
-                /*if (!this._isPressed)*/ this.isMouseOver = true;
-                //this._applyTriggerEffect(this,'isMouseOver');
-                //this.startTriggerAnimation(this,'isMouseOver');
+                this.isMouseOver = true;
                 this.onMouseEnter.invoke();
                 if (cursor !== CUSTOMCURSORS.DEFAULT) {
                     if ((cursor === CUSTOMCURSORS.WAIT || cursor === CUSTOMCURSORS.PROGRESS)) {
                         Core.animatedCursor.initAnimation(Core.isHTMLRenderer ? htmlElement : Core.canvas, cursor);
-                    }// else Css.addClass(this.HTMLElement,this._cursor);
+                    }
                 }
                 this.form.app.showToolTip(this, Core.mouse.document, true);
-                if (this.isPressed && Core.isHTMLRenderer) {
+                if (priv.isPressed && Core.isHTMLRenderer) {
                     htmlElement.classList.add("pressed");
                 } else if (!Core.isHTMLRenderer) {
                     Core.canvas.needRedraw = true;
                 }
             }
         }
+        //#endregion mouseEnter
+        //#region mouseLeave
         mouseLeave() {
-            const cursor = this.cursor;
+            //#region Variables déclaration
+            const priv = internal(this);
+            const cursor = priv.cursor;
             const CUSTOMCURSORS = Types.CUSTOMCURSORS;
+            //#endregion Variables déclaration
             if (this instanceof Core.classes.Control) {
                 this.isMouseOver = false;
-                //this._applyTriggerEffect(this,'isMouseOver');
-                //this.startTriggerAnimation(this,'isMouseOver');
                 this.onMouseLeave.invoke();
                 if (cursor !== CUSTOMCURSORS.DEFAULT) {
                     if ((cursor === CUSTOMCURSORS.WAIT || cursor === CUSTOMCURSORS.PROGRESS)) {
                         Core.animatedCursor.stopAnimation();
-                    }// else Css.removeClass(this.HTMLElement,this._cursor);
+                    }
                 }
                 this.form.app.hideToolTip();
                 if (Core.isHTMLRenderer) {
@@ -1520,9 +1753,14 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion mouseLeave
+        //#region enterFocus
         enterFocus() {
+            //#region Variables déclaration
+            const priv = internal(this);
             const focusedControl = this.form.focusedControl;
-            if ((this instanceof Core.classes.Control) && this.canFocused) {
+            //#endregion Variables déclaration
+            if ((this instanceof Core.classes.Control) && priv.canFocused) {
                 if (focusedControl) {
                     if (focusedControl !== this) {
                         focusedControl.killFocus();
@@ -1532,18 +1770,27 @@ const Control = (() => {
                 this.onEnterFocus.invoke();
             }
         }
+        //#endregion enterFocus
+        //#region killFocus
         killFocus() {
-            if ((this instanceof Core.classes.Control) && this.canFocused) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if ((this instanceof Core.classes.Control) && priv.canFocused) {
                 this.isFocused = false;
                 //this._applyTriggerEffect(this,'isFocused');
                 //this.startTriggerAnimation(this,'isFocused');
                 this.onKillFocus.invoke();
             }
         }
+        //#endregion killFocus
+        //#region initEvents
         initEvents() {
+            //#region Variables déclaration
             const MOUSEEVENTS = Mouse.MOUSEEVENTS;
             const htmlElement = this.HTMLElement;
             const dispatchEvent = this.dispatchEvent;
+            //#endregion Variables déclaration
             Events.bind(htmlElement, MOUSEEVENTS.OVER, dispatchEvent);
             Events.bind(htmlElement, MOUSEEVENTS.OUT, dispatchEvent);
             Events.bind(htmlElement, MOUSEEVENTS.CLICK, dispatchEvent);
@@ -1563,10 +1810,14 @@ const Control = (() => {
             Events.bind(htmlElement, MOUSEEVENTS.DRAGOVER, dispatchEvent);
             Events.bind(htmlElement, MOUSEEVENTS.DRAGSTART, dispatchEvent);
         }
+        //#endregion initEvents
+        //#region resetEvent
         resetEvent() {
+            //#region Variables déclaration
             const MOUSEEVENTS = Mouse.MOUSEEVENTS;
             const htmlElement = this.HTMLElement;
             const dispatchEvent = this.dispatchEvent;
+            //#endregion Variables déclaration
             Events.unBind(htmlElement, MOUSEEVENTS.OVER, dispatchEvent);
             Events.unBind(htmlElement, MOUSEEVENTS.OUT, dispatchEvent);
             Events.unBind(htmlElement, MOUSEEVENTS.CLICK, dispatchEvent);
@@ -1586,7 +1837,10 @@ const Control = (() => {
             Events.unBind(htmlElement, MOUSEEVENTS.DRAGOVER, dispatchEvent);
             Events.unBind(htmlElement, MOUSEEVENTS.DRAGSTART, dispatchEvent);
         }
+        //#endregion resetEvent
+        //#region dispatchEvent
         dispatchEvent(event) {
+            //#region Variables déclaration
             let htmlObj = event.target;
             let jsObj = htmlObj.jsObj;
             let activeWin = null;
@@ -1594,7 +1848,7 @@ const Control = (() => {
             const AUTOMATIC = Types.DRAGMODES.AUTOMATIC;
             const DOCK = Types.DRAGKINDS.DOCK;
             const MOUSEEVENTS = Mouse.MOUSEEVENTS;
-            const FUNCTION = Types.CONSTANTS.FUNCTION;
+            //#endregion Variables déclaration
             if (Core.isHTMLRenderer) {
                 while (!jsObj) {
                     htmlObj = htmlObj.parentNode;
@@ -1623,7 +1877,7 @@ const Control = (() => {
                         if (activeWin.capturedControl.mouseMove) {
                             activeWin.capturedControl.mouseMove();
                         }
-                    } else if (typeof jsObj.mouseMove === FUNCTION) {
+                    } else if (Tools.isFunc(jsObj.mouseMove)) {
                         jsObj.mouseMove();
                     }
                     break;
@@ -1632,10 +1886,8 @@ const Control = (() => {
                         if (activeWin.mainMenu) {
                             activeWin.mainMenu.isActive = false;
                         }
-                        //activeWin.closePopups();
                         activeWin.app.closeAllPopups();
                     }
-                    //jsObj.form.app.activeWindow = jsObj.form;
                     if (jsObj.form && jsObj.form instanceof Core.classes.Window) {
                         jsObj.form.setActive();
                         activeWin = jsObj.form;
@@ -1647,10 +1899,9 @@ const Control = (() => {
                                 jsObj.form.app.mainWindow.mainMenu.isActive = false;
                             }
                             jsObj.form.app.mainWindow.closePopups();
-                            //jsObj.form.app.closeAllPopups();
                         }
                     }
-                    if (typeof jsObj.mouseDown === FUNCTION) {
+                    if (Tools.isFunc(jsObj.mouseDown)) {
                         jsObj.mouseDown();
                     }
                     if (Core.classes.CustomTextControl && activeWin.focusedControl instanceof Core.classes.CustomTextControl) {
@@ -1668,7 +1919,7 @@ const Control = (() => {
                         if (activeWin) {
                             activeWin.capturedControl = null;
                         }
-                    } else if (typeof jsObj.mouseUp === FUNCTION) {
+                    } else if (Tools.isFunc(jsObj.mouseUp)) {
                         jsObj.mouseUp();
                     }
                     break;
@@ -1677,7 +1928,7 @@ const Control = (() => {
                     if (activeWin.popups.length > 0 && !jsObj.forceMouseWheel) {
                         return;
                     }
-                    if (typeof jsObj.mouseWheel === FUNCTION) {
+                    if (Tools.isFunc(jsObj.mouseWheel)) {
                         jsObj.mouseWheel();
                     }
                     forceStopEvent = true;
@@ -1688,25 +1939,25 @@ const Control = (() => {
                         if (activeWin.capturedControl.mouseUp) {
                             activeWin.capturedControl.dblClick();
                         }
-                    } else if (typeof jsObj.dblClick === FUNCTION && jsObj.dblClick) {
+                    } else if (Tools.isFunc(jsObj.dblClick) && jsObj.dblClick) {
                         jsObj.dblClick();
                     }
                     break;
                 case MOUSEEVENTS.OUT:
                 case MOUSEEVENTS.LEAVE:
-                    if (typeof jsObj.mouseLeave === FUNCTION) {
+                    if (Tools.isFunc(jsObj.mouseLeave)) {
                         jsObj.mouseLeave();
                     }
                     break;
                 case MOUSEEVENTS.OVER:
                 case MOUSEEVENTS.ENTER:
-                    if (typeof jsObj.mouseEnter === FUNCTION) {
+                    if (Tools.isFunc(jsObj.mouseEnter)) {
                         jsObj.mouseEnter();
                     }
                     break;
                 case MOUSEEVENTS.DRAG:
                     if (jsObj.dragMode !== AUTOMATIC)
-                        if (typeof jsObj.drag === FUNCTION) {
+                        if (Tools.isFunc(jsObj.drag)) {
                             jsObj.drag();
                         }
                     break;
@@ -1715,32 +1966,32 @@ const Control = (() => {
                         if (jsObj.dragMode === AUTOMATIC) {
                             event.preventDefault();
                             event.target.appendChild(document.getElementById(event.dataTransfer.getData("text")));
-                        } else if (typeof jsObj.drop === FUNCTION) {
+                        } else if (Tools.isFunc(jsObj.drop)) {
                             jsObj.drop();
                         }
                     }
                     break;
                 case MOUSEEVENTS.DRAGEND:
                     if (jsObj.dragMode !== AUTOMATIC)
-                        if (typeof jsObj.dragEnd === FUNCTION) {
+                        if (Tools.isFunc(jsObj.dragEnd)) {
                             jsObj.dragEnd();
                         }
                     break;
                 case MOUSEEVENTS.DRAGENTER:
                     if (jsObj.dragMode !== AUTOMATIC)
-                        if (typeof jsObj.dragEnter === FUNCTION) {
+                        if (Tools.isFunc(jsObj.dragEnter)) {
                             jsObj.dragEnter();
                         }
                     break;
                 case MOUSEEVENTS.DRAGEXIT:
                     if (jsObj.dragMode !== AUTOMATIC)
-                        if (typeof jsObj.dragExit === FUNCTION) {
+                        if (Tools.isFunc(jsObj.dragExit)) {
                             jsObj.dragExit();
                         }
                     break;
                 case MOUSEEVENTS.DRAGLEAVE:
                     if (jsObj.dragMode !== AUTOMATIC)
-                        if (typeof jsObj.dragLeave === FUNCTION) {
+                        if (Tools.isFunc(jsObj.dragLeave)) {
                             jsObj.dragLeave();
                         }
                     break;
@@ -1748,7 +1999,7 @@ const Control = (() => {
                     if (jsObj.dragKind === DOCK) {
                         if (jsObj.dragMode === AUTOMATIC) {
                             event.preventDefault();
-                        } else if (typeof jsObj.dragOver === FUNCTION) {
+                        } else if (Tools.isFunc(jsObj.dragOver)) {
                             jsObj.dragOver();
                         }
                     }
@@ -1756,58 +2007,71 @@ const Control = (() => {
                 case MOUSEEVENTS.DRAGSTART:
                     if (jsObj.dragMode === AUTOMATIC) {
                         event.dataTransfer.setData("text", htmlObj.id);
-                    } else if (typeof jsObj.dragStart === FUNCTION) {
+                    } else if (Tools.isFunc(jsObj.dragStart)) {
                         jsObj.dragStart();
                     }
                     break;
-                //case Types.mouseEvents.CLICK:
-                //  //jsObj.click();
-                //  break;
-                //case Types.mouseEvents.EVENT:
-                //  break;
-                //case Types.keybordEvents.DOWN:
-                //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
-                //  break;
-                //case Types.keybordEvents.UP:
-                //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
-                //  break;
-                //case Types.keybordEvents.PRESS:
-                //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
-                //  break;
+                    //case Types.mouseEvents.CLICK:
+                    //  //jsObj.click();
+                    //  break;
+                    //case Types.mouseEvents.EVENT:
+                    //  break;
+                    //case Types.keybordEvents.DOWN:
+                    //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
+                    //  break;
+                    //case Types.keybordEvents.UP:
+                    //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
+                    //  break;
+                    //case Types.keybordEvents.PRESS:
+                    //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
+                    //  break;
             }
             if (jsObj.stopEvent || forceStopEvent) {
                 Core.mouse.stopEvent(event);
             }
-            //else event.stopPropagation();
         }
+        //#endregion dispatchEvent
+        //#region releaseCapture
         releaseCapture() {
+            //#region Variables déclaration
             const form = this.form;
+            //#endregion Variables déclaration
             if (form) {
                 if (form.capturedControl === this) {
                     form.capturedControl = null;
                 }
             }
         }
+        //#endregion releaseCapture
+        //#region capture
         capture() {
+            //#region Variables déclaration
             const form = this.form;
+            //#endregion Variables déclaration
             if (form) {
                 form.capturedControl = this;
             }
         }
+        //#endregion capture
+        //#region click
         click() {
+            //#region Variables déclaration
             const action = this.action;
+            //#endregion Variables déclaration
             if (this.onClick.hasListener) {
                 this.onClick.invoke();
             } else if (action) {
                 action.execute();
             }
         }
+        //#endregion click
+        //#region dblClick
         dblClick() {
             this.onDblClick.invoke();
         }
+        //#endregion dblClick
+        //#region keyDown
         keyDown() {
-            //if(Core.keyboard.keyCode===Core.VKeysCode.VK_APP) this.contextMenu();
-            //else this.onKeyDown.invoke(new Core.Events.onKeyEventArgs(k,kc,s));
             this.onKeyDown.invoke();
             if (Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
                 if (!(this instanceof Core.classes.CustomTextControl)) {
@@ -1815,8 +2079,12 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion keyDown
+        //#region keyUp
         keyUp() {
+            //#region Variables déclaration
             const VKEYSCODES = Keyboard.VKEYSCODES;
+            //#endregion Variables déclaration
             this.onKeyUp.invoke();
             if (Core.keyboard.keyCode === VKEYSCODES.VK_SPACE || Core.keyboard.keyCode === VKEYSCODES.VK_RETURN) {
                 if (!(this instanceof Core.classes.CustomTextControl)) {
@@ -1832,57 +2100,100 @@ const Control = (() => {
                 }
             }
         }
+        //#endregion keyUp
+        //#region keyPress
         keyPress() {
             this.onKeyPress.invoke();
         }
+        //#endregion keyPress
+        //#region drag
         drag(event) {
-            if (this.dragKind === Types.DRAGKINDS.DRAG && this.dragMode === Types.DRAGMODES.MANUAL) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (priv.dragKind === Types.DRAGKINDS.DRAG && priv.dragMode === Types.DRAGMODES.MANUAL) {
                 this.onDrag.invoke(event);
             }
         }
+        //#endregion drag
+        //#region drop
         drop(event) {
-            if (this.dragKind !== Types.DRAGKINDS.DOCK) {
-                if (this.dragMode !== Types.DRAGMODES.MANUAL) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (priv.dragKind !== Types.DRAGKINDS.DOCK) {
+                if (priv.dragMode !== Types.DRAGMODES.MANUAL) {
                     this.onDrop.invoke(event);
                 }
             }
         }
+        //#endregion drop
+        //#region dragEnter
         dragEnter(event) {
-            if (this.dragKind === Types.DRAGKINDS.DOCK) {
-                if (this.dragMode === Types.DRAGMODES.MANUAL) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (priv.dragKind === Types.DRAGKINDS.DOCK) {
+                if (priv.dragMode === Types.DRAGMODES.MANUAL) {
                     this.onDragEnter.invoke(event);
                 }
             }
         }
+        //#endregion dragEnter
+        //#region dragStart
         dragStart(event) {
-            if (this.dragKind === Types.DRAGKINDS.DRAG && this.dragMode === Types.DRAGMODES.MANUAL) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (priv.dragKind === Types.DRAGKINDS.DRAG && priv.dragMode === Types.DRAGMODES.MANUAL) {
                 this.onDragStart.invoke(event);
             }
         }
+        //#endregion dragStart
+        //#region dragLeave
         dragLeave() {
-            if (this.dragKind === Types.DRAGKINDS.DOCK) {
-                if (this.dragMode === Types.DRAGMODES.MANUAL) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (priv.dragKind === Types.DRAGKINDS.DOCK) {
+                if (priv.dragMode === Types.DRAGMODES.MANUAL) {
                     this.onDragLeave.invoke(event);
                 }
             }
         }
+        //#endregion dragLeave
+        //#region dragExit
         dragExit() {
-            if (this.dragKind === Types.DRAGKINDS.DRAG && this.dragMode === Types.DRAGMODES.MANUAL) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (priv.dragKind === Types.DRAGKINDS.DRAG && priv.dragMode === Types.DRAGMODES.MANUAL) {
                 this.onDragExit.invoke(event);
             }
         }
+        //#endregion dragExit
+        //#region dragOver
         dragOver(event) {
-            if (this.dragKind === Types.DRAGKINDS.DOCK) {
-                if (this.dragMode === Types.DRAGMODES.MANUAL) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (priv.dragKind === Types.DRAGKINDS.DOCK) {
+                if (priv.dragMode === Types.DRAGMODES.MANUAL) {
                     this.onDragOver.invoke(event);
                 }
             }
         }
+        //#endregion dragOver
+        //#region dragEnd
         dragEnd() {
-            if (this.dragKind === Types.DRAGKINDS.DRAG && this.dragMode === Types.DRAGMODES.MANUAL) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (priv.dragKind === Types.DRAGKINDS.DRAG && priv.dragMode === Types.DRAGMODES.MANUAL) {
                 this.onDragEnd.invoke(event);
             }
         }
+        //#endregion dragEnd
         //dialogKey Control_dialogKey(key,shift){
         //  if (this._components.length>0){
         //    for(let i=0,l=this._components.length;i<l;i++){
@@ -1893,8 +2204,12 @@ const Control = (() => {
         //    }
         //  }
         //},
+        //#region contextMenu
         contextMenu(stayOpen) {
-            const popupMenu = this.popupMenu;
+            //#region Variables déclaration
+            const priv = internal(this);
+            const popupMenu = priv.popupMenu;
+            //#endregion Variables déclaration
             if (popupMenu) {
                 const x = Core.mouse.window.x;
                 const y = Core.mouse.window.y;
@@ -1903,6 +2218,8 @@ const Control = (() => {
                 popupMenu.show(x, y);
             }
         }
+        //#endregion contextMenu
+        //#region bindEvents
         bindEvents() {
             super.bindEvents();
             //let data;
@@ -2011,6 +2328,8 @@ const Control = (() => {
             this.bindEventToHTML("onDragEnter");
             this.initEvents();
         }
+        //#endregion bindEvents
+        //#region getHTMLElement
         getHTMLElement(id) {
             //if (Tools.Debugger.debug) console.log(`${ this.constructor.name } getHTMLElement`);
             if (id !== String.EMPTY) {
@@ -2025,12 +2344,16 @@ const Control = (() => {
                 //Tools.Debugger.log(arguments, this, t);
             }
         }
+        //#endregion getHTMLElement
+        //#region getChilds
         getChilds(childs, owner) {
+            //#region Variables déclaration
             let dataClass = null;
             const XMLNODETYPES = Types.XMLNODETYPES;
             const isHtmlRenderer = Core.isHTMLRenderer;
             const classes = Core.classes;
             let props;
+            //#endregion Variables déclaration
             if (childs) {
                 let nodes = null;
                 if (isHtmlRenderer) {
@@ -2076,15 +2399,19 @@ const Control = (() => {
                 });
             }
         }
+        //#endregion getChilds
+        //#region clientOrigin
         clientOrigin() {
+            //#region Variables déclaration
             const result = new Core.classes.Point;
             const htmlElement = this.HTMLElement;
             const htmlParentElement = Tools.HTMLParentElement;
+            //#endregion Variables déclaration
             this.owners.forEach(owner => {
-                const _htmlElement = owner.HTMLElement;
-                const border = getComputedStyle(_htmlElement);
-                result.x += _htmlElement.offsetLeft + ~~parseFloat(border.borderLeftWidth);
-                result.y += _htmlElement.offsetTop + ~~parseFloat(border.borderTopWidth);
+                const oHtmlElement = owner.HTMLElement;
+                const border = getComputedStyle(oHtmlElement);
+                result.x += oHtmlElement.offsetLeft + ~~parseFloat(border.borderLeftWidth);
+                result.y += oHtmlElement.offsetTop + ~~parseFloat(border.borderTopWidth);
             });
             result.x += htmlElement.offsetLeft;
             result.y += htmlElement.offsetTop;
@@ -2094,14 +2421,15 @@ const Control = (() => {
             }
             return result;
         }
-        //boundingClientRect:function() {
-        //  return this._boundingClientRect;
-        //},
+        //#endregion clientOrigin
+        //#region documentToClient
         documentToClient(pt) {
+            //#region Variables déclaration
             const origin = this.clientOrigin();
             const result = new Core.classes.Point;
             const width = this.width;
             const height = this.height;
+            //#endregion Variables déclaration
             if (!pt) {
                 pt = Core.mouse.document;
             }
@@ -2121,11 +2449,15 @@ const Control = (() => {
             }
             return result;
         }
+        //#endregion documentToClient
+        //#region loaded
         loaded() {
+            //#region Variables déclaration
             const priv = internal(this);
-            const align = this.align;
+            const align = priv.align;
             const owner = this.owner;
-            const right = this.right;
+            const right = priv.right;
+            //#endregion Variables déclaration
             super.loaded();
             if (align.startsWith("fit") || align === Types.ALIGNS.SCALE) {
                 Tools.addResizeListener(owner);
@@ -2141,12 +2473,15 @@ const Control = (() => {
             if (Core.isHTMLRenderer && this.inForm) {
                 this.resize();
             }
-            //this.realignChilds();
         }
+        //#endregion loaded
+        //#region resized
         resized() {
+            //#region Variables déclaration
             const ALIGNS = Types.ALIGNS;
             const resizeData = this.resizeData;
             const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
             if (!resizeData.width || !resizeData.height) {
                 resizeData.width = htmlElement.offsetWidth;
                 resizeData.height = htmlElement.offsetHeight;
@@ -2168,13 +2503,17 @@ const Control = (() => {
                 this.onAfterResized.invoke(this);
             }
         }
+        //#endregion resized
+        //#region scaleFromParent
         scaleFromParent() {
+            //#region Variables déclaration
             const p = getComputedStyle(this.HTMLElement);
             const PX = Types.CSSUNITS.PX;
             const htmlElementStyle = this.HTMLElementStyle;
             const owner = this.owner;
             const resizeData = owner.resizeData;
             const oHtmlElement = owner.HTMLElement;
+            //#endregion Variables déclaration
             if (resizeData.width > 0 && resizeData.height > 0 && oHtmlElement.offsetWidth > 0 && oHtmlElement.offsetHeight > 0) {
                 htmlElementStyle.left = `${~~parseFloat(p.left) * (oHtmlElement.offsetWidth / resizeData.width)} ${PX} `;
                 htmlElementStyle.top = `${~~parseFloat(p.top) * (oHtmlElement.offsetHeight / resizeData.height)} ${PX} `;
@@ -2182,7 +2521,11 @@ const Control = (() => {
                 htmlElementStyle.height = `${~~parseFloat(p.height) * (oHtmlElement.offsetHeight / resizeData.height)} ${PX} `;
             }
         }
+        //#endregion scaleFromParent
+        //#region fitToParent
         fitToParent() {
+            //#region Variables déclaration
+            const priv = internal(this);
             let newLeft = null;
             let newTop = null;
             let newWidth = null;
@@ -2191,7 +2534,7 @@ const Control = (() => {
             const PX = Types.CSSUNITS.PX;
             const ALIGNS = Types.ALIGNS;
             const oHtmlElement = this.owner.HTMLElement;
-            const align = this.align;
+            const align = priv.align;
             const htmlElementStyle = this.HTMLElementStyle;
             const pP = getComputedStyle(oHtmlElement);
             const mR = new Core.classes.Rect(~~parseFloat(pP.paddingLeft), ~~parseFloat(pP.paddingTop),
@@ -2202,6 +2545,7 @@ const Control = (() => {
                 ~~parseFloat(p.left) + ~~parseFloat(p.width) + ~~parseFloat(p.paddingRight),
                 ~~parseFloat(p.top) + ~~parseFloat(p.height) + ~~parseFloat(p.paddingBottom));
             const fitScale = cR.fit(mR);
+            //#endregion Variables déclaration
             if (fitScale.ratio < 1) {
                 cR.left = cR.left / fitScale.ratio;
                 cR.right = cR.right / fitScale.ratio;
@@ -2235,10 +2579,15 @@ const Control = (() => {
             htmlElementStyle.width = `${newWidth - ~~parseFloat(p.paddingLeft) - ~~parseFloat(p.paddingRight)} ${PX} `;
             htmlElementStyle.height = `${newHeight - ~~parseFloat(p.paddingTop) - ~~parseFloat(p.paddingBottom)} ${PX} `;
         }
+        //#endregion fitToParent
+        //#region applyTransforms
         applyTransforms(transform) {
+            //#region Variables déclaration
+            const priv = internal(this);
             const t = [];
-            const rotateAngle = this.rotateAngle;
-            const scale = this.scale;
+            const rotateAngle = priv.rotateAngle;
+            const scale = priv.scale;
+            //#endregion Variables déclaration
             this.resetTransform();
             if (!transform) {
                 transform = String.EMPTY;
@@ -2269,13 +2618,20 @@ const Control = (() => {
             }
             this.HTMLElementStyle.transform = t.join(String.SPACE);
         }
+        //#endregion applyTransforms
+        //#region resetTransform
         resetTransform() {
             if (Core.isHTMLRenderer) {
                 this.HTMLElementStyle.transform = String.EMPTY;
             }
         }
+        //#endregion resetTransform
+        //#region getTabOrderList
         getTabOrderList(list, children) {
-            const tabList = this.tabList;
+            //#region Variables déclaration
+            const priv = internal(this);
+            const tabList = priv.tabList;
+            //#endregion Variables déclaration
             if (children) {
                 children = true;
             }
@@ -2293,10 +2649,15 @@ const Control = (() => {
                 });
             }
         }
+        //#endregion getTabOrderList
+        //#region destroy
         destroy() {
-            const tabList = this.tabList;
-            const padding = this.padding;
-            const margin = this.margin;
+            //#region Variables déclaration
+            const priv = internal(this);
+            const tabList = priv.tabList;
+            const padding = priv.padding;
+            const margin = priv.margin;
+            //#endregion Variables déclaration
             if (this.hasResizeEvent) {
                 Core.looper.removeListener(this, "resized");
             }
@@ -2395,18 +2756,22 @@ const Control = (() => {
                 this.onDestroy.destroy();
             }
             if (this.scale) {
-                this._scale.destroy();
+                this.scale.destroy();
             }
             //this.align = null;
             if (this.rotateCenter) {
-                this._rotateCenter.destroy();
+                this.rotateCenter.destroy();
             }
             //if (this._boundingClientRect)) this._boundingClientRect.destroy();
             //this._boundingClientRect=null;
             super.destroy();
         }
+        //#endregion destroy
+        //#region addControl
         addControl(control) {
+            //#region Variables déclaration
             const htmlElement = control.HTMLElement;
+            //#endregion Variables déclaration
             if (control instanceof Core.classes.Control) {
                 if (htmlElement) {
                     htmlElement.remove();
@@ -2414,11 +2779,13 @@ const Control = (() => {
                 this.insertComponent(control);
             }
         }
+        //#endregion addControl
+        //#region getChildsControls
         getChildsControls(callback) {
             this.components.forEach(comp => {
                 if (comp instanceof Core.classes.Component) {
                     if (callback) {
-                        if (typeof callback === Types.CONSTANTS.FUNCTION) {
+                        if (Tools.isFunc(callback)) {
                             callback(comp);
                         }
                     }
@@ -2428,20 +2795,21 @@ const Control = (() => {
                 }
             });
         }
-        getDataSetValue(dataName) {
-            return this.HTMLElement.dataset[dataName];
-        }
-        setDataSetValue(dataName, value) {
-            this.HTMLElement.dataset[dataName] = value;
-        }
+        //#endregion getChildsControls
+        //#region getZOrder
         getZOrder() {
+            //#region Variables déclaration
             const owner = this.owner;
+            //#endregion Variables déclaration
             if (owner && this.HTMLElement) {
                 return owner.components.indexOf(this);
             }
             return -1;
         }
+        //#endregion getZOrder
+        //#region render
         render(className) {
+            //#region Variables déclaration
             const changingTheme = document.body.classList.contains("changingTheme");
             const themeName = changingTheme ? this.app.themeManifest.lastThemeName : this.themeName;
             const priv = internal(this);
@@ -2451,6 +2819,7 @@ const Control = (() => {
             let drawCaption = this instanceof classes.CaptionControl;
             let state = priv.isPressed ? "pressed" : priv.isMouseOver ? "hovered" : priv.isFocused ? "focused" : "normal";
             const params = [];
+            //#endregion Variables déclaration
             if (this instanceof classes.Window || this instanceof classes.WindowTitleBar) {
                 state = this.form.activeWindow ? "active" : "inactive";
             }
@@ -2481,20 +2850,20 @@ const Control = (() => {
                         objTheme.shapes.forEach(shape => {
                             let width = shape.width ? shape.width : priv.width;
                             let height = shape.height ? shape.height : priv.height;
-                            if (typeof height === Types.CONSTANTS.STRING) {
+                            if (Tools.isString(height)) {
                                 height = eval(eval(height));
                             }
-                            if (typeof width === Types.CONSTANTS.STRING) {
+                            if (Tools.isString(width)) {
                                 width = eval(eval(width));
                             }
                             const w2 = width / 2;
                             //const h2 = height / 2;
                             let left = shape.left ? shape.left : 0;
                             let top = shape.top ? shape.top : 0;
-                            if (typeof left === Types.CONSTANTS.STRING) {
+                            if (Tools.isString(left)) {
                                 left = eval(eval(left));
                             }
-                            if (typeof top === Types.CONSTANTS.STRING) {
+                            if (Tools.isString(top)) {
                                 top = eval(eval(top));
                             }
                             let offset = 0;
@@ -2512,7 +2881,7 @@ const Control = (() => {
                                 // Radius
                                 let radius = shape.radius;
                                 if (radius) {
-                                    if (typeof radius === Types.CONSTANTS.NUMBER && obj.borderRadius) {
+                                    if (Tools.isNumber(radius) && obj.borderRadius) {
                                         radius = obj.borderRadius;
                                     }
                                     params.push(Tools.processRadius(this, Core.vars, radius));
@@ -2614,7 +2983,8 @@ const Control = (() => {
             });
             ctx.restore();
         }
-        //#endregion
+        //#endregion render
+        //#endregion Methods
         /*static init() {*/
         /*if (Core.isHTMLRenderer) {
             let ControlTpl = "<div id='{internalId}' data-name='{name}' data-class='{className}' class='Control {className}' style='width:100px;height:100px;'></div>",
@@ -2652,7 +3022,9 @@ const Control = (() => {
     }*/
     }
     return Control;
+    //#endregion Control
 })();
+//#region Control defineProperties
 Object.defineProperties(Control, {
     "autoTranslate": {
         enumerable: true
@@ -2751,13 +3123,14 @@ Object.defineProperties(Control, {
         enumerable: true
     }
 });
-//#endregion
+//#endregion Control defineProperties
+//#endregion Control
 //#region Templates
-const ControlTpl = "<div id='{internalId}' data-name='{name}' data-class='{className}' class='Control {className}' style='width:100px;height:100px;'></div>";
+const controlTpl = "<div id='{internalId}' data-name='{name}' data-class='{className}' class='Control {className}' style='width:100px;height:100px;'></div>";
 //const ToolTipTpl = "<div class='Control ToolTip {theme}'>{text}</div>";
 Core.classes.register(Types.CATEGORIES.INTERNAL, Control);
 Core.classes.registerTemplates([
-    { Class: Control, template: ControlTpl }
+    { Class: Control, template: controlTpl }
 ]);
 //#endregion
 export { Control };

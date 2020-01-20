@@ -42,7 +42,7 @@ const ThemeManifest = (() => {
             //#region Variables declaration
             const priv = internal(this);
             //#endregion Variables declaration
-            if (Tools.is(newValue)) {
+            if (Tools.isString(newValue)) {
                 if (priv.lastThemeName !== newValue) {
                     priv.lastThemeName = newValue;
                 }

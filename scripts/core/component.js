@@ -516,13 +516,14 @@ const Component = (() => {
         //#region getBoundingClientRect
         getBoundingClientRect() {
             //#region Variables déclaration
+            const priv = internal(this);
             const margin = this.margin;
             //#endregion Variables déclaration
             if (Core.isHTMLRenderer) {
-                return this.HTMLElement.getBoundingClientRect();
+                return priv.HTMLElement.getBoundingClientRect();
             } else {
-                const boundingClientRect = new Rect(this.left + margin.left, this.top + margin.top, 0, 0);
-                this.owners.forEach(owner => {
+                const boundingClientRect = new Rect(priv.left + margin.left, priv.top + margin.top, 0, 0);
+                priv.owners.forEach(owner => {
                     const oMargin = owner.margin;
                     boundingClientRect.left += owner.left + oMargin.left;
                     boundingClientRect.top += owner.top + oMargin.top;
@@ -536,11 +537,12 @@ const Component = (() => {
         //#region destroy
         destroy() {
             //#region Variables déclaration
-            const htmlElement = this.HTMLElement;
-            const owner = this.owner;
-            const owners = this.owners;
+            const priv = internal(this);
+            const htmlElement = priv.HTMLElement;
+            const owner = priv.owner;
+            const owners = priv.owners;
             //#endregion Variables déclaration
-            this.destroying();
+            priv.destroying();
             this.destroyComponents();
             if (htmlElement) {
                 htmlElement.parentNode.removeChild(htmlElement);
@@ -559,10 +561,11 @@ const Component = (() => {
         //#region loaded
         loaded() {
             //#region Variables déclaration
-            const htmlElement = this.HTMLElement;
-            const form = this.form;
+            const priv = internal(this);
+            const htmlElement = priv.HTMLElement;
+            const form = priv.form;
             //#endregion Variables déclaration
-            this.loading = false;
+            priv.loading = false;
             this.components.forEach(comp => {
                 if (comp.loaded) {
                     if (comp.loading) {
@@ -573,7 +576,7 @@ const Component = (() => {
             if (Core.isHTMLRenderer) {
                 this.bindEvents();
                 if (htmlElement) {
-                    const properties = htmlElement.querySelector(`[id='${this.internalId}']> properties:first-child`);
+                    const properties = htmlElement.querySelector(`[id='${priv.internalId}']> properties:first-child`);
                     if (properties) {
                         htmlElement.removeChild(properties);
                     }
@@ -584,7 +587,7 @@ const Component = (() => {
                     this.action = form[this.action];
                 } else if (!String.isNullOrEmpty(this.action)) {
                     const action = this.action;
-                    const app = this.app;
+                    const app = priv.app;
                     if (action.includes(".")) {
                         let data = action.split(".");
                         if (app[data.first]) {
@@ -596,19 +599,20 @@ const Component = (() => {
                     }
                 }
             }
-            this.moveTo(this.left, this.top);
+            this.moveTo(priv.left, priv.top);
         }
         //#endregion loaded
         //#region insert
         insert(component) {
             //#region Variables déclaration
+            const priv = internal(this);
             const components = this.components;
-            const form = this.form;
+            const form = priv.form;
             const controls = form.controls;
             //#endregion Variables déclaration
             if (components.indexOf(component) === -1) {
                 components.push(component);
-                component.app = this.app;
+                component.app = priv.app;
                 component.owner = this;
                 if (form !== component) {
                     if (component.inForm && controls.indexOf(component) === -1) {
@@ -624,8 +628,9 @@ const Component = (() => {
         //#region remove
         remove(component) {
             //#region Variables déclaration
+            const priv = internal(this);
             const components = this.components;
-            const form = this.form;
+            const form = priv.form;
             const controls = form.controls;
             //#endregion Variables déclaration
             if (components.indexOf(component) > -1) {
@@ -655,7 +660,7 @@ const Component = (() => {
         //#region getComponent
         getComponent(index) {
             //#region Variables déclaration
-            const components = this.components;
+            const components = priv.components;
             //#endregion Variables déclaration
             if (components.length === 0 || index >= components.length) {
                 throw Core.errMsg.LISTINDEXERROR.format(index);
@@ -665,7 +670,7 @@ const Component = (() => {
         //#endregion getComponent
         //#region beforeDestruction
         beforeDestruction() {
-            if (!this.destroying) {
+            if (!priv.destroying) {
                 this._destroying();
             }
         }
@@ -675,7 +680,7 @@ const Component = (() => {
             //#region Variables déclaration
             let instance;
             //#endregion Variables déclaration
-            const components = this.components;
+            const components = priv.components;
             if (components) {
                 while (components.length > 0) {
                     instance = components.last;
@@ -689,10 +694,10 @@ const Component = (() => {
         //#region _destroying
         _destroying() {
             //#region Variables déclaration
-            const components = this.components;
+            const components = priv.components;
             //#endregion Variables déclaration
-            if (!this.destroying) {
-                this.destroying = true;
+            if (!priv.destroying) {
+                priv.destroying = true;
                 if (components) {
                     components.forEach(comp => {
                         comp._destroying();
@@ -705,7 +710,8 @@ const Component = (() => {
         //#region findComponent
         findComponent(name) {
             //#region Variables déclaration
-            const components = this.components;
+            const priv = internal(this);
+            const components = priv.components;
             //#endregion Variables déclaration
             if (!String.isNullOrEmpty(name)) {
                 if (components) {
@@ -720,20 +726,27 @@ const Component = (() => {
         //#endregion findComponent
         //#region _updating
         _updating() {
-            this.updating = true;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.updating = true;
         }
         //#endregion _updating
         //#region updated
         updated() {
-            this.updating = false;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.updating = false;
         }
         //#endregion updated
         //#region validateRename
         validateRename(component, curName, newName) {
             //#region Variables déclaration
-            const owner = this.owner;
+            const priv = internal(this);
+            const owner = priv.owner;
             //#endregion Variables déclaration
-            if (this.designing && owner) {
+            if (priv.designing && owner) {
                 if (!(owner instanceof Core.classes.App)) {
                     owner.validateRename(component, curName, newName);
                 }
@@ -752,21 +765,22 @@ const Component = (() => {
         //#region getHTMLElement
         getHTMLElement(id) {
             //#region Variables déclaration
-            const internalId = this.internalId;
-            const htmlElement = this.HTMLElement = document.getElementById(id);
+            const priv = internal(this);
+            const internalId = priv.internalId;
+            const htmlElement = priv.HTMLElement = document.getElementById(id);
             //#endregion Variables déclaration
             if (htmlElement) {
-                this.HTMLElementStyle = htmlElement.style;
+                priv.HTMLElementStyle = htmlElement.style;
                 if (!htmlElement.jsObj) {
                     htmlElement.jsObj = this;
                 }
                 const data = htmlElement.name;
                 if (data) {
-                    this.name = data;
+                    priv.name = data;
                 }
             }
             if (!internalId || internalId !== id) {
-                this.internalId = id;
+                priv.internalId = id;
             }
         }
         //#endregion getHTMLElement
@@ -803,9 +817,10 @@ const Component = (() => {
         //#region bindEventToHTML
         bindEventToHTML(eventName) { // à vérifier
             //#region Variables déclaration
-            const htmlElement = this.HTMLElement;
+            const priv = internal(this);
+            const htmlElement = priv.HTMLElement;
             //#endregion Variables déclaration
-            const form = this.form;
+            const form = priv.form;
             if (Tools.isString(eventName) && htmlElement) {
                 const data = htmlElement.dataset[eventName.toLowerCase()];
                 if (data) {
