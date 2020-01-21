@@ -1606,6 +1606,6 @@ const Colors = Object.freeze({
     get YELLOWGREEN() { return Color.createFromRGBA(154, 205, 50, 1); }
 });
 //#endregion
-window.Colors = Colors;
+Core.Colors = Colors;
 Core.classes.register(Types.CATEGORIES.COLOR, Color);
 export { Color, Colors };
