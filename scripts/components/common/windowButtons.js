@@ -1,6 +1,8 @@
 ﻿//#region Import
 import { Button } from "/scripts/components/common/button.js";
 import { Window } from "/scripts/components/containers/window.js";
+import { Tools } from "/scripts/core/tools.js";
+import { Mouse } from "/scripts/core/mouse.js";
 //#endregion Import
 //#region WindowButton
 const WindowButton = (() => {
@@ -24,7 +26,7 @@ const WindowButton = (() => {
             return super.visible;
         }
         set visible(newValue) {
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (this.visible !== newValue) {
                     super.visible = newValue;
                     if (!Core.isHTMLRenderer) {
@@ -210,7 +212,7 @@ const WindowRollUpDownButton = (() => {
             const priv = internal(this);
             const isRolledUp = priv.isRolledUp;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (isRolledUp !== newValue) {
                     priv.isRolledUp = newValue;
                 }
@@ -295,7 +297,7 @@ const WindowStayOnOffButton = (() => {
             const priv = internal(this);
             const isStayOn = priv.isStayOn;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (isStayOn !== newValue) {
                     priv.isStayOn = newValue;
                 }
@@ -343,7 +345,4 @@ const WindowStayOnOffButton = (() => {
 //#endregion
 Core.classes.register(Types.CATEGORIES.INTERNAL, WindowButton, WindowCloseButton, WindowMinimizeButton,
     WindowMaxRestoreButton, WindowHelpButton, WindowRollUpDownButton, WindowStayOnOffButton);
-export {
-    WindowButton, WindowCloseButton, WindowMinimizeButton, WindowMaxRestoreButton, WindowHelpButton,
-    WindowRollUpDownButton, WindowStayOnOffButton
-};
+export { WindowButton, WindowCloseButton, WindowMinimizeButton, WindowMaxRestoreButton, WindowHelpButton, WindowRollUpDownButton, WindowStayOnOffButton }

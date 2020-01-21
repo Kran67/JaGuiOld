@@ -10,9 +10,9 @@ class Panel extends ThemedControl {
             super(owner, props);
         }
     }
-    //#endregion
+    //#endregion Constructor
 }
-//#endregion
+//#endregion Panel
 Core.classes.register(Types.CATEGORIES.CONTAINERS, Panel);
 export { Panel };
 

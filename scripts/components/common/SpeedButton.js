@@ -11,6 +11,7 @@ class SpeedButton extends ButtonGlyph {
             this.canFocused = false;
         }
     }
+    //#endregion Constructor
 }
 //#endregion
 Core.classes.register(Types.CATEGORIES.COMMON, SpeedButton);

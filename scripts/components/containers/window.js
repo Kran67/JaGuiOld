@@ -560,38 +560,22 @@ const WindowTitleBar = (() => {
     //#endregion Class WindowTitleBar
 })();
 //#endregion
-//#region WindowContent
-const WindowContent = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
+//#region Class WindowContent
+class WindowContent extends ThemedControl {
+    //#region constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            super(owner, props);
+            //#region Public
+            this.hitTest.mouseDown = true;
+            //#endregion Public
         }
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class WindowContent
-    class WindowContent extends ThemedControl {
-        //#region constructor
-        constructor(owner, props) {
-            props = !props ? {} : props;
-            if (owner) {
-                super(owner, props);
-                //#region Public
-                this.hitTest.mouseDown = true;
-                //#endregion Public
-            }
-        }
-        //#endregion
-        //#region getters / setters
-        //#endregion Getters / Setters
     }
-    return WindowContent;
-    //#endregion Class WindowContent
-})();
+    //#endregion
+    //#region getters / setters
+    //#endregion Getters / Setters
+}
 //#endregion
 //#region BaseWindow
 const BaseWindow = (() => {
@@ -646,11 +630,11 @@ const BaseWindow = (() => {
                 priv.toolBars = [];
                 priv.statusBars = [];
                 priv.isResizing = false;
-                priv.snapArea = props.snapArea ? props.snapArea : Window.SNAPAREAS.NONE;
+                priv.snapArea = props.hasOwnProperty("snapArea") ? props.snapArea : Window.SNAPAREAS.NONE;
                 priv.destroyOnHide = false;
                 priv.controls = [];
-                priv.isChildWindow = props.parentHTML ? (props.parentHTML !== document.body ? true : false) : false;
-                priv.parentHTML = props.parentHTML ? props.parentHTML : null;
+                priv.isChildWindow = props.hasOwnProperty("parentHTML") ? (props.parentHTML !== document.body ? true : false) : false;
+                priv.parentHTML = props.hasOwnProperty("parentHTML") ? props.parentHTML : null;
                 priv.lastZIndex = -1;
                 priv.animated = true;
                 priv.keyPreview = false;
@@ -659,23 +643,17 @@ const BaseWindow = (() => {
                 priv.activeControl = null;
                 priv.canClose = true;
                 priv.moveable = true;
-                //priv.borderStyle = props.borderStyle ? props.borderStyle : BORDERSTYLES.SIZEABLE;
-                //priv.windowState = props.windowState ? props.windowState : WINDOWSTATES.NORMAL;
-                //priv.position = props.formPosition ? props.formPosition : FORMPOSITIONS.DESIGNED;
-                //priv.bordersType = props.bordersType ? props.bordersType : BORDERSTYPES.NONE;
-                //priv.modalResult = MODALRESULTS.NONE;
-                //priv.showingMode = props.showingMode ? props.showingMode : SHOWINGMODES.NORMAL;
-                priv.stayOn = props.stayOn ? props.stayOn : false;
-                priv.enabledShadow = props.enabledShadow ? props.enabledShadow : true;
+                priv.stayOn = props.hasOwnProperty("stayOn")? props.stayOn : false;
+                priv.enabledShadow = props.hasOwnProperty("enabledShadow") ? props.enabledShadow : true;
                 //priv.minimizeAnimation = new RectAnimation(this, { inForm: false });
-                priv.position = FORMPOSITIONS.DEFAULT;
-                priv.buttons = props.buttons ? props.buttons : null;
+                priv.position = props.hasOwnProperty("position") ? props.position : FORMPOSITIONS.DEFAULT;
+                priv.buttons = props.hasOwnProperty("buttons") ? props.buttons : null;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "position",
                     enum: FORMPOSITIONS,
                     variable: priv,
-                    value: props.formPosition ? props.formPosition : FORMPOSITIONS.DESIGNED
+                    value: props.hasOwnProperty("formPosition") ? props.formPosition : FORMPOSITIONS.DESIGNED
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
@@ -683,7 +661,7 @@ const BaseWindow = (() => {
                     enum: WINDOWSTATES,
                     setter: this._windowState,
                     variable: priv,
-                    value: props.windowState ? props.windowState : WINDOWSTATES.NORMAL
+                    value: props.hasOwnProperty("windowState") ? props.windowState : WINDOWSTATES.NORMAL
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
@@ -691,14 +669,14 @@ const BaseWindow = (() => {
                     enum: BORDERSTYLES,
                     setter: this._borderStyle,
                     variable: priv,
-                    value: props.borderStyle ? props.borderStyle : BORDERSTYLES.SIZEABLE
+                    value: props.hasOwnProperty("borderStyle") ? props.borderStyle : BORDERSTYLES.SIZEABLE
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "bordersType",
                     enum: BORDERSTYPES,
                     variable: priv,
-                    value: props.bordersType ? props.bordersType : BORDERSTYPES.NONE
+                    value: props.hasOwnProperty("bordersType") ? props.bordersType : BORDERSTYPES.NONE
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
@@ -712,7 +690,7 @@ const BaseWindow = (() => {
                     propName: "showingMode",
                     enum: SHOWINGMODES,
                     variable: priv,
-                    value: props.showingMode ? props.showingMode : SHOWINGMODES.NORMAL
+                    value: props.hasOwnProperty("showingMode") ? props.showingMode : SHOWINGMODES.NORMAL
                 });
                 //#endregion Private
                 //#region Public
@@ -764,7 +742,7 @@ const BaseWindow = (() => {
             return internal(this).stayOn;
         }
         set stayOn(newValue) {
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 internal(this).stayOn = newValue;
             }
         }
@@ -864,7 +842,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (priv.isResizing !== newValue) {
                     priv.isResizing = newValue;
                 }
@@ -879,7 +857,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            if (Tools.isString(newValue)) {
                 if (priv.snapArea !== newValue) {
                     priv.snapArea = newValue;
                 }
@@ -894,7 +872,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (priv.destroyOnHide !== newValue) {
                     priv.destroyOnHide = newValue;
                 }
@@ -924,7 +902,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (newValue !== priv.keyPreview) {
                     priv.keyPreview = newValue;
                     this.propertyChanged("keyPreview");
@@ -942,7 +920,7 @@ const BaseWindow = (() => {
             let icon = internal(this).icon;
             const htmlElement = priv.titleBar;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            if (Tools.isString(newValue)) {
                 if (icon !== newValue) {
                     htmlElement.classList.remove(icon);
                     icon = priv.icon = newValue;
@@ -985,7 +963,7 @@ const BaseWindow = (() => {
             const priv = internal(this);
             let canClose = priv.canClose;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (canClose !== newValue) {
                     canClose = priv.canClose = newValue;
                 }
@@ -1084,7 +1062,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (priv.animated !== newValue) {
                     priv.animated = newValue;
                 }
@@ -1100,7 +1078,7 @@ const BaseWindow = (() => {
             const priv = internal(this);
             let title = Core.isHTMLRenderer?priv.titleBar.title.innerText:priv.titleBar.title;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            if (Tools.isString(newValue)) {
                 if (title !== newValue) {
                     title = newValue;
                     this.captionChanged();
@@ -1117,11 +1095,7 @@ const BaseWindow = (() => {
             return super.left;
         }
         set left(newValue) {
-            //#region Variables déclaration
-            const WINDOWSTATES = Window.WINDOWSTATES;
-            const windowState = internal(this).windowState;
-            //#endregion Variables déclaration
-            if (windowState !== WINDOWSTATES.MAXIMIZED && windowState !== WINDOWSTATES.MINIMIZED) {
+            if (!this.isMaximized && !this.isMinimized) {
                 super.left = newValue;
             }
         }
@@ -1131,11 +1105,7 @@ const BaseWindow = (() => {
             return super.top;
         }
         set top(newValue) {
-            //#region Variables déclaration
-            const WINDOWSTATES = Window.WINDOWSTATES;
-            const windowState = internal(this).windowState;
-            //#endregion Variables déclaration
-            if (windowState !== WINDOWSTATES.MAXIMIZED && windowState !== WINDOWSTATES.MINIMIZED) {
+            if (!this.isMaximized && !this.isMinimized) {
                 super.top = newValue;
             }
         }
@@ -1177,7 +1147,7 @@ const BaseWindow = (() => {
             return super.visible;
         }
         set visible(newValue) {
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (super.visible !== newValue) {
                     super.visible = newValue;
                     // à revoir
@@ -1196,7 +1166,7 @@ const BaseWindow = (() => {
         }
         set enabledShadow(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (priv.enabledShadow !== newValue) {
                     priv.enabledShadow = newValue;
                 }
@@ -1225,7 +1195,7 @@ const BaseWindow = (() => {
                         htmlElement.classList.add(borderStyle);
                     } else {
                         this.alignButtons();
-                        if (borderStyle === BORDERSTYLES.NONE) {
+                        if (this.isBorderNone) {
                             layout.margin.empty();
                         } else {
                             let layoutMargin = null;
@@ -1234,9 +1204,9 @@ const BaseWindow = (() => {
                             } else {
                                 layoutMargin = Window.SIZEABLEBORDERSIZE;
                             }
-                            if (typeof layoutMargin === Types.CONSTANTS.OBJECT) {
+                            if (Tools.isObject(layoutMargin)) {
                                 layout.margin.setValues(layoutMargin.left, layoutMargin.top, layoutMargin.right, layoutMargin.bottom);
-                            } else if (typeof layoutMargin === Types.CONSTANTS.OBJECT) {
+                            } else if (Tools.isObject(layoutMargin)) {
                                 layout.margin.setValues(layoutMargin, layoutMargin, layoutMargin, layoutMargin);
                             }
                         }
@@ -1250,6 +1220,7 @@ const BaseWindow = (() => {
         //#region setActive
         setActive() {
             //#region Variables déclaration
+            const priv = internal(this);
             let activeWindow = this.app.activeWindow;
             const app = this.app;
             const isHtmlRenderer = Core.isHTMLRenderer;
@@ -1267,7 +1238,7 @@ const BaseWindow = (() => {
                         htmlElement.classList.add("inactive");
                     }
                     if (activeWindow) {
-                        if (!this.isChildWindow && this !== app.mainWindow) {
+                        if (!priv.isChildWindow && this !== app.mainWindow) {
                             lastActiveWindow.push(this.app.activeWindow);
                         } else {
                             lastActiveWindow.clear();
@@ -1285,7 +1256,8 @@ const BaseWindow = (() => {
         //#region setFocused
         setFocused(value) {
             //#region Variables déclaration
-            let focusedControl = this.focusedControl;
+            const priv = internal(this);
+            let focusedControl = priv.focusedControl;
             //#endregion Variables déclaration
             if (value) {
                 if (!(value instanceof Core.classes.Control)) {
@@ -1296,7 +1268,7 @@ const BaseWindow = (() => {
                 if (focusedControl) {
                     focusedControl.killFocus();
                 }
-                focusedControl = this.focusedControl = value;
+                focusedControl = priv.focusedControl = value;
                 if (focusedControl) {
                     focusedControl.enterFocus();
                 }
@@ -1339,8 +1311,9 @@ const BaseWindow = (() => {
         //#region _windowState
         _windowState(newValue) {
             //#region Variables déclaration
+            const priv = internal(this);
             const WINDOWSTATES = Window.WINDOWSTATES;
-            const windowState = this.windowState;
+            const windowState = priv.windowState;
             //#endregion Variables déclaration
             if (Tools.valueInSet(newValue, WINDOWSTATES)) {
                 if (windowState !== newValue) {
@@ -1383,11 +1356,10 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const layout = priv.layout;
-            const NUMBER = Types.CONSTANTS.NUMBER;
             //#endregion Variables déclaration
             if (Array.isArray(newValue) && newValue.length === 3) {
                 layout.margin.setValues(newValue[0], newValue[1], newValue[2], newValue[3]);
-            } else if (typeof newValue === NUMBER) {
+            } else if (Tools.isNumber(newValue)) {
                 layout.margin.setValues(newValue, newValue, newValue, newValue);
             }
         }
@@ -1425,7 +1397,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            return [priv.titleBar, ...priv.titleBar.allControls, priv.content, ...this.controls];
+            return [priv.titleBar, ...priv.titleBar.allControls, priv.content, ...priv.controls];
         }
         //#endregion allControls
         //#endregion
@@ -1437,7 +1409,9 @@ const BaseWindow = (() => {
         //#endregion captionChanged
         //#region addCaptionChangedListener
         addCaptionChangedListener(func) {
+            //#region Variables déclaration
             const onCaptionChanged = internal(this).titleBar.onCaptionChanged;
+            //#endregion Variables déclaration
             onCaptionChanged.clearListeners();
             onCaptionChanged.addListener(func);
         }
@@ -1446,8 +1420,6 @@ const BaseWindow = (() => {
         alignButtons() {
             //#region Variables déclaration
             const priv = internal(this);
-            const borderStyle = priv.borderStyle;
-            const BORDERSTYLES = Window.BORDERSTYLES;
             const titleBar = priv.titleBar;
             const buttons = ["close", "maxRestore", "minimize", "help", "rollUpDown", "stayOnOff"];
             const btns = Core.themes[this.themeName].WindowButton;
@@ -1482,7 +1454,7 @@ const BaseWindow = (() => {
                 }
                 button.top = data.top?data.top:btns.top;
             });
-            if (borderStyle === BORDERSTYLES.DIALOG) {
+            if (this.isBorderDialog) {
                 buttons.forEach((btn, i) => {
                     if (i > 0) {
                         btn = titleBar[`${btn}Btn`];
@@ -1502,7 +1474,7 @@ const BaseWindow = (() => {
                 //        }
                 //    });
             }
-            titleBar.visible = borderStyle !== BORDERSTYLES.NONE;
+            titleBar.visible = !this.isBorderNone;
         }
         //#endregion alignButtons
         //#region close
@@ -1516,7 +1488,10 @@ const BaseWindow = (() => {
         //#endregion close
         //#region _close
         _close() {
-            if (!this.canClose) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (!priv.canClose) {
                 return;
             }
             Tools.removeResizeListeners(this);
@@ -1576,7 +1551,7 @@ const BaseWindow = (() => {
             let minWinWidth = Window.MINWIDTH;
             //#endregion Variables déclaration
             if (!this.isRolledUp) {
-                if (priv.windowState !== WINDOWSTATES.MAXIMIZED) {
+                if (!this.isMaximized) {
                     savedSizePosState.left = isHtmlRenderer ? htmlElement.offsetLeft : this.left;
                     savedSizePosState.top = isHtmlRenderer ? htmlElement.offsetTop : this.top;
                     savedSizePosState.width = isHtmlRenderer ? htmlElement.offsetWidth : this.width;
@@ -1644,12 +1619,11 @@ const BaseWindow = (() => {
         _onMinimizeFinish() {
             //#region Variables déclaration
             const form = this.jsObj ? this.jsObj : this.control;
-            const WINDOWSTATES = Window.WINDOWSTATES;
             const savedSizePosState = form.savedSizePosState;
             const priv = internal(form);
             //#endregion Variables déclaration
             priv.windowState = form.savedSizePosState.state;
-            if (priv.windowState === WINDOWSTATES.MAXIMIZED) {
+            if (this.isMaximized) {
                 if (form.control) {
                     form.startValue.setValues(form.left, form.top, form.left + form.width, form.top + form.height);
                     form.startValue.setValues(savedSizePosState.left, savedSizePosState.top, savedSizePosState.left + savedSizePosState.width,
@@ -1673,7 +1647,7 @@ const BaseWindow = (() => {
             const minimizeBtn = priv.titleBar.minimizeBtn;
             const isHtmlRenderer = Core.isHTMLRenderer;
             //#endregion Variables déclaration
-            if (priv.windowState !== Window.WINDOWSTATES.MINIMIZED) {
+            if (!this.isMinimized) {
                 minimizeBtn.toolTip = "Rétablir précédent"; // à voir pour mettre en locale
                 this.minimize();
                 if (isHtmlRenderer) {
@@ -1701,7 +1675,7 @@ const BaseWindow = (() => {
             const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
             if (!this.isRolledUp) {
-                if (priv.windowState !== WINDOWSTATES.MINIMIZED && priv.snapArea === Window.SNAPAREAS.NONE) {
+                if (!this.isMinimized && priv.snapArea === Window.SNAPAREAS.NONE) {
                     savedSizePosState.left = isHtmlRenderer ? htmlElement.offsetLeft : this.left;
                     savedSizePosState.top = isHtmlRenderer ? htmlElement.offsetTop : this.top;
                     savedSizePosState.width = isHtmlRenderer ? htmlElement.offsetWidth : this.width;
@@ -1742,13 +1716,14 @@ const BaseWindow = (() => {
         //#region toogleMaxRestore
         toogleMaxRestore() {
             //#region Variables déclaration
-            const maxRestoreBtn = internal(this).titleBar.maxRestoreBtn;
+            const priv = internal(this);
+            const maxRestoreBtn = priv.titleBar.maxRestoreBtn;
             const isHtmlRenderer = Core.isHTMLRenderer;
             const WINDOWSTATES = Window.WINDOWSTATES;
             //#endregion Variables déclaration
-            if (this.windowState !== WINDOWSTATES.MAXIMIZED) {
+            if (!this.isMaximized) {
                 maxRestoreBtn.toolTip = "Rétablir précédent"; // à voir pour mettre en locale
-                if (this.windowState === WINDOWSTATES.SNAPED && this.snapArea === Window.SNAPAREAS.TOP) {
+                if (priv.windowState === WINDOWSTATES.SNAPED && priv.snapArea === Window.SNAPAREAS.TOP) {
                     this.restoreWindow();
                 } else {
                     this.maximize();
@@ -1815,7 +1790,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const form = this.form;
             //#endregion Variables déclaration
-            if (form.windowState === Window.WINDOWSTATES.MAXIMIZED) {
+            if (form.isMaximized) {
                 form.restore(this);
             } else {
                 form.maximize(this);
@@ -1915,7 +1890,10 @@ const BaseWindow = (() => {
         //#endregion rollDown
         //#region toggleStay
         toggleStay() {
-            if (!this.stayOn) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (!priv.stayOn) {
                 this.stayOnTop();
             } else {
                 this.stayNormal();
@@ -2114,7 +2092,7 @@ const BaseWindow = (() => {
             const width = this.width;
             const height = this.height;
             //#endregion Variables déclaration
-            if (!this.loading && !this.creating) {
+            if (!this.loading && !priv.creating) {
                 //this.resizeContent();
                 if (priv.firstShow) {
                 }
@@ -2188,7 +2166,7 @@ const BaseWindow = (() => {
             const savedSizePosState = priv.savedSizePosState;
             //#endregion Variables déclaration
             priv.isResizing = resizeMode.rightEdge || resizeMode.bottomEdge || resizeMode.topEdge || resizeMode.leftEdge;
-            if (this.isResizing && !this.isMaximized && !this.isMinimized) {
+            if (priv.isResizing && !this.isMaximized && !this.isMinimized) {
                 if (mouseEventArg) {
                     Core.mouse.getMouseInfos(mouseEventArg);
                 }
@@ -2260,7 +2238,7 @@ const BaseWindow = (() => {
                 mouse.getMouseInfos(mouseEventArg);
             }
             this.removeCursors();
-            if (this.isBorderSizeable && !this.isMaximized && !this.isMinimized && !priv.isResizing && !this.isRolledUp && this.snapArea !== Window.SNAPAREAS.TOP) {
+            if (this.isBorderSizeable && !this.isMaximized && !this.isMinimized && !priv.isResizing && !this.isRolledUp && priv.snapArea !== Window.SNAPAREAS.TOP) {
                 if (mouse.event.srcElement === htmlElement || isHtmlRenderer) {
                     resizeMode.rightEdge = resizeMode.bottomEdge = resizeMode.topEdge = resizeMode.leftEdge = false;
                     if (isHtmlRenderer) {
@@ -2302,7 +2280,7 @@ const BaseWindow = (() => {
             if (csrDefault) {
                 htmlElement.classList.add(CUSTOMCURSORS.DEFAULT);
             }
-            if (this.isResizing) {
+            if (priv.isResizing) {
                 this.docMouseMove(mouseEventArg);
             }
         }
@@ -2421,9 +2399,9 @@ const BaseWindow = (() => {
             const isHtmlRenderer = Core.isHTMLRenderer;
             const themeName = this.app.themeName;
             const windowTheme = Core.themes && Core.themes[themeName]?Core.themes[themeName].Window:null;
-            //#endregion Variables déclaration
             const minWidth = windowTheme && windowTheme.minWidth?windowTheme.minWidth:Window.MINWIDTH;
             const minHeight = windowTheme && windowTheme.minHeight?windowTheme.minHeight:Window.MINHEIGHT;
+            //#endregion Variables déclaration
             if (priv.isResizing) {
                 const b = (isHtmlRenderer ? htmlElement : this).getBoundingClientRect();
                 pos.l = isHtmlRenderer ? htmlElement.offsetLeft : this.left;
@@ -2553,7 +2531,7 @@ const BaseWindow = (() => {
                         case "WindowTitleBar": {
                             priv.titleBar = obj;
                             const titleBar = priv.titleBar;
-                            if (priv.borderStyle === Window.BORDERSTYLES.NONE) {
+                            if (this.isBorderNone) {
                                 if (isHtmlRenderer) {
                                     titleBar.display = Types.DISPLAYS.NONE;
                                 } else {
@@ -2606,6 +2584,9 @@ const BaseWindow = (() => {
         //#endregion getChilds
         //#region formCreated
         formCreated(id) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (Core.isHTMLRenderer) {
                 this.getHTMLElement(id);
                 //this.updateFromHTML();
@@ -2613,8 +2594,8 @@ const BaseWindow = (() => {
                 if (this.addListeners) {
                     this.addListeners();
                 }
-                if (this.isChildWindow) {
-                    this.parentHTML.appendChild(this.HTMLElement);
+                if (priv.isChildWindow) {
+                    priv.parentHTML.appendChild(this.HTMLElement);
                     this.maximize();
                     this.desactiveHitTest();
                 }
@@ -2658,10 +2639,10 @@ const BaseWindow = (() => {
                 if (theme.WindowLayout) {
                     if (theme.WindowLayout.margin) {
                         const layoutTheme = theme.WindowLayout;
-                        if (typeof layoutTheme.margin === Types.CONSTANTS.NUMBER) {
+                        if (Tools.isNumber(layoutTheme.margin)) {
                             margin = layoutTheme.margin;
                             layoutMargin.setValues(margin, margin, margin, margin);
-                        } else if (typeof layoutTheme.margin === Types.CONSTANTS.OBJECT) {
+                        } else if (Tools.isObject(layoutTheme.margin)) {
                             margin = layoutTheme.margin;
                             layoutMargin.setValues(margin.left, margin.top, margin.right, margin.bottom);
                         }
@@ -2673,10 +2654,10 @@ const BaseWindow = (() => {
                 if (theme.WindowContent) {
                     if (theme.WindowContent.margin) {
                         let contentTheme = theme.WindowContent;
-                        if (typeof contentTheme.margin === Types.CONSTANTS.NUMBER) {
+                        if (Tools.isNumber(contentTheme.margin)) {
                             margin = contentTheme.margin;
                             contentMargin.setValues(margin, margin, margin, margin);
-                        } else if (typeof contentTheme.margin === Types.CONSTANTS.OBJECT) {
+                        } else if (Tools.isObject(contentTheme.margin)) {
                             const margin = contentTheme.margin;
                             contentMargin.setValues(margin.left, margin.top, margin.right, margin.bottom);
                         }
@@ -2713,7 +2694,7 @@ const BaseWindow = (() => {
             if (!isHtmlRenderer) {
                 this.alignButtons();
             }
-            if (priv.borderStyle === Window.BORDERSTYLES.DIALOG) {
+            if (this.isBorderDialog) {
 
             }
             this.setTitleBtn(priv.buttons ? priv.buttons : [TITLEBUTTONS.MINIMIZE, TITLEBUTTONS.MAXRESTORE]);
@@ -2766,7 +2747,6 @@ const BaseWindow = (() => {
         //#region moveTo
         moveTo(x, y) {
             //#region Variables déclaration
-            const NUMBER = Types.CONSTANTS.NUMBER;
             const htmlElement = this.HTMLElement;
             const htmlElementStyle = this.HTMLElementStyle;
             const body = document.body;
@@ -2775,7 +2755,7 @@ const BaseWindow = (() => {
             const height = isHtmlRenderer ? htmlElement.offsetHeight : this.height;
             const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
-            if (typeof x === NUMBER && typeof y === NUMBER) {
+            if (Tools.isNumber(x) && Tools.isNumber(y)) {
                 if (x + width < 0) x = 0;
                 if (y + height < 0) y = 0;
                 if (x > body.offsetWidth) {
@@ -2990,7 +2970,7 @@ const BaseWindow = (() => {
             const stayOnOffBtn = titleBar.stayOnOffBtn;
             const maxRestoreBtn = titleBar.maxRestoreBtn;
             const SNAPED = WINDOWSTATES.SNAPED;
-            const snapArea = this.snapArea;
+            const snapArea = priv.snapArea;
             //#endregion Variables déclaration
             priv.windowState = SNAPED;
             if (!isHtmlRenderer) {

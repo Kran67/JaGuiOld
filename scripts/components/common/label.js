@@ -4,7 +4,6 @@ import { Tools } from "/scripts/core/tools.js";
 import { Colors, Color } from "/scripts/core/color.js";
 import "./labeleffects.js";
 //#endregion Import
-
 //#region Label
 const Label = (() => {
     //#region Private
@@ -31,7 +30,7 @@ const Label = (() => {
                 priv.effect = null;
                 if (props.effect) {
                     const effectClassName = Core.classes[`Label${props.effect.name.firstCharUpper}Effect`];
-                    priv.effect = props.effect && effectClassName?new effectClassName(this, props.effect.properties):null;
+                    priv.effect = props.hasOwnProperty("effect") && effectClassName?new effectClassName(this, props.effect.properties):null;
                 }
                 //#endregion Private
                 delete this.tabOrder;
@@ -104,8 +103,6 @@ const Label = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.effect.destroy();
-            priv.autoSize = null;
-            priv.vertAlign = null;
             priv.effect = null;
             super.destroy();
         }

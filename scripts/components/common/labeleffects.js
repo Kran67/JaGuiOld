@@ -1,8 +1,8 @@
 ﻿//#region Import
 import { Colors, Color } from "/scripts/core/color.js";
 import { GradientPoint } from "/scripts/core/gradient.js";
+import { Tools } from "/scripts/core/tools.js";
 //#endregion Import
-
 //#region LabelEffects
 //#region LabelEffect
 class LabelEffect {
@@ -35,15 +35,12 @@ class LabelEffect {
 class LabelNeonEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        const CONSTANTS = Types.CONSTANTS;
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, "neon");
         this.currentTick = 0;
         this.color = Color.parse("#f40");
-        if (props.color) {
-            if (typeof props.color === CONSTANTS.STRING) {
+        if (props.hasOwnProperty("color")) {
+            if (Tools.isString(props.color)) {
                 this.color = Color.parse(props.color);
                 this.color.owner = this;
             }
@@ -90,14 +87,11 @@ Core.classes.register(Types.CATEGORIES.INTERNAL, LabelNeonEffect);
 class LabelOutlinedEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        const CONSTANTS = Types.CONSTANTS;
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, "outlined");
         this.color = Colors.BLACK;
-        if (props.color) {
-            if (typeof props.color === CONSTANTS.STRING) {
+        if (props.hasOwnProperty("color")) {
+            if (Tools.isString(props.color)) {
                 this.color = Color.parse(props.color);
                 this.color.owner = this;
             }
@@ -210,20 +204,19 @@ class LabelNeonlasenterEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
         //#region Variables déclaration
-        const CONSTANTS = Types.CONSTANTS;
         //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, "neonlasenter");
         this.color = Color.parse("#28D7FE");
-        if (props.color) {
-            if (typeof props.color === CONSTANTS.STRING) {
+        if (props.hasOwnProperty("color")) {
+            if (Tools.isString(props.color)) {
                 this.color = Color.parse(props.color);
                 this.color.owner = this;
             }
         }
         this.colorShadow = Color.parse("#1041FF");
         if (props.colorShadow) {
-            if (typeof props.colorShadow === CONSTANTS.STRING) {
+            if (Tools.isString(colorShadow)) {
                 this.colorShadow = Color.parse(props.colorShadow);
                 this.colorShadow.owner = this;
             }
@@ -379,20 +372,19 @@ class LabelPrettyshadowEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
         //#region Variables déclaration
-        const CONSTANTS = Types.CONSTANTS;
         //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, "prettyshadow");
         this.color = Color.parse("#2196f3");
-        if (props.color) {
-            if (typeof props.color === CONSTANTS.STRING) {
+        if (props.hasOwnProperty("color")) {
+            if (Tools.isString(props.color)) {
                 this.color = Color.parse(props.color);
                 this.color.owner = this;
             }
         }
         this.color1 = Color.parse("#0d47a1");
-        if (props.color1) {
-            if (typeof props.colorShadow === CONSTANTS.STRING) {
+        if (props.hasOwnProperty("color1")) {
+            if (Tools.isString(props.colorShadow)) {
                 this.color1 = Color.parse(props.color1);
                 this.color1.owner = this;
             }
@@ -480,13 +472,12 @@ class LabelReflectEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
         //#region Variables déclaration
-        const CONSTANTS = Types.CONSTANTS;
         //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, "reflect");
         this.color = owner.color;
-        if (props.color) {
-            if (typeof props.color === CONSTANTS.STRING) {
+        if (props.hasOwnProperty("color")) {
+            if (Tools.isString(props.color)) {
                 this.color = Color.parse(props.color);
                 this.color.owner = this;
             }
@@ -572,22 +563,22 @@ class LabelCloudyEffect extends LabelEffect {
         props = !props ? {} : props;
         super(owner, "cloudy");
         this.color = this.owner.color.clone();
-        if (props.color) {
-            if (typeof props.color === CONSTANTS.STRING) {
+        if (props.hasOwnProperty("color")) {
+            if (Tools.isString(props.color)) {
                 this.color = Color.parse(props.color);
                 this.color.owner = this;
             }
         }
         this.color2 = this.owner.color.clone();
-        if (props.color2) {
-            if (typeof props.color2 === CONSTANTS.STRING) {
+        if (props.hasOwnProperty("color2")) {
+            if (Tools.isString(props.color2)) {
                 this.color2 = Color.parse(props.color2);
                 this.color2.owner = this;
             }
         }
         this.color3 = this.owner.color.clone();
-        if (props.color3) {
-            if (typeof props.color3 === CONSTANTS.STRING) {
+        if (props.hasOwnProperty("color3")) {
+            if (Tools.isString(props.color3)) {
                 this.color3 = Color.parse(props.color3);
                 this.color3.owner = this;
             }

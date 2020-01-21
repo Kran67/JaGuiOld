@@ -69,7 +69,7 @@ const CustomButton = (() => {
             const htmlElement = this.HTMLElement;
             const textObj = this.textObj;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (pressing !== newValue) {
                     pressing = priv.pressing = newValue;
                     this.isPressed = pressing;
@@ -89,16 +89,15 @@ const CustomButton = (() => {
         set action(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
-            let action = priv.action;
             //#endregion Variables déclaration
             if (newValue instanceof Core.classes.Action) {
-                if (action !== newValue) {
-                    if (action instanceof Core.classes.Action) {
-                        action.unRegisterChanges(this);
+                if (priv.action !== newValue) {
+                    if (priv.action instanceof Core.classes.Action) {
+                        priv.action.unRegisterChanges(this);
                     }
-                    action = priv.action = newValue;
-                    action.registerChanges(this);
-                    action.updateTarget(this);
+                    priv.action = newValue;
+                    priv.action.registerChanges(this);
+                    priv.action.updateTarget(this);
                 }
             }
         }
@@ -108,7 +107,7 @@ const CustomButton = (() => {
             return super.enabled;
         }
         set enabled(newValue) {
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (newValue !== this.enabled) {
                     this.resetTimer();
                     super.enabled = newValue;
@@ -125,7 +124,7 @@ const CustomButton = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (priv.borderRadius !== newValue) {
-                if (typeof newValue === Types.CONSTANTS.NUMBER || typeof newValue === Types.CONSTANTS.OBJECT) {
+                if (Tools.isNumber(newValue) || Tools.isObject(newValue)) {
                     priv.borderRadius = newValue;
                     this.update();
                 }
@@ -300,7 +299,6 @@ const CustomButton = (() => {
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
-            const action = priv.action;
             //#endregion Variables déclaration
             super.destroy();
             priv.pressing = null;
@@ -308,8 +306,8 @@ const CustomButton = (() => {
             priv.modalResult = null;
             priv.staysPressed = null;
             priv.repeatClick = null;
-            if (action) {
-                action.removeTarget(this);
+            if (priv.action) {
+                priv.action.removeTarget(this);
             }
             priv.action = null;
         }
@@ -369,7 +367,7 @@ const Button = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (priv.isDefault !== newValue) {
                     priv.isDefault = newValue;
                 }

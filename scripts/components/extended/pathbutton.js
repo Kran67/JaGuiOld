@@ -19,7 +19,7 @@ const PathButton = (() => {
     //#endregion Private
     //#region PathButton
     class PathButton extends ButtonGlyph {
-        //#region Constructor
+        //#region constructor
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
@@ -40,7 +40,7 @@ const PathButton = (() => {
                 this.canFocused = true;
             }
         }
-        //#endregion
+        //#endregion constructor
         //#region getter / setter
         //#region Path
         get path() {

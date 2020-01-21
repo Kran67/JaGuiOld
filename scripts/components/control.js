@@ -552,11 +552,13 @@ const Control = (() => {
         //#endregion contentWidth
         //#region width
         get width() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (!Core.isHTMLRenderer) {
-                const priv = internal(this);
                 return priv.width;
             } else {
-                return this.HTMLElement.offsetWidth;
+                return priv.width !== this.HTMLElement.offsetWidth?priv.width:this.HTMLElement.offsetWidth;
             }
         }
         set width(newValue) {
@@ -600,11 +602,13 @@ const Control = (() => {
         //#endregion contentHeight
         //#region height
         get height() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (!Core.isHTMLRenderer) {
-                const priv = internal(this);
                 return priv.height;
             } else {
-                return this.HTMLElement.offsetHeight;
+                return priv.height !== this.HTMLElement.offsetWidth?priv.height:this.HTMLElement.offsetHeight;
             }
         }
         set height(newValue) {

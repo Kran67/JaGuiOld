@@ -49,7 +49,7 @@ const CornerButton = (() => {
             return _CORNERSTYPES;
         }
         //#endregion
-        //#region Constructor
+        //#region constructor
         constructor(owner, props) {
             //#region Variables déclaration
             //#endregion Variables déclaration
@@ -75,8 +75,8 @@ const CornerButton = (() => {
                 //priv.bottomLeftCornerUnit = bottomLeftCorner.hasOwnProperty("unit")?bottomLeftCorner.unit:Types.CSSUNITS.PX;
             }
         }
-        //#endregion
-        //#region getter / setter
+        //#endregion constructor
+        //#region Getter / Setter
         //#region topLeftCorner
         get topLeftCorner() {
             return internal(this).topLeftCorner;
@@ -229,7 +229,7 @@ const CornerButton = (() => {
             }
         }
         //#endregion bottomRightCornerType
-        //#endregion
+        //#endregion Getter / Setter
         //#region Methods
         //#region update
         update() {
@@ -241,6 +241,7 @@ const CornerButton = (() => {
         //#endregion update
         //#region generateSVGPath
         generateSVGPath() {
+            //#region Variables déclaration
             const htmlElement = this.HTMLElement;
             const path = htmlElement.querySelector("path");
             const priv = internal(this);
@@ -252,6 +253,7 @@ const CornerButton = (() => {
             ];
             // Shrink overlapping curves
             const ratio = [1, 1];
+            //#endregion Variables déclaration
             for (let i = 0; i < r.length; i++) {
                 let radii = r[i];
                 let radiiAdj = r[i + (i % 2 ? -1 : 1)];
@@ -288,7 +290,6 @@ const CornerButton = (() => {
         //#endregion generateSVGPath
         //#region drawCorner
         drawCorner(corner, r, d) {
-            var sweep, y2, x2;
             if (r.type === _CORNERSTYPES.NOTCH) {
                 switch (corner) {
                     case _CORNERS.TOPRIGHT:
@@ -305,8 +306,8 @@ const CornerButton = (() => {
                         break;
                 }
             } else if (r.type === _CORNERSTYPES.SHARP) {
-                y2 = r.y * 0.5;
-                x2 = r.x * 0.5;
+                const y2 = r.y * 0.5;
+                const x2 = r.x * 0.5;
                 switch (corner) {
                     case _CORNERS.TOPRIGHT:
                         d.push("v", y2, "l", r.x - x2, r.y - y2, "h", r.x - x2);
@@ -323,10 +324,9 @@ const CornerButton = (() => {
                 }
             } else {
                 if (r.type === _CORNERSTYPES.ROUND || r.type === _CORNERSTYPES.SCOOP) {
-                    sweep = +(r.type === _CORNERSTYPES.ROUND);
+                    const sweep = +(r.type === _CORNERSTYPES.ROUND);
                     d.push("a", r.x, r.y, 0, 0, sweep);
-                }
-                else if (r.type === _CORNERSTYPES.BEVEL) {
+                } else if (r.type === _CORNERSTYPES.BEVEL) {
                     d.push("l");
                 }
                 d.push(corner === _CORNERS.BOTTOMRIGHT || corner === _CORNERS.BOTTOMLEFT ? -r.x : r.x);

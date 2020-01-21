@@ -11,7 +11,8 @@ class BitmapButton extends ButtonGlyph {
             this.canFocused = true;
         }
     }
+    //#endregion Constructor
 }
-//#endregion
+//#endregion BitmapButton
 Core.classes.register(Types.CATEGORIES.EXTENDED, BitmapButton);
 export { BitmapButton };

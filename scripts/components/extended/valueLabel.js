@@ -4,15 +4,16 @@ import { Text } from "/scripts/core/text.js";
 //#endregion Import
 //#region ValueLabel
 class ValueLabel extends Label {
-    //#region Constructor
+    //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
         }
     }
-    //#endregion
-    //#region getters / setters
+    //#endregion constructor
+    //#region Getters / Setters
+    //#region caption
     get caption() {
         return super.caption;
     }
@@ -23,7 +24,8 @@ class ValueLabel extends Label {
             this.update();
         }
     }
-    //#endregion getters / setters
+    //#endregion caption
+    //#endregion Getters / Setters
 }
 //#endregion
 Core.classes.register(Types.CATEGORIES.CONTAINERS, ValueLabel);

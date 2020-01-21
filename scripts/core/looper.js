@@ -161,7 +161,7 @@ const Looper = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (obj && priv.listeners.indexOf(obj) === -1) {
-                priv.removeListener(obj);
+                this.removeListener(obj);
                 priv.listeners.push(obj);
                 if (!func) {
                     func = "processTick";

@@ -1,6 +1,7 @@
 ﻿//#region Import
 import { CustomButton } from "/scripts/components/common/button.js";
 import { Events } from "/scripts/core/events.js";
+import { Tools } from "/scripts/core/tools.js";
 //#endregion Import
 //#region BitmapStateButton
 const BitmapStateButton = (() => {

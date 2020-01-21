@@ -1,8 +1,11 @@
-﻿import { Control } from "/scripts/components/control.js";
+﻿//#region Imports
+import { Control } from "/scripts/components/control.js";
 import { Window } from "/scripts/components/containers/window.js";
 import { Color, Colors } from "/scripts/core/color.js";
-//#region Layout final
+//#endregion Imports
+//#region Layout
 class Layout extends Control {
+    //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
@@ -10,7 +13,9 @@ class Layout extends Control {
             delete this.tabOrder;
         }
     }
+    //#endregion constructor
     //#region Methods
+    //#region render
     render() {
         Core.ctx.save();
         //Core.ctx.beginPath();
@@ -20,8 +25,9 @@ class Layout extends Control {
         super.render();
         Core.ctx.restore();
     }
-    //#endregion
+    //#endregion render
+    //#endregion Methods
 }
-//#endregion
+//#endregion Layout
 Core.classes.register(Types.CATEGORIES.CONTAINERS, Layout);
 export { Layout };

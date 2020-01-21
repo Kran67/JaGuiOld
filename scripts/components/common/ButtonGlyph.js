@@ -77,7 +77,7 @@ const ButtonGlyph = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            if (Tools.isString(newValue)) {
                 if (priv.glyphHTMLElement !== newValue) {
                     priv.glyphHTMLElement = newValue;
                 }
@@ -122,7 +122,7 @@ const ButtonGlyph = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            if (Tools.isNumber(newValue)) {
                 if (priv.glyphSize !== newValue) {
                     priv.glyphSize = newValue;
                     if (Core.isHTMLRenderer) {
@@ -142,7 +142,7 @@ const ButtonGlyph = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            if (Tools.isNumber(newValue)) {
                 if (priv.glyphSpacing !== newValue) {
                     priv.glyphSpacing = newValue;
                     if (Core.isHTMLRenderer) {
@@ -162,7 +162,7 @@ const ButtonGlyph = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            if (Tools.isNumber(newValue)) {
                 if (newValue instanceof Rect) {
                     if (priv.glyphMargin !== newValue) {
                         priv.glyphMargin = newValue;
@@ -210,7 +210,7 @@ const ButtonGlyph = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (priv.showCaption !== newValue) {
                     priv.showCaption = newValue;
                     if (Core.isHTMLRenderer) {
@@ -232,7 +232,7 @@ const ButtonGlyph = (() => {
             const src = priv.src;
             const glyph = priv.glyph;
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            if (Tools.isString(newValue)) {
                 if (src !== newValue) {
                     priv.src = newValue;
                     if (glyph instanceof Image) {
@@ -324,20 +324,6 @@ const ButtonGlyph = (() => {
                     if (this.path) {
                         this.updateCanvas();
                         this.paint();
-                    } else {
-                        //if (glyph) {
-                        //    if (isHtmlRenderer) {
-                        //        glyph.style.width =
-                        //            glyph.style.height =
-                        //            glyph.style.minWidth =
-                        //            glyph.style.minHeight = `${priv.glyphSize}${PX}`;
-                        //    } else {
-                        //        glyph.width =
-                        //            glyph.height =
-                        //            glyph.minWidth =
-                        //            glyph.minHeight = priv.glyphSize;
-                        //    }
-                        //}
                     }
                     if (glyph) {
                         if (glyph.offsetWidth > 0 && glyph.offsetHeight) {
@@ -364,8 +350,6 @@ const ButtonGlyph = (() => {
                         }
                     } else {
                         if (!isHtmlRenderer) {
-                            //this.horizAlign = ;
-                            //this.vertaling = ;
                         }
                     }
                 }
