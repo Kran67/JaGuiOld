@@ -1043,16 +1043,6 @@ const Types = Object.freeze({
         ZU_ZA: "zu-ZA"
     }),
     //#endregion
-    //#region CHECKBOXSTATES
-    /**
-     * @type    {Object}        CHECKBOXSTATES
-     */
-    CHECKBOXSTATES: Object.freeze({
-        UNCHECKED: "unchecked",
-        GRAYED: "grayed",
-        CHECKED: "checked"
-    }),
-    //#endregion
     //#region SCROLLBARS
     /**
      * @type    {Object}        SCROLLBARS

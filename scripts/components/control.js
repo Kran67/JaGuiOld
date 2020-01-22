@@ -2060,7 +2060,7 @@ const Control = (() => {
         //#region click
         click() {
             //#region Variables déclaration
-            const action = this.action;
+            const action = this.hasOwnProperty("action")?this.action:null;
             //#endregion Variables déclaration
             if (this.onClick.hasListener) {
                 this.onClick.invoke();

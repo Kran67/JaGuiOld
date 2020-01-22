@@ -1,4 +1,4 @@
-﻿div.ColorBox {
+﻿.Control.ColorBox {
     outline: solid 1px black;
     border: 1px solid white;
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAADFJREFUGFdjeP/+/X8YXrx48f9FixaBMQOyBExw4cKF2CXAOmCqQDSybtIk3r59+x8AQNt4bWIYrwAAAAAASUVORK5CYII=);

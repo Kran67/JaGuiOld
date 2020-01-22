@@ -30,9 +30,9 @@ const CaptionControl = (() => {
             let captionControlTheme = null;
             //#endregion Variables déclaration
             props = !props ? {} : props;
-            props.autoTranslate = true;
             if (owner) {
                 super(owner, props);
+                this.autoTranslate = true;
                 const priv = internal(this);
                 if (!Core.isHTMLRenderer) {
                     themeName = this.app.themeName;

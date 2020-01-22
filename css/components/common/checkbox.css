@@ -1,4 +1,4 @@
-﻿div.Checkbox {
+﻿.Control.Checkbox {
     box-shadow: none;
     padding-left: 20px;
     overflow: visible;
@@ -6,11 +6,11 @@
     align-items: center;
 }
 
-input.CheckboxInput {
+.CheckboxInput {
     display: none;
 }
 
-div.CheckboxCheck {
+.CheckboxCheck {
     box-shadow: none;
     left: 0;
     font-family: jagui;
@@ -19,7 +19,7 @@ div.CheckboxCheck {
     justify-content: center;
 }
 
-div.CheckboxCheck:before,
-div.CheckboxCheck:before {
+.CheckboxCheck:before,
+.CheckboxCheck:before {
     content: "";
 }
