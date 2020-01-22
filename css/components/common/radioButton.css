@@ -1,4 +1,4 @@
-﻿div.RadioButton {
+﻿.Control.RadioButton {
     box-shadow: none;
     padding-left: 20px;
     overflow: visible;
@@ -10,7 +10,7 @@ input.RadioButtonInput {
     display: none;
 }
 
-div.RadioButtonCheck {
+.RadioButtonCheck {
     box-shadow: none;
     left: 0;
     font-family: jagui;
