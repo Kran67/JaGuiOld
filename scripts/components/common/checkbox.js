@@ -46,8 +46,8 @@ const Checkbox = (() => {
                 priv.input = null;
                 priv.check = null;
                 this.autoCapture = true;
-                priv.isChecked = props.hasOwnProperty("isChecked")?props.isChecked:false;
-                priv.autoWidth = props.hasOwnProperty("autoWidth")?props.autoWidth:true;
+                priv.isChecked = props.hasOwnProperty("isChecked") ? props.isChecked : false;
+                priv.autoWidth = props.hasOwnProperty("autoWidth") ? props.autoWidth : true;
                 this.onChange = new Core.classes.NotifyEvent(this);
                 if (!Core.isHTMLRenderer) {
                     this.width = 120;
@@ -63,13 +63,18 @@ const Checkbox = (() => {
                     variable: priv,
                     value: props.hasOwnProperty("state") ? props.state : CHECKBOXSTATES.UNCHECKED
                 });
-                priv.allowGrayed = props.hasOwnProperty("allowGrayed")?props.allowGrayed:false;
+                priv.allowGrayed = props.hasOwnProperty("allowGrayed") ? props.allowGrayed : false;
                 priv.action = null;
                 this.autoSize = false;
             }
         }
         //#endregion constructor
         //#region Getter / Setter
+        //#region check
+        get check() {
+            return internal(this).check;
+        }
+        //#endregion check
         //#region isChecked
         get isChecked() {
             return internal(this).isChecked;
@@ -172,7 +177,7 @@ const Checkbox = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.mouseUp();
-            if ((Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) && this.pressing) {
+            if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.pressing) {
                 this.pressing = false;
                 this.isPressed = false;
                 this.isChecked = !priv.isChecked;
@@ -186,14 +191,14 @@ const Checkbox = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.keyUp();
-            if ((Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_RETURN) || (Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE)) {
+            if (Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_RETURN || Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
                 this.isChecked = !priv.isChecked;
                 this.update();
             }
         }
         //#endregion keyUp
         //#region realign
-        realign() {}
+        realign() { }
         //#endregion realign
         //#region update
         update() {

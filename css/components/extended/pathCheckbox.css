@@ -1,4 +1,4 @@
-﻿div.PathCheckbox {
+﻿.Control.PathCheckbox {
     box-shadow: none;
     padding-left: 20px;
     overflow: visible;
@@ -10,7 +10,7 @@ input.PathCheckboxInput {
     display: none;
 }
 
-div.PathCheckboxCheck {
+.PathCheckboxCheck {
     box-shadow: none;
     left: 0;
     font-family: jagui;

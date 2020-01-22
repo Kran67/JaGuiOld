@@ -22,7 +22,7 @@ import "/scripts/components/extended/cornerbutton.js";
 //import { ToolBar } from "/scripts/components/toolbars/toolBar.js";
 //import { ToolButton } from "/scripts/components/toolbars/toolButton.js";
 import "/scripts/components/extended/valuelabel.js";
-//import { PathCheckbox } from "/scripts/components/extended/pathCheckbox.js";
+import "/scripts/components/extended/pathcheckbox.js";
 import "/scripts/components/extended/anglebutton.js";
 import "/scripts/components/common/progressbar.js";
 //import { Slider } from "/scripts/components/common/slider.js";
