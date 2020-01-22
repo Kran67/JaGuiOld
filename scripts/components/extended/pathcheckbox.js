@@ -33,7 +33,7 @@ const PathCheckbox = (() => {
                 delete this.tabOrder;
             }
         }
-        //#endregion
+        //#endregion Constructor
         //#region Getters / Setters
         //#region svgViewBox
         get svgViewBox() {
@@ -83,7 +83,7 @@ const PathCheckbox = (() => {
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
                 super.update();
-                this.check.innerHTML = ["<svg width='100%' height='100%' viewBox='", priv.svgViewBox, "' xmlns='http://www.w3.org/2000/svg'><path d='", priv.checkSvg, "' /></svg>"].join(String.EMPTY);
+                this.check.innerHTML = `<svg width='100%' height='100%' viewBox='${priv.svgViewBox}' xmlns='http://www.w3.org/2000/svg'><path d='${priv.checkSvg}' /></svg>`;
                 this.check.style.opacity = 0.2;
                 if (this.isChecked) {
                     this.check.style.opacity = 1;

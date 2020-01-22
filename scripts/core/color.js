@@ -335,12 +335,13 @@ const Color = (function () {
          */
         setHSV(hue, saturation, value) {
             //#region Variables déclaration
+            const priv = internal(this);
             const owner = this.owner;
             //#endregion Variables déclaration
             if (Tools.isNumber(hue) && Tools.isNumber(saturation) && Tools.isNumber(value)) {
-                this.hue = hue;
-                this.saturation = saturation;
-                this.value = value;
+                priv.hue = hue;
+                priv.saturation = saturation;
+                priv.value = value;
                 if (!this.updating) {
                     this.HSVtoRGB();
                 }
@@ -357,12 +358,13 @@ const Color = (function () {
          */
         setHSL(hue, saturation, lightness) {
             //#region Variables déclaration
+            const priv = internal(this);
             const owner = this.owner;
             //#endregion Variables déclaration
             if (Tools.isNumber(hue) && Tools.isNumber(saturation) && Tools.isNumber(lightness)) {
-                this.hue = hue;
-                this.saturation = saturation;
-                this.lightness = lightness;
+                priv.hue = hue;
+                priv.saturation = saturation;
+                priv.lightness = lightness;
                 if (!this.updating) {
                     this.HSLtoRGB();
                 }
@@ -639,54 +641,79 @@ const Color = (function () {
          * @returns     {String}        the string
          */
         toRGBHexString() {
-            return `#${Convert.dec2Hex(this.red).padStart(2, "0")}${Convert.dec2Hex(this.green).padStart(2, "0")}${Convert.dec2Hex(this.blue).padStart(2, "0")}`.toUpperCase();
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            return `#${Convert.dec2Hex(priv.red).padStart(2, "0")}${Convert.dec2Hex(priv.green).padStart(2, "0")}${Convert.dec2Hex(priv.blue).padStart(2, "0")}`.toUpperCase();
         }
         /**
          * Return the ARGB hexa string format of the color instance
          * @returns     {String}        the string
          */
         toARGBHexString() {
-            return `#${Convert.dec2Hex(this.alpha * 0xFF).padStart(2, "0")}${Convert.dec2Hex(this.red).padStart(2, "0")}${Convert.dec2Hex(this.green).padStart(2, "0")}${Convert.dec2Hex(this.blue).padStart(2, "0")}`.toUpperCase();
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            return `#${Convert.dec2Hex(priv.alpha * 0xFF).padStart(2, "0")}${Convert.dec2Hex(priv.red).padStart(2, "0")}${Convert.dec2Hex(priv.green).padStart(2, "0")}${Convert.dec2Hex(priv.blue).padStart(2, "0")}`.toUpperCase();
         }
         /**
          * Return the rgb string format of the color instance
          * @returns     {String}        the string
          */
         toRGBString() {
-            return `rgb(${this.red},${this.green},${this.blue})`;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            return `rgb(${priv.red},${priv.green},${priv.blue})`;
         }
         /**
          * Return the rgba string format of the color instance
          * @returns     {String}        the string
          */
         toRGBAString() {
-            return `rgba(${this.red},${this.green},${this.blue},${this.alpha})`;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            return `rgba(${priv.red},${priv.green},${priv.blue},${priv.alpha})`;
         }
         /**
          * Return the hsl string format of the color instance
          * @returns     {String}        the string
          */
         toHSLString() {
-            return `hsl(${this.hue},${this.saturation},${this.lightness})`;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            return `hsl(${priv.hue},${priv.saturation},${priv.lightness})`;
         }
         /**
          * Return the hsv string format of the color instance
          * @returns     {String}        the string
          */
         toHSVString() {
-            return `hsv(${this.hue},${this.saturation},${this.value})`;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            return `hsv(${priv.hue},${priv.saturation},${priv.value})`;
         }
         /**
          * Return the bgr string format of the color instance
          * @returns     {String}        the string
          */
-        toBGRString() { return (Convert.dec2Hex(this.blue).padStart(2, "0") + Convert.dec2Hex(this.green).padStart(2, "0") + Convert.dec2Hex(this.red).padStart(2, "0")).toUpperCase(); }
+        toBGRString() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            return (Convert.dec2Hex(priv.blue).padStart(2, "0") + Convert.dec2Hex(priv.green).padStart(2, "0") + Convert.dec2Hex(priv.red).padStart(2, "0")).toUpperCase(); }
         /**
          * Return the int string format of the color instance
          * @returns     {String}        the string
          */
         toInt() {
-            return `0x${this.toBGRString()}`;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            return `0x${priv.toBGRString()}`;
         }
         /**
          * Blend a color with the current color
@@ -699,10 +726,10 @@ const Color = (function () {
                 color = color.toRGB();
                 alpha = Math.min(Math.max(alpha, 0), 1);
                 const rgb = new Color();
-                rgb.red = (rgb.red * (1 - alpha)) + (color.red * alpha);
-                rgb.green = (rgb.green * (1 - alpha)) + (color.green * alpha);
-                rgb.blue = (rgb.blue * (1 - alpha)) + (color.blue * alpha);
-                rgb.alpha = (rgb.alpha * (1 - alpha)) + (color.alpha * alpha);
+                rgb.red = rgb.red * (1 - alpha) + (color.red * alpha);
+                rgb.green = rgb.green * (1 - alpha) + (color.green * alpha);
+                rgb.blue = rgb.blue * (1 - alpha) + (color.blue * alpha);
+                rgb.alpha = rgb.alpha * (1 - alpha) + (color.alpha * alpha);
 
                 return rgb;
             }
@@ -713,8 +740,13 @@ const Color = (function () {
          * @returns     {Color}             this color instance
          */
         RGBtoBGR() {
-            this.red = this.blue;
-            this.blue = this.red;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.red = priv.blue;
+            priv.blue = priv.red;
+            this.RGBtoHSL();
+            this.RGBtoHSV();
             return this;
         }
         /**
@@ -722,19 +754,18 @@ const Color = (function () {
          * @returns     {Color}             this color instance
          */
         premultyAlpha() {
-            const red = this.red;
-            const green = this.green;
-            const blue = this.blue;
-            const alpha = this.alpha;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (alpha === 0) {
-                this.red = 0;
-                this.green = 0;
-                this.blue = 0;
+                priv.red = 0;
+                priv.green = 0;
+                priv.blue = 0;
             }
             else if (alpha !== 1) {
-                this.red = (Math.trunc(red * alpha)) & 0xFF;
-                this.green = (Math.trunc(green * alpha)) & 0xFF;
-                this.blue = (Math.trunc(blue * alpha)) & 0xFF;
+                priv.red = Math.trunc(priv.red * priv.alpha) & 0xFF;
+                priv.green = Math.trunc(priv.green * priv.alpha) & 0xFF;
+                priv.blue = Math.trunc(priv.blue * priv.alpha) & 0xFF;
             }
             return this;
         }
@@ -743,18 +774,17 @@ const Color = (function () {
          * @returns     {Color}             this color instance
          */
         unPremultyAlpha() {
-            const red = this.red;
-            const green = this.green;
-            const blue = this.blue;
-            const alpha = this.alpha;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (alpha === 0) {
-                this.red = 0;
-                this.green = 0;
-                this.blue = 0;
+                priv.red = 0;
+                priv.green = 0;
+                priv.blue = 0;
             } else {
-                this.red = Math.trunc(red / alpha);
-                this.green = Math.trunc(green / alpha);
-                this.blue = Math.trunc(blue / alpha);
+                priv.red = Math.trunc(priv.red / priv.alpha);
+                priv.green = Math.trunc(priv.green / priv.alpha);
+                priv.blue = Math.trunc(priv.blue / priv.alpha);
             }
             return this;
         }
@@ -765,16 +795,16 @@ const Color = (function () {
          */
         opacity(opacity) {
             //#region Variables déclaration
-            let alpha = this.alpha;
+            const priv = internal(this);
             //#endregion Variables déclaration
             if (Tools.isNumber(opacity)) {
                 if (opacity < 1) {
-                    alpha = this.alpha = alpha * 0xFF * opacity / 0xFF;
+                    priv.alpha = priv.alpha * 0xFF * opacity / 0xFF;
                 }
-                if (alpha > 1) {
-                    this.alpha = 1;
-                } else if (alpha < 0) {
-                    this.alpha = 0;
+                if (priv.alpha > 1) {
+                    priv.alpha = 1;
+                } else if (priv.alpha < 0) {
+                    priv.alpha = 0;
                 }
                 return this;
             }
@@ -786,14 +816,17 @@ const Color = (function () {
          * @return      {Boolean}       return the current color instance
          */
         equals(color) {
-            return this.red === color.red &&
-                this.green === color.green &&
-                this.blue === color.blue &&
-                this.alpha === color.alpha &&
-                this.hue === color.hue &&
-                this.saturation === color.saturation &&
-                this.value === color.value &&
-                this.lightness === color.lightness;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            return priv.red === color.red &&
+                priv.green === color.green &&
+                priv.blue === color.blue &&
+                priv.alpha === color.alpha &&
+                priv.hue === color.hue &&
+                priv.saturation === color.saturation &&
+                priv.value === color.value &&
+                priv.lightness === color.lightness;
         }
         /**
          * Assign properties from source to the current color instance
@@ -822,9 +855,12 @@ const Color = (function () {
          * Inverse the color chanels
          */
         inverse() {
-            this.red = 255 - this.red;
-            this.blue = 255 - this.blue;
-            this.green = 255 - this.green;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.red = 255 - priv.red;
+            priv.blue = 255 - priv.blue;
+            priv.green = 255 - priv.green;
             if (!this.updating) {
                 this.RGBtoHSV();
                 this.RGBtoHSL();
@@ -847,10 +883,11 @@ const Color = (function () {
          */
         HSVtoRGB() {
             //#region Variables déclaration
-            const sat = this.saturation / 100;
-            const value = this.value / 100;
+            const priv = internal(this);
+            const sat = priv.saturation / 100;
+            const value = priv.value / 100;
             let c = sat * value;
-            const h = this.hue / 60;
+            const h = priv.hue / 60;
             let x = c * (1 - Math.abs(h % 2 - 1));
             let m = value - c;
             const precision = 255;
@@ -858,22 +895,23 @@ const Color = (function () {
             c = (c + m) * precision | 0;
             x = (x + m) * precision | 0;
             m = m * precision | 0;
-            if (h >= 0 && h < 1) { this.red = c; this.green = x; this.blue = m; return; }
-            if (h >= 1 && h < 2) { this.red = x; this.green = c; this.blue = m; return; }
-            if (h >= 2 && h < 3) { this.red = m; this.green = c; this.blue = x; return; }
-            if (h >= 3 && h < 4) { this.red = m; this.green = x; this.blue = c; return; }
-            if (h >= 4 && h < 5) { this.red = x; this.green = m; this.blue = c; return; }
-            if (h >= 5 && h < 6) { this.red = c; this.green = m; this.blue = x; return; }
+            if (h >= 0 && h < 1) { priv.red = c; priv.green = x; priv.blue = m; return; }
+            if (h >= 1 && h < 2) { priv.red = x; priv.green = c; priv.blue = m; return; }
+            if (h >= 2 && h < 3) { priv.red = m; priv.green = c; priv.blue = x; return; }
+            if (h >= 3 && h < 4) { priv.red = m; priv.green = x; priv.blue = c; return; }
+            if (h >= 4 && h < 5) { priv.red = x; priv.green = m; priv.blue = c; return; }
+            if (h >= 5 && h < 6) { priv.red = c; priv.green = m; priv.blue = x; return; }
         }
         /**
          * Convert HSL to RGB
          */
         HSLtoRGB() {
             //#region Variables déclaration
-            const sat = this.saturation / 100;
-            const light = this.lightness / 100;
+            const priv = internal(this);
+            const sat = priv.saturation / 100;
+            const light = priv.lightness / 100;
             let c = sat * (1 - Math.abs(2 * light - 1));
-            const h = this.hue / 60;
+            const h = priv.hue / 60;
             let x = c * (1 - Math.abs(h % 2 - 1));
             let m = light - c / 2;
             const precision = 255;
@@ -882,17 +920,17 @@ const Color = (function () {
             x = (x + m) * precision | 0;
             m = m * precision | 0;
             if (h >= 0 && h < 1) {
-                this.red = c; this.green = x; this.blue = m;
+                priv.red = c; priv.green = x; priv.blue = m;
             } else if (h >= 1 && h < 2) {
-                this.red = x; this.green = c; this.blue = m;
+                priv.red = x; priv.green = c; priv.blue = m;
             } else if (h >= 2 && h < 3) {
-                this.red = m; this.green = c; this.blue = x;
+                priv.red = m; priv.green = c; priv.blue = x;
             } else if (h >= 3 && h < 4) {
-                this.red = m; this.green = x; this.blue = c;
+                priv.red = m; priv.green = x; priv.blue = c;
             } else if (h >= 4 && h < 5) {
-                this.red = x; this.green = m; this.blue = c;
+                priv.red = x; priv.green = m; priv.blue = c;
             } else if (h >= 5 && h < 6) {
-                this.red = c; this.green = m; this.blue = x;
+                priv.red = c; priv.green = m; priv.blue = x;
             }
         }
         /**
@@ -900,9 +938,10 @@ const Color = (function () {
          */
         RGBtoHSV() {
             //#region Variables déclaration
-            const red = this.red / 255,
-                green = this.green / 255,
-                blue = this.blue / 255,
+            const priv = internal(this);
+            const red = priv.red / 255,
+                green = priv.green / 255,
+                blue = priv.blue / 255,
                 cMax = Math.max(red, green, blue),
                 cMin = Math.min(red, green, blue),
                 delta = cMax - cMin;
@@ -923,21 +962,22 @@ const Color = (function () {
                     saturation = delta / cMax;
                 }
             }
-            hue = this.hue = 60 * hue | 0;
+            hue = priv.hue = 60 * hue | 0;
             if (hue < 0) {
-                this.hue += 360;
+                priv.hue += 360;
             }
-            this.saturation = saturation * 100 | 0;
-            this.value = cMax * 100 | 0;
+            priv.saturation = saturation * 100 | 0;
+            priv.value = cMax * 100 | 0;
         }
         /**
          * Convert RGB to HSL
          */
         RGBtoHSL() {
             //#region Variables déclaration
-            const red = this.red / 255;
-            const green = this.green / 255;
-            const blue = this.blue / 255;
+            const priv = internal(this);
+            const red = priv.red / 255;
+            const green = priv.green / 255;
+            const blue = priv.blue / 255;
             const cMax = Math.max(red, green, blue);
             const cMin = Math.min(red, green, blue);
             const delta = cMax - cMin;
@@ -960,19 +1000,22 @@ const Color = (function () {
                     saturation = delta / x;
                 }
             }
-            hue = this.hue = 60 * hue | 0;
+            hue = priv.hue = 60 * hue | 0;
             if (hue < 0) {
-                this.hue += 360;
+                priv.hue += 360;
             }
-            this.saturation = saturation * 100 | 0;
-            this.lightness = lightness * 100 | 0;
+            priv.saturation = saturation * 100 | 0;
+            priv.lightness = lightness * 100 | 0;
         }
         /**
          * Return black or white color for the best viewing fore color
          * @return  {String}        retrun black or white color
          */
         getForeColorHex() {
-            if (0.3 * this.red + 0.59 * this.green + 0.11 * this.blue <= 128) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (0.3 * priv.red + 0.59 * priv.green + 0.11 * priv.blue <= 128) {
                 return "#FFF";
             } else {
                 return "#000";
