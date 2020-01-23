@@ -43,7 +43,7 @@ import "/scripts/components/color/colorQuad.js";
 //import { pageControl } from "/scripts/components/containers/pageControl.js";
 //import { paintBox } from "/scripts/components/common/paintBox.js";
 //import { plotGrid } from "/scripts/components/common/plotGrid.js";
-//import { textBox } from "/scripts/components/common/textBox.js";
+import "/scripts/components/common/textbox.js";
 //import { passwordTextBox } from "/scripts/components/common/passwordTextBox.js";
 //import { roundTextBox } from "/scripts/components/extended/roundTextBox.js";
 //import { textBoxClearBtn } from "/scripts/components/extended/textBoxClearBtn.js";

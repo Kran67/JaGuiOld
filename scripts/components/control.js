@@ -9,6 +9,7 @@ import "/scripts/core/rotatecenter.js";
 import "/scripts/core/hittest.js";
 import { Tools } from "/scripts/core/tools.js";
 import { Mouse } from "/scripts/core/mouse.js";
+import { Keyboard } from "/scripts/core/keyboard.js";
 import { Rect } from "/scripts/core/geometry.js";
 //#endregion Imports
 //#region Control

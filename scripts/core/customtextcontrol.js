@@ -1,10 +1,13 @@
-﻿import { ThemedControl } from "/scripts/core/themedcontrol.js";
+﻿//#region Imports
+import { ThemedControl } from "/scripts/core/themedcontrol.js";
 import { Tools } from "/scripts/core/tools.js";
 import { Convert } from "/scripts/core/convert.js";
-//import { NotifyEvent } from "/scripts/core/events.js";
+import { Events } from "/scripts/core/events.js";
 import { Keyboard } from "/scripts/core/keyboard.js";
+//#endregion Imports
 //#region CustomTextControl
 const CustomTextControl = (function () {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
@@ -14,7 +17,10 @@ const CustomTextControl = (function () {
         // Return private properties object
         return _private.get(key);
     };
+    //#endregion Private
+    //#region Class CustomTextControl
     class CustomTextControl extends ThemedControl {
+        //#region constructor
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
@@ -31,17 +37,14 @@ const CustomTextControl = (function () {
                 priv.autoTranslate = true;
                 priv.required = false;
                 priv.errorMsg = String.EMPTY;
-                //priv.horizAlign = Types.TEXTALIGNS.CENTER;
-                //priv.type = Types.HTMLINPUTTYPES.TEXT;
                 this.addBindableProperties(["text", "readOnly", "placeHolder", "autoTranslate", "horizAlign"]);
-                //#region Private
-                //#endregion
                 let textAligns = Types.TEXTALIGNS;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "horizAlign",
                     enum: textAligns,
-                    value: Types.TEXTALIGNS.CENTER
+                    variable: priv,
+                    value: textAligns.CENTER
                 });
                 textAligns = null;
                 let htmlInputTypes = Types.HTMLINPUTTYPES;
@@ -49,59 +52,75 @@ const CustomTextControl = (function () {
                     component: this,
                     propName: "type",
                     enum: htmlInputTypes,
+                    variable: priv,
                     forceUpdate: true,
-                    value: Types.HTMLINPUTTYPES.TEXT
+                    value: htmlInputTypes.TEXT
                 });
                 htmlInputTypes = null;
                 this.onChange = new Core.classes.NotifyEvent(this);
                 this.canFocused = true;
             }
         }
-        //#region setter
+        //#endregion constructor
+        //#region Getters / Setters
+        //#region inputObj
         get inputObj() {
             return internal(this).inputObj;
         }
         set inputObj(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof HTMLInputElement) {
                 if (priv.inputObj !== newValue) {
                     priv.inputObj = newValue;
                 }
             }
         }
+        //#endregion inputObj
+        //#region hasError
         get hasError() {
             return internal(this).hasError;
         }
         set hasError(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.hasError !== newValue) {
                     priv.hasError = newValue;
-                    //this.HTMLElement.dataset.haserror = this._hasError;
                 }
             }
         }
+        //#endregion hasError
+        //#region stopEvent
         get stopEvent() {
             return internal(this).stopEvent;
         }
         set stopEvent(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.stopEvent !== newValue) {
                     priv.stopEvent = newValue;
                 }
             }
         }
+        //#endregion stopEvent
+        //#region text
         get text() {
             return this.inputObj.value;
         }
         set text(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === STRING) {
+            //#endregion Variables déclaration
+            if (Tools.isString(newValue)) {
                 if (priv.text !== newValue) {
                     priv.text = newValue;
                     priv.inputObj.value = priv.text;
-                    if ((this.loading || this.form.loading)/* && !Tools.Debugger.useFragment*/) {
+                    if ((this.loading || this.form.loading)) {
                         return;
                     }
                     if (Core.isHTMLRenderer) {
@@ -110,12 +129,16 @@ const CustomTextControl = (function () {
                 }
             }
         }
+        //#endregion text
+        //#region maxLength
         get maxLength() {
             return internal(this).maxLength;
         }
         set maxLength(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 if (priv.maxLength !== newValue) {
                     priv.maxLength = newValue;
                     if (Core.isHTMLRenderer) {
@@ -124,12 +147,16 @@ const CustomTextControl = (function () {
                 }
             }
         }
+        //#endregion maxLength
+        //#region readOnly
         get readOnly() {
             return internal(this).readOnly;
         }
         set readOnly(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.readOnly !== newValue) {
                     priv.readOnly = newValue;
                     if (Core.isHTMLRenderer) {
@@ -138,12 +165,16 @@ const CustomTextControl = (function () {
                 }
             }
         }
+        //#endregion readOnly
+        //#region placeHolder
         get placeHolder() {
             return internal(this).placeHolder;
         }
         set placeHolder(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === STRING) {
+            //#endregion Variables déclaration
+            if (Tools.isString(newValue)) {
                 if (priv.placeHolder !== newValue) {
                     priv.placeHolder = newValue;
                     if (Core.isHTMLRenderer) {
@@ -152,59 +183,79 @@ const CustomTextControl = (function () {
                 }
             }
         }
+        //#endregion placeHolder
+        //#region filterChars
         get filterChars() {
             return internal(this).filterChars;
         }
         set filterChars(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === STRING) {
+            //#endregion Variables déclaration
+            if (Tools.isString(newValue)) {
                 if (priv.filterChars !== newValue) {
                     priv.filterChars = newValue;
                 }
             }
         }
+        //#endregion filterChars
+        //#region autoTranslate
         get autoTranslate() {
             return internal(this).autoTranslate;
         }
         set autoTranslate(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.autoTranslate !== newValue) {
                     priv.autoTranslate = newValue;
                 }
             }
         }
+        //#endregion autoTranslate
+        //#region required
         get required() {
             return internal(this).required;
         }
         set required(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.required !== newValue) {
                     priv.required = newValue;
                 }
             }
         }
+        //#endregion required
+        //#region errorMsg
         get errorMsg() {
             return internal(this).errorMsg;
         }
         set errorMsg(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (priv.errorMsg !== newValue) {
                     priv.errorMsg = newValue;
                 }
             }
         }
+        //#endregion errorMsg
+        //#region enabled
         get enabled() {
             return internal(this).enabled;
         }
         set enabled(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
             const inputObj = priv.inputObj;
-            if (typeof newValue === BOOLEAN) {
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
                 if (this.enabled !== newValue) {
-                    super.enabled = newValue; // Gros point noir ici
+                    super.enabled = newValue;
                     if (this.enabled) {
                         inputObj.removeAttribute("disabled");
                     } else {
@@ -213,11 +264,16 @@ const CustomTextControl = (function () {
                 }
             }
         }
+        //#endregion enabled
+        //#region _horizAlign
         _horizAlign(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (Tools.valueInSet(newValue, Types.TEXTALIGNS)) {
-                if (newValue !== this.horizAlign) {
-                    this.horizAlign = newValue;
-                    if ((!this.loading && !this.form.loading)/* && !Tools.Debugger.useFragment*/) {
+                if (newValue !== priv.horizAlign) {
+                    priv.horizAlign = newValue;
+                    if ((!this.loading && !this.form.loading)) {
                         if (this.allowUpdate) {
                             this.update();
                         }
@@ -228,22 +284,27 @@ const CustomTextControl = (function () {
                 }
             }
         }
-        //#endregion
+        //#endregion _horizAlign
+        //#endregion Getters / Setters
         //#region Methods
         loaded() {
             super.loaded();
-            //if (this._text===String.EMPTY) this._text=this.name;
+            this.app.getLocalText(this);
+            this.bindEventToHTML("onChange");
         }
         update() {
             const inputObj = this.inputObj;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
                 if (inputObj) {
-                    inputObj.value = this.text;
-                    if (this.maxLength > 0) {
-                        inputObj.setAttribute("maxlength", this.maxLength);
+                    inputObj.value = priv.text;
+                    if (priv.maxLength > 0) {
+                        inputObj.setAttribute("maxlength", priv.maxLength);
                     }
-                    inputObj.setAttribute("placeholder", this.placeHolder);
-                    if (this.readOnly) {
+                    inputObj.setAttribute("placeholder", priv.placeHolder);
+                    if (priv.readOnly) {
                         inputObj.setAttribute("readonly", String.EMPTY);
                     } else {
                         inputObj.removeAttribute("readonly");
@@ -251,73 +312,62 @@ const CustomTextControl = (function () {
                 }
             }
         }
-        getChildsHTMLElement() {
-            if (this.HTMLElement) {
-                this.inputObj = this.HTMLElement.firstElementChild;
-                this.inputObj.jsObj = this;
+        getHTMLElement(id) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            super.getHTMLElement(id);
+            const htmlElement = this.HTMLElement;
+            if (htmlElement) {
+                priv.inputObj = htmlElement.querySelector("input");
+                priv.inputObj.jsObj = this;
                 this.bindEventToHTMLInput();
             }
         }
-        updateFromHTML() {
-            //let data = this.HTMLElement.dataset.horizalign;
-            //if (data) this.horizAlign = data;
-            //this._maxLength = ~~parseFloat(this.HTMLElement.getAttribute("maxlength")) | 0;
-            //data = this.HTMLElement.dataset.readonly;
-            //if (data) this.readOnly = Convert.strToBool(data);
-            //data = this.HTMLElement.dataset.haserror;
-            //if (data) this.hasError = Convert.strToBool(data);
-            //this.placeHolder = this.inputObj.getAttribute("placeholder");
-            //if (!this.placeHolder) this.placeHolder = String.EMPTY;
-            //data = this.HTMLElement.dataset.filterchars;
-            //if (data) this.filterChars = data;
-            //data = this.HTMLElement.dataset.required;
-            //if (data) this.required = Convert.strToBool(data);
-            //data = this.HTMLElement.dataset.errormsg;
-            //if (data) this.errorMsg = data;
-            this.app.getLocalText(this);
-            this.bindEventToHTML("onChange");
-            //if (this._required) {
-            //  this._requiredElement=document.createElement(Types.HTMLElements.DIV);
-            //  this._requiredElement.dataset.jsonname="required";
-            //  this._requiredElement.innerHTML="*";
-            //  this._requiredElement.display="none";
-            //  this.HTMLElement.appendChild(this._requiredElement);
-            //}
-            super.updateFromHTML();
-        }
         textChanged() {
+            //#region Variables déclaration
             const jsObj = this.jsObj;
+            //#endregion Variables déclaration
             jsObj.text = this.value;
             if (!jsObj.updating) {
                 jsObj.onChange.invoke();
             }
         }
         keyPress() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             const filterChars = this.filterChars;
-            if (!Core.keyboard.isNavigationKey()) {
+            if (!Core.keyboard.isNavigationKey) {
                 if (filterChars.length > 0 && filterChars.indexOf(Core.keyboard.keyChar) === -1) {
                     Core.keyboard.stopEvent();
                 }
                 //else this.onChange.invoke();
             }
-            this.textChanged.apply(this.inputObj);
+            this.textChanged.apply(priv.inputObj);
             super.keyPress();
             this.onChange.invoke();
         }
         keyUp() {
-            this.textChanged.apply(this.inputObj);
-            //this.HTMLElement.dataset.length = this.inputObj.value.length;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            this.textChanged.apply(priv.inputObj);
             super.keyUp();
             this.onChange.invoke();
         }
         HTMLFocus() {
+            //#region Variables déclaration
             const jsObj = this.jsObj;
+            //#endregion Variables déclaration
             if (jsObj.canFocused) {
                 jsObj.enterFocus();
             }
         }
         HTMLBlur() {
+            //#region Variables déclaration
             const jsObj = this.jsObj;
+            //#endregion Variables déclaration
             if (jsObj.form.focusedControl === jsObj) {
                 if (jsObj.app.activeWindow === jsObj.form) {
                     this.focus();
@@ -327,7 +377,10 @@ const CustomTextControl = (function () {
             }
         }
         setFocus() {
-            const inputObj = this.inputObj;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            const inputObj = priv.inputObj;
             super.setFocus();
             if (this.canFocused) {
                 if (inputObj) {
@@ -337,7 +390,10 @@ const CustomTextControl = (function () {
             }
         }
         selectAll() {
-            this.inputObj.setSelectionRange(0, this.inputObj.value.length);
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.inputObj.setSelectionRange(0, priv.inputObj.value.length);
         }
         destroy() {
             this.unbindEventToHTMLInput();
@@ -345,9 +401,12 @@ const CustomTextControl = (function () {
             super.destroy();
         }
         bindEventToHTMLInput() {
-            const inputObj = this.inputObj;
-            const htmlEvents = Types.HTMLEvents;
+            //#region Variables déclaration
+            const priv = internal(this);
+            const inputObj = priv.inputObj;
+            const htmlEvents = Types.HTMLEVENTS;
             const KEYBORDEVENTS = Keyboard.KEYBORDEVENTS;
+            //#endregion Variables déclaration
             Events.bind(inputObj, htmlEvents.CHANGE, this.textChanged);
             Events.bind(inputObj, htmlEvents.FOCUS, this.HTMLFocus);
             Events.bind(inputObj, htmlEvents.KILLFOCUS, this.HTMLBlur);
@@ -356,9 +415,12 @@ const CustomTextControl = (function () {
             Events.bind(inputObj, KEYBORDEVENTS.PRESS, this.dispatchEvent);
         }
         unbindEventToHTMLInput() {
-            const inputObj = this.inputObj;
-            const htmlEvents = Types.HTMLEvents;
+            //#region Variables déclaration
+            const priv = internal(this);
+            const inputObj = priv.inputObj;
+            const htmlEvents = Types.HTMLEVENTS;
             const KEYBORDEVENTS = Keyboard.KEYBORDEVENTS;
+            //#endregion Variables déclaration
             Events.unBind(inputObj, htmlEvents.CHANGE, this.textChanged);
             Events.unBind(inputObj, htmlEvents.FOCUS, this.HTMLFocus);
             Events.unBind(inputObj, htmlEvents.KILLFOCUS, this.HTMLBlur);
@@ -369,7 +431,9 @@ const CustomTextControl = (function () {
         //#endregion
     }
     return CustomTextControl;
+    //#endregion Class CustomTextControl
 })();
+//#region BaseWindow defineProperties
 Object.defineProperties(CustomTextControl, {
     "text": {
         enumerable: true
@@ -396,6 +460,7 @@ Object.defineProperties(CustomTextControl, {
         enumerable: true
     }
 });
-//#endregion
+//#endregion BaseWindow defineProperties
+//#endregion Class CustomTextControl
 Core.classes.register(Types.CATEGORIES.INTERNAL, CustomTextControl);
 export { CustomTextControl };

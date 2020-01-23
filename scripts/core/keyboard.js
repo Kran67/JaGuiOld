@@ -330,6 +330,7 @@ const Keyboard = (() => {
         //#region isNavigationKey
         get isNavigationKey() {
             //#region Variables déclaration
+            const priv = internal(this);
             const VKEYSCODES = Keyboard.VKEYSCODES;
             //#endregion Variables déclaration
             return [
@@ -348,7 +349,7 @@ const Keyboard = (() => {
                 VKEYSCODES.VK_RAPP,
                 VKEYSCODES.VK_MENU,
                 VKEYSCODES.VK_RETURN
-            ].indexOf(_keyCode) > -1;
+            ].indexOf(priv.keyCode) > -1;
         }
         //#endregion isNavigationKey
         //#endregion Getter / Setter
