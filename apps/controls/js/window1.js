@@ -33,7 +33,7 @@ import "/scripts/components/common/progressbar.js";
 //import { BwSlider } from "/scripts/components/color/bwSlider.js";
 //import { HueSlider } from "/scripts/components/color/hueSlider.js";
 import "/scripts/components/color/colorbox.js";
-//import { ColorPicker } from "/scripts/components/color/colorPicker.js";
+import "/scripts/components/color/colorpicker.js";
 import "/scripts/components/color/colorQuad.js";
 //import { rating } from "/scripts/components/common/rating.js";
 //import { gradientEdit } from "/scripts/components/color/gradientEdit.js";

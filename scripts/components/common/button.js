@@ -21,7 +21,7 @@ const CustomButton = (() => {
     //#endregion Private
     //#region Class CustomButton
     class CustomButton extends CaptionControl {
-        //#region Constructor
+        //#region constructor
         constructor(owner, props) {
             //#region Variables déclaration
             const modalResult = Window.MODALRESULTBUTTONS;
@@ -59,8 +59,8 @@ const CustomButton = (() => {
                 priv.borderRadius = props.hasOwnProperty("borderRadius") && Tools.isNumber(props.borderRadius) || Tools.isObject(props.borderRadius) ? props.borderRadius : null;
             }
         }
-        //#endregion
-        //#region getters / setters
+        //#endregion constructor
+        //#region Getters / Setters
         //#region pressing
         set pressing(newValue) {
             //#region Variables déclaration
@@ -131,7 +131,7 @@ const CustomButton = (() => {
             }
         }
         //#endregion borderRadius
-        //#endregion
+        //#endregion Getters / Setters
         //#region Methods
         //#region update
         update() {
@@ -321,13 +321,13 @@ const CustomButton = (() => {
                 }
             }
         }
-        //#endregion
-        //#endregion
+        //#endregion loaded
+        //#endregion Methods
     }
     return CustomButton;
     //#endregion
 })();
-//#endregion
+//#endregion CustomButton
 //#region Button
 const Button = (() => {
     //#region Private
