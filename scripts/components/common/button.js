@@ -325,7 +325,7 @@ const CustomButton = (() => {
         //#endregion Methods
     }
     return CustomButton;
-    //#endregion
+    //#endregion CustomButton
 })();
 //#endregion CustomButton
 //#region Button

@@ -27,16 +27,16 @@ const CustomTextControl = (function () {
                 super(owner, props);
                 const priv = internal(this);
                 priv.inputObj = null;
-                priv.hasError = false;
-                priv.stopEvent = false;
-                priv.text = String.EMPTY;
-                priv.maxLength = 0;
-                priv.readOnly = false;
-                priv.placeHolder = String.EMPTY;
-                priv.filterChars = String.EMPTY;
+                priv.hasError = props.hasOwnProperty("hasError")?props.hasError:false;
+                this.stopEvent = false;
+                priv.text = props.hasOwnProperty("text")?props.text:String.EMPTY;
+                priv.maxLength = props.hasOwnProperty("maxLength")?props.maxLength:0;
+                priv.readOnly = props.hasOwnProperty("readOnly")?props.readOnly:false;
+                priv.placeHolder = props.hasOwnProperty("placeHolder")?props.placeHolder:String.EMPTY;
+                priv.filterChars = props.hasOwnProperty("filterChars")?props.filterChars:String.EMPTY;
                 priv.autoTranslate = true;
-                priv.required = false;
-                priv.errorMsg = String.EMPTY;
+                priv.required = props.hasOwnProperty("required")?props.required:false;
+                priv.errorMsg = props.hasOwnProperty("errorMsg")?props.errorMsg:String.EMPTY;
                 this.addBindableProperties(["text", "readOnly", "placeHolder", "autoTranslate", "horizAlign"]);
                 let textAligns = Types.TEXTALIGNS;
                 Tools.addPropertyFromEnum({
@@ -44,7 +44,7 @@ const CustomTextControl = (function () {
                     propName: "horizAlign",
                     enum: textAligns,
                     variable: priv,
-                    value: textAligns.CENTER
+                    value: props.hasOwnProperty("horizAlign")?props.horizAlign:textAligns.CENTER
                 });
                 textAligns = null;
                 let htmlInputTypes = Types.HTMLINPUTTYPES;
@@ -54,7 +54,7 @@ const CustomTextControl = (function () {
                     enum: htmlInputTypes,
                     variable: priv,
                     forceUpdate: true,
-                    value: htmlInputTypes.TEXT
+                    value: props.hasOwnProperty("type")?props.type:htmlInputTypes.TEXT
                 });
                 htmlInputTypes = null;
                 this.onChange = new Core.classes.NotifyEvent(this);
