@@ -35,7 +35,7 @@ import "/scripts/components/common/progressbar.js";
 import "/scripts/components/color/colorbox.js";
 import "/scripts/components/color/colorpicker.js";
 import "/scripts/components/color/colorQuad.js";
-//import { rating } from "/scripts/components/common/rating.js";
+import "/scripts/components/common/rating.js";
 //import { gradientEdit } from "/scripts/components/color/gradientEdit.js";
 //import { colorPanel } from "/scripts/components/color/colorPanel.js";
 //import { shapes } from "/scripts/components/common/shapes.js";

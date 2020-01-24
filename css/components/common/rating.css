@@ -1,50 +1,47 @@
-﻿div.Rating,
-div.RatingProgress {
+﻿:root {
+    --normalImg: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==);
+    --selectedImg: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==);
+    --hoveredImg: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==);
+}
+
+.Control.Rating,
+.Control.Rating:before {
     background-size: auto auto;
+    background-position: left top;
 }
 
-div.Rating.orientation-horizontal {
+.Control.Rating.orientation-horizontal {
     width: 90px;
     height: 16px;
 }
 
-div.Rating.orientation-horizontal,
-div.RatingProgress.orientation-horizontal,
-div.RatingProgress.orientation-horizontal.disabled {
+.Control.Rating.orientation-horizontal,
+.Control.Rating.orientation-horizontal:before,
+.Control.Rating.orientation-horizontal.disabled {
     background-repeat: repeat-x;
-    background-position: left top;
 }
 
-div.RatingProgress.orientation-horizontal {
-    border: none;
-    height: 100%;
-    left: 0;
+.Control.Rating:before {
+    position: absolute;
+    content: "";
     margin: 0;
     outline: none;
     overflow: hidden;
     padding: 0;
+    width: 100%;
+    height: 100%;
     top: 0;
+    left: 0;
+    border: none;
 }
 
-div.Rating.orientation-vertical {
+.Control.Rating.orientation-vertical {
     width: 90px;
     height: 16px;
 }
 
-div.Rating.orientation-vertical,
-div.RatingProgress.orientation-vertical,
-div.RatingProgress.orientation-vertical.disabled {
+.Control.Rating.orientation-vertical,
+.Control.Rating.orientation-vertical:before,
+.Control.Rating.orientation-vertical.disabled {
     background-repeat: repeat-y;
-    background-position: left top;
-}
-
-div.RatingProgress.orientation-vertical {
-    border: none;
-    width: 100%;
-    top: 0;
-    margin: 0;
-    outline: none;
-    overflow: hidden;
-    padding: 0;
-    left: 0;
 }
