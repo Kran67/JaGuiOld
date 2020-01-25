@@ -1,47 +1,49 @@
-﻿:root {
-    --normalImg: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==);
-    --selectedImg: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==);
-    --hoveredImg: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==);
-}
-
-.Control.Rating,
+﻿.Control.Rating,
 .Control.Rating:before {
     background-size: auto auto;
     background-position: left top;
 }
 
-.Control.Rating.orientation-horizontal {
-    width: 90px;
-    height: 16px;
-}
+    .Control.Rating.orientation-horizontal {
+        width: 90px;
+        height: 16px;
+    }
 
-.Control.Rating.orientation-horizontal,
-.Control.Rating.orientation-horizontal:before,
-.Control.Rating.orientation-horizontal.disabled {
-    background-repeat: repeat-x;
-}
+        .Control.Rating.orientation-horizontal,
+        .RatingProgress.orientation-horizontal,
+        .Control.Rating.orientation-horizontal.disabled {
+            background-repeat: repeat-x;
+        }
 
-.Control.Rating:before {
+.RatingProgress {
     position: absolute;
-    content: "";
-    margin: 0;
-    outline: none;
     overflow: hidden;
-    padding: 0;
-    width: 100%;
-    height: 100%;
+    right: 0;
+    bottom: 0;
     top: 0;
     left: 0;
-    border: none;
 }
 
-.Control.Rating.orientation-vertical {
-    width: 90px;
-    height: 16px;
+    .Control.Rating.orientation-vertical {
+        width: 90px;
+        height: 16px;
+    }
+
+        .Control.Rating.orientation-vertical,
+        .RatingProgress.orientation-vertical,
+        .Control.Rating.orientation-vertical.disabled {
+            background-repeat: repeat-y;
+        }
+
+
+.Control.Rating {
+    background-image: var(--emptyImg);
 }
 
-.Control.Rating.orientation-vertical,
-.Control.Rating.orientation-vertical:before,
-.Control.Rating.orientation-vertical.disabled {
-    background-repeat: repeat-y;
+.RatingProgress {
+    background-image: var(--emptyImg);
 }
+
+    .RatingProgress:hover {
+        background-image: var(--emptyImg);
+    }

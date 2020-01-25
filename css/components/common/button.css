@@ -23,4 +23,5 @@
     top: 49%;
     transform: translate(-50%,-50%);
     vertical-align: middle;
+    text-overflow:ellipsis;
 }

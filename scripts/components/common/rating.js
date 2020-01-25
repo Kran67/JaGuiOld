@@ -52,7 +52,7 @@ const Rating = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                //priv.selObj = null;
+                priv.ratingObj = null;
                 if (!Core.isHTMLRenderer) {
                     this.height = 16;
                     this.width = 90;
@@ -71,18 +71,33 @@ const Rating = (() => {
                 this.hitTest.mousemove = true;
                 this.hitTest.mouseup = true;
                 this.hitTest.mousewheel = false;
-                priv.normalImg = new Image(18, 16);
-                Events.bind(priv.normalImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
-                Events.bind(priv.normalImg, HTMLEVENTS.ERROR, this.doBitmapNotLoaded);
-                priv.hoveredImg = new Image;
-                Events.bind(priv.hoveredImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
-                Events.bind(priv.hoveredImg, HTMLEVENTS.ERROR, this.doBitmapNotLoaded);
-                priv.selectedImg = new Image;
-                Events.bind(priv.selectedImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
-                Events.bind(priv.selectedImg, HTMLEVENTS.ERROR, this.doBitmapNotLoaded);
-                priv.normalImg.obj = this;
-                priv.hoveredImg.obj = this;
-                priv.selectedImg.obj = this;
+                if (props.hasOwnProperty("normalImg")) {
+                    priv.normalImg = new Image;
+                    Events.bind(priv.normalImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
+                    Events.bind(priv.normalImg, HTMLEVENTS.ERROR, this.doBitmapNotLoaded);
+                    priv.normalImg.obj = this;
+                    priv.normalImg.src = props.normalImg;
+                } else {
+                    priv.normalImg = "var(--normlaImg)";
+                }
+                if (props.hasOwnProperty("hoveredImg")) {
+                    priv.hoveredImg = new Image;
+                    Events.bind(priv.hoveredImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
+                    Events.bind(priv.hoveredImg, HTMLEVENTS.ERROR, this.doBitmapNotLoaded);
+                    priv.hoveredImg.obj = this;
+                    priv.hoveredImg.src = props.hoveredImg;
+                } else {
+                    priv.normalImg = "var(--hoveredImg)";
+                }
+                if (props.hasOwnProperty("selectedImg")) {
+                    priv.selectedImg = new Image;
+                    Events.bind(priv.selectedImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
+                    Events.bind(priv.selectedImg, HTMLEVENTS.ERROR, this.doBitmapNotLoaded);
+                    priv.selectedImg.obj = this;
+                    priv.selectedImg.src = props.selectedImg;
+                } else {
+                    priv.normalImg = "var(--hoveredImg)";
+                }
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "orientation",
@@ -246,146 +261,112 @@ const Rating = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const ORIENTATIONS = Types.ORIENTATIONS;
-            const PX = Types.CSSUNITS.PX;
             let offset;
-            const ori = priv.orientation === ORIENTATIONS.HORIZONTAL?"width":"height";
-            const htmlElementStyle = this.HTMLElement;
+            const clipRect = [0];
+            const isHoriz = priv.orientation === ORIENTATIONS.HORIZONTAL;
+            const ori = isHoriz ? "Width" : "Height";
             //#endregion Variables déclaration
-
-            offset = priv.value * priv.normalImg[ori];
-            //priv.selObj.style[ori] = `${offset}${PX}`;
-            console.log(`update - ${offset}`);
-            //if (priv.normalImg.naturalWidth > 0) {
-            //    if (priv.isMouseOver) {
-            //        htmlElementStyle.backgroundImage = `url('${priv.hoveredImg.src}')`;
-            //    } else {
-            //        htmlElementStyle.backgroundImage = `url('${priv.selectedImg.src}')`;
-            //    }
-            //}
+            offset = priv.value * (priv.normalImg instanceof Image ? priv.normalImg[`natural${ori}`] : this[ori.toLowerCase()] / priv.nbItem);
+            clipRect.push(isHoriz ? this.width - offset : 0);
+            clipRect.push(!isHoriz ? this.height - offset : 0);
+            clipRect.push(0);
+            priv.ratingObj.style.clipPath = `inset(${clipRect.join("px ")}`;
         }
         //#endregion update
+        //#region mouseEnter
+        mouseEnter() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            super.mouseEnter();
+            if (priv.hoveredImg instanceof Image && priv.ratingObj.style.backgroundImage !== `url('${priv.hoveredImg.src}')`) {
+                priv.ratingObj.style.backgroundImage = `url('${priv.hoveredImg.src}')`;
+            }
+        }
+        //#endregion mouseEnter
         //#region mouseLeave
         mouseLeave() {
             super.mouseLeave();
-            console.log("mouseLeave");
             this.update();
         }
         //#endregion mouseLeave
         //#region mouseMove
         mouseMove() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const ORIENTATIONS = Types.ORIENTATIONS;
-            const PX = Types.CSSUNITS.PX;
-            let offset;
-            //#endregion Variables déclaration
             super.mouseMove();
-            if (priv.orientation === ORIENTATIONS.HORIZONTAL) {
-                offset = Core.mouse.target.x;
-            } else {
-                offset = Core.mouse.target.y;
-            }
-            switch (priv.precision) {
-                case RATINGPRECISIONS.WHOLEITEM:
-                    if (priv.orientation === ORIENTATIONS.HORIZONTAL) {
-                        offset = Math.ceil(offset / priv.normalImg.width) * priv.normalImg.width;
-                    } else {
-                        offset = Math.ceil(offset / priv.normalImg.height) * priv.normalImg.height;
-                    }
-                    break;
-                case RATINGPRECISIONS.HALFANITEM:
-                    if (priv.orientation === ORIENTATIONS.HORIZONTAL) {
-                        offset = (~~(offset / (priv.normalImg.width / 2) + 1) * (priv.normalImg.width / 2));
-                    } else {
-                        offset = (~~(offset / (priv.normalImg.height / 2) + 1) * (priv.normalImg.height / 2));
-                    }
-                    break;
-            }
-            //priv.selObj.style[priv.orientation === ORIENTATIONS.HORIZONTAL?"width":"height"] = `${offset}${PX}`;
-            //console.log(`mouseMove - ${offset} - ${priv.selObj.offsetWidth}`);
+            this.updateRatingProgress();
         }
         //#endregion mouseMove
         //#region mouseUp
         mouseUp() {
+            super.mouseUp();
+            this.updateRatingProgress();
+        }
+        //#endregion mouseUp
+        //#region mouseDown
+        mouseDown() {
+            super.mouseUp();
+            this.updateRatingProgress();
+        }
+        //#endregion mouseDown
+        updateRatingProgress() {
             //#region Variables déclaration
             const priv = internal(this);
             const ORIENTATIONS = Types.ORIENTATIONS;
-            let offset;
+            const isHoriz = priv.orientation === ORIENTATIONS.HORIZONTAL;
+            const ori = isHoriz ? "Width" : "Height";
+            const imgSize = priv.normalImg instanceof Image ? priv.normalImg[`natural${ori}`] : this[ori.toLowerCase()] / priv.nbItem;
+            const isMouseMove = Core.mouse.eventType === Mouse.MOUSEEVENTS.MOVE;
+            let offset = 0;
+            const clipRect = [];
             //#endregion Variables déclaration
-            super.mouseUp();
-            if (priv.orientation === ORIENTATIONS.HORIZONTAL) {
+            if (isHoriz) {
                 offset = Core.mouse.target.x;
-            }
-            else {
+            } else {
                 offset = Core.mouse.target.y;
             }
+            clipRect.push(0);
             switch (priv.precision) {
                 case RATINGPRECISIONS.WHOLEITEM:
-                    if (priv.orientation === ORIENTATIONS.HORIZONTAL) {
-                        //this.value = priv.selObj.offsetWidth / priv.normalImg.width;
-                    }
-                    else {
-                        //this.value = priv.selObj.offsetHeight / priv.normalImg.height;
+                    offset = Math.ceil(offset / imgSize) * imgSize;
+                    if (!isMouseMove) {
+                        priv.value = ~~(offset / imgSize);
                     }
                     break;
                 case RATINGPRECISIONS.HALFANITEM:
-                    if (priv.orientation === ORIENTATIONS.HORIZONTAL) {
-                        offset = (~~(offset / (priv.normalImg.width / 2) + 1) * (priv.normalImg.width / 2));
-                        //this.value = offset / priv.normalImg.width;
-                    } else {
-                        offset = (~~(offset / (priv.normalImg.height / 2) + 1) * (priv.normalImg.height / 2));
-                        //this.value = offset / priv.normalImg.height;
+                    offset = ~~(offset / (imgSize / 2) + 1) * ~~(imgSize / 2);
+                    if (!isMouseMove) {
+                        priv.value = offset / imgSize;
                     }
                     break;
                 case RATINGPRECISIONS.EXACTPRECISION:
-                    if (priv.orientation === ORIENTATIONS.HORIZONTAL) {
-                        //this.value = Math.round(offset / priv.normalImg.width, 1);
-                    } else {
-                        //this.value = Math.round(offset / priv.normalImg.height, 1);
+                    if (!isMouseMove) {
+                        priv.value = +(offset / imgSize).toFixed(1);
                     }
                     break;
             }
+            clipRect.push(isHoriz ? this.width - offset : 0);
+            clipRect.push(!isHoriz ? this.height - offset : 0);
+            clipRect.push(0);
+            priv.ratingObj.style.clipPath = `inset(${clipRect.join("px ")}`;
         }
-        //#endregion mouseUp
         //#region realign
-        realign() {
-        }
+        realign() { }
         //#endregion realign
-        //updateFromHTML: function () {
-        //    var data = this._HTMLElement.dataset.value;
-        //    if (data) this.value = parseFloat(data);
-        //    data = this._HTMLElement.dataset.nbitem;
-        //    if (data) this.nbItem = ~~data;
-        //    data = this._HTMLElement.dataset.precision;
-        //    if (data) this.precision = data;
-        //    data = this._HTMLElement.dataset.itemwidth;
-        //    if (data) this.itemWidth = data;
-        //    data = this._HTMLElement.dataset.orientation;
-        //    if (data) this.orientation = data;
-        //    data = this._HTMLElement.dataset.normalimg;
-        //    if (data) this.setNormalImg(data);
-        //    data = this._HTMLElement.dataset.selectedimg;
-        //    if (data) this.setSelectedImg(data);
-        //    data = this._HTMLElement.dataset.hoveredimg;
-        //    if (data) this.setHoveredImg(data);
-        //    this._inherited();
-        //}
         //#region doBitmapLoaded
         doBitmapLoaded() {
             //#region Variables déclaration
             const htmlElementStyle = this.obj.HTMLElementStyle;
+            const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
             if (this === this.obj.normalImg) {
-                //htmlElementStyle.backgroundImage = `url('${this.src}')`;
-                //if (this.obj.orientation===$j.types.orientations.HORIZONTAL) {
-                //  this.obj.width=this.obj._HTMLElementStyle.minWidth=this.obj._HTMLElementStyle.maxWidth=this.obj._HTMLElementStyle.width=(this.obj.nbItem*this.width)+$j.types.CSSUnits.PX;
-                //} else {
-                //  this.obj.height=this.obj._HTMLElementStyle.minHeight=this.obj._HTMLElementStyle.maxHeight=this.obj._HTMLElementStyle.height=(this.obj.nbItem*this.height)+$j.types.CSSUnits.PX;
-                //}
-                //htmlElementStyle.backgroundImage = "url('" + this.src + "')";
-            }
-            if (this === this.obj.selectedImg) {
-                //this.obj.selObj.style.backgroundImage = `url('${this.src}')`;
+                htmlElementStyle.backgroundImage = `url('${this.src}')`;
+                if (this.obj.orientation === Types.ORIENTATIONS.HORIZONTAL) {
+                    this.obj.width = this.obj.nbItem * this.width;
+                    htmlElementStyle.minWidth = htmlElementStyle.maxWidth = htmlElementStyle.width = `  ${this.obj.width}${PX}`;
+                } else {
+                    this.obj.height = this.obj.nbItem * this.height;
+                    htmlElementStyle.minHeight = htmlElementStyle.maxHeight = htmlElementStyle.height = `${this.obj.height}${PX}`;
+                }
             }
             this.obj.update();
         }
@@ -395,6 +376,32 @@ const Rating = (() => {
             //throw "Image bitmap error";
         }
         //#endregion doBitmapNotLoaded
+        //#region getHTMLElement
+        getHTMLElement(id) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            super.getHTMLElement(id);
+            const htmlElement = this.HTMLElement;
+            if (htmlElement) {
+                priv.ratingObj = htmlElement.querySelector(".RatingProgress");
+                priv.ratingObj.jsObj = this;
+                Events.bind(priv.ratingObj, Mouse.MOUSEEVENTS.MOVE, this.dispatchEvent);
+            }
+        }
+        //#endregion getHTMLElement
+        //#region loaded
+        loaded() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            super.loaded();
+            if (priv.selectedImg instanceof Image && priv.ratingObj.style.backgroundImage !== `url('${priv.selectedImg.src}')`) {
+                priv.ratingObj.style.backgroundImage = `url('${priv.selectedImg.src}')`;
+            }
+            this.update();
+        }
+        //#endregion loaded
         //#region destroy
         destroy() {
             //#region Variables déclaration
@@ -418,7 +425,7 @@ const Rating = (() => {
 })();
 //#endregion Rating
 Core.classes.register(Types.CATEGORIES.COMMON, Rating);
-    export { Rating };
+export { Rating };
 /*(function () {
     //#region ratingPrecisions
     $j.types.ratingPrecisions = {

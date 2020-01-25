@@ -1,4 +1,8 @@
-﻿.confirmation {
+﻿:root {
+    --emptyImg: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==);
+}
+
+.confirmation {
     background-image: url(../../themes/images/common/confirmation.png);
 }
 

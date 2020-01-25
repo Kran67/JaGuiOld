@@ -50,7 +50,7 @@ const Control = (() => {
                 priv.stopEvent = true;
                 priv.constraints = new Core.classes.SizeConstraints(this);
                 priv.ownerShowToolTip = props.hasOwnProperty("ownerShowToolTip") && Tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : true;
-                priv.autoCapture = props.hasOwnProperty("autoCapture")?props.autoCapture:false;
+                priv.autoCapture = props.hasOwnProperty("autoCapture") ? props.autoCapture : false;
                 priv.padding = new Core.classes.Padding(this);
                 priv.margin = new Core.classes.Margin(this);
                 priv.popupMenu = null;
@@ -62,7 +62,7 @@ const Control = (() => {
                 priv.showFocus = true;
                 priv.enabled = props.hasOwnProperty("enabled") && Tools.isBool(props.enabled) ? props.enabled : true;
                 priv.rotateCenter = new Core.classes.RotateCenter(this);
-                priv.toolTip = props.hasOwnProperty("toolTip")?props.toolTip:String.EMPTY;
+                priv.toolTip = props.hasOwnProperty("toolTip") ? props.toolTip : String.EMPTY;
                 priv.showToolTip = props.hasOwnProperty("showToolTip") && Tools.isBool(props.showToolTip) ? props.showToolTip : false;
                 priv.hitTest = new Core.classes.HitTest;
                 priv.rotateAngle = props.hasOwnProperty("rotateAngle") && Tools.isNumber(props.rotateAngle) ? props.rotateAngle : 0;
@@ -559,7 +559,7 @@ const Control = (() => {
             if (!Core.isHTMLRenderer) {
                 return priv.width;
             } else {
-                return priv.width !== this.HTMLElement.offsetWidth?priv.width:this.HTMLElement.offsetWidth;
+                return priv.width !== this.HTMLElement.offsetWidth ? priv.width : this.HTMLElement.offsetWidth;
             }
         }
         set width(newValue) {
@@ -579,6 +579,7 @@ const Control = (() => {
                         } else {
                             htmlElementStyle.width = `${newValue}${Types.CSSUNITS.PX}`;
                         }
+                        priv.width = newValue;
                         //this._boundingClientRect.right=this._boundingClientRect.left+this.HTMLElement.offsetWidth;
                     }
                 }
@@ -597,7 +598,7 @@ const Control = (() => {
             if (Tools.isString(height) && height.endsWith("%")) {
                 height = owner.contentWidth * (parseFloat(height) / 100);
             }
-            height -= (margin.top + margin.bottom + padding.top + padding.bottom);
+            height -= margin.top + margin.bottom + padding.top + padding.bottom;
             return height;
         }
         //#endregion contentHeight
@@ -609,7 +610,7 @@ const Control = (() => {
             if (!Core.isHTMLRenderer) {
                 return priv.height;
             } else {
-                return priv.height !== this.HTMLElement.offsetWidth?priv.height:this.HTMLElement.offsetHeight;
+                return priv.height !== this.HTMLElement.offsetWidth ? priv.height : this.HTMLElement.offsetHeight;
             }
         }
         set height(newValue) {
@@ -629,6 +630,7 @@ const Control = (() => {
                         } else {
                             htmlElementStyle.height = `${newValue}${Types.CSSUNITS.PX}`;
                         }
+                        priv.height = newValue;
                     }
                 }
             }
@@ -2016,20 +2018,20 @@ const Control = (() => {
                         jsObj.dragStart();
                     }
                     break;
-                    //case Types.mouseEvents.CLICK:
-                    //  //jsObj.click();
-                    //  break;
-                    //case Types.mouseEvents.EVENT:
-                    //  break;
-                    //case Types.keybordEvents.DOWN:
-                    //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
-                    //  break;
-                    //case Types.keybordEvents.UP:
-                    //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
-                    //  break;
-                    //case Types.keybordEvents.PRESS:
-                    //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
-                    //  break;
+                //case Types.mouseEvents.CLICK:
+                //  //jsObj.click();
+                //  break;
+                //case Types.mouseEvents.EVENT:
+                //  break;
+                //case Types.keybordEvents.DOWN:
+                //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
+                //  break;
+                //case Types.keybordEvents.UP:
+                //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
+                //  break;
+                //case Types.keybordEvents.PRESS:
+                //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
+                //  break;
             }
             if (jsObj.stopEvent || forceStopEvent) {
                 Core.mouse.stopEvent(event);
@@ -2061,7 +2063,7 @@ const Control = (() => {
         //#region click
         click() {
             //#region Variables déclaration
-            const action = this.hasOwnProperty("action")?this.action:null;
+            const action = this.hasOwnProperty("action") ? this.action : null;
             //#endregion Variables déclaration
             if (this.onClick.hasListener) {
                 this.onClick.invoke();

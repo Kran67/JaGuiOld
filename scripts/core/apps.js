@@ -85,7 +85,7 @@ let Apps = (() => {
          */
         set capslock(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            if (Tools.isString(newValue)) {
                 priv.capslock = newValue;
             }
         }
