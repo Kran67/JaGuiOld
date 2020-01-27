@@ -93,6 +93,7 @@ const FlowLayout = (() => {
         //#endregion vGap
         //#endregion Getters / Setters
         //#region Methods
+        //#region alignControls
         alignControls() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -143,10 +144,14 @@ const FlowLayout = (() => {
                 });
             }
         }
+        //#endregion alignControls
+        //#region loaded
         loaded() {
             super.loaded();
             this.alignControls();
         }
+        //#endregion loaded
+        //#region destroy
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -156,6 +161,7 @@ const FlowLayout = (() => {
             priv.hGap = null;
             priv.vGap = null;
         }
+        //#endregion destroy
         //#endregion Methods
     }
     return FlowLayout;
