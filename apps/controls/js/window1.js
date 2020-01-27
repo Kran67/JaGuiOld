@@ -95,7 +95,7 @@ import "/scripts/components/extended/bitmapstatebutton.js";
 import "/scripts/components/extended/toggle.js";
 //import { batteryIndicator } from "/scripts/components/common/batteryIndicator.js";
 //import { segmentLedLabel } from "/scripts/components/extended/segmentLedLabel.js";
-//import { circularProgressBar } from "/scripts/components/extended/circularProgressBar.js";
+import "/scripts/components/extended/circularProgressBar.js";
 let lastTime;
 class Window1 extends Window {
     get MAX_DEPTH() { return 32; }
