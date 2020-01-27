@@ -1082,15 +1082,6 @@ const Types = Object.freeze({
         DESC: "desc"
     }),
     //#endregion
-    //#region FLOWLAYOUTS
-    /**
-     * @type    {Object}        FLOWLAYOUTS
-     */
-    FLOWLAYOUTS: Object.freeze({
-        HORIZONTAL: "horizontal",
-        VERTICAL: "vertical"
-    }),
-    //#endregion
     /**
      * @type    {Object}        CSSFILES
      */

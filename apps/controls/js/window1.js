@@ -81,7 +81,7 @@ import "/scripts/components/extended/bitmapstatebutton.js";
 //import { timers } from "/scripts/components/nonvisual/timers.js";
 //import { dataFile } from "/scripts/components/data/dataFile.js";
 //import { dataSource } from "/scripts/components/data/dataSource.js";
-//import { flowLayout } from "/scripts/components/containers/flowLayout.js";
+import "/scripts/components/containers/flowlayout.js";
 //import { gridLayout } from "/scripts/components/containers/gridLayout.js";
 //import { tableLayout } from "/scripts/components/containers/tableLayout.js";
 //import { splitter } from "/scripts/components/common/splitter.js";
