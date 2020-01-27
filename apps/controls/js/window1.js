@@ -91,7 +91,7 @@ import "/scripts/components/containers/flowlayout.js";
 //import { textBoxBtn } from "/scripts/components/extended/textBoxBtn.js";
 //import { clock } from "/scripts/components/common/clock.js";
 //import { propertyGrid } from "/scripts/components/extras/propertyGrid.js";
-//import { radioGroup } from "/scripts/components/extended/radioGroup.js";
+import "/scripts/components/extended/radiogroup.js";
 import "/scripts/components/extended/toggle.js";
 //import { batteryIndicator } from "/scripts/components/common/batteryIndicator.js";
 //import { segmentLedLabel } from "/scripts/components/extended/segmentLedLabel.js";

@@ -108,6 +108,7 @@ const GroupBox = (() => {
 //#endregion
 Object.seal(GroupBox);
 Core.classes.register(Types.CATEGORIES.CONTAINERS, GroupBox);
+export { GroupBox };
 /*
     //#region Templates
     if ($j.isHTMLRenderer()) {
