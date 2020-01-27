@@ -525,14 +525,14 @@ const Types = Object.freeze({
      * @type    {Object}        PSEUDOCSSCLASS
      */
     PSEUDOCSSCLASS: Object.freeze({
-        BEFORE: CONSTANTS.PSEUDOCLASSBEFORE + ":before",
-        AFTER: CONSTANTS.PSEUDOCLASSBEFORE + ":after",
-        HOVER: CONSTANTS.PSEUDOCLASSBEFORE + ":hover",
-        HOVER_BEFORE: CONSTANTS.PSEUDOCLASSBEFORE + ":hover" + CONSTANTS.PSEUDOCLASSBEFORE + ":before",
-        HOVER_AFTER: CONSTANTS.PSEUDOCLASSBEFORE + ":hover" + CONSTANTS.PSEUDOCLASSBEFORE + ":after",
-        ACTIVE: CONSTANTS.PSEUDOCLASSBEFORE + ":active",
-        ACTIVE_BEFORE: CONSTANTS.PSEUDOCLASSBEFORE + ":active" + CONSTANTS.PSEUDOCLASSBEFORE + ":before",
-        ACTIVE_AFTER: CONSTANTS.PSEUDOCLASSBEFORE + ":active" + CONSTANTS.PSEUDOCLASSBEFORE + ":after"
+        BEFORE: ":before",
+        AFTER: ":after",
+        HOVER: ":hover",
+        HOVER_BEFORE: ":hover:before",
+        HOVER_AFTER: ":hover:after",
+        ACTIVE: ":active",
+        ACTIVE_BEFORE: ":active:before",
+        ACTIVE_AFTER: ":active:after"
     }),
     //#endregion
     //#region PROPSNEEDUPDATE

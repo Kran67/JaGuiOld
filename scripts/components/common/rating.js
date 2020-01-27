@@ -286,8 +286,14 @@ const Rating = (() => {
         //#endregion mouseEnter
         //#region mouseLeave
         mouseLeave() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             super.mouseLeave();
             this.update();
+            if (priv.selectedImg instanceof Image && priv.ratingObj.style.backgroundImage !== `url('${priv.selectedImg.src}')`) {
+                priv.ratingObj.style.backgroundImage = `url('${priv.selectedImg.src}')`;
+            }
         }
         //#endregion mouseLeave
         //#region mouseMove

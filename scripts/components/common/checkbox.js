@@ -160,6 +160,22 @@ const Checkbox = (() => {
             }
         }
         //#endregion action
+        //#region autoWidth
+        get autoWidth() {
+            return internal(this).autoWidth;
+        }
+        set autoWidth(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
+                if (priv.autoWidth !== newValue) {
+                    priv.autoWidth = newValue;
+                    this.update();
+                }
+            }
+        }
+        //#endregion autoWidth
         //#endregion Getter / Setter
         //#region Methods
         //#region mouseDown

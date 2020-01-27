@@ -92,7 +92,7 @@ import "/scripts/components/extended/bitmapstatebutton.js";
 //import { clock } from "/scripts/components/common/clock.js";
 //import { propertyGrid } from "/scripts/components/extras/propertyGrid.js";
 //import { radioGroup } from "/scripts/components/extended/radioGroup.js";
-//import { toggle } from "/scripts/components/extended/toggle.js";
+import "/scripts/components/extended/toggle.js";
 //import { batteryIndicator } from "/scripts/components/common/batteryIndicator.js";
 //import { segmentLedLabel } from "/scripts/components/extended/segmentLedLabel.js";
 //import { circularProgressBar } from "/scripts/components/extended/circularProgressBar.js";

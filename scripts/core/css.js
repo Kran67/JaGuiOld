@@ -706,7 +706,7 @@ class Css {
     //    },
     static addCSSRule(selector, style) {
         if (selector !== "#") {
-            if (Tools.isNullOrpty(style)) {
+            if (String.isNullOrEmpty(style)) {
                 Core.rtStyle.sheet.insertRule([selector, "{}"].join(String.EMPTY), 0);
             } else {
                 Core.rtStyle.sheet.insertRule([selector, " {", style, "}"].join(String.EMPTY), 0);
