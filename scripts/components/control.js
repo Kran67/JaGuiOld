@@ -176,8 +176,8 @@ const Control = (() => {
                 this.beginUpdate();
                 this.left = newValue.left;
                 this.top = newValue.top;
-                priv.width = newValue.width;
-                priv.height = newValue.height;
+                this.width = newValue.width;
+                this.height = newValue.height;
                 this.endUpdate();
             }
         }

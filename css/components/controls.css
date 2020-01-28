@@ -33,15 +33,19 @@ canvas.Control {
     box-sizing: border-box;
 }
 
-/*div*/.Control,
-span.Control,
-jagui-label.Control,
-img.Control,
-svg.Control,
-input.Control,
-.Control.Button,
-canvas.Control {
-    padding: 0;
+    .Control,
+    span.Control,
+    jagui-label.Control,
+    img.Control,
+    svg.Control,
+    input.Control,
+    .Control.Button,
+    canvas.Control {
+        padding: 0;
+    }
+
+fieldset.Control {
+    padding: 0.625em 0.75em 0.75em 0.75em;
 }
 
 input.Control {

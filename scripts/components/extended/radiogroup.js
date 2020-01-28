@@ -64,12 +64,14 @@ const RadioGroup = (() => {
             if (!this.loading && !this.form.loading && this.items.length >= 0) {
                 if (htmlElement) {
                     buttonsPerCol = ~~((this.items.length + priv.columns - 1) / priv.columns);
-                    buttonWidth = ~~(~~(htmlElement.offsetWidth - 10) / this._columns);
-                    const i = htmlElement.offsetHeight - this.legendObj.offsetHeight - 10;
-                    buttonHeight = ~~(i / buttonsPerCol);
-                    topMargin = 16 + (~~(i % buttonsPerCol) / 2);
-                    this.items.forEach(item => {
-                        item.bounds = new Rect(~~(~~(i / buttonsPerCol) * buttonWidth + 8), ~~(i % buttonsPerCol * buttonHeight + topMargin), buttonWidth, buttonHeight);
+                    buttonWidth = ~~((htmlElement.offsetWidth - 10) / priv.columns);
+                    const h = htmlElement.offsetHeight - this.legendObj.offsetHeight - 10;
+                    buttonHeight = ~~(h / buttonsPerCol);
+                    topMargin = 16 + ~~(h % buttonsPerCol) / 2;
+                    this.items.forEach((item, i) => {
+                        const l = ~~(~~(i / buttonsPerCol) * buttonWidth + 8);
+                        const t = ~~(i % buttonsPerCol * buttonHeight + topMargin);
+                        item.bounds = new Rect(l, t, l + buttonWidth, t + buttonHeight);
                     });
                 }
             }
@@ -97,9 +99,6 @@ const RadioGroup = (() => {
                     } else if (obj.hasOwnProperty("isChecked")) {
                         item.isChecked = obj.isChecked;
                     }
-                    //const tpl = item.template;
-                    //this.insertTemplate(tpl);
-                    //item.getHTMLElement(item.internalId);
                     item.onClick.addListener(this.changeItemIndex);
                     this.items.push(item);
                 });
@@ -135,7 +134,7 @@ Core.classes.register(Types.CATEGORIES.EXTENDED, RadioGroup);
 //#region Templates
 if (Core.isHTMLRenderer) {
     const RadioGroupTpl = ["<fieldset id='{internalId}' data-class='RadioGroup' class='Control RadioGroup {theme}' style='width:185px;height:105px;'><properties>{ \"name\": \"{name}\", \"width\": 185, \"height\": 105 }</properties>",
-                   "<legend class='Control RadioGroupLegend carbon'>RadioGroup1</legend>",
+                   "<legend class='RadioGroupLegend carbon'>RadioGroup1</legend>",
                    "</fieldset>"].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: RadioGroup, template: RadioGroupTpl }]);
 }
