@@ -101,6 +101,19 @@ const ScrollControl = (() => {
             }
         }
         //#endregion mouseUp
+        destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            super.destroy();
+            priv.lastDelta.destroy();
+            priv.lastDelta = null;
+            priv.downPos.destroy();
+            priv.downPos = null;
+            priv.currentPos.destroy();
+            priv.currentPos = null;
+            priv.down = null;
+        }
         //#endregion Methods
     }
     return ScrollControl;
