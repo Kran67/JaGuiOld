@@ -8,16 +8,11 @@ class ScrollBox extends ScrollControl {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            this.hitTest.mouseWheel = true;
-            //this.mouseTracking = true;
-            this.stopEvent = false;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#endregion Getters / Setters
-    //#region Methods
-    //#endregion Methods
 }
 //#endregion ScrollBox
 Core.classes.register(Types.CATEGORIES.CONTAINERS, ScrollBox);
