@@ -269,3 +269,45 @@ input.carbon, textarea.carbon, button.carbon, .Control.carbon {
     background-color: rgba(246, 159, 45, 0.43);
     color: #EAEAEA;
 }
+
+.carbon::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.carbon::-webkit-scrollbar-track {
+    border-radius: 8px;
+    background-image: linear-gradient(to bottom,#303030 0,#606060 100%);
+}
+
+    .carbon::-webkit-scrollbar-track:vertical {
+        background-image: linear-gradient(to right,#303030 0,#606060 100%);
+    }
+
+.carbon::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-image: linear-gradient(to bottom,#F4BB40 0,#674704 100%);
+}
+
+    .carbon::-webkit-scrollbar-thumb:vertical {
+        background-image: linear-gradient(to right,#F4BB40 0,#674704 100%);
+    }
+
+    .carbon::-webkit-scrollbar-thumb:hover {
+        background-image: linear-gradient(to bottom,#F9DDA2 0,#674704 100%);
+    }
+
+    .carbon::-webkit-scrollbar-thumb:vertical:hover {
+        background-image: linear-gradient(to right,#F9DDA2 0,#674704 100%);
+    }
+
+.carbon::-webkit-scrollbar-corner {
+    background-color: #404040;
+}
+
+.carbon::-webkit-resizer:corner-present {
+}
+
+.carbon.thinScrollBars {
+    scrollbar-width: thin;
+}

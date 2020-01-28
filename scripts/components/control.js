@@ -1939,7 +1939,7 @@ const Control = (() => {
                         jsObj.mouseWheel();
                     }
                     forceStopEvent = true;
-                    event.preventDefault();
+                    jsObj.stopEvent?event.preventDefault():null;
                     break;
                 case MOUSEEVENTS.DBLCLICK:
                     if (activeWin.capturedControl) {

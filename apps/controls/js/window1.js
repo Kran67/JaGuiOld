@@ -27,7 +27,7 @@ import "/scripts/components/extended/anglebutton.js";
 import "/scripts/components/common/progressbar.js";
 //import { Slider } from "/scripts/components/common/slider.js";
 //import { ScrollBar } from "/scripts/components/common/scrollBar.js";
-//import { ScrollBox } from "/scripts/components/containers/scrollBox.js";
+import "/scripts/components/containers/scrollbox.js";
 //import { Expander } from "/scripts/components/containers/expander.js";
 //import { AlphaSlider } from "/scripts/components/color/alphaSlider.js";
 //import { BwSlider } from "/scripts/components/color/bwSlider.js";

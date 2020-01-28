@@ -23,13 +23,13 @@
     background-size: 100% 29px;
 }
 
-/*.carbon.Window */.carbon.WindowTitleBar {
+.carbon.WindowTitleBar {
     margin: 0;
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;
 }
 
-/*.carbon.Window */.carbon.WindowTitle {
+.carbon.WindowTitle {
     font-size: 10pt;
 }
 
@@ -45,22 +45,22 @@
     top: 1px;
 }
 
-/*.carbon.Window*/ .carbon.Button.WindowTitleButton {
+.carbon.Button.WindowTitleButton {
     border: none;
     box-shadow: inset 0 0 0 1px #222;
     border-radius: 50%;
     background-image: linear-gradient(to bottom, #505050, #303030);
 }
 
-/*.carbon.Window*/ .carbon.Button.WindowTitleButton:not(.disabled):hover {
+.carbon.Button.WindowTitleButton:not(.disabled):hover {
     background-image: linear-gradient(to bottom, #707070, #303030);
 }
 
-/*.carbon.Window*/ .carbon.Button.WindowTitleButton.pressed:not(.disabled) {
+.carbon.Button.WindowTitleButton.pressed:not(.disabled) {
     background-image: linear-gradient(to bottom, #404040, #303030);
 }
 
 .carbon.WindowContent {
     background-color: #505050;
-    overflow:hidden;
+    scrollbar-color:#F4BB40 #303030;
 }

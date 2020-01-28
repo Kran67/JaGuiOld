@@ -156,6 +156,7 @@
 .WindowContent {
     flex: 1;
     order: 4;
+    overflow: auto;
 }
 
 .Window.none .WindowContent {

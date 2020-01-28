@@ -1,8 +1,12 @@
-﻿div.ScrollBox {
+﻿.Control.ScrollBox {
     overflow: hidden;
 }
 
-div.ScrollBoxViewPort {
+.Control.ScrollBox:hover {
+    overflow: auto;
+}
+
+/*div.ScrollBoxViewPort {
     left: 0;
     top: 0;
     right: 0;
@@ -16,4 +20,4 @@ div.ScrollBoxContent {
     top: 0;
     min-height: 100%;
     min-width: 100%;
-}
+}*/

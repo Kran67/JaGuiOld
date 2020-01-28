@@ -569,6 +569,8 @@ class WindowContent extends ThemedControl {
             super(owner, props);
             //#region Public
             this.hitTest.mouseDown = true;
+            this.hitTest.mouseWheel = true;
+            this.stopEvent = false;
             //#endregion Public
         }
     }
