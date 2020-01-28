@@ -41,6 +41,13 @@ const GroupBox = (() => {
             }
         }
         //#endregion Constructor
+        //#region Getters / Setters
+        //#region legendObj
+        get legendObj() {
+            return internal(this).legendObj;
+        }
+        //#endregion legendObj
+        //#endregion Getters / Setters
         //#region Methods
         //#region doBitmapLoaded
         doBitmapLoaded() {

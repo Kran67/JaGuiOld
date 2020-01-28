@@ -1,70 +1,70 @@
 ﻿<!doctype html>
 <html>
-    <head>
-        <title>Window1</title>
-    </head>
-    <body>
-        <template>
-            <jagui-window id="_oNun9840" class="Control csr_default Window sizeable normal {theme} controls" data-class="Window1" data-buttons="6">
+<head>
+    <title>Window1</title>
+</head>
+<body>
+    <template>
+        <jagui-window id="_oNun9840" class="Control csr_default Window sizeable normal {theme} controls" data-class="Window1" data-buttons="6">
+            <properties>
+                { "name": "Window1", "borderStyle": "sizeable", "windowState":"maximized", "width": 640, "left":100,
+                "top":50, "height": 480, "onCloseQuery": "closeQuery",
+                "buttons": ["minimize", "maxRestore", "help", "rollUpDown", "stayOnOff"] }
+            </properties>
+            <jagui-windowlayout id="_ctpjpyi" data-class="Layout" class="Control Layout WindowLayout {theme}">
+                <jagui-windowtitlebar id="_oNun98d0" data-class="WindowTitleBar" class="Control WindowTitleBar {theme} WindowIcon logo">
+                    <jagui-windowtitle id="_oNun98l0" data-class="WindowTitle" class="WindowTitle {theme}">Window1</jagui-windowtitle>
+                    <jagui-windowstayonoffbutton id="_0vk2vwd" data-class="WindowStayOnOffButton"
+                                                 class="Control Button WindowTitleButton WindowStayOnOffButton {theme}"></jagui-windowstayonoffbutton>
+                    <jagui-windowrollupdownbutton id="_oNun98K" data-class="WindowRollUpDownButton"
+                                                  class="Control Button WindowTitleButton WindowRollUpDownButton {theme}"></jagui-windowrollupdownbutton>
+                    <jagui-windowhelpbutton id="_oNun98E" data-class="WindowHelpButton"
+                                            class="Control Button WindowTitleButton WindowHelpButton {theme}"></jagui-windowhelpbutton>
+                    <jagui-windowminimizebutton id="_oNun98t" data-class="WindowMinimizeButton"
+                                                class="Control Button WindowTitleButton WindowMinimizeButton {theme}"></jagui-windowminimizebutton>
+                    <jagui-windowmaxrestorebutton id="_oNun98x" data-class="WindowMaxRestoreButton"
+                                                  class="Control Button WindowTitleButton WindowMaxRestoreButton {theme}"></jagui-windowmaxrestorebutton>
+                    <jagui-windowclosebutton id="_oNun98p" data-class="WindowCloseButton"
+                                             class="Control Button WindowTitleButton WindowCloseButton {theme}"></jagui-windowclosebutton>
+                </jagui-windowtitlebar>
+                <!--<div id="_9tuaold" name="MainMenu1" data-class="MainMenu" class="Control ShortCutIcon MainMenu">
                 <properties>
-                    { "name": "Window1", "borderStyle": "sizeable", "windowState":"maximized", "width": 640, "left":100,
-                    "top":50, "height": 480, "onCloseQuery": "closeQuery",
-                    "buttons": ["minimize", "maxRestore", "help", "rollUpDown", "stayOnOff"] }
+                    { "images": "imageList1", "menus": [{"caption":"&File","shortcut":"Alt+F","enabled":true,"visible":true,"items":[ {"caption":"&New","shortcut":"Ctrl+N","enabled":true,"visible":true,"imageIndex":0,"items":[]},{"caption":"&Open","shortcut":"Ctrl+O","enabled":true,"visible":true,"imageIndex":1,"onClick":"alert('Open');","items":[]},{"caption":"-","shortcut":"Ctrl+O","enabled":true,"visible":true,"items":[]},{"caption":"&Save","shortcut":"Ctrl+S","enabled":true,"visible":true,"imageIndex":2,"items":[]},{"caption":"Save
+                    &As...","shortcut":"Ctrl+A","enabled":true,"visible":true,"imageIndex":3,"items":[]},{"caption":"-","shortcut":"Ctrl+O","enabled":true,"visible":true,"items":[]},
+                    {"caption":"O&thers","shortcut":"Ctrl+t","enabled":true,"visible":true,"imageIndex":4,"items":[{"caption":"New","shortcut":"","enabled":true,"visible":true,"items":[
+                    {"caption":"New","shortcut":"","enabled":true,"visible":true,"items":[]}]}, {"caption":"Save A&s...","shortcut":"Ctrl+s","enabled":true,"visible":true,"items":[]}
+                    ]}, {"caption":"-","shortcut":"Ctrl+O","enabled":true,"visible":true,"items":[]},{"caption":"&Quit","shortcut":"Ctrl+Q","enabled":true,"visible":true,"imageIndex":5,"onClick":"this.form.close()","items":[]}]},
+                    {"caption":"&Edit","shortcut":"Alt+E","enabled":true,"visible":true,"items":[ {"caption":"Undo","shortcut":"Ctrl+Z","enabled":true,"visible":true,"items":[]},{"caption":"Redo","shortcut":"Ctrl+Y","enabled":false,"visible":true,"items":[]},
+                    {"caption":"-","shortcut":"","enabled":true,"visible":true,"items":[]},{"caption":"Cut","shortcut":"Ctrl+X","enabled":true,"visible":true,"action":"EditCut1","items":[],"hint":"Cut|Cuts
+                    the selection and puts it on the Clipboard"}, {"caption":"Copy","shortcut":"Ctrl+C","enabled":true,"visible":true,"items":[]},
+                    {"caption":"Paste","shortcut":"Ctrl+V","enabled":true,"visible":true,"items":[]} ]}, {"caption":"&Themes","shortcut":"Alt+T","enabled":true,"visible":true,"items":[
+                    {name:"Mnu_Air","caption":"Air","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_Haiku","caption":"Haiku","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_Blend","caption":"Blend","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_{theme}","caption":"{theme}","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true,"isChecked":true},
+                    {name:"Mnu_ClearlooksBlue","caption":"Clearlooks Blue","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_Corona12","caption":"Corona12","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_Extreme","caption":"Extreme","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_GUIStyle","caption":"GUIStyle","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_LunaBlue","caption":"LunaBlue","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_LunaHomestead","caption":"LunaHomestead","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_LunaMetallic","caption":"LunaMetallic","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_MacOS","caption":"MacOS","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_Modern","caption":"Modern","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_Simple","caption":"Simple","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_Smoothgnome","caption":"SmoothGnome","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_Ubuntu","caption":"Ubuntu","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_Vista","caption":"Vista","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_Watercolor","caption":"WaterColor","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                    {name:"Mnu_Windows8","caption":"Windows8","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true}
+                    ]} ]}
                 </properties>
-                <jagui-windowlayout id="_ctpjpyi" data-class="Layout" class="Control Layout WindowLayout {theme}">
-                    <jagui-windowtitlebar id="_oNun98d0" data-class="WindowTitleBar" class="Control WindowTitleBar {theme} WindowIcon logo">
-                        <jagui-windowtitle id="_oNun98l0" data-class="WindowTitle" class="WindowTitle {theme}">Window1</jagui-windowtitle>
-                        <jagui-windowstayonoffbutton id="_0vk2vwd" data-class="WindowStayOnOffButton"
-                                class="Control Button WindowTitleButton WindowStayOnOffButton {theme}"></jagui-windowstayonoffbutton>
-                        <jagui-windowrollupdownbutton id="_oNun98K" data-class="WindowRollUpDownButton"
-                                class="Control Button WindowTitleButton WindowRollUpDownButton {theme}"></jagui-windowrollupdownbutton>
-                        <jagui-windowhelpbutton id="_oNun98E" data-class="WindowHelpButton"
-                                class="Control Button WindowTitleButton WindowHelpButton {theme}"></jagui-windowhelpbutton>
-                        <jagui-windowminimizebutton id="_oNun98t" data-class="WindowMinimizeButton"
-                                class="Control Button WindowTitleButton WindowMinimizeButton {theme}"></jagui-windowminimizebutton>
-                        <jagui-windowmaxrestorebutton id="_oNun98x" data-class="WindowMaxRestoreButton"
-                                class="Control Button WindowTitleButton WindowMaxRestoreButton {theme}"></jagui-windowmaxrestorebutton>
-                        <jagui-windowclosebutton id="_oNun98p" data-class="WindowCloseButton"
-                            class="Control Button WindowTitleButton WindowCloseButton {theme}"></jagui-windowclosebutton>
-                    </jagui-windowtitlebar>
-                    <!--<div id="_9tuaold" name="MainMenu1" data-class="MainMenu" class="Control ShortCutIcon MainMenu">
-                    <properties>
-                        { "images": "imageList1", "menus": [{"caption":"&File","shortcut":"Alt+F","enabled":true,"visible":true,"items":[ {"caption":"&New","shortcut":"Ctrl+N","enabled":true,"visible":true,"imageIndex":0,"items":[]},{"caption":"&Open","shortcut":"Ctrl+O","enabled":true,"visible":true,"imageIndex":1,"onClick":"alert('Open');","items":[]},{"caption":"-","shortcut":"Ctrl+O","enabled":true,"visible":true,"items":[]},{"caption":"&Save","shortcut":"Ctrl+S","enabled":true,"visible":true,"imageIndex":2,"items":[]},{"caption":"Save
-                        &As...","shortcut":"Ctrl+A","enabled":true,"visible":true,"imageIndex":3,"items":[]},{"caption":"-","shortcut":"Ctrl+O","enabled":true,"visible":true,"items":[]},
-                        {"caption":"O&thers","shortcut":"Ctrl+t","enabled":true,"visible":true,"imageIndex":4,"items":[{"caption":"New","shortcut":"","enabled":true,"visible":true,"items":[
-                        {"caption":"New","shortcut":"","enabled":true,"visible":true,"items":[]}]}, {"caption":"Save A&s...","shortcut":"Ctrl+s","enabled":true,"visible":true,"items":[]}
-                        ]}, {"caption":"-","shortcut":"Ctrl+O","enabled":true,"visible":true,"items":[]},{"caption":"&Quit","shortcut":"Ctrl+Q","enabled":true,"visible":true,"imageIndex":5,"onClick":"this.form.close()","items":[]}]},
-                        {"caption":"&Edit","shortcut":"Alt+E","enabled":true,"visible":true,"items":[ {"caption":"Undo","shortcut":"Ctrl+Z","enabled":true,"visible":true,"items":[]},{"caption":"Redo","shortcut":"Ctrl+Y","enabled":false,"visible":true,"items":[]},
-                        {"caption":"-","shortcut":"","enabled":true,"visible":true,"items":[]},{"caption":"Cut","shortcut":"Ctrl+X","enabled":true,"visible":true,"action":"EditCut1","items":[],"hint":"Cut|Cuts
-                        the selection and puts it on the Clipboard"}, {"caption":"Copy","shortcut":"Ctrl+C","enabled":true,"visible":true,"items":[]},
-                        {"caption":"Paste","shortcut":"Ctrl+V","enabled":true,"visible":true,"items":[]} ]}, {"caption":"&Themes","shortcut":"Alt+T","enabled":true,"visible":true,"items":[
-                        {name:"Mnu_Air","caption":"Air","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_Haiku","caption":"Haiku","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_Blend","caption":"Blend","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_{theme}","caption":"{theme}","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true,"isChecked":true},
-                        {name:"Mnu_ClearlooksBlue","caption":"Clearlooks Blue","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_Corona12","caption":"Corona12","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_Extreme","caption":"Extreme","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_GUIStyle","caption":"GUIStyle","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_LunaBlue","caption":"LunaBlue","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_LunaHomestead","caption":"LunaHomestead","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_LunaMetallic","caption":"LunaMetallic","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_MacOS","caption":"MacOS","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_Modern","caption":"Modern","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_Simple","caption":"Simple","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_Smoothgnome","caption":"SmoothGnome","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_Ubuntu","caption":"Ubuntu","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_Vista","caption":"Vista","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_Watercolor","caption":"WaterColor","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-                        {name:"Mnu_Windows8","caption":"Windows8","shortcut":"","enabled":false,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true}
-                        ]} ]}
-                    </properties>
-                    <div class="Control ShortCutIconImg mainMenu">
-                        <div class="Control ShortCutIconCaption">MainMenu1</div>
-                    </div>-->
-                    <!--{name:"Mnu_ProLCD","caption":"ProLCD","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
-            {name:"Mnu_Sustenance","caption":"Sustenance","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},-->
-                    <!--</div>
+                <div class="Control ShortCutIconImg mainMenu">
+                    <div class="Control ShortCutIconCaption">MainMenu1</div>
+                </div>-->
+                <!--{name:"Mnu_ProLCD","caption":"ProLCD","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
+                {name:"Mnu_Sustenance","caption":"Sustenance","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},-->
+                <!--</div>
                 <div id="_ou8mg7j" name="ToolBar1" data-class="ToolBar" class="Control ToolBar {theme} csr_default">
                     <button id="_kdw1y34" name="ToolButton1" data-class="ToolButton" class="Control ButtonGlyph ToolButton {theme} csr_default"
                         style="width: 70px;">
@@ -223,13 +223,15 @@
                         </div>
                     </div>
                 </div>-->
-                    <jagui-windowcontent id="_oNun9920" name="Window1_content" data-class="WindowContent"
-                        class="Control WindowContent {theme} csr_default"><properties>{ "popupmenu":"PopupMenu1" }</properties>
-                        <jagui-label id="_oPsKhiN0" data-class="Label" class="Control csr_default Label {theme} csr_default"><properties>{ "name": "Label1", "left": 900, "top": 410, "fontSize": 22.5, "onClick": "Label1_onClick", "showToolTip": true, "toolTip": "Click here to change font","textDecoration": { "underline": true, "overline": true, "lineThrough": true, "style": "wavy"}, "backColor": "#F00", "caption": "TEST" }</properties></jagui-label>
-                        <jagui-button id="_oNun99A0" draggable="true" data-class="Button" class="Control Button {theme} csr_default"><properties>{ "dragMode": "automatic", "onClick": "Button1_onClick", "toolTip": "Create 1 million of Listbox items in ListBox2", "showToolTip": true, "tabOrder": 0, "left": 10, "top": 10, "height": 19, "width": 68, "name": "Button1", "caption":"{theme}" }</properties></jagui-button>
-                        <jagui-button id="_oPsKhiT0" data-class="Button" class="Control Button {theme} csr_default"><properties>{ "name":"RoundButton1", "onClick": "RoundButton1_onClick", "tabOrder": 1, "left": 100, "top": 10, "height": 19, "width": 68, "borderRadius": 19, "caption": "Open file" }</properties></jagui-button>
-                        <jagui-circlebutton id="_oPsSjC20" data-class="CircleButton" class="Control Button CircleButton {theme} csr_default disabled">
-                            <properties>{ "name":"CircleButton1", "enabled": false, "wordWrap": true, "tabOrder": 2, "left": 200, "top": 10, "height": 48, "width": 48, "caption": "Circle Button" }</properties></jagui-circlebutton>
+                <jagui-windowcontent id="_oNun9920" name="Window1_content" data-class="WindowContent"
+                                     class="Control WindowContent {theme} csr_default">
+                    <properties>{ "popupmenu":"PopupMenu1" }</properties>
+                    <jagui-label id="_oPsKhiN0" data-class="Label" class="Control csr_default Label {theme} csr_default"><properties>{ "name": "Label1", "left": 900, "top": 410, "fontSize": 22.5, "onClick": "Label1_onClick", "showToolTip": true, "toolTip": "Click here to change font","textDecoration": { "underline": true, "overline": true, "lineThrough": true, "style": "wavy"}, "backColor": "#F00", "caption": "TEST" }</properties></jagui-label>
+                    <jagui-button id="_oNun99A0" draggable="true" data-class="Button" class="Control Button {theme} csr_default"><properties>{ "dragMode": "automatic", "onClick": "Button1_onClick", "toolTip": "Create 1 million of Listbox items in ListBox2", "showToolTip": true, "tabOrder": 0, "left": 10, "top": 10, "height": 19, "width": 68, "name": "Button1", "caption":"{theme}" }</properties></jagui-button>
+                    <jagui-button id="_oPsKhiT0" data-class="Button" class="Control Button {theme} csr_default"><properties>{ "name":"RoundButton1", "onClick": "RoundButton1_onClick", "tabOrder": 1, "left": 100, "top": 10, "height": 19, "width": 68, "borderRadius": 19, "caption": "Open file" }</properties></jagui-button>
+                    <jagui-circlebutton id="_oPsSjC20" data-class="CircleButton" class="Control Button CircleButton {theme} csr_default disabled">
+                        <properties>{ "name":"CircleButton1", "enabled": false, "wordWrap": true, "tabOrder": 2, "left": 200, "top": 10, "height": 48, "width": 48, "caption": "Circle Button" }</properties>
+                    </jagui-circlebutton>
                     <!--<div id="_qgeryk3" name="SplitButton1" data-class="SplitButton" class="Control SplitButton {theme} csr_default" style="left:10px;top:40px;height:21px;width:80px;">
                         <properties>{ "popupmenu": "PopupMenu1", "taborder": 3 }</properties>
                         <button id="_uz5k8xb" name="SplitButton_Btn" data-class="BitmapButton" class="Control ButtonGlyph BitmapButton {theme} csr_default">
@@ -242,26 +244,33 @@
                             <div class="Control PopupButtonArrow">8</div>
                         </button>
                     </div>-->
-                        <jagui-bitmapbutton id="_ins5crl" data-class="BitmapButton" class="Control Button ButtonGlyph BitmapButton {theme} csr_default"><properties>{ "name": "BitmapButton1", "tabOrder":4, "layout":"layoutLeft", "top": 10, "left": 280, "height": 58, "width": 98 }</properties><span class="Control ButtonCaption BitmapButtonCaption">BitmapButton</span><img width="32" height="32" alt="" src="images/duck.png" draggable="false" /></jagui-bitmapbutton>
-                        <jagui-bitmapbutton id="_ghyd6y8" data-class="BitmapButton" class="Control Button ButtonGlyph BitmapButton {theme} csr_default"><properties>{ "name":"BitmapButton2", "tabOrder": 5, "layout":"layoutRight", "top": 10, "left": 400, "height": 58, "width": 98 }</properties><span class="Control ButtonCaption BitmapButtonCaption">BitmapButton</span><img width="32" height="32" alt="" src="images/duck.png" draggable="false" /></jagui-bitmapbutton>
-                        <jagui-bitmapbutton id="_t62jno1" data-class="BitmapButton" class="Control Button ButtonGlyph BitmapButton {theme} csr_default"><properties>{ "name":"BitmapButton3", "tabOrder": 6, "layout":"layoutTop", "top": 10, "left": 520, "height": 58, "width": 98 }</properties><span class="Control ButtonCaption BitmapButtonCaption">BitmapButton</span><img width="32" height="32" alt="" src="images/duck.png" draggable="false" /></jagui-bitmapbutton>
-                        <jagui-bitmapbutton id="_g3ur4r2" data-class="BitmapButton" class="Control Button ButtonGlyph BitmapButton {theme} csr_default"><properties>{ "name":"BitmapButton4", "tabOrder": 7, "layout":"layoutBottom", "top": 10, "left": 640, "height": 58, "width": 98 }</properties><span class="Control ButtonCaption BitmapButtonCaption">BitmapButton</span><img width="32" height="32" alt="" src="images/duck.png" draggable="false" /></jagui-bitmapbutton>
+                    <jagui-bitmapbutton id="_ins5crl" data-class="BitmapButton" class="Control Button ButtonGlyph BitmapButton {theme} csr_default"><properties>{ "name": "BitmapButton1", "tabOrder":4, "layout":"layoutLeft", "top": 10, "left": 280, "height": 58, "width": 98 }</properties><span class="Control ButtonCaption BitmapButtonCaption">BitmapButton</span><img width="32" height="32" alt="" src="images/duck.png" draggable="false" /></jagui-bitmapbutton>
+                    <jagui-bitmapbutton id="_ghyd6y8" data-class="BitmapButton" class="Control Button ButtonGlyph BitmapButton {theme} csr_default"><properties>{ "name":"BitmapButton2", "tabOrder": 5, "layout":"layoutRight", "top": 10, "left": 400, "height": 58, "width": 98 }</properties><span class="Control ButtonCaption BitmapButtonCaption">BitmapButton</span><img width="32" height="32" alt="" src="images/duck.png" draggable="false" /></jagui-bitmapbutton>
+                    <jagui-bitmapbutton id="_t62jno1" data-class="BitmapButton" class="Control Button ButtonGlyph BitmapButton {theme} csr_default"><properties>{ "name":"BitmapButton3", "tabOrder": 6, "layout":"layoutTop", "top": 10, "left": 520, "height": 58, "width": 98 }</properties><span class="Control ButtonCaption BitmapButtonCaption">BitmapButton</span><img width="32" height="32" alt="" src="images/duck.png" draggable="false" /></jagui-bitmapbutton>
+                    <jagui-bitmapbutton id="_g3ur4r2" data-class="BitmapButton" class="Control Button ButtonGlyph BitmapButton {theme} csr_default"><properties>{ "name":"BitmapButton4", "tabOrder": 7, "layout":"layoutBottom", "top": 10, "left": 640, "height": 58, "width": 98 }</properties><span class="Control ButtonCaption BitmapButtonCaption">BitmapButton</span><img width="32" height="32" alt="" src="images/duck.png" draggable="false" /></jagui-bitmapbutton>
                     <jagui-pathbutton id="_k9uq7gb" data-class="PathButton" class="Control Button ButtonGlyph PathButton {theme} csr_default"><properties>{ "name":"PathButton1", "tabOrder": 8, "layout": "layoutLeft", "path": "TSAzNjkuNTYxLDMwOC40MDggQyAzNjkuNTYxLDMxNS42NzkgMzY0LjYzMCwzMjEuODg2IDM1NC43NjQsMzI3LjAyMiBMIDM1NC43NjQsMzI3LjAyMiBDIDM0NC44OTgsMzMyLjE2MiAzMzIuOTc0LDMzNC43MzAgMzE4Ljk5NiwzMzQuNzI3IEwgMzE4Ljk5NiwzMzQuNzI3IEMgMzEyLjI0OSwzMzQuNzMwIDMwNS43OTcsMzM0LjA0OCAyOTkuNjMzLDMzMi42ODYgTCAyOTkuNjMzLDMzMi42ODYgQyAyOTkuMjY3LDMzNi41OTMgMjk2LjgwNywzMzkuODI2IDI5Mi4yNTEsMzQyLjM4NCBMIDI5Mi4yNTEsMzQyLjM4NCBDIDI4Ny42OTYsMzQ0Ljk0NSAyODIuMzU1LDM0Ni4yMjEgMjc2LjIzMiwzNDYuMjIxIEwgMjc2LjIzMiwzNDYuMjIxIEMgMjcyLjM2MSwzNDYuMjIxIDI2OS4wNDEsMzQ0LjY1MCAyNjYuMjc1LDM0MS40OTQgTCAyNjYuMjc1LDM0MS40OTQgQyAyNzAuOTk5LDM0MS4xMDUgMjc0Ljg1MiwzMzkuNzA4IDI3Ny44NDAsMzM3LjMwOCBMIDI3Ny44NDAsMzM3LjMwOCBDIDI4MC44MjgsMzM0LjkxMSAyODIuMzE4LDMzMS44NDYgMjgyLjMxOCwzMjguMTIwIEwgMjgyLjMxOCwzMjguMTIwIEMgMjgyLjMxOCwzMjcuNTQ5IDI4Mi4yODEsMzI2Ljk3OSAyODIuMjA3LDMyNi40MDEgTCAyODIuMjA3LDMyNi40MDEgQyAyNzMuMDYzLDMyMS4zNTYgMjY4LjQ4OCwzMTUuMzU3IDI2OC40ODgsMzA4LjQwOCBMIDI2OC40ODgsMzA4LjQwOCBDIDI2OC40ODgsMzAxLjE0NCAyNzMuNDIyLDI5NC45NTAgMjgzLjI4OCwyODkuODI4IEwgMjgzLjI4OCwyODkuODI4IEMgMjkzLjE1NCwyODQuNzA4IDMwNS4wNTgsMjgyLjE0NyAzMTguOTk2LDI4Mi4xNDQgTCAzMTguOTk2LDI4Mi4xNDQgQyAzMzIuOTc0LDI4Mi4xNDcgMzQ0Ljg5OCwyODQuNzA4IDM1NC43NjQsMjg5LjgyOCBMIDM1NC43NjQsMjg5LjgyOCBDIDM2NC42MzAsMjk0Ljk1MCAzNjkuNTYxLDMwMS4xNDQgMzY5LjU2MSwzMDguNDA4IEwgMzY5LjU2MSwzMDguNDA4IFo=", "top": 90, "left": 280, "height": 58, "width": 98, "caption": "PathButton" }</properties><span class="Control ButtonCaption PathButtonCaption includeCaption"></span><canvas width="32" height="32"></canvas></jagui-pathbutton>
                     <jagui-pathbutton id="_nszmr4a" data-class="PathButton" class="Control Button ButtonGlyph PathButton {theme} csr_default"><properties>{ "name":"PathButton2", "tabOrder": 9, "layout": "layoutRight", "path": "TSAzNDIuMjMzLDMzMi40MTcgQyAzNDIuMjMzLDMzOC41ODAgMzM5Ljk4NCwzNDMuODQ0IDMzNS40ODUsMzQ4LjIwOCBMIDMzNS40ODUsMzQ4LjIwOCBDIDMzMC45ODcsMzUyLjU3OSAzMjUuNTYyLDM1NC43NjEgMzE5LjIxOCwzNTQuNzYxIEwgMzE5LjIxOCwzNTQuNzYxIEMgMzEyLjgzOSwzNTQuNzYxIDMwNy40MDgsMzUyLjU3OSAzMDIuOTI2LDM0OC4yMDggTCAzMDIuOTI2LDM0OC4yMDggQyAyOTguNDQ4LDM0My44NDQgMjk2LjIwNiwzMzguNTgwIDI5Ni4yMDYsMzMyLjQxNyBMIDI5Ni4yMDYsMzMyLjQxNyBDIDI5Ni4yMDYsMzI3LjYyMyAyOTcuNjI2LDMyMy4zMTAgMzAwLjQ2NiwzMTkuNDc2IEwgMzAwLjQ2NiwzMTkuNDc2IEMgMzAzLjMwNiwzMTUuNjQ2IDMwNi45NzUsMzEyLjk0MCAzMTEuNDczLDMxMS4zNjIgTCAzMTEuNDczLDMxMS4zNjIgQyAzMDkuODUyLDMwOS41NzYgMzA5LjA1OSwzMDcuMzU0IDMwOS4wOTYsMzA0LjcwMiBMIDMwOS4wOTYsMzA0LjcwMiBDIDMwNS40MTAsMzAzLjg0NiAzMDIuNTUwLDMwMS44MTUgMzAwLjUyMywyOTguNjA5IEwgMzAwLjUyMywyOTguNjA5IEMgMjk4LjQ5NSwyOTUuNDA3IDI5Ny40NzgsMjkxLjM4NSAyOTcuNDc4LDI4Ni41NDggTCAyOTcuNDc4LDI4Ni41NDggTCAyOTcuNDc4LDI2Ni4wMzAgTCAzNDAuOTYwLDI2Ni4wMzAgTCAzNDAuOTYwLDI4Ni41NDggQyAzNDAuOTYwLDI5Ny4wNDIgMzM2Ljk1OSwzMDMuMDU3IDMyOC45NTYsMzA0LjU5NSBMIDMyOC45NTYsMzA0LjU5NSBMIDMyOC45NTYsMzA0Ljc1NiBDIDMyOC43NzEsMzA3LjQwOCAzMjcuOTQyLDMwOS41NTYgMzI2LjQ2NSwzMTEuMjAxIEwgMzI2LjQ2NSwzMTEuMjAxIEMgMzMxLjExNSwzMTIuNzA4IDMzNC44NzgsMzE1LjM3NyAzMzcuNzUxLDMxOS4yMDQgTCAzMzcuNzUxLDMxOS4yMDQgQyAzNDAuNzM5LDMyMy4xNDUgMzQyLjIzMywzMjcuNTQ5IDM0Mi4yMzMsMzMyLjQxNyBMIDM0Mi4yMzMsMzMyLjQxNyBaIE0gMzI0LjgwNywzMDIuNjA3IEwgMzI0LjgwNywyNjcuMzczIEwgMzEzLjUyMSwyNjcuMzczIEwgMzEzLjUyMSwzMDIuNjA3IFogTSAzMjYuNzQ0LDMwNC45MTcgQyAzMjUuNjM2LDMwNS4wMjggMzI0LjQ1OCwzMDUuMDgxIDMyMy4yMDIsMzA1LjA3OCBMIDMyMy4yMDIsMzA1LjA3OCBMIDMxMi45NjcsMzA1LjA3OCBDIDMxMi40MTYsMzA1LjA4MSAzMTEuODc5LDMwNS4wNjUgMzExLjM2MiwzMDUuMDI0IEwgMzExLjM2MiwzMDUuMDI0IEMgMzExLjQ3NiwzMDcuNTY5IDMxMi4zMDYsMzA5LjQ0OSAzMTMuODUzLDMxMC42NjQgTCAzMTMuODUzLDMxMC42NjQgQyAzMTUuNjI2LDMxMC4yNzUgMzE3LjQxMSwzMTAuMDc3IDMxOS4yMTgsMzEwLjA3MyBMIDMxOS4yMTgsMzEwLjA3MyBDIDMyMC44NDIsMzEwLjA3NyAzMjIuNDMwLDMxMC4yMzggMzIzLjk3OCwzMTAuNTU3IEwgMzIzLjk3OCwzMTAuNTU3IEMgMzI1LjU2MiwzMDkuMzA4IDMyNi40ODUsMzA3LjQyOCAzMjYuNzQ0LDMwNC45MTcgTCAzMjYuNzQ0LDMwNC45MTcgWiBNIDMzOS40MTMsMzMyLjY4NiBMIDMzNC41NDIsMzI5LjY3OCBMIDMzNy44NjIsMzI1LjA1OSBMIDMzMi4xNjUsMzI0LjE0NiBMIDMzMy40MzgsMzE4LjYxMyBMIDMyNy42ODQsMzE5LjkwMiBMIDMyNi43OTcsMzE0LjM3MCBMIDMyMi4wNDEsMzE3LjY0NiBMIDMxOC45NDIsMzEyLjgxMyBMIDMxNS45MDEsMzE3Ljc1NCBMIDMxMS4xNDEsMzE0LjM3MCBMIDMxMC4zMTIsMzIwLjA2MyBMIDMwNC41MDQsMzE4LjYxMyBMIDMwNi4wNTIsMzI0LjE5OSBMIDMwMC4wNzYsMzI1LjA1OSBMIDMwMy43MjksMzI5LjczMSBMIDI5OC41MjksMzMyLjY4NiBMIDMwMy43MjksMzM1LjU4NiBMIDMwMC4wNzYsMzQwLjI1OSBMIDMwNS45OTgsMzQxLjA2NCBMIDMwNC41MDQsMzQ2LjcwNCBMIDMxMC4yNTgsMzQ1LjI1NCBMIDMxMS4xNDEsMzUxLjA1NSBMIDMxNS44NDQsMzQ3LjU2MyBMIDMxOC45NDIsMzUyLjUwNSBMIDMyMS45ODQsMzQ3LjY3MSBMIDMyNi43OTcsMzUxLjA1NSBMIDMyNy43MzcsMzQ1LjQxNSBMIDMzMy40MzgsMzQ2LjcwNCBMIDMzMi4xMDgsMzQxLjIyNiBMIDMzNy44NjIsMzQwLjI1OSBMIDMzNC40ODgsMzM1LjY5MyBa", "top": 90, "left": 400, "height": 58, "width": 98, "caption": "PathButton" }</properties><span class="Control ButtonCaption PathButtonCaption includeCaption"></span><canvas width="32" height="32"></canvas></jagui-pathbutton>
-                        <jagui-pathbutton id="_sfmj8p1" data-class="PathButton" class="Control Button ButtonGlyph PathButton {theme} csr_default"><properties>{ "name":"PathButton3", "tabOrder": 10, "layout": "layoutTop", "path": "TSAzNzYuNzU1LDMwMi42NjEgTCAzNzAuMzM3LDMwNC43MDIgQyAzNjUuNjkxLDMxMy4wMTQgMzYxLjg3NCwzMjEuNTM0IDM1OC44ODYsMzMwLjI2OSBMIDM1OC44ODYsMzMwLjI2OSBDIDM1Ni4wMTAsMzM4LjYxNCAzNTMuNTM5LDM0OC4xNzQgMzUxLjQ3MSwzNTguOTUwIEwgMzUxLjQ3MSwzNTguOTUwIEwgMzU1Ljk1MiwzNjQuOTEyIEwgMzUzLjQwOCwzNjYuNzM4IEwgMzUwLjA4OCwzNjIuMzM0IEMgMzM5Ljk4NCwzNjAuNTA4IDMyOS45MzYsMzU5LjU5NSAzMTkuOTM5LDM1OS41OTUgTCAzMTkuOTM5LDM1OS41OTUgQyAzMDkuOTgzLDM1OS41OTUgMjk5Ljk0OSwzNjAuNTA4IDI4OS44NDQsMzYyLjMzNCBMIDI4OS44NDQsMzYyLjMzNCBMIDI4Ni41MjQsMzY2LjczOCBMIDI4My45ODAsMzY0LjkxMiBMIDI4OC40NjEsMzU4Ljk1MCBDIDI4Ni4zOTcsMzQ4LjE3NCAyODMuOTI2LDMzOC42MTQgMjgxLjA0NiwzMzAuMjY5IEwgMjgxLjA0NiwzMzAuMjY5IEMgMjc4LjA1OCwzMjEuNTM0IDI3NC4yNDEsMzEzLjAxNCAyNjkuNTk1LDMwNC43MDIgTCAyNjkuNTk1LDMwNC43MDIgTCAyNjMuMTc3LDMwMi42NjEgTCAyNjQuMTc0LDI5OS43NjEgTCAyNzAuMzcxLDMwMS42OTQgQyAyODAuMzY4LDI5Ni4zOTcgMjg5LjA1MiwyOTEuMTE3IDI5Ni40MjcsMjg1Ljg1MCBMIDI5Ni40MjcsMjg1Ljg1MCBDIDMwNC4zMTksMjgwLjE5NyAzMTEuNjQxLDI3My44NzUgMzE4LjM4OCwyNjYuODkwIEwgMzE4LjM4OCwyNjYuODkwIEwgMzE4LjM4OCwyNjEuMDg5IEwgMzIxLjU0NCwyNjEuMDg5IEwgMzIxLjU0NCwyNjYuODkwIEMgMzI4LjI5MSwyNzMuODc1IDMzNS42MTMsMjgwLjE5NyAzNDMuNTA1LDI4NS44NTAgTCAzNDMuNTA1LDI4NS44NTAgQyAzNTAuODgzLDI5MS4xMTcgMzU5LjU4OCwyOTYuMzk3IDM2OS42MTksMzAxLjY5NCBMIDM2OS42MTksMzAxLjY5NCBMIDM3NS43NTgsMjk5Ljc2MSBaIE0gMzY1LjY5MSwzMDIuOTMwIEMgMzU2Ljc2NSwyOTguMjQzIDM0OC42ODgsMjkzLjMzNiAzNDEuNDU3LDI4OC4yMTMgTCAzNDEuNDU3LDI4OC4yMTMgQyAzMzQuODU3LDI4My41NjAgMzI4LjIxNywyNzcuOTA0IDMyMS41NDQsMjcxLjI0MCBMIDMyMS41NDQsMjcxLjI0MCBMIDMyMS41NDQsMjgzLjE2NCBDIDMyNC42NDIsMjg2LjUzNCAzMjkuNzY4LDI5MC43NzggMzM2LjkyMiwyOTUuODk0IEwgMzM2LjkyMiwyOTUuODk0IEMgMzQzLjU2MiwzMDAuNjYwIDM0OS4zNTMsMzA0LjIwNSAzNTQuMjk0LDMwNi41MjggTCAzNTQuMjk0LDMwNi41MjggWiBNIDM1MC4yNTYsMzA3LjgxNyBDIDM0Ni4wNTMsMzA1Ljc0MyAzNDAuOTA3LDMwMi41NTcgMzM0LjgyMSwyOTguMjU3IEwgMzM0LjgyMSwyOTguMjU3IEMgMzI5LjI4OCwyOTQuMzU2IDMyNC44NjQsMjkwLjc3OCAzMjEuNTQ0LDI4Ny41MTUgTCAzMjEuNTQ0LDI4Ny41MTUgTCAzMjEuNTQ0LDI5Ny41NTkgQyAzMjQuMDg4LDMwMC40MjUgMzI2LjkxMiwzMDIuOTcwIDMzMC4wMDcsMzA1LjE4OSBMIDMzMC4wMDcsMzA1LjE4OSBDIDMzMy4xMDUsMzA3LjQxMSAzMzYuMzE0LDMwOS4zOTUgMzM5LjYzNCwzMTEuMTQ3IEwgMzM5LjYzNCwzMTEuMTQ3IFogTSAzNjYuMDc3LDMwNi4wNDUgTCAzNTQuNDA1LDMwOS42OTcgQyAzNTIuMTE5LDMxMy43MTIgMzQ5LjY0OCwzMTkuNTgzIDM0Ni45ODksMzI3LjMxNCBMIDM0Ni45ODksMzI3LjMxNCBDIDM0NC40NDUsMzM0LjczMCAzNDIuNzg3LDM0MS4wNTEgMzQyLjAxMSwzNDYuMjc0IEwgMzQyLjAxMSwzNDYuMjc0IEwgMzQ5LjAzNywzNTUuNjc0IEMgMzUwLjg4MywzNDYuMTEzIDM1My4xNzAsMzM3LjI1NCAzNTUuODk5LDMyOS4wODcgTCAzNTUuODk5LDMyOS4wODcgQyAzNTguMzY5LDMyMS43ODYgMzYxLjc2MywzMTQuMTA1IDM2Ni4wNzcsMzA2LjA0NSBMIDM2Ni4wNzcsMzA2LjA0NSBaIE0gMzM1Ljc2MCwzMTIuMzgzIEMgMzMyLjg4NCwzMTAuODEyIDMzMC4yNjUsMzA5LjIwMCAzMjcuOTA1LDMwNy41NDkgTCAzMjcuOTA1LDMwNy41NDkgQyAzMjUuOTE1LDMwNi4xOTMgMzIzLjc5MywzMDQuMzQ2IDMyMS41NDQsMzAyLjAxNyBMIDMyMS41NDQsMzAyLjAxNyBMIDMyMS41NDQsMzE2Ljg0MSBaIE0gMzUwLjE5OSwzMTEuMDQwIEwgMzQwLjI0MiwzMTQuMjA5IEMgMzM2LjkyNSwzMTkuNzYxIDMzNC40ODgsMzI2LjQyMiAzMzIuOTM3LDMzNC4xODkgTCAzMzIuOTM3LDMzNC4xODkgTCAzMzkuNTI0LDM0Mi45NDQgQyAzNDAuMjYyLDMzOC40NzMgMzQxLjc1MywzMzIuODY3IDM0NC4wMDIsMzI2LjEzMyBMIDM0NC4wMDIsMzI2LjEzMyBDIDM0Ni4wMzMsMzIwLjEyMSAzNDguMDk3LDMxNS4wODkgMzUwLjE5OSwzMTEuMDQwIEwgMzUwLjE5OSwzMTEuMDQwIFogTSAzMTguMzg4LDI4My4xNjQgTCAzMTguMzg4LDI3MS4yNDAgQyAzMTEuNzE1LDI3Ny45MDQgMzA1LjA5NSwyODMuNTYwIDI5OC41MjksMjg4LjIxMyBMIDI5OC41MjksMjg4LjIxMyBDIDI5MS4yNjQsMjkzLjMzNiAyODMuMTg4LDI5OC4yNDMgMjc0LjI5OCwzMDIuOTMwIEwgMjc0LjI5OCwzMDIuOTMwIEwgMjg1LjYzOCwzMDYuNTI4IEMgMjkwLjU4MCwzMDQuMjA1IDI5Ni4zNzAsMzAwLjY2MCAzMDMuMDEwLDI5NS44OTQgTCAzMDMuMDEwLDI5NS44OTQgQyAzMTAuMTY3LDI5MC43NzggMzE1LjI5MywyODYuNTM0IDMxOC4zODgsMjgzLjE2NCBMIDMxOC4zODgsMjgzLjE2NCBaIE0gMzM1LjkyNSwzMTUuNTUyIEwgMzIyLjIwNSwzMTkuODQ5IEwgMzMwLjU2MSwzMzEuMDIxIEMgMzMxLjIyNSwzMjguMDE2IDMzMS45NjAsMzI1LjIwNiAzMzIuNzczLDMyMi41ODggTCAzMzIuNzczLDMyMi41ODggQyAzMzMuNDc0LDMyMC40ODAgMzM0LjUyNSwzMTguMTMzIDMzNS45MjUsMzE1LjU1MiBMIDMzNS45MjUsMzE1LjU1MiBaIE0gMzE4LjM4OCwyOTcuNTU5IEwgMzE4LjM4OCwyODcuNTE1IEMgMzE1LjA3MiwyOTAuNzc4IDMxMC42NDQsMjk0LjM1NiAzMDUuMTEyLDI5OC4yNTcgTCAzMDUuMTEyLDI5OC4yNTcgQyAyOTkuMDI5LDMwMi41NTcgMjkzLjg4MywzMDUuNzQzIDI4OS42NzcsMzA3LjgxNyBMIDI4OS42NzcsMzA3LjgxNyBMIDMwMC4yOTgsMzExLjE0NyBDIDMwMy42MTgsMzA5LjM5NSAzMDYuODI3LDMwNy40MTEgMzA5LjkyNiwzMDUuMTg5IEwgMzA5LjkyNiwzMDUuMTg5IEMgMzEzLjAyNCwzMDIuOTcwIDMxNS44NDQsMzAwLjQyNSAzMTguMzg4LDI5Ny41NTkgTCAzMTguMzg4LDI5Ny41NTkgWiBNIDMxOC4zODgsMzE2Ljg0MSBMIDMxOC4zODgsMzAyLjAxNyBDIDMxNi4xMzksMzA0LjM0NiAzMTQuMDIxLDMwNi4xOTMgMzEyLjAyNywzMDcuNTQ5IEwgMzEyLjAyNywzMDcuNTQ5IEMgMzA5LjY2NywzMDkuMjAwIDMwNy4wNDksMzEwLjgxMiAzMDQuMTcyLDMxMi4zODMgTCAzMDQuMTcyLDMxMi4zODMgWiBNIDMyOC43ODgsMzMzLjkyMSBMIDMxOS45OTMsMzIyLjE1OCBMIDMxMS4xNDEsMzMzLjkyMSBDIDMxNC4zNTAsMzMzLjQyNCAzMTcuMjg0LDMzMy4xNzIgMzE5LjkzOSwzMzMuMTY5IEwgMzE5LjkzOSwzMzMuMTY5IEMgMzIyLjU5NSwzMzMuMTcyIDMyNS41NDUsMzMzLjQyNCAzMjguNzg4LDMzMy45MjEgTCAzMjguNzg4LDMzMy45MjEgWiBNIDMxNy43MjQsMzE5Ljg0OSBMIDMwNC4wMDQsMzE1LjU1MiBDIDMwNS40MDcsMzE4LjEzMyAzMDYuNDYxLDMyMC40ODAgMzA3LjE1OSwzMjIuNTg4IEwgMzA3LjE1OSwzMjIuNTg4IEMgMzA3Ljk3MiwzMjUuMjA2IDMwOC43MDcsMzI4LjAxNiAzMDkuMzcyLDMzMS4wMjEgTCAzMDkuMzcyLDMzMS4wMjEgWiBNIDMzNy42NDAsMzQ1LjY4NCBMIDMzMS40NDMsMzM3LjQ2NiBDIDMyNy42MTAsMzM2LjY4MCAzMjMuNzkzLDMzNi4yODggMzE5Ljk5MywzMzYuMjg0IEwgMzE5Ljk5MywzMzYuMjg0IEMgMzE2LjE1OSwzMzYuMjg4IDMxMi4zMjIsMzM2LjY4MCAzMDguNDg1LDMzNy40NjYgTCAzMDguNDg1LDMzNy40NjYgTCAzMDIuMzQ2LDM0NS42ODQgQyAzMDcuMjEzLDM0NC45NzIgMzEzLjA3OCwzNDQuNjEzIDMxOS45MzksMzQ0LjYwOSBMIDMxOS45MzksMzQ0LjYwOSBDIDMyNi44MzQsMzQ0LjYxMyAzMzIuNzM2LDM0NC45NzIgMzM3LjY0MCwzNDUuNjg0IEwgMzM3LjY0MCwzNDUuNjg0IFogTSAzMDYuOTkyLDMzNC4xODkgQyAzMDYuMjkzLDMzMC42ODUgMzA1LjM1MywzMjcuMjEwIDMwNC4xNzIsMzIzLjc3MCBMIDMwNC4xNzIsMzIzLjc3MCBDIDMwMy4wNjQsMzIwLjUxMyAzMDEuNTcwLDMxNy4zMjggMjk5LjY5MCwzMTQuMjA5IEwgMjk5LjY5MCwzMTQuMjA5IEwgMjg5LjczNCwzMTEuMDQwIEMgMjkxLjgzNSwzMTUuMDg5IDI5My45MDAsMzIwLjEyMSAyOTUuOTI3LDMyNi4xMzMgTCAyOTUuOTI3LDMyNi4xMzMgQyAyOTguMTgwLDMzMi44NjcgMjk5LjY3MywzMzguNDczIDMwMC40MDksMzQyLjk0NCBMIDMwMC40MDksMzQyLjk0NCBaIE0gMzQ3LjQ5MCwzNTguODQzIEwgMzQwLjI0MiwzNDkuMTc1IEMgMzM1LjI2NCwzNDguMjA4IDMyOC41MTMsMzQ3LjcyNSAzMTkuOTkzLDM0Ny43MjUgTCAzMTkuOTkzLDM0Ny43MjUgQyAzMTEuNDQwLDM0Ny43MjUgMzA0LjY3MiwzNDguMjA4IDI5OS42OTAsMzQ5LjE3NSBMIDI5OS42OTAsMzQ5LjE3NSBMIDI5Mi41MDAsMzU4Ljg0MyBDIDMwMi4yMDEsMzU3LjMwNSAzMTEuMzQ2LDM1Ni41MzMgMzE5LjkzOSwzNTYuNTMzIEwgMzE5LjkzOSwzNTYuNTMzIEMgMzI4LjU3MCwzNTYuNTMzIDMzNy43NTUsMzU3LjMwNSAzNDcuNDkwLDM1OC44NDMgTCAzNDcuNDkwLDM1OC44NDMgWiBNIDI5Ny45MjEsMzQ2LjI3NCBDIDI5Ny4xNDksMzQxLjA1MSAyOTUuNDg3LDMzNC43MzAgMjkyLjkzOSwzMjcuMzE0IEwgMjkyLjkzOSwzMjcuMzE0IEMgMjkwLjI4NywzMTkuNTgzIDI4Ny44MTcsMzEzLjcxMiAyODUuNTI3LDMwOS42OTcgTCAyODUuNTI3LDMwOS42OTcgTCAyNzMuODU1LDMwNi4wNDUgQyAyNzguMTcyLDMxNC4xMDUgMjgxLjU2MywzMjEuNzg2IDI4NC4wMzQsMzI5LjA4NyBMIDI4NC4wMzQsMzI5LjA4NyBDIDI4Ni43NjYsMzM3LjI1NCAyODkuMDUyLDM0Ni4xMTMgMjkwLjg5NSwzNTUuNjc0IEwgMjkwLjg5NSwzNTUuNjc0IFo", "top": 90, "left": 520, "height": 58, "width": 98, "caption": "PathButton" }</properties><span class="Control ButtonCaption PathButtonCaption includeCaption"></span><canvas width="32" height="32" class=""></canvas></jagui-pathbutton>
-                        <jagui-pathbutton id="_rhftqrd" data-class="PathButton" class="Control Button ButtonGlyph PathButton {theme} csr_default"><properties>{ "name":"PathButton4", "tabOrder": 11, "layout": "layoutBottom", "path": "TSAzNTcuNjY4LDMyMi44MDMgQyAzNTcuNjY4LDMyNy4zMTggMzU1LjgyNSwzMzMuMzg3IDM1Mi4xMzYsMzQxLjAxMSBMIDM1Mi4xMzYsMzQxLjAxMSBDIDM0OS4wMDAsMzQ3LjQ5MyAzNDUuNjI3LDM1My4wNjIgMzQyLjAxMSwzNTcuNzE1IEwgMzQyLjAxMSwzNTcuNzE1IEMgMzQ3Ljk1MCwzNDAuMTM4IDM1MC45MTcsMzI5LjU5MCAzNTAuOTE3LDMyNi4wNzkgTCAzNTAuOTE3LDMyNi4wNzkgQyAzNTAuOTE3LDMyNS4wMDggMzUwLjc3MywzMjQuMjAzIDM1MC40NzcsMzIzLjY2MiBMIDM1MC40NzcsMzIzLjY2MiBDIDM0OS44MTMsMzIyLjUyMSAzNDcuMDY3LDMyMS4yODUgMzQyLjIzMywzMTkuOTU2IEwgMzQyLjIzMywzMTkuOTU2IEMgMzQzLjAwOCwzMjEuNTAwIDM0My4zOTQsMzIyLjkzMCAzNDMuMzk0LDMyNC4yNTMgTCAzNDMuMzk0LDMyNC4yNTMgQyAzNDMuMzk0LDMzMi41NjUgMzM5LjUwMywzNDIuNzMzIDMzMS43MjIsMzU0Ljc2MSBMIDMzMS43MjIsMzU0Ljc2MSBDIDMzMi45NDEsMzQ5Ljk2NCAzMzQuMTM5LDM0NS4xNTAgMzM1LjMxNywzNDAuMzEzIEwgMzM1LjMxNywzNDAuMzEzIEMgMzM2LjY4NCwzMzQuMjMwIDMzNy4zNjUsMzI5LjM5NiAzMzcuMzY1LDMyNS44MTEgTCAzMzcuMzY1LDMyNS44MTEgQyAzMzcuMzY1LDMyMy4xMjggMzM3LjAxNiwzMjEuMjg1IDMzNi4zMTQsMzIwLjI3OCBMIDMzNi4zMTQsMzIwLjI3OCBDIDMzNS42OTAsMzE5LjM4NSAzMzQuMDI4LDMxOC4yNTcgMzMxLjMzNiwzMTYuODk1IEwgMzMxLjMzNiwzMTYuODk1IEMgMzMxLjc0MiwzMTkuMTkxIDMzMS45NDQsMzIxLjY5NSAzMzEuOTQ0LDMyNC40MTQgTCAzMzEuOTQ0LDMyNC40MTQgQyAzMzEuOTQ0LDMyNy43MTEgMzMxLjU0MSwzMzAuOTM3IDMzMC43MjgsMzM0LjA4NSBMIDMzMC43MjgsMzM0LjA4NSBDIDMyOS45MTYsMzM3LjIzOCAzMjguNzAxLDM0MC4yNjIgMzI3LjA3NiwzNDMuMTU5IEwgMzI3LjA3NiwzNDMuMTU5IEMgMzI0Ljc5MCwzNDcuMTM0IDMyMi40NDcsMzQ5LjEyMSAzMjAuMDUwLDM0OS4xMjEgTCAzMjAuMDUwLDM0OS4xMjEgQyAzMTcuNjE2LDM0OS4xMjEgMzE1LjI1NiwzNDcuMTM0IDMxMi45NjcsMzQzLjE1OSBMIDMxMi45NjcsMzQzLjE1OSBDIDMxMS4zMDksMzQwLjI2MiAzMTAuMDczLDMzNy4yMzggMzA5LjI2MSwzMzQuMDg1IEwgMzA5LjI2MSwzMzQuMDg1IEMgMzA4LjQ0OCwzMzAuOTM3IDMwOC4wNDIsMzI3LjcxMSAzMDguMDQyLDMyNC40MTQgTCAzMDguMDQyLDMyNC40MTQgQyAzMDguMDQyLDMyMS42OTUgMzA4LjIyNywzMTkuMTkxIDMwOC41OTYsMzE2Ljg5NSBMIDMwOC41OTYsMzE2Ljg5NSBDIDMwNS45MDQsMzE4LjI1NyAzMDQuMjQ2LDMxOS4zODUgMzAzLjYxOCwzMjAuMjc4IEwgMzAzLjYxOCwzMjAuMjc4IEMgMzAyLjkyMCwzMjEuMjg1IDMwMi41NjcsMzIzLjEyOCAzMDIuNTY3LDMyNS44MTEgTCAzMDIuNTY3LDMyNS44MTEgQyAzMDIuNTY3LDMyOS4zOTYgMzAzLjI1MiwzMzQuMjMwIDMwNC42MTUsMzQwLjMxMyBMIDMwNC42MTUsMzQwLjMxMyBDIDMwNS44MzMsMzQ1LjE1MCAzMDcuMDMyLDM0OS45NjQgMzA4LjIxMCwzNTQuNzYxIEwgMzA4LjIxMCwzNTQuNzYxIEMgMzAwLjQyOSwzNDIuNzcwIDI5Ni41MzgsMzMyLjU5OCAyOTYuNTM4LDMyNC4yNTMgTCAyOTYuNTM4LDMyNC4yNTMgQyAyOTYuNTM4LDMyMi45MzAgMjk2Ljk0NCwzMjEuNTAwIDI5Ny43NTMsMzE5Ljk1NiBMIDI5Ny43NTMsMzE5Ljk1NiBDIDI5Mi44ODYsMzIxLjI4NSAyOTAuMTQwLDMyMi41MjEgMjg5LjUxMiwzMjMuNjYyIEwgMjg5LjUxMiwzMjMuNjYyIEMgMjg5LjE4MCwzMjQuMjAzIDI4OS4wMTIsMzI1LjAwOCAyODkuMDEyLDMyNi4wNzkgTCAyODkuMDEyLDMyNi4wNzkgQyAyODkuMDEyLDMyOS42OTggMjkyLjAwMCwzNDAuMjQ1IDI5Ny45NzUsMzU3LjcxNSBMIDI5Ny45NzUsMzU3LjcxNSBDIDI5NC4zNjMsMzUzLjA5NiAyOTAuOTY5LDM0Ny41MzAgMjg3Ljc5NywzNDEuMDExIEwgMjg3Ljc5NywzNDEuMDExIEMgMjg0LjExMSwzMzMuMzg3IDI4Mi4yNjQsMzI3LjMxOCAyODIuMjY0LDMyMi44MDMgTCAyODIuMjY0LDMyMi44MDMgQyAyODIuMjY0LDMyMS40MTAgMjgyLjUyMywzMjAuMzg5IDI4My4wMzYsMzE5Ljc0MSBMIDI4My4wMzYsMzE5Ljc0MSBDIDI4NC4wNzAsMzE4LjQ1NiAyOTMuMTQ0LDMxNS42NjMgMzEwLjI1OCwzMTEuMzYyIEwgMzEwLjI1OCwzMTEuMzYyIEwgMzEwLjUzMywzMTAuODI1IEMgMzAzLjA4NCwzMTEuNDczIDI5Ny40NDEsMzExLjc5NSAyOTMuNjA0LDMxMS43OTIgTCAyOTMuNjA0LDMxMS43OTIgQyAyOTEuMTMzLDMxMS43OTUgMjg5LjYyMywzMTEuNjM0IDI4OS4wNjksMzExLjMwOSBMIDI4OS4wNjksMzExLjMwOSBDIDI4Ny43MDYsMzEwLjU2MCAyODcuMDIxLDMwNy4yMzAgMjg3LjAyMSwzMDEuMzE4IEwgMjg3LjAyMSwzMDEuMzE4IEMgMjg3LjAyMSwyODkuMzYxIDI4OS42NjAsMjc5LjY1OSAyOTQuOTMzLDI3Mi4yMDcgTCAyOTQuOTMzLDI3Mi4yMDcgQyAyOTMuMTY0LDI4NC4xMzQgMjkyLjI3OCwyOTIuMzg5IDI5Mi4yNzgsMjk2Ljk2OCBMIDI5Mi4yNzgsMjk2Ljk2OCBDIDI5Mi4yNzgsMzAyLjQ1MCAyOTMuMDkxLDMwNS43OTcgMjk0LjcxMiwzMDcuMDEyIEwgMjk0LjcxMiwzMDcuMDEyIEMgMjk1LjM0MCwzMDcuNDgyIDI5Ni42MTIsMzA3LjcxMyAyOTguNTI5LDMwNy43MTAgTCAyOTguNTI5LDMwNy43MTAgQyAzMDAuMDgwLDMwNy43MTMgMzAxLjYyNywzMDcuNjA2IDMwMy4xNzUsMzA3LjM4OCBMIDMwMy4xNzUsMzA3LjM4OCBDIDMwMC45MjYsMzA1LjI0MyAyOTkuODAxLDMwMi40MzMgMjk5LjgwMSwyOTguOTU1IEwgMjk5LjgwMSwyOTguOTU1IEMgMjk5LjgwMSwyODYuNzgzIDMwMi44MDksMjc2LjgxMyAzMDguODE4LDI2OS4wMzggTCAzMDguODE4LDI2OS4wMzggQyAzMDYuODI3LDI3OS43MTMgMzA1LjgzMCwyODguMDcyIDMwNS44MzAsMjk0LjEyMSBMIDMwNS44MzAsMjk0LjEyMSBDIDMwNS44MzAsMzAwLjkyOSAzMDYuNDU4LDMwNC43MjIgMzA3LjcxMywzMDUuNTA4IEwgMzA3LjcxMywzMDUuNTA4IEMgMzA4LjI2NywzMDUuODcwIDMwOS4yMDcsMzA2LjA0OCAzMTAuNTMzLDMwNi4wNDUgTCAzMTAuNTMzLDMwNi4wNDUgQyAzMTIuMTk1LDMwNi4wNDggMzE0LjMzMywzMDUuODMzIDMxNi45NTIsMzA1LjQwMCBMIDMxNi45NTIsMzA1LjQwMCBDIDMxMy44MTYsMzAzLjY0OCAzMTIuMjQ5LDMwMC41MzMgMzEyLjI0OSwyOTYuMDU1IEwgMzEyLjI0OSwyOTYuMDU1IEMgMzEyLjI0OSwyOTMuNTg3IDMxMi44NzYsMjkxLjM2OCAzMTQuMTI4LDI4OS4zOTUgTCAzMTQuMTI4LDI4OS4zOTUgQyAzMTUuNjA1LDI4Ny4wNzIgMzE3LjU0MiwyODUuOTA3IDMxOS45MzksMjg1LjkwMyBMIDMxOS45MzksMjg1LjkwMyBDIDMyMi4zMzYsMjg1LjkwNyAzMjQuMjczLDI4Ny4wNTEgMzI1Ljc0NywyODkuMzQxIEwgMzI1Ljc0NywyODkuMzQxIEMgMzI3LjAzOSwyOTEuMzQ4IDMyNy42ODQsMjkzLjU4NyAzMjcuNjg0LDI5Ni4wNTUgTCAzMjcuNjg0LDI5Ni4wNTUgQyAzMjcuNjg0LDMwMC41MzMgMzI2LjExNiwzMDMuNjQ4IDMyMi45ODEsMzA1LjQwMCBMIDMyMi45ODEsMzA1LjQwMCBDIDMyNS42MzksMzA1LjgzMyAzMjcuNzc4LDMwNi4wNDggMzI5LjM5OSwzMDYuMDQ1IEwgMzI5LjM5OSwzMDYuMDQ1IEMgMzMwLjc2MiwzMDYuMDQ4IDMzMS43MjIsMzA1Ljg3MCAzMzIuMjc2LDMwNS41MDggTCAzMzIuMjc2LDMwNS41MDggQyAzMzMuNTMxLDMwNC43MjIgMzM0LjE1NiwzMDAuOTI5IDMzNC4xNTYsMjk0LjEyMSBMIDMzNC4xNTYsMjk0LjEyMSBDIDMzNC4xNTYsMjg4LjE0NiAzMzMuMTQyLDI3OS43ODQgMzMxLjExNSwyNjkuMDM4IEwgMzMxLjExNSwyNjkuMDM4IEMgMzM3LjEyNywyNzYuODEzIDM0MC4xMzEsMjg2Ljc4MyAzNDAuMTMxLDI5OC45NTUgTCAzNDAuMTMxLDI5OC45NTUgQyAzNDAuMTMxLDMwMi40MzMgMzM5LjAwNywzMDUuMjQzIDMzNi43NTgsMzA3LjM4OCBMIDMzNi43NTgsMzA3LjM4OCBDIDMzOC4zMDgsMzA3LjYwNiAzMzkuODU2LDMwNy43MTMgMzQxLjQwNCwzMDcuNzEwIEwgMzQxLjQwNCwzMDcuNzEwIEMgMzQzLjM1NywzMDcuNzEzIDM0NC42MzAsMzA3LjQ4MiAzNDUuMjIwLDMwNy4wMTIgTCAzNDUuMjIwLDMwNy4wMTIgQyAzNDYuODQ1LDMwNS43OTcgMzQ3LjY1NCwzMDIuNDUwIDM0Ny42NTQsMjk2Ljk2OCBMIDM0Ny42NTQsMjk2Ljk2OCBDIDM0Ny42NTQsMjkyLjQyMiAzNDYuNzg4LDI4NC4xNzEgMzQ1LjA1NiwyNzIuMjA3IEwgMzQ1LjA1NiwyNzIuMjA3IEMgMzUwLjMzMCwyNzkuNjkzIDM1Mi45NjUsMjg5LjM5OCAzNTIuOTY1LDMwMS4zMTggTCAzNTIuOTY1LDMwMS4zMTggQyAzNTIuOTY1LDMwNy4yMzAgMzUyLjI2NywzMTAuNTYwIDM1MC44NjMsMzExLjMwOSBMIDM1MC44NjMsMzExLjMwOSBDIDM1MC4zNDYsMzExLjYzNCAzNDguODUzLDMxMS43OTUgMzQ2LjM4MiwzMTEuNzkyIEwgMzQ2LjM4MiwzMTEuNzkyIEMgMzQyLjU0OCwzMTEuNzk1IDMzNi44ODUsMzExLjQ3MyAzMjkuMzk5LDMxMC44MjUgTCAzMjkuMzk5LDMxMC44MjUgTCAzMjkuNjc0LDMxMS4zNjIgQyAzNDYuNzg4LDMxNS42NjMgMzU1Ljg2MiwzMTguNDU2IDM1Ni44OTIsMzE5Ljc0MSBMIDM1Ni44OTIsMzE5Ljc0MSBDIDM1Ny40MDksMzIwLjM4OSAzNTcuNjY4LDMyMS40MTAgMzU3LjY2OCwzMjIuODAzIEwgMzU3LjY2OCwzMjIuODAzIFo", "top": 90, "left": 640, "height": 58, "width": 98, "caption": "PathButton" }</properties><span class="Control ButtonCaption PathButtonCaption includeCaption"></span><canvas width="32" height="32" class=""></canvas></jagui-pathbutton>
+                    <jagui-pathbutton id="_sfmj8p1" data-class="PathButton" class="Control Button ButtonGlyph PathButton {theme} csr_default"><properties>{ "name":"PathButton3", "tabOrder": 10, "layout": "layoutTop", "path": "TSAzNzYuNzU1LDMwMi42NjEgTCAzNzAuMzM3LDMwNC43MDIgQyAzNjUuNjkxLDMxMy4wMTQgMzYxLjg3NCwzMjEuNTM0IDM1OC44ODYsMzMwLjI2OSBMIDM1OC44ODYsMzMwLjI2OSBDIDM1Ni4wMTAsMzM4LjYxNCAzNTMuNTM5LDM0OC4xNzQgMzUxLjQ3MSwzNTguOTUwIEwgMzUxLjQ3MSwzNTguOTUwIEwgMzU1Ljk1MiwzNjQuOTEyIEwgMzUzLjQwOCwzNjYuNzM4IEwgMzUwLjA4OCwzNjIuMzM0IEMgMzM5Ljk4NCwzNjAuNTA4IDMyOS45MzYsMzU5LjU5NSAzMTkuOTM5LDM1OS41OTUgTCAzMTkuOTM5LDM1OS41OTUgQyAzMDkuOTgzLDM1OS41OTUgMjk5Ljk0OSwzNjAuNTA4IDI4OS44NDQsMzYyLjMzNCBMIDI4OS44NDQsMzYyLjMzNCBMIDI4Ni41MjQsMzY2LjczOCBMIDI4My45ODAsMzY0LjkxMiBMIDI4OC40NjEsMzU4Ljk1MCBDIDI4Ni4zOTcsMzQ4LjE3NCAyODMuOTI2LDMzOC42MTQgMjgxLjA0NiwzMzAuMjY5IEwgMjgxLjA0NiwzMzAuMjY5IEMgMjc4LjA1OCwzMjEuNTM0IDI3NC4yNDEsMzEzLjAxNCAyNjkuNTk1LDMwNC43MDIgTCAyNjkuNTk1LDMwNC43MDIgTCAyNjMuMTc3LDMwMi42NjEgTCAyNjQuMTc0LDI5OS43NjEgTCAyNzAuMzcxLDMwMS42OTQgQyAyODAuMzY4LDI5Ni4zOTcgMjg5LjA1MiwyOTEuMTE3IDI5Ni40MjcsMjg1Ljg1MCBMIDI5Ni40MjcsMjg1Ljg1MCBDIDMwNC4zMTksMjgwLjE5NyAzMTEuNjQxLDI3My44NzUgMzE4LjM4OCwyNjYuODkwIEwgMzE4LjM4OCwyNjYuODkwIEwgMzE4LjM4OCwyNjEuMDg5IEwgMzIxLjU0NCwyNjEuMDg5IEwgMzIxLjU0NCwyNjYuODkwIEMgMzI4LjI5MSwyNzMuODc1IDMzNS42MTMsMjgwLjE5NyAzNDMuNTA1LDI4NS44NTAgTCAzNDMuNTA1LDI4NS44NTAgQyAzNTAuODgzLDI5MS4xMTcgMzU5LjU4OCwyOTYuMzk3IDM2OS42MTksMzAxLjY5NCBMIDM2OS42MTksMzAxLjY5NCBMIDM3NS43NTgsMjk5Ljc2MSBaIE0gMzY1LjY5MSwzMDIuOTMwIEMgMzU2Ljc2NSwyOTguMjQzIDM0OC42ODgsMjkzLjMzNiAzNDEuNDU3LDI4OC4yMTMgTCAzNDEuNDU3LDI4OC4yMTMgQyAzMzQuODU3LDI4My41NjAgMzI4LjIxNywyNzcuOTA0IDMyMS41NDQsMjcxLjI0MCBMIDMyMS41NDQsMjcxLjI0MCBMIDMyMS41NDQsMjgzLjE2NCBDIDMyNC42NDIsMjg2LjUzNCAzMjkuNzY4LDI5MC43NzggMzM2LjkyMiwyOTUuODk0IEwgMzM2LjkyMiwyOTUuODk0IEMgMzQzLjU2MiwzMDAuNjYwIDM0OS4zNTMsMzA0LjIwNSAzNTQuMjk0LDMwNi41MjggTCAzNTQuMjk0LDMwNi41MjggWiBNIDM1MC4yNTYsMzA3LjgxNyBDIDM0Ni4wNTMsMzA1Ljc0MyAzNDAuOTA3LDMwMi41NTcgMzM0LjgyMSwyOTguMjU3IEwgMzM0LjgyMSwyOTguMjU3IEMgMzI5LjI4OCwyOTQuMzU2IDMyNC44NjQsMjkwLjc3OCAzMjEuNTQ0LDI4Ny41MTUgTCAzMjEuNTQ0LDI4Ny41MTUgTCAzMjEuNTQ0LDI5Ny41NTkgQyAzMjQuMDg4LDMwMC40MjUgMzI2LjkxMiwzMDIuOTcwIDMzMC4wMDcsMzA1LjE4OSBMIDMzMC4wMDcsMzA1LjE4OSBDIDMzMy4xMDUsMzA3LjQxMSAzMzYuMzE0LDMwOS4zOTUgMzM5LjYzNCwzMTEuMTQ3IEwgMzM5LjYzNCwzMTEuMTQ3IFogTSAzNjYuMDc3LDMwNi4wNDUgTCAzNTQuNDA1LDMwOS42OTcgQyAzNTIuMTE5LDMxMy43MTIgMzQ5LjY0OCwzMTkuNTgzIDM0Ni45ODksMzI3LjMxNCBMIDM0Ni45ODksMzI3LjMxNCBDIDM0NC40NDUsMzM0LjczMCAzNDIuNzg3LDM0MS4wNTEgMzQyLjAxMSwzNDYuMjc0IEwgMzQyLjAxMSwzNDYuMjc0IEwgMzQ5LjAzNywzNTUuNjc0IEMgMzUwLjg4MywzNDYuMTEzIDM1My4xNzAsMzM3LjI1NCAzNTUuODk5LDMyOS4wODcgTCAzNTUuODk5LDMyOS4wODcgQyAzNTguMzY5LDMyMS43ODYgMzYxLjc2MywzMTQuMTA1IDM2Ni4wNzcsMzA2LjA0NSBMIDM2Ni4wNzcsMzA2LjA0NSBaIE0gMzM1Ljc2MCwzMTIuMzgzIEMgMzMyLjg4NCwzMTAuODEyIDMzMC4yNjUsMzA5LjIwMCAzMjcuOTA1LDMwNy41NDkgTCAzMjcuOTA1LDMwNy41NDkgQyAzMjUuOTE1LDMwNi4xOTMgMzIzLjc5MywzMDQuMzQ2IDMyMS41NDQsMzAyLjAxNyBMIDMyMS41NDQsMzAyLjAxNyBMIDMyMS41NDQsMzE2Ljg0MSBaIE0gMzUwLjE5OSwzMTEuMDQwIEwgMzQwLjI0MiwzMTQuMjA5IEMgMzM2LjkyNSwzMTkuNzYxIDMzNC40ODgsMzI2LjQyMiAzMzIuOTM3LDMzNC4xODkgTCAzMzIuOTM3LDMzNC4xODkgTCAzMzkuNTI0LDM0Mi45NDQgQyAzNDAuMjYyLDMzOC40NzMgMzQxLjc1MywzMzIuODY3IDM0NC4wMDIsMzI2LjEzMyBMIDM0NC4wMDIsMzI2LjEzMyBDIDM0Ni4wMzMsMzIwLjEyMSAzNDguMDk3LDMxNS4wODkgMzUwLjE5OSwzMTEuMDQwIEwgMzUwLjE5OSwzMTEuMDQwIFogTSAzMTguMzg4LDI4My4xNjQgTCAzMTguMzg4LDI3MS4yNDAgQyAzMTEuNzE1LDI3Ny45MDQgMzA1LjA5NSwyODMuNTYwIDI5OC41MjksMjg4LjIxMyBMIDI5OC41MjksMjg4LjIxMyBDIDI5MS4yNjQsMjkzLjMzNiAyODMuMTg4LDI5OC4yNDMgMjc0LjI5OCwzMDIuOTMwIEwgMjc0LjI5OCwzMDIuOTMwIEwgMjg1LjYzOCwzMDYuNTI4IEMgMjkwLjU4MCwzMDQuMjA1IDI5Ni4zNzAsMzAwLjY2MCAzMDMuMDEwLDI5NS44OTQgTCAzMDMuMDEwLDI5NS44OTQgQyAzMTAuMTY3LDI5MC43NzggMzE1LjI5MywyODYuNTM0IDMxOC4zODgsMjgzLjE2NCBMIDMxOC4zODgsMjgzLjE2NCBaIE0gMzM1LjkyNSwzMTUuNTUyIEwgMzIyLjIwNSwzMTkuODQ5IEwgMzMwLjU2MSwzMzEuMDIxIEMgMzMxLjIyNSwzMjguMDE2IDMzMS45NjAsMzI1LjIwNiAzMzIuNzczLDMyMi41ODggTCAzMzIuNzczLDMyMi41ODggQyAzMzMuNDc0LDMyMC40ODAgMzM0LjUyNSwzMTguMTMzIDMzNS45MjUsMzE1LjU1MiBMIDMzNS45MjUsMzE1LjU1MiBaIE0gMzE4LjM4OCwyOTcuNTU5IEwgMzE4LjM4OCwyODcuNTE1IEMgMzE1LjA3MiwyOTAuNzc4IDMxMC42NDQsMjk0LjM1NiAzMDUuMTEyLDI5OC4yNTcgTCAzMDUuMTEyLDI5OC4yNTcgQyAyOTkuMDI5LDMwMi41NTcgMjkzLjg4MywzMDUuNzQzIDI4OS42NzcsMzA3LjgxNyBMIDI4OS42NzcsMzA3LjgxNyBMIDMwMC4yOTgsMzExLjE0NyBDIDMwMy42MTgsMzA5LjM5NSAzMDYuODI3LDMwNy40MTEgMzA5LjkyNiwzMDUuMTg5IEwgMzA5LjkyNiwzMDUuMTg5IEMgMzEzLjAyNCwzMDIuOTcwIDMxNS44NDQsMzAwLjQyNSAzMTguMzg4LDI5Ny41NTkgTCAzMTguMzg4LDI5Ny41NTkgWiBNIDMxOC4zODgsMzE2Ljg0MSBMIDMxOC4zODgsMzAyLjAxNyBDIDMxNi4xMzksMzA0LjM0NiAzMTQuMDIxLDMwNi4xOTMgMzEyLjAyNywzMDcuNTQ5IEwgMzEyLjAyNywzMDcuNTQ5IEMgMzA5LjY2NywzMDkuMjAwIDMwNy4wNDksMzEwLjgxMiAzMDQuMTcyLDMxMi4zODMgTCAzMDQuMTcyLDMxMi4zODMgWiBNIDMyOC43ODgsMzMzLjkyMSBMIDMxOS45OTMsMzIyLjE1OCBMIDMxMS4xNDEsMzMzLjkyMSBDIDMxNC4zNTAsMzMzLjQyNCAzMTcuMjg0LDMzMy4xNzIgMzE5LjkzOSwzMzMuMTY5IEwgMzE5LjkzOSwzMzMuMTY5IEMgMzIyLjU5NSwzMzMuMTcyIDMyNS41NDUsMzMzLjQyNCAzMjguNzg4LDMzMy45MjEgTCAzMjguNzg4LDMzMy45MjEgWiBNIDMxNy43MjQsMzE5Ljg0OSBMIDMwNC4wMDQsMzE1LjU1MiBDIDMwNS40MDcsMzE4LjEzMyAzMDYuNDYxLDMyMC40ODAgMzA3LjE1OSwzMjIuNTg4IEwgMzA3LjE1OSwzMjIuNTg4IEMgMzA3Ljk3MiwzMjUuMjA2IDMwOC43MDcsMzI4LjAxNiAzMDkuMzcyLDMzMS4wMjEgTCAzMDkuMzcyLDMzMS4wMjEgWiBNIDMzNy42NDAsMzQ1LjY4NCBMIDMzMS40NDMsMzM3LjQ2NiBDIDMyNy42MTAsMzM2LjY4MCAzMjMuNzkzLDMzNi4yODggMzE5Ljk5MywzMzYuMjg0IEwgMzE5Ljk5MywzMzYuMjg0IEMgMzE2LjE1OSwzMzYuMjg4IDMxMi4zMjIsMzM2LjY4MCAzMDguNDg1LDMzNy40NjYgTCAzMDguNDg1LDMzNy40NjYgTCAzMDIuMzQ2LDM0NS42ODQgQyAzMDcuMjEzLDM0NC45NzIgMzEzLjA3OCwzNDQuNjEzIDMxOS45MzksMzQ0LjYwOSBMIDMxOS45MzksMzQ0LjYwOSBDIDMyNi44MzQsMzQ0LjYxMyAzMzIuNzM2LDM0NC45NzIgMzM3LjY0MCwzNDUuNjg0IEwgMzM3LjY0MCwzNDUuNjg0IFogTSAzMDYuOTkyLDMzNC4xODkgQyAzMDYuMjkzLDMzMC42ODUgMzA1LjM1MywzMjcuMjEwIDMwNC4xNzIsMzIzLjc3MCBMIDMwNC4xNzIsMzIzLjc3MCBDIDMwMy4wNjQsMzIwLjUxMyAzMDEuNTcwLDMxNy4zMjggMjk5LjY5MCwzMTQuMjA5IEwgMjk5LjY5MCwzMTQuMjA5IEwgMjg5LjczNCwzMTEuMDQwIEMgMjkxLjgzNSwzMTUuMDg5IDI5My45MDAsMzIwLjEyMSAyOTUuOTI3LDMyNi4xMzMgTCAyOTUuOTI3LDMyNi4xMzMgQyAyOTguMTgwLDMzMi44NjcgMjk5LjY3MywzMzguNDczIDMwMC40MDksMzQyLjk0NCBMIDMwMC40MDksMzQyLjk0NCBaIE0gMzQ3LjQ5MCwzNTguODQzIEwgMzQwLjI0MiwzNDkuMTc1IEMgMzM1LjI2NCwzNDguMjA4IDMyOC41MTMsMzQ3LjcyNSAzMTkuOTkzLDM0Ny43MjUgTCAzMTkuOTkzLDM0Ny43MjUgQyAzMTEuNDQwLDM0Ny43MjUgMzA0LjY3MiwzNDguMjA4IDI5OS42OTAsMzQ5LjE3NSBMIDI5OS42OTAsMzQ5LjE3NSBMIDI5Mi41MDAsMzU4Ljg0MyBDIDMwMi4yMDEsMzU3LjMwNSAzMTEuMzQ2LDM1Ni41MzMgMzE5LjkzOSwzNTYuNTMzIEwgMzE5LjkzOSwzNTYuNTMzIEMgMzI4LjU3MCwzNTYuNTMzIDMzNy43NTUsMzU3LjMwNSAzNDcuNDkwLDM1OC44NDMgTCAzNDcuNDkwLDM1OC44NDMgWiBNIDI5Ny45MjEsMzQ2LjI3NCBDIDI5Ny4xNDksMzQxLjA1MSAyOTUuNDg3LDMzNC43MzAgMjkyLjkzOSwzMjcuMzE0IEwgMjkyLjkzOSwzMjcuMzE0IEMgMjkwLjI4NywzMTkuNTgzIDI4Ny44MTcsMzEzLjcxMiAyODUuNTI3LDMwOS42OTcgTCAyODUuNTI3LDMwOS42OTcgTCAyNzMuODU1LDMwNi4wNDUgQyAyNzguMTcyLDMxNC4xMDUgMjgxLjU2MywzMjEuNzg2IDI4NC4wMzQsMzI5LjA4NyBMIDI4NC4wMzQsMzI5LjA4NyBDIDI4Ni43NjYsMzM3LjI1NCAyODkuMDUyLDM0Ni4xMTMgMjkwLjg5NSwzNTUuNjc0IEwgMjkwLjg5NSwzNTUuNjc0IFo", "top": 90, "left": 520, "height": 58, "width": 98, "caption": "PathButton" }</properties><span class="Control ButtonCaption PathButtonCaption includeCaption"></span><canvas width="32" height="32" class=""></canvas></jagui-pathbutton>
+                    <jagui-pathbutton id="_rhftqrd" data-class="PathButton" class="Control Button ButtonGlyph PathButton {theme} csr_default"><properties>{ "name":"PathButton4", "tabOrder": 11, "layout": "layoutBottom", "path": "TSAzNTcuNjY4LDMyMi44MDMgQyAzNTcuNjY4LDMyNy4zMTggMzU1LjgyNSwzMzMuMzg3IDM1Mi4xMzYsMzQxLjAxMSBMIDM1Mi4xMzYsMzQxLjAxMSBDIDM0OS4wMDAsMzQ3LjQ5MyAzNDUuNjI3LDM1My4wNjIgMzQyLjAxMSwzNTcuNzE1IEwgMzQyLjAxMSwzNTcuNzE1IEMgMzQ3Ljk1MCwzNDAuMTM4IDM1MC45MTcsMzI5LjU5MCAzNTAuOTE3LDMyNi4wNzkgTCAzNTAuOTE3LDMyNi4wNzkgQyAzNTAuOTE3LDMyNS4wMDggMzUwLjc3MywzMjQuMjAzIDM1MC40NzcsMzIzLjY2MiBMIDM1MC40NzcsMzIzLjY2MiBDIDM0OS44MTMsMzIyLjUyMSAzNDcuMDY3LDMyMS4yODUgMzQyLjIzMywzMTkuOTU2IEwgMzQyLjIzMywzMTkuOTU2IEMgMzQzLjAwOCwzMjEuNTAwIDM0My4zOTQsMzIyLjkzMCAzNDMuMzk0LDMyNC4yNTMgTCAzNDMuMzk0LDMyNC4yNTMgQyAzNDMuMzk0LDMzMi41NjUgMzM5LjUwMywzNDIuNzMzIDMzMS43MjIsMzU0Ljc2MSBMIDMzMS43MjIsMzU0Ljc2MSBDIDMzMi45NDEsMzQ5Ljk2NCAzMzQuMTM5LDM0NS4xNTAgMzM1LjMxNywzNDAuMzEzIEwgMzM1LjMxNywzNDAuMzEzIEMgMzM2LjY4NCwzMzQuMjMwIDMzNy4zNjUsMzI5LjM5NiAzMzcuMzY1LDMyNS44MTEgTCAzMzcuMzY1LDMyNS44MTEgQyAzMzcuMzY1LDMyMy4xMjggMzM3LjAxNiwzMjEuMjg1IDMzNi4zMTQsMzIwLjI3OCBMIDMzNi4zMTQsMzIwLjI3OCBDIDMzNS42OTAsMzE5LjM4NSAzMzQuMDI4LDMxOC4yNTcgMzMxLjMzNiwzMTYuODk1IEwgMzMxLjMzNiwzMTYuODk1IEMgMzMxLjc0MiwzMTkuMTkxIDMzMS45NDQsMzIxLjY5NSAzMzEuOTQ0LDMyNC40MTQgTCAzMzEuOTQ0LDMyNC40MTQgQyAzMzEuOTQ0LDMyNy43MTEgMzMxLjU0MSwzMzAuOTM3IDMzMC43MjgsMzM0LjA4NSBMIDMzMC43MjgsMzM0LjA4NSBDIDMyOS45MTYsMzM3LjIzOCAzMjguNzAxLDM0MC4yNjIgMzI3LjA3NiwzNDMuMTU5IEwgMzI3LjA3NiwzNDMuMTU5IEMgMzI0Ljc5MCwzNDcuMTM0IDMyMi40NDcsMzQ5LjEyMSAzMjAuMDUwLDM0OS4xMjEgTCAzMjAuMDUwLDM0OS4xMjEgQyAzMTcuNjE2LDM0OS4xMjEgMzE1LjI1NiwzNDcuMTM0IDMxMi45NjcsMzQzLjE1OSBMIDMxMi45NjcsMzQzLjE1OSBDIDMxMS4zMDksMzQwLjI2MiAzMTAuMDczLDMzNy4yMzggMzA5LjI2MSwzMzQuMDg1IEwgMzA5LjI2MSwzMzQuMDg1IEMgMzA4LjQ0OCwzMzAuOTM3IDMwOC4wNDIsMzI3LjcxMSAzMDguMDQyLDMyNC40MTQgTCAzMDguMDQyLDMyNC40MTQgQyAzMDguMDQyLDMyMS42OTUgMzA4LjIyNywzMTkuMTkxIDMwOC41OTYsMzE2Ljg5NSBMIDMwOC41OTYsMzE2Ljg5NSBDIDMwNS45MDQsMzE4LjI1NyAzMDQuMjQ2LDMxOS4zODUgMzAzLjYxOCwzMjAuMjc4IEwgMzAzLjYxOCwzMjAuMjc4IEMgMzAyLjkyMCwzMjEuMjg1IDMwMi41NjcsMzIzLjEyOCAzMDIuNTY3LDMyNS44MTEgTCAzMDIuNTY3LDMyNS44MTEgQyAzMDIuNTY3LDMyOS4zOTYgMzAzLjI1MiwzMzQuMjMwIDMwNC42MTUsMzQwLjMxMyBMIDMwNC42MTUsMzQwLjMxMyBDIDMwNS44MzMsMzQ1LjE1MCAzMDcuMDMyLDM0OS45NjQgMzA4LjIxMCwzNTQuNzYxIEwgMzA4LjIxMCwzNTQuNzYxIEMgMzAwLjQyOSwzNDIuNzcwIDI5Ni41MzgsMzMyLjU5OCAyOTYuNTM4LDMyNC4yNTMgTCAyOTYuNTM4LDMyNC4yNTMgQyAyOTYuNTM4LDMyMi45MzAgMjk2Ljk0NCwzMjEuNTAwIDI5Ny43NTMsMzE5Ljk1NiBMIDI5Ny43NTMsMzE5Ljk1NiBDIDI5Mi44ODYsMzIxLjI4NSAyOTAuMTQwLDMyMi41MjEgMjg5LjUxMiwzMjMuNjYyIEwgMjg5LjUxMiwzMjMuNjYyIEMgMjg5LjE4MCwzMjQuMjAzIDI4OS4wMTIsMzI1LjAwOCAyODkuMDEyLDMyNi4wNzkgTCAyODkuMDEyLDMyNi4wNzkgQyAyODkuMDEyLDMyOS42OTggMjkyLjAwMCwzNDAuMjQ1IDI5Ny45NzUsMzU3LjcxNSBMIDI5Ny45NzUsMzU3LjcxNSBDIDI5NC4zNjMsMzUzLjA5NiAyOTAuOTY5LDM0Ny41MzAgMjg3Ljc5NywzNDEuMDExIEwgMjg3Ljc5NywzNDEuMDExIEMgMjg0LjExMSwzMzMuMzg3IDI4Mi4yNjQsMzI3LjMxOCAyODIuMjY0LDMyMi44MDMgTCAyODIuMjY0LDMyMi44MDMgQyAyODIuMjY0LDMyMS40MTAgMjgyLjUyMywzMjAuMzg5IDI4My4wMzYsMzE5Ljc0MSBMIDI4My4wMzYsMzE5Ljc0MSBDIDI4NC4wNzAsMzE4LjQ1NiAyOTMuMTQ0LDMxNS42NjMgMzEwLjI1OCwzMTEuMzYyIEwgMzEwLjI1OCwzMTEuMzYyIEwgMzEwLjUzMywzMTAuODI1IEMgMzAzLjA4NCwzMTEuNDczIDI5Ny40NDEsMzExLjc5NSAyOTMuNjA0LDMxMS43OTIgTCAyOTMuNjA0LDMxMS43OTIgQyAyOTEuMTMzLDMxMS43OTUgMjg5LjYyMywzMTEuNjM0IDI4OS4wNjksMzExLjMwOSBMIDI4OS4wNjksMzExLjMwOSBDIDI4Ny43MDYsMzEwLjU2MCAyODcuMDIxLDMwNy4yMzAgMjg3LjAyMSwzMDEuMzE4IEwgMjg3LjAyMSwzMDEuMzE4IEMgMjg3LjAyMSwyODkuMzYxIDI4OS42NjAsMjc5LjY1OSAyOTQuOTMzLDI3Mi4yMDcgTCAyOTQuOTMzLDI3Mi4yMDcgQyAyOTMuMTY0LDI4NC4xMzQgMjkyLjI3OCwyOTIuMzg5IDI5Mi4yNzgsMjk2Ljk2OCBMIDI5Mi4yNzgsMjk2Ljk2OCBDIDI5Mi4yNzgsMzAyLjQ1MCAyOTMuMDkxLDMwNS43OTcgMjk0LjcxMiwzMDcuMDEyIEwgMjk0LjcxMiwzMDcuMDEyIEMgMjk1LjM0MCwzMDcuNDgyIDI5Ni42MTIsMzA3LjcxMyAyOTguNTI5LDMwNy43MTAgTCAyOTguNTI5LDMwNy43MTAgQyAzMDAuMDgwLDMwNy43MTMgMzAxLjYyNywzMDcuNjA2IDMwMy4xNzUsMzA3LjM4OCBMIDMwMy4xNzUsMzA3LjM4OCBDIDMwMC45MjYsMzA1LjI0MyAyOTkuODAxLDMwMi40MzMgMjk5LjgwMSwyOTguOTU1IEwgMjk5LjgwMSwyOTguOTU1IEMgMjk5LjgwMSwyODYuNzgzIDMwMi44MDksMjc2LjgxMyAzMDguODE4LDI2OS4wMzggTCAzMDguODE4LDI2OS4wMzggQyAzMDYuODI3LDI3OS43MTMgMzA1LjgzMCwyODguMDcyIDMwNS44MzAsMjk0LjEyMSBMIDMwNS44MzAsMjk0LjEyMSBDIDMwNS44MzAsMzAwLjkyOSAzMDYuNDU4LDMwNC43MjIgMzA3LjcxMywzMDUuNTA4IEwgMzA3LjcxMywzMDUuNTA4IEMgMzA4LjI2NywzMDUuODcwIDMwOS4yMDcsMzA2LjA0OCAzMTAuNTMzLDMwNi4wNDUgTCAzMTAuNTMzLDMwNi4wNDUgQyAzMTIuMTk1LDMwNi4wNDggMzE0LjMzMywzMDUuODMzIDMxNi45NTIsMzA1LjQwMCBMIDMxNi45NTIsMzA1LjQwMCBDIDMxMy44MTYsMzAzLjY0OCAzMTIuMjQ5LDMwMC41MzMgMzEyLjI0OSwyOTYuMDU1IEwgMzEyLjI0OSwyOTYuMDU1IEMgMzEyLjI0OSwyOTMuNTg3IDMxMi44NzYsMjkxLjM2OCAzMTQuMTI4LDI4OS4zOTUgTCAzMTQuMTI4LDI4OS4zOTUgQyAzMTUuNjA1LDI4Ny4wNzIgMzE3LjU0MiwyODUuOTA3IDMxOS45MzksMjg1LjkwMyBMIDMxOS45MzksMjg1LjkwMyBDIDMyMi4zMzYsMjg1LjkwNyAzMjQuMjczLDI4Ny4wNTEgMzI1Ljc0NywyODkuMzQxIEwgMzI1Ljc0NywyODkuMzQxIEMgMzI3LjAzOSwyOTEuMzQ4IDMyNy42ODQsMjkzLjU4NyAzMjcuNjg0LDI5Ni4wNTUgTCAzMjcuNjg0LDI5Ni4wNTUgQyAzMjcuNjg0LDMwMC41MzMgMzI2LjExNiwzMDMuNjQ4IDMyMi45ODEsMzA1LjQwMCBMIDMyMi45ODEsMzA1LjQwMCBDIDMyNS42MzksMzA1LjgzMyAzMjcuNzc4LDMwNi4wNDggMzI5LjM5OSwzMDYuMDQ1IEwgMzI5LjM5OSwzMDYuMDQ1IEMgMzMwLjc2MiwzMDYuMDQ4IDMzMS43MjIsMzA1Ljg3MCAzMzIuMjc2LDMwNS41MDggTCAzMzIuMjc2LDMwNS41MDggQyAzMzMuNTMxLDMwNC43MjIgMzM0LjE1NiwzMDAuOTI5IDMzNC4xNTYsMjk0LjEyMSBMIDMzNC4xNTYsMjk0LjEyMSBDIDMzNC4xNTYsMjg4LjE0NiAzMzMuMTQyLDI3OS43ODQgMzMxLjExNSwyNjkuMDM4IEwgMzMxLjExNSwyNjkuMDM4IEMgMzM3LjEyNywyNzYuODEzIDM0MC4xMzEsMjg2Ljc4MyAzNDAuMTMxLDI5OC45NTUgTCAzNDAuMTMxLDI5OC45NTUgQyAzNDAuMTMxLDMwMi40MzMgMzM5LjAwNywzMDUuMjQzIDMzNi43NTgsMzA3LjM4OCBMIDMzNi43NTgsMzA3LjM4OCBDIDMzOC4zMDgsMzA3LjYwNiAzMzkuODU2LDMwNy43MTMgMzQxLjQwNCwzMDcuNzEwIEwgMzQxLjQwNCwzMDcuNzEwIEMgMzQzLjM1NywzMDcuNzEzIDM0NC42MzAsMzA3LjQ4MiAzNDUuMjIwLDMwNy4wMTIgTCAzNDUuMjIwLDMwNy4wMTIgQyAzNDYuODQ1LDMwNS43OTcgMzQ3LjY1NCwzMDIuNDUwIDM0Ny42NTQsMjk2Ljk2OCBMIDM0Ny42NTQsMjk2Ljk2OCBDIDM0Ny42NTQsMjkyLjQyMiAzNDYuNzg4LDI4NC4xNzEgMzQ1LjA1NiwyNzIuMjA3IEwgMzQ1LjA1NiwyNzIuMjA3IEMgMzUwLjMzMCwyNzkuNjkzIDM1Mi45NjUsMjg5LjM5OCAzNTIuOTY1LDMwMS4zMTggTCAzNTIuOTY1LDMwMS4zMTggQyAzNTIuOTY1LDMwNy4yMzAgMzUyLjI2NywzMTAuNTYwIDM1MC44NjMsMzExLjMwOSBMIDM1MC44NjMsMzExLjMwOSBDIDM1MC4zNDYsMzExLjYzNCAzNDguODUzLDMxMS43OTUgMzQ2LjM4MiwzMTEuNzkyIEwgMzQ2LjM4MiwzMTEuNzkyIEMgMzQyLjU0OCwzMTEuNzk1IDMzNi44ODUsMzExLjQ3MyAzMjkuMzk5LDMxMC44MjUgTCAzMjkuMzk5LDMxMC44MjUgTCAzMjkuNjc0LDMxMS4zNjIgQyAzNDYuNzg4LDMxNS42NjMgMzU1Ljg2MiwzMTguNDU2IDM1Ni44OTIsMzE5Ljc0MSBMIDM1Ni44OTIsMzE5Ljc0MSBDIDM1Ny40MDksMzIwLjM4OSAzNTcuNjY4LDMyMS40MTAgMzU3LjY2OCwzMjIuODAzIEwgMzU3LjY2OCwzMjIuODAzIFo", "top": 90, "left": 640, "height": 58, "width": 98, "caption": "PathButton" }</properties><span class="Control ButtonCaption PathButtonCaption includeCaption"></span><canvas width="32" height="32" class=""></canvas></jagui-pathbutton>
                     <jagui-panel id="_aa5kx4r" data-class="Panel" class="Control Panel {theme}"><properties>{ "name": "Panel1", "dragKind": "dock", "dragMode": "automatic", "tabOrder": 12, "left": 160, "top": 80, "width": 98, "height": 78 }</properties><jagui-label id="_oPsThiN0" data-class="Label" class="Control csr_default Label {theme}"><properties>{ "name": "Label2", "left": 10, "top": 10, "caption": "Panel" }</properties></jagui-label></jagui-panel>
                     <jagui-calloutpanel id="_r27fklu" data-class="CalloutPanel" class="Control CalloutPanel {theme} csr_default"><properties>{ "name": "CalloutPanel1", "dragKind": "dock", "dragMode": "automatic", "calloutPosition": "top", "calloutOffset": 0, "calloutLength": 11, "calloutWidth": 23, "tabOrder": 13, "left": 10, "top": 80, "width": 118, "height": 78 }</properties><div class="Control CalloutPanelViewport {theme}"></div><div class="Control CalloutPanelArrow {theme} calloutposition-top"></div></jagui-calloutpanel>
                     <jagui-colorbutton id="_4dh2zs9" data-class="ColorButton" class="Control ColorButton {theme} csr_default"><properties>{ "name": "ColorButton1", "color": "red", "tabOrder": 14, "top": 170, "left": 80, "width": 40, "height": 40  }</properties><span class="Control ButtonCaption"></span><div class="Control ColorButtonColor {theme}"></div></jagui-colorbutton>
-                    <jagui-cornerbutton id="_7hes89u" data-class="CornerButton" class="Control CornerButton csr_default {theme}"><properties>{ "name": "CornerButton1",  
-                        "topLeftCorner":{"x":15,"y":15, "type":"sharp", "unit":"px"}, "topRightCorner":{ "x":15,"y":15, "type":"scoop", "unit":"px"}, "bottomLeftCorner":{"x":15,"y":15, "type":"notch", "unit":"px"}, "bottomRightCorner":{"x":15,"y":15, "type":"bevel", "unit":"px"} , "onClick":"Core.dialogs.prompt('prompt','test','blabla')", "tabOrder": 15, "top": 165, "left": 150, "width": 68, "height": 50, "caption":"CornerButton" }</properties><div class="Control Button CornerButton {theme} includeCaption" style="clip-path:url(#CornerButton1Clip);"><svg width="100%" height="100%" class="CornerButtonSvg"><defs><clipPath id="CornerButton1Clip"><use xlink:href="#CornerButton1ClipPath" /></clipPath></defs><linearGradient id="CornerButton1Gradient" x1="0" x2="0" y1="0" y2="100%"><stop offset="0%" class="carbon first-corner-button-color"/><stop offset="100%" class="carbon secondary-corner-button-color"/></linearGradient><path stroke="url(#CornerButton1Gradient)" class="CornerButtonClipPath" id="CornerButton1ClipPath" d="M 0 0 Z" /></svg></div></jagui-cornerbutton>
+                    <jagui-cornerbutton id="_7hes89u" data-class="CornerButton" class="Control CornerButton csr_default {theme}">
+                        <properties>
+                            { "name": "CornerButton1",
+                            "topLeftCorner":{"x":15,"y":15, "type":"sharp", "unit":"px"}, "topRightCorner":{ "x":15,"y":15, "type":"scoop", "unit":"px"}, "bottomLeftCorner":{"x":15,"y":15, "type":"notch", "unit":"px"}, "bottomRightCorner":{"x":15,"y":15, "type":"bevel", "unit":"px"} , "onClick":"Core.dialogs.prompt('prompt','test','blabla')", "tabOrder": 15, "top": 165, "left": 150, "width": 68, "height": 50, "caption":"CornerButton" }
+                        </properties><div class="Control Button CornerButton {theme} includeCaption" style="clip-path:url(#CornerButton1Clip);"><svg width="100%" height="100%" class="CornerButtonSvg"><defs><clipPath id="CornerButton1Clip"><use xlink:href="#CornerButton1ClipPath" /></clipPath></defs><linearGradient id="CornerButton1Gradient" x1="0" x2="0" y1="0" y2="100%"><stop offset="0%" class="carbon first-corner-button-color" /><stop offset="100%" class="carbon secondary-corner-button-color" /></linearGradient><path stroke="url(#CornerButton1Gradient)" class="CornerButtonClipPath" id="CornerButton1ClipPath" d="M 0 0 Z" /></svg></div>
+                    </jagui-cornerbutton>
                     <!--<button id="_wzzma7y" name="PopupButton1" data-class="PopupButton" class="Control PopupButton {theme} csr_default" data-popupmenu="PopupMenu1"
                         data-taborder="16" style="left: 250px;top: 180px;height: 19px;width: 88px;">
                         <span class="Control ButtonCaption">PopupButton</span>
                         <div class="Control PopupButtonArrow">8</div>
                     </button>-->
-                    <jagui-speedbutton id="_fyycis9" name="SpeedButton1" data-class="SpeedButton" class="Control ButtonGlyph SpeedButton {theme} csr_default"><properties>
-                        { "onclick":"SpeedButton1_onClick", "top": 180,"left": 350,"width": 25,"height": 21, "caption": "S" }</properties><span class="Control {theme} SpeedButtonCaption includeCaption"></span><img width="0" height="0" alt="" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQIW2NkAAIAAAoAAggA9GkAAAAASUVORK5CYII=" /></jagui-speedbutton>
+                    <jagui-speedbutton id="_fyycis9" name="SpeedButton1" data-class="SpeedButton" class="Control ButtonGlyph SpeedButton {theme} csr_default">
+                        <properties>
+                            { "onclick":"SpeedButton1_onClick", "top": 180,"left": 350,"width": 25,"height": 21, "caption": "S" }
+                        </properties><span class="Control {theme} SpeedButtonCaption includeCaption"></span><img width="0" height="0" alt="" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQIW2NkAAIAAAoAAggA9GkAAAAASUVORK5CYII=" />
+                    </jagui-speedbutton>
                     <jagui-valuelabel id="_onqaoim" data-class="ValueLabel" class="Control csr_default ValueLabel {theme}"><properties>{ "name":"ValueLabel1", "top": 180, "left": 390, "caption": "ValueLabel" }</properties></jagui-valuelabel>
                     <!--<jagui-icon id="_tyej49b" name="Icon1" data-class="Icon" class="Control Icon {theme} confirmation" src="#" alt="" draggable="false"
                         data-onclick="$j.dialogs.confirm('Confirmation dialog')" data-showtooltip="true" data-tooltip="Click here to show confirmation dialog"
@@ -288,8 +297,9 @@
                     <jagui-colorpicker id="_n8efish" data-class="ColorPicker" class="Control ColorPicker"><properties>{ "name": "ColorPicker1", "colorQuad": "ColorQuad1", "color": "blue", "top": 10, "left": 1120, "width": 50, "height": 140 }</properties><div class="Control ColorPickerIndicator"></div></jagui-colorpicker>
                     <jagui-textbox id="_n5efish" data-class="TextBox" class="Control TextBox {theme} required haserror"><properties>{ "name": "TextBox1", "required": true, "hasError": true, "errorMsg": "This field is required", "tabOrder": 27, "left": 750, "top": 310, "width": 135, "height": 20 }</properties><input type="text" placeholder="type your text here" value="TextBox1" class="Control csr_text TextBoxInput {theme}" /></jagui-textbox>
                     <!--<jagui-passwordtextbox id="_n5eeish" data-class="PasswordTextBox" class="Control TextBox PasswordTextBox {theme}"><properties>{ "name": "PasswordTextBox1", "length": 0, "tabOrder": 28, "left": 750, "top": 340, "width": 135, "height": 20 }</properties><input type="password" placeholder="type your password here" class="Control csr_text {theme} TextBoxInput PasswordTextBoxInput" /><jagui-button id="_qdD6Irs" data-class="TextButton" class="Control TextButton {theme} PasswordTextBoxButton csr_default"></jagui-button></jagui-passwordtextbox>-->
-                    <jagui-roundtextbox id="_n5ejish" data-class="RoundTextBox" class="Control TextBox RoundTextBox {theme}"><properties>{ "name": "RoundTextBox1", "filterChars": "a1", "tabOrder": 29, "left": 750, "top": 370, "width": 135, "height": 20 }</properties><input type="text" placeholder="Only a and 1 char valid" value="" class="Control csr_text TextBoxInput RoundTextBoxInput {theme}"
-                        /></jagui-roundtextbox>
+                    <jagui-roundtextbox id="_n5ejish" data-class="RoundTextBox" class="Control TextBox RoundTextBox {theme}">
+                        <properties>{ "name": "RoundTextBox1", "filterChars": "a1", "tabOrder": 29, "left": 750, "top": 370, "width": 135, "height": 20 }</properties><input type="text" placeholder="Only a and 1 char valid" value="" class="Control csr_text TextBoxInput RoundTextBoxInput {theme}" />
+                    </jagui-roundtextbox>
                     <!--<div id="_n8eeish" name="TextBoxClearBtn1" data-class="TextBoxClearBtn" class="Control TextBox TextBoxClearBtn {theme}" data-length="0"
                         data-taborder="30" style="left: 900px;top: 340px;width: 135px;height: 20px">
                         <input type="text" placeholder="type your text here" class="Control csr_text TextBoxInput TextBoxClearBtnInput {theme}" />
@@ -300,7 +310,7 @@
                         <input type="text" class="Control csr_text MaskedTextBoxInput {theme}" />
                     </div>
                     <!--<div id="_TCtALMr" data-class="Clock" name="Clock1" class="Clock {theme}" style="left:1290px;top:370px;"></div>-->
-                        <!--<canvas id="_s5efish" data-class="PlotGrid" class="Control PlotGrid" name="PlotGrid1" width="170" height="170" data-onpaint="PlotGrid1_onPaint"
+                    <!--<canvas id="_s5efish" data-class="PlotGrid" class="Control PlotGrid" name="PlotGrid1" width="170" height="170" data-onpaint="PlotGrid1_onPaint"
                         style="left: 1190px;top: 10px;width: 170px;height: 170px;"></canvas>
                     <canvas id="_a5efish" data-class="PaintBox" class="Control PaintBox" name="PaintBox1" width="170" height="170" data-onpaint="PaintBox1_onPaint"
                         data-onclick="PaintBox1_onClick" data-tooltip="Click to change drawing method" data-showtooltip="true"
@@ -628,139 +638,121 @@
                         <button id="_vxawq15_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
                         <button id="_vxawq15_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
                     </div>-->
-                    <div id="_qcley4d" name="ScrollBox1" data-class="ScrollBox" class="Control scrollContent ScrollBox {theme}"><properties>{ "tabOrder": 53, "left": 750, "top": 10, "width": 140, "height": 140 }</properties><!--<div class="Control ScrollBoxViewPort {theme}">
-                            <div class="Control ScrollBoxContent {theme}">-->
-                                <jagui-button id="_6gbvpio" data-class="Button" class="Control Button csr_default {theme}"><properties>{ "name": "Button4", "left": 10, "top": 200, "height": 19, "width": 68, "tabOrder": 0 }</properties>Button4</jagui-button>
-                            <!--</div>
-                        </div>
-                        <div id="_rpudmjo" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
-                            data-orientation="horizontal">
-                            <div id="_rpudmjo_3" class="Control {theme} csr_default">
-                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
-                            </div>
-                            <button id="_rpudmjo_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
-                            <button id="_rpudmjo_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
-                        </div>
-                        <div id="_3j20g8d" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
-                            data-orientation="vertical">
-                            <div id="_3j20g8d_3" class="Control {theme} csr_default">
-                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
-                            </div>
-                            <button id="_3j20g8d_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
-                            <button id="_3j20g8d_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
-                        </div>-->
-                    </div>
+                    <jagui-scrollbox id="_qcley4d" name="ScrollBox1" data-class="ScrollBox" class="Control scrollContent ScrollBox {theme}">
+                        <properties>{ "tabOrder": 53, "left": 750, "top": 10, "width": 140, "height": 140 }</properties>
+                        <jagui-button id="_6gbvpio" data-class="Button" class="Control Button csr_default {theme}"><properties>{ "name": "Button4", "left": 10, "top": 200, "height": 19, "width": 68, "tabOrder": 0 }</properties>Button4</jagui-button>
+                    </jagui-scrollbox>
                     <!--<div id="_d90aprb" name="ListBox1" data-class="ListBox" class="Control scrollContent ListBox {theme} usealternatecolor orientation-vertical scrollbars-vertical"
-                        data-scrollbars="vertical" data-usealternatecolor="true" data-orientation="vertical" data-taborder="54"
-                        style="left: 900px;top: 10px;width: 100px;height: 140px;">
-                        <div class="Control ListBoxContent {theme} orientation-vertical"></div>
-                        <div id="_3hjirwj" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
-                            data-orientation="horizontal">
-                            <div id="_3hjirwj_3" class="Control {theme} csr_default">
-                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                                data-scrollbars="vertical" data-usealternatecolor="true" data-orientation="vertical" data-taborder="54"
+                                style="left: 900px;top: 10px;width: 100px;height: 140px;">
+                                <div class="Control ListBoxContent {theme} orientation-vertical"></div>
+                                <div id="_3hjirwj" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
+                                    data-orientation="horizontal">
+                                    <div id="_3hjirwj_3" class="Control {theme} csr_default">
+                                        <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                                    </div>
+                                    <button id="_3hjirwj_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                                    <button id="_3hjirwj_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                                </div>
+                                <div id="_qte8z95" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
+                                    data-orientation="vertical">
+                                    <div id="_qte8z95_3" class="Control {theme} csr_default">
+                                        <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                                    </div>
+                                    <button id="_qte8z95_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                                    <button id="_qte8z95_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                                </div>
+                                <properties>
+                                    [{"text":"Item1","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":0}, {"text":"Item2","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":16},
+                                    {"text":"Item3","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":32}, {"text":"Item4","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":48},
+                                    {"text":"Item5","height":16,"isChecked":false,"enabled":true,"isHeader":true,"top":64}, {"text":"Item6","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":80},
+                                    {"text":"Item7","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":112}, {"text":"Item8","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":128},
+                                    {"text":"Item9","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":144}, {"text":"Item10","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":160},
+                                    {"text":"Item11","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":176}, {"text":"Item12","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":192},
+                                    {"text":"Item13","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":208}, {"text":"Item14","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":224},
+                                    {"text":"Item15","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":240}, {"text":"Item16","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":256},
+                                    {"text":"Item17","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":272}]
+                                </properties>
                             </div>
-                            <button id="_3hjirwj_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
-                            <button id="_3hjirwj_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
-                        </div>
-                        <div id="_qte8z95" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
-                            data-orientation="vertical">
-                            <div id="_qte8z95_3" class="Control {theme} csr_default">
-                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            <div id="_d905prb" name="ListBox2" data-class="ListBox" class="Control scrollContent ListBox {theme} scrollbars-none viewcheckboxes usealternatecolor orientation-vertical"
+                                data-scrollbars="none" data-viewcheckboxes="true" data-usealternatecolor="true" data-selectedindex="2"
+                                data-orientation="vertical" data-taborder="55" style="left: 900px;top: 160px;width: 100px;height: 140px;">
+                                <div class="Control ListBoxContent {theme} orientation-vertical"></div>
+                                <div id="_wnfsigg" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
+                                    data-orientation="horizontal">
+                                    <div id="_wnfsigg_3" class="Control {theme} csr_default">
+                                        <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                                    </div>
+                                    <button id="_wnfsigg_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton"></button>
+                                    <button id="_wnfsigg_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton"></button>
+                                </div>
+                                <div id="_wnfsig1" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
+                                    data-orientation="vertical">
+                                    <div id="_wnfsig1_3" class="Control {theme} csr_default">
+                                        <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                                    </div>
+                                    <button id="_wnfsig1_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                                    <button id="_wnfsig1_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                                </div>
+                                <properties>
+                                    [{"text":"Item1","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":0,"cssImage":"button"}, {"text":"Item2","height":16,"isChecked":true,"enabled":true,"isHeader":false,"top":16},
+                                    {"text":"Item3","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":32}, {"text":"Item4","height":16,"isChecked":true,"enabled":true,"isHeader":false,"top":48},
+                                    {"text":"Item5","height":16,"isChecked":true,"enabled":true,"isHeader":false,"top":64}, {"text":"Item6","height":16,"isChecked":true,"enabled":false,"isHeader":false,"top":80},
+                                    {"text":"Item7","height":16,"isChecked":true,"enabled":true,"isHeader":false,"top":96}]
+                                </properties>
                             </div>
-                            <button id="_qte8z95_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
-                            <button id="_qte8z95_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
-                        </div>
-                        <properties>
-                            [{"text":"Item1","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":0}, {"text":"Item2","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":16},
-                            {"text":"Item3","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":32}, {"text":"Item4","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":48},
-                            {"text":"Item5","height":16,"isChecked":false,"enabled":true,"isHeader":true,"top":64}, {"text":"Item6","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":80},
-                            {"text":"Item7","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":112}, {"text":"Item8","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":128},
-                            {"text":"Item9","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":144}, {"text":"Item10","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":160},
-                            {"text":"Item11","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":176}, {"text":"Item12","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":192},
-                            {"text":"Item13","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":208}, {"text":"Item14","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":224},
-                            {"text":"Item15","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":240}, {"text":"Item16","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":256},
-                            {"text":"Item17","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":272}]
-                        </properties>
-                    </div>
-                    <div id="_d905prb" name="ListBox2" data-class="ListBox" class="Control scrollContent ListBox {theme} scrollbars-none viewcheckboxes usealternatecolor orientation-vertical"
-                        data-scrollbars="none" data-viewcheckboxes="true" data-usealternatecolor="true" data-selectedindex="2"
-                        data-orientation="vertical" data-taborder="55" style="left: 900px;top: 160px;width: 100px;height: 140px;">
-                        <div class="Control ListBoxContent {theme} orientation-vertical"></div>
-                        <div id="_wnfsigg" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
-                            data-orientation="horizontal">
-                            <div id="_wnfsigg_3" class="Control {theme} csr_default">
-                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            <div id="_pghpwb3" name="ListBox3" data-class="ListBox" class="Control scrollContent ListBox {theme} scrollbars-horizontal usealternatecolor orientation-horizontal"
+                                data-itemsheight="32" data-scrollbars="horizontal" data-viewcheckboxes="false" data-usealternatecolor="true"
+                                data-orientation="horizontal" data-taborder="56" style="left: 750px;top: 160px;width: 140px;height: 140px;">
+                                <div class="Control ListBoxContent {theme} orientation-horizontal"></div>
+                                <div id="_am7nzni" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
+                                    data-orientation="horizontal">
+                                    <div id="_am7nzni_3" class="Control {theme} csr_default">
+                                        <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                                    </div>
+                                    <button id="_am7nzni_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                                    <button id="_am7nzni_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                                </div>
+                                <div id="_am7nzn1" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
+                                    data-orientation="vertical">
+                                    <div id="_am7nzn1_3" class="Control {theme} csr_default">
+                                        <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                                    </div>
+                                    <button id="_am7nzn1_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                                    <button id="_am7nzn1_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                                </div>
+                                <properties>
+                                    [{"text":"Item1","height":32,"isChecked":false,"enabled":true,"isHeader":false,"left":0}, {"text":"Item2","height":32,"isChecked":true,"enabled":true,"isHeader":false,"left":32},
+                                    {"text":"Item3","height":32,"isChecked":false,"enabled":true,"isHeader":false,"left":64}, {"text":"Item4","height":32,"isChecked":true,"enabled":true,"isHeader":false,"left":96},
+                                    {"text":"Item5","height":32,"isChecked":true,"enabled":true,"isHeader":false,"left":0}, {"text":"Item6","height":32,"isChecked":true,"enabled":true,"isHeader":false,"left":0},
+                                    {"text":"Item7","height":32,"isChecked":true,"enabled":true,"isHeader":false,"left":0}]
+                                </properties>
                             </div>
-                            <button id="_wnfsigg_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton"></button>
-                            <button id="_wnfsigg_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton"></button>
-                        </div>
-                        <div id="_wnfsig1" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
-                            data-orientation="vertical">
-                            <div id="_wnfsig1_3" class="Control {theme} csr_default">
-                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            <div id="_z045aep" name="ColorPanel1" data-class="ColorPanel" class="Control ColorPanel" data-taborder="57" style="left: 1120px;top: 200px;width: 160px;height: 160px;">
+                                <div id="_y4enk58" data-class="ColorQuad" class="Control ColorQuad hsl" data-color="blue" data-format="hsl" style="left:5px;top:5px;">
+                                    <div class="Control ColorQuadIndicator"></div>
+                                </div>
+                                <div id="_f66h3sy" data-class="AlphaSlider" class="Control Slider AlphaSlider {theme} orientation-horizontal" data-values="[1,0]"
+                                    data-orientation="horizontal" data-taborder="0" style="width:92px;height:6px;">
+                                    <input type="range" id="_f66h3sz" data-class="Thumb" class="Control {theme} csr_default" />
+                                </div>
+                                <div id="_0km5xu9" data-class="HUESlider" class="Control Slider HUESlider {theme} orientation-vertical" data-values="[0.65,0]"
+                                    data-orientation="vertical" data-taborder="1" style="width:92px;height:6px;">
+                                    <input type="range" id="_0km5xua" data-class="Thumb" class="Control {theme} csr_default" />
+                                </div>
+                                <div id="_ngyfio6" data-class="ColorBox" data-color="white" data-type="secondaryColorBox" style="right: 1px;bottom: 1px;width: 25px;height: 25px;"
+                                    class="Control ColorBox"></div>
+                                <div id="_b7acwka" data-class="ColorBox" data-color="blue" data-type="primaryColorBox" style="right: 11px;bottom: 11px;width: 25px;height: 25px;"
+                                    class="Control ColorBox"></div>
                             </div>
-                            <button id="_wnfsig1_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
-                            <button id="_wnfsig1_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
-                        </div>
-                        <properties>
-                            [{"text":"Item1","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":0,"cssImage":"button"}, {"text":"Item2","height":16,"isChecked":true,"enabled":true,"isHeader":false,"top":16},
-                            {"text":"Item3","height":16,"isChecked":false,"enabled":true,"isHeader":false,"top":32}, {"text":"Item4","height":16,"isChecked":true,"enabled":true,"isHeader":false,"top":48},
-                            {"text":"Item5","height":16,"isChecked":true,"enabled":true,"isHeader":false,"top":64}, {"text":"Item6","height":16,"isChecked":true,"enabled":false,"isHeader":false,"top":80},
-                            {"text":"Item7","height":16,"isChecked":true,"enabled":true,"isHeader":false,"top":96}]
-                        </properties>
-                    </div>
-                    <div id="_pghpwb3" name="ListBox3" data-class="ListBox" class="Control scrollContent ListBox {theme} scrollbars-horizontal usealternatecolor orientation-horizontal"
-                        data-itemsheight="32" data-scrollbars="horizontal" data-viewcheckboxes="false" data-usealternatecolor="true"
-                        data-orientation="horizontal" data-taborder="56" style="left: 750px;top: 160px;width: 140px;height: 140px;">
-                        <div class="Control ListBoxContent {theme} orientation-horizontal"></div>
-                        <div id="_am7nzni" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
-                            data-orientation="horizontal">
-                            <div id="_am7nzni_3" class="Control {theme} csr_default">
-                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
-                            </div>
-                            <button id="_am7nzni_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
-                            <button id="_am7nzni_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
-                        </div>
-                        <div id="_am7nzn1" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
-                            data-orientation="vertical">
-                            <div id="_am7nzn1_3" class="Control {theme} csr_default">
-                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
-                            </div>
-                            <button id="_am7nzn1_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
-                            <button id="_am7nzn1_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
-                        </div>
-                        <properties>
-                            [{"text":"Item1","height":32,"isChecked":false,"enabled":true,"isHeader":false,"left":0}, {"text":"Item2","height":32,"isChecked":true,"enabled":true,"isHeader":false,"left":32},
-                            {"text":"Item3","height":32,"isChecked":false,"enabled":true,"isHeader":false,"left":64}, {"text":"Item4","height":32,"isChecked":true,"enabled":true,"isHeader":false,"left":96},
-                            {"text":"Item5","height":32,"isChecked":true,"enabled":true,"isHeader":false,"left":0}, {"text":"Item6","height":32,"isChecked":true,"enabled":true,"isHeader":false,"left":0},
-                            {"text":"Item7","height":32,"isChecked":true,"enabled":true,"isHeader":false,"left":0}]
-                        </properties>
-                    </div>
-                    <div id="_z045aep" name="ColorPanel1" data-class="ColorPanel" class="Control ColorPanel" data-taborder="57" style="left: 1120px;top: 200px;width: 160px;height: 160px;">
-                        <div id="_y4enk58" data-class="ColorQuad" class="Control ColorQuad hsl" data-color="blue" data-format="hsl" style="left:5px;top:5px;">
-                            <div class="Control ColorQuadIndicator"></div>
-                        </div>
-                        <div id="_f66h3sy" data-class="AlphaSlider" class="Control Slider AlphaSlider {theme} orientation-horizontal" data-values="[1,0]"
-                            data-orientation="horizontal" data-taborder="0" style="width:92px;height:6px;">
-                            <input type="range" id="_f66h3sz" data-class="Thumb" class="Control {theme} csr_default" />
-                        </div>
-                        <div id="_0km5xu9" data-class="HUESlider" class="Control Slider HUESlider {theme} orientation-vertical" data-values="[0.65,0]"
-                            data-orientation="vertical" data-taborder="1" style="width:92px;height:6px;">
-                            <input type="range" id="_0km5xua" data-class="Thumb" class="Control {theme} csr_default" />
-                        </div>
-                        <div id="_ngyfio6" data-class="ColorBox" data-color="white" data-type="secondaryColorBox" style="right: 1px;bottom: 1px;width: 25px;height: 25px;"
-                            class="Control ColorBox"></div>
-                        <div id="_b7acwka" data-class="ColorBox" data-color="blue" data-type="primaryColorBox" style="right: 11px;bottom: 11px;width: 25px;height: 25px;"
-                            class="Control ColorBox"></div>
-                    </div>
-                    <!--<div id="_d9tuexn" name="GradientEdit1" data-class="GradientEdit" class="Control GradientEdit" data-colorquad="ColorQuad1" style="left: 1120px;top: 370px;width: 160px;height: 20px;">
-              <div class="Control GradientEdit_gradient"></div>
-              <div class="Control GradientEdit_colorStops">
-                <div class="Control ColorPickerIndicator" data-offset="0" style="background-color: black;left: 0;"></div>
-                <div class="Control ColorPickerIndicator" data-offset="100" style="background-color: white;left: 150px;"></div>
-              </div>
-            </div>-->
-                        <!--<div id="_s7jvaz2" name="LabeledAngleBar1" data-class="LabeledAngleBar" class="Control LabeledAngleBar" data-taborder="58"
+                            <!--<div id="_d9tuexn" name="GradientEdit1" data-class="GradientEdit" class="Control GradientEdit" data-colorquad="ColorQuad1" style="left: 1120px;top: 370px;width: 160px;height: 20px;">
+                      <div class="Control GradientEdit_gradient"></div>
+                      <div class="Control GradientEdit_colorStops">
+                        <div class="Control ColorPickerIndicator" data-offset="0" style="background-color: black;left: 0;"></div>
+                        <div class="Control ColorPickerIndicator" data-offset="100" style="background-color: white;left: 150px;"></div>
+                      </div>
+                    </div>-->
+                    <!--<div id="_s7jvaz2" name="LabeledAngleBar1" data-class="LabeledAngleBar" class="Control LabeledAngleBar" data-taborder="58"
                         style="left: 1010px;top: 410px;width: 205px;height: 20px;">
                         <label id="_zshfs89" data-class="Label" class="Control csr_default Label {theme}" data-autosize="false">LabeledAngleBar :&nbsp;</label>
                         <button id="_zimtf4d" data-class="AngleButton" class="Control AngleButton {theme} csr_default" data-taborder="0" data-showvalue="false">
@@ -1054,107 +1046,107 @@
                     </div>-->
                     <div id="_5yd1lbk" data-class="BitmapStateButton" class="Control BitmapStateButton"><properties>{ "name":"BitmapStateButton1", "left":110, "top": 40, "width": 32, "height": 32, "bitmap": "images/power.png", "caption": "" }</properties></div>
                     <!--<div id="_s8saz79" name="BusyIndicator1" data-class="BusyIndicator" class="Control BusyIndicator {theme}" data-style="spin" style="left: 950px;top: 460px;width: 45px;height: 45px;"></div>
-            <div id="_qlqh7sf" name="BusyIndicator2" data-class="BusyIndicator" class="Control usyIndicator {theme} win8loader" data-style="win8Circle" style="left: 955px;top: 505px;width: 35px;height: 35px;"></div>
-            <div id="_k2c4id9" name="BusyIndicator3" data-class="BusyIndicator" class="Control usyIndicator {theme}" data-style="ball" style="left: 955px;top: 550px;width: 35px;height: 35px;"></div>
-            <div id="_sz5p7de" name="BusyIndicator3" data-class="BusyIndicator" class="Control usyIndicator {theme}" data-style="circle" data-showtooltip="true" data-tooltip="BusyIndicator3" style="left: 955px;top: 600px;width: 35px;height: 35px;"></div>-->
-                        <!--<div id="_12rl9i5" name="OpenDialog1" data-class="OpenDialog" class="Control ShortCutIcon OpenDialog" style="left: 0;top: 400px;">
-                        <div class="Control ShortCutIconImg opendialog">
-                            <div class="Control ShortCutIconCaption">openDialog1</div>
-                        </div>
-                    </div>
-                    <div id="_12rl9i8" name="FindReplaceDialog1" data-class="FindReplaceDialog" class="Control ShortCutIcon FindReplaceDialog"
-                        style="left: 0;top: 400px;">
-                        <div class="Control ShortCutIconImg findreplacedialog">
-                            <div class="Control ShortCutIconCaption">findReplaceDialog1</div>
-                        </div>
-                    </div>
-                    <div id="_12rl9i9" name="FontDialog1" data-class="FontDialog" class="Control FontDialog ShortCutIcon" style="left: 0;top: 400px;">
-                        <div class="Control ShortCutIconImg fontdialog">
-                            <div class="Control ShortCutIconCaption">fontDialog1</div>
-                        </div>
-                    </div>
-                    <div id="_12rl9ia" name="ColorDialog1" data-class="ColorDialog" class="Control ColorDialog ShortCutIcon" style="left: 0;top: 400px;">
-                        <div class="Control ShortCutIconImg colordialog">
-                            <div class="Control ShortCutIconCaption">colorDialog1</div>
-                        </div>
-                    </div>
-                    <div id="_15rl9ia" name="DataSource1" data-class="DataSource" class="Control DataSource ShortCutIcon" data-type="file" data-dataset="DataFile1"
-                        style="left: 0;top: 400px;">
-                        <div class="Control ShortCutIconImg dataSource">
-                            <div class="Control ShortCutIconCaption">DataSource1</div>
-                        </div>
-                    </div>
-                    <div id="_25rl9ia" name="DataFile1" data-class="DataFile" class="Control DataFile ShortCutIcon" data-type="auto" data-url="data.json"
-                        data-keyfields="id" style="left: 0;top: 400px;">
-                        <div class="Control ShortCutIconImg datafile">
-                            <div class="Control ShortCutIconCaption">DataFile1</div>
-                        </div>
-                    </div>
-                    <div id="_1gspfce" name="GridView1" data-class="GridView" class="Control GridView {theme} colsizing" data-scrollbars="none"
-                        data-source="DataSource1" data-autocols="false" data-showpager="false" data-showheader="true" data-usealternatecolor="true"
-                        data-showrowindicator="true" data-sortable="true" data-horzline="true" data-vertline="true" data-rowsizing="false"
-                        data-colsizing="true" data-rowmoving="false" data-colmoving="false" data-editing="false" data-tabs="false"
-                        data-alwaysshoweditor="false" data-stretchlastcol="false" data-autosizecols="false" data-showfooter="false"
-                        data-fixedcols="0" data-fixedrows="0" data-rangeselect="false" data-animatedscroll="true" data-rowsheight=""
-                        data-taborder="78" style="left:10px;top:410px;width:728px;height:200px;">
-                        <data type="header">[{"fieldName":"id","visible":false}, {"caption":"Nom","fieldName":"LastName","width":100}, {"caption":"Prénom","fieldName":"FirstName","width":90},
-                            {"caption":"Année nai.","fieldName":"YearOfBirth","dataType":"integer","width":70,"cellEditor":{"class":"SpinBox"}},
-                            {"caption":"Popularité","fieldName":"Popularity","dataType":"integer","width":95,"cellEditor":{"class":"SpinBox","classProperties":{"min":0,"max":5,"maxWidth":90}},"cellTemplate":"Rating"},
-                            {"caption":"En vie","fieldName":"Living","dataType":"boolean","width":40,"cellEditor":{"class":"Checkbox"},"cellTemplate":"Checkbox"},
-                            {"caption":"Durée de vie","fieldName":"LifeTime","dataType":"integer","width":75,"cellEditor":{"class":"SpinBox","classProperties":{"min":0,"max":100}},"cellTemplate":"ProgressBar"},
-                            {"caption":"Couleur","fieldName":"FavColor","width":80,"cellEditor":{"class":"ColorButton","classProperties":{}},"cellTemplate":"Color"},
-                            {"caption":"Sexe","fieldName":"Sex","width":40,"cellEditor":{"class":"Image","classProperties":{}},"cellTemplate":"Image"},
-                            {"caption":"SparkLines","fieldName":"Lines","width":90,"cellEditor":{"class":"Image","classProperties":{}},"cellTemplate":"SparkLines","sortable":false}
-                            ]
-                        </properties>
-                        <div class="Control GridViewContent {theme} scrollContent scrollbars-none">
-                            <div class="Control GridViewViewPort {theme}"></div>
-                            <div id="_fukxgus" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
-                                data-orientation="horizontal">
-                                <div id="_fukxgus_3" class="Control {theme} csr_default">
-                                    <div class="Control ScrollBar_thumb {theme} csr_default"></div>
-                                </div>
-                                <button id="_fukxgus_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
-                                <button id="_fukxgus_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
-                            </div>
-                            <div id="_xk4bk0d" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
-                                data-orientation="vertical">
-                                <div id="_xk4bk0d_3" class="Control {theme} csr_default">
-                                    <div class="Control ScrollBar_thumb {theme} csr_default"></div>
-                                </div>
-                                <button id="_xk4bk0d_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
-                                <button id="_xk4bk0d_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                    <div id="_qlqh7sf" name="BusyIndicator2" data-class="BusyIndicator" class="Control usyIndicator {theme} win8loader" data-style="win8Circle" style="left: 955px;top: 505px;width: 35px;height: 35px;"></div>
+                    <div id="_k2c4id9" name="BusyIndicator3" data-class="BusyIndicator" class="Control usyIndicator {theme}" data-style="ball" style="left: 955px;top: 550px;width: 35px;height: 35px;"></div>
+                    <div id="_sz5p7de" name="BusyIndicator3" data-class="BusyIndicator" class="Control usyIndicator {theme}" data-style="circle" data-showtooltip="true" data-tooltip="BusyIndicator3" style="left: 955px;top: 600px;width: 35px;height: 35px;"></div>-->
+                    <!--<div id="_12rl9i5" name="OpenDialog1" data-class="OpenDialog" class="Control ShortCutIcon OpenDialog" style="left: 0;top: 400px;">
+                            <div class="Control ShortCutIconImg opendialog">
+                                <div class="Control ShortCutIconCaption">openDialog1</div>
                             </div>
                         </div>
-                        <!--<div id="" data-class="Pager" class="Pager" data-theme="{theme}">
-                  <div id="" data-class="Button" class="Button NavButton NavBtnFirst" data-theme="{theme}">
-                    <span></span>
-                  </div>
-                  <div id="" data-class="Button" class="Button NavButton NavBtnPrev" data-theme="{theme}">
-                    <span></span>
-                  </div>
-                  <div id="" data-class="Button" class="Button NavButton" data-theme="{theme}">
-                    <span>1</span>
-                  </div>
-                  <div id="" data-class="Button" class="Button NavButton" data-theme="{theme}">
-                    <span>2</span>
-                  </div>
-                  <div id="" data-class="Button" class="Button NavButton" data-theme="{theme}">
-                    <span>3</span>
-                  </div>
-                  <div id="" data-class="Button" class="Button NavButton NavBtnNext" data-theme="{theme}">
-                    <span></span>
-                  </div>
-                  <div id="" data-class="Button" class="Button NavButton NavBtnLast" data-theme="{theme}">
-                    <span></span>
-                  </div>
-                  <div id="" data-class="TextBox" class="TextBox NavItemsPerPage" data-theme="{theme}">
-                    <input type=text value="10" class="csr_text" data-theme="{theme}" />
-                  </div>
-                  <label id="" data-class="Label" class="Label csr_default NavLblItems" data-theme="{theme}">items per page</label>
-                  <label id="" data-class="Label" class="Label csr_default NavLblCurItems" data-theme="{theme}">1 - 10 of 50 items</label>
-                </div>-->
-                        <!--</div>
+                        <div id="_12rl9i8" name="FindReplaceDialog1" data-class="FindReplaceDialog" class="Control ShortCutIcon FindReplaceDialog"
+                            style="left: 0;top: 400px;">
+                            <div class="Control ShortCutIconImg findreplacedialog">
+                                <div class="Control ShortCutIconCaption">findReplaceDialog1</div>
+                            </div>
+                        </div>
+                        <div id="_12rl9i9" name="FontDialog1" data-class="FontDialog" class="Control FontDialog ShortCutIcon" style="left: 0;top: 400px;">
+                            <div class="Control ShortCutIconImg fontdialog">
+                                <div class="Control ShortCutIconCaption">fontDialog1</div>
+                            </div>
+                        </div>
+                        <div id="_12rl9ia" name="ColorDialog1" data-class="ColorDialog" class="Control ColorDialog ShortCutIcon" style="left: 0;top: 400px;">
+                            <div class="Control ShortCutIconImg colordialog">
+                                <div class="Control ShortCutIconCaption">colorDialog1</div>
+                            </div>
+                        </div>
+                        <div id="_15rl9ia" name="DataSource1" data-class="DataSource" class="Control DataSource ShortCutIcon" data-type="file" data-dataset="DataFile1"
+                            style="left: 0;top: 400px;">
+                            <div class="Control ShortCutIconImg dataSource">
+                                <div class="Control ShortCutIconCaption">DataSource1</div>
+                            </div>
+                        </div>
+                        <div id="_25rl9ia" name="DataFile1" data-class="DataFile" class="Control DataFile ShortCutIcon" data-type="auto" data-url="data.json"
+                            data-keyfields="id" style="left: 0;top: 400px;">
+                            <div class="Control ShortCutIconImg datafile">
+                                <div class="Control ShortCutIconCaption">DataFile1</div>
+                            </div>
+                        </div>
+                        <div id="_1gspfce" name="GridView1" data-class="GridView" class="Control GridView {theme} colsizing" data-scrollbars="none"
+                            data-source="DataSource1" data-autocols="false" data-showpager="false" data-showheader="true" data-usealternatecolor="true"
+                            data-showrowindicator="true" data-sortable="true" data-horzline="true" data-vertline="true" data-rowsizing="false"
+                            data-colsizing="true" data-rowmoving="false" data-colmoving="false" data-editing="false" data-tabs="false"
+                            data-alwaysshoweditor="false" data-stretchlastcol="false" data-autosizecols="false" data-showfooter="false"
+                            data-fixedcols="0" data-fixedrows="0" data-rangeselect="false" data-animatedscroll="true" data-rowsheight=""
+                            data-taborder="78" style="left:10px;top:410px;width:728px;height:200px;">
+                            <data type="header">[{"fieldName":"id","visible":false}, {"caption":"Nom","fieldName":"LastName","width":100}, {"caption":"Prénom","fieldName":"FirstName","width":90},
+                                {"caption":"Année nai.","fieldName":"YearOfBirth","dataType":"integer","width":70,"cellEditor":{"class":"SpinBox"}},
+                                {"caption":"Popularité","fieldName":"Popularity","dataType":"integer","width":95,"cellEditor":{"class":"SpinBox","classProperties":{"min":0,"max":5,"maxWidth":90}},"cellTemplate":"Rating"},
+                                {"caption":"En vie","fieldName":"Living","dataType":"boolean","width":40,"cellEditor":{"class":"Checkbox"},"cellTemplate":"Checkbox"},
+                                {"caption":"Durée de vie","fieldName":"LifeTime","dataType":"integer","width":75,"cellEditor":{"class":"SpinBox","classProperties":{"min":0,"max":100}},"cellTemplate":"ProgressBar"},
+                                {"caption":"Couleur","fieldName":"FavColor","width":80,"cellEditor":{"class":"ColorButton","classProperties":{}},"cellTemplate":"Color"},
+                                {"caption":"Sexe","fieldName":"Sex","width":40,"cellEditor":{"class":"Image","classProperties":{}},"cellTemplate":"Image"},
+                                {"caption":"SparkLines","fieldName":"Lines","width":90,"cellEditor":{"class":"Image","classProperties":{}},"cellTemplate":"SparkLines","sortable":false}
+                                ]
+                            </properties>
+                            <div class="Control GridViewContent {theme} scrollContent scrollbars-none">
+                                <div class="Control GridViewViewPort {theme}"></div>
+                                <div id="_fukxgus" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
+                                    data-orientation="horizontal">
+                                    <div id="_fukxgus_3" class="Control {theme} csr_default">
+                                        <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                                    </div>
+                                    <button id="_fukxgus_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                                    <button id="_fukxgus_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                                </div>
+                                <div id="_xk4bk0d" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
+                                    data-orientation="vertical">
+                                    <div id="_xk4bk0d_3" class="Control {theme} csr_default">
+                                        <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                                    </div>
+                                    <button id="_xk4bk0d_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                                    <button id="_xk4bk0d_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                                </div>
+                            </div>
+                            <!--<div id="" data-class="Pager" class="Pager" data-theme="{theme}">
+                      <div id="" data-class="Button" class="Button NavButton NavBtnFirst" data-theme="{theme}">
+                        <span></span>
+                      </div>
+                      <div id="" data-class="Button" class="Button NavButton NavBtnPrev" data-theme="{theme}">
+                        <span></span>
+                      </div>
+                      <div id="" data-class="Button" class="Button NavButton" data-theme="{theme}">
+                        <span>1</span>
+                      </div>
+                      <div id="" data-class="Button" class="Button NavButton" data-theme="{theme}">
+                        <span>2</span>
+                      </div>
+                      <div id="" data-class="Button" class="Button NavButton" data-theme="{theme}">
+                        <span>3</span>
+                      </div>
+                      <div id="" data-class="Button" class="Button NavButton NavBtnNext" data-theme="{theme}">
+                        <span></span>
+                      </div>
+                      <div id="" data-class="Button" class="Button NavButton NavBtnLast" data-theme="{theme}">
+                        <span></span>
+                      </div>
+                      <div id="" data-class="TextBox" class="TextBox NavItemsPerPage" data-theme="{theme}">
+                        <input type=text value="10" class="csr_text" data-theme="{theme}" />
+                      </div>
+                      <label id="" data-class="Label" class="Label csr_default NavLblItems" data-theme="{theme}">items per page</label>
+                      <label id="" data-class="Label" class="Label csr_default NavLblCurItems" data-theme="{theme}">1 - 10 of 50 items</label>
+                    </div>-->
+                    <!--</div>
                     <img id="_6rxnesg" name="Image5" data-class="Icon" class="Control Icon {theme} csr_default" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAoElEQVRYR+3XUQ7AIAgDULn/oVn4MFnMTKDt5j7wAnuriGju7uPgsgZ0AtkEzGy8Ua/pIgxALDWiBIiPq5MoAyIFJQICKBEwQIWgAAoEDWAREgCDkAFQhBSAICSA2SXvY0W2Y8KAezNiGhMEWO+FTwG7P0cRpQTW21CxDSXAU2GxiDRgNzgfB6xnv1oLdAK/AEwEMrJJEmAeVg3oBI4ncAHcpwawrvQXSwAAAABJRU5ErkJggg=="
                         alt="" data-tooltip="Normal selection" width="32" height="32" data-showtooltip="true" style="top: 620px;left:10px;"
                     />
@@ -1331,21 +1323,21 @@
                             <button id="_JYqgSQW" data-class="Button" class="Control Button TextBoxBtnButton {theme}"></button>
                         </div>
                     </div>-->
-                    <!--<fieldset id="_TUlHPSS" data-class="RadioGroup" class="Control RadioGroup {theme}"><properties>{ "name": "RadioGroup1", "left": 1240, "top": 600, "width": 200, "height": 100 }</properties><legend class="Control GroupBoxLegend {theme}">RadioGroup1</legend><properties>[ {"caption":"radio1","isChecked":false,"enabled":true}, {"caption":"radio2","isChecked":false,"enabled":true}]</properties></fieldset>-->
+                    <fieldset id="_TUlHPSS" data-class="RadioGroup" class="Control RadioGroup {theme}"><properties>{ "name": "RadioGroup1", "left": 1240, "top": 600, "width": 200, "height": 100 }</properties><legend class="Control GroupBoxLegend {theme}">RadioGroup1</legend><properties>[ {"caption":"radio1","isChecked":false,"enabled":true}, {"caption":"radio2","isChecked":false,"enabled":true}]</properties></fieldset>
                     <jagui-toogle id="_YCHNiJq" data-class="Toggle" class="Control Toggle {theme} csr_default"><properties>{ "name": "Toggle1", "isChecked": false, "state": "unchecked", "left": 1120, "top": 160, "width": 50, "height": 21 }</properties><input type="checkbox" class="Control CheckboxInput {theme}" /><div class="Control {theme} CheckboxCheck csr_default"></div></jagui-toogle>
                     <jagui-toogle id="_CKdfPOT" data-class="Toggle" class="Control Toggle {theme} csr_default"><properties>{ "name": "Toggle2", "isChecked": true, "state": "checked", "left": 1050, "top": 340, "width": 50, "height": 21, "uncheckedLabel": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAB4UlEQVQ4T6XTT4hNcRQH8M95byIWRCKKRmMxC8rCWM3CQpEFE4nF2LCgZMUUMjRmCmVhPTUiWQoLFDYWNorsZK3MFFlY+FMz7+jOu093xpuZGnd57jnf8/19v98T/vNL9iTD6IrFYiXLG1yvcSb5GhxbFFiyPnkc9CTvgr7gUyQd2IsXwe+FmCZbk6fBRtzFqeBXMVeAXcZQ8jE4GzyZCzDZVTJa0WCkzmC1NxpMBOtaxeRZCfqh2pjsTR4FS3ExuDZ7acHsQOFGsK0COJncqjXr35P+ZCxYggvB9Xbspw1I6jiUDAXdFdDx5F5wLqhhMBiZS4YZbpZmnE6uBKuqQw3u1+mfz6C20UjWJg+C3grL74WWms/NOZ85+0fSmzwPliUZ/F1axuJEMPGPAW2AupPXwepkMtjX4EhwvAWazQQcDV7NiMYs+9ckb4LNZb3Q7mppUl9yu6VluagI7FgLo0q/o8zY7nL4fbAjmKro1pk8DLaXPYUEBeDo9AW0Gqe4VuN8pakneNtGhuW4g8NlbyHFuuBbK2cH8aA12GC0zsl5zqq4nBs1BpKXwf7gZ3EBXZoMVpabfgRbgvH5MlX2bgg+/9VsiuEalyqsbtYZWAiobc6STY3mmexEZ8nqy2LA/gA9/JRGQkYHwAAAAABJRU5ErkJggg==", "checkedLabel": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAPCAYAAAAGRPQsAAABpUlEQVQ4T6WTv2sUQRzFP99NYmNu71DBRpO/IGodFQwEUoaIprCNaVIEbAIiZmf3iD8JFmojQVsLC0EQIYaARLAzjTbp1FrZXSU2N092zWFibnNiphq+3/d982beG2O/6+7Rg/zYvII4Yvviul47jdkS6A5J/uT/yaJwFqlJT3CBKF0uRBlxYwTvbyItkOQvuioVhgvvYbqMD8ZJ0pX2jBH1v4JgDBDYIi6dw4p9h+UIUPgAMYUxQZy93I4yXG0d2ck/Rd0izq92JIvqt0FziFmS7P7fGKM8rX4etRaxYOC3Qi4RZ093gOfr05ge4XlNTzaGw+8ma1du1A7z055jnEFKafUNsfD1c9l2tWG8rRJoE3pP4L596qR8p5uu0cD7VYxTeD2jmV/EhYeAdcRxTFO4/HGVSbujca0xSF/rPbKCeIQgmAEmEe+Is+FKc8podHQtnEE8RPqC2bESYjqLy9f2ik4FGQfw/RtbhhTzK8TZaLcMVv+AKIyB+ZJANro9nP/+Zm1k4aDsLbI3JOm5rcjsKa5amaMXhR/xfoLm9w/drlj0fwHnVI8tNcQSrQAAAABJRU5ErkJggg==" }</properties><input type="checkbox" class="Control CheckboxInput" /><div class="Control {theme} CheckboxCheck checked"></div></jagui-toogle>
                     <jagui-circularprogressbar id="_OqrszxN" data-class="CircularProgressBar" class="Control CircularProgressBar {theme} csr_default"><properties>{ "name": "CircularProgressBar1", "value": "50", "left": 1230, "top": 410, "width":50, "height":50 }</properties><svg><circle class="Control CircularProgressBar_back" cx="50%" cy="50%" r="20" /><circle class="Control CircularProgressBar_progress" cx="50%" cy="50%" r="20" /></svg></jagui-circularprogressbar>
                     <!--<div id="_UtALzfi" name="BatteryIndicator1" data-class="BatteryIndicator" class="Control BatteryIndicator csr_default incharge showpercent showlegend" data-value="100" style="top:660px;left:10px;height:64px;"></div>
-            <div id="_uZasQeK" name="SegmentLedLabel1" data-class="SegmentLedLabel" class="Control SegmentLedLabel csr_default sixteen" data-caption="Welcome to JaGui" data-maxlength="10" data-autoscroll="true" data-scrollspeed="1" data-segmenttype="16" data-scrolltype="reverse" data-scrolldir="right2left" data-color="lime" style="top:660px;left:150px;height: 54px;"></div>-->
-                    </jagui-windowcontent>
-                    <!--<div id="_ou8mg7s" name="StatusBar1" data-class="StatusBar" class="Control StatusBar {theme}" data-autohint="true" style="height:19px;">
-                    <div class="Control StatusBarSimplePanel {theme}" style="display:none;"></div>
-                    <div class="Control StatusBarSizer {theme} csr_nwResize"></div>
-                    <!--[{"alignment":"left","bevel":"lowered",text:"Hello","width":50},{"alignment":"center","bevel":"lowered",text:"World","width":50}]-->
-                    <!--</div>-->
-                </jagui-windowlayout>
-            </jagui-window>
-        </template>
-    </body>
+                    <div id="_uZasQeK" name="SegmentLedLabel1" data-class="SegmentLedLabel" class="Control SegmentLedLabel csr_default sixteen" data-caption="Welcome to JaGui" data-maxlength="10" data-autoscroll="true" data-scrollspeed="1" data-segmenttype="16" data-scrolltype="reverse" data-scrolldir="right2left" data-color="lime" style="top:660px;left:150px;height: 54px;"></div>-->
+                </jagui-windowcontent>
+                <!--<div id="_ou8mg7s" name="StatusBar1" data-class="StatusBar" class="Control StatusBar {theme}" data-autohint="true" style="height:19px;">
+                <div class="Control StatusBarSimplePanel {theme}" style="display:none;"></div>
+                <div class="Control StatusBarSizer {theme} csr_nwResize"></div>
+                <!--[{"alignment":"left","bevel":"lowered",text:"Hello","width":50},{"alignment":"center","bevel":"lowered",text:"World","width":50}]-->
+                <!--</div>-->
+            </jagui-windowlayout>
+        </jagui-window>
+    </template>
+</body>
 
 </html>

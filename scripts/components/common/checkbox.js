@@ -297,15 +297,12 @@ const Checkbox = (() => {
 })();
 //#endregion Checkbox
 Core.classes.register(Types.CATEGORIES.COMMON, Checkbox);
+//#region Templates
+if (Core.isHTMLRenderer) {
+    const CheckboxTpl = ["<jagui-checkbox id=\"{internalId}\" data-class=\"Checkbox\" class=\"Control Checkbox {theme}\">",
+        "<properties>{ \"name\": \"{name}\", \"height\": 15 }</properties><input type=\"checkbox\" class=\"Control CheckboxInput\" />",
+        "<div class=\"Control {theme} CheckboxCheck\"></div>{caption}</jagui-checkbox>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: Checkbox, template: CheckboxTpl }]);
+}
+//endregion
 export { Checkbox };
-/*
-    //#region Templates
-    if ($j.isHTMLRenderer()) {
-        var CheckboxTpl = "<div id='{internalId}' data-name='{name}'' data-class='Checkbox' class='Control Checkbox {theme}' data-ischecked='famlse' data-state='unchecked' style='width:51px;height:15px;'>\
-                     <input type='checkbox' class='Control CheckboxInput' />\
-                     <div class='Control {theme} CheckboxCheck'></div>{caption}\
-                     </div>";
-        $j.classes.registerTemplates([{ Class: Checkbox, template: CheckboxTpl }]);
-    }
-    //endregion
-})();*/

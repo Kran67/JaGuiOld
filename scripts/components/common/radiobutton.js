@@ -121,16 +121,12 @@ const RadioButton = (() => {
 })();
 //#endregion RadioButton
 Core.classes.register(Types.CATEGORIES.COMMON, RadioButton);
+//#region Template
+if (Core.isHTMLRenderer) {
+    const RadioButtonTpl = ["<jagui-radiobutton id=\"{internalId}\" data-class=\"RadioButton\" class=\"Control RadioButton {theme}\">",
+        "<properties>{ \"name\": \"{name}\", \"height\": 16 }</properties><input type=\"radio\" class=\"Control RadioButtonInput\" />",
+        "<div class=\"Control {theme} RadioButtonCheck\"></div>{caption}</jagui-radiobutton>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: RadioButton, template: RadioButtonTpl }]);
+}
+//#endregion
 export { RadioButton };
-
-/*
-    //#region Template
-    if ($j.isHTMLRenderer()) {
-        var RadioButtonTpl = "<div id='{internalId}' data-name='{name}' data-class='RadioButton' class='Control RadioButton {theme}' style='width:51px;height:15px;'>\
-                        <input type='radio' class='Control RadioButtonInput' />\
-                        <div class='Control {theme} RadioButtonCheck'></div>{caption}\
-                        </div>";
-        $j.classes.registerTemplates([{ Class: RadioButton, template: RadioButtonTpl }]);
-    }
-    //#endregion
-})();*/

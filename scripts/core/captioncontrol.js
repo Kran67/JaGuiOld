@@ -414,15 +414,27 @@ const CaptionControl = (() => {
             }
         }
         //#endregion backColor
+        //#region getTemplate
+        get template() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            let html = super.template;
+            const a = html.split("{caption}");
+            //#endregion Variables déclaration
+            html = a.join(priv.caption);
+            return html;
+        }
+        //#endregion getTemplate
         //#endregion Getter/Setter
         //#region Methods
         //#region update
         update() {
             //#region Variables déclaration
+            const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (Core.isHTMLRenderer) {
-                Text.setTextNode(htmlElement, this.caption);
+                Text.setTextNode(htmlElement, priv.caption);
                 //htmlElement.innerHTML = this.caption;
                 this.updateCssProperties();
             } else {
@@ -554,16 +566,6 @@ const CaptionControl = (() => {
             this.app.getLocalText(this);
         }
         //#endregion loaded
-        //#region getTemplate
-        getTemplate() {
-            //#region Variables déclaration
-            let html = super.getTemplate();
-            const a = html.split("{caption}");
-            //#endregion Variables déclaration
-            html = a.join(this.caption);
-            return html;
-        }
-        //#endregion getTemplate
         //#endregion
     }
     return CaptionControl;
