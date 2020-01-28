@@ -76,6 +76,10 @@ const Control = (() => {
                 priv.forceDisplayVisibility = false;
                 priv.clipped = props.hasOwnProperty("clipped") && Tools.isBool(props.clipped) ? props.clipped : true;
                 priv.reflected = props.hasOwnProperty("reflected") && Tools.isBool(props.reflected) ? props.reflected : false;
+                priv.column = props.hasOwnProperty("column") && Tools.isNumber(props.column)?props.column:0;
+                priv.row = props.hasOwnProperty("row") && Tools.isNumber(props.row)?props.row:0;
+                priv.colSpan = props.hasOwnProperty("colSpan") && Tools.isNumber(props.colSpan)?props.colSpan:0;
+                priv.rowSpan = props.hasOwnProperty("rowSpan") && Tools.isNumber(props.rowSpan)?props.rowSpan:0;
                 this.onMouseDown = new Core.classes.NotifyEvent(this);
                 this.onMouseMove = new Core.classes.NotifyEvent(this);
                 this.onMouseUp = new Core.classes.NotifyEvent(this);
@@ -1111,6 +1115,58 @@ const Control = (() => {
             this.HTMLElement.dataset[dataName] = value;
         }
         //#endregion getDataSetValue
+        //#region column
+        get column() {
+            return internal(this).column;
+        }
+        set column(newValue) {
+            if (Tools.isNumber(newValue)) {
+                if (priv.column !== newValue) {
+                    priv.column = newValue;
+                    this.update();
+                }
+            }
+        }
+        //#endregion column
+        //#region row
+        get row() {
+            return internal(this).row;
+        }
+        set row(newValue) {
+            if (Tools.isNumber(newValue)) {
+                if (priv.row !== newValue) {
+                    priv.row = newValue;
+                    this.update();
+                }
+            }
+        }
+        //#endregion row
+        //#region colSpan
+        get colSpan() {
+            return internal(this).colSpan;
+        }
+        set colSpan(newValue) {
+            if (Tools.isNumber(newValue)) {
+                if (priv.colSpan !== newValue) {
+                    priv.colSpan = newValue;
+                    this.update();
+                }
+            }
+        }
+        //#endregion colSpan
+        //#region rowSpan
+        get rowSpan() {
+            return internal(this).rowSpan;
+        }
+        set rowSpan(newValue) {
+            if (Tools.isNumber(newValue)) {
+                if (priv.rowSpan !== newValue) {
+                    priv.rowSpan = newValue;
+                    this.update();
+                }
+            }
+        }
+        //#endregion rowSpan
         //#endregion Getter / Setter
         //#region Methods
         //#region setBounds
@@ -1160,8 +1216,12 @@ const Control = (() => {
         //#endregion resize
         //#region update
         update() {
+            
             if (Core.isHTMLRenderer) {
                 this.applyTransforms();
+                if (priv.column > 0 || priv.row > 0 || priv.colSpan > 1 && priv.rowSpan > 1) {
+
+                }
             } else {
                 Core.canvas.needRedraw = true;
             }

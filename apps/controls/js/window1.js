@@ -82,7 +82,7 @@ import "/scripts/components/extended/bitmapstatebutton.js";
 //import { dataFile } from "/scripts/components/data/dataFile.js";
 //import { dataSource } from "/scripts/components/data/dataSource.js";
 import "/scripts/components/containers/flowlayout.js";
-//import { gridLayout } from "/scripts/components/containers/gridLayout.js";
+import "/scripts/components/containers/gridlayout.js";
 //import { tableLayout } from "/scripts/components/containers/tableLayout.js";
 //import { splitter } from "/scripts/components/common/splitter.js";
 //import { splitToolButton } from "/scripts/components/toolbars/splitToolButton.js";

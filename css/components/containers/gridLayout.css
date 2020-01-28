@@ -1,2 +1,11 @@
-﻿div.GirdLayout {
+﻿.Control.GridLayout {
+    display: grid;
 }
+
+    .Control.GridLayout > * {
+        position: relative;
+        left: auto !important;
+        top: auto !important;
+        width: auto !important;
+        height: auto !important;
+    }
