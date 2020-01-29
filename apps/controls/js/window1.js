@@ -93,7 +93,7 @@ import "/scripts/components/containers/gridlayout.js";
 //import { propertyGrid } from "/scripts/components/extras/propertyGrid.js";
 import "/scripts/components/extended/radiogroup.js";
 import "/scripts/components/extended/toggle.js";
-//import { batteryIndicator } from "/scripts/components/common/batteryIndicator.js";
+import "/scripts/components/common/batteryindicator.js";
 //import { segmentLedLabel } from "/scripts/components/extended/segmentLedLabel.js";
 import "/scripts/components/extended/circularProgressBar.js";
 let lastTime;
