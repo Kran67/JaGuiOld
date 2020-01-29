@@ -1117,52 +1117,84 @@ const Control = (() => {
         //#endregion getDataSetValue
         //#region column
         get column() {
-            return internal(this).column;
+            if (this.owner instanceof Core.classes.GridLayout) {
+                return internal(this).column;
+            }
+            return null;
         }
         set column(newValue) {
-            if (Tools.isNumber(newValue)) {
-                if (priv.column !== newValue) {
-                    priv.column = newValue;
-                    this.update();
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (this.owner instanceof Core.classes.GridLayout) {
+                if (Tools.isNumber(newValue)) {
+                    if (priv.column !== newValue) {
+                        priv.column = newValue;
+                        this.update();
+                    }
                 }
             }
         }
         //#endregion column
         //#region row
         get row() {
-            return internal(this).row;
+            if (this.owner instanceof Core.classes.GridLayout) {
+                return internal(this).row;
+            }
+            return null;
         }
         set row(newValue) {
-            if (Tools.isNumber(newValue)) {
-                if (priv.row !== newValue) {
-                    priv.row = newValue;
-                    this.update();
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (this.owner instanceof Core.classes.GridLayout) {
+                if (Tools.isNumber(newValue)) {
+                    if (priv.row !== newValue) {
+                        priv.row = newValue;
+                        this.update();
+                    }
                 }
             }
         }
         //#endregion row
         //#region colSpan
         get colSpan() {
-            return internal(this).colSpan;
+            if (this.owner instanceof Core.classes.GridLayout) {
+                return internal(this).colSpan;
+            }
+            return null;
         }
         set colSpan(newValue) {
-            if (Tools.isNumber(newValue)) {
-                if (priv.colSpan !== newValue) {
-                    priv.colSpan = newValue;
-                    this.update();
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (this.owner instanceof Core.classes.GridLayout) {
+                if (Tools.isNumber(newValue)) {
+                    if (priv.colSpan !== newValue) {
+                        priv.colSpan = newValue;
+                        this.update();
+                    }
                 }
             }
         }
         //#endregion colSpan
         //#region rowSpan
         get rowSpan() {
-            return internal(this).rowSpan;
+            if (this.owner instanceof Core.classes.GridLayout) {
+                return internal(this).rowSpan;
+            }
+            return null;
         }
         set rowSpan(newValue) {
-            if (Tools.isNumber(newValue)) {
-                if (priv.rowSpan !== newValue) {
-                    priv.rowSpan = newValue;
-                    this.update();
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (this.owner instanceof Core.classes.GridLayout) {
+                if (Tools.isNumber(newValue)) {
+                    if (priv.rowSpan !== newValue) {
+                        priv.rowSpan = newValue;
+                        this.update();
+                    }
                 }
             }
         }
@@ -1216,11 +1248,15 @@ const Control = (() => {
         //#endregion resize
         //#region update
         update() {
-            
+            //#region Variables déclaration
+            const priv = internal(this);
+            const htmlElementStyle = this.HTMLElementStyle;
+            //#endregion Variables déclaration
             if (Core.isHTMLRenderer) {
                 this.applyTransforms();
-                if (priv.column > 0 || priv.row > 0 || priv.colSpan > 1 && priv.rowSpan > 1) {
-
+                if (priv.column > 0 || priv.row > 0 || priv.colSpan > 1 || priv.rowSpan > 1 && this.owner instanceof Core.classes.GridLayout) {
+                    htmlElementStyle.gridColumn = `${priv.column} / ${priv.colSpan > 1?"span " + priv.colSpan : priv.column + 1}`;
+                    htmlElementStyle.gridRow = `${priv.row} / ${priv.rowSpan > 1?"span " + priv.rowSpan : priv.row + 1}`;
                 }
             } else {
                 Core.canvas.needRedraw = true;
@@ -2078,20 +2114,20 @@ const Control = (() => {
                         jsObj.dragStart();
                     }
                     break;
-                //case Types.mouseEvents.CLICK:
-                //  //jsObj.click();
-                //  break;
-                //case Types.mouseEvents.EVENT:
-                //  break;
-                //case Types.keybordEvents.DOWN:
-                //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
-                //  break;
-                //case Types.keybordEvents.UP:
-                //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
-                //  break;
-                //case Types.keybordEvents.PRESS:
-                //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
-                //  break;
+                    //case Types.mouseEvents.CLICK:
+                    //  //jsObj.click();
+                    //  break;
+                    //case Types.mouseEvents.EVENT:
+                    //  break;
+                    //case Types.keybordEvents.DOWN:
+                    //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
+                    //  break;
+                    //case Types.keybordEvents.UP:
+                    //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
+                    //  break;
+                    //case Types.keybordEvents.PRESS:
+                    //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
+                    //  break;
             }
             if (jsObj.stopEvent || forceStopEvent) {
                 Core.mouse.stopEvent(event);

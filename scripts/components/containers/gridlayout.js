@@ -27,15 +27,20 @@ const GridLayout = (() => {
                 priv.rowGap = props.hasOwnProperty("rowGap") ? props.rowGap : 5;
                 priv.columns = props.hasOwnProperty("columns") ? props.columns : 5;
                 priv.rows = props.hasOwnProperty("rows") ? props.rows : 5;
+                priv.templateColumns = props.hasOwnProperty("templateColumns") ? props.templateColumns : String.EMPTY;
+                priv.templateRows = props.hasOwnProperty("templateRows") ? props.templateRows : String.EMPTY;
             }
         }
         //#endregion constructor
         //#region Getters / Setters
+        //#region columnGap
         get columnGap() {
             return internal(this).columnGap;
         }
         set columnGap(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (Tools.isNumber(newValue)) {
                 if (priv.columnGap !== newValue) {
                     priv.columnGap = newValue;
@@ -43,11 +48,15 @@ const GridLayout = (() => {
                 }
             }
         }
+        //#endregion columnGap
+        //#region rowGap
         get rowGap() {
             return internal(this).rowGap;
         }
         set rowGap(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (Tools.isNumber(newValue)) {
                 if (priv.rowGap !== newValue) {
                     priv.rowGap = newValue;
@@ -55,11 +64,15 @@ const GridLayout = (() => {
                 }
             }
         }
+        //#endregion rowGap
+        //#region columns
         get columns() {
             return internal(this).columns;
         }
         set columns(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (Tools.isNumber(newValue)) {
                 if (priv.columns !== newValue) {
                     priv.columns = newValue;
@@ -67,11 +80,15 @@ const GridLayout = (() => {
                 }
             }
         }
+        //#endregion columns
+        //#region rows
         get rows() {
             return internal(this).rows;
         }
         set rows(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (Tools.isNumber(newValue)) {
                 if (priv.rows !== newValue) {
                     priv.rows = newValue;
@@ -79,33 +96,74 @@ const GridLayout = (() => {
                 }
             }
         }
+        //#endregion rows
+        get templateColumns() {
+            return internal(this).templateColumns;
+        }
+        set templateColumns(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Tools.isString(newValue)) {
+                if (priv.templateColumns !== newValue) {
+                    priv.templateColumns = newValue;
+                    if (Core.isHTMLRenderer) {
+                        this.update();
+                    }
+                }
+            }
+        }
+        get templateRows() {
+            return internal(this).templateRows;
+        }
+        set templateRows(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Tools.isString(newValue)) {
+                if (priv.templateRows !== newValue) {
+                    priv.templateRows = newValue;
+                    if (Core.isHTMLRenderer) {
+                        this.update();
+                    }
+                }
+            }
+        }
         //#endregion Getters / Setters
         //#region Methods
         update() {
+            //#region Variables déclaration
             const priv = internal(this);
             const PX = Types.CSSUNITS.PX;
             const htmlElementStyle = this.HTMLElementStyle;
+            //#endregion Variables déclaration
             super.update();
-            htmlElementStyle.gridTemplateColumns = "1fr ".repeat(priv.columns);
-            htmlElementStyle.gridTemplateRows = "1fr ".repeat(priv.rows);
+            htmlElementStyle.gridTemplateColumns = !String.isNullOrEmpty(priv.templateColumns)?priv.templateColumns:`repeat(${priv.columns}, 1fr [col-start])`;
+            htmlElementStyle.gridTemplateRows = !String.isNullOrEmpty(priv.templateRows)?priv.templateRows:`repeat(${priv.rows}, 1fr [row-start])`;
             htmlElementStyle.columnGap = `${priv.columnGap}${PX}`;
             htmlElementStyle.rowGap = `${priv.rowGap}${PX}`;
             this.components.forEach(comps => {
-
+                comps.update();
             });
         }
+        //#region destroy
         destroy() {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             super.destroy();
             priv.itemWidth = null;
             priv.itemHeight = null;
             priv.hGap = null;
             priv.vGap = null;
         }
+        //#endregion destroy
+        //#region loaded
         loaded() {
             super.loaded();
             this.update();
         }
+        //#endregion loaded
         //#endregion Methods
     }
     return GridLayout;
@@ -113,7 +171,7 @@ const GridLayout = (() => {
 })();
 //#endregion GridLayout
 Core.classes.register(Types.CATEGORIES.CONTAINERS, GridLayout);
-export { GridLayout };
+    export { GridLayout };
 
 /*(function () {
     GridLayout = $j.classes.Layout.extend("GridLayout", {

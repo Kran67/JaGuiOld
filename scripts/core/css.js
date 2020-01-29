@@ -687,23 +687,25 @@ class Css {
     //        } else if (o[type].style === $j.brushStyle.BITMAP) {
     //        }
     //    },
-    //    isCSSRuleExist: function (selector, ruleType) {
-    //        if (!ruleType) ruleType = $j.types.CSSRuleTypes.STYLE_RULE;
-    //        for (var i = 0, l = $j.rtStyle.sheet.cssRules.length; i < l; i++) {
-    //            if ($j.rtStyle.sheet.cssRules[i].type === ruleType) {
-    //                if (ruleType === $j.types.CSSRuleTypes.STYLE_RULE) {
-    //                    if ($j.rtStyle.sheet.cssRules[i].selectorText === selector) {
-    //                        return true;
-    //                    }
-    //                } else if (ruleType === $j.types.CSSRuleTypes.KEYFRAMES_RULE) {
-    //                    if ($j.rtStyle.sheet.cssRules[i].cssText.includes(selector)) {
-    //                        return true;
-    //                    }
-    //                }
-    //            }
-    //        }
-    //        return false;
-    //    },
+    static isCSSRuleExist(selector, ruleType) {
+        if (!ruleType) {
+            ruleType = Types.CSSRULETYPES.STYLE_RULE;
+        }
+        for (let i = 0, l = Core.rtStyle.sheet.cssRules.length; i < l; i++) {
+            if (Core.rtStyle.sheet.cssRules[i].type === ruleType) {
+                if (ruleType === Types.CSSRULETYPES.STYLE_RULE) {
+                    if (Core.rtStyle.sheet.cssRules[i].selectorText === selector) {
+                        return true;
+                    }
+                } else if (ruleType === Types.CSSRULETYPES.KEYFRAMES_RULE) {
+                    if (Core.rtStyle.sheet.cssRules[i].cssText.includes(selector)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
     static addCSSRule(selector, style) {
         if (selector !== "#") {
             if (String.isNullOrEmpty(style)) {

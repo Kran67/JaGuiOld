@@ -1,5 +1,5 @@
-﻿div.BusyIndicator,
-div.spinC {
+﻿.Control.BusyIndicator,
+.Control.spinC {
     overflow: visible;
 }
 
@@ -9,11 +9,11 @@ div.spinContainer {
     top: 50%;
 }
 
-div.win8loader {
+.Control.win8loader {
     text-align: left;
 }
 
-div.win8loader div.win8circle {
+.Control.win8loader div.win8circle {
     position: absolute;
     left: 5px;
     top: 5px;
@@ -38,7 +38,7 @@ div.win8loader div.win8circle {
     animation-duration: 5.5s;
 }
 
-div.win8loader div.win8circle:after {
+.Control.win8loader div.win8circle:after {
     content: '';
     position: absolute;
     width: 5px;
@@ -47,7 +47,7 @@ div.win8loader div.win8circle:after {
     background: #fff;
 }
 
-div.win8loader div.win8circle:nth-child(2) {
+.Control.win8loader div.win8circle:nth-child(2) {
     -moz-animation-delay: 240ms;
     -webkit-animation-delay: 240ms;
     -ms-animation-delay: 240ms;
@@ -55,7 +55,7 @@ div.win8loader div.win8circle:nth-child(2) {
     animation-delay: 240ms;
 }
 
-div.win8loader div.win8circle:nth-child(3) {
+.Control.win8loader div.win8circle:nth-child(3) {
     -moz-animation-delay: 480ms;
     -webkit-animation-delay: 480ms;
     -ms-animation-delay: 480ms;
@@ -63,7 +63,7 @@ div.win8loader div.win8circle:nth-child(3) {
     animation-delay: 480ms;
 }
 
-div.win8loader div.win8circle:nth-child(4) {
+.Control.win8loader div.win8circle:nth-child(4) {
     -moz-animation-delay: 720ms;
     -webkit-animation-delay: 720ms;
     -ms-animation-delay: 720ms;
@@ -71,7 +71,7 @@ div.win8loader div.win8circle:nth-child(4) {
     animation-delay: 720ms;
 }
 
-div.win8loader div.win8circle:nth-child(5) {
+.Control.win8loader div.win8circle:nth-child(5) {
     -moz-animation-delay: 960ms;
     -webkit-animation-delay: 960ms;
     -ms-animation-delay: 960ms;
@@ -79,7 +79,7 @@ div.win8loader div.win8circle:nth-child(5) {
     animation-delay: 960ms;
 }
 
-div.ballIndic {
+.Control.ballIndic {
     opacity: 0.9;
     border-top: 5px solid rgba(0,0,0,0);
     border-left: 5px solid rgba(0,0,0,0);
@@ -95,7 +95,7 @@ div.ballIndic {
     animation: spin .5s infinite linear;
 }
 
-div.ball1Indic {
+.ball1Indic {
     opacity: 0.9;
     border-top: 5px solid rgba(0,0,0,0);
     border-left: 5px solid rgba(0,0,0,0);
@@ -111,7 +111,7 @@ div.ball1Indic {
     animation: spinoff .5s infinite linear;
 }
 
-div.circleIndic {
+.circleIndic {
     opacity: 0.9;
     border-right: 5px solid rgba(0,0,0,0);
     border-left: 5px solid rgba(0,0,0,0);
@@ -127,7 +127,7 @@ div.circleIndic {
     animation: spinPulse 1s infinite linear;
 }
 
-div.circle1Indic {
+.circle1Indic {
     opacity: 0.9;
     border-left: 5px solid rgba(0,0,0,0);
     border-right: 5px solid rgba(0,0,0,0);
