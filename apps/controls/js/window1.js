@@ -5,7 +5,7 @@ import "/scripts/components/common/speedbutton.js";
 //import { Point } from "/scripts/core/geometry.js";
 //import { Dialogs } from "/scripts/components/dialogs/dialogs.js";
 //import { ListBox, ListBoxItem } from "/scripts/components/common/listbox.js";
-//import { Image } from "/scripts/components/common/image.js";
+import "/scripts/components/common/image.js";
 //import { Animation } from "/scripts/animation.js";
 import "/scripts/components/containers/groupbox.js";
 import "/scripts/components/common/checkbox.js";

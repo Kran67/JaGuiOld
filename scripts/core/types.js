@@ -775,17 +775,6 @@ const Types = Object.freeze({
         INLINEBLOCK: "inline-block"
     }),
     //#endregion
-    //#region IMAGEWRAPS
-    /**
-     * @type    {Object}        IMAGEWRAPS
-     */
-    IMAGEWRAPS: Object.freeze({
-        ORIGINAL: "original",
-        FIT: "fit",
-        STRETCH: "stretch",
-        TILE: "tile"
-    }),
-    //#endregion
     //#region TEXTOVERFLOWS
     TEXTOVERFLOWS: Object.freeze({
         CLIP: "clip",
