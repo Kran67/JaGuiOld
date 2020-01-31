@@ -114,7 +114,15 @@ const Control = (() => {
                     component: this,
                     propName: "anchor",
                     enum: anchors,
-                    setter: this._anchor,
+                    setter: function(newValue) {
+                        //#region Variables déclaration
+                        const anchor = this.anchor;
+                        //#endregion Variables déclaration
+                        if (Array.isArray(newValue)) {
+                            anchor.length = 0;
+                            anchor.addRange(newValue);
+                        }
+                    },
                     variable: priv,
                     value: props.hasOwnProperty("anchor") && Array.isArray(props.anchor) ? props.anchor : [Types.ANCHORS.LEFT, Types.ANCHORS.TOP]
                 });
@@ -125,7 +133,26 @@ const Control = (() => {
                     propName: "align",
                     enum: aligns,
                     variable: priv,
-                    setter: this._align,
+                    setter: function(newValue) {
+                        //#region Variables déclaration
+                        const owner = this.owner;
+                        const priv = internal(this);
+                        let align = priv.align;
+                        //#endregion Variables déclaration
+                        if (Tools.valueInSet(newValue, Types.ALIGNS)) {
+                            if (align !== newValue) {
+                                align = priv.align = newValue;
+                                if (!this.loading && !this.form.loading) {
+                                    if (align !== Types.ALIGNS.NONE) {
+                                        owner.realignChilds();
+                                        if (owner.hasResizeEvent) {
+                                            owner.resized();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     value: props.hasOwnProperty("align") ? props.align : Types.ALIGNS.NONE
                 });
                 const customCursors = Types.CUSTOMCURSORS;
@@ -134,7 +161,20 @@ const Control = (() => {
                     propName: "cursor",
                     enum: customCursors,
                     variable: priv,
-                    setter: this._cursor,
+                    setter: function(newValue) {
+                        //#region Variables déclaration
+                        const htmlElement = this.HTMLElement;
+                        const priv = internal(this);
+                        let cursor = priv.cursor;
+                        //#endregion Variables déclaration
+                        if (Tools.valueInSet(newValue, Types.CUSTOMCURSORS)) {
+                            if (cursor !== newValue) {
+                                htmlElement.classList.remove(cursor);
+                                cursor = priv.cursor = newValue;
+                                htmlElement.classList.add(cursor);
+                            }
+                        }
+                    },
                     value: props.hasOwnProperty("cursor") && Tools.isStirng(props.cursor) ? props.cursor : Types.CUSTOMCURSORS.DEFAULT
                 });
                 const dragKinds = Types.DRAGKINDS;
@@ -160,7 +200,6 @@ const Control = (() => {
                 if (props.padding) {
                     priv.padding.setValues(props.padding.left, props.padding.top, props.padding.right, props.padding.bottom);
                 }
-
             }
         }
         //#endregion Constructor
@@ -173,9 +212,6 @@ const Control = (() => {
             return new Rect(this.left, this.top, priv.width, priv.height);
         }
         set bounds(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
             if (newValue instanceof Rect) {
                 this.beginUpdate();
                 this.left = newValue.left;
@@ -1058,63 +1094,6 @@ const Control = (() => {
             return html;
         }
         //#endregion template
-        //#region _anchor
-        _anchor(newValue) {
-            //#region Variables déclaration
-            const anchor = this.anchor;
-            //#endregion Variables déclaration
-            if (Array.isArray(newValue)) {
-                anchor.length = 0;
-                anchor.addRange(newValue);
-            }
-        }
-        //#endregion _anchor
-        //#region _align
-        _align(newValue) {
-            //#region Variables déclaration
-            const owner = this.owner;
-            const priv = internal(this);
-            let align = priv.align;
-            //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, Types.ALIGNS)) {
-                if (align !== newValue) {
-                    align = priv.align = newValue;
-                    if (!this.loading && !this.form.loading) {
-                        if (align !== Types.ALIGNS.NONE) {
-                            owner.realignChilds();
-                            if (owner.hasResizeEvent) {
-                                owner.resized();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion _align
-        //#region _cursor
-        _cursor(newValue) {
-            //#region Variables déclaration
-            const htmlElement = this.HTMLElement;
-            const priv = internal(this);
-            let cursor = priv.cursor;
-            //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, Types.CUSTOMCURSORS)) {
-                if (cursor !== newValue) {
-                    htmlElement.classList.remove(cursor);
-                    cursor = priv.cursor = newValue;
-                    htmlElement.classList.add(cursor);
-                }
-            }
-        }
-        //#endregion _cursor
-        //#region getDataSetValue
-        getDataSetValue(dataName) {
-            return this.HTMLElement.dataset[dataName];
-        }
-        setDataSetValue(dataName, value) {
-            this.HTMLElement.dataset[dataName] = value;
-        }
-        //#endregion getDataSetValue
         //#region column
         get column() {
             if (this.owner instanceof Core.classes.GridLayout) {
@@ -1201,6 +1180,14 @@ const Control = (() => {
         //#endregion rowSpan
         //#endregion Getter / Setter
         //#region Methods
+        //#region getDataSetValue
+        getDataSetValue(dataName) {
+            return this.HTMLElement.dataset[dataName];
+        }
+        setDataSetValue(dataName, value) {
+            this.HTMLElement.dataset[dataName] = value;
+        }
+        //#endregion getDataSetValue
         //#region setBounds
         setBounds(l, t, w, h) {
             //#region Variables déclaration
@@ -1279,18 +1266,20 @@ const Control = (() => {
             let b = padding.bottom;
             const alignTop = (child) => {
                 if (Core.isHTMLRenderer) {
-                    const htmlElementStyle = child.HTMLElementStyle;
                     const s = getComputedStyle(child.HTMLElement);
-                    htmlElementStyle.top = t > 0 ? `${t}${PX}` : "0";
-                    htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
-                    htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
-                    htmlElementStyle.width = "auto";
-                    htmlElementStyle.bottom = "auto";
-                    if (htmlElementStyle.height === "auto") {
-                        htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}`;
+                    if (s.position === "absolute") {
+                        const htmlElementStyle = child.HTMLElementStyle;
+                        htmlElementStyle.top = t > 0 ? `${t}${PX}` : "0";
+                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
+                        htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
+                        htmlElementStyle.width = "auto";
+                        htmlElementStyle.bottom = "auto";
+                        if (htmlElementStyle.height === "auto") {
+                            htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}`;
+                        }
+                        child.applyTransforms();
+                        t = ~~parseFloat(s.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(s.marginBottom);
                     }
-                    child.applyTransforms();
-                    t = ~~parseFloat(s.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(s.marginBottom);
                 } else {
                     child.top = t;
                     child.left = l;
@@ -1301,53 +1290,59 @@ const Control = (() => {
                 child.realignChilds();
             };
             const alignBottom = (child) => {
+                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    const htmlElementStyle = child.HTMLElementStyle;
-                    const s = getComputedStyle(child.HTMLElement);
-                    htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
-                    htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
-                    htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
-                    htmlElementStyle.width = "auto";
-                    htmlElementStyle.top = "auto";
-                    if (htmlElementStyle.height === "auto") {
-                        htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}`;
+                    if (s.position === "absolute") {
+                        const htmlElementStyle = child.HTMLElementStyle;
+                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
+                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
+                        htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
+                        htmlElementStyle.width = "auto";
+                        htmlElementStyle.top = "auto";
+                        if (htmlElementStyle.height === "auto") {
+                            htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}`;
+                        }
+                        child.applyTransforms();
+                        b = ~~parseFloat(s.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(s.marginBottom);
                     }
-                    child.applyTransforms();
-                    b = ~~parseFloat(s.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(s.marginBottom);
                 }
                 child.realignChilds();
             };
             const alignLeft = (child) => {
+                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    const htmlElementStyle = child.HTMLElementStyle;
-                    const s = getComputedStyle(child.HTMLElement);
-                    htmlElementStyle.top = t > 0 ? `${t}${PX}` : "0";
-                    htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
-                    htmlElementStyle.right = "auto";
-                    htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
-                    htmlElementStyle.height = "auto";
-                    if (htmlElementStyle.width === "auto") {
-                        htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}`;
+                    if (s.position === "absolute") {
+                        const htmlElementStyle = child.HTMLElementStyle;
+                        htmlElementStyle.top = t > 0 ? `${t}${PX}` : "0";
+                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
+                        htmlElementStyle.right = "auto";
+                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
+                        htmlElementStyle.height = "auto";
+                        if (htmlElementStyle.width === "auto") {
+                            htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}`;
+                        }
+                        child.applyTransforms();
+                        l = ~~parseFloat(s.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(s.marginRight);
                     }
-                    child.applyTransforms();
-                    l = ~~parseFloat(s.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(s.marginRight);
                 }
                 child.realignChilds();
             };
             const alignRight = (child) => {
+                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    const htmlElementStyle = child.HTMLElementStyle;
-                    const s = getComputedStyle(child.HTMLElement);
-                    htmlElementStyle.top = t > 0 ? `${t}${PX}` : "0";
-                    htmlElementStyle.left = "auto";
-                    htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
-                    htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
-                    htmlElementStyle.height = "auto";
-                    if (htmlElementStyle.width === "auto") {
-                        htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}`;
+                    if (s.position === "absolute") {
+                        const htmlElementStyle = child.HTMLElementStyle;
+                        htmlElementStyle.top = t > 0 ? `${t}${PX}` : "0";
+                        htmlElementStyle.left = "auto";
+                        htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
+                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
+                        htmlElementStyle.height = "auto";
+                        if (htmlElementStyle.width === "auto") {
+                            htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}`;
+                        }
+                        child.applyTransforms();
+                        r = ~~parseFloat(s.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(s.marginRight);
                     }
-                    child.applyTransforms();
-                    r = ~~parseFloat(s.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(s.marginRight);
                 }
                 child.realignChilds();
             };
@@ -1424,15 +1419,18 @@ const Control = (() => {
                 return e.align === ALIGNS.CLIENT && e.visible;
             });
             childs.forEach(child => {
+                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    const htmlElementStyle = child.HTMLElementStyle;
-                    htmlElementStyle.top = t > 0 ? `${t}${PX}` : "0";
-                    htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
-                    htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
-                    htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
-                    htmlElementStyle.height = "auto";
-                    htmlElementStyle.width = "auto";
-                    child.applyTransforms();
+                    if (s.position === "absolute") {
+                        const htmlElementStyle = child.HTMLElementStyle;
+                        htmlElementStyle.top = t > 0 ? `${t}${PX}` : "0";
+                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
+                        htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
+                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
+                        htmlElementStyle.height = "auto";
+                        htmlElementStyle.width = "auto";
+                        child.applyTransforms();
+                    }
                 } else {
                     child.top = t;
                     child.left = l;
@@ -1447,12 +1445,15 @@ const Control = (() => {
                 return e.align === ALIGNS.HORIZONTAL && e.visible;
             });
             childs.forEach(child => {
+                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    const htmlElementStyle = child.HTMLElementStyle;
-                    htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
-                    htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
-                    htmlElementStyle.width = "auto";
-                    child.applyTransforms();
+                    if (s.position === "absolute") {
+                        const htmlElementStyle = child.HTMLElementStyle;
+                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
+                        htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
+                        htmlElementStyle.width = "auto";
+                        child.applyTransforms();
+                    }
                 }
                 child.realignChilds();
             });
@@ -1462,12 +1463,15 @@ const Control = (() => {
                 return e.align === ALIGNS.VERTICAL && e.visible;
             });
             childs.forEach(child => {
+                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    const htmlElementStyle = child.HTMLElementStyle;
-                    htmlElementStyle.top = l > 0 ? `${l}${PX}` : "0";
-                    htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
-                    htmlElementStyle.height = "auto";
-                    child.applyTransforms();
+                    if (s.position === "absolute") {
+                        const htmlElementStyle = child.HTMLElementStyle;
+                        htmlElementStyle.top = l > 0 ? `${l}${PX}` : "0";
+                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
+                        htmlElementStyle.height = "auto";
+                        child.applyTransforms();
+                    }
                 }
                 child.realignChilds();
             });
@@ -1477,15 +1481,18 @@ const Control = (() => {
                 return e.align === ALIGNS.CONTENTS && e.visible;
             });
             childs.forEach(child => {
+                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    const htmlElementStyle = child.HTMLElementStyle;
-                    htmlElementStyle.top = "0";
-                    htmlElementStyle.left = "0";
-                    htmlElementStyle.bottom = "0";
-                    htmlElementStyle.right = "0";
-                    htmlElementStyle.height = "auto";
-                    htmlElementStyle.width = "auto";
-                    child.applyTransforms();
+                    if (s.position === "absolute") {
+                        const htmlElementStyle = child.HTMLElementStyle;
+                        htmlElementStyle.top = "0";
+                        htmlElementStyle.left = "0";
+                        htmlElementStyle.bottom = "0";
+                        htmlElementStyle.right = "0";
+                        htmlElementStyle.height = "auto";
+                        htmlElementStyle.width = "auto";
+                        child.applyTransforms();
+                    }
                 }
                 child.realignChilds();
             });
@@ -1495,13 +1502,16 @@ const Control = (() => {
                 return e.align === ALIGNS.CENTER && e.visible;
             });
             childs.forEach(child => {
+                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    const htmlElementStyle = child.HTMLElementStyle;
-                    htmlElementStyle.top = "50%";
-                    htmlElementStyle.left = "50%";
-                    htmlElementStyle.bottom = "auto";
-                    htmlElementStyle.right = "auto";
-                    child.applyTransforms("translate(-50%,-50%)");
+                    if (s.position === "absolute") {
+                        const htmlElementStyle = child.HTMLElementStyle;
+                        htmlElementStyle.top = "50%";
+                        htmlElementStyle.left = "50%";
+                        htmlElementStyle.bottom = "auto";
+                        htmlElementStyle.right = "auto";
+                        child.applyTransforms("translate(-50%,-50%)");
+                    }
                 }
                 child.realignChilds();
             });
@@ -1511,13 +1521,16 @@ const Control = (() => {
                 return e.align === ALIGNS.HORZCENTER && e.visible;
             });
             childs.forEach(child => {
+                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    const htmlElementStyle = child.HTMLElementStyle;
-                    htmlElementStyle.top = l > 0 ? `${l}${PX}` : "0";
-                    htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
-                    htmlElementStyle.left = "50%";
-                    htmlElementStyle.height = "auto";
-                    child.applyTransforms("translateX(-50%)");
+                    if (s.position === "absolute") {
+                        const htmlElementStyle = child.HTMLElementStyle;
+                        htmlElementStyle.top = l > 0 ? `${l}${PX}` : "0";
+                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
+                        htmlElementStyle.left = "50%";
+                        htmlElementStyle.height = "auto";
+                        child.applyTransforms("translateX(-50%)");
+                    }
                 }
                 child.realignChilds();
             });
@@ -1527,13 +1540,16 @@ const Control = (() => {
                 return e.align === ALIGNS.VERTCENTER && e.visible;
             });
             childs.forEach(child => {
+                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    const htmlElementStyle = child.HTMLElementStyle;
-                    htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
-                    htmlElementStyle.right = b > 0 ? `${b}${PX}` : "0";
-                    htmlElementStyle.top = "50%";
-                    htmlElementStyle.width = "auto";
-                    child.applyTransforms("translateY(-50%)");
+                    if (s.position === "absolute") {
+                        const htmlElementStyle = child.HTMLElementStyle;
+                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
+                        htmlElementStyle.right = b > 0 ? `${b}${PX}` : "0";
+                        htmlElementStyle.top = "50%";
+                        htmlElementStyle.width = "auto";
+                        child.applyTransforms("translateY(-50%)");
+                    }
                 }
                 child.realignChilds();
             });

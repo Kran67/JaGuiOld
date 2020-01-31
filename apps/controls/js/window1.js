@@ -1,3 +1,4 @@
+//#region Imports
 import { Window } from "/scripts/components/containers/window.js";
 import * as Canvas from "/scripts/core/canvas.js";
 import "/scripts/components/common/label.js";
@@ -18,7 +19,7 @@ import "/scripts/components/containers/panel.js";
 import "/scripts/components/containers/calloutpanel.js";
 import "/scripts/components/color/colorbutton.js";
 import "/scripts/components/extended/cornerbutton.js";
-//import { StatusBar } from "/scripts/components/toolbars/statusBar.js";
+import "/scripts/components/toolbars/statusbar.js";
 //import { ToolBar } from "/scripts/components/toolbars/toolBar.js";
 //import { ToolButton } from "/scripts/components/toolbars/toolButton.js";
 import "/scripts/components/extended/valuelabel.js";
@@ -96,6 +97,7 @@ import "/scripts/components/extended/toggle.js";
 import "/scripts/components/common/batteryindicator.js";
 //import { segmentLedLabel } from "/scripts/components/extended/segmentLedLabel.js";
 import "/scripts/components/extended/circularProgressBar.js";
+//#endregion Imports
 let lastTime;
 class Window1 extends Window {
     get MAX_DEPTH() { return 32; }

@@ -661,7 +661,47 @@ const BaseWindow = (() => {
                     component: this,
                     propName: "windowState",
                     enum: WINDOWSTATES,
-                    setter: this._windowState,
+                    setter: function(newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const WINDOWSTATES = Window.WINDOWSTATES;
+                        const windowState = priv.windowState;
+                        //#endregion Variables déclaration
+                        if (Tools.valueInSet(newValue, WINDOWSTATES)) {
+                            if (windowState !== newValue) {
+                                const lastWindowState = windowState;
+                                switch (newValue) {
+                                    case WINDOWSTATES.NORMAL:
+                                        switch (lastWindowState) {
+                                            case WINDOWSTATES.MINIMIZED:
+                                            case WINDOWSTATES.MAXIMIZED:
+                                                this.restore();
+                                                break;
+                                            case WINDOWSTATES.ROLLEDUP:
+                                                this.rollDown();
+                                                break;
+                                            case WINDOWSTATES.SNAPED:
+                                                this.restoreWindow();
+                                                break;
+                                        }
+                                        break;
+                                    case WINDOWSTATES.MINIMIZED:
+                                        this.minimize();
+                                        break;
+                                    case WINDOWSTATES.MAXIMIZED:
+                                        this.maximize();
+                                        break;
+                                    case WINDOWSTATES.ROLLEDUP:
+                                        this.rollUp();
+                                        break;
+                                    case WINDOWSTATES.SNAPED:
+                                        this.applySnap();
+                                        break;
+                                }
+                                this.windowState = newValue;
+                            }
+                        }
+                    },
                     variable: priv,
                     value: props.hasOwnProperty("windowState") ? props.windowState : WINDOWSTATES.NORMAL
                 });
@@ -669,7 +709,48 @@ const BaseWindow = (() => {
                     component: this,
                     propName: "borderStyle",
                     enum: BORDERSTYLES,
-                    setter: this._borderStyle,
+                    setter: function(newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const htmlElement = this.HTMLElement;
+                        let borderStyle = priv.borderStyle;
+                        const isHtmlRenderer = Core.isHTMLRenderer;
+                        const themeName = this.app.themeManifest.themeName;
+                        const theme = Core.themes[themeName];
+                        const layout = priv.layout;
+                        const BORDERSTYLES = Window.BORDERSTYLES;
+                        //#endregion Variables déclaration
+                        if (Tools.valueInSet(newValue, BORDERSTYLES)) {
+                            if (borderStyle !== newValue) {
+                                if (isHtmlRenderer) {
+                                    htmlElement.classList.remove(borderStyle);
+                                }
+                                borderStyle = priv.borderStyle = newValue;
+                                if (isHtmlRenderer) {
+                                    htmlElement.classList.add(borderStyle);
+                                } else {
+                                    this.alignButtons();
+                                    if (this.isBorderNone) {
+                                        layout.margin.empty();
+                                    } else {
+                                        let layoutMargin = null;
+                                        if (theme.Window && theme.Window.WindowLayout && theme.Window.WindowLayout.margin) {
+                                            layoutMargin = theme.Window.WindowLayout.margin;
+                                        } else {
+                                            layoutMargin = Window.SIZEABLEBORDERSIZE;
+                                        }
+                                        if (Tools.isObject(layoutMargin)) {
+                                            layout.margin.setValues(layoutMargin.left, layoutMargin.top, layoutMargin.right, layoutMargin.bottom);
+                                        } else if (Tools.isObject(layoutMargin)) {
+                                            layout.margin.setValues(layoutMargin, layoutMargin, layoutMargin, layoutMargin);
+                                        }
+                                    }
+                                    this.realignChilds();
+                                    Core.canvas.needRedraw = true;
+                                }
+                            }
+                        }
+                    },
                     variable: priv,
                     value: props.hasOwnProperty("borderStyle") ? props.borderStyle : BORDERSTYLES.SIZEABLE
                 });
@@ -1175,50 +1256,6 @@ const BaseWindow = (() => {
             }
         }
         //#endregion enabledShadow
-        //#region _borderStyle
-        _borderStyle(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const htmlElement = this.HTMLElement;
-            let borderStyle = priv.borderStyle;
-            const isHtmlRenderer = Core.isHTMLRenderer;
-            const themeName = this.app.themeManifest.themeName;
-            const theme = Core.themes[themeName];
-            const layout = priv.layout;
-            const BORDERSTYLES = Window.BORDERSTYLES;
-            //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, BORDERSTYLES)) {
-                if (borderStyle !== newValue) {
-                    if (isHtmlRenderer) {
-                        htmlElement.classList.remove(borderStyle);
-                    }
-                    borderStyle = priv.borderStyle = newValue;
-                    if (isHtmlRenderer) {
-                        htmlElement.classList.add(borderStyle);
-                    } else {
-                        this.alignButtons();
-                        if (this.isBorderNone) {
-                            layout.margin.empty();
-                        } else {
-                            let layoutMargin = null;
-                            if (theme.Window && theme.Window.WindowLayout && theme.Window.WindowLayout.margin) {
-                                layoutMargin = theme.Window.WindowLayout.margin;
-                            } else {
-                                layoutMargin = Window.SIZEABLEBORDERSIZE;
-                            }
-                            if (Tools.isObject(layoutMargin)) {
-                                layout.margin.setValues(layoutMargin.left, layoutMargin.top, layoutMargin.right, layoutMargin.bottom);
-                            } else if (Tools.isObject(layoutMargin)) {
-                                layout.margin.setValues(layoutMargin, layoutMargin, layoutMargin, layoutMargin);
-                            }
-                        }
-                        this.realignChilds();
-                        Core.canvas.needRedraw = true;
-                    }
-                }
-            }
-        }
-        //#endregion _borderStyle
         //#region setActive
         setActive() {
             //#region Variables déclaration
@@ -1310,49 +1347,6 @@ const BaseWindow = (() => {
             titleBar[`${TITLEBUTTONS.CLOSE}Btn`].visible = true;
         }
         //#endregion setTitleBtn
-        //#region _windowState
-        _windowState(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const WINDOWSTATES = Window.WINDOWSTATES;
-            const windowState = priv.windowState;
-            //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, WINDOWSTATES)) {
-                if (windowState !== newValue) {
-                    const lastWindowState = windowState;
-                    switch (newValue) {
-                        case WINDOWSTATES.NORMAL:
-                            switch (lastWindowState) {
-                                case WINDOWSTATES.MINIMIZED:
-                                case WINDOWSTATES.MAXIMIZED:
-                                    this.restore();
-                                    break;
-                                case WINDOWSTATES.ROLLEDUP:
-                                    this.rollDown();
-                                    break;
-                                case WINDOWSTATES.SNAPED:
-                                    this.restoreWindow();
-                                    break;
-                            }
-                            break;
-                        case WINDOWSTATES.MINIMIZED:
-                            this.minimize();
-                            break;
-                        case WINDOWSTATES.MAXIMIZED:
-                            this.maximize();
-                            break;
-                        case WINDOWSTATES.ROLLEDUP:
-                            this.rollUp();
-                            break;
-                        case WINDOWSTATES.SNAPED:
-                            this.applySnap();
-                            break;
-                    }
-                    this.windowState = newValue;
-                }
-            }
-        }
-        //#endregion _windowState
         //#region layoutMargin
         layoutMargin(newValue) {
             //#region Variables déclaration
@@ -2109,7 +2103,7 @@ const BaseWindow = (() => {
             htmlElementStyle.width = `${width}${PX}`;
             htmlElementStyle.height = `${height}${PX}`;
             if (width < Window.MINWIDTH) {
-                htmlElementStyle.width = `${Window.INWIDTH}${PX}`;
+                htmlElementStyle.width = `${Window.MINWIDTH}${PX}`;
             }
             if (height < Window.MINHEIGHT) {
                 htmlElementStyle.height = `${Window.MINHEIGHT}${PX}`;
@@ -2515,7 +2509,8 @@ const BaseWindow = (() => {
                         props = node.properties;
                     }
                     if ((classes[dataClass] === WindowTitleBar) ||
-                        (classes[dataClass] === WindowContent)) {
+                        (classes[dataClass] === WindowContent) || 
+                        (classes[dataClass] === Core.classes.StatusBar)) {
                         props.inForm = false;
                     }
                     const obj = classes.createComponent({
@@ -2660,7 +2655,7 @@ const BaseWindow = (() => {
                             margin = contentTheme.margin;
                             contentMargin.setValues(margin, margin, margin, margin);
                         } else if (Tools.isObject(contentTheme.margin)) {
-                            const margin = contentTheme.margin;
+                            margin = contentTheme.margin;
                             contentMargin.setValues(margin.left, margin.top, margin.right, margin.bottom);
                         }
                     }

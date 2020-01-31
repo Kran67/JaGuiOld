@@ -1,17 +1,17 @@
-﻿div.StatusBar {
+﻿.Control.StatusBar {
     z-index: 9;
     position: relative;
     order: 5;
 }
 
-div.StatusBarPanel {
+.Control.StatusBarPanel {
     bottom: 1px;
     padding: 0 2px;
     top: 1px;
     line-height: 15px;
 }
 
-div.StatusBarSimplePanel {
+.Control.StatusBarSimplePanel {
     left: 1px;
     top: 1px;
     right: 1px;
@@ -19,7 +19,7 @@ div.StatusBarSimplePanel {
     padding-left: 2px;
 }
 
-div.StatusBarSizer {
+.Control.StatusBarSizer {
     background-repeat: no-repeat;
     z-index: 1;
 }

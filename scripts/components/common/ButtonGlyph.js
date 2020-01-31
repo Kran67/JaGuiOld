@@ -58,7 +58,21 @@ const ButtonGlyph = (() => {
                     component: this,
                     propName: "layout",
                     enum: _BUTTONLAYOUTGLYPHS,
-                    setter: this._layout,
+                    setter: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        if (Tools.valueInSet(newValue, _BUTTONLAYOUTGLYPHS)) {
+                            if (priv.layout !== newValue) {
+                                priv.layout = newValue;
+                                if (Core.isHTMLRenderer) {
+                                    if (!this.loading && !this.form.loading) {
+                                        this.update();
+                                    }
+                                }
+                            }
+                        }
+                    },
                     variable: priv,
                     value: props.hasOwnProperty("layout")?props.layout:_BUTTONLAYOUTGLYPHS.LEFT
                 });
@@ -94,26 +108,6 @@ const ButtonGlyph = (() => {
             return internal(this).textObj;
         }
         //#endregion glyph
-        //#region _layout
-        get layout() {
-            return internal(this).layout;
-        }
-        _layout(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, _BUTTONLAYOUTGLYPHS)) {
-                if (priv.layout !== newValue) {
-                    priv.layout = newValue;
-                    if (Core.isHTMLRenderer) {
-                        if (!this.loading && !this.form.loading) {
-                            this.update();
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion _layout
         //#region glyphSize
         get glyphSize() {
             return internal(this).glyphSize;
