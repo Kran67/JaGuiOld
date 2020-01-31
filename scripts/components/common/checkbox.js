@@ -272,13 +272,13 @@ const Checkbox = (() => {
             //#endregion Variables déclaration
             super.getHTMLElement(id);
             const htmlElement = this.HTMLElement;
-            if (!priv.input) {
+            if (!priv.input && htmlElement) {
                 priv.input = htmlElement.querySelector("input");
                 priv.input.jsObj = this;
                 priv.input.name = this.name;
                 priv.input.id = this.name;
             }
-            if (!priv.check) {
+            if (!priv.check && htmlElement) {
                 priv.check = htmlElement.lastElementChild;
                 priv.check.jsObj = this;
             }

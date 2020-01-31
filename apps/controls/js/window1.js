@@ -29,7 +29,7 @@ import "/scripts/components/common/progressbar.js";
 //import { Slider } from "/scripts/components/common/slider.js";
 //import { ScrollBar } from "/scripts/components/common/scrollBar.js";
 import "/scripts/components/containers/scrollbox.js";
-//import { Expander } from "/scripts/components/containers/expander.js";
+import "/scripts/components/containers/expander.js";
 //import { AlphaSlider } from "/scripts/components/color/alphaSlider.js";
 //import { BwSlider } from "/scripts/components/color/bwSlider.js";
 //import { HueSlider } from "/scripts/components/color/hueSlider.js";

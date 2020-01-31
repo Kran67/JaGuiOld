@@ -12,6 +12,7 @@ const WindowButton = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.caption = String.EMPTY;
                 super(owner, props);
                 this.canFocused = false;
                 this.forceDisplayVisibility = true;

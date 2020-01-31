@@ -528,23 +528,18 @@
                             <div data-century="9" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
                             <div data-century="10" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
                         </div>
-                    </div>
-                    <div id="_2txje9o" name="Expander1" data-class="Expander" class="Control Expander {theme}" data-height="100" data-taborder="39"
-                        style="left: 10px;width: 130px;height: 100px;top: 260px;" data-expanded="true">
-                        <div class="Control ExpanderHeader {theme}">
-                            <button id="_DYeUkBC" data-class="button" class="Control Button ExpanderButton {theme} expanded csr_default"></button>
-                            <div id="_n9t4ish" data-class="Checkbox" class="Control Checkbox ExpanderCheckbox {theme}" data-ischecked="true" data-state="checked">
-                                <input type="checkbox" class="Control CheckboxInput" />
-                                <div class="Control {theme} CheckboxCheck ExpanderCheckboxCheck"></div>
-                            </div>
-                            <label class="Control csr_default ExpanderCaption {theme}">Expander1</label>
-                        </div>
-                        <div class="Control ExpanderContent {theme}" data-enabled="false">
-                            <button id="_zru0co7" name="Button3" data-class="Button" class="Control Button {theme} csr_default" style="left: 10px;top: 10px;height: 19px;width: 68px;"
-                                data-enabled="false" data-taborder="0">Button</button>
-                        </div>
-                    </div>
-                    <div id="_9ub1bjl" name="Expander2" data-class="Expander" class="Control Expander {theme}" data-height="100" data-taborder="40"
+                    </div>-->
+                    <jagui-expander id="_2txje9o" data-class="Expander" class="Control Expander {theme}"><properties>{ "name": "Expander1", "tabOrder": 39, "left": 10, "width": 130, "height": 100, "top": 260, "expanded": true, "contentEnabled": false }</properties>
+                        <jagui-expanderheader class="Control ExpanderHeader {theme}">
+                            <jagui-button id="_DYeUkBC" data-class="button" class="Control Button ExpanderButton {theme} expanded csr_default"><properties>{ "caption": String.EMPTY }</properties></jagui-button>
+                            <jagui-checkbox id="_n9e9isb" data-class="Checkbox" class="Control Checkbox ExpanderCheckbox {theme}"><properties>{ "isChecked": true, "state": "checked" }</properties><input type="checkbox" class="Control CheckboxInput" /><div class="Control {theme} CheckboxCheck ExpanderCheckboxCheck"></div>Checkbox1</jagui-checkbox>
+                            <jagui-label class="Control csr_default ExpanderCaption {theme}">Expander1</jagui-label>
+                        </jagui-expanderheader>
+                        <jagui-expandercontent class="Control ExpanderContent {theme}">
+                            <jagui-button id="_zru0co7" data-class="Button" class="Control Button {theme} csr_default"><properties>{ "name": "Button3", "left": 10, "top": 10, "height": 19, "width": 68, "enabled": false, "tabOrder": 0, "caption": "Button" }</properties></jagui-button>
+                        </jagui-expandercontent>
+                    </jagui-expander>
+                    <!--<div id="_9ub1bjl" name="Expander2" data-class="Expander" class="Control Expander {theme}" data-height="100" data-taborder="40"
                         data-viewcheck="false" style="left: 10px;width: 130px;height: 25px;top: 370px;">
                         <div class="Control ExpanderHeader {theme}">
                             <button id="_CFppgtv" data-class="button" class="Control Button ExpanderButton {theme}"></button>
