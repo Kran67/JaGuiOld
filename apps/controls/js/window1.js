@@ -43,7 +43,7 @@ import "/scripts/components/common/rating.js";
 //import { treeView } from "/scripts/components/common/treeView.js";
 //import { pageControl } from "/scripts/components/containers/pageControl.js";
 import "/scripts/components/common/paintbox.js";
-//import { plotGrid } from "/scripts/components/common/plotGrid.js";
+import "/scripts/components/common/plotgrid.js";
 import "/scripts/components/common/textbox.js";
 //import "/scripts/components/common/passwordTextBox.js";
 import "/scripts/components/extended/roundtextbox.js";
