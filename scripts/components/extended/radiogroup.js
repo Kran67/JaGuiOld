@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { GroupBox } from "/scripts/components/containers/groupbox.js";
 import { Rect } from "/scripts/core/geometry.js";
-import { RadioButton } from "/scripts/components/common/radiobutton.js";
 import { Tools } from "/scripts/core/tools.js";
 //#endregion Import
 //#region RadioGroup

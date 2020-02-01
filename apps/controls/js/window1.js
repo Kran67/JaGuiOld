@@ -35,7 +35,7 @@ import "/scripts/components/containers/expander.js";
 //import { HueSlider } from "/scripts/components/color/hueSlider.js";
 import "/scripts/components/color/colorbox.js";
 import "/scripts/components/color/colorpicker.js";
-import "/scripts/components/color/colorQuad.js";
+import "/scripts/components/color/colorquad.js";
 import "/scripts/components/common/rating.js";
 //import { gradientEdit } from "/scripts/components/color/gradientEdit.js";
 //import { colorPanel } from "/scripts/components/color/colorPanel.js";
@@ -84,7 +84,6 @@ import "/scripts/components/common/busyindicator.js";
 //import { dataSource } from "/scripts/components/data/dataSource.js";
 import "/scripts/components/containers/flowlayout.js";
 import "/scripts/components/containers/gridlayout.js";
-//import { tableLayout } from "/scripts/components/containers/tableLayout.js";
 //import { splitter } from "/scripts/components/common/splitter.js";
 //import { splitToolButton } from "/scripts/components/toolbars/splitToolButton.js";
 //import { actnList } from "/scripts/components/actions/actnList.js";
@@ -96,7 +95,7 @@ import "/scripts/components/extended/radiogroup.js";
 import "/scripts/components/extended/toggle.js";
 import "/scripts/components/common/batteryindicator.js";
 //import { segmentLedLabel } from "/scripts/components/extended/segmentLedLabel.js";
-import "/scripts/components/extended/circularProgressBar.js";
+import "/scripts/components/extended/circularprogressbar.js";
 //#endregion Imports
 let lastTime;
 class Window1 extends Window {
