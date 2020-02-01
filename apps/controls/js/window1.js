@@ -42,7 +42,7 @@ import "/scripts/components/common/rating.js";
 //import { shapes } from "/scripts/components/common/shapes.js";
 //import { treeView } from "/scripts/components/common/treeView.js";
 //import { pageControl } from "/scripts/components/containers/pageControl.js";
-//import { paintBox } from "/scripts/components/common/paintBox.js";
+import "/scripts/components/common/paintbox.js";
 //import { plotGrid } from "/scripts/components/common/plotGrid.js";
 import "/scripts/components/common/textbox.js";
 //import "/scripts/components/common/passwordTextBox.js";
