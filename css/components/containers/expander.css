@@ -22,11 +22,8 @@
 }
 
 .Control.ExpanderCheckbox {
-    /*left: 25px;
-  top: 50%;*/
     height: 14px;
     width: 22px;
-    /*transform: translateY(-50%);*/
     position: relative;
     margin-left: 5px;
 }
@@ -35,7 +32,6 @@
     position: relative;
     width: 13px;
     height: 16px;
-    /*transform: translateY(-50%) rotate(-45deg);*/
     transition: all linear 0.2s;
     display: flex;
     align-items: center;
@@ -45,10 +41,7 @@
 .ExpanderButton:before {
     font-family: jagui;
     content: "7";
-    transform: rotate(-45deg);
-}
-
-.ExpanderButton.expanded {
+    transform: rotate(-45deg) translate(-2px, -2px);
 }
 
 .ExpanderButton.expanded:before {
@@ -61,7 +54,4 @@
     display: flex;
     align-items: center;
     padding-left: 3px;
-}
-
-.ExpanderCheckboxCheck {
 }

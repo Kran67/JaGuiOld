@@ -2521,9 +2521,9 @@ const BaseWindow = (() => {
                         internalId: node.id,
                         withTpl: false
                     });
-                    if (isHtmlRenderer) {
-                        obj.getHTMLElement(node.id);
-                    }
+                    //if (isHtmlRenderer) {
+                    //    obj.getHTMLElement(node.id);
+                    //}
                     switch (dataClass) {
                         case "WindowTitleBar": {
                             priv.titleBar = obj;
