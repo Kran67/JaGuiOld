@@ -73,7 +73,6 @@ const CaptionControl = (() => {
                 this.addBindableProperties(["caption", "horizAlign", "wordWrap", "color", "fontFamily", "fontSize", "fontSizeUnit",
                     "fontBold", "fontStyle", "textTransform", "vertAlign", "backColor", "autSize", "textOverflow"]);
             }
-            //Tools.Debugger.log(arguments, this, t);
         }
         //#endregion Constructor
         //#region Getter/Setter
@@ -379,7 +378,7 @@ const CaptionControl = (() => {
             if (Tools.valueInSet(newValue, TEXTOVERFLOWS)) {
                 if (priv.textOverflow !== newValue) {
                     priv.textOverflow = newValue;
-                    if ((this.loading || form.loading)) {
+                    if (this.loading || form.loading) {
                         return;
                     }
                     if (Core.isHTMLRenderer && this.allowUpdate) {

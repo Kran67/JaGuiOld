@@ -2510,7 +2510,8 @@ const BaseWindow = (() => {
                     }
                     if ((classes[dataClass] === WindowTitleBar) ||
                         (classes[dataClass] === WindowContent) || 
-                        (classes[dataClass] === Core.classes.StatusBar)) {
+                        (classes[dataClass] === Core.classes.StatusBar) ||
+                        (classes[dataClass] === Core.classes.ToolBar)) {
                         props.inForm = false;
                     }
                     const obj = classes.createComponent({

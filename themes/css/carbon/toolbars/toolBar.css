@@ -1,8 +1,9 @@
 ﻿.carbon.ToolBar {
+    display: flex;
     border-bottom: 1px solid #000;
     background-image: linear-gradient(to bottom,#5A5A5A 0,#5A5A5A 50%,#303030 100%);
 }
 
-.carbon.ToolBarContainer {
+/*.carbon.ToolBarContainer {
     background-color: #5A5A5A;
-}
+}*/

@@ -435,16 +435,19 @@ const Component = (() => {
         set left(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
+            const cStyle = getComputedStyle(this.HTMLElement);
             //#endregion Variables déclaration
             if (Tools.isNumber(newValue)) {
-                const lastLeft = Core.isHTMLRenderer ? priv.HTMLElement.offsetLeft : priv.left;
-                if (lastLeft !== newValue) {
-                    if (!priv.loading) {
-                        this.propertyChanged(Types.BINDABLEPROPERTIES.LEFT);
-                        if (Core.isHTMLRenderer) {
-                            priv.HTMLElementStyle.left = `${newValue}${Types.CSSUNITS.PX}`;
-                        } else {
-                            priv.left = newValue;
+                if (cStyle.position === "absolute") {
+                    const lastLeft = Core.isHTMLRenderer ? priv.HTMLElement.offsetLeft : priv.left;
+                    if (lastLeft !== newValue) {
+                        if (!priv.loading) {
+                            this.propertyChanged(Types.BINDABLEPROPERTIES.LEFT);
+                            if (Core.isHTMLRenderer) {
+                                priv.HTMLElementStyle.left = `${newValue}${Types.CSSUNITS.PX}`;
+                            } else {
+                                priv.left = newValue;
+                            }
                         }
                     }
                 }
@@ -477,16 +480,19 @@ const Component = (() => {
         set top(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
+            const cStyle = getComputedStyle(this.HTMLElement);
             //#endregion Variables déclaration
             if (Tools.isNumber(newValue)) {
-                const lastTop = (Core.isHTMLRenderer ? priv.HTMLElement.offsetTop : priv.top);
-                if (lastTop !== newValue) {
-                    if (!priv.loading) {
-                        this.propertyChanged(Types.BINDABLEPROPERTIES.TOP);
-                        if (Core.isHTMLRenderer) {
-                            priv.HTMLElementStyle.top = `${newValue}${Types.CSSUNITS.PX}`;
-                        } else {
-                            priv.top = newValue;
+                if (cStyle.position === "absolute") {
+                    const lastTop = (Core.isHTMLRenderer ? priv.HTMLElement.offsetTop : priv.top);
+                    if (lastTop !== newValue) {
+                        if (!priv.loading) {
+                            this.propertyChanged(Types.BINDABLEPROPERTIES.TOP);
+                            if (Core.isHTMLRenderer) {
+                                priv.HTMLElementStyle.top = `${newValue}${Types.CSSUNITS.PX}`;
+                            } else {
+                                priv.top = newValue;
+                            }
                         }
                     }
                 }
@@ -500,15 +506,17 @@ const Component = (() => {
             const priv = internal(this);
             const htmlElement = priv.HTMLElement;
             const htmlElementStyle = priv.HTMLElementStyle;
-            const isHtmlRenderer = Core.isHTMLRenderer;
             const PX = Types.CSSUNITS.PX;
+            const cStyle = getComputedStyle(this.HTMLElement);
             //#endregion Variables déclaration
             if (Tools.isNumber(x) && Tools.isNumber(y) || this instanceof Core.classes.Control) {
-                priv.left = x;
-                priv.top = y;
-                if (isHtmlRenderer && htmlElement && priv.inForm) {
-                    htmlElementStyle.left = `${x}${PX}`;
-                    htmlElementStyle.top = `${y}${PX}`;
+                if (cStyle.position === "absolute") {
+                    priv.left = x;
+                    priv.top = y;
+                    if (Core.isHTMLRenderer && htmlElement && priv.inForm) {
+                        htmlElementStyle.left = `${x}${PX}`;
+                        htmlElementStyle.top = `${y}${PX}`;
+                    }
                 }
             }
         }
@@ -718,7 +726,7 @@ const Component = (() => {
                     const ret = components.find(comp => {
                         return comp.name === name;
                     });
-                    return ret?ret:null;
+                    return ret ? ret : null;
                 }
             }
             return null;
@@ -788,7 +796,7 @@ const Component = (() => {
         getChilds() { }
         //#endregion getChilds
         //#region bindEvents
-        bindEvents() {}
+        bindEvents() { }
         //#endregion bindEvents
         /*updateFromHTML() {
             let properties = this.HTMLElement.querySelector("properties"), props;

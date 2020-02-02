@@ -1,11 +1,10 @@
-﻿div.ToolBar {
+﻿.Control.ToolBar {
     position: relative;
     height: 40px;
     order: 3;
 }
 
-div.ToolBarContainer {
+
+.Control.ToolBar > * {
     position: relative;
-    height: 40px;
-    order: 3;
 }

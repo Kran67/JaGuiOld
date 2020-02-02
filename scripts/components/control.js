@@ -76,10 +76,10 @@ const Control = (() => {
                 priv.forceDisplayVisibility = false;
                 priv.clipped = props.hasOwnProperty("clipped") && Tools.isBool(props.clipped) ? props.clipped : true;
                 priv.reflected = props.hasOwnProperty("reflected") && Tools.isBool(props.reflected) ? props.reflected : false;
-                priv.column = props.hasOwnProperty("column") && Tools.isNumber(props.column)?props.column:0;
-                priv.row = props.hasOwnProperty("row") && Tools.isNumber(props.row)?props.row:0;
-                priv.colSpan = props.hasOwnProperty("colSpan") && Tools.isNumber(props.colSpan)?props.colSpan:0;
-                priv.rowSpan = props.hasOwnProperty("rowSpan") && Tools.isNumber(props.rowSpan)?props.rowSpan:0;
+                priv.column = props.hasOwnProperty("column") && Tools.isNumber(props.column) ? props.column : 0;
+                priv.row = props.hasOwnProperty("row") && Tools.isNumber(props.row) ? props.row : 0;
+                priv.colSpan = props.hasOwnProperty("colSpan") && Tools.isNumber(props.colSpan) ? props.colSpan : 0;
+                priv.rowSpan = props.hasOwnProperty("rowSpan") && Tools.isNumber(props.rowSpan) ? props.rowSpan : 0;
                 this.onMouseDown = new Core.classes.NotifyEvent(this);
                 this.onMouseMove = new Core.classes.NotifyEvent(this);
                 this.onMouseUp = new Core.classes.NotifyEvent(this);
@@ -114,7 +114,7 @@ const Control = (() => {
                     component: this,
                     propName: "anchor",
                     enum: anchors,
-                    setter: function(newValue) {
+                    setter: function (newValue) {
                         //#region Variables déclaration
                         const anchor = this.anchor;
                         //#endregion Variables déclaration
@@ -133,7 +133,7 @@ const Control = (() => {
                     propName: "align",
                     enum: aligns,
                     variable: priv,
-                    setter: function(newValue) {
+                    setter: function (newValue) {
                         //#region Variables déclaration
                         const owner = this.owner;
                         const priv = internal(this);
@@ -161,7 +161,7 @@ const Control = (() => {
                     propName: "cursor",
                     enum: customCursors,
                     variable: priv,
-                    setter: function(newValue) {
+                    setter: function (newValue) {
                         //#region Variables déclaration
                         const htmlElement = this.HTMLElement;
                         const priv = internal(this);
@@ -1193,6 +1193,7 @@ const Control = (() => {
             //#region Variables déclaration
             const PX = Types.CSSUNITS.PX;
             const htmlElementStyle = this.HTMLElementStyle;
+            const cStyle = getComputedStyle(this.HTMLElement);
             //#endregion Variables déclaration
             if (Tools.isNumber(l) && Tools.isNumber(t) && Tools.isNumber(w) && Tools.isNumber(h)) {
                 if (!Core.isHTMLRenderer) {
@@ -1201,10 +1202,12 @@ const Control = (() => {
                     this.width = w;
                     this.height = h;
                 } else {
-                    htmlElementStyle.left = `${l}${PX}`;
-                    htmlElementStyle.top = `${t}${PX}`;
-                    htmlElementStyle.width = `${w}${PX}`;
-                    htmlElementStyle.height = `${h}${PX}`;
+                    if (cStyle.position === "absolute") {
+                        htmlElementStyle.left = `${l}${PX}`;
+                        htmlElementStyle.top = `${t}${PX}`;
+                        htmlElementStyle.width = `${w}${PX}`;
+                        htmlElementStyle.height = `${h}${PX}`;
+                    }
                 }
             }
         }
@@ -1242,8 +1245,8 @@ const Control = (() => {
             if (Core.isHTMLRenderer) {
                 this.applyTransforms();
                 if (priv.column > 0 || priv.row > 0 || priv.colSpan > 1 || priv.rowSpan > 1 && this.owner instanceof Core.classes.GridLayout) {
-                    htmlElementStyle.gridColumn = `${priv.column} / ${priv.colSpan > 1?"span " + priv.colSpan : priv.column + 1}`;
-                    htmlElementStyle.gridRow = `${priv.row} / ${priv.rowSpan > 1?"span " + priv.rowSpan : priv.row + 1}`;
+                    htmlElementStyle.gridColumn = `${priv.column} / ${priv.colSpan > 1 ? "span " + priv.colSpan : priv.column + 1}`;
+                    htmlElementStyle.gridRow = `${priv.row} / ${priv.rowSpan > 1 ? "span " + priv.rowSpan : priv.row + 1}`;
                 }
             } else {
                 Core.canvas.needRedraw = true;
@@ -1266,9 +1269,9 @@ const Control = (() => {
             let b = padding.bottom;
             const alignTop = (child) => {
                 if (Core.isHTMLRenderer) {
-                    const s = getComputedStyle(child.HTMLElement);
-                    if (s.position === "absolute") {
-                        const htmlElementStyle = child.HTMLElementStyle;
+                    const htmlElementStyle = child.HTMLElementStyle;
+                    const cStyle = getComputedStyle(child.HTMLElement);
+                    if (cStyle.position === "absolute") {
                         htmlElementStyle.top = t > 0 ? `${t}${PX}` : "0";
                         htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
                         htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
@@ -1278,7 +1281,7 @@ const Control = (() => {
                             htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}`;
                         }
                         child.applyTransforms();
-                        t = ~~parseFloat(s.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(s.marginBottom);
+                        t = ~~parseFloat(cStyle.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(cStyle.marginBottom);
                     }
                 } else {
                     child.top = t;
@@ -1290,10 +1293,10 @@ const Control = (() => {
                 child.realignChilds();
             };
             const alignBottom = (child) => {
-                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    if (s.position === "absolute") {
-                        const htmlElementStyle = child.HTMLElementStyle;
+                    const htmlElementStyle = child.HTMLElementStyle;
+                    const cStyle = getComputedStyle(child.HTMLElement);
+                    if (cStyle.position === "absolute") {
                         htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
                         htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
                         htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
@@ -1303,16 +1306,16 @@ const Control = (() => {
                             htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}`;
                         }
                         child.applyTransforms();
-                        b = ~~parseFloat(s.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(s.marginBottom);
+                        b = ~~parseFloat(cStyle.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(cStyle.marginBottom);
                     }
                 }
                 child.realignChilds();
             };
             const alignLeft = (child) => {
-                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    if (s.position === "absolute") {
-                        const htmlElementStyle = child.HTMLElementStyle;
+                    const htmlElementStyle = child.HTMLElementStyle;
+                    const cStyle = getComputedStyle(child.HTMLElement);
+                    if (cStyle.position === "absolute") {
                         htmlElementStyle.top = t > 0 ? `${t}${PX}` : "0";
                         htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
                         htmlElementStyle.right = "auto";
@@ -1322,16 +1325,16 @@ const Control = (() => {
                             htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}`;
                         }
                         child.applyTransforms();
-                        l = ~~parseFloat(s.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(s.marginRight);
+                        l = ~~parseFloat(cStyle.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(cStyle.marginRight);
                     }
                 }
                 child.realignChilds();
             };
             const alignRight = (child) => {
-                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    if (s.position === "absolute") {
-                        const htmlElementStyle = child.HTMLElementStyle;
+                    const htmlElementStyle = child.HTMLElementStyle;
+                    const cStyle = getComputedStyle(child.HTMLElement);
+                    if (cStyle.position === "absolute") {
                         htmlElementStyle.top = t > 0 ? `${t}${PX}` : "0";
                         htmlElementStyle.left = "auto";
                         htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
@@ -1341,7 +1344,7 @@ const Control = (() => {
                             htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}`;
                         }
                         child.applyTransforms();
-                        r = ~~parseFloat(s.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(s.marginRight);
+                        r = ~~parseFloat(cStyle.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(cStyle.marginRight);
                     }
                 }
                 child.realignChilds();
@@ -1419,17 +1422,19 @@ const Control = (() => {
                 return e.align === ALIGNS.CLIENT && e.visible;
             });
             childs.forEach(child => {
-                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    if (s.position === "absolute") {
-                        const htmlElementStyle = child.HTMLElementStyle;
+                    const cStyle = getComputedStyle(child.HTMLElement);
+                    const htmlElementStyle = child.HTMLElementStyle;
+                    htmlElementStyle.height = "auto";
+                    htmlElementStyle.width = "auto";
+                    if (cStyle.position === "absolute") {
                         htmlElementStyle.top = t > 0 ? `${t}${PX}` : "0";
                         htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
                         htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
                         htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
-                        htmlElementStyle.height = "auto";
-                        htmlElementStyle.width = "auto";
                         child.applyTransforms();
+                    } else {
+                        htmlElementStyle.flex = "1";
                     }
                 } else {
                     child.top = t;
@@ -1445,10 +1450,10 @@ const Control = (() => {
                 return e.align === ALIGNS.HORIZONTAL && e.visible;
             });
             childs.forEach(child => {
-                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    if (s.position === "absolute") {
-                        const htmlElementStyle = child.HTMLElementStyle;
+                    const cStyle = getComputedStyle(child.HTMLElement);
+                    const htmlElementStyle = child.HTMLElementStyle;
+                    if (cStyle.position === "absolute") {
                         htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
                         htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
                         htmlElementStyle.width = "auto";
@@ -1463,10 +1468,10 @@ const Control = (() => {
                 return e.align === ALIGNS.VERTICAL && e.visible;
             });
             childs.forEach(child => {
-                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    if (s.position === "absolute") {
-                        const htmlElementStyle = child.HTMLElementStyle;
+                    const cStyle = getComputedStyle(child.HTMLElement);
+                    const htmlElementStyle = child.HTMLElementStyle;
+                    if (cStyle.position === "absolute") {
                         htmlElementStyle.top = l > 0 ? `${l}${PX}` : "0";
                         htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
                         htmlElementStyle.height = "auto";
@@ -1481,10 +1486,10 @@ const Control = (() => {
                 return e.align === ALIGNS.CONTENTS && e.visible;
             });
             childs.forEach(child => {
-                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    if (s.position === "absolute") {
-                        const htmlElementStyle = child.HTMLElementStyle;
+                    const cStyle = getComputedStyle(child.HTMLElement);
+                    const htmlElementStyle = child.HTMLElementStyle;
+                    if (cStyle.position === "absolute") {
                         htmlElementStyle.top = "0";
                         htmlElementStyle.left = "0";
                         htmlElementStyle.bottom = "0";
@@ -1502,10 +1507,10 @@ const Control = (() => {
                 return e.align === ALIGNS.CENTER && e.visible;
             });
             childs.forEach(child => {
-                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    if (s.position === "absolute") {
-                        const htmlElementStyle = child.HTMLElementStyle;
+                    const cStyle = getComputedStyle(child.HTMLElement);
+                    const htmlElementStyle = child.HTMLElementStyle;
+                    if (cStyle.position === "absolute") {
                         htmlElementStyle.top = "50%";
                         htmlElementStyle.left = "50%";
                         htmlElementStyle.bottom = "auto";
@@ -1521,10 +1526,10 @@ const Control = (() => {
                 return e.align === ALIGNS.HORZCENTER && e.visible;
             });
             childs.forEach(child => {
-                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    if (s.position === "absolute") {
-                        const htmlElementStyle = child.HTMLElementStyle;
+                    const cStyle = getComputedStyle(child.HTMLElement);
+                    const htmlElementStyle = child.HTMLElementStyle;
+                    if (cStyle.position === "absolute") {
                         htmlElementStyle.top = l > 0 ? `${l}${PX}` : "0";
                         htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
                         htmlElementStyle.left = "50%";
@@ -1540,10 +1545,10 @@ const Control = (() => {
                 return e.align === ALIGNS.VERTCENTER && e.visible;
             });
             childs.forEach(child => {
-                const s = getComputedStyle(child.HTMLElement);
                 if (Core.isHTMLRenderer) {
-                    if (s.position === "absolute") {
-                        const htmlElementStyle = child.HTMLElementStyle;
+                    const cStyle = getComputedStyle(child.HTMLElement);
+                    const htmlElementStyle = child.HTMLElementStyle;
+                    if (cStyle.position === "absolute") {
                         htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
                         htmlElementStyle.right = b > 0 ? `${b}${PX}` : "0";
                         htmlElementStyle.top = "50%";
@@ -2051,7 +2056,7 @@ const Control = (() => {
                         jsObj.mouseWheel();
                     }
                     forceStopEvent = true;
-                    jsObj.stopEvent?event.preventDefault():null;
+                    jsObj.stopEvent ? event.preventDefault() : null;
                     break;
                 case MOUSEEVENTS.DBLCLICK:
                     if (activeWin.capturedControl) {
@@ -2130,20 +2135,20 @@ const Control = (() => {
                         jsObj.dragStart();
                     }
                     break;
-                    //case Types.mouseEvents.CLICK:
-                    //  //jsObj.click();
-                    //  break;
-                    //case Types.mouseEvents.EVENT:
-                    //  break;
-                    //case Types.keybordEvents.DOWN:
-                    //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
-                    //  break;
-                    //case Types.keybordEvents.UP:
-                    //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
-                    //  break;
-                    //case Types.keybordEvents.PRESS:
-                    //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
-                    //  break;
+                //case Types.mouseEvents.CLICK:
+                //  //jsObj.click();
+                //  break;
+                //case Types.mouseEvents.EVENT:
+                //  break;
+                //case Types.keybordEvents.DOWN:
+                //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
+                //  break;
+                //case Types.keybordEvents.UP:
+                //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
+                //  break;
+                //case Types.keybordEvents.PRESS:
+                //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
+                //  break;
             }
             if (jsObj.stopEvent || forceStopEvent) {
                 Core.mouse.stopEvent(event);
