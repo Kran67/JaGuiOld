@@ -72,14 +72,9 @@
                         </button>
                     </div>-->
                     <jagui-label id="_3zuzu8m" data-class="Label" class="Control csr_default Label {theme}"><properties>{ "name": "Label3", "left": 300, "caption": "Shapes : ", "vertAlign": "middle" }</properties></jagui-label>
-                    <jagui-layout id="_p632j89b" data-class="Layout" class="Control Layout"><properties>{ "name": "ShapesLayout1", "align": "client" }</properties>
-                        <!--<div id="_34qkqx3" name="Line1" data-class="Line" class="Control Line verticalCenter" style="width: 20px;height: 20px;">
-                            <properties>{"linedirection":"topleft-bottomright"}</properties>
-                            <svg class="Control svgShape">
-                                <line x1="0" y1="0" x2="100%" y2="100%" stroke="white" stroke-width="2" />
-                            </svg>
-                        </div>
-                        <div id="_34qksx3" name="Rectangle1" data-class="Rectangle" class="Control Rectangle verticalCenter" style="left: 30px;width: 20px;height: 10px;">
+                    <jagui-gridlayout id="_p632j89b" data-class="GridLayout" class="Control GridLayout"><properties>{ "name": "ShapesLayout1", "align": "client", "columns": 21, "columnGap": 10, "rows": 1, "rowGap": 5, "margin": 5 }</properties>
+                        <jagui-line id="_34qkqx3" data-class="Line" class="Control Line"><properties>{ "name": "Line1", "lineDirection": "topleft-bottomright", "strokeColor": "white", "strokeWidth": 2 }</properties><svg class="Control svgShape"><line x1="0" y1="0" x2="100%" y2="100%" /></svg></jagui-line>
+                        <!--<div id="_34qksx3" name="Rectangle1" data-class="Rectangle" class="Control Rectangle verticalCenter" style="left: 30px;width: 20px;height: 10px;">
                             <properties>{ "fillcolor":"white", "strokecolor":"black", "strokewidth":"2"}</properties>
                             <svg class="Control svgShape">
                                 <rect width="100%" height="100%" />
@@ -198,7 +193,7 @@
                                     stroke="white" stroke-width="1" />
                             </svg>
                         </div>-->
-                    </jagui-layout>
+                    </jagui-gridlayout>
                 </jagui-toolbar>
                 <jagui-windowcontent id="_oNun9920" name="Window1_content" data-class="WindowContent" class="Control WindowContent {theme} csr_default"><properties>{ "popupmenu":"PopupMenu1" }</properties>
                     <jagui-label id="_oPsKhiN0" data-class="Label" class="Control csr_default Label {theme} csr_default"><properties>{ "name": "Label1", "left": 900, "top": 410, "fontSize": 22.5, "onClick": "Label1_onClick", "showToolTip": true, "toolTip": "Click here to change font","textDecoration": { "underline": true, "overline": true, "lineThrough": true, "style": "wavy"}, "backColor": "#F00", "caption": "TEST" }</properties></jagui-label>

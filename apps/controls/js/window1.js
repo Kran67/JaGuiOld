@@ -39,7 +39,7 @@ import "/scripts/components/color/colorquad.js";
 import "/scripts/components/common/rating.js";
 //import { gradientEdit } from "/scripts/components/color/gradientEdit.js";
 //import { colorPanel } from "/scripts/components/color/colorPanel.js";
-//import { shapes } from "/scripts/components/common/shapes.js";
+import "/scripts/components/common/shapes.js";
 //import { treeView } from "/scripts/components/common/treeView.js";
 //import { pageControl } from "/scripts/components/containers/pageControl.js";
 import "/scripts/components/common/paintbox.js";

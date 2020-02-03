@@ -52,7 +52,23 @@ const Control = (() => {
                 priv.ownerShowToolTip = props.hasOwnProperty("ownerShowToolTip") && Tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : true;
                 priv.autoCapture = props.hasOwnProperty("autoCapture") ? props.autoCapture : false;
                 priv.padding = new Core.classes.Padding(this);
+                if (props.hasOwnProperty("padding")) {
+                    const padding = props.padding;
+                    if (Tools.isNumber(padding)) {
+                        priv.padding.setValues(padding, padding, padding, padding);
+                    } else {
+                        priv.padding.setValues(padding.left, padding.top, padding.right, padding.bottom);
+                    }
+                }
                 priv.margin = new Core.classes.Margin(this);
+                if (props.hasOwnProperty("margin")) {
+                    const margin = props.margin;
+                    if (Tools.isNumber(margin)) {
+                        priv.padding.setValues(margin, margin, margin, margin);
+                    } else {
+                        priv.margin.setValues(margin.left, margin.top, margin.right, margin.bottom);
+                    }
+                }
                 priv.popupMenu = null;
                 priv.opacity = props.hasOwnProperty("opacity") && Tools.isNumber(props.opacity) ? props.opacity : 1;
                 priv.width = props.hasOwnProperty("width") && Tools.isNumber(props.width) ? props.width : 50;
@@ -194,12 +210,6 @@ const Control = (() => {
                     value: props.hasOwnProperty("dragMode") && Tools.isString(props.dragMode) ? props.dragMode : Types.DRAGMODES.MANUAL
                 });
                 // gestion des propriétés spéciales (Objets)
-                if (props.margin) {
-                    priv.margin.setValues(props.margin.left, props.margin.top, props.margin.right, props.margin.bottom);
-                }
-                if (props.padding) {
-                    priv.padding.setValues(props.padding.left, props.padding.top, props.padding.right, props.padding.bottom);
-                }
             }
         }
         //#endregion Constructor
@@ -1241,12 +1251,19 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
+            const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
             if (Core.isHTMLRenderer) {
                 this.applyTransforms();
                 if (priv.column > 0 || priv.row > 0 || priv.colSpan > 1 || priv.rowSpan > 1 && this.owner instanceof Core.classes.GridLayout) {
                     htmlElementStyle.gridColumn = `${priv.column} / ${priv.colSpan > 1 ? "span " + priv.colSpan : priv.column + 1}`;
                     htmlElementStyle.gridRow = `${priv.row} / ${priv.rowSpan > 1 ? "span " + priv.rowSpan : priv.row + 1}`;
+                }
+                if (!priv.margin.isEmpty) {
+                    htmlElementStyle.margin = `${priv.margin.top}${PX} ${priv.margin.right}${PX} ${priv.margin.bottom}${PX} ${priv.margin.left}${PX}`;
+                }
+                if (!priv.padding.isEmpty) {
+                    htmlElementStyle.padding = `${priv.padding.top}${PX} ${priv.padding.right}${PX} ${priv.padding.bottom}${PX} ${priv.padding.left}${PX}`;
                 }
             } else {
                 Core.canvas.needRedraw = true;
@@ -2135,20 +2152,20 @@ const Control = (() => {
                         jsObj.dragStart();
                     }
                     break;
-                //case Types.mouseEvents.CLICK:
-                //  //jsObj.click();
-                //  break;
-                //case Types.mouseEvents.EVENT:
-                //  break;
-                //case Types.keybordEvents.DOWN:
-                //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
-                //  break;
-                //case Types.keybordEvents.UP:
-                //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
-                //  break;
-                //case Types.keybordEvents.PRESS:
-                //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
-                //  break;
+                    //case Types.mouseEvents.CLICK:
+                    //  //jsObj.click();
+                    //  break;
+                    //case Types.mouseEvents.EVENT:
+                    //  break;
+                    //case Types.keybordEvents.DOWN:
+                    //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
+                    //  break;
+                    //case Types.keybordEvents.UP:
+                    //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
+                    //  break;
+                    //case Types.keybordEvents.PRESS:
+                    //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
+                    //  break;
             }
             if (jsObj.stopEvent || forceStopEvent) {
                 Core.mouse.stopEvent(event);

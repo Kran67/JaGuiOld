@@ -1,6 +1,5 @@
 ﻿//#region Imports
 import { GraphicControl } from "/scripts/core/graphiccontrol.js";
-//import { Color } from "/scripts/core/color.js";
 //#endregion Imports
 //#region SVGGraphicControl
 const SVGGraphicControl = (() => {
@@ -23,11 +22,8 @@ const SVGGraphicControl = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                //#region Privates
-
                 priv.svg = null;
                 priv.svgShape = null;
-                //#endregion
             }
         }
         //#endregion constructor
@@ -70,7 +66,7 @@ const SVGGraphicControl = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.getHTMLElement(id);
-            priv.svg = this.HTMLElement.firstElementChild;
+            priv.svg = this.HTMLElement.querySelector("svg");
             priv.svgShape = this.svg.firstElementChild;
         }
         //#endregion getHTMLElement
@@ -78,23 +74,23 @@ const SVGGraphicControl = (() => {
         update() {
             //#region Variables déclaration
             const priv = internal(this);
-            const fillColor = priv.fillColor;
+            const fillColor = this.fillColor;
             const svgShape = priv.svgShape;
-            const strokeColor = priv.strokeColor;
-            const strokeDash = priv.strokeDash;
+            const strokeColor = this.strokeColor;
+            const strokeDash = this.strokeDash;
             //#endregion Variables déclaration
             if (!this.loading) {
                 if (fillColor) {
-                    priv.svgShape.setAttribute("fill", fillColor.toARGBString());
+                    priv.svgShape.setAttribute("fill", fillColor.toRGBAString());
                 }
-                svgShape.setAttribute("stroke-width", priv.strokeWidth);
+                svgShape.setAttribute("stroke-width", this.strokeWidth);
                 if (strokeColor) {
-                    svgShape.setAttribute("stroke", strokeColor.toARGBString());
+                    svgShape.setAttribute("stroke", strokeColor.toRGBAString());
                 }
                 if (strokeDash && strokeDash !== String.EMPTY) {
                     svgShape.setAttribute("stroke-dasharray", JSON.parse(strokeDash).join(String.COMMA));
                 }
-                svgShape.setAttribute("stroke-dashoffset", priv.strokeDashOffset);
+                svgShape.setAttribute("stroke-dashoffset", this.strokeDashOffset);
                 super.update();
             }
         }
