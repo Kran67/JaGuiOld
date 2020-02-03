@@ -32,14 +32,12 @@ const Line = (() => {
     class Line extends SVGGraphicControl {
         //#region constructor
         constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                this.strokeColor.assign(props.hasOwnProperty("color")?color.parse(props.color):Colors.WHITE);
-                priv.lineDirection = props.hasOwnProperty("lineDirection")?props.lineDirection:LINEDIRECTIONS.TOPLEFT_BOTTOMRIGHT;
+                this.strokeColor.assign(props.hasOwnProperty("color") ? color.parse(props.color) : Colors.WHITE);
+                priv.lineDirection = props.hasOwnProperty("lineDirection") ? props.lineDirection : LINEDIRECTIONS.TOPLEFT_BOTTOMRIGHT;
             }
         }
         //#endregion constructor
@@ -65,46 +63,93 @@ const Line = (() => {
         }
         //#endregion Getters / Setters
         //#region Methods
+        //#region update
+        update() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (!this.loading && !this.form.loading) {
+                if (this.svgShape) {
+                    super.update();
+                    switch (priv.lineDirection) {
+                        case LINEDIRECTIONS.TOPLEFT_BOTTOMRIGHT:
+                            this.svgShape.setAttribute("x1", 0);
+                            this.svgShape.setAttribute("y1", 0);
+                            this.svgShape.setAttribute("x2", "100%");
+                            this.svgShape.setAttribute("y2", "100%");
+                            break;
+                        case LINEDIRECTIONS.TOPRIGHT_BOTTOMLEFT:
+                            this.svgShape.setAttribute("x1", 0);
+                            this.svgShape.setAttribute("y1", "100%");
+                            this.svgShape.setAttribute("x2", "100%");
+                            this.svgShape.setAttribute("y2", 0);
+                            break;
+                        case LINEDIRECTIONS.TOPLEFT_TOPRIGHT:
+                            this.svgShape.setAttribute("x1", 0);
+                            this.svgShape.setAttribute("y1", 0);
+                            this.svgShape.setAttribute("x2", "100%");
+                            this.svgShape.setAttribute("y2", 0);
+                            break;
+                        case LINEDIRECTIONS.BOTTOMLEFT_BOTTOMRIGHT:
+                            this.svgShape.setAttribute("x1", 0);
+                            this.svgShape.setAttribute("y1", "100%");
+                            this.svgShape.setAttribute("x2", "100%");
+                            this.svgShape.setAttribute("y2", "100%");
+                            break;
+                        case LINEDIRECTIONS.TOPLEFT_BOTTOMLEFT:
+                            this.svgShape.setAttribute("x1", 0);
+                            this.svgShape.setAttribute("y1", 0);
+                            this.svgShape.setAttribute("x2", 0);
+                            this.svgShape.setAttribute("y2", "100%");
+                            break;
+                        case LINEDIRECTIONS.TOPRIGHT_BOTTOMRIGHT:
+                            this.svgShape.setAttribute("x1", "100%");
+                            this.svgShape.setAttribute("y1", 0);
+                            this.svgShape.setAttribute("x2", "100%");
+                            this.svgShape.setAttribute("y2", "100%");
+                            break;
+                        case LINEDIRECTIONS.MIDDLETOP_MIDDLEBOTTOM:
+                            this.svgShape.setAttribute("x1", "50%");
+                            this.svgShape.setAttribute("y1", 0);
+                            this.svgShape.setAttribute("x2", "50%");
+                            this.svgShape.setAttribute("y2", "100%");
+                            break;
+                        case LINEDIRECTIONS.MIDDLELEFT_MIDDLERIGHT:
+                            this.svgShape.setAttribute("x1", 0);
+                            this.svgShape.setAttribute("y1", "50%");
+                            this.svgShape.setAttribute("x2", "100%");
+                            this.svgShape.setAttribute("y2", "50%");
+                            break;
+                    }
+                    this.svgShape.setAttribute("stroke", this.strokeColor.toRGBAString());
+                    this.svgShape.setAttribute("stroke-width", this.strokeWidth);
+                }
+            }
+        }
+        //#endregion update
         //#endregion Methods
     }
     return Line;
     //#endregion Line
 })();
+Object.seal(Line);
+Object.freeze(Line);
 //#endregion Line
 //#region Rectangle
-const Rectangle = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
+class Rectangle extends SVGGraphicControl {
+    //#region constructor
+    constructor(owner, props) {
+        //#region Variables déclaration
+        //#endregion Variables déclaration
+        props = !props ? {} : props;
+        if (owner) {
+            super(owner, props);
         }
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class Rectangle
-    class Rectangle extends SVGGraphicControl {
-        //#region constructor
-        constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
-            props = !props ? {} : props;
-            if (owner) {
-                super(owner, props);
-                const priv = internal(this);
-            }
-        }
-        //#endregion constructor
-        //#region Getters / Setters
-        //#endregion Getters / Setters
-        //#region Methods
-        //#endregion Methods
     }
-    return Rectangle;
-    //#endregion Rectangle
-})();
+    //#endregion constructor
+}
+Object.seal(Rectangle);
+Object.freeze(Rectangle);
 //#endregion Rectangle
 //#region RoundRect
 const RoundRect = (() => {
@@ -123,18 +168,117 @@ const RoundRect = (() => {
     class RoundRect extends SVGGraphicControl {
         //#region constructor
         constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
+                priv.topLeftRadius = props.hasOwnProperty("topLeftRadius") ? props.topLeftRadius : 20;
+                priv.topRightRadius = props.hasOwnProperty("topRightRadius") ? props.topLeftRadius : 20;
+                priv.bottomLeftRadius = props.hasOwnProperty("bottomLeftRadius") ? props.topLeftRadius : 20;
+                priv.bottomRightRadius = props.hasOwnProperty("bottomRightRadius") ? props.topLeftRadius : 20;
             }
         }
         //#endregion constructor
         //#region Getters / Setters
+        //#region topLeftRadius
+        get topLeftRadius() {
+            return internal(this).topLeftRadius;
+        }
+        set topLeftRadius(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
+                if (priv.topLeftRadius !== newValue) {
+                    priv.topLeftRadius = newValue;
+                    this.update();
+                }
+            }
+        }
+        //#endregion topLeftRadius
+        //#region topRightRadius
+        get topRightRadius() {
+            return internal(this).topRightRadius;
+        }
+        set topRightRadius(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
+                if (priv.topRightRadius !== newValue) {
+                    priv.topRightRadius = newValue;
+                    this.update();
+                }
+            }
+        }
+        //#endregion topRightRadius
+        //#region bottomLeftRadius
+        get bottomLeftRadius() {
+            return internal(this).bottomLeftRadius;
+        }
+        set bottomLeftRadius(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
+                if (priv.bottomLeftRadius !== newValue) {
+                    priv.bottomLeftRadius = newValue;
+                    this.update();
+                }
+            }
+        }
+        //#endregion bottomLeftRadius
+        //#region bottomRightRadius
+        get bottomRightRadius() {
+            return internal(this).bottomRightRadius;
+        }
+        set bottomRightRadius(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
+                if (priv.bottomRightRadius !== newValue) {
+                    priv.bottomRightRadius = newValue;
+                    this.update();
+                }
+            }
+        }
+        //#endregion bottomRightRadius
         //#endregion Getters / Setters
         //#region Methods
+        assign(source) {
+            if (source instanceof Core.classes.RoundRect) {
+                super.assign(source);
+                priv.topLeftRadius = source.topLeftRadius;
+                priv.topRightRadius = source.topLeftRadius;
+                priv.bottomLeftRadius = source.topLeftRadius;
+                priv.bottomRightRadius = source.topLeftRadius;
+            }
+        }
+        update() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const p = function (x, y) { return `${x} ${y} `; };
+            const htmlElement = this.HTMLElement;
+            const w = htmlElement.offsetWidth;
+            const h = htmlElement.offsetHeight;
+            //#endregion Variables déclaration
+            if (!this.loading && !this.form.loading) {
+                super.update();
+                const strPath = `M${p(priv.topLeftRadius, 0)}L${p(w - priv.topRightRadius, 0)}Q${p(w, 0)}${p(w, priv.topRightRadius)}L${p(w, h - priv.bottomRightRadius)}Q${p(w, h)}${p(w - priv.bottomRightRadius, h)}L${p(priv.bottomLeftRadius, h)}Q${p(0, h)}${p(0, h - priv.bottomLeftRadius)}L${p(0, priv.topLeftRadius)}Q${p(0, 0)}${p(priv.topLeftRadius, 0)}Z`;
+                this.svgShape.setAttribute("d", strPath);
+            }
+        }
+        destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            super.destroy();
+            priv.topLeftRadius = null;
+            priv.topRightRadius = null;
+            priv.bottomLeftRadius = null;
+            priv.bottomRightRadius = null;
+        }
         //#endregion Methods
     }
     return RoundRect;
@@ -282,13 +426,10 @@ const Pie = (() => {
 })();
 //#endregion Pie
 //#region Chord
-// Inheritance of Chord
-class Chord extends Pie {
-    //#region Methods
-    //#endregion
-};
+class Chord extends Pie { }
 Object.seal(Chord);
 Object.freeze(Chord);
+//#endregion Chord
 //#region Arc
 const Arc = (() => {
     //#region Private
@@ -446,140 +587,8 @@ if (Core.isHTMLRenderer) {
 }
 //#endregion
 
-/*(function () {
-    //#region Direction of Line
-    $j.types.LineDirections = {
-        TOPLEFT_BOTTOMRIGHT: "topleft-bottomright",
-        TOPRIGHT_BOTTOMLEFT: "topright-bottomleft",
-        TOPLEFT_TOPRIGHT: "topleft-topright",
-        BOTTOMLEFT_BOTTOMRIGHT: "bottomleft-bottomright",
-        TOPLEFT_BOTTOMLEFT: "topleft-bottomleft",
-        TOPRIGHT_BOTTOMRIGHT: "topright-bottomright",
-        MIDDLETOP_MIDDLEBOTTOM: "middletop-middlebottom",
-        MIDDLELEFT_MIDDLERIGHT: "middleleft-middleright"
-    };
-    //#endregion
-    //#region Line
-    var Line = $j.classes.SVGGraphicControl.extend("Line", {
-        init: function (owner, props) {
-            props = props || {};
-            if (owner) {
-                this._inherited(owner, props);
-                this.strokeColor.assign(_colors.WHITE);
-                this.lineDirection = $j.types.LineDirections.TOPLEFT_BOTTOMRIGHT;
-            }
-        },
-        //#region Setter
-        setLineDirection: function (newValue) {
-            if (!$j.tools.valueInSet(newValue, $j.types.LineDirections)) return;
-            if (this.lineDirection !== newValue) {
-                this.lineDirection = newValue;
-                this.update();
-            }
-        },
-        setWidth: function (newValue) {
-            if (typeof newValue !== _const.NUMBER) return;
-            if (this.width !== newValue) {
-                this._inherited(newValue);
-                //this.endPoint.x=this.startPoint.x+newValue;
-                this.update();
-            }
-        },
-        setHeight: function (newValue) {
-            if (typeof newValue !== _const.NUMBER) return;
-            if (this.height !== newValue) {
-                this._inherited(newValue);
-                //this.endPoint.y=this.startPoint.y+newValue;
-                this.update();
-            }
-        },
-        //#endregion
-        //#region Methods
-        update: function () {
-            var w, h, w2, h2;
-            if (this._loading || this.form._loading) return;
-            if (!this._svgShape) return;
-            this._inherited();
-            w = this._HTMLElement.offsetWidth;
-            h = this._HTMLElement.offsetHeight;
-            w2 = ~~(w / 2);
-            h2 = ~~(h / 2);
-            switch (this.lineDirection) {
-                case $j.types.LineDirections.TOPLEFT_BOTTOMRIGHT:
-                    this._svgShape.setAttribute("x1", 0);
-                    this._svgShape.setAttribute("y1", 0);
-                    this._svgShape.setAttribute("x2", "100%");
-                    this._svgShape.setAttribute("y2", "100%");
-                    break;
-                case $j.types.LineDirections.TOPRIGHT_BOTTOMLEFT:
-                    this._svgShape.setAttribute("x1", 0);
-                    this._svgShape.setAttribute("y1", "100%");
-                    this._svgShape.setAttribute("x2", "100%");
-                    this._svgShape.setAttribute("y2", 0);
-                    break;
-                case $j.types.LineDirections.TOPLEFT_TOPRIGHT:
-                    this._svgShape.setAttribute("x1", 0);
-                    this._svgShape.setAttribute("y1", 0);
-                    this._svgShape.setAttribute("x2", "100%");
-                    this._svgShape.setAttribute("y2", 0);
-                    break;
-                case $j.types.LineDirections.BOTTOMLEFT_BOTTOMRIGHT:
-                    this._svgShape.setAttribute("x1", 0);
-                    this._svgShape.setAttribute("y1", "100%");
-                    this._svgShape.setAttribute("x2", "100%");
-                    this._svgShape.setAttribute("y2", "100%");
-                    break;
-                case $j.types.LineDirections.TOPLEFT_BOTTOMLEFT:
-                    this._svgShape.setAttribute("x1", 0);
-                    this._svgShape.setAttribute("y1", 0);
-                    this._svgShape.setAttribute("x2", 0);
-                    this._svgShape.setAttribute("y2", "100%");
-                    break;
-                case $j.types.LineDirections.TOPRIGHT_BOTTOMRIGHT:
-                    this._svgShape.setAttribute("x1", "100%");
-                    this._svgShape.setAttribute("y1", 0);
-                    this._svgShape.setAttribute("x2", "100%");
-                    this._svgShape.setAttribute("y2", "100%");
-                    break;
-                case $j.types.LineDirections.MIDDLETOP_MIDDLEBOTTOM:
-                    this._svgShape.setAttribute("x1", "50%");
-                    this._svgShape.setAttribute("y1", 0);
-                    this._svgShape.setAttribute("x2", "50%");
-                    this._svgShape.setAttribute("y2", "100%");
-                    break;
-                case $j.types.LineDirections.MIDDLELEFT_MIDDLERIGHT:
-                    this._svgShape.setAttribute("x1", 0);
-                    this._svgShape.setAttribute("y1", "50%");
-                    this._svgShape.setAttribute("x2", "100%");
-                    this._svgShape.setAttribute("y2", "50%");
-                    break;
-            }
-            this._svgShape.setAttribute("stroke", this.strokeColor.toARGBString());
-            this._svgShape.setAttribute("stroke-width", this.strokeWidth);
-        },
-        updateFromHTML: function () {
-            var data;
-            this._inherited();
-            if (this._svgShape) {
-                data = this._HTMLElement.dataset.linedirection;
-                if (data) this.lineDirection = data;
-            }
-        }
-        //#endregion
-    });
-    Object.seal(Line);
-    Object.freeze(Line);
-    //#endregion
-    //#region Rectangle
-    var Rectangle = $j.classes.SVGGraphicControl.extend("Rectangle", {
-        //#region Setters
-        //#endregion
-        //#region Methods
-        //#endregion
-    });
-    Object.seal(Rectangle);
-    Object.freeze(Rectangle);
-    //#endregion
+/*
+
     //#region RoundRect
     var RoundRect = Rectangle.extend("RoundRect", {
         init: function (owner, props) {
@@ -662,8 +671,6 @@ if (Core.isHTMLRenderer) {
         }
         //#endregion
     });
-    Object.seal(RoundRect);
-    Object.freeze(RoundRect);
     //#endregion
     //#region Ellipse
     var Ellipse = $j.classes.SVGGraphicControl.extend("Ellipse", {
