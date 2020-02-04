@@ -66,6 +66,7 @@ const Checkbox = (() => {
                 priv.allowGrayed = props.hasOwnProperty("allowGrayed") ? props.allowGrayed : false;
                 priv.action = null;
                 this.autoSize = false;
+                this.clipped = false;
             }
         }
         //#endregion constructor

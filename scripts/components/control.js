@@ -2168,20 +2168,20 @@ const Control = (() => {
                         jsObj.dragStart();
                     }
                     break;
-                    //case Types.mouseEvents.CLICK:
-                    //  //jsObj.click();
-                    //  break;
-                    //case Types.mouseEvents.EVENT:
-                    //  break;
-                    //case Types.keybordEvents.DOWN:
-                    //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
-                    //  break;
-                    //case Types.keybordEvents.UP:
-                    //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
-                    //  break;
-                    //case Types.keybordEvents.PRESS:
-                    //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
-                    //  break;
+                //case Types.mouseEvents.CLICK:
+                //  //jsObj.click();
+                //  break;
+                //case Types.mouseEvents.EVENT:
+                //  break;
+                //case Types.keybordEvents.DOWN:
+                //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
+                //  break;
+                //case Types.keybordEvents.UP:
+                //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
+                //  break;
+                //case Types.keybordEvents.PRESS:
+                //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
+                //  break;
             }
             if (jsObj.stopEvent || forceStopEvent) {
                 Core.mouse.stopEvent(event);

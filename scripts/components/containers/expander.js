@@ -115,17 +115,12 @@ const Expander = (() => {
         }
         //#region getHTMLElement
         //#region _expendCollapse
-        _expendCollapse(expand) {
+        _expandCollapse() {
             //#region Variables déclaration
             const priv = internal(this);
-            const htmlElementStyle = this.HTMLElementStyle;
-            const bHTMLElement = priv.button.HTMLElement;
-            const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
-            if (priv.expanded !== expand) {
-                priv.expanded = expand ? expand : !priv.expanded;
-                this.update();
-            }
+            priv.expanded = !priv.expanded;
+            this.update();
         }
         //#endregion _expendCollapse
         //#region update
@@ -142,13 +137,16 @@ const Expander = (() => {
                 htmlElementStyle.height = `${priv.lastHeight}${PX}`;
                 bHTMLElement.classList.add("expanded");
             } else {
-                htmlElementStyle.height = `${priv.header.offsetHeight + 1}${PX}`;
+                if (this.HTMLElement.offsetHeight > priv.header.offsetHeight) {
+                    htmlElementStyle.height = `${priv.header.offsetHeight + 1}${PX}`;
+                }
             }
+            priv.eye.visible = priv.viewCheck;
         }
         //#endregion update
         //#region expandCollapse
         expandCollapse() {
-            this.owner._expendCollapse();
+            this.owner._expandCollapse();
         }
         //#endregion expandCollapse
         //#region check
@@ -195,12 +193,6 @@ const Expander = (() => {
             }
         }
         //#endregion getTabOrderList
-        //#region loaded
-        loaded() {
-            super.loaded();
-            this.update();
-        }
-        //#endregion loaded
         //#endregion Methods
     }
     return Expander;

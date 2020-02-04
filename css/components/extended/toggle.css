@@ -16,6 +16,7 @@
         align-items: center;
         flex-direction: column;
         z-index: 0;
+        overflow: hidden;
     }
 
     .Control.Toggle:after {

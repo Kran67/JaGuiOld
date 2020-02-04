@@ -68,12 +68,12 @@ const BaseClass = (() => {
          * @override
          */
         destroy() {
-            if (Tools.isObject(this.tag) && Tools.isFunc(this.tag.destroy)) {
+            if (this.tag != null && Tools.isObject(this.tag) && Tools.isFunc(this.tag.destroy)) {
                 this.tag.destroy();
             }
             this.tag = null;
-            this.propsEnums.clear();
-            this.propsEnums = null;
+            //this.propsEnums.clear();
+            delete this.propsEnums;
         }
         addPropertyEnum(propName, _enum) {
             this.propsEnums[propName] = _enum;

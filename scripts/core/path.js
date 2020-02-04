@@ -2,6 +2,7 @@
 import { BaseClass } from "/scripts/core/baseclass.js";
 import { Text } from "/scripts/core/text.js";
 import { Tools } from "/scripts/core/tools.js";
+import { Convert } from "/scripts/core/convert.js";
 import "/scripts/core/canvas.js";
 //#endregion Import
 //#region _KINDS
