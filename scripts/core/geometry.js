@@ -562,7 +562,7 @@ const Rect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            return priv.width <= 0 || priv.height <= 0;
+            return priv.left === 0 && priv.top === 0 && priv.right === 0 && priv.bottom === 0;
         }
         //#endregion
         //#region width

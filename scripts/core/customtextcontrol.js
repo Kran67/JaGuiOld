@@ -297,6 +297,7 @@ const CustomTextControl = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
+            super.update();
             if (!this.loading && !this.form.loading) {
                 if (inputObj) {
                     inputObj.value = priv.text;

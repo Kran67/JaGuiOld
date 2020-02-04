@@ -144,8 +144,8 @@ const StatusBarPanel = (() => {
         update() {
             //#region Variables déclaration
             const priv = internal(this);
-            //#endregion Variables déclaration
             const html = priv.html;
+            //#endregion Variables déclaration
             if (html) {
                 const style = html.style;
                 style.textAlign = priv.alignment;

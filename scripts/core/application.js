@@ -322,7 +322,7 @@ const Application = (() => {
                 const dx = Text.replace(template, "{theme}", Core.apps.activeApplication.themeManifest.themeName);
                 div.innerHTML = dx;
                 if (Core.isHTMLRenderer) {
-                    div.firstElementChild.classList.add("hidden");
+                    //div.firstElementChild.classList.add("hidden");
                     if (!Tools.HTMLParentElement) {
                         document.body.appendChild(div.firstElementChild);
                     } else {
@@ -409,7 +409,6 @@ const Application = (() => {
             const form = new this.windowsClass[instanceClass](this, props);
             form.formCreated(id);
             //this.themeManifest.changeWindowTheme(form);
-            form.loaded();
             //this.icon.loaded();
             return form;
         }

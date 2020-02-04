@@ -221,6 +221,7 @@ const Checkbox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
+            super.update();
             if (!this.loading && !this.form.loading) {
                 priv.check.classList.remove("checked", "grayed");
                 if (priv.isChecked) {
@@ -284,12 +285,6 @@ const Checkbox = (() => {
             }
         }
         //#endregion getHTMLElement
-        //#region loaded
-        loaded() {
-            super.loaded();
-            this.update();
-        }
-        //#region loaded
         //#endregion Checkbox
     }
     return Checkbox;

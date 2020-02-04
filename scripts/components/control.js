@@ -1241,8 +1241,12 @@ const Control = (() => {
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
             if (htmlElementStyle) {
-                htmlElementStyle.width = `${priv.width}${Types.CSSUNITS.PX}`;
-                htmlElementStyle.height = `${priv.height}${Types.CSSUNITS.PX}`;
+                //const position = getComputedStyle(this.HTMLElement).position;
+                //if (position === "absolute") {
+                if (priv.align === Types.ALIGNS.NONE) {
+                    htmlElementStyle.width = `${priv.width}${Types.CSSUNITS.PX}`;
+                    htmlElementStyle.height = `${priv.height}${Types.CSSUNITS.PX}`;
+                }
             }
         }
         //#endregion resize
@@ -1252,6 +1256,7 @@ const Control = (() => {
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
             const PX = Types.CSSUNITS.PX;
+            const right = priv.right;
             //#endregion Variables déclaration
             if (Core.isHTMLRenderer) {
                 this.applyTransforms();
@@ -1268,6 +1273,17 @@ const Control = (() => {
             } else {
                 Core.canvas.needRedraw = true;
             }
+            if (this.form !== this) {
+                if (right !== null) {
+                    const oldRight = right;
+                    priv.right = null;
+                    this.right = oldRight;
+                }
+                if (Core.isHTMLRenderer && this.inForm) {
+                    this.resize();
+                }
+            }
+            super.update();
         }
         //#endregion update
         //#region realignChilds
@@ -2597,7 +2613,6 @@ const Control = (() => {
             const priv = internal(this);
             const align = priv.align;
             const owner = this.owner;
-            const right = priv.right;
             //#endregion Variables déclaration
             super.loaded();
             if (align.startsWith("fit") || align === Types.ALIGNS.SCALE) {
@@ -2605,14 +2620,6 @@ const Control = (() => {
             }
             if (owner.tab) {
                 this.tab = owner.tab;
-            }
-            if (right !== null) {
-                const oldRight = right;
-                priv.right = null;
-                this.right = oldRight;
-            }
-            if (Core.isHTMLRenderer && this.inForm) {
-                this.resize();
             }
         }
         //#endregion loaded
@@ -2729,35 +2736,37 @@ const Control = (() => {
             const rotateAngle = priv.rotateAngle;
             const scale = priv.scale;
             //#endregion Variables déclaration
-            this.resetTransform();
-            if (!transform) {
-                transform = String.EMPTY;
+            if (this.HTMLElementStyle) {
+                this.resetTransform();
+                if (!transform) {
+                    transform = String.EMPTY;
+                }
+                //Translation
+                //if (transform.includes("translate")) t.push(transform);
+                //Rotation
+                if (transform.includes("rotate")) {
+                    t.push(transform);
+                } else if (rotateAngle !== 0) {
+                    t.push(`rotate(${rotateAngle}deg)`);
+                }
+                //if (this._rotateAngle!==0) {
+                //rad=_conv.deg2Rad(this._rotateAngle);
+                //t.push(["matrix(",Core.cos(rad),",",Core.sin(rad),",",-Core.sin(rad),",",Core.cos(rad),",0,0)"].join(String.EMPTY));
+                //this.HTMLElementStyle.transformOrigin=this._rotateCenter.x+Types.CSSUnits.PX+String.SPACE+this._rotateCenter.y+Types.CSSUnits.PX+String.SPACE+" 0px";
+                //this.HTMLElementStyle.transformOrigin="0px 0px 0px";
+                //}
+                //Scale
+                if (transform.includes("scale")) {
+                    t.push(transform);
+                } else if (!scale.isEmpty && scale.x !== 1 && scale.y !== 1) {
+                    t.push(`scale(${scale.x}, ${scale.y})`);
+                } else if (scale.x > 0 && scale.y === 0) {
+                    t.push(`scaleX(${scale.x})`);
+                } else if (scale.y > 0 && scale.x === 0) {
+                    t.push(`scaleY(${scale.y})`);
+                }
+                this.HTMLElementStyle.transform = t.join(String.SPACE);
             }
-            //Translation
-            //if (transform.includes("translate")) t.push(transform);
-            //Rotation
-            if (transform.includes("rotate")) {
-                t.push(transform);
-            } else if (rotateAngle !== 0) {
-                t.push(`rotate(${rotateAngle}deg)`);
-            }
-            //if (this._rotateAngle!==0) {
-            //rad=_conv.deg2Rad(this._rotateAngle);
-            //t.push(["matrix(",Core.cos(rad),",",Core.sin(rad),",",-Core.sin(rad),",",Core.cos(rad),",0,0)"].join(String.EMPTY));
-            //this.HTMLElementStyle.transformOrigin=this._rotateCenter.x+Types.CSSUnits.PX+String.SPACE+this._rotateCenter.y+Types.CSSUnits.PX+String.SPACE+" 0px";
-            //this.HTMLElementStyle.transformOrigin="0px 0px 0px";
-            //}
-            //Scale
-            if (transform.includes("scale")) {
-                t.push(transform);
-            } else if (!scale.isEmpty && scale.x !== 1 && scale.y !== 1) {
-                t.push(`scale(${scale.x}, ${scale.y})`);
-            } else if (scale.x > 0 && scale.y === 0) {
-                t.push(`scaleX(${scale.x})`);
-            } else if (scale.y > 0 && scale.x === 0) {
-                t.push(`scaleY(${scale.y})`);
-            }
-            this.HTMLElementStyle.transform = t.join(String.SPACE);
         }
         //#endregion applyTransforms
         //#region resetTransform

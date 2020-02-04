@@ -32,11 +32,14 @@ const RadioGroup = (() => {
         }
         //#endregion constructor
         //#region Getters / Setters
+        //#region itemIndex
         get itemIndex() {
             return internal(this).itemIndex;
         }
         set itemIndex(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (Tools.isNumber(newValue)) {
                 if (priv.itemIndex !== newValue) {
                     priv.itemIndex = newValue;
@@ -50,23 +53,29 @@ const RadioGroup = (() => {
                 }
             }
         }
+        //#endregion itemIndex
         //#endregion Getters / Setters
+        //#region Methods
+        //#region getRadio
         getRadio(index) {
             if (index >= 0 && index < this.items.length) {
                 return this.items[index];
             }
+            return null;
         }
+        //#region arrangeButtons
         arrangeButtons() {
+            //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            var buttonsPerCol, buttonWidth, buttonHeight, topMargin, item;
+            //#endregion Variables déclaration
             if (!this.loading && !this.form.loading && this.items.length >= 0) {
                 if (htmlElement) {
-                    buttonsPerCol = ~~((this.items.length + priv.columns - 1) / priv.columns);
-                    buttonWidth = ~~((htmlElement.offsetWidth - 10) / priv.columns);
+                    const buttonsPerCol = ~~((this.items.length + priv.columns - 1) / priv.columns);
+                    const buttonWidth = ~~((htmlElement.offsetWidth - 10) / priv.columns);
                     const h = htmlElement.offsetHeight - this.legendObj.offsetHeight - 10;
-                    buttonHeight = ~~(h / buttonsPerCol);
-                    topMargin = 16 + ~~(h % buttonsPerCol) / 2;
+                    const buttonHeight = ~~(h / buttonsPerCol);
+                    const topMargin = 16 + ~~(h % buttonsPerCol) / 2;
                     this.items.forEach((item, i) => {
                         const l = ~~(~~(i / buttonsPerCol) * buttonWidth + 8);
                         const t = ~~(i % buttonsPerCol * buttonHeight + topMargin);
@@ -75,8 +84,12 @@ const RadioGroup = (() => {
                 }
             }
         }
+        //#endregion arrangeButtons
+        //#region getHTMLElement
         getHTMLElement(id) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             super.getHTMLElement(id);
             const htmlElement = this.HTMLElement;
             const items = htmlElement.lastElementChild;
@@ -105,23 +118,33 @@ const RadioGroup = (() => {
             htmlElement.removeChild(items);
             this.items.onChange.addListener(this.arrangeButtons);
         }
+        //#endregion getHTMLElement
+        //#region changeItemIndex
         changeItemIndex() {
+            //#region Variables déclaration
             const owner = this.owner;
+            //#endregion Variables déclaration
             owner.itemIndex = owner.items.indexOf(this);
         }
+        //#endregion changeItemIndex
+        //#region beginUpdate
         beginUpdate() {
             this.allowUpdate = false;
             this.items.beginUpdate();
         }
+        //#endregion beginUpdate
+        //#region endUpdate
         endUpdate() {
             this.allowUpdate = true;
             this.items.endUpdate();
         }
+        //#endregion endUpdate
+        //#region loaded
         loaded() {
             super.loaded();
             this.arrangeButtons();
         }
-        //#region Methods
+        //#endregion loaded
         //#endregion Methods
     }
     return RadioGroup;

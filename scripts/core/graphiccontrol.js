@@ -122,25 +122,25 @@ const GraphicControl = (function () {
         changed() { }
         //#endregion changed
         //#region update
-        update() {
-            if (!this.loading) {
-                //if (this._fillColor)) {
-                //    if (!this._fillColor.equals(_colors.TRANSPARENT)) this.HTMLElementStyle.backgroundColor = this._fillColor.toARGBString();
-                //}
-                //if (this._strokeWidth) && this._strokeColor)) {
-                //    stroke = this._strokeWidth + Types.CSSUnits.PX + String.SPACE + "solid" + String.SPACE;
-                //    stroke += this._strokeColor.toARGBString();
-                //    this.HTMLElementStyle.border = stroke;
-                //}
-                super.update();
-            }
-        }
+        //update() {
+        //    if (!this.loading) {
+        //        //if (this._fillColor)) {
+        //        //    if (!this._fillColor.equals(_colors.TRANSPARENT)) this.HTMLElementStyle.backgroundColor = this._fillColor.toARGBString();
+        //        //}
+        //        //if (this._strokeWidth) && this._strokeColor)) {
+        //        //    stroke = this._strokeWidth + Types.CSSUnits.PX + String.SPACE + "solid" + String.SPACE;
+        //        //    stroke += this._strokeColor.toARGBString();
+        //        //    this.HTMLElementStyle.border = stroke;
+        //        //}
+        //        super.update();
+        //    }
+        //}
         //#endregion update
         //#region loaded
-        loaded() {
-            super.loaded();
-            this.update();
-        }
+        //loaded() {
+        //    super.loaded();
+        //    this.update();
+        //}
         //#endregion loaded
         //#region destroy
         destroy() {

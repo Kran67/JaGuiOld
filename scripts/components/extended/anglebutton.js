@@ -191,6 +191,7 @@ const AngleButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
+            super.update();
             if (!this.loading && !this.form.loading) {
                 priv.knob.style.transform = `rotate(${priv.internalValue}deg)`;
                 //this._knob.style.lineHeight=this._knob.offsetHeight+$j.types.CSSUnits.PX;

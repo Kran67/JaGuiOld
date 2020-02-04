@@ -132,15 +132,7 @@ const CustomButton = (() => {
         //#endregion borderRadius
         //#endregion Getters / Setters
         //#region Methods
-        //#region update
-        update() {
-            if (!this.loading && !this.form.loading) {
-                if (Core.isHTMLRenderer) {
-                    super.update();
-                }
-            }
-        }
-        //#endregion update
+        //#region updateCssProperties
         updateCssProperties() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -155,6 +147,7 @@ const CustomButton = (() => {
                 htmlElement.classList.add("stayspressed");
             }
         }
+        //#endregion updateCssProperties
         //#region click
         click() {
             //#region Variables déclaration
@@ -311,16 +304,6 @@ const CustomButton = (() => {
             priv.action = null;
         }
         //#endregion destroy
-        //#region loaded
-        loaded() {
-            super.loaded();
-            if (Core.isHTMLRenderer) {
-                if (this.form.loaded && this.loaded) {
-                    this.update();
-                }
-            }
-        }
-        //#endregion loaded
         //#endregion Methods
     }
     return CustomButton;
@@ -392,18 +375,6 @@ const Button = (() => {
         //#endregion
         //#endregion
         //#region Methods
-        //#region update
-        update() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (!this.loading && !this.form.loading) {
-                if (Core.isHTMLRenderer) {
-                    super.update();
-                }
-            }
-        }
-        //#endregion update
         //#region assign
         assign(source) {
             //#region Variables déclaration

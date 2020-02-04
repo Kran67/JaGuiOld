@@ -38,6 +38,7 @@ const GroupBox = (() => {
                     variable: priv,
                     value: props.hasOwnProperty("horizAlign")? props.horizAlign : Types.TEXTALIGNS.LEFT
                 });
+                this.autoSize = false;
             }
         }
         //#endregion Constructor
@@ -69,6 +70,7 @@ const GroupBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
+            super.update();
             if (!this.loading && !this.form.loading) {
                 if (priv.legendObj) {
                     priv.legendObj.setAttribute("align", priv.horizAlign);

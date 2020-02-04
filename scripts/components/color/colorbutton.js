@@ -23,10 +23,11 @@ const ColorButton = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                const color = props.hasOwnProperty("color") ? Color.parse(props.color) : Colors.TRANSPARENT;
+                props.caption = color.toRGBAString();
                 super(owner, props);
                 const priv = internal(this);
-                priv.color = props.hasOwnProperty("color") ? Color.parse(props.color) : Colors.TRANSPARENT;
-                this.caption = priv.color.toRGBAString();
+                priv.color = color;
                 this.onChange = new NotifyEvent(this);
                 priv.colorDlg = null;
                 priv.colorObj = null;
@@ -36,7 +37,7 @@ const ColorButton = (() => {
         //#region Getters / Setters
         //#region caption
         get caption() {
-            return priv.color.toRGBAString();
+            return internal(this).color.toRGBAString();
         }
         set caption(newValue) {
             return;
@@ -87,6 +88,7 @@ const ColorButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
+            super.update();
             if (this.textObj) {
                 this.textObj.innerHTML = String.EMPTY;
             }

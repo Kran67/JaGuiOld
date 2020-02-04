@@ -72,16 +72,6 @@ const Label = (() => {
             }
         }
         //#endregion loaded
-        //#region update
-        update () {
-            //#region Variables déclaration
-            const isHtmlRenderer = Core.isHTMLRenderer;
-            //#endregion Variables déclaration
-            super.update();
-            if (isHtmlRenderer) {
-            }
-        }
-        //#endregion update
         //#region updateCssProperties
         updateCssProperties() {
             //#region Variables déclaration

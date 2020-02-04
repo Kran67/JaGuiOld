@@ -105,6 +105,7 @@ const Image = (() => {
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
+            super.update();
             if (!this.loading && !this.form.loading) {
                 switch (priv.wrapMode) {
                     case IMAGEWRAPS.ORIGINAL:
@@ -220,18 +221,6 @@ const Icon = (() => {
             priv.cssClass = null;
         }
         //#endregion destroy
-        //#region loaded
-        loaded() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const htmlElement = this.HTMLElement;
-            //#endregion Variables déclaration
-            super.loaded();
-            //if (htmlElement.src.includes("#")) {
-            //    htmlElement.src = Types.CONSTANTS.PIX;
-            //}
-        }
-        //#endregion loaded
         //#endregion Getters / Setters
         //#region Methods
         //#endregion Methods

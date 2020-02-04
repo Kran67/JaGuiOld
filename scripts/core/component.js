@@ -591,7 +591,7 @@ const Component = (() => {
                 }
             }
             if (this.hasOwnProperty("action")) {
-                if (form[this._action]) {
+                if (form[this.action]) {
                     this.action = form[this.action];
                 } else if (!String.isNullOrEmpty(this.action)) {
                     const action = this.action;
@@ -607,9 +607,24 @@ const Component = (() => {
                     }
                 }
             }
-            this.moveTo(priv.left, priv.top);
+            this.update();
         }
         //#endregion loaded
+        //#region update
+        update() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (priv.form !== this) {
+                if (Core.isHTMLRenderer && priv.HTMLElement) {
+                    const position = getComputedStyle(priv.HTMLElement).position;
+                    if (position === "absolute") {
+                        this.moveTo(priv.left, priv.top);
+                    }
+                }
+            }
+        }
+        //#endregion update
         //#region insert
         insert(component) {
             //#region Variables déclaration

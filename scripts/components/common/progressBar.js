@@ -159,13 +159,6 @@ const ProgressBar = (() => {
         //#endregion height
         //#endregion Getter / Setter
         //#region Methods
-        //#region loaded
-        loaded() {
-            super.loaded();
-            this.update();
-            //this.addAnimation();
-        }
-        //#endregion loaded
         //#region calculProgress
         calculProgress() {
             //#region Variables déclaration
@@ -213,6 +206,7 @@ const ProgressBar = (() => {
             const PX = Types.CSSUNITS.PX;
             const progressStyle = this.HTMLElement.firstElementChild.style;
             //#endregion Variables déclaration
+            super.update();
             if (priv.progress) {
                 const wh = this.calculProgress();
                 //style = this._progress.style;

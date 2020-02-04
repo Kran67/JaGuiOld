@@ -1,4 +1,5 @@
 ﻿//#region Import
+import { GraphicControl } from "/scripts/core/graphiccontrol.js";
 import { SVGGraphicControl } from "/scripts/core/svggraphiccontrol.js";
 import { Color, Colors } from "/scripts/core/color.js";
 import { Tools } from "/scripts/core/tools.js";
@@ -136,7 +137,7 @@ Object.seal(Line);
 Object.freeze(Line);
 //#endregion Line
 //#region Rectangle
-class Rectangle extends SVGGraphicControl {
+class Rectangle extends GraphicControl {
     //#region constructor
     constructor(owner, props) {
         //#region Variables déclaration
@@ -147,6 +148,31 @@ class Rectangle extends SVGGraphicControl {
         }
     }
     //#endregion constructor
+    //#region Methods
+    //#region update
+    update() {
+        //#region Variables déclaration
+        const fillColor = this.fillColor;
+        const strokeColor = this.strokeColor;
+        const strokeDash = this.strokeDash;
+        const strokeWidth = this.strokeWidth;
+        const htmlElementStyle = this.HTMLElementStyle;
+        //#endregion Variables déclaration
+        if (!this.loading) {
+            if (fillColor) {
+                htmlElementStyle.backgroundColor = fillColor.toRGBAString();
+            }
+            if (strokeColor && strokeWidth>0) {
+
+                htmlElementStyle.border = `${strokeWidth}${Types.CSSUNITS.PX} solid ${strokeColor.toRGBAString()}`;
+            }
+            if (strokeDash && strokeDash !== String.EMPTY) {
+            }
+            super.update();
+        }
+    }
+    //#endregion update
+    //#endregion Methods
 }
 Object.seal(Rectangle);
 Object.freeze(Rectangle);
@@ -165,7 +191,7 @@ const RoundRect = (() => {
     };
     //#endregion Private
     //#region Class RoundRect
-    class RoundRect extends SVGGraphicControl {
+    class RoundRect extends Rectangle {
         //#region constructor
         constructor(owner, props) {
             props = !props ? {} : props;
@@ -258,15 +284,12 @@ const RoundRect = (() => {
         update() {
             //#region Variables déclaration
             const priv = internal(this);
-            const p = function (x, y) { return `${x} ${y} `; };
-            const htmlElement = this.HTMLElement;
-            const w = htmlElement.offsetWidth;
-            const h = htmlElement.offsetHeight;
+            const htmlElementStyle = this.HTMLElementStyle;
+            const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
+            super.update();
             if (!this.loading && !this.form.loading) {
-                super.update();
-                const strPath = `M${p(priv.topLeftRadius, 0)}L${p(w - priv.topRightRadius, 0)}Q${p(w, 0)}${p(w, priv.topRightRadius)}L${p(w, h - priv.bottomRightRadius)}Q${p(w, h)}${p(w - priv.bottomRightRadius, h)}L${p(priv.bottomLeftRadius, h)}Q${p(0, h)}${p(0, h - priv.bottomLeftRadius)}L${p(0, priv.topLeftRadius)}Q${p(0, 0)}${p(priv.topLeftRadius, 0)}Z`;
-                this.svgShape.setAttribute("d", strPath);
+                htmlElementStyle.borderRadius = `${priv.topLeftRadius}${PX} ${priv.topRightRadius}${PX} ${priv.bottomRightRadius}${PX} ${priv.bottomLeftRadius}${PX}`;
             }
         }
         destroy() {
@@ -299,7 +322,7 @@ const Ellipse = (() => {
     };
     //#endregion Private
     //#region Class Ellipse
-    class Ellipse extends SVGGraphicControl {
+    class Ellipse extends GraphicControl {
         //#region constructor
         constructor(owner, props) {
             //#region Variables déclaration
@@ -314,6 +337,28 @@ const Ellipse = (() => {
         //#region Getters / Setters
         //#endregion Getters / Setters
         //#region Methods
+        update() {
+            //#region Variables déclaration
+            const fillColor = this.fillColor;
+            const strokeColor = this.strokeColor;
+            const strokeDash = this.strokeDash;
+            const strokeWidth = this.strokeWidth;
+            const htmlElementStyle = this.HTMLElementStyle;
+            //#endregion Variables déclaration
+            super.update();
+            if (!this.loading && !this.form.loading) {
+                htmlElementStyle.borderRadius = "100%";
+                if (fillColor) {
+                    htmlElementStyle.backgroundColor = fillColor.toRGBAString();
+                }
+                if (strokeColor && strokeWidth>0) {
+
+                    htmlElementStyle.border = `${strokeWidth}${Types.CSSUNITS.PX} solid ${strokeColor.toRGBAString()}`;
+                }
+                if (strokeDash && strokeDash !== String.EMPTY) {
+                }
+            }
+        }
         //#endregion Methods
     }
     return Ellipse;

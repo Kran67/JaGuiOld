@@ -89,12 +89,6 @@ const ColorPicker = (() => {
         //#endregion colorQuad
         //#endregion Getters / Setters
         //#region Methods
-        //#region loaded
-        loaded() {
-            super.loaded();
-            this._update();
-        }
-        //#endregion loaded
         //#region mouseDown
         mouseDown() {
             super.mouseDown();
@@ -163,6 +157,7 @@ const ColorPicker = (() => {
             const htmlElement = this.HTMLElement;
             const COLORPICKSIZE = Types.CONSTANTS.COLORPICKSIZE;
             //#endregion Variables déclaration
+            super.update();
             if (!point) {
                 point = new Point;
                 point.x = 0;
@@ -177,28 +172,20 @@ const ColorPicker = (() => {
             }
             priv.handle.y = (point.y > htmlElement.offsetHeight - 5 ? htmlElement.offsetHeight - 5 : (point.y < -5) ? -5 : point.y);
             if (priv.handleObj) {
-                this._update();
+                if (priv.handleObj) {
+                    priv.handleObj.style.transform = `translate(-50%,${priv.handle.y}${Types.CSSUNITS.PX})`;
+                }
+                if (!this.updating) {
+                    if (priv.colorQuad instanceof Core.classes.ColorQuad) {
+                        priv.colorQuad.hue = priv.color.hue;
+                    }
+                }
             }
             if (!this.updating) {
                 this.onChange.invoke();
             }
         }
         //#endregion update
-        //#region _update
-        _update() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (priv.handleObj) {
-                priv.handleObj.style.transform = `translate(-50%,${priv.handle.y}${Types.CSSUNITS.PX})`;
-            }
-            if (!this.updating) {
-                if (priv.colorQuad instanceof Core.classes.ColorQuad) {
-                    priv.colorQuad.hue = priv.color.hue;
-                }
-            }
-        }
-        //#endregion _update
         //#region keyDown
         keyDown() {
             //#region Variables déclaration

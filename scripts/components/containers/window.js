@@ -1681,8 +1681,8 @@ const BaseWindow = (() => {
                 if (Core.isHTMLRenderer) {
                     htmlElement.classList.add(WINDOWSTATES.MAXIMIZED);
                     htmlElement.classList.remove(WINDOWSTATES.MINIMIZED);
-                    htmlElementStyle.left = 0;
-                    htmlElementStyle.top = 0;
+                    htmlElementStyle.left = `0${PX}`;
+                    htmlElementStyle.top = `0${PX}`;
                     htmlElementStyle.width = `${document.body.offsetWidth}${PX}`;
                     htmlElementStyle.height = `${document.body.offsetHeight}${PX}`;
                     priv.windowState = WINDOWSTATES.MAXIMIZED;
@@ -1967,6 +1967,7 @@ const BaseWindow = (() => {
                 this.HTMLElementStyle.zIndex = Core.windowZIndex;
             }
             priv.lastZIndex = Core.windowZIndex;
+            this.loaded();
         }
         //#endregion beforeShow
         //#region show
@@ -2676,6 +2677,7 @@ const BaseWindow = (() => {
             //} else {
             //    priv.layout.margin.offset(1, 1);
             //}
+            this.realignChilds();
             super.loaded();
             priv.creating = false;
             const comp = priv.content.components.find(component => {
@@ -2688,7 +2690,6 @@ const BaseWindow = (() => {
             if (comp) {
                 comp.setFocus();
             }
-            this.realignChilds();
             if (!isHtmlRenderer) {
                 this.alignButtons();
             }

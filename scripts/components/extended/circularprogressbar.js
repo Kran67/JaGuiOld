@@ -106,8 +106,9 @@ const CircularProgressBar = (() => {
             const JSCSSPROPERTIES = Types.JSCSSPROPERTIES;
             const htmlElement= this.HTMLElement;
             const htmlElementStyle = this.HTMLElementStyle;
-            const PX = Types.CSSUnits.PX;
+            const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
+            super.update();
             if (source) {
                 switch (source) {
                     case JSCSSPROPERTIES.WIDTH:

@@ -46,6 +46,7 @@ const ColorQuad = (() => {
                 priv.gradientEdit = props.hasOwnProperty("gradientEdit") ? this.form[props.gradientEdit] : null;
                 this.canFocused = true;
                 delete this.tabOrder;
+                this.bindEventToHTML("onChange");
             }
         }
         //#endregion Constructor
@@ -165,13 +166,6 @@ const ColorQuad = (() => {
         //#endregion height
         //#endregion Getters / Setters
         //#region Methods
-        //#region loaded
-        loaded() {
-            super.loaded();
-            this._update();
-            this.bindEventToHTML("onChange");
-        }
-        //#endregion loaded
         //#region update
         update(point) {
             //#region Variables déclaration
@@ -179,10 +173,11 @@ const ColorQuad = (() => {
             const htmlElement = this.HTMLElement;
             const COLORPICKSIZE = Types.CONSTANTS.COLORPICKSIZE;
             const PX = Types.CSSUNITS.PX;
-            let value;
             //#endregion Variables déclaration
+            super.update();
             if (!point) {
                 point = new Point;
+                let value;
                 if (priv.format === Types.COLORFORMATS.HSV) {
                     value = priv.color.value;
                 } else {

@@ -434,9 +434,10 @@ const CaptionControl = (() => {
             //#endregion Variables déclaration
             if (Core.isHTMLRenderer) {
                 super.update();
-                Text.setTextNode(htmlElement, priv.caption);
-                //htmlElement.innerHTML = this.caption;
-                this.updateCssProperties();
+                if (htmlElement) {
+                    Text.setTextNode(htmlElement, priv.caption);
+                    this.updateCssProperties();
+                }
             } else {
                 //
             }

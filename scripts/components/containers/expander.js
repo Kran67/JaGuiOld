@@ -136,6 +136,7 @@ const Expander = (() => {
             const bHTMLElement = priv.button.HTMLElement;
             const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
+            super.update();
             bHTMLElement.classList.remove("expanded");
             if (priv.expanded) {
                 htmlElementStyle.height = `${priv.lastHeight}${PX}`;

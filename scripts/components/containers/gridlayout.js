@@ -158,12 +158,6 @@ const GridLayout = (() => {
             priv.vGap = null;
         }
         //#endregion destroy
-        //#region loaded
-        loaded() {
-            super.loaded();
-            this.update();
-        }
-        //#endregion loaded
         //#endregion Methods
     }
     return GridLayout;

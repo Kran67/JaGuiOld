@@ -89,11 +89,10 @@ const PaintBox = (() => {
             //#region Variables déclaration
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            //if (!this.form.loading && !this.form.creating) {
-                htmlElement.setAttribute('width', htmlElement.offsetWidth);
-                htmlElement.setAttribute('height', htmlElement.offsetHeight);
-                this.paint();
-            //}
+            super.update();
+            htmlElement.setAttribute('width', htmlElement.offsetWidth);
+            htmlElement.setAttribute('height', htmlElement.offsetHeight);
+            this.paint();
         }
         //#endregion update
         //#region paint

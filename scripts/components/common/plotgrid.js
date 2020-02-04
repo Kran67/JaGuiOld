@@ -30,7 +30,6 @@ const PlotGrid = (() => {
                 priv.lineFill = new Brush(Types.BRUSHSTYLES.SOLID, Color.parse("#333"), this);
                 priv.marks = 25;
                 priv.frequency = 5;
-
             }
         }
         //#endregion constructor
@@ -130,7 +129,7 @@ const PlotGrid = (() => {
                             ctx.strokeStyle = priv.lineFill.color.toRGBAString();
                         } else {
                             if (Math.frac(x) === 0 && Math.frac(x / priv.frequency / priv.marks) === 0) {
-                                this._ctx.strokeStyle = this.lineFill.color.toRGBAString();
+                                this.ctx.strokeStyle = this.lineFill.color.toRGBAString();
                             } else {
                                 ctx.strokeStyle = c.toRGBAString();
                             }
