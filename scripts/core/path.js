@@ -854,10 +854,16 @@ const PathData = (() => {
          * @param   {Number}        sr
          * @param   {Boolean}       u
          */
-        drawArcWithBezier(p, cx, cy, rx, ry, sa, sr, u) {
+        drawArcWithBezier(data/*p, cx, cy, rx, ry, sa, sr, u*/) {
             //#region Variables déclaration
-            const NUMBER = Types.CONSTANTS.NUMBER;
-            const BOOLEAN = Types.CONSTANTS.BOOLEAN;
+            const p = data.p;
+            const cx = data.cx;
+            const cy = data.cy;
+            const rx = data.rx;
+            const ry = data.ry;
+            const sa = data.sa;
+            const sr = data.sr;
+            const u = data.u;
             //#endregion Variables déclaration
             if (Tools.isNumber(cx) && Tools.isNumber(cy) && Tools.isNumber(rx) && Tools.isNumber(ry) &&
                 Tools.isNumber(sa) && Tools.isNumber(sr) && Tools.isBool(u)) {

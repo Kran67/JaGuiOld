@@ -169,7 +169,7 @@ Core.classes.register(Types.CATEGORIES.CONTAINERS, GridLayout);
 export { GridLayout };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const GridLayoutTpl = "<jagui-gridlayout id=\"{internalId}\" data-class=\"GridLayout\" class=\"Control GridLayout\"><properties>{ \"name\": \"{name}\" }</properties></jagui-gridlayout>";"
+    const GridLayoutTpl = "<jagui-gridlayout id=\"{internalId}\" data-class=\"GridLayout\" class=\"Control GridLayout\"><properties>{ \"name\": \"{name}\" }</properties></jagui-gridlayout>";
     Core.classes.registerTemplates([{ Class: GridLayout, template: GridLayoutTpl }]);
 }
 //endregion

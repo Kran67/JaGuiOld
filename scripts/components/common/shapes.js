@@ -590,12 +590,12 @@ const Path = (() => {
             //#endregion Variables déclaration
             if (htmlElement) {
                 const sStyle = getComputedStyle(htmlElement);
-                const strokeWidth = parseFloat(sStyle.strokeWidth) * 2;
+                const strokeWidth = parseFloat(sStyle.strokeWidth);
                 if (!this.loading && !this.form.loading && this.svgShape) {
                     super.update();
-                    var path = new Core.classes.PathData();
+                    const path = new Core.classes.PathData();
                     path.assign(priv.path);
-                    path.resizeToRect(new Core.classes.Rect(0, 0, htmlElement.offsetWidth - strokeWidth, htmlElement.offsetHeight - strokeWidth));
+                    path.resizeToRect(new Core.classes.Rect(strokeWidth, strokeWidth, htmlElement.offsetWidth - strokeWidth, htmlElement.offsetHeight - strokeWidth));
                     this.svgShape.setAttribute("d", path.pathString);
                     path.destroy();
                 }
@@ -635,7 +635,7 @@ const Pie = (() => {
     };
     //#endregion Private
     //#region Class Pie
-    class Pie extends Path {
+    class Pie extends SVGGraphicControl {
         //#region constructor
         constructor(owner, props) {
             props = !props ? {} : props;
@@ -698,11 +698,11 @@ const Pie = (() => {
             //#endregion Variables déclaration
             if (htmlElement) {
                 const sStyle = getComputedStyle(htmlElement);
-                const strokeWidth = parseFloat(sStyle.strokeWidth) * 2;
+                const strokeWidth = parseFloat(sStyle.strokeWidth);
                 if (this.svgShape) {
                     super.update();
-                    var path = new Core.classes.PathData(this);
-                    path.addPie(new Core.classes.Rect(0, 0, htmlElement.offsetWidth - strokeWidth, htmlElement.offsetHeight - strokeWidth), this);
+                    const path = new Core.classes.PathData(this);
+                    path.addPie(new Core.classes.Rect(strokeWidth, strokeWidth, htmlElement.offsetWidth - strokeWidth, htmlElement.offsetHeight - strokeWidth), this);
                     this.svgShape.setAttribute("d", path.pathString);
                     path.destroy();
                 }
