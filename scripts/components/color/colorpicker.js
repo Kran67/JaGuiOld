@@ -44,6 +44,7 @@ const ColorPicker = (() => {
                 delete this.setFillColor;
                 delete this.setStrokeColor;
                 delete this.tabOrder;
+                this.allowUpdateOnResize = true;
             }
         }
         //#endregion constructor

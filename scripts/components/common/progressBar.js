@@ -44,6 +44,7 @@ const ProgressBar = (() => {
                     value: props.hasOwnProperty("orientation")?props.orientation:orientations.NONE
                 });
                 delete this.tabOrder;
+                this.allowUpdateOnResize = true;
             }
         }
         //#endregion Constructor

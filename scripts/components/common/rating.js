@@ -107,6 +107,7 @@ const Rating = (() => {
                 });
                 this.canFocused = true;
                 delete this.tabOrder;
+                this.allowUpdateOnResize = true;
             }
         }
         //#endregion constructor

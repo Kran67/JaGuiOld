@@ -58,12 +58,6 @@ const Component = (() => {
                 priv.owners.addRange(priv.owner.owners);
                 priv.owners.push(priv.owner);
             }
-            priv.update = function () {
-                const obj = this.obj;
-                obj.update();
-            };
-            priv.resizer = new ResizeObserver(priv.update);
-            priv.resizer.obj = this;
         }
         //#endregion constructor
         //#region Getter / Setters
@@ -807,7 +801,6 @@ const Component = (() => {
                 if (data) {
                     priv.name = data;
                 }
-                priv.resizer.observe(priv.HTMLElement);
             }
             if (!internalId || internalId !== id) {
                 priv.internalId = id;

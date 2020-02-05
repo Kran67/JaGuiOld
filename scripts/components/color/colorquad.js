@@ -47,6 +47,7 @@ const ColorQuad = (() => {
                 this.canFocused = true;
                 delete this.tabOrder;
                 this.bindEventToHTML("onChange");
+                this.allowUpdateOnResize = true;
             }
         }
         //#endregion Constructor

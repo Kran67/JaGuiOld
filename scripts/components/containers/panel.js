@@ -8,6 +8,7 @@ class Panel extends ThemedControl {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
+            this.allowRealignChildsOnResize = true;
         }
     }
     //#endregion Constructor

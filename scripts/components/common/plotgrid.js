@@ -120,6 +120,7 @@ const PlotGrid = (() => {
                     const c = new Core.classes.Color(Colors.TRANSPARENT);
                     const w2 = htmlElement.offsetWidth / 2;
                     const h2 = htmlElement.offsetHeight / 2;
+                    ctx.clear();
                     c.assign(priv.lineFill.color);
                     c.opacity(0.4);
                     this.ctx.save();

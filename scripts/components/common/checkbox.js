@@ -224,24 +224,28 @@ const Checkbox = (() => {
             //#endregion Variables déclaration
             super.update();
             if (!this.loading && !this.form.loading) {
-                priv.check.classList.remove("checked", "grayed");
-                if (priv.isChecked) {
-                    priv.check.classList.add("checked");
-                } else if (priv.allowGrayed && priv.state === CHECKBOXSTATES.GRAYED) {
-                    priv.check.classList.add("grayed");
+                if (priv.check) {
+                    priv.check.classList.remove("checked", "grayed");
+                    if (priv.isChecked) {
+                        priv.check.classList.add("checked");
+                    } else if (priv.allowGrayed && priv.state === CHECKBOXSTATES.GRAYED) {
+                        priv.check.classList.add("grayed");
+                    }
                 }
-                if (priv.state) {
-                    if (priv.state !== CHECKBOXSTATES.UNCHECKED) {
+                if (priv.input) {
+                    if (priv.state) {
+                        if (priv.state !== CHECKBOXSTATES.UNCHECKED) {
+                            priv.input.setAttribute("checked", "checked");
+                        } else {
+                            priv.input.removeAttribute("checked");
+                        }
+                    } else if (priv.isChecked) {
                         priv.input.setAttribute("checked", "checked");
                     } else {
                         priv.input.removeAttribute("checked");
                     }
-                } else if (priv.isChecked) {
-                    priv.input.setAttribute("checked", "checked");
-                } else {
-                    priv.input.removeAttribute("checked");
                 }
-                if (priv.autoWidth) {
+                if (priv.autoWidth && this.HTMLElementStyle) {
                     this.HTMLElementStyle.width = "auto";
                 }
             }

@@ -40,6 +40,8 @@ const CalloutPanel = (() => {
                 });
                 priv.content = null;
                 priv.arrow = null;
+                this.allowUpdateOnResize = true;
+                this.allowRealignChildsOnResize = true;
             }
         }
         //#endregion

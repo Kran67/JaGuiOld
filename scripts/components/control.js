@@ -96,6 +96,20 @@ const Control = (() => {
                 priv.row = props.hasOwnProperty("row") && Tools.isNumber(props.row) ? props.row : 0;
                 priv.colSpan = props.hasOwnProperty("colSpan") && Tools.isNumber(props.colSpan) ? props.colSpan : 0;
                 priv.rowSpan = props.hasOwnProperty("rowSpan") && Tools.isNumber(props.rowSpan) ? props.rowSpan : 0;
+                priv.allowUpdateOnResize = false;
+                priv.allowRealignChildsOnResize = false;
+                priv.update = function () {
+                    const obj = this.obj;
+                    if (obj.allowUpdateOnResize) {
+                        obj.update();
+                    }
+                    if (obj.allowRealignChildsOnResize) {
+                        obj.realignChilds();
+                    }
+                    obj.onResize.invoke(obj);
+                };
+                priv.resizer = new ResizeObserver(priv.update);
+                priv.resizer.obj = this;
                 this.onMouseDown = new Core.classes.NotifyEvent(this);
                 this.onMouseMove = new Core.classes.NotifyEvent(this);
                 this.onMouseUp = new Core.classes.NotifyEvent(this);
@@ -124,6 +138,7 @@ const Control = (() => {
                 this.onDragLeave = new Core.classes.NotifyEvent(this);
                 this.onDrop = new Core.classes.NotifyEvent(this);
                 this.onDestroy = new Core.classes.NotifyEvent(this);
+                this.onResize = new Core.classes.NotifyEvent(this);
                 this.addBindableProperties(["opacity", "right", "bottom", "width", "height", "visible", "left", "top", "rotateAngle", "align"]);
                 let anchors = Types.ANCHORS;
                 Tools.addPropertyFromEnum({
@@ -209,11 +224,40 @@ const Control = (() => {
                     variable: priv,
                     value: props.hasOwnProperty("dragMode") && Tools.isString(props.dragMode) ? props.dragMode : Types.DRAGMODES.MANUAL
                 });
-                // gestion des propriétés spéciales (Objets)
             }
         }
         //#endregion Constructor
         //#region Setters methods
+        //#region allowUpdateOnResize
+        get allowUpdateOnResize() {
+            return internal(this).allowUpdateOnResize;
+        }
+        set allowUpdateOnResize(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
+                if (priv.allowUpdateOnResize !== newValue) {
+                    priv.allowUpdateOnResize = newValue;
+                }
+            }
+        }
+        //#endregion allowUpdateOnResize
+        //#region allowRealignChildsOnResize
+        get allowRealignChildsOnResize() {
+            return internal(this).allowRealignChildsOnResize;
+        }
+        set allowRealignChildsOnResize(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
+                if (priv.allowRealignChildsOnResize !== newValue) {
+                    priv.allowRealignChildsOnResize = newValue;
+                }
+            }
+        }
+        //#endregion allowRealignChildsOnResize
         //#region bounds
         get bounds() {
             //#region Variables déclaration
@@ -1615,9 +1659,9 @@ const Control = (() => {
             const htmlElement = this.HTMLElement;
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (!priv.allowUpdate) {
+            /*if (!priv.allowUpdate) {
                 priv.wrapper += tpl;
-            } else if (htmlElement) {
+            } else*/ if (htmlElement) {
                 const div = document.createElement(Types.HTMLELEMENTS.DIV);
                 div.innerHTML = tpl;
                 htmlElement.appendChild(div.firstElementChild);
@@ -1641,7 +1685,7 @@ const Control = (() => {
             //#endregion Variables déclaration
             priv.allowUpdate = false;
             if (Core.isHTMLRenderer) {
-                priv.wrapper = this.HTMLElement.innerHTML;
+                //priv.wrapper = this.HTMLElement.innerHTML;
             }
         }
         //#endregion beginUpdate
@@ -2168,20 +2212,20 @@ const Control = (() => {
                         jsObj.dragStart();
                     }
                     break;
-                //case Types.mouseEvents.CLICK:
-                //  //jsObj.click();
-                //  break;
-                //case Types.mouseEvents.EVENT:
-                //  break;
-                //case Types.keybordEvents.DOWN:
-                //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
-                //  break;
-                //case Types.keybordEvents.UP:
-                //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
-                //  break;
-                //case Types.keybordEvents.PRESS:
-                //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
-                //  break;
+                    //case Types.mouseEvents.CLICK:
+                    //  //jsObj.click();
+                    //  break;
+                    //case Types.mouseEvents.EVENT:
+                    //  break;
+                    //case Types.keybordEvents.DOWN:
+                    //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
+                    //  break;
+                    //case Types.keybordEvents.UP:
+                    //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
+                    //  break;
+                    //case Types.keybordEvents.PRESS:
+                    //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
+                    //  break;
             }
             if (jsObj.stopEvent || forceStopEvent) {
                 Core.mouse.stopEvent(event);
@@ -2488,9 +2532,15 @@ const Control = (() => {
         //#endregion bindEvents
         //#region getHTMLElement
         getHTMLElement(id) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             //if (Tools.Debugger.debug) console.log(`${ this.constructor.name } getHTMLElement`);
             if (id !== String.EMPTY) {
                 super.getHTMLElement(id);
+                if (this.HTMLElement) {
+                    priv.resizer.observe(this.HTMLElement);
+                }
                 //this.initEvents();
                 //if (this.animations.length>0) {
                 //  for (let i=0,l=this.animations.length;i<l;i++) {

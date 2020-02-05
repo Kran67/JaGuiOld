@@ -260,6 +260,7 @@ const BusyIndicator = (() => {
                 });
                 priv.spinIndicatorOptions = new BusyIndicatorSpinOptions(this,  props);
                 delete this.tabOrder;
+                this.allowUpdateOnResize = true;
             }
         }
         //#endregion constructor

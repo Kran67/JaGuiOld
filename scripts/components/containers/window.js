@@ -2477,7 +2477,7 @@ const BaseWindow = (() => {
                 owner: this,
                 props: {
                     inForm: false,
-                    align: Types.ALIGNS.CLIENT
+                    align: Types.ALIGNS.CLIENT,
                 },
                 withTpl: false
             });

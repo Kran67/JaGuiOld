@@ -24,6 +24,7 @@ const SVGGraphicControl = (() => {
                 const priv = internal(this);
                 priv.svg = null;
                 priv.svgShape = null;
+                this.allowUpdateOnResize = true;
             }
         }
         //#endregion constructor

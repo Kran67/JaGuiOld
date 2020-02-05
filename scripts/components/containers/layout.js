@@ -11,6 +11,7 @@ class Layout extends Control {
         if (owner) {
             super(owner, props);
             delete this.tabOrder;
+            this.allowRealignChildsOnResize = true;
         }
     }
     //#endregion constructor

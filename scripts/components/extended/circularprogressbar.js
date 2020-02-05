@@ -29,6 +29,7 @@ const CircularProgressBar = (() => {
                 priv.backCircle = null;
                 priv.progress = null;
                 delete this.tabOrder;
+                this.allowUpdateOnResize = true;
             }
         }
         //#endregion constructor
@@ -68,8 +69,20 @@ const CircularProgressBar = (() => {
             return super.width;
         }
         set width(newValue) {
-            super.width(newValue);
-            this.update(Types.JSCSSPROPERTIES.WIDTH);
+            //#region Variables déclaration
+            const currentHeight = this.height;
+            const currentWidth = this.width;
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
+                if (currentWidth !== newValue) {
+                    if (Core.isHTMLRenderer && !this.loading) {
+                        super.width = newValue;
+                        if (currentHeight !== newValue) {
+                            this.height = newValue;
+                        }
+                    }
+                }
+            }
         }
         //#endregion width
         //#region height
@@ -77,8 +90,20 @@ const CircularProgressBar = (() => {
             return super.height;
         }
         set height(newValue) {
-            super.height(newValue);
-            this.update(Types.JSCSSPROPERTIES.HEIGHT);
+            //#region Variables déclaration
+            const currentHeight = this.height;
+            const currentWidth = this.width;
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
+                if (currentHeight !== newValue) {
+                    if (Core.isHTMLRenderer && !this.loading) {
+                        super.height = newValue;
+                        if (currentWidth !== newValue) {
+                            this.width = newValue;
+                        }
+                    }
+                }
+            }
         }
         //#endregion height
         //#endregion Getters / Setters
@@ -103,28 +128,9 @@ const CircularProgressBar = (() => {
         update(source) {
             //#region Variables déclaration
             const priv = internal(this);
-            const JSCSSPROPERTIES = Types.JSCSSPROPERTIES;
             const htmlElement= this.HTMLElement;
-            const htmlElementStyle = this.HTMLElementStyle;
-            const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
             super.update();
-            if (source) {
-                switch (source) {
-                    case JSCSSPROPERTIES.WIDTH:
-                        htmlElementStyle.height = `${htmlElement.offsetWidth}${PX}`;
-                        break;
-                    case JSCSSPROPERTIES.HEIGHT:
-                        htmlElementStyle.width = `${htmlElement.offsetHeight}${PX}`;
-                        break;
-                }
-            } else {
-                if (htmlElement.offsetWidth > htmlElement.offsetHeight) {
-                    htmlElementStyle.height = `${htmlElement.offsetWidth}${PX}`;
-                } else {
-                    htmlElementStyle.width = `${htmlElement.offsetHeight}${PX}`;
-                }
-            }
             if (priv.svg) {
                 priv.backCircle.setAttribute("r", ~~(htmlElement.offsetWidth / 2) - 5);
                 priv.progress.setAttribute("r", ~~(htmlElement.offsetWidth / 2) - 5);

@@ -39,6 +39,7 @@ const GroupBox = (() => {
                     value: props.hasOwnProperty("horizAlign")? props.horizAlign : Types.TEXTALIGNS.LEFT
                 });
                 this.autoSize = false;
+                this.allowRealignChildsOnResize = true;
             }
         }
         //#endregion Constructor

@@ -39,6 +39,7 @@ const Expander = (() => {
                 priv.checked = props.hasOwnProperty("checked") ? props.checked : false;
                 priv.caption = props.hasOwnProperty("caption") ? props.caption : this.name;
                 priv.viewCheck = props.hasOwnProperty("viewCheck") && Tools.isBool(props.viewCheck) ? props.viewCheck : true;
+                priv.container.allowRealignChildsOnResize = true;
             }
         }
         //#endregion constructor

@@ -60,19 +60,16 @@ const CornerButton = (() => {
                 const topLeftCorner = props.hasOwnProperty("topLeftCorner")?props.topLeftCorner:null;
                 priv.topLeftCorner = topLeftCorner?new Point(topLeftCorner.x,topLeftCorner.y):new Point;
                 priv.topLeftCornerType = topLeftCorner.hasOwnProperty("type")?topLeftCorner.type:_CORNERSTYPES.ROUND;
-                //priv.topLeftCornerUnit = topLeftCorner.hasOwnProperty("unit")?topLeftCorner.unit:Types.CSSUNITS.PX;
                 const topRightCorner = props.hasOwnProperty("topRightCorner")?props.topRightCorner:null;
                 priv.topRightCorner = topRightCorner?new Point(topRightCorner.x,topRightCorner.y):new Point;
                 priv.topRightCornerType = topRightCorner.hasOwnProperty("type")?topRightCorner.type:_CORNERSTYPES.ROUND;
-                //priv.topRightCornerUnit = topRightCorner.hasOwnProperty("unit")?topRightCorner.unit:Types.CSSUNITS.PX;
                 const bottomRightCorner = props.hasOwnProperty("bottomRightCorner")?props.bottomRightCorner:null;
                 priv.bottomRightCorner = bottomRightCorner?new Point(bottomRightCorner.x,bottomRightCorner.y):new Point;
                 priv.bottomRightCornerType = bottomRightCorner.hasOwnProperty("type")?bottomRightCorner.type:_CORNERSTYPES.ROUND;
-                //priv.bottomRightCornerUnit = bottomRightCorner.hasOwnProperty("unit")?bottomRightCorner.unit:Types.CSSUNITS.PX;
                 const bottomLeftCorner = props.hasOwnProperty("bottomLeftCorner")?props.bottomLeftCorner:null;
                 priv.bottomLeftCorner = bottomLeftCorner?new Point(bottomLeftCorner.x,bottomLeftCorner.y):new Point;
                 priv.bottomLeftCornerType = bottomLeftCorner.hasOwnProperty("type")?bottomLeftCorner.type:_CORNERSTYPES.ROUND;
-                //priv.bottomLeftCornerUnit = bottomLeftCorner.hasOwnProperty("unit")?bottomLeftCorner.unit:Types.CSSUNITS.PX;
+                this.allowUpdateOnResize = true;
             }
         }
         //#endregion constructor

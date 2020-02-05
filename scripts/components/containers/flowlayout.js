@@ -94,10 +94,10 @@ const FlowLayout = (() => {
         //#endregion Getters / Setters
         //#region Methods
         //#region alignControls
-        alignControls() {
+        realignChilds() {
             //#region Variables déclaration
             const priv = internal(this);
-                    const htmlElement = this.HTMLElement;
+            const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (this.components.length > 0) {
                 let x = priv.hGap;
@@ -145,12 +145,6 @@ const FlowLayout = (() => {
             }
         }
         //#endregion alignControls
-        //#region loaded
-        loaded() {
-            super.loaded();
-            this.alignControls();
-        }
-        //#endregion loaded
         //#region destroy
         destroy() {
             //#region Variables déclaration

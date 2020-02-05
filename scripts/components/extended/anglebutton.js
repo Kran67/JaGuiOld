@@ -65,11 +65,11 @@ const AngleButton = (() => {
                             }
                             if (!Core.isHTMLRenderer) {
                                 if (self.allowUpdate) {
-                                    self.update();
+                                    self.updateKnobAndText();
                                 }
                                 self.redraw();
                             } else {
-                                self.update();
+                                self.updateKnobAndText();
                             }
                             self.onChanged.invoke();
                         }
@@ -147,16 +147,55 @@ const AngleButton = (() => {
                     } else {
                         priv.textObj.style.visibility = cssValues.HIDDEN;
                     }
-                    //this._textObj
-                    //if (!$j.isHTMLRenderer()) {
-                    //  if (this._allowUpdate) this.update();
-                    //  this.redraw();
-                    //} else this.update();
                 }
             }
         }
         //#endregion showValue
-        //#endregion
+        //#region width
+        get width() {
+            return super.width;
+        }
+        set width(newValue) {
+            //#region Variables déclaration
+            const currentHeight = this.height;
+            const currentWidth = this.width;
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
+                if (currentWidth !== newValue) {
+                    if (Core.isHTMLRenderer && !this.loading) {
+                        super.width = newValue;
+                        if (currentHeight !== newValue) {
+                            this.height = newValue;
+                        }
+                        this.updateKnobAndText();
+                    }
+                }
+            }
+        }
+        //#endregion width
+        //#region height
+        get height() {
+            return super.height;
+        }
+        set height(newValue) {
+            //#region Variables déclaration
+            const currentHeight = this.height;
+            const currentWidth = this.width;
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
+                if (currentHeight !== newValue) {
+                    if (Core.isHTMLRenderer && !this.loading) {
+                        super.height = newValue;
+                        if (currentWidth !== newValue) {
+                            htmlElementStyle.width = newValue;
+                        }
+                        this.updateKnobAndText();
+                    }
+                }
+            }
+        }
+        //#endregion height
+        //#endregion Getters / Setters
         //#region Methods
         //#region mouseDown
         mouseDown() {
@@ -188,18 +227,20 @@ const AngleButton = (() => {
         //#endregion mouseUp
         //#region update
         update() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
             super.update();
             if (!this.loading && !this.form.loading) {
-                priv.knob.style.transform = `rotate(${priv.internalValue}deg)`;
-                //this._knob.style.lineHeight=this._knob.offsetHeight+$j.types.CSSUnits.PX;
-                priv.textObj.innerHTML = `${priv.value}&deg;`;
-                priv.textObj.style.lineHeight = `${priv.textObj.offsetHeight}${Types.CSSUNITS.PX}`;
+                this.updateKnobAndText();
             }
         }
         //#endregion update
+        updateKnobAndText() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.knob.style.transform = `rotate(${priv.internalValue}deg)`;
+            priv.textObj.innerHTML = `${priv.value}&deg;`;
+            priv.textObj.style.lineHeight = `${priv.textObj.offsetHeight}${Types.CSSUNITS.PX}`;
+        }
         //#region valueFromPoint
         valueFromPoint(point) {
             //#region Variables déclaration

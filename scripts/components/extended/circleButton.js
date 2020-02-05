@@ -21,21 +21,15 @@ class CircleButton extends Button {
     }
     set width(newValue) {
         //#region Variables déclaration
-        const htmlElementStyle = this.HTMLElementStyle;
         const currentHeight = this.height;
         const currentWidth = this.width;
         //#endregion Variables déclaration
         if (Tools.isNumber(newValue)) {
             if (currentWidth !== newValue) {
                 if (Core.isHTMLRenderer && !this.loading) {
-                    this.propertyChanged(Types.BINDABLEPROPERTIES.WIDTH);
-                    if (newValue === 0) {
-                        htmlElementStyle.width = String.EMPTY;
-                    } else {
-                        htmlElementStyle.width = `${newValue}${Types.CSSUNITS.PX}`;
-                    }
+                    super.width = newValue;
                     if (currentHeight !== newValue) {
-                        htmlElementStyle.height = htmlElementStyle.width;
+                        this.height = newValue;
                     }
                 }
             }
@@ -44,25 +38,19 @@ class CircleButton extends Button {
     //#endregion width
     //#region height
     get height() {
-        return super.width;
+        return super.height;
     }
     set height(newValue) {
         //#region Variables déclaration
-        const htmlElementStyle = this.HTMLElementStyle;
         const currentHeight = this.height;
-        //const currentWidth = this.width;
+        const currentWidth = this.width;
         //#endregion Variables déclaration
         if (Tools.isNumber(newValue)) {
             if (currentHeight !== newValue) {
                 if (Core.isHTMLRenderer && !this.loading) {
-                    this.propertyChanged(Types.BINDABLEPROPERTIES.WIDTH);
-                    if (newValue === 0) {
-                        htmlElementStyle.height = String.EMPTY;
-                    } else {
-                        htmlElementStyle.height = `${newValue}${Types.CSSUNITS.PX}`;
-                    }
-                    if (currentHeight !== newValue) {
-                        htmlElementStyle.width = htmlElementStyle.height;
+                    super.height = newValue;
+                    if (currentWidth !== newValue) {
+                        this.width = newValue;
                     }
                 }
             }

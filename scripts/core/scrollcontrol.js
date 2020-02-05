@@ -32,6 +32,7 @@ const ScrollControl = (() => {
                 priv.currentPos = new Point;
                 priv.down = false;
                 this.autoCapture = true;
+                this.allowRealignChildsOnResize = true;
             }
         }
         //#endregion constructor

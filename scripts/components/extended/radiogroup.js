@@ -28,6 +28,7 @@ const RadioGroup = (() => {
                 priv.itemIndex = -1;
                 priv.columns = 1;
                 priv.legendObj = null;
+                this.allowUpdateOnResize = true;
             }
         }
         //#endregion constructor
@@ -72,8 +73,8 @@ const RadioGroup = (() => {
             if (!this.loading && !this.form.loading && this.items.length >= 0) {
                 if (htmlElement) {
                     const buttonsPerCol = ~~((this.items.length + priv.columns - 1) / priv.columns);
-                    const buttonWidth = ~~((htmlElement.offsetWidth - 10) / priv.columns);
-                    const h = htmlElement.offsetHeight - this.legendObj.offsetHeight - 10;
+                    const buttonWidth = ~~((this.width - 10) / priv.columns);
+                    const h = this.height - this.legendObj.offsetHeight - 10;
                     const buttonHeight = ~~(h / buttonsPerCol);
                     const topMargin = 16 + ~~(h % buttonsPerCol) / 2;
                     this.items.forEach((item, i) => {
@@ -92,12 +93,13 @@ const RadioGroup = (() => {
             //#endregion Variables déclaration
             super.getHTMLElement(id);
             const htmlElement = this.HTMLElement;
-            const items = htmlElement.lastElementChild;
+            const properties = htmlElement.querySelector("properties");
             let radios;
-            if (items) {
-                radios = JSON.parse(items.innerText);
+            if (properties) {
+                radios = JSON.parse(properties.innerText).items;
             }
             if (radios) {
+                this.beginUpdate();
                 radios.forEach((obj, i) => {
                     const item = Core.classes.createComponent({ class:this.items.itemClass, owner: this, props: {}, withTpl: true });
                     if (obj.hasOwnProperty("caption")) {
@@ -114,8 +116,9 @@ const RadioGroup = (() => {
                     item.onClick.addListener(this.changeItemIndex);
                     this.items.push(item);
                 });
+                this.endUpdate();
             }
-            htmlElement.removeChild(items);
+            htmlElement.removeChild(properties);
             this.items.onChange.addListener(this.arrangeButtons);
         }
         //#endregion getHTMLElement
@@ -139,12 +142,12 @@ const RadioGroup = (() => {
             this.items.endUpdate();
         }
         //#endregion endUpdate
-        //#region loaded
-        loaded() {
-            super.loaded();
+        //#region update
+        update() {
+            super.update();
             this.arrangeButtons();
         }
-        //#endregion loaded
+        //#endregion update
         //#endregion Methods
     }
     return RadioGroup;

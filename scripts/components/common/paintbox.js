@@ -27,6 +27,7 @@ const PaintBox = (() => {
                 priv.ctx = null;
                 delete this.tabOrder;
                 priv.onPaint = new NotifyEvent(this);
+                this.allowUpdateOnResize = true;
             }
         }
         //#endregion constructor
