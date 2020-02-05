@@ -1239,14 +1239,16 @@ const PathData = (() => {
                 const rx = r.width * 0.5;
                 const cy = r.height * 0.5;
                 const ry = r.height * 0.5;
-                if (!(o instanceof Core.classes.Chord)) {
+                if (!(o instanceof Core.classes.Chord) && !(o instanceof Core.classes.Arc)) {
                     this.moveTo(new Core.classes.Point(r.left + cx, r.top + cy));
                 }
                 this.addArc(new Core.classes.Point(r.left + cx, r.top + cy), new Core.classes.Point(rx, ry), o.startAngle, o.endAngle - o.startAngle);
-                if (!(o instanceof Core.classes.Chord)) {
+                if (!(o instanceof Core.classes.Chord) && !(o instanceof Core.classes.Arc)) {
                     this.lineTo(new Core.classes.Point(r.left + cx, r.top + cy));
                 }
-                this.closePath();
+                if (!(o instanceof Core.classes.Arc)) {
+                    this.closePath();
+                }
             }
         }
         //#endregion addPie
