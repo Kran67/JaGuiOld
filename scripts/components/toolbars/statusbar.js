@@ -45,7 +45,7 @@ const StatusBarPanel = (() => {
                 const priv = internal(this);
                 priv.html = document.createElement(Types.HTMLELEMENTS.DIV);
                 owner.HTMLElement.appendChild(priv.html);
-                priv.html.classList.add("Control","StatusBarPanel", owner.app.themeManifest.themeName);
+                priv.html.classList.add("StatusBarPanel", owner.app.themeManifest.themeName);
                 priv.owner = owner;
                 Tools.addPropertyFromEnum({
                     component: this,

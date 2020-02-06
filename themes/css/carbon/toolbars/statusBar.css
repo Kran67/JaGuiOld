@@ -1,6 +1,6 @@
 ﻿.carbon.StatusBar {
     left: 0;
-    height: 22px;
+    height: 19px;
     border-top: 1px solid #222;
     background-image: linear-gradient(to bottom,#3D3D3D 50%,#303030 100%);
 }

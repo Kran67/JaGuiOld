@@ -2,13 +2,17 @@
     z-index: 9;
     position: relative;
     order: 5;
+    display: flex;
 }
 
-.Control.StatusBarPanel {
-    bottom: 1px;
+.StatusBarPanel {
     padding: 0 2px;
-    top: 1px;
     line-height: 15px;
+    margin: 1px;
+}
+
+.StatusBarPanel:last-of-type {
+    flex:1;
 }
 
 .Control.StatusBarSimplePanel {
