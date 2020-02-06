@@ -3,7 +3,8 @@
     padding-top: 1px !important;
 }
 
-.ButtonGlyph .marginDownText {
+.ButtonGlyph .marginDownText,
+img.marginDownText {
     margin-left: 1px !important;
     margin-top: 1px !important;
 }

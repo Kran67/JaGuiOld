@@ -51,7 +51,7 @@ import "/scripts/components/extended/roundtextbox.js";
 //import { spinBox } from "/scripts/components/common/spinBox.js";
 //import { memo } from "/scripts/components/common/memo.js";
 //import { maskedTextBox } from "/scripts/components/extended/maskedTextBox.js";
-//import { iPhoneButton } from "/scripts/components/extended/iPhoneButton.js";
+import "/scripts/components/extended/iphonebutton.js";
 //import { calendar } from "/scripts/components/common/calendar.js";
 //import { menus } from "/scripts/components/menus/menus.js";
 //import { dropDownListBox } from "/scripts/components/common/dropDownListBox.js";

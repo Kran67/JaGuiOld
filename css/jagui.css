@@ -52,12 +52,13 @@ canvas {
 }
 
 .JAGUI {
-    bottom: 20px;
+    bottom: 8px;
     height: 15px;
     position: absolute;
-    right: 2px;
+    right: 34px;
     width: 42px;
     z-index: 99999999;
+    background-repeat: no-repeat;
 }
 
 .JAGUI:after {
@@ -67,9 +68,10 @@ canvas {
     font-size: 30pt;
     height: 0;
     line-height: 0;
-    padding-top: 25px;
+    padding-left: 20px;
     position: absolute;
     width: 0;
+    top:5px;
 }
 
 #jaguiClipboard {
@@ -94,32 +96,6 @@ canvas {
     background-image: url(../images/logo.png);
 }
 
-#loading_msg {
-    font-size: 15pt;
-}
-
-.loading {
-    position: absolute;
-    text-align: center;
-    width: 200px;
-    height: 100px;
-    z-index: 999999;
-    left: 50%;
-    top: 50%;
-    margin-left: -100px;
-    margin-top: -50px;
-}
-
-.loading_logo {
-    position: absolute;
-    left: 50%;
-    top: 10px;
-    width: 40px;
-    height: 40px;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAEpUlEQVRYhb1ZX2gcRRi/0ERsEKrSKmgjKNgHoQ990JT2SRCF+uBbKY2C0bDxsnvz7TXgk8q1DyJoJWKul935dgMWjFxA8M9LHqRFJQ3YFwmlFYRo1lzvMjPbw9hYk5rxoTkzt7d7uwt3+eB7+377+8038818M5vJBEwIcVQIIRP6h0F8V01K2cM5v5JC4AZj7NCuCWSMDaUQJ4UQkjH2za6Iq1Qq/Zxzr0HMOV/xff9UmHPOZwNCX+y6QMbYWZWUc/5aVOza2toBIURdib0mpeztmriVlZUBzvm6QrggpexphxFC5NUBra6uGl0TKISYUci2qtXqYBxGStnHOb+h4ES9Xn+o4+JqtdoxNRO+73+WFOv7/onAsvik4wI55wsKwfry8vJjKfFzishNz/Oe7qhAxthFdXo5588mxUopeznn1xU8W1paerCjAj3Pe5xzflshmY8rkIYJISCwPLIdFacQvRfYfIfiMJVKZb8Q4paCW5RS7umKQM/z9gohlpW16FUqlf52GMbYBXVQtVrthbA418UPEOmdOHcce71UKh2JJPR9/3Qgi+faxB4WQtxVYr8OF+c+dY8cZUL/IVKglLJHCDGvVrQQYirCF9WGIapyHcf+MoU46Tgobds+GSmyWq0OCiG2UjYM58PFOc+rxIj4leM4r4c73lTifisUCvdHigxsO3Eeuq2Uy+U9iPRnhfTPiYmJR6M4bdt+I5DFdyIFCiEO+r5/iTF2Oc593z8d9g1EHFUJXRffjiTM3FterkuvKpi/HMdJdWAkNsuy9jkOrjbIKKW/lsvl++JwiHg8sCQSH7mpDBHPq0SU0ldSYGcU7BYiPtdRcZOTk4cQ6cYOifNdGnyxWBxwHPx7J4v0x44KLJVKjyDSujJNi+VyOfHpUiqVjiDSf5UBzrYEjYyMHASAS6ZpXo5zAGgpEtfFfPPe5ryVVCCl9Hsle3copU+2BOUJuWgCyITOTNNs2mYsy+pDpL8oRMyyrH1x4mzbPtlc+fb7LUG6rg8CIVspBEpCyMfB71iW9XIgix+1E1cul/e6Lv1dwdwsFosPBON6AGBBIV8HgKlQJ2SxEQeEbOi63nI3RsQ5hfCf6enpyEaWUuvd5uxNDbcEAcCrTdkxzchmwTCMw0DIXSX+22CM67rPINJNpWB+cl2cCHNEentHHL3a0o9qmtZvAvyhZMXTNK1tuwUAF9QBGYbxUqtI+9O0zQIiHm8hM03znEqWy+ViG9bx8fH9AHCrgckTcq1QKDTdjRHxYUQqkoqjlH4RloknTID1/7MHMJ/JZBK1/HnDgEDB5IIxlNI3HQcX4hwR54vF4kCYwM+Vqd0CgMSXpkKh0EsIua6IFNlstrN342DlGoaRqoswTXNOwW+Ojo529tpJCDkWqN7EXcQZXT+hYvMAnb+4b4ucUadZ1/XYpw9N0/oA4EZXp7dhY2NjA4FCWcjEFEoeIK9mDwC693i0TXg2UJGRz2/Dw8MHTIB6uy2m46ZpWj8Q4ilTvUJ0/VSYm7ncbNPaGxvr/gNmJpPJ5HK5oTSNwnb2ducJeNt6CCFXkoqLahS6amey2aOJM2iaXf8N8R9X8PKv8yj33gAAAABJRU5ErkJggg==);
-    margin-left: -20px;
-}
-
 /*.rotateAnimation{
   -moz-animation-name: spin;
   -moz-animation-duration: 5000ms;
@@ -134,49 +110,6 @@ canvas {
   -ms-animation-iteration-count: infinite;
   -ms-animation-timing-function: linear;
 }*/
-
-.loading_progressOuter {
-    left: 8px;
-    height: 5px;
-    width: 0;
-    bottom: 10px;
-    border-top: 1px solid gray;
-    border-left: 1px solid gray;
-    border-right: 1px solid white;
-    border-bottom: 1px solid white;
-    overflow: hidden;
-}
-
-.loading_progressInner {
-    position: absolute;
-    left: 1px;
-    top: 1px;
-    bottom: 1px;
-    width: 0;
-    background-color: blue;
-}
-
-.loading_text {
-    position: absolute;
-    left: 1px;
-    height: auto;
-    bottom: 20px;
-    right: 1px;
-    text-align: left;
-    text-overflow: ellipsis;
-    word-break: break-all;
-}
-
-#loading_msg.loading_text {
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: auto;
-    height: auto;
-    bottom: auto;
-    right: auto;
-    color: #FFF;
-}
 
 /*Adding this CSS will disable the black flashing when tapping the canvas on iOS browser.
 

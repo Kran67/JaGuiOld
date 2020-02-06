@@ -256,8 +256,8 @@ const ButtonGlyph = (() => {
             //#endregion Variables déclaration
             super.loaded();
             if (Core.isHTMLRenderer) {
-                if (glyph.src !== String.EMPTY) {
-                    priv.src = glyph.src;
+                if (priv.src !== String.EMPTY) {
+                    glyph.src = priv.src;
                 }
             } else {
                 if (priv.src !== String.EMPTY) {
@@ -320,7 +320,13 @@ const ButtonGlyph = (() => {
                         this.paint();
                     }
                     if (glyph) {
-                        if (glyph.offsetWidth > 0 && glyph.offsetHeight) {
+                        if (glyph.offsetWidth !== priv.glyphSize) {
+                            glyph.style.width = `${priv.glyphSize}${PX}`;
+                        }
+                        if (glyph.offsetHeight !== priv.glyphSize) {
+                            glyph.style.height = `${priv.glyphSize}${PX}`;
+                        }
+                        if (glyph.offsetWidth > 0 && glyph.offsetHeight > 0) {
                             if (glyphMargin > 0) {
                                 (isHtmlRenderer ? glyph.style : glyph).margin = `${glyphMargin}${PX}`;
                             }
@@ -361,7 +367,6 @@ const ButtonGlyph = (() => {
                 priv.textObj = htmlElement.querySelector(Types.HTMLELEMENTS.SPAN);
                 priv.textObj.jsObj = this;
                 priv.glyph = htmlElement.getElementsByTagName(priv.glyphHTMLElement)[0];
-                priv.glyphSize = priv.glyph.offsetWidth;
                 if (priv.glyph) {
                     priv.glyph.jsObj = this;
                 }

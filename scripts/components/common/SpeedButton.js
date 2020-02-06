@@ -9,6 +9,7 @@ class SpeedButton extends ButtonGlyph {
         if (owner) {
             super(owner, props);
             this.canFocused = false;
+            this.glyphSpacing = 0;
         }
     }
     //#endregion Constructor

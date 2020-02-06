@@ -204,7 +204,28 @@ window.Core = {
         }
         this.registerPropertiesInCategory();
         this.animatedCursor = new Core.classes.AnimatedCursor();
-        //    this.doc.addEventListener("DOMContentLoaded",
+            document.addEventListener("DOMContentLoaded", () => {
+                const logo = document.createElement("span");
+                logo.className = "logo JAGUI";
+                if (!Core.HTMLParentElement) {
+                    document.body.appendChild(logo);
+                }
+                else {
+                    Core.HTMLParentElement.appendChild(logo);
+                }
+            });
+            window.addEventListener("resize",() => {
+                const applicationsKeys = Object.keys(Core.apps.applications);
+                applicationsKeys.forEach(key => {
+                    Core.apps.applications[key].windows.forEach(win => {
+                        if(win.windowState === Core.classes.Window.WINDOWSTATES.MAXIMIZED) {
+                            win.width=window.innerWidth;
+                            win.height=window.innerHeight;
+                            win.resize();
+                        }
+                    });
+                });
+            });
         //        function () {
         //            require(['Core', 'Tools', 'Classes'], function (Core, Tools, Classes) {
         //                //var logo, waiting, progressOuter, progressInner, text, ie = false;
