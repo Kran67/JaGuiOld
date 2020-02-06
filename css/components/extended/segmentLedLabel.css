@@ -1,12 +1,13 @@
-﻿div.SegmentLedLabel {
+﻿.Control.SegmentLedLabel {
     --unaligth-color:rgba(0,0,0,0.3);
     --aligth-color: lime;
     display: flex;
     flex-direction: row;
     height: 54px;
+    width: auto !important;
 }
 
-div.SegmentLedLabel div.segmentContainer {
+.segmentContainer {
     display: inline-block;
     position: relative;
     margin-right: 2px;
@@ -14,26 +15,23 @@ div.SegmentLedLabel div.segmentContainer {
     width: 26px;
 }
 
-div.SegmentLedLabel div.segmentContainer div.segment {
+.segment {
     width: 4px;
     top: 6px;
     height: 16px;
     transform-origin: center -2px;
-}
-
-div.segment {
     position: absolute;
     left: 0;
     background-color: var(--unaligth-color);
     overflow: visible;
 }
 
-div.segment.alight {
+.segment.alight {
     background-color: var(--aligth-color);
 }
 
-div.segment:before,
-div.segment:after {
+.segment:before,
+.segment:after {
     content: "";
     position: absolute;
     width: 0;
@@ -41,166 +39,160 @@ div.segment:after {
     border-style: solid;
 }
 
-div.SegmentLedLabel div.segmentContainer div.segment:before {
+.segment:before {
     top: -2px;
     border-width: 0 2px 2px 2px;
-}
-
-div.segment:before {
     border-color: transparent transparent var(--unaligth-color) transparent;
 }
 
-div.segment.alight:before {
+.segment.alight:before {
     border-bottom-color: var(--aligth-color);
 }
 
-div.SegmentLedLabel div.segment:after {
+.segment:after {
     bottom: -2px;
     border-width: 2px 2px 0 2px;
-}
-
-div.segment:after {
     border-color: var(--unaligth-color) transparent transparent transparent;
 }
 
-div.segment.alight:after {
+.segment.alight:after {
     border-top-color: var(--aligth-color);
 }
 
-div.SegmentLedLabel.fourteen div.segment.seg2:before,
-div.SegmentLedLabel.fourteen div.segment.seg2:after,
-div.SegmentLedLabel.fourteen div.segment.seg3:before,
-div.SegmentLedLabel.fourteen div.segment.seg4:before,
-div.SegmentLedLabel.fourteen div.segment.seg4:after,
-div.SegmentLedLabel.fourteen div.segment.seg9:before,
-div.SegmentLedLabel.fourteen div.segment.seg9:after,
-div.SegmentLedLabel.fourteen div.segment.seg10:after,
-div.SegmentLedLabel.fourteen div.segment.seg11:before,
-div.SegmentLedLabel.fourteen div.segment.seg11:after,
-div.SegmentLedLabel.sixteen div.segment.seg3:before,
-div.SegmentLedLabel.sixteen div.segment.seg3:after,
-div.SegmentLedLabel.sixteen div.segment.seg5:before,
-div.SegmentLedLabel.sixteen div.segment.seg5:after,
-div.SegmentLedLabel.sixteen div.segment.seg10:before,
-div.SegmentLedLabel.sixteen div.segment.seg10:after,
-div.SegmentLedLabel.sixteen div.segment.seg12:before,
-div.SegmentLedLabel.sixteen div.segment.seg12:after {
+.Control.SegmentLedLabel.fourteen .segment.seg2:before,
+.Control.SegmentLedLabel.fourteen .segment.seg2:after,
+.Control.SegmentLedLabel.fourteen .segment.seg3:before,
+.Control.SegmentLedLabel.fourteen .segment.seg4:before,
+.Control.SegmentLedLabel.fourteen .segment.seg4:after,
+.Control.SegmentLedLabel.fourteen .segment.seg9:before,
+.Control.SegmentLedLabel.fourteen .segment.seg9:after,
+.Control.SegmentLedLabel.fourteen .segment.seg10:after,
+.Control.SegmentLedLabel.fourteen .segment.seg11:before,
+.Control.SegmentLedLabel.fourteen .segment.seg11:after,
+.Control.SegmentLedLabel.sixteen .segment.seg3:before,
+.Control.SegmentLedLabel.sixteen .segment.seg3:after,
+.Control.SegmentLedLabel.sixteen .segment.seg5:before,
+.Control.SegmentLedLabel.sixteen .segment.seg5:after,
+.Control.SegmentLedLabel.sixteen .segment.seg10:before,
+.Control.SegmentLedLabel.sixteen .segment.seg10:after,
+.Control.SegmentLedLabel.sixteen .segment.seg12:before,
+.Control.SegmentLedLabel.sixteen .segment.seg12:after {
     display: none;
 }
 
-div.SegmentLedLabel.seven div.segment.seg0,
-div.SegmentLedLabel.fourteen div.segment.seg0,
-div.SegmentLedLabel.sixteen div.segment.seg0 {
+.Control.SegmentLedLabel.seven .segment.seg0,
+.Control.SegmentLedLabel.fourteen .segment.seg0,
+.Control.SegmentLedLabel.sixteen .segment.seg0 {
     transform: rotate(-90deg) translate(1px, 1px);
 }
 
-div.SegmentLedLabel.seven div.segment.seg1,
-div.SegmentLedLabel.fourteen div.segment.seg1 {
+.Control.SegmentLedLabel.seven .segment.seg1,
+.Control.SegmentLedLabel.fourteen .segment.seg1 {
 }
 
-div.SegmentLedLabel.seven div.segment.seg2,
-div.SegmentLedLabel.fourteen div.segment.seg5,
-div.SegmentLedLabel.sixteen div.segment.seg6 {
+.Control.SegmentLedLabel.seven .segment.seg2,
+.Control.SegmentLedLabel.fourteen .segment.seg5,
+.Control.SegmentLedLabel.sixteen .segment.seg6 {
     transform: translate(22px,0);
 }
 
-div.SegmentLedLabel.seven div.segment.seg3,
-div.SegmentLedLabel.fourteen div.segment.seg6,
-div.SegmentLedLabel.sixteen div.segment.seg7 {
+.Control.SegmentLedLabel.seven .segment.seg3,
+.Control.SegmentLedLabel.fourteen .segment.seg6,
+.Control.SegmentLedLabel.sixteen .segment.seg7 {
     transform: rotate(-90deg) translate(-21px,1px);
 }
 
-div.SegmentLedLabel.seven div.segment.seg4,
-div.SegmentLedLabel.sixteen div.segment.seg9,
-div.SegmentLedLabel.fourteen div.segment.seg8 {
+.Control.SegmentLedLabel.seven .segment.seg4,
+.Control.SegmentLedLabel.sixteen .segment.seg9,
+.Control.SegmentLedLabel.fourteen .segment.seg8 {
     transform: translate(0,22px);
 }
 
-div.SegmentLedLabel.seven div.segment.seg5,
-div.SegmentLedLabel.sixteen div.segment.seg13,
-div.SegmentLedLabel.fourteen div.segment.seg12 {
+.Control.SegmentLedLabel.seven .segment.seg5,
+.Control.SegmentLedLabel.sixteen .segment.seg13,
+.Control.SegmentLedLabel.fourteen .segment.seg12 {
     transform: translate(22px,22px);
 }
 
-div.SegmentLedLabel.seven div.segment.seg6,
-div.SegmentLedLabel.fourteen div.segment.seg13,
-div.SegmentLedLabel.sixteen div.segment.seg14 {
+.Control.SegmentLedLabel.seven .segment.seg6,
+.Control.SegmentLedLabel.fourteen .segment.seg13,
+.Control.SegmentLedLabel.sixteen .segment.seg14 {
     transform: rotate(-90deg) translate(-43px,1px);
 }
 
-div.SegmentLedLabel.fourteen div.segment.seg2,
-div.SegmentLedLabel.sixteen div.segment.seg12,
-div.SegmentLedLabel.fourteen div.segment.seg4,
-div.SegmentLedLabel.fourteen div.segment.seg9,
-div.SegmentLedLabel.fourteen div.segment.seg11,
-div.SegmentLedLabel.sixteen div.segment.seg3,
-div.SegmentLedLabel.sixteen div.segment.seg5,
-div.SegmentLedLabel.sixteen div.segment.seg10,
-div.SegmentLedLabel.sixteen div.segment.seg12 {
+.Control.SegmentLedLabel.fourteen .segment.seg2,
+.Control.SegmentLedLabel.sixteen .segment.seg12,
+.Control.SegmentLedLabel.fourteen .segment.seg4,
+.Control.SegmentLedLabel.fourteen .segment.seg9,
+.Control.SegmentLedLabel.fourteen .segment.seg11,
+.Control.SegmentLedLabel.sixteen .segment.seg3,
+.Control.SegmentLedLabel.sixteen .segment.seg5,
+.Control.SegmentLedLabel.sixteen .segment.seg10,
+.Control.SegmentLedLabel.sixteen .segment.seg12 {
     width: 8px;
 }
 
-div.SegmentLedLabel.fourteen div.segment.seg2,
-div.SegmentLedLabel.fourteen div.segment.seg4,
-div.SegmentLedLabel.fourteen div.segment.seg9,
-div.SegmentLedLabel.fourteen div.segment.seg11,
-div.SegmentLedLabel.sixteen div.segment.seg3,
-div.SegmentLedLabel.sixteen div.segment.seg5,
-div.SegmentLedLabel.sixteen div.segment.seg10,
-div.SegmentLedLabel.sixteen div.segment.seg12 {
+.Control.SegmentLedLabel.fourteen .segment.seg2,
+.Control.SegmentLedLabel.fourteen .segment.seg4,
+.Control.SegmentLedLabel.fourteen .segment.seg9,
+.Control.SegmentLedLabel.fourteen .segment.seg11,
+.Control.SegmentLedLabel.sixteen .segment.seg3,
+.Control.SegmentLedLabel.sixteen .segment.seg5,
+.Control.SegmentLedLabel.sixteen .segment.seg10,
+.Control.SegmentLedLabel.sixteen .segment.seg12 {
     height: 5px;
 }
 
-div.SegmentLedLabel.fourteen div.segment.seg2,
-div.SegmentLedLabel.sixteen div.segment.seg3 {
+.Control.SegmentLedLabel.fourteen .segment.seg2,
+.Control.SegmentLedLabel.sixteen .segment.seg3 {
     transform: rotate(-90deg) translate(-2px, -1px) skewX(-60deg);
 }
 
-div.SegmentLedLabel.fourteen div.segment.seg3,
-div.SegmentLedLabel.sixteen div.segment.seg4 {
+.Control.SegmentLedLabel.fourteen .segment.seg3,
+.Control.SegmentLedLabel.sixteen .segment.seg4 {
     transform: translate(11px,0);
 }
 
-div.SegmentLedLabel.fourteen div.segment.seg4,
-div.SegmentLedLabel.sixteen div.segment.seg5 {
+.Control.SegmentLedLabel.fourteen .segment.seg4,
+.Control.SegmentLedLabel.sixteen .segment.seg5 {
     transform: rotate(-90deg) translate(-18px, 10px) skewX(60deg);
 }
 
-div.SegmentLedLabel.fourteen div.segment.seg6,
-div.SegmentLedLabel.fourteen div.segment.seg7,
-div.SegmentLedLabel.sixteen div.segment.seg0,
-div.SegmentLedLabel.sixteen div.segment.seg1,
-div.SegmentLedLabel.sixteen div.segment.seg7,
-div.SegmentLedLabel.sixteen div.segment.seg8,
-div.SegmentLedLabel.sixteen div.segment.seg14,
-div.SegmentLedLabel.sixteen div.segment.seg15 {
+.Control.SegmentLedLabel.fourteen .segment.seg6,
+.Control.SegmentLedLabel.fourteen .segment.seg7,
+.Control.SegmentLedLabel.sixteen .segment.seg0,
+.Control.SegmentLedLabel.sixteen .segment.seg1,
+.Control.SegmentLedLabel.sixteen .segment.seg7,
+.Control.SegmentLedLabel.sixteen .segment.seg8,
+.Control.SegmentLedLabel.sixteen .segment.seg14,
+.Control.SegmentLedLabel.sixteen .segment.seg15 {
     height: 6px;
 }
 
-div.SegmentLedLabel.fourteen div.segment.seg7,
-div.SegmentLedLabel.sixteen div.segment.seg8 {
+.Control.SegmentLedLabel.fourteen .segment.seg7,
+.Control.SegmentLedLabel.sixteen .segment.seg8 {
     transform: rotate(-90deg) translate(-21px,11px);
 }
 
-div.SegmentLedLabel.fourteen div.segment.seg9,
-div.SegmentLedLabel.sixteen div.segment.seg10 {
+.Control.SegmentLedLabel.fourteen .segment.seg9,
+.Control.SegmentLedLabel.sixteen .segment.seg10 {
     transform: rotate(-90deg) translate(-40px, -1px) skewX(60deg);
 }
 
-div.SegmentLedLabel.fourteen div.segment.seg10,
-div.SegmentLedLabel.sixteen div.segment.seg11 {
+.Control.SegmentLedLabel.fourteen .segment.seg10,
+.Control.SegmentLedLabel.sixteen .segment.seg11 {
     transform: translate(11px,22px);
 }
 
-div.SegmentLedLabel.fourteen div.segment.seg11,
-div.SegmentLedLabel.sixteen div.segment.seg12 {
+.Control.SegmentLedLabel.fourteen .segment.seg11,
+.Control.SegmentLedLabel.sixteen .segment.seg12 {
     transform: rotate(-90deg) translate(-24px, 10px) skewX(-60deg);
 }
 
-div.SegmentLedLabel.sixteen div.segment.seg1 {
+.Control.SegmentLedLabel.sixteen .segment.seg1 {
     transform: rotate(-90deg) translate(1px,11px);
 }
 
-div.SegmentLedLabel.sixteen div.segment.seg15 {
+.Control.SegmentLedLabel.sixteen .segment.seg15 {
     transform: rotate(-90deg) translate(-43px,11px);
 }

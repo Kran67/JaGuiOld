@@ -1990,10 +1990,10 @@ const BaseWindow = (() => {
             this.visible = true;
             this.setActive();
             //if (this.controlsToResize.length > 0) {
-            priv.controlsToResize.forEach(ctrl => {
-                ctrl.addResizeListener();
-            });
-            priv.controlsToResize.length = 0;
+            //priv.controlsToResize.forEach(ctrl => {
+            //    ctrl.addResizeListener();
+            //});
+            //priv.controlsToResize.length = 0;
             //}
             if (priv.animated && Core.isHTMLRenderer) {
                 htmlElement.classList.add("animated","bounceIn");

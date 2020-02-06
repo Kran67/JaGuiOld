@@ -2665,9 +2665,9 @@ const Control = (() => {
             const owner = this.owner;
             //#endregion Variables déclaration
             super.loaded();
-            if (align.startsWith("fit") || align === Types.ALIGNS.SCALE) {
-                Tools.addResizeListener(owner);
-            }
+            //if (align.startsWith("fit") || align === Types.ALIGNS.SCALE) {
+            //    Tools.addResizeListener(owner);
+            //}
             if (owner.tab) {
                 this.tab = owner.tab;
             }

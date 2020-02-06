@@ -371,27 +371,27 @@ class Tools {
     }
     //#endregion getFuncName
     //#region addResizeListener
-    static addResizeListener(obj) {
-        obj.hasResizeEvent = true;
-        //obj._resizeDatas.width=obj.HTMLElement.offsetWidth;
-        //obj._resizeDatas.height=obj.HTMLElement.offsetHeight;
-        Core.looper.addListener(obj, "resized");
-    }
+    //static addResizeListener(obj) {
+    //    obj.hasResizeEvent = true;
+    //    //obj._resizeDatas.width=obj.HTMLElement.offsetWidth;
+    //    //obj._resizeDatas.height=obj.HTMLElement.offsetHeight;
+    //    Core.looper.addListener(obj, "resized");
+    //}
     //#endregion addResizeListener
     //#region removeResizeListeners
-    static removeResizeListeners(form) {
-        //#region Variables déclaration
-        let i = Core.looper.listeners.length - 1;
-        //#endregion Variables déclaration
-        Core.looper.stop();
-        while (i >= 0) {
-            if (Core.looper.listeners[i].form === form) {
-                Core.looper.removeListener(Core.looper.listeners[i]);
-            }
-            i--;
-        }
-        if (Core.looper.listeners.length > 0) Core.looper.start();
-    }
+    //static removeResizeListeners(form) {
+    //    //#region Variables déclaration
+    //    let i = Core.looper.listeners.length - 1;
+    //    //#endregion Variables déclaration
+    //    Core.looper.stop();
+    //    while (i >= 0) {
+    //        if (Core.looper.listeners[i].form === form) {
+    //            Core.looper.removeListener(Core.looper.listeners[i]);
+    //        }
+    //        i--;
+    //    }
+    //    if (Core.looper.listeners.length > 0) Core.looper.start();
+    //}
     //#endregion removeResizeListeners
     /**
      * Add a property whose value is contained in a set

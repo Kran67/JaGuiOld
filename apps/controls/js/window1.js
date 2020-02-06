@@ -94,7 +94,7 @@ import "/scripts/components/containers/gridlayout.js";
 import "/scripts/components/extended/radiogroup.js";
 import "/scripts/components/extended/toggle.js";
 import "/scripts/components/common/batteryindicator.js";
-//import { segmentLedLabel } from "/scripts/components/extended/segmentLedLabel.js";
+import "/scripts/components/extended/segmentledlabel.js";
 import "/scripts/components/extended/circularprogressbar.js";
 //#endregion Imports
 let lastTime;
