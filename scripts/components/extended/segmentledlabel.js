@@ -66,13 +66,15 @@ const SegmentLedLabel = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 delete this.tabOrder;
-                priv.maxLength = props.hasOwnProperty("maxLength")?props.maxLength:10;
-                priv.autoScroll = props.hasOwnProperty("autoScroll")?props.autoScroll:false;
-                priv.scrollSpeed = props.hasOwnProperty("scrollSpeed")?props.scrollSpeed:1;
+                priv.maxLength = props.hasOwnProperty("maxLength") && Tools.isNumber(props.maxLength)?props.maxLength:10;
+                priv.autoScroll = props.hasOwnProperty("autoScroll") && Tools.isBool(props.autoScroll)?props.autoScroll:false;
+                priv.scrollSpeed = props.hasOwnProperty("scrollSpeed") && Tools.isNumber(props.scrollSpeed)?props.scrollSpeed:1;
                 priv.color = props.hasOwnProperty("color")?Color.parse(props.color):Colors.LIME;
-                priv.segmentSize = props.hasOwnProperty("segmentSize")?props.segmentSize:SEGMENTSIZES.NORMAL;
-                priv.segmentType = props.hasOwnProperty("segmentType")?props.segmentType:SEGMENTTYPES.SEVEN;
-                priv.caption = props.hasOwnProperty("caption")?props.caption:this.name;
+                priv.segmentSize = props.hasOwnProperty("segmentSize") && Tools.isValueInSet(props.segmentSize, SEGMENTSIZES)?
+                    props.segmentSize:SEGMENTSIZES.NORMAL;
+                priv.segmentType = props.hasOwnProperty("segmentType") && Tools.isValueInSet(props.segmentType, SEGMENTTYPES)?
+                    props.segmentType:SEGMENTTYPES.SEVEN;
+                priv.caption = props.hasOwnProperty("caption") && Tools.isString(props.caption)?props.caption:this.name;
                 //#region segmentChars
                 priv.segmentChars = [];
                 //#region !
@@ -737,10 +739,13 @@ const SegmentLedLabel = (() => {
                 priv.conts = [];
                 priv.lastTime = new Date().getTime();
                 priv.startIndex = 0;
-                priv.scrollType = props.hasOwnProperty("scrollType")?props.scrollType:SEGMENTSCROLLTYPES.CYCLE;
-                priv.scrollDir = props.hasOwnProperty("scrollDir")?props.scrollDir:SEGMENTSCROLLDIRECTIONS.LEFT2RIGHT;
+                priv.scrollType = props.hasOwnProperty("scrollType") && Tools.isValueInSet(props.scrollType, SEGMENTSCROLLTYPES)?
+                    props.scrollType:SEGMENTSCROLLTYPES.CYCLE;
+                priv.scrollDir = props.hasOwnProperty("scrollDir") && Tools.isValueInSet(props.scrollDir, SEGMENTSCROLLDIRECTIONS)?
+                    props.scrollDir:SEGMENTSCROLLDIRECTIONS.LEFT2RIGHT;
                 priv.text = priv.caption;
-                priv.autoAdjustTextLengthWithSpace = true;
+                priv.autoAdjustTextLengthWithSpace = props.hasOwnProperty("autoAdjustTextLengthWithSpace") && 
+                    Tools.isBool(props.autoAdjustTextLengthWithSpace)?props.autoAdjustTextLengthWithSpace:true;
                 this.normalizeCaption();
             }
         }
@@ -953,6 +958,7 @@ const SegmentLedLabel = (() => {
         //#endregion scrollDirection
         //#endregion Getters / Setters
         //#region Methods
+        //#region normalizeCaption
         normalizeCaption() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -968,6 +974,8 @@ const SegmentLedLabel = (() => {
                 priv.text = priv.text.padEnd(priv.maxLength, String.SPACE);
             }
         }
+        //#endregion normalizeCaption
+        //#region createSegments
         createSegments() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -987,6 +995,8 @@ const SegmentLedLabel = (() => {
                 htmlElement.appendChild(div);
             }
         }
+        //#endregion createSegments
+        //#region update
         update() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -1018,6 +1028,8 @@ const SegmentLedLabel = (() => {
                 }
             }
         }
+        //#endregion update
+        //#region clearAllSegments
         clearAllSegments() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -1026,6 +1038,8 @@ const SegmentLedLabel = (() => {
                 this.clearSegment(cont);
             });
         }
+        //#endregion clearAllSegments
+        //#region clearSegment
         clearSegment(segCont) {
             //#region Variables déclaration
             const segs = Convert.nodeListToArray(segCont.querySelectorAll("div"));
@@ -1035,17 +1049,23 @@ const SegmentLedLabel = (() => {
             });
             return segs;
         }
+        //#endregion clearSegment
+        //#region changeSegmentSize
         changeSegmentSize() {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             this.HTMLElementStyle.transform = `scale(${priv.segmentSize})`;
         }
+        //#endregion changeSegmentSize
+        //#region loaded
         loaded() {
             this.createSegments();
             super.loaded();
             Core.looper.addListener(this);
         }
+        //#endregion loaded
+        //#region processTick
         processTick() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -1107,6 +1127,8 @@ const SegmentLedLabel = (() => {
                 }
             }
         }
+        //#endregion processTick
+        //#region destroy
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -1116,6 +1138,7 @@ const SegmentLedLabel = (() => {
             priv.segmentType = null;
             super.destroy();
         }
+        //#endregion destroy
         //#endregion Methods
     }
     return SegmentLedLabel;
@@ -1124,12 +1147,10 @@ const SegmentLedLabel = (() => {
 Object.seal(SegmentLedLabel);
 Core.classes.register(Types.CATEGORIES.EXTENDED, SegmentLedLabel);
 //#endregion SegmentLedLabel
-
-/*
-    //#region Templates
-    if ($j.isHTMLRenderer()) {
-        var SegmentLedLabelTpl = "<div id='{internalId}' data-name='{name}' data-class='SegmentLedLabel' class='Control csr_default SegmentLedLabel {theme}'>{caption}</div>";
-        $j.classes.registerTemplates([{ Class: SegmentLedLabel, template: SegmentLedLabelTpl }]);
-    }
-    //endregion
-})();*/
+//#region Templates
+if (Core.isHTMLRenderer) {
+    const SegmentLedLabelTpl = ["<jagiu-segmentledlabel id=\"{internalId}\" data-class=\"SegmentLedLabel\" class=\"Control SegmentLedLabel csr_default ",
+        "sixteen \"><properties>{ \"name\": \"{name}\", \"caption\": \"{name}\" }</properties></jagiu-segmentledlabel>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: SegmentLedLabel, template: SegmentLedLabelTpl }]);
+}
+//endregion
