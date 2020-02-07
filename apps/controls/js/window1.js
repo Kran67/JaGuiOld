@@ -12,7 +12,7 @@ import "/scripts/components/containers/groupbox.js";
 import "/scripts/components/common/checkbox.js";
 import "/scripts/components/common/radiobutton.js";
 import "/scripts/components/extended/circlebutton.js";
-//import { PopupButton } from "/scripts/components/extended/popupButton.js";
+import "/scripts/components/extended/popupbutton.js";
 import "/scripts/components/extended/bitmapbutton.js";
 import "/scripts/components/extended/pathbutton.js";
 import "/scripts/components/containers/panel.js";
