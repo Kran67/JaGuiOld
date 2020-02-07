@@ -416,7 +416,11 @@ const Application = (() => {
          * Initialize the application
          */
         initialize(/*createIcon*/) {
-            Core.start();
+            async () => {
+                await import(`/locales/${Core.currentLocale}.js`);
+                //Core.start();
+            }
+            
             if (!this.locale) {
                 this.locale = Core.currentLocale;
             }

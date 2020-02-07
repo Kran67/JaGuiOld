@@ -1,4 +1,4 @@
-﻿div.Calendar {
+﻿.Control.Calendar {
     max-height: 148px;
     max-width: 187px;
     min-height: 148px;
@@ -10,21 +10,21 @@
     transform-style: preserve-3d;
 }
 
-div.CalendarContent {
+.Control.CalendarContent {
     top: 5px;
     left: 5px;
     right: 5px;
     bottom: 5px;
 }
 
-div.CalendarHeader {
+.Control.CalendarHeader {
     height: 21px;
     top: 0;
     left: 0;
     right: 0;
 }
 
-div.CalendarPrevMonth {
+.Control.CalendarPrevMonth {
     left: 0;
     top: 0;
     bottom: 0;
@@ -35,11 +35,11 @@ div.CalendarPrevMonth {
     justify-content: center;
 }
 
-div.CalendarPrevMonth:before {
+.Control.CalendarPrevMonth:before {
     content: "*";
 }
 
-div.CalendarThisDay {
+.Control.CalendarThisDay {
     left: 22px;
     top: 0;
     font-family: jagui;
@@ -51,11 +51,11 @@ div.CalendarThisDay {
     justify-content: center;
 }
 
-div.CalendarThisDay:before {
+.Control.CalendarThisDay:before {
     content: "3";
 }
 
-div.CalendarNextMonth {
+.Control.CalendarNextMonth {
     left: 43px;
     top: 0;
     bottom: 0;
@@ -66,11 +66,11 @@ div.CalendarNextMonth {
     justify-content: center;
 }
 
-div.CalendarNextMonth:before {
+.Control.CalendarNextMonth:before {
     content: ")";
 }
 
-div.CalendarThisMonth {
+.Control.CalendarThisMonth {
     right: 0;
     top: 0;
     bottom: 0;
@@ -80,15 +80,15 @@ div.CalendarThisMonth {
     width: 105px;
 }
 
-div.CalendarWeekdays {
+.Control.CalendarWeekdays {
     left: 6px;
     right: 6px;
     height: 15px;
     top: 22px;
 }
 
-div.CalendarWeekNum,
-div.CalendarWeekDay {
+.Control.CalendarWeekNum,
+.Control.CalendarWeekDay {
     position: relative;
     float: left;
     width: 23px;
@@ -98,22 +98,22 @@ div.CalendarWeekDay {
     font-size: 8pt;
 }
 
-div.CalendarWeekNum {
+.Control.CalendarWeekNum {
     display: none;
 }
 
-div.Calendar.viewweeknum div.CalendarWeekNum {
+.Control.Calendar.viewweeknum .Control.CalendarWeekNum {
     width: 18px;
     display: block;
     opacity: 0.5;
 }
 
-div.Calendar.viewweeknum div.CalendarWeekDay,
-div.Calendar.viewweeknum div.CalendarDay {
+.Control.Calendar.viewweeknum .Control.CalendarWeekDay,
+.Control.Calendar.viewweeknum .Control.CalendarDay {
     width: 22px;
 }
 
-div.CalendarWeeks {
+.Control.CalendarWeeks {
     left: 6px;
     right: 6px;
     top: 38px;
@@ -121,43 +121,43 @@ div.CalendarWeeks {
     height: auto;
 }
 
-div.Calendar.viewweeknum div.CalendarWeeks,
-div.Calendar.viewweeknum div.CalendarWeekdays {
+.Control.Calendar.viewweeknum .Control.CalendarWeeks,
+.Control.Calendar.viewweeknum .Control.CalendarWeekdays {
     left: 0;
     right: 0;
 }
 
-div.CalendarWeek {
+.Control.CalendarWeek {
     left: 0px;
     right: 0px;
     height: 16px;
 }
 
-div.CalendarFirstWeek {
+.Control.CalendarFirstWeek {
     top: 0px;
 }
 
-div.CalendarSecondWeek {
+.Control.CalendarSecondWeek {
     top: 16px;
 }
 
-div.CalendarThirdWeek {
+.Control.CalendarThirdWeek {
     top: 32px;
 }
 
-div.CalendarFourthWeek {
+.Control.CalendarFourthWeek {
     top: 48px;
 }
 
-div.CalendarFifthWeek {
+.Control.CalendarFifthWeek {
     top: 64px;
 }
 
-div.CalendarSixthWeek {
+.Control.CalendarSixthWeek {
     top: 80px;
 }
 
-div.CalendarDay {
+.Control.CalendarDay {
     position: relative;
     float: left;
     width: 23px;
@@ -167,9 +167,9 @@ div.CalendarDay {
     font-size: 8pt;
 }
 
-div.CalendarMonths,
-div.CalendarDecades,
-div.CalendarCenturies {
+.Control.CalendarMonths,
+.Control.CalendarDecades,
+.Control.CalendarCenturies {
     top: 27px;
     left: 6px;
     right: 6px;
@@ -181,13 +181,13 @@ div.CalendarCenturies {
     transition: all linear 0.4s;
 }
 
-div.zoomOut {
+.Control.zoomOut {
     transform: scale(1);
     opacity: 1;
     z-index: 1;
 }
 
-div.CalendarMDC {
+.Control.CalendarMDC {
     position: relative;
     float: left;
     width: 43px;
@@ -196,11 +196,11 @@ div.CalendarMDC {
     text-align: center;
 }
 
-div.CalendarMDCx2 {
+.Control.CalendarMDCx2 {
     line-height: 19px;
 }
 
-div.CalendarMonth,
+/*div.CalendarMonth,
 div.CalendarDecades,
 div.CalendarCenturies {
 }
@@ -210,3 +210,4 @@ div.CalendarDecade {
 
 div.CalendarCentury {
 }
+*/

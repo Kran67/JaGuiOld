@@ -52,7 +52,7 @@ import "/scripts/components/extended/roundtextbox.js";
 //import { memo } from "/scripts/components/common/memo.js";
 //import { maskedTextBox } from "/scripts/components/extended/maskedTextBox.js";
 import "/scripts/components/extended/iphonebutton.js";
-//import { calendar } from "/scripts/components/common/calendar.js";
+import "/scripts/components/common/calendar.js";
 //import { menus } from "/scripts/components/menus/menus.js";
 //import { dropDownListBox } from "/scripts/components/common/dropDownListBox.js";
 //import { labeledAngleBar } from "/scripts/components/extended/labeledAngleBar.js";

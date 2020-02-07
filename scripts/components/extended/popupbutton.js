@@ -1,7 +1,7 @@
 ﻿//#region Import
 import { Button } from "/scripts/components/common/button.js";
 import { Tools } from "/scripts/core/tools.js";
-import { Text } from "/scripts/core/text.js";
+import { Keyboard } from "/scripts/core/keyboard.js";
 //#endregion Import
 //#region PopupButton
 const PopupButton = (() => {

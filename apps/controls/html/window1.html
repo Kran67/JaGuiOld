@@ -5,8 +5,11 @@
 </head>
 <body>
     <template>
-        <jagui-window id="_oNun9840" class="Control csr_default Window sizeable normal {theme} controls" data-class="Window1" data-buttons="6"><properties>{ "name": "Window1", "borderStyle": "sizeable", "windowState":"maximized", "width": 640, "left":100,
-                "top":50, "height": 480, "onCloseQuery": "closeQuery", "buttons": ["minimize", "maxRestore", "help", "rollUpDown", "stayOnOff"] }</properties>
+        <jagui-window id="_oNun9840" class="Control csr_default Window sizeable normal {theme} controls" data-class="Window1" data-buttons="6">
+            <properties>
+                { "name": "Window1", "borderStyle": "sizeable", "windowState":"maximized", "width": 640, "left":100,
+                "top":50, "height": 480, "onCloseQuery": "closeQuery", "buttons": ["minimize", "maxRestore", "help", "rollUpDown", "stayOnOff"] }
+            </properties>
             <jagui-windowlayout id="_ctpjpyi" data-class="Layout" class="Control Layout WindowLayout {theme}">
                 <jagui-windowtitlebar id="_oNun98d0" data-class="WindowTitleBar" class="Control WindowTitleBar {theme} WindowIcon logo">
                     <jagui-windowtitle id="_oNun98l0" data-class="WindowTitle" class="WindowTitle {theme}">Window1</jagui-windowtitle>
@@ -55,7 +58,8 @@
                 <!--{name:"Mnu_ProLCD","caption":"ProLCD","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
                 {name:"Mnu_Sustenance","caption":"Sustenance","shortcut":"","enabled":true,"visible":true,"items":[],"onClick":"changeTheme","isRadioItem":true,"autoCheck":true},
                 </div>-->
-                <jagui-toolbar id="_ou8mg7j" data-class="ToolBar" class="Control ToolBar {theme} csr_default"><properties>{ "name": "ToolBar1" }</properties>
+                <jagui-toolbar id="_ou8mg7j" data-class="ToolBar" class="Control ToolBar {theme} csr_default">
+                    <properties>{ "name": "ToolBar1" }</properties>
                     <jagui-toolbutton id="_kdw1y34" data-class="ToolButton" class="Control Button BitmapButton ButtonGlyph ToolButton {theme} csr_default"><properties>{ "name": "ToolButton1", "width": 70, "onClick": "ToolButton1_onClick", "layout": "layoutLeft", "glyphSize": 16, "caption": "Home", "src": "images/home.png" }</properties><span class="Control ButtonCaption ToolButtonCaption includeCaption"></span><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" draggable="false" /></jagui-toolbutton>
                     <jagui-toolbutton id="_p662jeb" data-class="ToolButton" class="Control ButtonGlyph ToolButton {theme} csr_default"><properties>{ "name": "ToolButton2", "width": 98, "action": "EditCut1", "hint": "Cut|Cuts the selection and puts it on the Clipboard", "layout":  "layoutRight", "glyphSize": 16, "caption": "Cut", "src": "images/duck.png" }</properties><span class="Control ButtonCaption ToolButtonCaption includeCaption"></span><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" draggable="false" /></jagui-toolbutton>
                     <!--<div id="_p672jeb" name="SplitToolButton1" data-class="SplitToolButton" class="Control SplitToolButton {theme} csr_default"
@@ -72,7 +76,8 @@
                         </button>
                     </div>-->
                     <jagui-label id="_3zuzu8m" data-class="Label" class="Control csr_default Label {theme}"><properties>{ "name": "Label3", "left": 300, "caption": "Shapes : ", "vertAlign": "middle" }</properties></jagui-label>
-                    <jagui-gridlayout id="_p632j89b" data-class="GridLayout" class="Control GridLayout"><properties>{ "name": "ShapesLayout1", "align": "client", "columns": 20, "columnGap": 10, "rows": 1, "rowGap": 5, "margin": 5 }</properties>
+                    <jagui-gridlayout id="_p632j89b" data-class="GridLayout" class="Control GridLayout">
+                        <properties>{ "name": "ShapesLayout1", "align": "client", "columns": 20, "columnGap": 10, "rows": 1, "rowGap": 5, "margin": 5 }</properties>
                         <jagui-line id="_34qkqx3" data-class="Line" class="Control Line"><properties>{ "name": "Line1", "lineDirection": "topleft-bottomright", "strokeWidth": 2 }</properties><svg class="Control svgShape"><line x1="0" y1="0" x2="100%" y2="100%" /></svg></jagui-line>
                         <jagui-rectangle id="_34qksx3" data-class="Rectangle" class="Control Rectangle"><properties>{ "name": "Rectangle1", "fillColor": "white", "strokeColor": "black", "strokeWidth": 2}</properties></jagui-rectangle>
                         <jagui-roundrect id="_34fksx3" data-class="RoundRect" class="Control RoundRect"><properties>{ "name": "RoundRect1", "topLeftRadius": 10, "topRightRadius": 10, "bottomLeftRadius": 10, "bottomRightRadius": 10, "strokeWidth": 2 }</properties></jagui-roundrect>
@@ -95,7 +100,8 @@
                         <jagui-star id="_hhlvgdv" data-class="Star" class="Control Star"><properties>{ "name": "Star3", "spikes": 8, "strokeWidth": 2 }</properties><svg class="Control svgShape"><path d="M0 0Z" vector-effect="non-scaling-stroke" /></svg></jagui-star>
                     </jagui-gridlayout>
                 </jagui-toolbar>
-                <jagui-windowcontent id="_oNun9920" name="Window1_content" data-class="WindowContent" class="Control WindowContent {theme} csr_default"><properties>{ "popupmenu":"PopupMenu1" }</properties>
+                <jagui-windowcontent id="_oNun9920" name="Window1_content" data-class="WindowContent" class="Control WindowContent {theme} csr_default">
+                    <properties>{ "popupmenu":"PopupMenu1" }</properties>
                     <jagui-label id="_oPsKhiN0" data-class="Label" class="Control csr_default Label {theme} csr_default"><properties>{ "name": "Label1", "left": 900, "top": 410, "fontSize": 22.5, "onClick": "Label1_onClick", "showToolTip": true, "toolTip": "Click here to change font","textDecoration": { "underline": true, "overline": true, "lineThrough": true, "style": "wavy"}, "backColor": "#F00", "caption": "TEST" }</properties></jagui-label>
                     <jagui-button id="_oNun99A0" draggable="true" data-class="Button" class="Control Button {theme} csr_default"><properties>{ "dragMode": "automatic", "onClick": "Button1_onClick", "toolTip": "Create 1 million of Listbox items in ListBox2", "showToolTip": true, "tabOrder": 0, "left": 10, "top": 10, "height": 19, "width": 68, "name": "Button1", "caption": "{theme}" }</properties></jagui-button>
                     <jagui-button id="_oPsKhiT0" data-class="Button" class="Control Button {theme} csr_default"><properties>{ "name":"RoundButton1", "onClick": "RoundButton1_onClick", "tabOrder": 1, "left": 100, "top": 10, "height": 19, "width": 68, "borderRadius": 19, "caption": "Open file" }</properties></jagui-button>
@@ -252,133 +258,136 @@
                                     data-orientation="horizontal" data-align="bottom" data-collapsible="false" style="bottom:19px;right:0;left:0;"></div>
                             </div>
                         </div>
-                    </div>
-                    <div id="_ie6m02t" data-class="Calendar" name="Calendar1" class="Control Calendar {theme} viewweeknum" data-viewweeknum="true"
-                        data-date="October 08, 2014 00:00:00" data-taborder="38" style="left: 750px;top: 460px;">
-                        <div class="Control CalendarContent {theme}">
-                            <div class="Control CalendarHeader {theme}">
-                                <div class="Control CalendarPrevMonth {theme}"></div>
-                                <div title="Aller à aujourd'hui" class="Control CalendarThisDay {theme}"></div>
-                                <div class="Control CalendarNextMonth {theme}"></div>
-                                <div class="Control CalendarThisMonth {theme}">Octobre 2014</div>
-                            </div>
-                            <div class="Control CalendarWeekdays {theme}">
-                                <div class="Control CalendarWeekNum {theme}">se</div>
-                                <div class="Control CalendarWeekDay {theme}">Lu</div>
-                                <div class="Control CalendarWeekDay {theme}">Ma</div>
-                                <div class="Control CalendarWeekDay {theme}">Me</div>
-                                <div class="Control CalendarWeekDay {theme}">Je</div>
-                                <div class="Control CalendarWeekDay {theme}">Ve</div>
-                                <div class="Control CalendarWeekDay {theme}">Sa</div>
-                                <div class="Control CalendarWeekDay {theme}">Di</div>
-                            </div>
-                            <div class="Control CalendarWeeks {theme}">
-                                <div class="Control CalendarWeek CalendarFirstWeek {theme} alternate" data-week="0">
-                                    <div class="Control CalendarWeekNum {theme}">40</div>
-                                    <div class="Control CalendarDay {theme}">29</div>
-                                    <div class="Control CalendarDay {theme}">30</div>
-                                    <div class="Control CalendarDay {theme}">1</div>
-                                    <div class="Control CalendarDay {theme}">2</div>
-                                    <div class="Control CalendarDay {theme}">3</div>
-                                    <div class="Control CalendarDay {theme}">4</div>
-                                    <div class="Control CalendarDay {theme}">5</div>
-                                </div>
-                                <div class="Control CalendarWeek CalendarSecondWeek {theme}" data-week="1">
-                                    <div class="Control CalendarWeekNum {theme}">41</div>
-                                    <div class="Control CalendarDay {theme}">6</div>
-                                    <div class="Control CalendarDay {theme}">7</div>
-                                    <div class="Control CalendarDay {theme}"></div>
-                                    <div class="Control CalendarDay {theme}">9</div>
-                                    <div class="Control CalendarDay {theme}">10</div>
-                                    <div class="Control CalendarDay {theme}">11</div>
-                                    <div class="Control CalendarDay {theme}">12</div>
-                                </div>
-                                <div class="Control CalendarWeek CalendarThirdWeek {theme} alternate" data-week="2">
-                                    <div class="Control CalendarWeekNum {theme}">42</div>
-                                    <div class="Control CalendarDay {theme}">13</div>
-                                    <div class="Control CalendarDay {theme}">14</div>
-                                    <div class="Control CalendarDay {theme}">15</div>
-                                    <div class="Control CalendarDay {theme}">16</div>
-                                    <div class="Control CalendarDay {theme}">17</div>
-                                    <div class="Control CalendarDay {theme}">18</div>
-                                    <div class="Control CalendarDay {theme}">19</div>
-                                </div>
-                                <div class="Control CalendarWeek CalendarFourthWeek {theme}" data-week="3">
-                                    <div class="Control CalendarWeekNum {theme}">43</div>
-                                    <div class="Control CalendarDay {theme}">20</div>
-                                    <div class="Control CalendarDay {theme}">21</div>
-                                    <div class="Control CalendarDay {theme}">22</div>
-                                    <div class="Control CalendarDay {theme}">23</div>
-                                    <div class="Control CalendarDay {theme}">24</div>
-                                    <div class="Control CalendarDay {theme}">25</div>
-                                    <div class="Control CalendarDay {theme}">26</div>
-                                </div>
-                                <div class="Control CalendarWeek CalendarFifthWeek {theme} alternate" data-week="4">
-                                    <div class="Control CalendarWeekNum {theme}">44</div>
-                                    <div class="Control CalendarDay {theme}">27</div>
-                                    <div class="Control CalendarDay {theme}">28</div>
-                                    <div class="Control CalendarDay {theme}">29</div>
-                                    <div class="Control CalendarDay {theme}">30</div>
-                                    <div class="Control CalendarDay {theme}">31</div>
-                                    <div class="Control CalendarDay {theme}">1</div>
-                                    <div class="Control CalendarDay {theme}">2</div>
-                                </div>
-                                <div class="Control CalendarWeek CalendarSixthWeek {theme}" data-week="5">
-                                    <div class="Control CalendarWeekNum {theme}">45</div>
-                                    <div class="Control CalendarDay {theme}">3</div>
-                                    <div class="Control CalendarDay {theme}">4</div>
-                                    <div class="Control CalendarDay {theme}">5</div>
-                                    <div class="Control CalendarDay {theme}">6</div>
-                                    <div class="Control CalendarDay {theme}">7</div>
-                                    <div class="Control CalendarDay {theme}"></div>
-                                    <div class="Control CalendarDay {theme}">9</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Control CalendarMonths {theme}">
-                            <div data-month="0" class="Control CalendarMDC CalendarMonth {theme}">Jan</div>
-                            <div data-month="1" class="Control CalendarMDC CalendarMonth {theme}">Fev</div>
-                            <div data-month="2" class="Control CalendarMDC CalendarMonth {theme}">Mars</div>
-                            <div data-month="3" class="Control CalendarMDC CalendarMonth {theme}">Avr</div>
-                            <div data-month="4" class="Control CalendarMDC CalendarMonth {theme}">Mai</div>
-                            <div data-month="5" class="Control CalendarMDC CalendarMonth {theme}">Jun</div>
-                            <div data-month="6" class="Control CalendarMDC CalendarMonth {theme}">Juil</div>
-                            <div data-month="7" class="Control CalendarMDC CalendarMonth {theme}">Aout</div>
-                            <div data-month="8" class="Control CalendarMDC CalendarMonth {theme}">Sep</div>
-                            <div data-month="9" class="Control CalendarMDC CalendarMonth {theme}">Oct</div>
-                            <div data-month="10" class="Control CalendarMDC CalendarMonth {theme}">Nov</div>
-                            <div data-month="11" class="Control CalendarMDC CalendarMonth {theme}">Dec</div>
-                        </div>
-                        <div class="Control CalendarDecades {theme}">
-                            <div data-decade="0" class="Control CalendarMDC CalendarDecade {theme}"></div>
-                            <div data-decade="1" class="Control CalendarMDC CalendarDecade {theme}"></div>
-                            <div data-decade="2" class="Control CalendarMDC CalendarDecade {theme}"></div>
-                            <div data-decade="3" class="Control CalendarMDC CalendarDecade {theme}"></div>
-                            <div data-decade="4" class="Control CalendarMDC CalendarDecade {theme}"></div>
-                            <div data-decade="5" class="Control CalendarMDC CalendarDecade {theme}"></div>
-                            <div data-decade="6" class="Control CalendarMDC CalendarDecade {theme}"></div>
-                            <div data-decade="7" class="Control CalendarMDC CalendarDecade {theme}"></div>
-                            <div data-decade="8" class="Control CalendarMDC CalendarDecade {theme}"></div>
-                            <div data-decade="9" class="Control CalendarMDC CalendarDecade {theme}"></div>
-                            <div data-decade="10" class="Control CalendarMDC CalendarDecade {theme}"></div>
-                            <div data-decade="11" class="Control CalendarMDC CalendarDecade {theme}"></div>
-                        </div>
-                        <div class="Control CalendarCenturies {theme}">
-                            <div data-century="0" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
-                            <div data-century="1" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
-                            <div data-century="2" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
-                            <div data-century="3" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
-                            <div data-century="4" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
-                            <div data-century="5" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
-                            <div data-century="6" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
-                            <div data-century="7" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
-                            <div data-century="8" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
-                            <div data-century="9" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
-                            <div data-century="10" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></div>
-                        </div>
                     </div>-->
-                    <jagui-expander id="_2txje9o" data-class="Expander" class="Control Expander {theme}"><properties>{ "name": "Expander1", "tabOrder": 39, "left": 10, "width": 130, "height": 100, "top": 260, "expanded": true, "contentEnabled": false }</properties><jagui-expanderheader class="Control ExpanderHeader {theme}"><jagui-button id="_DYeUkBC" data-class="button" class="Control Button ExpanderButton {theme} expanded csr_default"><properties>{ "caption": String.EMPTY }</properties></jagui-button><jagui-checkbox id="_n9e9isb" data-class="Checkbox" class="Control Checkbox ExpanderCheckbox {theme}"><properties>{ "isChecked": true, "state": "checked" }</properties><input type="checkbox" class="Control CheckboxInput" /><div class="Control {theme} CheckboxCheck ExpanderCheckboxCheck"></div></jagui-checkbox><jagui-label class="csr_default ExpanderCaption {theme}"></jagui-label></jagui-expanderheader><jagui-expandercontent class="Control ExpanderContent {theme}"><jagui-button id="_zru0co7" data-class="Button" class="Control Button {theme} csr_default"><properties>{ "name": "Button3", "left": 10, "top": 10, "height": 19, "width": 68, "tabOrder": 0, "caption": "Button" }</properties></jagui-button>
-                        </jagui-expandercontent></jagui-expander>
+                    <jagui-calendar id="_ie6m02t" data-class="Calendar" class="Control Calendar {theme}">
+                        <properties>{ "name": "Calendar1", "viewWeekNum": true, "tabOrder": 38, "left": 750, "top": 460 }</properties>
+                        <jagui-calendarcontent class="Control CalendarContent {theme}">
+                            <jagui-calendarheader class="Control CalendarHeader {theme}">
+                                <jagui-calendarprevmonth class="Control CalendarPrevMonth {theme}"></jagui-calendarprevmonth>
+                                <jagui-calendarthisday title="Aller à aujourd'hui" class="Control CalendarThisDay {theme}"></jagui-calendarthisday>
+                                <jagui-calendarnextmonth class="Control CalendarNextMonth {theme}"></jagui-calendarnextmonth>
+                                <jagui-calendarthismonth class="Control CalendarThisMonth {theme}">Octobre 2014</jagui-calendarthismonth>
+                            </jagui-calendarheader>
+                            <jagui-calendarweekdays class="Control CalendarWeekdays {theme}">
+                                <jagui-calendarweeknum class="Control CalendarWeekNum {theme}">se</jagui-calendarweeknum>
+                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}">Lu</jagui-calendarweekday>
+                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}">Ma</jagui-calendarweekday>
+                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}">Me</jagui-calendarweekday>
+                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}">Je</jagui-calendarweekday>
+                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}">Ve</jagui-calendarweekday>
+                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}">Sa</jagui-calendarweekday>
+                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}">Di</jagui-calendarweekday>
+                            </jagui-calendarweekdays>
+                            <jagui-calendarweeks class="Control CalendarWeeks {theme}">
+                                <jagui-calendarfirstweek class="Control CalendarWeek CalendarFirstWeek {theme} alternate" data-week="0">
+                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}">40</jagui-calendarweeknum>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">29</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">30</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">1</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">2</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">3</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">4</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">5</jagui-calendarday>
+                                </jagui-calendarfirstweek>
+                                <jagui-calendarsecondweek class="Control CalendarWeek CalendarSecondWeek {theme}" data-week="1">
+                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}">41</jagui-calendarweeknum>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">6</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">7</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">9</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">10</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">11</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">12</jagui-calendarday>
+                                </jagui-calendarsecondweek>
+                                <jagui-calendarthirdweek class="Control CalendarWeek CalendarThirdWeek {theme} alternate" data-week="2">
+                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}">42</jagui-calendarweeknum>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">13</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">14</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">15</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">16</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">17</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">18</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">19</jagui-calendarday>
+                                </jagui-calendarthirdweek>
+                                <jagui-calendarfourthweek class="Control CalendarWeek CalendarFourthWeek {theme}" data-week="3">
+                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}">43</jagui-calendarweeknum>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">20</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">21</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">22</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">23</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">24</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">25</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">26</jagui-calendarday>
+                                </jagui-calendarfourthweek>
+                                <jagui-calendarfifthweek class="Control CalendarWeek CalendarFifthWeek {theme} alternate" data-week="4">
+                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}">44</jagui-calendarweeknum>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">27</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">28</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">29</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">30</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">31</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">1</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">2</jagui-calendarday>
+                                </jagui-calendarfifthweek>
+                                <jagui-calendarsixthweek class="Control CalendarWeek CalendarSixthWeek {theme}" data-week="5">
+                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}">45</jagui-calendarweeknum>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">3</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">4</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">5</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">6</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">7</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}">9</jagui-calendarday>
+                                </jagui-calendarsixthweek>
+                            </jagui-calendarweeks>
+                        </jagui-calendarcontent>
+                        <jagui-calendarmonths class="Control CalendarMonths {theme}">
+                            <jagui-calendarmonth data-month="0" class="Control CalendarMDC CalendarMonth {theme}">Jan</jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="1" class="Control CalendarMDC CalendarMonth {theme}">Fev</jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="2" class="Control CalendarMDC CalendarMonth {theme}">Mars</jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="3" class="Control CalendarMDC CalendarMonth {theme}">Avr</jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="4" class="Control CalendarMDC CalendarMonth {theme}">Mai</jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="5" class="Control CalendarMDC CalendarMonth {theme}">Jun</jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="6" class="Control CalendarMDC CalendarMonth {theme}">Juil</jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="7" class="Control CalendarMDC CalendarMonth {theme}">Aout</jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="8" class="Control CalendarMDC CalendarMonth {theme}">Sep</jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="9" class="Control CalendarMDC CalendarMonth {theme}">Oct</jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="10" class="Control CalendarMDC CalendarMonth {theme}">Nov</jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="11" class="Control CalendarMDC CalendarMonth {theme}">Dec</jagui-calendarmonth>
+                        </jagui-calendarmonths>
+                        <jagui-calendardecades class="Control CalendarDecades {theme}">
+                            <jagui-calendardecade data-decade="0" class="Control CalendarMDC CalendarDecade {theme}"></jagui-calendardecade>
+                            <jagui-calendardecade data-decade="1" class="Control CalendarMDC CalendarDecade {theme}"></jagui-calendardecade>
+                            <jagui-calendardecade data-decade="2" class="Control CalendarMDC CalendarDecade {theme}"></jagui-calendardecade>
+                            <jagui-calendardecade data-decade="3" class="Control CalendarMDC CalendarDecade {theme}"></jagui-calendardecade>
+                            <jagui-calendardecade data-decade="4" class="Control CalendarMDC CalendarDecade {theme}"></jagui-calendardecade>
+                            <jagui-calendardecade data-decade="5" class="Control CalendarMDC CalendarDecade {theme}"></jagui-calendardecade>
+                            <jagui-calendardecade data-decade="6" class="Control CalendarMDC CalendarDecade {theme}"></jagui-calendardecade>
+                            <jagui-calendardecade data-decade="7" class="Control CalendarMDC CalendarDecade {theme}"></jagui-calendardecade>
+                            <jagui-calendardecade data-decade="8" class="Control CalendarMDC CalendarDecade {theme}"></jagui-calendardecade>
+                            <jagui-calendardecade data-decade="9" class="Control CalendarMDC CalendarDecade {theme}"></jagui-calendardecade>
+                            <jagui-calendardecade data-decade="10" class="Control CalendarMDC CalendarDecade {theme}"></jagui-calendardecade>
+                            <jagui-calendardecade data-decade="11" class="Control CalendarMDC CalendarDecade {theme}"></jagui-calendardecade>
+                        </jagui-calendardecades>
+                        <jagui-calendarcenturies class="Control CalendarCenturies {theme}">
+                            <jagui-calendarcentury data-century="0" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></jagui-calendarcentury>
+                            <jagui-calendarcentury data-century="1" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></jagui-calendarcentury>
+                            <jagui-calendarcentury data-century="2" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></jagui-calendarcentury>
+                            <jagui-calendarcentury data-century="3" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></jagui-calendarcentury>
+                            <jagui-calendarcentury data-century="4" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></jagui-calendarcentury>
+                            <jagui-calendarcentury data-century="5" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></jagui-calendarcentury>
+                            <jagui-calendarcentury data-century="6" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></jagui-calendarcentury>
+                            <jagui-calendarcentury data-century="7" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></jagui-calendarcentury>
+                            <jagui-calendarcentury data-century="8" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></jagui-calendarcentury>
+                            <jagui-calendarcentury data-century="9" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></jagui-calendarcentury>
+                            <jagui-calendarcentury data-century="10" class="Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}"></jagui-calendarcentury>
+                        </jagui-calendarcenturies>
+                    </jagui-calendar>
+                    <jagui-expander id="_2txje9o" data-class="Expander" class="Control Expander {theme}">
+                        <properties>{ "name": "Expander1", "tabOrder": 39, "left": 10, "width": 130, "height": 100, "top": 260, "expanded": true, "contentEnabled": false }</properties><jagui-expanderheader class="Control ExpanderHeader {theme}"><jagui-button id="_DYeUkBC" data-class="button" class="Control Button ExpanderButton {theme} expanded csr_default"><properties>{ "caption": String.EMPTY }</properties></jagui-button><jagui-checkbox id="_n9e9isb" data-class="Checkbox" class="Control Checkbox ExpanderCheckbox {theme}"><properties>{ "isChecked": true, "state": "checked" }</properties><input type="checkbox" class="Control CheckboxInput" /><div class="Control {theme} CheckboxCheck ExpanderCheckboxCheck"></div></jagui-checkbox><jagui-label class="csr_default ExpanderCaption {theme}"></jagui-label></jagui-expanderheader><jagui-expandercontent class="Control ExpanderContent {theme}">
+                            <jagui-button id="_zru0co7" data-class="Button" class="Control Button {theme} csr_default"><properties>{ "name": "Button3", "left": 10, "top": 10, "height": 19, "width": 68, "tabOrder": 0, "caption": "Button" }</properties></jagui-button>
+                        </jagui-expandercontent>
+                    </jagui-expander>
                     <jagui-expander id="_9ub1bjl" data-class="Expander" class="Control Expander {theme}"><properties>{ "name": "Expander2", "tabOrder": 40, "viewCheck": false, "expanded": false, "left": 10, "width": 130, "height": 100, "top": 370 }</properties><jagui-expanderheader class="Control ExpanderHeader {theme}"><jagui-button id="_CFppgtv" data-class="button" class="Control Button ExpanderButton {theme}"></jagui-button><jagui-checkbox id="_n9e4iSb" data-class="Checkbox" class="Control Checkbox ExpanderCheckbox {theme}"><properties>{ "isChecked": false, "state": "unchecked" }</properties><input type="checkbox" class="Control CheckboxInput" /><div class="Control {theme} CheckboxCheck ExpanderCheckboxCheck"></div></jagui-checkbox><jagui-label class="csr_default ExpanderCaption {theme}"></jagui-label></jagui-expanderheader><jagui-expandercontent class="Control ExpanderContent {theme}"></jagui-expandercontent></jagui-expander>
                     <!--<div id="_pc7r8n8" name="Slider1" data-class="Slider" class="Control Slider {theme} orientation-horizontal csr_default" data-values="[20,0]"
                         data-orientation="horizontal" data-mode="normal" data-frequency="1" data-showvalues="true" data-tooltipsposition="top"
@@ -944,8 +953,12 @@
                       <label id="" data-class="Label" class="Label csr_default NavLblCurItems" data-theme="{theme}">1 - 10 of 50 items</label>
                     </div>
                     </div>-->
-                    <jagui-image id="_6rxnesg" data-class="Image" class="Control Image {theme} csr_default"><properties>{ "name": "Image5", "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAoElEQVRYR+3XUQ7AIAgDULn/oVn4MFnMTKDt5j7wAnuriGju7uPgsgZ0AtkEzGy8Ua/pIgxALDWiBIiPq5MoAyIFJQICKBEwQIWgAAoEDWAREgCDkAFQhBSAICSA2SXvY0W2Y8KAezNiGhMEWO+FTwG7P0cRpQTW21CxDSXAU2GxiDRgNzgfB6xnv1oLdAK/AEwEMrJJEmAeVg3oBI4ncAHcpwawrvQXSwAAAABJRU5ErkJggg==",
-                        "toolTip": "Normal selection", "showTooltip": true, "top": 620, "left": 10, "width": 32, "height": 32 }</properties></jagui-image>
+                    <jagui-image id="_6rxnesg" data-class="Image" class="Control Image {theme} csr_default">
+                        <properties>
+                            { "name": "Image5", "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAoElEQVRYR+3XUQ7AIAgDULn/oVn4MFnMTKDt5j7wAnuriGju7uPgsgZ0AtkEzGy8Ua/pIgxALDWiBIiPq5MoAyIFJQICKBEwQIWgAAoEDWAREgCDkAFQhBSAICSA2SXvY0W2Y8KAezNiGhMEWO+FTwG7P0cRpQTW21CxDSXAU2GxiDRgNzgfB6xnv1oLdAK/AEwEMrJJEmAeVg3oBI4ncAHcpwawrvQXSwAAAABJRU5ErkJggg==",
+                            "toolTip": "Normal selection", "showTooltip": true, "top": 620, "left": 10, "width": 32, "height": 32 }
+                        </properties>
+                    </jagui-image>
                     <jagui-image id="_snshb8y" data-class="Image" class="Control Image {theme} csr_help"><properties>{ "name": "Image6", "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA0klEQVRYR+2WQQ7FIAhEy/0PbePPNyFmgKG1tgtcdWHKY4ARaa2148UjBVAKfFIBETl2DQecgg7Qzw4IE6AHZ5UYwMhOoiRcgP7DCEIHH8FmIA8iBPAgUPChAgtBAVgQWwEQxHaAGYIFuN0Dc3dfaUzrwaV7gIXwVEEQKQA071rebPBfSdFboCW2vmE2fwfNuCjlhCzEUgV0FizAlc0uLIF2Nm21aLSWKWDV1wOIGjQ1huZltScgL3hUAeSC0VPL9ER6LV+9rKQBmKwydwqgFCgFTqkRMLC8LQh+AAAAAElFTkSuQmCC", "showTooltip": true, "tooltip": "Selection help", "width": 32, "height": 32, "top": 620, "left": 50 }</properties></jagui-image>
                     <jagui-image id="_86mxx0n" data-class="Image" class="Control Image {theme} csr_progress0"><properties>{ "name": "Image7", "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA7ElEQVRYR+2W2w7CMAxD1///6KIiIk2VYzu7sD10b4iQnjl2Suu99+3Bpy2ApQBSoLW2/cub0IQDYDwuRNSrMKF+KcAodpVQwOx7CjDeyIG4TYGQ1IXIRsZ+LxVwIeghxNQ2gBrHDLD/fIkCSom90ebDWaJKClQgQjEV50MAbByZEtmOOAyAIOa8q/3w7VFdxSjzsbSQ3ArCAnAczWpOpQDJCnf6L+txmAMtR5A1QW+EzIdgZjPat6GSWN2EWRwtD6D8l5YNud5Lf0rZSC5VgDVzzeUApSZ8NYC7429TwG3s1pVM6Dat1C2ApcAHLJJ1sJHjflsAAAAASUVORK5CYII=", "showTooltip": true, "tooltip": "Background working", "width": 32, "height": 32, "top": 620, "left": 90 }</properties></jagui-image>
                     <jagui-image id="_66o8tmz" data-class="Image" class="Control Image {theme} csr_wait0"><properties>{ "name": "Image8", "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAx0lEQVRYR+2WwQ6AMAhD5f8/emZGzEI21w4VD3jxII5HKaiUUsoWeEkCpAKIAiJC2xT1NmRCBUAOZWJrVRQAIwMCCwMcgSIbcigap8VACvwOQKu0dwbUrUAv+esANUHrA9tvdgIoE2p1FuKS8twViFHbaYJN2EvUtmEENhtdGsAqsSK7S4FwgF7FHhWoFthE7RSsQsAASAIkxpqSArAj1tv7n30LQjahKhD6LRglHynyyCLKX7JwBWZ99DyH94Anyd27CRCuwA7Z9C2w817CkAAAAABJRU5ErkJggg==", "showTooltip": true, "tooltip": "Busy", "width": 32, "height": 32, "top": 620, "left": 130 }</properties></jagui-image>
@@ -1029,7 +1042,8 @@
                     <jagui-batteryindicator id="_UtALzfi" data-class="BatteryIndicator" class="Control BatteryIndicator csr_default"><properties>{ "name": "BatteryIndicator1", "top": 660, "left": 10, "height": 76, "width": 40, "showLegend": false, "showPercent": true }</properties><div class="Control BatteryIndicatorBefore"></div><div class="Control NiMH empty"><div class="Control NiMHBefore empty"></div></div><div class="Control PPole"><div class="Control PPoleBefore"></div><div class="Control PPoleAfter"></div></div><div class="Control BatteryIndicatorAfter"></div></jagui-batteryindicator>
                     <jagiu-segmentledlabel id="_uZasQeK" data-class="SegmentLedLabel" class="Control SegmentLedLabel csr_default sixteen"><properties>{ "name": "SegmentLedLabel1", "caption": "Welcome to JaGui", "maxLength": 10, "autoScroll": true, "segmentType": 16, "scrollType": "reverse", "scrollDir": "right2left", "color": "lime", "top": 660, "left": 150, "height": 54 }</properties></jagiu-segmentledlabel>
                 </jagui-windowcontent>
-                <jagui-statusbar id="_ou8mg7s" data-class="StatusBar" class="Control StatusBar {theme}"><properties>{ "name": "StatusBar1", "autohint": true, "panels": [ { "alignment": "left", "bevel": "lowered", "text": "Hello", "width": 50},{ "alignment": "center", "bevel": "lowered", "text": "World", "width": 50 } ] }</properties><jagui-statusbarsimplepanel class="Control StatusBarSimplePanel {theme}" style="display:none;"></jagui-statusbarsimplepanel><jagui-statusbarsizer class="Control StatusBarSizer {theme} csr_nwResize"></jagui-statusbarsizer>
+                <jagui-statusbar id="_ou8mg7s" data-class="StatusBar" class="Control StatusBar {theme}">
+                    <properties>{ "name": "StatusBar1", "autohint": true, "panels": [ { "alignment": "left", "bevel": "lowered", "text": "Hello", "width": 50},{ "alignment": "center", "bevel": "lowered", "text": "World", "width": 50 } ] }</properties><jagui-statusbarsimplepanel class="Control StatusBarSimplePanel {theme}" style="display:none;"></jagui-statusbarsimplepanel><jagui-statusbarsizer class="Control StatusBarSizer {theme} csr_nwResize"></jagui-statusbarsizer>
                 </jagui-statusbar>
             </jagui-windowlayout>
         </jagui-window>

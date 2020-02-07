@@ -114,16 +114,6 @@ let Apps = (() => {
             //}
             this.activeApplication = new appClass;
             document.body.classList.add(this.activeApplication.themeManifest.themeName);
-            //this.activeApplication.initialize();
-            //if (!path) path = Core.folders["{APPS}"];
-            //else if (!path.endsWith("/")) path += "/";
-            //Tools.scripts.length = 0;
-            //Tools.scripts.idx = 0;
-            //if (Core.isHTMLRenderer()) Tools.currentProgress = "progressInner";
-            //Tools.uses(path + appName + "/" + appName);
-            //Tools.loadScript();
-            //require([path + appName + "/" + appName], function () {
-            //});
         }
         /**
          * Kill the active application
@@ -146,9 +136,6 @@ let Apps = (() => {
             let dealEvent = true;
             let i = null;
             const vKeysCodes = Keyboard.VKEYSCODES;
-            //var Types = require("types");
-            //var Core = require("core");
-            //var Keyboard = require("keyboard");
             if (Core.apps.activeApplication) {
                 form = Core.apps.activeApplication.activeWindow;
             }
