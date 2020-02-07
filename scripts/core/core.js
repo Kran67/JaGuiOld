@@ -171,125 +171,121 @@ window.Core = {
      * @function start
      */
     start() {
-        (async () => {
-            if (!Core.ready) {
-                let language = window.navigator.userLanguage || window.navigator.language;
-                if (language.indexOf("-") === -1) {
-                    language = language + "-" + language.toUpperCase();
+        if (!Core.ready) {
+            let language = window.navigator.userLanguage || window.navigator.language;
+            if (language.indexOf("-") === -1) {
+                language = language + "-" + language.toUpperCase();
+            }
+            Core.currentLocale = language;
+            if (Core.isHTMLRenderer) {
+                Core.looper.fps = 25;
+            }
+            Core.looper.start();
+            document.oncontextmenu = () => { return false; };
+            document.addEventListener("keydown", Core.apps.keyDown, true);
+            document.addEventListener("keyup", Core.apps.keyUp, true);
+            document.addEventListener("keypress", Core.apps.keyPress, true);
+            if (Core.isHTMLRenderer) {
+                Core.clipboard = document.createElement("textarea");
+                Core.clipboard.id = "jaguiClipboard";
+                Core.clipboard.value = ".";
+                document.body.appendChild(Core.clipboard);
+                // création de l'emplacement des css en runtime
+                Core.rtStyle = document.createElement("style");
+                Core.rtStyle.setAttribute("id", "rtStyle");
+                Core.rtStyle.setAttribute("type", "text/css");
+                Core.rtStyle.setAttribute("media", "screen");
+                document.getElementsByTagName("head")[0].appendChild(Core.rtStyle);
+                //let styleSheet = Core.rtStyle.sheet;
+                //styleSheet.insertRule(".hidden {display:none !important;}", styleSheet.cssRules.length);
+                //return;
+            }
+            Core.registerPropertiesInCategory();
+            Core.animatedCursor = new Core.classes.AnimatedCursor();
+            document.addEventListener("DOMContentLoaded", () => {
+                const logo = document.createElement("span");
+                logo.className = "logo JAGUI";
+                if (!Core.HTMLParentElement) {
+                    document.body.appendChild(logo);
                 }
-                Core.currentLocale = language;
-                if (Core.isHTMLRenderer) {
-                    Core.looper.fps = 25;
+                else {
+                    Core.HTMLParentElement.appendChild(logo);
                 }
-                const locale = `/scripts/locales/${language}.js`;
-                await import(locale);
-                Core.looper.start();
-                document.oncontextmenu = () => { return false; };
-                document.addEventListener("keydown", Core.apps.keyDown, true);
-                document.addEventListener("keyup", Core.apps.keyUp, true);
-                document.addEventListener("keypress", Core.apps.keyPress, true);
-                if (Core.isHTMLRenderer) {
-                    Core.clipboard = document.createElement("textarea");
-                    Core.clipboard.id = "jaguiClipboard";
-                    Core.clipboard.value = ".";
-                    document.body.appendChild(Core.clipboard);
-                    // création de l'emplacement des css en runtime
-                    Core.rtStyle = document.createElement("style");
-                    Core.rtStyle.setAttribute("id", "rtStyle");
-                    Core.rtStyle.setAttribute("type", "text/css");
-                    Core.rtStyle.setAttribute("media", "screen");
-                    document.getElementsByTagName("head")[0].appendChild(Core.rtStyle);
-                    //let styleSheet = Core.rtStyle.sheet;
-                    //styleSheet.insertRule(".hidden {display:none !important;}", styleSheet.cssRules.length);
-                    //return;
-                }
-                Core.registerPropertiesInCategory();
-                Core.animatedCursor = new Core.classes.AnimatedCursor();
-                document.addEventListener("DOMContentLoaded", () => {
-                    const logo = document.createElement("span");
-                    logo.className = "logo JAGUI";
-                    if (!Core.HTMLParentElement) {
-                        document.body.appendChild(logo);
-                    }
-                    else {
-                        Core.HTMLParentElement.appendChild(logo);
-                    }
-                });
-                window.addEventListener("resize", () => {
-                    const applicationsKeys = Object.keys(Core.apps.applications);
-                    applicationsKeys.forEach(key => {
-                        Core.apps.applications[key].windows.forEach(win => {
-                            if (win.windowState === Core.classes.Window.WINDOWSTATES.MAXIMIZED) {
-                                win.width = window.innerWidth;
-                                win.height = window.innerHeight;
-                                win.resize();
-                            }
-                        });
+            });
+            window.addEventListener("resize", () => {
+                const applicationsKeys = Object.keys(Core.apps.applications);
+                applicationsKeys.forEach(key => {
+                    Core.apps.applications[key].windows.forEach(win => {
+                        if (win.windowState === Core.classes.Window.WINDOWSTATES.MAXIMIZED) {
+                            win.width = window.innerWidth;
+                            win.height = window.innerHeight;
+                            win.resize();
+                        }
                     });
                 });
-                //        function () {
-                //            require(['Core', 'Tools', 'Classes'], function (Core, Tools, Classes) {
-                //                //var logo, waiting, progressOuter, progressInner, text, ie = false;
-                //                //var match = navigator.userAgent.match(/(?:MSIE |Trident\/.*; rv:)(\d+)/);
-                //                //if (match) ie = match.length > 0;
-                //                // on charge le theme par défaut
-                //                if ($j.isHTMLRenderer())
-                //                {
-                //                    Tools.loadTheme($j.defaultTheme);
-                //                    Core.clipboard = document.createElement("textarea");
-                //                    Core.clipboard.id = "jaguiClipboard";
-                //                    Core.clipboard.value = ".";
-                //                    document.body.appendChild(Core.clipboard);
-                //                }// else this.themes[this.defaultTheme]={};
-                //                if (!Tools.HTMLParentElement)
-                //                {
-                //                    //$j.doc.documentElement.ClassName=$j.defaultTheme+"_body "+$j.defaultTheme+"_default";
-                //                    //if (ie) $j.doc.body.setAttribute("data-theme",$j.defaultTheme);
-                //                    //else $j.doc.body.dataset.theme=$j.defaultTheme;
-                //                    document.body.className += " " + Core.defaultTheme;
-                //                }
-                //                document.body.className = Core.defaultTheme;
-                //                //logo = $j.doc.createElement("span");
-                //                //logo.className = "JAGUI";
-                //                //logo.innerHTML="D";
-                //                //if (!$j.tools.HTMLParentElement) $j.doc.body.appendChild(logo);
-                //                //else $j.tools.HTMLParentElement.appendChild(logo);
-                //                //if($j.HTMLParentElement) $j.HTMLParentElement.ClassName=$j.defaultTheme+"_body";
-                //                if (Tools.HTMLParentElement)
-                //                {
-                //                    //if (ie) $j.HTMLParentElement.setAttribute("data-theme",$j.defaultTheme);
-                //                    //else $j.HTMLParentElement.dataset.theme=$j.defaultTheme;
-                //                    Tools.HTMLParentElement.className += " " + Core.defaultTheme
-                //                }
-                //                Tools.loadScript();
-                //                Tools.afterLoadScripts = function () {
-                //                    Tools.xhr.load(true, Tools.uri.base() + Core.folders["{LOCALES}"] + Core.currentLocale + ".json", function (dx, localeName) {
-                //                        Core.locales[$j.types.languages[localeName.replace("-", "_")]] = JSON.parse(dx);
-                //                    }, false, Core.currentLocale);
-                //                    Classes.registerPropertiesInCategory("ACTION", ["action", "caption", "enabled", "helpContext", "toolTip", "visible"]);
-                //                    Classes.registerPropertiesInCategory("HELPHINTS", ["helpContext", "helpFile", "helpKeyWord", "helpType", "toolTip", "showToolTip", "ownerShowToolTip"]);
-                //                    Classes.registerPropertiesInCategory("LAYOUT", ["align", "anchors", "autosize", "constraints", "height", "left", "margins", "padding", "top", "width", "tabOrder"]);
-                //                    Classes.registerPropertiesInCategory("MISCELLANEOUS", []);
-                //                    Classes.registerPropertiesInCategory("INPUT", ["enabled"]);
-                //                    Classes.registerPropertiesInCategory("DRAGDROPDOCKING", []);
-                //                    Classes.registerPropertiesInCategory("LEGACY", []);
-                //                    Classes.registerPropertiesInCategory("LINKAGE", ["action", "popupMenu"]);
-                //                    Classes.registerPropertiesInCategory("LOCALE", []);
-                //                    Classes.registerPropertiesInCategory("LOCALIZABLE", ["caption", "constraints", "font", "height", "toolTip", "icon", "left", "top", "width"]);
-                //                    Classes.registerPropertiesInCategory("VISUAL", ["align", "cursor", "enabled", "caption", "visible", "width", "top", "left", "height"]);
-                //                    Classes.registerPropertiesInCategory("DATABASE", []);
-                //                    if (typeof Core.ready === "function") Core.ready();
-                //                };
-                //            });
-                //        }, false
-                //    );
-                Core.ready = true;
-                window.activeWindow = null;
-                if (Core.onStart) {
-                    Core.onStart();
-                }
+            });
+            //        function () {
+            //            require(['Core', 'Tools', 'Classes'], function (Core, Tools, Classes) {
+            //                //var logo, waiting, progressOuter, progressInner, text, ie = false;
+            //                //var match = navigator.userAgent.match(/(?:MSIE |Trident\/.*; rv:)(\d+)/);
+            //                //if (match) ie = match.length > 0;
+            //                // on charge le theme par défaut
+            //                if ($j.isHTMLRenderer())
+            //                {
+            //                    Tools.loadTheme($j.defaultTheme);
+            //                    Core.clipboard = document.createElement("textarea");
+            //                    Core.clipboard.id = "jaguiClipboard";
+            //                    Core.clipboard.value = ".";
+            //                    document.body.appendChild(Core.clipboard);
+            //                }// else this.themes[this.defaultTheme]={};
+            //                if (!Tools.HTMLParentElement)
+            //                {
+            //                    //$j.doc.documentElement.ClassName=$j.defaultTheme+"_body "+$j.defaultTheme+"_default";
+            //                    //if (ie) $j.doc.body.setAttribute("data-theme",$j.defaultTheme);
+            //                    //else $j.doc.body.dataset.theme=$j.defaultTheme;
+            //                    document.body.className += " " + Core.defaultTheme;
+            //                }
+            //                document.body.className = Core.defaultTheme;
+            //                //logo = $j.doc.createElement("span");
+            //                //logo.className = "JAGUI";
+            //                //logo.innerHTML="D";
+            //                //if (!$j.tools.HTMLParentElement) $j.doc.body.appendChild(logo);
+            //                //else $j.tools.HTMLParentElement.appendChild(logo);
+            //                //if($j.HTMLParentElement) $j.HTMLParentElement.ClassName=$j.defaultTheme+"_body";
+            //                if (Tools.HTMLParentElement)
+            //                {
+            //                    //if (ie) $j.HTMLParentElement.setAttribute("data-theme",$j.defaultTheme);
+            //                    //else $j.HTMLParentElement.dataset.theme=$j.defaultTheme;
+            //                    Tools.HTMLParentElement.className += " " + Core.defaultTheme
+            //                }
+            //                Tools.loadScript();
+            //                Tools.afterLoadScripts = function () {
+            //                    Tools.xhr.load(true, Tools.uri.base() + Core.folders["{LOCALES}"] + Core.currentLocale + ".json", function (dx, localeName) {
+            //                        Core.locales[$j.types.languages[localeName.replace("-", "_")]] = JSON.parse(dx);
+            //                    }, false, Core.currentLocale);
+            //                    Classes.registerPropertiesInCategory("ACTION", ["action", "caption", "enabled", "helpContext", "toolTip", "visible"]);
+            //                    Classes.registerPropertiesInCategory("HELPHINTS", ["helpContext", "helpFile", "helpKeyWord", "helpType", "toolTip", "showToolTip", "ownerShowToolTip"]);
+            //                    Classes.registerPropertiesInCategory("LAYOUT", ["align", "anchors", "autosize", "constraints", "height", "left", "margins", "padding", "top", "width", "tabOrder"]);
+            //                    Classes.registerPropertiesInCategory("MISCELLANEOUS", []);
+            //                    Classes.registerPropertiesInCategory("INPUT", ["enabled"]);
+            //                    Classes.registerPropertiesInCategory("DRAGDROPDOCKING", []);
+            //                    Classes.registerPropertiesInCategory("LEGACY", []);
+            //                    Classes.registerPropertiesInCategory("LINKAGE", ["action", "popupMenu"]);
+            //                    Classes.registerPropertiesInCategory("LOCALE", []);
+            //                    Classes.registerPropertiesInCategory("LOCALIZABLE", ["caption", "constraints", "font", "height", "toolTip", "icon", "left", "top", "width"]);
+            //                    Classes.registerPropertiesInCategory("VISUAL", ["align", "cursor", "enabled", "caption", "visible", "width", "top", "left", "height"]);
+            //                    Classes.registerPropertiesInCategory("DATABASE", []);
+            //                    if (typeof Core.ready === "function") Core.ready();
+            //                };
+            //            });
+            //        }, false
+            //    );
+            Core.ready = true;
+            window.activeWindow = null;
+            if (Core.onStart) {
+                Core.onStart();
             }
-        })();
+        }
     }
 };
 //#endregion

@@ -825,7 +825,7 @@ const Star = (() => {
             super.destroy();
             priv.spikes = null;
         }
-        //#region destroy
+        //#endregion destroy
         //#endregion Methods
     }
     return Star;
@@ -834,6 +834,7 @@ const Star = (() => {
 Object.seal(Star);
 Object.freeze(Star);
 //#endregion Star
+//#region POLYGONSIDES
 const POLYGONSIDES = {
     TRIANGLE: 3,
     LOSANGE: 4,
@@ -890,6 +891,7 @@ const POLYGONSIDES = {
     CHILIOGONE: 1000,
     MYRIAGONE: 10000
 };
+//#endregion POLYGONSIDES
 //#region Polygon
 const Polygon = (() => {
     //#region Private
@@ -985,3 +987,4 @@ if (Core.isHTMLRenderer) {
     { Class: Circle, template: CircleTpl }, { Class: Pie, template: PieTpl }, { Class: Chord, template: ChordTpl }, { Class: Arc, template: ArcTpl }, { Class: Path, template: PathTpl },
     { Class: Star, template: StarTpl }, { Class: Polygon, template: PolygonTpl }]);
 }
+//#endregion Templates

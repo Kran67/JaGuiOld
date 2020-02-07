@@ -97,7 +97,7 @@ let Apps = (() => {
          * @param {String} appName - The application name
          * @param {String} path - The application path
          */
-        createApp(appClass) {
+        async createApp(appClass) {
             //let icon;
             //if (Core.isHTMLRenderer) {
             //    icon = document.getElementById(`${appName}_Icon`);
@@ -112,6 +112,9 @@ let Apps = (() => {
             //        }
             //    }
             //}
+            Core.start();
+            const currentLocale = `/scripts/locales/${Core.currentLocale}.js`;
+            await import(currentLocale);
             this.activeApplication = new appClass;
             document.body.classList.add(this.activeApplication.themeManifest.themeName);
         }

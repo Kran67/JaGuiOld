@@ -120,7 +120,7 @@ if (!Date.prototype.addDays) {
      * @returns     {Date}          the new date
      */
     Date.prototype.addDays = function (d) {
-        if (Tools.isNumber(y)) {
+        if (Tools.isNumber(d)) {
             const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
             a.setDate(this.getDate() + d);
             return a;
@@ -135,7 +135,7 @@ if (!Date.prototype.addMonths) {
      * @returns     {Date}          the new date
      */
     Date.prototype.addMonths = function (m) {
-        if (Tools.isNumber(y)) {
+        if (Tools.isNumber(m)) {
             const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
             if (a.getMonth() + m > 11) {
                 a.setMonth(0);
@@ -267,7 +267,7 @@ Object.defineProperty(Date.prototype, "isLeapYear", {
  * @returns     {Boolean}       true if date is within a LeapYear, otherwise false.
 */
 Date.isLeapYear = function (a) {
-    if (Tools.isNumber(y)) {
+    if (Tools.isNumber(a)) {
         return Math.mod(a, 4) === 0 && Math.mod(a, 100) !== 0 || Math.mod(a, 400) === 0;
     }
 };
@@ -540,7 +540,7 @@ Object.defineProperty(Date.prototype, "week", {
         const dms = tempDate.valueOf();
         tempDate.setMonth(0);
         tempDate.setDate(4);
-        return Math.round((dms - tempDate.valueOf()) / 604800000) + 1;
+        return Math.round((dms - tempDate.valueOf()) / 604800000);
     }
 });
 /**

@@ -49,6 +49,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 .Control.CalendarThisDay:before {
@@ -165,6 +167,8 @@
     line-height: 16px;
     height: 100%;
     font-size: 8pt;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 .Control.CalendarMonths,
@@ -179,6 +183,9 @@
     transform: scale(1.7);
     opacity: 0;
     transition: all linear 0.4s;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr [col-start]);
+    grid-template-rows: repeat(3, 1fr [row-start]);
 }
 
 .Control.zoomOut {
@@ -189,11 +196,11 @@
 
 .Control.CalendarMDC {
     position: relative;
-    float: left;
-    width: 43px;
-    height: 38px;
-    line-height: 38px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 .Control.CalendarMDCx2 {

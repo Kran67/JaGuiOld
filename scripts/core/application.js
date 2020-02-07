@@ -339,15 +339,6 @@ const Application = (() => {
             let data = null;
             let form = null;
             let wins = null;
-            const waiting = document.getElementById("waiting");
-            const loading_logo = document.getElementById("loading_logo");
-            if (loading_logo) {
-                loading_logo.classList.remove("rotateAnimation");
-            }
-            if (waiting) {
-                //$j.CSS.addClass(waiting,"hidden");
-                document.body.removeChild(waiting);
-            }
             switch (Core.renderer) {
                 case Types.RENDERERS.HTML:
                     wins = document.querySelectorAll(`jagui-window.${this.name}`);
@@ -416,11 +407,6 @@ const Application = (() => {
          * Initialize the application
          */
         initialize(/*createIcon*/) {
-            async () => {
-                await import(`/locales/${Core.currentLocale}.js`);
-                //Core.start();
-            }
-            
             if (!this.locale) {
                 this.locale = Core.currentLocale;
             }

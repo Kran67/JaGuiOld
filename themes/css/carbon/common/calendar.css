@@ -69,7 +69,8 @@
 .carbon.CalendarWeeks {
 }
 
-.carbon.CalendarWeek {
+.carbon.CalendarWeek.alternate {
+    background-color: rgba(0,0,0,0.2);
 }
 
 .carbon.CalendarDay {

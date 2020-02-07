@@ -1,5 +1,6 @@
 ﻿.Control.GridLayout {
     display: grid;
+    overflow: visible;
 }
 
     .Control.GridLayout > * {

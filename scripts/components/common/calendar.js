@@ -4,6 +4,7 @@ import { Tools } from "/scripts/core/tools.js";
 import { Events } from "/scripts/core/events.js";
 import { Mouse } from "/scripts/core/mouse.js";
 import { Keyboard } from "/scripts/core/keyboard.js";
+import { Convert } from "/scripts/core/convert.js";
 //#endregion Import
 //#region CALENDARMODES
 const CALENDARMODES = {
@@ -46,18 +47,45 @@ const Calendar = (() => {
                 priv.lastSelectedDay = null;
                 priv.autoTranslate = true;
                 //#endregion
-                priv.curDate = props.hasOwnProperty("date")?new Date(props.date):Date.now();
-                priv.viewWeeksNum = props.hasOwnProperty("viewWeeksNum") && Tools.isBool(props.viewWeeksNum)?props.viewWeeksNum:false;
+                priv.curDate = props.hasOwnProperty("date") ? new Date(props.date) : new Date(Date.now());
+                priv.viewWeeksNum = props.hasOwnProperty("viewWeeksNum") && Tools.isBool(props.viewWeeksNum) ? props.viewWeeksNum : false;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "mode",
                     enum: CALENDARMODES,
+                    setter: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        if (Tools.valueInSet(newValue, CALENDARMODES) || newValue === null) {
+                            if (priv.mode !== newValue) {
+                                priv.mode = newValue;
+                                priv.decades.classList.remove("zoomOut");
+                                priv.century.classList.remove("zoomOut");
+                                priv.months.classList.remove("zoomOut");
+                                switch (priv.mode) {
+                                    case CALENDARMODES.DECADES:
+                                        priv.decades.classList.add("zoomOut");
+                                        break;
+                                    case CALENDARMODES.CENTURIES:
+                                        priv.century.classList.add("zoomOut");
+                                        break;
+                                    case CALENDARMODES.MONTHS:
+                                        priv.months.classList.add("zoomOut");
+                                        break;
+                                }
+                            }
+                            this.update();
+                        }
+                    },
                     variable: priv,
-                    value: props.hasOwnProperty("mode") ? props.mode : CALENDARMODES.DAYS
+                    value: props.hasOwnProperty("mode") ? props.mode : CALENDARMODES.DAYS,
+                    forceUpdate: true
                 });
                 this.hitTest = [true, false, true];
                 this.canFocused = true;
                 this.onChange = new Core.classes.NotifyEvent(this);
+                this.stopEvent = false;
             }
         }
         //#endregion constructor
@@ -81,43 +109,17 @@ const Calendar = (() => {
             if (Tools.isBool(newValue)) {
                 if (priv.viewWeeksNum !== newValue) {
                     priv.viewWeeksNum = newValue;
-                    htmlElement.classList.remove("viewweeknum");
-                    if (priv.viewWeeksNum) {
-                        htmlElement.classList.add("viewweeknum");
-                    }
+                    this.update();
                 }
             }
         }
-        get mode() {
-            return internal(this).mode;
-        }
-        set mode(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, CALENDARMODES) || newValue === null) {
-                if (priv.mode !== newValue) {
-                    priv.mode = newValue;
-                    priv.decades.classList.remove("zoomOut");
-                    priv.century.classList.remove("zoomOut");
-                    priv.months.classList.remove("zoomOut");
-                    switch (priv.mode) {
-                        case CALENDARMODES.DECADES:
-                            priv.decades.add("zoomOut");
-                            break;
-                        case CALENDARMODES.CENTURIES:
-                            priv.century.add("zoomOut");
-                            break;
-                        case CALENDARMODES.MONTHS:
-                            priv.months.add("zoomOut");
-                            break;
-                    }
-                }
-                this.update();
-            }
-        }
+        //get mode() {
+        //    return internal(this).mode;
+        //}
+        //set mode(newValue) {
+        //}
         get date() {
-            return internal(this).date;
+            return internal(this).curDate;
         }
         set date(date) {
             //#region Variables déclaration
@@ -176,16 +178,16 @@ const Calendar = (() => {
             if (obj.isEnabled) {
                 switch (obj.mode) {
                     case CALENDARMODES.MONTHS:
-                        obj.curDate = obj.curDate.addYears(-1);
+                        obj.date = obj.date.addYears(-1);
                         break;
                     case CALENDARMODES.DECADES:
-                        obj.curDate = obj.curDate.addYears(-10);
+                        obj.date = obj.date.addYears(-10);
                         break;
                     case CALENDARMODES.CENTURIES:
-                        obj.curDate = obj.curDate.addYears(-100);
+                        obj.date = obj.date.addYears(-100);
                         break;
                     default:
-                        obj.curDate = obj.curDate.addMonths(-1);
+                        obj.date = obj.date.addMonths(-1);
                         break;
                 }
                 obj.update();
@@ -199,7 +201,7 @@ const Calendar = (() => {
                 obj = this;
             }
             if (obj.isEnabled) {
-                obj.curDate = Date.now();
+                obj.date = new Date(Date.now());
                 obj.mode = CALENDARMODES.DAYS;
             }
         }
@@ -210,16 +212,16 @@ const Calendar = (() => {
             if (obj.isEnabled) {
                 switch (obj.mode) {
                     case CALENDARMODES.MONTHS:
-                        obj.curDate = obj.curDate.addYears(1);
+                        obj.date = obj.date.addYears(1);
                         break;
                     case CALENDARMODES.DECADES:
-                        obj.curDate = obj.curDate.addYears(10);
+                        obj.date = obj.date.addYears(10);
                         break;
                     case CALENDARMODES.CENTURIES:
-                        obj.curDate = obj.curDate.addYears(100);
+                        obj.date = obj.date.addYears(100);
                         break;
                     default:
-                        obj.curDate = obj.curDate.addMonths(1);
+                        obj.date = obj.date.addMonths(1);
                         break;
                 }
                 obj.update();
@@ -237,7 +239,7 @@ const Calendar = (() => {
             //#endregion Variables déclaration
             if (this.isEnabled) {
                 if (data) {
-                    priv.curDate.date = data;
+                    priv.curDate.setDate(~~data);
                     if (htmlObj) {
                         priv.lastSelectedDay = htmlObj;
                     }
@@ -252,13 +254,16 @@ const Calendar = (() => {
             obj._selectMonth(this.dataset.month);
         }
         _selectMonth(data) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (this.isEnabled) {
                 if (data) {
-                    priv.curDate.month = data;
+                    priv.curDate.setMonth(~~data);
                 }
-                Events.bind(priv.months, `${Core.browser.vendorPrefix.split("-").join(String.EMPTY)}AnimationEnd`, this.animationEnd);
+                Events.bind(priv.months, "AnimationEnd", this.animationEnd);
                 priv.months.dataset.view = false;
-                priv.mode = CALENDARMODES.DAYS;
+                this.mode = CALENDARMODES.DAYS;
             }
         }
         selectYear() {
@@ -268,13 +273,16 @@ const Calendar = (() => {
             obj._selectYear(this.dataset.year);
         }
         _selectYear(data) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (this.isEnabled) {
                 if (data) {
                     priv.curDate.setFullYear(data);
                 }
-                Events.bind(priv.decades, `${Core.browser.vendorPrefix.split("-").join(String.EMPTY)}AnimationEnd`, this.animationEnd);
+                Events.bind(priv.decades, "AnimationEnd", this.animationEnd);
                 priv.decades.dataset.view = false;
-                priv.mode = CALENDARMODES.MONTHS;
+                this.mode = CALENDARMODES.MONTHS;
             }
         }
         selectDecades() {
@@ -284,13 +292,16 @@ const Calendar = (() => {
             obj._selectDecades(this.dataset.decade);
         }
         _selectDecades(data) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (this.isEnabled) {
                 if (data) {
                     priv.curDate.setFullYear(data);
                 }
-                Events.bind(priv.century, `${Core.browser.vendorPrefix.split("-").join(String.EMPTY)}AnimationEnd`, this.animationEnd);
+                Events.bind(priv.century, "AnimationEnd", this.animationEnd);
                 priv.century.dataset.view = false;
-                priv.mode = CALENDARMODES.DECADES;
+                this.mode = CALENDARMODES.DECADES;
             }
         }
         animationEnd() {
@@ -299,7 +310,7 @@ const Calendar = (() => {
             //#endregion Variables déclaration
             if (data === "false") {
                 this.classList.remove("zoomOut");
-                Events.unBind(this, `${Core.browser.vendorPrefix.split("-").join(String.EMPTY)}AnimationEnd`, this.jsObj.animationEnd);
+                Events.unBind(this, "AnimationEnd", this.jsObj.animationEnd);
             }
         }
         viewMYDC() {
@@ -307,7 +318,7 @@ const Calendar = (() => {
             const obj = this.jsObj;
             //#endregion Variables déclaration
             if (obj.isEnabled) {
-                obj.mode = Core.tools.getNextValueFromEnum(CALENDARMODES, obj.mode);
+                obj.mode = Tools.getNextValueFromEnum(CALENDARMODES, obj.mode);
             }
         }
         update() {
@@ -318,9 +329,11 @@ const Calendar = (() => {
             let w = 0;
             let div;
             let l;
+            const date = new Date(Date.now());
             //#endregion Variables déclaration
             if (htmlElement) {
                 super.update();
+                htmlElement.classList[priv.viewWeeksNum ? "add" : "remove"]("viewweeknum");
                 priv.months.classList.add("hidden");
                 priv.decades.classList.add("hidden");
                 priv.century.classList.add("hidden");
@@ -333,17 +346,17 @@ const Calendar = (() => {
                         priv.thisMonth.innerHTML = priv.curDate.getFullYear();
                         for (let i = 0; i < 12; i++) {
                             div[d].classList.remove("CalendarThis", "CalendarSelected");
-                            if (i === Date.now().getMonth()) {
+                            if (i === date.month) {
                                 div[d].classList.add("CalendarThis");
                             }
-                            if (i === priv.curDate.getMonth()) {
+                            if (i === priv.curDate.month) {
                                 div[d].classList.add("CalendarSelected");
                             }
                             div[d].dataset.month = i;
                             div[d].jsObj = this;
                             div[d].dataset.theme = this.themeName;
-                            Events.unBind(div[d], Mouse.mouseEvents.CLICK, this.selectMonth);
-                            Events.bind(div[d], Mouse.mouseEvents.CLICK, this.selectMonth);
+                            Events.unBind(div[d], Mouse.MOUSEEVENTS.CLICK, this.selectMonth);
+                            Events.bind(div[d], Mouse.MOUSEEVENTS.CLICK, this.selectMonth);
                             d++;
                         }
                         break;
@@ -357,7 +370,7 @@ const Calendar = (() => {
                             if (i === priv.curDate.getFullYear()) {
                                 div[d].classList.add("CalendarSelected");
                             }
-                            if (i === Date.now().getFullYear()) {
+                            if (i === date.getFullYear()) {
                                 div[d].classList.add("CalendarThis");
                             }
                             if (i === l - 1 || i === l + 10) {
@@ -366,8 +379,8 @@ const Calendar = (() => {
                             div[d].innerHTML = i;
                             div[d].dataset.year = i;
                             div[d].jsObj = this;
-                            Events.unBind(div[d], Mouse.mouseEvents.CLICK, this.selectYear);
-                            Events.bind(div[d], Mouse.mouseEvents.CLICK, this.selectYear);
+                            Events.unBind(div[d], Mouse.MOUSEEVENTS.CLICK, this.selectYear);
+                            Events.bind(div[d], Mouse.MOUSEEVENTS.CLICK, this.selectYear);
                             d++;
                         }
                         priv.thisMonth.innerHTML = l + "-" + (l + 9);
@@ -390,14 +403,14 @@ const Calendar = (() => {
                                     div[d].classList.add("CalendarOutMonth");
                                 }
                                 div[d].dataset.theme = this.themeName;
-                                if (Date.now().getFullYear() >= startCentury && Date.now().getFullYear() <= startCentury + 9) {
+                                if (date.getFullYear() >= startCentury && date.getFullYear() <= startCentury + 9) {
                                     div[d].classList.add("CalendarThis");
                                 }
                                 if (priv.curDate.getFullYear() >= startCentury && priv.curDate.getFullYear() <= startCentury + 9) {
                                     div[d].classList.add("CalendarSelected");
                                 }
                                 div[d].innerHTML = `${startCentury}<br />${(startCentury + 9)}`;
-                                div[d].dataset.decade = `${startCentury}${~~(priv.curDate.getFullYear().toString().substr(3, 1))}`;
+                                div[d].dataset.decade = `${startCentury + ~~(priv.curDate.getFullYear().toString().substr(3, 1))}`;
                                 div[d].jsObj = this;
                                 Events.unBind(div[d], Mouse.MOUSEEVENTS.CLICK, this.selectDecades);
                                 Events.bind(div[d], Mouse.MOUSEEVENTS.CLICK, this.selectDecades);
@@ -408,26 +421,38 @@ const Calendar = (() => {
                         break;
                     default:
                         {
-                            debugger;
                             priv.weekDays.querySelector(".CalendarWeekNum").innerHTML = Tools.getLocale().date.weekShortName;
-                            let firstDay = priv.curDate.getFirstDayOfMonth();
-                            const firstDayOfWeek = firstDay.day();
+                            let firstDay = priv.curDate.firstDayOfMonth;
+                            const firstDayOfWeek = firstDay.day;
                             const sdn = Tools.getLocale().date.shortestDayNames;
+                            w = 0;
+                            firstDay = firstDay.firstDayOfWeek;
+                            if (priv.viewWeeksNum) {
+                                div = Convert.nodeListToArray(htmlElement.querySelectorAll(".CalendarWeekNum"));
+                                div.forEach((elem, idx) => {
+                                    if (idx > 0) {
+                                        firstDay = firstDay.addDays(7);
+                                        elem.innerHTML = firstDay.week;
+                                    }
+                                });
+                            }
+                            // days of week
                             d = firstDayOfWeek;
                             w = 0;
-                            // days of week
-                            div = this._HTMLElement.querySelectorAll(".CalendarWeekDay");
+                            div = htmlElement.querySelectorAll(".CalendarWeekDay");
                             while (w < 7) {
-                                div[w].innerHTML = sdn[d].firstCharUpper();
+                                div[w].innerHTML = sdn[d].firstCharUpper;
                                 d++;
-                                if (d === 7) d = 0;
+                                if (d === 7) {
+                                    d = 0;
+                                }
                                 w++;
                             }
                             // month
-                            priv.thisMonth.innerHTML = `${Tools.getLocale().date.monthNames[priv.curDate.getMonth()].firstCharUpper()} ${priv.curDate.year()}`;
+                            priv.thisMonth.innerHTML = `${Tools.getLocale().date.monthNames[priv.curDate.month - 1].firstCharUpper} ${priv.curDate.year}`;
                             // days
+                            firstDay = priv.curDate.firstDayOfMonth.firstDayOfWeek;
                             div = htmlElement.querySelectorAll(".CalendarDay");
-                            firstDay = firstDay.getFirstDayOfWeek();
                             let i = 0;
                             w = d = 0;
                             for (w = 0; w < priv.weeks.length; w++) {
@@ -436,18 +461,21 @@ const Calendar = (() => {
                                     if (firstDay.getMonth() !== priv.curDate.getMonth()) {
                                         div[i].classList.add("CalendarOutMonth");
                                     }
-                                    if (firstDay.getDate() === Date.now().getDate() && firstDay.getMonth() === Date.now().getMonth()) {
+                                    if (firstDay.getDate() === date.getDate() &&
+                                        firstDay.month === date.month &&
+                                        firstDay.year === date.year) {
                                         div[i].classList.add("CalendarNow");
                                     }
-                                    if (firstDay.getDate() === priv.curDate.getDate() && firstDay.getMonth() === priv.curDate.getMonth()) {
-                                        $j.CSS.addClass(div[i], "CalendarSelected");
+                                    if (firstDay.getDate() === priv.curDate.getDate() && 
+                                        firstDay.month === priv.curDate.month) {
+                                        div[i].classList.add("CalendarSelected");
                                         priv.lastSelectedDay = div[i];
                                     }
                                     div[i].innerHTML = firstDay.getDate();
                                     div[i].dataset.day = firstDay.getDate();
                                     div[i].jsObj = this;
-                                    Events.unBind(div[i], $j.types.mouseEvents.CLICK, this.selectDay);
-                                    Events.bind(div[i], $j.types.mouseEvents.CLICK, this.selectDay);
+                                    Events.unBind(div[i], Mouse.MOUSEEVENTS.CLICK, this.selectDay);
+                                    Events.bind(div[i], Mouse.MOUSEEVENTS.CLICK, this.selectDay);
                                     firstDay = firstDay.addDays(1);
                                     i++;
                                 }

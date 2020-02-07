@@ -32,6 +32,7 @@ const Toggle = (() => {
                 priv.checkedLabel = props.hasOwnProperty("checkedLabel") ? props.checkedLabel : "YES";
                 this.allowGrayed = false;
                 this.autoWidth = false;
+                this.caption = String.EMPTY;
             }
         }
         //#endregion constructor

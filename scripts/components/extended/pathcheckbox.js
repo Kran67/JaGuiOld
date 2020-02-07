@@ -27,8 +27,8 @@ const PathCheckbox = (() => {
                     this.height = 17;
                     this.width = 100;
                 }
-                priv.checkSvg = props.hasOwnProperty("checkSvg")?atob(props.checkSvg):"m49.568024,19.824736l-31.863983,29.73797l-17.705017,-16.521305l0,-19.824999l17.705017,16.469412l31.863983,-29.686078l0,19.825z";
-                priv.svgViewBox = props.hasOwnProperty("svgViewBox")?props.svgViewBox:"0 0 50 50";
+                priv.checkSvg = props.hasOwnProperty("checkSvg") ? atob(props.checkSvg) : "m49.568024,19.824736l-31.863983,29.73797l-17.705017,-16.521305l0,-19.824999l17.705017,16.469412l31.863983,-29.686078l0,19.825z";
+                priv.svgViewBox = props.hasOwnProperty("svgViewBox") ? props.svgViewBox : "0 0 50 50";
                 this.canFocused = false;
                 delete this.tabOrder;
             }
@@ -43,7 +43,7 @@ const PathCheckbox = (() => {
             if (Tools.isString(newValue)) {
                 if (priv.svgViewBox !== newValue) {
                     priv.svgViewBox = newValue;
-                    this.update();
+                    this.updateCSSProperties();
                 }
             }
         }
@@ -76,13 +76,13 @@ const PathCheckbox = (() => {
         //#endregion allowGrayed
         //#endregion Getters / Setters
         //#region Methods
-        //#region update
-        update() {
+        //#region updateCSSProperties
+        updateCSSProperties() {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
-                super.update();
+                super.updateCSSProperties();
                 this.check.innerHTML = `<svg width='100%' height='100%' viewBox='${priv.svgViewBox}' xmlns='http://www.w3.org/2000/svg'><path d='${priv.checkSvg}' /></svg>`;
                 this.check.style.opacity = 0.2;
                 if (this.isChecked) {
@@ -90,7 +90,7 @@ const PathCheckbox = (() => {
                 }
             }
         }
-        //#endregion update
+        //#endregion updateCSSProperties
         //#region destroy
         destroy() {
             //#region Variables déclaration

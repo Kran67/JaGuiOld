@@ -89,11 +89,11 @@ const RadioButton = (() => {
                     super.isChecked = newValue;
                     if (!Core.isHTMLRenderer) {
                         if (this.allowUpdate) {
-                            this.update();
+                            this.updateCSSProperties();
                         }
                         this.redraw();
                     } else {
-                        this.update();
+                        this.updateCSSProperties();
                     }
                     // event
                     if (!this.updating) {
