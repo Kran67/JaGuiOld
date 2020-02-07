@@ -70,9 +70,9 @@ const SegmentLedLabel = (() => {
                 priv.autoScroll = props.hasOwnProperty("autoScroll") && Tools.isBool(props.autoScroll)?props.autoScroll:false;
                 priv.scrollSpeed = props.hasOwnProperty("scrollSpeed") && Tools.isNumber(props.scrollSpeed)?props.scrollSpeed:1;
                 priv.color = props.hasOwnProperty("color")?Color.parse(props.color):Colors.LIME;
-                priv.segmentSize = props.hasOwnProperty("segmentSize") && Tools.isValueInSet(props.segmentSize, SEGMENTSIZES)?
+                priv.segmentSize = props.hasOwnProperty("segmentSize") && Tools.valueInSet(props.segmentSize, SEGMENTSIZES)?
                     props.segmentSize:SEGMENTSIZES.NORMAL;
-                priv.segmentType = props.hasOwnProperty("segmentType") && Tools.isValueInSet(props.segmentType, SEGMENTTYPES)?
+                priv.segmentType = props.hasOwnProperty("segmentType") && Tools.valueInSet(props.segmentType, SEGMENTTYPES)?
                     props.segmentType:SEGMENTTYPES.SEVEN;
                 priv.caption = props.hasOwnProperty("caption") && Tools.isString(props.caption)?props.caption:this.name;
                 //#region segmentChars
@@ -739,9 +739,9 @@ const SegmentLedLabel = (() => {
                 priv.conts = [];
                 priv.lastTime = new Date().getTime();
                 priv.startIndex = 0;
-                priv.scrollType = props.hasOwnProperty("scrollType") && Tools.isValueInSet(props.scrollType, SEGMENTSCROLLTYPES)?
+                priv.scrollType = props.hasOwnProperty("scrollType") && Tools.valueInSet(props.scrollType, SEGMENTSCROLLTYPES)?
                     props.scrollType:SEGMENTSCROLLTYPES.CYCLE;
-                priv.scrollDir = props.hasOwnProperty("scrollDir") && Tools.isValueInSet(props.scrollDir, SEGMENTSCROLLDIRECTIONS)?
+                priv.scrollDir = props.hasOwnProperty("scrollDir") && Tools.valueInSet(props.scrollDir, SEGMENTSCROLLDIRECTIONS)?
                     props.scrollDir:SEGMENTSCROLLDIRECTIONS.LEFT2RIGHT;
                 priv.text = priv.caption;
                 priv.autoAdjustTextLengthWithSpace = props.hasOwnProperty("autoAdjustTextLengthWithSpace") && 
