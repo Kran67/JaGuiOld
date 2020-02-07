@@ -740,9 +740,8 @@ const SegmentLedLabel = (() => {
                 priv.scrollType = props.hasOwnProperty("scrollType")?props.scrollType:SEGMENTSCROLLTYPES.CYCLE;
                 priv.scrollDir = props.hasOwnProperty("scrollDir")?props.scrollDir:SEGMENTSCROLLDIRECTIONS.LEFT2RIGHT;
                 priv.text = priv.caption;
-                if (priv.text.length < priv.maxLength && priv.scrollType !== SEGMENTSCROLLTYPES.RESTART) {
-                    priv.text = priv.text.padRight(priv.maxLength, String.SPACE);
-                }
+                priv.autoAdjustTextLengthWithSpace = true;
+                this.normalizeCaption();
             }
         }
         //#endregion constructor
@@ -823,9 +822,7 @@ const SegmentLedLabel = (() => {
                 if (priv.caption !== newValue) {
                     priv.caption = newValue;
                     priv.text = priv.caption;
-                    if (priv.text.length < priv.maxLength && priv.scrollType !== SEGMENTSCROLLTYPES.RESTART) {
-                        priv.text = priv.text.padRight(priv.maxLength, String.SPACE);
-                    }
+                    this.normalizeCaption();
                     this.update();
                 }
             }
@@ -956,6 +953,21 @@ const SegmentLedLabel = (() => {
         //#endregion scrollDirection
         //#endregion Getters / Setters
         //#region Methods
+        normalizeCaption() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (priv.autoAdjustTextLengthWithSpace) {
+                if (priv.text.length < priv.maxLength) {
+                    priv.text = priv.text.padEnd(priv.maxLength, String.SPACE);
+                } else {
+                    const ratio = Math.round(priv.text.length / priv.maxLength);
+                    priv.text = priv.text.padEnd(ratio * priv.maxLength + (priv.text.length - priv.maxLength), String.SPACE);
+                }
+            } else if (priv.text.length < priv.maxLength && priv.scrollType !== SEGMENTSCROLLTYPES.RESTART && priv.autoScroll) {
+                priv.text = priv.text.padEnd(priv.maxLength, String.SPACE);
+            }
+        }
         createSegments() {
             //#region Variables déclaration
             const priv = internal(this);
