@@ -40,20 +40,20 @@ const CustomButton = (() => {
                 const priv = internal(this);
                 priv.pressing = false;
                 priv.repeatTimer = null;
-                priv.staysPressed = props.hasOwnProperty("staysPressed")?props.staysPressed:false;
-                priv.repeatClick = props.hasOwnProperty("repeatClick")?props.repeatClick:false;
+                priv.staysPressed = props.hasOwnProperty("staysPressed") ? props.staysPressed : false;
+                priv.repeatClick = props.hasOwnProperty("repeatClick") ? props.repeatClick : false;
                 priv.action = null;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "modalResult",
                     enum: modalResult,
                     variable: priv,
-                    value: props.hasOwnProperty("modalResult")?props.modalResult:modalResult.NONE
+                    value: props.hasOwnProperty("modalResult") ? props.modalResult : modalResult.NONE
                 });
                 this.hitTest.all = true;
                 this.autoCapture = true;
-                this.horizAlign = props.hasOwnProperty("horizAlign")?props.horizAlign:Types.TEXTALIGNS.CENTER;
-                this.vertAlign = props.hasOwnProperty("vertAlign")?props.vertAlign:Types.VERTTEXTALIGNS.MIDDLE;
+                this.horizAlign = props.hasOwnProperty("horizAlign") ? props.horizAlign : Types.TEXTALIGNS.CENTER;
+                this.vertAlign = props.hasOwnProperty("vertAlign") ? props.vertAlign : Types.VERTTEXTALIGNS.MIDDLE;
                 this.autoSize = false;
                 priv.borderRadius = props.hasOwnProperty("borderRadius") && Tools.isNumber(props.borderRadius) || Tools.isObject(props.borderRadius) ? props.borderRadius : null;
             }
@@ -132,22 +132,24 @@ const CustomButton = (() => {
         //#endregion borderRadius
         //#endregion Getters / Setters
         //#region Methods
-        //#region updateCssProperties
-        updateCssProperties() {
+        //#region update
+        update() {
             //#region Variables déclaration
             const priv = internal(this);
             const PX = Types.CSSUNITS.PX;
-            //#endregion Variables déclaration
-            super.updateCssProperties();
             const htmlElement = this.HTMLElement;
             const htmlElementStyle = this.HTMLElementStyle;
-            htmlElementStyle.borderRadius = priv.borderRadius ? `${priv.borderRadius}${PX}` : null;
-            htmlElement.classList.remove("stayspressed");
-            if (priv.staysPressed) {
-                htmlElement.classList.add("stayspressed");
+            //#endregion Variables déclaration
+            super.update();
+            if (htmlElement) {
+                htmlElementStyle.borderRadius = priv.borderRadius ? `${priv.borderRadius}${PX}` : null;
+                htmlElement.classList.remove("stayspressed");
+                if (priv.staysPressed) {
+                    htmlElement.classList.add("stayspressed");
+                }
             }
         }
-        //#endregion updateCssProperties
+        //#endregion update
         //#region click
         click() {
             //#region Variables déclaration
@@ -334,7 +336,7 @@ const Button = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 this.addBindableProperties(["isDefault"]);
-                this.canFocused = true;
+                this.canFocused = props.hasOwnProperty("canFocused") && Tools.isBool(props.canFocused)?props.canFocused:true;
                 this.autoCapture = true;
                 priv.isDefault = props.hasOwnProperty("isDefault") && Tools.isBool(props.isDefault) ? props.isDefault : false;
             }

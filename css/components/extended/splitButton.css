@@ -1,24 +1,27 @@
-﻿div.SplitButton {
+﻿.Control.SplitButton {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
 }
 
-div.SplitButton button.BitmapButton {
-    flex: 1;
-    height: 100% !important;
-}
+    .Control.SplitButton > * {
+        position: relative;
+    }
 
-div.SplitButton button.BitmapButton,
-div.SplitButton button.PopupButton {
-    position: relative;
-}
+    .Control.SplitButton .BitmapButton {
+        flex: 1;
+    }
 
-div.SplitButton button.PopupButton {
-    width: 14px !important;
-    border-left: none;
-}
+    .Control.SplitButton .BitmapButton,
+    .Control.SplitButton .PopupButton {
+        position: relative;
+    }
 
-div.SplitButton div.PopupButtonArrow {
-    right: 3px;
-}
+    .Control.SplitButton .PopupButton {
+        width: 14px;
+        border-left: none;
+    }
+
+    .Control.SplitButton .PopupButtonArrow {
+        right: 3px;
+    }

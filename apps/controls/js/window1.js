@@ -71,7 +71,7 @@ import "/scripts/components/common/calendar.js";
 //import { dropDownTimePanel } from "/scripts/components/common/dropDownTimePanel.js";
 import "/scripts/components/extended/bitmapstatebutton.js";
 import "/scripts/components/common/busyindicator.js";
-//import { splitButton } from "/scripts/components/extended/splitButton.js";
+import "/scripts/components/extended/splitbutton.js";
 //import { commonDialog } from "/scripts/components/dialogs/commonDialog.js";
 //import { openDialog } from "/scripts/components/dialogs/openDialog.js";
 //import { findReplaceDialog } from "/scripts/components/dialogs/findReplaceDialog.js";

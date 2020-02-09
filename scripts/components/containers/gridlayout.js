@@ -137,7 +137,7 @@ const GridLayout = (() => {
             const PX = Types.CSSUNITS.PX;
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
-            super.update();
+            //super.update();
             htmlElementStyle.gridTemplateColumns = !String.isNullOrEmpty(priv.templateColumns)?priv.templateColumns:`repeat(${priv.columns}, 1fr [col-start])`;
             htmlElementStyle.gridTemplateRows = !String.isNullOrEmpty(priv.templateRows)?priv.templateRows:`repeat(${priv.rows}, 1fr [row-start])`;
             htmlElementStyle.columnGap = `${priv.columnGap}${PX}`;
@@ -158,6 +158,12 @@ const GridLayout = (() => {
             priv.vGap = null;
         }
         //#endregion destroy
+        //#region loaded
+        loaded() {
+            super.loaded();
+            this.update();
+        }
+        //#endregion loaded
         //#endregion Methods
     }
     return GridLayout;

@@ -132,7 +132,7 @@ const Expander = (() => {
             const bHTMLElement = priv.button.HTMLElement;
             const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
-            super.update();
+//            super.update();
             bHTMLElement.classList.remove("expanded");
             if (priv.expanded) {
                 htmlElementStyle.height = `${priv.lastHeight}${PX}`;
@@ -194,6 +194,12 @@ const Expander = (() => {
             }
         }
         //#endregion getTabOrderList
+        //#region loaded
+        loaded() {
+            super.loaded();
+            this.update();
+        }
+        //#endregion loaded
         //#endregion Methods
     }
     return Expander;

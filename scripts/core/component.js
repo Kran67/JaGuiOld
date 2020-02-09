@@ -607,11 +607,11 @@ const Component = (() => {
                     }
                 }
             }
-            this.update();
+            this.positioning();
         }
         //#endregion loaded
-        //#region update
-        update() {
+        //#region positioning
+        positioning() {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
@@ -624,7 +624,7 @@ const Component = (() => {
                 }
             }
         }
-        //#endregion update
+        //#endregion positioning
         //#region insert
         insert(component) {
             //#region Variables déclaration

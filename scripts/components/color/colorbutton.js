@@ -88,7 +88,7 @@ const ColorButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.update();
+            //super.update();
             if (this.textObj) {
                 this.textObj.innerHTML = String.EMPTY;
             }

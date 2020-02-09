@@ -175,7 +175,7 @@ const ColorQuad = (() => {
             const COLORPICKSIZE = Types.CONSTANTS.COLORPICKSIZE;
             const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
-            super.update();
+            //super.update();
             if (!point) {
                 point = new Point;
                 let value;

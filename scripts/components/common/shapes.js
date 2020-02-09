@@ -168,7 +168,6 @@ class Rectangle extends GraphicControl {
             }
             if (strokeDash && strokeDash !== String.EMPTY) {
             }
-            super.update();
         }
     }
     //#endregion update
@@ -354,7 +353,6 @@ const Ellipse = (() => {
             const strokeWidth = this.strokeWidth;
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
-            super.update();
             if (!this.loading && !this.form.loading) {
                 htmlElementStyle.borderRadius = "50%";
                 if (fillColor) {

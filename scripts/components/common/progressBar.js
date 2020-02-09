@@ -207,7 +207,7 @@ const ProgressBar = (() => {
             const PX = Types.CSSUNITS.PX;
             const progressStyle = this.HTMLElement.firstElementChild.style;
             //#endregion Variables déclaration
-            super.update();
+            //super.update();
             if (priv.progress) {
                 const wh = this.calculProgress();
                 //style = this._progress.style;

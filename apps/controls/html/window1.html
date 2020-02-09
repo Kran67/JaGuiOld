@@ -106,18 +106,7 @@
                     <jagui-button id="_oNun99A0" draggable="true" data-class="Button" class="Control Button {theme} csr_default"><properties>{ "dragMode": "automatic", "onClick": "Button1_onClick", "toolTip": "Create 1 million of Listbox items in ListBox2", "showToolTip": true, "tabOrder": 0, "left": 10, "top": 10, "height": 19, "width": 68, "name": "Button1", "caption": "{theme}" }</properties></jagui-button>
                     <jagui-button id="_oPsKhiT0" data-class="Button" class="Control Button {theme} csr_default"><properties>{ "name":"RoundButton1", "onClick": "RoundButton1_onClick", "tabOrder": 1, "left": 100, "top": 10, "height": 19, "width": 68, "borderRadius": 19, "caption": "Open file" }</properties></jagui-button>
                     <jagui-circlebutton id="_oPsSjC20" data-class="CircleButton" class="Control Button CircleButton {theme} csr_default disabled"><properties>{ "name": "CircleButton1", "enabled": false, "wordWrap": true, "tabOrder": 2, "left": 200, "top": 10, "height": 48, "width": 48, "caption": "Circle Button" }</properties></jagui-circlebutton>
-                    <!--<div id="_qgeryk3" name="SplitButton1" data-class="SplitButton" class="Control SplitButton {theme} csr_default" style="left:10px;top:40px;height:21px;width:80px;">
-                        <properties>{ "popupmenu": "PopupMenu1", "taborder": 3 }</properties>
-                        <button id="_uz5k8xb" name="SplitButton_Btn" data-class="BitmapButton" class="Control ButtonGlyph BitmapButton {theme} csr_default">
-                            <span class="Control ButtonCaption BitmapButtonCaption">SplitButton1</span>
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="
-                                width="0" height="0" alt="" draggable="false" />
-                        </button>
-                        <button id="_9lky5x5" name="SplitButton_PopBtn" data-class="PopupButton" class="Control PopupButton {theme} csr_default">
-                            <span class="Control ButtonCaption"></span>
-                            <div class="Control PopupButtonArrow">8</div>
-                        </button>
-                    </div>-->
+                    <jagui-splitbutton id="_qgeryk3" data-class="SplitButton" class="Control SplitButton {theme} csr_default"><properties>{ "name": "SplitButton1", "left": 10, "top": 40, "height": 21, "width": 80, "popupMenu": "PopupMenu1", "tabOrder": 3 }</properties></jagui-splitbutton>
                     <jagui-bitmapbutton id="_ins5crl" data-class="BitmapButton" class="Control Button ButtonGlyph BitmapButton {theme} csr_default"><properties>{ "name": "BitmapButton1", "tabOrder": 4, "layout": "layoutLeft", "top": 10, "left": 280, "height": 58, "width": 98, "caption": "BitmapButton", "src": "images/duck.png" }</properties><span class="Control ButtonCaption BitmapButtonCaption includeCaption"></span><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" draggable="false" /></jagui-bitmapbutton>
                     <jagui-bitmapbutton id="_ghyd6y8" data-class="BitmapButton" class="Control Button ButtonGlyph BitmapButton {theme} csr_default"><properties>{ "name": "BitmapButton2", "tabOrder": 5, "layout": "layoutRight", "top": 10, "left": 400, "height": 58, "width": 98, "src": "images/duck.png" }</properties><span class="Control ButtonCaption BitmapButtonCaption includeCaption">BitmapButton</span><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" draggable="false" /></jagui-bitmapbutton>
                     <jagui-bitmapbutton id="_t62jno1" data-class="BitmapButton" class="Control Button ButtonGlyph BitmapButton {theme} csr_default"><properties>{ "name": "BitmapButton3", "tabOrder": 6, "layout": "layoutTop", "top": 10, "left": 520, "height": 58, "width": 98, "src": "images/duck.png" }</properties><span class="Control ButtonCaption BitmapButtonCaption includeCaption">BitmapButton</span><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" draggable="false" /></jagui-bitmapbutton>
@@ -264,96 +253,96 @@
                         <jagui-calendarcontent class="Control CalendarContent {theme}">
                             <jagui-calendarheader class="Control CalendarHeader {theme}">
                                 <jagui-calendarprevmonth class="Control CalendarPrevMonth {theme}"></jagui-calendarprevmonth>
-                                <jagui-calendarthisday title="Aller à aujourd'hui" class="Control CalendarThisDay {theme}"></jagui-calendarthisday>
+                                <jagui-calendarthisday title="" class="Control CalendarThisDay {theme}"></jagui-calendarthisday>
                                 <jagui-calendarnextmonth class="Control CalendarNextMonth {theme}"></jagui-calendarnextmonth>
-                                <jagui-calendarthismonth class="Control CalendarThisMonth {theme}">Octobre 2014</jagui-calendarthismonth>
+                                <jagui-calendarthismonth class="Control CalendarThisMonth {theme}"></jagui-calendarthismonth>
                             </jagui-calendarheader>
                             <jagui-calendarweekdays class="Control CalendarWeekdays {theme}">
-                                <jagui-calendarweeknum class="Control CalendarWeekNum {theme}">se</jagui-calendarweeknum>
-                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}">Lu</jagui-calendarweekday>
-                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}">Ma</jagui-calendarweekday>
-                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}">Me</jagui-calendarweekday>
-                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}">Je</jagui-calendarweekday>
-                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}">Ve</jagui-calendarweekday>
-                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}">Sa</jagui-calendarweekday>
-                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}">Di</jagui-calendarweekday>
+                                <jagui-calendarweeknum class="Control CalendarWeekNum {theme}"></jagui-calendarweeknum>
+                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}"></jagui-calendarweekday>
+                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}"></jagui-calendarweekday>
+                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}"></jagui-calendarweekday>
+                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}"></jagui-calendarweekday>
+                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}"></jagui-calendarweekday>
+                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}"></jagui-calendarweekday>
+                                <jagui-calendarweekday class="Control CalendarWeekDay {theme}"></jagui-calendarweekday>
                             </jagui-calendarweekdays>
                             <jagui-calendarweeks class="Control CalendarWeeks {theme}">
                                 <jagui-calendarfirstweek class="Control CalendarWeek CalendarFirstWeek {theme} alternate" data-week="0">
-                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}">40</jagui-calendarweeknum>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">29</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">30</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">1</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">2</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">3</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">4</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">5</jagui-calendarday>
+                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}"></jagui-calendarweeknum>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
                                 </jagui-calendarfirstweek>
                                 <jagui-calendarsecondweek class="Control CalendarWeek CalendarSecondWeek {theme}" data-week="1">
-                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}">41</jagui-calendarweeknum>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">6</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">7</jagui-calendarday>
+                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}"></jagui-calendarweeknum>
                                     <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">9</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">10</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">11</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">12</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
                                 </jagui-calendarsecondweek>
                                 <jagui-calendarthirdweek class="Control CalendarWeek CalendarThirdWeek {theme} alternate" data-week="2">
-                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}">42</jagui-calendarweeknum>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">13</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">14</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">15</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">16</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">17</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">18</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">19</jagui-calendarday>
+                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}"></jagui-calendarweeknum>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
                                 </jagui-calendarthirdweek>
                                 <jagui-calendarfourthweek class="Control CalendarWeek CalendarFourthWeek {theme}" data-week="3">
-                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}">43</jagui-calendarweeknum>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">20</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">21</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">22</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">23</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">24</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">25</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">26</jagui-calendarday>
+                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}"></jagui-calendarweeknum>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
                                 </jagui-calendarfourthweek>
                                 <jagui-calendarfifthweek class="Control CalendarWeek CalendarFifthWeek {theme} alternate" data-week="4">
-                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}">44</jagui-calendarweeknum>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">27</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">28</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">29</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">30</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">31</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">1</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">2</jagui-calendarday>
+                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}"></jagui-calendarweeknum>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
                                 </jagui-calendarfifthweek>
                                 <jagui-calendarsixthweek class="Control CalendarWeek CalendarSixthWeek {theme}" data-week="5">
-                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}">45</jagui-calendarweeknum>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">3</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">4</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">5</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">6</jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">7</jagui-calendarday>
+                                    <jagui-calendarweeknum class="Control CalendarWeekNum {theme}"></jagui-calendarweeknum>
                                     <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
-                                    <jagui-calendarday class="Control CalendarDay {theme}">9</jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
+                                    <jagui-calendarday class="Control CalendarDay {theme}"></jagui-calendarday>
                                 </jagui-calendarsixthweek>
                             </jagui-calendarweeks>
                         </jagui-calendarcontent>
                         <jagui-calendarmonths class="Control CalendarMonths {theme}">
-                            <jagui-calendarmonth data-month="0" class="Control CalendarMDC CalendarMonth {theme}">Jan</jagui-calendarmonth>
-                            <jagui-calendarmonth data-month="1" class="Control CalendarMDC CalendarMonth {theme}">Fev</jagui-calendarmonth>
-                            <jagui-calendarmonth data-month="2" class="Control CalendarMDC CalendarMonth {theme}">Mars</jagui-calendarmonth>
-                            <jagui-calendarmonth data-month="3" class="Control CalendarMDC CalendarMonth {theme}">Avr</jagui-calendarmonth>
-                            <jagui-calendarmonth data-month="4" class="Control CalendarMDC CalendarMonth {theme}">Mai</jagui-calendarmonth>
-                            <jagui-calendarmonth data-month="5" class="Control CalendarMDC CalendarMonth {theme}">Jun</jagui-calendarmonth>
-                            <jagui-calendarmonth data-month="6" class="Control CalendarMDC CalendarMonth {theme}">Juil</jagui-calendarmonth>
-                            <jagui-calendarmonth data-month="7" class="Control CalendarMDC CalendarMonth {theme}">Aout</jagui-calendarmonth>
-                            <jagui-calendarmonth data-month="8" class="Control CalendarMDC CalendarMonth {theme}">Sep</jagui-calendarmonth>
-                            <jagui-calendarmonth data-month="9" class="Control CalendarMDC CalendarMonth {theme}">Oct</jagui-calendarmonth>
-                            <jagui-calendarmonth data-month="10" class="Control CalendarMDC CalendarMonth {theme}">Nov</jagui-calendarmonth>
-                            <jagui-calendarmonth data-month="11" class="Control CalendarMDC CalendarMonth {theme}">Dec</jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="0" class="Control CalendarMDC CalendarMonth {theme}"></jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="1" class="Control CalendarMDC CalendarMonth {theme}"></jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="2" class="Control CalendarMDC CalendarMonth {theme}"></jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="3" class="Control CalendarMDC CalendarMonth {theme}"></jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="4" class="Control CalendarMDC CalendarMonth {theme}"></jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="5" class="Control CalendarMDC CalendarMonth {theme}"></jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="6" class="Control CalendarMDC CalendarMonth {theme}"></jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="7" class="Control CalendarMDC CalendarMonth {theme}"></jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="8" class="Control CalendarMDC CalendarMonth {theme}"></jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="9" class="Control CalendarMDC CalendarMonth {theme}"></jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="10" class="Control CalendarMDC CalendarMonth {theme}"></jagui-calendarmonth>
+                            <jagui-calendarmonth data-month="11" class="Control CalendarMDC CalendarMonth {theme}"></jagui-calendarmonth>
                         </jagui-calendarmonths>
                         <jagui-calendardecades class="Control CalendarDecades {theme}">
                             <jagui-calendardecade data-decade="0" class="Control CalendarMDC CalendarDecade {theme}"></jagui-calendardecade>

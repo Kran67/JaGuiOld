@@ -41,7 +41,7 @@ class ColorBox extends GraphicControl {
     //#region Methods
     //#region update
     update() {
-        super.update();
+        //super.update();
         if (Core.isHTMLRenderer && this.HTMLElement) {
             this.HTMLElementStyle.boxShadow = `inset 0 0 0 1000px ${this.fillColor.toRGBAString()}`;
         }

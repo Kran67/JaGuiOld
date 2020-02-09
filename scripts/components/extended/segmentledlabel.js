@@ -1002,7 +1002,7 @@ const SegmentLedLabel = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (this.HTMLElement) {
-                super.update();
+                //super.update();
                 // on allume les segments
                 this.HTMLElementStyle.setProperty("--aligth-color", priv.color.toRGBAString());
                 if (!priv.conts.isEmpty) {

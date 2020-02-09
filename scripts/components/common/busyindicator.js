@@ -368,7 +368,7 @@ const BusyIndicator = (() => {
             let z = null;
             let rule = null;
             //#endregion Variables déclaration
-            super.update();
+            //super.update();
             if (htmlElement) {
                 htmlElement.innerHTML = String.EMPTY;
                 switch (priv.indicatorStyle) {

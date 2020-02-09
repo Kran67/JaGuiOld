@@ -105,7 +105,7 @@ const Image = (() => {
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
-            super.update();
+            //super.update();
             if (!this.loading && !this.form.loading) {
                 switch (priv.wrapMode) {
                     case IMAGEWRAPS.ORIGINAL:

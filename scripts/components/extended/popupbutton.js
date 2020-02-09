@@ -113,3 +113,4 @@ if (Core.isHTMLRenderer) {
     Core.classes.registerTemplates([{ Class: PopupButton, template: PopupButtonTpl }]);
 }
 //#endregion
+export { PopupButton };

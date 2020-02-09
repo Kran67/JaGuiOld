@@ -272,7 +272,7 @@ const Rating = (() => {
             clipRect.push(!isHoriz ? this.height - offset : 0);
             clipRect.push(0);
             priv.ratingObj.style.clipPath = `inset(${clipRect.join("px ")}`;
-            super.update();
+            //super.update();
         }
         //#endregion update
         //#region mouseEnter

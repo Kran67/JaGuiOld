@@ -65,7 +65,7 @@ const ColorPicker = (() => {
                     let pos = ~~(priv.color.hue * htmlElement.offsetHeight / 360);
                     pos -= COLORPICKSIZE / 2;
                     priv.handle.y = (pos > htmlElement.offsetHeight - 5 ? htmlElement.offsetHeight - 5 : (pos < -5) ? -5 : pos);
-                    this._update();
+                    this.update();
                 }
             }
         }
@@ -158,7 +158,7 @@ const ColorPicker = (() => {
             const htmlElement = this.HTMLElement;
             const COLORPICKSIZE = Types.CONSTANTS.COLORPICKSIZE;
             //#endregion Variables déclaration
-            super.update();
+            //super.update();
             if (!point) {
                 point = new Point;
                 point.x = 0;

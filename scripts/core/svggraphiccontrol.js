@@ -92,7 +92,7 @@ const SVGGraphicControl = (() => {
                     svgShape.setAttribute("stroke-dasharray", JSON.parse(strokeDash).join(String.COMMA));
                 }
                 svgShape.setAttribute("stroke-dashoffset", this.strokeDashOffset);
-                super.update();
+                //super.update();
             }
         }
         //#endregion update

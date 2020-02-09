@@ -1962,7 +1962,6 @@ const BaseWindow = (() => {
                 case Window.FORMPOSITIONS.SCREENCENTER:
                     this.center();
             }
-            //this.HTMLElementStyle.zIndex=~~(Core.apps.activeApplication.activeWindow.HTMLElementStyle.zIndex)+1;
             if (isHtmlRenderer) {
                 this.HTMLElementStyle.zIndex = Core.windowZIndex;
             }
@@ -2090,9 +2089,6 @@ const BaseWindow = (() => {
             const height = this.height;
             //#endregion Variables déclaration
             if (!this.loading && !priv.creating) {
-                //this.resizeContent();
-                if (priv.firstShow) {
-                }
                 priv.firstShow = false;
             }
             const childs = Core.looper.listeners.filter(e => {
@@ -2477,7 +2473,7 @@ const BaseWindow = (() => {
                 owner: this,
                 props: {
                     inForm: false,
-                    align: Types.ALIGNS.CLIENT,
+                    align: Types.ALIGNS.CLIENT
                 },
                 withTpl: false
             });

@@ -165,7 +165,7 @@ const CalloutPanel = (() => {
             const htmlElement = this.HTMLElement;
             const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
-            super.update();
+            //super.update();
             if (!this.loading && !this.form.loading) {
                 //CSS.removeClassFromSet(priv.arrow, Types.CALLOUTPOSITIONS, "calloutposition");
                 Object.entries(Types.CALLOUTPOSITIONS).forEach(entry => {

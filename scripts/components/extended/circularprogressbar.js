@@ -130,7 +130,7 @@ const CircularProgressBar = (() => {
             const priv = internal(this);
             const htmlElement= this.HTMLElement;
             //#endregion Variables déclaration
-            super.update();
+            //super.update();
             if (priv.svg) {
                 priv.backCircle.setAttribute("r", ~~(htmlElement.offsetWidth / 2) - 5);
                 priv.progress.setAttribute("r", ~~(htmlElement.offsetWidth / 2) - 5);

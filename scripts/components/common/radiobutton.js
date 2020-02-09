@@ -83,17 +83,17 @@ const RadioButton = (() => {
                         });
                     }
                     // check
-                    if ((!newValue && (c === 0)) || (!newValue && (cc === 0))) {
+                    if (!newValue && c === 0 || !newValue && cc === 0) {
                         return;
                     }
                     super.isChecked = newValue;
                     if (!Core.isHTMLRenderer) {
                         if (this.allowUpdate) {
-                            this.updateCSSProperties();
+                            this.update();
                         }
                         this.redraw();
                     } else {
-                        this.updateCSSProperties();
+                        this.update();
                     }
                     // event
                     if (!this.updating) {

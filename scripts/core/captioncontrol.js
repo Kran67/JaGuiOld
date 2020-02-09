@@ -433,7 +433,7 @@ const CaptionControl = (() => {
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (Core.isHTMLRenderer) {
-                super.update();
+                //super.update();
                 if (htmlElement) {
                     Text.setTextNode(htmlElement, priv.caption);
                     this.updateCssProperties();
@@ -565,6 +565,7 @@ const CaptionControl = (() => {
         loaded() {
             super.loaded();
             this.app.getLocalText(this);
+            this.update();
         }
         //#endregion loaded
         //#endregion

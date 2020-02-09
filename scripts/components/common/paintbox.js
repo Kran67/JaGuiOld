@@ -90,7 +90,7 @@ const PaintBox = (() => {
             //#region Variables déclaration
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            super.update();
+            //super.update();
             htmlElement.setAttribute('width', htmlElement.offsetWidth);
             htmlElement.setAttribute('height', htmlElement.offsetHeight);
             this.paint();

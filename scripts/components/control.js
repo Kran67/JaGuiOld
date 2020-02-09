@@ -668,7 +668,7 @@ const Control = (() => {
                         this.realignChilds();
                     } else if (!this.loading) {
                         this.propertyChanged(Types.BINDABLEPROPERTIES.WIDTH);
-                        if (newValue === 0) {
+                        if (newValue < 0) {
                             htmlElementStyle.width = String.EMPTY;
                         } else {
                             htmlElementStyle.width = `${newValue}${Types.CSSUNITS.PX}`;
@@ -719,7 +719,7 @@ const Control = (() => {
                         this.realignChilds();
                     } else if (!this.loading) {
                         this.propertyChanged(Types.BINDABLEPROPERTIES.HEIGHT);
-                        if (newValue === 0) {
+                        if (newValue < 0) {
                             htmlElementStyle.height = String.EMPTY;
                         } else {
                             htmlElementStyle.height = `${newValue}${Types.CSSUNITS.PX}`;
@@ -1087,9 +1087,9 @@ const Control = (() => {
                             }
                         }
                     }
-                    if (owner && owner.update) {
-                        owner.update();
-                    }
+                    //if (owner && owner.update) {
+                    //    owner.update();
+                    //}
                 }
             }
         }
@@ -1108,9 +1108,9 @@ const Control = (() => {
                     if (htmlElementStyle.display !== newValue) {
                         htmlElementStyle.display = newValue;
                     }
-                    if (owner && owner.update) {
-                        owner.update();
-                    }
+                    //if (owner && owner.update) {
+                    //    owner.update();
+                    //}
                 }
             }
         }
@@ -1163,7 +1163,7 @@ const Control = (() => {
                 if (Tools.isNumber(newValue)) {
                     if (priv.column !== newValue) {
                         priv.column = newValue;
-                        this.update();
+                        //this.update();
                     }
                 }
             }
@@ -1184,7 +1184,7 @@ const Control = (() => {
                 if (Tools.isNumber(newValue)) {
                     if (priv.row !== newValue) {
                         priv.row = newValue;
-                        this.update();
+                        //this.update();
                     }
                 }
             }
@@ -1205,7 +1205,7 @@ const Control = (() => {
                 if (Tools.isNumber(newValue)) {
                     if (priv.colSpan !== newValue) {
                         priv.colSpan = newValue;
-                        this.update();
+                        //this.update();
                     }
                 }
             }
@@ -1226,7 +1226,7 @@ const Control = (() => {
                 if (Tools.isNumber(newValue)) {
                     if (priv.rowSpan !== newValue) {
                         priv.rowSpan = newValue;
-                        this.update();
+                        //this.update();
                     }
                 }
             }
@@ -1288,14 +1288,22 @@ const Control = (() => {
                 //const position = getComputedStyle(this.HTMLElement).position;
                 //if (position === "absolute") {
                 if (priv.align === Types.ALIGNS.NONE) {
-                    htmlElementStyle.width = `${priv.width}${Types.CSSUNITS.PX}`;
-                    htmlElementStyle.height = `${priv.height}${Types.CSSUNITS.PX}`;
+                    if (priv.width < 0) {
+                        htmlElementStyle.width = "auto";
+                    } else {
+                        htmlElementStyle.width = `${priv.width}${Types.CSSUNITS.PX}`;
+                    }
+                    if (priv.height < 0) {
+                        htmlElementStyle.height = "auto";
+                    } else {
+                        htmlElementStyle.height = `${priv.height}${Types.CSSUNITS.PX}`;
+                    }
                 }
             }
         }
         //#endregion resize
-        //#region update
-        update() {
+        //#region sizing
+        sizing() {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
@@ -1327,9 +1335,8 @@ const Control = (() => {
                     this.resize();
                 }
             }
-            super.update();
         }
-        //#endregion update
+        //#endregion sizing
         //#region realignChilds
         realignChilds() {
             //#region Variables déclaration
@@ -2212,20 +2219,20 @@ const Control = (() => {
                         jsObj.dragStart();
                     }
                     break;
-                    //case Types.mouseEvents.CLICK:
-                    //  //jsObj.click();
-                    //  break;
-                    //case Types.mouseEvents.EVENT:
-                    //  break;
-                    //case Types.keybordEvents.DOWN:
-                    //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
-                    //  break;
-                    //case Types.keybordEvents.UP:
-                    //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
-                    //  break;
-                    //case Types.keybordEvents.PRESS:
-                    //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
-                    //  break;
+                //case Types.mouseEvents.CLICK:
+                //  //jsObj.click();
+                //  break;
+                //case Types.mouseEvents.EVENT:
+                //  break;
+                //case Types.keybordEvents.DOWN:
+                //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
+                //  break;
+                //case Types.keybordEvents.UP:
+                //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
+                //  break;
+                //case Types.keybordEvents.PRESS:
+                //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
+                //  break;
             }
             if (jsObj.stopEvent || forceStopEvent) {
                 Core.mouse.stopEvent(event);
@@ -2671,6 +2678,7 @@ const Control = (() => {
             if (owner.tab) {
                 this.tab = owner.tab;
             }
+            this.sizing();
         }
         //#endregion loaded
         //#region resized

@@ -68,25 +68,25 @@ const Label = (() => {
             //#endregion Variables déclaration
             super.loaded();
             if (isHtmlRenderer) {
-                this.updateCssProperties();
+                this.update();
             }
         }
         //#endregion loaded
-        //#region updateCssProperties
-        updateCssProperties() {
+        //#region update
+        update() {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            super.updateCssProperties();
+            super.update();
             if (priv.effect) {
                 htmlElementStyle.textShadow = String.EMPTY;
                 htmlElement.classList.add(priv.effect.cssName);
                 priv.effect.update();
             }
         }
-        //#endregion updateCssProperties
+        //#endregion update
         //#region destroy
         destroy () {
             //#region Variables déclaration

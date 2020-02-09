@@ -167,7 +167,7 @@ const BatteryIndicator = (() => {
                 PPoleAfter.style.borderRadius = `${60 * ratioW}${PX}/${27 * ratioH}${PX}`;
                 NiMH.style.height = `${(priv.baseFluidHeight * battery.level) * ratioH}${PX}`;
             }
-            super.update();
+            //super.update();
         }
         loaded() {
             //#region Variables déclaration

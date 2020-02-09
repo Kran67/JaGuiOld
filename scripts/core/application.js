@@ -195,8 +195,8 @@ const Application = (() => {
                             comps.forEach(comp => {
                                 if (comp instanceof Core.classes.CaptionControl/* || comp instanceof Core.classes.CustomTextControl*/) {
                                     this.getLocalText(comp);
-                                } else {
-                                    comp.update();
+                                //} else {
+                                    //comp.update();
                                 }
                             });
                         }
@@ -509,11 +509,11 @@ const Application = (() => {
                             //} else if (obj instanceof Core.classes.CustomTextControl) {
                             //    obj.placeHolder = c[key];
                         }
-                    } else {
-                        obj.update();
+                    //} else {
+                        //obj.update();
                     }
-                } else {
-                    obj.update();
+                //} else {
+                    //obj.update();
                 }
             }
         }

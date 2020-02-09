@@ -77,12 +77,12 @@ const PathCheckbox = (() => {
         //#endregion Getters / Setters
         //#region Methods
         //#region updateCSSProperties
-        updateCSSProperties() {
+        update() {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
-                super.updateCSSProperties();
+                super.update();
                 this.check.innerHTML = `<svg width='100%' height='100%' viewBox='${priv.svgViewBox}' xmlns='http://www.w3.org/2000/svg'><path d='${priv.checkSvg}' /></svg>`;
                 this.check.style.opacity = 0.2;
                 if (this.isChecked) {

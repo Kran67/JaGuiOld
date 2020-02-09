@@ -112,11 +112,11 @@ const Checkbox = (() => {
                     if (!this.loading && !this.form.loading) {
                         if (!Core.isHTMLRenderer) {
                             if (this.allowUpdate) {
-                                this.updateCSSProperties();
+                                this.update();
                             }
                             this.redraw();
                         } else {
-                            this.updateCSSProperties();
+                            this.update();
                         }
                         if (!this.updating) {
                             this.onChange.invoke();
@@ -172,7 +172,7 @@ const Checkbox = (() => {
             if (Tools.isBool(newValue)) {
                 if (priv.autoWidth !== newValue) {
                     priv.autoWidth = newValue;
-                    this.updateCSSProperties();
+                    this.update();
                 }
             }
         }
@@ -198,7 +198,7 @@ const Checkbox = (() => {
                 this.pressing = false;
                 this.isPressed = false;
                 this.isChecked = !priv.isChecked;
-                this.updateCSSProperties();
+                this.update();
             }
         }
         //#endregion mouseUp
@@ -210,7 +210,7 @@ const Checkbox = (() => {
             super.keyUp();
             if (Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_RETURN || Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
                 this.isChecked = !priv.isChecked;
-                this.updateCSSProperties();
+                this.update();
             }
         }
         //#endregion keyUp
@@ -219,16 +219,11 @@ const Checkbox = (() => {
         //#endregion realign
         //#region update
         update() {
-            super.update();
-            this.updateCSSProperties();
-        }
-        //#endregion update
-        //#region updateCSSProperties
-        updateCSSProperties() {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
+                super.update();
                 if (priv.check) {
                     priv.check.classList.remove("checked", "grayed");
                     if (priv.isChecked) {
@@ -255,7 +250,7 @@ const Checkbox = (() => {
                 }
             }
         }
-        //#endregion updateCSSProperties
+        //#endregion update
         //#region destroy
         destroy() {
             //#region Variables déclaration
