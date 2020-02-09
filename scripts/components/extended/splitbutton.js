@@ -65,6 +65,7 @@ const SplitButton = (() => {
         }
         //#endregion Getters / Setters
         //#region Methods
+        //#region clickPopup
         clickPopup() {
             const priv = internal(this);
             if (priv.popupMenu) {
@@ -75,6 +76,8 @@ const SplitButton = (() => {
                 }
             }
         }
+        //#endregion clickPopup
+        //#region destroy
         destroy() {
             const priv = internal(this);
             super.destroy();
@@ -87,6 +90,8 @@ const SplitButton = (() => {
             }
             priv.action = null;
         }
+        //#endregion destroy
+        //#region getTemplate
         getTemplate() {
             const priv = internal(this);
             let html = super.getTemplate();
@@ -98,6 +103,8 @@ const SplitButton = (() => {
             html = a.join(tpl);
             return html;
         }
+        //#endregion getTemplate
+        //#region loaded
         loaded() {
             const priv = internal(this);
             super.loaded();
@@ -111,9 +118,7 @@ const SplitButton = (() => {
             priv.btn.resize();
             priv.popupBtn.resize();
         }
-        update() {
-            priv.btn.update();
-        }
+        //#endregion loaded
         //#endregion Methods
     }
     return SplitButton;

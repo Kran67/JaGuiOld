@@ -31,10 +31,10 @@ const ColorPicker = (() => {
                 priv.handle = new Point((props.width / 2) - 5, -5);
                 priv.handleObj = null;
                 this.onChange = new NotifyEvent(this);
-                priv.color = props.hasOwnProperty("color")?Color.parse(props.color):new Color(Colors.RED);
+                priv.color = props.hasOwnProperty("color") ? Color.parse(props.color) : new Color(Colors.RED);
                 this.autoCapture = true;
                 this.hitTest.all = true;
-                priv.colorQuad = props.hasOwnProperty("colorQuad")?this.form[props.colorQuad]:null;
+                priv.colorQuad = props.hasOwnProperty("colorQuad") ? this.form[props.colorQuad] : null;
                 this.clipChilds = false;
                 this.canFocused = true;
                 delete this.fillColor;
@@ -220,6 +220,12 @@ const ColorPicker = (() => {
             }
         }
         //#endregion keyDown
+        //#region loaded
+        loaded() {
+            super.loaded();
+            this.update();
+        }
+        //#endregion loaded
         //#endregion Methods
     }
     return ColorPicker;
