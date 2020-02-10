@@ -2,10 +2,7 @@
     overflow: visible;
 }
 
-.Control.CalloutPanelViewport {
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
-    right: 0;
-    top: 0;
+.Control.CalloutPanel:before {
+    content: "";
+    position: absolute;
 }

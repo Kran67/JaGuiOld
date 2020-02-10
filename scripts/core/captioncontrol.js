@@ -433,7 +433,6 @@ const CaptionControl = (() => {
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (Core.isHTMLRenderer) {
-                //super.update();
                 if (htmlElement) {
                     Text.setTextNode(htmlElement, priv.caption);
                     this.updateCssProperties();

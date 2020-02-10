@@ -127,7 +127,7 @@ Core.classes.register(Types.CATEGORIES.INTERNAL, ToolButtonSep, ToolButton);
 export { ToolButtonSep, ToolButton };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const ToolButtonTpl = "<jagui-toolbutton id=\"{internalId}\" data-class=\"ToolButton\" class=\"Control Button BitmapButton ButtonGlyph ToolButton {theme} csr_default\"><properties>{ \"name\": \"{name}\", \"caption\": \"{caption}\" }</properties><span class=\"Control ButtonCaption ToolButtonCaption includeCaption\"></span><img alt=\"\" src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==\" draggable=\"false\" width=\"16\" height=\"16\" /></jagui-toolbutton>";
+    const ToolButtonTpl = "<jagui-toolbutton id=\"{internalId}\" data-class=\"ToolButton\" class=\"Control Button BitmapButton ButtonGlyph ToolButton {theme} csr_default\"><properties>{ \"name\": \"{name}\", \"caption\": \"{caption}\" }</properties></jagui-toolbutton>";
     const ToolButtonSepTpl = "<jagui-toolbuttonsep id=\"{internalId}\" data-class=\"ToolButtonSep\" class=\"Control ToolButtonSep {theme}\"><properties>{ \"name\": \"{name}\" }</properties></jagui-toolbuttonsep>";
     Core.classes.registerTemplates([{ Class: ToolButton, template: ToolButtonTpl }, { Class: ToolButtonSep, template: ToolButtonSepTpl }]);
 }

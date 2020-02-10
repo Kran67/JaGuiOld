@@ -30,7 +30,7 @@ const ColorButton = (() => {
                 priv.color = color;
                 this.onChange = new NotifyEvent(this);
                 priv.colorDlg = null;
-                priv.colorObj = null;
+                //priv.colorObj = null;
             }
         }
         //#endregion Constructor
@@ -84,11 +84,11 @@ const ColorButton = (() => {
         //#endregion colorDlg
         //#endregion Getters / Setters
         //#region Methods
+        //#region update
         update() {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            //super.update();
             if (this.textObj) {
                 this.textObj.innerHTML = String.EMPTY;
             }
@@ -96,20 +96,12 @@ const ColorButton = (() => {
                 priv.colorObj.style.backgroundColor = priv.color.toRGBAString();
             }
         }
-        getHTMLElement(id) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            super.getHTMLElement(id);
-            if (this.HTMLElement) {
-                priv.colorObj = this.HTMLElement.lastElementChild;
-                priv.colorObj.jsObj = this;
-            }
-        }
+        //#endregion update
+        //#region click
         click() {
             //#region Variables déclaration
             const priv = internal(this);
-            const colorDlg = Core.classes.createComponent(ColorDlg, activeApplication, null, { "parentHTML": document.body });
+            const colorDlg = Core.classes.createComponent(ColorDlg, activeApplication, null, { parentHTML: document.body });
             //#endregion Variables déclaration
             colorDlg.loaded();
             colorDlg.obj = this;
@@ -124,12 +116,27 @@ const ColorButton = (() => {
             colorDlg.showModal();
             super.click();
         }
+        //#endregion click
+        //#region updateColor
         updateColor() {
             if (this.modalResult === Window.MODALRESULTS.OK) {
                 this.obj.color = this.clrBoxNewColor.fillColor;
             }
             this.obj.colorDlg = null;
         }
+        //#endregion updateColor
+        //#region loaded
+        loaded() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.colorObj = document.createElement(Types.HTMLELEMENTS.DIV);
+            priv.colorObj.classList.add("Control", "ColorButtonColor", this.themeName);
+            this.HTMLElement.appendChild(priv.colorObj);
+            super.loaded();
+        }
+        //#endregion loaded
+        //#region destroy
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -142,6 +149,7 @@ const ColorButton = (() => {
             this.onChange.destroy();
             this.onChange = null;
         }
+        //#endregion destroy
         //#endregion Methods
     }
     return ColorButton;
@@ -149,14 +157,10 @@ const ColorButton = (() => {
 })();
 //#endregion ColorButton
 Core.classes.register(Types.CATEGORIES.COLOR, ColorButton);
-/*
-    //#region Templates
-    if ($j.isHTMLRenderer()) {
-        var ColorButtonTpl = "<button id='{internalId}' data-name='{name}' data-class='ColorButton' class='Control ColorButton {theme} csr_default' data-color='red' style='width:75px;height:21px;'>\
-                        <span class='Control ButtonCaption'></span>\
-                        <div class='Control ColorButtonColor {theme}'></div>\
-                        </button>";
-        $j.classes.registerTemplates([{ Class: ColorButton, template: ColorButtonTpl }]);
-    }
-    //endregion
-})();*/
+//#region Templates
+if (Core.isHTMLRenderer) {
+    var ColorButtonTpl = ["<jagui-colorbutton id=\"{internalId}\" data-class=\"ColorButton\" class=\"Control ColorButton {theme} csr_default\">",
+        "<properties>{ \"name\": \"{name}\", \"color\": \"red\" }</properties></jagui-colorbutton>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: ColorButton, template: ColorButtonTpl }]);
+}
+//endregion

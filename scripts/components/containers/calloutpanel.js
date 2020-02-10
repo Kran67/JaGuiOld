@@ -1,6 +1,7 @@
 ﻿//#region Import
 import { Panel } from "/scripts/components/containers/panel.js";
 import { Tools } from "/scripts/core/tools.js";
+import { Css } from "/scripts/core/css.js";
 //#endregion Import
 //#region CalloutPanel
 const CalloutPanel = (() => {
@@ -160,17 +161,26 @@ const CalloutPanel = (() => {
             const priv = internal(this);
             const cw = ~~(priv.calloutWidth / 2);
             let pos = 0;
-            const arrowStyle = priv.arrow.style;
             const calloutPositions = Types.CALLOUTPOSITIONS;
             const htmlElement = this.HTMLElement;
             const PX = Types.CSSUNITS.PX;
+            let top;
+            let left;
+            let right;
+            let bottom;
+            let borderTopWidth;
+            let borderLeftWidth;
+            let borderRightWidth;
+            let borderBottomWidth;
+            let path = String.EMPTY;
+            const pseudoCssClass = Types.PSEUDOCSSCLASS;
             //#endregion Variables déclaration
-            //super.update();
             if (!this.loading && !this.form.loading) {
-                //CSS.removeClassFromSet(priv.arrow, Types.CALLOUTPOSITIONS, "calloutposition");
-                Object.entries(Types.CALLOUTPOSITIONS).forEach(entry => {
-                    priv.arrow.classList.remove(`calloutposition-${Types.CALLOUTPOSITIONS[entry.first]}`);
+                Object.entries(calloutPositions).forEach(entry => {
+                    htmlElement.classList.remove(`calloutposition-${calloutPositions[entry.first]}`);
                 });
+                // remove all CSS rules for this component
+                this.removeCssRules();
                 switch (priv.calloutPosition) {
                     case calloutPositions.TOP:
                         pos = ~~((htmlElement.offsetWidth - priv.calloutWidth) / 2) - priv.calloutOffset;
@@ -179,14 +189,15 @@ const CalloutPanel = (() => {
                         } else if (pos >= htmlElement.offsetWidth - priv.calloutWidth) {
                             pos = htmlElement.offsetWidth - priv.calloutWidth;
                         }
-                        arrowStyle.top = `${-priv.calloutLength}${PX}`;
-                        arrowStyle.left = `${pos}${PX}`;
-                        arrowStyle.borderTopWidth = 0;
-                        arrowStyle.borderLeftWidth = `${cw}${PX}`;
-                        arrowStyle.borderRightWidth = `${cw}${PX}`;
-                        arrowStyle.borderBottomWidth = `${cw}${PX}`;
-                        arrowStyle.bottom = "auto";
-                        arrowStyle.right = "auto";
+                        top = `${-priv.calloutLength}${PX}`;
+                        left = `${pos}${PX}`;
+                        borderTopWidth = 0;
+                        borderLeftWidth = `${cw}${PX}`;
+                        borderRightWidth = `${cw}${PX}`;
+                        borderBottomWidth = `${cw}${PX}`;
+                        bottom = "auto";
+                        right = "auto";
+                        path = `0 0, ${left} 0, ${pos + cw}${PX} ${top}, ${pos + cw + 1}${PX} ${top}, ${pos + 1 + cw * 2}${PX} 0, 100% 0, 100% 100%, 0 100%`;
                         break;
                     case calloutPositions.RIGHT:
                         pos = ~~((htmlElement.offsetHeight - priv.calloutWidth) / 2) - priv.calloutOffset;
@@ -195,14 +206,15 @@ const CalloutPanel = (() => {
                         } else if (pos >= htmlElement.offsetHeight - priv.calloutWidth) {
                             pos = htmlElement.offsetHeight - priv.calloutWidth;
                         }
-                        arrowStyle.right = `${-priv.calloutLength}${PX}`;
-                        arrowStyle.top = `${pos}${PX}`;
-                        arrowStyle.borderRightWidth = 0;
-                        arrowStyle.borderTopWidth = `${cw}${PX}`;
-                        arrowStyle.borderBottomWidth = `${cw}${PX}`;
-                        arrowStyle.borderLeftWidth = `${cw}${PX}`;
-                        arrowStyle.bottom = "auto";
-                        arrowStyle.left = "auto";
+                        right = `${-priv.calloutLength}${PX}`;
+                        top = `${pos}${PX}`;
+                        borderRightWidth = 0;
+                        borderTopWidth = `${cw}${PX}`;
+                        borderBottomWidth = `${cw}${PX}`;
+                        borderLeftWidth = `${cw}${PX}`;
+                        bottom = "auto";
+                        left = "auto";
+                        path = `0 0, 100% 0, 100% ${top}, ${htmlElement.offsetWidth + priv.calloutLength} ${pos + cw}${PX}, ${htmlElement.offsetWidth + priv.calloutLength} ${pos + cw + 1}${PX}, 100% ${pos + 1 + cw * 2}${PX}, 100% 100%, 0 100%`;
                         break;
                     case calloutPositions.BOTTOM:
                         pos = ~~((htmlElement.offsetWidth - priv.calloutWidth) / 2) - priv.calloutOffset;
@@ -211,14 +223,15 @@ const CalloutPanel = (() => {
                         } else if (pos >= htmlElement.offsetWidth - priv.calloutWidth) {
                             pos = htmlElement.offsetWidth - priv.calloutWidth;
                         }
-                        arrowStyle.bottom = `${-priv.calloutLength}${PX}`;
-                        arrowStyle.left = `${pos}${PX}`;
-                        arrowStyle.top = "auto";
-                        arrowStyle.borderLeftWidth = `${cw}${PX}`;
-                        arrowStyle.borderRightWidth = `${cw}${PX}`;
-                        arrowStyle.borderBottomWidth = 0;
-                        arrowStyle.borderTopWidth = `${cw}${PX}`;
-                        arrowStyle.right = "auto";
+                        bottom = `${-priv.calloutLength}${PX}`;
+                        left = `${pos}${PX}`;
+                        top = "auto";
+                        borderLeftWidth = `${cw}${PX}`;
+                        borderRightWidth = `${cw}${PX}`;
+                        borderBottomWidth = 0;
+                        borderTopWidth = `${cw}${PX}`;
+                        right = "auto";
+                        path = `0 0, 100% 0, 100% 100%, ${pos + 1 + cw * 2}${PX} 100%, ${pos + cw + 1}${PX} ${htmlElement.offsetHeight + priv.calloutLength}, ${pos + cw}${PX} ${htmlElement.offsetHeight + priv.calloutLength}, ${left} 100%, 0 100%`;
                         break;
                     case calloutPositions.LEFT:
                         pos = ~~((htmlElement.offsetHeight - priv.calloutWidth) / 2) - priv.calloutOffset;
@@ -227,32 +240,38 @@ const CalloutPanel = (() => {
                         } else if (pos >= htmlElement.offsetHeight - priv.calloutWidth) {
                             pos = htmlElement.offsetHeight - priv.calloutWidth;
                         }
-                        arrowStyle.left = `${-priv.calloutLength}${PX}`;
-                        arrowStyle.top = `${pos}${PX}`;
-                        arrowStyle.borderLeftWidth = 0;
-                        arrowStyle.borderTopWidth = `${cw}${PX}`;
-                        arrowStyle.borderBottomWidth = `${cw}${PX}`;
-                        arrowStyle.borderRightWidth = `${cw}${PX}`;
-                        arrowStyle.bottom = "auto";
-                        arrowStyle.right = "auto";
+                        left = `${-priv.calloutLength}${PX}`;
+                        top = `${pos}${PX}`;
+                        borderLeftWidth = 0;
+                        borderTopWidth = `${cw}${PX}`;
+                        borderBottomWidth = `${cw}${PX}`;
+                        borderRightWidth = `${cw}${PX}`;
+                        bottom = "auto";
+                        right = "auto";
+                        path = `0 0, 100% 0, 100% 100%, 0 100%, 0 ${pos + 1 + cw * 2}${PX}, ${left} ${pos + cw + 1}${PX}, ${left} ${pos + cw}${PX}, 0 ${top}`;
                         break;
                 }
-                priv.arrow.classList.add(`calloutposition-${priv.calloutPosition}`);
+                Css.addCSSRule(`#${this.internalId}.calloutposition-${priv.calloutPosition}${pseudoCssClass.BEFORE}`, `left: ${left}; top: ${top}; right: ${right};
+                    bottom: ${bottom};
+                    border-left-width: ${borderLeftWidth};
+                    border-top-width: ${borderTopWidth};
+                    border-right-width: ${borderRightWidth};
+                    border-bottom-width: ${borderBottomWidth}`);
+                htmlElement.classList.add(`calloutposition-${priv.calloutPosition}`);
+                this.HTMLElementStyle.clipPath = `polygon(${path})`;
             }
         }
         //#endregion update
-        //#region getHTMLElement
-        getHTMLElement(id) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            super.getHTMLElement(id);
-            const htmlElement = this.HTMLElement;
-            priv.content = htmlElement.querySelector(".CalloutPanelViewport");
-            priv.content.jsObj = this;
-            priv.arrow = htmlElement.querySelector(".CalloutPanelArrow");
+        //#region removeCssRules
+        removeCssRules() {
+            const calloutPositions = Types.CALLOUTPOSITIONS;
+            const styleRule = Types.CSSRULETYPES.STYLE_RULE;
+            const pseudoCssClass = Types.PSEUDOCSSCLASS;
+            Object.entries(calloutPositions).forEach(entry => {
+                Css.removeCSSRule(`#${this.internalId}.calloutposition-${calloutPositions[entry.first]}${pseudoCssClass.BEFORE}`, styleRule);
+            });
         }
-        //#endregion getHTMLElement
+        //#endregion removeCssRules
         //#region destroy
         destroy() {
             //#region Variables déclaration
@@ -263,15 +282,9 @@ const CalloutPanel = (() => {
             priv.calloutOffset = null;
             priv.calloutLength = null;
             priv.calloutWidth = null;
-            priv.arrow = null;
+            removeCssRules();
         }
         //#endregion destroy
-        //#region loaded
-        loaded() {
-            super.loaded();
-            this.update();
-        }
-        //#endregion loaded
         //#endregion Methods
     }
     return CalloutPanel;
@@ -280,16 +293,10 @@ const CalloutPanel = (() => {
 //#endregion
 Core.classes.register(Types.CATEGORIES.CONTAINERS, CalloutPanel);
 export { CalloutPanel };
-
-/*
-    //#region Templates
-    if ($j.isHTMLRenderer()) {
-        var CalloutPanelTpl = "<div id='{internalId}' data-name='{name}' data-class='CalloutPanel' class='Control CalloutPanel {theme}' data-calloutposition='top' data-calloutoffset='0' data-calloutlength='11' data-calloutwidth='23' style='width:185px;height:41px;'>\
-                         <div class='Control CalloutPanelViewport {theme}'></div>\
-                         <div class='Control CalloutPanelArrow {theme} calloutposition-top'></div>\
-                         </div>";
-        $j.classes.registerTemplates([{ Class: CalloutPanel, template: CalloutPanelTpl }]);
-    }
-    //endregion
-})();
-*/
+//#region Templates
+if (Core.isHTMLRenderer) {
+    const CalloutPanelTpl = ["<jagui-calloutpanel id=\"{internalId}\" data-class=\"CalloutPanel\" class=\"Control CalloutPanel {theme} csr_default",
+        " calloutposition-top\"><properties>{ \"name\": \"{name}\", \"calloutPosition\": \"top\" }</properties></jagui-calloutpanel>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: CalloutPanel, template: CalloutPanelTpl }]);
+}
+//endregion

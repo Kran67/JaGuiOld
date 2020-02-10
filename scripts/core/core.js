@@ -1,12 +1,4 @@
-﻿//#region Imports
-//import { NotifyEvent, TimerEvent } from "./events.js";
-//import * as convertion from "./convertion.js";
-//'Mouse_keyboard': 'mouse_keyboard',
-//'Canvas': 'canvas',
-//'Classes': 'classes',
-//'Colors': 'colors',
-//#endregion
-//#region requestAnimationFrameRate
+﻿//#region requestAnimationFrameRate
 /**
  * Add frame rate on requestAnimation
  * @param       {Number}        fps         Number of frame per second
@@ -120,8 +112,6 @@ window.Core = {
     HTMLParentElement: null,
     previousHoveredControl: null,
     canvas: null,
-    //this.windowsHTML = [];
-    //this.idx = 0;
     /**
      * Return the current renderer
      * @returns     {String}        The name of the current renderer

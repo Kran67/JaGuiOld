@@ -3,6 +3,7 @@ import { Button } from "/scripts/components/common/button.js";
 import { Point, Rect } from "/scripts/core/geometry.js";
 import "/scripts/core/path.js";
 import { Tools } from "/scripts/core/tools.js";
+import { Text } from "/scripts/core/text.js";
 //#endregion Import
 //#region BUTTONLAYOUTGLYPHS
 /**
@@ -45,14 +46,13 @@ const ButtonGlyph = (() => {
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
+                //props.caption = String.EMPTY;
                 super(owner, props);
                 const priv = internal(this);
                 priv.glyphPos = new Point;
-                priv.textObj = {};
                 priv.glyphSize = props.hasOwnProperty("glyphSize")?props.glyphSize:32;
                 priv.glyphSpacing = props.hasOwnProperty("glyphSpacing")?props.glyphSpacing:4;
                 priv.glyphMargin = props.hasOwnProperty("glyphMargin")?props.glyphMargin:0;
-                priv.glyph = {};
                 priv.showCaption = props.hasOwnProperty("showCaption")?props.showCaption:true;
                 Tools.addPropertyFromEnum({
                     component: this,
@@ -252,21 +252,29 @@ const ButtonGlyph = (() => {
         loaded() {
             //#region Variables déclaration
             const priv = internal(this);
-            const glyph = this.glyph;
+            const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             super.loaded();
             if (Core.isHTMLRenderer) {
-                if (priv.src !== String.EMPTY) {
-                    glyph.src = priv.src;
+                Text.setTextNode(htmlElement, String.EMPTY);
+                priv.textObj = document.createElement(Types.HTMLELEMENTS.SPAN);
+                priv.textObj.classList.add("Control", "ButtonCaption", "includeCaption", `${this.constructor.name}Caption`);
+                priv.textObj.jsObj = this;
+                htmlElement.appendChild(priv.textObj);
+                priv.glyph = document.createElement(priv.glyphHTMLElement);
+                if (priv.glyphHTMLElement === Types.HTMLELEMENTS.IMG) {
+                    priv.glyph.src = priv.src !== String.EMPTY?priv.src:Types.CONSTANTS.PIX;
                 }
+                priv.glyph.draggable = false;
+                htmlElement.appendChild(priv.glyph);
             } else {
                 if (priv.src !== String.EMPTY) {
-                    this.glyph = null;
+                    priv.glyph = null;
                 }
             }
-            //if (this.form.loaded && this.loaded) {
-            //    this.update();
-            //}
+            if (this.form.loaded && this.loaded) {
+                this.update();
+            }
         }
         //#endregion loaded
         //#region update
@@ -356,23 +364,6 @@ const ButtonGlyph = (() => {
             }
         }
         //#endregion update
-        //#region getHTMLElement
-        getHTMLElement(id) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            super.getHTMLElement(id);
-            const htmlElement = this.HTMLElement;
-            if (htmlElement) {
-                priv.textObj = htmlElement.querySelector(Types.HTMLELEMENTS.SPAN);
-                priv.textObj.jsObj = this;
-                priv.glyph = htmlElement.getElementsByTagName(priv.glyphHTMLElement)[0];
-                if (priv.glyph) {
-                    priv.glyph.jsObj = this;
-                }
-            }
-        }
-        //#endregion getHTMLElement
         //#region destroy
         destroy() {
             //#region Variables déclaration

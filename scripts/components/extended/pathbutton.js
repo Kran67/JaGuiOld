@@ -160,7 +160,7 @@ const PathButton = (() => {
             const glyph = this.glyph;
             const isPressed = this.isPressed;
             //#endregion Variables déclaration
-            if (htmlElement.offsetWidth > 0 && htmlElement.offsetHeight > 0 && glyph) {
+            if (htmlElement.offsetWidth > 0 && htmlElement.offsetHeight > 0 && glyph && priv.ctx) {
                 if (!priv.path.isEmpty) {
                     glyph.classList.remove("hidden");
                 } else {
@@ -241,17 +241,17 @@ const PathButton = (() => {
         }
         //#endregion mouseLeave
         //#region getHTMLElement
-        getHTMLElement(id) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            let glyph = null;
-            //#endregion Variables déclaration
-            super.getHTMLElement(id);
-            glyph = this.glyph;
-            if (glyph) {
-                priv.ctx = glyph.getContext("2d");
-            }
-        }
+        //getHTMLElement(id) {
+        //    //#region Variables déclaration
+        //    const priv = internal(this);
+        //    let glyph = null;
+        //    //#endregion Variables déclaration
+        //    super.getHTMLElement(id);
+        //    glyph = this.glyph;
+        //    if (glyph) {
+        //        priv.ctx = glyph.getContext("2d");
+        //    }
+        //}
         //#endregion getHTMLElement
         //#region destroy
         destroy() {
@@ -276,6 +276,16 @@ const PathButton = (() => {
             super.destroy();
         }
         //#endregion destroy
+        //#region loaded
+        loaded() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            super.loaded();
+            priv.ctx = this.glyph.getContext("2d");
+            this.paint();
+        }
+        //#endregion loaded
         //#endregion Methods
     }
     return PathButton;
@@ -284,3 +294,10 @@ const PathButton = (() => {
 //#endregion
 Core.classes.register(Types.CATEGORIES.EXTENDED, PathButton);
 export { PathButton };
+//#region Templates
+if (Core.isHTMLRenderer) {
+    const PathButtonTpl = ["<jagui-pathbutton id=\"{internalId}\" data-class=\"PathButton\" class=\"Control Button ButtonGlyph PathButton {theme}",
+        " csr_default\"><properties>{ \"name\":\"{name}\", \"caption\": \"{caption}\" }</properties></jagui-pathbutton>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: PathButton, template: PathButtonTpl }]);
+}
+//#endregion

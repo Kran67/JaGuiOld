@@ -20,6 +20,7 @@ const IPhoneButton = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.caption = String.EMPTY;
                 super(owner, props);
                 const priv = internal(this);
                 priv.halo = null;
@@ -30,6 +31,7 @@ const IPhoneButton = (() => {
         //#region Getters / Setters
         //#endregion Getters / Setters
         //#region Methods
+        //#region getHTMLElement
         getHTMLElement(id) {
             //#region Variables déclaration
             const priv = internal(this);
@@ -40,12 +42,27 @@ const IPhoneButton = (() => {
                 priv.halo = htmlElement.querySelector(".IPhoneButtonHalo");
             }
         }
+        //#endregion getHTMLElement
+        //#region destroy
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.halo = null;
             super.destroy();
+        }
+        //#endregion destroy
+        loaded() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
+            super.loaded();
+            if (Core.isHTMLRenderer) {
+                priv.halo = document.createElement(Types.HTMLELEMENTS.DIV);
+                priv.halo.classList.add("Control", "IPhoneButtonHalo");
+                htmlElement.appendChild(priv.halo);
+            }
         }
         //#endregion Methods
     }

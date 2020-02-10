@@ -1,6 +1,5 @@
 ﻿.Control.SegmentLedLabel {
     --unaligth-color:rgba(0,0,0,0.3);
-    --aligth-color: lime;
     display: flex;
     flex-direction: row;
     height: 54px;
@@ -26,10 +25,6 @@
     overflow: visible;
 }
 
-.segment.alight {
-    background-color: var(--aligth-color);
-}
-
 .segment:before,
 .segment:after {
     content: "";
@@ -45,18 +40,10 @@
     border-color: transparent transparent var(--unaligth-color) transparent;
 }
 
-.segment.alight:before {
-    border-bottom-color: var(--aligth-color);
-}
-
 .segment:after {
     bottom: -2px;
     border-width: 2px 2px 0 2px;
     border-color: var(--unaligth-color) transparent transparent transparent;
-}
-
-.segment.alight:after {
-    border-top-color: var(--aligth-color);
 }
 
 .Control.SegmentLedLabel.fourteen .segment.seg2:before,
