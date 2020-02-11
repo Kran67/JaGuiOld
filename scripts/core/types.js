@@ -374,7 +374,15 @@ const Types = Object.freeze({
      * @type    {Object}        SVG
      */
     SVG: Object.freeze({
-        XMLNS: "http://www.w3.org/2000/svg"
+        XMLNS: "http://www.w3.org/2000/svg",
+        SVG: "svg",
+        DEFS: "defs",
+        CLIPPATH: "clipPath",
+        USE: "use",
+        LINEARGRADIENT: "linearGradient",
+        STOP: "stop",
+        XLINKHREF: "xlink:href",
+        XLINK: "http://www.w3.org/1999/xlink"
     }),
     //#endregion
     //#region SHAPES
@@ -439,7 +447,6 @@ const Types = Object.freeze({
         LEGEND: "legend",
         LI: "li",
         UL: "ul",
-        SVG: "svg",
         FORM: "form",
         H3: "h3",
         A: "a"

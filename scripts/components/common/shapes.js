@@ -35,6 +35,7 @@ const Line = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.shape = Types.SHAPES.LINE;
                 super(owner, props);
                 const priv = internal(this);
                 this.strokeColor.assign(props.hasOwnProperty("color") ? color.parse(props.color) : Colors.WHITE);
@@ -394,10 +395,15 @@ const Circle = (() => {
         //#region constructor
         constructor(owner, props) {
             //#region Variables déclaration
+            let svgShape;
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
+                props.shape = Types.SHAPES.CIRCLE;
                 super(owner, props);
+                svgShape = this.svgShape
+                svgShape.setAttribute("cx", "50%");
+                svgShape.setAttribute("cy", "50%");
             }
         }
         //#endregion constructor
@@ -494,9 +500,11 @@ const Path = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.shape = Types.SHAPES.PATH;
                 super(owner, props);
                 const priv = internal(this);
                 if (this instanceof Core.classes.Path) {
+                    this.svgShape.setAttribute("vector-effect", "non-scaling-stroke");
                     priv.path = new Core.classes.PathData(this);
                     if (props.hasOwnProperty("path")) {
                         priv.path.pathString = props.path;
@@ -638,6 +646,7 @@ const Pie = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.shape = Types.SHAPES.PATH;
                 super(owner, props);
                 const priv = internal(this);
                 priv.startAngle = props.hasOwnProperty("startAngle") ? props.startAngle : 0;
@@ -752,10 +761,9 @@ const Star = (() => {
     class Star extends SVGGraphicControl {
         //#region constructor
         constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
+                props.shape = Types.SHAPES.PATH;
                 super(owner, props);
                 const priv = internal(this);
                 priv.spikes = props.hasOwnProperty("spikes") ? props.spikes : 4;
@@ -909,6 +917,7 @@ const Polygon = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.shape = Types.SHAPES.PATH;
                 super(owner, props);
                 const priv = internal(this);
                 priv.sides = props.hasOwnProperty("sides") ? props.sides : POLYGONSIDES.TRIANGLE;
@@ -970,17 +979,17 @@ Object.freeze(Polygon);
 Core.classes.register(Types.CATEGORIES.SHAPES, Line, Rectangle, RoundRect, Ellipse, Circle, Pie, Chord, Arc, Path, Star, Polygon);
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const LineTpl = "<jagui-line id=\"{internalId}\" data-class=\"Line\" class=\"Control Line\"><properties>{ \"name\": \"{name}\", \"lineDirection\": \"topleft-topright\" }</properties><svg class=\"Control svgShape\"><line x1=\"0\" y1=\"0\" x2=\"100%\" y2=\"100%\" /></svg></jagui-line>";
+    const LineTpl = "<jagui-line id=\"{internalId}\" data-class=\"Line\" class=\"Control Line\"><properties>{ \"name\": \"{name}\", \"lineDirection\": \"topleft-topright\" }</properties></jagui-line>";
     const RectangleTpl = "<jagui-rectangle id=\"{internalId}\" data-class=\"Rectangle\" class=\"Control Rectangle\"><properties>{ \"name\": \"{name}\" }</properties></jagui-rectangle>";
     const RoundRectTpl = "<jagui-roundrect id=\"{internalId}\" data-class=\"RoundRect\" class=\"Control RoundRect\"><properties>{ \"name\": \"{name}\" }</properties></jagui-roundrect>";
     const EllipseTpl = "<jagui-ellipse id=\"{internalId}\" data-class=\"Ellipse\" class=\"Control Ellipse\"><properties>{ \"name\": \"{name}\" }</properties></jagui-ellipse>";
-    const CircleTpl = "<jagui-circle id=\"{internalId}\" data-class=\"Circle\" class=\"Control Circle\"><properties>{ \"name\": \"{name}\" }</properties><svg class=\"Control svgShape\"><circle cx=\"50%\" cy=\"50%\" r=\"10\" /></svg></jagui-circle>";
-    const PieTpl = "<jagui-pie id=\"{internalId}\" data-class=\"Pie\" class=\"Control Pie\"><properties>{ \"name\": \"{name}\" }</properties><svg class=\"Control svgShape\"><path d=\"M0 0z\" vector-effect=\"non-scaling-stroke\" /></svg></jagui-pie>";
-    const ChordTpl = "<jagui-chord id=\"{internalId}\" data-class=\"Chord\" class=\"Control Chord\"><properties>{ \"name\": \"{name}\" }</properties><svg class=\"Control svgShape\"><path d=\"M0 0Z\" vector-effect=\"non-scaling-stroke\" /></svg></jagui-chord>";
-    const ArcTpl = "<jagui-arc id=\"{internalId}\" data-class=\"Arc\" class=\"Control Arc\"><properties>{ \"name\": \"{name}\" }</properties><svg class=\"Control svgShape\"><path d=\"M0 0Z\" vector-effect=\"non-scaling-stroke\" /></svg></jagui-arc>";
-    const PathTpl = "<jagui-path id=\"{internalId}\" data-class=\"Path\" class=\"Control Path\"><properties>{ \"name\": \"{name}\", \"path\": \"M0.0429,0.60451c2.56769,0 4.65071,2.10669 4.65071,4.70101c0,2.59433 -2.08302,4.69899 -4.65071,4.69899c-2.56767,0 -4.65071,2.10668 -4.65071,4.70102c0,2.59431 2.08305,4.69897 4.65071,4.69897c5.13536,0 9.30346,-4.21134 9.30346,-9.39999c0,-5.18864 -4.1681,-9.4 -9.30346,-9.4zm0,3.23195c-0.80281,0 -1.45397,0.65792 -1.45397,1.46906c0,0.81114 0.65116,1.46907 1.45397,1.46907c0.80281,0 1.45398,-0.65793 1.45398,-1.46907c0,-0.81114 -0.65117,-1.46906 -1.45398,-1.46906zm0,9.40001c0.8024,0 1.45398,0.65834 1.45398,1.46907c0,0.81071 -0.65158,1.46906 -1.45398,1.46906c-0.80239,0 -1.45397,-0.65835 -1.45397,-1.46906c0,-0.81073 0.65158,-1.46907 1.45397,-1.46907zm9.09477,-3.22597c0,5.1848 -4.15991,9.3879 -9.29145,9.3879c-5.13153,0 -9.29146,-4.2031 -9.29146,-9.3879c0,-5.18479 4.15993,-9.3879 9.29146,-9.3879c5.13153,0 9.29145,4.2031 9.29145,9.3879z\" }</properties><svg class=\"Control svgShape\"><path d=\"M0 0Z\" vector-effect=\"non-scaling-stroke\" /></svg></jagui-path>";
-    const StarTpl = "<jagui-star id=\"{internalId}\" data-class=\"Star\" class=\"Control Star\"><properties>{ \"name\": \"{name}\" }</properties><svg class=\"Control svgShape\"><path d=\"M0 0Z\" vector-effect=\"non-scaling-stroke\" /></svg></jagui-star>";
-    const PolygonTpl = "<jagui-polygon id=\"{internalId}\" data-class=\"Polygon\" class=\"Control Polygon\"><properties>{ \"name\": \"{name}\", \"path\": \"M20,10 L5,19 L5,1 Z\" }</properties><svg class=\"Control svgShape\"><path d=\"M0 0Z\" vector-effect=\"non-scaling-stroke\" /></svg></jagui-polygon>";
+    const CircleTpl = "<jagui-circle id=\"{internalId}\" data-class=\"Circle\" class=\"Control Circle\"><properties>{ \"name\": \"{name}\" }</properties></jagui-circle>";
+    const PieTpl = "<jagui-pie id=\"{internalId}\" data-class=\"Pie\" class=\"Control Pie\"><properties>{ \"name\": \"{name}\" }</properties></jagui-pie>";
+    const ChordTpl = "<jagui-chord id=\"{internalId}\" data-class=\"Chord\" class=\"Control Chord\"><properties>{ \"name\": \"{name}\" }</properties></jagui-chord>";
+    const ArcTpl = "<jagui-arc id=\"{internalId}\" data-class=\"Arc\" class=\"Control Arc\"><properties>{ \"name\": \"{name}\" }</properties></jagui-arc>";
+    const PathTpl = "<jagui-path id=\"{internalId}\" data-class=\"Path\" class=\"Control Path\"><properties>{ \"name\": \"{name}\", \"path\": \"M0.0429,0.60451c2.56769,0 4.65071,2.10669 4.65071,4.70101c0,2.59433 -2.08302,4.69899 -4.65071,4.69899c-2.56767,0 -4.65071,2.10668 -4.65071,4.70102c0,2.59431 2.08305,4.69897 4.65071,4.69897c5.13536,0 9.30346,-4.21134 9.30346,-9.39999c0,-5.18864 -4.1681,-9.4 -9.30346,-9.4zm0,3.23195c-0.80281,0 -1.45397,0.65792 -1.45397,1.46906c0,0.81114 0.65116,1.46907 1.45397,1.46907c0.80281,0 1.45398,-0.65793 1.45398,-1.46907c0,-0.81114 -0.65117,-1.46906 -1.45398,-1.46906zm0,9.40001c0.8024,0 1.45398,0.65834 1.45398,1.46907c0,0.81071 -0.65158,1.46906 -1.45398,1.46906c-0.80239,0 -1.45397,-0.65835 -1.45397,-1.46906c0,-0.81073 0.65158,-1.46907 1.45397,-1.46907zm9.09477,-3.22597c0,5.1848 -4.15991,9.3879 -9.29145,9.3879c-5.13153,0 -9.29146,-4.2031 -9.29146,-9.3879c0,-5.18479 4.15993,-9.3879 9.29146,-9.3879c5.13153,0 9.29145,4.2031 9.29145,9.3879z\" }</properties></jagui-path>";
+    const StarTpl = "<jagui-star id=\"{internalId}\" data-class=\"Star\" class=\"Control Star\"><properties>{ \"name\": \"{name}\" }</properties></jagui-star>";
+    const PolygonTpl = "<jagui-polygon id=\"{internalId}\" data-class=\"Polygon\" class=\"Control Polygon\"><properties>{ \"name\": \"{name}\", \"path\": \"M20,10 L5,19 L5,1 Z\" }</properties></jagui-polygon>";
     Core.classes.registerTemplates([{ Class: Line, template: LineTpl }, { Class: Rectangle, template: RectangleTpl }, { Class: RoundRect, template: RoundRectTpl }, { Class: Ellipse, template: EllipseTpl },
     { Class: Circle, template: CircleTpl }, { Class: Pie, template: PieTpl }, { Class: Chord, template: ChordTpl }, { Class: Arc, template: ArcTpl }, { Class: Path, template: PathTpl },
     { Class: Star, template: StarTpl }, { Class: Polygon, template: PolygonTpl }]);

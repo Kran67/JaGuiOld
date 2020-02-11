@@ -240,7 +240,7 @@ const CornerButton = (() => {
         generateSVGPath() {
             //#region Variables déclaration
             const htmlElement = this.HTMLElement;
-            const path = htmlElement.querySelector("path");
+            //const path = htmlElement.querySelector("path");
             const priv = internal(this);
             const r = [
                 { ...priv.topLeftCorner.toSimpleObject, type: priv.topLeftCornerType, unit: priv.topLeftCornerUnit },
@@ -282,7 +282,7 @@ const CornerButton = (() => {
             d.push("v", -htmlElement.offsetHeight + r[3].y + r[0].y);
             this.drawCorner(_CORNERS.TOPLEFT, r[0], d);
             d.push("Z");
-            path.setAttribute("d", d.join(String.SPACE));
+            priv.path.setAttribute("d", d.join(String.SPACE));
         }
         //#endregion generateSVGPath
         //#region drawCorner
@@ -348,6 +348,64 @@ const CornerButton = (() => {
             }
         }
         //#endregion assign
+        //#region loaded
+        loaded() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const htmlElement = this.HTMLElement;
+            const DIV = Types.HTMLELEMENTS.DIV;
+            const XMLNS = Types.SVG.XMLNS;
+            const LINEARGRADIENT = Types.SVG.LINEARGRADIENT;
+            const STOP = Types.SVG.STOP;
+            const USE = Types.SVG.USE;
+            const CLIPPATH = Types.SVG.CLIPPATH;
+            const XLINKHREF = Types.SVG.XLINKHREF;
+            const svg = document.createElementNS(XMLNS, Types.SVG.SVG);
+            const defs = document.createElementNS(XMLNS, Types.SVG.DEFS);
+            const clippath = document.createElementNS(XMLNS, CLIPPATH);
+            const use = document.createElementNS(XMLNS, USE);
+            let lineargradient = document.createElementNS(XMLNS, LINEARGRADIENT);
+            let stop = document.createElementNS(XMLNS, STOP);
+            const div = document.createElement(Types.HTMLELEMENTS.DIV);
+            //#endregion Variables déclaration
+            if (!htmlElement.querySelector(DIV)) {
+                div.classList.add("Control", "Button", "CornerButton", this.themeName, "includeCaption");
+                div.style=`clip-path:url(#${this.name}Clip);`;
+                htmlElement.appendChild(div);
+                svg.setAttribute("width", "100%");
+                svg.setAttribute("height", "100%");
+                svg.classList.add("CornerButtonSvg");
+                clippath.id = `${this.name}Clip`;
+                use.setAttributeNS(Types.SVG.XLINK, XLINKHREF, `#${this.name}ClipPath`);
+                clippath.appendChild(use);
+                defs.appendChild(clippath);
+                svg.appendChild(defs);
+                lineargradient.id = `${this.name}Gradient`;
+                lineargradient.setAttribute("x1", "0");
+                lineargradient.setAttribute("x2", "0");
+                lineargradient.setAttribute("y1", "0");
+                lineargradient.setAttribute("y2", "100%");
+                stop.setAttribute("offset", "0%");
+                stop.classList.add(this.themeName, "first-corner-button-color");
+                lineargradient.appendChild(stop);
+                svg.appendChild(lineargradient);
+                lineargradient = document.createElementNS(XMLNS, LINEARGRADIENT);
+                stop = document.createElementNS(XMLNS, Types.SVG.STOP);
+                stop.setAttribute("offset", "100%");
+                stop.classList.add(this.themeName, "secondary-corner-button-color");
+                lineargradient.appendChild(stop);
+                svg.appendChild(lineargradient);
+                priv.path = document.createElementNS(XMLNS, Types.SHAPES.PATH);
+                priv.path.setAttribute("stroke", `url(#${this.name}Gradient)`);
+                priv.path.classList.add("CornerButtonClipPath");
+                priv.path.id = `${this.name}ClipPath`;
+                svg.appendChild(priv.path);
+                div.appendChild(svg);
+            }
+            super.loaded();
+            this.update();
+        }
+        //#endregion loaded
         //#endregion
     }
     return CornerButton;

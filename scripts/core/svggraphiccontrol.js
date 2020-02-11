@@ -23,7 +23,7 @@ const SVGGraphicControl = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 priv.svg = null;
-                priv.svgShape = null;
+                priv.svgShape = document.createElementNS(Types.SVG.XMLNS, props.shape);
                 this.allowUpdateOnResize = true;
             }
         }
@@ -61,16 +61,23 @@ const SVGGraphicControl = (() => {
         //#endregion svgShape
         //#endregion Getter / Setter
         //#region Methods
-        //#region getHTMLElement
-        getHTMLElement(id) {
+        //#region loaded
+        loaded() {
             //#region Variables déclaration
             const priv = internal(this);
+            const htmlElement = this.HTMLElement;
+            const SVG = Types.SVG.SVG;
+            const XMLNS = Types.SVG.XMLNS;
             //#endregion Variables déclaration
-            super.getHTMLElement(id);
-            priv.svg = this.HTMLElement.querySelector("svg");
-            priv.svgShape = this.svg.firstElementChild;
+            if (!htmlElement.querySelector(SVG)) {
+                priv.svg = document.createElementNS(XMLNS, SVG);
+                priv.svg.classList.add("Control", "svgShape");
+                htmlElement.appendChild(priv.svg);
+                priv.svg.appendChild(priv.svgShape);
+            }
+            super.loaded();
         }
-        //#endregion getHTMLElement
+        //#endregion loaded
         //#region update
         update() {
             //#region Variables déclaration
@@ -92,7 +99,6 @@ const SVGGraphicControl = (() => {
                     svgShape.setAttribute("stroke-dasharray", JSON.parse(strokeDash).join(String.COMMA));
                 }
                 svgShape.setAttribute("stroke-dashoffset", this.strokeDashOffset);
-                //super.update();
             }
         }
         //#endregion update
