@@ -109,15 +109,10 @@ const PathCheckbox = (() => {
 //#endregion PathCheckbox
 Core.classes.register(Types.CATEGORIES.EXTENDED, PathCheckbox);
 export { PathCheckbox };
-/*
-    //#region Template
-    if ($j.isHTMLRenderer()) {
-        var PathCheckboxTpl = "<div id='{internalId}' data-name='{name}' data-class='PathCheckbox' class='Control PathCheckbox {theme}' style='width:93px;height:15px;'>\
-                         <input type='checkbox' class='Control PathCheckboxInput' />\
-                         <div class='Control PathCheckboxCheck {theme}'></div>{caption}\
-                         </div>";
-        $j.classes.registerTemplates([{ Class: PathCheckbox, template: PathCheckboxTpl }]);
-    }
-    //#ednregion
-})();
-*/
+//#region Template
+if (Core.isHTMLRenderer) {
+    var PathCheckboxTpl = ["<jagui-pathcheckbox id=\"{internalId}\" data-class=\"PathCheckbox\" class=\"Control PathCheckbox {theme}\"><properties>",
+        "{ \"name\": \"{name}\", \"caption\": \"{caption}\" }</properties></jagui-pathcheckbox>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: PathCheckbox, template: PathCheckboxTpl }]);
+}
+//#endregion

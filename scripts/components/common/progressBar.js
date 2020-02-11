@@ -174,8 +174,6 @@ const ProgressBar = (() => {
             let borderBottom = 0;
             //#endregion Variables déclaration
             if (!Core.isHTMLRenderer) {
-                //style = this.getStyle(Types.STYLES.NORMAL, Types.styleObjects.MIDDLE);
-                //margin = style.margin;
             } else {
                 if (htmlElement) {
                     borderLeft = parseInt(getComputedStyle(htmlElement).borderLeftWidth, 10);
@@ -189,7 +187,6 @@ const ProgressBar = (() => {
                     margin.right = parseInt(getComputedStyle(priv.progress).marginRight, 10);
                     margin.bottom = parseInt(getComputedStyle(priv.progress).marginBottom, 10);
                 }
-                //style = this.localRect();
             }
             if (priv.orientation === Types.ORIENTATIONS.HORIZONTAL) {
                 nv = htmlElement.offsetWidth - padding.left - padding.right - margin.left - margin.right;
@@ -207,10 +204,8 @@ const ProgressBar = (() => {
             const PX = Types.CSSUNITS.PX;
             const progressStyle = this.HTMLElement.firstElementChild.style;
             //#endregion Variables déclaration
-            //super.update();
             if (priv.progress) {
                 const wh = this.calculProgress();
-                //style = this._progress.style;
                 if (priv.orientation === Types.ORIENTATIONS.HORIZONTAL) {
                     if (priv.value === priv.max) {
                         progressStyle.right = 0;
@@ -231,19 +226,21 @@ const ProgressBar = (() => {
             }
         }
         //#endregion update
-        //#region getHTMLElement
-        getHTMLElement(id) {
+        //#region loaded
+        loaded() {
             //#region Variables déclaration
             const priv = internal(this);
+            const progressBarIndic = document.createElement(Types.HTMLELEMENTS.DIV);
             //#endregion Variables déclaration
-            super.getHTMLElement(id);
-            const htmlElement = this.HTMLElement;
-            if (htmlElement) {
-                priv.progress = htmlElement.querySelector(".ProgressBarProgress");
-                priv.progress.jsObj = this;
-            }
+            priv.progress = document.createElement(Types.HTMLELEMENTS.DIV);
+            priv.progress.classList.add("Control", "ProgressBarProgress", this.themeName, `orientation-${priv.orientation}`);
+            priv.progress.jsObj = this;
+            progressBarIndic.classList.add("Control", this.themeName, "ProgressBarIndic", `orientation-${priv.orientation}`);
+            priv.progress.appendChild(progressBarIndic);
+            this.HTMLElement.appendChild(priv.progress);
+            super.loaded();
         }
-        //#endregion getHTMLElement
+        //#endregion loaded
         //#endregion Methods
     };
     return ProgressBar;

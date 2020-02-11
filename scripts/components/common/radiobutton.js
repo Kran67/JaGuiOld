@@ -71,7 +71,6 @@ const RadioButton = (() => {
                     let cc = 0;
                     if (this.form) {
                         const list = this.owner.components;
-                        //for (let i = 0, l = list.length; i < l; i++)
                         list.forEach(comp => {
                             if (comp instanceof Core.classes.RadioButton && (comp !== this) && (comp.groupName === priv.groupName)) {
                                 if (comp.isChecked) cc++;
@@ -124,8 +123,7 @@ Core.classes.register(Types.CATEGORIES.COMMON, RadioButton);
 //#region Template
 if (Core.isHTMLRenderer) {
     const RadioButtonTpl = ["<jagui-radiobutton id=\"{internalId}\" data-class=\"RadioButton\" class=\"Control RadioButton {theme}\">",
-        "<properties>{ \"name\": \"{name}\", \"height\": 16 }</properties><input type=\"radio\" class=\"Control RadioButtonInput\" />",
-        "<div class=\"Control {theme} RadioButtonCheck\"></div>{caption}</jagui-radiobutton>"].join(String.EMPTY);
+        "<properties>{ \"name\": \"{name}\", \"height\": 16 }</properties>{caption}</jagui-radiobutton>"].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: RadioButton, template: RadioButtonTpl }]);
 }
 //#endregion

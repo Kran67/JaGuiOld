@@ -138,19 +138,6 @@ const ColorPicker = (() => {
             this.clipChilds = null;
         }
         //#endregion destroy
-        //#region getHTMLElement
-        getHTMLElement(id) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            super.getHTMLElement(id);
-            const htmlElement = this.HTMLElement;
-            if (htmlElement) {
-                priv.handleObj = htmlElement.querySelector(".ColorPickerIndicator");
-                priv.handleObj.jsObj = this;
-            }
-        }
-        //#endregion getHTMLElement
         //#region update
         update(point) {
             //#region Variables déclaration
@@ -222,6 +209,16 @@ const ColorPicker = (() => {
         //#endregion keyDown
         //#region loaded
         loaded() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
+            if (!htmlElement.querySelector("ColorPickerIndicator")) {
+                priv.handleObj = document.createElement(Types.HTMLELEMENTS.DIV);
+                priv.handleObj.classList.add("Control", "ColorPickerIndicator");
+                priv.handleObj.jsObj = this;
+                htmlElement.appendChild(priv.handleObj);
+            }
             super.loaded();
             this.update();
         }
@@ -234,14 +231,10 @@ const ColorPicker = (() => {
 //#endregion ColorPicker
 Core.classes.register(Types.CATEGORIES.COLOR, ColorPicker);
 export { ColorPicker };
-
-/*
-    //#region Templates
-    if ($j.isHTMLRenderer()) {
-        var ColorPickerTpl = "<div id='{internalId}' data-name='{name}' data-class='ColorPicker' class='Control ColorPicker' data-color='{color}' style='width:50px;height:140px;'>\
-                        <div class='Control ColorPickerIndicator'></div>\
-                        </div>";
-        $j.classes.registerTemplates([{ Class: ColorPicker, template: ColorPickerTpl }]);
-    }
-    //endregion
-})();*/
+//#region Templates
+if (Core.isHTMLRenderer) {
+    const ColorPickerTpl = ["<jagui-colorpicker id=\"{internalId}\" data-class=\"ColorPicker\" class=\"Control ColorPicker\">",
+        "<properties>{ \"name\": \"{name}\" }</properties></jagui-colorpicker>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: ColorPicker, template: ColorPickerTpl }]);
+}
+//endregion

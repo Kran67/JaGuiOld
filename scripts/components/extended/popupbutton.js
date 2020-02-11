@@ -20,8 +20,6 @@ const PopupButton = (() => {
     class PopupButton extends Button {
         //#region constructor
         constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
@@ -37,6 +35,9 @@ const PopupButton = (() => {
             return super.cpation();
         }
         set caption(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (Tools.isString(newValue)) {
                 if (priv.caption !== newValue) {
                     priv.caption = Text.replace(newValue, Types.CONSTANTS.HOTKEYPREFIX, String.EMPTY);
@@ -49,12 +50,15 @@ const PopupButton = (() => {
         //#region Methods
         //#region click
         click() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             this.onClick.invoke();
-            if (this.popupMenu) {
-                if (this.popupMenu instanceof Core.classes.PopupMenu) {
+            if (priv.popupMenu) {
+                if (priv.popupMenu instanceof Core.classes.PopupMenu) {
                     const pt = this.clientToDocument();
-                    this.popupMenu.control = this;
-                    this.popupMenu.show(pt.x, pt.y + this.HTMLElement.offsetHeight);
+                    priv.popupMenu.control = this;
+                    priv.popupMenu.show(pt.x, pt.y + this.HTMLElement.offsetHeight);
                 }
             }
         }
@@ -93,10 +97,25 @@ const PopupButton = (() => {
         //#endregion keyUp
         //#region destroy
         destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             priv.popupMenu = null;
             super.destroy();
         }
         //#endregion destroy
+        //#region loaded
+        loaded() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            super.loaded();
+            priv.arrow = document.createElement(Types.HTMLELEMENTS.DIV);
+            priv.arrow.classList.add("Control", "PopupButtonArrow");
+            priv.arrow.innerHTML = "8";
+            this.HTMLElement.appendChild(priv.arrow);
+        }
+        //#endregion
         //#endregion Methods
     }
     return PopupButton;

@@ -288,16 +288,28 @@ const CustomTextControl = (function () {
         //#endregion Getters / Setters
         //#region Methods
         loaded() {
-            super.loaded();
-            this.app.getLocalText(this);
-            this.bindEventToHTML("onChange");
-        }
-        update() {
-            const inputObj = this.inputObj;
             //#region Variables déclaration
             const priv = internal(this);
+            const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            super.update();
+            if (!htmlElement.querySelector("input")) {
+                priv.inputObj = document.createElement(Types.HTMLELEMENTS.INPUT);
+                priv.inputObj.type = "text";
+                priv.inputObj.classList.add("Control", "csr_text", "TextBoxInput", `${this.constructor.name}Input`, this.themeName);
+                priv.inputObj.jsObj = this;
+                htmlElement.appendChild(priv.inputObj);
+                this.bindEventToHTMLInput();
+            }
+            this.bindEventToHTML("onChange");
+            super.loaded();
+            this.app.getLocalText(this);
+            this.update();
+        }
+        update() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const inputObj = priv.inputObj;
+            //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
                 if (inputObj) {
                     inputObj.value = priv.text;
@@ -313,18 +325,18 @@ const CustomTextControl = (function () {
                 }
             }
         }
-        getHTMLElement(id) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            super.getHTMLElement(id);
-            const htmlElement = this.HTMLElement;
-            if (htmlElement) {
-                priv.inputObj = htmlElement.querySelector("input");
-                priv.inputObj.jsObj = this;
-                this.bindEventToHTMLInput();
-            }
-        }
+        //getHTMLElement(id) {
+        //    //#region Variables déclaration
+        //    const priv = internal(this);
+        //    //#endregion Variables déclaration
+        //    super.getHTMLElement(id);
+        //    const htmlElement = this.HTMLElement;
+        //    if (htmlElement) {
+        //        priv.inputObj = htmlElement.querySelector("input");
+        //        priv.inputObj.jsObj = this;
+        //        this.bindEventToHTMLInput();
+        //    }
+        //}
         textChanged() {
             //#region Variables déclaration
             const jsObj = this.jsObj;

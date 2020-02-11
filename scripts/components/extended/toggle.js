@@ -86,23 +86,20 @@ const Toggle = (() => {
             if (!this.loading && !this.form.loading) {
                 super.update();
                 if (this.check) {
-                htmlElement.dataset.unchecked = priv.uncheckedLabel;
-                htmlElement.dataset.checked = priv.checkedLabel;
+                    htmlElement.dataset.unchecked = priv.uncheckedLabel;
+                    htmlElement.dataset.checked = priv.checkedLabel;
                     Css.removeCSSRule(`#${this.internalId}${PSEUDOCSSCLASS.BEFORE}`);
                     Css.removeCSSRule(`#${this.internalId}${PSEUDOCSSCLASS.AFTER}`);
                     if (priv.checkedLabel.includes("data:image")) {
                         Css.addCSSRule(`#${this.internalId}${PSEUDOCSSCLASS.BEFORE}`, `content: url(${priv.checkedLabel})`);
                     }
                     if (priv.uncheckedLabel.includes("data:image")) {
-                        Css.addCSSRule(`#${this.internalId}${PSEUDOCSSCLASS.AFTER}`, `content: url(${this.uncheckedLabel})`);
+                        Css.addCSSRule(`#${this.internalId}${PSEUDOCSSCLASS.AFTER}`, `content: url(${priv.uncheckedLabel})`);
                     }
                 }
             }
         }
         //#endregion update
-        //loaded() {
-        //    super.l
-        //}
         //#endregion Methods
     }
     return Toggle;

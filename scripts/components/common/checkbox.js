@@ -39,12 +39,13 @@ const Checkbox = (() => {
         //#endregion
         //#region constructor
         constructor(owner, props) {
+            //#region Variables déclaration
+            const htmlElements = Types.HTMLELEMENTS;
+            //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.input = null;
-                priv.check = null;
                 this.autoCapture = true;
                 priv.isChecked = props.hasOwnProperty("isChecked") ? props.isChecked : false;
                 priv.autoWidth = props.hasOwnProperty("autoWidth") ? props.autoWidth : true;
@@ -67,6 +68,8 @@ const Checkbox = (() => {
                 priv.action = null;
                 this.autoSize = false;
                 this.clipped = false;
+                priv.check = document.createElement(htmlElements.DIV);
+                priv.input = document.createElement(htmlElements.INPUT);
             }
         }
         //#endregion constructor
@@ -271,25 +274,29 @@ const Checkbox = (() => {
             super.destroy();
         }
         //#endregion destroy
-        //#region getHTMLElement
-        getHTMLElement(id) {
+        //#region loaded
+        loaded() {
             //#region Variables déclaration
             const priv = internal(this);
-            //#endregion Variables déclaration
-            super.getHTMLElement(id);
             const htmlElement = this.HTMLElement;
-            if (!priv.input && htmlElement) {
-                priv.input = htmlElement.querySelector("input");
-                priv.input.jsObj = this;
-                priv.input.name = this.name;
-                priv.input.id = this.name;
+            //#endregion Variables déclaration
+            if (!htmlElement.querySelector("input")) {
+                priv.input.type = this instanceof Core.classes.RadioButton?"radio":"checkbox";
+                priv.input.classList.add("Control", `${this.constructor.name}Input`);
+                priv.input.checked = priv.isChecked;
+                priv.check.classList.add("Control", this.themeName, `${this.constructor.name}Check`);
+                if (priv.isChecked) {
+                    priv.check.classList.add("checked");
+                }
+                if (priv.allowGrayed) {
+                    priv.check.classList.add("grayed");
+                }
+                htmlElement.appendChild(priv.input);
+                htmlElement.appendChild(priv.check);
             }
-            if (!priv.check && htmlElement) {
-                priv.check = htmlElement.lastElementChild;
-                priv.check.jsObj = this;
-            }
+            super.loaded();
         }
-        //#endregion getHTMLElement
+        //#endregion
         //#endregion Checkbox
     }
     return Checkbox;
@@ -300,8 +307,7 @@ Core.classes.register(Types.CATEGORIES.COMMON, Checkbox);
 //#region Templates
 if (Core.isHTMLRenderer) {
     const CheckboxTpl = ["<jagui-checkbox id=\"{internalId}\" data-class=\"Checkbox\" class=\"Control Checkbox {theme}\">",
-        "<properties>{ \"name\": \"{name}\", \"height\": 15 }</properties><input type=\"checkbox\" class=\"Control CheckboxInput\" />",
-        "<div class=\"Control {theme} CheckboxCheck\"></div>{caption}</jagui-checkbox>"].join(String.EMPTY);
+        "<properties>{ \"name\": \"{name}\", \"height\": 15 }</properties>{caption}</jagui-checkbox>"].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: Checkbox, template: CheckboxTpl }]);
 }
 //endregion

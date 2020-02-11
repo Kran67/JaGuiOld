@@ -223,19 +223,21 @@ const ColorQuad = (() => {
             }
         }
         //#endregion mouseMove
-        //#region getHTMLElement
-        getHTMLElement(id) {
+        //#region loaded
+        loaded() {
             //#region Variables déclaration
             const priv = internal(this);
-            //#endregion Variables déclaration
-            super.getHTMLElement(id);
             const htmlElement = this.HTMLElement;
-            if (htmlElement) {
-                priv.handleObj = htmlElement.querySelector(".ColorQuadIndicator");
+            //#endregion Variables déclaration
+            if (!htmlElement.querySelector("ColorQuadIndicator")) {
+                priv.handleObj = document.createElement(Types.HTMLELEMENTS.DIV);
+                priv.handleObj.classList.add("Control", "ColorQuadIndicator");
                 priv.handleObj.jsObj = this;
+                htmlElement.appendChild(priv.handleObj);
             }
+            super.loaded();
         }
-        //#region getHTMLElement
+        //#region loaded
         //#region _update
         _update() {
             //#region Variables déclaration
@@ -353,14 +355,10 @@ const ColorQuad = (() => {
 //#endregion ColorQuad
 Core.classes.register(Types.CATEGORIES.EXTENDED, ColorQuad);
 export { ColorQuad };
-
-/*
-    //#region Templates
-    if ($j.isHTMLRenderer()) {
-        var ColorQuadTpl = "<div id='{internalId}' data-name='{name}' data-class='ColorQuad' class='Control ColorQuad hsl' data-color='blue' data-format='hsl' style='width:100px;height:100px;'>\
-                      <div class='Control ColorQuadIndicator'></div>\
-                      </div>";
-        $j.classes.registerTemplates([{ Class: ColorQuad, template: ColorQuadTpl }]);
-    }
-    //endregion
-})();*/
+//#region Templates
+if (Core.isHTMLRenderer) {
+    const ColorQuadTpl = ["<jagui-colorquad id=\"{internalId}\" data-class=\"ColorQuad\" class=\"Control ColorQuad\">",
+    "<properties>{ \"name\": \"{name}\", }</properties></jagui-colorquad>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: ColorQuad, template: ColorQuadTpl }]);
+}
+//endregion

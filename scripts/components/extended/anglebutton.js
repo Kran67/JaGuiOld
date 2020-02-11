@@ -23,8 +23,6 @@ const AngleButton = (() => {
     class AngleButton extends Button {
         //#region Constructor
         constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
@@ -47,8 +45,10 @@ const AngleButton = (() => {
                 this.onChanged = new NotifyEvent(this);
                 const self = this;
                 priv.setInternalValue = function(newValue) {
+                    //#region Variables déclaration
+                    const priv = this;
+                    //#endregion Variables déclaration
                     if (Tools.isNumber(newValue)) {
-                        const priv = this;
                         if (priv.internalValue !== newValue) {
                             if (priv.frequency === 0) {
                                 priv.internalValue = newValue;
@@ -266,19 +266,6 @@ const AngleButton = (() => {
             priv.setInternalValue(newVal);
         }
         //#endregion mouseWheel
-        //#region getHTMLElement
-        getHTMLElement(id) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            super.getHTMLElement(id);
-            const htmlElement = this.HTMLElement;
-            priv.textObj = htmlElement.querySelector(".AngleButtonCaption");
-            priv.textObj.jsObj = this;
-            priv.knob = htmlElement.querySelector(".AngleButtonKnob");
-            priv.knob.jsObj = this;
-        }
-        //#endregion getHTMLElement
         //#region destroy
         destroy() {
             //#region Variables déclaration
@@ -293,8 +280,6 @@ const AngleButton = (() => {
             priv.tracking = null;
             priv.value = null;
             priv.showValue = null;
-            //this.autoCapture = null;
-            //this.caption = null;
             priv.onChanged.destroy();
             priv.onChanged = null;
         }
@@ -330,6 +315,21 @@ const AngleButton = (() => {
         //#endregion keyDown
         //#region loaded
         loaded() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
+            if (!htmlElement.querySelector("AngleButtonCaption")) {
+                priv.textObj = document.createElement(Types.HTMLELEMENTS.DIV);
+                priv.textObj.classList.add("Control", "AngleButtonCaption");
+                priv.textObj.jsObj = this;
+                priv.knob = document.createElement(Types.HTMLELEMENTS.DIV);
+                priv.knob.classList.add("Control", "AngleButtonKnob");
+                priv.knob.innerHTML = "3";
+                priv.knob.jsObj = this;
+                htmlElement.appendChild(priv.textObj);
+                htmlElement.appendChild(priv.knob);
+            }
             super.loaded();
             this.update();
         }
@@ -342,15 +342,10 @@ const AngleButton = (() => {
 //#endregion
 Core.classes.register(Types.CATEGORIES.EXTENDED, AngleButton);
 export { AngleButton };
-/*
-    //#region Templates
-    if ($j.isHTMLRenderer()) {
-        var AngleButtonTpl = "<button id='{internalId}' data-name='{name}' data-class='AngleButton' class='Control AngleButton {theme}' style='width:30px;height:30px;'>\
-                        <div class='Control AngleButtonCaption'>0°</div>\
-                        <div class='Control AngleButtonKnob'>3</div>\
-                        </button>";
-        $j.classes.registerTemplates([{ Class: AngleButton, template: AngleButtonTpl }]);
-    }
-    //endregion
-})();
-*/
+//#region Templates
+if (Core.isHTMLRenderer) {
+    const AngleButtonTpl = ["<jagui-anglebutton id=\"{internalId}\" data-class=\"AngleButton\" class=\"Control Button AngleButton {theme} csr_default\">",
+        "<properties>{ \"name\": \"{name}\" }</properties></jagui-anglebutton>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: AngleButton, template: AngleButtonTpl }]);
+}
+//endregion

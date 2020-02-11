@@ -23,7 +23,7 @@ const GroupBox = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.legendObj = null;
+                //priv.legend = null;
                 this.autoTranslate = true;
                 this.canFocused = false;
                 if (!Core.isHTMLRenderer) {
@@ -44,11 +44,11 @@ const GroupBox = (() => {
         }
         //#endregion Constructor
         //#region Getters / Setters
-        //#region legendObj
-        get legendObj() {
-            return internal(this).legendObj;
+        //#region legend
+        get legend() {
+            return internal(this).legend;
         }
-        //#endregion legendObj
+        //#endregion legend
         //#endregion Getters / Setters
         //#region Methods
         //#region doBitmapLoaded
@@ -73,8 +73,8 @@ const GroupBox = (() => {
             //#endregion Variables déclaration
             super.update();
             if (!this.loading && !this.form.loading) {
-                if (priv.legendObj) {
-                    priv.legendObj.setAttribute("align", priv.horizAlign);
+                if (priv.legend) {
+                    priv.legend.setAttribute("align", priv.horizAlign);
                 }
             }
         }
@@ -84,21 +84,21 @@ const GroupBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.legendObj.innerHTML = this.caption;
+            priv.legend.innerHTML = this.caption;
         }
         //#endregion updateCaption
         //#region getHTMLElement
-        getHTMLElement(id) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            super.getHTMLElement(id);
-            const htmlElement = this.HTMLElement;
-            if (htmlElement) {
-                priv.legendObj = htmlElement.querySelector(".GroupBoxLegend");
-                priv.legendObj.jsObj = this;
-            }
-        }
+        //getHTMLElement(id) {
+        //    //#region Variables déclaration
+        //    const priv = internal(this);
+        //    //#endregion Variables déclaration
+        //    super.getHTMLElement(id);
+        //    const htmlElement = this.HTMLElement;
+        //    if (htmlElement) {
+        //        priv.legendObj = htmlElement.querySelector(".GroupBoxLegend");
+        //        priv.legendObj.jsObj = this;
+        //    }
+        //}
         //#endregion getHTMLElement
         //#region destroy
         destroy() {
@@ -106,10 +106,23 @@ const GroupBox = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.destroy();
-            priv.legendObj = null;
+            priv.legend = null;
             priv.horizAlign = null;
         }
         //#endregion destroy
+        //#region loaded
+        loaded() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.legend = document.createElement(Types.HTMLELEMENTS.LEGEND);
+            priv.legend.classList.add("GroupBoxLegend", this.themeName);
+            //priv.legend.innerHTML = this.name;
+            this.HTMLElement.appendChild(priv.legend);
+            this.updateCaption();
+            super.loaded();
+        }
+        //#endregion loaded
         //#endregion Methods
     }
     return GroupBox;
@@ -119,14 +132,9 @@ const GroupBox = (() => {
 Object.seal(GroupBox);
 Core.classes.register(Types.CATEGORIES.CONTAINERS, GroupBox);
 export { GroupBox };
-/*
-    //#region Templates
-    if ($j.isHTMLRenderer()) {
-        var GroupBoxTpl = "<fieldset id='{internalId}' data-name='{name}' data-class='GroupBox' class='Control GroupBox {theme}' style='width:185px;height:105px;'>\
-                     <legend class='Control GroupBoxLegend carbon'>GroupBox1</legend>\
-                     </fieldset>";
-        $j.classes.registerTemplates([{ Class: GroupBox, template: GroupBoxTpl }]);
-    }
-    //endregion
-})();
-*/
+//#region Templates
+if (Core.isHTMLRenderer) {
+    var GroupBoxTpl = "<fieldset id=\"{internalId}\" data-class=\"GroupBox\" class=\"Control GroupBox {theme}\"><properties>{ \"name\": \"{name}\", \"caption\": \"{caption}\" }</properties></fieldset>";
+    Core.classes.registerTemplates([{ Class: GroupBox, template: GroupBoxTpl }]);
+}
+//endregion

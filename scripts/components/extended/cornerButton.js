@@ -339,16 +339,12 @@ const CornerButton = (() => {
             if (source instanceof Core.classes.CornerButton) {
                 priv.topLeftCorner.assign(source.topLeftCorner);
                 priv.topLeftCornerType = source.topLeftCornerType;
-                //priv.topLeftCornerUnit = source.;
                 priv.topRightCorner.assign(source.topRightCorner);
                 priv.topRightCornerType = source.topRightCornerType;
-                //priv.topRightCornerUnit = source.;
                 priv.bottomRightCorner.assign(source.bottomRightCorner);
                 priv.bottomRightCornerType = source.bottomRightCornerType;
-                //priv.bottomRightCornerUnit = source.;
                 priv.bottomLeftCorner.assign(source.bottomLeftCorner);
                 priv.bottomLeftCornerType = source.bottomLeftCornerType;
-                //priv.bottomLeftCornerUnit = source.;
             }
         }
         //#endregion assign
@@ -359,9 +355,13 @@ const CornerButton = (() => {
 })();
 //#endregion
 Core.classes.register(Types.CATEGORIES.EXTENDED, CornerButton);
-//<jagui-cornerbutton id="_7hes89u" data-class="CornerButton" class="Control CornerButton csr_default {theme}"><properties>{ "name": "CornerButton1",  
-//    "topLeftCorner":{"x":15,"y":15, "type":"sharp", "unit":"px"}, "topRightCorner":{ "x":15,"y":15, "type":"scoop", "unit":"px"}, "bottomLeftCorner":{"x":15,"y":15, "type":"notch", "unit":"px"}, "bottomRightCorner":{"x":15,"y":15, "type":"bevel", "unit":"px"} , "onClick":"Core.dialogs.prompt('prompt','test','blabla')", "tabOrder": 15, "top": 180, "left": 150, "width": 68, "height": 50, "caption":"CornerButton" }</properties><div class="Control Button CornerButton {theme} includeCaption" style="clip-path:url(#CornerButton1Clip);"><svg width="0" height="0"><defs><clipPath id="CornerButton1Clip"><path class="CornerButtonClipPath" d="M 0 0 Z"></path></clipPath></defs></svg></div>
-//    </jagui-cornerbutton>
+//#region Template
+if (Core.isHTMLRenderer) {
+const CornerButtonTpl = ["<jagui-cornerbutton id=\"{internalId}\" data-class=\"CornerButton\" class=\"Control CornerButton csr_default {theme}\">",
+    "<properties>{ \"name\": \"{name}\", \"caption\": \"{caption}\" }</properties>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: CornerButton, template: CornerButtonTpl }]);
+}
+//#endregion Template
 export { CornerButton };
 // http://leaverou.github.io/corner-shape/
 // https://jaketrent.com/post/create-bezier-curve-clip-path/

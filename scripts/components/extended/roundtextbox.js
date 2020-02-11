@@ -60,16 +60,12 @@ class RoundTextBox extends CustomTextControl {
     //#endregion Methods
 }
 Core.classes.register(Types.CATEGORIES.EXTENDED, RoundTextBox);
+export { RoundTextBox };
 //#endregion RoundTextBox
-
-
-/*
-    //#region Template
-    if ($j.isHTMLRenderer()) {
-        var RoundTextBoxTpl = "<div id='{internalId}' data-name='{name}' data-class='RoundTextBox' class='Control TextBox RoundTextBox {theme}' style='width:121px;height:21px;'>\
-                         <input type='text' class='Control csr_text TextBoxInput RoundTextBoxInput {theme}' />\
-                         </div>";
-        $j.classes.registerTemplates([{ Class: RoundTextBox, template: RoundTextBoxTpl }]);
-    }
-    //#endregion
-})();*/
+//#region Template
+if (Core.isHTMLRenderer) {
+    const RoundTextBoxTpl = ["<jagui-roundtextbox id=\"{internalId}\" data-class=\"RoundTextBox\" class=\"Control TextBox RoundTextBox {theme}\">",
+        "<properties>{ \"name\": \"{name}\" }</properties></jagui-roundtextbox>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: RoundTextBox, template: RoundTextBoxTpl }]);
+}
+//#endregion

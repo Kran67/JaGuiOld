@@ -24,24 +24,28 @@
         left: 50%;
     }
 
-    .Control.Toggle .Control.CheckboxCheck {
-        width: 52%;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        display: block;
-        max-width: none;
-        height: auto;
-        transition: ease left 0.5s;
-        z-index: 1;
+.Control.ToggleCheck {
+    width: 52%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    max-width: none;
+    height: auto;
+    transition: ease left 0.5s;
+    z-index: 1;
+}
+
+    .Control.ToggleCheck.checked {
+        left: 49%;
     }
 
-        .Control.Toggle .Control.CheckboxCheck.checked {
-            left: 49%;
+        .Control.ToggleCheck.checked:before,
+        .Control.ToggleCheck.grayed:before {
+            content: "";
         }
 
-            .Control.Toggle .Control.CheckboxCheck.checked:before,
-            .Control.Toggle .Control.CheckboxCheck.grayed:before {
-                content: "";
-            }
+input.ToggleInput {
+    display: none;
+}
