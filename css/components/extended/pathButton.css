@@ -1,9 +1,9 @@
-﻿button.PathButton {
+﻿.PathButton {
     overflow: hidden;
     white-space: nowrap;
 }
 
-span.PathButtonCaption {
+.PathButtonCaption {
     margin: 0;
     overflow: hidden;
     text-align: center;

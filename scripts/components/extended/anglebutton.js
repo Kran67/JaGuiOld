@@ -320,10 +320,10 @@ const AngleButton = (() => {
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (!htmlElement.querySelector(".AngleButtonCaption")) {
-                priv.textObj = document.createElement(Types.HTMLELEMENTS.DIV);
+                priv.textObj = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}caption`);
                 priv.textObj.classList.add("Control", "AngleButtonCaption");
                 priv.textObj.jsObj = this;
-                priv.knob = document.createElement(Types.HTMLELEMENTS.DIV);
+                priv.knob = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}knob`);
                 priv.knob.classList.add("Control", "AngleButtonKnob");
                 priv.knob.innerHTML = "3";
                 priv.knob.jsObj = this;

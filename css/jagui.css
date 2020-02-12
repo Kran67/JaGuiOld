@@ -27,7 +27,7 @@ body {
     filter:grayscale(1);
 }
 
-div, span, label, img, fieldset, svg, input, button, canvas, ::before, ::after {
+* {
     /*position: absolute;
   overflow:hidden;*/
     box-sizing: border-box;

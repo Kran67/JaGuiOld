@@ -18,14 +18,11 @@ class TextBox extends CustomTextControl {
 }
 Core.classes.register(Types.CATEGORIES.COMMON, TextBox);
 //#endregion Class TextBox
-
-/*
-    //#region Templates
-    if ($j.isHTMLRenderer()) {
-        var TextBoxTpl = "<div id='{internalId}' data-name='{name}' data-class='TextBox' class='Control TextBox {theme}' style='width:121px;height:21px;'>\
-                    <input type='text' value='{name}' class='Control csr_text TextBoxInput {theme}' />\
-                    </div>";
-        $j.classes.registerTemplates([{ Class: TextBox, template: TextBoxTpl }]);
-    }
-    //endregion
-})();*/
+export { TextBox };
+//#region Templates
+if (Core.isHTMLRenderer) {
+    const TextBoxTpl = ["<jagui-textbox id=\"{internalId}\" data-class=\"TextBox\" class=\"Control TextBox {theme}\">",
+        "<properties>{ \"name\": \"{name}\", \"width\": 135, \"height\": 20 }</properties></jagui-textbox>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: TextBox, template: TextBoxTpl }]);
+}
+//#endregion

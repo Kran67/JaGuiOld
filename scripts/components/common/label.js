@@ -30,11 +30,11 @@ const Label = (() => {
                 priv.effect = null;
                 if (props.effect) {
                     const effectClassName = Core.classes[`Label${props.effect.name.firstCharUpper}Effect`];
-                    priv.effect = props.hasOwnProperty("effect") && effectClassName?new effectClassName(this, props.effect.properties):null;
+                    priv.effect = props.hasOwnProperty("effect") && effectClassName ? new effectClassName(this, props.effect.properties) : null;
                 }
                 //#endregion Private
                 delete this.tabOrder;
-                this.clipped=false;
+                this.clipped = false;
             }
         }
         //#endregion
@@ -88,7 +88,7 @@ const Label = (() => {
         }
         //#endregion update
         //#region destroy
-        destroy () {
+        destroy() {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
@@ -104,7 +104,7 @@ const Label = (() => {
 //#endregion Label
 //#region Label defineProperties
 Object.defineProperties(Label, {
-    "effet":{
+    "effet": {
         enumerable: true
     }
 });
@@ -112,7 +112,9 @@ Object.defineProperties(Label, {
 Object.seal(Label);
 Core.classes.register(Types.CATEGORIES.COMMON, Label);
 //#region Template
-const LabelTpl = "<label id='{internalId}' data-name='{name}' data-class='Label' class='Control csr_default Label {theme}'>{caption}</label>";
-Core.classes.registerTemplates([{ Class: Label, template: LabelTpl }]);
+if (Core.isHTMLRenderer) {
+    const LabelTpl = ["<jagui-label id=\"{internalId}\" data-class=\"Label\" class=\"Control csr_default Label {theme} csr_default\"><properties>{ \"name\": \"{name}\", \"caption\": \"{caption}\" }</properties></jagui-label>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: Label, template: LabelTpl }]);
+}
 //#endregion Template
 export { Label };

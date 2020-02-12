@@ -125,7 +125,7 @@ const CircularProgressBar = (() => {
         calcProgress() {
             //#region Variables déclaration
             const priv = internal(this);
-            const r = ~~priv.progress.getAttribute('r');
+            const r = ~~priv.progress.getAttribute("r");
             const c = Math.PI * (r * 2);
             const pct = (100 - priv.value) / 100 * c;
             //#endregion Variables déclaration

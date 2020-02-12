@@ -87,19 +87,6 @@ const GroupBox = (() => {
             priv.legend.innerHTML = this.caption;
         }
         //#endregion updateCaption
-        //#region getHTMLElement
-        //getHTMLElement(id) {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    //#endregion Variables déclaration
-        //    super.getHTMLElement(id);
-        //    const htmlElement = this.HTMLElement;
-        //    if (htmlElement) {
-        //        priv.legendObj = htmlElement.querySelector(".GroupBoxLegend");
-        //        priv.legendObj.jsObj = this;
-        //    }
-        //}
-        //#endregion getHTMLElement
         //#region destroy
         destroy() {
             //#region Variables déclaration
@@ -117,7 +104,6 @@ const GroupBox = (() => {
             //#endregion Variables déclaration
             priv.legend = document.createElement(Types.HTMLELEMENTS.LEGEND);
             priv.legend.classList.add("GroupBoxLegend", this.themeName);
-            //priv.legend.innerHTML = this.name;
             this.HTMLElement.appendChild(priv.legend);
             this.updateCaption();
             super.loaded();

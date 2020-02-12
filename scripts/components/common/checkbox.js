@@ -68,7 +68,7 @@ const Checkbox = (() => {
                 priv.action = null;
                 this.autoSize = false;
                 this.clipped = false;
-                priv.check = document.createElement(htmlElements.DIV);
+                priv.check = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}check`);
                 priv.input = document.createElement(htmlElements.INPUT);
             }
         }

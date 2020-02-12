@@ -346,4 +346,4 @@ const WindowStayOnOffButton = (() => {
 //#endregion
 Core.classes.register(Types.CATEGORIES.INTERNAL, WindowButton, WindowCloseButton, WindowMinimizeButton,
     WindowMaxRestoreButton, WindowHelpButton, WindowRollUpDownButton, WindowStayOnOffButton);
-export { WindowButton, WindowCloseButton, WindowMinimizeButton, WindowMaxRestoreButton, WindowHelpButton, WindowRollUpDownButton, WindowStayOnOffButton }
+export { WindowButton, WindowCloseButton, WindowMinimizeButton, WindowMaxRestoreButton, WindowHelpButton, WindowRollUpDownButton, WindowStayOnOffButton };

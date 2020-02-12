@@ -72,7 +72,7 @@ const RadioButton = (() => {
                     if (this.form) {
                         const list = this.owner.components;
                         list.forEach(comp => {
-                            if (comp instanceof Core.classes.RadioButton && (comp !== this) && (comp.groupName === priv.groupName)) {
+                            if (comp instanceof Core.classes.RadioButton && comp !== this && comp.groupName === priv.groupName) {
                                 if (comp.isChecked) cc++;
                                 if (newValue) {
                                     comp.isChecked = false;

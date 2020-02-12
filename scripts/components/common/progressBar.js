@@ -29,19 +29,19 @@ const ProgressBar = (() => {
                 const priv = internal(this);
                 priv.progress = null;
                 if (!Core.isHTMLRenderer) {
-                    this.height = props.hasOwnProperty("height")?props.height:20;
-                    this.width = props.hasOwnProperty("width")?props.width:100;
+                    this.height = props.hasOwnProperty("height") ? props.height : 20;
+                    this.width = props.hasOwnProperty("width") ? props.width : 100;
                 }
-                priv.value = props.hasOwnProperty("value")?props.value:0;
-                priv.min = props.hasOwnProperty("min")?props.min:0;
-                priv.max = props.hasOwnProperty("max")?props.max:100;
+                priv.value = props.hasOwnProperty("value") ? props.value : 0;
+                priv.min = props.hasOwnProperty("min") ? props.min : 0;
+                priv.max = props.hasOwnProperty("max") ? props.max : 100;
                 this.hitTest = false;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "orientation",
                     enum: orientations,
                     variable: priv,
-                    value: props.hasOwnProperty("orientation")?props.orientation:orientations.NONE
+                    value: props.hasOwnProperty("orientation") ? props.orientation : orientations.NONE
                 });
                 delete this.tabOrder;
                 this.allowUpdateOnResize = true;
@@ -124,17 +124,17 @@ const ProgressBar = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (Tools.isNumber(newValue)) {
-            if (newValue !== priv.max) {
-                priv.max = newValue;
-                if (!Core.isHTMLRenderer) {
-                    if (this.allowUpdate) {
+                if (newValue !== priv.max) {
+                    priv.max = newValue;
+                    if (!Core.isHTMLRenderer) {
+                        if (this.allowUpdate) {
+                            this.update();
+                        }
+                        this.redraw();
+                    } else {
                         this.update();
                     }
-                    this.redraw();
-                } else {
-                    this.update();
                 }
-            }
             }
         }
         //#endregion max
@@ -174,6 +174,7 @@ const ProgressBar = (() => {
             let borderBottom = 0;
             //#endregion Variables déclaration
             if (!Core.isHTMLRenderer) {
+                //
             } else {
                 if (htmlElement) {
                     borderLeft = parseInt(getComputedStyle(htmlElement).borderLeftWidth, 10);
@@ -230,9 +231,9 @@ const ProgressBar = (() => {
         loaded() {
             //#region Variables déclaration
             const priv = internal(this);
-            const progressBarIndic = document.createElement(Types.HTMLELEMENTS.DIV);
+            const progressBarIndic = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}indicator`);
             //#endregion Variables déclaration
-            priv.progress = document.createElement(Types.HTMLELEMENTS.DIV);
+            priv.progress = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}progress`);
             priv.progress.classList.add("Control", "ProgressBarProgress", this.themeName, `orientation-${priv.orientation}`);
             priv.progress.jsObj = this;
             progressBarIndic.classList.add("Control", this.themeName, "ProgressBarIndic", `orientation-${priv.orientation}`);
@@ -249,15 +250,9 @@ const ProgressBar = (() => {
 //#endregion
 Core.classes.register(Types.CATEGORIES.COMMON, ProgressBar);
 export { ProgressBar };
-
-/*
-    //#region Templates
-    if ($j.isHTMLRenderer()) {
-        var ProgressBarTpl = "<div id='{internalId}' data-name='{name}' data-class='ProgressBar' class='Control ProgressBar {theme} orientation-horizontal' data-value='0' data-orientation='horizontal' style='width:150px;height:17px;'>\
-                        <div class='Control ProgressBarProgress {theme} orientation-horizontal' style='width: 72px;'><div class='{theme} ProgressBarIndic orientation-horizontal'></div></div>\
-                        </div>";
-        $j.classes.registerTemplates([{ Class: ProgressBar, template: ProgressBarTpl }]);
-    }
-    //endregion
-})();
-*/
+//#region Templates
+if (Core.isHTMLRenderer) {
+    var ProgressBarTpl = ["<jagui-progressbar id=\"{internalId}\" data-class=\"ProgressBar\" class=\"Control ProgressBar {theme} orientation-horizontal\"><properties>{ \"name\": \"{name}\", \"value\": 50, \"orientation\": \"horizontal\", \"width\": 100, \"height\": 17 }</properties></jagui-progressbar>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: ProgressBar, template: ProgressBarTpl }]);
+}
+//#endregion Templates

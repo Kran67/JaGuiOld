@@ -162,15 +162,13 @@ const FlowLayout = (() => {
     //#endregion FlowLayout
 })();
 //#endregion CustomButton
-    Object.seal(FlowLayout);
+Object.seal(FlowLayout);
 Core.classes.register(Types.CATEGORIES.CONTAINERS, FlowLayout);
 export { FlowLayout };
-/*
-    //#region Templates
-    if ($j.isHTMLRenderer()) {
-        var FlowLayoutTpl = "<div id='{internalId}' data-name='{name}' data-class='FlowLayout' class='Control FlowLayout' data-layout='horizontal' data-hgap='5' data-vgap='5' style='width:185px;height:41px;'></div>";
-        $j.classes.registerTemplates([{ Class: FlowLayout, template: FlowLayoutTpl }]);
-    }
-    //endregion
-})();
-//https://github.com/bramstein/jlayout/blob/master/lib/jlayout.flow.js*/
+//#region Templates
+if (Core.isHTMLRenderer) {
+    const FlowLayoutTpl = ["<jagui-flowlayout id=\"{internalId}\" data-class=\"FlowLayout\" class=\"Control FlowLayout\">",
+        "<properties>{ \"name\": \"{name}\" }</properties>"].join();
+    Core.classes.registerTemplates([{ Class: FlowLayout, template: FlowLayoutTpl }]);
+}
+//#endregion

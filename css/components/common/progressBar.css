@@ -1,38 +1,38 @@
-﻿div.ProgressBar {
+﻿.ProgressBar {
 }
 
-div.ProgressBar.orientation-horizontal {
+.ProgressBar.orientation-horizontal {
 }
 
-div.ProgressBar.orientation-vertical {
+.ProgressBar.orientation-vertical {
 }
 
-div.ProgressBarProgress {
+.ProgressBarProgress {
     margin: 1px;
     overflow: hidden;
 }
 
-div.ProgressBarProgress.orientation-horizontal {
+.ProgressBarProgress.orientation-horizontal {
     left: 0;
     top: 0;
     bottom: 0;
     transition: width 1s linear;
 }
 
-div.ProgressBarProgress.orientation-vertical {
+.ProgressBarProgress.orientation-vertical {
     left: 0;
     right: 0;
     bottom: 0;
     transition: height 1s linear;
 }
 
-div.ProgressBarIndic {
+.ProgressBarIndic {
     animation-duration: 16s;
     animation-iteration-count: infinite;
     animation-direction: normal;
 }
 
-div.ProgressBarIndic.orientation-horizontal {
+.ProgressBarIndic.orientation-horizontal {
     top: 0;
     left: 0;
     bottom: 0;
@@ -40,7 +40,7 @@ div.ProgressBarIndic.orientation-horizontal {
     animation-name: moveHorizontal;
 }
 
-div.ProgressBarIndic.orientation-vertical {
+.ProgressBarIndic.orientation-vertical {
     right: 0;
     left: 0;
     bottom: 0;

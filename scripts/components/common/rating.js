@@ -393,7 +393,7 @@ const Rating = (() => {
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (!htmlElement.querySelector(".RatingProgress")) {
-                priv.ratingObj = document.createElement(Types.HTMLELEMENTS.DIV);
+                priv.ratingObj = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}progress`);
                 priv.ratingObj.classList.add("Control", "RatingProgress", this.themeName, `orientation-${priv.orientation}`);
                 priv.ratingObj.jsObj = this;
                 htmlElement.appendChild(priv.ratingObj);

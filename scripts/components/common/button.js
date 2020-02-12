@@ -336,7 +336,7 @@ const Button = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 this.addBindableProperties(["isDefault"]);
-                this.canFocused = props.hasOwnProperty("canFocused") && Tools.isBool(props.canFocused)?props.canFocused:true;
+                this.canFocused = props.hasOwnProperty("canFocused") && Tools.isBool(props.canFocused) ? props.canFocused : true;
                 this.autoCapture = true;
                 priv.isDefault = props.hasOwnProperty("isDefault") && Tools.isBool(props.isDefault) ? props.isDefault : false;
             }
@@ -358,24 +358,6 @@ const Button = (() => {
             }
         }
         //#endregion isDefault
-        //#region Caption
-        //get caption() {
-        //    return super.caption;
-        //}
-        //set caption(newValue) {
-        //    //#region Variables déclaration
-        //    //#endregion Variables déclaration
-        //    if (typeof newValue === Types.CONSTANTS.STRING) {
-        //        if (this.caption !== newValue) {
-        //            newValue = Text.replace(newValue, Types.CONSTANTS.HOTKEYPREFIX, String.EMPTY);
-        //            if (Core.isHTMLRenderer) {
-        //                this.HTMLElement.innerHTML = newValue;
-        //            }
-        //        }
-        //    }
-        //}
-        //#endregion
-        //#endregion
         //#region Methods
         //#region assign
         assign(source) {
@@ -414,3 +396,10 @@ const Button = (() => {
 Core.classes.register(Types.CATEGORIES.COMMON, Button);
 Core.classes.register(Types.CATEGORIES.INTERNAL, CustomButton/*, TextButton*/);
 export { CustomButton, /*TextButton, */Button };
+//#region Template
+if (Core.isHTMLRenderer) {
+    const ButtonTpl = ["<jagui-button id=\"{internalId}\" data-class=\"Button\" class=\"Control Button {theme} csr_default\">",
+        "<properties>{ \"name\":\"{name}\", \"caption\": \"{caption}\" }</properties></jagui-button>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: Button, template: ButtonTpl }]);
+}
+//#endregion Template

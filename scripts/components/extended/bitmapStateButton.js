@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { CustomButton } from "/scripts/components/common/button.js";
 import { Events } from "/scripts/core/events.js";
-import { Tools } from "/scripts/core/tools.js";
 //#endregion Import
 //#region BitmapStateButton
 const BitmapStateButton = (() => {
@@ -82,7 +81,7 @@ const BitmapStateButton = (() => {
             this.obj.update();
         }
         doBitmapNotLoaded() {
-            console.log('Bitmap not loaded in : ' + this.obj.name);
+            console.log(`Bitmap not loaded in : ${this.obj.name}`);
         }
         mouseDown() {
             super.mouseDown();
@@ -114,7 +113,7 @@ const BitmapStateButton = (() => {
                 htmlElementStyle.width = `${priv.bitmapState.naturalWidth}${PX}`;
                 htmlElementStyle.height = `${priv.bitmapState.naturalHeight / 3}${PX}`;
             }
-            htmlElementStyle.backgroundImage = "url('" + priv.bitmapState.src + "')";
+            htmlElementStyle.backgroundImage = `url('${priv.bitmapState.src}')`;
             if (isPressed && isMouseOver) {
                 htmlElementStyle.backgroundPosition = `left ${-imagePartSize * 2}${PX}`;
             } else if (!isPressed && isMouseOver) {

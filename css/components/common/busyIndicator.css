@@ -3,6 +3,10 @@
     overflow: visible;
 }
 
+.spinIndic {
+    position: inherit;
+}
+
 .spinContainer {
     overflow: visible;
     left: 50%;
@@ -20,18 +24,6 @@
     right: 5px;
     bottom: 5px;
     opacity: 0;
-    -moz-animation-iteration-count: infinite;
-    -moz-animation-name: orbit;
-    -moz-animation-duration: 5.5s;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-name: orbit;
-    -webkit-animation-duration: 5.5s;
-    -ms-animation-iteration-count: infinite;
-    -ms-animation-name: orbit;
-    -ms-animation-duration: 5.5s;
-    -o-animation-iteration-count: infinite;
-    -o-animation-name: orbit;
-    -o-animation-duration: 5.5s;
     transform: rotate(225deg);
     animation-iteration-count: infinite;
     animation-name: orbit;
@@ -48,34 +40,18 @@
 }
 
 .Control.win8loader .win8circle:nth-child(2) {
-    -moz-animation-delay: 240ms;
-    -webkit-animation-delay: 240ms;
-    -ms-animation-delay: 240ms;
-    -o-animation-delay: 240ms;
     animation-delay: 240ms;
 }
 
 .Control.win8loader .win8circle:nth-child(3) {
-    -moz-animation-delay: 480ms;
-    -webkit-animation-delay: 480ms;
-    -ms-animation-delay: 480ms;
-    -o-animation-delay: 480ms;
     animation-delay: 480ms;
 }
 
 .Control.win8loader .win8circle:nth-child(4) {
-    -moz-animation-delay: 720ms;
-    -webkit-animation-delay: 720ms;
-    -ms-animation-delay: 720ms;
-    -o-animation-delay: 720ms;
     animation-delay: 720ms;
 }
 
 .Control.win8loader .win8circle:nth-child(5) {
-    -moz-animation-delay: 960ms;
-    -webkit-animation-delay: 960ms;
-    -ms-animation-delay: 960ms;
-    -o-animation-delay: 960ms;
     animation-delay: 960ms;
 }
 
@@ -88,10 +64,6 @@
     top: 0;
     right: 0;
     bottom: 0;
-    -moz-animation: spin .5s infinite linear;
-    -webkit-animation: spin .5s infinite linear;
-    -ms-animation: spin .5s infinite linear;
-    -o-animation: spin .5s infinite linear;
     animation: spin .5s infinite linear;
 }
 
@@ -104,10 +76,6 @@
     top: 10px;
     right: 10px;
     bottom: 10px;
-    -moz-animation: spinoff .5s infinite linear;
-    -webkit-animation: spinoff .5s infinite linear;
-    -ms-animation: spinoff .5s infinite linear;
-    -o-animation: spinoff .5s infinite linear;
     animation: spinoff .5s infinite linear;
 }
 
@@ -120,10 +88,6 @@
     top: 0;
     right: 0;
     bottom: 0;
-    -moz-animation: spinPulse 1s infinite ease-in-out;
-    -webkit-animation: spinPulse 1s infinite linear;
-    -ms-animation: spinPulse 1s infinite linear;
-    -o-animation: spinPulse 1s infinite linear;
     animation: spinPulse 1s infinite linear;
 }
 
@@ -136,9 +100,5 @@
     top: 10px;
     right: 10px;
     bottom: 10px;
-    -moz-animation: spinoffPulse 1s infinite linear;
-    -webkit-animation: spinoffPulse 1s infinite linear;
-    -ms-animation: spinoffPulse 1s infinite linear;
-    -o-animation: spinoffPulse 1s infinite linear;
     animation: spinoffPulse 1s infinite linear;
 }

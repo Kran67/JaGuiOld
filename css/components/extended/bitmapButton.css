@@ -3,7 +3,7 @@
     white-space: nowrap;
 }
 
-span.BitmapButtonCaption {
+.BitmapButtonCaption {
     margin: 0;
     overflow: hidden;
     text-align: center;

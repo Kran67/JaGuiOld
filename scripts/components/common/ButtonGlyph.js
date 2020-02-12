@@ -257,7 +257,7 @@ const ButtonGlyph = (() => {
             super.loaded();
             if (Core.isHTMLRenderer) {
                 Text.setTextNode(htmlElement, String.EMPTY);
-                priv.textObj = document.createElement(Types.HTMLELEMENTS.SPAN);
+                priv.textObj = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}caption`);
                 priv.textObj.classList.add("Control", "ButtonCaption", "includeCaption", `${this.constructor.name}Caption`);
                 priv.textObj.jsObj = this;
                 htmlElement.appendChild(priv.textObj);

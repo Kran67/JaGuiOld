@@ -32,3 +32,9 @@ class Layout extends Control {
 //#endregion Layout
 Core.classes.register(Types.CATEGORIES.CONTAINERS, Layout);
 export { Layout };
+//#region Template
+if (Core.isHTMLRenderer) {
+    const LayoutTpl = "<jagui-layout data-class=\"Layout\" class=\"Control Layout\"><properties>{ \"name\": \"{name}\" }</properties></jagui-layout>";
+    Core.classes.registerTemplates([{ Class: Layout, template: LayoutTpl }]);
+}
+//#endregion Template
