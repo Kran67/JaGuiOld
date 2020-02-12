@@ -43,10 +43,9 @@ const Calendar = (() => {
                 priv.weeks = new Array(6);
                 priv.months = null;
                 priv.decades = null;
-                priv.century = null;
+                priv.centuries = null;
                 priv.lastSelectedDay = null;
                 priv.autoTranslate = true;
-                //#endregion
                 priv.curDate = props.hasOwnProperty("date") ? new Date(props.date) : new Date(Date.now());
                 priv.viewWeeksNum = props.hasOwnProperty("viewWeeksNum") && Tools.isBool(props.viewWeeksNum) ? props.viewWeeksNum : false;
                 Tools.addPropertyFromEnum({
@@ -61,14 +60,14 @@ const Calendar = (() => {
                             if (priv.mode !== newValue) {
                                 priv.mode = newValue;
                                 priv.decades.classList.remove("zoomOut");
-                                priv.century.classList.remove("zoomOut");
+                                priv.centuries.classList.remove("zoomOut");
                                 priv.months.classList.remove("zoomOut");
                                 switch (priv.mode) {
                                     case CALENDARMODES.DECADES:
                                         priv.decades.classList.add("zoomOut");
                                         break;
                                     case CALENDARMODES.CENTURIES:
-                                        priv.century.classList.add("zoomOut");
+                                        priv.centuries.classList.add("zoomOut");
                                         break;
                                     case CALENDARMODES.MONTHS:
                                         priv.months.classList.add("zoomOut");
@@ -105,7 +104,6 @@ const Calendar = (() => {
         set viewWeeksNum(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
-            const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (Tools.isBool(newValue)) {
                 if (priv.viewWeeksNum !== newValue) {
@@ -132,46 +130,6 @@ const Calendar = (() => {
         //#endregion date
         //#endregion Getters / Setters
         //#region Methods
-        //#region getHTMLElement
-        getHTMLElement(id) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            super.getHTMLElement(id);
-            const htmlElement = this.HTMLElement;
-            if (htmlElement) {
-                const content = htmlElement.querySelector(".CalendarContent");
-                const header = content.firstElementChild;
-                let j = 0;
-                priv.prevMonth = header.firstElementChild;
-                priv.prevMonth.jsObj = this;
-                Events.bind(priv.prevMonth, Mouse.MOUSEEVENTS.CLICK, this.decDate);
-                priv.thisDay = header.querySelector(".CalendarThisDay");
-                priv.thisDay.jsObj = this;
-                Events.bind(priv.thisDay, Mouse.MOUSEEVENTS.CLICK, this.goToThisDay);
-                priv.nextMonth = header.querySelector(".CalendarNextMonth");
-                priv.nextMonth.jsObj = this;
-                Events.bind(priv.nextMonth, Mouse.MOUSEEVENTS.CLICK, this.incDate);
-                priv.thisMonth = header.querySelector(".CalendarThisMonth");
-                priv.thisMonth.jsObj = this;
-                Events.bind(priv.thisMonth, Mouse.MOUSEEVENTS.CLICK, this.viewMYDC);
-                priv.weekDays = content.querySelector(".CalendarWeekdays");
-                const weeks = htmlElement.querySelector(".CalendarWeeks");
-                for (let i = 0, l = weeks.childNodes.length; i < l; i++) {
-                    if (weeks.childNodes[i].nodeType === Types.XMLNODETYPES.ELEMENT_NODE) {
-                        priv.weeks[j] = weeks.childNodes[i];
-                        j++;
-                    }
-                }
-                priv.months = htmlElement.querySelector(".CalendarMonths");
-                priv.months.jsObj = this;
-                priv.decades = htmlElement.querySelector(".CalendarDecades");
-                priv.decades.jsObj = this;
-                priv.century = htmlElement.querySelector(".CalendarCenturies");
-                priv.century.jsObj = this;
-            }
-        }
-        //#endregion getHTMLElement
         //#region decDate
         decDate() {
             //#region Variables déclaration
@@ -209,7 +167,7 @@ const Calendar = (() => {
                 obj.mode = CALENDARMODES.DAYS;
             }
         }
-        //#ndregion goToThisDay
+        //#endregion goToThisDay
         //#region incDate
         incDate() {
             //#region Variables déclaration
@@ -321,8 +279,8 @@ const Calendar = (() => {
                 if (data) {
                     priv.curDate.setFullYear(data);
                 }
-                Events.bind(priv.century, "AnimationEnd", this.animationEnd);
-                priv.century.dataset.view = false;
+                Events.bind(priv.centuries, "AnimationEnd", this.animationEnd);
+                priv.centuries.dataset.view = false;
                 this.mode = CALENDARMODES.DECADES;
             }
         }
@@ -360,11 +318,10 @@ const Calendar = (() => {
             const date = new Date(Date.now());
             //#endregion Variables déclaration
             if (htmlElement) {
-                //super.update();
                 htmlElement.classList[priv.viewWeeksNum ? "add" : "remove"]("viewweeknum");
                 priv.months.classList.add("hidden");
                 priv.decades.classList.add("hidden");
-                priv.century.classList.add("hidden");
+                priv.centuries.classList.add("hidden");
                 switch (priv.mode) {
                     case CALENDARMODES.MONTHS:
                         d = 0;
@@ -374,13 +331,13 @@ const Calendar = (() => {
                         priv.thisMonth.innerHTML = priv.curDate.getFullYear();
                         for (let i = 0; i < 12; i++) {
                             div[d].classList.remove("CalendarThis", "CalendarSelected");
-                            if (i === date.month) {
+                            if (i === date.month - 1) {
                                 div[d].classList.add("CalendarThis");
                             }
-                            if (i === priv.curDate.month) {
+                            if (i === priv.curDate.month - 1) {
                                 div[d].classList.add("CalendarSelected");
                             }
-                            div[d].dataset.month = i;
+                            //div[d].dataset.month = i;
                             div[d].jsObj = this;
                             div[d].dataset.theme = this.themeName;
                             Events.unBind(div[d], Mouse.MOUSEEVENTS.CLICK, this.selectMonth);
@@ -421,10 +378,10 @@ const Calendar = (() => {
                             let startCentury = thisCentury - 10;
                             const endCentury = thisCentury + 100;
                             priv.thisMonth.innerHTML = `${thisCentury}-${(endCentury - 1)}`;
-                            priv.century.dataset.view = true;
-                            priv.century.classList.remove("hidden");
+                            priv.centuries.dataset.view = true;
+                            priv.centuries.classList.remove("hidden");
                             d = 0;
-                            div = priv.century.querySelectorAll(".CalendarCentury");
+                            div = priv.centuries.querySelectorAll(".CalendarCentury");
                             while (startCentury < endCentury) {
                                 div[d].classList.remove("CalendarOutMonth", "CalendarThis", "CalendarSelected");
                                 if (startCentury % thisCentury > 100) {
@@ -587,13 +544,13 @@ const Calendar = (() => {
                             priv.curDate = priv.curDate.addMonths(4);
                             priv.mode = CALENDARMODES.DAYS;
                             break;
-                        case $j.types.CalendarModes.DECADES:
+                        case CALENDARMODES.DECADES:
                             this.curDate = this.curDate.addYears(4);
-                            this.setMode($j.types.CalendarModes.YEARS);
+                            this.setMode(CALENDARMODES.YEARS);
                             break;
-                        case $j.types.CalendarModes.CENTURIES:
+                        case CALENDARMODES.CENTURIES:
                             this.curDate = this.curDate.addYears(40);
-                            this.setMode($j.types.CalendarModes.DECADES);
+                            this.setMode(CALENDARMODES.DECADES);
                             break;
                     }
                     break;
@@ -672,9 +629,9 @@ const Calendar = (() => {
             priv.weekDays = null;
             priv.weeks.destroy();
             priv.weeks = null;
-            priv.monthsC = null;
-            priv.decadesC = null;
-            priv.centuryC = null;
+            priv.months = null;
+            priv.decades = null;
+            priv.centuries = null;
             priv.lastSelectedDay = null;
             priv.autoTranslate = null;
             priv.curDate = null;
@@ -693,6 +650,137 @@ const Calendar = (() => {
         //#endregion getTemplate
         //#region loaded
         loaded() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const htmlElement = this.HTMLElement;
+            const self = this;
+            //#region generateContentHeaderAndWeeks
+            const generateContent = function() {
+                const content = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}content`);
+                content.classList.add("Control", "CalendarContent", self.themeName);
+                htmlElement.appendChild(content);
+                generateHeader(content);
+                generateWeekDays(content);
+                generateWeeks(content);
+                generateMonths(content);
+                generateDecades(content);
+                generateCenturies(content);
+            };
+            //#endregion generateContentHeaderAndWeeks
+            //#region generateHeader
+            const generateHeader = function(content) {
+                const header = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}header`);
+                header.classList.add("Control", "CalendarHeader", self.themeName);
+                content.appendChild(header);
+                priv.prevMonth = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}prevmonth`);
+                priv.prevMonth.classList.add("Control", "CalendarPrevMonth", self.themeName);
+                priv.prevMonth.jsObj = self;
+                Events.bind(priv.prevMonth, Mouse.MOUSEEVENTS.CLICK, self.decDate);
+                header.appendChild(priv.prevMonth);
+                priv.thisDay = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}thisday`);
+                priv.thisDay.classList.add("Control", "CalendarThisDay", self.themeName);
+                priv.thisDay.jsObj = self;
+                Events.bind(priv.thisDay, Mouse.MOUSEEVENTS.CLICK, self.goToThisDay);
+                header.appendChild(priv.thisDay);
+                priv.nextMonth = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}nextmonth`);
+                priv.nextMonth.classList.add("Control", "CalendarNextMonth", self.themeName);
+                priv.nextMonth.jsObj = self;
+                Events.bind(priv.nextMonth, Mouse.MOUSEEVENTS.CLICK, self.incDate);
+                header.appendChild(priv.nextMonth);
+                priv.thisMonth = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}thismonth`);
+                priv.thisMonth.classList.add("Control", "CalendarThisMonth", self.themeName);
+                priv.thisMonth.jsObj = self;
+                Events.bind(priv.thisMonth, Mouse.MOUSEEVENTS.CLICK, self.viewMYDC);
+                header.appendChild(priv.thisMonth);
+            };
+            //#endregion generateHeader
+            //#region generateWeekDays
+            const generateWeekDays = function(content) {
+                priv.weekDays = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}weekdays`);
+                priv.weekDays.classList.add("Control", "CalendarWeekdays", self.themeName);
+                content.appendChild(priv.weekDays);
+                generateWeekNumAndDay(priv.weekDays, true);
+            };
+            //#endregion generateWeekDays
+            //#region generateWeekNumAndDay
+            const generateWeekNumAndDay = function(content, isWeekDay) {
+                const weekNum = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}weeknum`);
+                weekNum.classList.add("Control", "CalendarWeekNum", self.themeName);
+                content.appendChild(weekNum);
+                for (let i = 0; i < 7; i++) {
+                    const weekDay = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}weekday`);
+                    weekDay.classList.add("Control", `Calendar${isWeekDay?"Week":String.EMPTY}Day`, self.themeName);
+                    content.appendChild(weekDay);
+                }
+            };
+            //#endregion generateWeekNumAndDay
+            //#region generateWeeks
+            const generateWeeks = function(content) {
+                const weeks = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}weeks`);
+                weeks.classList.add("Control", "CalendarWeeks", self.themeName);
+                content.appendChild(weeks);
+                ["First", "Second", "Third", "Fourth", "Fifth", "Sixth"].forEach((weekName, idx) => {
+                    const week = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}${weekName.toLowerCase()}week`);
+                    week.classList.add("Control", "CalendarWeek", `Calendar${weekName}Week`, self.themeName);
+                    if (idx % 2 === 0) {
+                        week.classList.add("alternate");
+                    }
+                    week.dataset.week = idx;
+                    weeks.appendChild(week);
+                    generateWeekNumAndDay(week);
+                });
+            };
+            //#endregion generateWeeks
+            //#region generateMonths
+            const generateMonths = function(content) {
+                priv.months = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}months`);
+                priv.months.classList.add("Control", "CalendarMonths", self.themeName);
+                priv.months.jsObj = self;
+                content.appendChild(priv.months);
+                for (let i=0;i<12;i++) {
+                    const month = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}month`);
+                    month.innerHTML = Tools.getLocale().date.abbreviatedMonthNames[i].firstCharUpper;
+                    month.classList.add("Control", "CalendarMDC", "CalendarMonth", self.themeName);
+                    month.dataset.month = i;
+                    priv.months.appendChild(month);
+                }
+            };
+            //#endregion generateMonths
+            //#region generateDecades
+            const generateDecades = function(content) {
+                priv.decades = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}decades`);
+                priv.decades.classList.add("Control", "CalendarDecades", self.themeName);
+                priv.decades.jsObj = self;
+                content.appendChild(priv.decades);
+                let currentYear = new Date().getFullYear() - 1;
+                for (let i=0;i<12;i++) {
+                    const decade = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}decade`);
+                    decade.innerHTML = currentYear;
+                    decade.classList.add("Control", "CalendarMDC", "CalendarDecade", self.themeName);
+                    decade.dataset.decade = i;
+                    priv.decades.appendChild(decade);
+                    currentYear++;
+                }
+            };
+            //#endregion generateDecades
+            //#region generateCenturies
+            const generateCenturies = function(content) {
+                priv.centuries = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}centuries`);
+                priv.centuries.classList.add("Control", "CalendarCenturies", self.themeName);
+                priv.centuries.jsObj = self;
+                content.appendChild(priv.centuries);
+                for (let i=0;i<11;i++) {
+                    const century = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}century`);
+                    century.classList.add("Control", "CalendarMDC", "CalendarMDCx2", "CalendarCentury", self.themeName);
+                    century.dataset.century = i;
+                    priv.centuries.appendChild(century);
+                }
+            };
+            //#endregion generateCenturies
+            //#endregion Variables déclaration
+            if (!htmlElement.querySelector(".CalendarContent")) {
+                generateContent();
+            }
             super.loaded();
             this.update();
         }
@@ -707,128 +795,6 @@ Core.classes.register(Types.CATEGORIES.COMMON, Calendar);
 //#endregion Calendar
 //#region Templates
 const CalendarTpl = ["<jagui-calendar id=\"{internalId}\" data-class=\"Calendar\" class=\"Control Calendar {theme}\">",
-    "<properties>{ \"name\": \"{name}\" }</properties>",
-    "<jagui-calendarcontent class=\"Control CalendarContent {theme}\">",
-    "<jagui-calendarheader class=\"Control CalendarHeader {theme}\">",
-    "<jagui-calendarprevmonth class=\"Control CalendarPrevMonth {theme}\"></jagui-calendarprevmonth>",
-    "<jagui-calendarthisday class=\"Control CalendarThisDay {theme}\"></jagui-calendarthisday>",
-    "<jagui-calendarnextmonth class=\"Control CalendarNextMonth {theme}\"></jagui-calendarnextmonth>",
-    "<jagui-calendarthismonth class=\"Control CalendarThisMonth {theme}\"></jagui-calendarthismonth>",
-    "</jagui-calendarheader>",
-    "<jagui-calendarweekdays class=\"Control CalendarWeekdays {theme}\">",
-    "<jagui-calendarweeknum class=\"Control CalendarWeekNum {theme}\"></jagui-calendarweeknum>",
-    "<jagui-calendarweekday class=\"Control CalendarWeekDay {theme}\"></jagui-calendarweekday>",
-    "<jagui-calendarweekday class=\"Control CalendarWeekDay {theme}\"></jagui-calendarweekday>",
-    "<jagui-calendarweekday class=\"Control CalendarWeekDay {theme}\"></jagui-calendarweekday>",
-    "<jagui-calendarweekday class=\"Control CalendarWeekDay {theme}\"></jagui-calendarweekday>",
-    "<jagui-calendarweekday class=\"Control CalendarWeekDay {theme}\"></jagui-calendarweekday>",
-    "<jagui-calendarweekday class=\"Control CalendarWeekDay {theme}\"></jagui-calendarweekday>",
-    "<jagui-calendarweekday class=\"Control CalendarWeekDay {theme}\"></jagui-calendarweekday>",
-    "</jagui-calendarweekdays>",
-    "<jagui-calendarweeks class=\"Control CalendarWeeks {theme}\">",
-    "<jagui-calendarfirstweek class=\"Control CalendarWeek CalendarFirstWeek {theme} alternate\" data-week=\"0\">",
-    "<jagui-calendarweeknum class=\"Control CalendarWeekNum {theme}\"></jagui-calendarweeknum>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "</jagui-calendarfirstweek>",
-    "<jagui-calendarsecondweek class=\"Control CalendarWeek CalendarSecondWeek {theme}\" data-week=\"1\">",
-    "<jagui-calendarweeknum class=\"Control CalendarWeekNum {theme}\"></jagui-calendarweeknum>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "</jagui-calendarsecondweek>",
-    "<jagui-calendarthirdweek class=\"Control CalendarWeek CalendarThirdWeek {theme} alternate\" data-week=\"2\">",
-    "<jagui-calendarweeknum class=\"Control CalendarWeekNum {theme}\"></jagui-calendarweeknum>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "</jagui-calendarthirdweek>",
-    "<jagui-calendarfourthweek class=\"Control CalendarWeek CalendarFourthWeek {theme}\" data-week=\"3\">",
-    "<jagui-calendarweeknum class=\"Control CalendarWeekNum {theme}\"></jagui-calendarweeknum>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "</jagui-calendarfourthweek>",
-    "<jagui-calendarfifthweek class=\"Control CalendarWeek CalendarFifthWeek {theme} alternate\" data-week=\"4\">",
-    "<jagui-calendarweeknum class=\"Control CalendarWeekNum {theme}\"></jagui-calendarweeknum>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "</jagui-calendarfifthweek>",
-    "<jagui-calendarsixthweek class=\"Control CalendarWeek CalendarSixthWeek {theme}\" data-week=\"5\">",
-    "<jagui-calendarweeknum class=\"Control CalendarWeekNum {theme}\"></jagui-calendarweeknum>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "<jagui-calendarday class=\"Control CalendarDay {theme}\"></jagui-calendarday>",
-    "</jagui-calendarsixthweek>",
-    "</jagui-calendarweeks>",
-    "</jagui-calendarcontent>",
-    "<jagui-calendarmonths class=\"Control CalendarMonths {theme}\">",
-    "<jagui-calendarmonth data-month=\"0\" class=\"Control CalendarMDC CalendarMonth {theme}\"></jagui-calendarmonth>",
-    "<jagui-calendarmonth data-month=\"1\" class=\"Control CalendarMDC CalendarMonth {theme}\"></jagui-calendarmonth>",
-    "<jagui-calendarmonth data-month=\"2\" class=\"Control CalendarMDC CalendarMonth {theme}\"></jagui-calendarmonth>",
-    "<jagui-calendarmonth data-month=\"3\" class=\"Control CalendarMDC CalendarMonth {theme}\"></jagui-calendarmonth>",
-    "<jagui-calendarmonth data-month=\"4\" class=\"Control CalendarMDC CalendarMonth {theme}\"></jagui-calendarmonth>",
-    "<jagui-calendarmonth data-month=\"5\" class=\"Control CalendarMDC CalendarMonth {theme}\"></jagui-calendarmonth>",
-    "<jagui-calendarmonth data-month=\"6\" class=\"Control CalendarMDC CalendarMonth {theme}\"></jagui-calendarmonth>",
-    "<jagui-calendarmonth data-month=\"7\" class=\"Control CalendarMDC CalendarMonth {theme}\"></jagui-calendarmonth>",
-    "<jagui-calendarmonth data-month=\"8\" class=\"Control CalendarMDC CalendarMonth {theme}\"></jagui-calendarmonth>",
-    "<jagui-calendarmonth data-month=\"9\" class=\"Control CalendarMDC CalendarMonth {theme}\"></jagui-calendarmonth>",
-    "<jagui-calendarmonth data-month=\"10\" class=\"Control CalendarMDC CalendarMonth {theme}\"></jagui-calendarmonth>",
-    "<jagui-calendarmonth data-month=\"11\" class=\"Control CalendarMDC CalendarMonth {theme}\"></jagui-calendarmonth>",
-    "</jagui-calendarmonths>",
-    "<jagui-calendardecades class=\"Control CalendarDecades {theme}\">",
-    "<jagui-calendardecade data-decade=\"0\" class=\"Control CalendarMDC CalendarDecade {theme}\"></jagui-calendardecade>",
-    "<jagui-calendardecade data-decade=\"1\" class=\"Control CalendarMDC CalendarDecade {theme}\"></jagui-calendardecade>",
-    "<jagui-calendardecade data-decade=\"2\" class=\"Control CalendarMDC CalendarDecade {theme}\"></jagui-calendardecade>",
-    "<jagui-calendardecade data-decade=\"3\" class=\"Control CalendarMDC CalendarDecade {theme}\"></jagui-calendardecade>",
-    "<jagui-calendardecade data-decade=\"4\" class=\"Control CalendarMDC CalendarDecade {theme}\"></jagui-calendardecade>",
-    "<jagui-calendardecade data-decade=\"5\" class=\"Control CalendarMDC CalendarDecade {theme}\"></jagui-calendardecade>",
-    "<jagui-calendardecade data-decade=\"6\" class=\"Control CalendarMDC CalendarDecade {theme}\"></jagui-calendardecade>",
-    "<jagui-calendardecade data-decade=\"7\" class=\"Control CalendarMDC CalendarDecade {theme}\"></jagui-calendardecade>",
-    "<jagui-calendardecade data-decade=\"8\" class=\"Control CalendarMDC CalendarDecade {theme}\"></jagui-calendardecade>",
-    "<jagui-calendardecade data-decade=\"9\" class=\"Control CalendarMDC CalendarDecade {theme}\"></jagui-calendardecade>",
-    "<jagui-calendardecade data-decade=\"10\" class=\"Control CalendarMDC CalendarDecade {theme}\"></jagui-calendardecade>",
-    "<jagui-calendardecade data-decade=\"11\" class=\"Control CalendarMDC CalendarDecade {theme}\"></jagui-calendardecade>",
-    "</jagui-calendardecades>",
-    "<jagui-calendarcenturies class=\"Control CalendarCenturies {theme}\">",
-    "<jagui-calendarcentury data-century=\"0\" class=\"Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}\"></jagui-calendarcentury>",
-    "<jagui-calendarcentury data-century=\"1\" class=\"Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}\"></jagui-calendarcentury>",
-    "<jagui-calendarcentury data-century=\"2\" class=\"Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}\"></jagui-calendarcentury>",
-    "<jagui-calendarcentury data-century=\"3\" class=\"Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}\"></jagui-calendarcentury>",
-    "<jagui-calendarcentury data-century=\"4\" class=\"Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}\"></jagui-calendarcentury>",
-    "<jagui-calendarcentury data-century=\"5\" class=\"Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}\"></jagui-calendarcentury>",
-    "<jagui-calendarcentury data-century=\"6\" class=\"Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}\"></jagui-calendarcentury>",
-    "<jagui-calendarcentury data-century=\"7\" class=\"Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}\"></jagui-calendarcentury>",
-    "<jagui-calendarcentury data-century=\"8\" class=\"Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}\"></jagui-calendarcentury>",
-    "<jagui-calendarcentury data-century=\"9\" class=\"Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}\"></jagui-calendarcentury>",
-    "<jagui-calendarcentury data-century=\"10\" class=\"Control CalendarMDC CalendarMDCx2 CalendarCentury {theme}\"></jagui-calendarcentury>",
-    "</jagui-calendarcenturies>",
-    "</jagui-calendar>"].join(String.EMPTY);
+    "<properties>{ \"name\": \"{name}\" }</properties></jagui-calendar>"].join(String.EMPTY);
 Core.classes.registerTemplates([{ Class: Calendar, template: CalendarTpl }]);
-    //#endregion
+//#endregion

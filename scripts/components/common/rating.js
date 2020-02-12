@@ -392,7 +392,7 @@ const Rating = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (!htmlElement.querySelector("RatingProgress")) {
+            if (!htmlElement.querySelector(".RatingProgress")) {
                 priv.ratingObj = document.createElement(Types.HTMLELEMENTS.DIV);
                 priv.ratingObj.classList.add("Control", "RatingProgress", this.themeName, `orientation-${priv.orientation}`);
                 priv.ratingObj.jsObj = this;

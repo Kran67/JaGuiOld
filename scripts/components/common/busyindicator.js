@@ -285,11 +285,14 @@ const BusyIndicator = (() => {
         //#endregion indicatorStyle
         //#endregion Getters / Setters
         //#region Methods
+        //#region loaded
         loaded() {
             super.loaded();
             this.update();
             this.addAnimations();
         }
+        //#endregion loaded
+        //#region addAnimations
         addAnimations() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -334,6 +337,8 @@ const BusyIndicator = (() => {
                     break;
             }
         }
+        //#endregion addAnimations
+        //#region addAnimations
         removeCssRules() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -357,7 +362,7 @@ const BusyIndicator = (() => {
             const htmlElement = this.HTMLElement;
             const PX = Types.CSSUNITS.PX;
             const browser = Core.browser;
-            const DIV = Types.HTMLELEMENTS.DIV;
+            let TAG = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             let child = null;
             let child1 = null;
             let child2 = null;
@@ -375,10 +380,10 @@ const BusyIndicator = (() => {
                     case BUSYINDICATORSTYLES.SPIN:
                         // based on http://fgnass.github.io/spin.js/
                         sio = priv.spinIndicatorOptions;
-                        child = document.createElement(DIV);
+                        child = document.createElement(Types.HTMLELEMENTS.DIV/*`${TAG}spincontainer`*/);
                         child.classList.add("spinContainer");
                         for (; i < sio.lines; i++) {
-                            child1 = document.createElement(DIV);
+                            child1 = document.createElement(Types.HTMLELEMENTS.DIV/*`${TAG}spinc`*/);
                             style = `top:${(1 + ~(sio.lWidth / 2))}${PX};opacity:0;`;
                             child1.setAttribute("id", `${this.internalId}_${(i + 1)}`);
                             start = 0.01 + i / sio.lines * 100;
@@ -396,7 +401,7 @@ const BusyIndicator = (() => {
                             child1.setAttribute("style", style);
                             child1.jsObj = this;
                             child1.classList.add("Control", "spinC");
-                            child2 = document.createElement(DIV);
+                            child2 = document.createElement(Types.HTMLELEMENTS.DIV/*`${TAG}spinindic`*/);
                             style = ["width:", (sio.length + sio.lWidth), PX, ";",
                                     "height:", sio.lWidth, PX, ";",
                                     browser.getVendorPrefix("transform-origin"), "transform-origin:left;",
@@ -415,7 +420,7 @@ const BusyIndicator = (() => {
                         // based on http://codepen.io/janrubio/pen/DusIE
                         Css.removeCSSRule(`#${this.internalId} .win8circle${Types.PSEUDOCSSCLASS.AFTER}`);
                         for (i = 0; i < 5; i++) {
-                            child = document.createElement(DIV);
+                            child = document.createElement(Types.HTMLELEMENTS.DIV);
                             child.classList.add("win8circle");
                             child.jsObj = this;
                             style = child.style;
@@ -454,22 +459,22 @@ const BusyIndicator = (() => {
                         break;
                     case BUSYINDICATORSTYLES.BALL:
                         // based on http://www.alessioatzeni.com/wp-content/tutorials/html-css/CSS3-loading-animation-loop/index.html
-                        child = document.createElement(DIV);
+                        child = document.createElement(Types.HTMLELEMENTS.DIV);
                         child.classList.add("Control", "ballIndic", this.themeName);
                         child.jsObj = this;
                         htmlElement.appendChild(child);
-                        child = document.createElement(DIV);
+                        child = document.createElement(Types.HTMLELEMENTS.DIV);
                         child.classList.add("Control", "ball1Indic", this.themeName);
                         child.jsObj = this;
                         htmlElement.appendChild(child);
                         break;
                     case BUSYINDICATORSTYLES.CIRCLE:
                         // based on http://www.alessioatzeni.com/wp-content/tutorials/html-css/CSS3-loading-animation-loop/index.html
-                        child = document.createElement(DIV);
+                        child = document.createElement(Types.HTMLELEMENTS.DIV);
                         child.classList.add("Control", "circleIndic", this.themeName);
                         child.jsObj = this;
                         htmlElement.appendChild(child);
-                        child = document.createElement(DIV);
+                        child = document.createElement(Types.HTMLELEMENTS.DIV);
                         child.classList.add("Control", "circle1Indic", this.themeName);
                         child.jsObj = this;
                         htmlElement.appendChild(child);

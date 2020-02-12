@@ -5,7 +5,7 @@
  * @returns     {Function}                  The new requestAnimation
  */
 window.requestAnimationFrameRate = function (fps) {
-    let period = null
+    let period = null;
     let starter = null;
     let limit = null;
     let jitter = null;
@@ -57,6 +57,7 @@ window.Core = {
     /**
      * Create a new instance of Core.
      */
+    name: "JaGui",
     propertiesCategories: {},
     bindableProperties: [],
     themes: {},

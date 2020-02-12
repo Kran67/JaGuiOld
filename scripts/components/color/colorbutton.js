@@ -130,7 +130,7 @@ const ColorButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.colorObj = document.createElement(Types.HTMLELEMENTS.DIV);
+            priv.colorObj = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}color`);
             priv.colorObj.classList.add("Control", "ColorButtonColor", this.themeName);
             this.HTMLElement.appendChild(priv.colorObj);
             super.loaded();

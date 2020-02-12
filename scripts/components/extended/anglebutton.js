@@ -319,7 +319,7 @@ const AngleButton = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (!htmlElement.querySelector("AngleButtonCaption")) {
+            if (!htmlElement.querySelector(".AngleButtonCaption")) {
                 priv.textObj = document.createElement(Types.HTMLELEMENTS.DIV);
                 priv.textObj.classList.add("Control", "AngleButtonCaption");
                 priv.textObj.jsObj = this;

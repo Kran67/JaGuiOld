@@ -41,7 +41,6 @@ class ColorBox extends GraphicControl {
     //#region Methods
     //#region update
     update() {
-        //super.update();
         if (Core.isHTMLRenderer && this.HTMLElement) {
             this.HTMLElementStyle.boxShadow = `inset 0 0 0 1000px ${this.fillColor.toRGBAString()}`;
         }
@@ -51,11 +50,10 @@ class ColorBox extends GraphicControl {
 }
 //#endregion ColorBox
 Core.classes.register(Types.CATEGORIES.COLOR, ColorBox);
-/*
-    //#region Templates
-    if ($j.isHTMLRenderer()) {
-        var ColorBoxTpl = "<div id='{internalId}' data-name='{name}' data-class='ColorBox' class='Control ColorBox' data-color='blue' style='width:50px;height:50px;'></div>";
-        $j.classes.registerTemplates([{ Class: ColorBox, template: ColorBoxTpl }]);
-    }
-    //endregion
-})();*/
+//#region Templates
+if (Core.isHTMLRenderer) {
+    const ColorBoxTpl = ["<jagui-colorbox id=\"{internalId}\" data-class=\"ColorBox\" class=\"Control ColorBox\">",
+        "<properties>{ \"name\": \"{name}\", \"color\": \"blue\" }</properties></jagui-colorbox>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: ColorBox, template: ColorBoxTpl }]);
+}
+//endregion

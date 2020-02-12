@@ -229,8 +229,8 @@ const ColorQuad = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (!htmlElement.querySelector("ColorQuadIndicator")) {
-                priv.handleObj = document.createElement(Types.HTMLELEMENTS.DIV);
+            if (!htmlElement.querySelector(".ColorQuadIndicator")) {
+                priv.handleObj = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}indicator`);
                 priv.handleObj.classList.add("Control", "ColorQuadIndicator");
                 priv.handleObj.jsObj = this;
                 htmlElement.appendChild(priv.handleObj);

@@ -119,7 +119,7 @@
     left: 6px;
     right: 6px;
     top: 38px;
-    bottom: 0px;
+    bottom: 0;
     height: auto;
 }
 
@@ -130,13 +130,13 @@
 }
 
 .Control.CalendarWeek {
-    left: 0px;
-    right: 0px;
+    left: 0;
+    right: 0;
     height: 16px;
 }
 
 .Control.CalendarFirstWeek {
-    top: 0px;
+    top: 0;
 }
 
 .Control.CalendarSecondWeek {
@@ -174,10 +174,10 @@
 .Control.CalendarMonths,
 .Control.CalendarDecades,
 .Control.CalendarCenturies {
-    top: 27px;
-    left: 6px;
-    right: 6px;
-    bottom: 6px;
+    top: 21px;
+    left: 0;
+    right: 0;
+    bottom: 0;
     overflow: hidden;
     z-index: -1;
     transform: scale(1.7);

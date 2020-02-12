@@ -3,7 +3,7 @@
     overflow: visible;
 }
 
-div.spinContainer {
+.spinContainer {
     overflow: visible;
     left: 50%;
     top: 50%;
@@ -13,7 +13,7 @@ div.spinContainer {
     text-align: left;
 }
 
-.Control.win8loader div.win8circle {
+.Control.win8loader .win8circle {
     position: absolute;
     left: 5px;
     top: 5px;
@@ -38,7 +38,7 @@ div.spinContainer {
     animation-duration: 5.5s;
 }
 
-.Control.win8loader div.win8circle:after {
+.Control.win8loader .win8circle:after {
     content: '';
     position: absolute;
     width: 5px;
@@ -47,7 +47,7 @@ div.spinContainer {
     background: #fff;
 }
 
-.Control.win8loader div.win8circle:nth-child(2) {
+.Control.win8loader .win8circle:nth-child(2) {
     -moz-animation-delay: 240ms;
     -webkit-animation-delay: 240ms;
     -ms-animation-delay: 240ms;
@@ -55,7 +55,7 @@ div.spinContainer {
     animation-delay: 240ms;
 }
 
-.Control.win8loader div.win8circle:nth-child(3) {
+.Control.win8loader .win8circle:nth-child(3) {
     -moz-animation-delay: 480ms;
     -webkit-animation-delay: 480ms;
     -ms-animation-delay: 480ms;
@@ -63,7 +63,7 @@ div.spinContainer {
     animation-delay: 480ms;
 }
 
-.Control.win8loader div.win8circle:nth-child(4) {
+.Control.win8loader .win8circle:nth-child(4) {
     -moz-animation-delay: 720ms;
     -webkit-animation-delay: 720ms;
     -ms-animation-delay: 720ms;
@@ -71,7 +71,7 @@ div.spinContainer {
     animation-delay: 720ms;
 }
 
-.Control.win8loader div.win8circle:nth-child(5) {
+.Control.win8loader .win8circle:nth-child(5) {
     -moz-animation-delay: 960ms;
     -webkit-animation-delay: 960ms;
     -ms-animation-delay: 960ms;
