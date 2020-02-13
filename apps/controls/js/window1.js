@@ -26,7 +26,7 @@ import "/scripts/components/extended/valuelabel.js";
 import "/scripts/components/extended/pathcheckbox.js";
 import "/scripts/components/extended/anglebutton.js";
 import "/scripts/components/common/progressbar.js";
-//import { Slider } from "/scripts/components/common/slider.js";
+import "/scripts/components/common/slider.js";
 //import { ScrollBar } from "/scripts/components/common/scrollBar.js";
 import "/scripts/components/containers/scrollbox.js";
 import "/scripts/components/containers/expander.js";
