@@ -1140,7 +1140,7 @@ CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, rad
         }
         radius = { tl: radius, tr: radius, br: radius, bl: radius };
     } else {
-        var defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 };
+        const defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 };
         for (let side in defaultRadius) {
             if (defaultRadius.hasOwnProperty(side)) {
                 radius[side] = radius[side] || defaultRadius[side];

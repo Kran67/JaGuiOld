@@ -2,40 +2,30 @@
     border: 1px solid #303030;
     border-radius: 2px;
     background-image: linear-gradient(to bottom,#404040 0,#404040 70%,#303030 100%);
+    --carbon-header-height: 21px;
+    --carbon-arrow-left: 13px;
+    --carbon-arrow-top: 3px;
+    --carbon-arrow-width: 13px;
+    --carbon-arrow-height: 13px;
+    --carbon-check-left: 30px;
+    --carbon-check-width: 22px;
 }
 
-.carbon.ExpanderHeader {
-    color: #E0E0E0;
-    height: 25px;
-}
+    .carbon.Expander:before {
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='15' width='10'><polygon points='0,0 10,7.5 0,15' fill='rgb(224,224,224)' /></svg>"), linear-gradient(to bottom,#404040 0,#404040 70%,#303030 100%);
+        height: var(--carbon-header-height);
+    }
 
-.carbon.ExpanderContent {
-}
+    .carbon.Expander.expanded:before {
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='15' width='15'><polygon points='15,0 15,15 0,15' fill='rgb(224,224,224)' /></svg>"), linear-gradient(to bottom,#404040 0,#404040 70%,#303030 100%);
+    }
 
-.carbon.ExpanderButton,
-.carbon.ExpanderButton:hover {
-    border: none;
-    background: none;
-    font-family: jagui;
-    font-size: 8pt;
-}
+    .carbon.Expander:after {
+        height: var(--carbon-header-height);
+        left: var(--carbon-check-left);
+        width: var(--carbon-check-width);
+    }
 
-.carbon.ExpanderCheckboxCheck {
-    width: 20px;
-    max-width: 20px;
-    font-size: 11pt;
-    background: none;
-    border: none;
-}
-
-.carbon.ExpanderCheckboxCheck:before {
-    opacity: 1;
-    content: "0";
-    color: #E0E0E0;
-}
-
-.carbon.ExpanderCheckboxCheck.checked:before {
+.Expander:not(.checked):after {
     opacity: 0.2;
-    content: "0";
-    font-size: 11pt;
 }

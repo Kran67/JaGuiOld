@@ -83,7 +83,8 @@ const PathCheckbox = (() => {
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
                 super.update();
-                this.check.innerHTML = `<svg width='100%' height='100%' viewBox='${priv.svgViewBox}' xmlns='http://www.w3.org/2000/svg'><path d='${priv.checkSvg}' /></svg>`;
+                this.check.innerHTML = [`<svg width="100%" height="100%" viewBox="${priv.svgViewBox}" xmlns="http://www.w3.org/2000/svg">`,
+                    `<path d="${priv.checkSvg}" /></svg>`].join(String.EMPTY);
                 this.check.style.opacity = 0.2;
                 if (this.isChecked) {
                     this.check.style.opacity = 1;
@@ -111,7 +112,7 @@ Core.classes.register(Types.CATEGORIES.EXTENDED, PathCheckbox);
 export { PathCheckbox };
 //#region Template
 if (Core.isHTMLRenderer) {
-    var PathCheckboxTpl = ["<jagui-pathcheckbox id=\"{internalId}\" data-class=\"PathCheckbox\" class=\"Control PathCheckbox {theme}\"><properties>",
+    const PathCheckboxTpl = ["<jagui-pathcheckbox id=\"{internalId}\" data-class=\"PathCheckbox\" class=\"Control PathCheckbox {theme}\"><properties>",
         "{ \"name\": \"{name}\", \"caption\": \"{caption}\" }</properties></jagui-pathcheckbox>"].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: PathCheckbox, template: PathCheckboxTpl }]);
 }

@@ -1,9 +1,9 @@
-﻿button.IPhoneButton {
+﻿.IPhoneButton {
     background: none;
     border: none;
 }
 
-div.IPhoneButtonHalo {
+.IPhoneButtonHalo {
     background-image: linear-gradient(to bottom,rgba(255,255,255,.7) 0,rgba(255,255,255,.2) 100%);
     border-bottom-left-radius: 120px 20px;
     border-bottom-right-radius: 120px 20px;

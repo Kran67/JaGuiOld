@@ -505,6 +505,14 @@ Object.seal(BusyIndicator);
 Core.classes.register(Types.CATEGORIES.INTERNAL, BusyIndicatorSpinOptions);
 Core.classes.register(Types.CATEGORIES.COMMON, BusyIndicator);
 export { BusyIndicator };
+//#region Templates
+if (Core.isHTMLRenderer) {
+    const BusyIndicatorTpl = ["<jagui-busyindicator id=\"{internalId}\" data-class=\"BusyIndicator\" class=\"Control BusyIndicator {theme}\">",
+        "<properties>{ \"name\": \"{name}\", \"width\": 45, \"height\": 45 }</properties></jagui-busyindicator>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: BusyIndicator, template: BusyIndicatorTpl }]);
+}
+//#endregion
+
 /*(function () {
     //#region BusyIndicator
     var BusyIndicator = $j.classes.ThemedControl.extend("BusyIndicator", {

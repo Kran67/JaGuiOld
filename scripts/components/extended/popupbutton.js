@@ -110,7 +110,7 @@ const PopupButton = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.loaded();
-            priv.arrow = document.createElement(Types.HTMLELEMENTS.DIV);
+            priv.arrow = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}arraow`);
             priv.arrow.classList.add("Control", "PopupButtonArrow");
             priv.arrow.innerHTML = "8";
             this.HTMLElement.appendChild(priv.arrow);
@@ -127,8 +127,7 @@ Core.classes.register(Types.CATEGORIES.EXTENDED, PopupButton);
 //#region Template
 if (Core.isHTMLRenderer) {
     const PopupButtonTpl = ["<jagui-popupbutton id=\"{internalId}\" data-class=\"PopupButton\" class=\"Control PopupButton {theme} csr_default\">",
-        "<properties>{ \"name\": \"{name}\", \"caption\": \"{name}\" }</properties><span class=\"Control ButtonCaption includeCaption\"></span>",
-        "<div class=\"Control PopupButtonArrow\">8</div></jagui-popupbutton>"].join(String.EMPTY);
+        "<properties>{ \"name\": \"{name}\", \"caption\": \"{name}\" }</properties></jagui-popupbutton>"].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: PopupButton, template: PopupButtonTpl }]);
 }
 //#endregion

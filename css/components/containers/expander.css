@@ -6,53 +6,39 @@
     flex-direction: column;
 }
 
-.Control.ExpanderHeader {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding-left: 5px;
-    min-height: 25px;
-}
-
-.Control.ExpanderContent {
-    position: relative;
-    overflow: hidden;
-    flex: 1;
-}
-
-.Control.ExpanderCheckbox {
-    height: 14px;
-    width: 22px;
-    position: relative;
-    margin-left: 5px;
-}
-
-.Control.ExpanderButton {
-    position: relative;
-    width: 13px;
-    height: 16px;
-    transition: all linear 0.2s;
+.Expander:before {
+    content: attr(data-caption);
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    padding-left: 50px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    background-repeat: no-repeat, no-repeat;
+    background-position: 13px 3px, left top;
+    z-index: 1;
 }
 
-.ExpanderButton:before {
+.Expander.expanded:before {
+    background-position: 8px, left top;
+}
+
+.Expander:after {
+    content: "0";
+    position: absolute;
+    top: 0;
     font-family: jagui;
-    content: "7";
-    transform: rotate(-45deg) translate(-2px, -2px);
-}
-
-.ExpanderButton.expanded:before {
-    transform: none;
-}
-
-.ExpanderCaption {
-    flex: 1;
-    position: static;
+    font-size: 11pt;
     display: flex;
     align-items: center;
-    padding-left: 3px;
+    z-index: 1;
+}
+
+.Expander:not(.viewCheck):after {
+    display: none;
+}
+
+.Expander:not(.viewCheck):before {
+    padding-left: 30px;
 }

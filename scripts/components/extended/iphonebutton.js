@@ -31,18 +31,6 @@ const IPhoneButton = (() => {
         //#region Getters / Setters
         //#endregion Getters / Setters
         //#region Methods
-        //#region getHTMLElement
-        getHTMLElement(id) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            super.getHTMLElement(id);
-            const htmlElement = this.HTMLElement;
-            if (htmlElement) {
-                priv.halo = htmlElement.querySelector(".IPhoneButtonHalo");
-            }
-        }
-        //#endregion getHTMLElement
         //#region destroy
         destroy() {
             //#region Variables déclaration
@@ -59,7 +47,7 @@ const IPhoneButton = (() => {
             //#endregion Variables déclaration
             super.loaded();
             if (Core.isHTMLRenderer) {
-                priv.halo = document.createElement(Types.HTMLELEMENTS.DIV);
+                priv.halo = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}halo`);
                 priv.halo.classList.add("Control", "IPhoneButtonHalo");
                 htmlElement.appendChild(priv.halo);
             }

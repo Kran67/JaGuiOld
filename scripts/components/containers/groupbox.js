@@ -120,7 +120,7 @@ Core.classes.register(Types.CATEGORIES.CONTAINERS, GroupBox);
 export { GroupBox };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    var GroupBoxTpl = "<fieldset id=\"{internalId}\" data-class=\"GroupBox\" class=\"Control GroupBox {theme}\"><properties>{ \"name\": \"{name}\", \"caption\": \"{caption}\" }</properties></fieldset>";
+    const GroupBoxTpl = "<fieldset id=\"{internalId}\" data-class=\"GroupBox\" class=\"Control GroupBox {theme}\"><properties>{ \"name\": \"{name}\", \"caption\": \"{caption}\" }</properties></fieldset>";
     Core.classes.registerTemplates([{ Class: GroupBox, template: GroupBoxTpl }]);
 }
 //endregion

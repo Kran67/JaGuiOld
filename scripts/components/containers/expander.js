@@ -1,6 +1,7 @@
 ﻿//#region Import
 import { ThemedControl } from "/scripts/core/themedcontrol.js";
 import { Tools } from "/scripts/core/tools.js";
+import { Mouse } from "/scripts/core/mouse.js";
 //#endregion Import
 //#region Expander
 const Expander = (() => {
@@ -19,36 +20,22 @@ const Expander = (() => {
     class Expander extends ThemedControl {
         //#region constructor
         constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
                 priv.header = null;
                 priv.headerCaption = null;
-                priv.container = Core.classes.createComponent({ class: Core.classes.Layout, owner: this, props: { inForm: false }, withTpl: false });
                 priv.lastHeight = props.hasOwnProperty("height") ? props.height : 0;
-                priv.button = Core.classes.createComponent({ class: Core.classes.Button, owner: this, props: { inForm: false, caption: String.EMPTY }, withTpl: false });
-                priv.button.onClick.addListener(this.expandCollapse);
-                priv.button.canFocused = false;
-                priv.eye = Core.classes.createComponent({ class: Core.classes.Checkbox, owner: this, props: { inForm: false, caption: String.EMPTY, autoSize: false }, withTpl: false });
-                priv.eye.onClick.addListener(this.check);
-                priv.eye.canFocused = false;
                 priv.expanded = props.hasOwnProperty("expanded") ? props.expanded : false;
                 priv.checked = props.hasOwnProperty("checked") ? props.checked : false;
                 priv.caption = props.hasOwnProperty("caption") ? props.caption : this.name;
                 priv.viewCheck = props.hasOwnProperty("viewCheck") && Tools.isBool(props.viewCheck) ? props.viewCheck : true;
-                priv.container.allowRealignChildsOnResize = true;
+                priv.allowRealignChildsOnResize = true;
             }
         }
         //#endregion constructor
         //#region Getters / Setters
-        //#region container
-        get container() {
-            return internal(this).container;
-        }
-        //#endregion container
         //#region viewCheck
         get viewCheck() {
             return internal(this).viewCheck;
@@ -60,9 +47,7 @@ const Expander = (() => {
             if (Tools.isBool(newValue)) {
                 if (priv.viewCheck !== newValue) {
                     priv.viewCheck = newValue;
-                    if (priv.eye) {
-                        priv.eye.visible = priv.viewCheck;
-                    }
+                    this.update();
                 }
             }
         }
@@ -78,83 +63,109 @@ const Expander = (() => {
             if (Tools.isString(newValue)) {
                 if (priv.caption !== newValue) {
                     priv.caption = newValue;
-                    if (priv.headerCaption) {
-                        priv.headerCaption.innerHTML = priv.caption;
-                    }
+                    this.update();
                 }
             }
         }
         //#endregion caption
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region getHTMLElement
-        getHTMLElement(id) {
+        //#region expanded
+        get expanded() {
+            return internal(this).expanded;
+        }
+        set expanded(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
-            let props = null;
             //#endregion Variables déclaration
-            super.getHTMLElement(id);
-            const htmlElement = this.HTMLElement;
-            props = htmlElement.querySelector("properties");
-            if (props) {
-                props = JSON.parse(props.innerText);
-            }
-            priv.header = htmlElement.querySelector(".ExpanderHeader");
-            priv.header.jsObj = this;
-            priv.button.getHTMLElement(priv.header.firstElementChild.id);
-            priv.eye.getHTMLElement(priv.header.querySelector(".ExpanderCheckbox").id);
-            priv.headerCaption = priv.header.lastElementChild;
-            priv.headerCaption.jsObj = this;
-            priv.headerCaption.innerHTML = priv.caption;
-            priv.container.HTMLElement = htmlElement.lastElementChild;
-            priv.container.HTMLElementStyle = priv.container.HTMLElement.style;
-            priv.container.HTMLElement.jsObj = this;
-            priv.container.getChilds(priv.container.HTMLElement);
-            if (props.hasOwnProperty("contentEnabled")) {
-                priv.container.enabled = props.contentEnabled;
+            if (Tools.isBool(newValue)) {
+                if (priv.expanded !== newValue) {
+                    priv.expanded = newValue;
+                    this.update();
+                }
             }
         }
-        //#region getHTMLElement
-        //#region _expendCollapse
-        _expandCollapse() {
+        //#endregion expanded
+        //#region viewCheck
+        get viewCheck() {
+            return internal(this).viewCheck;
+        }
+        set viewCheck(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
+                if (priv.viewCheck !== newValue) {
+                    priv.viewCheck = newValue;
+                    this.update();
+                }
+            }
+        }
+        //#endregion viewCheck
+        //#region checked
+        get checked() {
+            return internal(this).checked;
+        }
+        set checked(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
+                if (priv.checked !== newValue) {
+                    priv.checked = newValue;
+                    this.update();
+                }
+            }
+        }
+        //#endregion checked
+        //#endregion Getters / Setters
+        //#region Methods
+        //#region expendCollapse
+        expandCollapse() {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.expanded = !priv.expanded;
             this.update();
         }
-        //#endregion _expendCollapse
+        //#endregion expendCollapse
         //#region update
         update() {
             //#region Variables déclaration
             const priv = internal(this);
+            const htmlElement = this.HTMLElement;
             const htmlElementStyle = this.HTMLElementStyle;
-            const bHTMLElement = priv.button.HTMLElement;
+            //const bHTMLElement = priv.button.HTMLElement;
             const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
-//            super.update();
-            bHTMLElement.classList.remove("expanded");
+            htmlElement.classList.remove("expanded");
+            htmlElement.classList.remove("viewCheck");
+            htmlElement.classList.remove("checked");
             if (priv.expanded) {
                 htmlElementStyle.height = `${priv.lastHeight}${PX}`;
-                bHTMLElement.classList.add("expanded");
+                htmlElement.classList.add("expanded");
             } else {
-                if (this.HTMLElement.offsetHeight > priv.header.offsetHeight) {
-                    htmlElementStyle.height = `${priv.header.offsetHeight + 1}${PX}`;
+                if (htmlElement.offsetHeight > priv.headerHeight) {
+                    htmlElementStyle.height = `${priv.headerHeight + 2}${PX}`;
                 }
             }
-            priv.eye.visible = priv.viewCheck;
+            if (priv.viewCheck) {
+                htmlElement.classList.add("viewCheck");
+                if (priv.checked) {
+                    htmlElement.classList.add("checked");
+                }
+            }
+            htmlElement.dataset.caption = priv.caption;
+            this.components.forEach(comp => {
+                comp.enabled = priv.checked;
+            });
         }
         //#endregion update
-        //#region expandCollapse
-        expandCollapse() {
-            this.owner._expandCollapse();
-        }
-        //#endregion expandCollapse
         //#region check
         check() {
-            this.owner.checked = !this.owner.checked;
-            this.owner.container.enabled = this.owner.checked;
-            this.HTMLElement.dataset.checked = this.owner.checked;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.checked = !priv.checked;
+            this.update();
         }
         //#endregion check
         //#region destroy
@@ -196,8 +207,40 @@ const Expander = (() => {
         //#endregion getTabOrderList
         //#region loaded
         loaded() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const htmlElement = this.HTMLElement;
+            const cStyle = getComputedStyle(htmlElement);
+            //#endregion Variables déclaration
             super.loaded();
+            priv.headerHeight = parseFloat(cStyle.getPropertyValue(`--${this.themeName}-header-height`));
+            priv.arrowPos = new Core.classes.Point(parseFloat(cStyle.getPropertyValue(`--${this.themeName}-arrow-left`)),
+                parseFloat(cStyle.getPropertyValue(`--${this.themeName}-arrow-top`)));
+            priv.arrowSize = new Core.classes.Point(parseFloat(cStyle.getPropertyValue(`--${this.themeName}-arrow-width`)),
+                parseFloat(cStyle.getPropertyValue(`--${this.themeName}-arrow-height`)));
+            priv.checkPos = {  left: parseFloat(cStyle.getPropertyValue(`--${this.themeName}-check-left`)),
+                width: parseFloat(cStyle.getPropertyValue(`--${this.themeName}-check-width`)) };
             this.update();
+        }
+        //#endregion loaded
+        //#region loaded
+        mouseDown() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const target = Core.mouse.target;
+            //#endregion Variables déclaration
+            if (this.enabled) {
+                super.mouseDown();
+                if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
+                    if (target.y < priv.headerHeight) {
+                        if (target.x>=priv.checkPos.left && target.x<=priv.checkPos.left+priv.checkPos.width && priv.viewCheck) {
+                            this.check();
+                        } else {
+                            this.expandCollapse();
+                        }
+                    }
+                }
+            }
         }
         //#endregion loaded
         //#endregion Methods
@@ -210,7 +253,8 @@ Core.classes.register(Types.CATEGORIES.CONTAINERS, Expander);
 export { Expander };
 //#region Template
 if (Core.isHTMLRenderer) {
-    var ExpanderTpl = "<jagui-expander id=\"{internalId}\" data-class=\"Expander\" class=\"Control Expander {theme}\"><properties>{ \"name\": \"{name}\", \"height\": 100, \"tabOrder\": 40, \"width\": 130, \"height\": 100 }</properties><jagui-expanderheader class=\"Control ExpanderHeader {theme}\"><jagui-button id=\"{internalId}_1\" data-class=\"button\" class=\"Control Button ExpanderButton {theme}\"></jagui-button><jagui-checkbox id=\"{internalId}_2\" data-class=\"Checkbox\" class=\"Control Checkbox ExpanderCheckbox {theme}\"><input type=\"checkbox\" class=\"Control CheckboxInput\" /><div class=\"Control {theme} CheckboxCheck ExpanderCheckboxCheck\"></div></jagui-checkbox><jagui-label class=\"csr_default ExpanderCaption {theme}\"></jagui-label></jagui-expanderheader><jagui-expandercontent class=\"Control ExpanderContent {theme}\"></jagui-expandercontent></jagui-expander>";
+    const ExpanderTpl = ["<jagui-expander id=\"{internalId}\" data-class=\"Expander\" class=\"Control Expander {theme}\">",
+        "<properties>{ \"name\": \"{name}\", \"width\": 130, \"height\": 100 }</properties></jagui-expander>"].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: Expander, template: ExpanderTpl }]);
 }
 //#endregion

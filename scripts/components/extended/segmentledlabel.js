@@ -981,29 +981,37 @@ const SegmentLedLabel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
+            const htmlElementStyle = this.HTMLElementStyle;
+            const pseudoCssClass = Types.PSEUDOCSSCLASS;
             //#endregion Variables déclaration
             priv.conts.clear();
             htmlElement.innerHTML = String.EMPTY;
             for (let i = 0; i < priv.maxLength; i++) {
-                const div = document.createElement(Types.HTMLELEMENTS.DIV);
+                const div = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}segmentcontainer`);
                 div.className = "segmentContainer";
                 priv.conts.push(div);
                 for (let j = 0; j < priv.segmentType; j++) {
-                    const seg = document.createElement(Types.HTMLELEMENTS.DIV);
+                    const seg = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}segment`);
                     seg.className = `segment seg${j}`;
                     div.appendChild(seg);
                 }
                 htmlElement.appendChild(div);
             }
+            htmlElementStyle.setProperty(`--${this.internalId}-aligth-color`, priv.color.toRGBAString());
+            htmlElementStyle.setProperty(`--${this.internalId}-unaligth-color`, priv.color.toRGBAString());
+            // add alight for before/after
+            Css.addCSSRule(`#${this.internalId} .segment.alight`, `background-color: var(--${this.internalId}-aligth-color)`);
+            Css.addCSSRule(`#${this.internalId} .segment.alight${pseudoCssClass.BEFORE}`, `border-bottom-color: var(--${this.internalId}-aligth-color)`);
+            Css.addCSSRule(`#${this.internalId} .segment.alight${pseudoCssClass.AFTER}`, `border-top-color: var(--${this.internalId}-aligth-color)`);
         }
         //#endregion createSegments
         //#region update
         update() {
             //#region Variables déclaration
             const priv = internal(this);
+            const segmentsTag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}segment`;
             //#endregion Variables déclaration
             if (this.HTMLElement) {
-                //super.update();
                 // on allume les segments
                 this.HTMLElementStyle.setProperty(`--${this.internalId}-aligth-color`, priv.color.toRGBAString());
                 if (!priv.conts.isEmpty) {
@@ -1014,7 +1022,7 @@ const SegmentLedLabel = (() => {
                             let charNum;
                             let segements = priv.segmentChars[txt[i].charCodeAt(0)][Convert.intToStr(priv.segmentType)];
                             segements = segements.split(String.EMPTY);
-                            const segs = priv.conts[i].querySelectorAll("div");
+                            const segs = priv.conts[i].querySelectorAll(segmentsTag);
                             for (let j = 0, m = segements.length; j < m; j++) {
                                 if (["A", "B", "C", "D", "E", "F"].indexOf(segements[j]) > -1) {
                                     charNum = segements[j].charCodeAt(0) - 55;
@@ -1043,7 +1051,8 @@ const SegmentLedLabel = (() => {
         //#region clearSegment
         clearSegment(segCont) {
             //#region Variables déclaration
-            const segs = Convert.nodeListToArray(segCont.querySelectorAll("div"));
+            const segmentsTag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}segment`;
+            const segs = Convert.nodeListToArray(segCont.querySelectorAll(segmentsTag));
             //#endregion Variables déclaration
             segs.forEach(seg => {
                 seg.classList.remove("alight");
@@ -1145,20 +1154,6 @@ const SegmentLedLabel = (() => {
             super.destroy();
         }
         //#endregion destroy
-        getHTMLElement(id) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const pseudoCssClass = Types.PSEUDOCSSCLASS;
-            //#endregion Variables déclaration
-            super.getHTMLElement(id);
-            const htmlElementStyle = this.HTMLElementStyle;
-            htmlElementStyle.setProperty(`--${this.internalId}-aligth-color`, priv.color.toRGBAString());
-            htmlElementStyle.setProperty(`--${this.internalId}-unaligth-color`, priv.color.toRGBAString());
-            // add alight for before/after
-            Css.addCSSRule(`#${this.internalId} .segment.alight`, `background-color: var(--${this.internalId}-aligth-color)`);
-            Css.addCSSRule(`#${this.internalId} .segment.alight${pseudoCssClass.BEFORE}`, `border-bottom-color: var(--${this.internalId}-aligth-color)`);
-            Css.addCSSRule(`#${this.internalId} .segment.alight${pseudoCssClass.AFTER}`, `border-top-color: var(--${this.internalId}-aligth-color)`);
-        }
         //#endregion Methods
     }
     return SegmentLedLabel;

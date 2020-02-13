@@ -72,6 +72,7 @@ const BatteryIndicator = (() => {
         //#endregion showPercent
         //#endregion Getters / Setters
         //#region Methods
+        //#region update
         update() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -81,13 +82,13 @@ const BatteryIndicator = (() => {
             }
             const htmlElement = ctxt.HTMLElement;
             const htmlElementStyle = ctxt.HTMLElementStyle;
-            const bib = htmlElement.querySelector(".BatteryIndicatorBefore");
-            const bia = htmlElement.querySelector(".BatteryIndicatorAfter");
-            const NiMH = htmlElement.querySelector(".NiMH");
-            const NiMHBefore = htmlElement.querySelector(".NiMHBefore");
-            const PPole = htmlElement.querySelector(".PPole");
-            const PPoleBefore = htmlElement.querySelector(".PPoleBefore");
-            const PPoleAfter = htmlElement.querySelector(".PPoleAfter");
+            const bib = priv.bib;
+            const bia = priv.bia;
+            const NiMH = priv.NiMH;
+            const NiMHBefore = priv.NiMHBefore;
+            const PPole = priv.PPole;
+            const PPoleBefore = priv.PPoleBefore;
+            const PPoleAfter = priv.PPoleAfter;
             //#endregion Variables déclaration
             if (ctxt.battery) {
                 const battery = ctxt.battery;
@@ -167,23 +168,50 @@ const BatteryIndicator = (() => {
                 PPoleAfter.style.borderRadius = `${60 * ratioW}${PX}/${27 * ratioH}${PX}`;
                 NiMH.style.height = `${(priv.baseFluidHeight * battery.level) * ratioH}${PX}`;
             }
-            //super.update();
         }
+        //#endregion update
+        //#region loaded
         loaded() {
             //#region Variables déclaration
+            const priv = internal(this);
             const ctxt = this;
+            const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             super.loaded();
             navigator.getBattery().then(battery => {
                 battery.obj = ctxt;
                 ctxt.battery = battery;
-                battery.addEventListener('chargingchange', ctxt.update);
-                battery.addEventListener('levelchange', ctxt.update);
-                battery.addEventListener('chargingtimechange', ctxt.update);
-                battery.addEventListener('dischargingtimechange', ctxt.update);
+                battery.addEventListener("chargingchange", ctxt.update);
+                battery.addEventListener("levelchange", ctxt.update);
+                battery.addEventListener("chargingtimechange", ctxt.update);
+                battery.addEventListener("dischargingtimechange", ctxt.update);
                 ctxt.update();
             });
+            // Generate all childs
+            priv.bib = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}bib`);
+            priv.bib.classList.add("Control", "BatteryIndicatorBefore");
+            htmlElement.appendChild(priv.bib);
+            priv.bia = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}bia`);
+            priv.bia.classList.add("Control", "BatteryIndicatorAfter");
+            htmlElement.appendChild(priv.bia);
+            priv.NiMH = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}nimh`);
+            priv.NiMH.classList.add("Control", "NiMH");
+            htmlElement.appendChild(priv.NiMH);
+            priv.NiMHBefore = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}nimhbefore`);
+            priv.NiMHBefore.classList.add("Control", "NiMHBefore");
+            htmlElement.appendChild(priv.NiMHBefore);
+            priv.PPole = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}ppole`);
+            priv.PPole.classList.add("Control", "PPole");
+            htmlElement.appendChild(priv.PPole);
+            priv.PPoleBefore = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}ppolebefore`);
+            priv.PPoleBefore.classList.add("Control", "PPoleBefore");
+            htmlElement.appendChild(priv.PPoleBefore);
+            priv.PPoleAfter = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}ppoleafter`);
+            priv.PPoleAfter.classList.add("Control", "PPoleAfter");
+            htmlElement.appendChild(priv.PPoleAfter);
         }
+        //#endregion loaded
+        //#region destroy
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -201,6 +229,7 @@ const BatteryIndicator = (() => {
             priv.battery = null;
             supper.destroy();
         }
+        //#endregion destroy
         //#endregion Methods
     }
     return BatteryIndicator;

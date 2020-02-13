@@ -43,7 +43,7 @@ const StatusBarPanel = (() => {
             props = !props ? {} : props;
             if (owner) {
                 const priv = internal(this);
-                priv.html = document.createElement(Types.HTMLELEMENTS.DIV);
+                priv.html = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`);
                 owner.HTMLElement.appendChild(priv.html);
                 priv.html.classList.add("StatusBarPanel", owner.app.themeManifest.themeName);
                 priv.owner = owner;
@@ -281,10 +281,10 @@ const StatusBar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            const resizer = document.createElement(Types.HTMLELEMENTS.DIV);
+            const resizer = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}resizer`);
             //#endregion Variables déclaration
             if (!htmlElement.querySelector(".StatusBarSimplePanel")) {
-                priv.simplePanel = document.createElement(Types.HTMLELEMENTS.DIV);
+                priv.simplePanel = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}simplepanel`);
                 priv.simplePanel.classList.add("Control", "StatusBarSimplePanel", this.themeName, "hidden");
                 htmlElement.appendChild(priv.simplePanel);
                 resizer.classList.add("Control", "StatusBarSizer", this.themeName, "csr_nwResize");

@@ -159,7 +159,7 @@ const ColorButton = (() => {
 Core.classes.register(Types.CATEGORIES.COLOR, ColorButton);
 //#region Templates
 if (Core.isHTMLRenderer) {
-    var ColorButtonTpl = ["<jagui-colorbutton id=\"{internalId}\" data-class=\"ColorButton\" class=\"Control ColorButton {theme} csr_default\">",
+    const ColorButtonTpl = ["<jagui-colorbutton id=\"{internalId}\" data-class=\"ColorButton\" class=\"Control ColorButton {theme} csr_default\">",
         "<properties>{ \"name\": \"{name}\", \"color\": \"red\" }</properties></jagui-colorbutton>"].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: ColorButton, template: ColorButtonTpl }]);
 }

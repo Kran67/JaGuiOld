@@ -30,12 +30,10 @@ class ValueLabel extends Label {
 //#endregion
 Core.classes.register(Types.CATEGORIES.CONTAINERS, ValueLabel);
 export { ValueLabel };
-
-/*
-    //#region Template
-    if ($j.isHTMLRenderer()) {
-        var ValueLabelTpl = "<label id='{internalId}' data-name='{name}' data-class='ValueLabel' class='Control csr_default ValueLabel {theme}'>{caption}</label>";
-        $j.classes.registerTemplates([{ Class: ValueLabel, template: ValueLabelTpl }]);
-    }
-    //#endregion
-*/
+//#region Template
+if (Core.isHTMLRenderer) {
+    const ValueLabelTpl = ["<jagui-valuelabel id=\"{internalId}\" data-class=\"ValueLabel\" class=\"Control csr_default ValueLabel {theme}\">",
+        "<properties>{ \"name\": \"{name}\", \"caption\": \"{caption}\" }</properties></jagui-valuelabel>"].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: ValueLabel, template: ValueLabelTpl }]);
+}
+//#endregion

@@ -1,9 +1,9 @@
-﻿button.PopupButton {
+﻿.PopupButton {
     overflow: hidden;
     white-space: nowrap;
 }
 
-div.PopupButtonArrow {
+.PopupButtonArrow {
     right: 4px;
     font-family: jagui;
     font-size: 5pt;

@@ -366,9 +366,10 @@ const CornerButton = (() => {
             const use = document.createElementNS(XMLNS, USE);
             let lineargradient = document.createElementNS(XMLNS, LINEARGRADIENT);
             let stop = document.createElementNS(XMLNS, STOP);
-            const div = document.createElement(Types.HTMLELEMENTS.DIV);
+            const captionTag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}caption`;
+            const div = document.createElement(captionTag);
             //#endregion Variables déclaration
-            if (!htmlElement.querySelector(DIV)) {
+            if (!htmlElement.querySelector(captionTag)) {
                 div.classList.add("Control", "Button", "CornerButton", this.themeName, "includeCaption");
                 div.style=`clip-path:url(#${this.name}Clip);`;
                 htmlElement.appendChild(div);

@@ -252,7 +252,7 @@ Core.classes.register(Types.CATEGORIES.COMMON, ProgressBar);
 export { ProgressBar };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    var ProgressBarTpl = ["<jagui-progressbar id=\"{internalId}\" data-class=\"ProgressBar\" class=\"Control ProgressBar {theme} orientation-horizontal\"><properties>{ \"name\": \"{name}\", \"value\": 50, \"orientation\": \"horizontal\", \"width\": 100, \"height\": 17 }</properties></jagui-progressbar>"].join(String.EMPTY);
+    const ProgressBarTpl = ["<jagui-progressbar id=\"{internalId}\" data-class=\"ProgressBar\" class=\"Control ProgressBar {theme} orientation-horizontal\"><properties>{ \"name\": \"{name}\", \"value\": 50, \"orientation\": \"horizontal\", \"width\": 100, \"height\": 17 }</properties></jagui-progressbar>"].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: ProgressBar, template: ProgressBarTpl }]);
 }
 //#endregion Templates
