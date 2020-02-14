@@ -59,7 +59,8 @@
 
 .SliderLeftToolTip,
 .SliderRightToolTip {
-    visibility: hidden;
+    /*visibility: hidden;*/
+    z-index: 999999;
 }
 
     .SliderLeftToolTip.top,
@@ -67,4 +68,11 @@
     .SliderLeftToolTip.bottom,
     .SliderRightToolTip.bottom {
         transform: translateX(-50%);
+    }
+
+    .Slider:after {
+        content: "";
+        position: absolute;
+        left:0;
+        right:0;
     }

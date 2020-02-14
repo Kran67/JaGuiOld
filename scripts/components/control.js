@@ -2671,14 +2671,11 @@ const Control = (() => {
             const align = priv.align;
             const owner = this.owner;
             //#endregion Variables déclaration
+            this.sizing();
             super.loaded();
-            //if (align.startsWith("fit") || align === Types.ALIGNS.SCALE) {
-            //    Tools.addResizeListener(owner);
-            //}
             if (owner.tab) {
                 this.tab = owner.tab;
             }
-            this.sizing();
         }
         //#endregion loaded
         //#region resized

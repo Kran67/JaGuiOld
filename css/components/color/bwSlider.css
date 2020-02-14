@@ -1,7 +1,7 @@
-﻿div.BWSlider {
+﻿.BWSlider {
     overflow: visible;
 }
 
-div.BWSlider:before {
+.BWSlider:before {
     background-image: linear-gradient(to right,#000 0,#FFF 100%) !important;
 }

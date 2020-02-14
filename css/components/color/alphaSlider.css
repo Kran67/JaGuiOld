@@ -1,7 +1,7 @@
-﻿div.AlphaSlider {
+﻿.AlphaSlider {
     overflow: visible;
 }
 
-div.AlphaSlider:before {
+.AlphaSlider:before {
     background: linear-gradient(to right,transparent 0,#FFF 100%), url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAJ0lEQVQImWNYtGjR/0WLFv1///49HC9atOg/AzIHWREZEjjtwCUBAECKeHPjub7wAAAAAElFTkSuQmCC) !important;
 }

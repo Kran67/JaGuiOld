@@ -1988,12 +1988,6 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             this.visible = true;
             this.setActive();
-            //if (this.controlsToResize.length > 0) {
-            //priv.controlsToResize.forEach(ctrl => {
-            //    ctrl.addResizeListener();
-            //});
-            //priv.controlsToResize.length = 0;
-            //}
             if (priv.animated && Core.isHTMLRenderer) {
                 htmlElement.classList.add("animated","bounceIn");
                 Events.bind(htmlElement, Events.whichAnimationEvent(), this.anitmationEndOnShow);
@@ -2519,9 +2513,6 @@ const BaseWindow = (() => {
                         internalId: node.id,
                         withTpl: false
                     });
-                    //if (isHtmlRenderer) {
-                    //    obj.getHTMLElement(node.id);
-                    //}
                     switch (dataClass) {
                         case "WindowTitleBar": {
                             priv.titleBar = obj;
@@ -2551,26 +2542,16 @@ const BaseWindow = (() => {
                         }
                         case "MainMenu":
                             priv.mainMenu = obj;
-                            //contentTop+=obj.HTMLElement.offsetHeight;
                             break;
                         case "ToolBar":
                         case "ToolBarContainer":
                             priv.toolBars.push(obj);
-                            //obj.HTMLElement.style[Core.types.jsCSSProperties.TOP]=contentTop+Types.CSSUNITS.PX;
-                            //contentTop+=obj.HTMLElement.offsetHeight;
                             break;
                         case "StatusBar":
                             priv.statusBars.push(obj);
-                            //if (!this._statusBar)) this._statusBar=obj;
-                            //else Css.addClass(obj.HTMLElement,"hidden");
-                            //obj.HTMLElement.style[Core.types.jsCSSProperties.BOTTOM]=contentBottom+Types.CSSUNITS.PX;
-                            //contentBottom+=obj.HTMLElement.offsetHeight;
                             break;
                     }
                     if (!isHtmlRenderer) {
-                        //    //obj.updateFromHTML();
-                        //    obj.getChilds();
-                        //} else {
                         obj.getChilds(node.childs);
                     }
                 }
@@ -2584,7 +2565,6 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             if (Core.isHTMLRenderer) {
                 this.getHTMLElement(id);
-                //this.updateFromHTML();
                 this.getChilds();
                 if (this.addListeners) {
                     this.addListeners();
@@ -2597,7 +2577,6 @@ const BaseWindow = (() => {
             } else {
                 this.getChilds(id);
             }
-            //this.loaded();
         }
         //#endregion formCreated
         //#region bindEvents
@@ -2625,10 +2604,6 @@ const BaseWindow = (() => {
             const TITLEBUTTONS = Window.TITLEBUTTONS;
             let margin = null;
             //#endregion Variables déclaration
-            //if (!this.isMaximized) {
-            //    if (this.clientWidth > 0) this.layout.HTMLElementStyle.width = `${this.clientWidth}${PX}`;
-            //    if (this.clientHeight > 0) this.layout.HTMLElementStyle.height = `${this.clientHeight}${PX}`;
-            //}
             if (!isHtmlRenderer) {
                 layoutMargin.offset(Window.SIZEABLEBORDERSIZE, Window.SIZEABLEBORDERSIZE);
                 if (theme.WindowLayout) {
@@ -2670,9 +2645,6 @@ const BaseWindow = (() => {
                     }
                 }
             }
-            //} else {
-            //    priv.layout.margin.offset(1, 1);
-            //}
             this.realignChilds();
             super.loaded();
             priv.creating = false;

@@ -37,3 +37,6 @@
 @import url('/themes/css/carbon/common/calendar.css');
 @import url('/themes/css/carbon/extended/splitbutton.css');
 @import url('/themes/css/carbon/common/slider.css');
+@import url('/themes/css/carbon/color/alphaslider.css');
+@import url('/themes/css/carbon/color/bwslider.css');
+@import url('/themes/css/carbon/color/hueslider.css');

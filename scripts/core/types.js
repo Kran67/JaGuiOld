@@ -449,7 +449,8 @@ const Types = Object.freeze({
         UL: "ul",
         FORM: "form",
         H3: "h3",
-        A: "a"
+        A: "a",
+        DATALIST: "datalist"
     }),
     //#endregion
     //#region HTMLEVENTS

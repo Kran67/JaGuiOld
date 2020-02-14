@@ -321,7 +321,7 @@ const Component = (() => {
             html = a.join(priv.internalId);
             return html;
         }
-        //#region template
+        //#endregion template
         //#region properties
         get properties() {
             //#region Variables déclaration
@@ -499,6 +499,7 @@ const Component = (() => {
             }
         }
         //#endregion top
+        //#endregion Getter / Setters
         //#region Methods
         //#region moveTo
         moveTo(x, y) {
@@ -574,13 +575,6 @@ const Component = (() => {
             const form = priv.form;
             //#endregion Variables déclaration
             priv.loading = false;
-            this.components.forEach(comp => {
-                if (comp.loaded) {
-                    if (comp.loading) {
-                        comp.loaded();
-                    }
-                }
-            });
             if (Core.isHTMLRenderer) {
                 this.bindEvents();
                 if (htmlElement) {
@@ -608,6 +602,13 @@ const Component = (() => {
                 }
             }
             this.positioning();
+            this.components.forEach(comp => {
+                if (comp.loaded) {
+                    if (comp.loading) {
+                        comp.loaded();
+                    }
+                }
+            });
         }
         //#endregion loaded
         //#region positioning

@@ -1,7 +1,7 @@
-﻿div.HUESlider {
+﻿.HUESlider {
     overflow: visible;
 }
 
-div.HUESlider:before {
+.HUESlider:before {
     background-image: linear-gradient(to right,#FF0000 0,#FFFF00 16%,#00FF00 33%,#00FFFF 50%,#0000FF 66%,#FF00FF 83%,#FF0000 100%) !important;
 }
