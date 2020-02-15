@@ -12,6 +12,13 @@ const SLIDERMODES = {
     RANGE: "range"
 };
 //#endregion SLIDERMODES
+//#region TICKMARKSPOSITION
+const TICKMARKSPOSITION = {
+    BOTH: "both",
+    TOP: "top",
+    BOTTOM: "bottom"
+};
+//#endregion TICKMARKSPOSITION
 //#region Slider
 const Slider = (() => {
     //#region Private
@@ -79,6 +86,8 @@ const Slider = (() => {
                 priv.values = props.hasOwnProperty("values") ? props.values : null;
                 priv.tickmarks = props.hasOwnProperty("tickmarks") ? props.tickmarks : [];
                 priv.showTickmarks = props.hasOwnProperty("showTickmarks") ? props.showTickmarks : false;
+                priv.tickmarksPosition = props.hasOwnProperty("tickmarksPosition") ? props.tickmarksPosition : TICKMARKSPOSITION.BOTH;
+                this.allowUpdateOnResize = true;
             }
         }
         //#endregion constructor
@@ -91,6 +100,14 @@ const Slider = (() => {
             return SLIDERMODES;
         }
         //#endregion SLIDERMODES
+        //#region SLIDERMODES
+        /**
+         * @type    {Object}        TICKMARKSPOSITION
+         */
+        static get TICKMARKSPOSITION() {
+            return TICKMARKSPOSITION;
+        }
+        //#endregion TICKMARKSPOSITION
         //#region tickmarks
         get tickmarks() {
             return internal(this).tickmarks;
@@ -102,6 +119,7 @@ const Slider = (() => {
             if (Array.isArray(newValue)) {
                 if (priv.tickmarks !== newValue) {
                     priv.tickmarks = newValue;
+                    this.update();
                 }
             }
         }
@@ -117,10 +135,27 @@ const Slider = (() => {
             if (Tools.isBool(newValue)) {
                 if (priv.showTickmarks !== newValue) {
                     priv.showTickmarks = newValue;
+                    this.update();
                 }
             }
         }
         //#endregion showTickmarks
+        //#region tickmarksPosition
+        get tickmarksPosition() {
+            return internal(this).tickmarksPosition;
+        }
+        set tickmarksPosition(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Tools.valueInSet(newValue, TICKMARKSPOSITION)) {
+                if (priv.tickmarksPosition !== newValue) {
+                    priv.tickmarksPosition = newValue;
+                    this.update();
+                }
+            }
+        }
+        //#endregion tickmarksPosition
         //#region blockedThumbs
         get blockedThumbs() {
             return internal(this).blockedThumbs;
@@ -299,6 +334,7 @@ const Slider = (() => {
             if (Tools.valueInSet(newValue, Types.ANCHORS)) {
                 if (priv.toolTipsPosition !== newValue) {
                     priv.toolTipsPosition = newValue;
+                    this.update();
                 }
             }
         }
@@ -358,7 +394,7 @@ const Slider = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const range = priv.max - priv.min;
-            const position = ((thumb.valueAsNumber - priv.min) / range) * 100;
+            const position = (thumb.valueAsNumber - priv.min) / range * 100;
             const positionOffset = Math.round(priv.offset * position / 100) - priv.offset / 2;
             //#endregion Variables déclaration
             return { position: position, positionOffset: positionOffset };
@@ -387,6 +423,8 @@ const Slider = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
+            const htmlElementStyle = this.HTMLElementStyle;
+            const workingArea = this.width - 12;
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
                 if (priv.leftInput) {
@@ -420,11 +458,17 @@ const Slider = (() => {
                 if (priv.mode === SLIDERMODES.RANGE) {
                     priv.rightToolTip.classList.add(`orientation-${priv.orientation}`);
                 }
+                htmlElement.classList.remove("showTickmarks");
+                htmlElementStyle.background = String.EMPTY;
                 if (priv.showTickmarks) {
+                    htmlElement.classList.add("showTickmarks");
+                    const tickmarks = [];
+                    const tickPosition = priv.tickmarksPosition === TICKMARKSPOSITION.TOP ? "-18px" : priv.tickmarksPosition === TICKMARKSPOSITION.BOTTOM ? "18px" : "top";
                     priv.tickmarks.forEach(tick => {
-                        //const option = new Option(String.EMPTY, tick);
-                        //priv.tickmarksList.appendChild(option);
+                        const x = workingArea * tick / 100;
+                        tickmarks.push(`linear-gradient(90deg, var(--ticks-color), var(--ticks-color)) no-repeat ${x + 6}px ${tickPosition}`);
                     });
+                    htmlElementStyle.background = tickmarks.join(", ");
                 }
             }
         }
@@ -627,12 +671,12 @@ const Slider = (() => {
             const priv = internal(this);
             const HIDDEN = Types.CSSVALUES.HIDDEN;
             //#endregion Variables déclaration
-            //if (priv.leftToolTip) {
-            //    priv.leftToolTip.style.visibility = HIDDEN;
-            //}
-            //if (priv.rightToolTip) {
-            //    priv.rightToolTip.style.visibility = HIDDEN;
-            //}
+            if (priv.leftToolTip) {
+                priv.leftToolTip.style.visibility = HIDDEN;
+            }
+            if (priv.rightToolTip) {
+                priv.rightToolTip.style.visibility = HIDDEN;
+            }
         }
         //#endregion hideToolTips
         //#region getTemplate

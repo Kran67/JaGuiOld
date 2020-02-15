@@ -11,7 +11,7 @@
 }
 
 .carbon.Slider.orientation-vertical input[type='range']::-webkit-slider-thumb {
-    background-image: linear-gradient(to top,#606060 0,#303030 100%);
+    background-image: linear-gradient(to right,#606060 0,#303030 100%);
 }
 
 .carbon.Slider .thumb,
@@ -27,7 +27,7 @@
 }
 
 .carbon.Slider.orientation-vertical input[type='range']::-moz-range-thumb {
-    background-image: linear-gradient(to top,#606060 0,#303030 100%);
+    background-image: linear-gradient(to right,#606060 0,#303030 100%);
 }
 
 .carbon.Slider input[type='range']::-webkit-slider-thumb:hover {
@@ -35,7 +35,7 @@
 }
 
 .carbon.Slider.orientation-vertical input[type='range']::-webkit-slider-thumb:hover {
-    background-image: linear-gradient(to top,#808080 0,#303030 100%);
+    background-image: linear-gradient(to right,#808080 0,#303030 100%);
 }
 
 .carbon.Slider input[type='range']::-moz-range-thumb:hover {
@@ -43,12 +43,12 @@
 }
 
 .carbon.Slider.orientation-vertical input[type='range']::-moz-range-thumb:hover {
-    background-image: linear-gradient(to top,#808080 0,#303030 100%);
+    background-image: linear-gradient(to right,#808080 0,#303030 100%);
 }
 
 .carbon.SliderRange {
-    top: 5px;
-    bottom: 5px;
+    top: 9px;
+    bottom: 9px;
     background-image: linear-gradient(to bottom,#F4BB40 0,#674704 100%);
     left: 0;
 }
@@ -59,6 +59,7 @@
 
 .carbon.Slider {
     box-shadow: none;
+    --ticks-color: #E0E0E0;
 }
 
     .carbon.Slider:before {
@@ -68,7 +69,7 @@
         flex: 1;
         border-radius: 3px;
         align-self: stretch;
-        margin: 4px 7px;
+        /*margin: 4px 7px;*/
         background-image: linear-gradient(to bottom,#303030 0,#606060 100%);
     }
 
@@ -171,6 +172,32 @@
         border-bottom: 5px solid transparent;
     }
 
-.carbon.SliderLeftToolTip.orientation-vertical.bottom {
+.carbon.SliderLeftToolTip.orientation-vertical.bottom,
+.carbon.SliderRightToolTip.orientation-vertical.bottom {
     transform: translateX(-50%) rotate(-90deg);
+    padding-bottom: 3px;
 }
+
+    .carbon.SliderLeftToolTip.orientation-vertical.bottom .carbon.SliderLeftToolTipArrow.bottom,
+    .carbon.SliderRightToolTip.orientation-vertical.bottom .carbon.SliderRightToolTipArrow.bottom {
+        left: 104%;
+        top: 4px;
+        transform: unset;
+        height: 10px;
+        border-top: 5px solid transparent;
+        border-left: 5px solid #303030;
+        border-bottom: 5px solid transparent;
+        border-right: 0 solid transparent;
+    }
+
+    .carbon.SliderLeftToolTip.orientation-vertical.bottom .carbon.SliderLeftToolTipArrowFront.bottom,
+    .carbon.SliderRightToolTip.orientation-vertical.bottom .carbon.SliderRightToolTipArrowFront.bottom {
+        left: 98%;
+        top: 4px;
+        transform: unset;
+        height: 10px;
+        border-top: 5px solid transparent;
+        border-left: 5px solid #CDA143;
+        border-bottom: 5px solid transparent;
+        border-right: 0 solid transparent;
+    }

@@ -8,7 +8,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 14px;
+    min-height: 22px;
+    background-size: 1px 100% !important;
+    padding: 8px 4px;
 }
 
     .Slider.orientation-vertical {
@@ -59,7 +61,7 @@
 
 .SliderLeftToolTip,
 .SliderRightToolTip {
-    /*visibility: hidden;*/
+    visibility: hidden;
     z-index: 999999;
 }
 
@@ -68,11 +70,4 @@
     .SliderLeftToolTip.bottom,
     .SliderRightToolTip.bottom {
         transform: translateX(-50%);
-    }
-
-    .Slider:after {
-        content: "";
-        position: absolute;
-        left:0;
-        right:0;
     }
