@@ -2667,8 +2667,6 @@ const Control = (() => {
         //#region loaded
         loaded() {
             //#region Variables déclaration
-            const priv = internal(this);
-            const align = priv.align;
             const owner = this.owner;
             //#endregion Variables déclaration
             this.sizing();

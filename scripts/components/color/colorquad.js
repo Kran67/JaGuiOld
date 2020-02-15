@@ -98,12 +98,7 @@ const ColorQuad = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (Tools.isNumber(newValue)) {
-                if (newValue < 0) {
-                    newValue = 0;
-                }
-                if (newValue > 360) {
-                    newValue = 359;
-                }
+                newValue = Math.min(Math.max(newValue, 0), 359);
                 if (this.fillColor.hue !== newValue) {
                     priv.color.hue = newValue;
                     this.update();
@@ -175,7 +170,6 @@ const ColorQuad = (() => {
             const COLORPICKSIZE = Types.CONSTANTS.COLORPICKSIZE;
             const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
-            //super.update();
             if (!point) {
                 point = new Point;
                 let value;
@@ -236,6 +230,9 @@ const ColorQuad = (() => {
                 htmlElement.appendChild(priv.handleObj);
             }
             super.loaded();
+            if (priv.colorBox instanceof Core.classes.ColorBox) {
+                priv.colorBox.color = priv.color;
+            }
         }
         //#region loaded
         //#region _update
@@ -358,7 +355,7 @@ export { ColorQuad };
 //#region Templates
 if (Core.isHTMLRenderer) {
     const ColorQuadTpl = ["<jagui-colorquad id=\"{internalId}\" data-class=\"ColorQuad\" class=\"Control ColorQuad\">",
-    "<properties>{ \"name\": \"{name}\", }</properties></jagui-colorquad>"].join(String.EMPTY);
+        "<properties>{ \"name\": \"{name}\", }</properties></jagui-colorquad>"].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: ColorQuad, template: ColorQuadTpl }]);
 }
 //endregion

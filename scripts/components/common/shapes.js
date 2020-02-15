@@ -800,8 +800,8 @@ const Star = (() => {
             const cx = ~~(parseFloat(sStyle.width) / 2);
             const cy = ~~(parseFloat(sStyle.height) / 2);
             const step = Math.PI / priv.spikes;
-            const outerRadius = ~~((cx > cy ? cy : cx) / 2);
-            const innerRadius = ~~((cx > cy ? cy : cx) / 4);
+            const outerRadius = cx > cy ? cy : cx;
+            const innerRadius = (cx > cy ? cy : cx) / 2;
             const pts = [];
             if (!this.loading && !this.form.loading) {
                 if (this.svgShape) {
