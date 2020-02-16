@@ -18,56 +18,74 @@
         transform-origin: center center;
     }
 
-    .Slider input[type='range'] {
-        -webkit-appearance: none;
-        width: 100%;
-        background-color: transparent;
-        overflow: visible;
-        height: 100%;
-    }
-
-        .Slider input[type='range']:focus {
-            outline: none;
-        }
-
-        .Slider input[type='range']::-webkit-slider-runnable-track {
-            height: 6px;
-        }
-
-        .Slider input[type='range']::-moz-range-track {
-            height: 6px;
-        }
-
-        .Slider input[type='range']::-webkit-slider-thumb {
-            position: relative;
-            -webkit-appearance: none;
-            border: 1px solid #000;
-            z-index: 1;
-        }
-
-        .Slider input[type='range']::-moz-range-thumb {
-            position: relative;
-            border: 1px solid #000;
-            z-index: 1;
-        }
-
-        .Slider input[type='range']:nth-child(1)::-webkit-slider-thumb {
-            z-index: 2;
-        }
-
-        .Slider input[type='range']:nth-child(1)::-moz-range-thumb {
-            z-index: 2;
-        }
-
-.SliderLeftToolTip,
-.SliderRightToolTip {
-    visibility: hidden;
-    z-index: 999999;
+.SliderInput {
+    pointer-events: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    z-index: 3;
+    opacity: 0;
+    width: 100%;
 }
 
-    .SliderLeftToolTip.top,
-    .SliderRightToolTip.top,
-    .SliderLeftToolTip.bottom,
-    .SliderRightToolTip.bottom {
-        transform: translateX(-50%);
+    .SliderInput::-ms-track,
+    .SliderInput::-moz-range-track,
+    .SliderInput:focus::-webkit-slider-runnable-track {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        background: transparent;
+        border: transparent;
     }
+
+    .SliderInput:focus {
+        outline: none;
+    }
+
+    .SliderInput::-ms-thumb,
+    .SliderInput::-moz-range-thumb,
+    .SliderInput::-webkit-slider-thumb {
+        pointer-events: all;
+        /*width: 28px;
+        height: 28px;*/
+        border-radius: 0px;
+        border: 0 none;
+        background: red;
+    }
+
+    .SliderInput::-ms-fill-lower,
+    .SliderInput::-ms-fill-upper {
+        background: transparent;
+        border: 0 none;
+    }
+
+    .SliderInput::-ms-tooltip {
+        display: none;
+    }
+
+.SliderThumb {
+    z-index: 2;
+    margin-left: -11px;
+}
+
+.SliderTooltip {
+    z-index: 3;
+    opacity: 0;
+    top: -20px;
+    margin-left: -11px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .SliderTooltip:after {
+        position: absolute;
+        content: '';
+        top: 100%;
+    }
+
+    .Slider.normal .SliderTooltip:last-of-type {
+        display: none;
+    }
+
+.Slider:hover .SliderTooltip {
+    opacity: 1;
+}

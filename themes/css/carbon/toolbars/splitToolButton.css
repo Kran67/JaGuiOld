@@ -3,10 +3,7 @@
 }
 
 .carbon.SplitToolButton:hover .BitmapButton img {
-    -webkit-filter: drop-shadow(0 0 4px rgba(246,158,45,0.9));
-    filter: url(../shadow.svg#drop-shadow);
-    -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=0, OffY=0,Color='#F69E2D')";
-    filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=0, OffY=0, Color='#F69E2D')";
+    filter: drop-shadow(0 0 4px rgba(246,158,45,0.9));
 }
 
 .carbon.SplitToolButton .BitmapButtonCaption,

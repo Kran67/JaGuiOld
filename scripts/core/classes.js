@@ -158,13 +158,7 @@ class Classes {
         let result = true;
         //#endregion Variables déclaration
         if (Core.classes.ToolBar) {
-            if (Class.name === "ToolButtonSep" && !(owner instanceof Core.classes.ToolBar)) {
-                result = false;
-            }
-            if (Class.name === "ToolButton" && !(owner instanceof Core.classes.ToolBar)) {
-                result = false;
-            }
-            if (Class.name === "SplitToolButton" && !(owner instanceof Core.classes.ToolBar)) {
+            if (["ToolButtonSep", "ToolButton", "ToolButtonSepSplit"].indexOf(Class.name)>-1 && !(owner instanceof Core.classes.ToolBar)) {
                 result = false;
             }
         }

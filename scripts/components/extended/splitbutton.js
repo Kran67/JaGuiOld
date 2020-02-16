@@ -30,6 +30,7 @@ const SplitButton = (() => {
                 const priv = internal(this);
                 priv.caption = props.hasOwnProperty("caption") ? props.caption : this.name;
                 priv.action = null;
+                priv.popupMenu = props.hasOwnProperty("popupMenu") && this.form[props.popupMenu] ? this.form[props.popupMenu] : null;
             }
         }
         //#endregion constructor
@@ -61,9 +62,26 @@ const SplitButton = (() => {
             }
         }
         //#endregion action
+        //#region btn
         get btn() {
             return internal(this).btn;
         }
+        //#endregion btn
+        //#region popupMenu
+        get popupMenu() {
+            return internal(this).popupMenu;
+        }
+        set popupMenu(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (newValue instanceof Core.classes.Menu) {
+                if (priv.popupMenu !== newValue) {
+                    priv.popupMenu = newValue;
+                }
+            }
+        }
+        //#endregion popupMenu
         //#endregion Getters / Setters
         //#region Methods
         //#region clickPopup
@@ -97,7 +115,7 @@ const SplitButton = (() => {
             const priv = internal(this);
             let html = super.getTemplate();
             let a = html.split("{bitmapButton}");
-            let tpl = this._btn.getTemplate();
+            let tpl = priv.btn.getTemplate();
             html = a.join(tpl);
             a = html.split("{popupButton}");
             tpl = priv.popupBtn.getTemplate();
@@ -129,7 +147,7 @@ const SplitButton = (() => {
 })();
 Core.classes.register(Types.CATEGORIES.EXTENDED, SplitButton);
 //#endregion SplitButton
-
+export { SplitButton };
 //#region Templates
 if (Core.isHTMLRenderer) {
     const SplitButtonTpl = ["<jagui-splitbutton id=\"{internalId}\" data-class=\"SplitButton\" class=\"Control SplitButton {theme} csr_default\">",

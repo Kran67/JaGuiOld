@@ -1,4 +1,4 @@
-﻿div.SplitToolButton {
+﻿.SplitToolButton {
     float: left;
     height: 100%;
     overflow: hidden;
@@ -9,21 +9,22 @@
     flex-wrap: nowrap;
 }
 
-div.SplitToolButton button.BitmapButton {
+
+.SplitToolButton .BitmapButton {
     flex: 1;
 }
 
-div.SplitToolButton button.PopupButton {
+.SplitToolButton .PopupButton {
     width: 14px;
     border-left: none;
 }
 
-div.SplitToolButton button.BitmapButton,
-div.SplitToolButton button.PopupButton {
+.SplitToolButton .BitmapButton,
+.SplitToolButton .PopupButton {
     position: relative;
 }
 
-div.SplitToolButton img {
+.SplitToolButton img {
     max-height: 16px;
     max-width: 16px;
 }

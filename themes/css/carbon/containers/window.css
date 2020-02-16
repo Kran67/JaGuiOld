@@ -62,6 +62,7 @@
 
 .carbon.WindowContent {
     background-color: #505050;
-    scrollbar-color:#F4BB40 #303030;
+    scrollbar-color: #F4BB40 #303030;
     position: relative;
+    scrollbar-width: thin;
 }
