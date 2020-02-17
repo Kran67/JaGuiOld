@@ -627,17 +627,17 @@ const Slider = (() => {
             }
         }
         //#endregion moveRange
+        //#region mouseDown
         mouseDown() {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             super.mouseDown();
             if (priv.mode === SLIDERMODES.NORMAL) {
-                //const value=(~~priv.max/(~~priv.max-~~priv.min))*Core.mouse.target.x-(~~priv.max/(~~priv.max-~~priv.min))*~~priv.min;
-                //console.log(value);
                 this.firstValue = Core.mouse.target.x * (priv.max-priv.min) / this.width;
             }
         }
+        //#endregion mouseDown
         //#endregion Methods
     }
     return Slider;
