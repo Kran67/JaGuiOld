@@ -11,7 +11,7 @@ import { Window1 } from "./window1.js";
 //import { BorderSizeable } from "./bordersizeable.js";
 //import { BorderSizeToolWin } from "./bordersizetoolwin.js";
 //import { BorderToolWindow } from "./bordertoolwindow.js";
-export class Controls extends Application {
+class Controls extends Application {
     constructor() {
         const LANGUAGES = Types.LANGUAGES;
         super("controls");
@@ -25,3 +25,4 @@ export class Controls extends Application {
         //this.run();
     }
 }
+export { Controls };

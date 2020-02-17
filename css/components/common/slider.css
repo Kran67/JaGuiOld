@@ -1,4 +1,4 @@
-﻿.SliderRange {
+﻿.Slider:not(.range) .SliderRange {
     display: none;
 }
 
@@ -10,7 +10,6 @@
     align-items: center;
     min-height: 22px;
     background-size: 1px 100% !important;
-    padding: 8px 4px;
 }
 
     .Slider.orientation-vertical {
@@ -24,14 +23,21 @@
     -webkit-appearance: none;
     z-index: 3;
     opacity: 0;
-    width: 100%;
 }
 
-    .SliderInput::-ms-track,
-    .SliderInput::-moz-range-track,
-    .SliderInput:focus::-webkit-slider-runnable-track {
-        -moz-appearance: none;
+    .SliderInput::-ms-track {
         -webkit-appearance: none;
+        background: transparent;
+        border: transparent;
+    }
+
+    .SliderInput::-moz-range-track {
+        -moz-appearance: none;
+        background: transparent;
+        border: transparent;
+    }
+
+    .SliderInput:focus::-webkit-slider-runnable-track {
         background: transparent;
         border: transparent;
     }
@@ -40,15 +46,26 @@
         outline: none;
     }
 
-    .SliderInput::-ms-thumb,
-    .SliderInput::-moz-range-thumb,
-    .SliderInput::-webkit-slider-thumb {
+    .SliderInput::-ms-thumb {
         pointer-events: all;
-        /*width: 28px;
-        height: 28px;*/
-        border-radius: 0px;
+        border-radius: 0;
         border: 0 none;
         background: red;
+    }
+
+    .SliderInput::-moz-range-thumb {
+        pointer-events: all;
+        border-radius: 0;
+        border: 0 none;
+        background: red;
+    }
+
+    .SliderInput::-webkit-slider-thumb {
+        pointer-events: all;
+        border-radius: 0;
+        border: 0 none;
+        background: red;
+        -webkit-appearance: none;
     }
 
     .SliderInput::-ms-fill-lower,
@@ -63,17 +80,19 @@
 
 .SliderThumb {
     z-index: 2;
-    margin-left: -11px;
 }
 
 .SliderTooltip {
     z-index: 3;
-    opacity: 0;
+    visibility: hidden;
     top: -20px;
-    margin-left: -11px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.SliderTooltip.bottom {
+    top: 25px;
 }
 
     .SliderTooltip:after {
@@ -82,10 +101,11 @@
         top: 100%;
     }
 
-    .Slider.normal .SliderTooltip:last-of-type {
-        display: none;
-    }
+.Slider.normal .SliderThumb:last-of-type,
+.Slider.normal .SliderTooltip:last-of-type {
+    display: none;
+}
 
 .Slider:hover .SliderTooltip {
-    opacity: 1;
+    visibility: visible;
 }
