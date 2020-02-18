@@ -70,7 +70,7 @@ const Slider = (() => {
                     value: props.hasOwnProperty("mode") ? props.mode : SLIDERMODES.NORMAL
                 });
                 this.hitTest = true;
-                priv.showValues = props.hasOwnProperty("showValues") ? props.showValues : false;
+                priv.showTooltips = props.hasOwnProperty("showTooltips") ? props.showTooltips : false;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: "toolTipsPosition",
@@ -81,7 +81,7 @@ const Slider = (() => {
                 });
                 priv.decimalPrecision = props.hasOwnProperty("decimalPrecision") ? props.decimalPrecision : 0;
                 this.onChange = new NotifyEvent(this);
-                priv.values = props.hasOwnProperty("values") ? props.values : null;
+                priv.values = props.hasOwnProperty("values") ? props.values : [0, 0];
                 priv.tickmarks = props.hasOwnProperty("tickmarks") ? props.tickmarks : [];
                 priv.showTickmarks = props.hasOwnProperty("showTickmarks") ? props.showTickmarks : false;
                 priv.tickmarksPosition = props.hasOwnProperty("tickmarksPosition") ? props.tickmarksPosition : TICKMARKSPOSITION.BOTH;
@@ -345,6 +345,24 @@ const Slider = (() => {
             }
         }
         //#endregion toolTipsPosition
+        //#region showTooltips
+        get showTooltips() {
+            return internal(this).showTooltips;
+        }
+        set showTooltips(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
+                if (priv.showTooltips !== newValue) {
+                    htmlElement.classList.remove(priv.showTooltips);
+                    priv.showTooltips = newValue;
+                    htmlElement.classList.add(priv.showTooltips);
+                }
+            }
+        }
+        //#endregion showTooltips
         //#endregion Getters / Setters
         //#region Methods
         //#region loaded
@@ -565,7 +583,7 @@ const Slider = (() => {
             const priv = internal(this);
             const PO = Types.CSSUNITS.PO;
             //#endregion Variables déclaration
-            if (priv.showValues) {
+            if (priv.showTooltips) {
                 priv.leftTooltip.style.left = `${lValue}${PO}`;
                 priv.leftTooltip.innerHTML = priv.leftInput.valueAsNumber.toFixed(priv.decimalPrecision);
                 priv.rightTooltip.style.left = `${rValue}${PO}`;
@@ -600,7 +618,7 @@ const Slider = (() => {
             priv.max = null;
             priv.frequency = null;
             priv.mode = null;
-            priv.showValues = null;
+            priv.showTooltips = null;
             priv.toolTipsPosition = null;
             priv.decimalPrecision = null;
             priv.showTickmarks = null;

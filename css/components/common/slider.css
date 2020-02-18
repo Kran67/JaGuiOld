@@ -126,6 +126,6 @@
     display: none;
 }
 
-.Slider:hover .SliderTooltip {
+.Slider.showTooltips:hover .SliderTooltip {
     visibility: visible;
 }

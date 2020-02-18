@@ -653,7 +653,8 @@ const Control = (() => {
             if (!Core.isHTMLRenderer) {
                 return priv.width;
             } else {
-                return priv.width !== this.HTMLElement.offsetWidth ? priv.width : this.HTMLElement.offsetWidth;
+                priv.width = priv.width !== this.HTMLElement.offsetWidth?this.HTMLElement.offsetWidth:priv.width;
+                return priv.width;
             }
         }
         set width(newValue) {
@@ -704,7 +705,8 @@ const Control = (() => {
             if (!Core.isHTMLRenderer) {
                 return priv.height;
             } else {
-                return priv.height !== this.HTMLElement.offsetWidth ? priv.height : this.HTMLElement.offsetHeight;
+                priv.height = priv.height !== this.HTMLElement.offsetHeight?this.HTMLElement.offsetHeight:priv.height;
+                return priv.height;
             }
         }
         set height(newValue) {

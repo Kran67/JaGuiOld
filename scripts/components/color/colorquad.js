@@ -240,8 +240,6 @@ const ColorQuad = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            let value;
-            let saturation;
             const COLORFORMATS = Types.COLORFORMATS;
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
@@ -256,8 +254,8 @@ const ColorQuad = (() => {
                         this.fillColor.HSLtoRGB();
                     }
                     this.HTMLElementStyle.backgroundColor = this.fillColor.toRGBAString();
-                    value = 100 - ~~(priv.handle.y * 100 / htmlElement.offsetHeight);
-                    saturation = ~~(priv.handle.x * 100 / htmlElement.offsetWidth);
+                    const value = 100 - ~~(priv.handle.y * 100 / htmlElement.offsetHeight);
+                    const saturation = ~~(priv.handle.x * 100 / htmlElement.offsetWidth);
                     if (priv.format === COLORFORMATS.HSV) {
                         this.color.setHSV(this.fillColor.hue, saturation, value);
                     } else {

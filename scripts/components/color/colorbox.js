@@ -57,3 +57,4 @@ if (Core.isHTMLRenderer) {
     Core.classes.registerTemplates([{ Class: ColorBox, template: ColorBoxTpl }]);
 }
 //endregion
+export { ColorBox };
