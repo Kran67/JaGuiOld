@@ -50,10 +50,7 @@
 .carbon.SliderTooltip {
     border-radius: 3px;
     background-image: linear-gradient(to bottom,#F5CD76 0,#9F7009 100%);
-    padding: 3px;
-    overflow: visible;
     color: #000;
-    transform: translateX(-50%);
     filter: drop-shadow(0 0 1px #303030) drop-shadow(0 0 1px #303030) drop-shadow(0 0 1px #303030);
 }
 
@@ -61,30 +58,27 @@
         border-top: 5px solid #9F7009;
         border-left: 5px solid transparent;
         border-right: 5px solid transparent;
+        border-bottom: 5px solid transparent;
     }
 
 .carbon.SliderTooltip.bottom:after {
-    border-bottom: 5px solid transparent;
-    border-top: 5px solid #9F7009;
-}
-
-.carbon.SliderTooltip.orientation-vertical {
-    background-image: linear-gradient(to right,#F5CD76 0,#9F7009 100%);
-}
-
-.carbon.SliderTooltip.orientation-vertical:after {
-    border-top: 5px solid #C99D3E;
-}
-
-.carbon.SliderTooltip.orientation-vertical.bottom:after {
     border-top: 5px solid transparent;
-    border-bottom: 5px solid #C99D3E;
+    border-bottom: 5px solid #F3CB74;
     bottom: 100%;
     top: auto;
 }
 
-.carbon.SliderTooltip.orientation-vertical .SliderTooltipText {
-    transform: rotate(-90deg) translate(0) perspective(1px);
+.carbon.SliderTooltip.orientation-vertical:after {
+    border-top: 5px solid transparent;
+    border-right: 5px solid #C89C3D;
+}
+
+.carbon.SliderTooltip.orientation-vertical.bottom:after {
+    border-right: 5px solid transparent;
+    border-left: 5px solid #C89C3D;
+    border-bottom: 5px solid transparent;
+    left: 96%;
+    bottom: auto;
 }
 
 

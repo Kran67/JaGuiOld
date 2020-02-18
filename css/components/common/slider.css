@@ -13,8 +13,7 @@
 }
 
     .Slider.orientation-vertical {
-        transform: rotate(90deg);
-        transform-origin: center center;
+        transform: rotate(90deg) translate(0) perspective(1px);
     }
 
 .SliderInput {
@@ -89,6 +88,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 3px;
+    overflow: visible;
+    transform: translateX(-50%);
 }
 
 .SliderTooltip.bottom {
@@ -100,6 +102,24 @@
         content: '';
         top: 100%;
     }
+
+.SliderTooltip.orientation-vertical {
+    transform: rotate(-90deg) translateY(0) perspective(1px);
+    transform-origin: 0 center;
+    top: -10px;
+}
+
+.SliderTooltip.orientation-vertical:after {
+    top: auto;
+    right: 96%;
+}
+
+.SliderTooltip.orientation-vertical.bottom {
+    top: 15px;
+    transform: rotate(-90deg) translateX(-100%) perspective(1px);
+    margin-left: -1px;
+}
+
 
 .Slider.normal .SliderThumb:last-of-type,
 .Slider.normal .SliderTooltip:last-of-type {

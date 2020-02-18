@@ -400,16 +400,10 @@ const Slider = (() => {
             priv.leftTooltip = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}tooltip`);
             priv.leftTooltip.classList.add("Control", this.themeName, "SliderTooltip", "csr_default", `orientation-${priv.orientation}`,  priv.toolTipsPosition);
             htmlElement.appendChild(priv.leftTooltip);
-            priv.leftTooltipText = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}tooltiptext`);
-            priv.leftTooltipText.classList.add("SliderTooltipText", "csr_default");
-            priv.leftTooltip.appendChild(priv.leftTooltipText);
 
             priv.rightTooltip = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}tooltip`);
             priv.rightTooltip.classList.add("Control", this.themeName, "SliderTooltip", "csr_default", `orientation-${priv.orientation}`, priv.toolTipsPosition);
             htmlElement.appendChild(priv.rightTooltip);
-            priv.rightTooltipText = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}tooltiptext`);
-            priv.rightTooltipText.classList.add("SliderTooltipText", "csr_default");
-            priv.rightTooltip.appendChild(priv.rightTooltipText);
             //#endregion Create ToolTips
             this.bindEventToHTML("onChange");
             super.loaded();
@@ -573,9 +567,9 @@ const Slider = (() => {
             //#endregion Variables déclaration
             if (priv.showValues) {
                 priv.leftTooltip.style.left = `${lValue}${PO}`;
-                priv.leftTooltipText.innerHTML = priv.leftInput.valueAsNumber.toFixed(priv.decimalPrecision);
+                priv.leftTooltip.innerHTML = priv.leftInput.valueAsNumber.toFixed(priv.decimalPrecision);
                 priv.rightTooltip.style.left = `${rValue}${PO}`;
-                priv.rightTooltipText.innerHTML = priv.rightInput.valueAsNumber.toFixed(priv.decimalPrecision);
+                priv.rightTooltip.innerHTML = priv.rightInput.valueAsNumber.toFixed(priv.decimalPrecision);
             }
         }
         //#endregion moveToolTips
