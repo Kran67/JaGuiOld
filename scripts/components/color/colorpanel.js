@@ -41,7 +41,7 @@ const ColorPanel = (() => {
                     enum: COLORPANELBOXES,
                     forceUpdate: true,
                     variable: priv,
-                    value: COLORPANELBOXES.PRIMARY
+                    value: props.hasOwnProperty("colorBoxType")?props.colorBoxType:COLORPANELBOXES.PRIMARY
                 });
 
                 if (!Core.isHTMLRenderer) {
@@ -200,7 +200,7 @@ const ColorPanel = (() => {
             super.loaded();
             priv.colorQuad = Core.classes.createComponent({ class: ColorQuad, owner: this, props: { inForm: false }, withTpl : true });
             priv.colorQuad.onChange.addListener(this.doQuadChange);
-            priv.hueSlider = Core.classes.createComponent({ class: HUESlider, owner: this, props: { inForm: false, orientation: "vertical" }, withTpl: true });
+            priv.hueSlider = Core.classes.createComponent({ class: HUESlider, owner: this, props: { inForm: false, orientation: Types.ORIENTATIONS.VERTICAL }, withTpl: true });
             priv.hueSlider.onChange.addListener(this.doHueChange);
             priv.alphaSlider = Core.classes.createComponent({ class: AlphaSlider, owner: this, props: { inForm: false, values: [1, 0] }, withTpl: true });
             priv.alphaSlider.onChange.addListener(this.doAlphaChange);

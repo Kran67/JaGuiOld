@@ -13,7 +13,9 @@
 }
 
     .Slider.orientation-vertical {
-        transform: rotate(90deg) translate(0) perspective(1px);
+        /*transform: rotate(90deg) translate(0) perspective(1px);*/
+        min-height: auto;
+        min-width: 22px;
     }
 
 .SliderInput {
@@ -77,6 +79,14 @@
         display: none;
     }
 
+    .SliderInput.orientation-vertical {
+        /*width: --var(slider);*/ /* à calculer */
+        top: 0;
+        left: 100%;
+        transform-origin: 0 0;
+        transform: rotate(90deg) translateY(25%);
+    }
+
 .SliderThumb {
     z-index: 2;
 }
@@ -104,20 +114,20 @@
     }
 
 .SliderTooltip.orientation-vertical {
-    transform: rotate(-90deg) translateY(0) perspective(1px);
+    /*transform: rotate(-90deg) translateY(0) perspective(1px);
     transform-origin: 0 center;
-    top: -10px;
+    top: -10px;*/
 }
 
 .SliderTooltip.orientation-vertical:after {
-    top: auto;
-    right: 96%;
+    /*top: auto;
+    right: 96%;*/
 }
 
 .SliderTooltip.orientation-vertical.bottom {
-    top: 15px;
+    /*top: 15px;
     transform: rotate(-90deg) translateX(-100%) perspective(1px);
-    margin-left: -1px;
+    margin-left: -1px;*/
 }
 
 
