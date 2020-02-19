@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { Component } from "/scripts/core/component.js";
-//import { NotifyEvent } from "/scripts/core/events.js";
+import { Component } from '/scripts/core/component.js';
+//import { NotifyEvent } from '/scripts/core/events.js';
 //#endregion
 //#region Action
 /**
@@ -32,7 +32,7 @@ const Action = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.propertiesToUpdate = ["caption", "isChecked", "enabled", "groupIndex", "hint", "imageIndex", "shortCut", "visible", "autoCheck"];
+                priv.propertiesToUpdate = ['caption', 'isChecked', 'enabled', 'groupIndex', 'hint', 'imageIndex', 'shortCut', 'visible', 'autoCheck'];
                 priv.caption = String.EMPTY;
                 priv.isChecked = false;
                 priv.enabled = true;
@@ -44,7 +44,7 @@ const Action = (() => {
                 priv.targets = [];
                 const form = this.form;
                 this.visible = true;
-                this.addBindableProperties(["caption", "isChecked", "enabled", "imageIndex", "visible", "autoCheck"]);
+                this.addBindableProperties(['caption', 'isChecked', 'enabled', 'imageIndex', 'visible', 'autoCheck']);
                 this.onHint = new Core.classes.NotifyEvent(this);
                 this.onChange = new Core.classes.NotifyEvent(this);
                 this.onExecute = new Core.classes.NotifyEvent(this);
@@ -338,32 +338,32 @@ const Action = (() => {
 })();
 //#region Action defineProperties
 Object.defineProperties(Action, {
-    "caption": {
+    'caption': {
         enumerable: true
     },
-    "isChecked": {
+    'isChecked': {
         enumerable: true
     },
-    "enabled": {
+    'enabled': {
         enumerable: true
     },
-    "groupIndex": {
+    'groupIndex': {
         enumerable: true
     },
-    "hint": {
+    'hint': {
         enumerable: true
     },
-    "imageIndex": {
+    'imageIndex': {
         enumerable: true
     },
-    "shortCut": {
+    'shortCut': {
         enumerable: true
     },
-    "autoCheck": {
+    'autoCheck': {
         enumerable: true
     }
 });
-//#region Action defineProperties
+//#endregion Action defineProperties
 //#endregion Action
 Core.classes.register(Types.CATEGORIES.ACTIONS, Action);
 export { Action };

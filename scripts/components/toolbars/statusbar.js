@@ -1,17 +1,17 @@
 ﻿//#region Import
-import { ThemedControl } from "/scripts/core/themedcontrol.js";
-import { Tools } from "/scripts/core/tools.js";
-import { BaseClass } from "/scripts/core/baseclass.js";
+import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { Tools } from '/scripts/core/tools.js';
+import { BaseClass } from '/scripts/core/baseclass.js';
 //#endregion Import
 //#region BEVELS
 /**
  * @type    {Object}        BEVELS
  */
 const BEVELS = Object.freeze({
-    LOWERED: "lowered",
-    NONE: "none",
-    RAISED: "raised",
-    SINGLE: "single"
+    LOWERED: 'lowered',
+    NONE: 'none',
+    RAISED: 'raised',
+    SINGLE: 'single'
 });
 //#endregion BEVELS
 //#region StatusBarPanel
@@ -45,14 +45,14 @@ const StatusBarPanel = (() => {
                 const priv = internal(this);
                 priv.html = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`);
                 owner.HTMLElement.appendChild(priv.html);
-                priv.html.classList.add("StatusBarPanel", owner.app.themeManifest.themeName);
+                priv.html.classList.add('StatusBarPanel', owner.app.themeManifest.themeName);
                 priv.owner = owner;
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "alignment",
+                    propName: 'alignment',
                     enum: Types.TEXTALIGNS,
                     variable: priv,
-                    value: props.hasOwnProperty("alignment") ? props.alignment : Types.TEXTALIGNS.LEFT,
+                    value: props.hasOwnProperty('alignment') ? props.alignment : Types.TEXTALIGNS.LEFT,
                     setter: function (newValue) {
                         //#region Variables déclaration
                         const priv = internal(this);
@@ -70,10 +70,10 @@ const StatusBarPanel = (() => {
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "bevel",
+                    propName: 'bevel',
                     enum: BEVELS,
                     variable: priv,
-                    value: props.hasOwnProperty("bevel") ? props.bevel : BEVELS.LOWERED,
+                    value: props.hasOwnProperty('bevel') ? props.bevel : BEVELS.LOWERED,
                     setter: function (newValue) {
                         //#region Variables déclaration
                         const priv = internal(this);
@@ -89,8 +89,8 @@ const StatusBarPanel = (() => {
                         }
                     }
                 });
-                priv.text = props.hasOwnProperty("text")?props.text:String.EMPTY;
-                priv.width = props.hasOwnProperty("width")?props.width:50;
+                priv.text = props.hasOwnProperty('text')?props.text:String.EMPTY;
+                priv.width = props.hasOwnProperty('width')?props.width:50;
             }
         }
         //#endregion constructor
@@ -153,7 +153,7 @@ const StatusBarPanel = (() => {
                 if (priv.owner.panels.last !== this) {
                     style.width = `${priv.width}${Types.CSSUNITS.PX}`;
                 }
-                priv.html.classList.remove("none", "lowered", "raised", "single");
+                priv.html.classList.remove('none', 'lowered', 'raised', 'single');
                 priv.html.classList.add(priv.bevel);
             }
         }
@@ -203,14 +203,14 @@ const StatusBar = (() => {
                     owner = owner.form.layout;
                 }
                 priv.simplePanel = null;
-                this.align = props.hasOwnProperty("align") ? props.alignment : Types.ALIGNS.MOSTBOTTOM;
+                this.align = props.hasOwnProperty('align') ? props.alignment : Types.ALIGNS.MOSTBOTTOM;
                 if (!Core.isHTMLRenderer) {
                     this.height = 19;
                 }
-                Core.classes.newCollection(this, this, StatusBarPanel, "panels");
-                priv.autoHint = props.hasOwnProperty("autoHint")?props.autoHint:false;
-                priv.simplePanel = props.hasOwnProperty("simplePanel")?props.simplePanel:false;
-                priv.simpleText = props.hasOwnProperty("simpleText")?props.simpleText:String.EMPTY;
+                Core.classes.newCollection(this, this, StatusBarPanel, 'panels');
+                priv.autoHint = props.hasOwnProperty('autoHint')?props.autoHint:false;
+                priv.simplePanel = props.hasOwnProperty('simplePanel')?props.simplePanel:false;
+                priv.simpleText = props.hasOwnProperty('simpleText')?props.simpleText:String.EMPTY;
             }
         }
         //#endregion constructor
@@ -283,17 +283,17 @@ const StatusBar = (() => {
             const htmlElement = this.HTMLElement;
             const resizer = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}resizer`);
             //#endregion Variables déclaration
-            if (!htmlElement.querySelector(".StatusBarSimplePanel")) {
+            if (!htmlElement.querySelector('.StatusBarSimplePanel')) {
                 priv.simplePanel = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}simplepanel`);
-                priv.simplePanel.classList.add("Control", "StatusBarSimplePanel", this.themeName, "hidden");
+                priv.simplePanel.classList.add('Control', 'StatusBarSimplePanel', this.themeName, 'hidden');
                 htmlElement.appendChild(priv.simplePanel);
-                resizer.classList.add("Control", "StatusBarSizer", this.themeName, "csr_nwResize");
+                resizer.classList.add('Control', 'StatusBarSizer', this.themeName, 'csr_nwResize');
                 htmlElement.appendChild(resizer);
-                let props = htmlElement.querySelector("properties");
+                let props = htmlElement.querySelector('properties');
                 if (props) {
                     props = JSON.parse(props.innerText);
                 }
-                if (props.hasOwnProperty("panels") && Array.isArray(props.panels)) {
+                if (props.hasOwnProperty('panels') && Array.isArray(props.panels)) {
                     props.panels.forEach(panel => {
                         this.panels.push(new StatusBarPanel(this, panel));
                         this.panels.last.update();
@@ -341,8 +341,8 @@ Core.classes.register(Types.CATEGORIES.TOOLBARS, StatusBar);
 export { StatusBarPanel, StatusBar };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const StatusBarTpl = ["<jagui-statusbar id=\"{internalId}\" data-class=\"StatusBar\" class=\"Control StatusBar {theme}\">",
-        "<properties>{ \"name\": \"{name}\" }</properties></jagui-statusbar>"].join(String.EMPTY);
+    const StatusBarTpl = ['<jagui-statusbar id="{internalId}" data-class="StatusBar" class="Control StatusBar {theme}">',
+        '<properties>{ "name": "{name}" }</properties></jagui-statusbar>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: StatusBar, template: StatusBarTpl }]);
 }
-//endregion
+//#endregion

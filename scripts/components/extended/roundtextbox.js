@@ -1,5 +1,5 @@
 ﻿//#region Imports
-import { CustomTextControl } from "/scripts/core/customtextcontrol.js";
+import { CustomTextControl } from '/scripts/core/customtextcontrol.js';
 //#endregion Imports
 //#region Class RoundTextBox
 class RoundTextBox extends CustomTextControl {
@@ -64,8 +64,8 @@ export { RoundTextBox };
 //#endregion RoundTextBox
 //#region Template
 if (Core.isHTMLRenderer) {
-    const RoundTextBoxTpl = ["<jagui-roundtextbox id=\"{internalId}\" data-class=\"RoundTextBox\" class=\"Control TextBox RoundTextBox {theme}\">",
-        "<properties>{ \"name\": \"{name}\" }</properties></jagui-roundtextbox>"].join(String.EMPTY);
+    const RoundTextBoxTpl = ['<jagui-roundtextbox id="{internalId}" data-class="RoundTextBox" class="Control TextBox RoundTextBox {theme}">',
+        '<properties>{ "name": "{name}" }</properties></jagui-roundtextbox>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: RoundTextBox, template: RoundTextBoxTpl }]);
 }
 //#endregion

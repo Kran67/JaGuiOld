@@ -1,6 +1,6 @@
 ﻿//#region Import
-import { Layout } from "/scripts/components/containers/layout.js";
-import { Tools } from "/scripts/core/tools.js";
+import { Layout } from '/scripts/components/containers/layout.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region GridLayout
 const GridLayout = (() => {
@@ -23,12 +23,12 @@ const GridLayout = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.columnGap = props.hasOwnProperty("columnGap") ? props.columnGap : 5;
-                priv.rowGap = props.hasOwnProperty("rowGap") ? props.rowGap : 5;
-                priv.columns = props.hasOwnProperty("columns") ? props.columns : 5;
-                priv.rows = props.hasOwnProperty("rows") ? props.rows : 5;
-                priv.templateColumns = props.hasOwnProperty("templateColumns") ? props.templateColumns : String.EMPTY;
-                priv.templateRows = props.hasOwnProperty("templateRows") ? props.templateRows : String.EMPTY;
+                priv.columnGap = props.hasOwnProperty('columnGap') ? props.columnGap : 5;
+                priv.rowGap = props.hasOwnProperty('rowGap') ? props.rowGap : 5;
+                priv.columns = props.hasOwnProperty('columns') ? props.columns : 5;
+                priv.rows = props.hasOwnProperty('rows') ? props.rows : 5;
+                priv.templateColumns = props.hasOwnProperty('templateColumns') ? props.templateColumns : String.EMPTY;
+                priv.templateRows = props.hasOwnProperty('templateRows') ? props.templateRows : String.EMPTY;
             }
         }
         //#endregion constructor
@@ -175,7 +175,8 @@ Core.classes.register(Types.CATEGORIES.CONTAINERS, GridLayout);
 export { GridLayout };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const GridLayoutTpl = "<jagui-gridlayout id=\"{internalId}\" data-class=\"GridLayout\" class=\"Control GridLayout\"><properties>{ \"name\": \"{name}\" }</properties></jagui-gridlayout>";
+    const GridLayoutTpl = ['<jagui-gridlayout id="{internalId}" data-class="GridLayout" class="Control GridLayout"><properties>',
+        '{ "name": "{name}" }</properties></jagui-gridlayout>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: GridLayout, template: GridLayoutTpl }]);
 }
-//endregion
+//#endregion

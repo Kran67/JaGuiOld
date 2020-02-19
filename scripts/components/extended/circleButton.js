@@ -1,6 +1,6 @@
 ﻿//#region Import
-import { Button } from "/scripts/components/common/button.js";
-import { Tools } from "/scripts/core/tools.js";
+import { Button } from '/scripts/components/common/button.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region CircleButton
 class CircleButton extends Button {

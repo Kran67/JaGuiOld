@@ -1,7 +1,7 @@
 ﻿//#region Imports
-import { Rect } from "/scripts/core/geometry.js";
-//import { Events } from "./events.js";
-import { Tools } from "/scripts/core/tools.js";
+import { Rect } from '/scripts/core/geometry.js';
+//import { Events } from './events.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion
 //#region Bounds
 /**

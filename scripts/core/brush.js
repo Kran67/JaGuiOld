@@ -1,7 +1,7 @@
 ﻿//#region Imports
-import { Bindable } from "/scripts/core/bindable.js";
-import { Colors } from "/scripts/core/color.js";
-import { Tools } from "/scripts/core/tools.js";
+import { Bindable } from '/scripts/core/bindable.js';
+import { Colors } from '/scripts/core/color.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion
 //#region Brush
 // TODO : support of databinding
@@ -192,19 +192,19 @@ const Brush = (() => {
     return Brush;
 })();
 Object.defineProperties(Brush, {
-    "gradient": {
+    'gradient': {
         enumerable: true
     },
-    "bitmap": {
+    'bitmap': {
         enumerable: true
     },
-    "color": {
+    'color': {
         enumerable: true
     },
-    "bitmapRepeatMode": {
+    'bitmapRepeatMode': {
         enumerable: true
     },
-    "style": {
+    'style': {
         enumerable: true
     }
 });

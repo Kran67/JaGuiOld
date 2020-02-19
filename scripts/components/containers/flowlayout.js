@@ -1,16 +1,16 @@
 ﻿//#region Import
-import { Layout } from "/scripts/components/containers/layout.js";
-import { Keyboard } from "/scripts/core/keyboard.js";
-import { Mouse } from "/scripts/core/mouse.js";
-import { Tools } from "/scripts/core/tools.js";
+import { Layout } from '/scripts/components/containers/layout.js';
+import { Keyboard } from '/scripts/core/keyboard.js';
+import { Mouse } from '/scripts/core/mouse.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region FLOWLAYOUTS
 /**
     * @type    {Object}        FLOWLAYOUTS
     */
 const FLOWLAYOUTS = Object.freeze({
-    HORIZONTAL: "horizontal",
-    VERTICAL: "vertical"
+    HORIZONTAL: 'horizontal',
+    VERTICAL: 'vertical'
 });
 //#endregion
 //#region FlowLayout
@@ -44,13 +44,13 @@ const FlowLayout = (() => {
                 const priv = internal(this);
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "layout",
+                    propName: 'layout',
                     enum: FLOWLAYOUTS,
                     variable: priv,
-                    value: props.hasOwnProperty("layout") ? props.layout : FLOWLAYOUTS.HORIZONTAL
+                    value: props.hasOwnProperty('layout') ? props.layout : FLOWLAYOUTS.HORIZONTAL
                 });
-                priv.hGap = props.hasOwnProperty("hGap") ? props.hGap : 5;
-                priv.vGap = props.hasOwnProperty("vGap") ? props.vGap : 5;
+                priv.hGap = props.hasOwnProperty('hGap') ? props.hGap : 5;
+                priv.vGap = props.hasOwnProperty('vGap') ? props.vGap : 5;
             }
         }
         //#endregion constructor
@@ -167,8 +167,8 @@ Core.classes.register(Types.CATEGORIES.CONTAINERS, FlowLayout);
 export { FlowLayout };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const FlowLayoutTpl = ["<jagui-flowlayout id=\"{internalId}\" data-class=\"FlowLayout\" class=\"Control FlowLayout\">",
-        "<properties>{ \"name\": \"{name}\" }</properties>"].join();
+    const FlowLayoutTpl = ['<jagui-flowlayout id="{internalId}" data-class="FlowLayout" class="Control FlowLayout">',
+        '<properties>{ "name": "{name}" }</properties>'].join();
     Core.classes.registerTemplates([{ Class: FlowLayout, template: FlowLayoutTpl }]);
 }
 //#endregion

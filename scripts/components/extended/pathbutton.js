@@ -1,8 +1,8 @@
 ﻿//#region Import
-import { ButtonGlyph } from "/scripts/components/common/buttonglyph.js";
-import { Color, Colors } from "/scripts/core/color.js";
-import { PathData } from "/scripts/core/path.js";
-import { Rect } from "/scripts/core/geometry.js";
+import { ButtonGlyph } from '/scripts/components/common/buttonglyph.js';
+import { Color, Colors } from '/scripts/core/color.js';
+import { PathData } from '/scripts/core/path.js';
+import { Rect } from '/scripts/core/geometry.js';
 //#endregion Import
 //#region PathButton
 const PathButton = (() => {
@@ -27,15 +27,15 @@ const PathButton = (() => {
                 const priv = internal(this);
                 this.glyphHTMLElement = Types.HTMLELEMENTS.CANVAS;
                 priv.path = new PathData(this);
-                if (props.hasOwnProperty("path")) {
+                if (props.hasOwnProperty('path')) {
                     priv.path.pathString = atob(props.path);
                 }
-                priv.glyphNormalStrokeColor = props.hasOwnProperty("glyphNormalStrokeColor")?Color.parse(props.glyphNormalStrokeColor):new Color(Colors.BLACK);
-                priv.glyphNormalFillColor = props.hasOwnProperty("glyphNormalFillColor")?Color.parse(props.glyphNormalFillColor):new Color(Colors.WHITE);
-                priv.glyphHoveredStrokeColor = props.hasOwnProperty("glyphHoveredStrokeColor")?Color.parse(props.glyphHoveredStrokeColor):new Color(Colors.BLACK);
-                priv.glyphHoveredFillColor = props.hasOwnProperty("glyphHoveredFillColor")?Color.parse(props.glyphHoveredFillColor):new Color(Colors.WHITE);
-                priv.glyphPressedStrokeColor = props.hasOwnProperty("glyphPressedStrokeColor")?Color.parse(props.glyphPressedStrokeColor):new Color(Colors.BLACK);
-                priv.glyphPressedFillColor = props.hasOwnProperty("glyphPressedFillColor")?Color.parse(props.glyphPressedFillColor):new Color(Colors.WHITE);
+                priv.glyphNormalStrokeColor = props.hasOwnProperty('glyphNormalStrokeColor')?Color.parse(props.glyphNormalStrokeColor):new Color(Colors.BLACK);
+                priv.glyphNormalFillColor = props.hasOwnProperty('glyphNormalFillColor')?Color.parse(props.glyphNormalFillColor):new Color(Colors.WHITE);
+                priv.glyphHoveredStrokeColor = props.hasOwnProperty('glyphHoveredStrokeColor')?Color.parse(props.glyphHoveredStrokeColor):new Color(Colors.BLACK);
+                priv.glyphHoveredFillColor = props.hasOwnProperty('glyphHoveredFillColor')?Color.parse(props.glyphHoveredFillColor):new Color(Colors.WHITE);
+                priv.glyphPressedStrokeColor = props.hasOwnProperty('glyphPressedStrokeColor')?Color.parse(props.glyphPressedStrokeColor):new Color(Colors.BLACK);
+                priv.glyphPressedFillColor = props.hasOwnProperty('glyphPressedFillColor')?Color.parse(props.glyphPressedFillColor):new Color(Colors.WHITE);
                 priv.ctx = null;
                 this.canFocused = true;
             }
@@ -162,9 +162,9 @@ const PathButton = (() => {
             //#endregion Variables déclaration
             if (htmlElement.offsetWidth > 0 && htmlElement.offsetHeight > 0 && glyph && priv.ctx) {
                 if (!priv.path.isEmpty) {
-                    glyph.classList.remove("hidden");
+                    glyph.classList.remove('hidden');
                 } else {
-                    glyph.classList.add("hidden");
+                    glyph.classList.add('hidden');
                 }
                 priv.ctx.save();
                 priv.ctx.clear();
@@ -201,8 +201,8 @@ const PathButton = (() => {
                     r = r.fit(clientRect).rect;
                     p.resizeToRect(r);
                 }
-                glyph.setAttribute("width", glyphSize);
-                glyph.setAttribute("height", glyphSize);
+                glyph.setAttribute('width', glyphSize);
+                glyph.setAttribute('height', glyphSize);
                 glyph.style.minWidth = `${glyphSize}${PX}`;
                 glyph.style.minHeight = `${glyphSize}${PX}`;
             }
@@ -282,7 +282,7 @@ const PathButton = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.loaded();
-            priv.ctx = this.glyph.getContext("2d");
+            priv.ctx = this.glyph.getContext('2d');
             this.paint();
         }
         //#endregion loaded
@@ -296,8 +296,8 @@ Core.classes.register(Types.CATEGORIES.EXTENDED, PathButton);
 export { PathButton };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const PathButtonTpl = ["<jagui-pathbutton id=\"{internalId}\" data-class=\"PathButton\" class=\"Control Button ButtonGlyph PathButton {theme}",
-        " csr_default\"><properties>{ \"name\":\"{name}\", \"caption\": \"{caption}\" }</properties></jagui-pathbutton>"].join(String.EMPTY);
+    const PathButtonTpl = ['<jagui-pathbutton id="{internalId}" data-class="PathButton" class="Control Button ButtonGlyph PathButton {theme}',
+        ' csr_default"><properties>{ "name": "{name}", "caption": "{caption}" }</properties></jagui-pathbutton>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: PathButton, template: PathButtonTpl }]);
 }
 //#endregion

@@ -1,6 +1,6 @@
 ﻿//#region Import
-import { CaptionControl } from "/scripts/core/captioncontrol.js";
-import { Tools } from "/scripts/core/tools.js";
+import { CaptionControl } from '/scripts/core/captioncontrol.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region GroupBox
 const GroupBox = (() => {
@@ -33,10 +33,10 @@ const GroupBox = (() => {
                 this.padding.setValues(5, 15, 5, 5);
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "horizAlign",
+                    propName: 'horizAlign',
                     enum: Types.TEXTALIGNS,
                     variable: priv,
-                    value: props.hasOwnProperty("horizAlign")? props.horizAlign : Types.TEXTALIGNS.LEFT
+                    value: props.hasOwnProperty('horizAlign')? props.horizAlign : Types.TEXTALIGNS.LEFT
                 });
                 this.autoSize = false;
                 this.allowRealignChildsOnResize = true;
@@ -64,7 +64,7 @@ const GroupBox = (() => {
         }
         //#endregion doBitmapLoaded
         //#region doBitmapNotLoaded
-        doBitmapNotLoaded() { throw "Bitmap error"; }
+        doBitmapNotLoaded() { throw 'Bitmap error'; }
         //#endregion doBitmapNotLoaded
         //#region update
         update() {
@@ -74,7 +74,7 @@ const GroupBox = (() => {
             super.update();
             if (!this.loading && !this.form.loading) {
                 if (priv.legend) {
-                    priv.legend.setAttribute("align", priv.horizAlign);
+                    priv.legend.setAttribute('align', priv.horizAlign);
                 }
             }
         }
@@ -103,7 +103,7 @@ const GroupBox = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.legend = document.createElement(Types.HTMLELEMENTS.LEGEND);
-            priv.legend.classList.add("GroupBoxLegend", this.themeName);
+            priv.legend.classList.add('GroupBoxLegend', this.themeName);
             this.HTMLElement.appendChild(priv.legend);
             this.updateCaption();
             super.loaded();
@@ -120,7 +120,8 @@ Core.classes.register(Types.CATEGORIES.CONTAINERS, GroupBox);
 export { GroupBox };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const GroupBoxTpl = "<fieldset id=\"{internalId}\" data-class=\"GroupBox\" class=\"Control GroupBox {theme}\"><properties>{ \"name\": \"{name}\", \"caption\": \"{caption}\" }</properties></fieldset>";
+    const GroupBoxTpl = ['<fieldset id="{internalId}" data-class="GroupBox" class="Control GroupBox {theme}"><properties>',
+        '{ "name": "{name}", "caption": "{caption}" }</properties></fieldset>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: GroupBox, template: GroupBoxTpl }]);
 }
-//endregion
+//#endregion

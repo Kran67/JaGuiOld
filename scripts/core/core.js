@@ -10,7 +10,7 @@ window.requestAnimationFrameRate = function (fps) {
     let limit = null;
     let jitter = null;
     const maxFps = 60;
-    if (typeof fps !== "number") {
+    if (typeof fps !== 'number') {
         fps = maxFps;
     } else {
         fps = Math.max(1, Math.min(maxFps, fps));
@@ -57,7 +57,7 @@ window.Core = {
     /**
      * Create a new instance of Core.
      */
-    name: "JaGui",
+    name: 'JaGui',
     propertiesCategories: {},
     bindableProperties: [],
     themes: {},
@@ -66,44 +66,44 @@ window.Core = {
     clipboard: null,
     ready: false,
     onStart: null,
-    //defaultTheme: "air", /* ok */
-    //defaultTheme: "blend", /* ok */
-    defaultTheme: "carbon", /* ok */
-    //defaultTheme: "classic10k", /* ok */
-    /*defaultTheme: "clearlooksblue",*/
-    //defaultTheme: "corona12",
-    //defaultTheme: "cruz",
-    //defaultTheme: "deanachm",
-    //defaultTheme: "extreme", /* ok */
-    //defaultTheme: "guistyle",
-    //defaultTheme: "haiku",
-    //defaultTheme: "lunablue",
-    //defaultTheme: "lunahomestead",
-    //defaultTheme: "lunametallic",
-    //defaultTheme: "macos",
-    //defaultTheme: "modern", /* ok */
-    //defaultTheme: "prolcd",
-    //defaultTheme: "rainbow",
-    //defaultTheme: "simple", /* ok */
-    //defaultTheme: "smoothgnome",
-    //defaultTheme: "sustenance",
-    //defaultTheme: "ubuntu",
-    //defaultTheme: "vista",
-    //defaultTheme: "watercolor",
-    //defaultTheme: "windows8",
+    //defaultTheme: 'air', /* ok */
+    //defaultTheme: 'blend', /* ok */
+    defaultTheme: 'carbon', /* ok */
+    //defaultTheme: 'classic10k', /* ok */
+    /*defaultTheme: 'clearlooksblue',*/
+    //defaultTheme: 'corona12',
+    //defaultTheme: 'cruz',
+    //defaultTheme: 'deanachm',
+    //defaultTheme: 'extreme', /* ok */
+    //defaultTheme: 'guistyle',
+    //defaultTheme: 'haiku',
+    //defaultTheme: 'lunablue',
+    //defaultTheme: 'lunahomestead',
+    //defaultTheme: 'lunametallic',
+    //defaultTheme: 'macos',
+    //defaultTheme: 'modern', /* ok */
+    //defaultTheme: 'prolcd',
+    //defaultTheme: 'rainbow',
+    //defaultTheme: 'simple', /* ok */
+    //defaultTheme: 'smoothgnome',
+    //defaultTheme: 'sustenance',
+    //defaultTheme: 'ubuntu',
+    //defaultTheme: 'vista',
+    //defaultTheme: 'watercolor',
+    //defaultTheme: 'windows8',
     disableAnimation: false,
     isMouseDown: false,
     windowZIndex: 0,
     currentLocale: null,
     locales: {},
-    version: "0.8b",
+    version: '0.8b',
     /*this.folders = {
-        BASE: `JaGui${version}`, GUI: "gui/", CORE: "scripts/core/", COMPONENTS: "gui/components/", COMMON: "gui/components/common/", COLOR: "gui/components/color/",
-        CONTAINERS: "gui/components/containers/", DATA: "gui/components/data/", EXTENDED: "gui/components/extended/", EXTRAS: "gui/components/extras/",
-        LISTS: "gui/components/lists/", MENUS: "gui/components/menus/", TOOLBARS: "gui/components/toolbars/", NONVISUAL: "gui/components/nonvisual/",
-        APPS: "apps/", DEMOS: "demos/", LOCALES: "gui/locales/", CONTROLS: "controls/", CSS: "css/", THEMES: "css/themes/", IMAGES: "images/",
-        EFFECTS: "gui/effects/", DIALOGS: "gui/components/dialogs/", ACTIONS: "gui/components/actions/", GUITHEMES: "gui/themes/",
-        BASECSSCOMPONENTS: "css/components/base/", THEMESCSSCOMPONENTS: "css/components/themes/", THIRDPARTY: "gui/thirdparty/"
+        BASE: `JaGui${version}`, GUI: 'gui/', CORE: 'scripts/core/', COMPONENTS: 'gui/components/', COMMON: 'gui/components/common/', COLOR: 'gui/components/color/',
+        CONTAINERS: 'gui/components/containers/', DATA: 'gui/components/data/', EXTENDED: 'gui/components/extended/', EXTRAS: 'gui/components/extras/',
+        LISTS: 'gui/components/lists/', MENUS: 'gui/components/menus/', TOOLBARS: 'gui/components/toolbars/', NONVISUAL: 'gui/components/nonvisual/',
+        APPS: 'apps/', DEMOS: 'demos/', LOCALES: 'gui/locales/', CONTROLS: 'controls/', CSS: 'css/', THEMES: 'css/themes/', IMAGES: 'images/',
+        EFFECTS: 'gui/effects/', DIALOGS: 'gui/components/dialogs/', ACTIONS: 'gui/components/actions/', GUITHEMES: 'gui/themes/',
+        BASECSSCOMPONENTS: 'css/components/base/', THEMESCSSCOMPONENTS: 'css/components/themes/', THIRDPARTY: 'gui/thirdparty/'
     };
     Object.freeze(this.folders);*/
     rtStyle: null,
@@ -144,18 +144,18 @@ window.Core = {
      * @function registerPropertiesInCategory
      */
     registerPropertiesInCategory() {
-        this.classes.registerPropertiesInCategory("ACTION", ["action", "caption", "enabled", "helpContext", "toolTip", "visible"]);
-        this.classes.registerPropertiesInCategory("HELPHINTS", ["helpContext", "helpFile", "helpKeyWord", "helpType", "toolTip", "showToolTip", "ownerShowToolTip"]);
-        this.classes.registerPropertiesInCategory("LAYOUT", ["align", "anchors", "autosize", "constraints", "height", "left", "margins", "padding", "top", "width", "tabOrder"]);
-        this.classes.registerPropertiesInCategory("MISCELLANEOUS", []);
-        this.classes.registerPropertiesInCategory("INPUT", ["enabled"]);
-        this.classes.registerPropertiesInCategory("DRAGDROPDOCKING", []);
-        this.classes.registerPropertiesInCategory("LEGACY", []);
-        this.classes.registerPropertiesInCategory("LINKAGE", ["action", "popupMenu"]);
-        this.classes.registerPropertiesInCategory("LOCALE", []);
-        this.classes.registerPropertiesInCategory("LOCALIZABLE", ["caption", "constraints", "font", "height", "toolTip", "icon", "left", "top", "width"]);
-        this.classes.registerPropertiesInCategory("VISUAL", ["align", "cursor", "enabled", "caption", "visible", "width", "top", "left", "height"]);
-        this.classes.registerPropertiesInCategory("DATABASE", []);
+        this.classes.registerPropertiesInCategory('ACTION', ['action', 'caption', 'enabled', 'helpContext', 'toolTip', 'visible']);
+        this.classes.registerPropertiesInCategory('HELPHINTS', ['helpContext', 'helpFile', 'helpKeyWord', 'helpType', 'toolTip', 'showToolTip', 'ownerShowToolTip']);
+        this.classes.registerPropertiesInCategory('LAYOUT', ['align', 'anchors', 'autosize', 'constraints', 'height', 'left', 'margins', 'padding', 'top', 'width', 'tabOrder']);
+        this.classes.registerPropertiesInCategory('MISCELLANEOUS', []);
+        this.classes.registerPropertiesInCategory('INPUT', ['enabled']);
+        this.classes.registerPropertiesInCategory('DRAGDROPDOCKING', []);
+        this.classes.registerPropertiesInCategory('LEGACY', []);
+        this.classes.registerPropertiesInCategory('LINKAGE', ['action', 'popupMenu']);
+        this.classes.registerPropertiesInCategory('LOCALE', []);
+        this.classes.registerPropertiesInCategory('LOCALIZABLE', ['caption', 'constraints', 'font', 'height', 'toolTip', 'icon', 'left', 'top', 'width']);
+        this.classes.registerPropertiesInCategory('VISUAL', ['align', 'cursor', 'enabled', 'caption', 'visible', 'width', 'top', 'left', 'height']);
+        this.classes.registerPropertiesInCategory('DATABASE', []);
     },
     /**
      * Start the framework
@@ -164,8 +164,8 @@ window.Core = {
     start() {
         if (!Core.ready) {
             let language = window.navigator.userLanguage || window.navigator.language;
-            if (language.indexOf("-") === -1) {
-                language = language + "-" + language.toUpperCase();
+            if (language.indexOf('-') === -1) {
+                language = language + '-' + language.toUpperCase();
             }
             Core.currentLocale = language;
             if (Core.isHTMLRenderer) {
@@ -173,29 +173,29 @@ window.Core = {
             }
             Core.looper.start();
             document.oncontextmenu = () => { return false; };
-            document.addEventListener("keydown", Core.apps.keyDown, true);
-            document.addEventListener("keyup", Core.apps.keyUp, true);
-            document.addEventListener("keypress", Core.apps.keyPress, true);
+            document.addEventListener('keydown', Core.apps.keyDown, true);
+            document.addEventListener('keyup', Core.apps.keyUp, true);
+            document.addEventListener('keypress', Core.apps.keyPress, true);
             if (Core.isHTMLRenderer) {
-                Core.clipboard = document.createElement("textarea");
-                Core.clipboard.id = "jaguiClipboard";
-                Core.clipboard.value = ".";
+                Core.clipboard = document.createElement('textarea');
+                Core.clipboard.id = 'jaguiClipboard';
+                Core.clipboard.value = '.';
                 document.body.appendChild(Core.clipboard);
                 // création de l'emplacement des css en runtime
-                Core.rtStyle = document.createElement("style");
-                Core.rtStyle.setAttribute("id", "rtStyle");
-                Core.rtStyle.setAttribute("type", "text/css");
-                Core.rtStyle.setAttribute("media", "screen");
-                document.getElementsByTagName("head")[0].appendChild(Core.rtStyle);
+                Core.rtStyle = document.createElement('style');
+                Core.rtStyle.setAttribute('id', 'rtStyle');
+                Core.rtStyle.setAttribute('type', 'text/css');
+                Core.rtStyle.setAttribute('media', 'screen');
+                document.getElementsByTagName('head')[0].appendChild(Core.rtStyle);
                 //let styleSheet = Core.rtStyle.sheet;
-                //styleSheet.insertRule(".hidden {display:none !important;}", styleSheet.cssRules.length);
+                //styleSheet.insertRule('.hidden {display:none !important;}', styleSheet.cssRules.length);
                 //return;
             }
             Core.registerPropertiesInCategory();
             Core.animatedCursor = new Core.classes.AnimatedCursor();
-            document.addEventListener("DOMContentLoaded", () => {
-                const logo = document.createElement("span");
-                logo.className = "logo JAGUI";
+            document.addEventListener('DOMContentLoaded', () => {
+                const logo = document.createElement('span');
+                logo.className = 'logo JAGUI';
                 if (!Core.HTMLParentElement) {
                     document.body.appendChild(logo);
                 }
@@ -203,7 +203,7 @@ window.Core = {
                     Core.HTMLParentElement.appendChild(logo);
                 }
             });
-            window.addEventListener("resize", () => {
+            window.addEventListener('resize', () => {
                 const applicationsKeys = Object.keys(Core.apps.applications);
                 applicationsKeys.forEach(key => {
                     Core.apps.applications[key].windows.forEach(win => {

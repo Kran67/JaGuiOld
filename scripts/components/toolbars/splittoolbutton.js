@@ -1,7 +1,7 @@
 ﻿//#region Import
-import { SplitButton } from "/scripts/components/extended/splitbutton.js";
-import { NotifyEvent } from "/scripts/core/events.js";
-import { Tools } from "/scripts/core/tools.js";
+import { SplitButton } from '/scripts/components/extended/splitbutton.js';
+import { NotifyEvent } from '/scripts/core/events.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region SplitToolButton
 const SplitToolButton = (() => {
@@ -27,7 +27,7 @@ const SplitToolButton = (() => {
                 this.onCloseMenu = new NotifyEvent(this);
                 this.onOpenMenu = new NotifyEvent(this);
                 priv.imageIndex = -1;
-                priv.popupMenu = props.hasOwnProperty("popupMenu") && this.form[props.popupMenu] ? this.form[props.popupMenu] : null;
+                priv.popupMenu = props.hasOwnProperty('popupMenu') && this.form[props.popupMenu] ? this.form[props.popupMenu] : null;
                 this.allowUpdateOnResize = true;
             }
         }
@@ -109,7 +109,7 @@ const SplitToolButton = (() => {
         //#region update
         update() {
             const htmlElementStyle = this.HTMLElementStyle;
-            htmlElementStyle.height = "auto";
+            htmlElementStyle.height = 'auto';
         }
         //#endregion update
         //#region destroy
@@ -133,7 +133,8 @@ Core.classes.register(Types.CATEGORIES.INTERNAL, SplitToolButton);
 export { SplitToolButton };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const SplitToolButtonTpl = ["<jagui-splittoolbutton id=\"{internalId}\" data-class=\"SplitToolButton\" class=\"Control SplitToolButton {theme} csr_default\"><properties>{ \"name\": \"{name}\" }</properties></jagui-splittoolbutton>"].join(String.EMPTY);
+    const SplitToolButtonTpl = ['<jagui-splittoolbutton id="{internalId}" data-class="SplitToolButton" class="Control SplitToolButton ',
+        '{theme} csr_default"><properties>{ "name": "{name}" }</properties></jagui-splittoolbutton>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: SplitToolButton, template: SplitToolButtonTpl }]);
 }
 //#endregion

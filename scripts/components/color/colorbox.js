@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { GraphicControl } from "/scripts/core/graphiccontrol.js";
-import { Color } from "/scripts/core/color.js";
+import { GraphicControl } from '/scripts/core/graphiccontrol.js';
+import { Color } from '/scripts/core/color.js';
 //#endregion Imports
 //#region ColorBox
 class ColorBox extends GraphicControl {
@@ -9,7 +9,7 @@ class ColorBox extends GraphicControl {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            props.hasOwnProperty("color")?this.fillColor.assign(Color.parse(props.color)):void(0);
+            props.hasOwnProperty('color')?this.fillColor.assign(Color.parse(props.color)):void(0);
             delete this.tabOrder;
         }
     }
@@ -52,9 +52,9 @@ class ColorBox extends GraphicControl {
 Core.classes.register(Types.CATEGORIES.COLOR, ColorBox);
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const ColorBoxTpl = ["<jagui-colorbox id=\"{internalId}\" data-class=\"ColorBox\" class=\"Control ColorBox\">",
-        "<properties>{ \"name\": \"{name}\", \"color\": \"blue\" }</properties></jagui-colorbox>"].join(String.EMPTY);
+    const ColorBoxTpl = ['<jagui-colorbox id="{internalId}" data-class="ColorBox" class="Control ColorBox">',
+        '<properties>{ "name": "{name}", "color": "blue" }</properties></jagui-colorbox>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: ColorBox, template: ColorBoxTpl }]);
 }
-//endregion
+//#endregion
 export { ColorBox };

@@ -1,10 +1,10 @@
 ﻿//#region Import
-import { Button } from "/scripts/components/common/button.js";
-import { NotifyEvent } from "/scripts/core/events.js";
-import { Vector } from "/scripts/core/geometry.js";
-import { Keyboard } from "/scripts/core/keyboard.js";
-import { Mouse } from "/scripts/core/mouse.js";
-import { Tools } from "/scripts/core/tools.js";
+import { Button } from '/scripts/components/common/button.js';
+import { NotifyEvent } from '/scripts/core/events.js';
+import { Vector } from '/scripts/core/geometry.js';
+import { Keyboard } from '/scripts/core/keyboard.js';
+import { Mouse } from '/scripts/core/mouse.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region AngleButton
 const AngleButton = (() => {
@@ -35,10 +35,10 @@ const AngleButton = (() => {
                     this.width = 30;
                     this.height = 30;
                 }
-                priv.frequency = props.hasOwnProperty("frequency")?props.frequency:1;
-                priv.tracking = props.hasOwnProperty("tracking")?props.tracking:true;
-                priv.value = props.hasOwnProperty("value")?props.value:0;
-                priv.showValue = props.hasOwnProperty("showValue")?props.showValue:true;
+                priv.frequency = props.hasOwnProperty('frequency')?props.frequency:1;
+                priv.tracking = props.hasOwnProperty('tracking')?props.tracking:true;
+                priv.value = props.hasOwnProperty('value')?props.value:0;
+                priv.showValue = props.hasOwnProperty('showValue')?props.showValue:true;
                 this.autoCapture = true;
                 this.caption = String.EMPTY;
                 this.canFocused = true;
@@ -319,13 +319,13 @@ const AngleButton = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (!htmlElement.querySelector(".AngleButtonCaption")) {
+            if (!htmlElement.querySelector('.AngleButtonCaption')) {
                 priv.textObj = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}caption`);
-                priv.textObj.classList.add("Control", "AngleButtonCaption");
+                priv.textObj.classList.add('Control', 'AngleButtonCaption');
                 priv.textObj.jsObj = this;
                 priv.knob = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}knob`);
-                priv.knob.classList.add("Control", "AngleButtonKnob");
-                priv.knob.innerHTML = "3";
+                priv.knob.classList.add('Control', 'AngleButtonKnob');
+                priv.knob.innerHTML = '3';
                 priv.knob.jsObj = this;
                 htmlElement.appendChild(priv.textObj);
                 htmlElement.appendChild(priv.knob);
@@ -344,8 +344,8 @@ Core.classes.register(Types.CATEGORIES.EXTENDED, AngleButton);
 export { AngleButton };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const AngleButtonTpl = ["<jagui-anglebutton id=\"{internalId}\" data-class=\"AngleButton\" class=\"Control Button AngleButton {theme} csr_default\">",
-        "<properties>{ \"name\": \"{name}\" }</properties></jagui-anglebutton>"].join(String.EMPTY);
+    const AngleButtonTpl = ['<jagui-anglebutton id="{internalId}" data-class="AngleButton" class="Control Button AngleButton {theme} csr_default">',
+        '<properties>{ "name": "{name}" }</properties></jagui-anglebutton>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: AngleButton, template: AngleButtonTpl }]);
 }
-//endregion
+//#endregion

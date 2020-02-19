@@ -1,11 +1,11 @@
 ﻿//#region Imports
-import { GraphicControl } from "/scripts/core/graphiccontrol.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Color } from "/scripts/core/color.js";
-import { Point } from "/scripts/core/geometry.js";
-import { NotifyEvent } from "/scripts/core/events.js";
-import { Mouse } from "/scripts/core/mouse.js";
-import { Keyboard } from "/scripts/core/keyboard.js";
+import { GraphicControl } from '/scripts/core/graphiccontrol.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Color } from '/scripts/core/color.js';
+import { Point } from '/scripts/core/geometry.js';
+import { NotifyEvent } from '/scripts/core/events.js';
+import { Mouse } from '/scripts/core/mouse.js';
+import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Imports
 //#region ColorQuad
 const ColorQuad = (() => {
@@ -31,22 +31,22 @@ const ColorQuad = (() => {
                 priv.handleObj = null;
                 priv.handle = new Point;
                 this.autoCapture = true;
-                priv.colorBox = props.hasOwnProperty("colorBox") ? this.form[props.colorBox] : null;
+                priv.colorBox = props.hasOwnProperty('colorBox') ? this.form[props.colorBox] : null;
                 this.onChange = new NotifyEvent(this);
-                priv.color = props.hasOwnProperty("color") ? Color.parse(props.color) : new Color(this.fillColor);
+                priv.color = props.hasOwnProperty('color') ? Color.parse(props.color) : new Color(this.fillColor);
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "format",
+                    propName: 'format',
                     enum: Types.COLORFORMATS,
                     variable: priv,
-                    value: props.hasOwnProperty("format") ? props.format : Types.COLORFORMATS.HSL
+                    value: props.hasOwnProperty('format') ? props.format : Types.COLORFORMATS.HSL
                 });
                 this.hitTest.all = true;
                 this.clipChilds = false;
-                priv.gradientEdit = props.hasOwnProperty("gradientEdit") ? this.form[props.gradientEdit] : null;
+                priv.gradientEdit = props.hasOwnProperty('gradientEdit') ? this.form[props.gradientEdit] : null;
                 this.canFocused = true;
                 delete this.tabOrder;
-                this.bindEventToHTML("onChange");
+                this.bindEventToHTML('onChange');
                 this.allowUpdateOnResize = true;
             }
         }
@@ -223,9 +223,9 @@ const ColorQuad = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (!htmlElement.querySelector(".ColorQuadIndicator")) {
+            if (!htmlElement.querySelector('.ColorQuadIndicator')) {
                 priv.handleObj = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}indicator`);
-                priv.handleObj.classList.add("Control", "ColorQuadIndicator");
+                priv.handleObj.classList.add('Control', 'ColorQuadIndicator');
                 priv.handleObj.jsObj = this;
                 htmlElement.appendChild(priv.handleObj);
             }
@@ -356,8 +356,8 @@ Core.classes.register(Types.CATEGORIES.EXTENDED, ColorQuad);
 export { ColorQuad };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const ColorQuadTpl = ["<jagui-colorquad id=\"{internalId}\" data-class=\"ColorQuad\" class=\"Control ColorQuad\">",
-        "<properties>{ \"name\": \"{name}\", }</properties></jagui-colorquad>"].join(String.EMPTY);
+    const ColorQuadTpl = ['<jagui-colorquad id="{internalId}" data-class="ColorQuad" class="Control ColorQuad">',
+        '<properties>{ "name": "{name}", }</properties></jagui-colorquad>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: ColorQuad, template: ColorQuadTpl }]);
 }
-//endregion
+//#endregion

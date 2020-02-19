@@ -1,5 +1,5 @@
 ﻿//#region Import
-import { Tools } from "/scripts/core/tools.js";
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region CSS
 /**
@@ -707,11 +707,11 @@ class Css {
         return false;
     }
     static addCSSRule(selector, style) {
-        if (selector !== "#") {
+        if (selector !== '#') {
             if (String.isNullOrEmpty(style)) {
-                Core.rtStyle.sheet.insertRule([selector, "{}"].join(String.EMPTY), 0);
+                Core.rtStyle.sheet.insertRule([selector, '{}'].join(String.EMPTY), 0);
             } else {
-                Core.rtStyle.sheet.insertRule([selector, " {", style, "}"].join(String.EMPTY), 0);
+                Core.rtStyle.sheet.insertRule([selector, ' {', style, '}'].join(String.EMPTY), 0);
             }
         }
     }

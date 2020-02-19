@@ -1,7 +1,7 @@
 ﻿//#region Import
-import { Button } from "/scripts/components/common/button.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Keyboard } from "/scripts/core/keyboard.js";
+import { Button } from '/scripts/components/common/button.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Import
 //#region PopupButton
 const PopupButton = (() => {
@@ -25,7 +25,7 @@ const PopupButton = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 this.textObj = null;
-                priv.popupMenu = props.hasOwnProperty("popupMenu")?this.form[priv.popupMenu]:null;
+                priv.popupMenu = props.hasOwnProperty('popupMenu')?this.form[priv.popupMenu]:null;
             }
         }
         //#endregion constructor
@@ -110,9 +110,9 @@ const PopupButton = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.loaded();
-            priv.arrow = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}arraow`);
-            priv.arrow.classList.add("Control", "PopupButtonArrow");
-            priv.arrow.innerHTML = "8";
+            priv.arrow = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}arrow`);
+            priv.arrow.classList.add('Control', 'PopupButtonArrow');
+            priv.arrow.innerHTML = '8';
             this.HTMLElement.appendChild(priv.arrow);
         }
         //#endregion
@@ -126,8 +126,8 @@ Core.classes.register(Types.CATEGORIES.EXTENDED, PopupButton);
 //#endregion PopupButton
 //#region Template
 if (Core.isHTMLRenderer) {
-    const PopupButtonTpl = ["<jagui-popupbutton id=\"{internalId}\" data-class=\"PopupButton\" class=\"Control PopupButton {theme} csr_default\">",
-        "<properties>{ \"name\": \"{name}\", \"caption\": \"{name}\" }</properties></jagui-popupbutton>"].join(String.EMPTY);
+    const PopupButtonTpl = ['<jagui-popupbutton id="{internalId}" data-class="PopupButton" class="Control PopupButton {theme} csr_default">',
+        '<properties>{ "name": "{name}", "caption": "{name}" }</properties></jagui-popupbutton>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: PopupButton, template: PopupButtonTpl }]);
 }
 //#endregion

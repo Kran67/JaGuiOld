@@ -1,7 +1,7 @@
 ﻿//#region Imports
-import { Bindable } from "/scripts/core/bindable.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Rect } from "/scripts/core/geometry.js";
+import { Bindable } from '/scripts/core/bindable.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Rect } from '/scripts/core/geometry.js';
 //#endregion Imports
 //#region Component
 const Component = (() => {
@@ -36,12 +36,12 @@ const Component = (() => {
             priv.updating = false;
             priv.designInstance = false;
             priv.component = true;
-            priv.name = props.hasOwnProperty("name") ? props.name : String.EMPTY;
+            priv.name = props.hasOwnProperty('name') ? props.name : String.EMPTY;
             priv.cssBorder = new Rect;
-            priv.inForm = this instanceof Core.classes.BaseWindow ? false : props.hasOwnProperty("inForm") ? props.inForm : true;
-            priv.visible = props.hasOwnProperty("visible") && Tools.isBool(props.visible) ? props.visible : true;
-            priv.left = props.hasOwnProperty("left") && Tools.isNumber(props.left) ? props.left : 0;
-            priv.top = props.hasOwnProperty("top") && Tools.isNumber(props.top) ? props.top : 0;
+            priv.inForm = this instanceof Core.classes.BaseWindow ? false : props.hasOwnProperty('inForm') ? props.inForm : true;
+            priv.visible = props.hasOwnProperty('visible') && Tools.isBool(props.visible) ? props.visible : true;
+            priv.left = props.hasOwnProperty('left') && Tools.isNumber(props.left) ? props.left : 0;
+            priv.top = props.hasOwnProperty('top') && Tools.isNumber(props.top) ? props.top : 0;
             if (owner instanceof Core.classes.Application) {
                 priv.app = owner;
             } else {
@@ -53,7 +53,7 @@ const Component = (() => {
             } else {
                 priv.form = this;
             }
-            Core.classes.newCollection(this, this, Core.classes.Component, "components");
+            Core.classes.newCollection(this, this, Core.classes.Component, 'components');
             if (priv.owner instanceof Core.classes.Component) {
                 priv.owners.addRange(priv.owner.owners);
                 priv.owners.push(priv.owner);
@@ -314,10 +314,10 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             let html = Core.classes.getTemplate(this.constructor.name);
-            let a = html.split("{name}");
+            let a = html.split('{name}');
             //#endregion Variables déclaration
             html = a.join(priv.name);
-            a = html.split("{internalId}");
+            a = html.split('{internalId}');
             html = a.join(priv.internalId);
             return html;
         }
@@ -331,14 +331,14 @@ const Component = (() => {
             const props = Tools.getPropertiesFromObject(this);
             //#endregion Variables déclaration
             if (!priv.component) {
-                prop = "width";
+                prop = 'width';
                 props.push({ property: prop, value: htmlElement.offsetWidth, categories: Core.classes.getPropertyCategories(prop) });
-                prop = "height";
+                prop = 'height';
                 props.push({ property: prop, value: htmlElement.offsetHeight, categories: Core.classes.getPropertyCategories(prop) });
             }
-            prop = "left";
+            prop = 'left';
             props.push({ property: prop, value: htmlElement.offsetLeft, categories: Core.classes.getPropertyCategories(prop) });
-            prop = "top";
+            prop = 'top';
             props.push({ property: prop, value: htmlElement.offsetTop, categories: Core.classes.getPropertyCategories(prop) });
             return props;
         }
@@ -438,7 +438,7 @@ const Component = (() => {
             const cStyle = getComputedStyle(this.HTMLElement);
             //#endregion Variables déclaration
             if (Tools.isNumber(newValue)) {
-                if (cStyle.position === "absolute") {
+                if (cStyle.position === 'absolute') {
                     const lastLeft = Core.isHTMLRenderer ? priv.HTMLElement.offsetLeft : priv.left;
                     if (lastLeft !== newValue) {
                         if (!priv.loading) {
@@ -483,7 +483,7 @@ const Component = (() => {
             const cStyle = getComputedStyle(this.HTMLElement);
             //#endregion Variables déclaration
             if (Tools.isNumber(newValue)) {
-                if (cStyle.position === "absolute") {
+                if (cStyle.position === 'absolute') {
                     const lastTop = (Core.isHTMLRenderer ? priv.HTMLElement.offsetTop : priv.top);
                     if (lastTop !== newValue) {
                         if (!priv.loading) {
@@ -511,7 +511,7 @@ const Component = (() => {
             const cStyle = getComputedStyle(this.HTMLElement);
             //#endregion Variables déclaration
             if (Tools.isNumber(x) && Tools.isNumber(y) || this instanceof Core.classes.Control) {
-                if (cStyle.position === "absolute") {
+                if (cStyle.position === 'absolute') {
                     priv.left = x;
                     priv.top = y;
                     if (Core.isHTMLRenderer && htmlElement && priv.inForm) {
@@ -584,7 +584,7 @@ const Component = (() => {
                     }
                 }
             }
-            if (this.hasOwnProperty("action")) {
+            if (this.hasOwnProperty('action')) {
                 if (form[this.action]) {
                     this.action = form[this.action];
                 } else if (!String.isNullOrEmpty(this.action)) {
@@ -619,7 +619,7 @@ const Component = (() => {
             if (priv.form !== this) {
                 if (Core.isHTMLRenderer && priv.HTMLElement) {
                     const position = getComputedStyle(priv.HTMLElement).position;
-                    if (position === "absolute") {
+                    if (position === 'absolute') {
                         this.moveTo(priv.left, priv.top);
                     }
                 }
@@ -866,7 +866,7 @@ const Component = (() => {
 //#endregion Component
 //#region Component defineProperties
 Object.defineProperties(Component, {
-    "name": {
+    'name': {
         enumerable: true
     }
 });

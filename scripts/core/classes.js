@@ -1,8 +1,8 @@
 //#region import
-import { Tools } from "/scripts/core/tools.js";
-//import { ToolBar } from "/scripts/components/toolbars/toolbar.js";
-//import { Component } from "/scripts/core/component.js";
-//import { Window } from "/scripts/components/containers/window.js";
+import { Tools } from '/scripts/core/tools.js';
+//import { ToolBar } from '/scripts/components/toolbars/toolbar.js';
+//import { Component } from '/scripts/core/component.js';
+//import { Window } from '/scripts/components/containers/window.js';
 //#endregion import
 //#region Classes
 class Classes {
@@ -36,7 +36,7 @@ class Classes {
             arrayOfTemplate.forEach(tpl => {
                 let className = tpl.Class;
                 className = !String.isNullOrEmpty(className) ? Tools.getFuncName(className) : className;
-                Core.templates[className] = tpl.template.replace(new RegExp("{className}", 'g'), className);
+                Core.templates[className] = tpl.template.replace(new RegExp('{className}', 'g'), className);
             });
         }
     }
@@ -158,7 +158,7 @@ class Classes {
         let result = true;
         //#endregion Variables déclaration
         if (Core.classes.ToolBar) {
-            if (["ToolButtonSep", "ToolButton", "ToolButtonSepSplit"].indexOf(Class.name)>-1 && !(owner instanceof Core.classes.ToolBar)) {
+            if (['ToolButtonSep', 'ToolButton', 'ToolButtonSepSplit'].indexOf(Class.name)>-1 && !(owner instanceof Core.classes.ToolBar)) {
                 result = false;
             }
         }
@@ -168,7 +168,7 @@ class Classes {
     //#region newCollection
     static newCollection(obj, owner, itemsClass, propName) {
         if (!propName) {
-            propName = "items";
+            propName = 'items';
         }
         //obj[propName] = [];
         //obj[propName].convertToCollection(owner, itemsClass);

@@ -1,5 +1,5 @@
 ﻿//import { Classes } from "/scripts/core/classes.js";
-import { Css } from "/scripts/core/css.js";
+import { Css } from '/scripts/core/css.js';
 //#region CustomTextBoxBtn
 const CustomTextBoxBtn = (() => {
     const _private = new WeakMap();
@@ -60,7 +60,7 @@ const CustomTextBoxBtn = (() => {
         get template() {
             let html = null;
             html = super.template;
-            const a = html.split("{buttons}");
+            const a = html.split('{buttons}');
             if (a.length > 1) {
                 this.btns.forEach(btn => {
                     const tpl = btn.template;
@@ -75,14 +75,14 @@ const CustomTextBoxBtn = (() => {
             const htmlElement = this.HTMLElement;
             super.getChildsHTMLElement();
             if (htmlElement) {
-                const _btns = htmlElement.querySelectorAll("button");
+                const _btns = htmlElement.querySelectorAll('button');
                 if (_btns.length === btns.length) {
                     btns.forEach(btn => {
                         btn.getHTMLElement(btn.id);
                         btn.getChildsHTMLElement();
                         btn.updateFromHTML();
                         btn.caption = String.EMPTY;
-                        Css.addClass(btn.HTMLElement, "TextBoxBtnButton");
+                        Css.addClass(btn.HTMLElement, 'TextBoxBtnButton');
                     });
                 }
             }

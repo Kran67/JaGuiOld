@@ -1,5 +1,5 @@
 ﻿//#region Import
-import { BitmapButton } from "/scripts/components/extended/bitmapbutton.js";
+import { BitmapButton } from '/scripts/components/extended/bitmapbutton.js';
 //#endregion Import
 //#region IPhoneButton
 const IPhoneButton = (() => {
@@ -48,7 +48,7 @@ const IPhoneButton = (() => {
             super.loaded();
             if (Core.isHTMLRenderer) {
                 priv.halo = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}halo`);
-                priv.halo.classList.add("Control", "IPhoneButtonHalo");
+                priv.halo.classList.add('Control', 'IPhoneButtonHalo');
                 htmlElement.appendChild(priv.halo);
             }
         }
@@ -62,7 +62,8 @@ Core.classes.register(Types.CATEGORIES.EXTENDED, IPhoneButton);
 //#endregion IPhoneButton
 //#region template
 if (Core.isHTMLRenderer) {
-    const IPhoneButtonTpl = ["<jagui-iphonebutton id=\"{internalId}\" data-class=\"IPhoneButton\" class=\"Control IPhoneButton {theme} csr_default\"><properties>{ \"name\": \"{name}\", \"height\": 50, \"width\": 50 }</properties></jagui-iphonebutton>"].join(String.EMPTY);
+    const IPhoneButtonTpl = ['<jagui-iphonebutton id="{internalId}" data-class="IPhoneButton" class="Control IPhoneButton {theme} csr_default">',
+        '<properties>{ "name": "{name}", "height": 50, "width": 50 }</properties></jagui-iphonebutton>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: IPhoneButton, template: IPhoneButtonTpl }]);
 }
 //#endregion template

@@ -1,5 +1,5 @@
 ﻿//#region Import
-import { ButtonGlyph } from "/scripts/components/common/buttonglyph.js";
+import { ButtonGlyph } from '/scripts/components/common/buttonglyph.js';
 //#endregion Import
 //#region SpeedButton
 class SpeedButton extends ButtonGlyph {

@@ -1,20 +1,20 @@
 ﻿//#region Import
-import { Button } from "/scripts/components/common/button.js";
-import { Point, Rect } from "/scripts/core/geometry.js";
-import "/scripts/core/path.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Text } from "/scripts/core/text.js";
+import { Button } from '/scripts/components/common/button.js';
+import { Point, Rect } from '/scripts/core/geometry.js';
+import '/scripts/core/path.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Text } from '/scripts/core/text.js';
 //#endregion Import
 //#region BUTTONLAYOUTGLYPHS
 /**
  * @type    {Object}        BUTTONLAYOUTGLYPHS
  */
 const _BUTTONLAYOUTGLYPHS = Object.freeze({
-    LEFT: "layoutLeft",
-    RIGHT: "layoutRight",
-    TOP: "layoutTop",
-    BOTTOM: "layoutBottom",
-    CENTER: "layoutCenter"
+    LEFT: 'layoutLeft',
+    RIGHT: 'layoutRight',
+    TOP: 'layoutTop',
+    BOTTOM: 'layoutBottom',
+    CENTER: 'layoutCenter'
 });
 //#endregion
 //#region ButtonGlyph
@@ -50,13 +50,13 @@ const ButtonGlyph = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 priv.glyphPos = new Point;
-                priv.glyphSize = props.hasOwnProperty("glyphSize")?props.glyphSize:32;
-                priv.glyphSpacing = props.hasOwnProperty("glyphSpacing")?props.glyphSpacing:4;
-                priv.glyphMargin = props.hasOwnProperty("glyphMargin")?props.glyphMargin:0;
-                priv.showCaption = props.hasOwnProperty("showCaption")?props.showCaption:true;
+                priv.glyphSize = props.hasOwnProperty('glyphSize')?props.glyphSize:32;
+                priv.glyphSpacing = props.hasOwnProperty('glyphSpacing')?props.glyphSpacing:4;
+                priv.glyphMargin = props.hasOwnProperty('glyphMargin')?props.glyphMargin:0;
+                priv.showCaption = props.hasOwnProperty('showCaption')?props.showCaption:true;
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "layout",
+                    propName: 'layout',
                     enum: _BUTTONLAYOUTGLYPHS,
                     setter: function (newValue) {
                         //#region Variables déclaration
@@ -74,10 +74,10 @@ const ButtonGlyph = (() => {
                         }
                     },
                     variable: priv,
-                    value: props.hasOwnProperty("layout")?props.layout:_BUTTONLAYOUTGLYPHS.LEFT
+                    value: props.hasOwnProperty('layout')?props.layout:_BUTTONLAYOUTGLYPHS.LEFT
                 });
                 priv.glyphHTMLElement = Types.HTMLELEMENTS.IMG;
-                this.addBindableProperties(["glyphSize", "glyphSpacing", "glyphMargin", "layout"]);
+                this.addBindableProperties(['glyphSize', 'glyphSpacing', 'glyphMargin', 'layout']);
                 priv.src = props.src ? props.src : String.EMPTY;
             }
         }
@@ -233,9 +233,9 @@ const ButtonGlyph = (() => {
                         glyph.src = newValue;
                         if (Core.isHTMLRenderer) {
                             if (newValue === String.EMPTY) {
-                                glyph.classList.add("hidden");
+                                glyph.classList.add('hidden');
                             } else {
-                                glyph.classList.remove("hidden");
+                                glyph.classList.remove('hidden');
                             }
                         }
                         if (!this.loading && !this.form.loading) {
@@ -258,7 +258,7 @@ const ButtonGlyph = (() => {
             if (Core.isHTMLRenderer) {
                 Text.setTextNode(htmlElement, String.EMPTY);
                 priv.textObj = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}caption`);
-                priv.textObj.classList.add("Control", "ButtonCaption", "includeCaption", `${this.constructor.name}Caption`);
+                priv.textObj.classList.add('Control', 'ButtonCaption', 'includeCaption', `${this.constructor.name}Caption`);
                 priv.textObj.jsObj = this;
                 htmlElement.appendChild(priv.textObj);
                 priv.glyph = document.createElement(priv.glyphHTMLElement);
@@ -306,10 +306,10 @@ const ButtonGlyph = (() => {
                     if (isHtmlRenderer) {
                         textObj.innerHTML = this.caption;
                         if (!this.wordWrap) {
-                            htmlElementStyle.whiteSpace = "nowrap";
+                            htmlElementStyle.whiteSpace = 'nowrap';
                         }
                         else {
-                            htmlElementStyle.whiteSpace = "normal";
+                            htmlElementStyle.whiteSpace = 'normal';
                         }
                     }
                     if (!showCaption) {

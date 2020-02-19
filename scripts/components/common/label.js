@@ -1,8 +1,8 @@
 ﻿//#region Import
-import { CaptionControl } from "/scripts/core/captioncontrol.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Colors, Color } from "/scripts/core/color.js";
-import "./labeleffects.js";
+import { CaptionControl } from '/scripts/core/captioncontrol.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Colors, Color } from '/scripts/core/color.js';
+import './labeleffects.js';
 //#endregion Import
 //#region Label
 const Label = (() => {
@@ -30,7 +30,7 @@ const Label = (() => {
                 priv.effect = null;
                 if (props.effect) {
                     const effectClassName = Core.classes[`Label${props.effect.name.firstCharUpper}Effect`];
-                    priv.effect = props.hasOwnProperty("effect") && effectClassName ? new effectClassName(this, props.effect.properties) : null;
+                    priv.effect = props.hasOwnProperty('effect') && effectClassName ? new effectClassName(this, props.effect.properties) : null;
                 }
                 //#endregion Private
                 delete this.tabOrder;
@@ -104,7 +104,7 @@ const Label = (() => {
 //#endregion Label
 //#region Label defineProperties
 Object.defineProperties(Label, {
-    "effet": {
+    'effet': {
         enumerable: true
     }
 });
@@ -113,7 +113,8 @@ Object.seal(Label);
 Core.classes.register(Types.CATEGORIES.COMMON, Label);
 //#region Template
 if (Core.isHTMLRenderer) {
-    const LabelTpl = ["<jagui-label id=\"{internalId}\" data-class=\"Label\" class=\"Control csr_default Label {theme} csr_default\"><properties>{ \"name\": \"{name}\", \"caption\": \"{caption}\" }</properties></jagui-label>"].join(String.EMPTY);
+    const LabelTpl = ['<jagui-label id="{internalId}" data-class="Label" class="Control csr_default Label {theme} csr_default">',
+        '<properties>{ "name": "{name}", "caption": "{caption}" }</properties></jagui-label>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: Label, template: LabelTpl }]);
 }
 //#endregion Template

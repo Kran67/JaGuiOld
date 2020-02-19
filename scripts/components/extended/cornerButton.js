@@ -1,18 +1,18 @@
 ﻿//#region Import
-import { Button } from "/scripts/components/common/button.js";
-import { Point } from "/scripts/core/geometry.js";
-import { Tools } from "/scripts/core/tools.js";
+import { Button } from '/scripts/components/common/button.js';
+import { Point } from '/scripts/core/geometry.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region CORNERSTYPES
 /**
  * @type    {Object}        CORNERSTYPES
  */
 const _CORNERSTYPES = Object.freeze({
-    ROUND: "round",
-    BEVEL: "bevel",
-    NOTCH: "notch",
-    SCOOP: "scoop",
-    SHARP: "sharp"
+    ROUND: 'round',
+    BEVEL: 'bevel',
+    NOTCH: 'notch',
+    SCOOP: 'scoop',
+    SHARP: 'sharp'
 });
 //#endregion
 //#region CORNERS
@@ -20,10 +20,10 @@ const _CORNERSTYPES = Object.freeze({
  * @type    {Object}        CORNERS
  */
 const _CORNERS = Object.freeze({
-    TOPLEFT: "topleft",
-    TOPRIGHT: "topright",
-    BOTTOMRIGHT: "bottomright",
-    BOTTOMLEFT: "bottomleft"
+    TOPLEFT: 'topleft',
+    TOPRIGHT: 'topright',
+    BOTTOMRIGHT: 'bottomright',
+    BOTTOMLEFT: 'bottomleft'
 });
 //#endregion
 //#region CornerButton
@@ -57,18 +57,18 @@ const CornerButton = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                const topLeftCorner = props.hasOwnProperty("topLeftCorner")?props.topLeftCorner:null;
+                const topLeftCorner = props.hasOwnProperty('topLeftCorner')?props.topLeftCorner:null;
                 priv.topLeftCorner = topLeftCorner?new Point(topLeftCorner.x,topLeftCorner.y):new Point;
-                priv.topLeftCornerType = topLeftCorner.hasOwnProperty("type")?topLeftCorner.type:_CORNERSTYPES.ROUND;
-                const topRightCorner = props.hasOwnProperty("topRightCorner")?props.topRightCorner:null;
+                priv.topLeftCornerType = topLeftCorner.hasOwnProperty('type')?topLeftCorner.type:_CORNERSTYPES.ROUND;
+                const topRightCorner = props.hasOwnProperty('topRightCorner')?props.topRightCorner:null;
                 priv.topRightCorner = topRightCorner?new Point(topRightCorner.x,topRightCorner.y):new Point;
-                priv.topRightCornerType = topRightCorner.hasOwnProperty("type")?topRightCorner.type:_CORNERSTYPES.ROUND;
-                const bottomRightCorner = props.hasOwnProperty("bottomRightCorner")?props.bottomRightCorner:null;
+                priv.topRightCornerType = topRightCorner.hasOwnProperty('type')?topRightCorner.type:_CORNERSTYPES.ROUND;
+                const bottomRightCorner = props.hasOwnProperty('bottomRightCorner')?props.bottomRightCorner:null;
                 priv.bottomRightCorner = bottomRightCorner?new Point(bottomRightCorner.x,bottomRightCorner.y):new Point;
-                priv.bottomRightCornerType = bottomRightCorner.hasOwnProperty("type")?bottomRightCorner.type:_CORNERSTYPES.ROUND;
-                const bottomLeftCorner = props.hasOwnProperty("bottomLeftCorner")?props.bottomLeftCorner:null;
+                priv.bottomRightCornerType = bottomRightCorner.hasOwnProperty('type')?bottomRightCorner.type:_CORNERSTYPES.ROUND;
+                const bottomLeftCorner = props.hasOwnProperty('bottomLeftCorner')?props.bottomLeftCorner:null;
                 priv.bottomLeftCorner = bottomLeftCorner?new Point(bottomLeftCorner.x,bottomLeftCorner.y):new Point;
-                priv.bottomLeftCornerType = bottomLeftCorner.hasOwnProperty("type")?bottomLeftCorner.type:_CORNERSTYPES.ROUND;
+                priv.bottomLeftCornerType = bottomLeftCorner.hasOwnProperty('type')?bottomLeftCorner.type:_CORNERSTYPES.ROUND;
                 this.allowUpdateOnResize = true;
             }
         }
@@ -272,17 +272,17 @@ const CornerButton = (() => {
                     r[i].y *= ratio[1];
                 }
             }
-            const d = ["M", r[0].x, "0"];
-            d.push("h", htmlElement.offsetWidth - r[0].x - r[1].x);
+            const d = ['M', r[0].x, '0'];
+            d.push('h', htmlElement.offsetWidth - r[0].x - r[1].x);
             this.drawCorner(_CORNERS.TOPRIGHT, r[1], d);
-            d.push("v", htmlElement.offsetHeight - r[1].y - r[2].y);
+            d.push('v', htmlElement.offsetHeight - r[1].y - r[2].y);
             this.drawCorner(_CORNERS.BOTTOMRIGHT, r[2], d);
-            d.push("h", -htmlElement.offsetWidth + r[2].x + r[3].x);
+            d.push('h', -htmlElement.offsetWidth + r[2].x + r[3].x);
             this.drawCorner(_CORNERS.BOTTOMLEFT, r[3], d);
-            d.push("v", -htmlElement.offsetHeight + r[3].y + r[0].y);
+            d.push('v', -htmlElement.offsetHeight + r[3].y + r[0].y);
             this.drawCorner(_CORNERS.TOPLEFT, r[0], d);
-            d.push("Z");
-            priv.path.setAttribute("d", d.join(String.SPACE));
+            d.push('Z');
+            priv.path.setAttribute('d', d.join(String.SPACE));
         }
         //#endregion generateSVGPath
         //#region drawCorner
@@ -290,16 +290,16 @@ const CornerButton = (() => {
             if (r.type === _CORNERSTYPES.NOTCH) {
                 switch (corner) {
                     case _CORNERS.TOPRIGHT:
-                        d.push("v", r.y, "h", r.x);
+                        d.push('v', r.y, 'h', r.x);
                         break;
                     case _CORNERS.BOTTOMRIGHT:
-                        d.push("h", -r.x, "v", r.y);
+                        d.push('h', -r.x, 'v', r.y);
                         break;
                     case _CORNERS.BOTTOMLEFT:
-                        d.push("v", -r.y, "h", -r.x);
+                        d.push('v', -r.y, 'h', -r.x);
                         break;
                     case _CORNERS.TOPLEFT:
-                        d.push("h", r.x, "v", -r.y);
+                        d.push('h', r.x, 'v', -r.y);
                         break;
                 }
             } else if (r.type === _CORNERSTYPES.SHARP) {
@@ -307,24 +307,24 @@ const CornerButton = (() => {
                 const x2 = r.x * 0.5;
                 switch (corner) {
                     case _CORNERS.TOPRIGHT:
-                        d.push("v", y2, "l", r.x - x2, r.y - y2, "h", r.x - x2);
+                        d.push('v', y2, 'l', r.x - x2, r.y - y2, 'h', r.x - x2);
                         break;
                     case _CORNERS.BOTTOMRIGHT:
-                        d.push("h", -(r.x - x2), "l", -(r.x - x2), r.y - y2, "v", r.y - y2);
+                        d.push('h', -(r.x - x2), 'l', -(r.x - x2), r.y - y2, 'v', r.y - y2);
                         break;
                     case _CORNERS.BOTTOMLEFT:
-                        d.push("v", -y2, "l", -(r.x - x2), -(r.y - y2), "h", -(r.x - x2));
+                        d.push('v', -y2, 'l', -(r.x - x2), -(r.y - y2), 'h', -(r.x - x2));
                         break;
                     case _CORNERS.TOPLEFT:
-                        d.push("h", r.x - x2, "l", r.x - x2, -(r.y - y2), "v", -r.y - y2);
+                        d.push('h', r.x - x2, 'l', r.x - x2, -(r.y - y2), 'v', -r.y - y2);
                         break;
                 }
             } else {
                 if (r.type === _CORNERSTYPES.ROUND || r.type === _CORNERSTYPES.SCOOP) {
                     const sweep = +(r.type === _CORNERSTYPES.ROUND);
-                    d.push("a", r.x, r.y, 0, 0, sweep);
+                    d.push('a', r.x, r.y, 0, 0, sweep);
                 } else if (r.type === _CORNERSTYPES.BEVEL) {
-                    d.push("l");
+                    d.push('l');
                 }
                 d.push(corner === _CORNERS.BOTTOMRIGHT || corner === _CORNERS.BOTTOMLEFT ? -r.x : r.x);
                 d.push(corner === _CORNERS.BOTTOMLEFT || corner === _CORNERS.TOPLEFT ? -r.y : r.y);
@@ -370,35 +370,35 @@ const CornerButton = (() => {
             const div = document.createElement(captionTag);
             //#endregion Variables déclaration
             if (!htmlElement.querySelector(captionTag)) {
-                div.classList.add("Control", "Button", "CornerButton", this.themeName, "includeCaption");
+                div.classList.add('Control', 'Button', 'CornerButton', this.themeName, 'includeCaption');
                 div.style=`clip-path:url(#${this.name}Clip);`;
                 htmlElement.appendChild(div);
-                svg.setAttribute("width", "100%");
-                svg.setAttribute("height", "100%");
-                svg.classList.add("CornerButtonSvg");
+                svg.setAttribute('width', '100%');
+                svg.setAttribute('height', '100%');
+                svg.classList.add('CornerButtonSvg');
                 clippath.id = `${this.name}Clip`;
                 use.setAttributeNS(Types.SVG.XLINK, XLINKHREF, `#${this.name}ClipPath`);
                 clippath.appendChild(use);
                 defs.appendChild(clippath);
                 svg.appendChild(defs);
                 lineargradient.id = `${this.name}Gradient`;
-                lineargradient.setAttribute("x1", "0");
-                lineargradient.setAttribute("x2", "0");
-                lineargradient.setAttribute("y1", "0");
-                lineargradient.setAttribute("y2", "100%");
-                stop.setAttribute("offset", "0%");
-                stop.classList.add(this.themeName, "first-corner-button-color");
+                lineargradient.setAttribute('x1', '0');
+                lineargradient.setAttribute('x2', '0');
+                lineargradient.setAttribute('y1', '0');
+                lineargradient.setAttribute('y2', '100%');
+                stop.setAttribute('offset', '0%');
+                stop.classList.add(this.themeName, 'first-corner-button-color');
                 lineargradient.appendChild(stop);
                 svg.appendChild(lineargradient);
                 lineargradient = document.createElementNS(XMLNS, LINEARGRADIENT);
                 stop = document.createElementNS(XMLNS, Types.SVG.STOP);
-                stop.setAttribute("offset", "100%");
-                stop.classList.add(this.themeName, "secondary-corner-button-color");
+                stop.setAttribute('offset', '100%');
+                stop.classList.add(this.themeName, 'secondary-corner-button-color');
                 lineargradient.appendChild(stop);
                 svg.appendChild(lineargradient);
                 priv.path = document.createElementNS(XMLNS, Types.SHAPES.PATH);
-                priv.path.setAttribute("stroke", `url(#${this.name}Gradient)`);
-                priv.path.classList.add("CornerButtonClipPath");
+                priv.path.setAttribute('stroke', `url(#${this.name}Gradient)`);
+                priv.path.classList.add('CornerButtonClipPath');
                 priv.path.id = `${this.name}ClipPath`;
                 svg.appendChild(priv.path);
                 div.appendChild(svg);
@@ -416,8 +416,8 @@ const CornerButton = (() => {
 Core.classes.register(Types.CATEGORIES.EXTENDED, CornerButton);
 //#region Template
 if (Core.isHTMLRenderer) {
-const CornerButtonTpl = ["<jagui-cornerbutton id=\"{internalId}\" data-class=\"CornerButton\" class=\"Control CornerButton csr_default {theme}\">",
-    "<properties>{ \"name\": \"{name}\", \"caption\": \"{caption}\" }</properties>"].join(String.EMPTY);
+const CornerButtonTpl = ['<jagui-cornerbutton id="{internalId}" data-class="CornerButton" class="Control CornerButton csr_default {theme}">',
+    '<properties>{ "name": "{name}", "caption": "{caption}" }</properties>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: CornerButton, template: CornerButtonTpl }]);
 }
 //#endregion Template

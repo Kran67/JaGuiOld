@@ -1,7 +1,7 @@
 ﻿//#region Import
-import { Panel } from "/scripts/components/containers/panel.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Css } from "/scripts/core/css.js";
+import { Panel } from '/scripts/components/containers/panel.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Css } from '/scripts/core/css.js';
 //#endregion Import
 //#region CalloutPanel
 const CalloutPanel = (() => {
@@ -27,17 +27,17 @@ const CalloutPanel = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.calloutOffset = props.hasOwnProperty("calloutOffset")?props.calloutOffset:0;
-                priv.calloutLength = props.hasOwnProperty("calloutLength")?props.calloutLength:11;
-                priv.calloutWidth = props.hasOwnProperty("calloutWidth")?props.calloutWidth:23;
+                priv.calloutOffset = props.hasOwnProperty('calloutOffset')?props.calloutOffset:0;
+                priv.calloutLength = props.hasOwnProperty('calloutLength')?props.calloutLength:11;
+                priv.calloutWidth = props.hasOwnProperty('calloutWidth')?props.calloutWidth:23;
                 priv.clipChilds = false;
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "calloutPosition",
+                    propName: 'calloutPosition',
                     enum: calloutPositions,
                     variable: priv,
                     forceUpdate: true,
-                    value:props.hasOwnProperty("calloutPosition") ? props.calloutPosition : calloutPositions.TOP
+                    value:props.hasOwnProperty('calloutPosition') ? props.calloutPosition : calloutPositions.TOP
                 });
                 priv.content = null;
                 priv.arrow = null;
@@ -195,8 +195,8 @@ const CalloutPanel = (() => {
                         borderLeftWidth = `${cw}${PX}`;
                         borderRightWidth = `${cw}${PX}`;
                         borderBottomWidth = `${cw}${PX}`;
-                        bottom = "auto";
-                        right = "auto";
+                        bottom = 'auto';
+                        right = 'auto';
                         path = `0 0, ${left} 0, ${pos + cw}${PX} ${top}, ${pos + cw + 1}${PX} ${top}, ${pos + 1 + cw * 2}${PX} 0, 100% 0, 100% 100%, 0 100%`;
                         break;
                     case calloutPositions.RIGHT:
@@ -212,8 +212,8 @@ const CalloutPanel = (() => {
                         borderTopWidth = `${cw}${PX}`;
                         borderBottomWidth = `${cw}${PX}`;
                         borderLeftWidth = `${cw}${PX}`;
-                        bottom = "auto";
-                        left = "auto";
+                        bottom = 'auto';
+                        left = 'auto';
                         path = `0 0, 100% 0, 100% ${top}, ${htmlElement.offsetWidth + priv.calloutLength} ${pos + cw}${PX}, ${htmlElement.offsetWidth + priv.calloutLength} ${pos + cw + 1}${PX}, 100% ${pos + 1 + cw * 2}${PX}, 100% 100%, 0 100%`;
                         break;
                     case calloutPositions.BOTTOM:
@@ -225,12 +225,12 @@ const CalloutPanel = (() => {
                         }
                         bottom = `${-priv.calloutLength}${PX}`;
                         left = `${pos}${PX}`;
-                        top = "auto";
+                        top = 'auto';
                         borderLeftWidth = `${cw}${PX}`;
                         borderRightWidth = `${cw}${PX}`;
                         borderBottomWidth = 0;
                         borderTopWidth = `${cw}${PX}`;
-                        right = "auto";
+                        right = 'auto';
                         path = `0 0, 100% 0, 100% 100%, ${pos + 1 + cw * 2}${PX} 100%, ${pos + cw + 1}${PX} ${htmlElement.offsetHeight + priv.calloutLength}, ${pos + cw}${PX} ${htmlElement.offsetHeight + priv.calloutLength}, ${left} 100%, 0 100%`;
                         break;
                     case calloutPositions.LEFT:
@@ -246,8 +246,8 @@ const CalloutPanel = (() => {
                         borderTopWidth = `${cw}${PX}`;
                         borderBottomWidth = `${cw}${PX}`;
                         borderRightWidth = `${cw}${PX}`;
-                        bottom = "auto";
-                        right = "auto";
+                        bottom = 'auto';
+                        right = 'auto';
                         path = `0 0, 100% 0, 100% 100%, 0 100%, 0 ${pos + 1 + cw * 2}${PX}, ${left} ${pos + cw + 1}${PX}, ${left} ${pos + cw}${PX}, 0 ${top}`;
                         break;
                 }
@@ -295,8 +295,8 @@ Core.classes.register(Types.CATEGORIES.CONTAINERS, CalloutPanel);
 export { CalloutPanel };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const CalloutPanelTpl = ["<jagui-calloutpanel id=\"{internalId}\" data-class=\"CalloutPanel\" class=\"Control CalloutPanel {theme} csr_default",
-        " calloutposition-top\"><properties>{ \"name\": \"{name}\", \"calloutPosition\": \"top\" }</properties></jagui-calloutpanel>"].join(String.EMPTY);
+    const CalloutPanelTpl = ['<jagui-calloutpanel id="{internalId}" data-class="CalloutPanel" class="Control CalloutPanel {theme} csr_default',
+        ' calloutposition-top"><properties>{ "name": "{name}", "calloutPosition": "top" }</properties></jagui-calloutpanel>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: CalloutPanel, template: CalloutPanelTpl }]);
 }
-//endregion
+//#endregion

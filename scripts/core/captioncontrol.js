@@ -1,10 +1,10 @@
 ﻿//#region Import
-import { ThemedControl } from "/scripts/core/themedcontrol.js";
-import { Text } from "/scripts/core/text.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Colors, Color } from "/scripts/core/color.js";
-import { TextDecoration } from "/scripts/core/textdecoration.js";
-import { TextShadows } from "/scripts/core/textshadows.js";
+import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { Text } from '/scripts/core/text.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Colors, Color } from '/scripts/core/color.js';
+import { TextDecoration } from '/scripts/core/textdecoration.js';
+import { TextShadows } from '/scripts/core/textshadows.js';
 //#endregion Import
 //#region CaptionControl
 const CaptionControl = (() => {
@@ -41,37 +41,37 @@ const CaptionControl = (() => {
                 } else {
                     theme = {};
                     captionControlTheme = {};
-                    priv.caption = props.hasOwnProperty("caption") ? props.caption : this.constructor.name;
+                    priv.caption = props.hasOwnProperty('caption') ? props.caption : this.constructor.name;
                 }
-                priv.wordWrap = captionControlTheme.hasOwnProperty("wordWrap") ? captionControlTheme.wordWrap : props.hasOwnProperty("wordWrap") ? props.wordWrap : false;
-                priv.horizAlign = props.hasOwnProperty("horizAlign") ? props.horizAlign : captionControlTheme.hasOwnProperty("horizAlign") ? captionControlTheme.horizAlign : props.hasOwnProperty("horizAlign") ? props.horizAlign : Types.TEXTALIGNS.LEFT;
-                priv.color = Color.parse(captionControlTheme.hasOwnProperty("color") ? captionControlTheme.color : theme.DEFAULTTEXTCOLOR ? theme.DEFAULTTEXTCOLOR : props.hasOwnProperty("color") ? Color.parse(props.color) : null);
-                if (props.hasOwnProperty("color")) {
+                priv.wordWrap = captionControlTheme.hasOwnProperty('wordWrap') ? captionControlTheme.wordWrap : props.hasOwnProperty('wordWrap') ? props.wordWrap : false;
+                priv.horizAlign = props.hasOwnProperty('horizAlign') ? props.horizAlign : captionControlTheme.hasOwnProperty('horizAlign') ? captionControlTheme.horizAlign : props.hasOwnProperty('horizAlign') ? props.horizAlign : Types.TEXTALIGNS.LEFT;
+                priv.color = Color.parse(captionControlTheme.hasOwnProperty('color') ? captionControlTheme.color : theme.DEFAULTTEXTCOLOR ? theme.DEFAULTTEXTCOLOR : props.hasOwnProperty('color') ? Color.parse(props.color) : null);
+                if (props.hasOwnProperty('color')) {
                     if (Tools.isString(props.color)) {
                         priv.color = Color.parse(props.color);
                     }
                 }
-                priv.fontFamily = props.hasOwnProperty("fontFamily") ? props.fontFamily : captionControlTheme.hasOwnProperty("fontFamily") ? captionControlTheme.fontFamily : props.hasOwnProperty("fontFamily") ? props.fontFamily : null;
-                priv.fontSize = props.hasOwnProperty("fontSize") ? props.fontSize : captionControlTheme.hasOwnProperty("fontSize") ? captionControlTheme.fontSize : props.hasOwnProperty("fontSize") ? props.fontSize : 8;
-                priv.fontSizeUnit = props.hasOwnProperty("fontSizeUnit") ? props.fontSizeUnit : Types.CSSUNITS.PT;
-                priv.fontBold = props.hasOwnProperty("fontBold") && typeof props.fontBold === CONSTANTS.BOOLEAN ? props.fontBold : captionControlTheme.hasOwnProperty("fontBold") ? captionControlTheme.fontBold : props.hasOwnProperty("fontBold") ? props.fontBold : false;
-                priv.fontStyle = props.hasOwnProperty("fontStyle") ? props.fontStyle : captionControlTheme.hasOwnProperty("fontStyle") ? captionControlTheme.fontStyle : props.hasOwnProperty("fontStyle") ? props.fontStyle : Types.FONTSTYLES.NORMAL;
-                priv.textDecoration = new TextDecoration(this, props.hasOwnProperty("textDecoration") ? props.textDecoration : captionControlTheme.hasOwnProperty("textDecoration") ? captionControlTheme.textDecoration : props.hasOwnProperty("textDecoration") ? props.textDecoration : null);
-                priv.textShadows = new TextShadows(this, props.hasOwnProperty("textShadow") ? props.textShadow : captionControlTheme.hasOwnProperty("textShadow") ? captionControlTheme.textShadow : props.hasOwnProperty("textShadow") ? props.textShadow : null);
-                priv.textTransform = props.hasOwnProperty("textTransform") ? props.textTransform : captionControlTheme.hasOwnProperty("textTransform") ? captionControlTheme.textTransform : props.hasOwnProperty("textTransform") ? props.textTransform : Types.TEXTTRANSFORMS.NONE;
-                priv.vertAlign = props.hasOwnProperty("vertAlign") ? props.vertAlign : captionControlTheme.hasOwnProperty("vertAlign") ? captionControlTheme.vertAlign : props.hasOwnProperty("vertAlign") ? props.vertAlign : VERTTEXTALIGNS.TOP;
-                priv.backColor = Color.parse(captionControlTheme.hasOwnProperty("backColor") ? captionControlTheme.backColor : props.hasOwnProperty("backColor") ? Color.parse(props.backColor) : Colors.TRANSPARENT.toRGBAString());
-                if (props.hasOwnProperty("backColor")) {
+                priv.fontFamily = props.hasOwnProperty('fontFamily') ? props.fontFamily : captionControlTheme.hasOwnProperty('fontFamily') ? captionControlTheme.fontFamily : props.hasOwnProperty('fontFamily') ? props.fontFamily : null;
+                priv.fontSize = props.hasOwnProperty('fontSize') ? props.fontSize : captionControlTheme.hasOwnProperty('fontSize') ? captionControlTheme.fontSize : props.hasOwnProperty('fontSize') ? props.fontSize : 8;
+                priv.fontSizeUnit = props.hasOwnProperty('fontSizeUnit') ? props.fontSizeUnit : Types.CSSUNITS.PT;
+                priv.fontBold = props.hasOwnProperty('fontBold') && typeof props.fontBold === CONSTANTS.BOOLEAN ? props.fontBold : captionControlTheme.hasOwnProperty('fontBold') ? captionControlTheme.fontBold : props.hasOwnProperty('fontBold') ? props.fontBold : false;
+                priv.fontStyle = props.hasOwnProperty('fontStyle') ? props.fontStyle : captionControlTheme.hasOwnProperty('fontStyle') ? captionControlTheme.fontStyle : props.hasOwnProperty('fontStyle') ? props.fontStyle : Types.FONTSTYLES.NORMAL;
+                priv.textDecoration = new TextDecoration(this, props.hasOwnProperty('textDecoration') ? props.textDecoration : captionControlTheme.hasOwnProperty('textDecoration') ? captionControlTheme.textDecoration : props.hasOwnProperty('textDecoration') ? props.textDecoration : null);
+                priv.textShadows = new TextShadows(this, props.hasOwnProperty('textShadow') ? props.textShadow : captionControlTheme.hasOwnProperty('textShadow') ? captionControlTheme.textShadow : props.hasOwnProperty('textShadow') ? props.textShadow : null);
+                priv.textTransform = props.hasOwnProperty('textTransform') ? props.textTransform : captionControlTheme.hasOwnProperty('textTransform') ? captionControlTheme.textTransform : props.hasOwnProperty('textTransform') ? props.textTransform : Types.TEXTTRANSFORMS.NONE;
+                priv.vertAlign = props.hasOwnProperty('vertAlign') ? props.vertAlign : captionControlTheme.hasOwnProperty('vertAlign') ? captionControlTheme.vertAlign : props.hasOwnProperty('vertAlign') ? props.vertAlign : VERTTEXTALIGNS.TOP;
+                priv.backColor = Color.parse(captionControlTheme.hasOwnProperty('backColor') ? captionControlTheme.backColor : props.hasOwnProperty('backColor') ? Color.parse(props.backColor) : Colors.TRANSPARENT.toRGBAString());
+                if (props.hasOwnProperty('backColor')) {
                     if (Tools.isString(props.backColor)) {
                         priv.backColor = Color.parse(props.backColor);
                     } else if (props.backColor instanceof Color) {
                         priv.backColor = props.backColor;
                     }
                 }
-                priv.autoSize = props.hasOwnProperty("autoSize") ? props.autoSize : captionControlTheme.hasOwnProperty("autoSize") ? captionControlTheme.autoSize : props.hasOwnProperty("autoSize") ? props.autoSize : true;
-                priv.textOverflow = props.hasOwnProperty("textOverflow") ? props.textOverflow : captionControlTheme.hasOwnProperty("textOverflow") ? captionControlTheme.textOverflow : props.hasOwnProperty("textOverflow") ? props.textOverflow : Types.TEXTOVERFLOWS.CLIP;
-                this.addBindableProperties(["caption", "horizAlign", "wordWrap", "color", "fontFamily", "fontSize", "fontSizeUnit",
-                    "fontBold", "fontStyle", "textTransform", "vertAlign", "backColor", "autSize", "textOverflow"]);
+                priv.autoSize = props.hasOwnProperty('autoSize') ? props.autoSize : captionControlTheme.hasOwnProperty('autoSize') ? captionControlTheme.autoSize : props.hasOwnProperty('autoSize') ? props.autoSize : true;
+                priv.textOverflow = props.hasOwnProperty('textOverflow') ? props.textOverflow : captionControlTheme.hasOwnProperty('textOverflow') ? captionControlTheme.textOverflow : props.hasOwnProperty('textOverflow') ? props.textOverflow : Types.TEXTOVERFLOWS.CLIP;
+                this.addBindableProperties(['caption', 'horizAlign', 'wordWrap', 'color', 'fontFamily', 'fontSize', 'fontSizeUnit',
+                    'fontBold', 'fontStyle', 'textTransform', 'vertAlign', 'backColor', 'autSize', 'textOverflow']);
             }
         }
         //#endregion Constructor
@@ -418,7 +418,7 @@ const CaptionControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             let html = super.template;
-            const a = html.split("{caption}");
+            const a = html.split('{caption}');
             //#endregion Variables déclaration
             html = a.join(priv.caption);
             return html;
@@ -487,14 +487,14 @@ const CaptionControl = (() => {
                 this.HTMLElementStyle.color = color;
             }
             if (!this.wordWrap) {
-                this.HTMLElementStyle.whiteSpace = "nowrap";
+                this.HTMLElementStyle.whiteSpace = 'nowrap';
             } else {
-                this.HTMLElementStyle.whiteSpace = "normal";
+                this.HTMLElementStyle.whiteSpace = 'normal';
             }
             if (priv.fontFamily) {
                 htmlElementStyle.fontFamily = priv.fontFamily;
             } else {
-                htmlElementStyle.fontFamily = "inherit";
+                htmlElementStyle.fontFamily = 'inherit';
             }
             if (priv.fontSize) {
                 htmlElementStyle.fontSize = `${priv.fontSize}${priv.fontSizeUnit}`;
@@ -519,7 +519,7 @@ const CaptionControl = (() => {
                 }
                 htmlElementStyle.textDecoration = textDecorationStr.trim();
             } else {
-                htmlElementStyle.textDecoration = "unset";
+                htmlElementStyle.textDecoration = 'unset';
             }
             htmlElementStyle.textShadow = String.EMPTY;
             if (priv.textShadows && priv.textShadows.items.length > 0) {
@@ -534,24 +534,24 @@ const CaptionControl = (() => {
                 htmlElementStyle.display = DISPLAYS.FLEX;
                 switch (priv.horizAlign) {
                     case TEXTALIGNS.LEFT:
-                        htmlElementStyle.justifyContent = "flex-start";
+                        htmlElementStyle.justifyContent = 'flex-start';
                         break;
                     case TEXTALIGNS.CENTER:
                         htmlElementStyle.justifyContent = priv.horizAlign;
                         break;
                     case TEXTALIGNS.RIGHT:
-                        htmlElementStyle.justifyContent = "flex-end";
+                        htmlElementStyle.justifyContent = 'flex-end';
                         break;
                 }
                 switch (priv.vertAlign) {
                     case VERTTEXTALIGNS.TOP:
-                        htmlElementStyle.alignItems = "flex-start";
+                        htmlElementStyle.alignItems = 'flex-start';
                         break;
                     case VERTTEXTALIGNS.MIDDLE:
-                        htmlElementStyle.alignItems = "center";
+                        htmlElementStyle.alignItems = 'center';
                         break;
                     case VERTTEXTALIGNS.BOTTOM:
-                        htmlElementStyle.alignItems = "flex-end";
+                        htmlElementStyle.alignItems = 'flex-end';
                         break;
                 }
             }
@@ -574,52 +574,52 @@ const CaptionControl = (() => {
 //#region CaptionControl
 //#region CaptionControl defineProperties
 Object.defineProperties(CaptionControl, {
-    "caption": {
+    'caption': {
         enumerable: true
     },
-    "wordWrap": {
+    'wordWrap': {
         enumerable: true
     },
-    "autoTranslate": {
+    'autoTranslate': {
         enumerable: true
     },
-    "horizAlign": {
+    'horizAlign': {
         enumerable: true
     },
-    "color": {
+    'color': {
         enumerable: true
     },
-    "fontFamily": {
+    'fontFamily': {
         enumerable: true
     },
-    "fontSize": {
+    'fontSize': {
         enumerable: true
     },
-    "fontSizeUnit": {
+    'fontSizeUnit': {
         enumerable: true
     },
-    "fontBold": {
+    'fontBold': {
         enumerable: true
     },
-    "fontStyle": {
+    'fontStyle': {
         enumerable: true
     },
-    "textDecoration": {
+    'textDecoration': {
         enumerable: true
     },
-    "textShadows": {
+    'textShadows': {
         enumerable: true
     },
-    "textTransform": {
+    'textTransform': {
         enumerable: true
     },
-    "vertAlign": {
+    'vertAlign': {
         enumerable: true
     },
-    "backColor": {
+    'backColor': {
         enumerable: true
     },
-    "textOverflow": {
+    'textOverflow': {
         enumerable: true
     }
 });

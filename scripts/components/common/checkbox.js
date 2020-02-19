@@ -1,17 +1,17 @@
 ﻿//#region Imports
-import { CaptionControl } from "/scripts/core/captioncontrol.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Mouse } from "/scripts/core/mouse.js";
-import { Keyboard } from "/scripts/core/keyboard.js";
+import { CaptionControl } from '/scripts/core/captioncontrol.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Mouse } from '/scripts/core/mouse.js';
+import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Imports
 //#region CHECKBOXSTATES
 /**
  * @type    {Object}        CHECKBOXSTATES
  */
 const CHECKBOXSTATES = Object.freeze({
-    UNCHECKED: "unchecked",
-    GRAYED: "grayed",
-    CHECKED: "checked"
+    UNCHECKED: 'unchecked',
+    GRAYED: 'grayed',
+    CHECKED: 'checked'
 });
 //#endregion
 //#region Checkbox
@@ -47,8 +47,8 @@ const Checkbox = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 this.autoCapture = true;
-                priv.isChecked = props.hasOwnProperty("isChecked") ? props.isChecked : false;
-                priv.autoWidth = props.hasOwnProperty("autoWidth") ? props.autoWidth : true;
+                priv.isChecked = props.hasOwnProperty('isChecked') ? props.isChecked : false;
+                priv.autoWidth = props.hasOwnProperty('autoWidth') ? props.autoWidth : true;
                 this.onChange = new Core.classes.NotifyEvent(this);
                 if (!Core.isHTMLRenderer) {
                     this.width = 120;
@@ -59,12 +59,12 @@ const Checkbox = (() => {
                 this.hitTest.mouseUp = true;
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "state",
+                    propName: 'state',
                     enum: CHECKBOXSTATES,
                     variable: priv,
-                    value: props.hasOwnProperty("state") ? props.state : CHECKBOXSTATES.UNCHECKED
+                    value: props.hasOwnProperty('state') ? props.state : CHECKBOXSTATES.UNCHECKED
                 });
-                priv.allowGrayed = props.hasOwnProperty("allowGrayed") ? props.allowGrayed : false;
+                priv.allowGrayed = props.hasOwnProperty('allowGrayed') ? props.allowGrayed : false;
                 priv.action = null;
                 this.autoSize = false;
                 this.clipped = false;
@@ -228,28 +228,28 @@ const Checkbox = (() => {
             if (!this.loading && !this.form.loading) {
                 super.update();
                 if (priv.check) {
-                    priv.check.classList.remove("checked", "grayed");
+                    priv.check.classList.remove('checked', 'grayed');
                     if (priv.isChecked) {
-                        priv.check.classList.add("checked");
+                        priv.check.classList.add('checked');
                     } else if (priv.allowGrayed && priv.state === CHECKBOXSTATES.GRAYED) {
-                        priv.check.classList.add("grayed");
+                        priv.check.classList.add('grayed');
                     }
                 }
                 if (priv.input) {
                     if (priv.state) {
                         if (priv.state !== CHECKBOXSTATES.UNCHECKED) {
-                            priv.input.setAttribute("checked", "checked");
+                            priv.input.setAttribute('checked', 'checked');
                         } else {
-                            priv.input.removeAttribute("checked");
+                            priv.input.removeAttribute('checked');
                         }
                     } else if (priv.isChecked) {
-                        priv.input.setAttribute("checked", "checked");
+                        priv.input.setAttribute('checked', 'checked');
                     } else {
-                        priv.input.removeAttribute("checked");
+                        priv.input.removeAttribute('checked');
                     }
                 }
                 if (priv.autoWidth && this.HTMLElementStyle) {
-                    this.HTMLElementStyle.width = "auto";
+                    this.HTMLElementStyle.width = 'auto';
                 }
             }
         }
@@ -280,16 +280,16 @@ const Checkbox = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (!htmlElement.querySelector("input")) {
-                priv.input.type = this instanceof Core.classes.RadioButton?"radio":"checkbox";
-                priv.input.classList.add("Control", `${this.constructor.name}Input`);
+            if (!htmlElement.querySelector('input')) {
+                priv.input.type = this instanceof Core.classes.RadioButton?'radio':'checkbox';
+                priv.input.classList.add('Control', `${this.constructor.name}Input`);
                 priv.input.checked = priv.isChecked;
-                priv.check.classList.add("Control", this.themeName, `${this.constructor.name}Check`);
+                priv.check.classList.add('Control', this.themeName, `${this.constructor.name}Check`);
                 if (priv.isChecked) {
-                    priv.check.classList.add("checked");
+                    priv.check.classList.add('checked');
                 }
                 if (priv.allowGrayed) {
-                    priv.check.classList.add("grayed");
+                    priv.check.classList.add('grayed');
                 }
                 htmlElement.appendChild(priv.input);
                 htmlElement.appendChild(priv.check);
@@ -306,9 +306,9 @@ const Checkbox = (() => {
 Core.classes.register(Types.CATEGORIES.COMMON, Checkbox);
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const CheckboxTpl = ["<jagui-checkbox id=\"{internalId}\" data-class=\"Checkbox\" class=\"Control Checkbox {theme}\">",
-        "<properties>{ \"name\": \"{name}\", \"height\": 15 }</properties>{caption}</jagui-checkbox>"].join(String.EMPTY);
+    const CheckboxTpl = ['<jagui-checkbox id="{internalId}" data-class="Checkbox" class="Control Checkbox {theme}">',
+        '<properties>{ "name": "{name}", "height": 15 }</properties>{caption}</jagui-checkbox>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: Checkbox, template: CheckboxTpl }]);
 }
-//endregion
+//#endregion
 export { Checkbox };

@@ -1,9 +1,9 @@
 //#region Import
-import { CaptionControl } from "/scripts/core/captioncontrol.js";
-import { Window } from "/scripts/components/containers/window.js";
-import { Keyboard } from "/scripts/core/keyboard.js";
-import { Mouse } from "/scripts/core/mouse.js";
-import { Tools } from "/scripts/core/tools.js";
+import { CaptionControl } from '/scripts/core/captioncontrol.js';
+import { Window } from '/scripts/components/containers/window.js';
+import { Keyboard } from '/scripts/core/keyboard.js';
+import { Mouse } from '/scripts/core/mouse.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region CustomButton
 const CustomButton = (() => {
@@ -28,34 +28,34 @@ const CustomButton = (() => {
             props = !props ? {} : props;
             if (owner) {
                 if (!Core.isHTMLRenderer) {
-                    if (!props.hasOwnProperty("width") && Tools.isNumber(props.width)) {
+                    if (!props.hasOwnProperty('width') && Tools.isNumber(props.width)) {
                         props.width = 75;
                     }
-                    if (!props.hasOwnProperty("height") && Tools.isNumber(props.height)) {
+                    if (!props.hasOwnProperty('height') && Tools.isNumber(props.height)) {
                         props.height = 25;
                     }
                 }
                 super(owner, props);
-                this.addBindableProperties(["staysPressed", "repeatClick"]);
+                this.addBindableProperties(['staysPressed', 'repeatClick']);
                 const priv = internal(this);
                 priv.pressing = false;
                 priv.repeatTimer = null;
-                priv.staysPressed = props.hasOwnProperty("staysPressed") ? props.staysPressed : false;
-                priv.repeatClick = props.hasOwnProperty("repeatClick") ? props.repeatClick : false;
+                priv.staysPressed = props.hasOwnProperty('staysPressed') ? props.staysPressed : false;
+                priv.repeatClick = props.hasOwnProperty('repeatClick') ? props.repeatClick : false;
                 priv.action = null;
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "modalResult",
+                    propName: 'modalResult',
                     enum: modalResult,
                     variable: priv,
-                    value: props.hasOwnProperty("modalResult") ? props.modalResult : modalResult.NONE
+                    value: props.hasOwnProperty('modalResult') ? props.modalResult : modalResult.NONE
                 });
                 this.hitTest.all = true;
                 this.autoCapture = true;
-                this.horizAlign = props.hasOwnProperty("horizAlign") ? props.horizAlign : Types.TEXTALIGNS.CENTER;
-                this.vertAlign = props.hasOwnProperty("vertAlign") ? props.vertAlign : Types.VERTTEXTALIGNS.MIDDLE;
+                this.horizAlign = props.hasOwnProperty('horizAlign') ? props.horizAlign : Types.TEXTALIGNS.CENTER;
+                this.vertAlign = props.hasOwnProperty('vertAlign') ? props.vertAlign : Types.VERTTEXTALIGNS.MIDDLE;
                 this.autoSize = false;
-                priv.borderRadius = props.hasOwnProperty("borderRadius") && Tools.isNumber(props.borderRadius) || Tools.isObject(props.borderRadius) ? props.borderRadius : null;
+                priv.borderRadius = props.hasOwnProperty('borderRadius') && Tools.isNumber(props.borderRadius) || Tools.isObject(props.borderRadius) ? props.borderRadius : null;
             }
         }
         //#endregion constructor
@@ -73,11 +73,11 @@ const CustomButton = (() => {
                     pressing = priv.pressing = newValue;
                     this.isPressed = pressing;
                     if (Core.isHTMLRenderer) {
-                        htmlElement.classList.remove("pressed");
-                        textObj.classList.remove("paddingDownText");
+                        htmlElement.classList.remove('pressed');
+                        textObj.classList.remove('paddingDownText');
                         if (pressing) {
-                            htmlElement.classList.add("pressed");
-                            textObj.classList.add("paddingDownText");
+                            htmlElement.classList.add('pressed');
+                            textObj.classList.add('paddingDownText');
                         }
                     }
                 }
@@ -143,9 +143,9 @@ const CustomButton = (() => {
             super.update();
             if (htmlElement) {
                 htmlElementStyle.borderRadius = priv.borderRadius ? `${priv.borderRadius}${PX}` : null;
-                htmlElement.classList.remove("stayspressed");
+                htmlElement.classList.remove('stayspressed');
                 if (priv.staysPressed) {
-                    htmlElement.classList.add("stayspressed");
+                    htmlElement.classList.add('stayspressed');
                 }
             }
         }
@@ -201,10 +201,10 @@ const CustomButton = (() => {
             }
             if (Core.isHTMLRenderer) {
                 if (this instanceof Core.classes.ButtonGlyph) {
-                    this.textObj.classList.add("paddingDownText");
-                    this.glyph.classList.add("marginDownText");
+                    this.textObj.classList.add('paddingDownText');
+                    this.glyph.classList.add('marginDownText');
                 } else {
-                    this.HTMLElement.classList.add("buttonPaddingDownText");
+                    this.HTMLElement.classList.add('buttonPaddingDownText');
                 }
             }
         }
@@ -250,10 +250,10 @@ const CustomButton = (() => {
             this.resetTimer();
             if (Core.isHTMLRenderer) {
                 if (this instanceof Core.classes.ButtonGlyph) {
-                    this.textObj.classList.remove("paddingDownText");
-                    this.glyph.classList.remove("marginDownText");
+                    this.textObj.classList.remove('paddingDownText');
+                    this.glyph.classList.remove('marginDownText');
                 } else {
-                    this.HTMLElement.classList.remove("buttonPaddingDownText");
+                    this.HTMLElement.classList.remove('buttonPaddingDownText');
                 }
             } else {
                 Core.canvas.needRedraw = true;
@@ -335,10 +335,10 @@ const Button = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                this.addBindableProperties(["isDefault"]);
-                this.canFocused = props.hasOwnProperty("canFocused") && Tools.isBool(props.canFocused) ? props.canFocused : true;
+                this.addBindableProperties(['isDefault']);
+                this.canFocused = props.hasOwnProperty('canFocused') && Tools.isBool(props.canFocused) ? props.canFocused : true;
                 this.autoCapture = true;
-                priv.isDefault = props.hasOwnProperty("isDefault") && Tools.isBool(props.isDefault) ? props.isDefault : false;
+                priv.isDefault = props.hasOwnProperty('isDefault') && Tools.isBool(props.isDefault) ? props.isDefault : false;
             }
         }
         //#endregion
@@ -398,8 +398,8 @@ Core.classes.register(Types.CATEGORIES.INTERNAL, CustomButton/*, TextButton*/);
 export { CustomButton, /*TextButton, */Button };
 //#region Template
 if (Core.isHTMLRenderer) {
-    const ButtonTpl = ["<jagui-button id=\"{internalId}\" data-class=\"Button\" class=\"Control Button {theme} csr_default\">",
-        "<properties>{ \"name\":\"{name}\", \"caption\": \"{caption}\" }</properties></jagui-button>"].join(String.EMPTY);
+    const ButtonTpl = ['<jagui-button id="{internalId}" data-class="Button" class="Control Button {theme} csr_default">',
+        '<properties>{ "name": "{name}", "caption": "{caption}" }</properties></jagui-button>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: Button, template: ButtonTpl }]);
 }
 //#endregion Template

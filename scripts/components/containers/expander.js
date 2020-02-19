@@ -1,7 +1,7 @@
 ﻿//#region Import
-import { ThemedControl } from "/scripts/core/themedcontrol.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Mouse } from "/scripts/core/mouse.js";
+import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Import
 //#region Expander
 const Expander = (() => {
@@ -26,11 +26,11 @@ const Expander = (() => {
                 const priv = internal(this);
                 priv.header = null;
                 priv.headerCaption = null;
-                priv.lastHeight = props.hasOwnProperty("height") ? props.height : 0;
-                priv.expanded = props.hasOwnProperty("expanded") ? props.expanded : false;
-                priv.checked = props.hasOwnProperty("checked") ? props.checked : false;
-                priv.caption = props.hasOwnProperty("caption") ? props.caption : this.name;
-                priv.viewCheck = props.hasOwnProperty("viewCheck") && Tools.isBool(props.viewCheck) ? props.viewCheck : true;
+                priv.lastHeight = props.hasOwnProperty('height') ? props.height : 0;
+                priv.expanded = props.hasOwnProperty('expanded') ? props.expanded : false;
+                priv.checked = props.hasOwnProperty('checked') ? props.checked : false;
+                priv.caption = props.hasOwnProperty('caption') ? props.caption : this.name;
+                priv.viewCheck = props.hasOwnProperty('viewCheck') && Tools.isBool(props.viewCheck) ? props.viewCheck : true;
                 priv.allowRealignChildsOnResize = true;
             }
         }
@@ -136,21 +136,21 @@ const Expander = (() => {
             //const bHTMLElement = priv.button.HTMLElement;
             const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
-            htmlElement.classList.remove("expanded");
-            htmlElement.classList.remove("viewCheck");
-            htmlElement.classList.remove("checked");
+            htmlElement.classList.remove('expanded');
+            htmlElement.classList.remove('viewCheck');
+            htmlElement.classList.remove('checked');
             if (priv.expanded) {
                 htmlElementStyle.height = `${priv.lastHeight}${PX}`;
-                htmlElement.classList.add("expanded");
+                htmlElement.classList.add('expanded');
             } else {
                 if (htmlElement.offsetHeight > priv.headerHeight) {
                     htmlElementStyle.height = `${priv.headerHeight + 2}${PX}`;
                 }
             }
             if (priv.viewCheck) {
-                htmlElement.classList.add("viewCheck");
+                htmlElement.classList.add('viewCheck');
                 if (priv.checked) {
-                    htmlElement.classList.add("checked");
+                    htmlElement.classList.add('checked');
                 }
             }
             htmlElement.dataset.caption = priv.caption;
@@ -253,8 +253,8 @@ Core.classes.register(Types.CATEGORIES.CONTAINERS, Expander);
 export { Expander };
 //#region Template
 if (Core.isHTMLRenderer) {
-    const ExpanderTpl = ["<jagui-expander id=\"{internalId}\" data-class=\"Expander\" class=\"Control Expander {theme}\">",
-        "<properties>{ \"name\": \"{name}\", \"width\": 130, \"height\": 100 }</properties></jagui-expander>"].join(String.EMPTY);
+    const ExpanderTpl = ['<jagui-expander id="{internalId}" data-class="Expander" class="Control Expander {theme}">',
+        '<properties>{ "name": "{name}", "width": 130, "height": 100 }</properties></jagui-expander>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: Expander, template: ExpanderTpl }]);
 }
 //#endregion

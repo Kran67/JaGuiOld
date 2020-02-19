@@ -1,16 +1,16 @@
 ﻿//#region Imports
-import { Component } from "/scripts/core/component.js";
-import { Events } from "/scripts/core/events.js";
-import "/scripts/core/sizeconstraints.js";
-import "/scripts/core/padding.js";
-import "/scripts/core/margin.js";
-import "/scripts/core/scale.js";
-import "/scripts/core/rotatecenter.js";
-import "/scripts/core/hittest.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Mouse } from "/scripts/core/mouse.js";
-import { Keyboard } from "/scripts/core/keyboard.js";
-import { Rect } from "/scripts/core/geometry.js";
+import { Component } from '/scripts/core/component.js';
+import { Events } from '/scripts/core/events.js';
+import '/scripts/core/sizeconstraints.js';
+import '/scripts/core/padding.js';
+import '/scripts/core/margin.js';
+import '/scripts/core/scale.js';
+import '/scripts/core/rotatecenter.js';
+import '/scripts/core/hittest.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Mouse } from '/scripts/core/mouse.js';
+import { Keyboard } from '/scripts/core/keyboard.js';
+import { Rect } from '/scripts/core/geometry.js';
 //#endregion Imports
 //#region Control
 const Control = (() => {
@@ -34,7 +34,7 @@ const Control = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 priv.allowUpdate = true;
-                priv.autoTranslate = props.hasOwnProperty("autoTranslate") && Tools.isBool(props.autoTranslate) ? props.autoTranslate : false;
+                priv.autoTranslate = props.hasOwnProperty('autoTranslate') && Tools.isBool(props.autoTranslate) ? props.autoTranslate : false;
                 priv.isMouseOver = false;
                 priv.isFocused = false;
                 priv.isPressed = false;
@@ -49,10 +49,10 @@ const Control = (() => {
                 priv.tabList = [];
                 priv.stopEvent = true;
                 priv.constraints = new Core.classes.SizeConstraints(this);
-                priv.ownerShowToolTip = props.hasOwnProperty("ownerShowToolTip") && Tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : true;
-                priv.autoCapture = props.hasOwnProperty("autoCapture") ? props.autoCapture : false;
+                priv.ownerShowToolTip = props.hasOwnProperty('ownerShowToolTip') && Tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : true;
+                priv.autoCapture = props.hasOwnProperty('autoCapture') ? props.autoCapture : false;
                 priv.padding = new Core.classes.Padding(this);
-                if (props.hasOwnProperty("padding")) {
+                if (props.hasOwnProperty('padding')) {
                     const padding = props.padding;
                     if (Tools.isNumber(padding)) {
                         priv.padding.setValues(padding, padding, padding, padding);
@@ -61,7 +61,7 @@ const Control = (() => {
                     }
                 }
                 priv.margin = new Core.classes.Margin(this);
-                if (props.hasOwnProperty("margin")) {
+                if (props.hasOwnProperty('margin')) {
                     const margin = props.margin;
                     if (Tools.isNumber(margin)) {
                         priv.padding.setValues(margin, margin, margin, margin);
@@ -70,32 +70,32 @@ const Control = (() => {
                     }
                 }
                 priv.popupMenu = null;
-                priv.opacity = props.hasOwnProperty("opacity") && Tools.isNumber(props.opacity) ? props.opacity : 1;
-                priv.width = props.hasOwnProperty("width") && Tools.isNumber(props.width) ? props.width : 50;
-                priv.height = props.hasOwnProperty("height") && Tools.isNumber(props.height) ? props.height : 50;
+                priv.opacity = props.hasOwnProperty('opacity') && Tools.isNumber(props.opacity) ? props.opacity : 1;
+                priv.width = props.hasOwnProperty('width') && Tools.isNumber(props.width) ? props.width : 50;
+                priv.height = props.hasOwnProperty('height') && Tools.isNumber(props.height) ? props.height : 50;
                 priv.scale = new Core.classes.Scale(this);
                 priv.canFocused = false;
                 priv.showFocus = true;
-                priv.enabled = props.hasOwnProperty("enabled") && Tools.isBool(props.enabled) ? props.enabled : true;
+                priv.enabled = props.hasOwnProperty('enabled') && Tools.isBool(props.enabled) ? props.enabled : true;
                 priv.rotateCenter = new Core.classes.RotateCenter(this);
-                priv.toolTip = props.hasOwnProperty("toolTip") ? props.toolTip : String.EMPTY;
-                priv.showToolTip = props.hasOwnProperty("showToolTip") && Tools.isBool(props.showToolTip) ? props.showToolTip : false;
+                priv.toolTip = props.hasOwnProperty('toolTip') ? props.toolTip : String.EMPTY;
+                priv.showToolTip = props.hasOwnProperty('showToolTip') && Tools.isBool(props.showToolTip) ? props.showToolTip : false;
                 priv.hitTest = new Core.classes.HitTest;
-                priv.rotateAngle = props.hasOwnProperty("rotateAngle") && Tools.isNumber(props.rotateAngle) ? props.rotateAngle : 0;
+                priv.rotateAngle = props.hasOwnProperty('rotateAngle') && Tools.isNumber(props.rotateAngle) ? props.rotateAngle : 0;
                 priv.customStyle = null;
                 priv.cssClasses = String.EMPTY;
-                priv.tabOrder = props.hasOwnProperty("tabOrder") && Tools.isNumber(props.tabOrder) ? props.tabOrder : 0;
-                priv.right = props.hasOwnProperty("right") && Tools.isNumber(props.right) ? props.right : null;
-                priv.bottom = props.hasOwnProperty("bottom") && Tools.isNumber(props.bottom) ? props.bottom : null;
+                priv.tabOrder = props.hasOwnProperty('tabOrder') && Tools.isNumber(props.tabOrder) ? props.tabOrder : 0;
+                priv.right = props.hasOwnProperty('right') && Tools.isNumber(props.right) ? props.right : null;
+                priv.bottom = props.hasOwnProperty('bottom') && Tools.isNumber(props.bottom) ? props.bottom : null;
                 priv.doubleClick = false;
                 priv.component = false;
                 priv.forceDisplayVisibility = false;
-                priv.clipped = props.hasOwnProperty("clipped") && Tools.isBool(props.clipped) ? props.clipped : true;
-                priv.reflected = props.hasOwnProperty("reflected") && Tools.isBool(props.reflected) ? props.reflected : false;
-                priv.column = props.hasOwnProperty("column") && Tools.isNumber(props.column) ? props.column : 0;
-                priv.row = props.hasOwnProperty("row") && Tools.isNumber(props.row) ? props.row : 0;
-                priv.colSpan = props.hasOwnProperty("colSpan") && Tools.isNumber(props.colSpan) ? props.colSpan : 0;
-                priv.rowSpan = props.hasOwnProperty("rowSpan") && Tools.isNumber(props.rowSpan) ? props.rowSpan : 0;
+                priv.clipped = props.hasOwnProperty('clipped') && Tools.isBool(props.clipped) ? props.clipped : true;
+                priv.reflected = props.hasOwnProperty('reflected') && Tools.isBool(props.reflected) ? props.reflected : false;
+                priv.column = props.hasOwnProperty('column') && Tools.isNumber(props.column) ? props.column : 0;
+                priv.row = props.hasOwnProperty('row') && Tools.isNumber(props.row) ? props.row : 0;
+                priv.colSpan = props.hasOwnProperty('colSpan') && Tools.isNumber(props.colSpan) ? props.colSpan : 0;
+                priv.rowSpan = props.hasOwnProperty('rowSpan') && Tools.isNumber(props.rowSpan) ? props.rowSpan : 0;
                 priv.allowUpdateOnResize = false;
                 priv.allowRealignChildsOnResize = false;
                 priv.update = function () {
@@ -139,11 +139,11 @@ const Control = (() => {
                 this.onDrop = new Core.classes.NotifyEvent(this);
                 this.onDestroy = new Core.classes.NotifyEvent(this);
                 this.onResize = new Core.classes.NotifyEvent(this);
-                this.addBindableProperties(["opacity", "right", "bottom", "width", "height", "visible", "left", "top", "rotateAngle", "align"]);
+                this.addBindableProperties(['opacity', 'right', 'bottom', 'width', 'height', 'visible', 'left', 'top', 'rotateAngle', 'align']);
                 let anchors = Types.ANCHORS;
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "anchor",
+                    propName: 'anchor',
                     enum: anchors,
                     setter: function (newValue) {
                         //#region Variables déclaration
@@ -155,13 +155,13 @@ const Control = (() => {
                         }
                     },
                     variable: priv,
-                    value: props.hasOwnProperty("anchor") && Array.isArray(props.anchor) ? props.anchor : [Types.ANCHORS.LEFT, Types.ANCHORS.TOP]
+                    value: props.hasOwnProperty('anchor') && Array.isArray(props.anchor) ? props.anchor : [Types.ANCHORS.LEFT, Types.ANCHORS.TOP]
                 });
                 anchors = null;
                 const aligns = Types.ALIGNS;
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "align",
+                    propName: 'align',
                     enum: aligns,
                     variable: priv,
                     setter: function (newValue) {
@@ -184,12 +184,12 @@ const Control = (() => {
                             }
                         }
                     },
-                    value: props.hasOwnProperty("align") ? props.align : Types.ALIGNS.NONE
+                    value: props.hasOwnProperty('align') ? props.align : Types.ALIGNS.NONE
                 });
                 const customCursors = Types.CUSTOMCURSORS;
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "cursor",
+                    propName: 'cursor',
                     enum: customCursors,
                     variable: priv,
                     setter: function (newValue) {
@@ -206,23 +206,23 @@ const Control = (() => {
                             }
                         }
                     },
-                    value: props.hasOwnProperty("cursor") && Tools.isStirng(props.cursor) ? props.cursor : Types.CUSTOMCURSORS.DEFAULT
+                    value: props.hasOwnProperty('cursor') && Tools.isStirng(props.cursor) ? props.cursor : Types.CUSTOMCURSORS.DEFAULT
                 });
                 const dragKinds = Types.DRAGKINDS;
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "dragKind",
+                    propName: 'dragKind',
                     enum: dragKinds,
                     variable: priv,
-                    value: props.hasOwnProperty("dragKind") && Tools.isString(props.dragKind) ? props.dragKind : Types.DRAGKINDS.DRAG
+                    value: props.hasOwnProperty('dragKind') && Tools.isString(props.dragKind) ? props.dragKind : Types.DRAGKINDS.DRAG
                 });
                 const dragModes = Types.DRAGMODES;
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "dragMode",
+                    propName: 'dragMode',
                     enum: dragModes,
                     variable: priv,
-                    value: props.hasOwnProperty("dragMode") && Tools.isString(props.dragMode) ? props.dragMode : Types.DRAGMODES.MANUAL
+                    value: props.hasOwnProperty('dragMode') && Tools.isString(props.dragMode) ? props.dragMode : Types.DRAGMODES.MANUAL
                 });
             }
         }
@@ -305,9 +305,9 @@ const Control = (() => {
                     priv.reflected = newValue;
                     if (Core.isHTMLRenderer) {
                         if (newValue) {
-                            htmlElement.classList.add("reflected");
+                            htmlElement.classList.add('reflected');
                         } else {
-                            htmlElement.classList.remove("reflected");
+                            htmlElement.classList.remove('reflected');
                         }
                     }
                 }
@@ -404,9 +404,9 @@ const Control = (() => {
                     }
                     if (htmlElement) {
                         //this.HTMLElement.dataset.focused = internal(this).isFocused;
-                        htmlElement.classList.remove("focused");
+                        htmlElement.classList.remove('focused');
                         if (newValue && priv.showFocus) {
-                            htmlElement.classList.add("focused");
+                            htmlElement.classList.add('focused');
                         }
                     }
                     if (!newValue) {
@@ -434,9 +434,9 @@ const Control = (() => {
                 if (priv.hitTest.mouseDown) {
                     if (priv.isPressed !== newValue) {
                         priv.isPressed = newValue;
-                        Core.isHTMLRenderer && htmlElement.classList.remove("pressed");
+                        Core.isHTMLRenderer && htmlElement.classList.remove('pressed');
                         if (newValue) {
-                            Core.isHTMLRenderer && htmlElement.classList.add("pressed");
+                            Core.isHTMLRenderer && htmlElement.classList.add('pressed');
                         }
                     }
                 }
@@ -638,7 +638,7 @@ const Control = (() => {
             const margin = priv.margin;
             const padding = priv.padding;
             //#endregion Variables déclaration
-            if (Tools.isString(width) && width.endsWith("%")) {
+            if (Tools.isString(width) && width.endsWith('%')) {
                 width = owner.contentWidth * (parseFloat(width) / 100);
             }
             width -= margin.left + margin.right + padding.left + padding.right;
@@ -690,7 +690,7 @@ const Control = (() => {
             const margin = priv.margin;
             const padding = priv.padding;
             //#endregion Variables déclaration
-            if (Tools.isString(height) && height.endsWith("%")) {
+            if (Tools.isString(height) && height.endsWith('%')) {
                 height = owner.contentWidth * (parseFloat(height) / 100);
             }
             height -= margin.top + margin.bottom + padding.top + padding.bottom;
@@ -781,9 +781,9 @@ const Control = (() => {
                 if (priv.showFocus !== newValue) {
                     priv.showFocus = newValue;
                     if (!newValue) {
-                        htmlElement.classList.remove("focused");
+                        htmlElement.classList.remove('focused');
                     } else if (priv.isFocused) {
-                        htmlElement.classList.add("focused");
+                        htmlElement.classList.add('focused');
                     }
                 }
             }
@@ -801,9 +801,9 @@ const Control = (() => {
             if (Tools.isBool(newValue)) {
                 if (priv.enabled !== newValue) {
                     priv.enabled = newValue;
-                    Core.isHTMLRenderer && htmlElement.classList.remove("disabled");
+                    Core.isHTMLRenderer && htmlElement.classList.remove('disabled');
                     if (!newValue) {
-                        Core.isHTMLRenderer && htmlElement.classList.add("disabled");
+                        Core.isHTMLRenderer && htmlElement.classList.add('disabled');
                         priv.isPressed = false;
                     }
                     const comps = this.components.filter(e => {
@@ -1077,15 +1077,15 @@ const Control = (() => {
                         if (newValue) {
                             //this._applyAllStyles();
                             if (priv.forceDisplayVisibility) {
-                                htmlElement.classList.remove("noDisplay");
+                                htmlElement.classList.remove('noDisplay');
                             } else {
-                                htmlElement.classList.remove("hidden");
+                                htmlElement.classList.remove('hidden');
                             }
                         } else {
                             if (priv.forceDisplayVisibility) {
-                                htmlElement.classList.add("noDisplay");
+                                htmlElement.classList.add('noDisplay');
                             } else {
-                                htmlElement.classList.add("hidden");
+                                htmlElement.classList.add('hidden');
                             }
                         }
                     }
@@ -1144,7 +1144,7 @@ const Control = (() => {
         get template() {
             //#region Variables déclaration
             let html = super.template;
-            const a = html.split("{cssClasses}");
+            const a = html.split('{cssClasses}');
             //#endregion Variables déclaration
             html = a.join(internal(this).cssClasses);
             return html;
@@ -1258,7 +1258,7 @@ const Control = (() => {
                     this.width = w;
                     this.height = h;
                 } else {
-                    if (cStyle.position === "absolute") {
+                    if (cStyle.position === 'absolute') {
                         htmlElementStyle.left = `${l}${PX}`;
                         htmlElementStyle.top = `${t}${PX}`;
                         htmlElementStyle.width = `${w}${PX}`;
@@ -1291,12 +1291,12 @@ const Control = (() => {
                 //if (position === "absolute") {
                 if (priv.align === Types.ALIGNS.NONE) {
                     if (priv.width < 0) {
-                        htmlElementStyle.width = "auto";
+                        htmlElementStyle.width = 'auto';
                     } else {
                         htmlElementStyle.width = `${priv.width}${Types.CSSUNITS.PX}`;
                     }
                     if (priv.height < 0) {
-                        htmlElementStyle.height = "auto";
+                        htmlElementStyle.height = 'auto';
                     } else {
                         htmlElementStyle.height = `${priv.height}${Types.CSSUNITS.PX}`;
                     }
@@ -1315,8 +1315,8 @@ const Control = (() => {
             if (Core.isHTMLRenderer) {
                 this.applyTransforms();
                 if (priv.column > 0 || priv.row > 0 || priv.colSpan > 1 || priv.rowSpan > 1 && this.owner instanceof Core.classes.GridLayout) {
-                    htmlElementStyle.gridColumn = `${priv.column} / ${priv.colSpan > 1 ? "span " + priv.colSpan : priv.column + 1}`;
-                    htmlElementStyle.gridRow = `${priv.row} / ${priv.rowSpan > 1 ? "span " + priv.rowSpan : priv.row + 1}`;
+                    htmlElementStyle.gridColumn = `${priv.column} / ${priv.colSpan > 1 ? 'span ' + priv.colSpan : priv.column + 1}`;
+                    htmlElementStyle.gridRow = `${priv.row} / ${priv.rowSpan > 1 ? 'span ' + priv.rowSpan : priv.row + 1}`;
                 }
                 if (!priv.margin.isEmpty) {
                     htmlElementStyle.margin = `${priv.margin.top}${PX} ${priv.margin.right}${PX} ${priv.margin.bottom}${PX} ${priv.margin.left}${PX}`;
@@ -1357,13 +1357,13 @@ const Control = (() => {
                 if (Core.isHTMLRenderer) {
                     const htmlElementStyle = child.HTMLElementStyle;
                     const cStyle = getComputedStyle(child.HTMLElement);
-                    if (cStyle.position === "absolute") {
-                        htmlElementStyle.top = t > 0 ? `${t}${PX}` : "0";
-                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
-                        htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
-                        htmlElementStyle.width = "auto";
-                        htmlElementStyle.bottom = "auto";
-                        if (htmlElementStyle.height === "auto") {
+                    if (cStyle.position === 'absolute') {
+                        htmlElementStyle.top = t > 0 ? `${t}${PX}` : '0';
+                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : '0';
+                        htmlElementStyle.right = r > 0 ? `${r}${PX}` : '0';
+                        htmlElementStyle.width = 'auto';
+                        htmlElementStyle.bottom = 'auto';
+                        if (htmlElementStyle.height === 'auto') {
                             htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}`;
                         }
                         child.applyTransforms();
@@ -1382,13 +1382,13 @@ const Control = (() => {
                 if (Core.isHTMLRenderer) {
                     const htmlElementStyle = child.HTMLElementStyle;
                     const cStyle = getComputedStyle(child.HTMLElement);
-                    if (cStyle.position === "absolute") {
-                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
-                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
-                        htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
-                        htmlElementStyle.width = "auto";
-                        htmlElementStyle.top = "auto";
-                        if (htmlElementStyle.height === "auto") {
+                    if (cStyle.position === 'absolute') {
+                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : '0';
+                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : '0';
+                        htmlElementStyle.right = r > 0 ? `${r}${PX}` : '0';
+                        htmlElementStyle.width = 'auto';
+                        htmlElementStyle.top = 'auto';
+                        if (htmlElementStyle.height === 'auto') {
                             htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}`;
                         }
                         child.applyTransforms();
@@ -1401,13 +1401,13 @@ const Control = (() => {
                 if (Core.isHTMLRenderer) {
                     const htmlElementStyle = child.HTMLElementStyle;
                     const cStyle = getComputedStyle(child.HTMLElement);
-                    if (cStyle.position === "absolute") {
-                        htmlElementStyle.top = t > 0 ? `${t}${PX}` : "0";
-                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
-                        htmlElementStyle.right = "auto";
-                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
-                        htmlElementStyle.height = "auto";
-                        if (htmlElementStyle.width === "auto") {
+                    if (cStyle.position === 'absolute') {
+                        htmlElementStyle.top = t > 0 ? `${t}${PX}` : '0';
+                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : '0';
+                        htmlElementStyle.right = 'auto';
+                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : '0';
+                        htmlElementStyle.height = 'auto';
+                        if (htmlElementStyle.width === 'auto') {
                             htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}`;
                         }
                         child.applyTransforms();
@@ -1420,13 +1420,13 @@ const Control = (() => {
                 if (Core.isHTMLRenderer) {
                     const htmlElementStyle = child.HTMLElementStyle;
                     const cStyle = getComputedStyle(child.HTMLElement);
-                    if (cStyle.position === "absolute") {
-                        htmlElementStyle.top = t > 0 ? `${t}${PX}` : "0";
-                        htmlElementStyle.left = "auto";
-                        htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
-                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
-                        htmlElementStyle.height = "auto";
-                        if (htmlElementStyle.width === "auto") {
+                    if (cStyle.position === 'absolute') {
+                        htmlElementStyle.top = t > 0 ? `${t}${PX}` : '0';
+                        htmlElementStyle.left = 'auto';
+                        htmlElementStyle.right = r > 0 ? `${r}${PX}` : '0';
+                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : '0';
+                        htmlElementStyle.height = 'auto';
+                        if (htmlElementStyle.width === 'auto') {
                             htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}`;
                         }
                         child.applyTransforms();
@@ -1511,16 +1511,16 @@ const Control = (() => {
                 if (Core.isHTMLRenderer) {
                     const cStyle = getComputedStyle(child.HTMLElement);
                     const htmlElementStyle = child.HTMLElementStyle;
-                    htmlElementStyle.height = "auto";
-                    htmlElementStyle.width = "auto";
-                    if (cStyle.position === "absolute") {
-                        htmlElementStyle.top = t > 0 ? `${t}${PX}` : "0";
-                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
-                        htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
-                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
+                    htmlElementStyle.height = 'auto';
+                    htmlElementStyle.width = 'auto';
+                    if (cStyle.position === 'absolute') {
+                        htmlElementStyle.top = t > 0 ? `${t}${PX}` : '0';
+                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : '0';
+                        htmlElementStyle.right = r > 0 ? `${r}${PX}` : '0';
+                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : '0';
                         child.applyTransforms();
                     } else {
-                        htmlElementStyle.flex = "1";
+                        htmlElementStyle.flex = '1';
                     }
                 } else {
                     child.top = t;
@@ -1539,10 +1539,10 @@ const Control = (() => {
                 if (Core.isHTMLRenderer) {
                     const cStyle = getComputedStyle(child.HTMLElement);
                     const htmlElementStyle = child.HTMLElementStyle;
-                    if (cStyle.position === "absolute") {
-                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
-                        htmlElementStyle.right = r > 0 ? `${r}${PX}` : "0";
-                        htmlElementStyle.width = "auto";
+                    if (cStyle.position === 'absolute') {
+                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : '0';
+                        htmlElementStyle.right = r > 0 ? `${r}${PX}` : '0';
+                        htmlElementStyle.width = 'auto';
                         child.applyTransforms();
                     }
                 }
@@ -1557,10 +1557,10 @@ const Control = (() => {
                 if (Core.isHTMLRenderer) {
                     const cStyle = getComputedStyle(child.HTMLElement);
                     const htmlElementStyle = child.HTMLElementStyle;
-                    if (cStyle.position === "absolute") {
-                        htmlElementStyle.top = l > 0 ? `${l}${PX}` : "0";
-                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
-                        htmlElementStyle.height = "auto";
+                    if (cStyle.position === 'absolute') {
+                        htmlElementStyle.top = l > 0 ? `${l}${PX}` : '0';
+                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : '0';
+                        htmlElementStyle.height = 'auto';
                         child.applyTransforms();
                     }
                 }
@@ -1575,13 +1575,13 @@ const Control = (() => {
                 if (Core.isHTMLRenderer) {
                     const cStyle = getComputedStyle(child.HTMLElement);
                     const htmlElementStyle = child.HTMLElementStyle;
-                    if (cStyle.position === "absolute") {
-                        htmlElementStyle.top = "0";
-                        htmlElementStyle.left = "0";
-                        htmlElementStyle.bottom = "0";
-                        htmlElementStyle.right = "0";
-                        htmlElementStyle.height = "auto";
-                        htmlElementStyle.width = "auto";
+                    if (cStyle.position === 'absolute') {
+                        htmlElementStyle.top = '0';
+                        htmlElementStyle.left = '0';
+                        htmlElementStyle.bottom = '0';
+                        htmlElementStyle.right = '0';
+                        htmlElementStyle.height = 'auto';
+                        htmlElementStyle.width = 'auto';
                         child.applyTransforms();
                     }
                 }
@@ -1596,12 +1596,12 @@ const Control = (() => {
                 if (Core.isHTMLRenderer) {
                     const cStyle = getComputedStyle(child.HTMLElement);
                     const htmlElementStyle = child.HTMLElementStyle;
-                    if (cStyle.position === "absolute") {
-                        htmlElementStyle.top = "50%";
-                        htmlElementStyle.left = "50%";
-                        htmlElementStyle.bottom = "auto";
-                        htmlElementStyle.right = "auto";
-                        child.applyTransforms("translate(-50%,-50%)");
+                    if (cStyle.position === 'absolute') {
+                        htmlElementStyle.top = '50%';
+                        htmlElementStyle.left = '50%';
+                        htmlElementStyle.bottom = 'auto';
+                        htmlElementStyle.right = 'auto';
+                        child.applyTransforms('translate(-50%,-50%)');
                     }
                 }
                 child.realignChilds();
@@ -1615,12 +1615,12 @@ const Control = (() => {
                 if (Core.isHTMLRenderer) {
                     const cStyle = getComputedStyle(child.HTMLElement);
                     const htmlElementStyle = child.HTMLElementStyle;
-                    if (cStyle.position === "absolute") {
-                        htmlElementStyle.top = l > 0 ? `${l}${PX}` : "0";
-                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : "0";
-                        htmlElementStyle.left = "50%";
-                        htmlElementStyle.height = "auto";
-                        child.applyTransforms("translateX(-50%)");
+                    if (cStyle.position === 'absolute') {
+                        htmlElementStyle.top = l > 0 ? `${l}${PX}` : '0';
+                        htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : '0';
+                        htmlElementStyle.left = '50%';
+                        htmlElementStyle.height = 'auto';
+                        child.applyTransforms('translateX(-50%)');
                     }
                 }
                 child.realignChilds();
@@ -1634,12 +1634,12 @@ const Control = (() => {
                 if (Core.isHTMLRenderer) {
                     const cStyle = getComputedStyle(child.HTMLElement);
                     const htmlElementStyle = child.HTMLElementStyle;
-                    if (cStyle.position === "absolute") {
-                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : "0";
-                        htmlElementStyle.right = b > 0 ? `${b}${PX}` : "0";
-                        htmlElementStyle.top = "50%";
-                        htmlElementStyle.width = "auto";
-                        child.applyTransforms("translateY(-50%)");
+                    if (cStyle.position === 'absolute') {
+                        htmlElementStyle.left = l > 0 ? `${l}${PX}` : '0';
+                        htmlElementStyle.right = b > 0 ? `${b}${PX}` : '0';
+                        htmlElementStyle.top = '50%';
+                        htmlElementStyle.width = 'auto';
+                        child.applyTransforms('translateY(-50%)');
                     }
                 }
                 child.realignChilds();
@@ -1933,7 +1933,7 @@ const Control = (() => {
                 }
                 this.form.app.showToolTip(this, Core.mouse.document, true);
                 if (priv.isPressed && Core.isHTMLRenderer) {
-                    htmlElement.classList.add("pressed");
+                    htmlElement.classList.add('pressed');
                 } else if (!Core.isHTMLRenderer) {
                     Core.canvas.needRedraw = true;
                 }
@@ -1957,7 +1957,7 @@ const Control = (() => {
                 }
                 this.form.app.hideToolTip();
                 if (Core.isHTMLRenderer) {
-                    this.HTMLElement.classList.remove("pressed");
+                    this.HTMLElement.classList.remove('pressed');
                 } else if (!Core.isHTMLRenderer) {
                     Core.canvas.needRedraw = true;
                 }
@@ -2175,7 +2175,7 @@ const Control = (() => {
                     if (jsObj.dragKind === DOCK) {
                         if (jsObj.dragMode === AUTOMATIC) {
                             event.preventDefault();
-                            event.target.appendChild(document.getElementById(event.dataTransfer.getData("text")));
+                            event.target.appendChild(document.getElementById(event.dataTransfer.getData('text')));
                         } else if (Tools.isFunc(jsObj.drop)) {
                             jsObj.drop();
                         }
@@ -2216,7 +2216,7 @@ const Control = (() => {
                     break;
                 case MOUSEEVENTS.DRAGSTART:
                     if (jsObj.dragMode === AUTOMATIC) {
-                        event.dataTransfer.setData("text", htmlObj.id);
+                        event.dataTransfer.setData('text', htmlObj.id);
                     } else if (Tools.isFunc(jsObj.dragStart)) {
                         jsObj.dragStart();
                     }
@@ -2266,7 +2266,7 @@ const Control = (() => {
         //#region click
         click() {
             //#region Variables déclaration
-            const action = this.hasOwnProperty("action") ? this.action : null;
+            const action = this.hasOwnProperty('action') ? this.action : null;
             //#endregion Variables déclaration
             if (this.onClick.hasListener) {
                 this.onClick.invoke();
@@ -2510,32 +2510,32 @@ const Control = (() => {
             //        }
             //    }
             //}
-            this.bindEventToHTML("onClick");
-            this.bindEventToHTML("onMouseDown");
-            this.bindEventToHTML("onMouseMove");
-            this.bindEventToHTML("onMouseUp");
-            this.bindEventToHTML("onDblClick");
-            this.bindEventToHTML("onMouseLeave");
-            this.bindEventToHTML("onMouseEnter");
-            this.bindEventToHTML("onMouseWheel");
-            this.bindEventToHTML("onMouseWheelStart");
-            this.bindEventToHTML("onMouseWheelEnd");
-            this.bindEventToHTML("onBeforePaint");
-            this.bindEventToHTML("onPaint");
-            this.bindEventToHTML("onAfterPaint");
-            this.bindEventToHTML("onEnterFocus");
-            this.bindEventToHTML("onKillFocus");
-            this.bindEventToHTML("onKeyDown");
-            this.bindEventToHTML("onKeyUp");
-            this.bindEventToHTML("onKeyPress");
-            this.bindEventToHTML("onDrag");
-            this.bindEventToHTML("onDrop");
-            this.bindEventToHTML("onDragStart");
-            this.bindEventToHTML("onDragEnd");
-            this.bindEventToHTML("onDragLeave");
-            this.bindEventToHTML("onDragOver");
-            this.bindEventToHTML("onDragExit");
-            this.bindEventToHTML("onDragEnter");
+            this.bindEventToHTML('onClick');
+            this.bindEventToHTML('onMouseDown');
+            this.bindEventToHTML('onMouseMove');
+            this.bindEventToHTML('onMouseUp');
+            this.bindEventToHTML('onDblClick');
+            this.bindEventToHTML('onMouseLeave');
+            this.bindEventToHTML('onMouseEnter');
+            this.bindEventToHTML('onMouseWheel');
+            this.bindEventToHTML('onMouseWheelStart');
+            this.bindEventToHTML('onMouseWheelEnd');
+            this.bindEventToHTML('onBeforePaint');
+            this.bindEventToHTML('onPaint');
+            this.bindEventToHTML('onAfterPaint');
+            this.bindEventToHTML('onEnterFocus');
+            this.bindEventToHTML('onKillFocus');
+            this.bindEventToHTML('onKeyDown');
+            this.bindEventToHTML('onKeyUp');
+            this.bindEventToHTML('onKeyPress');
+            this.bindEventToHTML('onDrag');
+            this.bindEventToHTML('onDrop');
+            this.bindEventToHTML('onDragStart');
+            this.bindEventToHTML('onDragEnd');
+            this.bindEventToHTML('onDragLeave');
+            this.bindEventToHTML('onDragOver');
+            this.bindEventToHTML('onDragExit');
+            this.bindEventToHTML('onDragEnter');
             this.initEvents();
         }
         //#endregion bindEvents
@@ -2799,7 +2799,7 @@ const Control = (() => {
                 //Translation
                 //if (transform.includes("translate")) t.push(transform);
                 //Rotation
-                if (transform.includes("rotate")) {
+                if (transform.includes('rotate')) {
                     t.push(transform);
                 } else if (rotateAngle !== 0) {
                     t.push(`rotate(${rotateAngle}deg)`);
@@ -2811,7 +2811,7 @@ const Control = (() => {
                 //this.HTMLElementStyle.transformOrigin="0px 0px 0px";
                 //}
                 //Scale
-                if (transform.includes("scale")) {
+                if (transform.includes('scale')) {
                     t.push(transform);
                 } else if (!scale.isEmpty && scale.x !== 1 && scale.y !== 1) {
                     t.push(`scale(${scale.x}, ${scale.y})`);
@@ -2864,7 +2864,7 @@ const Control = (() => {
             const margin = priv.margin;
             //#endregion Variables déclaration
             if (this.hasResizeEvent) {
-                Core.looper.removeListener(this, "resized");
+                Core.looper.removeListener(this, 'resized');
             }
             this.resetEvent();
             if (tabList) {
@@ -3015,18 +3015,18 @@ const Control = (() => {
         //#region render
         render(className) {
             //#region Variables déclaration
-            const changingTheme = document.body.classList.contains("changingTheme");
+            const changingTheme = document.body.classList.contains('changingTheme');
             const themeName = changingTheme ? this.app.themeManifest.lastThemeName : this.themeName;
             const priv = internal(this);
             const ctx = Core.ctx;
             const classes = Core.classes;
             const CONSTANTS = Types.CONSTANTS;
             let drawCaption = this instanceof classes.CaptionControl;
-            let state = priv.isPressed ? "pressed" : priv.isMouseOver ? "hovered" : priv.isFocused ? "focused" : "normal";
+            let state = priv.isPressed ? 'pressed' : priv.isMouseOver ? 'hovered' : priv.isFocused ? 'focused' : 'normal';
             const params = [];
             //#endregion Variables déclaration
             if (this instanceof classes.Window || this instanceof classes.WindowTitleBar) {
-                state = this.form.activeWindow ? "active" : "inactive";
+                state = this.form.activeWindow ? 'active' : 'inactive';
             }
 
             ctx.save();
@@ -3045,7 +3045,7 @@ const Control = (() => {
                     ctx.globalAlpha = 0.5;
                 }
                 if (objTheme) {
-                    if (objTheme.hasOwnProperty("clipped") && objTheme.clipped) {
+                    if (objTheme.hasOwnProperty('clipped') && objTheme.clipped) {
                         ctx.clipRect(0, 0, this.contentWidth, this.contentHeight);
                     }
                     if (objTheme.defaultDrawing != undefined) {
@@ -3093,7 +3093,7 @@ const Control = (() => {
                                 }
                                 // Fill / Stroke
                                 switch (shape.type) {
-                                    case "drawImg": {
+                                    case 'drawImg': {
                                         let img = Core.themes[themeName].images[shape.image];
                                         if (!img) {
                                             img = Core.themes.images[shape.image];
@@ -3104,12 +3104,12 @@ const Control = (() => {
                                         canDraw = false;
                                         break;
                                     }
-                                    case "drawText":
+                                    case 'drawText':
                                         returnTrigger.isDialog = this.form.isBorderDialog;
                                         ctx[shape.type](this, shape, returnTrigger, state);
                                         canDraw = false;
                                         break;
-                                    case "ellipse":
+                                    case 'ellipse':
                                         params.insert(0, CONSTANTS._2PI);   // endAngle
                                         params.insert(0, 0);                // startAngle
                                         params.insert(0, 0);                // rotation
@@ -3118,17 +3118,17 @@ const Control = (() => {
                                         params.insert(0, w2);               // y
                                         params.insert(0, w2);               // x
                                         break;
-                                    case "drawPolyline":
+                                    case 'drawPolyline':
                                         params.insert(0, shape.points);
                                         break;
-                                    case "rectWithBordersColor":
+                                    case 'rectWithBordersColor':
                                         params.insert(0, shape.borders);
-                                        if (shape.hasOwnProperty("bottom")) {
+                                        if (shape.hasOwnProperty('bottom')) {
                                             params.insert(0, height - top - shape.bottom);
                                         } else {
                                             params.insert(0, height); // height
                                         }
-                                        if (shape.hasOwnProperty("right")) {
+                                        if (shape.hasOwnProperty('right')) {
                                             params.insert(0, width - left - shape.right);
                                         } else {
                                             params.insert(0, width); // width
@@ -3137,12 +3137,12 @@ const Control = (() => {
                                         params.insert(0, left);          // left 
                                         break;
                                     default:
-                                        if (shape.hasOwnProperty("bottom")) {
+                                        if (shape.hasOwnProperty('bottom')) {
                                             params.insert(0, height - top - shape.bottom);
                                         } else {
                                             params.insert(0, height - (shape.strokeStyle ? 1 : 0)/*-offset*2-top*2*/); // height
                                         }
-                                        if (shape.hasOwnProperty("right")) {
+                                        if (shape.hasOwnProperty('right')) {
                                             params.insert(0, width - left - shape.right);
                                         } else {
                                             params.insert(0, width - (shape.strokeStyle ? 1 : 0)/*-offset*2-left*2*/);  // width
@@ -3156,7 +3156,7 @@ const Control = (() => {
                                         ctx.clipRegion(shape.clipping, left, top, width, height);
                                     }
                                     ctx.beginPath();
-                                    if (shape.borders && shape.type !== "rectWithBordersColor") {
+                                    if (shape.borders && shape.type !== 'rectWithBordersColor') {
                                         params.push(Tools.processBorders(this, shape.borders));
                                         //params.push(shape.borders);
                                     }
@@ -3231,112 +3231,112 @@ const Control = (() => {
 })();
 //#region Control defineProperties
 Object.defineProperties(Control, {
-    "autoTranslate": {
+    'autoTranslate': {
         enumerable: true
     },
-    "closePopups": {
+    'closePopups': {
         enumerable: true
     },
-    "forceMouseWheel": {
+    'forceMouseWheel': {
         enumerable: true
     },
-    "stopEvent": {
+    'stopEvent': {
         enumerable: true
     },
-    "constraints": {
+    'constraints': {
         enumerable: true
     },
-    "ownerShowToolTip": {
+    'ownerShowToolTip': {
         enumerable: true
     },
-    "autoCapture": {
+    'autoCapture': {
         enumerable: true
     },
-    "padding": {
+    'padding': {
         enumerable: true
     },
-    "margin": {
+    'margin': {
         enumerable: true
     },
-    "popupMenu": {
+    'popupMenu': {
         enumerable: true
     },
-    "opacity": {
+    'opacity': {
         enumerable: true
     },
-    "width": {
+    'width': {
         enumerable: true
     },
-    "height": {
+    'height': {
         enumerable: true
     },
-    "scale": {
+    'scale': {
         enumerable: true
     },
-    "canFocused": {
+    'canFocused': {
         enumerable: true
     },
-    "showFocus": {
+    'showFocus': {
         enumerable: true
     },
-    "enabled": {
+    'enabled': {
         enumerable: true
     },
-    "rotateCenter": {
+    'rotateCenter': {
         enumerable: true
     },
-    "toolTip": {
+    'toolTip': {
         enumerable: true
     },
-    "showToolTip": {
+    'showToolTip': {
         enumerable: true
     },
-    "hitTest": {
+    'hitTest': {
         enumerable: true
     },
-    "rotateAngle": {
+    'rotateAngle': {
         enumerable: true
     },
-    "customStyle": {
+    'customStyle': {
         enumerable: true
     },
-    "cssClasses": {
+    'cssClasses': {
         enumerable: true
     },
-    "tabOrder": {
+    'tabOrder': {
         enumerable: true
     },
-    "right": {
+    'right': {
         enumerable: true
     },
-    "bottom": {
+    'bottom': {
         enumerable: true
     },
-    "doubleClick": {
+    'doubleClick': {
         enumerable: true
     },
-    "visible": {
+    'visible': {
         enumerable: true
     },
-    "display": {
+    'display': {
         enumerable: true
     },
-    "left": {
+    'left': {
         enumerable: true
     },
-    "top": {
+    'top': {
         enumerable: true
     }
 });
 //#endregion Control defineProperties
 //#endregion Control
 //#region Templates
-const controlTpl = "<div id='{internalId}' data-name='{name}' data-class='{className}' class='Control {className}' style='width:100px;height:100px;'></div>";
+//const controlTpl = ['<div id='{internalId}' data-name='{name}' data-class='{className}' class='Control {className}' style='width:100px;height:100px;'></div>";
 //const ToolTipTpl = "<div class='Control ToolTip {theme}'>{text}</div>";
 Core.classes.register(Types.CATEGORIES.INTERNAL, Control);
-Core.classes.registerTemplates([
-    { Class: Control, template: controlTpl }
-]);
+//Core.classes.registerTemplates([
+//    { Class: Control, template: controlTpl }
+//]);
 //#endregion
 export { Control };
 //http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/

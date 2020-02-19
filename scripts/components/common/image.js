@@ -1,17 +1,17 @@
 ﻿//#region Import
-import { Control } from "/scripts/components/control.js";
-import { ThemedControl } from "/scripts/core/themedcontrol.js";
-import { Tools } from "/scripts/core/tools.js";
+import { Control } from '/scripts/components/control.js';
+import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region IMAGEWRAPS
 /**
  * @type    {Object}        IMAGEWRAPS
  */
 const IMAGEWRAPS = Object.freeze({
-    ORIGINAL: "original",
-    FIT: "fit",
-    STRETCH: "stretch",
-    TILE: "tile"
+    ORIGINAL: 'original',
+    FIT: 'fit',
+    STRETCH: 'stretch',
+    TILE: 'tile'
 });
 //#endregion
 //#region Image
@@ -35,15 +35,15 @@ const Image = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.src = props.hasOwnProperty("src") ? props.src : Types.CONSTANTS.PIX;
+                priv.src = props.hasOwnProperty('src') ? props.src : Types.CONSTANTS.PIX;
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "wrapMode",
+                    propName: 'wrapMode',
                     enum: IMAGEWRAPS,
                     variable: priv,
-                    value: props.hasOwnProperty("wrapMode") ? props.wrapMode : IMAGEWRAPS.FIT
+                    value: props.hasOwnProperty('wrapMode') ? props.wrapMode : IMAGEWRAPS.FIT
                 });
-                priv.bitmap = "No image";
+                priv.bitmap = 'No image';
                 delete this.tabOrder;
             }
         }
@@ -109,24 +109,24 @@ const Image = (() => {
             if (!this.loading && !this.form.loading) {
                 switch (priv.wrapMode) {
                     case IMAGEWRAPS.ORIGINAL:
-                        htmlElementStyle.backgroundSize = "auto auto";
-                        htmlElementStyle.backgroundPosition = "auto auto";
-                        htmlElementStyle.backgroundRepeat = "no-repeat";
+                        htmlElementStyle.backgroundSize = 'auto auto';
+                        htmlElementStyle.backgroundPosition = 'auto auto';
+                        htmlElementStyle.backgroundRepeat = 'no-repeat';
                         break;
                     case IMAGEWRAPS.FIT:
-                        htmlElementStyle.backgroundSize = "contain";
-                        htmlElementStyle.backgroundPosition = "center center";
-                        htmlElementStyle.backgroundRepeat = "no-repeat";
+                        htmlElementStyle.backgroundSize = 'contain';
+                        htmlElementStyle.backgroundPosition = 'center center';
+                        htmlElementStyle.backgroundRepeat = 'no-repeat';
                         break;
                     case IMAGEWRAPS.STRETCH:
-                        htmlElementStyle.backgroundSize = "100% 100%";
-                        htmlElementStyle.backgroundPosition = "center center";
-                        htmlElementStyle.backgroundRepeat = "no-repeat";
+                        htmlElementStyle.backgroundSize = '100% 100%';
+                        htmlElementStyle.backgroundPosition = 'center center';
+                        htmlElementStyle.backgroundRepeat = 'no-repeat';
                         break;
                     case IMAGEWRAPS.TILE:
-                        htmlElementStyle.backgroundSize = "auto auto";
-                        htmlElementStyle.backgroundPosition = "auto auto";
-                        htmlElementStyle.backgroundRepeat = "repeat";
+                        htmlElementStyle.backgroundSize = 'auto auto';
+                        htmlElementStyle.backgroundPosition = 'auto auto';
+                        htmlElementStyle.backgroundRepeat = 'repeat';
                         break;
                 }
             }
@@ -233,12 +233,12 @@ Core.classes.register(Types.CATEGORIES.COMMON, Image, Icon);
 export { Image, Icon };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const ImageTpl = ["<jagui-image id=\"{internalId}\" data-class=\"Image\" class=\"Control Image {theme} csr_default\" draggable=\"false\">",
-        "<properties>{ \"name\": \"{name}\", \"src\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==\", ",
-        "\"width\": 32, \"height\": 32 }</properties></jagui-image>"].join(String.EMPTY);
-    const IconTpl = ["<jagui-icon id=\"{internalId}\" data-class=\"Icon\" class=\"Control Icon {theme} csr_default\" draggable=\"false\">",
-        "<properties>{ \"name\": \"{name}\", \"src\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==\", ",
-        "\"width\": 16, \"height\": 16 }</properties></jagui-image>"].join(String.EMPTY);
+    const ImageTpl = ['<jagui-image id="{internalId}" data-class="Image" class="Control Image {theme} csr_default" draggable="false">',
+        '<properties>{ "name": "{name}", "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==", ',
+        '"width": 32, "height": 32 }</properties></jagui-image>'].join(String.EMPTY);
+    const IconTpl = ['<jagui-icon id="{internalId}" data-class="Icon" class="Control Icon {theme} csr_default" draggable="false">',
+        '<properties>{ "name": "{name}", "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==", ',
+        '"width": 16, "height": 16 }</properties></jagui-image>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: Image, template: ImageTpl }, { Class: Icon, template: IconTpl }]);
 }
 //#endregion Templates

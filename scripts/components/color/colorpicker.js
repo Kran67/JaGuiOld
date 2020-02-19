@@ -1,11 +1,11 @@
 ﻿//#region Imports
-import { GraphicControl } from "/scripts/core/graphiccontrol.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Point } from "/scripts/core/geometry.js";
-import { NotifyEvent } from "/scripts/core/events.js";
-import { Color, Colors } from "/scripts/core/color.js";
-import { Mouse } from "/scripts/core/mouse.js";
-import { Keyboard } from "/scripts/core/keyboard.js";
+import { GraphicControl } from '/scripts/core/graphiccontrol.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Point } from '/scripts/core/geometry.js';
+import { NotifyEvent } from '/scripts/core/events.js';
+import { Color, Colors } from '/scripts/core/color.js';
+import { Mouse } from '/scripts/core/mouse.js';
+import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Imports
 //#region ColorPicker
 const ColorPicker = (() => {
@@ -31,10 +31,10 @@ const ColorPicker = (() => {
                 priv.handle = new Point((props.width / 2) - 5, -5);
                 priv.handleObj = null;
                 this.onChange = new NotifyEvent(this);
-                priv.color = props.hasOwnProperty("color") ? Color.parse(props.color) : new Color(Colors.RED);
+                priv.color = props.hasOwnProperty('color') ? Color.parse(props.color) : new Color(Colors.RED);
                 this.autoCapture = true;
                 this.hitTest.all = true;
-                priv.colorQuad = props.hasOwnProperty("colorQuad") ? this.form[props.colorQuad] : null;
+                priv.colorQuad = props.hasOwnProperty('colorQuad') ? this.form[props.colorQuad] : null;
                 this.clipChilds = false;
                 this.canFocused = true;
                 delete this.fillColor;
@@ -210,9 +210,9 @@ const ColorPicker = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (!htmlElement.querySelector(".ColorPickerIndicator")) {
+            if (!htmlElement.querySelector('.ColorPickerIndicator')) {
                 priv.handleObj = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}indicator`);
-                priv.handleObj.classList.add("Control", "ColorPickerIndicator");
+                priv.handleObj.classList.add('Control', 'ColorPickerIndicator');
                 priv.handleObj.jsObj = this;
                 htmlElement.appendChild(priv.handleObj);
             }
@@ -232,8 +232,8 @@ Core.classes.register(Types.CATEGORIES.COLOR, ColorPicker);
 export { ColorPicker };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const ColorPickerTpl = ["<jagui-colorpicker id=\"{internalId}\" data-class=\"ColorPicker\" class=\"Control ColorPicker\">",
-        "<properties>{ \"name\": \"{name}\" }</properties></jagui-colorpicker>"].join(String.EMPTY);
+    const ColorPickerTpl = ['<jagui-colorpicker id="{internalId}" data-class="ColorPicker" class="Control ColorPicker">',
+        '<properties>{ "name": "{name}" }</properties></jagui-colorpicker>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: ColorPicker, template: ColorPickerTpl }]);
 }
-//endregion
+//#endregion

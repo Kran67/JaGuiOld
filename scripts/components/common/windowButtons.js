@@ -1,8 +1,8 @@
 ﻿//#region Import
-import { Button } from "/scripts/components/common/button.js";
-import { Window } from "/scripts/components/containers/window.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Mouse } from "/scripts/core/mouse.js";
+import { Button } from '/scripts/components/common/button.js';
+import { Window } from '/scripts/components/containers/window.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Import
 //#region WindowButton
 const WindowButton = (() => {
@@ -62,7 +62,7 @@ const WindowCloseButton = (() => {
             if (owner) {
                 super(owner, props);
                 this.modalResult = Window.MODALRESULTS.CANCEL;
-                this.toolTip = "Fermer"; // � voir pour mettre en locale
+                this.toolTip = 'Fermer'; // � voir pour mettre en locale
                 this.showToolTip = true;
             }
         }
@@ -91,7 +91,7 @@ const WindowMinimizeButton = (() => {
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
-                this.toolTip = "Réduire"; // à voir pour mettre en locale
+                this.toolTip = 'Réduire'; // à voir pour mettre en locale
                 this.showToolTip = true;
             }
         }
@@ -127,7 +127,7 @@ const WindowMaxRestoreButton = (() => {
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
-                this.toolTip = "Agrandir"; // à voir pour mettre en locale
+                this.toolTip = 'Agrandir'; // à voir pour mettre en locale
                 this.showToolTip = true;
             }
         }
@@ -163,7 +163,7 @@ const WindowHelpButton = (() => {
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
-                this.toolTip = "Aide"; // à voir pour mettre en locale
+                this.toolTip = 'Aide'; // à voir pour mettre en locale
                 this.showToolTip = true;
                 this.onClick.addListener(this.form.showHelp);
             }
@@ -198,7 +198,7 @@ const WindowRollUpDownButton = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 priv.isRolledUp = false;
-                this.toolTip = "Taille minimale"; // à voir pour mettre en locale
+                this.toolTip = 'Taille minimale'; // à voir pour mettre en locale
                 this.showToolTip = true;
             }
         }
@@ -218,9 +218,9 @@ const WindowRollUpDownButton = (() => {
                     priv.isRolledUp = newValue;
                 }
                 if (newValue) {
-                    this.toolTip = "Taille précédente"; // à voir pour mettre en locale
+                    this.toolTip = 'Taille précédente'; // à voir pour mettre en locale
                 } else {
-                    this.toolTip = "Taille minimale"; // à voir pour mettre en locale
+                    this.toolTip = 'Taille minimale'; // à voir pour mettre en locale
                 }
             }
         }
@@ -283,7 +283,7 @@ const WindowStayOnOffButton = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 priv.isStayOn = false;
-                this.toolTip = "Epingler au dessus"; // à voir pour mettre en locale
+                this.toolTip = 'Epingler au dessus'; // à voir pour mettre en locale
                 this.showToolTip = true;
             }
         }
@@ -303,9 +303,9 @@ const WindowStayOnOffButton = (() => {
                     priv.isStayOn = newValue;
                 }
                 if (newValue) {
-                    this.toolTip = "Ne pas épingler"; // à voir pour mettre en locale
+                    this.toolTip = 'Ne pas épingler'; // à voir pour mettre en locale
                 } else {
-                    this.toolTip = "Epingler au dessus"; // à voir pour mettre en locale
+                    this.toolTip = 'Epingler au dessus'; // à voir pour mettre en locale
                 }
             }
         }

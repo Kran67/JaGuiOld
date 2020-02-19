@@ -1,5 +1,5 @@
 ﻿//#region Imports
-import { Point } from "/scripts/core/geometry.js";
+import { Point } from '/scripts/core/geometry.js';
 //#endregion
 //#region BezierTools
 class BezierTools {

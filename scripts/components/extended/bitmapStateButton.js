@@ -1,6 +1,6 @@
 ﻿//#region Import
-import { CustomButton } from "/scripts/components/common/button.js";
-import { Events } from "/scripts/core/events.js";
+import { CustomButton } from '/scripts/components/common/button.js';
+import { Events } from '/scripts/core/events.js';
 //#endregion Import
 //#region BitmapStateButton
 const BitmapStateButton = (() => {
@@ -28,7 +28,7 @@ const BitmapStateButton = (() => {
                 const priv = internal(this);
                 priv.bitmapState = new Image;
                 priv.bitmapState.obj = this;
-                priv.bitmapState.src = props.hasOwnProperty("bitmap")?props.bitmap:Types.CONSTANTS.PIX;
+                priv.bitmapState.src = props.hasOwnProperty('bitmap')?props.bitmap:Types.CONSTANTS.PIX;
                 Events.bind(priv.bitmapState, htmlEvents.LOAD, this.doBitmapLoaded);
                 Events.bind(priv.bitmapState, htmlEvents.ERROR, this.doBitmapNotLoaded);
                 this.auotSize = true;
@@ -119,7 +119,7 @@ const BitmapStateButton = (() => {
             } else if (!isPressed && isMouseOver) {
                 htmlElementStyle.backgroundPosition = `left ${-imagePartSize}${PX}`;
             } else if (!isMouseOver) {
-                htmlElementStyle.backgroundPosition = "left top";
+                htmlElementStyle.backgroundPosition = 'left top';
             }
         }
         destroy() {

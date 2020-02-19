@@ -1,11 +1,11 @@
 ﻿//#region Imports
-import { BaseClass } from "/scripts/core/baseclass.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Uri } from "/scripts/core/uri.js";
-import { Xhr } from "/scripts/core/xhr.js";
-import { Text } from "/scripts/core/text.js";
-import { Convert } from "/scripts/core/convert.js";
-import { ShortCutIcon } from "/scripts/components/common/shortcuticon.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Uri } from '/scripts/core/uri.js';
+import { Xhr } from '/scripts/core/xhr.js';
+import { Text } from '/scripts/core/text.js';
+import { Convert } from '/scripts/core/convert.js';
+import { ShortCutIcon } from '/scripts/components/common/shortcuticon.js';
 //Mouseevents
 //#endregion
 //#region Application
@@ -307,7 +307,7 @@ const Application = (() => {
             delete Core.apps.applications[this.name];
             const icon = Convert.nodeListToArray(document.getElementsByName(`ShortCutIcon_${this.name}`)).first;
             if (icon) {
-                icon.classList.toggle("hidden");
+                icon.classList.toggle('hidden');
             }
             this.destroy();
         }
@@ -315,14 +315,14 @@ const Application = (() => {
          * Load the HTML of all windows
          */
         loadWindowsHTML() {
-            const window = document.querySelector("object.mainWindow");
+            const window = document.querySelector('object.mainWindow');
             if (window) {
-                const template = window.contentDocument.body.querySelector("template").innerHTML;
+                const template = window.contentDocument.body.querySelector('template').innerHTML;
                 const div = document.createElement(Types.HTMLELEMENTS.DIV);
-                const dx = Text.replace(template, "{theme}", Core.apps.activeApplication.themeManifest.themeName);
+                const dx = Text.replace(template, '{theme}', Core.apps.activeApplication.themeManifest.themeName);
                 div.innerHTML = dx;
                 if (Core.isHTMLRenderer) {
-                    div.firstElementChild.classList.add("hidden");
+                    div.firstElementChild.classList.add('hidden');
                     if (!Tools.HTMLParentElement) {
                         document.body.appendChild(div.firstElementChild);
                     } else {
@@ -344,13 +344,13 @@ const Application = (() => {
                     wins = document.querySelectorAll(`jagui-window.${this.name}`);
                     wins.forEach(win => {
                         let props = {};
-                        const properties = win.querySelector("properties");
+                        const properties = win.querySelector('properties');
                         if (properties) {
                             props = JSON.parse(properties.innerText);
                         }
                         form = this.createForm(win.id, win.dataset.class, props);
                         this.windows.push(form);
-                        if (win.style.display !== "none") {
+                        if (win.style.display !== 'none') {
                             if (!this.mainWindow) {
                                 if (form instanceof Core.classes.Window) {
                                     this.mainWindow = this.activeWindow = form;
@@ -364,7 +364,7 @@ const Application = (() => {
                 case Types.RENDERERS.SVG:
                     break;
                 case Types.RENDERERS.CANVAS:
-                    data = document.querySelector("object.mainWindow");
+                    data = document.querySelector('object.mainWindow');
                     if (data) {
                         data = JSON.parse(data.innerHTML.replace(/{theme}/g,Core.defaultTheme));
                         if (data.themes) {
@@ -384,7 +384,7 @@ const Application = (() => {
                     break;
             }
             this.mainWindow.show();
-            data = document.getElementById("loading_msg");
+            data = document.getElementById('loading_msg');
             if (data) {
                 document.body.removeChild(data);
             }
@@ -429,11 +429,11 @@ const Application = (() => {
             //    });
             //}
             if (Core.isHTMLRenderer) {
-                const wins = document.querySelectorAll("object.window");
+                const wins = document.querySelectorAll('object.window');
                 wins.forEach(win => {
                     const content = win.contentDocument ? win.contentDocument.body.innerHTML.trim() : win.firstChild.nodeValue.trim();
                     if (content === String.EMPTY) {
-                        win.addEventListener("load", () => {
+                        win.addEventListener('load', () => {
                             Core.apps.activeApplication.addWindow(wins.length);
                         });
                     } else {
@@ -523,9 +523,9 @@ const Application = (() => {
         createToolTip() {
             const wrapper = document.createElement(Types.HTMLELEMENTS.DIV);
             let tpl = Core.templates.ToolTip;
-            let a = tpl.split("{theme}");
+            let a = tpl.split('{theme}');
             tpl = a.join(this.mainWindow.getThemeName());
-            a = tpl.split("{text}");
+            a = tpl.split('{text}');
             tpl = a.join(String.EMPTY);
             wrapper.innerHTML = tpl;
             document.body.appendChild(wrapper.firstElementChild);
@@ -573,7 +573,7 @@ const Application = (() => {
                     this.toolTip.innerHTML = text;
                     setTimeout(() => {
                         if (Core.apps.activeApplication.toolTip) {
-                            Core.apps.activeApplication.toolTip.classList.toggle("fade");
+                            Core.apps.activeApplication.toolTip.classList.toggle('fade');
                         }
                     }, 10);
                     this.placeToolTip(coord, useOffset);
@@ -602,7 +602,7 @@ const Application = (() => {
                 ty = coord.y - tt.offsetHeight;
             }
             tt.style.transform = `translate(${tx}${cssUnits.PX},${ty}${cssUnits.PX})`;
-            tt.classList.toggle("fade");
+            tt.classList.toggle('fade');
             clearTimeout(this.toolTipTimerHandle);
         }
         /**
@@ -619,7 +619,7 @@ const Application = (() => {
          */
         hideToolTip() {
             if (this.toolTip) {
-                this.toolTip.classList.toggle("fade");
+                this.toolTip.classList.toggle('fade');
                 clearTimeout(this.toolTipTimerHandle);
             }
         }
@@ -686,19 +686,19 @@ const Application = (() => {
 })();
 //#endregion
 Object.defineProperties(Application, {
-    "toolTip": {
+    'toolTip': {
         enumerable: true
     },
-    "showMainWindow": {
+    'showMainWindow': {
         enumerable: true
     },
-    "name": {
+    'name': {
         enumerable: true
     },
-    "locale": {
+    'locale': {
         enumerable: true
     },
-    "themeManifest": {
+    'themeManifest': {
         enumerable: true
     }
 });

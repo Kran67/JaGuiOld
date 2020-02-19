@@ -1,4 +1,4 @@
-﻿import { ThemedControl } from "/scripts/core/themedcontrol.js";
+﻿import { ThemedControl } from '/scripts/core/themedcontrol.js';
 //#region ShortCutIcon
 class ShortCutIcon extends ThemedControl {
     constructor(owner, props) {
@@ -12,22 +12,21 @@ class ShortCutIcon extends ThemedControl {
     }
     get template() {
         let html = super.template;
-        const a = html.split("{caption}");
-        html = a.join(this.name.split("_").first);
+        const a = html.split('{caption}');
+        html = a.join(this.name.split('_').first);
         return html;
     }
 }
 Object.seal(ShortCutIcon);
 //#endregion
 //#region Templates
-const ShortCutIconTpl = `<jagui-icon id="{internalId}"  class="Control {className} {theme}" title="{title}" name="{name}">
-            <div class="{className}Img themes_Icon"></div>
-            <div class="{className}Caption">{caption}</div>
-        </jagui-icon>`;
+const ShortCutIconTpl = ['<jagui-icon id="{internalId}"  class="Control {className} {theme}" title="{title}" name="{name}">',
+            '<div class="{className}Img themes_Icon"></div>', 
+            '<div class="{className}Caption">{caption}</div>', 
+        '</jagui-icon>'].join(String.EMPTY);
 Core.classes.register(Types.CATEGORIES.COMMON, ShortCutIcon);
 Core.classes.registerTemplates([
     { Class: ShortCutIcon, template: ShortCutIconTpl }
 ]);
 //#endregion
-
 export { ShortCutIcon };

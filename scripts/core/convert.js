@@ -1,10 +1,10 @@
 ﻿//#region Imports
-import { Rect, Point, Vector, Matrix } from "/scripts/core/geometry.js";
-//import { Gradient, GradientPoint } from "/scripts/core/gradient.js";
-//import { Browser } from "./browser.js";
-import { Color } from "/scripts/core/color.js";
-import { Text } from "/scripts/core/text.js";
-import { Tools } from "/scripts/core/tools.js";
+import { Rect, Point, Vector, Matrix } from '/scripts/core/geometry.js';
+//import { Gradient, GradientPoint } from '/scripts/core/gradient.js';
+//import { Browser } from './browser.js';
+import { Color } from '/scripts/core/color.js';
+import { Text } from '/scripts/core/text.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region Convert
 class Convert {
@@ -38,8 +38,8 @@ class Convert {
      * @returns     {Rect}          the new rect instance from the string
      */
     static str2Rect(s) {
-        if (Tools.isString(s) && s.indexOf(",") > -1) {
-            const a = s.split(",");
+        if (Tools.isString(s) && s.indexOf(',') > -1) {
+            const a = s.split(',');
             const l = a[0] * 1;
             const t = a[1] * 1;
             const r = a[2] * 1;
@@ -55,8 +55,8 @@ class Convert {
      * @returns     {Bounds}        the new bounds instance
      */
     static str2Bound(s, o) {
-        if (Tools.isString(s) && s.indexOf(",") > -1) {
-            const a = s.split(",");
+        if (Tools.isString(s) && s.indexOf(',') > -1) {
+            const a = s.split(',');
             const l = a[0] * 1;
             const t = a[1] * 1;
             const r = a[2] * 1;
@@ -82,8 +82,8 @@ class Convert {
      * @returns     {Point}         the new point instance
      */
     static str2Point(s) {
-        if (Tools.isString(s) && s.indexOf(",") > -1) {
-            const a = s.split(",");
+        if (Tools.isString(s) && s.indexOf(',') > -1) {
+            const a = s.split(',');
             const x = a[0] * 1;
             const y = a[1] * 1;
             return new Point(x, y);
@@ -155,12 +155,12 @@ class Convert {
     static boolToStr(a) {
         if (Tools.isBool(a)) {
             if (a) {
-                return "true";
+                return 'true';
             } else {
-                return "false";
+                return 'false';
             }
         }
-        return "false";
+        return 'false';
     }
     /**
      * Convert a string to a integer
@@ -185,10 +185,10 @@ class Convert {
      * @returns     {Boolean}       the result
      */
     static strToBool(a) {
-        if (Tools.isString(a) && (a.toLowerCase() === "true" || a.toLowerCase() === "false")) {
-            if (a.toLowerCase() === "true") {
+        if (Tools.isString(a) && (a.toLowerCase() === 'true' || a.toLowerCase() === 'false')) {
+            if (a.toLowerCase() === 'true') {
                 return true;
-            } else if (a.toLowerCase() === "false") {
+            } else if (a.toLowerCase() === 'false') {
                 return false;
             } else {
                 return false;
@@ -417,89 +417,89 @@ class Convert {
         params.decimals = params.decimals | 0;
         const units = `${params.from}-${params.to}`;
         const formulas = {
-            "cm-em": params.value / 0.42175176,
-            "cm-in": params.value * 0.39,
-            "cm-mm": params.value * 10,
-            "cm-pc": params.value / 0.42175176,
-            "cm-pt": params.value * 28.3464566929,
-            "cm-%": params.value / params.base * 100 / 2.54 * params.dpi,
-            "cm-px": params.value / 2.54 * params.dpi,
-            "cm-rem": params.value / 0.42175176,
+            'cm-em': params.value / 0.42175176,
+            'cm-in': params.value * 0.39,
+            'cm-mm': params.value * 10,
+            'cm-pc': params.value / 0.42175176,
+            'cm-pt': params.value * 28.3464566929,
+            'cm-%': params.value / params.base * 100 / 2.54 * params.dpi,
+            'cm-px': params.value / 2.54 * params.dpi,
+            'cm-rem': params.value / 0.42175176,
 
-            "em-cm": params.value * 0.42175176,
-            "em-in": params.value * 0.166044,
-            "em-mm": params.value / 0.237106301584,
-            "em-pc": params.value,
-            "em-pt": params.value * 11.955168,
-            "em-%": params.value * 100,
-            "em-px": params.value * params.base,
-            "em-rem": params.value,
+            'em-cm': params.value * 0.42175176,
+            'em-in': params.value * 0.166044,
+            'em-mm': params.value / 0.237106301584,
+            'em-pc': params.value,
+            'em-pt': params.value * 11.955168,
+            'em-%': params.value * 100,
+            'em-px': params.value * params.base,
+            'em-rem': params.value,
 
-            "in-cm": params.value * 2.54,
-            "in-em": params.value / 0.166044,
-            "in-mm": params.value * 2.54 * 10,
-            "in-pc": params.value / 0.166044,
-            "in-pt": params.value / 0.014842519685,
-            "in-%": params.value / params.base * 100 * params.dpi,
-            "in-px": params.value * params.dpi,
-            "in-rem": params.value / 0.166044,
+            'in-cm': params.value * 2.54,
+            'in-em': params.value / 0.166044,
+            'in-mm': params.value * 2.54 * 10,
+            'in-pc': params.value / 0.166044,
+            'in-pt': params.value / 0.014842519685,
+            'in-%': params.value / params.base * 100 * params.dpi,
+            'in-px': params.value * params.dpi,
+            'in-rem': params.value / 0.166044,
 
-            "mm-cm": params.value / 10,
-            "mm-em": params.value * 0.237106301584,
-            "mm-in": params.value * 0.39 / 10,
-            "mm-pc": params.value / 4.42175176,
-            "mm-pt": params.value / 0.352777777778,
-            "mm-%": params.value / params.base * 100 / 2.54 * params.dpi / 10,
-            "mm-px": params.value / 2.54 * params.dpi / 10,
-            "mm-rem": params.value * 0.237106301584,
+            'mm-cm': params.value / 10,
+            'mm-em': params.value * 0.237106301584,
+            'mm-in': params.value * 0.39 / 10,
+            'mm-pc': params.value / 4.42175176,
+            'mm-pt': params.value / 0.352777777778,
+            'mm-%': params.value / params.base * 100 / 2.54 * params.dpi / 10,
+            'mm-px': params.value / 2.54 * params.dpi / 10,
+            'mm-rem': params.value * 0.237106301584,
 
-            "pc-cm": params.value * 0.42175176,
-            "pc-em": params.value,
-            "pc-in": params.value * 0.166044,
-            "pc-mm": params.value * 4.42175176,
-            "pc-pt": params.value / 0.0836458341698,
-            "pc-%": params.value * 100,
-            "pc-px": params.value * params.base,
-            "pc-rem": params.value,
+            'pc-cm': params.value * 0.42175176,
+            'pc-em': params.value,
+            'pc-in': params.value * 0.166044,
+            'pc-mm': params.value * 4.42175176,
+            'pc-pt': params.value / 0.0836458341698,
+            'pc-%': params.value * 100,
+            'pc-px': params.value * params.base,
+            'pc-rem': params.value,
 
-            "pt-cm": params.value / 28.3464566929,
-            "pt-em": params.value / 11.955168,
-            "pt-in": params.value * 0.014842519685,
-            "pt-mm": params.value * 0.352777777778,
-            "pt-pc": params.value * 0.0836458341698,
-            "pt-%": params.value / (params.base - 4) * 100,
-            "pt-px": params.value * 96 / 72,
-            "pt-rem": params.value / 11.955168,
+            'pt-cm': params.value / 28.3464566929,
+            'pt-em': params.value / 11.955168,
+            'pt-in': params.value * 0.014842519685,
+            'pt-mm': params.value * 0.352777777778,
+            'pt-pc': params.value * 0.0836458341698,
+            'pt-%': params.value / (params.base - 4) * 100,
+            'pt-px': params.value * 96 / 72,
+            'pt-rem': params.value / 11.955168,
 
-            "%-cm": params.value * params.base / 100 * 2.54 / params.dpi,
-            "%-em": params.value / 100,
-            "%-in": params.value * params.base / 100 / params.dpi,
-            "%-mm": params.value * params.base / 100 * 2.54 / params.dpi * 10,
-            "%-pc": params.value / 100,
-            "%-pt": params.value * (params.base - 4) / 100,
-            "%-px": params.value * params.base / 100,
-            "%-rem": params.value / 100,
+            '%-cm': params.value * params.base / 100 * 2.54 / params.dpi,
+            '%-em': params.value / 100,
+            '%-in': params.value * params.base / 100 / params.dpi,
+            '%-mm': params.value * params.base / 100 * 2.54 / params.dpi * 10,
+            '%-pc': params.value / 100,
+            '%-pt': params.value * (params.base - 4) / 100,
+            '%-px': params.value * params.base / 100,
+            '%-rem': params.value / 100,
 
-            "px-cm": params.value * 2.54 / params.dpi,
-            "px-em": params.value / params.base,
-            "px-in": params.value / params.dpi,
-            "px-mm": params.value * 2.54 / params.dpi * 10,
-            "px-pc": params.value / params.base,
-            "px-pt": params.value * 72 / 96,
-            "px-%": params.value / params.base * 100,
-            "px-rem": params.value / params.base,
+            'px-cm': params.value * 2.54 / params.dpi,
+            'px-em': params.value / params.base,
+            'px-in': params.value / params.dpi,
+            'px-mm': params.value * 2.54 / params.dpi * 10,
+            'px-pc': params.value / params.base,
+            'px-pt': params.value * 72 / 96,
+            'px-%': params.value / params.base * 100,
+            'px-rem': params.value / params.base,
 
-            "rem-cm": params.value * 0.42175176,
-            "rem-em": params.value,
-            "rem-in": params.value * 0.166044,
-            "rem-mm": params.value / 0.237106301584,
-            "rem-pc": params.value,
-            "rem-pt": params.value * 11.955168,
-            "rem-%": params.value * 100,
-            "rem-px": params.value * params.base
+            'rem-cm': params.value * 0.42175176,
+            'rem-em': params.value,
+            'rem-in': params.value * 0.166044,
+            'rem-mm': params.value / 0.237106301584,
+            'rem-pc': params.value,
+            'rem-pt': params.value * 11.955168,
+            'rem-%': params.value * 100,
+            'rem-px': params.value * params.base
         };
         const result = formulas[units] || false;
-        return isNaN(result) ? "N/A" : Math.round(result, params.decimals) + params.to;
+        return isNaN(result) ? 'N/A' : Math.round(result, params.decimals) + params.to;
     }
     /**
      * Convert a component property to a css property
@@ -513,64 +513,64 @@ class Convert {
             endValue = false;
         }
         switch (animationObj.propertyName) {
-            case "width":
-            case "height":
-            case "left":
-            case "top":
-            case "right":
-            case "bottom":
+            case 'width':
+            case 'height':
+            case 'left':
+            case 'top':
+            case 'right':
+            case 'bottom':
                 result = `${Core.browser.getVendorPrefix(animationObj.propertyName)}${animationObj.propertyName}:${(endValue ? animationObj.stopValue : animationObj.startValue)}${Types.CSSUNITS.PX};`;
                 break;
-            case "opacity":
+            case 'opacity':
                 result = `${Core.browser.getVendorPrefix(animationObj.propertyName)}${animationObj.propertyName}:${(endValue ? animationObj.stopValue : animationObj.startValue)};`;
                 break;
-            case "rotateAngle":
-                result = `${Core.browser.getVendorPrefix("transform")}transform:rotate(${(endValue ? animationObj.stopValue : animationObj.startValue)}deg);`;
+            case 'rotateAngle':
+                result = `${Core.browser.getVendorPrefix('transform')}transform:rotate(${(endValue ? animationObj.stopValue : animationObj.startValue)}deg);`;
                 break;
-            case "background.color":
-                result = `${Core.browser.getVendorPrefix("background-color")}background-color:${(endValue ? animationObj.stopValue.toARGBString() : animationObj.startValue.toARGBString())};`;
+            case 'background.color':
+                result = `${Core.browser.getVendorPrefix('background-color')}background-color:${(endValue ? animationObj.stopValue.toARGBString() : animationObj.startValue.toARGBString())};`;
                 break;
-            case "bitmap":
+            case 'bitmap':
                 result = `opacity:${(endValue ? 1 : 0)};`;
                 break;
-            case "rotateCenter":
+            case 'rotateCenter':
                 //result = String;
                 break;
-            case "scale.x":
-                result = "transform:scaleX";
+            case 'scale.x':
+                result = 'transform:scaleX';
                 break;
-            case "scale.y":
-                result = "transform:scaleY";
+            case 'scale.y':
+                result = 'transform:scaleY';
                 break;
-            case "borderWidth":
-                //return "";
+            case 'borderWidth':
+                //return '';
                 break;
-            case "bordersRadius":
-                //return "";
+            case 'bordersRadius':
+                //return '';
                 break;
-            case "shadowColor":
-                //return "";
+            case 'shadowColor':
+                //return '';
                 break;
-            case "shadowOffsetX":
-                //return "";
+            case 'shadowOffsetX':
+                //return '';
                 break;
-            case "shadowOffsetY":
-                //return "";
+            case 'shadowOffsetY':
+                //return '';
                 break;
-            case "shadowBlur":
-                //return "";
+            case 'shadowBlur':
+                //return '';
                 break;
-            case "borderDash":
-                //return "";
+            case 'borderDash':
+                //return '';
                 break;
-            case "outline":
-                //return "";
+            case 'outline':
+                //return '';
                 break;
-            case "margin":
-                //return "";
+            case 'margin':
+                //return '';
                 break;
-            case "padding":
-                //return "";
+            case 'padding':
+                //return '';
                 break;
         }
         return result;
@@ -583,27 +583,27 @@ class Convert {
     static cssGradient2Gradient(cssGradient) {
         const gradient = new Core.classes.Gradient(window);
         const PO = Types.CSSUNITS.PO;
-        if (cssGradient.indexOf("gradient") !== -1) {
-            cssGradient = cssGradient.replace("-o-", String.EMPTY);
-            cssGradient = cssGradient.replace("-moz-", String.EMPTY);
-            cssGradient = cssGradient.replace("-ms-", String.EMPTY);
-            cssGradient = cssGradient.replace("-webkit-", String.EMPTY);
-            if (cssGradient.indexOf("linear") !== -1) { // linear gradient
+        if (cssGradient.indexOf('gradient') !== -1) {
+            cssGradient = cssGradient.replace('-o-', String.EMPTY);
+            cssGradient = cssGradient.replace('-moz-', String.EMPTY);
+            cssGradient = cssGradient.replace('-ms-', String.EMPTY);
+            cssGradient = cssGradient.replace('-webkit-', String.EMPTY);
+            if (cssGradient.indexOf('linear') !== -1) { // linear gradient
                 gradient.style = Types.GRADIENTSTYLES.LINEAR;
-                cssGradient = cssGradient.replace("linear-gradient(", String.EMPTY);
-                cssGradient = cssGradient.replace("%)", PO);
-                cssGradient = Text.replace(cssGradient, "transparent", "rgba(0,0,0,0)");
-                cssGradient = Text.replace(cssGradient, ", rgb", "|rgb");
-                const gradValues = cssGradient.split("|");
+                cssGradient = cssGradient.replace('linear-gradient(', String.EMPTY);
+                cssGradient = cssGradient.replace('%)', PO);
+                cssGradient = Text.replace(cssGradient, 'transparent', 'rgba(0,0,0,0)');
+                cssGradient = Text.replace(cssGradient, ', rgb', '|rgb');
+                const gradValues = cssGradient.split('|');
                 gradient.startPosition.assign(new Core.classes.Point());
-                if (gradValues[0].indexOf("top") !== -1) {
+                if (gradValues[0].indexOf('top') !== -1) {
                     gradient.stopPosition = new Core.classes.Point(0, 1);
-                } else if (gradValues[0].indexOf("left") !== -1) {
+                } else if (gradValues[0].indexOf('left') !== -1) {
                     gradient.stopPosition.assign(new Core.classes.Point(1, 0));
                 }
                 gradient.items.clear();
                 gradValues.forEach(grad => {
-                    const colorOffset = grad.replace(") ", ")|"), color = colorOffset.split("|")[0], offset = +colorOffset.split("|")[1].replace(PO, String.EMPTY);
+                    const colorOffset = grad.replace(') ', ')|'), color = colorOffset.split('|')[0], offset = +colorOffset.split('|')[1].replace(PO, String.EMPTY);
                     gradient.items.push(new Core.classes.GradientPoint(offset / 100, Color.parse(color)));
                 });
             }

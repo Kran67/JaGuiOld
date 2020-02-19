@@ -1,5 +1,5 @@
 ﻿//#region Import
-import { Slider } from "/scripts/components/common/slider.js";
+import { Slider } from '/scripts/components/common/slider.js';
 //#endregion Import
 //#region Class ColorSlider
 class ColorSlider extends Slider {

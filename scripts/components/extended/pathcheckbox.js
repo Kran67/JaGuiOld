@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { Checkbox } from "/scripts/components/common/checkbox.js";
-import { Tools } from "/scripts/core/tools.js";
+import { Checkbox } from '/scripts/components/common/checkbox.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region PathCheckbox
 const PathCheckbox = (() => {
@@ -27,8 +27,8 @@ const PathCheckbox = (() => {
                     this.height = 17;
                     this.width = 100;
                 }
-                priv.checkSvg = props.hasOwnProperty("checkSvg") ? atob(props.checkSvg) : "m49.568024,19.824736l-31.863983,29.73797l-17.705017,-16.521305l0,-19.824999l17.705017,16.469412l31.863983,-29.686078l0,19.825z";
-                priv.svgViewBox = props.hasOwnProperty("svgViewBox") ? props.svgViewBox : "0 0 50 50";
+                priv.checkSvg = props.hasOwnProperty('checkSvg') ? atob(props.checkSvg) : 'm49.568024,19.824736l-31.863983,29.73797l-17.705017,-16.521305l0,-19.824999l17.705017,16.469412l31.863983,-29.686078l0,19.825z';
+                priv.svgViewBox = props.hasOwnProperty('svgViewBox') ? props.svgViewBox : '0 0 50 50';
                 this.canFocused = false;
                 delete this.tabOrder;
             }
@@ -112,8 +112,8 @@ Core.classes.register(Types.CATEGORIES.EXTENDED, PathCheckbox);
 export { PathCheckbox };
 //#region Template
 if (Core.isHTMLRenderer) {
-    const PathCheckboxTpl = ["<jagui-pathcheckbox id=\"{internalId}\" data-class=\"PathCheckbox\" class=\"Control PathCheckbox {theme}\"><properties>",
-        "{ \"name\": \"{name}\", \"caption\": \"{caption}\" }</properties></jagui-pathcheckbox>"].join(String.EMPTY);
+    const PathCheckboxTpl = ['<jagui-pathcheckbox id="{internalId}" data-class="PathCheckbox" class="Control PathCheckbox {theme}"><properties>',
+        '{ "name": "{name}", "caption": "{caption}" }</properties></jagui-pathcheckbox>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: PathCheckbox, template: PathCheckboxTpl }]);
 }
 //#endregion

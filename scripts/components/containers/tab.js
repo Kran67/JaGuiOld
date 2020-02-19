@@ -1,4 +1,4 @@
-﻿import { CaptionControl } from "/scripts/core/captioncontrol.js";
+﻿import { CaptionControl } from '/scripts/core/captioncontrol.js';
 //import { CustomTabControl } from "/scripts/core/customtabcontrol.js";
 //import { NotifyEvent } from "/scripts/core/events.js";
 //#region Tab
@@ -21,7 +21,7 @@ const Tab = (() => {
                 priv.imageIndex = -1;
                 priv.showCaption = true;
                 priv.tabControl = owner;
-                this.addBindableProperties(["showCaption", "imageIndex"]);
+                this.addBindableProperties(['showCaption', 'imageIndex']);
                 let num = 1;
                 if (owner instanceof Core.classes.CustomTabControl) {
                     num = owner.tabs.length + 1;
@@ -75,14 +75,14 @@ const Tab = (() => {
                     return;
                 }
                 tabControl.activeTab = this;
-                this.HTMLElement.classList.add("selected");
+                this.HTMLElement.classList.add('selected');
                 // on bouge pour mettre le tab bien visible
                 tabControl.scrollToTab(this);
                 tabControl.change();
             }
         }
         hide() {
-            this.HTMLElement.classList.remove("selected");
+            this.HTMLElement.classList.remove('selected');
         }
         mouseUp() {
             const owner = this.owner;
@@ -115,10 +115,10 @@ const Tab = (() => {
     return Tab;
 })();
 Object.defineProperties(Tab, {
-    "imageIndex": {
+    'imageIndex': {
         enumerable: true
     },
-    "showCaption": {
+    'showCaption': {
         enumerable: true
     }
 });

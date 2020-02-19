@@ -1,20 +1,20 @@
 ﻿//#region Imports
-import { BaseClass } from "/scripts/core/baseclass.js";
-import { Convert } from "/scripts/core/convert.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Component } from "/scripts/core/component.js";
-//import { NotifyEvent } from "/scripts/core/events.js";
-import { Css } from "/scripts/core/css.js";
-import { Interpolation } from "/scripts/core/interpolations.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+import { Convert } from '/scripts/core/convert.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Component } from '/scripts/core/component.js';
+//import { NotifyEvent } from '/scripts/core/events.js';
+import { Css } from '/scripts/core/css.js';
+import { Interpolation } from '/scripts/core/interpolations.js';
 //#region Animation
 /**
  * Class representing an Animation.
  * @extends Component
  */
 const _animationTypes = Object.freeze({
-    IN: "in",
-    INOUT: "inOut",
-    OUT: "out"
+    IN: 'in',
+    INOUT: 'inOut',
+    OUT: 'out'
 });
 const Animation = (() => {
     const _private = new WeakMap();
@@ -511,7 +511,7 @@ const Animation = (() => {
                         }
                         priv.enabled = true;
                     }
-                    Core.looper.addListener(this, "animate");
+                    Core.looper.addListener(this, 'animate');
                 } else {
                     priv.running = true;
                     Core.isHTMLRenderer && Css.updateInlineCSS(this, Types.JSCSSPROPERTIES.ANIMATION);
@@ -567,11 +567,11 @@ const Animation = (() => {
         updateCSS() {
             const priv = internal(this);
             if (Core.isHTMLRenderer) {
-                Css.removeCSSRule(`@${Core.browser.getVendorPrefix("keyframes")}keyframes${this.priv}, Types.CSSRULETYPES.KEYFRAMES_RULE}`);
+                Css.removeCSSRule(`@${Core.browser.getVendorPrefix('keyframes')}keyframes${this.priv}, Types.CSSRULETYPES.KEYFRAMES_RULE}`);
                 if (priv.propertyName !== String.EMPTY) {
-                    cssProp = `0% "{" ${Convert.propertyToCssProperty(this)} "}"
-                       100% "{" ${Convert.propertyToCssProperty(this, true)} "}" `;
-                    Css.addCSSRule(`@${Core.browser.getVendorPrefix("keyframes")}keyframes ${this.priv}`, cssProp);
+                    cssProp = `0% { ${Convert.propertyToCssProperty(this)} }
+                       100% { ${Convert.propertyToCssProperty(this, true)} } `;
+                    Css.addCSSRule(`@${Core.browser.getVendorPrefix('keyframes')}keyframes ${this.priv}`, cssProp);
                 }
             }
         }
@@ -613,10 +613,10 @@ const Animation = (() => {
                 let value = null;
                 if (triggerInverse !== String.EMPTY && triggerInverse.toLowerCase().indexOf(trigger.toLowerCase()) > -1) {
                     line = triggerInverse;
-                    setter = line.split(";");
+                    setter = line.split(';');
                     startValue = false;
                     while (setter.length > 0) {
-                        prop = setter[0].split("=");
+                        prop = setter[0].split('=');
                         value = prop.last;
                         prop = prop.first;
                         if (control.hasOwnProperty(prop)) {
@@ -635,11 +635,11 @@ const Animation = (() => {
                 }
                 if (thisTrigger !== String.EMPTY && thisTrigger.toLowerCase().indexOf(trigger.toLowerCase()) > -1) {
                     line = thisTrigger;
-                    setter = line.split(";");
+                    setter = line.split(';');
                     startValue = false;
                     while (setter.length > 0) {
-                        prop = setter[0].split("=").first;
-                        value = setter[0].split("=").last;
+                        prop = setter[0].split('=').first;
+                        value = setter[0].split('=').last;
                         if (control.hasOwnProperty(prop)) {
                             startValue = control[prop].toString().toLowerCase() === value.toLowerCase();
                             if (!startValue) {
@@ -845,19 +845,19 @@ const Animation = (() => {
                 return ani;
             }
             // animation-name + animation-duration
-            ani += (aniName ? aniName : priv.name) + String.SPACE + priv.duration + "s ";
+            ani += (aniName ? aniName : priv.name) + String.SPACE + priv.duration + 's ';
             // animation-timing-function
             switch (interpolation) {
                 case interpolationTypes.BACK:
                     switch (animationType) {
                         case animationTypes.IN:
-                            ani += "cubic-bezier(0.6, -0.28, 0.735, 0.045)";
+                            ani += 'cubic-bezier(0.6, -0.28, 0.735, 0.045)';
                             break;
                         case animationTypes.OUT:
-                            ani += "cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+                            ani += 'cubic-bezier(0.175, 0.885, 0.32, 1.275)';
                             break;
                         case animationTypes.INOUT:
-                            ani += "cubic-bezier(0.68, -0.55, 0.265, 1.55)";
+                            ani += 'cubic-bezier(0.68, -0.55, 0.265, 1.55)';
                             break;
                     }
                     break;
@@ -877,26 +877,26 @@ const Animation = (() => {
                 case interpolationTypes.CIRCULAR:
                     switch (animationType) {
                         case animationTypes.IN:
-                            ani += "cubic-bezier(0.6, 0.04, 0.98, 0.335)";
+                            ani += 'cubic-bezier(0.6, 0.04, 0.98, 0.335)';
                             break;
                         case animationTypes.OUT:
-                            ani += "cubic-bezier(0.075, 0.82, 0.165, 1)";
+                            ani += 'cubic-bezier(0.075, 0.82, 0.165, 1)';
                             break;
                         case animationTypes.INOUT:
-                            ani += "cubic-bezier(0.785, 0.135, 0.15, 0.86)";
+                            ani += 'cubic-bezier(0.785, 0.135, 0.15, 0.86)';
                             break;
                     }
                     break;
                 case interpolationTypes.CUBIC:
                     switch (animationType) {
                         case animationTypes.IN:
-                            ani += "cubic-bezier(0.55, 0.055, 0.675, 0.19)";
+                            ani += 'cubic-bezier(0.55, 0.055, 0.675, 0.19)';
                             break;
                         case animationTypes.OUT:
-                            ani += "cubic-bezier(0.215, 0.61, 0.355, 1)";
+                            ani += 'cubic-bezier(0.215, 0.61, 0.355, 1)';
                             break;
                         case animationTypes.INOUT:
-                            ani += "cubic-bezier(0.645, 0.045, 0.355, 1)";
+                            ani += 'cubic-bezier(0.645, 0.045, 0.355, 1)';
                             break;
                     }
                     break;
@@ -916,92 +916,92 @@ const Animation = (() => {
                 case interpolationTypes.EXPONENTIAL:
                     switch (animationType) {
                         case animationTypes.IN:
-                            ani += "cubic-bezier(0.95, 0.05, 0.795, 0.035)";
+                            ani += 'cubic-bezier(0.95, 0.05, 0.795, 0.035)';
                             break;
                         case animationTypes.OUT:
-                            ani += "cubic-bezier(0.19, 1, 0.22, 1)";
+                            ani += 'cubic-bezier(0.19, 1, 0.22, 1)';
                             break;
                         case animationTypes.INOUT:
-                            ani += "cubic-bezier(1, 0, 0, 1)";
+                            ani += 'cubic-bezier(1, 0, 0, 1)';
                             break;
                     }
                     break;
                 case interpolationTypes.LINEAR:
-                    ani += "linear ";
+                    ani += 'linear ';
                     break;
                 case interpolationTypes.QUADRATIC:
                     switch (animationType) {
                         case animationTypes.IN:
-                            ani += "cubic-bezier(0.55, 0.085, 0.68, 0.53)";
+                            ani += 'cubic-bezier(0.55, 0.085, 0.68, 0.53)';
                             break;
                         case animationTypes.OUT:
-                            ani += "cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+                            ani += 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
                             break;
                         case animationTypes.INOUT:
-                            ani += "cubic-bezier(0.455, 0.03, 0.515, 0.955)";
+                            ani += 'cubic-bezier(0.455, 0.03, 0.515, 0.955)';
                             break;
                     }
                     break;
                 case interpolationTypes.QUARTIC:
                     switch (animationType) {
                         case animationTypes.IN:
-                            ani += "cubic-bezier(0.895, 0.03, 0.685, 0.22)";
+                            ani += 'cubic-bezier(0.895, 0.03, 0.685, 0.22)';
                             break;
                         case animationTypes.OUT:
-                            ani += "cubic-bezier(0.165, 0.84, 0.44, 1)";
+                            ani += 'cubic-bezier(0.165, 0.84, 0.44, 1)';
                             break;
                         case animationTypes.INOUT:
-                            ani += "cubic-bezier(0.77, 0, 0.175, 1)";
+                            ani += 'cubic-bezier(0.77, 0, 0.175, 1)';
                             break;
                     }
                     break;
                 case interpolationTypes.QUINTIC:
                     switch (animationType) {
                         case animationTypes.IN:
-                            ani += "cubic-bezier(0.755, 0.05, 0.855, 0.06)";
+                            ani += 'cubic-bezier(0.755, 0.05, 0.855, 0.06)';
                             break;
                         case animationTypes.OUT:
-                            ani += "cubic-bezier(0.23, 1, 0.32, 1)";
+                            ani += 'cubic-bezier(0.23, 1, 0.32, 1)';
                             break;
                         case animationTypes.INOUT:
-                            ani += "cubic-bezier(0.86, 0, 0.07, 1)";
+                            ani += 'cubic-bezier(0.86, 0, 0.07, 1)';
                             break;
                     }
                     break;
                 case interpolationTypes.SINUSOIDAL:
                     switch (animationType) {
                         case animationTypes.IN:
-                            ani += "cubic-bezier(0.47, 0, 0.745, 0.715)";
+                            ani += 'cubic-bezier(0.47, 0, 0.745, 0.715)';
                             break;
                         case animationTypes.OUT:
-                            ani += "cubic-bezier(0.39, 0.575, 0.565, 1)";
+                            ani += 'cubic-bezier(0.39, 0.575, 0.565, 1)';
                             break;
                         case animationTypes.INOUT:
-                            ani += "cubic-bezier(0.445, 0.05, 0.55, 0.95)";
+                            ani += 'cubic-bezier(0.445, 0.05, 0.55, 0.95)';
                             break;
                     }
                     break;
             }
             // animation-delay
-            ani += priv.delay + "s ";
+            ani += priv.delay + 's ';
             // animation-iteration-count
             if (this.loop) {
-                ani += "infinite ";
+                ani += 'infinite ';
             } else {
-                ani += "1 ";
+                ani += '1 ';
             }
             // animation-direction
             if (autoReverse && !inverse) {
-                ani += "alternate ";
+                ani += 'alternate ';
             } else if (!autoReverse && inverse) {
-                ani += "reverse ";
+                ani += 'reverse ';
             } else if (autoReverse && inverse) {
-                ani += "alternate-reverse ";
+                ani += 'alternate-reverse ';
             } else {
-                ani += "normal ";
+                ani += 'normal ';
             }
             // animation-fill-mode
-            ani += "forwards ";
+            ani += 'forwards ';
             return ani;
         }
         /**
@@ -1054,58 +1054,58 @@ const Animation = (() => {
     return Animation;
 })();
 Object.defineProperties(Animation, {
-    "animationType": {
+    'animationType': {
         enumerable: true
     },
-    "autoReverse": {
+    'autoReverse': {
         enumerable: true
     },
-    "enabled": {
+    'enabled': {
         enumerable: true
     },
-    "delay": {
+    'delay': {
         enumerable: true
     },
-    "duration": {
+    'duration': {
         enumerable: true
     },
-    "interpolation": {
+    'interpolation': {
         enumerable: true
     },
-    "inverse": {
+    'inverse': {
         enumerable: true
     },
-    "hideOnFinish": {
+    'hideOnFinish': {
         enumerable: true
     },
-    "loop": {
+    'loop': {
         enumerable: true
     },
-    "trigger": {
+    'trigger': {
         enumerable: true
     },
-    "triggerInverse": {
+    'triggerInverse': {
         enumerable: true
     },
-    "propertyName": {
+    'propertyName': {
         enumerable: true
     },
-    "control": {
+    'control': {
         enumerable: true
     },
-    "startFromCurrent": {
+    'startFromCurrent': {
         enumerable: true
     },
-    "startValue": {
+    'startValue': {
         enumerable: true
     },
-    "stopValue": {
+    'stopValue': {
         enumerable: true
     },
-    "autoStart": {
+    'autoStart': {
         enumerable: true
     },
-    "convertToCSS": {
+    'convertToCSS': {
         enumerable: true
     }
 });

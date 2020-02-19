@@ -1,9 +1,9 @@
 ﻿//#region Imports
-import { ThemedControl } from "/scripts/core/themedcontrol.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Convert } from "/scripts/core/convert.js";
-import { Events } from "/scripts/core/events.js";
-import { Keyboard } from "/scripts/core/keyboard.js";
+import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Convert } from '/scripts/core/convert.js';
+import { Events } from '/scripts/core/events.js';
+import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Imports
 //#region CustomTextControl
 const CustomTextControl = (function () {
@@ -27,34 +27,34 @@ const CustomTextControl = (function () {
                 super(owner, props);
                 const priv = internal(this);
                 priv.inputObj = null;
-                priv.hasError = props.hasOwnProperty("hasError")?props.hasError:false;
+                priv.hasError = props.hasOwnProperty('hasError')?props.hasError:false;
                 this.stopEvent = false;
-                priv.text = props.hasOwnProperty("text")?props.text:String.EMPTY;
-                priv.maxLength = props.hasOwnProperty("maxLength")?props.maxLength:0;
-                priv.readOnly = props.hasOwnProperty("readOnly")?props.readOnly:false;
-                priv.placeHolder = props.hasOwnProperty("placeHolder")?props.placeHolder:String.EMPTY;
-                priv.filterChars = props.hasOwnProperty("filterChars")?props.filterChars:String.EMPTY;
+                priv.text = props.hasOwnProperty('text')?props.text:String.EMPTY;
+                priv.maxLength = props.hasOwnProperty('maxLength')?props.maxLength:0;
+                priv.readOnly = props.hasOwnProperty('readOnly')?props.readOnly:false;
+                priv.placeHolder = props.hasOwnProperty('placeHolder')?props.placeHolder:String.EMPTY;
+                priv.filterChars = props.hasOwnProperty('filterChars')?props.filterChars:String.EMPTY;
                 priv.autoTranslate = true;
-                priv.required = props.hasOwnProperty("required")?props.required:false;
-                priv.errorMsg = props.hasOwnProperty("errorMsg")?props.errorMsg:String.EMPTY;
-                this.addBindableProperties(["text", "readOnly", "placeHolder", "autoTranslate", "horizAlign"]);
+                priv.required = props.hasOwnProperty('required')?props.required:false;
+                priv.errorMsg = props.hasOwnProperty('errorMsg')?props.errorMsg:String.EMPTY;
+                this.addBindableProperties(['text', 'readOnly', 'placeHolder', 'autoTranslate', 'horizAlign']);
                 let textAligns = Types.TEXTALIGNS;
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "horizAlign",
+                    propName: 'horizAlign',
                     enum: textAligns,
                     variable: priv,
-                    value: props.hasOwnProperty("horizAlign")?props.horizAlign:textAligns.CENTER
+                    value: props.hasOwnProperty('horizAlign')?props.horizAlign:textAligns.CENTER
                 });
                 textAligns = null;
                 let htmlInputTypes = Types.HTMLINPUTTYPES;
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "type",
+                    propName: 'type',
                     enum: htmlInputTypes,
                     variable: priv,
                     forceUpdate: true,
-                    value: props.hasOwnProperty("type")?props.type:htmlInputTypes.TEXT
+                    value: props.hasOwnProperty('type')?props.type:htmlInputTypes.TEXT
                 });
                 htmlInputTypes = null;
                 this.onChange = new Core.classes.NotifyEvent(this);
@@ -257,9 +257,9 @@ const CustomTextControl = (function () {
                 if (this.enabled !== newValue) {
                     super.enabled = newValue;
                     if (this.enabled) {
-                        inputObj.removeAttribute("disabled");
+                        inputObj.removeAttribute('disabled');
                     } else {
-                        inputObj.setAttribute("disabled", "disabled");
+                        inputObj.setAttribute('disabled', 'disabled');
                     }
                 }
             }
@@ -292,15 +292,15 @@ const CustomTextControl = (function () {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (!htmlElement.querySelector("input")) {
+            if (!htmlElement.querySelector('input')) {
                 priv.inputObj = document.createElement(Types.HTMLELEMENTS.INPUT);
-                priv.inputObj.type = "text";
-                priv.inputObj.classList.add("Control", "csr_text", "TextBoxInput", `${this.constructor.name}Input`, this.themeName);
+                priv.inputObj.type = 'text';
+                priv.inputObj.classList.add('Control', 'csr_text', 'TextBoxInput', `${this.constructor.name}Input`, this.themeName);
                 priv.inputObj.jsObj = this;
                 htmlElement.appendChild(priv.inputObj);
                 this.bindEventToHTMLInput();
             }
-            this.bindEventToHTML("onChange");
+            this.bindEventToHTML('onChange');
             super.loaded();
             this.app.getLocalText(this);
             this.update();
@@ -314,13 +314,13 @@ const CustomTextControl = (function () {
                 if (inputObj) {
                     inputObj.value = priv.text;
                     if (priv.maxLength > 0) {
-                        inputObj.setAttribute("maxlength", priv.maxLength);
+                        inputObj.setAttribute('maxlength', priv.maxLength);
                     }
-                    inputObj.setAttribute("placeholder", priv.placeHolder);
+                    inputObj.setAttribute('placeholder', priv.placeHolder);
                     if (priv.readOnly) {
-                        inputObj.setAttribute("readonly", String.EMPTY);
+                        inputObj.setAttribute('readonly', String.EMPTY);
                     } else {
-                        inputObj.removeAttribute("readonly");
+                        inputObj.removeAttribute('readonly');
                     }
                 }
             }
@@ -448,28 +448,28 @@ const CustomTextControl = (function () {
 })();
 //#region BaseWindow defineProperties
 Object.defineProperties(CustomTextControl, {
-    "text": {
+    'text': {
         enumerable: true
     },
-    "maxLength": {
+    'maxLength': {
         enumerable: true
     },
-    "readOnly": {
+    'readOnly': {
         enumerable: true
     },
-    "placeHolder": {
+    'placeHolder': {
         enumerable: true
     },
-    "filterChars": {
+    'filterChars': {
         enumerable: true
     },
-    "autoTranslate": {
+    'autoTranslate': {
         enumerable: true
     },
-    "required": {
+    'required': {
         enumerable: true
     },
-    "errorMsg": {
+    'errorMsg': {
         enumerable: true
     }
 });

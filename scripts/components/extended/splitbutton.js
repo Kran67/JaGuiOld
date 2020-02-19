@@ -1,9 +1,9 @@
 ﻿//#region Import
-import { ThemedControl } from "/scripts/core/themedcontrol.js";
-import { BitmapButton } from "/scripts/components/extended/bitmapbutton.js";
-import { PopupButton } from "/scripts/components/extended/popupbutton.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Text } from "/scripts/core/text.js";
+import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { BitmapButton } from '/scripts/components/extended/bitmapbutton.js';
+import { PopupButton } from '/scripts/components/extended/popupbutton.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Text } from '/scripts/core/text.js';
 //#endregion Import
 //#region SplitButton
 const SplitButton = (() => {
@@ -28,9 +28,9 @@ const SplitButton = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.caption = props.hasOwnProperty("caption") ? props.caption : this.name;
+                priv.caption = props.hasOwnProperty('caption') ? props.caption : this.name;
                 priv.action = null;
-                priv.popupMenu = props.hasOwnProperty("popupMenu") && this.form[props.popupMenu] ? this.form[props.popupMenu] : null;
+                priv.popupMenu = props.hasOwnProperty('popupMenu') && this.form[props.popupMenu] ? this.form[props.popupMenu] : null;
             }
         }
         //#endregion constructor
@@ -114,10 +114,10 @@ const SplitButton = (() => {
         getTemplate() {
             const priv = internal(this);
             let html = super.getTemplate();
-            let a = html.split("{bitmapButton}");
+            let a = html.split('{bitmapButton}');
             let tpl = priv.btn.getTemplate();
             html = a.join(tpl);
-            a = html.split("{popupButton}");
+            a = html.split('{popupButton}');
             tpl = priv.popupBtn.getTemplate();
             html = a.join(tpl);
             return html;
@@ -150,8 +150,8 @@ Core.classes.register(Types.CATEGORIES.EXTENDED, SplitButton);
 export { SplitButton };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const SplitButtonTpl = ["<jagui-splitbutton id=\"{internalId}\" data-class=\"SplitButton\" class=\"Control SplitButton {theme} csr_default\">",
-        "<properties>{ \"name\": \"{name}\" }</properties></jagui-splitbutton>"].join(String.EMPTY);
+    const SplitButtonTpl = ['<jagui-splitbutton id="{internalId}" data-class="SplitButton" class="Control SplitButton {theme} csr_default">',
+        '<properties>{ "name": "{name}" }</properties></jagui-splitbutton>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: SplitButton, template: SplitButtonTpl }]);
 }
 //#endregion

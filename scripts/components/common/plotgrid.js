@@ -1,8 +1,8 @@
 ﻿//#region Import
-import { PaintBox } from "/scripts/components/common/paintbox.js";
-import { Brush } from "/scripts/core/brush.js";
-import { Color, Colors } from "/scripts/core/color.js";
-import { Tools } from "/scripts/core/tools.js";
+import { PaintBox } from '/scripts/components/common/paintbox.js';
+import { Brush } from '/scripts/core/brush.js';
+import { Color, Colors } from '/scripts/core/color.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region PlotGrid
 const PlotGrid = (() => {
@@ -27,7 +27,7 @@ const PlotGrid = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.lineFill = new Brush(Types.BRUSHSTYLES.SOLID, Color.parse("#333"), this);
+                priv.lineFill = new Brush(Types.BRUSHSTYLES.SOLID, Color.parse('#333'), this);
                 priv.marks = 25;
                 priv.frequency = 5;
             }
@@ -208,7 +208,8 @@ Core.classes.register(Types.CATEGORIES.COMMON, PlotGrid);
 export { PlotGrid };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const PlotGridTpl = "<canvas id=\"{internalId}\" data-class=\"PlotGrid\" class=\"Control PlotGrid\"><properties>{ \"name\": \"{name}\", \"width\": 105, \"height\": 105 }</properties></canvas>";
+    const PlotGridTpl = ['<canvas id="{internalId}" data-class="PlotGrid" class="Control PlotGrid">',
+        '<properties>{ "name": "{name}", "width": 105, "height": 105 }</properties></canvas>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: PlotGrid, template: PlotGridTpl }]);
 }
-//endregion
+//#endregion

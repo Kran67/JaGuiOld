@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { Checkbox } from "/scripts/components/common/checkbox.js";
-import { Tools } from "/scripts/core/tools.js";
+import { Checkbox } from '/scripts/components/common/checkbox.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region RadioButton
 const RadioButton = (() => {
@@ -24,7 +24,7 @@ const RadioButton = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 priv.groupName = String.EMPTY;
-                priv.checkChar = "3";
+                priv.checkChar = '3';
                 priv.grayedChar = String.EMPTY;
             }
         }
@@ -122,8 +122,8 @@ const RadioButton = (() => {
 Core.classes.register(Types.CATEGORIES.COMMON, RadioButton);
 //#region Template
 if (Core.isHTMLRenderer) {
-    const RadioButtonTpl = ["<jagui-radiobutton id=\"{internalId}\" data-class=\"RadioButton\" class=\"Control RadioButton {theme}\">",
-        "<properties>{ \"name\": \"{name}\", \"height\": 16 }</properties>{caption}</jagui-radiobutton>"].join(String.EMPTY);
+    const RadioButtonTpl = ['<jagui-radiobutton id="{internalId}" data-class="RadioButton" class="Control RadioButton {theme}">',
+        '<properties>{ "name": "{name}", "height": 16 }</properties>{caption}</jagui-radiobutton>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: RadioButton, template: RadioButtonTpl }]);
 }
 //#endregion

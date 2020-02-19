@@ -8,7 +8,7 @@ const PerfGraph = class PerfGraph {
         this.GRAPH_HISTORY_COUNT = 100;
         this.GPU_QUERY_COUNT = 5;
         this.style = this.GRAPH_RENDER_FPS;
-        this.name = "";
+        this.name = '';
         this.values = [];
         this.head = 0;
         this.show = false;
@@ -47,8 +47,8 @@ const PerfGraph = class PerfGraph {
         //#region Variables déclaration
         let str = null;
         let i = 0;
-        const fontName = "serif";
-        const ctx = Core.perfCanvas.getContext("2d");
+        const fontName = 'serif';
+        const ctx = Core.perfCanvas.getContext('2d');
         const avg = this.getGraphAverage();
         const w = ctx.canvas.width;
         const h = ctx.canvas.height;
@@ -61,7 +61,7 @@ const PerfGraph = class PerfGraph {
         if (this.show) {
             ctx.beginPath();
             ctx.rect(x, y, w, h);
-            ctx.fillStyle = "rgba(0,0,0,0.5)";
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
             ctx.fill();
             ctx.beginPath();
             ctx.moveTo(x, y + h);
@@ -105,42 +105,42 @@ const PerfGraph = class PerfGraph {
                 }
             }
             ctx.lineTo(x + w, y + h);
-            ctx.fillStyle = "rgba(255, 192, 0, 0.5)";
+            ctx.fillStyle = 'rgba(255, 192, 0, 0.5)';
             ctx.fill();
             if (this.name[0] !== '\0') {
                 ctx.font = `14px ${fontName}`;
-                ctx.textAlign = "left";
-                ctx.textBaseline = "top";
-                ctx.fillStyle = "rgba(240, 240, 240, 0.75)";
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'top';
+                ctx.fillStyle = 'rgba(240, 240, 240, 0.75)';
                 ctx.fillText(this.name, x + 3, y + 1);
             }
             if (this.style === GRAPH_RENDER_FPS) {
                 ctx.font = `18px ${fontName}`;
-                ctx.textAlign = "right";
-                ctx.textBaseline = "top";
-                ctx.fillStyle = "rgb(240, 240, 240)";
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'top';
+                ctx.fillStyle = 'rgb(240, 240, 240)';
                 str = `${(1.0 / avg).toFixed(2)} FPS`;
                 ctx.fillText(str, x + w - 3, y + 1);
                 ctx.font = `15px ${fontName}`;
-                ctx.textAlign = "right";
-                ctx.textBaseline = "bottom";
-                ctx.fillStyle = "rgba(240, 240, 240, 0.62)";
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'bottom';
+                ctx.fillStyle = 'rgba(240, 240, 240, 0.62)';
                 str = `${(avg * 1000).toFixed(2)} ms`;
                 ctx.fillText(str, x + w - 3, y + h - 1);
             }
             else if (this.style === GRAPH_RENDER_PERCENT) {
                 ctx.fontSize(18.0);
-                ctx.textAlign = "right";
-                ctx.textBaseline = "top";
-                ctx.fillStyle = "rgb(240, 240, 240)";
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'top';
+                ctx.fillStyle = 'rgb(240, 240, 240)';
                 str = `${(avg * 1.0).toFixed(1)} %`;
                 ctx.fillText(str, x + w - 3, y + 1);
             }
             else {
                 ctx.font = `18px ${fontName}`;
-                ctx.textAlign = "right";
-                ctx.textBaseline = "top";
-                ctx.fillStyle = "rgb(240, 240, 240)";
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'top';
+                ctx.fillStyle = 'rgb(240, 240, 240)';
                 str = `${(avg * 1000).toFixed(2)} ms`;
                 ctx.fillText(str, x + w - 3, y + 1);
             }
@@ -154,16 +154,16 @@ const PerfGraph = class PerfGraph {
 //#region initCanvas
 Core.initCanvas = function () {
     //#region Variables déclaration
-    const canvas = document.createElement("canvas");
-    const buffer = document.createElement("canvas");
-    const perfCanvas = document.createElement("canvas");
+    const canvas = document.createElement('canvas');
+    const buffer = document.createElement('canvas');
+    const perfCanvas = document.createElement('canvas');
     const canvasStyle = canvas.style;
     const perfCanvasStyle = perfCanvas.style;
     const fps = new PerfGraph();
     //#endregion Variables déclaration
     isCoreReady = this.apps && this.apps.activeApplication;
     if (isCoreReady) {
-        fps.initGraph(fps.GRAPH_RENDER_FPS, "Frame Time");
+        fps.initGraph(fps.GRAPH_RENDER_FPS, 'Frame Time');
         this.canvas = canvas;
         this.canvas.needRedraw = false;
         this.buffer = buffer;
@@ -172,50 +172,50 @@ Core.initCanvas = function () {
         this.metrics = {};
         document.body.appendChild(canvas);
         document.body.appendChild(perfCanvas);
-        canvasStyle.position = "absolute";
+        canvasStyle.position = 'absolute';
         canvasStyle.left = 0;
         canvasStyle.right = 0;
         canvasStyle.top = 0;
         canvasStyle.bottom = 0;
-        canvasStyle.width = "100%";
-        canvasStyle.height = "100%";
+        canvasStyle.width = '100%';
+        canvasStyle.height = '100%';
         canvasStyle.zIndex = 1;
 
-        perfCanvasStyle.position = "absolute";
-        perfCanvasStyle.left = "5px";
-        perfCanvasStyle.top = "5px";
-        perfCanvasStyle.width = "200px";
-        perfCanvasStyle.height = "35px";
+        perfCanvasStyle.position = 'absolute';
+        perfCanvasStyle.left = '5px';
+        perfCanvasStyle.top = '5px';
+        perfCanvasStyle.width = '200px';
+        perfCanvasStyle.height = '35px';
         perfCanvas.width = 200;
         perfCanvas.height = 35;
         perfCanvasStyle.zIndex = 2;
 
         buffer.width = canvas.width = window.innerWidth;
         buffer.height = canvas.height = window.innerHeight;
-        window.addEventListener("resize", (event) => {
+        window.addEventListener('resize', (event) => {
             buffer.width = canvas.width = window.innerWidth;
             buffer.height = canvas.height = window.innerHeight;
         });
-        this.ctxC = canvas.getContext("2d");
-        this.ctx = buffer.getContext("2d");
-        canvas.addEventListener("mousemove", this.internalMouseEvent, true);
-        canvas.addEventListener("mousedown", this.internalMouseEvent, true);
-        canvas.addEventListener("mouseup", this.internalMouseEvent, true);
-        canvas.addEventListener("DOMMouseScroll", this.internalMouseEvent, true);
-        canvas.addEventListener("mousewheel", this.internalMouseEvent, true);
-        canvas.addEventListener("touchstart", this.internalMouseEvent, true);
-        canvas.addEventListener("touchmove", this.internalMouseEvent, true);
-        canvas.addEventListener("touchend", this.internalMouseEvent, true);
-        canvas.addEventListener("dblclick", this.internalMouseEvent, true);
+        this.ctxC = canvas.getContext('2d');
+        this.ctx = buffer.getContext('2d');
+        canvas.addEventListener('mousemove', this.internalMouseEvent, true);
+        canvas.addEventListener('mousedown', this.internalMouseEvent, true);
+        canvas.addEventListener('mouseup', this.internalMouseEvent, true);
+        canvas.addEventListener('DOMMouseScroll', this.internalMouseEvent, true);
+        canvas.addEventListener('mousewheel', this.internalMouseEvent, true);
+        canvas.addEventListener('touchstart', this.internalMouseEvent, true);
+        canvas.addEventListener('touchmove', this.internalMouseEvent, true);
+        canvas.addEventListener('touchend', this.internalMouseEvent, true);
+        canvas.addEventListener('dblclick', this.internalMouseEvent, true);
         //prevt = new Date().getTime() / 1000;
     }
     this.themes.images = {};
-    this.loadImages("../../images/", ["logo.png"]);
+    this.loadImages('../../images/', ['logo.png']);
     this.themes.fonts = {};
-    this.loadFonts("../../../../fonts", [
+    this.loadFonts('../../../../fonts', [
         {
-            alias: "jagui",
-            file: "jagui.ttf"
+            alias: 'jagui',
+            file: 'jagui.ttf'
         }
     ]);
     const _fini = () => {
@@ -223,7 +223,7 @@ Core.initCanvas = function () {
     };
     if (isCoreReady) {
         //window.requestAnimationFrame(_tick);
-        Core.looper.addListener(Core, "_tick");
+        Core.looper.addListener(Core, '_tick');
     }
 };
 //#endregion initCanvas
@@ -273,7 +273,7 @@ Core.loadFonts = (path, fonts, callback) => {
                 });
             }
         } else {
-            Core.themes.fonts[font.alias] = { status: "loaded" };
+            Core.themes.fonts[font.alias] = { status: 'loaded' };
             if (callback && Tools.isFunc(callback)) {
                 callback();
             }
@@ -286,7 +286,7 @@ Core.loadImages = (path, images) => {
     //#region Variables déclaration
     //#endregion Variables déclaration
     images.forEach(image => {
-        const imgName = image.split(".")[0];
+        const imgName = image.split('.')[0];
         const img = new Image();
         Core.themes.images[imgName] = img;
         img.onerror = function () {
@@ -308,7 +308,7 @@ Core.deleteImages = (theme) => {
     });
 };
 //#endregion deleteImages
-Object.defineProperty(Core, "showFPS", {
+Object.defineProperty(Core, 'showFPS', {
     get: function () {
         return this.fps.show;
     },
@@ -320,12 +320,12 @@ Object.defineProperty(Core, "showFPS", {
 
 });
 Core.checkFontAvailable = (font) => {
-    if (font && font !== "______NONE______") {
-        const context = document.createElement("canvas").getContext("2d");
+    if (font && font !== '______NONE______') {
+        const context = document.createElement('canvas').getContext('2d');
         context.font = `200px ______NONE______`;
-        const originalWidth = context.measureText("A").width;
-        context.font = `200px ${font.replace(/^\s*['"]|['"]\s*$/g, String.EMPTY)}`;
-        return context.measureText("A").width !== originalWidth;
+        const originalWidth = context.measureText('A').width;
+        context.font = `200px ${font.replace(/^\s*['']|['']\s*$/g, String.EMPTY)}`;
+        return context.measureText('A').width !== originalWidth;
     }
     return false;
 };

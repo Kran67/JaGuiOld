@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { BaseClass } from "/scripts/core/baseclass.js";
-import { Css } from "/scripts/core/css.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+import { Css } from '/scripts/core/css.js';
 //#endregion
 //#region AnimatedCursor
 /**
@@ -142,9 +142,9 @@ const AnimatedCursor = (() => {
             const curFrame = this.curFrame;
             htmlElement.classList.remove(className);
             htmlElement.classList.add(`${className}${curFrame}`);
-            this.maxFrame = ~~Css.getCSSValue(`.${theme}.${className}${curFrame}`, Core.browser.getVendorPrefixedCssProperty("animation-iteration-count"), null, theme);
-            this.iterationBetweenFrames = ~~parseFloat(Css.getCSSValue(`.${theme}.${className}${curFrame}`, Core.browser.getVendorPrefixedCssProperty("animation-duration"), null, theme)) | 0;
-            Core.looper.addListener(this, "animate");
+            this.maxFrame = ~~Css.getCSSValue(`.${theme}.${className}${curFrame}`, Core.browser.getVendorPrefixedCssProperty('animation-iteration-count'), null, theme);
+            this.iterationBetweenFrames = ~~parseFloat(Css.getCSSValue(`.${theme}.${className}${curFrame}`, Core.browser.getVendorPrefixedCssProperty('animation-duration'), null, theme)) | 0;
+            Core.looper.addListener(this, 'animate');
         }
         /**
          * Stop the animation

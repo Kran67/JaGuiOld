@@ -1,5 +1,5 @@
 ﻿//#region Import
-import { ColorSlider } from "/scripts/components/color/colorslider.js";
+import { ColorSlider } from '/scripts/components/color/colorslider.js';
 //#endregion Import
 //#region AlphaSlider
 const AlphaSlider = (() => {
@@ -62,8 +62,8 @@ Core.classes.register(Types.CATEGORIES.COLOR, AlphaSlider);
 export { AlphaSlider };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const AlphaSliderTpl = ["<jagui-alphaslider id=\"{internalId}\" data-class=\"AlphaSlider\" class=\"Control Slider AlphaSlider {theme} csr_default\">",
-        "<properties>{ \"name\": \"{name}\", \"values\": [1,0], \"width\":  100, \"height\": 6 }</properties></jagui-alphaslider>"].join(String.EMPTY);
+    const AlphaSliderTpl = ['<jagui-alphaslider id="{internalId}" data-class="AlphaSlider" class="Control Slider AlphaSlider {theme} csr_default">',
+        '<properties>{ "name": "{name}", "values": [1,0], "width":  100, "height": 6 }</properties></jagui-alphaslider>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: AlphaSlider, template: AlphaSliderTpl }]);
 }
 //#endregion

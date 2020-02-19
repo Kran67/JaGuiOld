@@ -1,15 +1,15 @@
 //#region Import
-import { ThemedControl } from "/scripts/core/themedcontrol.js";
-import { Tools } from "/scripts/core/tools.js";
-import "/scripts/components/containers/layout.js";
-import "/scripts/core/captioncontrol.js";
-import "/scripts/components/common/windowbuttons.js";
-import { Keyboard } from "/scripts/core/keyboard.js";
-import { Mouse } from "/scripts/core/mouse.js";
-import { Events } from "/scripts/core/events.js";
-import { RectAnimation } from "/scripts/core/rectanimation.js";
-import { Point } from "/scripts/core/geometry.js";
-import { Convert } from "/scripts/core/convert.js";
+import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { Tools } from '/scripts/core/tools.js';
+import '/scripts/components/containers/layout.js';
+import '/scripts/core/captioncontrol.js';
+import '/scripts/components/common/windowbuttons.js';
+import { Keyboard } from '/scripts/core/keyboard.js';
+import { Mouse } from '/scripts/core/mouse.js';
+import { Events } from '/scripts/core/events.js';
+import { RectAnimation } from '/scripts/core/rectanimation.js';
+import { Point } from '/scripts/core/geometry.js';
+import { Convert } from '/scripts/core/convert.js';
 //#endregion Import
 //#region WindowTitleBar
 const WindowTitleBar = (() => {
@@ -48,7 +48,7 @@ const WindowTitleBar = (() => {
                 priv.visibleBtns = 0;
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "horizAlign",
+                    propName: 'horizAlign',
                     enum: textAligns,
                     forceUpdate: true,
                     variable: priv,
@@ -256,7 +256,7 @@ const WindowTitleBar = (() => {
             const bcr = this.getBoundingClientRect();
             const htmlElement = this.HTMLElement;
             const themeName = this.app.themeManifest.themeName;
-            const snapElement = document.getElementById("snapArea");
+            const snapElement = document.getElementById('snapArea');
             //#endregion Variables déclaration
             if (mouse.button === Mouse.MOUSEBUTTONS.RIGHT) {
                 if (form.isBorderSingle || form.isBorderSizeable) {
@@ -277,7 +277,7 @@ const WindowTitleBar = (() => {
                     } else {
                         offsetX = 20;
                         if (Core.themes[themeName].sysMenuPosition &&
-                            Core.themes[themeName].sysMenuPosition === "right") {
+                            Core.themes[themeName].sysMenuPosition === 'right') {
                             leftSysMenu = bcr.right - offsetX;
                         }
                     }
@@ -454,7 +454,7 @@ const WindowTitleBar = (() => {
                     };
                 }
                 if (dataClass) {
-                    if (dataClass !== "WindowTitle") {
+                    if (dataClass !== 'WindowTitle') {
                         obj = Core.classes.createComponent({
                             class: Core.classes[dataClass],
                             owner: this,
@@ -465,7 +465,7 @@ const WindowTitleBar = (() => {
                         });
                     }
                     switch (dataClass) {
-                        case "WindowTitle":
+                        case 'WindowTitle':
                             priv.title = Core.isHTMLRenderer?node:properties.caption;
                             /*title.mouseDown = function () {
                                 this.owner.mouseDown();
@@ -481,22 +481,22 @@ const WindowTitleBar = (() => {
                             //title.width = this.width;
                             //title.hitTest.all = false;
                             break;
-                        case "WindowCloseButton":
+                        case 'WindowCloseButton':
                             priv.closeBtn = obj;
                             break;
-                        case "WindowMinimizeButton":
+                        case 'WindowMinimizeButton':
                             priv.minimizeBtn = obj;
                             break;
-                        case "WindowMaxRestoreButton":
+                        case 'WindowMaxRestoreButton':
                             priv.maxRestoreBtn = obj;
                             break;
-                        case "WindowHelpButton":
+                        case 'WindowHelpButton':
                             priv.helpBtn = obj;
                             break;
-                        case "WindowRollUpDownButton":
+                        case 'WindowRollUpDownButton':
                             priv.rollUpDownBtn = obj;
                             break;
-                        case "WindowStayOnOffButton":
+                        case 'WindowStayOnOffButton':
                             priv.stayOnOffBtn = obj;
                             break;
                     }
@@ -532,7 +532,7 @@ const WindowTitleBar = (() => {
         //#region calcVisibleBtns
         calcVisibleBtns() {
             //#region Variables déclaration
-            const buttons = ["close", "maxRestore", "minimize", "help", "rollUpDown", "stayOnOff"];
+            const buttons = ['close', 'maxRestore', 'minimize', 'help', 'rollUpDown', 'stayOnOff'];
             let visbleBtns = 0;
             const priv = internal(this);
             //#endregion Variables déclaration
@@ -632,34 +632,34 @@ const BaseWindow = (() => {
                 priv.toolBars = [];
                 priv.statusBars = [];
                 priv.isResizing = false;
-                priv.snapArea = props.hasOwnProperty("snapArea") ? props.snapArea : Window.SNAPAREAS.NONE;
+                priv.snapArea = props.hasOwnProperty('snapArea') ? props.snapArea : Window.SNAPAREAS.NONE;
                 priv.destroyOnHide = false;
                 priv.controls = [];
-                priv.isChildWindow = props.hasOwnProperty("parentHTML") ? (props.parentHTML !== document.body ? true : false) : false;
-                priv.parentHTML = props.hasOwnProperty("parentHTML") ? props.parentHTML : null;
+                priv.isChildWindow = props.hasOwnProperty('parentHTML') ? (props.parentHTML !== document.body ? true : false) : false;
+                priv.parentHTML = props.hasOwnProperty('parentHTML') ? props.parentHTML : null;
                 priv.lastZIndex = -1;
                 priv.animated = true;
                 priv.keyPreview = false;
-                priv.icon = "logo";
+                priv.icon = 'logo';
                 priv.mainMenu = null;
                 priv.activeControl = null;
                 priv.canClose = true;
                 priv.moveable = true;
-                priv.stayOn = props.hasOwnProperty("stayOn")? props.stayOn : false;
-                priv.enabledShadow = props.hasOwnProperty("enabledShadow") ? props.enabledShadow : true;
+                priv.stayOn = props.hasOwnProperty('stayOn')? props.stayOn : false;
+                priv.enabledShadow = props.hasOwnProperty('enabledShadow') ? props.enabledShadow : true;
                 //priv.minimizeAnimation = new RectAnimation(this, { inForm: false });
-                priv.position = props.hasOwnProperty("position") ? props.position : FORMPOSITIONS.DEFAULT;
-                priv.buttons = props.hasOwnProperty("buttons") ? props.buttons : null;
+                priv.position = props.hasOwnProperty('position') ? props.position : FORMPOSITIONS.DEFAULT;
+                priv.buttons = props.hasOwnProperty('buttons') ? props.buttons : null;
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "position",
+                    propName: 'position',
                     enum: FORMPOSITIONS,
                     variable: priv,
-                    value: props.hasOwnProperty("formPosition") ? props.formPosition : FORMPOSITIONS.DESIGNED
+                    value: props.hasOwnProperty('formPosition') ? props.formPosition : FORMPOSITIONS.DESIGNED
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "windowState",
+                    propName: 'windowState',
                     enum: WINDOWSTATES,
                     setter: function(newValue) {
                         //#region Variables déclaration
@@ -703,11 +703,11 @@ const BaseWindow = (() => {
                         }
                     },
                     variable: priv,
-                    value: props.hasOwnProperty("windowState") ? props.windowState : WINDOWSTATES.NORMAL
+                    value: props.hasOwnProperty('windowState') ? props.windowState : WINDOWSTATES.NORMAL
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "borderStyle",
+                    propName: 'borderStyle',
                     enum: BORDERSTYLES,
                     setter: function(newValue) {
                         //#region Variables déclaration
@@ -752,28 +752,28 @@ const BaseWindow = (() => {
                         }
                     },
                     variable: priv,
-                    value: props.hasOwnProperty("borderStyle") ? props.borderStyle : BORDERSTYLES.SIZEABLE
+                    value: props.hasOwnProperty('borderStyle') ? props.borderStyle : BORDERSTYLES.SIZEABLE
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "bordersType",
+                    propName: 'bordersType',
                     enum: BORDERSTYPES,
                     variable: priv,
-                    value: props.hasOwnProperty("bordersType") ? props.bordersType : BORDERSTYPES.NONE
+                    value: props.hasOwnProperty('bordersType') ? props.bordersType : BORDERSTYPES.NONE
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "modalResult",
+                    propName: 'modalResult',
                     enum: MODALRESULTS,
                     variable: priv,
                     value: MODALRESULTS.NONE
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "showingMode",
+                    propName: 'showingMode',
                     enum: SHOWINGMODES,
                     variable: priv,
-                    value: props.hasOwnProperty("showingMode") ? props.showingMode : SHOWINGMODES.NORMAL
+                    value: props.hasOwnProperty('showingMode') ? props.showingMode : SHOWINGMODES.NORMAL
                 });
                 //#endregion Private
                 //#region Public
@@ -988,7 +988,7 @@ const BaseWindow = (() => {
             if (Tools.isBool(newValue)) {
                 if (newValue !== priv.keyPreview) {
                     priv.keyPreview = newValue;
-                    this.propertyChanged("keyPreview");
+                    this.propertyChanged('keyPreview');
                 }
             }
         }
@@ -1007,7 +1007,7 @@ const BaseWindow = (() => {
                 if (icon !== newValue) {
                     htmlElement.classList.remove(icon);
                     icon = priv.icon = newValue;
-                    if (newValue.contains("base64")) {
+                    if (newValue.contains('base64')) {
 
                     } else {
                         htmlElement.classList.add(icon);
@@ -1197,30 +1197,30 @@ const BaseWindow = (() => {
         get template() {
             //#region Variables déclaration
             let html = super.template;
-            let a = html.split("{appName}");
+            let a = html.split('{appName}');
             //#endregion Variables déclaration
             html = a.join(internal(this).app.name);
-            a = html.split("{internalId_Layout}");
+            a = html.split('{internalId_Layout}');
             html = a.join(String.uniqueId());
-            a = html.split("{internalId_content}");
+            a = html.split('{internalId_content}');
             html = a.join(String.uniqueId());
-            a = html.split("{internalId_TitleBar}");
+            a = html.split('{internalId_TitleBar}');
             html = a.join(String.uniqueId());
-            //a=html.split("{internalId_Icon}");
+            //a=html.split('{internalId_Icon}');
             //html=a.join(String.uniqueId());
-            a = html.split("{internalId_Title}");
+            a = html.split('{internalId_Title}');
             html = a.join(String.uniqueId());
-            a = html.split("{internalId_CloseButton}");
+            a = html.split('{internalId_CloseButton}');
             html = a.join(String.uniqueId());
-            a = html.split("{internalId_MaxRestoreButton}");
+            a = html.split('{internalId_MaxRestoreButton}');
             html = a.join(String.uniqueId());
-            a = html.split("{internalId_MinimizeButton}");
+            a = html.split('{internalId_MinimizeButton}');
             html = a.join(String.uniqueId());
-            a = html.split("{internalId_HelpButton}");
+            a = html.split('{internalId_HelpButton}');
             html = a.join(String.uniqueId());
-            a = html.split("{internalId_RollUpDownButton}");
+            a = html.split('{internalId_RollUpDownButton}');
             html = a.join(String.uniqueId());
-            a = html.split("{internalId_StayOnOffButton}");
+            a = html.split('{internalId_StayOnOffButton}');
             html = a.join(String.uniqueId());
             return html;
         }
@@ -1274,7 +1274,7 @@ const BaseWindow = (() => {
                     }
                     activeWindow.onDeactivate.invoke();
                     if (isHtmlRenderer) {
-                        htmlElement.classList.add("inactive");
+                        htmlElement.classList.add('inactive');
                     }
                     if (activeWindow) {
                         if (!priv.isChildWindow && this !== app.mainWindow) {
@@ -1287,7 +1287,7 @@ const BaseWindow = (() => {
             }
             window.activeWindow = activeWindow = app.activeWindow = this;
             if (isHtmlRenderer) {
-                htmlElement.classList.remove("inactive");
+                htmlElement.classList.remove('inactive');
             }
             this.onActivate.invoke();
         }
@@ -1417,7 +1417,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const titleBar = priv.titleBar;
-            const buttons = ["close", "maxRestore", "minimize", "help", "rollUpDown", "stayOnOff"];
+            const buttons = ['close', 'maxRestore', 'minimize', 'help', 'rollUpDown', 'stayOnOff'];
             const btns = Core.themes[this.themeName].WindowButton;
             let invisbleBtns = 0;
             //#endregion Variables déclaration
@@ -1430,7 +1430,7 @@ const BaseWindow = (() => {
                     if (data.offset !== undefined) {
                         offset = data.offset;
                     }
-                    if (data.hasOwnProperty("visible")) {
+                    if (data.hasOwnProperty('visible')) {
                         button.visible = data.visible;
                     }
                 }
@@ -1509,12 +1509,12 @@ const BaseWindow = (() => {
             this.onHide.invoke();
             priv.isModal = false;
             if (isHtmlRenderer) {
-                htmlElement.classList.remove("bounceIn");
-                htmlElement.classList.add("bounceOut");
+                htmlElement.classList.remove('bounceIn');
+                htmlElement.classList.add('bounceOut');
             }
             this.stopResize();
             if (isHtmlRenderer) {
-                if (htmlElement.classList.contains("animated")) {
+                if (htmlElement.classList.contains('animated')) {
                     Events.bind(htmlElement, Events.whichAnimationEvent(), this.anitmationEndOnHide);
                 }
                 else {
@@ -1630,7 +1630,7 @@ const BaseWindow = (() => {
                 const htmlElementStyle = form.HTMLElementStyle;
                 htmlElementStyle.transitionProperty = String.EMPTY;
                 htmlElementStyle.transitionDuration = String.EMPTY;
-                Events.unBind(form.HTMLElement, "transitionend", form._onMinimizeFinish);
+                Events.unBind(form.HTMLElement, 'transitionend', form._onMinimizeFinish);
             } else {
                 Core.canvas.needRedraw = true;
             }
@@ -1644,13 +1644,13 @@ const BaseWindow = (() => {
             const isHtmlRenderer = Core.isHTMLRenderer;
             //#endregion Variables déclaration
             if (!this.isMinimized) {
-                minimizeBtn.toolTip = "Rétablir précédent"; // à voir pour mettre en locale
+                minimizeBtn.toolTip = 'Rétablir précédent'; // à voir pour mettre en locale
                 this.minimize();
                 if (isHtmlRenderer) {
-                    //Css.addClass(minimizeBtn.HTMLElement, "isrestore");
+                    //Css.addClass(minimizeBtn.HTMLElement, 'isrestore');
                 }
             } else {
-                minimizeBtn.toolTip = "Réduire"; // à voir pour mettre en locale
+                minimizeBtn.toolTip = 'Réduire'; // à voir pour mettre en locale
                 this.restore();
                 if (isHtmlRenderer) {
                     ///Css.removeClass(minimizeBtn.HTMLElement, "isrestore");
@@ -1681,8 +1681,8 @@ const BaseWindow = (() => {
                 if (Core.isHTMLRenderer) {
                     htmlElement.classList.add(WINDOWSTATES.MAXIMIZED);
                     htmlElement.classList.remove(WINDOWSTATES.MINIMIZED);
-                    htmlElementStyle.left = `0${PX}`;
-                    htmlElementStyle.top = `0${PX}`;
+                    htmlElementStyle.left = `0`;
+                    htmlElementStyle.top = `0`;
                     htmlElementStyle.width = `${document.body.offsetWidth}${PX}`;
                     htmlElementStyle.height = `${document.body.offsetHeight}${PX}`;
                     priv.windowState = WINDOWSTATES.MAXIMIZED;
@@ -1718,20 +1718,20 @@ const BaseWindow = (() => {
             const WINDOWSTATES = Window.WINDOWSTATES;
             //#endregion Variables déclaration
             if (!this.isMaximized) {
-                maxRestoreBtn.toolTip = "Rétablir précédent"; // à voir pour mettre en locale
+                maxRestoreBtn.toolTip = 'Rétablir précédent'; // à voir pour mettre en locale
                 if (priv.windowState === WINDOWSTATES.SNAPED && priv.snapArea === Window.SNAPAREAS.TOP) {
                     this.restoreWindow();
                 } else {
                     this.maximize();
                 }
                 if (isHtmlRenderer) {
-                    maxRestoreBtn.HTMLElement.classList.add("isrestore");
+                    maxRestoreBtn.HTMLElement.classList.add('isrestore');
                 }
             } else {
-                maxRestoreBtn.toolTip = "Agrandir"; // à voir pour mettre en locale
+                maxRestoreBtn.toolTip = 'Agrandir'; // à voir pour mettre en locale
                 this.restore();
                 if (isHtmlRenderer) {
-                    maxRestoreBtn.HTMLElement.classList.remove("isrestore");
+                    maxRestoreBtn.HTMLElement.classList.remove('isrestore');
                 }
             }
         }
@@ -1752,16 +1752,16 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             if (Core.isHTMLRenderer) {
                 const htmlElementStyle = this.HTMLElementStyle;
-                htmlElementStyle.transitionProperty = "left, width, top, height";
-                htmlElementStyle.transitionDuration = "0.2s";
-                Events.bind(this.HTMLElement, "transitionend", this._onMinimizeFinish);
+                htmlElementStyle.transitionProperty = 'left, width, top, height';
+                htmlElementStyle.transitionDuration = '0.2s';
+                Events.bind(this.HTMLElement, 'transitionend', this._onMinimizeFinish);
                 if ([WINDOWSTATES.MAXIMIZED, WINDOWSTATES.MINIMIZED].indexOf(priv.windowState) > -1) {
                     htmlElementStyle.left = `${savedSizePosState.left}${PX}`;
                     htmlElementStyle.top = `${savedSizePosState.top}${PX}`;
                     htmlElementStyle.width = `${savedSizePosState.width}${PX}`;
                     htmlElementStyle.height = `${savedSizePosState.height}${PX}`;
-                    htmlElementStyle.right = "auto";
-                    htmlElementStyle.bottom = "auto";
+                    htmlElementStyle.right = 'auto';
+                    htmlElementStyle.bottom = 'auto';
                     priv.windowState = WINDOWSTATES.NORMAL;
                 }
                 this.HTMLElement.classList.remove(WINDOWSTATES.MAXIMIZED, WINDOWSTATES.MINIMIZED);
@@ -1823,7 +1823,7 @@ const BaseWindow = (() => {
             if (this.isBorderSizeable || this.isBorderSingle || titleBar.rollUpDownBtn.visible) {
                 if (isHtmlRenderer) {
                     savedSizePosState.height = this.HTMLElement.offsetHeight;
-                    this.HTMLElement.classList.add("rolledUp");
+                    this.HTMLElement.classList.add('rolledUp');
                 } else {
                     savedSizePosState.height = this.height;
                     if (theme && theme.Window && theme.Window.minHeight) {
@@ -1841,7 +1841,7 @@ const BaseWindow = (() => {
                 priv.windowState = Window.WINDOWSTATES.ROLLEDUP;
                 rollUpDownBtn.isRolledUp = true;
                 if (isHtmlRenderer) {
-                    rollUpDownBtn.HTMLElement.classList.add("isup");
+                    rollUpDownBtn.HTMLElement.classList.add('isup');
                 } else {
                     Core.canvas.needRedraw = true;
                 }
@@ -1862,7 +1862,7 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             if (this.isRolledUp) {
                 if (isHtmlRenderer) {
-                    this.HTMLElement.classList.remove("rolledUp");
+                    this.HTMLElement.classList.remove('rolledUp');
                 } else {
                     this.height = savedSizePosState.height;
                 }
@@ -1876,7 +1876,7 @@ const BaseWindow = (() => {
                 priv.content.visible = true;
                 rollUpDownBtn.isRolledUp = false;
                 if (isHtmlRenderer) {
-                    rollUpDownBtn.HTMLElement.classList.remove("isup");
+                    rollUpDownBtn.HTMLElement.classList.remove('isup');
                 } else {
                     this.realignChilds();
                     Core.canvas.needRedraw = true;
@@ -1908,7 +1908,7 @@ const BaseWindow = (() => {
                     this.HTMLElementStyle.zIndex = Window.STAYONTOP;
                 }
                 if (Core.isHTMLRenderer) {
-                    stayOnOffBtn.HTMLElement.classList.add("isstayon");
+                    stayOnOffBtn.HTMLElement.classList.add('isstayon');
                 }
                 stayOnOffBtn.isStayOn = priv.stayOn = true;
                 this.stopResize();
@@ -1924,9 +1924,9 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             if (this.isBorderSizeable || this.isBorderSingle || titleBar.stayOnOffBtn.visible) {
                 stayOnOffBtn.isStayOn = priv.stayOn = false;
-                stayOnOffBtn.toolTip = "Epingler au dessus"; // à voir pour mettre en locale
+                stayOnOffBtn.toolTip = 'Epingler au dessus'; // à voir pour mettre en locale
                 if (Core.isHTMLRenderer) {
-                    stayOnOffBtn.HTMLElement.classList.remove("isstayon");
+                    stayOnOffBtn.HTMLElement.classList.remove('isstayon');
                 }
                 if (Core.isHTMLRenderer) {
                     this.HTMLElementStyle.zIndex = priv.lastZIndex;
@@ -1989,9 +1989,9 @@ const BaseWindow = (() => {
             this.visible = true;
             this.setActive();
             if (priv.animated && Core.isHTMLRenderer) {
-                htmlElement.classList.add("animated","bounceIn");
+                htmlElement.classList.add('animated','bounceIn');
                 Events.bind(htmlElement, Events.whichAnimationEvent(), this.anitmationEndOnShow);
-                const defaultBtn = htmlElement.querySelector(".isDefault");
+                const defaultBtn = htmlElement.querySelector('.isDefault');
                 if (defaultBtn && !priv.focusedControl) {
                     defaultBtn.jsObj.setFocus();
                 }
@@ -2002,7 +2002,7 @@ const BaseWindow = (() => {
         anitmationEndOnShow() {
             Events.unBind(this, Events.whichAnimationEvent(), this.jsObj.anitmationEndOnShow);
             setTimeout(() => {
-                Core.apps.activeApplication.activeWindow.HTMLElement.classList.remove("bounceIn","hidden");
+                Core.apps.activeApplication.activeWindow.HTMLElement.classList.remove('bounceIn','hidden');
             }, 0);
         }
         //#endregion anitmationEndOnShow
@@ -2013,7 +2013,7 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             if (Core.isHTMLRenderer) {
                 Events.unBind(this, Events.whichAnimationEvent(), jsObj.anitmationEndOnHide);
-                this.classList.remove("bounceOut","animated","inactive");
+                this.classList.remove('bounceOut','animated','inactive');
             }
             jsObj.visible = false;
             //this.dataset.isactive = false;
@@ -2041,7 +2041,7 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             if (isHtmlRenderer) {
                 glass = document.createElement(Types.HTMLELEMENTS.DIV);
-                glass.classList.add("noEvents");
+                glass.classList.add('noEvents');
                 glass.jsObj = this;
             }
             priv.isModal = true;
@@ -2163,7 +2163,7 @@ const BaseWindow = (() => {
                 Core.resizeWindow = this;
                 Events.bind(document, Mouse.MOUSEEVENTS.MOVE.toLowerCase(), this.docMouseMove);
                 Events.bind(document, Mouse.MOUSEEVENTS.UP.toLowerCase(), this.docMouseUp);
-                Core.looper.addListener(this, "resize");
+                Core.looper.addListener(this, 'resize');
             }
         }
         //#endregion mouseDown
@@ -2445,7 +2445,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             let str = super.addCSSClass([]);
             //#endregion Variables déclaration
-            str = Text.replace(str, this.ClassName, "Window");
+            str = Text.replace(str, this.ClassName, 'Window');
             return str;
         }
         //#endregion addCSSClass
@@ -2514,7 +2514,7 @@ const BaseWindow = (() => {
                         withTpl: false
                     });
                     switch (dataClass) {
-                        case "WindowTitleBar": {
+                        case 'WindowTitleBar': {
                             priv.titleBar = obj;
                             const titleBar = priv.titleBar;
                             if (this.isBorderNone) {
@@ -2532,7 +2532,7 @@ const BaseWindow = (() => {
                             titleBar.align = Types.ALIGNS.TOP;
                             break;
                         }
-                        case "WindowContent": {
+                        case 'WindowContent': {
                             priv.content = obj;
                             const content = priv.content;
                             content.inForm = false;
@@ -2540,14 +2540,14 @@ const BaseWindow = (() => {
                             content.align = Types.ALIGNS.CLIENT;
                             break;
                         }
-                        case "MainMenu":
+                        case 'MainMenu':
                             priv.mainMenu = obj;
                             break;
-                        case "ToolBar":
-                        case "ToolBarContainer":
+                        case 'ToolBar':
+                        case 'ToolBarContainer':
                             priv.toolBars.push(obj);
                             break;
-                        case "StatusBar":
+                        case 'StatusBar':
                             priv.statusBars.push(obj);
                             break;
                     }
@@ -2582,14 +2582,14 @@ const BaseWindow = (() => {
         //#region bindEvents
         bindEvents() {
             super.bindEvents();
-            this.bindEventToHTML("onClose");
-            this.bindEventToHTML("onCloseQuery");
-            this.bindEventToHTML("onActivate");
-            this.bindEventToHTML("onDeactivate");
-            this.bindEventToHTML("onHide");
-            this.bindEventToHTML("onShow");
-            this.bindEventToHTML("onCreate");
-            this.bindEventToHTML("onThemeChanged");
+            this.bindEventToHTML('onClose');
+            this.bindEventToHTML('onCloseQuery');
+            this.bindEventToHTML('onActivate');
+            this.bindEventToHTML('onDeactivate');
+            this.bindEventToHTML('onHide');
+            this.bindEventToHTML('onShow');
+            this.bindEventToHTML('onCreate');
+            this.bindEventToHTML('onThemeChanged');
         }
         //#endregion center
         //#region loaded
@@ -2617,7 +2617,7 @@ const BaseWindow = (() => {
                             layoutMargin.setValues(margin.left, margin.top, margin.right, margin.bottom);
                         }
                     }
-                    if (theme.WindowLayout.hasOwnProperty("clipped")) {
+                    if (theme.WindowLayout.hasOwnProperty('clipped')) {
                         priv.layout.clipped = theme.WindowLayout.clipped;
                     }
                 }
@@ -2632,15 +2632,15 @@ const BaseWindow = (() => {
                             contentMargin.setValues(margin.left, margin.top, margin.right, margin.bottom);
                         }
                     }
-                    if (theme.WindowContent.hasOwnProperty("clipped")) {
+                    if (theme.WindowContent.hasOwnProperty('clipped')) {
                         priv.content.clipped = theme.WindowContent.clipped;
                     }
                 }
-                if (theme.Window.hasOwnProperty("clipped")) {
+                if (theme.Window.hasOwnProperty('clipped')) {
                     this.clipped = theme.Window.clipped;
                 }
                 if (theme.WindowTitleBar) {
-                    if (theme.WindowTitleBar.hasOwnProperty("clipped")) {
+                    if (theme.WindowTitleBar.hasOwnProperty('clipped')) {
                         priv.titleBar.clipped = theme.WindowTitleBar.clipped;
                     }
                 }
@@ -2773,11 +2773,11 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const SNAPAREAS = Window.SNAPAREAS;
             const priv = internal(this);
-            let snapArea = document.getElementById("snapArea");
+            let snapArea = document.getElementById('snapArea');
             //#endregion Variables déclaration
             if (!snapArea) {
-                snapArea = document.createElement("div");
-                snapArea.id = "snapArea";
+                snapArea = document.createElement('div');
+                snapArea.id = 'snapArea';
                 document.body.appendChild(snapArea);
             } else {
                 snapArea.className = String.EMPTY;
@@ -2789,21 +2789,21 @@ const BaseWindow = (() => {
                 case SNAPAREAS.TOP:
                     break;
                 case SNAPAREAS.LEFT:
-                    snapAreaStyle.left = "0";
-                    snapAreaStyle.top = "50%";
-                    snapAreaStyle.right = "100%";
-                    snapAreaStyle.bottom = "50%";
+                    snapAreaStyle.left = '0';
+                    snapAreaStyle.top = '50%';
+                    snapAreaStyle.right = '100%';
+                    snapAreaStyle.bottom = '50%';
                     break;
                 case SNAPAREAS.RIGHT:
-                    snapAreaStyle.left = "100%";
-                    snapAreaStyle.top = "50%";
-                    snapAreaStyle.right = "0";
-                    snapAreaStyle.bottom = "50%";
+                    snapAreaStyle.left = '100%';
+                    snapAreaStyle.top = '50%';
+                    snapAreaStyle.right = '0';
+                    snapAreaStyle.bottom = '50%';
                     break;
             }
             setTimeout(() => {
                 //#region Variables déclaration
-                const sa = document.getElementById("snapArea");
+                const sa = document.getElementById('snapArea');
                 //#endregion Variables déclaration
                 sa.classList.add(Core.apps.activeApplication.activeWindow.snapArea);
             }, 0);
@@ -2812,7 +2812,7 @@ const BaseWindow = (() => {
         //#region destroySnapArea
         destroySnapArea() {
             //#region Variables déclaration
-            const snapArea = document.getElementById("snapArea");
+            const snapArea = document.getElementById('snapArea');
             //#endregion Variables déclaration
             if (snapArea) {
                 document.body.removeChild(snapArea);
@@ -2873,13 +2873,13 @@ const BaseWindow = (() => {
             const className = this.constructor.name;
             const windows = app.windows;
             //#endregion Variables déclaration
-            const scripts = Convert.nodeListToArray(head.getElementsByTagName("script"));
+            const scripts = Convert.nodeListToArray(head.getElementsByTagName('script'));
             scripts.forEach(script => {
                 if (script.src.indexOf(className.toLowerCase()) > -1) {
                     head.removeChild(script);
                 }
             });
-            const styles = Convert.nodeListToArray(head.getElementsByTagName("link"));
+            const styles = Convert.nodeListToArray(head.getElementsByTagName('link'));
             styles.forEach(style => {
                 if (style.href.indexOf(className.toLowerCase()) > -1) {
                     head.removeChild(style);
@@ -2914,7 +2914,7 @@ const BaseWindow = (() => {
             priv.layout.hitTest = false;
             priv.titleBar.hitTest = false;
             if (Core.isHTMLRenderer) {
-                this.HTMLElement.classList.add("inactive");
+                this.HTMLElement.classList.add('inactive');
             }
             //this.HTMLElement.dataset.isactive = false;
         }
@@ -2956,9 +2956,9 @@ const BaseWindow = (() => {
                     if (isHtmlRenderer) {
                         htmlElementStyle.left = 0;
                         htmlElementStyle.top = 0;
-                        htmlElementStyle.width = "50%";
+                        htmlElementStyle.width = '50%';
                         htmlElementStyle.bottom = 0;
-                        htmlElementStyle.height = "auto";
+                        htmlElementStyle.height = 'auto';
                     } else {
                         this.left = 0;
                         this.top = 0;
@@ -2970,8 +2970,8 @@ const BaseWindow = (() => {
                     if (isHtmlRenderer) {
                         htmlElementStyle.left = 0;
                         htmlElementStyle.top = 0;
-                        htmlElementStyle.width = "auto";
-                        htmlElementStyle.height = "auto";
+                        htmlElementStyle.width = 'auto';
+                        htmlElementStyle.height = 'auto';
                         htmlElementStyle.bottom = 0;
                         htmlElementStyle.right = 0;
                         htmlElement.classList.add(`${SNAPED}${snapArea}`);
@@ -2986,10 +2986,10 @@ const BaseWindow = (() => {
                     if (isHtmlRenderer) {
                         htmlElementStyle.right = 0;
                         htmlElementStyle.top = 0;
-                        htmlElementStyle.width = "50%";
+                        htmlElementStyle.width = '50%';
                         htmlElementStyle.bottom = 0;
-                        htmlElementStyle.left = "auto";
-                        htmlElementStyle.height = "auto";
+                        htmlElementStyle.left = 'auto';
+                        htmlElementStyle.height = 'auto';
                         savedSizePosState.left = htmlElement.offsetLeft;
                     } else {
                         this.left = cw2;
@@ -3007,7 +3007,7 @@ const BaseWindow = (() => {
         //#endregion applySnap
         //#region render
         render() {
-            super.render("Window");
+            super.render('Window');
         }
         //#endregion render
         //#endregion
@@ -3062,8 +3062,8 @@ Object.defineProperties(BaseWindow, {
  * @type    {Object}        HELPTYPES
  */
 const _HELPTYPES = Object.freeze({
-    KEYWORD: "keyword",
-    CONTEXT: "context"
+    KEYWORD: 'keyword',
+    CONTEXT: 'context'
 });
 //#endregion
 //#region TITLEBUTTONS
@@ -3071,12 +3071,12 @@ const _HELPTYPES = Object.freeze({
  * @type    {Object}        TITLEBUTTONS
  */
 const _TITLEBUTTONS = Object.freeze({
-    CLOSE: "close",
-    MAXRESTORE: "maxRestore",
-    MINIMIZE: "minimize",
-    HELP: "help",
-    ROLLUPDOWN: "rollUpDown",
-    STAYONOFF: "stayOnOff"
+    CLOSE: 'close',
+    MAXRESTORE: 'maxRestore',
+    MINIMIZE: 'minimize',
+    HELP: 'help',
+    ROLLUPDOWN: 'rollUpDown',
+    STAYONOFF: 'stayOnOff'
 });
 //#endregion
 //#region FORMSTATES
@@ -3084,11 +3084,11 @@ const _TITLEBUTTONS = Object.freeze({
  * @type    {Object}        FORMSTATES
  */
 const _FORMSTATES = Object.freeze({
-    CREATING: "creating",
-    VISIBLE: "visible",
-    SHOWING: "showing",
-    MODAL: "modal",
-    ACTIVATED: "activated"
+    CREATING: 'creating',
+    VISIBLE: 'visible',
+    SHOWING: 'showing',
+    MODAL: 'modal',
+    ACTIVATED: 'activated'
 });
 //#endregion
 //#region WINDOWSTATES
@@ -3096,12 +3096,12 @@ const _FORMSTATES = Object.freeze({
  * @type    {Object}        WINDOWSTATES
  */
 const _WINDOWSTATES = Object.freeze({
-    NONE: "none",
-    NORMAL: "normal",
-    MINIMIZED: "minimized",
-    MAXIMIZED: "maximized",
-    ROLLEDUP: "rolledup",
-    SNAPED: "snaped"
+    NONE: 'none',
+    NORMAL: 'normal',
+    MINIMIZED: 'minimized',
+    MAXIMIZED: 'maximized',
+    ROLLEDUP: 'rolledup',
+    SNAPED: 'snaped'
 });
 //#endregion
 //#region MODALRESULTBUTTONS
@@ -3109,18 +3109,18 @@ const _WINDOWSTATES = Object.freeze({
  * @type    {Object}        MODALRESULTBUTTONS
  */
 const _MODALRESULTBUTTONS = Object.freeze({
-    NONE: "none",
-    OK: "ok",
-    CANCEL: "cancel",
-    ABORT: "abort",
-    RETRY: "retry",
-    IGNORE: "ignore",
-    YES: "yes",
-    NO: "no",
-    ALL: "all",
-    NOTOALL: "noToAll",
-    YESTOALL: "yesToAll",
-    CLOSE: "close"
+    NONE: 'none',
+    OK: 'ok',
+    CANCEL: 'cancel',
+    ABORT: 'abort',
+    RETRY: 'retry',
+    IGNORE: 'ignore',
+    YES: 'yes',
+    NO: 'no',
+    ALL: 'all',
+    NOTOALL: 'noToAll',
+    YESTOALL: 'yesToAll',
+    CLOSE: 'close'
 });
 //#endregion
 //#region MODALRESULTS
@@ -3128,18 +3128,18 @@ const _MODALRESULTBUTTONS = Object.freeze({
  * @type    {Object}        MODALRESULTS
  */
 const _MODALRESULTS = Object.freeze({
-    NONE: "none",
-    OK: "ok",
-    CANCEL: "cancel",
-    ABORT: "abort",
-    RETRY: "retry",
-    IGNORE: "ignore",
-    YES: "yes",
-    NO: "no",
-    ALL: "all",
-    NOTOALL: "noToAll",
-    YESTOALL: "yesToAll",
-    HELP: "help"
+    NONE: 'none',
+    OK: 'ok',
+    CANCEL: 'cancel',
+    ABORT: 'abort',
+    RETRY: 'retry',
+    IGNORE: 'ignore',
+    YES: 'yes',
+    NO: 'no',
+    ALL: 'all',
+    NOTOALL: 'noToAll',
+    YESTOALL: 'yesToAll',
+    HELP: 'help'
 });
 //#endregion
 //#region FORMPOSITIONS
@@ -3147,10 +3147,10 @@ const _MODALRESULTS = Object.freeze({
  * @type    {Object}        FORMPOSITIONS
  */
 const _FORMPOSITIONS = Object.freeze({
-    DEFAULT: "default",
-    DESIGNED: "designed",
-    MAINFORMCENTER: "mainFormCenter",
-    SCREENCENTER: "screenCenter"
+    DEFAULT: 'default',
+    DESIGNED: 'designed',
+    MAINFORMCENTER: 'mainFormCenter',
+    SCREENCENTER: 'screenCenter'
 });
 //#endregion
 //#region BORDERSTYLES
@@ -3158,12 +3158,12 @@ const _FORMPOSITIONS = Object.freeze({
  * @type    {Object}        BORDERSTYLES
  */
 const _BORDERSTYLES = Object.freeze({
-    DIALOG: "dialog",
-    NONE: "none",
-    SINGLE: "single",
-    SIZEABLE: "sizeable"/*,
-    SIZETOOLWIN: "sizeToolWin",
-    TOOLWINDOW: "toolWindow"*/
+    DIALOG: 'dialog',
+    NONE: 'none',
+    SINGLE: 'single',
+    SIZEABLE: 'sizeable'/*,
+    SIZETOOLWIN: 'sizeToolWin',
+    TOOLWINDOW: 'toolWindow'*/
 });
 //#endregion
 //#region RESIZEMODES
@@ -3172,14 +3172,14 @@ const _BORDERSTYLES = Object.freeze({
  */
 const _RESIZEMODES = Object.freeze({
     NONE: String.EMPTY,
-    LEFT: "left",
-    TOP: "top",
-    RIGHT: "right",
-    BOTTOM: "bottom",
-    TOPLEFT: "topLeft",
-    TOPRIGHT: "topRight",
-    BOTTOMRIGHT: "bottomRight",
-    BOTTOMLEFT: "bottomLeft"
+    LEFT: 'left',
+    TOP: 'top',
+    RIGHT: 'right',
+    BOTTOM: 'bottom',
+    TOPLEFT: 'topLeft',
+    TOPRIGHT: 'topRight',
+    BOTTOMRIGHT: 'bottomRight',
+    BOTTOMLEFT: 'bottomLeft'
 });
 //#endregion
 //#region SNAPAREAS
@@ -3187,10 +3187,10 @@ const _RESIZEMODES = Object.freeze({
  * @type    {Object}        SNAPAREAS
  */
 const _SNAPAREAS = Object.freeze({
-    NONE: "none",
-    LEFT: "left",
-    TOP: "top",
-    RIGHT: "right"
+    NONE: 'none',
+    LEFT: 'left',
+    TOP: 'top',
+    RIGHT: 'right'
 });
 //#endregion
 //#region SHOWINGMODES
@@ -3198,8 +3198,8 @@ const _SNAPAREAS = Object.freeze({
  * @type    {Object}        SHOWINGMODES
  */
 const _SHOWINGMODES = Object.freeze({
-    NORMAL: "normal",
-    MODAL: "modal"
+    NORMAL: 'normal',
+    MODAL: 'modal'
 });
 //#endregion
 //#region BORDERSTYPES
@@ -3207,9 +3207,9 @@ const _SHOWINGMODES = Object.freeze({
  * @type    {Object}        BORDERSTYPES
  */
 const _BORDERSTYPES = Object.freeze({
-    NONE: "none",
-    SNAP: "snap",
-    MAGNETIC: "magnetic"
+    NONE: 'none',
+    SNAP: 'snap',
+    MAGNETIC: 'magnetic'
 });
 //#endregion
 
@@ -3352,19 +3352,23 @@ const Window = (() => {
 //#endregion
 Core.classes.register(Types.CATEGORIES.CONTAINERS, Window);
 Core.classes.register(Types.INTERNALCATEGORIES.INTERNAL, WindowTitleBar, WindowContent, BaseWindow);
-const WindowTitleBarTpl = `<jagui-windowtitlebar id='{internalId_TitleBar}' data-class='WindowTitleBar' class='Control WindowTitleBar {theme}'>
-<jagui-windowtitle id='{internalId_Title}' data-class='CaptionControl' class='Control CaptionControl WindowTitle logo WindowIcon {theme}'>{title}</jagui-windowtitle>
-<jagui-windowclosebutton id='{internalId_CloseButton}' data-class='WindowCloseButton' class='Control WindowTitleButton WindowCloseButton {theme}'></jagui-windowclosebutton>
-<jagui-windowmaxrestorebutton id='{internalId_MaxRestoreButton}' data-class='WindowMaxRestoreButton' class='Control WindowTitleButton WindowMaxRestoreButton {theme}' data-isrestore='false'></jagui-windowmaxrestorebutton>
-<jagui-windowminimizebutton id='{internalId_MinimizeButton}' data-class='WindowMinimizeButton' class='Control WindowTitleButton WindowMinimizeButton {theme}'></jagui-windowminimizebutton>
-<jagui-windowhelpbutton id='{internalId_HelpButton}' data-class='WindowHelpButton' class='Control WindowTitleButton WindowHelpButton hidden {theme}'></jagui-windowhelpbutton>
-<jagui-windowrollupdownbutton id='{internalId_RollUpDownButton}' data-class='WindowRollUpDownButton' class='Control WindowTitleButton WindowRollUpDownButton hidden {theme}' data-isup='true'></jagui-windowrollupdownbutton>
-<jagui-windowstayonoffbutton id='{internalId_StayOnOffButton}' data-class='WindowStayOnOffButton' class='Control WindowTitleButton WindowStayOnOffButton hidden {theme}' data-ison='true'></jagui-windowstayonoffbutton>
-</jagui-windowtitlebar>`;
-const WindowTpl = `<jagui-window id='{internalId}' data-name='{name}' data-class='Window' class='Control csr_default Window {theme}' data-appName='{appName}' data-visible='false'>
-<jagui-windowlayout id='{internalId_Layout}' data-class='Layout' class='Control Layout WindowLayout'>
-<jagui-windowcontent id='{internalId_content}' data-name='{windowName_content}' data-class='WindowContent' class='Control WindowContent {theme}' data-popupmenu='{popupMenu}'>${WindowTitleBarTpl}</jagui-windowcontent>
-</jagui-windowlayout>
-</jagui-window>`;
+const WindowTitleBarTpl = ['<jagui-windowtitlebar id="{internalId_TitleBar}" data-class="WindowTitleBar" class="Control WindowTitleBar {theme}">',
+    '<jagui-windowtitle id="{internalId_Title}" data-class="CaptionControl" class="Control CaptionControl WindowTitle logo WindowIcon {theme}">',
+    '{title}</jagui-windowtitle><jagui-windowclosebutton id="{internalId_CloseButton}" data-class="WindowCloseButton ',
+    'class="Control WindowTitleButton WindowCloseButton {theme}"></jagui-windowclosebutton><jagui-windowmaxrestorebutton ',
+    'id="{internalId_MaxRestoreButton}" data-class="WindowMaxRestoreButton" class="Control WindowTitleButton WindowMaxRestoreButton {theme}', 
+    ' data-isrestore="false"></jagui-windowmaxrestorebutton><jagui-windowminimizebutton id="{internalId_MinimizeButton}" ',
+    'data-class="WindowMinimizeButton" class="Control WindowTitleButton WindowMinimizeButton {theme}"></jagui-windowminimizebutton>',
+    '<jagui-windowhelpbutton id="{internalId_HelpButton}" data-class="WindowHelpButton" class="Control WindowTitleButton WindowHelpButton hidden {theme}"', 
+    '></jagui-windowhelpbutton><jagui-windowrollupdownbutton id="{internalId_RollUpDownButton}" data-class="WindowRollUpDownButton"', 
+    ' class="Control WindowTitleButton WindowRollUpDownButton hidden {theme}" data-isup="true"></jagui-windowrollupdownbutton>',
+    '<jagui-windowstayonoffbutton id="{internalId_StayOnOffButton}" data-class="WindowStayOnOffButton" ',
+    'class="Control WindowTitleButton WindowStayOnOffButton hidden {theme}" data-ison="true"></jagui-windowstayonoffbutton>', 
+    '</jagui-windowtitlebar>'].join(String.EMPTY);
+const WindowTpl = ['<jagui-window id="{internalId}" data-name="{name}" data-class="Window" class="Control csr_default Window {theme}"',
+    ' data-appName="{appName}" data-visible="false"><jagui-windowlayout id="{internalId_Layout}" data-class="Layout" ',
+        'class="Control Layout WindowLayout"><jagui-windowcontent id="{internalId_content}" data-name="{windowName_content}"', 
+        ' data-class="WindowContent" class="Control WindowContent {theme}" data-popupmenu="{popupMenu}">${WindowTitleBarTpl}</jagui-windowcontent>',
+        '</jagui-windowlayout></jagui-window>'].join(String.EMPTY);
 Core.classes.registerTemplates([{ Class: Window, template: WindowTpl }]);
 export { Window };

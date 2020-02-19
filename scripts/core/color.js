@@ -1,7 +1,7 @@
 ﻿//#region Imports
-import { Bindable } from "/scripts/core/bindable.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Convert } from "/scripts/core/convert.js";
+import { Bindable } from '/scripts/core/bindable.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Convert } from '/scripts/core/convert.js';
 //#endregion Imports
 //#region Color
 /**
@@ -78,7 +78,7 @@ const Color = (function () {
                         this.RGBtoHSV();
                         this.RGBtoHSL();
                     }
-                    this.propertyChanged("red");
+                    this.propertyChanged('red');
                     if (owner && !owner.loading) {
                         owner.update();
                     }
@@ -108,7 +108,7 @@ const Color = (function () {
                         this.RGBtoHSV();
                         this.RGBtoHSL();
                     }
-                    this.propertyChanged("green");
+                    this.propertyChanged('green');
                     if (owner && !owner.loading) {
                         owner.update();
                     }
@@ -138,7 +138,7 @@ const Color = (function () {
                         this.RGBtoHSV();
                         this.RGBtoHSL();
                     }
-                    this.propertyChanged("blue");
+                    this.propertyChanged('blue');
                     if (owner && !owner.loading) {
                         owner.update();
                     }
@@ -169,7 +169,7 @@ const Color = (function () {
                         newValue = 0;
                     }
                     priv.alpha = newValue;
-                    this.propertyChanged("alpha");
+                    this.propertyChanged('alpha');
                     if (owner && !owner.loading) {
                         owner.update();
                     }
@@ -204,7 +204,7 @@ const Color = (function () {
                     if (!priv.updating) {
                         this.HSVtoRGB();
                     }
-                    this.propertyChanged("hue");
+                    this.propertyChanged('hue');
                     if (owner && !owner.loading) {
                         owner.update();
                     }
@@ -238,7 +238,7 @@ const Color = (function () {
                     if (!priv.updating) {
                         this.HSVtoRGB();
                     }
-                    this.propertyChanged("saturation");
+                    this.propertyChanged('saturation');
                     if (owner && !owner.loading) {
                         owner.update();
                     }
@@ -272,7 +272,7 @@ const Color = (function () {
                     if (!priv.updating) {
                         this.HSVtoRGB();
                     }
-                    this.propertyChanged("value");
+                    this.propertyChanged('value');
                     if (owner && !owner.loading) {
                         owner.update();
                     }
@@ -306,7 +306,7 @@ const Color = (function () {
                     if (!priv.updating) {
                         this.HSLtoRGB();
                     }
-                    this.propertyChanged("lightness");
+                    this.propertyChanged('lightness');
                     if (owner && !owner.loading) {
                         owner.update();
                     }
@@ -476,7 +476,7 @@ const Color = (function () {
             const colorDefs = [
                 {
                     re: /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/,
-                    example: ["rgb(123,234,45)", "rgb(255,234,245)"],
+                    example: ['rgb(123,234,45)', 'rgb(255,234,245)'],
                     process: (b) => {
                         return [
                             b[1] | 0,
@@ -487,7 +487,7 @@ const Color = (function () {
                 },
                 {
                     re: /^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(0|1|0?\.\d+)\)$/,
-                    example: ["rgba(123,234,45,0.5)", "rgba(255,234,245,0.5)"],
+                    example: ['rgba(123,234,45,0.5)', 'rgba(255,234,245,0.5)'],
                     process: (b) => {
                         return [
                             b[1] | 0,
@@ -499,7 +499,7 @@ const Color = (function () {
                 },
                 {
                     re: /^(\w{2})(\w{2})(\w{2})$/,
-                    example: ["#00ff00", "#336699"],
+                    example: ['#00ff00', '#336699'],
                     process: (b) => {
                         return [
                             parseInt(b[1], 16),
@@ -510,7 +510,7 @@ const Color = (function () {
                 },
                 {
                     re: /^(\w{2})(\w{2})(\w{2})(\w{2})$/,
-                    example: ["#0000ff00", "#00336699"],
+                    example: ['#0000ff00', '#00336699'],
                     process: (b) => {
                         return [
                             parseInt(b[2], 16),
@@ -522,7 +522,7 @@ const Color = (function () {
                 },
                 {
                     re: /^(\w{1})(\w{1})(\w{1})$/,
-                    example: ["#fb0", "#f0f"],
+                    example: ['#fb0', '#f0f'],
                     process: (b) => {
                         return [
                             parseInt(b[1] + b[1], 16),
@@ -544,12 +544,12 @@ const Color = (function () {
             }
             let result = new Color;
             result.beginUpdate();
-            if (strColor.indexOf("#") === -1 && strColor.indexOf("rgb") === -1) {
+            if (strColor.indexOf('#') === -1 && strColor.indexOf('rgb') === -1) {
                 if (Colors[strColor.toUpperCase()]) {
                     result = Colors[strColor.toUpperCase()];
                 }
             } else {
-                strColor = strColor.replace("#", String.EMPTY);
+                strColor = strColor.replace('#', String.EMPTY);
                 // search through the definitions to find a match
                 const def = colorDefs.find(color => {
                     return color.re.exec(strColor) !== null ? color : null;
@@ -644,7 +644,7 @@ const Color = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            return `#${Convert.dec2Hex(priv.red).padStart(2, "0")}${Convert.dec2Hex(priv.green).padStart(2, "0")}${Convert.dec2Hex(priv.blue).padStart(2, "0")}`.toUpperCase();
+            return `#${Convert.dec2Hex(priv.red).padStart(2, '0')}${Convert.dec2Hex(priv.green).padStart(2, '0')}${Convert.dec2Hex(priv.blue).padStart(2, '0')}`.toUpperCase();
         }
         /**
          * Return the ARGB hexa string format of the color instance
@@ -654,7 +654,7 @@ const Color = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            return `#${Convert.dec2Hex(priv.alpha * 0xFF).padStart(2, "0")}${Convert.dec2Hex(priv.red).padStart(2, "0")}${Convert.dec2Hex(priv.green).padStart(2, "0")}${Convert.dec2Hex(priv.blue).padStart(2, "0")}`.toUpperCase();
+            return `#${Convert.dec2Hex(priv.alpha * 0xFF).padStart(2, '0')}${Convert.dec2Hex(priv.red).padStart(2, '0')}${Convert.dec2Hex(priv.green).padStart(2, '0')}${Convert.dec2Hex(priv.blue).padStart(2, '0')}`.toUpperCase();
         }
         /**
          * Return the rgb string format of the color instance
@@ -704,7 +704,7 @@ const Color = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            return (Convert.dec2Hex(priv.blue).padStart(2, "0") + Convert.dec2Hex(priv.green).padStart(2, "0") + Convert.dec2Hex(priv.red).padStart(2, "0")).toUpperCase(); }
+            return (Convert.dec2Hex(priv.blue).padStart(2, '0') + Convert.dec2Hex(priv.green).padStart(2, '0') + Convert.dec2Hex(priv.red).padStart(2, '0')).toUpperCase(); }
         /**
          * Return the int string format of the color instance
          * @returns     {String}        the string
@@ -1016,36 +1016,36 @@ const Color = (function () {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (0.3 * priv.red + 0.59 * priv.green + 0.11 * priv.blue <= 128) {
-                return "#FFF";
+                return '#FFF';
             } else {
-                return "#000";
+                return '#000';
             }
         }
         //#endregion
     }
     Object.defineProperties(Color, {
-        "red": {
+        'red': {
             enumerable: true
         },
-        "green": {
+        'green': {
             enumerable: true
         },
-        "blue": {
+        'blue': {
             enumerable: true
         },
-        "alpha": {
+        'alpha': {
             enumerable: true
         },
-        "hue": {
+        'hue': {
             enumerable: true
         },
-        "saturation": {
+        'saturation': {
             enumerable: true
         },
-        "value": {
+        'value': {
             enumerable: true
         },
-        "lightness": {
+        'lightness': {
             enumerable: true
         }
     });

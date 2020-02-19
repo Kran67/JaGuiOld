@@ -1,5 +1,5 @@
 ﻿//#region Import
-import { ColorSlider } from "/scripts/components/color/colorslider.js";
+import { ColorSlider } from '/scripts/components/color/colorslider.js';
 //#endregion Import
 //#region BWSlider
 //#region Class BWSlider
@@ -24,8 +24,8 @@ Core.classes.register(Types.CATEGORIES.COLOR, BWSlider);
 export { BWSlider };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const BWSliderTpl = ["<jagui-bwslider id=\"{internalId}\" data-class=\"BWSlider\" class=\"Control Slider BWSlider {theme} csr_default\">",
-        "<properties>{ \"name\": \"{name}\", \"values\": [1,0], \"width\":  100, \"height\": 6 }</properties></jagui-bwslider>"].join(String.EMPTY);
+    const BWSliderTpl = ['<jagui-bwslider id="{internalId}" data-class="BWSlider" class="Control Slider BWSlider {theme} csr_default">',
+        '<properties>{ "name": "{name}", "values": [1,0], "width":  100, "height": 6 }</properties></jagui-bwslider>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: BWSlider, template: BWSliderTpl }]);
 }
 //#endregion

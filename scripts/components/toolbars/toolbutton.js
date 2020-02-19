@@ -1,7 +1,7 @@
 ﻿//#region Import
-import { ThemedControl } from "/scripts/core/themedcontrol.js";
-import { BitmapButton } from "/scripts/components/extended/bitmapbutton.js";
-import { Tools } from "/scripts/core/tools.js";
+import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { BitmapButton } from '/scripts/components/extended/bitmapbutton.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region Class ToolButtonSep
 class ToolButtonSep extends ThemedControl {
@@ -40,8 +40,8 @@ const ToolButton = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.imageIndex = props.hasOwnProperty("imageIndex") && Tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
-                priv.action = props.hasOwnProperty("action") && this.form.hasOwnProperty(props.action) ? props.action : null;
+                priv.imageIndex = props.hasOwnProperty('imageIndex') && Tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
+                priv.action = props.hasOwnProperty('action') && this.form.hasOwnProperty(props.action) ? props.action : null;
             }
         }
         //#endregion constructor
@@ -100,7 +100,7 @@ const ToolButton = (() => {
         update() {
             const htmlElementStyle = this.HTMLElementStyle;
             super.update();
-            htmlElementStyle.height = "auto";
+            htmlElementStyle.height = 'auto';
         }
         //#endregion update
         //#region destroy
@@ -127,8 +127,11 @@ Core.classes.register(Types.CATEGORIES.INTERNAL, ToolButtonSep, ToolButton);
 export { ToolButtonSep, ToolButton };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const ToolButtonTpl = "<jagui-toolbutton id=\"{internalId}\" data-class=\"ToolButton\" class=\"Control Button BitmapButton ButtonGlyph ToolButton {theme} csr_default\"><properties>{ \"name\": \"{name}\", \"caption\": \"{caption}\" }</properties></jagui-toolbutton>";
-    const ToolButtonSepTpl = "<jagui-toolbuttonsep id=\"{internalId}\" data-class=\"ToolButtonSep\" class=\"Control ToolButtonSep {theme}\"><properties>{ \"name\": \"{name}\" }</properties></jagui-toolbuttonsep>";
+    const ToolButtonTpl = ['<jagui-toolbutton id="{internalId}" data-class="ToolButton" class="Control Button BitmapButton ', 
+        'ButtonGlyph ToolButton {theme} csr_default"><properties>{ "name": "{name}", "caption": "{caption}" }</properties>', 
+        '</jagui-toolbutton>'].join(String.EMPTY);
+    const ToolButtonSepTpl = ['<jagui-toolbuttonsep id="{internalId}" data-class="ToolButtonSep" class="Control ToolButtonSep {theme}">',
+        '<properties>{ "name": "{name}" }</properties></jagui-toolbuttonsep>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: ToolButton, template: ToolButtonTpl }, { Class: ToolButtonSep, template: ToolButtonSepTpl }]);
 }
-//endregion
+//#endregion

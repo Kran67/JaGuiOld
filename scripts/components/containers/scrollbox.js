@@ -1,5 +1,5 @@
 ﻿//#region Import
-import { ScrollControl } from "/scripts/core/scrollcontrol.js";
+import { ScrollControl } from '/scripts/core/scrollcontrol.js';
 //#endregion Import
 //#region ScrollBox
 class ScrollBox extends ScrollControl {
@@ -20,7 +20,8 @@ Object.seal(ScrollBox);
 export { ScrollBox };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const ScrollBoxTpl = ["<jagui-scrollbox id=\"{internalId}\" data-class=\"ScrollBox\" class=\"Control scrollContent ScrollBox {theme}\"><properties>{ \"name\": \"{name}\", \"width\": 140, \"height\": 140 }</properties></jagui-scrollbox>"].join(String.EMPTY);
+    const ScrollBoxTpl = ['<jagui-scrollbox id="{internalId}" data-class="ScrollBox" class="Control scrollContent ScrollBox {theme}">',
+        '<properties>{ "name": "{name}", "width": 140, "height": 140 }</properties></jagui-scrollbox>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: ScrollBox, template: ScrollBoxTpl }]);
 }
 //#endregion

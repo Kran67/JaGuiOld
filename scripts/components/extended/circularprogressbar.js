@@ -1,6 +1,6 @@
 ﻿//#region Import
-import { ThemedControl } from "/scripts/core/themedcontrol.js";
-import { Tools } from "/scripts/core/tools.js";
+import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region CircularProgressBar
 const CircularProgressBar = (() => {
@@ -23,7 +23,7 @@ const CircularProgressBar = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.value = props.hasOwnProperty("value") ? props.value : 0;
+                priv.value = props.hasOwnProperty('value') ? props.value : 0;
                 this.hitTest.all = false;
                 priv.svg = null;
                 priv.backCircle = null;
@@ -115,8 +115,8 @@ const CircularProgressBar = (() => {
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (priv.svg) {
-                priv.backCircle.setAttribute("r", ~~(htmlElement.offsetWidth / 2) - 5);
-                priv.progress.setAttribute("r", ~~(htmlElement.offsetWidth / 2) - 5);
+                priv.backCircle.setAttribute('r', ~~(htmlElement.offsetWidth / 2) - 5);
+                priv.progress.setAttribute('r', ~~(htmlElement.offsetWidth / 2) - 5);
                 this.calcProgress();
             }
         }
@@ -125,11 +125,11 @@ const CircularProgressBar = (() => {
         calcProgress() {
             //#region Variables déclaration
             const priv = internal(this);
-            const r = ~~priv.progress.getAttribute("r");
+            const r = ~~priv.progress.getAttribute('r');
             const c = Math.PI * (r * 2);
             const pct = (100 - priv.value) / 100 * c;
             //#endregion Variables déclaration
-            priv.progress.setAttribute("stroke-dasharray", c);
+            priv.progress.setAttribute('stroke-dasharray', c);
             priv.progress.style.strokeDashoffset = pct;
             this.HTMLElement.dataset.value = priv.value;
         }
@@ -158,15 +158,15 @@ const CircularProgressBar = (() => {
                 priv.svg = document.createElementNS(XMLNS, SVG);
                 priv.svg.jsObj = this;
                 priv.backCircle = document.createElementNS(XMLNS, Types.SHAPES.CIRCLE);
-                priv.backCircle.classList.add("Control", "CircularProgressBar_back");
-                priv.backCircle.setAttribute("cx", "50%");
-                priv.backCircle.setAttribute("cy", "50%");
-                priv.backCircle.setAttribute("r", "20");
+                priv.backCircle.classList.add('Control', 'CircularProgressBar_back');
+                priv.backCircle.setAttribute('cx', '50%');
+                priv.backCircle.setAttribute('cy', '50%');
+                priv.backCircle.setAttribute('r', '20');
                 priv.progress = document.createElementNS(XMLNS, Types.SHAPES.CIRCLE);
-                priv.progress.classList.add("Control", "CircularProgressBar_progress");
-                priv.progress.setAttribute("cx", "50%");
-                priv.progress.setAttribute("cy", "50%");
-                priv.progress.setAttribute("r", "20");
+                priv.progress.classList.add('Control', 'CircularProgressBar_progress');
+                priv.progress.setAttribute('cx', '50%');
+                priv.progress.setAttribute('cy', '50%');
+                priv.progress.setAttribute('r', '20');
                 priv.svg.appendChild(priv.backCircle);
                 priv.svg.appendChild(priv.progress);
                 htmlElement.appendChild(priv.svg);
@@ -186,7 +186,9 @@ Core.classes.register(Types.CATEGORIES.EXTENDED, CircularProgressBar);
 export { CircularProgressBar };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const CircularProgressBarTpl = ["<jagui-circularprogressbar id=\"{internalId}\" data-class=\"CircularProgressBar\" class=\"Control CircularProgressBar {theme} csr_default\"><properties>{ \"name\": \"{name}\" }</properties></jagui-circularprogressbar>"].join(String.EMPTY);
+    const CircularProgressBarTpl = ['<jagui-circularprogressbar id="{internalId}" data-class="CircularProgressBar" ',
+        'class="Control CircularProgressBar {theme} csr_default"><properties>{ "name": "{name}" }</properties>',
+        '</jagui-circularprogressbar>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: CircularProgressBar, template: CircularProgressBarTpl }]);
 }
 //#endregion

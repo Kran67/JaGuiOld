@@ -1,7 +1,7 @@
 ﻿//#region Import
-import { GroupBox } from "/scripts/components/containers/groupbox.js";
-import { Rect } from "/scripts/core/geometry.js";
-import { Tools } from "/scripts/core/tools.js";
+import { GroupBox } from '/scripts/components/containers/groupbox.js';
+import { Rect } from '/scripts/core/geometry.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region RadioGroup
 const RadioGroup = (() => {
@@ -119,7 +119,7 @@ const RadioGroup = (() => {
             let radios;
             //#endregion Variables déclaration
             const htmlElement = this.HTMLElement;
-            const properties = htmlElement.querySelector("properties");
+            const properties = htmlElement.querySelector('properties');
             if (properties) {
                 radios = JSON.parse(properties.innerText).items;
             }
@@ -151,8 +151,9 @@ Object.seal(RadioGroup);
 Core.classes.register(Types.CATEGORIES.EXTENDED, RadioGroup);
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const RadioGroupTpl = ["<fieldset id='{internalId}' data-class='RadioGroup' class='Control RadioGroup {theme}'><properties>{ \"name\": \"{name}\", \"width\": 185, \"height\": 105 }</properties></fieldset>"].join(String.EMPTY);
+    const RadioGroupTpl = ['<fieldset id="{internalId}" data-class="RadioGroup" class=Control RadioGroup {theme}">',
+        '<properties>{ "name": "{name}", "width": 185, "height": 105 }</properties></fieldset>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: RadioGroup, template: RadioGroupTpl }]);
 }
-//endregion
+//#endregion
 export { RadioGroup };

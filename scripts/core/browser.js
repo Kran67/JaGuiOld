@@ -23,22 +23,22 @@ class Browser {
         let _vendorPrefix = null;
         //#endregion Variables déclaration
         _opera = window.opera !== undefined;
-        _khtml = _av.indexOf("Konqueror") !== -1;
-        _webkit = _av.indexOf("WebKit") !== -1;
+        _khtml = _av.indexOf('Konqueror') !== -1;
+        _webkit = _av.indexOf('WebKit') !== -1;
         _chrome = window.chrome !== undefined;
         if (_chrome) {
-            _coreVersion = +_av.split("Chrome/")[1];
+            _coreVersion = +_av.split('Chrome/')[1];
         }
-        _mac = _av.indexOf("Macintosh") !== -1;
+        _mac = _av.indexOf('Macintosh') !== -1;
         if (_webkit && !_chrome) {
-            _safari = _av.indexOf("Safari") !== -1;
+            _safari = _av.indexOf('Safari') !== -1;
             if (_safari) {
-                _coreVersion = +_av.split("Version/")[1];
+                _coreVersion = +_av.split('Version/')[1];
             }
         }
-        _iphone = navigator.platform.indexOf("iPhone") !== -1 || navigator.platform.indexOf("iPod") !== -1;
+        _iphone = navigator.platform.indexOf('iPhone') !== -1 || navigator.platform.indexOf('iPod') !== -1;
         if (!_ie && !_opera && !_webkit && !_khtml && !_chrome && !_safari && !_iphone) {
-            if (_n.appCodeName === "Mozilla") {
+            if (_n.appCodeName === 'Mozilla') {
                 _ff = true;
             }
         }
@@ -50,97 +50,97 @@ class Browser {
             }
         }
         if (_ie) {
-            _vendorPrefix = "-ms-";
+            _vendorPrefix = '-ms-';
         } else if (_ff) {
-            _vendorPrefix = "-moz-";
+            _vendorPrefix = '-moz-';
         } else if (_opera && _coreVersion < 15) {
-            _vendorPrefix = "-o-";
+            _vendorPrefix = '-o-';
         } else if (_safari || _chrome || _khtml) {
-            _vendorPrefix = "-webkit-";
+            _vendorPrefix = '-webkit-';
         }
         Object.defineProperties(this, {
-            "ie": {
+            'ie': {
                 get: () => {
                     return _ie;
                 }
             },
-            "ff": {
+            'ff': {
                 get: () => {
                     return _ff;
                 }
             },
-            "opera": {
+            'opera': {
                 get: () => {
                     return _opera;
                 }
             },
-            "mac": {
+            'mac': {
                 get: () => {
                     return _mac;
                 }
             },
-            "safari": {
+            'safari': {
                 get: () => {
                     return _safari;
                 }
             },
-            "chrome": {
+            'chrome': {
                 get: () => {
                     return _chrome;
                 }
             },
-            "khtml": {
+            'khtml': {
                 get: () => {
                     return _khtml;
                 }
             },
-            "iphone": {
+            'iphone': {
                 get: () => {
                     return _iphone;
                 }
             },
-            "webkit": {
+            'webkit': {
                 get: () => {
                     return _webkit;
                 }
             },
-            "coreVersion": {
+            'coreVersion': {
                 get: () => {
                     return _coreVersion;
                 }
             },
-            "vendorPrefix": {
+            'vendorPrefix': {
                 get: () => {
                     return _vendorPrefix;
                 }
             },
-            "webkitCSSPrefix": {
+            'webkitCSSPrefix': {
                 get: () => {
-                    return ["animation", "animation-delay", "animation-direction", "animation-duration",
-                        "animation-fill-mode", "animation-iteration-count", "animation-name",
-                        "animation-play-state", "animation-timing-function", "backface-visibility",
-                        "border-image", "column-count", "column-gap", "column-rule", "column-rule-color",
-                        "column-rule-style", "column-rule-width", "column-span", "column-width", "columns",
-                        "keyframes", "linear-gradient", "perspective", "perspective-origin", "transform-origin",
-                        "transform", "transform-style", "transition", "transition-delay", "transition-duration",
-                        "transition-property", "transition-timing-function"];
+                    return ['animation', 'animation-delay', 'animation-direction', 'animation-duration',
+                        'animation-fill-mode', 'animation-iteration-count', 'animation-name',
+                        'animation-play-state', 'animation-timing-function', 'backface-visibility',
+                        'border-image', 'column-count', 'column-gap', 'column-rule', 'column-rule-color',
+                        'column-rule-style', 'column-rule-width', 'column-span', 'column-width', 'columns',
+                        'keyframes', 'linear-gradient', 'perspective', 'perspective-origin', 'transform-origin',
+                        'transform', 'transform-style', 'transition', 'transition-delay', 'transition-duration',
+                        'transition-property', 'transition-timing-function'];
                 }
             },
-            "mozillaCSSPrefix": {
+            'mozillaCSSPrefix': {
                 get: () => {
-                    return ["box-sizing", "column-count", "column-gap", "column-rule", "column-rule-color", "column-rule-style",
-                        "column-rule-width", "column-width", "columns", "linear-gradient", "tab-size", "text-align-last",
-                        "text-decoration-color", "text-decoration-line", "transition-property"];
+                    return ['box-sizing', 'column-count', 'column-gap', 'column-rule', 'column-rule-color', 'column-rule-style',
+                        'column-rule-width', 'column-width', 'columns', 'linear-gradient', 'tab-size', 'text-align-last',
+                        'text-decoration-color', 'text-decoration-line', 'transition-property'];
                 }
             },
-            "msCSSPrefix": {
+            'msCSSPrefix': {
                 get: () => {
-                    return ["keyframes", "linear-gradient", "transform-origin", "transform"];
+                    return ['keyframes', 'linear-gradient', 'transform-origin', 'transform'];
                 }
             },
-            "operaCSSPrefix": {
+            'operaCSSPrefix': {
                 get: () => {
-                    return ["keyframes", "linear-gradient", "tabSize", "transition-property"];
+                    return ['keyframes', 'linear-gradient', 'tabSize', 'transition-property'];
                 }
             }
         });
@@ -152,24 +152,24 @@ class Browser {
      */
     toString() {
         //#region Variables déclaration
-        let info = "Browser : ";
+        let info = 'Browser : ';
         //#endregion Variables déclaration
         if (this.ie) {
-            info += "Internet Explorer";
+            info += 'Internet Explorer';
         } else if (this.khtml) {
-            info += "Konqueror";
+            info += 'Konqueror';
         } else if (this.opera) {
-            info += "Opera";
+            info += 'Opera';
         } else if (this.ff) {
-            info += "FireFox";
+            info += 'FireFox';
         } else if (this.safari) {
-            info += "Safari";
+            info += 'Safari';
         } else if (this.chrome) {
-            info += "Chrome";
+            info += 'Chrome';
         } else if (this.webkit) {
-            info += "WebKit";
+            info += 'WebKit';
         } else if (this.iphone) {
-            info += "IPhone";
+            info += 'IPhone';
             info += `<br />Core version : ${this.coreVersion}`;
             return info;
         }

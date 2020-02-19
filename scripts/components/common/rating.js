@@ -1,27 +1,18 @@
 ﻿//#region Import
-import { ThemedControl } from "/scripts/core/themedcontrol.js";
-import { Events } from "/scripts/core/events.js";
-import { Mouse } from "/scripts/core/mouse.js";
-import { Tools } from "/scripts/core/tools.js";
+import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { Events } from '/scripts/core/events.js';
+import { Mouse } from '/scripts/core/mouse.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region RATINGPRECISIONS
 const RATINGPRECISIONS = {
-    WHOLEITEM: "wholeItem",
-    HALFANITEM: "halfAnItem",
-    EXACTPRECISION: "exactPrecision"
+    WHOLEITEM: 'wholeItem',
+    HALFANITEM: 'halfAnItem',
+    EXACTPRECISION: 'exactPrecision'
 };
 Object.seal(RATINGPRECISIONS);
 Object.freeze(RATINGPRECISIONS);
 //#endregion RATINGPRECISIONS
-//#region RATINGSYMBOLS
-const RATINGSYMBOLS = {
-    WHOLEITEM: "wholeItem",
-    HALFANITEM: "halfAnItem",
-    EXACTPRECISION: "exactPrecision"
-};
-Object.seal(RATINGSYMBOLS);
-Object.freeze(RATINGSYMBOLS);
-//#endregion RATINGSYMBOLS
 //#region Rating
 const Rating = (() => {
     //#region Private
@@ -59,51 +50,51 @@ const Rating = (() => {
                 }
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "precision",
+                    propName: 'precision',
                     enum: RATINGPRECISIONS,
                     variable: priv,
-                    value: props.hasOwnProperty("precision") ? props.precision : RATINGPRECISIONS.WHOLEITEM
+                    value: props.hasOwnProperty('precision') ? props.precision : RATINGPRECISIONS.WHOLEITEM
                 });
-                priv.nbItem = props.hasOwnProperty("nbItem") ? props.nbItem : 5;
-                priv.value = props.hasOwnProperty("value") ? props.value : 0;
+                priv.nbItem = props.hasOwnProperty('nbItem') ? props.nbItem : 5;
+                priv.value = props.hasOwnProperty('value') ? props.value : 0;
                 this.autoCapture = true;
                 this.hitTest.mouseDown = true;
                 this.hitTest.mousemove = true;
                 this.hitTest.mouseup = true;
                 this.hitTest.mousewheel = false;
-                if (props.hasOwnProperty("normalImg")) {
+                if (props.hasOwnProperty('normalImg')) {
                     priv.normalImg = new Image;
                     Events.bind(priv.normalImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
                     Events.bind(priv.normalImg, HTMLEVENTS.ERROR, this.doBitmapNotLoaded);
                     priv.normalImg.obj = this;
                     priv.normalImg.src = props.normalImg;
                 } else {
-                    priv.normalImg = "var(--normlaImg)";
+                    priv.normalImg = 'var(--normlaImg)';
                 }
-                if (props.hasOwnProperty("hoveredImg")) {
+                if (props.hasOwnProperty('hoveredImg')) {
                     priv.hoveredImg = new Image;
                     Events.bind(priv.hoveredImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
                     Events.bind(priv.hoveredImg, HTMLEVENTS.ERROR, this.doBitmapNotLoaded);
                     priv.hoveredImg.obj = this;
                     priv.hoveredImg.src = props.hoveredImg;
                 } else {
-                    priv.normalImg = "var(--hoveredImg)";
+                    priv.normalImg = 'var(--hoveredImg)';
                 }
-                if (props.hasOwnProperty("selectedImg")) {
+                if (props.hasOwnProperty('selectedImg')) {
                     priv.selectedImg = new Image;
                     Events.bind(priv.selectedImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
                     Events.bind(priv.selectedImg, HTMLEVENTS.ERROR, this.doBitmapNotLoaded);
                     priv.selectedImg.obj = this;
                     priv.selectedImg.src = props.selectedImg;
                 } else {
-                    priv.normalImg = "var(--hoveredImg)";
+                    priv.normalImg = 'var(--hoveredImg)';
                 }
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "orientation",
+                    propName: 'orientation',
                     enum: ORIENTATIONS,
                     variable: priv,
-                    value: props.hasOwnProperty("orientation") ? props.orientation : ORIENTATIONS.HORIZONTAL
+                    value: props.hasOwnProperty('orientation') ? props.orientation : ORIENTATIONS.HORIZONTAL
                 });
                 this.canFocused = true;
                 delete this.tabOrder;
@@ -265,7 +256,7 @@ const Rating = (() => {
             let offset;
             const clipRect = [0];
             const isHoriz = priv.orientation === ORIENTATIONS.HORIZONTAL;
-            const ori = isHoriz ? "Width" : "Height";
+            const ori = isHoriz ? 'Width' : 'Height';
             //#endregion Variables déclaration
             offset = priv.value * (priv.normalImg instanceof Image ? priv.normalImg[`natural${ori}`] : this[ori.toLowerCase()] / priv.nbItem);
             clipRect.push(isHoriz ? this.width - offset : 0);
@@ -322,7 +313,7 @@ const Rating = (() => {
             const priv = internal(this);
             const ORIENTATIONS = Types.ORIENTATIONS;
             const isHoriz = priv.orientation === ORIENTATIONS.HORIZONTAL;
-            const ori = isHoriz ? "Width" : "Height";
+            const ori = isHoriz ? 'Width' : 'Height';
             const imgSize = priv.normalImg instanceof Image ? priv.normalImg[`natural${ori}`] : this[ori.toLowerCase()] / priv.nbItem;
             const isMouseMove = Core.mouse.eventType === Mouse.MOUSEEVENTS.MOVE;
             let offset = 0;
@@ -392,9 +383,9 @@ const Rating = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (!htmlElement.querySelector(".RatingProgress")) {
+            if (!htmlElement.querySelector('.RatingProgress')) {
                 priv.ratingObj = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}progress`);
-                priv.ratingObj.classList.add("Control", "RatingProgress", this.themeName, `orientation-${priv.orientation}`);
+                priv.ratingObj.classList.add('Control', 'RatingProgress', this.themeName, `orientation-${priv.orientation}`);
                 priv.ratingObj.jsObj = this;
                 htmlElement.appendChild(priv.ratingObj);
                 Events.bind(priv.ratingObj, Mouse.MOUSEEVENTS.MOVE, this.dispatchEvent);
@@ -433,8 +424,8 @@ Core.classes.register(Types.CATEGORIES.COMMON, Rating);
 export { Rating };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const RatingTpl = ["<jagui-rating id=\"{internalId}\" data-class=\"Rating\" class=\"Control Rating {theme} csr_default\">",
-        "<properties>{ \"name\": \"{name}\", \"orientation\": \"horizontal\" }</properties></jagui-rating>"].join(String.EMPTY);
+    const RatingTpl = ['<jagui-rating id="{internalId}" data-class="Rating" class="Control Rating {theme} csr_default">',
+        '<properties>{ "name": "{name}", "orientation": "horizontal" }</properties></jagui-rating>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: Rating, template: RatingTpl }]);
 }
 //endregion

@@ -1,7 +1,7 @@
 ﻿//#region Import
-import { Control } from "/scripts/components/control.js";
-import { Tools } from "/scripts/core/tools.js";
-import { NotifyEvent } from "/scripts/core/events.js";
+import { Control } from '/scripts/components/control.js';
+import { Tools } from '/scripts/core/tools.js';
+import { NotifyEvent } from '/scripts/core/events.js';
 //#endregion Import
 //#region PaintBox
 const PaintBox = (() => {
@@ -81,7 +81,7 @@ const PaintBox = (() => {
             super.getHTMLElement(id);
             const htmlElement = this.HTMLElement;
             if (htmlElement) {
-                priv.ctx = htmlElement.getContext("2d");
+                priv.ctx = htmlElement.getContext('2d');
             }
         }
         //#endregion getHTMLElement
@@ -138,10 +138,10 @@ const PaintBox = (() => {
 Object.seal(PaintBox);
 Core.classes.register(Types.CATEGORIES.COMMON, PaintBox);
 export { PaintBox };
-
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const PaintBoxTpl = "<canvas id=\"{internalId}\" data-class=\"PaintBox\" class=\"Control PaintBox\"><properties>{ \"name\": \"{name}\", \"width\": 105, \"height\": 105 }</properties></canvas>";
+    const PaintBoxTpl = ['<canvas id="{internalId}" data-class="PaintBox" class="Control PaintBox">',
+        '<properties>{ "name": "{name}", "width": 105, "height": 105 }</properties></canvas>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: PaintBox, template: PaintBoxTpl }]);
 }
-//endregion
+//#endregion

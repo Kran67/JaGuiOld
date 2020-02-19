@@ -1,7 +1,7 @@
 ﻿//#region Imports
-import { Control } from "/scripts/components/control.js";
-import { Window } from "/scripts/components/containers/window.js";
-import { Color, Colors } from "/scripts/core/color.js";
+import { Control } from '/scripts/components/control.js';
+import { Window } from '/scripts/components/containers/window.js';
+import { Color, Colors } from '/scripts/core/color.js';
 //#endregion Imports
 //#region Layout
 class Layout extends Control {
@@ -34,7 +34,7 @@ Core.classes.register(Types.CATEGORIES.CONTAINERS, Layout);
 export { Layout };
 //#region Template
 if (Core.isHTMLRenderer) {
-    const LayoutTpl = "<jagui-layout data-class=\"Layout\" class=\"Control Layout\"><properties>{ \"name\": \"{name}\" }</properties></jagui-layout>";
+    const LayoutTpl = '<jagui-layout data-class="Layout" class="Control Layout"><properties>{ "name": "{name}" }</properties></jagui-layout>';
     Core.classes.registerTemplates([{ Class: Layout, template: LayoutTpl }]);
 }
 //#endregion Template

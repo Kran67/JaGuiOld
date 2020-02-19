@@ -1,22 +1,22 @@
 ﻿//#region Imports
-import { ThemedControl } from "/scripts/core/themedcontrol.js";
-//import { Classes } from "/scripts/core/classes.js";
-//import { NotifyEvent } from "/scripts/core/events.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Css } from "/scripts/core/css.js";
-import { Convert } from "/scripts/core/convert.js";
+import { ThemedControl } from '/scripts/core/themedcontrol.js';
+//import { Classes } from '/scripts/core/classes.js';
+//import { NotifyEvent } from '/scripts/core/events.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Css } from '/scripts/core/css.js';
+import { Convert } from '/scripts/core/convert.js';
 //#endregion Imports
 //#region CustomTabControl constants
 const _tabStyles = Object.freeze({
-    TABS: "tabs",
-    BUTTONS: "buttons",
-    FLATBUTTONS: "flatButtons"
+    TABS: 'tabs',
+    BUTTONS: 'buttons',
+    FLATBUTTONS: 'flatButtons'
 });
 const _tabPositions = Object.freeze({
-    TOP: "top",
-    BOTTOM: "bottom",
-    LEFT: "left",
-    RIGHT: "right"
+    TOP: 'top',
+    BOTTOM: 'bottom',
+    LEFT: 'left',
+    RIGHT: 'right'
 });
 //#endregion CustomTabControl constants
 //#region CustomTabControl
@@ -76,8 +76,8 @@ const CustomTabControl = (() => {
                 priv.activeTab = null;
                 priv.images = null;
                 priv.canChange = true;
-                priv.showTabsCloseBtn = props.hasOwnProperty("showTabsCloseBtn") ? props.showTabsCloseBtn :false;
-                this.addBindableProperties(["activeTab", "showTabsCloseBtn", "tabStyle", "tabPosition"]);
+                priv.showTabsCloseBtn = props.hasOwnProperty('showTabsCloseBtn') ? props.showTabsCloseBtn :false;
+                this.addBindableProperties(['activeTab', 'showTabsCloseBtn', 'tabStyle', 'tabPosition']);
                 //#region Private
                 priv.btnLeft.tag = DIRECTIONS.LEFT;
                 priv.btnLeft.onClick.addListener(this.moveTabs);
@@ -93,13 +93,13 @@ const CustomTabControl = (() => {
                 //#endregion
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "tabStyle",
+                    propName: 'tabStyle',
                     enum: _tabStyles,
                     value: _tabStyles.TABS
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "tabPosition",
+                    propName: 'tabPosition',
                     enum: _tabPositions,
                     setter: this._tabPosition,
                     value: _tabPositions.TOP
@@ -294,9 +294,9 @@ const CustomTabControl = (() => {
                 if (priv.showTabsCloseBtn !== newValue) {
                     priv.showTabsCloseBtn = newValue;
                     if (newValue) {
-                        Css.addClass(htmlElement, "showTabsCloseBtn");
+                        Css.addClass(htmlElement, 'showTabsCloseBtn');
                     } else {
-                        Css.removeClass(htmlElement, "showTabsCloseBtn");
+                        Css.removeClass(htmlElement, 'showTabsCloseBtn');
                     }
                 }
             }
@@ -367,7 +367,7 @@ const CustomTabControl = (() => {
                     if (priv.tabPosition === _tabPositions.BOTTOM) {
                         Css.addClass(htmlElement, `${tabs}${priv.tabPosition.capitalise()}`);
                     } else {
-                        Css.removeClass(htmlElement, "tabsBottom");
+                        Css.removeClass(htmlElement, 'tabsBottom');
                     }
                 }
             }
@@ -544,7 +544,7 @@ const CustomTabControl = (() => {
             const tabs = this.tabs;
             //#endregion Variables déclaration
             if (htmlElement) {
-                const tabsContainer = htmlElement.querySelector(".TabsContainer");
+                const tabsContainer = htmlElement.querySelector('.TabsContainer');
                 const nodes = tabsContainer.childNodes;
                 nodes.forEach(node => {
                     if (node.nodeType === Types.XMLNODETYPES.ELEMENT_NODE) {
@@ -566,10 +566,10 @@ const CustomTabControl = (() => {
                 tabContent.getHTMLElement(htmlElement.lastElementChild.id);
                 tabContent.updateFromHTML();
                 tabContent.getChildsHTMLElement();
-                btnLeft.getHTMLElement(htmlElement.querySelector(".TabControlLeftBtn").id);
+                btnLeft.getHTMLElement(htmlElement.querySelector('.TabControlLeftBtn').id);
                 btnLeft.updateFromHTML();
                 btnLeft.getChildsHTMLElement();
-                btnRight.getHTMLElement(htmlElement.querySelector(".TabControlRightBtn").id);
+                btnRight.getHTMLElement(htmlElement.querySelector('.TabControlRightBtn').id);
                 btnRight.updateFromHTML();
                 btnRight.getChildsHTMLElement();
             }
@@ -587,11 +587,11 @@ const CustomTabControl = (() => {
             //#endregion Variables déclaration
             btnRight.enabled = (tabsContainer.scrollLeft < tabsContainer.scrollWidth - tabsContainer.offsetWidth);
             btnLeft.enabled = (tabsContainer.scrollLeft > 0);
-            Css.removeClass(htmlElement, "noButtons");
+            Css.removeClass(htmlElement, 'noButtons');
             if (tabsContainer.scrollWidth <= tabsContainer.offsetWidth) {
                 btnLeft.visible = false;
                 btnRight.visible = false;
-                Css.addClass(htmlElement, "noButtons");
+                Css.addClass(htmlElement, 'noButtons');
             } else {
                 btnLeft.visible = true;
                 btnRight.visible = true;
@@ -741,31 +741,31 @@ const CustomTabControl = (() => {
 //#endregion
 //#region CustomTabControl defineProperties
 Object.defineProperties(CustomTabControl, {
-    "tabs": {
+    'tabs': {
         enumerable: true
     },
-    "tabClass": {
+    'tabClass': {
         enumerable: true
     },
-    "activeTab": {
+    'activeTab': {
         enumerable: true
     },
-    "images": {
+    'images': {
         enumerable: true
     },
-    "canChange": {
+    'canChange': {
         enumerable: true
     },
-    "showTabsCloseBtn": {
+    'showTabsCloseBtn': {
         enumerable: true
     },
-    "activeTabIndex": {
+    'activeTabIndex': {
         enumerable: true
     },
-    "width": {
+    'width': {
         enumerable: true
     },
-    "height": {
+    'height': {
         enumerable: true
     }
 });

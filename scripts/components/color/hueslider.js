@@ -1,5 +1,5 @@
 ﻿//#region Import
-import { ColorSlider } from "/scripts/components/color/colorslider.js";
+import { ColorSlider } from '/scripts/components/color/colorslider.js';
 //#endregion Import
 //#region HUESlider
 //#region Class HUESlider
@@ -24,8 +24,8 @@ Core.classes.register(Types.CATEGORIES.COLOR, HUESlider);
 export { HUESlider };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const HUESliderTpl = ["<jagui-hueslider id=\"{internalId}\" data-class=\"HUESlider\" class=\"Control Slider HUESlider {theme} csr_default\">",
-        "<properties>{ \"name\": \"{name}\", \"values\": [1,0], \"width\":  100, \"height\": 6 }</properties></jagui-hueslider>"].join(String.EMPTY);
+    const HUESliderTpl = ['<jagui-hueslider id="{internalId}" data-class="HUESlider" class="Control Slider HUESlider {theme} csr_default">',
+        '<properties>{ "name": "{name}", "values": [1,0], "width":  100, "height": 6 }</properties></jagui-hueslider>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: HUESlider, template: HUESliderTpl }]);
 }
 //#endregion

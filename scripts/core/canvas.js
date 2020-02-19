@@ -1,10 +1,10 @@
 ﻿//#region Imports
-import { Color, Colors } from "/scripts/core/color.js";
-import { Point/*, Rect, Matrix*/ } from "/scripts/core/geometry.js";
-//import { PathData } from "/scripts/core/path.js";
-import { Text } from "/scripts/core/text.js";
-import { BezierTools } from "/scripts/core/beziertools.js";
-import { Tools } from "/scripts/core/tools.js";
+import { Color, Colors } from '/scripts/core/color.js';
+import { Point/*, Rect, Matrix*/ } from '/scripts/core/geometry.js';
+//import { PathData } from '/scripts/core/path.js';
+import { Text } from '/scripts/core/text.js';
+import { BezierTools } from '/scripts/core/beziertools.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion
 //#region Constantes CANVAS
 /**
@@ -12,30 +12,30 @@ import { Tools } from "/scripts/core/tools.js";
  */
 export const CANVAS = {
     CURVEKAPPA: 0.2761423749153967, CURVEKAPPAINV: 0.7238576250846033, CURVE2KAPPA: 0.5522847498307934, CURVE2KAPPAINV: 1 - 0.5522847498307934,
-    LINECAPS: { BUTT: "butt", ROUND: "round", SQUARE: "square" },
-    LINEJOINS: { MITER: "miter", ROUND: "round", BEVEL: "bevel" },
+    LINECAPS: { BUTT: 'butt', ROUND: 'round', SQUARE: 'square' },
+    LINEJOINS: { MITER: 'miter', ROUND: 'round', BEVEL: 'bevel' },
     GLOBALCOMPOSITEOPERATIONS: {
-        SOURCEOVER: "source-over", SOURCEIN: "source-in", SOURCEOUT: "source-out", SOURCEATOP: "source-atop", DESTINATIONOVER: "destination-over",
-        DESTINATIONIN: "destination-in", DESTINATIONOUT: "destination-out", DESTINATIONATOP: "destination-atop", LIGHTER: "lighter", COPY: "copy", XOR: "xor",
-        MULTIPLY: "multiply", SCREEN: "screen", OVERLAY: "overlay", DARKEN: "darken", LIGHTEN: "lighten", COLORDODGE: "color-dodge", COLORBURN: "color-burn",
-        HARDLIGHT: "hard-light", SOFTLIGHT: "soft-light", DIFFERENCE: "difference", EXCLUSION: "exclusion", HUE: "hue", SATURATION: "saturation", COLOR: "color",
-        LUMINOSITY: "luminosity"
+        SOURCEOVER: 'source-over', SOURCEIN: 'source-in', SOURCEOUT: 'source-out', SOURCEATOP: 'source-atop', DESTINATIONOVER: 'destination-over',
+        DESTINATIONIN: 'destination-in', DESTINATIONOUT: 'destination-out', DESTINATIONATOP: 'destination-atop', LIGHTER: 'lighter', COPY: 'copy', XOR: 'xor',
+        MULTIPLY: 'multiply', SCREEN: 'screen', OVERLAY: 'overlay', DARKEN: 'darken', LIGHTEN: 'lighten', COLORDODGE: 'color-dodge', COLORBURN: 'color-burn',
+        HARDLIGHT: 'hard-light', SOFTLIGHT: 'soft-light', DIFFERENCE: 'difference', EXCLUSION: 'exclusion', HUE: 'hue', SATURATION: 'saturation', COLOR: 'color',
+        LUMINOSITY: 'luminosity'
     },
     PATHOPERATIONS: { MOVE: 0x234, LINE: 0x235 },
-    SPARKTYPES: { LINE: "line", BAR: "bar", PIE: "pie", BOXPLOT: "boxPlot" },
-    PATTERNREPEATS: { REPEAT: "repeat", REPEATX: "repeat-x", REPEATY: "repeat-y", NOREPEAT: "no-repeat" },
+    SPARKTYPES: { LINE: 'line', BAR: 'bar', PIE: 'pie', BOXPLOT: 'boxPlot' },
+    PATTERNREPEATS: { REPEAT: 'repeat', REPEATX: 'repeat-x', REPEATY: 'repeat-y', NOREPEAT: 'no-repeat' },
     LINEPOSITIONS: { LEFTTORIGHT: 0x239, RIGHTTOLEFT: 0x23A, NEAR: 0x23B, MIDDLE: 0x23C, FAR: 0x23D },
     STROKEDASHS: { SOLID: [], SHORTDASH: [4, 1], SHORTDOT: [1, 1], SHORTDASHDOT: [4, 1, 1, 1], SHORTDASHDOTDOT: [4, 1, 1, 1, 1, 1], DOT: [1, 3], DASH: [4, 3], LONGDASH: [8, 3], DASHDOT: [4, 3, 1, 3], LONGDASHDOT: [8, 3, 1, 3], LONGDASHDOTDOT: [8, 3, 1, 3, 1, 3] },
-    COMPOSITEOPERATORS: { OVER: "source-over", IN: "source-in", OUT: "source-out", ATOP: "source-atop", XOR: "xor", ARITHMETIC: "arithmetic" },
-    EDGEMODES: { DUPLICATE: "duplicate", WRAP: "wrap", NONE: "none" },
-    COLORMATRIXTYPES: { MATRIX: "matrix", SATURATE: "saturate", HUEROTATE: "hueRotate", LUMINANCETOALPHA: "luminanceToAlpha" },
-    COMPONENTTRANSFERTYPES: { IDENTITY: "identity", TABLE: "table", DISCRETE: "discrete", LINEAR: "linear", GAMMA: "gamma" },
-    MORPHOLOGYOPERATORS: { ERODE: "erode", DILATE: "dilate" },
-    CONVOLVEMATRIXEDGEMODES: { DUPLICATE: "duplicate", WRAP: "wrap", NONE: "none" },
-    CHANNELSELECTORTYPES: { A: "A", R: "R", G: "G", B: "B" },
-    TURBULENCETYPES: { TRANSLATE: "translate", SCALE: "scale", ROTATE: "rotate", SKEWX: "skewX", SKEWY: "skewY" },
-    TURBULENCESTITCHTILES: { NOSTITCH: "noStitch", STITCH: "stitch" },
-    LIGTHTYPES: { POINT: "point", SPOT: "spot", DISTANT: "distant" }
+    COMPOSITEOPERATORS: { OVER: 'source-over', IN: 'source-in', OUT: 'source-out', ATOP: 'source-atop', XOR: 'xor', ARITHMETIC: 'arithmetic' },
+    EDGEMODES: { DUPLICATE: 'duplicate', WRAP: 'wrap', NONE: 'none' },
+    COLORMATRIXTYPES: { MATRIX: 'matrix', SATURATE: 'saturate', HUEROTATE: 'hueRotate', LUMINANCETOALPHA: 'luminanceToAlpha' },
+    COMPONENTTRANSFERTYPES: { IDENTITY: 'identity', TABLE: 'table', DISCRETE: 'discrete', LINEAR: 'linear', GAMMA: 'gamma' },
+    MORPHOLOGYOPERATORS: { ERODE: 'erode', DILATE: 'dilate' },
+    CONVOLVEMATRIXEDGEMODES: { DUPLICATE: 'duplicate', WRAP: 'wrap', NONE: 'none' },
+    CHANNELSELECTORTYPES: { A: 'A', R: 'R', G: 'G', B: 'B' },
+    TURBULENCETYPES: { TRANSLATE: 'translate', SCALE: 'scale', ROTATE: 'rotate', SKEWX: 'skewX', SKEWY: 'skewY' },
+    TURBULENCESTITCHTILES: { NOSTITCH: 'noStitch', STITCH: 'stitch' },
+    LIGTHTYPES: { POINT: 'point', SPOT: 'spot', DISTANT: 'distant' }
 };
 Object.freeze(CANVAS);
 //#endregion
@@ -90,9 +90,9 @@ CanvasRenderingContext2D.prototype.drawImg = function(instance, img, params) {
         if (String.isNullOrEmpty(top)) {
             top = -eval(eval(top));
         }
-        if (instance.isPressed && params.hasOwnProperty("pressedOffset")) {
+        if (instance.isPressed && params.hasOwnProperty('pressedOffset')) {
             left -= params.pressedOffset;
-        } else if (instance.isMouseOver && params.hasOwnProperty("hoveredOffset")) {
+        } else if (instance.isMouseOver && params.hasOwnProperty('hoveredOffset')) {
             left -= params.hoveredOffset;
         }
     }
@@ -294,11 +294,11 @@ CanvasRenderingContext2D.prototype.drawText = function(instance, shape, params, 
                 offsetX = instance.width;
                 if (shape.alignWithButtonsAndIcon != undefined && shape.alignWithButtonsAndIcon) {
                     offsetX -= (instance.visibleButtons * Core.themes[instance.themeName].WindowButton.width);
-                    logoShape = Core.themes[instance.themeName].WindowTitleBar.shapes.filter(e => { return e.type === "drawImg"}).first;
+                    logoShape = Core.themes[instance.themeName].WindowTitleBar.shapes.filter(e => { return e.type === 'drawImg'}).first;
                     offsetX -= logoShape.width;;
                 }
                 offsetX = (offsetX - textM.width) * 0.5;
-                if (params.hasOwnProperty("isDialog") && !params.isDialog) {
+                if (params.hasOwnProperty('isDialog') && !params.isDialog) {
                     if (Core.themes[instance.themeName].WindowButton.left != null) {
                         offsetX += (instance.visibleButtons * Core.themes[instance.themeName].WindowButton.width);
                     } else {
@@ -318,7 +318,7 @@ CanvasRenderingContext2D.prototype.drawText = function(instance, shape, params, 
     }
     if (state) {
         this.translate(offsetX, 0);
-        Tools.processStyle(instance, shape, state, "Text", [caption, shape.x, shape.y]);
+        Tools.processStyle(instance, shape, state, 'Text', [caption, shape.x, shape.y]);
     }
 };
 /**
@@ -473,7 +473,7 @@ CanvasRenderingContext2D.prototype.drawReflection = function(canvas, object) {
     //#endregion Variables déclaration
     c.width = object.owner.width;
     c.height = h;
-    const ctx = c.getContext("2d");
+    const ctx = c.getContext('2d');
     ctx.save();
     ctx.translate(0, object.owner.height - 1);
     ctx.scale(1, -1);
@@ -481,7 +481,7 @@ CanvasRenderingContext2D.prototype.drawReflection = function(canvas, object) {
     ctx.restore();
     ctx.globalCompositeOperation = CANVAS.GLOBALCOMPOSITEOPERATIONS.DESTINATIONOUT;
     const gradient = ctx.createLinearGradient(0, 0, 0, h);
-    gradient.addColorStop(1, "#FFF");
+    gradient.addColorStop(1, '#FFF');
     gradient.addColorStop(0, `rgba(255,255,255,${object.opacity})`);
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, object.owner.width, h * 2);
@@ -784,13 +784,13 @@ CanvasRenderingContext2D.prototype.drawSparkLine = function(data) {
     const path = [];
     //#endregion Variables déclaration
     if (!color) {
-        color = "black";
+        color = 'black';
     }
     if (!minColor) {
-        minColor = "black";
+        minColor = 'black';
     }
     if (!maxColor) {
-        maxColor = "black";
+        maxColor = 'black';
     }
     let l = data.values.length;
     for (; i < l; i++) {
@@ -900,7 +900,7 @@ CanvasRenderingContext2D.prototype.drawSparkPie = function(data) {
     const circle = 2 * Math.PI;
     const radius = Math.floor(Math.min(width, height - 1) / 2);
     let total = 0;
-    const colors = data.colors.split(",");
+    const colors = data.colors.split(',');
     let i = 0;
     //#endregion Variables déclaration
     for (; i < l; i++) {
@@ -969,25 +969,25 @@ CanvasRenderingContext2D.prototype.drawSparkBoxPlot = function(data) {
     };
     //#endregion Variables déclaration
     if (!data.boxLineColor) {
-        data.boxLineColor = "#000";
+        data.boxLineColor = '#000';
     }
     if (!data.boxFillColor) {
-        data.boxFillColor = "#C0D0F0";
+        data.boxFillColor = '#C0D0F0';
     }
     if (!data.whiskerColor) {
-        data.whiskerColor = "#000";
+        data.whiskerColor = '#000';
     }
     if (!data.outlierLineColor) {
-        data.outlierLineColor = "#303030";
+        data.outlierLineColor = '#303030';
     }
     if (!data.outlierFillColor) {
-        data.outlierFillColor = "#F0F0F0";
+        data.outlierFillColor = '#F0F0F0';
     }
     if (!data.medianColor) {
-        data.medianColor = "red";
+        data.medianColor = 'red';
     }
     if (!data.targetColor) {
-        data.targetColor = "#40A020";
+        data.targetColor = '#40A020';
     }
     if (!data.spotRadius) {
         data.spotRadius = 1.5;
@@ -1134,7 +1134,7 @@ CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, rad
     if (radius == undefined) {
         radius = 5;
     }
-    if (typeof radius === "number") {
+    if (typeof radius === 'number') {
         if (radius>~~(height / 2)) {
             radius = ~~(height / 2);
         }
@@ -1232,21 +1232,21 @@ CanvasRenderingContext2D.prototype.measureText = function(text) {
     //#region Variables déclaration
     const metrics = this._measureText(text);
     let block;
-    const isInDoc = document.querySelector(".textSizer");
-    const textSpan = isInDoc?isInDoc:document.createElement("span");
+    const isInDoc = document.querySelector('.textSizer');
+    const textSpan = isInDoc?isInDoc:document.createElement('span');
     //#endregion Variables déclaration
     textSpan.innerHTML = text;
     textSpan.style.font = this.font;
-    textSpan.className = "textSizer";
+    textSpan.className = 'textSizer';
 
     if (!isInDoc) {
-        block = document.createElement("div");
-        block.style.display = "inline-block";
-        block.style.width = "1px";
-        block.style.height = "0px";
+        block = document.createElement('div');
+        block.style.display = 'inline-block';
+        block.style.width = '1px';
+        block.style.height = '0px';
 
-        const div = document.createElement("div");
-        div.style.visibility = "hidden";
+        const div = document.createElement('div');
+        div.style.visibility = 'hidden';
         div.appendChild(textSpan);
         div.appendChild(block);
         const body = document.body;
@@ -1259,9 +1259,9 @@ CanvasRenderingContext2D.prototype.measureText = function(text) {
     let descent = -1;
     let height = -1;
 
-    block.style["vertical-align"] = "baseline";
+    block.style['vertical-align'] = 'baseline';
     ascent = block.offsetTop - textSpan.offsetTop;
-    block.style["vertical-align"] = "bottom";
+    block.style['vertical-align'] = 'bottom';
     height = block.offsetTop - textSpan.offsetTop;
     descent = height - ascent;
 
@@ -1269,19 +1269,19 @@ CanvasRenderingContext2D.prototype.measureText = function(text) {
 
     // TODO This doesn't account for locale, and is guaranteed broken for those that read right-to-left
     switch (this.textAlign) {
-        case "start":
-        case "left":
+        case 'start':
+        case 'left':
             newMetrics._actualBoundingBoxLeft = 0;
             newMetrics._actualBoundingBoxRight = metrics.width;
             break;
 
-        case "end":
-        case "right":
+        case 'end':
+        case 'right':
             newMetrics._actualBoundingBoxLeft = -metrics.width;
             newMetrics._actualBoundingBoxRight = 0;
             break;
 
-        case "center":
+        case 'center':
             // TODO This is probably just an approximation.
             newMetrics._actualBoundingBoxLeft = -metrics.width / 2.0;
             newMetrics._actualBoundingBoxRight = metrics.width / 2.0;
@@ -1353,12 +1353,12 @@ CanvasRenderingContext2D.prototype.clipRegion = function(clippingData, left, top
     const clip = [clippingData.left,clippingData.top];
     //#endregion Variables déclaration
     this.save();
-    if (clippingData.hasOwnProperty("right")) {
+    if (clippingData.hasOwnProperty('right')) {
         clip.push(width-left-clippingData.right);
     } else {
         clip.push(clippingData.width);
     }
-    if (clippingData.hasOwnProperty("bottom")) {
+    if (clippingData.hasOwnProperty('bottom')) {
         clip.push(height-top-clippingData.bottom);
     } else {
         clip.push(clippingData.height);
@@ -1375,7 +1375,7 @@ CanvasRenderingContext2D.prototype.clipRegion = function(clippingData, left, top
  * @return  {CanvasElement}     the new canvas element
  */
 export function newCanvas() {
-    return document.createElement("canvas");
+    return document.createElement('canvas');
 }
 
 //#endregion

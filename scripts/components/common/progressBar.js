@@ -1,7 +1,7 @@
 ﻿//#region Import
-import { ThemedControl } from "/scripts/core/themedcontrol.js";
-import { Rect } from "/scripts/core/geometry.js";
-import { Tools } from "/scripts/core/tools.js";
+import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { Rect } from '/scripts/core/geometry.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region ProgressBar
 const ProgressBar = (() => {
@@ -29,19 +29,19 @@ const ProgressBar = (() => {
                 const priv = internal(this);
                 priv.progress = null;
                 if (!Core.isHTMLRenderer) {
-                    this.height = props.hasOwnProperty("height") ? props.height : 20;
-                    this.width = props.hasOwnProperty("width") ? props.width : 100;
+                    this.height = props.hasOwnProperty('height') ? props.height : 20;
+                    this.width = props.hasOwnProperty('width') ? props.width : 100;
                 }
-                priv.value = props.hasOwnProperty("value") ? props.value : 0;
-                priv.min = props.hasOwnProperty("min") ? props.min : 0;
-                priv.max = props.hasOwnProperty("max") ? props.max : 100;
+                priv.value = props.hasOwnProperty('value') ? props.value : 0;
+                priv.min = props.hasOwnProperty('min') ? props.min : 0;
+                priv.max = props.hasOwnProperty('max') ? props.max : 100;
                 this.hitTest = false;
                 Tools.addPropertyFromEnum({
                     component: this,
-                    propName: "orientation",
+                    propName: 'orientation',
                     enum: orientations,
                     variable: priv,
-                    value: props.hasOwnProperty("orientation") ? props.orientation : orientations.NONE
+                    value: props.hasOwnProperty('orientation') ? props.orientation : orientations.NONE
                 });
                 delete this.tabOrder;
                 this.allowUpdateOnResize = true;
@@ -234,9 +234,9 @@ const ProgressBar = (() => {
             const progressBarIndic = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}indicator`);
             //#endregion Variables déclaration
             priv.progress = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}progress`);
-            priv.progress.classList.add("Control", "ProgressBarProgress", this.themeName, `orientation-${priv.orientation}`);
+            priv.progress.classList.add('Control', 'ProgressBarProgress', this.themeName, `orientation-${priv.orientation}`);
             priv.progress.jsObj = this;
-            progressBarIndic.classList.add("Control", this.themeName, "ProgressBarIndic", `orientation-${priv.orientation}`);
+            progressBarIndic.classList.add('Control', this.themeName, 'ProgressBarIndic', `orientation-${priv.orientation}`);
             priv.progress.appendChild(progressBarIndic);
             this.HTMLElement.appendChild(priv.progress);
             super.loaded();
@@ -252,7 +252,9 @@ Core.classes.register(Types.CATEGORIES.COMMON, ProgressBar);
 export { ProgressBar };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const ProgressBarTpl = ["<jagui-progressbar id=\"{internalId}\" data-class=\"ProgressBar\" class=\"Control ProgressBar {theme} orientation-horizontal\"><properties>{ \"name\": \"{name}\", \"value\": 50, \"orientation\": \"horizontal\", \"width\": 100, \"height\": 17 }</properties></jagui-progressbar>"].join(String.EMPTY);
+    const ProgressBarTpl = ['<jagui-progressbar id="{internalId}" data-class="ProgressBar" class="Control ProgressBar {theme} orientation-horizontal">',
+        '<properties>{ "name": "{name}", "value": 50, "orientation": "horizontal", "width": 100, "height": 17 }</properties>',
+        '</jagui-progressbar>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: ProgressBar, template: ProgressBarTpl }]);
 }
 //#endregion Templates

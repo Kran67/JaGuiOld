@@ -1,29 +1,29 @@
 ﻿//#region Imports
-import "/scripts/core/types.js";
-import "/scripts/core/classes.js";
-import "/scripts/core/browser.js";
-import "/scripts/core/keyboard.js";
-import "/scripts/core/mouse.js";
-import "/scripts/core/ext_array.js";
-import "/scripts/core/ext_string.js";
-import "/scripts/core/ext_math.js";
-import "/scripts/core/ext_date.js";
-import "/scripts/core/animatedcursor.js";
+import '/scripts/core/types.js';
+import '/scripts/core/classes.js';
+import '/scripts/core/browser.js';
+import '/scripts/core/keyboard.js';
+import '/scripts/core/mouse.js';
+import '/scripts/core/ext_array.js';
+import '/scripts/core/ext_string.js';
+import '/scripts/core/ext_math.js';
+import '/scripts/core/ext_date.js';
+import '/scripts/core/animatedcursor.js';
 
-import "/scripts/core/looper.js";
-import "/scripts/core/events.js";
+import '/scripts/core/looper.js';
+import '/scripts/core/events.js';
 
-import "/scripts/core/classes.js";
-import "/scripts/core/bindable.js";
-import "/scripts/core/component.js";
-import "/scripts/core/themedcontrol.js";
-import "/scripts/components/control.js";
-import "/scripts/core/thememanifest.js";
+import '/scripts/core/classes.js';
+import '/scripts/core/bindable.js';
+import '/scripts/core/component.js';
+import '/scripts/core/themedcontrol.js';
+import '/scripts/components/control.js';
+import '/scripts/core/thememanifest.js';
 
-import { BaseClass } from "/scripts/core/baseclass.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Css } from "/scripts/core/css.js";
-import { Keyboard } from "/scripts/core/keyboard.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Css } from '/scripts/core/css.js';
+import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion
 /**
  * Class representing an Apps, applications management
@@ -47,7 +47,7 @@ let Apps = (() => {
             const priv = internal(this);
             priv.applications = {};
             priv.activeApplication = null;
-            priv.capslock = "UNKNOWN";
+            priv.capslock = 'UNKNOWN';
         }
         /**
          * Get the applications list
@@ -129,7 +129,7 @@ let Apps = (() => {
          * @param {keyBoardEventArgs} keyBoardEventArgs - The keyboard event
          */
         keyDown(keyBoardEventArgs) {
-            console.log("keyDown");
+            console.log('keyDown');
             let form = null;
             let list = [];
             let obj = null;
@@ -267,7 +267,7 @@ let Apps = (() => {
          * @param {keyBoardEventArgs} keyBoardEventArgs - The keyboard event
          */
         keyUp() {
-            console.log("keyUp");
+            console.log('keyUp');
             let form = null;
             const vKeysCodes = Keyboard.VKEYSCODES;
             if (Core.apps.activeApplication) {
@@ -300,7 +300,7 @@ let Apps = (() => {
                                 if (form.mainMenu) {
                                     if (form.mainMenu.getActiveItem()) {
                                         form.mainMenu.getActiveItem().active = false;
-                                        Css.addClass(form.mainMenu.HTMLElement, "inactive");
+                                        Css.addClass(form.mainMenu.HTMLElement, 'inactive');
                                     } else {
                                         form.close();
                                     }
@@ -338,7 +338,7 @@ let Apps = (() => {
          * @param {keyBoardEventArgs} keyBoardEventArgs - The keyboard event
          */
         keyPress(keyBoardEventArgs) {
-            console.log("keyPress");
+            console.log('keyPress');
             let form = null;
             const keyCode = Core.keyboard.keyCode;
             const vKeysCodes = Keyboard.VKEYSCODES;
@@ -348,7 +348,7 @@ let Apps = (() => {
             if (form) {
                 Core.keyboard.getKeyboardInfos(event);
                 // test CapsLock
-                Core.apps.capslock = "OFF";
+                Core.apps.capslock = 'OFF';
                 let shiftOn = false;
                 if (Core.keyboard.shift) {
                     shiftOn = Core.keyboard.shift;
@@ -357,7 +357,7 @@ let Apps = (() => {
                 }
                 if (keyCode >= vKeysCodes.VK_NUMPAD1 && keyCode <= vKeysCodes.VK_F11 && shiftOn || keyCode >= vKeysCodes.VK_A && 
                     keyCode <= vKeysCodes.VK_Z && !shiftOn) {
-                    Core.apps.capslock = "ON";
+                    Core.apps.capslock = 'ON';
                 }
 
                 if (form.focusedControl) {

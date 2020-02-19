@@ -1,6 +1,4 @@
 ﻿.SplitToolButton {
-    float: left;
-    height: 100%;
     overflow: hidden;
     position: relative;
     width: 23px;
@@ -8,7 +6,6 @@
     flex-direction: row;
     flex-wrap: nowrap;
 }
-
 
 .SplitToolButton .BitmapButton {
     flex: 1;

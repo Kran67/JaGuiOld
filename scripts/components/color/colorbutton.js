@@ -1,8 +1,8 @@
 ﻿//#region Imports
-import { Button } from "/scripts/components/common/button.js";
-import { Color, Colors } from "/scripts/core/color.js";
-import { NotifyEvent } from "/scripts/core/events.js";
-import { Window } from "/scripts/components/containers/window.js";
+import { Button } from '/scripts/components/common/button.js';
+import { Color, Colors } from '/scripts/core/color.js';
+import { NotifyEvent } from '/scripts/core/events.js';
+import { Window } from '/scripts/components/containers/window.js';
 //#endregion Imports
 //#region ColorButton
 const ColorButton = (() => {
@@ -23,7 +23,7 @@ const ColorButton = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                const color = props.hasOwnProperty("color") ? Color.parse(props.color) : Colors.TRANSPARENT;
+                const color = props.hasOwnProperty('color') ? Color.parse(props.color) : Colors.TRANSPARENT;
                 props.caption = color.toRGBAString();
                 super(owner, props);
                 const priv = internal(this);
@@ -105,7 +105,7 @@ const ColorButton = (() => {
             //#endregion Variables déclaration
             colorDlg.loaded();
             colorDlg.obj = this;
-            colorDlg.caption = "Couleurs";
+            colorDlg.caption = 'Couleurs'; // à traduire
             colorDlg.color = priv.color;
             colorDlg.lblOpacity.visible = false;
             colorDlg.slrOpacity.visible = false;
@@ -131,7 +131,7 @@ const ColorButton = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.colorObj = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}color`);
-            priv.colorObj.classList.add("Control", "ColorButtonColor", this.themeName);
+            priv.colorObj.classList.add('Control', 'ColorButtonColor', this.themeName);
             this.HTMLElement.appendChild(priv.colorObj);
             super.loaded();
         }
@@ -159,8 +159,8 @@ const ColorButton = (() => {
 Core.classes.register(Types.CATEGORIES.COLOR, ColorButton);
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const ColorButtonTpl = ["<jagui-colorbutton id=\"{internalId}\" data-class=\"ColorButton\" class=\"Control ColorButton {theme} csr_default\">",
-        "<properties>{ \"name\": \"{name}\", \"color\": \"red\" }</properties></jagui-colorbutton>"].join(String.EMPTY);
+    const ColorButtonTpl = ['<jagui-colorbutton id="{internalId}" data-class="ColorButton" class="Control ColorButton {theme} csr_default">',
+        '<properties>{ "name": "{name}", "color": "red" }</properties></jagui-colorbutton>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: ColorButton, template: ColorButtonTpl }]);
 }
-//endregion
+//#endregion

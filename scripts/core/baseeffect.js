@@ -1,5 +1,5 @@
 ﻿//#region Imports
-import { Component } from "/scripts/core/component.js";
+import { Component } from '/scripts/core/component.js';
 //#endregion
 //#region BaseEffect
 /**
@@ -194,19 +194,19 @@ const BaseEffect = (() => {
 })();
 //#region BaseEffect defineProperties
 Object.defineProperties(BaseEffect, {
-    "enabled": {
+    'enabled': {
         enumerable: true
     },
-    "trigger": {
+    'trigger': {
         enumerable: true
     },
-    "prepareBeforePaint": {
+    'prepareBeforePaint': {
         enumerable: true
     },
-    "applyOnChilds": {
+    'applyOnChilds': {
         enumerable: true
     },
-    "disablePaint": {
+    'disablePaint': {
         enumerable: true
     }
 });

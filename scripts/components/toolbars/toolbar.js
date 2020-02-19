@@ -1,6 +1,6 @@
 ﻿//#region Import
-import { ThemedControl } from "/scripts/core/themedcontrol.js";
-import { Tools } from "/scripts/core/tools.js";
+import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region ToolBar
 const ToolBar = (() => {
@@ -30,8 +30,8 @@ const ToolBar = (() => {
                 if (!Core.isHTMLRenderer) {
                     this.height = 29;
                 }
-                priv.images = props.hasOwnProperty("images") && this.form.hasOwnProperty(props.images) ? this.form[props.images] : null;
-                priv.showCaption = props.hasOwnProperty("showCaption") && Tools.isBool(props.showCaption) ? props.showCaption : true;
+                priv.images = props.hasOwnProperty('images') && this.form.hasOwnProperty(props.images) ? this.form[props.images] : null;
+                priv.showCaption = props.hasOwnProperty('showCaption') && Tools.isBool(props.showCaption) ? props.showCaption : true;
             }
         }
         //#endregion constructor
@@ -48,9 +48,9 @@ const ToolBar = (() => {
             if (Tools.isBool(newValue)) {
                 if (priv.showCaption !== newValue) {
                     priv.showCaption = newValue;
-                    htmlElement.classList.remove("nocaption");
+                    htmlElement.classList.remove('nocaption');
                     if (!priv.showCaption) {
-                        htmlElement.classList.add("nocaption");
+                        htmlElement.classList.add('nocaption');
                     }
                     this.updateToolButtons();
                 }
@@ -123,7 +123,8 @@ Core.classes.register(Types.CATEGORIES.TOOLBARS, ToolBar);
 export { ToolBar };
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const ToolBarTpl = "<jagui-toolbar id=\"{internalId}\" data-class=\"ToolBar\" class=\"Control ToolBar {theme} csr_default\"><properties>{ \"name\": \"{name}\" }</properties></jagui-toolbar>";
+    const ToolBarTpl = ['<jagui-toolbar id="{internalId}" data-class="ToolBar" class="Control ToolBar {theme} csr_default">',
+        '<properties>{ "name": "{name}" }</properties></jagui-toolbar>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: ToolBar, template: ToolBarTpl }]);
 }
-//endregion
+//#endregion

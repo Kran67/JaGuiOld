@@ -1,5 +1,5 @@
 ﻿//#region Imports
-import { BaseClass } from "/scripts/core/baseclass.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
 //#endregion
 //#region Bindable
 /**

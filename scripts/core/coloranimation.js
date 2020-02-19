@@ -1,7 +1,7 @@
 ﻿//#region Imports
-import { Animation } from "/scripts/core/animation.js";
-import { Colors } from "/scripts/core/color.js";
-import { Interpolation } from "/scripts/core/interpolations";
+import { Animation } from '/scripts/core/animation.js';
+import { Colors } from '/scripts/core/color.js';
+import { Interpolation } from '/scripts/core/interpolations';
 //#endregion
 //#region ColorAnimation
 /**

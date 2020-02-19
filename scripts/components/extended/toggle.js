@@ -1,7 +1,7 @@
 ﻿//#region Import
-import { Checkbox } from "/scripts/components/common/checkbox.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Css } from "/scripts/core/css.js";
+import { Checkbox } from '/scripts/components/common/checkbox.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Css } from '/scripts/core/css.js';
 //#endregion Import
 //#region Toggle
 const Toggle = (() => {
@@ -28,8 +28,8 @@ const Toggle = (() => {
                     this.height = 21;
                     this.width = 50;
                 }
-                priv.uncheckedLabel = props.hasOwnProperty("uncheckedLabel") ? props.uncheckedLabel : "NO";
-                priv.checkedLabel = props.hasOwnProperty("checkedLabel") ? props.checkedLabel : "YES";
+                priv.uncheckedLabel = props.hasOwnProperty('uncheckedLabel') ? props.uncheckedLabel : 'NO';
+                priv.checkedLabel = props.hasOwnProperty('checkedLabel') ? props.checkedLabel : 'YES';
                 this.allowGrayed = false;
                 this.autoWidth = false;
                 this.caption = String.EMPTY;
@@ -90,10 +90,10 @@ const Toggle = (() => {
                     htmlElement.dataset.checked = priv.checkedLabel;
                     Css.removeCSSRule(`#${this.internalId}${PSEUDOCSSCLASS.BEFORE}`);
                     Css.removeCSSRule(`#${this.internalId}${PSEUDOCSSCLASS.AFTER}`);
-                    if (priv.checkedLabel.includes("data:image")) {
+                    if (priv.checkedLabel.includes('data:image')) {
                         Css.addCSSRule(`#${this.internalId}${PSEUDOCSSCLASS.BEFORE}`, `content: url(${priv.checkedLabel})`);
                     }
-                    if (priv.uncheckedLabel.includes("data:image")) {
+                    if (priv.uncheckedLabel.includes('data:image')) {
                         Css.addCSSRule(`#${this.internalId}${PSEUDOCSSCLASS.AFTER}`, `content: url(${priv.uncheckedLabel})`);
                     }
                 }
@@ -111,8 +111,8 @@ Core.classes.register(Types.CATEGORIES.EXTENDED, Toggle);
 export { Toggle };
 //#region Template
 if (Core.isHTMLRenderer) {
-    const ToggleTpl = ["<jagui-toogle id=\"{internalId}\" data-class=\"Toggle\" class=\"Control Toggle {theme} csr_default\">",
-        "<properties>{ \"name\": \"{name}\", \"width\": 50, \"height\": 21 }</properties></jagui-toogle>"].join(String.EMPTY);
+    const ToggleTpl = ['<jagui-toogle id="{internalId}" data-class="Toggle" class="Control Toggle {theme} csr_default">',
+        '<properties>{ "name": "{name}", "width": 50, "height": 21 }</properties></jagui-toogle>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: Toggle, template: ToggleTpl }]);
 }
 //#endregion

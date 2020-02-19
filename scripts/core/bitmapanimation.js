@@ -1,7 +1,7 @@
 ﻿//#region Imports
-import { Animation } from "/scripts/core/animation.js";
-import { Convert } from "/scripts/core/convert.js";
-import { Css } from "/scripts/core/css.js";
+import { Animation } from '/scripts/core/animation.js';
+import { Convert } from '/scripts/core/convert.js';
+import { Css } from '/scripts/core/css.js';
 //#endregion
 //#region BitmapAnimation
 /**
@@ -35,7 +35,7 @@ const BitmapAnimation = (() => {
                 current.canvas = doc.createElement(Types.HTMLELEMENTS.CANVAS);
                 current.canvas.width = 1;
                 current.canvas.height = 1;
-                current.ctx = canvas.getContext("2d");
+                current.ctx = canvas.getContext('2d');
                 //#region Getter/Setter
                 //#endregion
                 this.startValue = new Image;
@@ -135,7 +135,7 @@ const BitmapAnimation = (() => {
                 super.loaded();
                 const cssProp = `0% { ${Convert.propertyToCssProperty(this, true)} }
                    100% { ${Convert.propertyToCssProperty(this)} } `;
-                Css.addCSSRule(`@${Core.browser.getVendorPrefix("keyframes")} keyframes ${internalId}_hover`, cssProp);
+                Css.addCSSRule(`@${Core.browser.getVendorPrefix('keyframes')} keyframes ${internalId}_hover`, cssProp);
                 control.bitmap.src = _const.PIX;
                 switch (control.wrapMode) {
                     case imageWraps.ORIGINAL:
@@ -161,12 +161,12 @@ const BitmapAnimation = (() => {
                 }
                 style = `position:absolute;left:0;top:0;right:0;bottom:0;content:'';background-image:url('${this.startValue.src}');`;
                 Css.addCSSRule(`#${ctrlInternalId}${_const.PSEUDOCLASSBEFORE}:before`, `${style}${back}`);
-                Css.addCSSRule(`#${ctrlInternalId}${_const.PSEUDOCLASSBEFORE}:before`, `animation:${this.toCSS().replace(" none ", " backwards ")};`);
-                Css.addCSSRule(`#${ctrlInternalId}:hover${_const.PSEUDOCLASSBEFORE}:before`, Core.browser.getVendorPrefix("animation") + `animation:${this.toCSS(internalId + "_hover").replace(" none ", " forwards ")};`);
+                Css.addCSSRule(`#${ctrlInternalId}${_const.PSEUDOCLASSBEFORE}:before`, `animation:${this.toCSS().replace(' none ', ' backwards ')};`);
+                Css.addCSSRule(`#${ctrlInternalId}:hover${_const.PSEUDOCLASSBEFORE}:before`, Core.browser.getVendorPrefix('animation') + `animation:${this.toCSS(internalId + '_hover').replace(' none ', ' forwards ')};`);
                 style = `position:absolute;left:0;top:0;right:0;bottom:0;content:'';opacity:0;background-image:url('${this.stopValue.src}');`;
                 Css.addCSSRule(`#${ctrlInternalId}${_const.PSEUDOCLASSBEFORE}:after`, `${style}${back}`);
-                Css.addCSSRule(`#${ctrlInternalId}${_const.PSEUDOCLASSBEFORE}:after`, `animation:${this.toCSS(internalId + "_hover")};`);
-                Css.addCSSRule(`#${ctrlInternalId}:hover${_const.PSEUDOCLASSBEFORE}:after`, Core.browser.getVendorPrefix("animation") + `animation:${this.toCSS().replace(" none ", " forwards ")};`);
+                Css.addCSSRule(`#${ctrlInternalId}${_const.PSEUDOCLASSBEFORE}:after`, `animation:${this.toCSS(internalId + '_hover')};`);
+                Css.addCSSRule(`#${ctrlInternalId}:hover${_const.PSEUDOCLASSBEFORE}:after`, Core.browser.getVendorPrefix('animation') + `animation:${this.toCSS().replace(' none ', ' forwards ')};`);
             }
         }
         /**

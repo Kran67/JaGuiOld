@@ -1,101 +1,101 @@
 //#region Imports
-import { Window } from "/scripts/components/containers/window.js";
-import * as Canvas from "/scripts/core/canvas.js";
-import "/scripts/components/common/label.js";
-import "/scripts/components/common/speedbutton.js";
-//import { Point } from "/scripts/core/geometry.js";
-//import { Dialogs } from "/scripts/components/dialogs/dialogs.js";
-//import { ListBox, ListBoxItem } from "/scripts/components/common/listbox.js";
-import "/scripts/components/common/image.js";
-//import { Animation } from "/scripts/animation.js";
-import "/scripts/components/containers/groupbox.js";
-import "/scripts/components/common/checkbox.js";
-import "/scripts/components/common/radiobutton.js";
-import "/scripts/components/extended/circlebutton.js";
-import "/scripts/components/extended/popupbutton.js";
-import "/scripts/components/extended/bitmapbutton.js";
-import "/scripts/components/extended/pathbutton.js";
-import "/scripts/components/containers/panel.js";
-import "/scripts/components/containers/calloutpanel.js";
-import "/scripts/components/color/colorbutton.js";
-import "/scripts/components/extended/cornerbutton.js";
-import "/scripts/components/toolbars/statusbar.js";
-import "/scripts/components/toolbars/toolbar.js";
-import "/scripts/components/toolbars/toolbutton.js";
-import "/scripts/components/extended/valuelabel.js";
-import "/scripts/components/extended/pathcheckbox.js";
-import "/scripts/components/extended/anglebutton.js";
-import "/scripts/components/common/progressbar.js";
-import "/scripts/components/common/slider.js";
-//import { ScrollBar } from "/scripts/components/common/scrollBar.js";
-import "/scripts/components/containers/scrollbox.js";
-import "/scripts/components/containers/expander.js";
-import "/scripts/components/color/alphaslider.js";
-import "/scripts/components/color/bwslider.js";
-import "/scripts/components/color/hueslider.js";
-import "/scripts/components/color/colorbox.js";
-import "/scripts/components/color/colorpicker.js";
-import "/scripts/components/color/colorquad.js";
-import "/scripts/components/common/rating.js";
-//import { gradientEdit } from "/scripts/components/color/gradientEdit.js";
-import "/scripts/components/color/colorpanel.js";
-import "/scripts/components/common/shapes.js";
-//import { treeView } from "/scripts/components/common/treeView.js";
-//import { pageControl } from "/scripts/components/containers/pageControl.js";
-import "/scripts/components/common/paintbox.js";
-import "/scripts/components/common/plotgrid.js";
-import "/scripts/components/common/textbox.js";
-//import "/scripts/components/common/passwordTextBox.js";
-import "/scripts/components/extended/roundtextbox.js";
-//import { textBoxClearBtn } from "/scripts/components/extended/textBoxClearBtn.js";
-//import { spinBox } from "/scripts/components/common/spinBox.js";
-//import { memo } from "/scripts/components/common/memo.js";
-//import { maskedTextBox } from "/scripts/components/extended/maskedTextBox.js";
-import "/scripts/components/extended/iphonebutton.js";
-import "/scripts/components/common/calendar.js";
-//import { menus } from "/scripts/components/menus/menus.js";
-//import { dropDownListBox } from "/scripts/components/common/dropDownListBox.js";
-//import { labeledAngleBar } from "/scripts/components/extended/labeledAngleBar.js";
-//import { labeledColorButton } from "/scripts/components/extended/labeledColorButton.js";
-//import { labeledTextBox } from "/scripts/components/extended/labeledTextBox.js";
-//import { labeledSlider } from "/scripts/components/extended/labeledSlider.js";
-//import { labeledMemo } from "/scripts/components/extended/labeledMemo.js";
-//import { dropDownColors } from "/scripts/components/color/dropDownColors.js";
-//import { dropDownCalendar } from "/scripts/components/common/dropDownCalendar.js";
-//import { dropDownSlider } from "/scripts/components/extended/dropDownSlider.js";
-//import { numberWheel } from "/scripts/components/common/numberWheel.js";
-//import { timePanel } from "/scripts/components/common/timePanel.js";
-//import { imageControl } from "/scripts/components/extended/imageControl.js";
-//import { labeledImage } from "/scripts/components/extended/labeledImage.js";
-//import { imageViewer } from "/scripts/components/extended/imageViewer.js";
-//import { dropDownTimePanel } from "/scripts/components/common/dropDownTimePanel.js";
-import "/scripts/components/extended/bitmapstatebutton.js";
-import "/scripts/components/common/busyindicator.js";
-import "/scripts/components/extended/splitbutton.js";
-//import { commonDialog } from "/scripts/components/dialogs/commonDialog.js";
-//import { openDialog } from "/scripts/components/dialogs/openDialog.js";
-//import { findReplaceDialog } from "/scripts/components/dialogs/findReplaceDialog.js";
-//import { fontDialog } from "/scripts/components/dialogs/fontDialog.js";
-//import { colorDialog } from "/scripts/components/dialogs/colorDialog.js";
-//import { gridView } from "/scripts/components/common/gridView.js";
-//import { imageList } from "/scripts/components/nonvisual/imageList.js";
-//import { timers } from "/scripts/components/nonvisual/timers.js";
-//import { dataFile } from "/scripts/components/data/dataFile.js";
-//import { dataSource } from "/scripts/components/data/dataSource.js";
-import "/scripts/components/containers/flowlayout.js";
-import "/scripts/components/containers/gridlayout.js";
-//import { splitter } from "/scripts/components/common/splitter.js";
-import "/scripts/components/toolbars/splittoolbutton.js";
-//import { actnList } from "/scripts/components/actions/actnList.js";
-//import { stdActns } from "/scripts/components/actions/stdActns.js";
-//import { textBoxBtn } from "/scripts/components/extended/textBoxBtn.js";
-//import { clock } from "/scripts/components/common/clock.js";
-//import { propertyGrid } from "/scripts/components/extras/propertyGrid.js";
-import "/scripts/components/extended/radiogroup.js";
-import "/scripts/components/extended/toggle.js";
-import "/scripts/components/common/batteryindicator.js";
-import "/scripts/components/extended/segmentledlabel.js";
-import "/scripts/components/extended/circularprogressbar.js";
+import { Window } from '/scripts/components/containers/window.js';
+import * as Canvas from '/scripts/core/canvas.js';
+import '/scripts/components/common/label.js';
+import '/scripts/components/common/speedbutton.js';
+//import { Point } from '/scripts/core/geometry.js';
+//import { Dialogs } from '/scripts/components/dialogs/dialogs.js';
+//import { ListBox, ListBoxItem } from '/scripts/components/common/listbox.js';
+import '/scripts/components/common/image.js';
+//import { Animation } from '/scripts/animation.js';
+import '/scripts/components/containers/groupbox.js';
+import '/scripts/components/common/checkbox.js';
+import '/scripts/components/common/radiobutton.js';
+import '/scripts/components/extended/circlebutton.js';
+import '/scripts/components/extended/popupbutton.js';
+import '/scripts/components/extended/bitmapbutton.js';
+import '/scripts/components/extended/pathbutton.js';
+import '/scripts/components/containers/panel.js';
+import '/scripts/components/containers/calloutpanel.js';
+import '/scripts/components/color/colorbutton.js';
+import '/scripts/components/extended/cornerbutton.js';
+import '/scripts/components/toolbars/statusbar.js';
+import '/scripts/components/toolbars/toolbar.js';
+import '/scripts/components/toolbars/toolbutton.js';
+import '/scripts/components/extended/valuelabel.js';
+import '/scripts/components/extended/pathcheckbox.js';
+import '/scripts/components/extended/anglebutton.js';
+import '/scripts/components/common/progressbar.js';
+import '/scripts/components/common/slider.js';
+//import { ScrollBar } from '/scripts/components/common/scrollBar.js';
+import '/scripts/components/containers/scrollbox.js';
+import '/scripts/components/containers/expander.js';
+import '/scripts/components/color/alphaslider.js';
+import '/scripts/components/color/bwslider.js';
+import '/scripts/components/color/hueslider.js';
+import '/scripts/components/color/colorbox.js';
+import '/scripts/components/color/colorpicker.js';
+import '/scripts/components/color/colorquad.js';
+import '/scripts/components/common/rating.js';
+//import { gradientEdit } from '/scripts/components/color/gradientEdit.js';
+import '/scripts/components/color/colorpanel.js';
+import '/scripts/components/common/shapes.js';
+//import { treeView } from '/scripts/components/common/treeView.js';
+//import { pageControl } from '/scripts/components/containers/pageControl.js';
+import '/scripts/components/common/paintbox.js';
+import '/scripts/components/common/plotgrid.js';
+import '/scripts/components/common/textbox.js';
+//import '/scripts/components/common/passwordTextBox.js';
+import '/scripts/components/extended/roundtextbox.js';
+//import { textBoxClearBtn } from '/scripts/components/extended/textBoxClearBtn.js';
+//import { spinBox } from '/scripts/components/common/spinBox.js';
+//import { memo } from '/scripts/components/common/memo.js';
+//import { maskedTextBox } from '/scripts/components/extended/maskedTextBox.js';
+import '/scripts/components/extended/iphonebutton.js';
+import '/scripts/components/common/calendar.js';
+//import { menus } from '/scripts/components/menus/menus.js';
+//import { dropDownListBox } from '/scripts/components/common/dropDownListBox.js';
+//import { labeledAngleBar } from '/scripts/components/extended/labeledAngleBar.js';
+//import { labeledColorButton } from '/scripts/components/extended/labeledColorButton.js';
+//import { labeledTextBox } from '/scripts/components/extended/labeledTextBox.js';
+//import { labeledSlider } from '/scripts/components/extended/labeledSlider.js';
+//import { labeledMemo } from '/scripts/components/extended/labeledMemo.js';
+//import { dropDownColors } from '/scripts/components/color/dropDownColors.js';
+//import { dropDownCalendar } from '/scripts/components/common/dropDownCalendar.js';
+//import { dropDownSlider } from '/scripts/components/extended/dropDownSlider.js';
+//import { numberWheel } from '/scripts/components/common/numberWheel.js';
+//import { timePanel } from '/scripts/components/common/timePanel.js';
+//import { imageControl } from '/scripts/components/extended/imageControl.js';
+//import { labeledImage } from '/scripts/components/extended/labeledImage.js';
+//import { imageViewer } from '/scripts/components/extended/imageViewer.js';
+//import { dropDownTimePanel } from '/scripts/components/common/dropDownTimePanel.js';
+import '/scripts/components/extended/bitmapstatebutton.js';
+import '/scripts/components/common/busyindicator.js';
+import '/scripts/components/extended/splitbutton.js';
+//import { commonDialog } from '/scripts/components/dialogs/commonDialog.js';
+//import { openDialog } from '/scripts/components/dialogs/openDialog.js';
+//import { findReplaceDialog } from '/scripts/components/dialogs/findReplaceDialog.js';
+//import { fontDialog } from '/scripts/components/dialogs/fontDialog.js';
+//import { colorDialog } from '/scripts/components/dialogs/colorDialog.js';
+//import { gridView } from '/scripts/components/common/gridView.js';
+//import { imageList } from '/scripts/components/nonvisual/imageList.js';
+//import { timers } from '/scripts/components/nonvisual/timers.js';
+//import { dataFile } from '/scripts/components/data/dataFile.js';
+//import { dataSource } from '/scripts/components/data/dataSource.js';
+import '/scripts/components/containers/flowlayout.js';
+import '/scripts/components/containers/gridlayout.js';
+//import { splitter } from '/scripts/components/common/splitter.js';
+import '/scripts/components/toolbars/splittoolbutton.js';
+//import { actnList } from '/scripts/components/actions/actnList.js';
+//import { stdActns } from '/scripts/components/actions/stdActns.js';
+//import { textBoxBtn } from '/scripts/components/extended/textBoxBtn.js';
+//import { clock } from '/scripts/components/common/clock.js';
+//import { propertyGrid } from '/scripts/components/extras/propertyGrid.js';
+import '/scripts/components/extended/radiogroup.js';
+import '/scripts/components/extended/toggle.js';
+import '/scripts/components/common/batteryindicator.js';
+import '/scripts/components/extended/segmentledlabel.js';
+import '/scripts/components/extended/circularprogressbar.js';
 //#endregion Imports
 let lastTime;
 class Window1 extends Window {
@@ -106,7 +106,7 @@ class Window1 extends Window {
     get SHINEDIR() { return [0.01, 0.05]; }
     get ANGSPEED() { return [0.01, 0.04]; }
     get PENTARADIANT() { return Math.PI * 2 / 5; }
-    get COLORS() { return ["#ff0000", "#ff7f00", "#ffff00", "#00ff00", "#0000ff", "#4b0082", "#8b00ff"]; }
+    get COLORS() { return ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#8b00ff']; }
     get FRAME() { return (Math.random() * 360) | 0; }
     constructor(owner, props) {
         super(owner, props);
@@ -127,7 +127,7 @@ class Window1 extends Window {
     }
     formShow() {
         if (!Core.browser.chrome) {
-            Dialogs.alert("Best experience with Chrome Browser");
+            Dialogs.alert('Best experience with Chrome Browser');
         }
         lastTime = new Date().getTime();
     }
@@ -145,7 +145,7 @@ class Window1 extends Window {
         return Math.floor(Math.random() * (maxVal - minVal - 1)) + minVal;
     }
     Button1_onClick(sender) {
-        const confirm = Dialogs.confirm("This operation takes several seconds.<br />It depends on your CPU.<br />Proceed?");
+        const confirm = Dialogs.confirm('This operation takes several seconds.<br />It depends on your CPU.<br />Proceed?');
         confirm.onClose.addListener(this.form.createListBoxItems);
     }
     createListBoxItems() {
@@ -153,11 +153,11 @@ class Window1 extends Window {
             const t = new Date().getTime();
             this.app.activeWindow.ListBox2.beginUpdate();
             for (let i = 0; i < 1000000; i++) {
-                const span = new ListBoxItem(this.app.activeWindow.ListBox2, "item" + i);
+                const span = new ListBoxItem(this.app.activeWindow.ListBox2, 'item' + i);
                 this.app.activeWindow.ListBox2.addItem(span);
             }
             this.app.activeWindow.ListBox2.endUpdate();
-            console.log((new Date().getTime() - t) + "ms");
+            console.log((new Date().getTime() - t) + 'ms');
         }
     }
     RoundButton1_onClick() {
@@ -194,7 +194,7 @@ class Window1 extends Window {
         switch (this.drawType) {
             case 0:
                 this._ctx.globalCompositeOperation = Canvas.GLOBALCOMPOSITEOPERATIONS.SOURCEOVER;
-                this._ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+                this._ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
                 this._ctx.fillRect(0, 0, this.HTMLElement.offsetWidth, this.HTMLElement.offsetHeight);
                 for (let i = 0; i < stars.length; i++) {
                     star = stars[i];
@@ -213,7 +213,7 @@ class Window1 extends Window {
                     if (px >= 0 && px <= 500 && py >= 0 && py <= 400) {
                         const size = (1 - star.z / 32.0) * 5;
                         const shade = ~~((1 - star.z / 32.0) * 255);
-                        this._ctx.fillStyle = "rgb(" + shade + "," + shade + "," + shade + ")";
+                        this._ctx.fillStyle = 'rgb(' + shade + ',' + shade + ',' + shade + ')';
                         this._ctx.fillRect(px, py, size, size);
                     }
                 }
@@ -221,7 +221,7 @@ class Window1 extends Window {
             case 1:
                 ++this.form._frame;
                 this._ctx.globalCompositeOperation = Canvas.GLOBALCOMPOSITEOPERATIONS.DESTINATIONOUT;
-                this._ctx.fillStyle = "rgba(0, 0, 0, .1)";
+                this._ctx.fillStyle = 'rgba(0, 0, 0, .1)';
                 this._ctx.fillRect(0, 0, this.HTMLElement.offsetWidth, this.HTMLElement.offsetHeight);
                 this._ctx.globalCompositeOperation = Canvas.GLOBALCOMPOSITEOPERATIONS.LIGHTER;
 
@@ -251,7 +251,7 @@ class Window1 extends Window {
                 if (stars.length < total) {
                     stars.push(new Circle(Math.random() - 0.5, Math.random() - 0.5, halfWidth, halfHeight));
                 }
-                this._ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+                this._ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
                 this._ctx.fillRect(0, 0, this.HTMLElement.offsetWidth, this.HTMLElement.offsetHeight);
 
                 break;
@@ -275,7 +275,7 @@ class Window1 extends Window {
             p[i] = new Point(this.HTMLElement.offsetWidth / 2 + x * this.frequency, this.HTMLElement.offsetHeight / 2 - y * this.frequency);
         }
         this._ctx.lineWidth = 2;
-        this._ctx.strokeStyle = "red";
+        this._ctx.strokeStyle = 'red';
         this._ctx.drawPolyline(p);
         // Paint cos * x
         p = new Array(100);
@@ -288,7 +288,7 @@ class Window1 extends Window {
             p[i] = new Point(this.HTMLElement.offsetWidth / 2 + x * this.frequency, this.HTMLElement.offsetHeight / 2 - y * this.frequency);
         }
         this._ctx.linewidth = 2;
-        this._ctx.strokeStyle = "green";
+        this._ctx.strokeStyle = 'green';
         this._ctx.drawPolyline(p);
         // Paint x * x }
         p = new Array(100);
@@ -301,38 +301,38 @@ class Window1 extends Window {
             p[i] = new Point(this.HTMLElement.offsetWidth / 2 + x * this.frequency, this.HTMLElement.offsetHeight / 2 - y * this.frequency);
         }
         this._ctx.lineWidth = 2;
-        this._ctx.strokeStyle = "blue";
+        this._ctx.strokeStyle = 'blue';
         this._ctx.drawPolyline(p);
         // End Paint
         this._ctx.restore();
     }
     ToolButton1_onClick() {
-        window.location.href = "/index.html";
+        window.location.href = '/index.html';
     }
     changeTheme() {
         this.app.themeManifest.themeName = this.caption.replace(String.SPACE, String.EMPTY).toLowerCase();
     }
     SpeedButton1_onClick() {
-        //this.app.addWindow($j.tools.getPath($j.types.internalCategories.APPS)+this.app.name+"/window2");
-        this.app.newWindow("window2");
+        //this.app.addWindow($j.tools.getPath($j.types.internalCategories.APPS)+this.app.name+'/window2');
+        this.app.newWindow('window2');
     }
     closeQuery() {
-        const dlg = Dialogs.confirmation("Are you sure you want to quit?");
+        const dlg = Dialogs.confirmation('Are you sure you want to quit?');
         dlg.onClose.addListener(function () {
             Core.apps.activeApplication.activeWindow.canClose = this.modalResult === Window.MODALRESULTS.OK;
         });
     }
     showBorderDialogWindow() {
-        this.app.newWindow("borderDialog");
+        this.app.newWindow('borderDialog');
     }
     showBorderNoneWindow() {
-        this.app.newWindow("borderNone");
+        this.app.newWindow('borderNone');
     }
     showBorderSingleWindow() {
-        this.app.newWindow("borderSingle");
+        this.app.newWindow('borderSingle');
     }
     showBorderSizeableWindow() {
-        this.app.newWindow("borderSizeable");
+        this.app.newWindow('borderSizeable');
     }
 }
 
@@ -368,7 +368,7 @@ class Star {
         this.ay = this.size / 5000;
         this.shine = 0;
         this.shineDir = form.rand(form.SHINEDIR);
-        this.color = "hsla(hue, 80%, brightness%, .15)".replace("hue", form.FRAME % 360);
+        this.color = 'hsla(hue, 80%, brightness%, .15)'.replace('hue', form.FRAME % 360);
         this.rot = Math.random() * 2 * Math.PI;
         this.omega = form.rand(form.ANGSPEED);
         if (Math.random() < 0.5) {
@@ -392,7 +392,7 @@ class Star {
 
         this.ctx.translate(this.x, this.y);
         this.ctx.rotate(this.rot);
-        this.ctx.fillStyle = this.color.replace("brightness", (0.25 + this.shine / 2) * 100);
+        this.ctx.fillStyle = this.color.replace('brightness', (0.25 + this.shine / 2) * 100);
         this.ctx.beginPath();
         this.ctx.moveTo(this.size, 0);
 

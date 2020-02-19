@@ -1,6 +1,6 @@
 ﻿//#region Import
-import { Label } from "/scripts/components/common/label.js";
-import { Text } from "/scripts/core/text.js";
+import { Label } from '/scripts/components/common/label.js';
+import { Text } from '/scripts/core/text.js';
 //#endregion Import
 //#region ValueLabel
 class ValueLabel extends Label {
@@ -20,7 +20,7 @@ class ValueLabel extends Label {
     set caption(newValue) {
         if (typeof newValue !== _const.STRING) return;
         if (this.caption !== newValue) {
-            this.caption = Text.replace(newValue, "<br>", String.SPACE);
+            this.caption = Text.replace(newValue, '<br>', String.SPACE);
             this.update();
         }
     }
@@ -32,8 +32,8 @@ Core.classes.register(Types.CATEGORIES.CONTAINERS, ValueLabel);
 export { ValueLabel };
 //#region Template
 if (Core.isHTMLRenderer) {
-    const ValueLabelTpl = ["<jagui-valuelabel id=\"{internalId}\" data-class=\"ValueLabel\" class=\"Control csr_default ValueLabel {theme}\">",
-        "<properties>{ \"name\": \"{name}\", \"caption\": \"{caption}\" }</properties></jagui-valuelabel>"].join(String.EMPTY);
+    const ValueLabelTpl = ['<jagui-valuelabel id="{internalId}" data-class="ValueLabel" class="Control csr_default ValueLabel {theme}">',
+        '<properties>{ "name": "{name}", "caption": "{caption}" }</properties></jagui-valuelabel>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: ValueLabel, template: ValueLabelTpl }]);
 }
 //#endregion
