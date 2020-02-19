@@ -55,7 +55,7 @@ import '/scripts/components/extended/iphonebutton.js';
 import '/scripts/components/common/calendar.js';
 //import { menus } from '/scripts/components/menus/menus.js';
 //import { dropDownListBox } from '/scripts/components/common/dropDownListBox.js';
-//import { labeledAngleBar } from '/scripts/components/extended/labeledAngleBar.js';
+import '/scripts/components/extended/labeledanglebar.js';
 //import { labeledColorButton } from '/scripts/components/extended/labeledColorButton.js';
 //import { labeledTextBox } from '/scripts/components/extended/labeledTextBox.js';
 //import { labeledSlider } from '/scripts/components/extended/labeledSlider.js';

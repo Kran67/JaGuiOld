@@ -1,6 +1,7 @@
 ﻿//#region Import
 import { Label } from '/scripts/components/common/label.js';
 import { Text } from '/scripts/core/text.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region ValueLabel
 class ValueLabel extends Label {
@@ -18,10 +19,11 @@ class ValueLabel extends Label {
         return super.caption;
     }
     set caption(newValue) {
-        if (typeof newValue !== _const.STRING) return;
-        if (this.caption !== newValue) {
-            this.caption = Text.replace(newValue, '<br>', String.SPACE);
-            this.update();
+        if (Tools.isString(newValue)) {
+            if (this.caption !== newValue) {
+                super.caption = Text.replace(newValue, '<br>', String.SPACE);
+                this.update();
+            }
         }
     }
     //#endregion caption

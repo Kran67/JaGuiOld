@@ -1,25 +1,26 @@
-﻿div.LabeledAngleBar {
+﻿.LabeledAngleBar {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: row;
+    overflow: visible;
 }
 
-div.LabeledAngleBar button.AngleButton {
+.LabeledAngleBar .AngleButton {
     position: relative;
     width: 20px;
     height: 100%;
     margin-right: calc(100% - 25% - 50% - 20px);
 }
 
-div.LabeledAngleBar label.Label {
+.LabeledAngleBar .Label {
     position: static;
     width: 50%;
     white-space: nowrap;
     flex: 1;
 }
 
-div.LabeledAngleBar label.ValueLabel {
+.LabeledAngleBar .ValueLabel {
     position: static;
     width: 25%;
     white-space: nowrap;

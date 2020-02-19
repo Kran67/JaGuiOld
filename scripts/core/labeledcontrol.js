@@ -1,8 +1,6 @@
 ﻿//#region Imports
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Tools } from '/scripts/core/tools.js';
-//import { Classes } from "/scripts/core/classes.js";
-//import { NotifyEvent } from "/scripts/core/events.js";
 //#endregion Imports
 //#region LabeledControl
 const LabeledControl = (() => {
@@ -25,15 +23,6 @@ const LabeledControl = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.label = Core.classes.createComponent({
-                    class: Core.classes.Label,
-                    owner: this,
-                    props: {
-                        inForm: false
-                    },
-                    withTpl: false
-                });
-
                 this.onChange = new Core.classes.NotifyEvent(this);
                 this.width = 200;
                 this.height = 20;
@@ -41,11 +30,6 @@ const LabeledControl = (() => {
         }
         //#endregion constructor
         //#region Getter / Setter
-        //#region label
-        get label() {
-            return internal(this).label;
-        }
-        //#endregion label
         //#region caption
         get caption() {
             return internal(this).label.caption;
@@ -55,8 +39,9 @@ const LabeledControl = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (Tools.isString(newValue)) {
-                if (priv.caption !== newValue) {
-                    priv.caption = newValue;
+                if (priv.label.caption !== newValue) {
+                    priv.label.caption = newValue;
+                    priv.label.caption = priv.caption;
                 }
             }
         }
@@ -72,45 +57,42 @@ const LabeledControl = (() => {
             if (Tools.isNumber(newValue)) {
                 if (priv.height !== newValue) {
                     super.height = newValue;
-                    if (priv.label) {
-                        priv.label.HTMLElementStyle.lineHeight = `${this.height}${Types.CSSUNITS.PX}`;
-                    }
+                    this.update();
                 }
             }
         }
         //#endregion height
-        //#region template
-        get template() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            let html = super.template;
-            const a = html.split('{label}');
-            const tpl = priv.label.template;
-            //#endregion Variables déclaration
-            html = a.join(tpl);
-            return html;
-        }
-        //#endregion template
         //#endregion Getter / Setter
         //#region Methods
         //#region destroy
         destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             this.onChange.destroy();
-            this.label.destroy();
+            priv.label.destroy();
+            priv.label = null;
             super.destroy();
         }
         //#endregion destroy
-        //#region getChildsHTMLElement
-        getChildsHTMLElement() {
+        //#region loaded
+        loaded() {
             //#region Variables déclaration
             const priv = internal(this);
-            const htmlElement = this.HTMLElement;
+            const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
             //#endregion Variables déclaration
-            if (htmlElement) {
-                priv.label.getHTMLElement(htmlElement.firstElementChild.id);
-            }
+            super.loaded();
+            priv.label = Core.classes.createComponent({
+                class: Core.classes.Label,
+                owner: this,
+                props: {
+                    inForm: false,
+                    caption: props.hasOwnProperty('caption')?props.caption:this.name
+                },
+                withTpl: true
+            });
         }
-        //#endregion getChildsHTMLElement
+        //#endregion loaded
         //#region update
         update() {
             //#region Variables déclaration
@@ -121,12 +103,6 @@ const LabeledControl = (() => {
             }
         }
         //#endregion update
-        //getChildsHTMLElement:function() {
-        //  let nextId;
-        //  this._label=new Label(this);
-        //  this._label.getHTMLElement(this.HTMLElement.firstElementChild.id);
-        //  this._label.updateFromHTML();
-        //}
         //#endregion
     }
     return LabeledControl;

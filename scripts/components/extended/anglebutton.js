@@ -35,16 +35,16 @@ const AngleButton = (() => {
                     this.width = 30;
                     this.height = 30;
                 }
-                priv.frequency = props.hasOwnProperty('frequency')?props.frequency:1;
-                priv.tracking = props.hasOwnProperty('tracking')?props.tracking:true;
-                priv.value = props.hasOwnProperty('value')?props.value:0;
-                priv.showValue = props.hasOwnProperty('showValue')?props.showValue:true;
+                priv.frequency = props.hasOwnProperty('frequency') ? props.frequency : 1;
+                priv.tracking = props.hasOwnProperty('tracking') ? props.tracking : true;
+                priv.value = props.hasOwnProperty('value') ? props.value : 0;
+                priv.showValue = props.hasOwnProperty('showValue') ? props.showValue : true;
                 this.autoCapture = true;
                 this.caption = String.EMPTY;
                 this.canFocused = true;
                 this.onChanged = new NotifyEvent(this);
                 const self = this;
-                priv.setInternalValue = function(newValue) {
+                priv.setInternalValue = function (newValue) {
                     //#region Variables déclaration
                     const priv = this;
                     //#endregion Variables déclaration
@@ -142,11 +142,7 @@ const AngleButton = (() => {
             if (Tools.isBool(newValue)) {
                 if (priv.showValue !== newValue) {
                     priv.showValue = newValue;
-                    if (priv.showValue) {
-                        priv.textObj.style.visibility = cssValues.NORMAL;
-                    } else {
-                        priv.textObj.style.visibility = cssValues.HIDDEN;
-                    }
+                    priv.textObj.style.visibility = priv.showValue ? cssValues.NORMAL : cssValues.HIDDEN;
                 }
             }
         }
@@ -318,6 +314,7 @@ const AngleButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
+            const cssValues = Types.CSSVALUES;
             //#endregion Variables déclaration
             if (!htmlElement.querySelector('.AngleButtonCaption')) {
                 priv.textObj = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}caption`);
@@ -329,6 +326,7 @@ const AngleButton = (() => {
                 priv.knob.jsObj = this;
                 htmlElement.appendChild(priv.textObj);
                 htmlElement.appendChild(priv.knob);
+                priv.textObj.style.visibility = priv.showValue ? cssValues.NORMAL : cssValues.HIDDEN;
             }
             super.loaded();
             this.update();
