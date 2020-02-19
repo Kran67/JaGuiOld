@@ -64,9 +64,9 @@ const ColorQuad = (() => {
                 if (priv.colorBox !== newValue) {
                     priv.colorBox = newValue;
                     if (priv.colorBox instanceof Core.classes.ColorBox) {
-                        if (priv.colorBox.fillColor) {
-                            priv.colorBox.fillColor.assign(priv.color);
-                        }
+                        //if (priv.colorBox.fillColor) {
+                        //    priv.colorBox.fillColor.assign(priv.color);
+                        //}
                     }
                 }
             }
@@ -229,6 +229,10 @@ const ColorQuad = (() => {
                 priv.handleObj.jsObj = this;
                 htmlElement.appendChild(priv.handleObj);
             }
+            Object.keys(Types.COLORFORMATS).forEach(format => {
+                htmlElement.classList.remove(format);
+            });
+            htmlElement.classList.add(priv.format);
             super.loaded();
             if (priv.colorBox instanceof Core.classes.ColorBox) {
                 priv.colorBox.color = priv.color;

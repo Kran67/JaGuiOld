@@ -162,24 +162,18 @@ const Slider = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
+            let ori = `orientation-${priv.orientation}`;
             //#endregion Variables déclaration
             if (Tools.valueInSet(newValue, Types.ORIENTATIONS)) {
                 if (priv.orientation !== newValue) {
-                    htmlElement.classList.remove(`orientation-${priv.orientation}`);
-                    priv.leftThumb.classList.remove(`orientation-${priv.orientation}`);
-                    priv.rightThumb.classList.remove(`orientation-${priv.orientation}`);
-                    priv.leftInput.classList.remove(`orientation-${priv.orientation}`);
-                    priv.rightInput.classList.remove(`orientation-${priv.orientation}`);
-                    priv.leftTooltip.classList.remove(`orientation-${priv.orientation}`);
-                    priv.rightTooltip.classList.remove(`orientation-${priv.orientation}`);
+                    [htmlElement, priv.leftThumb, priv.rightThumb, priv.leftInput, priv.rightInput, priv.leftTooltip, priv.rightTooltip].forEach(item => {
+                        item.classList.remove(ori);
+                    });
                     priv.orientation = newValue;
-                    htmlElement.classList.add(`orientation-${priv.orientation}`);
-                    priv.leftThumb.classList.add(`orientation-${priv.orientation}`);
-                    priv.rightThumb.classList.add(`orientation-${priv.orientation}`);
-                    priv.leftInput.classList.add(`orientation-${priv.orientation}`);
-                    priv.rightInput.classList.add(`orientation-${priv.orientation}`);
-                    priv.leftTooltip.classList.add(`orientation-${priv.orientation}`);
-                    priv.rightTooltip.classList.add(`orientation-${priv.orientation}`);
+                    ori = `orientation-${priv.orientation}`;
+                    [htmlElement, priv.leftThumb, priv.rightThumb, priv.leftInput, priv.rightInput, priv.leftTooltip, priv.rightTooltip].forEach(item => {
+                        item.classList.add(ori);
+                    });
                     this.update();
                 }
             }
@@ -374,6 +368,9 @@ const Slider = (() => {
             //#endregion Variables déclaration
             htmlElement.classList.add(`orientation-${priv.orientation}`);
             htmlElement.classList.add(priv.mode);
+            if (priv.showTooltips) {
+                htmlElement.classList.add("showTooltips");
+            }
             //#region Create Inputs
             priv.leftInput = document.createElement(INPUT);
             priv.leftInput.type = "range";
@@ -435,9 +432,13 @@ const Slider = (() => {
             const thumbWidth = priv.leftThumb.offsetWidth / 2;
             const PO = Types.CSSUNITS.PO;
             const PX = Types.CSSUNITS.PX;
+            const oldProp = priv.orientation === Types.ORIENTATIONS.HORIZONTAL?"top":"left";
+            const prop = priv.orientation === Types.ORIENTATIONS.HORIZONTAL?"left":"top";
             //#endregion Variables déclaration
-            priv.leftThumb.style.left = `calc(${lValue}${PO} - ${thumbWidth}${PX})`;
-            priv.rightThumb.style.left = `calc(${rValue}${PO} - ${thumbWidth}${PX})`;
+            priv.leftThumb.style[oldProp] = "";
+            priv.rightThumb.style[oldProp] = "";
+            priv.leftThumb.style[prop] = `calc(${lValue}${PO} - ${thumbWidth}${PX})`;
+            priv.rightThumb.style[prop] = `calc(${rValue}${PO} - ${thumbWidth}${PX})`;
         }
         //#endregion moveThumbs
         //#region change
@@ -467,17 +468,27 @@ const Slider = (() => {
             const htmlElement = this.HTMLElement;
             const htmlElementStyle = this.HTMLElementStyle;
             const cStyle = getComputedStyle(htmlElement);
-            const workingArea = this.width - parseFloat(cStyle.paddingLeft) - parseFloat(cStyle.paddingRight);
+            const HORIZONTAL = Types.ORIENTATIONS.HORIZONTAL;
+            const workingArea = priv.orientation === HORIZONTAL ? 
+                this.width - parseFloat(cStyle.paddingLeft) - parseFloat(cStyle.paddingRight) : 
+                this.height - parseFloat(cStyle.paddingTop) - parseFloat(cStyle.paddingBottom);
             //#endregion Variables déclaration
             htmlElement.classList.remove("showTickmarks");
             htmlElementStyle.background = String.EMPTY;
             if (priv.showTickmarks) {
                 htmlElement.classList.add("showTickmarks");
                 const tickmarks = [];
-                const tickPosition = priv.tickmarksPosition === TICKMARKSPOSITION.TOP ? "-18px" : priv.tickmarksPosition === TICKMARKSPOSITION.BOTTOM ? "18px" : "top";
+                const tickPosition = priv.tickmarksPosition === TICKMARKSPOSITION.TOP ? 
+                    "-18px" : priv.tickmarksPosition === TICKMARKSPOSITION.BOTTOM ? "18px" : 
+                    priv.orientation === HORIZONTAL?"top":"left";
                 priv.tickmarks.forEach(tick => {
-                    const x = workingArea * tick / 100 + parseFloat(cStyle.paddingLeft);
-                    tickmarks.push(`linear-gradient(90deg, var(--ticks-color), var(--ticks-color)) no-repeat ${x}% ${tickPosition}`);
+                    const pos = workingArea * tick / 100 + parseFloat(priv.orientation === HORIZONTAL?
+                        cStyle.paddingLeft:cStyle.paddingTop);
+                    if (priv.orientation === HORIZONTAL) {
+                        tickmarks.push(`linear-gradient(90deg, var(--ticks-color), var(--ticks-color)) no-repeat ${pos}% ${tickPosition}`);
+                    } else {
+                        tickmarks.push(`linear-gradient(0deg, var(--ticks-color), var(--ticks-color)) no-repeat ${tickPosition} ${pos}%`);
+                    }
                 });
                 htmlElementStyle.background = tickmarks.join(", ");
             }
@@ -489,8 +500,23 @@ const Slider = (() => {
             const priv = internal(this);
             const lValue=(100/(~~priv.max-~~priv.min))*priv.leftInput.valueAsNumber-(100/(~~priv.max-~~priv.min))*~~priv.min;
             const rValue=(100/(~~priv.max-~~priv.min))*priv.rightInput.valueAsNumber-(100/(~~priv.max-~~priv.min))*~~priv.min;
+            const PX = Types.CSSUNITS.PX;
+            const width = `${this.width + priv.leftThumb.offsetWidth}${PX}`;
+            const height = `${this.height + priv.leftThumb.offsetHeight}${PX}`;
+            const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
+                if (priv.orientation === Types.ORIENTATIONS.VERTICAL) {
+                    priv.leftInput.style.width = height;
+                    priv.rightInput.style.width = height;
+                    priv.leftInput.style.height = `${htmlElement.offsetWidth}${PX}`;
+                    priv.rightInput.style.height = `${htmlElement.offsetWidth}${PX}`;
+                } else {
+                    priv.leftInput.style.width = width;
+                    priv.rightInput.style.width = width;
+                    priv.leftInput.style.height = `${htmlElement.offsetHeight}${PX}`;
+                    priv.rightInput.style.height = `${htmlElement.offsetHeight}${PX}`;
+                }
                 this.moveThumbs(lValue, rValue);
                 this.moveToolTips(lValue, rValue);
                 this.moveRange(lValue, rValue);
@@ -582,11 +608,15 @@ const Slider = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const PO = Types.CSSUNITS.PO;
+            const oldProp = priv.orientation === Types.ORIENTATIONS.HORIZONTAL?"top":"left";
+            const prop = priv.orientation === Types.ORIENTATIONS.HORIZONTAL?"left":"top";
             //#endregion Variables déclaration
             if (priv.showTooltips) {
-                priv.leftTooltip.style.left = `${lValue}${PO}`;
+                priv.leftTooltip.style[oldProp] = "";
+                priv.rightTooltip.style[oldProp] = "";
+                priv.leftTooltip.style[prop] = `${lValue}${PO}`;
                 priv.leftTooltip.innerHTML = priv.leftInput.valueAsNumber.toFixed(priv.decimalPrecision);
-                priv.rightTooltip.style.left = `${rValue}${PO}`;
+                priv.rightTooltip.style[prop] = `${rValue}${PO}`;
                 priv.rightTooltip.innerHTML = priv.rightInput.valueAsNumber.toFixed(priv.decimalPrecision);
             }
         }
@@ -632,24 +662,19 @@ const Slider = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const PO = Types.CSSUNITS.PO;
+            const oldProp = priv.orientation === Types.ORIENTATIONS.HORIZONTAL?"top":"left";
+            const oldProp2 = priv.orientation === Types.ORIENTATIONS.HORIZONTAL?"bottom":"right";
+            const prop = priv.orientation === Types.ORIENTATIONS.HORIZONTAL?"left":"top";
+            const prop2 = priv.orientation === Types.ORIENTATIONS.HORIZONTAL?"right":"bottom";
             //#endregion Variables déclaration
             if (priv.mode === SLIDERMODES.RANGE) {
-                priv.range.style.left = `${lValue}${PO}`;
-                priv.range.style.right = `${100 - rValue}${PO}`;
+                priv.range.style[oldProp] = "";
+                priv.range.style[oldProp2] = "";
+                priv.range.style[prop] = `${lValue}${PO}`;
+                priv.range.style[prop2] = `${100 - rValue}${PO}`;
             }
         }
         //#endregion moveRange
-        //#region mouseDown
-        mouseDown() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            super.mouseDown();
-            if (priv.mode === SLIDERMODES.NORMAL) {
-                this.firstValue = Core.mouse.target.x * (priv.max-priv.min) / this.width;
-            }
-        }
-        //#endregion mouseDown
         //#endregion Methods
     }
     return Slider;

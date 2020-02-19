@@ -13,34 +13,44 @@
 }
 
     .Slider.orientation-vertical {
-        /*transform: rotate(90deg) translate(0) perspective(1px);*/
         min-height: auto;
         min-width: 22px;
+        background-size: 100% 1px !important;
     }
 
 .SliderInput {
-    pointer-events: none;
+    pointer-events: all;
     -moz-appearance: none;
     -webkit-appearance: none;
     z-index: 3;
     opacity: 0;
+    width: calc(100% + 14px);
+    height: auto;
+}
+
+.Slider.range .SliderInput {
+    pointer-events: none;
 }
 
     .SliderInput::-ms-track {
+        pointer-events: none;
         -webkit-appearance: none;
         background: transparent;
         border: transparent;
     }
 
     .SliderInput::-moz-range-track {
+        pointer-events: none;
         -moz-appearance: none;
         background: transparent;
         border: transparent;
     }
 
     .SliderInput:focus::-webkit-slider-runnable-track {
+        pointer-events: none;
         background: transparent;
         border: transparent;
+        -webkit-appearance: none;
     }
 
     .SliderInput:focus {
@@ -80,11 +90,9 @@
     }
 
     .SliderInput.orientation-vertical {
-        /*width: --var(slider);*/ /* à calculer */
-        top: 0;
-        left: 100%;
-        transform-origin: 0 0;
-        transform: rotate(90deg) translateY(25%);
+        transform: rotate(90deg);
+        height: calc(100% + 14px);
+        width: 100%;
     }
 
 .SliderThumb {
@@ -103,9 +111,9 @@
     transform: translateX(-50%);
 }
 
-.SliderTooltip.bottom {
-    top: 25px;
-}
+    .SliderTooltip.bottom {
+        top: 25px;
+    }
 
     .SliderTooltip:after {
         position: absolute;
@@ -113,24 +121,25 @@
         top: 100%;
     }
 
-.SliderTooltip.orientation-vertical {
-    /*transform: rotate(-90deg) translateY(0) perspective(1px);
+    .SliderTooltip.orientation-vertical {
+        /*transform: rotate(-90deg) translateY(0) perspective(1px);
     transform-origin: 0 center;
     top: -10px;*/
-}
+    }
 
-.SliderTooltip.orientation-vertical:after {
-    /*top: auto;
+        .SliderTooltip.orientation-vertical:after {
+            /*top: auto;
     right: 96%;*/
-}
+        }
 
-.SliderTooltip.orientation-vertical.bottom {
-    /*top: 15px;
+        .SliderTooltip.orientation-vertical.bottom {
+            /*top: 15px;
     transform: rotate(-90deg) translateX(-100%) perspective(1px);
     margin-left: -1px;*/
-}
+        }
 
 
+.Slider.normal .SliderInput:last-of-type,
 .Slider.normal .SliderThumb:last-of-type,
 .Slider.normal .SliderTooltip:last-of-type {
     display: none;

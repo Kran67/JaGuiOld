@@ -39,9 +39,40 @@ const ColorPanel = (() => {
                     component: this,
                     propName: "colorBoxType",
                     enum: COLORPANELBOXES,
-                    forceUpdate: true,
+                    //forceUpdate: true,
                     variable: priv,
-                    value: props.hasOwnProperty("colorBoxType")?props.colorBoxType:COLORPANELBOXES.PRIMARY
+                    value: props.hasOwnProperty("colorBoxType")?props.colorBoxType:COLORPANELBOXES.PRIMARY,
+                    setter: function(newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const c = new Color(Colors.TRANSPARENT);
+                        //#endregion Variables déclaration
+                        if (Tools.valueInSet(newValue, COLORPANELBOXES)) {
+                            if (priv.colorBoxType !== newValue) {
+                                priv.colorBoxType = newValue;
+                                switch (priv.colorBoxType) {
+                                    case COLORPANELBOXES.PRIMARY:
+                                        c.assign(priv.primaryColorBox.fillColor);
+                                        priv.colorQuad.colorBox = priv.primaryColorBox;
+                                        priv.colorQuad.color.assign(c);
+                                        priv.colorQuad.hue = c.hue;
+                                        priv.hueSlider.firstValue = c.hue / 360;
+                                        priv.alphaSlider.firstValue = c.alpha;
+                                        priv.primaryColorBox.fillColor.assign(c);
+                                        break;
+                                    case COLORPANELBOXES.SECONDARY:
+                                        c.assign(priv.secondaryColorBox.fillColor);
+                                        priv.colorQuad.colorBox = priv.secondaryColorBox;
+                                        priv.colorQuad.color.assign(c);
+                                        priv.colorQuad.hue = c.hue;
+                                        priv.hueSlider.firstValue = c.hue / 360;
+                                        priv.alphaSlider.firstValue = c.alpha;
+                                        priv.secondaryColorBox.fillColor.assign(c);
+                                        break;
+                                }
+                            }
+                        }
+                    }
                 });
 
                 if (!Core.isHTMLRenderer) {
@@ -61,38 +92,6 @@ const ColorPanel = (() => {
             return COLORPANELBOXES;
         }
         //#endregion
-        //#region colorBoxType
-        get colorBoxType() {
-            return internal(this).colorBoxType;
-        }
-        set colorBoxType(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const c = new Color(Colors.TRANSPARENT);
-            //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, COLORPANELBOXES)) {
-                if (priv.colorBoxType !== newValue) {
-                    priv.colorBoxType = newValue;
-                    switch (priv.colorBoxType) {
-                        case COLORPANELBOXES.PRIMARY:
-                            c.assign(priv.primaryColorBox.fillColor);
-                            priv.colorQuad.colorBox = priv.primaryColorBox;
-                            priv.primaryColorBox.fillColor.assign(c);
-                            break;
-                        case COLORPANELBOXES.SECONDARY:
-                            c.assign(priv.secondaryColorBox.fillColor);
-                            priv.colorQuad.colorBox = priv.secondaryColorBox;
-                            priv.secondaryColorBox.fillColor.assign(c);
-                            break;
-                    }
-                    priv.colorQuad.color = c;
-                    priv.colorQuad.hue = c.hue;
-                    priv.hueSlider.values = [c.hue / 360, 0];
-                    priv.alphaSlider.values = [c.alpha, 0];
-                }
-            }
-        }
-        //#endregion colorBoxType
         get colorQuad() {
             return internal(this).colorQuad;
         }
@@ -196,21 +195,30 @@ const ColorPanel = (() => {
         loaded() {
             //#region Variables déclaration
             const priv = internal(this);
+            const json = JSON.parse(this.HTMLElement.querySelector("properties").innerText);
+            const color = json.hasOwnProperty("color")?json.color:Colors.RED;
             //#endregion Variables déclaration
             super.loaded();
-            priv.colorQuad = Core.classes.createComponent({ class: ColorQuad, owner: this, props: { inForm: false }, withTpl : true });
+            priv.colorQuad = Core.classes.createComponent({ class: ColorQuad, owner: this, props: { inForm: false, format: "hsl" }, withTpl : true });
             priv.colorQuad.onChange.addListener(this.doQuadChange);
-            priv.hueSlider = Core.classes.createComponent({ class: HUESlider, owner: this, props: { inForm: false, orientation: Types.ORIENTATIONS.VERTICAL }, withTpl: true });
+            priv.hueSlider = Core.classes.createComponent({ class: HUESlider, owner: this, props: {
+                inForm: false,
+                orientation: Types.ORIENTATIONS.VERTICAL
+            }, withTpl: true });
             priv.hueSlider.onChange.addListener(this.doHueChange);
             priv.alphaSlider = Core.classes.createComponent({ class: AlphaSlider, owner: this, props: { inForm: false, values: [1, 0] }, withTpl: true });
             priv.alphaSlider.onChange.addListener(this.doAlphaChange);
             priv.secondaryColorBox = Core.classes.createComponent({ class: ColorBox, owner: this, props: { inForm: false }, withTpl: true });
             priv.secondaryColorBox.onClick.addListener(this.changeColorBox);
             priv.secondaryColorBox.hitTest.mouseDown = true;
-            priv.primaryColorBox = Core.classes.createComponent({class: ColorBox, owner: this, props: { inForm: false }, withTpl: true });
+            priv.secondaryColorBox.HTMLElement.classList.add("secondaryColorBox");
+            priv.primaryColorBox = Core.classes.createComponent({class: ColorBox, owner: this, props: { inForm: false, color: color }, withTpl: true });
             priv.primaryColorBox.onClick.addListener(this.changeColorBox);
             priv.primaryColorBox.hitTest.mouseDown = true;
+            priv.primaryColorBox.HTMLElement.classList.add("primaryColorBox");
             priv.colorQuad.colorBox = priv.primaryColorBox;
+            priv.colorQuad.color = priv.primaryColorBox.color;
+            priv.hueSlider.firstValue = priv.primaryColorBox.color.hue / 360;
             priv.secondaryColorBox.color = Colors.WHITE;
         }
         update() {

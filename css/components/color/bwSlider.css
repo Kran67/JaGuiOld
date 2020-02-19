@@ -5,3 +5,7 @@
 .BWSlider:before {
     background-image: linear-gradient(to right,#000 0,#FFF 100%) !important;
 }
+
+.BWSlider.orientation-vertical:before {
+    background-image: linear-gradient(to bottom,#000 0,#FFF 100%) !important;
+}
