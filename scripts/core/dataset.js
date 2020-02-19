@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { Convert } from "/scripts/core/convert.js";
-import { Tools } from "/scripts/core/tools.js";
+import { Convert } from '/scripts/core/convert.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion
 //#region DataSet
 /**
@@ -37,13 +37,13 @@ const DataSet = (() => {
                 priv.cursor = null;
                 priv.numFields = 0;
                 priv.numRecords = 0;
-                priv.keyValues = props.hasOwnProperty("keyValues") ? props.keyValues: String.EMPTY;
-                priv.dataSource = props.hasOwnProperty("dataSource") ? props.dataSource : null;
-                priv.active = props.hasOwnProperty("active") ? props.active: false;
-                priv.activeOnLoad = props.hasOwnProperty("activeOnLoad") ? props.activeOnLoad: true;
-                priv.isOpen = props.hasOwnProperty("isOpen") ? props.isOpen: false;
-                priv.keyField = props.hasOwnProperty("keyField") ? props.keyField: String.EMPTY;
-                this.addBindableProperties(["active", "isOpen"]);
+                priv.keyValues = props.hasOwnProperty('keyValues') ? props.keyValues: String.EMPTY;
+                priv.dataSource = props.hasOwnProperty('dataSource') ? props.dataSource : null;
+                priv.active = props.hasOwnProperty('active') ? props.active: false;
+                priv.activeOnLoad = props.hasOwnProperty('activeOnLoad') ? props.activeOnLoad: true;
+                priv.isOpen = props.hasOwnProperty('isOpen') ? props.isOpen: false;
+                priv.keyField = props.hasOwnProperty('keyField') ? props.keyField: String.EMPTY;
+                this.addBindableProperties(['active', 'isOpen']);
             }
         }
         //#endregion constructor
@@ -314,13 +314,13 @@ const DataSet = (() => {
             let values = null;
             //#endregion Variables déclaration
             if (!String.isNullOrEmpty(this.keyFields)) {
-                const keyFields = this.keyFields.split(",");
+                const keyFields = this.keyFields.split(',');
                 const cursor = this.data[this.cursorIdx];
                 this.keyValues = String.EMPTY;
                 keyFields.forEach((key, i) => {
                     if (cursor[key]) {
                         if (i > 0) {
-                            values += "|";
+                            values += '|';
                         }
                         values += cursor[key];
                     }
@@ -336,7 +336,7 @@ const DataSet = (() => {
         goToCurrentCursor() {
             //#region Variables déclaration
             const keyValues = this.keyValues;
-            const keyFields = this._keyFields.split(",");
+            const keyFields = this._keyFields.split(',');
             let idx = -1;
             //#endregion Variables déclaration
             this.data.filter((e, i) => {
@@ -344,7 +344,7 @@ const DataSet = (() => {
                 let keyValue = String.EMPTY;
                 keyFields.forEach((key, j) => {
                     if (j > 0) {
-                        keyValue += "|";
+                        keyValue += '|';
                     }
                     keyValue += e[key];
                 });
@@ -477,16 +477,16 @@ const DataSet = (() => {
 //#region DataSet
 //#region DataSet defineProperties
 Object.defineProperties(DataSet, {
-    "dataSource": {
+    'dataSource': {
         enumerable: true
     },
-    "active": {
+    'active': {
         enumerable: true
     },
-    "isOpen": {
+    'isOpen': {
         enumerable: true
     },
-    "keyField": {
+    'keyField': {
         enumerable: true
     }
 });

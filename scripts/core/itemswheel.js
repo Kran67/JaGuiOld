@@ -1,10 +1,10 @@
 ﻿//#region Imports
-import { ThemedControl } from "/scripts/core/themedcontrol.js";
-//import { Point } from "/scripts/core/geometry.js";
-import { Type } from "/scripts/core/types.js";
-//import { NotifyEvent } from "/scripts/core/events.js";
-//import { Animation } from "/scripts/core/animation.js";
-import { Interpolation } from "/scripts/core/interpolation.js";
+import { ThemedControl } from '/scripts/core/themedcontrol.js';
+//import { Point } from '/scripts/core/geometry.js';
+import { Type } from '/scripts/core/types.js';
+//import { NotifyEvent } from '/scripts/core/events.js';
+//import { Animation } from '/scripts/core/animation.js';
+import { Interpolation } from '/scripts/core/interpolation.js';
 //#endregion Imports
 //#region ItemsWheel
 const ItemsWheel = (() => {
@@ -40,7 +40,7 @@ const ItemsWheel = (() => {
                 priv.index = -1;
                 priv.mouseTracking = true;
                 priv.animated = true;
-                this.addBindableProperties(["value"]);
+                this.addBindableProperties(['value']);
                 this.hitTest = true;
                 Core.classes.newCollection(this, this, Types.CONSTANTS.STRING);
                 this.onChange = new Core.classes.NotifyEvent(this);
@@ -269,7 +269,7 @@ const ItemsWheel = (() => {
                 content.innerHTML = String.EMPTY;
                 this.items.forEach(item => {
                     const _item = document.createElement(Types.HTMLElements.DIV);
-                    _item.classList.add(this.constructor.name + "Item ItemsWheelItem");
+                    _item.classList.add(`${this.constructor.nameItem} ItemsWheelItem`);
                     //item.dataset.theme = this.form.getThemeName();
                     const str = item;
                     item.innerHTML = str;
@@ -287,8 +287,8 @@ const ItemsWheel = (() => {
             const htmlElement = this.HTMLElement;
             if (htmlElement) {
                 priv.topGradient = htmlElement.firstElementChild;
-                priv.sep = htmlElement.querySelector(".ItemsWheelSep");
-                priv.content = htmlElement.querySelector(".ItemsWheelContent");
+                priv.sep = htmlElement.querySelector('.ItemsWheelSep');
+                priv.content = htmlElement.querySelector('.ItemsWheelContent');
                 priv.content.jsObj = this;
                 priv.bottomGradient = htmlElement.lastElementChild;
             }
@@ -460,7 +460,7 @@ const ItemsWheel = (() => {
         getTemplate() {
             //#region Variables déclaration
             let html = super.getTemplate();
-            const a = html.split("{name}");
+            const a = html.split('{name}');
             //#endregion Variables déclaration
             html = a.join(this.name);
             return html;
@@ -474,13 +474,13 @@ const ItemsWheel = (() => {
 })();
 //#region ItemsWheel defineProperties
 Object.defineProperties(ItemsWheel, {
-    "value": {
+    'value': {
         enumerable: true
     },
-    "mouseTracking": {
+    'mouseTracking': {
         enumerable: true
     },
-    "animated": {
+    'animated': {
         enumerable: true
     }
 });

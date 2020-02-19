@@ -5,25 +5,25 @@ class Xml {
     //#region Methods
     static newDocument(encoding, version, standalone, rootName) {
         if (!encoding) {
-            encoding = "ISO-8859-1";
+            encoding = 'ISO-8859-1';
         }
         if (!version) {
-            version = "1.0";
+            version = '1.0';
         }
         if (!standalone) {
-            standalone = "false";
+            standalone = 'false';
         }
         if (!rootName) {
-            rootName = "root";
+            rootName = 'root';
         }
-        const xmlDoc = `<?xml version="${version}" encoding="${encoding}" ?><${rootName}></${rootName}>`;
+        const xmlDoc = `<?xml version='${version}' encoding='${encoding}' ?><${rootName}></${rootName}>`;
         if (window.ActiveXObject) { // IE
-            const doc = new ActiveXObject("Microsoft.XMLDOM");
+            const doc = new ActiveXObject('Microsoft.XMLDOM');
             doc.async = false;
             doc.loadXML(xmlDoc);
             return doc;
         } else {// Mozilla, Firefox, Opera, etc.
-            return (new DOMParser()).parseFromString(xmlDoc, "text/xml");
+            return (new DOMParser()).parseFromString(xmlDoc, 'text/xml');
         }
     }
     static findNodes(xml, xpath) {

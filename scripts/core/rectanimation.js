@@ -1,8 +1,8 @@
-﻿import { Animation } from "/scripts/core/animation.js";
-//import { Bounds } from "/scripts/core/bounds.js";
-import { Rect } from "/scripts/core/geometry.js";
-import { Css } from "/scripts/core/css.js";
-import { Interpolation } from "/scripts/core/interpolations.js";
+﻿import { Animation } from '/scripts/core/animation.js';
+//import { Bounds } from '/scripts/core/bounds.js';
+import { Rect } from '/scripts/core/geometry.js';
+import { Css } from '/scripts/core/css.js';
+import { Interpolation } from '/scripts/core/interpolations.js';
 //#region RectAnimation
 const RectAnimation = (() => {
     const _private = new WeakMap();

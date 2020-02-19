@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { Control } from "/scripts/components/control.js";
-import { Tools } from "/scripts/core/tools.js";
+import { Control } from '/scripts/components/control.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region ThemedControl
 const ThemedControl = (() => {
@@ -80,7 +80,7 @@ const ThemedControl = (() => {
         get template() {
             //#region Variables déclaration
             let html = super.template;
-            const a = html.split("{theme}");
+            const a = html.split('{theme}');
             //#endregion Variables déclaration
             html = a.join(this.form.themeName);
             return html;
@@ -100,7 +100,7 @@ const ThemedControl = (() => {
 })();
 //#region ThemedControl defineProperties
 Object.defineProperties(ThemedControl, {
-    "themeName": {
+    'themeName': {
         enumerable: true
     }
 });

@@ -1,8 +1,8 @@
 ﻿//#region Imports
-import { BaseClass } from "/scripts/core/baseclass.js";
-//import { NotifyEvent } from "/scripts/core/events.js";
-//import { Control } from "/scripts/components/control.js";
-import { Tools } from "/scripts/core/tools.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+//import { NotifyEvent } from '/scripts/core/events.js';
+//import { Control } from '/scripts/components/control.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region SizeConstraints
 const SizeConstraints = (() => {
@@ -230,16 +230,16 @@ const SizeConstraints = (() => {
 })();
 //#region BaseWindow defineProperties
 Object.defineProperties(SizeConstraints, {
-    "maxHeight": {
+    'maxHeight': {
         enumerable: true
     },
-    "maxWidth": {
+    'maxWidth': {
         enumerable: true
     },
-    "minHeight": {
+    'minHeight': {
         enumerable: true
     },
-    "minWidth": {
+    'minWidth': {
         enumerable: true
     }
 });

@@ -1,26 +1,26 @@
 ﻿Core.locales[Types.LANGUAGES.FR_FR] = {
     date: {
-        dayNames: ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
-        abbreviatedDayNames: ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."],
-        shortestDayNames: ["di", "lu", "ma", "me", "je", "ve", "sa"],
-        firstLetterDayNames: ["d", "l", "m", "m", "j", "v", "s"],
-        monthNames: ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"],
-        abbreviatedMonthNames: ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."],
+        dayNames: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
+        abbreviatedDayNames: ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'],
+        shortestDayNames: ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'],
+        firstLetterDayNames: ['d', 'l', 'm', 'm', 'j', 'v', 's'],
+        monthNames: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+        abbreviatedMonthNames: ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],
         am: String.EMPTY,
         pm: String.EMPTY,
         firstDayOfWeek: 1,
-        dateElementOrder: "dmy",
+        dateElementOrder: 'dmy',
         formatPatterns: {
-            shortDate: "dd/MM/yyyy",
-            longDate: "dddd d MMMM yyyy",
-            shortTime: "HH:mm",
-            longTime: "HH:mm:ss",
-            fullDateTime: "dddd d MMMM yyyy HH:mm:ss",
-            sortableDateTime: "yyyy-MM-ddTHH:mm:ss",
-            universalSortableDateTime: "yyyy-MM-dd HH:mm:ssZ",
-            rfc1123: "ddd, dd MMM yyyy HH:mm:ss GMT",
-            monthDay: "d MMMM",
-            yearMonth: "MMMM yyyy"
+            shortDate: 'dd/MM/yyyy',
+            longDate: 'dddd d MMMM yyyy',
+            shortTime: 'HH:mm',
+            longTime: 'HH:mm:ss',
+            fullDateTime: 'dddd d MMMM yyyy HH:mm:ss',
+            sortableDateTime: 'yyyy-MM-ddTHH:mm:ss',
+            universalSortableDateTime: 'yyyy-MM-dd HH:mm:ssZ',
+            rfc1123: 'ddd, dd MMM yyyy HH:mm:ss GMT',
+            monthDay: 'd MMMM',
+            yearMonth: 'MMMM yyyy'
         },
         regexPatterns: {
             jan: /^janv(.(ier)?)?/i,
@@ -69,10 +69,10 @@
             ordinalSuffix: /^\s*(st|nd|rd|th)/i,
             timeContext: /^\s*(\:|a|p)/i
         },
-        weekName: "semaine",
-        weekShortName: "se",
-        abbreviatedTimeZoneStandard: { GMT: "-000", EST: "-0400", CST: "-0500", MST: "-0600", PST: "-0700" },
-        abbreviatedTimeZoneDST: { GMT: "-000", EDT: "-0500", CDT: "-0600", MDT: "-0700", PDT: "-0800" }
+        weekName: 'semaine',
+        weekShortName: 'se',
+        abbreviatedTimeZoneStandard: { GMT: '-000', EST: '-0400', CST: '-0500', MST: '-0600', PST: '-0700' },
+        abbreviatedTimeZoneDST: { GMT: '-000', EDT: '-0500', CDT: '-0600', MDT: '-0700', PDT: '-0800' }
     },
     constantMessages: {
         /*ancestorNotFound:'Ancestor for ''%s'' not found',
@@ -81,7 +81,7 @@
         delimiterQuoteCharError:'Delimiter and QuoteChar properties cannot have the same value',
         duplicateClass:'A class named %s already exists',
         duplicateItem:'List does not allow duplicates ($0%x)',*/
-        duplicateName: "Un composant nommé '%s' existe déjà",
+        duplicateName: 'Un composant nommé \'%s\' existe déjà',
         /*DuplicateString:'String list does not allow duplicates',
         fCreateError:'Cannot create file %s',
         fCreateErrorEx:'Cannot create file "%s". %s',
@@ -101,7 +101,7 @@
         invalidFileName:'Invalid file name - %s',
         invalidImage:'Invalid stream format',
         invalidMask:'''%s'' is an invalid mask at (%d)',*/
-        invalidName: "'%s' n'est pas un nom de composant valide",
+        invalidName: '\'%s\' n\'est pas un nom de composant valide',
         /*InvalidProperty:'Invalid property value',
         invalidPropertyElement:'Invalid property element: %s',
         invalidPropertyPath:'Invalid property path',
@@ -673,21 +673,21 @@
         uTF7Encoding:'UTF-7',
         encodingLabel:'Encoding:',*/
 
-        cannotAddFixedSize: "Cannot add columns or rows while expand style is fixed size",
-        invalidSpan: "'%d' is not a valid span",
-        invalidRowIndex: "Row index, %d, out of bounds",
-        invalidColumnIndex: "Column index, %d, out of bounds",
-        invalidControlItem: "ControlItem.Control cannot be set to owning GridPanel",
-        cannotDeleteColumn: "Cannot delete a column that contains controls",
-        cannotDeleteRow: "Cannot delete a row that contains controls",
-        cellMember: "Member",
-        cellSizeType: "Size Type",
-        cellValue: "Value",
-        cellAutoSize: "Auto",
-        cellPercentSize: "Percent",
-        cellAbsoluteSize: "Absolute",
-        cellColumn: "Column%d",
-        cellRow: "Row%d"
+        cannotAddFixedSize: 'Cannot add columns or rows while expand style is fixed size',
+        invalidSpan: '\'%d\' is not a valid span',
+        invalidRowIndex: 'Row index, %d, out of bounds',
+        invalidColumnIndex: 'Column index, %d, out of bounds',
+        invalidControlItem: 'ControlItem.Control cannot be set to owning GridPanel',
+        cannotDeleteColumn: 'Cannot delete a column that contains controls',
+        cannotDeleteRow: 'Cannot delete a row that contains controls',
+        cellMember: 'Member',
+        cellSizeType: 'Size Type',
+        cellValue: 'Value',
+        cellAutoSize: 'Auto',
+        cellPercentSize: 'Percent',
+        cellAbsoluteSize: 'Absolute',
+        cellColumn: 'Column%d',
+        cellRow: 'Row%d'
 
         /*TrayIconRemoveError:'Cannot remove shell notification icon',
         trayIconCreateError:'Cannot create shell notification icon',

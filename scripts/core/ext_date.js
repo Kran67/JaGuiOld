@@ -1,12 +1,12 @@
 ﻿//#region imports
-import { Tools } from "/scripts/core/tools.js";
+import { Tools } from '/scripts/core/tools.js';
 //#endregion imports
 /***********************/
 /*                     */
 /* date.js extend Date */
 /*                     */
 /***********************/
-Object.defineProperty(Date.prototype, "day", {
+Object.defineProperty(Date.prototype, 'day', {
     /**
      * Get the day of the current date
      * @returns     {Number}        the day of the date
@@ -15,7 +15,7 @@ Object.defineProperty(Date.prototype, "day", {
         return this.getDate();
     }
 });
-Object.defineProperty(Date.prototype, "dayName", {
+Object.defineProperty(Date.prototype, 'dayName', {
     /**
      * Get the day name of the current date in the current locale
      * @returns     {String}        the day name of the date
@@ -24,7 +24,7 @@ Object.defineProperty(Date.prototype, "dayName", {
         return Date.dayNames[this.getDay()];
     }
 });
-Object.defineProperty(Date.prototype, "shortDayName", {
+Object.defineProperty(Date.prototype, 'shortDayName', {
     /**
      * Get the short day name of the current date in the current locale
      * @returns     {String}        the short day name of the date
@@ -33,7 +33,7 @@ Object.defineProperty(Date.prototype, "shortDayName", {
         return Date.dayNames[this.getDay()].substr(0, 3);
     }
 });
-Object.defineProperty(Date.prototype, "month", {
+Object.defineProperty(Date.prototype, 'month', {
     /**
      * Get the month of the current date
      * @returns     {Number}        the month of the current date
@@ -42,7 +42,7 @@ Object.defineProperty(Date.prototype, "month", {
         return this.getMonth() + 1;
     }
 });
-Object.defineProperty(Date.prototype, "monthName", {
+Object.defineProperty(Date.prototype, 'monthName', {
     /**
      * Get the name of the month of the current date in the current locale
      * @returns     {String}        the month name of the date
@@ -51,7 +51,7 @@ Object.defineProperty(Date.prototype, "monthName", {
         return Date.monthNames[this.getMonth()];
     }
 });
-Object.defineProperty(Date.prototype, "shortMonthName", {
+Object.defineProperty(Date.prototype, 'shortMonthName', {
     /**
      * Get the short name of the month of the current date in the current locale
      * @returns     {String}        the short month name of the date
@@ -68,7 +68,7 @@ Object.defineProperty(Date.prototype, "shortMonthName", {
         return cMonth.substr(0, 3);
     }
 });
-Object.defineProperty(Date.prototype, "year", {
+Object.defineProperty(Date.prototype, 'year', {
     /**
      * Get the year of the current date
      * @returns     {Number}        the year of the date
@@ -77,7 +77,7 @@ Object.defineProperty(Date.prototype, "year", {
         return this.getFullYear();
     }
 });
-Object.defineProperty(Date.prototype, "hours", {
+Object.defineProperty(Date.prototype, 'hours', {
     /**
      * Get the hours of the current date
      * @returns     {Number}        the hours of the date
@@ -86,7 +86,7 @@ Object.defineProperty(Date.prototype, "hours", {
         return this.getHours();
     }
 });
-Object.defineProperty(Date.prototype, "minutes", {
+Object.defineProperty(Date.prototype, 'minutes', {
     /**
      * Get the minutes of the current date
      * @returns     {Number}        the minutes of the date
@@ -95,7 +95,7 @@ Object.defineProperty(Date.prototype, "minutes", {
         return this.getMinutes();
     }
 });
-Object.defineProperty(Date.prototype, "seconds", {
+Object.defineProperty(Date.prototype, 'seconds', {
     /**
      * Get the seconds of the current date
      * @returns     {Number}        the seconds of the date
@@ -104,7 +104,7 @@ Object.defineProperty(Date.prototype, "seconds", {
         return this.getSeconds();
     }
 });
-Object.defineProperty(Date.prototype, "milliseconds", {
+Object.defineProperty(Date.prototype, 'milliseconds', {
     /**
      * Get the milliseconds of the current date
      * @returns     {Number}        the milliseconds of the date
@@ -232,7 +232,7 @@ if (!Date.prototype.compareTo) {
         if (a instanceof Date) {
             return this > a ? 1 : this < a ? -1 : 0;
         } else {
-            alert("Invalide Date (Date-compareTo)");
+            alert('Invalide Date (Date-compareTo)');
         }
     };
 }
@@ -249,7 +249,7 @@ if (!Date.prototype.clearTime) {
         return this;
     };
 }
-Object.defineProperty(Date.prototype, "isLeapYear", {
+Object.defineProperty(Date.prototype, 'isLeapYear', {
     /**
      * Check if the current date is a leap year
      * @returns     {Boolean}       true if the current date is a leap year otherwise false
@@ -283,7 +283,7 @@ Date.getDaysInMonth = function (y, m) {
     }
     return 0;
 };
-Object.defineProperty(Date.prototype, "daysInMonth", {
+Object.defineProperty(Date.prototype, 'daysInMonth', {
     /**
      * Get the number of days in the current month, adjusted for leap year.
      * @returns     {Number}        The number of days in the month
@@ -338,7 +338,7 @@ if (!Date.prototype.JJMMAAAA) {
      */
     Date.prototype.JJMMAAAA = function (a) {
         if (!Tools.isString(a)) {
-            a = "/";
+            a = '/';
         }
         return String(this.day).padLeft(2, '0') + a + String(this.month).padLeft(2, '0') + a + this.year;
     };
@@ -351,12 +351,12 @@ if (!Date.prototype.HHMMSS) {
      */
     Date.prototype.HHMMSS = function (a) {
         if (!Tools.isString(a)) {
-            a = ":";
+            a = ':';
         }
         return String(this.hours).padLeft(2, '0') + a + String(this.minutes).padLeft(2, '0') + a + String(this.seconds).padLeft(2, '0');
     };
 }
-Object.defineProperty(Date.prototype, "firstDayOfMonth", {
+Object.defineProperty(Date.prototype, 'firstDayOfMonth', {
     /**
      * Get the first day of the month of the current date
      * @returns     {Date}      the new date with the first day
@@ -384,7 +384,7 @@ if (!Date.prototype.clone) {
     };
 }
 
-Object.defineProperty(Date.prototype, "firstDayOfWeek", {
+Object.defineProperty(Date.prototype, 'firstDayOfWeek', {
     /**
      * Get the first day of the week of the current date
      * @returns     {Date}      the new date
@@ -453,54 +453,54 @@ Date.prototype.toString = function (format) {
     //#endregion Variables déclaration
     return format ? format.replace(/dd?d?d?|MM?M?M?|yy?y?y?|hh?|HH?|mm?|ss?|tt?|zz?z?/g,
         (f) => {
-            if (f === "hh") {
+            if (f === 'hh') {
                 return p(self.getHours() < 13 ? self.getHours() : self.getHours() - 12);
-            } else if (f === "h") {
+            } else if (f === 'h') {
                 return self.getHours() < 13 ? self.getHours() : self.getHours() - 12;
-            } else if (f === "HH") {
+            } else if (f === 'HH') {
                 return p(self.getHours());
-            } else if (f === "H") {
+            } else if (f === 'H') {
                 return self.getHours();
-            } else if (f === "mm") {
+            } else if (f === 'mm') {
                 return p(self.getMinutes());
-            } else if (f === "m") {
+            } else if (f === 'm') {
                 return self.getMinutes();
-            } else if (f === "ss") {
+            } else if (f === 'ss') {
                 return p(self.getSeconds());
-            } else if (f === "s") {
+            } else if (f === 's') {
                 return self.getSeconds();
-            } else if (f === "yyyy") {
+            } else if (f === 'yyyy') {
                 return self.getFullYear();
-            } else if (f === "yy") {
+            } else if (f === 'yy') {
                 return self.getFullYear().toString().substring(2, 4);
-            } else if (f === "dddd") {
+            } else if (f === 'dddd') {
                 return self.getDayName();
-            } else if (f === "ddd") {
+            } else if (f === 'ddd') {
                 return self.getDayName(true);
-            } else if (f === "dd") {
+            } else if (f === 'dd') {
                 return p(self.getDate());
-            } else if (f === "d") {
+            } else if (f === 'd') {
                 return self.getDate().toString();
-            } else if (f === "MMMM") {
+            } else if (f === 'MMMM') {
                 return self.getMonthName();
-            } else if (f === "MMM") {
+            } else if (f === 'MMM') {
                 return self.getMonthName(true);
-            } else if (f === "MM") {
+            } else if (f === 'MM') {
                 return p(self.getMonth() + 1);
-            } else if (f === "M") {
+            } else if (f === 'M') {
                 return self.getMonth() + 1;
-            } else if (f === "t") {
+            } else if (f === 't') {
                 return self.getHours() < 12 ? Core.currentLocale.am.substring(0, 1) : Core.currentLocale.pm.substring(0, 1);
-            } else if (f === "tt") {
+            } else if (f === 'tt') {
                 return self.getHours() < 12 ? Core.currentLocale.am : Core.currentLocale.pm;
-            } else if (f === "zzz" || f === "zz" || f === "z") {
+            } else if (f === 'zzz' || f === 'zz' || f === 'z') {
                 return String.EMPTY;
             }
         }
     ) : this._toString();
 };
 
-Object.defineProperty(Date.prototype, "yearDay", {
+Object.defineProperty(Date.prototype, 'yearDay', {
     /**
      * Get the day of the year of the current date
      * @returns     {Number}        the day of the year
@@ -513,7 +513,7 @@ Object.defineProperty(Date.prototype, "yearDay", {
         return day + offset[month] + this.isLeapYear | 0;
     }
 });
-Object.defineProperty(Date.prototype, "yearDay2", {
+Object.defineProperty(Date.prototype, 'yearDay2', {
     /**
      * Get the day of the year of the current date
      * @returns     {Number}        the day of the year
@@ -527,7 +527,7 @@ Object.defineProperty(Date.prototype, "yearDay2", {
     }
 });
 
-Object.defineProperty(Date.prototype, "week", {
+Object.defineProperty(Date.prototype, 'week', {
     /**
      * Get the week of the current date
      * @returns     {Number}        the week number
@@ -558,7 +558,7 @@ Date.isDate = function (a) {
             return false;
         }
 
-        const e = new RegExp("^[0-9]{1,2}\/[0-9]{1,2}\/([0-9]{2}|[0-9]{4})");
+        const e = new RegExp('^[0-9]{1,2}\/[0-9]{1,2}\/([0-9]{2}|[0-9]{4})');
 
         // On teste l'expression régulière pour valider la forme de la date
         if (!e.test(a)) {
@@ -602,12 +602,12 @@ Date.isDate = function (a) {
  */
 Date.dateExists = function (a) {
     if (a != undefined && Tools.isString(a)) {
-        const d = a.split("/"), c = d[0] + d[1] + d[2];
-        if (a.length !== 10 || a.charAt(2) !== "/" || a.charAt(5) !== "/") {
+        const d = a.split('/'), c = d[0] + d[1] + d[2];
+        if (a.length !== 10 || a.charAt(2) !== '/' || a.charAt(5) !== '/') {
             return false;
         }
         d.forEach(x => {
-            if (c.charAt(x) < "0" || c.charAt(x) > "9") {
+            if (c.charAt(x) < '0' || c.charAt(x) > '9') {
                 return false;
             }
         });

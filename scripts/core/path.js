@@ -1,16 +1,16 @@
 ﻿//#region Import
-import { BaseClass } from "/scripts/core/baseclass.js";
-import { Text } from "/scripts/core/text.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Convert } from "/scripts/core/convert.js";
-import "/scripts/core/canvas.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+import { Text } from '/scripts/core/text.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Convert } from '/scripts/core/convert.js';
+import '/scripts/core/canvas.js';
 //#endregion Import
 //#region _KINDS
 const _KINDS = Object.freeze({
-    MOVETO: "moveTo",
-    LINETO: "lineTo",
-    CURVETO: "curveTo",
-    CLOSE: "close"
+    MOVETO: 'moveTo',
+    LINETO: 'lineTo',
+    CURVETO: 'curveTo',
+    CLOSE: 'close'
 });
 //#endregion _KINDS
 //#region PathPoint
@@ -220,7 +220,7 @@ const PathData = (() => {
                         ${data[i + 2].point.x},${data[i + 2].point.y}${String.SPACE}`);
                     i += 2;
                 } else if (data[i].kind === KINDS.CLOSE) {
-                    result.push("Z ");
+                    result.push('Z ');
                 }
                 i++;
             }
@@ -237,13 +237,13 @@ const PathData = (() => {
             let large = null;
             let sweet = null;
             let o = null;
-            const numbersArray = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-"];
+            const numbersArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'];
             const data = priv.data;
             //#endregion Variables déclaration
             if (Tools.isString(value)) {
                 if (value.length > 0) {
                     value.split("").forEach((val, i) => {
-                        if (["\t", "\r", "\n", '"', "'"].indexOf(val) === -1) {
+                        if (['\t', '\r', '\n', '"', '\''].indexOf(val) === -1) {
                             s += val;
                         }
                     });
@@ -259,10 +259,10 @@ const PathData = (() => {
                         tok = toks.charAt(0);
                         toks = toks.remove(0, 1);
                         try {
-                            if (["z", "Z"].indexOf(tok) > -1) {
+                            if (['z', 'Z'].indexOf(tok) > -1) {
                                 this.closePath();
                             }
-                            if (tok === "M") {
+                            if (tok === 'M') {
                                 o = Text.getPoint(s, pos);
                                 pos = o.Pos;
                                 this.moveTo(o.Point);
@@ -273,7 +273,7 @@ const PathData = (() => {
                                     this.lineTo(o.Point);
                                 }
                             }
-                            if (tok === "m") {
+                            if (tok === 'm') {
                                 o = Text.getPoint(s, pos);
                                 pos = o.Pos;
                                 this.moveToRel(o.Point);
@@ -284,7 +284,7 @@ const PathData = (() => {
                                     this.lineToRel(o.Point);
                                 }
                             }
-                            if (tok === "L") {
+                            if (tok === 'L') {
                                 o = Text.getPoint(s, pos);
                                 pos = o.Pos;
                                 this.lineTo(o.Point);
@@ -295,7 +295,7 @@ const PathData = (() => {
                                     this.lineTo(o.Point);
                                 }
                             }
-                            if (tok === "l") {
+                            if (tok === 'l') {
                                 o = Text.getPoint(s, pos);
                                 pos = o.Pos;
                                 this.lineToRel(o.Point);
@@ -306,7 +306,7 @@ const PathData = (() => {
                                     this.lineToRel(o.Point);
                                 }
                             }
-                            if (tok === "C") {
+                            if (tok === 'C') {
                                 o = Text.getPoint(s, pos);
                                 pos = o.Pos;
                                 cp1 = o.Point;
@@ -329,7 +329,7 @@ const PathData = (() => {
                                     this.curveTo(cp1, cp2, o.Point);
                                 }
                             }
-                            if (tok === "c") {
+                            if (tok === 'c') {
                                 o = Text.getPoint(s, pos);
                                 pos = o.Pos;
                                 cp1 = o.Point;
@@ -352,7 +352,7 @@ const PathData = (() => {
                                     this.curveToRel(cp1, cp2, o.Point);
                                 }
                             }
-                            if (tok === "S") {
+                            if (tok === 'S') {
                                 o = Text.getPoint(s, pos);
                                 pos = o.Pos;
                                 cp2 = o.Point;
@@ -369,7 +369,7 @@ const PathData = (() => {
                                     this.smoothCurveTo(cp2, o.Point);
                                 }
                             }
-                            if (tok === "s") {
+                            if (tok === 's') {
                                 o = Text.getPoint(s, pos);
                                 pos = o.Pos;
                                 cp2 = o.Point;
@@ -386,55 +386,55 @@ const PathData = (() => {
                                     this.smoothCurveToRel(cp2, o.Point);
                                 }
                             }
-                            if (tok === "H") {
+                            if (tok === 'H') {
                                 //skip horizontal line
                                 o = Text.getNum(s, pos);
                                 pos = o.Pos;
                                 this.hLineTo(+o.Result);
                             }
-                            if (tok === "h") {
+                            if (tok === 'h') {
                                 //skip horizontal line
                                 o = Text.getNum(s, pos);
                                 pos = o.Pos;
                                 this.hLineToRel(+o.Result);
                             }
-                            if (tok === "V") {
+                            if (tok === 'V') {
                                 //skip vertical line
                                 o = Text.getNum(s, pos);
                                 pos = o.Pos;
                                 this.vLineTo(+o.Result);
                             }
-                            if (tok === "v") {
+                            if (tok === 'v') {
                                 //skip vertical line
                                 o = Text.getNum(s, pos);
                                 pos = o.Pos;
                                 this.vLineToRel(+o.Result);
                             }
-                            if (tok === "Q") {
+                            if (tok === 'Q') {
                                 //skip quadratic bezier
                                 o = Text.getPoint(s, pos);
                                 pos = o.Pos;
                                 o = Text.getPoint(s, pos);
                                 pos = o.Pos;
                             }
-                            if (tok === "q") {
+                            if (tok === 'q') {
                                 //skip quadratic bezier
                                 o = Text.getPoint(s, pos);
                                 pos = o.Pos;
                                 o = Text.getPoint(s, pos);
                                 pos = o.Pos;
                             }
-                            if (tok === "T") {
+                            if (tok === 'T') {
                                 //skip show quadratic bezier
                                 o = Text.getPoint(s, pos);
                                 pos = o.Pos;
                             }
-                            if (tok === "t") {
+                            if (tok === 't') {
                                 //skip show quadratic bezier
                                 o = Text.getPoint(s, pos);
                                 pos = o.Pos;
                             }
-                            if (tok === "A") {
+                            if (tok === 'A') {
                                 //arc
                                 if (data.length > 0) {
                                     cp1 = data[data.length - 1].point;
@@ -464,7 +464,7 @@ const PathData = (() => {
                                     p2: cp2
                                 });
                             }
-                            if (tok === "a") {
+                            if (tok === 'a') {
                                 //arc rel
                                 if (data.length > 0) {
                                     cp1 = data[data.length - 1].point;
@@ -1796,10 +1796,10 @@ const PathData = (() => {
 //#endregion
 //#region PathData defineProperties
 Object.defineProperties(PathData, {
-    "startPoint": {
+    'startPoint': {
         enumerable: true
     },
-    "data": {
+    'data': {
         enumerable: true
     }
 });

@@ -1,5 +1,5 @@
 ﻿//#region Imports
-import { Bounds } from "/scripts/core/bounds.js";
+import { Bounds } from '/scripts/core/bounds.js';
 //#endregion Imports
 //#region Padding
 class Padding extends Bounds {

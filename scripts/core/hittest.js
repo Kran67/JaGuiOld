@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { BaseClass } from "/scripts/core/baseclass.js";
-import { Tools } from "/scripts/core/tools.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region HitTest
 const HitTest = (function () {
@@ -159,19 +159,19 @@ const HitTest = (function () {
 })();
 //#region HitTest defineProperties
 Object.defineProperties(HitTest, {
-    "mouseDown": {
+    'mouseDown': {
         enumerable: true
     },
-    "mouseMove": {
+    'mouseMove': {
         enumerable: true
     },
-    "mouseUp": {
+    'mouseUp': {
         enumerable: true
     },
-    "mouseWheel": {
+    'mouseWheel': {
         enumerable: true
     },
-    "dblClick": {
+    'dblClick': {
         enumerable: true
     }
 });

@@ -18,22 +18,22 @@ if (!Array.prototype.convertToCollection) {
         this._sort = this.sort;
         const _isCollection = false;
         //#endregion Variables déclaration
-        Object.defineProperty(this, "updating", {
+        Object.defineProperty(this, 'updating', {
             get: function () { return _updating; },
             set: function (newValue) { _updating = newValue; },
             enumerable: false
         });
-        Object.defineProperty(this, "owner", {
+        Object.defineProperty(this, 'owner', {
             get: function () { return _owner; },
             set: function (newValue) { _owner = newValue; },
             enumerable: false
         });
-        Object.defineProperty(this, "itemClass", {
+        Object.defineProperty(this, 'itemClass', {
             get: function () { return _itemClass; },
             set: function (newValue) { _itemClass = newValue; },
             enumerable: false
         });
-        Object.defineProperty(this, "isCollection", {
+        Object.defineProperty(this, 'isCollection', {
             get: function () { return _isCollection; },
             enumerable: false
         });
@@ -259,7 +259,7 @@ if (!Array.prototype.removeAt) {
 }
 // Méthode isEmpty -> test si le tableau est vide
 // Retourne vrai si le tableau est vide sinon faux
-Object.defineProperty(Array.prototype, "isEmpty", {
+Object.defineProperty(Array.prototype, 'isEmpty', {
     get: function () {
         return this.length < 1;
     }
@@ -322,13 +322,13 @@ if (!Array.prototype.filterBy) {
  * Return the first element of the Array/Collection
  * @returns         {Any}       The first element
  */
-Object.defineProperty(Array.prototype, "first", {
+Object.defineProperty(Array.prototype, 'first', {
     get: function () {
         return this[0];
     }
 });
 // Méthode last -> renvoi le dernier élément du tableau
-Object.defineProperty(Array.prototype, "last", {
+Object.defineProperty(Array.prototype, 'last', {
     /**
      * Return the last element of the Array/Collection
      * @returns         {Any}       The last element
@@ -338,7 +338,7 @@ Object.defineProperty(Array.prototype, "last", {
     }
 });
 // Méthode last -> renvoi le dernier élément du tableau
-Object.defineProperty(Array.prototype, "count", {
+Object.defineProperty(Array.prototype, 'count', {
     /**
      * Return the number of element in the Array/Collection
      * @returns         {Number}        The count

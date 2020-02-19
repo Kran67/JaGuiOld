@@ -1,8 +1,8 @@
-﻿import { ThemedControl } from "/scripts/core/themedcontrol.js";
-//import { MenuItem } from "/scripts/components/menus/menuitem.js";
-//import { PopupMenu } from "/scripts/components/menus/popupmenu.js";
-//import { MainMenu } from "/scripts/components/menus/mainmenu.js";
-import { Css } from "/scripts/core/css.js";
+﻿import { ThemedControl } from '/scripts/core/themedcontrol.js';
+//import { MenuItem } from '/scripts/components/menus/menuitem.js';
+//import { PopupMenu } from '/scripts/components/menus/popupmenu.js';
+//import { MainMenu } from '/scripts/components/menus/mainmenu.js';
+import { Css } from '/scripts/core/css.js';
 //#region PopupBox
 const PopupBox = (() => {
     const _private = new WeakMap();
@@ -97,7 +97,7 @@ const PopupBox = (() => {
             }
             this.form.popups.push(this);
             if (control) {
-                control.HTMLElement.classList.add("opened");
+                control.HTMLElement.classList.add('opened');
                 if (control.onOpenMenu) {
                     control.onOpenMenu.invoke();
                 }

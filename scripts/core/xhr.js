@@ -1,5 +1,5 @@
 ﻿//#region Imports
-import { Tools } from "/scripts/core/tools.js";
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 /**
  *
@@ -27,7 +27,7 @@ class Xhr {
         if (!params.callback) {
             params.callback = null;
         }
-        const xmlHTTPR = window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") : new XMLHttpRequest();
+        const xmlHTTPR = window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest();
         xmlHTTPR.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 if (Tools.isFunc(params.callback)) {
@@ -41,7 +41,7 @@ class Xhr {
                 }
             }
         };
-        xmlHTTPR.open("GET", params.url, params.async);
+        xmlHTTPR.open('GET', params.url, params.async);
         xmlHTTPR.send(null);
         if (!params.async) {
             if (Tools.isFunc(params.callback)) {

@@ -1,7 +1,7 @@
 ﻿//#region Import
-import { Tools } from "/scripts/core/tools.js";
-import { Color, Colors } from "/scripts/core/color.js";
-import { Point } from "/scripts/core/geometry.js";
+import { Tools } from '/scripts/core/tools.js';
+import { Color, Colors } from '/scripts/core/color.js';
+import { Point } from '/scripts/core/geometry.js';
 //#endregion Import
 //#region TextShadowsItem
 class TextShadowsItem {
@@ -67,7 +67,7 @@ class TextShadows {
 }
 //#region TextShadows defineProperties
 Object.defineProperties(TextShadows, {
-    "items": {
+    'items': {
         enumerable: true
     }
 });

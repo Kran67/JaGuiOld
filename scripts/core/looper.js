@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { BaseClass } from "/scripts/core/baseclass.js";
-import { Tools } from "/scripts/core/tools.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region Looper
 const Looper = (() => {
@@ -164,7 +164,7 @@ const Looper = (() => {
                 this.removeListener(obj);
                 priv.listeners.push(obj);
                 if (!func) {
-                    func = "processTick";
+                    func = 'processTick';
                 }
                 priv.functions.push(func);
             }

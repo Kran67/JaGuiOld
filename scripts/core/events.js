@@ -1,5 +1,5 @@
 ﻿//#region Imports
-import { Tools } from "/scripts/core/tools.js";
+import { Tools } from '/scripts/core/tools.js';
 //#endregion
 //#region Events
 class Events {
@@ -92,12 +92,12 @@ class NotifyEvent {
             //        }
             //    }
             //},
-            "listeners": {
+            'listeners': {
                 get: () => {
                     return _listeners;
                 }
             },
-            "sender": {
+            'sender': {
                 get: () => {
                     return _sender;
                 }
@@ -216,7 +216,7 @@ class TimerEvent {
      */
     //#region constructor
     constructor() {
-        Core.looper.addListener(this, "_onTimerEvent");
+        Core.looper.addListener(this, '_onTimerEvent');
     }
     //#region constructor
     //#region Methods

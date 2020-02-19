@@ -1,10 +1,10 @@
 ﻿//#region Imports
-import { BaseClass } from "/scripts/core/baseclass.js";
-import { Colors } from "/scripts/core/color.js";
-import { Interpolation } from "/scripts/core/interpolations.js";
-//import { Position } from "/scripts/core/position.js";
-//import { Point } from "/scripts/core/geometry.js";
-import { Tools } from "/scripts/core/tools.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+import { Colors } from '/scripts/core/color.js';
+import { Interpolation } from '/scripts/core/interpolations.js';
+//import { Position } from '/scripts/core/position.js';
+//import { Point } from '/scripts/core/geometry.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region GradientPoint
 const GradientPoint = (() => {
@@ -81,10 +81,10 @@ const GradientPoint = (() => {
 })();
 //#region GradientPoint defineProperties
 Object.defineProperties(GradientPoint, {
-    "offset": {
+    'offset': {
         enumerable: true
     },
-    "color": {
+    'color': {
         enumerable: true
     }
 });
@@ -274,16 +274,16 @@ const Gradient = (() => {
 })();
 //#region Gradient defineProperties
 Object.defineProperties(Gradient, {
-    "startPosition": {
+    'startPosition': {
         enumerable: true
     },
-    "stopPosition": {
+    'stopPosition': {
         enumerable: true
     },
-    "style": {
+    'style': {
         enumerable: true
     },
-    "items": {
+    'items': {
         enumerable: true
     }
 });

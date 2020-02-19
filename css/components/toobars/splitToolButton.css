@@ -7,21 +7,23 @@
     flex-wrap: nowrap;
 }
 
-.SplitToolButton .BitmapButton {
-    flex: 1;
-}
+    .SplitToolButton .BitmapButton {
+        flex: 1;
+        width: auto !important;
+    }
 
-.SplitToolButton .PopupButton {
-    width: 14px;
-    border-left: none;
-}
+    .SplitToolButton .PopupButton {
+        width: 14px !important;
+        border-left: none;
+    }
 
-.SplitToolButton .BitmapButton,
-.SplitToolButton .PopupButton {
-    position: relative;
-}
+    .SplitToolButton .BitmapButton,
+    .SplitToolButton .PopupButton {
+        position: relative;
+        height: auto !important;
+    }
 
-.SplitToolButton img {
-    max-height: 16px;
-    max-width: 16px;
-}
+    .SplitToolButton img {
+        max-height: 16px;
+        max-width: 16px;
+    }

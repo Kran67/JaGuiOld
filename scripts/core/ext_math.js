@@ -1,5 +1,5 @@
 ﻿//#region Imports
-import { Tools } from "/scripts/core/tools.js";
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 /***********************/
 /*                     */

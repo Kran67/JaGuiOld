@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { Convert } from "/scripts/core/convert.js";
-import { Tools } from "/scripts/core/tools.js";
+import { Convert } from '/scripts/core/convert.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region Text
 class Text {
@@ -17,14 +17,14 @@ class Text {
             withSpace = false;
         }
         if (withSpace) {
-            text = text.replace(/ /g, " [|]");
+            text = text.replace(/ /g, ' [|]');
         }
-        text = text.replace(/\\n/g, "[|]¤[|]");
-        text = text.replace(/\n/g, "[|]¤[|]");
-        text = text.replace(/<br \/>/g, "[|]¤[|]");
-        text = text.replace(/<br>/g, "[|]¤[|]");
-        text = text.replace(/<br\/>/g, "[|]¤[|]");
-        text = text.split("[|]");
+        text = text.replace(/\\n/g, '[|]¤[|]');
+        text = text.replace(/\n/g, '[|]¤[|]');
+        text = text.replace(/<br \/>/g, '[|]¤[|]');
+        text = text.replace(/<br>/g, '[|]¤[|]');
+        text = text.replace(/<br\/>/g, '[|]¤[|]');
+        text = text.split('[|]');
         return text;
     }
     //#endregion wrapText
@@ -33,14 +33,14 @@ class Text {
         //#region Variables déclaration
         let line = String.EMPTY;
         const lines = [];
-        let words = text.replace(text, String.SPACE, "\f ");
+        let words = text.replace(text, String.SPACE, '\f ');
         //#endregion Variables déclaration
         words = words.split(String.SPACE);
         words.forEach(word => {
             const testLine = line + word;
-            const testWidth = ctx.measureText(testLine.replace("\f", String.SPACE)).width;
+            const testWidth = ctx.measureText(testLine.replace('\f', String.SPACE)).width;
             if (testWidth > maxWidth - 5 && n > 0) {
-                line = text.replace(line, "\f", String.SPACE);
+                line = text.replace(line, '\f', String.SPACE);
                 lines.push(line);
                 line = word;
             }
@@ -48,7 +48,7 @@ class Text {
                 line = testLine;
             }
         });
-        line = text.replace(line, "\f", String.SPACE);
+        line = text.replace(line, '\f', String.SPACE);
         lines.push(line);
         return lines;
     }
@@ -72,7 +72,7 @@ class Text {
     //#endregion findWordBreak
     //#region isWordSeparator
     static isWordSeparator(c) {
-        return " \t'\",;.!~@#$%^&*?=<>()[]:\\+-".indexOf(c) !== -1;
+        return ' \t\'",;.!~@#$%^&*?=<>()[]:\\+-'.indexOf(c) !== -1;
     }
     //#endregion isWordSeparator
     //#region getTok
@@ -90,7 +90,7 @@ class Text {
                 position++;
             }
             for (i = position; i < len; i++) {
-                if ("zmlchvsqtaZMLCHVSQTA".indexOf(string.charAt(i)) === -1) {
+                if ('zmlchvsqtaZMLCHVSQTA'.indexOf(string.charAt(i)) === -1) {
                     break;
                 }
                 result += string.charAt(i);
@@ -114,15 +114,15 @@ class Text {
                 position++;
             }
             for (i = position; i < len; i++) {
-                if (string.charAt(i) === "e") {
+                if (string.charAt(i) === 'e') {
                     result += string.charAt(i);
                     continue;
                 }
-                if (string.charAt(i) === "-" && len > 0 && result.charAt(result.length - 1) === "e") {
+                if (string.charAt(i) === '-' && len > 0 && result.charAt(result.length - 1) === 'e') {
                     result += string.charAt(i);
                     continue;
                 }
-                if ("0123456789.".indexOf(string.charAt(i)) === -1 && !((i === position) && string.charAt(i) === "-")) {
+                if ('0123456789.'.indexOf(string.charAt(i)) === -1 && !((i === position) && string.charAt(i) === '-')) {
                     break;
                 }
                 result += string.charAt(i);
@@ -141,19 +141,19 @@ class Text {
             if (position > len) {
                 return null;
             }
-            while (position <= len && [",", String.SPACE].indexOf(string.charAt(position)) !== -1) {
+            while (position <= len && [',', String.SPACE].indexOf(string.charAt(position)) !== -1) {
                 position++;
             }
             let o = Text.getNum(string, position);
             const x = o.Result;
             position = o.Pos;
-            while (position <= len && [",", String.SPACE].indexOf(string.charAt(position)) !== -1) {
+            while (position <= len && [',', String.SPACE].indexOf(string.charAt(position)) !== -1) {
                 position++;
             }
             o = Text.getNum(string, position);
             const y = o.Result;
             position = o.Pos;
-            while (position <= len && [",", String.SPACE].indexOf(string.charAt(position)) !== -1) {
+            while (position <= len && [',', String.SPACE].indexOf(string.charAt(position)) !== -1) {
                 position++;
             }
             return { Point: new Core.classes.Point(Convert.strToFloat(x), Convert.strToFloat(y)), Pos: position };
@@ -190,7 +190,7 @@ class Text {
     //#endregion getTextSizes
     //#region replace
     static replace(s, f, r) {
-        return s.replace(new RegExp(f, "g"), r);
+        return s.replace(new RegExp(f, 'g'), r);
     }
     //#endregion replace
     //#region getLastNumber
@@ -201,7 +201,7 @@ class Text {
     //#region setTextNode
     static setTextNode(element, text) {
         //#region Variables déclaration
-        const includeCaption = element.querySelector(".includeCaption");
+        const includeCaption = element.querySelector('.includeCaption');
         //#endregion Variables déclaration
         if (includeCaption) {
             element = includeCaption;
@@ -242,27 +242,27 @@ class Text {
             let char = code.substr(pos, 1);
             const nextChar = code.substr(pos + 1, 1);
             // If opening tag, add newline character and indention
-            if (char === "<" && nextChar !== "/") {
+            if (char === '<' && nextChar !== '/') {
                 if (result.length > 0) {
-                    result.push("\n");
+                    result.push('\n');
                 }
                 result.push(whitespace.repeat(currentIndent));
                 currentIndent++;
                 currentCode = code.substr(pos, code.length);
                 nextSpace = currentCode.indexOf(String.SPACE);
                 if (nextSpace === -1) {
-                    nextSpace = currentCode.indexOf(">");
+                    nextSpace = currentCode.indexOf('>');
                 }
                 lastOpenedTag = code.substr(pos + 1, nextSpace - 1);
             }
             // if Closing tag, add newline and indention
-            else if (char === "<" && nextChar === "/") {
+            else if (char === '<' && nextChar === '/') {
                 // If there're more closing tags than opening
                 if (--currentIndent < 0) {
                     currentIndent = 0;
                 }
                 currentCode = code.substr(pos + 1, code.length);
-                nextSpace = currentCode.indexOf(">");
+                nextSpace = currentCode.indexOf('>');
                 const currentClosedTag = code.substr(pos + 2, nextSpace - 1);
                 if (lastOpenedTag !== currentClosedTag) {
                     result.push(`\n${whitespace.repeat(currentIndent)}`);
@@ -273,9 +273,9 @@ class Text {
             else if (stripWhiteSpaces && char === String.SPACE && nextChar === String.SPACE) {
                 char = String.EMPTY;
                 // remove empty lines
-            } else if (stripEmptyLines && char === "\n") {
+            } else if (stripEmptyLines && char === '\n') {
                 //debugger;
-                if (code.substr(pos, code.substr(pos).indexOf("<")).trim() === String.EMPTY) {
+                if (code.substr(pos, code.substr(pos).indexOf('<')).trim() === String.EMPTY) {
                     char = String.EMPTY;
                 }
             }

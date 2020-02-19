@@ -1,7 +1,7 @@
 ﻿//#region Imports
-import { ThemedControl } from "/scripts/core/themedcontrol.js";
-import { Point } from "/scripts/core/geometry.js";
-import { Mouse } from "/scripts/core/mouse.js";
+import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { Point } from '/scripts/core/geometry.js';
+import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Imports
 //#region ScrollControl
 const ScrollControl = (() => {
@@ -65,12 +65,12 @@ const ScrollControl = (() => {
             super.mouseMove();
             if (priv.down && this.mouseTracking) {
                 if (hasVertScrollBar || hasBothScrollBars) {
-                    htmlElement.scrollTop -= (Core.mouse.screen.y - priv.currentPos.y);
-                    priv.lastDelta.y = (Core.mouse.screen.y - priv.currentPos.y);
+                    htmlElement.scrollTop -= Core.mouse.screen.y - priv.currentPos.y;
+                    priv.lastDelta.y = Core.mouse.screen.y - priv.currentPos.y;
                 }
                 if (hasHorizScrollBar || hasBothScrollBars) {
-                    htmlElement.scrollleft -= (Core.mouse.screen.x - priv.currentPos.x);
-                    privthis.lastDelta.x = (Core.mouse.screen.x - priv.currentPos.x);
+                    htmlElement.scrollleft -= Core.mouse.screen.x - priv.currentPos.x;
+                    privthis.lastDelta.x = Core.mouse.screen.x - priv.currentPos.x;
                 }
                 priv.currentPos.assign(Core.mouse.screen);
             }

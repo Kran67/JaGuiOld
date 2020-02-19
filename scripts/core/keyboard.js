@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { BaseClass } from "/scripts/core/baseclass.js";
-import { Tools } from "/scripts/core/tools.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region VKeysCodes
 /**
@@ -135,10 +135,10 @@ const _VKEYSCODES = Object.freeze({
     VK_ZOOM: 0xFB //Zoom key
 });
 const _KEYBORDEVENTS = Object.freeze({
-    NONE: "none",
-    UP: "keyup",
-    DOWN: "keydown",
-    PRESS: "keypress"
+    NONE: 'none',
+    UP: 'keyup',
+    DOWN: 'keydown',
+    PRESS: 'keypress'
 });
 //#endregion
 //#region Keyboard
@@ -171,9 +171,9 @@ const Keyboard = (() => {
             priv.event = null;
             if (Core.browser.ff) {
                 const c = {
-                    32: " ", 48: "0", 49: "1", 50: "2", 51: "3", 52: "4", 53: "5", 54: "6", 55: "7", 56: "8", 57: "9", 59: ";", 61: "=", 65: "a", 66: "b", 67: "c", 68: "d", 69: "e", 70: "f", 71: "g", 72: "h", 73: "i", 74: "j", 75: "k",
-                    76: "l", 77: "m", 78: "n", 79: "o", 80: "p", 81: "q", 82: "r", 83: "s", 84: "t", 85: "u", 86: "v", 87: "w", 88: "x", 89: "y", 90: "z", 107: "+", 109: "-", 110: ".", 188: ",", 190: ".", 191: "/", 192: "`", 219: "[",
-                    220: "\\", 221: "]", 222: '"'
+                    32: ' ', 48: '0', 49: '1', 50: '2', 51: '3', 52: '4', 53: '5', 54: '6', 55: '7', 56: '8', 57: '9', 59: ';', 61: '=', 65: 'a', 66: 'b', 67: 'c', 68: 'd', 69: 'e', 70: 'f', 71: 'g', 72: 'h', 73: 'i', 74: 'j', 75: 'k',
+                    76: 'l', 77: 'm', 78: 'n', 79: 'o', 80: 'p', 81: 'q', 82: 'r', 83: 's', 84: 't', 85: 'u', 86: 'v', 87: 'w', 88: 'x', 89: 'y', 90: 'z', 107: '+', 109: '-', 110: '.', 188: ',', 190: '.', 191: '/', 192: '`', 219: '[',
+                    220: '\\', 221: ']', 222: '"'
                 };
                 // à modifier avec getOwnPropertyNames
                 const keyCodeTable = priv.keyCodeTable;
@@ -365,13 +365,13 @@ const Keyboard = (() => {
             priv.ctrl = keyboardEventArg.ctrlKey;
             priv.alt = keyboardEventArg.altKey;
             priv.shift = keyboardEventArg.shiftKey;
-            if (keyboardEventArg.type === "keypress") {
+            if (keyboardEventArg.type === 'keypress') {
                 priv.keyCode = (keyboardEventArg.charCode !== 0) ? keyboardEventArg.charCode : keyboardEventArg.keyCode;
             } else {
                 priv.keyCode = keyboardEventArg.keyCode;
             }
             priv.meta = keyboardEventArg.metaKey;
-            if (Core.browser.ff && (keyboardEventArg.type === "keypress")) {
+            if (Core.browser.ff && (keyboardEventArg.type === 'keypress')) {
                 priv.keyCode = keyboardEventArg.charCode !== 0 && priv.keyCodeTable[keyboardEventArg.charCode] ? priv.keyCodeTable[keyboardEventArg.charCode] : keyboardEventArg.keyCode;
                 priv.keyChar = keyboardEventArg.charCode !== 0 ? String.fromCharCode(keyboardEventArg.charCode) : String.EMPTY;
             } else {

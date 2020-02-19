@@ -1,7 +1,7 @@
 ﻿//#region Imports
-import { Control } from "/scripts/components/control.js";
-import { Color,  Colors } from "/scripts/core/color.js";
-import { Tools } from "/scripts/core/tools.js";
+import { Control } from '/scripts/components/control.js';
+import { Color,  Colors } from '/scripts/core/color.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region GraphicControl
 const GraphicControl = (function () {
@@ -24,12 +24,12 @@ const GraphicControl = (function () {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.fillColor = props.hasOwnProperty("fillColor") ? Color.parse(props.fillColor) : new Color(Colors.WHITE);
-                priv.strokeColor = props.hasOwnProperty("strokeColor") ? Color.parse(props.strokeColor) : new Color(Colors.BLACK);
-                priv.strokeWidth = props.hasOwnProperty("strokeWidth") ? props.strokeWidth : 1;
-                priv.strokeDash = props.hasOwnProperty("strokeDash") ? props.strokeDash : "[]";
-                priv.strokeDashOffset = props.hasOwnProperty("strokeDashOffset") ? props.strokeDashOffset : 0;
-                this.addBindableProperties(["fillColor", "strokeColor", "strokeWidth", "strokeDash", "strokeDashOffset"]);
+                priv.fillColor = props.hasOwnProperty('fillColor') ? Color.parse(props.fillColor) : new Color(Colors.WHITE);
+                priv.strokeColor = props.hasOwnProperty('strokeColor') ? Color.parse(props.strokeColor) : new Color(Colors.BLACK);
+                priv.strokeWidth = props.hasOwnProperty('strokeWidth') ? props.strokeWidth : 1;
+                priv.strokeDash = props.hasOwnProperty('strokeDash') ? props.strokeDash : '[]';
+                priv.strokeDashOffset = props.hasOwnProperty('strokeDashOffset') ? props.strokeDashOffset : 0;
+                this.addBindableProperties(['fillColor', 'strokeColor', 'strokeWidth', 'strokeDash', 'strokeDashOffset']);
                 delete this.tabOrder;
             }
         }
@@ -209,19 +209,19 @@ const GraphicControl = (function () {
 })();
 //#region GraphicControl defineProperties
 Object.defineProperties(GraphicControl, {
-    "fillColor": {
+    'fillColor': {
         enumerable: true
     },
-    "strokeColor": {
+    'strokeColor': {
         enumerable: true
     },
-    "strokeWidth": {
+    'strokeWidth': {
         enumerable: true
     },
-    "strokeDash": {
+    'strokeDash': {
         enumerable: true
     },
-    "strokeDashOffset": {
+    'strokeDashOffset': {
         enumerable: true
     }
 });

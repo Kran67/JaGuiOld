@@ -1,10 +1,10 @@
 ﻿//#region Imports
-import { Css } from "/scripts/core/css.js";
-import { Convert } from "/scripts/core/convert.js";
-//import { Vector, Point } from "/scripts/core/geometry.js";
-//import { Spline } from "/scripts/core/spline.js";
-//import { PathData } from "/scripts/core/path.js";
-import { Animation } from "/scripts/core/animation.js";
+import { Css } from '/scripts/core/css.js';
+import { Convert } from '/scripts/core/convert.js';
+//import { Vector, Point } from '/scripts/core/geometry.js';
+//import { Spline } from '/scripts/core/spline.js';
+//import { PathData } from '/scripts/core/path.js';
+import { Animation } from '/scripts/core/animation.js';
 //#endregion
 //#region PathAnimation
 /**

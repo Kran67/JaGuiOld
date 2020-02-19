@@ -1,5 +1,5 @@
 ﻿//#region Imports
-import { GraphicControl } from "/scripts/core/graphiccontrol.js";
+import { GraphicControl } from '/scripts/core/graphiccontrol.js';
 //#endregion Imports
 //#region SVGGraphicControl
 const SVGGraphicControl = (() => {
@@ -71,7 +71,7 @@ const SVGGraphicControl = (() => {
             //#endregion Variables déclaration
             if (!htmlElement.querySelector(SVG)) {
                 priv.svg = document.createElementNS(XMLNS, SVG);
-                priv.svg.classList.add("Control", "svgShape");
+                priv.svg.classList.add('Control', 'svgShape');
                 htmlElement.appendChild(priv.svg);
                 priv.svg.appendChild(priv.svgShape);
             }
@@ -89,16 +89,16 @@ const SVGGraphicControl = (() => {
             //#endregion Variables déclaration
             if (!this.loading) {
                 if (fillColor) {
-                    priv.svgShape.setAttribute("fill", fillColor.toRGBAString());
+                    priv.svgShape.setAttribute('fill', fillColor.toRGBAString());
                 }
-                svgShape.setAttribute("stroke-width", this.strokeWidth);
+                svgShape.setAttribute('stroke-width', this.strokeWidth);
                 if (strokeColor) {
-                    svgShape.setAttribute("stroke", strokeColor.toRGBAString());
+                    svgShape.setAttribute('stroke', strokeColor.toRGBAString());
                 }
                 if (strokeDash && strokeDash !== String.EMPTY) {
-                    svgShape.setAttribute("stroke-dasharray", JSON.parse(strokeDash).join(String.COMMA));
+                    svgShape.setAttribute('stroke-dasharray', JSON.parse(strokeDash).join(String.COMMA));
                 }
-                svgShape.setAttribute("stroke-dashoffset", this.strokeDashOffset);
+                svgShape.setAttribute('stroke-dashoffset', this.strokeDashOffset);
             }
         }
         //#endregion update

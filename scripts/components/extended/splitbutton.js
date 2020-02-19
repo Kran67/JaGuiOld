@@ -1,9 +1,8 @@
 ﻿//#region Import
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
-import { BitmapButton } from '/scripts/components/extended/bitmapbutton.js';
-import { PopupButton } from '/scripts/components/extended/popupbutton.js';
+import '/scripts/components/extended/bitmapbutton.js';
+import '/scripts/components/extended/popupbutton.js';
 import { Tools } from '/scripts/core/tools.js';
-import { Text } from '/scripts/core/text.js';
 //#endregion Import
 //#region SplitButton
 const SplitButton = (() => {

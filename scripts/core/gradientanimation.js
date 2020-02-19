@@ -1,7 +1,7 @@
 ﻿//#region Imports
 import { Interpolation } from "/scripts/core/interpolations.js";
-//import { Gradient } from "/scripts/core/gradient.js";
-import { Animation } from "/scripts/core/animation.js";
+//import { Gradient } from '/scripts/core/gradient.js';
+import { Animation } from '/scripts/core/animation.js';
 //#endregion
 //#region GradientAnimation
 /**

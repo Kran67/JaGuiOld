@@ -1,5 +1,5 @@
 ﻿//#region Imports
-import { Position } from "/scripts/core/position.js";
+import { Position } from '/scripts/core/position.js';
 //#endregion Imports
 //#region Scale
 class Scale extends Position {

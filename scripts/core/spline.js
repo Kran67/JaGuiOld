@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { BaseClass } from "/scripts/core/baseclass.js";
-import { Interpolation } from "/scripts/core/interpolations.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+import { Interpolation } from '/scripts/core/interpolations.js';
 //#endregion
 //#region Spline
 const Spline = (function () {

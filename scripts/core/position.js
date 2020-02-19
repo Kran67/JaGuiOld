@@ -1,8 +1,8 @@
 ﻿//#region Imports
-import { BaseClass } from "/scripts/core/baseclass.js";
-//import { NotifyEvent } from "/scripts/core/events.js";
-//import { Point } from "/scripts/core/geometry.js";
-import { Tools } from "/scripts/core/tools.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+//import { NotifyEvent } from '/scripts/core/events.js';
+//import { Point } from '/scripts/core/geometry.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region Position
 // TODO : support of databinding
@@ -128,10 +128,10 @@ const Position = (() => {
 })();
 //#region Position defineProperties
 Object.defineProperties(Position, {
-    "x": {
+    'x': {
         enumerable: true
     },
-    "y": {
+    'y': {
         enumerable: true
     }
 });

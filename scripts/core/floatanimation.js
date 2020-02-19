@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { Interpolation } from "/scripts/core/interpolations.js";
-import { Animation } from "/scripts/core/animation.js";
+import { Interpolation } from '/scripts/core/interpolations.js';
+import { Animation } from '/scripts/core/animation.js';
 //#endregion
 //#region FloatAnimation
 /**

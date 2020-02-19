@@ -1,8 +1,8 @@
 ﻿//#region Imports
-import { BaseClass } from "/scripts/core/baseclass.js";
-import { Color } from "/scripts/core/color.js";
-import * as Canvas from "/scripts/core/canvas.js";
-import { Tools } from "/scripts/core/tools.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+import { Color } from '/scripts/core/color.js';
+import * as Canvas from '/scripts/core/canvas.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region Font
 // TODO : support of databinding
@@ -29,7 +29,7 @@ const Font = (() => {
                         return 0;
                     }
                 }
-                const d = document.createElement("div");
+                const d = document.createElement('div');
                 if (font) {
                     font.toCss(d);
                 }
@@ -56,7 +56,7 @@ const Font = (() => {
             priv.strikeout = false;
             priv.size = 10;
             priv.sizeUnit = Types.CSSUNITS.PT;
-            priv.family = "Tahoma";
+            priv.family = 'Tahoma';
             priv.style = Types.FONTSTYLES.NORMAL;
             priv.string = String.EMPTY;
             priv.height = 0;
@@ -231,7 +231,7 @@ const Font = (() => {
             return priv.underline === false &&
                 priv.strikeout === false &&
                 priv.size === 10 &&
-                priv.family === "Tahoma" &&
+                priv.family === 'Tahoma' &&
                 priv.style === Types.FONTSTYLES.NORMAL &&
                 priv.brush.style === Types.BRUSHSTYLES.NONE &&
                 priv.brush.color.equals(Colors.TRANSPARENT);
@@ -250,14 +250,14 @@ const Font = (() => {
             const family = this.family;
             //#endregion Variables déclaration
             if (style === FONTSTYLES.BOLD) {
-                str += " bold";
+                str += ' bold';
             }
             if (style === FONTSTYLES.ITALIC) {
-                str += " italic";
+                str += ' italic';
             }
             str += String.SPACE + size + priv.sizeUnit + String.SPACE + family;
             str.trim();
-            priv.height = Font.getTextHeight("°_", this);
+            priv.height = Font.getTextHeight('°_', this);
             if (!Font.fontsInfos[family]) {
                 Font.fontsInfos[family] = {};
                 Font.fontsInfos[family].sizes = {};
@@ -287,19 +287,19 @@ const Font = (() => {
                 style.fontStyle = String.EMPTY;
                 style.textDecoration = String.EMPTY;
                 if (_style === FONTSTYLES.BOLD) {
-                    style.fontWeight = "bold";
+                    style.fontWeight = 'bold';
                 }
                 if (_style === FONTSTYLES.ITALIC) {
-                    style.fontStyle = "italic";
+                    style.fontStyle = 'italic';
                 }
                 if (priv.underline) {
-                    style.textDecoration = "underline";
+                    style.textDecoration = 'underline';
                 }
                 if (priv.strikeout) {
                     if (style.textDecoration !== String.EMPTY) {
-                        style.textDecoration += ",";
+                        style.textDecoration += ',';
                     }
-                    style.textDecoration += "line-through";
+                    style.textDecoration += 'line-through';
                 }
             }
         }
@@ -315,18 +315,18 @@ const Font = (() => {
             str += priv.size + priv.sizeUnit;
             str += String.SPACE + '"' + priv._family + '"';
             if (style === FONTSTYLES.BOLD) {
-                str += String.SPACE + "bold";
+                str += String.SPACE + 'bold';
             }
             if (style === FONTSTYLES.ITALIC) {
-                str += String.SPACE + "italic";
+                str += String.SPACE + 'italic';
             }
             if (priv.underline) {
-                str += String.SPACE + "underline";
+                str += String.SPACE + 'underline';
             }
             if (priv.strikeout) {
-                str += String.SPACE + "line-through";
+                str += String.SPACE + 'line-through';
             }
-            str += ";";
+            str += ';';
             return str;
         }
         //#endregion toCssString
@@ -356,10 +356,10 @@ const Font = (() => {
                         }
                         priv.size = ~~parseFloat(s);
                     }
-                    else if (s.includes("bold")) {
-                        Tools.include(this, "style", FONTSTYLES.BOLD);
-                    } else if (s.includes("italic")) {
-                        Tools.include(this, "style", FONTSTYLES.ITALIC);
+                    else if (s.includes('bold')) {
+                        Tools.include(this, 'style', FONTSTYLES.BOLD);
+                    } else if (s.includes('italic')) {
+                        Tools.include(this, 'style', FONTSTYLES.ITALIC);
                     } else {
                         priv.family = s.replace(/"/g, String.EMPTY);
                     }
@@ -400,7 +400,7 @@ const Font = (() => {
             priv.underline = priv.strikeout = false;
             priv.size = 10;
             priv.sizeUnit = Types.CSSUNITS.PT;
-            priv.family = "Tahoma";
+            priv.family = 'Tahoma';
             priv.style = Types.FONTSTYLES.NORMAL;
             priv.height = 0;
             priv.brush.clear();
@@ -411,7 +411,7 @@ const Font = (() => {
         generateChars() {
             //#region Variables déclaration
             const canvas = Canvas.newCanvas();
-            const ctx = canvas.getContext("2d");
+            const ctx = canvas.getContext('2d');
             const family = priv.family;
             const size = priv.size;
             //#endregion Variables déclaration
@@ -436,25 +436,25 @@ const Font = (() => {
 //#endregion
 //#region Font defineProperties
 Object.defineProperties(Font, {
-    "underline": {
+    'underline': {
         enumerable: true
     },
-    "strikeout": {
+    'strikeout': {
         enumerable: true
     },
-    "size": {
+    'size': {
         enumerable: true
     },
-    "sizeUnit": {
+    'sizeUnit': {
         enumerable: true
     },
-    "family": {
+    'family': {
         enumerable: true
     },
-    "style": {
+    'style': {
         enumerable: true
     },
-    "brush": {
+    'brush': {
         enumerable: true
     }
 });

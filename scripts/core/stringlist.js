@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { BaseClass } from "/scripts/core/baseclass.js";
-import { Tools } from "/scripts/core/tools.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region StringList
 const StringList = (() => {
@@ -38,7 +38,7 @@ const StringList = (() => {
         //#endregion owner
         //#region text
         get text() {
-            return internal(this).list.join("\n");
+            return internal(this).list.join('\n');
         }
         //#endregion text
         //#region length
@@ -70,7 +70,7 @@ const StringList = (() => {
                 if (!fireEvent) {
                     fireEvent = true;
                 }
-                priv.list.addRange(str.split("\n"));
+                priv.list.addRange(str.split('\n'));
                 if (fireEvent) {
                     this.onChange.invoke(priv.owner);
                 }

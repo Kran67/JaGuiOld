@@ -62,10 +62,10 @@ class Tools {
     static isValidIdent(ident, allowDots) {
         //#region Variables déclaration
         const CONSTANTS = Types.CONSTANTS;
-        const alphaChars = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,_";
-        const alpha = alphaChars.split(",");
-        const alphaNumeric = (`${alpha.join(",")},0,1,2,3,4,5,6,7,8,9`).split(",");
-        const alphaNumericDot = (alphaNumeric.join(",") + ",.").split(",");
+        const alphaChars = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,_';
+        const alpha = alphaChars.split(',');
+        const alphaNumeric = (`${alpha.join(',')},0,1,2,3,4,5,6,7,8,9`).split(',');
+        const alphaNumericDot = (alphaNumeric.join(',') + ',.').split(',');
         //#endregion Variables déclaration
         if (typeof ident === CONSTANTS.STRING) {
             if (typeof allowDots !== CONSTANTS.BOOLEAN) {
@@ -205,9 +205,9 @@ class Tools {
     static loadFormRes(resName) {
         //let fileText, p, style;
         if (Core.isHTMLRenderer) {
-            const fileText = document.getElementById("file_text");
+            const fileText = document.getElementById('file_text');
             if (fileText) {
-                fileText.innerHTML = "Creating window & objects\nPlease wait...";
+                fileText.innerHTML = 'Creating window & objects\nPlease wait...';
             }
             //p = document.getElementById($j.tools.currentProgress);
             //if (p) {
@@ -241,7 +241,7 @@ class Tools {
     //#region getObjectFromString
     static getObjectFromString(_object, stringProp) {
         //#region Variables déclaration
-        const tabs = stringProp.split(".").shift();
+        const tabs = stringProp.split('.').shift();
         let obj = _object.first;
         //#endregion Variables déclaration
         if (typeof obj === Types.CONSTANTS.OBJECT && obj) {
@@ -411,7 +411,7 @@ class Tools {
         //obj._props[prop] = set;
         //obj[prop] = value;
         params.component.addPropertyEnum(params.propName, params.enum);
-        if (params.hasOwnProperty("value")) {
+        if (params.hasOwnProperty('value')) {
             params.variable[params.propName] = params.value;
         }
         if (params.forceUpdate === undefined) {
@@ -448,11 +448,11 @@ class Tools {
         const keys = Object.keys(obj);
         //#endregion Variables déclaration
         keys.forEach(propName => {
-            if (propName !== "rotateAngle" && propName !== "rotateCenter") {
+            if (propName !== 'rotateAngle' && propName !== 'rotateCenter') {
                 if (obj.hasOwnProperty(propName)) {
-                    if (!propName.startsWith("on") &&
+                    if (!propName.startsWith('on') &&
                         typeof obj[propName] !== Types.CONSTANTS.FUNCTION &&
-                        propName !== "form" && propName !== "app") {
+                        propName !== 'form' && propName !== 'app') {
                         props.push({
                             property: propName,
                             value: obj[propName],
@@ -619,8 +619,8 @@ class Tools {
                     Tools.storeValue(dic, radius.storedName, trigger.value);
                 }
             }
-        } else if (radius.hasOwnProperty("tl") && radius.hasOwnProperty("tr") && radius.hasOwnProperty("br") &&
-            radius.hasOwnProperty("bl")) {
+        } else if (radius.hasOwnProperty('tl') && radius.hasOwnProperty('tr') && radius.hasOwnProperty('br') &&
+            radius.hasOwnProperty('bl')) {
             const keys = Object.keys(radius);
             keys.forEach(key => {
                 if (radius[key].triggers) {
@@ -675,14 +675,14 @@ class Tools {
         //#region Variables déclaration
         const ctx = Core.ctx;
         const GRADDIRS = Types.GRADIENTDIRECTIONS;
-        const changingTheme = document.body.classList.contains("changingTheme");
+        const changingTheme = document.body.classList.contains('changingTheme');
         const themeName = changingTheme ? instance.app.themeManifest.lastThemeName : instance.themeName;
         //#endregion Variables déclaration
         if (!suffixFunc) {
             suffixFunc = String.EMPTY;
         }
         params = params || [];
-        ["fill", "stroke"].forEach(prop => {
+        ['fill', 'stroke'].forEach(prop => {
             let _state = state;
             ctx.clearShadow();
             const style = shape[`${prop}Style`];
@@ -690,7 +690,7 @@ class Tools {
                 let color = style[_state];
                 const to = style.iteration != undefined ? style.iteration : 1;
                 if (!color || !instance.enabled) {
-                    _state = "normal";
+                    _state = 'normal';
                     color = style[_state];
                     if (!color) {
                         color = Core.themes[themeName].DEFAULTTEXTCOLOR;

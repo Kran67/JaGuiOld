@@ -1,5 +1,5 @@
 ﻿//#region imports
-import { Position } from "/scripts/core/position.js";
+import { Position } from '/scripts/core/position.js';
 //#endregion imports
 //#region RotateCenter
 class RotateCenter extends Position {

@@ -1,4 +1,4 @@
-﻿import { Animation } from "/scripts/core/animation.js";
+﻿import { Animation } from '/scripts/core/animation.js';
 //#region PathSwitcher
 //#region PathAnimation
 /**
@@ -90,13 +90,13 @@ const PathSwitcher = (() => {
     return PathSwitcher;
 })();
 Object.defineProperties(PathSwitcher, {
-    "duration": {
+    'duration': {
         enumerable: true
     },
-    "pathTrue": {
+    'pathTrue': {
         enumerable: true
     },
-    "pathFalse": {
+    'pathFalse': {
         enumerable: true
     }
 });

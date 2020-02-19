@@ -1,7 +1,7 @@
 ﻿//#region Imports
-import { BaseClass } from "/scripts/core/baseclass.js";
-import { Window } from "/scripts/components/containers/window.js";
-import { Tools } from "/scripts/core/tools.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+import { Window } from '/scripts/components/containers/window.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region ThemeManifest
 const ThemeManifest = (() => {
@@ -64,7 +64,7 @@ const ThemeManifest = (() => {
             //#endregion Variables declaration
             if (Tools.isString(newValue)) {
                 if (newValue !== priv.themeName) {
-                    document.body.classList.add("changingTheme");
+                    document.body.classList.add('changingTheme');
                     priv.lastThemeName = priv.themeName;
                     priv.themeName = newValue.toLowerCase();
                     setTimeout(this.changeTheme.bind(this), 1000);
@@ -97,7 +97,7 @@ const ThemeManifest = (() => {
                 owner.toolTip.classList.remove(lastThemeName);
                 owner.toolTip.classList.add(themeName);
             }
-            document.body.classList.remove("changingTheme");
+            document.body.classList.remove('changingTheme');
         }
         //#endregion changeTheme
         //#region changeWindowTheme
@@ -135,9 +135,9 @@ const ThemeManifest = (() => {
                 }
                 window.layoutMargin(margin);
                 if (theme && theme.window && theme.window.titlebar && theme.window.titlebar.height) {
-                    window.setTitleBarProp({"height": theme.window.titlebar.height});
+                    window.setTitleBarProp({'height': theme.window.titlebar.height});
                 } else {
-                    window.setTitleBarProp({"height": Window.TITLEBARHEIGHT});
+                    window.setTitleBarProp({'height': Window.TITLEBARHEIGHT});
                 }
                 if (window.isRolledUp || window.minimzed) {
                     if (theme && theme.window && theme.window.minHeight) {
@@ -193,7 +193,7 @@ const ThemeManifest = (() => {
 })();
 //#region ThemeManifest defineProperties
 Object.defineProperties(ThemeManifest, {
-    "themeName": {
+    'themeName': {
         enumerable: true
     }
 });

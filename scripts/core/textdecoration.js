@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { Tools } from "/scripts/core/tools.js";
-import { Color } from "/scripts/core/color.js";
+import { Tools } from '/scripts/core/tools.js';
+import { Color } from '/scripts/core/color.js';
 //#endregion Imports
 //#region TextDecoration
 const TextDecoration = (() => {
@@ -159,19 +159,19 @@ const TextDecoration = (() => {
 })();
 //#region TextDecoration defineProperties
 Object.defineProperties(TextDecoration, {
-    "underline": {
+    'underline': {
         enumerable: true
     },
-    "overline": {
+    'overline': {
         enumerable: true
     },
-    "lineThrough": {
+    'lineThrough': {
         enumerable: true
     },
-    "color": {
+    'color': {
         enumerable: true
     },
-    "style": {
+    'style': {
         enumerable: true
     }
 });

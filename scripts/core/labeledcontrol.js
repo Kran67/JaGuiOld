@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { ThemedControl } from "/scripts/core/themedcontrol.js";
-import { Tools } from "/scripts/core/tools.js";
+import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { Tools } from '/scripts/core/tools.js';
 //import { Classes } from "/scripts/core/classes.js";
 //import { NotifyEvent } from "/scripts/core/events.js";
 //#endregion Imports
@@ -84,7 +84,7 @@ const LabeledControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             let html = super.template;
-            const a = html.split("{label}");
+            const a = html.split('{label}');
             const tpl = priv.label.template;
             //#endregion Variables déclaration
             html = a.join(tpl);
@@ -134,7 +134,7 @@ const LabeledControl = (() => {
 })();
 //#region BaseWindow defineProperties
 Object.defineProperties(LabeledControl, {
-    "label": {
+    'label': {
         enumerable: true
     }
 });

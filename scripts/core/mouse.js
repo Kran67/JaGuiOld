@@ -1,60 +1,60 @@
 ﻿//#region Imports
-import { BaseClass } from "/scripts/core/baseclass.js";
-import { Tools } from "/scripts/core/tools.js";
-import "/scripts/core/geometry.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+import { Tools } from '/scripts/core/tools.js';
+import '/scripts/core/geometry.js';
 //#endregion Imports
 //#region Properties
 const _MOUSEBUTTONS = Object.freeze({
-    NONE: "none",
-    LEFT: "left",
-    RIGHT: "right",
-    MIDDLE: "middle"
+    NONE: 'none',
+    LEFT: 'left',
+    RIGHT: 'right',
+    MIDDLE: 'middle'
 });
 const _MOUSEWHEELDIRS = Object.freeze({
-    NONE: "none",
-    UP: "up",
-    DOWN: "down"
+    NONE: 'none',
+    UP: 'up',
+    DOWN: 'down'
 });
 const _TOUCHEVENTS = Object.freeze({
-    START: "touchstart",
-    MOVE: "touchmove",
-    END: "touchend",
-    CANCEL: "touchcancel"
+    START: 'touchstart',
+    MOVE: 'touchmove',
+    END: 'touchend',
+    CANCEL: 'touchcancel'
 });
 const _POINTEREVENTS = Object.freeze({
-    DOWN: "pointerdown",
-    MOVE: "pointermove",
-    UP: "pointerup",
-    CANCEL: "pointercancel"
+    DOWN: 'pointerdown',
+    MOVE: 'pointermove',
+    UP: 'pointerup',
+    CANCEL: 'pointercancel'
 });
 const _MSPOINTEREVENTS = Object.freeze({
-    DOWN: "MSPointerDown",
-    MOVE: "MSPointerMove",
-    UP: "MSPointerUp",
-    CANCEL: "MSPointerCancel"
+    DOWN: 'MSPointerDown',
+    MOVE: 'MSPointerMove',
+    UP: 'MSPointerUp',
+    CANCEL: 'MSPointerCancel'
 });
 const _MOUSEEVENTS = Object.freeze({
-    EVENT: "mouseevent",
-    MOVE: "mousemove",
-    DOWN: "mousedown",
-    UP: "mouseup",
-    CANCEL: "mousecancel",
-    WHEEL: "mousewheel",
-    DBLCLICK: "dblclick",
-    DOMSCROLL: "DOMMouseScroll",
-    OUT: "mouseout",
-    OVER: "mouseover",
-    ENTER: "mouseenter",
-    LEAVE: "mouseleave",
-    CLICK: "click",
-    DRAG: "drag",
-    DROP: "drop",
-    DRAGEND: "dragend",
-    DRAGENTER: "dragenter",
-    DRAGEXIT: "dragexit",
-    DRAGLEAVE: "dragleave",
-    DRAGOVER: "dragover",
-    DRAGSTART: "dragstart"
+    EVENT: 'mouseevent',
+    MOVE: 'mousemove',
+    DOWN: 'mousedown',
+    UP: 'mouseup',
+    CANCEL: 'mousecancel',
+    WHEEL: 'mousewheel',
+    DBLCLICK: 'dblclick',
+    DOMSCROLL: 'DOMMouseScroll',
+    OUT: 'mouseout',
+    OVER: 'mouseover',
+    ENTER: 'mouseenter',
+    LEAVE: 'mouseleave',
+    CLICK: 'click',
+    DRAG: 'drag',
+    DROP: 'drop',
+    DRAGEND: 'dragend',
+    DRAGENTER: 'dragenter',
+    DRAGEXIT: 'dragexit',
+    DRAGLEAVE: 'dragleave',
+    DRAGOVER: 'dragover',
+    DRAGSTART: 'dragstart'
 });
 //#endregion
 //#region Mouse

@@ -1,7 +1,7 @@
 ﻿//#region Imports
-import { BaseClass } from "/scripts/core/baseclass.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Convert } from "/scripts/core/convert.js";
+import { BaseClass } from '/scripts/core/baseclass.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Convert } from '/scripts/core/convert.js';
 //#endregion
 //#region Geometry
 class Geometry {
@@ -454,10 +454,10 @@ const Point = (() => {
 })();
 //#region Point defineProperties
 Object.defineProperties(Point, {
-    "x": {
+    'x': {
         enumerable: true
     },
-    "y": {
+    'y': {
         enumerable: true
     }
 });
@@ -961,16 +961,16 @@ const Rect = (() => {
 })();
 //#region Rect defineProperties
 Object.defineProperties(Rect, {
-    "left": {
+    'left': {
         enumerable: true
     },
-    "top": {
+    'top': {
         enumerable: true
     },
-    "right": {
+    'right': {
         enumerable: true
     },
-    "bottom": {
+    'bottom': {
         enumerable: true
     }
 });
@@ -1274,13 +1274,13 @@ const Vector = (() => {
 })();
 //#region Vector defineProperties
 Object.defineProperties(Vector.prototype, {
-    "x": {
+    'x': {
         enumerable: true
     },
-    "y": {
+    'y': {
         enumerable: true
     },
-    "z": {
+    'z': {
         enumerable: true
     }
 });
@@ -1685,7 +1685,7 @@ const Matrix = (() => {
             if (!Tools.isBool(withBracket) && !withBracket) {
                 withBracket = false;
             }
-            result += withBracket ? "[" : String.SPACE;
+            result += withBracket ? '[' : String.SPACE;
             result += priv.m11 + sep;
             result += priv.m12 + sep;
             result += priv.m13 + sep;
@@ -1695,7 +1695,7 @@ const Matrix = (() => {
             result += priv.m31 + sep;
             result += priv.m32 + sep;
             result += priv.m33 + sep;
-            result += withBracket ? "]" : String.SPACE;
+            result += withBracket ? ']' : String.SPACE;
             return result;
         }
         //#endregion toString
@@ -1706,31 +1706,31 @@ const Matrix = (() => {
 })();
 //#region Matrix defineProperties
 Object.defineProperties(Matrix, {
-    "m11": {
+    'm11': {
         enumerable: true
     },
-    "m12": {
+    'm12': {
         enumerable: true
     },
-    "m13": {
+    'm13': {
         enumerable: true
     },
-    "m21": {
+    'm21': {
         enumerable: true
     },
-    "m22": {
+    'm22': {
         enumerable: true
     },
-    "m23": {
+    'm23': {
         enumerable: true
     },
-    "m31": {
+    'm31': {
         enumerable: true
     },
-    "m32": {
+    'm32': {
         enumerable: true
     },
-    "m33": {
+    'm33': {
         enumerable: true
     }
 });

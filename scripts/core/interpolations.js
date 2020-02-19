@@ -1,8 +1,8 @@
 ﻿//#region Imports
-import { Color, Colors } from "/scripts/core/color.js";
-import { Convert } from "/scripts/core/convert.js";
-import { Tools } from "/scripts/core/tools.js";
-import { Animation } from "/scripts/core/animation.js";
+import { Color, Colors } from '/scripts/core/color.js';
+import { Convert } from '/scripts/core/convert.js';
+import { Tools } from '/scripts/core/tools.js';
+import { Animation } from '/scripts/core/animation.js';
 //#endregion
 //#region Interpolation 
 class Interpolation {
@@ -12,17 +12,17 @@ class Interpolation {
      */
     static get INTERPOLATIONTYPES() {
         return {
-            BACK: "back",
-            BOUNCE: "bounce",
-            CIRCULAR: "circular",
-            CUBIC: "cubic",
-            ELASTIC: "elastic",
-            EXPONENTIAL: "exponential",
-            LINEAR: "linear",
-            QUADRATIC: "quadratic",
-            QUARTIC: "quartic",
-            QUINTIC: "quintic",
-            SINUSOIDAL: "sinusoidal"
+            BACK: 'back',
+            BOUNCE: 'bounce',
+            CIRCULAR: 'circular',
+            CUBIC: 'cubic',
+            ELASTIC: 'elastic',
+            EXPONENTIAL: 'exponential',
+            LINEAR: 'linear',
+            QUADRATIC: 'quadratic',
+            QUARTIC: 'quartic',
+            QUINTIC: 'quintic',
+            SINUSOIDAL: 'sinusoidal'
         };
     }
     //#endregion

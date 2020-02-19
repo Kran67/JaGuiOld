@@ -1,26 +1,26 @@
-﻿import { Tools } from "/scripts/core/tools.js";
+﻿import { Tools } from '/scripts/core/tools.js';
 /**********************************************************************************/
 /*                                                                                */
 /* string.js cette partie définit les fonctions supplémentaires de l'objet String */
 /*                                                                                */
 /**********************************************************************************/
 Object.defineProperties(String, {
-    "EMPTY": {
+    'EMPTY': {
         get: function () {
-            return "";
+            return '';
         }
     },
-    "SPACE": {
+    'SPACE': {
         get: function () {
-            return " ";
+            return ' ';
         }
     },
-    //"isEmpty": {
+    //'isEmpty': {
     //    get: function () {
     //        return this.trim().length < 1;
     //    }
     //},
-    "uuid": {
+    'uuid': {
         get: function () {
             const _p8 = (s) => {
                 const p = (`${Math.random().toString(16)}000000000`).substr(2, 8);
@@ -31,7 +31,7 @@ Object.defineProperties(String, {
     }
 });
 Object.defineProperties(String.prototype, {
-    "reverse": {
+    'reverse': {
         get: function () {
             //#region Variables déclaration
             let temp = String.EMPTY;
@@ -46,35 +46,35 @@ Object.defineProperties(String.prototype, {
     },
     // Méthode capitalise ->
     // Retourne la nouvelle chaine
-    "capitaliseWords": {
+    'capitaliseWords': {
         get: function () {
             return this.replace(/\w+/g, function (a) {
                 return [a.charAt(0).toUpperCase(), a.substr(1).toLowerCase()].join(String.EMPTY);
             });
         }
     },
-    "firstCharUpper": {
+    'firstCharUpper': {
         get: function () {
             return [this.charAt(0).toUpperCase(), this.substr(1).toLowerCase()].join(String.EMPTY);
         }
     },
     // Méthode isNumeric ->
     // Retourne vrai ou faux
-    "isNumeric": {
+    'isNumeric': {
         get: function () {
             return +this === this;
         }
     },
     // Méthode isBoolean ->
     // Retourne vrai ou faux
-    "isBoolean": {
+    'isBoolean': {
         get: function () {
-            return this && ("true" === this.trim() || "false" === this.trim());
+            return this && ('true' === this.trim() || 'false' === this.trim());
         }
     },
     // Méthode isEmpty ->
     // Retourne vrai ou faux
-    "isEmpty": {
+    'isEmpty': {
         get: function () {
             return this === String.EMPTY;
         }
@@ -272,57 +272,57 @@ if (!String.prototype.format) {
         const sf = this.match(/(%(\(\w+\)){0,1}[ 0-]{0,1}(\+){0,1}(\d+){0,1}(\.\d+){0,1}[dibouxXeEfFgGcrs%])|([^%]+)/g);
         if (sf) {
             if (sf.join(String.EMPTY) !== this.toString()) {
-                throw "Unsupported formating string.";
+                throw 'Unsupported formating string.';
             }
         } else {
-            throw "Unsupported formating string.";
+            throw 'Unsupported formating string.';
         }
         let rslt = String.EMPTY;
         let obj = null;
         let cnt = 0;
         let sign = String.EMPTY;
         sf.forEach(s => {
-            if (s === "%%") {
-                s = "%";
-            } else if (s === "%s") { //making %s faster
+            if (s === '%%') {
+                s = '%';
+            } else if (s === '%s') { //making %s faster
                 if (cnt >= arguments.length) {
-                    throw "Not enough arguments for format string.";
+                    throw 'Not enough arguments for format string.';
                 } else {
                     obj = arguments[cnt];
                     cnt++;
                 }
                 if (!obj) {
-                    obj = "null";
+                    obj = 'null';
                 } else if (obj === undefined) {
-                    obj = "undefined";
+                    obj = 'undefined';
                 }
                 s = obj.toString();
-            } else if (s.slice(0, 1) === "%") {
+            } else if (s.slice(0, 1) === '%') {
                 const frmt = new Tools.formatSpecifier(s);//get the formating object
                 if (frmt.key) {//an object was given as formating value
                     if (Tools.isObject(arguments[0]) && arguments.length === 1) {
                         obj = arguments[0][frmt.key];
                     } else {
-                        throw "Object or associative array expected as formating value.";
+                        throw 'Object or associative array expected as formating value.';
                     }
                 } else {//get the current value
                     if (cnt >= arguments.length) {
-                        throw "Not enough arguments for format string.";
+                        throw 'Not enough arguments for format string.';
                     } else {
                         obj = arguments[cnt];
                         cnt++;
                     }
                 }
-                if (frmt.type === "s") {//String
+                if (frmt.type === 's') {//String
                     if (!obj) {
-                        obj = "null";
+                        obj = 'null';
                     } else if (obj === undefined) {
-                        obj = "undefined";
+                        obj = 'undefined';
                     }
                     s = obj.toString();
                     s = Tools.pad(s, frmt.paddingFlag, frmt.minLength);
-                } else if (frmt.type === "c") {//Character
-                    if (frmt.paddingFlag === "0") {
+                } else if (frmt.type === 'c') {//Character
+                    if (frmt.paddingFlag === '0') {
                         frmt.paddingFlag = String.SPACE;//padding only spaces
                     }
                     if (Tools.isNumber(obj)) {//get the character code
@@ -333,70 +333,70 @@ if (!String.prototype.format) {
                             s = obj;
                             s = Tools.pad(s, frmt.paddingFlag, frmt.minLength);
                         } else {
-                            throw "Character of length 1 required.";
+                            throw 'Character of length 1 required.';
                         }
                     } else {
-                        throw "Character or Byte required.";
+                        throw 'Character or Byte required.';
                     }
                 } else if (Tools.isNumber(obj)) {
                     //get sign of the number
                     if (obj < 0) {
                         obj = -obj;
-                        sign = "-"; //negative signs are always needed
+                        sign = '-'; //negative signs are always needed
                     } else if (frmt.signed) {
-                        sign = "+"; // if sign is always wanted add it
+                        sign = '+'; // if sign is always wanted add it
                     } else {
                         sign = String.EMPTY;
                     }
                     //do percision padding and number conversions
                     switch (frmt.type) {
-                        case "f": //floats
-                        case "F":
+                        case 'f': //floats
+                        case 'F':
                             if (frmt.percision > -1) {
                                 s = obj.toFixed(frmt.percision).toString();
                             } else {
                                 s = obj.toString();
                             }
                             break;
-                        case "E": //exponential
-                        case "e":
+                        case 'E': //exponential
+                        case 'e':
                             if (frmt.percision > -1) {
                                 s = obj.toExponential(frmt.percision);
                             } else {
                                 s = obj.toExponential();
                             }
-                            s = s.replace("e", frmt.type);
+                            s = s.replace('e', frmt.type);
                             break;
-                        case "b": //binary
+                        case 'b': //binary
                             s = obj.toString(2);
-                            s = Tools.pad(s, "0", frmt.percision);
+                            s = Tools.pad(s, '0', frmt.percision);
                             break;
-                        case "o": //octal
+                        case 'o': //octal
                             s = obj.toString(8);
-                            s = Tools.pad(s, "0", frmt.percision);
+                            s = Tools.pad(s, '0', frmt.percision);
                             break;
-                        case "x": //hexadecimal
+                        case 'x': //hexadecimal
                             s = obj.toString(16).toLowerCase();
-                            s = Tools.pad(s, "0", frmt.percision);
+                            s = Tools.pad(s, '0', frmt.percision);
                             break;
-                        case "X": //hexadecimal
+                        case 'X': //hexadecimal
                             s = obj.toString(16).toUpperCase();
-                            s = Tools.pad(s, "0", frmt.percision);
+                            s = Tools.pad(s, '0', frmt.percision);
                             break;
                         default: //integers
                             s = ~~obj;
                             s = s.toString();
-                            s = Tools.pad(s, "0", frmt.percision);
+                            s = Tools.pad(s, '0', frmt.percision);
                             break;
                     }
-                    if (frmt.paddingFlag === "0") {//do 0-padding
+                    if (frmt.paddingFlag === '0') {//do 0-padding
                         //make sure that the length of the possible sign is not ignored
-                        s = Tools.pad(s, "0", frmt.minLength - sign.length);
+                        s = Tools.pad(s, '0', frmt.minLength - sign.length);
                     }
                     s = sign + s;//add sign
                     s = Tools.pad(s, frmt.paddingFlag, frmt.minLength);//do padding and justifiing
                 } else {
-                    throw "Number required.";
+                    throw 'Number required.';
                 }
             }
             rslt += s;

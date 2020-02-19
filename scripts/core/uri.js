@@ -1,5 +1,5 @@
 ﻿//#region Imports
-import { Tools } from "/scripts/core/tools.js";
+import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 /**
  *
@@ -9,13 +9,13 @@ class Uri {
     //#region Methods
     //#region clean
     static clean(uri) {
-        return uri.replace("url(", String.EMPTY).replace(")", String.EMPTY).replace(/"/g, String.EMPTY);
+        return uri.replace('url(', String.EMPTY).replace(')', String.EMPTY).replace(/"/g, String.EMPTY);
     }
     //#endregion clean
     //#region split
     static split(path, returnLast) {
         //#region Variables déclaration
-        const splited = path.split("/");
+        const splited = path.split('/');
         //#endregion Variables déclaration
         if (!returnLast) {
             returnLast = false;
@@ -30,10 +30,10 @@ class Uri {
     //#region base
     static base() {
         //#region Variables déclaration
-        let uri = location.protocol + "//" + location.hostname + (location.port ? ":" + location.port : String.EMPTY) + "/";
+        let uri = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : String.EMPTY) + '/';
         //#endregion Variables déclaration
-        if (location.href.toLowerCase().indexOf(Tools.getPath("base").toLowerCase()) > -1) {
-            uri += Tools.getPath("base") + "/";
+        if (location.href.toLowerCase().indexOf(Tools.getPath('base').toLowerCase()) > -1) {
+            uri += Tools.getPath('base') + '/';
         }
         return uri;
     }
