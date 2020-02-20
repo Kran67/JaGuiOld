@@ -1,21 +1,23 @@
-﻿div.LabeledSlider {
+﻿.LabeledSlider {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: row;
+    overflow: visible;
 }
 
-div.LabeledSlider div.Slider {
+.LabeledSlider .Slider {
     position: relative;
     flex: 1;
+    margin: 0 5px;
 }
 
-div.LabeledSlider label.Label {
+.LabeledSlider .Label {
     position: static;
     white-space: nowrap;
 }
 
-div.LabeledSlider label.ValueLabel {
+.LabeledSlider .ValueLabel {
     width: 16%;
     position: static;
     white-space: nowrap;
