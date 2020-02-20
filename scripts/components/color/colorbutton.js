@@ -164,3 +164,4 @@ if (Core.isHTMLRenderer) {
     Core.classes.registerTemplates([{ Class: ColorButton, template: ColorButtonTpl }]);
 }
 //#endregion
+export { ColorButton };

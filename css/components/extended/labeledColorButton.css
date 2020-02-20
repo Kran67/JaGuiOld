@@ -1,17 +1,18 @@
-﻿div.LabeledColorButton {
+﻿.LabeledColorButton {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: row;
+    overflow: visible;
 }
 
-div.LabeledColorButton button.ColorButton {
+.LabeledColorButton .ColorButton {
     position: relative;
     height: 100%;
     flex: 1;
 }
 
-div.LabeledColorButton label.Label {
+.LabeledColorButton .Label {
     position: static;
     white-space: nowrap;
 }
