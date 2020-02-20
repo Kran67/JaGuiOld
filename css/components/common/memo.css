@@ -1,56 +1,10 @@
-﻿div.Memo.scrollbars-vertical div.MemoViewPort {
-    right: 16px;
-    bottom: 0;
+﻿.Memo {
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
 }
 
-div.Memo.scrollbars-vertical div.ScrollBar.orientation-vertical {
-    bottom: 0;
-    height: auto;
-}
-
-div.Memo.scrollbars-vertical div.ScrollBar.orientation-horizontal {
-    bottom: -20px;
-}
-
-div.Memo.scrollbars-horizontal div.MemoViewPort {
-    right: 0;
-    bottom: 16px;
-    width: auto;
-}
-
-div.Memo.scrollbars-horizontal div.ScrollBar.orientation-horizontal {
-    right: 0;
-    width: auto;
-}
-
-div.Memo.scrollbars-horizontal div.ScrollBar.orientation-vertical {
-    right: -20px;
-}
-
-div.Memo.scrollbars-both div.MemoViewPort {
-    right: 16px;
-    bottom: 16px;
-}
-
-div.Memo.scrollbars-both div.ScrollBar.orientation-horizontal {
-    right: 16px;
-    width: auto;
-}
-
-div.Memo.scrollbars-both div.ScrollBar.orientation-vertical {
-    bottom: 16px;
-    height: auto;
-}
-
-div.MemoViewPort {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-}
-
-div.MemoViewPort textarea {
+.Memo textarea {
     margin: 0;
     border: none;
     resize: none;
@@ -58,9 +12,6 @@ div.MemoViewPort textarea {
     white-space: pre;
     word-wrap: normal;
     position: relative;
-    left: 2px;
-    top: 2px;
-    width: calc(100% - 4px);
-    height: calc(100% - 4px);
-    overflow: hidden;
+    flex: 1;
+    overflow: auto;
 }

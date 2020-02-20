@@ -1,6 +1,7 @@
 ﻿//#region Imports
 import { BaseClass } from '/scripts/core/baseclass.js';
 import { Tools } from '/scripts/core/tools.js';
+import { NotifyEvent } from '/scripts/core/events.js';
 //#endregion Imports
 //#region StringList
 const StringList = (() => {
@@ -19,16 +20,27 @@ const StringList = (() => {
     class StringList extends BaseClass {
         //#region constructor
         constructor(owner) {
+            super(owner);
             const priv = internal(this);
             priv.list = [];
             priv.owner = owner;
-            this.onChange = new Core.classes.NotifyEvent(this);
+            this.onChange = new NotifyEvent(this);
         }
         //#endregion constructor
         //#region Getter / Setter
         //#region list
         get list() {
             return internal(this).list;
+        }
+        set list(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Tools.isString(newValue)) {
+                if (priv.list !== newValue) {
+                    priv.list = newValue;
+                }
+            }
         }
         //#endregion list
         //#region owner

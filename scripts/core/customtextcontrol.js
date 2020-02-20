@@ -70,10 +70,13 @@ const CustomTextControl = (function () {
         set inputObj(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
+            const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (newValue instanceof HTMLInputElement) {
+            if (newValue instanceof HTMLInputElement || newValue instanceof HTMLTextAreaElement) {
                 if (priv.inputObj !== newValue) {
+                    htmlElement.removeChild(priv.inputObj);
                     priv.inputObj = newValue;
+                    htmlElement.appendChild(priv.inputObj);
                 }
             }
         }

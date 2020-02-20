@@ -49,7 +49,7 @@ import '/scripts/components/common/textbox.js';
 import '/scripts/components/extended/roundtextbox.js';
 //import { textBoxClearBtn } from '/scripts/components/extended/textBoxClearBtn.js';
 //import { spinBox } from '/scripts/components/common/spinBox.js';
-//import { memo } from '/scripts/components/common/memo.js';
+import '/scripts/components/common/memo.js';
 //import { maskedTextBox } from '/scripts/components/extended/maskedTextBox.js';
 import '/scripts/components/extended/iphonebutton.js';
 import '/scripts/components/common/calendar.js';
