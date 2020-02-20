@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { CustomTextBoxBtn } from '/scripts/core/customtextboxbtn.js';
 import { Button } from '/scripts/components/common/button.js';
-import { Events } from '/scripts/core/events.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
@@ -86,7 +85,6 @@ const PasswordTextBox = (() => {
         //#region loaded
         loaded() {
             //#region Variables déclaration
-            const priv = internal(this);
             let btnHtmlElment;
             let button;
             //#endregion Variables déclaration
