@@ -59,7 +59,7 @@ import '/scripts/components/extended/labeledanglebar.js';
 import '/scripts/components/extended/labeledcolorbutton.js';
 //import { labeledTextBox } from '/scripts/components/extended/labeledTextBox.js';
 import '/scripts/components/extended/labeledslider.js';
-//import { labeledMemo } from '/scripts/components/extended/labeledMemo.js';
+import '/scripts/components/extended/labeledmemo.js';
 //import { dropDownColors } from '/scripts/components/color/dropDownColors.js';
 //import { dropDownCalendar } from '/scripts/components/common/dropDownCalendar.js';
 //import { dropDownSlider } from '/scripts/components/extended/dropDownSlider.js';

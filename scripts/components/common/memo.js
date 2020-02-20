@@ -65,6 +65,7 @@ const Memo = (() => {
                 this.removeBindableProperties(['text']);
                 priv.lines = new StringList(this);
                 priv.lines.onChange.addListener(this.update);
+                priv.text = props.hasOwnProperty('text')?props.text:this.name;
             }
         }
         //#endregion constructor
@@ -177,7 +178,6 @@ const Memo = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const ta = document.createElement(Types.HTMLELEMENTS.TEXTAREA);
-            const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
             //#endregion Variables déclaration
             super.loaded();
             ta.classList.add('Control', 'csr_text', 'MemoInput', this.themeName);
@@ -186,9 +186,7 @@ const Memo = (() => {
             Events.bind(ta, Types.HTMLEVENTS.CHANGE, this.textChanged);
             Events.bind(ta, Types.HTMLEVENTS.FOCUS, this.HTMLFocus);
             Events.bind(ta, Types.HTMLEVENTS.BLUR, this.HTMLBlur);
-            if (props.hasOwnProperty('text') && props.text !== String.EMPTY) {
-                priv.lines.addText(props.text, false);
-            }
+            priv.lines.addText(priv.text, false);
         }
         //#endregion Methods
     }
