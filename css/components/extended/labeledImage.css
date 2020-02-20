@@ -1,4 +1,4 @@
-﻿div.LabeledImage {
+﻿.LabeledImage {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -6,13 +6,13 @@
     height: 60px;
 }
 
-div.LabeledImage div.ImageControl {
+.LabeledImage .ImageControl {
     position: relative;
     height: 100% !important;
     flex: 1;
 }
 
-div.LabeledImage label.Label {
+.LabeledImage .Label {
     position: static;
     white-space: nowrap;
 }

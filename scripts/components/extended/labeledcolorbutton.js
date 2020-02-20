@@ -29,6 +29,7 @@ const LabeledColorButton = (() => {
         //#region Getters / Setters
         //#endregion Getters / Setters
         //#region Methods
+        //#region loaded
         loaded() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -42,6 +43,8 @@ const LabeledColorButton = (() => {
                 withTpl: true
             });
         }
+        //#endregion loaded
+        //#region destroy
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -50,6 +53,7 @@ const LabeledColorButton = (() => {
             priv.colorButton = null;
             super.destroy();
         }
+        //#endregion destroy
         //#endregion Methods
     }
     return LabeledColorButton;
