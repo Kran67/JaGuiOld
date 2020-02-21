@@ -1,14 +1,8 @@
-﻿input.TextBoxClearBtnInput {
-}
-
-button.TextBoxClearBtnButton {
+﻿.Control.TextBoxClearBtnButton {
     width: 20px;
     position: relative;
 }
 
-div.TextBoxClearBtn[data-length="0"] button.TextBoxClearBtnButton {
+.Control.TextBoxClearBtn[data-length="0"] .Control.TextBoxClearBtnButton {
     display: none;
-}
-
-div.TextBoxClearBtn[data-length="0"] input.TextBoxClearBtnInput {
 }

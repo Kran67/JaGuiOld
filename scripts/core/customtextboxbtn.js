@@ -1,7 +1,10 @@
-﻿//import { Classes } from "/scripts/core/classes.js";
-import { Css } from '/scripts/core/css.js';
+﻿//#region Import
+import { CustomTextControl } from "/scripts/core/customtextcontrol.js";
+import { Button } from "/scripts/components/common/button.js";
+//#endregion Import
 //#region CustomTextBoxBtn
 const CustomTextBoxBtn = (() => {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
@@ -11,7 +14,10 @@ const CustomTextBoxBtn = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#endregion Private
+    //#region Class CustomButton
     class CustomTextBoxBtn extends CustomTextControl {
+        //#region constructor
         constructor(owner, props) {
             if (!props) props = {};
             if (!props.btns) props.btns = 1;
@@ -21,84 +27,76 @@ const CustomTextBoxBtn = (() => {
                 priv.btnClass = null;
                 priv.btns = [];
                 //#region Private
-                priv.btnClass = props.btnClass ? props.btnClass : Core.classes.Button;
-                props.btns.forEach(btn => {
-                });
-                for (let i = 0; i < props.btns; i++) {
-                    const btn = Core.classes.createComponent({
-                        class: priv.btnClass,
-                        owner: this,
-                        props: {
-                            inForm: false
-                        },
-                        withTpl: false
-                    });
-                    btn.name = `btn${i}`;
-                    btn.canFocused = false;
-                    priv.btns.add(btn);
-                }
+                priv.btnClass = props.btnClass ? props.btnClass : Button;
                 //#endregion
             }
         }
+        //#endregion constructor
+        //#region Getters / Setters
+        //#region btnClass
         get btnClass() {
             return internal(this).btnClass;
         }
         set btnClass(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (typeof newValue === Types.CONSTANTS.NUMBER) {
                 if (priv.btnClass !== newValue) {
                     priv.btnClass = newValue;
                 }
             }
         }
+        //#endregion btnClass
+        //#region btns
         get btns() {
             return internal(this).btns;
         }
-        //#region Setter
-        //#endregion
+        //#endregion btns
+        //#endregion Getters / Setters
         //#region Methods
-        get template() {
-            let html = null;
-            html = super.template;
-            const a = html.split('{buttons}');
-            if (a.length > 1) {
-                this.btns.forEach(btn => {
-                    const tpl = btn.template;
-                    a.insert(a.length - 1, tpl);
+        //#region loaded
+        loaded() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
+            //#endregion Variables déclaration
+            super.loaded();
+            for (let i = 0; i < props.btns; i++) {
+                const btn = Core.classes.createComponent({
+                    class: priv.btnClass,
+                    owner: this,
+                    props: {
+                        inForm: false,
+                        caption: '…'
+                    },
+                    withTpl: false
                 });
-            }
-            html = a.join(String.EMPTY);
-            return html;
-        }
-        getChildsHTMLElement() {
-            const btns = this.btns;
-            const htmlElement = this.HTMLElement;
-            super.getChildsHTMLElement();
-            if (htmlElement) {
-                const _btns = htmlElement.querySelectorAll('button');
-                if (_btns.length === btns.length) {
-                    btns.forEach(btn => {
-                        btn.getHTMLElement(btn.id);
-                        btn.getChildsHTMLElement();
-                        btn.updateFromHTML();
-                        btn.caption = String.EMPTY;
-                        Css.addClass(btn.HTMLElement, 'TextBoxBtnButton');
-                    });
-                }
+                btn.HTMLElement.classList.add('TextBoxBtnButton');
+                btn.name = `btn${i}`;
+                btn.canFocused = false;
+                priv.btns.add(btn);
             }
         }
+        //#endregion loaded
+        //#region destroy
         destroy() {
-            const btns = this.btns;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            const btns = priv.btns;
             btns.forEach(btn => {
                 btn.destroy();
             });
             btns.clear();
             super.destroy();
         }
-        //#endregion
+        //#endregion destroy
+        //#endregion Methods
     }
     return CustomTextBoxBtn;
+    //#endregion CustomTextBoxBtn
 })();
-//#endregion
+//#endregion CustomTextBoxBtn
 Core.classes.register(Types.CATEGORIES.INTERNAL, CustomTextBoxBtn);
 export { CustomTextBoxBtn };

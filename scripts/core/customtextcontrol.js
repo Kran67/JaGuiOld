@@ -249,7 +249,7 @@ const CustomTextControl = (function () {
         //#endregion errorMsg
         //#region enabled
         get enabled() {
-            return internal(this).enabled;
+            return super.enabled;
         }
         set enabled(newValue) {
             //#region Variables déclaration
@@ -297,7 +297,7 @@ const CustomTextControl = (function () {
             //#endregion Variables déclaration
             if (!htmlElement.querySelector('input')) {
                 priv.inputObj = document.createElement(Types.HTMLELEMENTS.INPUT);
-                priv.inputObj.type = 'text';
+                priv.inputObj.type = priv.type;
                 priv.inputObj.classList.add('Control', 'csr_text', 'TextBoxInput', `${this.constructor.name}Input`, this.themeName);
                 priv.inputObj.jsObj = this;
                 htmlElement.appendChild(priv.inputObj);
@@ -328,18 +328,6 @@ const CustomTextControl = (function () {
                 }
             }
         }
-        //getHTMLElement(id) {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    //#endregion Variables déclaration
-        //    super.getHTMLElement(id);
-        //    const htmlElement = this.HTMLElement;
-        //    if (htmlElement) {
-        //        priv.inputObj = htmlElement.querySelector("input");
-        //        priv.inputObj.jsObj = this;
-        //        this.bindEventToHTMLInput();
-        //    }
-        //}
         textChanged() {
             //#region Variables déclaration
             const jsObj = this.jsObj;
@@ -358,7 +346,6 @@ const CustomTextControl = (function () {
                 if (filterChars.length > 0 && filterChars.indexOf(Core.keyboard.keyChar) === -1) {
                     Core.keyboard.stopEvent();
                 }
-                //else this.onChange.invoke();
             }
             this.textChanged.apply(priv.inputObj);
             super.keyPress();
