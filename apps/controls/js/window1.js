@@ -50,7 +50,7 @@ import '/scripts/components/extended/roundtextbox.js';
 import '/scripts/components/extended/textboxclearbtn.js';
 import '/scripts/components/common/spinbox.js';
 import '/scripts/components/common/memo.js';
-//import { maskedTextBox } from '/scripts/components/extended/maskedTextBox.js';
+import '/scripts/components/extended/maskedtextbox.js';
 import '/scripts/components/extended/iphonebutton.js';
 import '/scripts/components/common/calendar.js';
 //import { menus } from '/scripts/components/menus/menus.js';

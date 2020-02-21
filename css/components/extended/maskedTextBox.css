@@ -1,8 +1,8 @@
-﻿div.MaskedTextBox {
+﻿.Control.MaskedTextBox {
     min-height: 20px;
 }
 
-input.MaskedTextBoxInput {
+.Control.MaskedTextBoxInput {
     margin: 0;
     padding: 0 2px;
     border: none;
@@ -12,7 +12,7 @@ input.MaskedTextBoxInput {
     position: static;
 }
 
-div.MaskedTextBox.required:before {
+.Control.MaskedTextBox.required:before {
     position: absolute;
     content: "*";
     color: red;
@@ -21,11 +21,11 @@ div.MaskedTextBox.required:before {
     top: 0;
 }
 
-div.MaskedTextBox.haserror {
+.Control.MaskedTextBox.haserror {
     box-shadow: 0 0 0 1px red;
 }
 
-div.MaskedTextBox.haserror:after {
+.Control.MaskedTextBox.haserror:after {
     position: absolute;
     content: "";
     right: 0;

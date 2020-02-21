@@ -204,7 +204,7 @@ const Keyboard = (() => {
         //#region Getter / Setter
         //#region ctrl
         get ctrl() {
-            return _ctrl;
+            return internal(this).ctrl;
         }
         set ctrl(newValue) {
             //#region Variables déclaration
