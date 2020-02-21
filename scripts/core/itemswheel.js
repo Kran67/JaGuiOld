@@ -1,8 +1,8 @@
 ﻿//#region Imports
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
-//import { Point } from '/scripts/core/geometry.js';
+import { Point } from '/scripts/core/geometry.js';
 import { Type } from '/scripts/core/types.js';
-//import { NotifyEvent } from '/scripts/core/events.js';
+import { NotifyEvent } from '/scripts/core/events.js';
 //import { Animation } from '/scripts/core/animation.js';
 import { Interpolation } from '/scripts/core/interpolation.js';
 //#endregion Imports
@@ -28,9 +28,9 @@ const ItemsWheel = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 priv.content = null;
-                priv.lastDelta = new Core.classes.Point;
-                priv.downPos = new Core.classes.Point;
-                priv.currentPos = new Core.classes.Point;
+                priv.lastDelta = new Point;
+                priv.downPos = new Point;
+                priv.currentPos = new Point;
                 priv.down = false;
                 priv.scrollAni = null;
                 priv.sep = null;
@@ -43,148 +43,13 @@ const ItemsWheel = (() => {
                 this.addBindableProperties(['value']);
                 this.hitTest = true;
                 Core.classes.newCollection(this, this, Types.CONSTANTS.STRING);
-                this.onChange = new Core.classes.NotifyEvent(this);
+                this.onChange = new NotifyEvent(this);
                 this.canFocused = true;
                 delete this.tabOrder;
             }
         }
         //#endregion constructor
         //#region Getter / Setter
-        //#region content
-        //get content() {
-        //    return internal(this).content;
-        //}
-        //set content(newValue) {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    //#endregion Variables déclaration
-        //    if (newValue instanceof HTMLElement) {
-        //        if (priv.content !== newValue) {
-        //            priv.content = newValue;
-        //        }
-        //    }
-        //}
-        //#endregion content
-        //#region lastDelta
-        //get lastDelta() {
-        //    return internal(this).lastDelta;
-        //}
-        //set lastDelta(newValue) {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    //#endregion Variables déclaration
-        //    if (newValue instanceof Core.classes.Point) {
-        //        if (priv.lastDelta.equals(newValue)) {
-        //            priv.lastDelta.assign(newValue);
-        //        }
-        //    }
-        //}
-        //#endregion lastDelta
-        //#region downPos
-        //get downPos() {
-        //    return internal(this).downPos;
-        //}
-        //set downPos(newValue) {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    //#endregion Variables déclaration
-        //    if (newValue instanceof Core.classes.Point) {
-        //        if (priv.downPos.equals(newValue)) {
-        //            priv.downPos.assign(newValue);
-        //        }
-        //    }
-        //}
-        //#endregion downPos
-        //#region currentPos
-        //get currentPos() {
-        //    return internal(this).currentPos;
-        //}
-        //set currentPos(newValue) {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    //#endregion Variables déclaration
-        //    if (newValue instanceof Core.classes.Point) {
-        //        if (priv.currentPos.equals(newValue)) {
-        //            priv.currentPos.assign(newValue);
-        //        }
-        //    }
-        //}
-        //#endregion currentPos
-        //#region down
-        //get down() {
-        //    return internal(this).down;
-        //}
-        //set down(newValue) {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    //#endregion Variables déclaration
-        //    if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
-        //        if (priv.down !== newValue) {
-        //            priv.down = newValue;
-        //        }
-        //    }
-        //}
-        //#endregion down
-        //#region scrollAni
-        //get scrollAni() {
-        //    return internal(this).scrollAni;
-        //}
-        //set scrollAni(newValue) {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    //#endregion Variables déclaration
-        //    if (newValue instanceof Core.classes.FloatAnimation) {
-        //        if (priv.scrollAni !== newValue) {
-        //            priv.scrollAni = newValue;
-        //        }
-        //    }
-        //}
-        //#endregion scrollAni
-        //#region sep
-        //get sep() {
-        //    return internal(this).sep;
-        //}
-        //set sep(newValue) {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    //#endregion Variables déclaration
-        //    if (newValue instanceof HTMLElement) {
-        //        if (priv.sep !== newValue) {
-        //            priv.sep = newValue;
-        //        }
-        //    }
-        //}
-        //#endregion sep
-        //#region topGradient
-        //get topGradient() {
-        //    return internal(this).topGradient;
-        //}
-        //set topGradient(newValue) {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    //#endregion Variables déclaration
-        //    if (newValue instanceof HTMLElement) {
-        //        if (priv.topGradient !== newValue) {
-        //            priv.topGradient = newValue;
-        //        }
-        //    }
-        //}
-        //#endregion topGradient
-        //#region bottomGradient
-        //get bottomGradient() {
-        //    return internal(this).bottomGradient;
-        //}
-        //set bottomGradient(newValue) {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    //#endregion Variables déclaration
-        //    if (newValue instanceof HTMLElement) {
-        //        if (priv.bottomGradient !== newValue) {
-        //            priv.bottomGradient = newValue;
-        //        }
-        //    }
-        //}
-        //#endregion bottomGradient
         //#region value
         get value() {
             return internal(this).value;
@@ -221,7 +86,7 @@ const ItemsWheel = (() => {
                     priv.index = Math.intCeiling(newValue, 1);
                     if (priv.index !== -1) {
                         const offset = 15 * priv.index;
-                        priv.content.style.top = -offset + Types.CSSUNITS.PX;
+                        priv.content.style.top = `${-offset}${Types.CSSUNITS.PX}`;
                     }
                     priv.value = items[priv.index];
                 }
@@ -236,7 +101,7 @@ const ItemsWheel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (newValue !== priv.mouseTracking) {
                     priv.mouseTracking = newValue;
                 }
@@ -251,7 +116,7 @@ const ItemsWheel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (newValue !== priv.animated) {
                     priv.animated = newValue;
                 }
@@ -264,36 +129,19 @@ const ItemsWheel = (() => {
         recreateItems() {
             //#region Variables déclaration
             const content = priv.content;
+            const name = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}` ;
             //#endregion Variables déclaration
             if (content) {
                 content.innerHTML = String.EMPTY;
                 this.items.forEach(item => {
-                    const _item = document.createElement(Types.HTMLElements.DIV);
-                    _item.classList.add(`${this.constructor.nameItem} ItemsWheelItem`);
-                    //item.dataset.theme = this.form.getThemeName();
-                    const str = item;
-                    item.innerHTML = str;
+                    const _item = document.createElement(`${name}wheelitem`);
+                    _item.classList.add(this.constructor.nameItem, 'ItemsWheelItem');
+                    item.innerHTML = item;
                     this.content.appendChild(_item);
                 });
             }
         }
         //#endregion recreateItems
-        //#region getHTMLElement
-        getHTMLElement(id) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            super.getHTMLElement(id);
-            const htmlElement = this.HTMLElement;
-            if (htmlElement) {
-                priv.topGradient = htmlElement.firstElementChild;
-                priv.sep = htmlElement.querySelector('.ItemsWheelSep');
-                priv.content = htmlElement.querySelector('.ItemsWheelContent');
-                priv.content.jsObj = this;
-                priv.bottomGradient = htmlElement.lastElementChild;
-            }
-        }
-        //#endregion getHTMLElement
         //#region mouseWheel
         mouseWheel() {
             //#region Variables déclaration
@@ -332,7 +180,24 @@ const ItemsWheel = (() => {
         //#endregion scrollBy
         //#region loaded
         loaded() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const htmlElement = this.HTMLElement;
+            const name = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}` ;
+            //#endregion Variables déclaration
             super.loaded();
+            priv.topGradient = document.createElement(`${name}topgradient`);
+            priv.topGradient.classList.add('');
+            htmlElement.appendChild(priv.topGradient);
+            priv.sep = document.createElement(`${name}sep`);
+            priv.sep.classList.add('ItemsWheelSep');
+            htmlElement.appendChild(priv.sep);
+            priv.content = document.createElement(`${name}content`);
+            priv.content.classList.add('ItemsWheelContent');
+            priv.content.jsObj = this;
+            htmlElement.appendChild(priv.content);
+            priv.bottomGradient = document.createElement(`${name}bottomgradient`);
+            htmlElement.appendChild(priv.bottomGradient);
             this.recreateItems();
         }
         //#endregion loaded
