@@ -19,30 +19,30 @@ img.Control {
     user-select: none;
 }
 
-/*div*/.Control,
-span.Control,
-jagui-label.Control,
-img.Control,
-fieldset.Control,
-svg.Control,
-input.Control,
-.Control.Button,
-canvas.Control {
-    position: absolute;
-    overflow: hidden;
-    box-sizing: border-box;
-}
-
     .Control,
     span.Control,
     jagui-label.Control,
     img.Control,
+    fieldset.Control,
     svg.Control,
     input.Control,
     .Control.Button,
     canvas.Control {
-        padding: 0;
+        position: absolute;
+        overflow: hidden;
+        box-sizing: border-box;
     }
+
+        .Control,
+        span.Control,
+        jagui-label.Control,
+        img.Control,
+        svg.Control,
+        input.Control,
+        .Control.Button,
+        canvas.Control {
+            padding: 0;
+        }
 
 fieldset.Control {
     padding: 0.625em 0.75em 0.75em 0.75em;
@@ -187,17 +187,17 @@ div.TabControl.showTabsCloseBtn > div.TabsContainer label.Tab {
     justify-content: center;
 }
 
-    button.TabControlLeftBtn:before,
-    button.TabControlRightBtn:before {
-    }
+button.TabControlLeftBtn:before,
+button.TabControlRightBtn:before {
+}
 
-div.ItemsWheel {
+.Control.ItemsWheel {
     width: 20px;
     height: 40px;
     border-radius: 2px;
 }
 
-div.ItemsWheelTopGradient {
+.Control.ItemsWheelTopGradient {
     top: 0;
     left: 0;
     right: 0;
@@ -206,14 +206,14 @@ div.ItemsWheelTopGradient {
     background-image: linear-gradient(to bottom,rgba(0,0,0,0.9) 0,rgba(0,0,0,0) 100%);
 }
 
-div.ItemsWheelSep {
+.Control.ItemsWheelSep {
     top: 50%;
     left: 0;
     right: 0;
     height: 1px;
 }
 
-div.ItemsWheelContent {
+.Control.ItemsWheelContent {
     left: 0;
     right: 0;
     padding-top: 12px;
@@ -221,7 +221,7 @@ div.ItemsWheelContent {
     transition: top linear 0.1s;
 }
 
-div.ItemsWheelBottomGradient {
+.Control.ItemsWheelBottomGradient {
     bottom: 0;
     left: 0;
     right: 0;
@@ -230,7 +230,8 @@ div.ItemsWheelBottomGradient {
     background-image: linear-gradient(to top,rgba(0,0,0,0.9) 0,rgba(0,0,0,0) 100%);
 }
 
-div.ItemsWheelItem {
+.ItemsWheelItem {
+    display: block;
     left: 0;
     width: 100%;
     height: 15px;
@@ -249,7 +250,7 @@ div.ItemsWheelItem {
     max-height: 64px;
 }
 
-    /*.ShortCutIcon.inDesigner {
+/*.ShortCutIcon.inDesigner {
         display: block;
     }*/
 
@@ -297,7 +298,7 @@ div.scrollContent.scrollbars-none > div {
 
 div.scrollContent.scrollbars-none div.ScrollBar.orientation-horizontal,
 div.scrollContent.scrollbars-none div.ScrollBar.orientation-vertical {
-    visibility:hidden;
+    visibility: hidden;
 }
 
 div.scrollContent.scrollbars-vertical > div {
@@ -305,14 +306,14 @@ div.scrollContent.scrollbars-vertical > div {
     bottom: 0;
 }
 
-    div.scrollContent.scrollbars-vertical div.ScrollBar.orientation-vertical {
-        left: auto;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 16px;
-        height: auto;
-    }
+div.scrollContent.scrollbars-vertical div.ScrollBar.orientation-vertical {
+    left: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 16px;
+    height: auto;
+}
 
 div.scrollContent.scrollbars-vertical div.ScrollBar.orientation-horizontal {
     bottom: -20px;
@@ -327,8 +328,8 @@ div.scrollContent.scrollbars-horizontal > div {
 div.scrollContent.scrollbars-horizontal div.ScrollBar.orientation-horizontal {
     right: 0;
     width: auto;
-    bottom:0;
-    left:0;
+    bottom: 0;
+    left: 0;
 }
 
 div.scrollContent.scrollbars-horizontal div.ScrollBar.orientation-vertical {
@@ -344,8 +345,8 @@ div.scrollContent.scrollbars-both > div {
 }
 
 div.scrollContent.scrollbars-both div.ScrollBar.orientation-horizontal {
-    left:0;
-    bottom:0;
+    left: 0;
+    bottom: 0;
     right: 16px;
     width: auto;
 }
@@ -355,8 +356,8 @@ div.scrollContent.scrollbars-both div.ScrollBar.orientation-vertical {
     height: auto;
     right: 0;
     width: 16px;
-    left:auto;
-    top:0;
+    left: auto;
+    top: 0;
 }
 
 @supports ( -webkit-box-reflect: below 0px ) {

@@ -1,10 +1,10 @@
 ﻿//#region Imports
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Point } from '/scripts/core/geometry.js';
-import { Type } from '/scripts/core/types.js';
 import { NotifyEvent } from '/scripts/core/events.js';
+import { Mouse } from '/scripts/core/mouse.js';
 //import { Animation } from '/scripts/core/animation.js';
-import { Interpolation } from '/scripts/core/interpolation.js';
+//import { Interpolation } from '/scripts/core/interpolation.js';
 //#endregion Imports
 //#region ItemsWheel
 const ItemsWheel = (() => {
@@ -74,7 +74,7 @@ const ItemsWheel = (() => {
         }
         set index(newValue) {
             //#region Variables déclaration
-            const items = internal(this).items;
+            const items = this.items;
             const priv = internal(this);
             //#endregion Variables déclaration
             if (typeof newValue === Types.CONSTANTS.NUMBER) {
@@ -128,6 +128,7 @@ const ItemsWheel = (() => {
         //#region recreateItems
         recreateItems() {
             //#region Variables déclaration
+            const priv = internal(this);
             const content = priv.content;
             const name = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             //#endregion Variables déclaration
@@ -135,9 +136,9 @@ const ItemsWheel = (() => {
                 content.innerHTML = String.EMPTY;
                 this.items.forEach(item => {
                     const _item = document.createElement(`${name}wheelitem`);
-                    _item.classList.add(this.constructor.nameItem, 'ItemsWheelItem');
-                    item.innerHTML = item;
-                    this.content.appendChild(_item);
+                    _item.classList.add(`${this.constructor.name}Item`, 'ItemsWheelItem');
+                    _item.innerHTML = item;
+                    content.appendChild(_item);
                 });
             }
         }
@@ -157,21 +158,11 @@ const ItemsWheel = (() => {
             const priv = internal(this);
             const index = priv.index;
             //#endregion Variables déclaration
-            if (offset > 0) {
-                if (index + offset < 0 || index + offset > this.items.length - 1) {
-                    offset = 0;
-                    return;
-                }
-                if (offset === 0) {
-                    return;
-                }
-                //if (offset < 0) {
-                //    topOffset = 15 * offset;
-                //} else {
-                //    topOffset = 15 * offset;
-                //}
-                this.index += index + offset;
+            if (index + offset < 0 || index + offset > this.items.length - 1) {
+                offset = 0;
             }
+            if (offset === 0) return;
+            this.index = index + offset;
         }
         //#endregion scrollBy
         //#region loaded
@@ -183,16 +174,17 @@ const ItemsWheel = (() => {
             //#endregion Variables déclaration
             super.loaded();
             priv.topGradient = document.createElement(`${name}topgradient`);
-            priv.topGradient.classList.add('');
+            priv.topGradient.classList.add('Control', 'ItemsWheelTopGradient');
             htmlElement.appendChild(priv.topGradient);
             priv.sep = document.createElement(`${name}sep`);
-            priv.sep.classList.add('ItemsWheelSep');
+            priv.sep.classList.add('Control', 'ItemsWheelSep', this.themeName);
             htmlElement.appendChild(priv.sep);
             priv.content = document.createElement(`${name}content`);
-            priv.content.classList.add('ItemsWheelContent');
+            priv.content.classList.add('Control', 'ItemsWheelContent', this.themeName);
             priv.content.jsObj = this;
             htmlElement.appendChild(priv.content);
             priv.bottomGradient = document.createElement(`${name}bottomgradient`);
+            priv.bottomGradient.classList.add('Control', 'ItemsWheelBottomGradient');
             htmlElement.appendChild(priv.bottomGradient);
             this.recreateItems();
         }
@@ -204,14 +196,14 @@ const ItemsWheel = (() => {
             //const scrollAni = this.scrollAni;
             //#endregion Variables déclaration
             super.mouseDown();
-            if (Core.mouse.button === Mouse.mouseButtons.LEFT && priv.mouseTracking) {
+            if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && priv.mouseTracking) {
                 priv.lastDelta.setValues(0, 0);
                 priv.downPos.assign(Core.mouse.screen);
                 priv.currentPos.assign(Core.mouse.screen);
                 priv.down = true;
                 //if (scrollAni && scrollAni.running) {
                 //    scrollAni.stopAtCurrent();
-                //    this.index = Math.intCeiling(this.index, 1);
+                    this.index = Math.intCeiling(priv.index, 1);
                 //}
             }
         }
@@ -223,9 +215,9 @@ const ItemsWheel = (() => {
             const offset = Core.mouse.screen.y - priv.currentPos.y;
             //#endregion Variables déclaration
             super.mouseMove();
-            if (this.down && this.mouseTracking) {
+            if (priv.down && priv.mouseTracking) {
                 priv.lastDelta.y = Core.mouse.screen.y - priv.downPos.y;
-                if (Core.abs(priv.lastDelta.y) < 10 && Math.abs(priv.lastDelta.y) > 3) {
+                if (Math.abs(priv.lastDelta.y) < 10 && Math.abs(priv.lastDelta.y) > 3) {
                     this.scrollBy(offset > 0 ? -1 : 1);
                     priv.downPos.y = Core.mouse.screen.y;
                 }
@@ -317,18 +309,7 @@ const ItemsWheel = (() => {
             }
         }
         //#endregion keyDown
-        //#region getTemplate
-        getTemplate() {
-            //#region Variables déclaration
-            let html = super.getTemplate();
-            const a = html.split('{name}');
-            //#endregion Variables déclaration
-            html = a.join(this.name);
-            return html;
-        }
-        //#endregion getTemplate
-        //#endregion
-
+        //#endregion Methods
     }
     return ItemsWheel;
     //#endregion ItemsWheel
