@@ -216,7 +216,9 @@ const SpinBox = (() => {
             priv.btnMinus.caption = String.EMPTY;
             priv.btnPlus.caption = String.EMPTY;
             priv.btnMinus.HTMLElement.classList.add('SpinBoxMinusBtn');
+            priv.btnMinus.HTMLElement.classList.remove('TextBoxBtnButton');
             priv.btnPlus.HTMLElement.classList.add('SpinBoxPlusBtn');
+            priv.btnPlus.HTMLElement.classList.remove('TextBoxBtnButton');
             priv.btnMinus.onMouseDown.addListener(this.decValue);
             priv.btnPlus.onMouseDown.addListener(this.incValue);
         }

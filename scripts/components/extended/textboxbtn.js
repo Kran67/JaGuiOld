@@ -25,7 +25,7 @@ Core.classes.register(Types.CATEGORIES.EXTENDED, TextBoxBtn);
 if (Core.isHTMLRenderer) {
     var TextBoxBtnTpl = ['<jagui-textboxbtn id="{internalId}" data-class="TextBoxBtn" class="Control TextBox',
         ' TextBoxBtn {theme}"><properties>{ "name": "{name}", "left": 1120, "top": 370, "width": 121, "height": 21 }',
-        '</properties></jagui-textboxbtn>'].join(StringEMPTY);
+        '</properties></jagui-textboxbtn>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: TextBoxBtn, template: TextBoxBtnTpl }]);
 }
 //#endregion Templates

@@ -98,6 +98,7 @@ const MaskedTextBox = (() => {
                     }
                 }
                 this.checkVal();
+                this.inputObj.placeholder = priv.mask;
             }
         }
         //#endregion makeMask
