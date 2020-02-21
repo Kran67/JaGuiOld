@@ -88,7 +88,7 @@ import '/scripts/components/containers/gridlayout.js';
 import '/scripts/components/toolbars/splittoolbutton.js';
 //import { actnList } from '/scripts/components/actions/actnList.js';
 //import { stdActns } from '/scripts/components/actions/stdActns.js';
-//import { textBoxBtn } from '/scripts/components/extended/textBoxBtn.js';
+import '/scripts/components/extended/textboxbtn.js';
 //import { clock } from '/scripts/components/common/clock.js';
 //import { propertyGrid } from '/scripts/components/extras/propertyGrid.js';
 import '/scripts/components/extended/radiogroup.js';

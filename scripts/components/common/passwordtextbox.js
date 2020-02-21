@@ -1,6 +1,5 @@
 ﻿//#region Import
 import { CustomTextBoxBtn } from '/scripts/core/customtextboxbtn.js';
-import { Button } from '/scripts/components/common/button.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
@@ -25,6 +24,7 @@ const PasswordTextBox = (() => {
             props = !props ? {} : props;
             if (owner) {
                 props.type = HTMLInputTypes.PASSWORD;
+                props.autoHideButtons = true;
                 super(owner, props);
                 if (!Core.isHTMLRenderer) {
                     this.width = 121;

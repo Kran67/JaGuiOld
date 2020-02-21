@@ -1,8 +1,6 @@
 ﻿//#region Import
 import { CustomTextBoxBtn } from '/scripts/core/customtextboxbtn.js';
-//import { Window } from '/scripts/components/containers/window.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
-import { Convert } from '/scripts/core/convert.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region SPINBOXTYPES

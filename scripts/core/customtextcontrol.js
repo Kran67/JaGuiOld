@@ -288,6 +288,7 @@ const CustomTextControl = (function () {
         //#endregion _horizAlign
         //#endregion Getters / Setters
         //#region Methods
+        //#region loaded
         loaded() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -306,6 +307,8 @@ const CustomTextControl = (function () {
             this.app.getLocalText(this);
             this.update();
         }
+        //#endregion loaded
+        //#region update
         update() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -326,6 +329,8 @@ const CustomTextControl = (function () {
                 }
             }
         }
+        //#endregion update
+        //#region textChanged
         textChanged() {
             //#region Variables déclaration
             const jsObj = this.jsObj;
@@ -335,6 +340,8 @@ const CustomTextControl = (function () {
                 jsObj.onChange.invoke();
             }
         }
+        //#endregion textChanged
+        //#region keyPress
         keyPress() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -349,6 +356,8 @@ const CustomTextControl = (function () {
             super.keyPress();
             this.onChange.invoke();
         }
+        //#endregion keyPress
+        //#region keyUp
         keyUp() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -357,6 +366,8 @@ const CustomTextControl = (function () {
             super.keyUp();
             this.onChange.invoke();
         }
+        //#endregion keyUp
+        //#region HTMLFocus
         HTMLFocus() {
             //#region Variables déclaration
             const jsObj = this.jsObj;
@@ -365,6 +376,8 @@ const CustomTextControl = (function () {
                 jsObj.enterFocus();
             }
         }
+        //#ndregion HTMLFocus
+        //#region HTMLBlur
         HTMLBlur() {
             //#region Variables déclaration
             const jsObj = this.jsObj;
@@ -377,6 +390,8 @@ const CustomTextControl = (function () {
                 }
             }
         }
+        //#endregion HTMLBlur
+        //#region setFocus
         setFocus() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -390,17 +405,23 @@ const CustomTextControl = (function () {
                 }
             }
         }
+        //#endregion setFocus
+        //#region selectAll
         selectAll() {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.inputObj.setSelectionRange(0, priv.inputObj.value.length);
         }
+        //#endregion selectAll
+        //#region destroy
         destroy() {
             this.unbindEventToHTMLInput();
             this.onChange.destroy();
             super.destroy();
         }
+        //#endregion destroy
+        //#region bindEventToHTMLInput
         bindEventToHTMLInput() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -415,6 +436,8 @@ const CustomTextControl = (function () {
             Events.bind(inputObj, KEYBORDEVENTS.UP, this.dispatchEvent);
             Events.bind(inputObj, KEYBORDEVENTS.PRESS, this.dispatchEvent);
         }
+        //#endregion bindEventToHTMLInput
+        //#region unbindEventToHTMLInput
         unbindEventToHTMLInput() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -429,7 +452,8 @@ const CustomTextControl = (function () {
             Events.unBind(inputObj, KEYBORDEVENTS.UP, this.dispatchEvent);
             Events.unBind(inputObj, KEYBORDEVENTS.PRESS, this.dispatchEvent);
         }
-        //#endregion
+        //#endregion unbindEventToHTMLInput
+        //#endregion Methods
     }
     return CustomTextControl;
     //#endregion Class CustomTextControl

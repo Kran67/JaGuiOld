@@ -21,10 +21,9 @@ const TextBoxClearBtn = (() => {
     class TextBoxClearBtn extends CustomTextBoxBtn {
         //#region constructor
         constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
+                props.autoHideButtons = true;
                 super(owner, props);
             }
         }
@@ -60,7 +59,6 @@ const TextBoxClearBtn = (() => {
                     owner.inputObj.value = owner.text = String.EMPTY;
                 }
             }
-            owner.HTMLElement.dataset.length = owner.inputObj.value.length;
             owner.update();
             owner.inputObj.focus();
         }

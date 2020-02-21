@@ -1,6 +1,7 @@
 ﻿//#region Import
 import { CustomTextControl } from "/scripts/core/customtextcontrol.js";
 import { Button } from "/scripts/components/common/button.js";
+import { Tools } from "/scripts/core/tools.js";
 //#endregion Import
 //#region CustomTextBoxBtn
 const CustomTextBoxBtn = (() => {
@@ -23,11 +24,12 @@ const CustomTextBoxBtn = (() => {
             if (!props.btns) props.btns = 1;
             if (owner) {
                 super(owner, props);
-                const priv =  internal(this);
+                const priv = internal(this);
                 priv.btnClass = null;
                 priv.btns = [];
                 priv.btnClass = props.btnClass ? props.btnClass : Button;
-                priv.numBtns = props.hasOwnProperty('numBtns')?props.numBtns:1;
+                priv.numBtns = props.hasOwnProperty('numBtns') ? props.numBtns : 1;
+                priv.autoHideButtons = props.hasOwnProperty('autoHideButtons') && Tools.isBool(props.autoHideButtons) ? props.autoHideButtons : false;
             }
         }
         //#endregion constructor
@@ -58,7 +60,6 @@ const CustomTextBoxBtn = (() => {
         loaded() {
             //#region Variables déclaration
             const priv = internal(this);
-            //const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
             //#endregion Variables déclaration
             super.loaded();
             for (let i = 0; i < priv.numBtns; i++) {
@@ -67,7 +68,8 @@ const CustomTextBoxBtn = (() => {
                     owner: this,
                     props: {
                         inForm: false,
-                        caption: '…'
+                        caption: '…',
+                        visible: !priv.autoHideButtons
                     },
                     withTpl: true
                 });
@@ -82,8 +84,8 @@ const CustomTextBoxBtn = (() => {
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
-            //#endregion Variables déclaration
             const btns = priv.btns;
+            //#endregion Variables déclaration
             btns.forEach(btn => {
                 btn.destroy();
             });
@@ -91,6 +93,27 @@ const CustomTextBoxBtn = (() => {
             super.destroy();
         }
         //#endregion destroy
+        //#region keyUp
+        keyUp() {
+            super.keyUp();
+            this.update();
+        }
+        //#endregion keyUp
+        //#region update
+        update() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const visible = priv.autoHideButtons && this.text.length > 0;
+            const btns = priv.btns;
+            //#endregion Variables déclaration
+            super.update();
+            if (priv.autoHideButtons) {
+                btns.forEach(btn => {
+                    btn.visible = visible;
+                });
+            }
+        }
+        //#endregion update
         //#endregion Methods
     }
     return CustomTextBoxBtn;

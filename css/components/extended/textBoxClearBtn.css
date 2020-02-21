@@ -2,7 +2,3 @@
     width: 20px;
     position: relative;
 }
-
-.Control.TextBoxClearBtn[data-length="0"] .Control.TextBoxClearBtnButton {
-    display: none;
-}

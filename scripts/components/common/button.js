@@ -161,7 +161,6 @@ const CustomButton = (() => {
             }
         }
         //#endregion repeatClick
-
         //#endregion Getters / Setters
         //#region Methods
         //#region update

@@ -1066,7 +1066,6 @@ const Control = (() => {
         set visible(newValue) {
             //#region Variables déclaration
             const htmlElement = this.HTMLElement;
-            const owner = this.owner;
             const priv = internal(this);
             //#endregion Variables déclaration
             if (Tools.isBool(newValue)) {
@@ -2676,6 +2675,7 @@ const Control = (() => {
             if (owner.tab) {
                 this.tab = owner.tab;
             }
+            !this.visible?this.HTMLElement.classList.add('hidden'):null;
         }
         //#endregion loaded
         //#region resized

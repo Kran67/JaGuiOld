@@ -129,7 +129,7 @@ const ItemsWheel = (() => {
         recreateItems() {
             //#region Variables déclaration
             const content = priv.content;
-            const name = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}` ;
+            const name = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             //#endregion Variables déclaration
             if (content) {
                 content.innerHTML = String.EMPTY;
@@ -146,36 +146,32 @@ const ItemsWheel = (() => {
         mouseWheel() {
             //#region Variables déclaration
             const d = Core.mouse.wheelDelta;
-            let offsetValue = 0;
             //#endregion Variables déclaration
             super.mouseWheel();
-            if (d < 0) {
-                offsetValue = 1;
-            } else {
-                offsetValue = -1;
-            }
-            this.scrollBy(offsetValue);
+            this.scrollBy(d < 0 ? 1 : -1);
         }
         //#endregion mouseWheel
         //#region scrollBy
         scrollBy(offset) {
             //#region Variables déclaration
             const priv = internal(this);
-            let topOffset = 0;
             const index = priv.index;
             //#endregion Variables déclaration
-            if (index + offset < 0 || index + offset > this.items.length - 1) {
-                offset = 0;
+            if (offset > 0) {
+                if (index + offset < 0 || index + offset > this.items.length - 1) {
+                    offset = 0;
+                    return;
+                }
+                if (offset === 0) {
+                    return;
+                }
+                //if (offset < 0) {
+                //    topOffset = 15 * offset;
+                //} else {
+                //    topOffset = 15 * offset;
+                //}
+                this.index += index + offset;
             }
-            if (offset === 0) {
-                return;
-            }
-            if (offset < 0) {
-                topOffset = 15 * offset;
-            } else {
-                topOffset = 15 * offset;
-            }
-            this.index += index + offset;
         }
         //#endregion scrollBy
         //#region loaded
@@ -183,7 +179,7 @@ const ItemsWheel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            const name = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}` ;
+            const name = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             //#endregion Variables déclaration
             super.loaded();
             priv.topGradient = document.createElement(`${name}topgradient`);
