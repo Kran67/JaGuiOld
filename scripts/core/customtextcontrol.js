@@ -122,12 +122,10 @@ const CustomTextControl = (function () {
             if (Tools.isString(newValue)) {
                 if (priv.text !== newValue) {
                     priv.text = newValue;
-                    priv.inputObj.value = priv.text;
-                    if ((this.loading || this.form.loading)) {
-                        return;
-                    }
-                    if (Core.isHTMLRenderer) {
-                        this.update();
+                    if (!this.loading && !this.form.loading) {
+                        if (Core.isHTMLRenderer) {
+                            this.update();
+                        }
                     }
                 }
             }

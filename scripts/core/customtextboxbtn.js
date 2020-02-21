@@ -26,9 +26,8 @@ const CustomTextBoxBtn = (() => {
                 const priv =  internal(this);
                 priv.btnClass = null;
                 priv.btns = [];
-                //#region Private
                 priv.btnClass = props.btnClass ? props.btnClass : Button;
-                //#endregion
+                priv.numBtns = props.hasOwnProperty('numBtns')?props.numBtns:1;
             }
         }
         //#endregion constructor
@@ -59,10 +58,10 @@ const CustomTextBoxBtn = (() => {
         loaded() {
             //#region Variables déclaration
             const priv = internal(this);
-            const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
+            //const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
             //#endregion Variables déclaration
             super.loaded();
-            for (let i = 0; i < props.btns; i++) {
+            for (let i = 0; i < priv.numBtns; i++) {
                 const btn = Core.classes.createComponent({
                     class: priv.btnClass,
                     owner: this,
@@ -70,7 +69,7 @@ const CustomTextBoxBtn = (() => {
                         inForm: false,
                         caption: '…'
                     },
-                    withTpl: false
+                    withTpl: true
                 });
                 btn.HTMLElement.classList.add('TextBoxBtnButton');
                 btn.name = `btn${i}`;

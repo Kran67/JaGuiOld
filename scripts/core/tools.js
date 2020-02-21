@@ -3,7 +3,9 @@ class Tools {
     //#region Methods
     //#region isNumber
     static isNumber(value) {
-        return typeof value === Types.CONSTANTS.NUMBER;
+        const reg = /^-?\d+\.?\d*$/;
+        const regEx = new RegExp(reg);
+        return typeof value === Types.CONSTANTS.NUMBER || regEx.test(value);
     }
     //#endregion isNumber
     //#region isString

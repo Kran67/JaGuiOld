@@ -130,6 +130,38 @@ const CustomButton = (() => {
             }
         }
         //#endregion borderRadius
+        //#region repeatClick
+        get repeatClick() {
+            return internal(this).repeatClick;
+        }
+        set repeatClick(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
+                if (priv.repeatClick !== newValue) {
+                    priv.repeatClick = newValue;
+                }
+            }
+        }
+        //#endregion repeatClick
+        //#region staysPressed
+        get staysPressed() {
+            return internal(this).staysPressed;
+        }
+        set staysPressed(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Tools.isBool(newValue)) {
+                if (priv.staysPressed !== newValue) {
+                    priv.staysPressed = newValue;
+                    this.update();
+                }
+            }
+        }
+        //#endregion repeatClick
+
         //#endregion Getters / Setters
         //#region Methods
         //#region update

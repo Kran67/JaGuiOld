@@ -26,7 +26,6 @@ const TextBoxClearBtn = (() => {
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
-                const priv = internal(this);
             }
         }
         //#endregion constructor
@@ -73,19 +72,9 @@ const TextBoxClearBtn = (() => {
             let button;
             //#endregion Variables déclaration
             super.loaded();
-            this.btns.push(
-                Core.classes.createComponent({
-                    class: Button,
-                    owner: this,
-                    props: {
-                        inForm: false,
-                        caption: 'C',
-                        fontFamily: 'JaGui'
-                    },
-                    withTpl: true
-                })
-            );
             button = this.btns.first;
+            button.caption = 'C';
+            button.fontFamily = 'JaGui';
             button.canFocused = false;
             btnHtmlElment = button.HTMLElement;
             btnHtmlElment.classList.add('TextBoxClearBtnButton');

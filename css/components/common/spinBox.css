@@ -1,17 +1,17 @@
-﻿div.SpinBox {
+﻿.Control.SpinBox {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
 }
 
-input.SpinBoxInput {
+.Control.SpinBoxInput {
     flex: 1;
     text-align: center;
     position: static;
     order: 2;
 }
 
-button.SpinBoxMinusBtn {
+.Control.SpinBoxMinusBtn {
     position: relative;
     order: 1;
     width: 16px;
@@ -20,12 +20,12 @@ button.SpinBoxMinusBtn {
     margin: 1px 0 1px 1px;
 }
 
-button.SpinBoxMinusBtn:before,
-button.SpinBoxPlusBtn:before {
+.Control.SpinBoxMinusBtn:before,
+.Control.SpinBoxPlusBtn:before {
     content: "";
 }
 
-button.SpinBoxPlusBtn {
+.Control.SpinBoxPlusBtn {
     position: relative;
     order: 3;
     width: 16px;
@@ -34,12 +34,12 @@ button.SpinBoxPlusBtn {
     margin: 1px 1px 1px 0;
 }
 
-div.SpinBox button.SpinBoxMinusBtn {
+.Control.SpinBoxMinusBtn {
     order: 1;
     width: 16px !important;
 }
 
-div.SpinBox button.SpinBoxPlusBtn {
+.Control.SpinBoxPlusBtn {
     order: 3;
     width: 16px !important;
 }

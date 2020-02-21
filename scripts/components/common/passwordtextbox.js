@@ -26,7 +26,6 @@ const PasswordTextBox = (() => {
             if (owner) {
                 props.type = HTMLInputTypes.PASSWORD;
                 super(owner, props);
-                const priv = internal(this);
                 if (!Core.isHTMLRenderer) {
                     this.width = 121;
                     this.height = 21;
@@ -89,19 +88,9 @@ const PasswordTextBox = (() => {
             let button;
             //#endregion Variables déclaration
             super.loaded();
-            this.btns.push(
-                Core.classes.createComponent({
-                    class: Button,
-                    owner: this,
-                    props: {
-                        inForm: false,
-                        caption: '0',
-                        fontFamily: 'JaGui'
-                    },
-                    withTpl: true
-                })
-            );
             button = this.btns.first;
+            button.caption = '0';
+            button.fontFamily = 'JaGui';
             button.canFocused = false;
             btnHtmlElment = button.HTMLElement;
             btnHtmlElment.classList.add('PasswordTextBoxButton');

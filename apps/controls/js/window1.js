@@ -48,7 +48,7 @@ import '/scripts/components/common/textbox.js';
 import '/scripts/components/common/passwordtextbox.js';
 import '/scripts/components/extended/roundtextbox.js';
 import '/scripts/components/extended/textboxclearbtn.js';
-//import { spinBox } from '/scripts/components/common/spinBox.js';
+import '/scripts/components/common/spinbox.js';
 import '/scripts/components/common/memo.js';
 //import { maskedTextBox } from '/scripts/components/extended/maskedTextBox.js';
 import '/scripts/components/extended/iphonebutton.js';
