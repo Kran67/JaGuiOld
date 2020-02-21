@@ -57,7 +57,7 @@ import '/scripts/components/common/calendar.js';
 //import { dropDownListBox } from '/scripts/components/common/dropDownListBox.js';
 import '/scripts/components/extended/labeledanglebar.js';
 import '/scripts/components/extended/labeledcolorbutton.js';
-//import { labeledTextBox } from '/scripts/components/extended/labeledTextBox.js';
+import '/scripts/components/extended/labeledtextbox.js';
 import '/scripts/components/extended/labeledslider.js';
 import '/scripts/components/extended/labeledmemo.js';
 //import { dropDownColors } from '/scripts/components/color/dropDownColors.js';
