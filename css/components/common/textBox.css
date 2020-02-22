@@ -12,7 +12,7 @@ input.TextBoxInput {
     border: none;
     background-color: transparent;
     white-space: nowrap;
-    flex: 1;
+    width: 100%;
     display: flex;
     align-items: center;
     position: static;

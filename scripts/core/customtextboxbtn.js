@@ -69,7 +69,8 @@ const CustomTextBoxBtn = (() => {
                     props: {
                         inForm: false,
                         caption: '…',
-                        visible: !priv.autoHideButtons
+                        forceDisplayVisibility: true,
+                        height: -1
                     },
                     withTpl: true
                 });
@@ -78,6 +79,7 @@ const CustomTextBoxBtn = (() => {
                 btn.canFocused = false;
                 priv.btns.add(btn);
             }
+            this.update();
         }
         //#endregion loaded
         //#region destroy

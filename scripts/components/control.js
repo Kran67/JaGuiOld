@@ -653,7 +653,7 @@ const Control = (() => {
             if (!Core.isHTMLRenderer) {
                 return priv.width;
             } else {
-                priv.width = priv.width !== this.HTMLElement.offsetWidth?this.HTMLElement.offsetWidth:priv.width;
+                priv.width = priv.width !== this.HTMLElement.offsetWidth && priv.width>0?this.HTMLElement.offsetWidth:priv.width;
                 return priv.width;
             }
         }
@@ -670,7 +670,7 @@ const Control = (() => {
                     } else if (!this.loading) {
                         this.propertyChanged(Types.BINDABLEPROPERTIES.WIDTH);
                         if (newValue < 0) {
-                            htmlElementStyle.width = String.EMPTY;
+                            htmlElementStyle.width = 'auto';
                         } else {
                             htmlElementStyle.width = `${newValue}${Types.CSSUNITS.PX}`;
                         }
@@ -705,7 +705,7 @@ const Control = (() => {
             if (!Core.isHTMLRenderer) {
                 return priv.height;
             } else {
-                priv.height = priv.height !== this.HTMLElement.offsetHeight?this.HTMLElement.offsetHeight:priv.height;
+                priv.height = priv.height !== this.HTMLElement.offsetHeight && priv.height>0?this.HTMLElement.offsetHeight:priv.height;
                 return priv.height;
             }
         }
@@ -722,7 +722,7 @@ const Control = (() => {
                     } else if (!this.loading) {
                         this.propertyChanged(Types.BINDABLEPROPERTIES.HEIGHT);
                         if (newValue < 0) {
-                            htmlElementStyle.height = String.EMPTY;
+                            htmlElementStyle.height = 'auto';
                         } else {
                             htmlElementStyle.height = `${newValue}${Types.CSSUNITS.PX}`;
                         }
