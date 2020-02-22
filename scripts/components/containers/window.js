@@ -466,7 +466,7 @@ const WindowTitleBar = (() => {
                     }
                     switch (dataClass) {
                         case 'WindowTitle':
-                            priv.title = Core.isHTMLRenderer?node:properties.caption;
+                            priv.title = Core.isHTMLRenderer ? node : properties.caption;
                             /*title.mouseDown = function () {
                                 this.owner.mouseDown();
                             };
@@ -645,7 +645,7 @@ const BaseWindow = (() => {
                 priv.activeControl = null;
                 priv.canClose = true;
                 priv.moveable = true;
-                priv.stayOn = props.hasOwnProperty('stayOn')? props.stayOn : false;
+                priv.stayOn = props.hasOwnProperty('stayOn') ? props.stayOn : false;
                 priv.enabledShadow = props.hasOwnProperty('enabledShadow') ? props.enabledShadow : true;
                 //priv.minimizeAnimation = new RectAnimation(this, { inForm: false });
                 priv.position = props.hasOwnProperty('position') ? props.position : FORMPOSITIONS.DEFAULT;
@@ -661,7 +661,7 @@ const BaseWindow = (() => {
                     component: this,
                     propName: 'windowState',
                     enum: WINDOWSTATES,
-                    setter: function(newValue) {
+                    setter: function (newValue) {
                         //#region Variables déclaration
                         const priv = internal(this);
                         const WINDOWSTATES = Window.WINDOWSTATES;
@@ -709,7 +709,7 @@ const BaseWindow = (() => {
                     component: this,
                     propName: 'borderStyle',
                     enum: BORDERSTYLES,
-                    setter: function(newValue) {
+                    setter: function (newValue) {
                         //#region Variables déclaration
                         const priv = internal(this);
                         const htmlElement = this.HTMLElement;
@@ -851,9 +851,6 @@ const BaseWindow = (() => {
             }
             if (focusedControl !== newValue) {
                 focusedControl = priv.focusedControl = newValue;
-                if (newValue) {
-                    focusedControl.setFocus();
-                }
             }
         }
         //#endregion focusedControl
@@ -1159,7 +1156,7 @@ const BaseWindow = (() => {
         set caption(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
-            let title = Core.isHTMLRenderer?priv.titleBar.title.innerText:priv.titleBar.title;
+            let title = Core.isHTMLRenderer ? priv.titleBar.title.innerText : priv.titleBar.title;
             //#endregion Variables déclaration
             if (Tools.isString(newValue)) {
                 if (title !== newValue) {
@@ -1437,10 +1434,10 @@ const BaseWindow = (() => {
                 if (!button.visible) {
                     invisbleBtns++;
                 }
-                button.width = data.width?data.width:btns.width;
-                button.height = data.height?data.height:btns.height;
-                button.left = data.left?data.left:btns.left;
-                button.right = data.right?data.right:btns.right;
+                button.width = data.width ? data.width : btns.width;
+                button.height = data.height ? data.height : btns.height;
+                button.left = data.left ? data.left : btns.left;
+                button.right = data.right ? data.right : btns.right;
                 if (i > 0) {
                     if (data.left === null) {
                         button.right += (i - invisbleBtns) * offset;
@@ -1448,7 +1445,7 @@ const BaseWindow = (() => {
                         button.left += (i - invisbleBtns) * offset;
                     }
                 }
-                button.top = data.top?data.top:btns.top;
+                button.top = data.top ? data.top : btns.top;
             });
             if (this.isBorderDialog) {
                 buttons.forEach((btn, i) => {
@@ -1479,7 +1476,7 @@ const BaseWindow = (() => {
             const form = this.form;
             const onCloseQuery = form.onCloseQuery;
             //#endregion Variables déclaration
-            onCloseQuery.hasListener?onCloseQuery.invoke():form._close();
+            onCloseQuery.hasListener ? onCloseQuery.invoke() : form._close();
         }
         //#endregion close
         //#region _close
@@ -1989,7 +1986,7 @@ const BaseWindow = (() => {
             this.visible = true;
             this.setActive();
             if (priv.animated && Core.isHTMLRenderer) {
-                htmlElement.classList.add('animated','bounceIn');
+                htmlElement.classList.add('animated', 'bounceIn');
                 Events.bind(htmlElement, Events.whichAnimationEvent(), this.anitmationEndOnShow);
                 const defaultBtn = htmlElement.querySelector('.isDefault');
                 if (defaultBtn && !priv.focusedControl) {
@@ -2002,7 +1999,7 @@ const BaseWindow = (() => {
         anitmationEndOnShow() {
             Events.unBind(this, Events.whichAnimationEvent(), this.jsObj.anitmationEndOnShow);
             setTimeout(() => {
-                Core.apps.activeApplication.activeWindow.HTMLElement.classList.remove('bounceIn','hidden');
+                Core.apps.activeApplication.activeWindow.HTMLElement.classList.remove('bounceIn', 'hidden');
             }, 0);
         }
         //#endregion anitmationEndOnShow
@@ -2013,7 +2010,7 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             if (Core.isHTMLRenderer) {
                 Events.unBind(this, Events.whichAnimationEvent(), jsObj.anitmationEndOnHide);
-                this.classList.remove('bounceOut','animated','inactive');
+                this.classList.remove('bounceOut', 'animated', 'inactive');
             }
             jsObj.visible = false;
             //this.dataset.isactive = false;
@@ -2385,9 +2382,9 @@ const BaseWindow = (() => {
             const htmlElementStyle = this.HTMLElementStyle;
             const isHtmlRenderer = Core.isHTMLRenderer;
             const themeName = this.app.themeName;
-            const windowTheme = Core.themes && Core.themes[themeName]?Core.themes[themeName].Window:null;
-            const minWidth = windowTheme && windowTheme.minWidth?windowTheme.minWidth:Window.MINWIDTH;
-            const minHeight = windowTheme && windowTheme.minHeight?windowTheme.minHeight:Window.MINHEIGHT;
+            const windowTheme = Core.themes && Core.themes[themeName] ? Core.themes[themeName].Window : null;
+            const minWidth = windowTheme && windowTheme.minWidth ? windowTheme.minWidth : Window.MINWIDTH;
+            const minHeight = windowTheme && windowTheme.minHeight ? windowTheme.minHeight : Window.MINHEIGHT;
             //#endregion Variables déclaration
             if (priv.isResizing) {
                 const b = (isHtmlRenderer ? htmlElement : this).getBoundingClientRect();
@@ -2500,7 +2497,7 @@ const BaseWindow = (() => {
                         props = node.properties;
                     }
                     if ((classes[dataClass] === WindowTitleBar) ||
-                        (classes[dataClass] === WindowContent) || 
+                        (classes[dataClass] === WindowContent) ||
                         (classes[dataClass] === Core.classes.StatusBar) ||
                         (classes[dataClass] === Core.classes.ToolBar)) {
                         props.inForm = false;
@@ -3356,19 +3353,19 @@ const WindowTitleBarTpl = ['<jagui-windowtitlebar id="{internalId_TitleBar}" dat
     '<jagui-windowtitle id="{internalId_Title}" data-class="CaptionControl" class="Control CaptionControl WindowTitle logo WindowIcon {theme}">',
     '{title}</jagui-windowtitle><jagui-windowclosebutton id="{internalId_CloseButton}" data-class="WindowCloseButton ',
     'class="Control WindowTitleButton WindowCloseButton {theme}"></jagui-windowclosebutton><jagui-windowmaxrestorebutton ',
-    'id="{internalId_MaxRestoreButton}" data-class="WindowMaxRestoreButton" class="Control WindowTitleButton WindowMaxRestoreButton {theme}', 
+    'id="{internalId_MaxRestoreButton}" data-class="WindowMaxRestoreButton" class="Control WindowTitleButton WindowMaxRestoreButton {theme}',
     ' data-isrestore="false"></jagui-windowmaxrestorebutton><jagui-windowminimizebutton id="{internalId_MinimizeButton}" ',
     'data-class="WindowMinimizeButton" class="Control WindowTitleButton WindowMinimizeButton {theme}"></jagui-windowminimizebutton>',
-    '<jagui-windowhelpbutton id="{internalId_HelpButton}" data-class="WindowHelpButton" class="Control WindowTitleButton WindowHelpButton hidden {theme}"', 
-    '></jagui-windowhelpbutton><jagui-windowrollupdownbutton id="{internalId_RollUpDownButton}" data-class="WindowRollUpDownButton"', 
+    '<jagui-windowhelpbutton id="{internalId_HelpButton}" data-class="WindowHelpButton" class="Control WindowTitleButton WindowHelpButton hidden {theme}"',
+    '></jagui-windowhelpbutton><jagui-windowrollupdownbutton id="{internalId_RollUpDownButton}" data-class="WindowRollUpDownButton"',
     ' class="Control WindowTitleButton WindowRollUpDownButton hidden {theme}" data-isup="true"></jagui-windowrollupdownbutton>',
     '<jagui-windowstayonoffbutton id="{internalId_StayOnOffButton}" data-class="WindowStayOnOffButton" ',
-    'class="Control WindowTitleButton WindowStayOnOffButton hidden {theme}" data-ison="true"></jagui-windowstayonoffbutton>', 
+    'class="Control WindowTitleButton WindowStayOnOffButton hidden {theme}" data-ison="true"></jagui-windowstayonoffbutton>',
     '</jagui-windowtitlebar>'].join(String.EMPTY);
 const WindowTpl = ['<jagui-window id="{internalId}" data-name="{name}" data-class="Window" class="Control csr_default Window {theme}"',
     ' data-appName="{appName}" data-visible="false"><jagui-windowlayout id="{internalId_Layout}" data-class="Layout" ',
-        'class="Control Layout WindowLayout"><jagui-windowcontent id="{internalId_content}" data-name="{windowName_content}"', 
-        ' data-class="WindowContent" class="Control WindowContent {theme}" data-popupmenu="{popupMenu}">${WindowTitleBarTpl}</jagui-windowcontent>',
-        '</jagui-windowlayout></jagui-window>'].join(String.EMPTY);
+    'class="Control Layout WindowLayout"><jagui-windowcontent id="{internalId_content}" data-name="{windowName_content}"',
+    ' data-class="WindowContent" class="Control WindowContent {theme}" data-popupmenu="{popupMenu}">${WindowTitleBarTpl}</jagui-windowcontent>',
+    '</jagui-windowlayout></jagui-window>'].join(String.EMPTY);
 Core.classes.registerTemplates([{ Class: Window, template: WindowTpl }]);
 export { Window };

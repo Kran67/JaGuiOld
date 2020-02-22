@@ -1,11 +1,13 @@
-﻿div.TimePanel {
+﻿.Control.TimePanel {
     padding: 1px 1px 0 1px;
     border-radius: 2px;
     min-height: 43px;
+    max-height: 43px;
     height: 43px;
+    display: flex;
+    overflow: visible;
 }
 
-div.TimePanel div.ItemsWheel {
-    position: relative;
-    float: left;
-}
+    .Control.TimePanel .Control.ItemsWheel {
+        position: relative;
+    }

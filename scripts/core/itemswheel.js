@@ -3,6 +3,7 @@ import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Point } from '/scripts/core/geometry.js';
 import { NotifyEvent } from '/scripts/core/events.js';
 import { Mouse } from '/scripts/core/mouse.js';
+import { Keyboard } from '/scripts/core/keyboard.js';
 //import { Animation } from '/scripts/core/animation.js';
 //import { Interpolation } from '/scripts/core/interpolation.js';
 //#endregion Imports
@@ -143,6 +144,12 @@ const ItemsWheel = (() => {
             }
         }
         //#endregion recreateItems
+        //#region endUpdate
+        endUpdate() {
+            super.endUpdate();
+            this.recreateItems();
+        }
+        //#endregion endUpdate
         //#region mouseWheel
         mouseWheel() {
             //#region Variables déclaration
@@ -203,7 +210,7 @@ const ItemsWheel = (() => {
                 priv.down = true;
                 //if (scrollAni && scrollAni.running) {
                 //    scrollAni.stopAtCurrent();
-                    this.index = Math.intCeiling(priv.index, 1);
+                this.index = Math.intCeiling(priv.index, 1);
                 //}
             }
         }
@@ -328,6 +335,14 @@ Object.defineProperties(ItemsWheel, {
 });
 //#endregion ItemsWheel defineProperties
 Object.seal(ItemsWheel);
-//#endregion
 Core.classes.register(Types.CATEGORIES.INTERNAL, ItemsWheel);
+//#endregion
+//#region Template
+if (Core.isHTMLRenderer) {
+    const ItemsWheelTpl = ['<jagui-itemswheel id="{internalId}" data-class="ItemWheel" class="Control ',
+        'ItemsWheel {theme}"><properties>{ "name": "{name}", "width": 20, "height": 40 }</properties>',
+        '</jagui-itemswheel>'].join(String.EMPTY);
+    Core.classes.registerTemplates([{ Class: ItemsWheel, template: ItemsWheelTpl }]);
+}
+//#endregion
 export { ItemsWheel };

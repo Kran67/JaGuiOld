@@ -89,7 +89,7 @@ const Control = (() => {
                 priv.bottom = props.hasOwnProperty('bottom') && Tools.isNumber(props.bottom) ? props.bottom : null;
                 priv.doubleClick = false;
                 priv.component = false;
-                priv.forceDisplayVisibility = false;
+                priv.forceDisplayVisibility = props.hasOwnProperty('forceDisplayVisibility') && Tools.isBool(props.forceDisplayVisibility) ? props.forceDisplayVisibility : false;
                 priv.clipped = props.hasOwnProperty('clipped') && Tools.isBool(props.clipped) ? props.clipped : true;
                 priv.reflected = props.hasOwnProperty('reflected') && Tools.isBool(props.reflected) ? props.reflected : false;
                 priv.column = props.hasOwnProperty('column') && Tools.isNumber(props.column) ? props.column : 0;
@@ -1969,7 +1969,7 @@ const Control = (() => {
             const priv = internal(this);
             const focusedControl = this.form.focusedControl;
             //#endregion Variables déclaration
-            if ((this instanceof Core.classes.Control) && priv.canFocused) {
+            if (this instanceof Core.classes.Control && priv.canFocused) {
                 if (focusedControl) {
                     if (focusedControl !== this) {
                         focusedControl.killFocus();
