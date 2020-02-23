@@ -2,6 +2,6 @@
     overflow: auto;
 }
 
-.Control img {
+.Control.ImageViewer img {
     position: absolute;
 }
