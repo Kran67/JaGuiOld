@@ -249,7 +249,7 @@ const Mouse = (() => {
             }
             //this.button=(mouseEventArg.which===1)?$j.types.mouseButtons.LEFT:((mouseEventArg.which===2)?$j.types.mouseButtons.MIDDLE:$j.types.mouseButtons.RIGHT);
             //}
-            if ((mouseEventArg.type === MOUSEEVENTS.WHEEL.toLowerCase()) || (mouseEventArg.type === MOUSEEVENTS.DOMSCROLL)) {
+            if (mouseEventArg.type === MOUSEEVENTS.WHEEL.toLowerCase() || mouseEventArg.type === MOUSEEVENTS.DOMSCROLL) {
                 //wheel
                 let delta = 0;
                 if (mouseEventArg.wheelDelta) {

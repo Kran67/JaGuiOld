@@ -69,8 +69,8 @@ const ScrollControl = (() => {
                     priv.lastDelta.y = Core.mouse.screen.y - priv.currentPos.y;
                 }
                 if (hasHorizScrollBar || hasBothScrollBars) {
-                    htmlElement.scrollleft -= Core.mouse.screen.x - priv.currentPos.x;
-                    privthis.lastDelta.x = Core.mouse.screen.x - priv.currentPos.x;
+                    htmlElement.scrollLeft -= Core.mouse.screen.x - priv.currentPos.x;
+                    priv.lastDelta.x = Core.mouse.screen.x - priv.currentPos.x;
                 }
                 priv.currentPos.assign(Core.mouse.screen);
             }
