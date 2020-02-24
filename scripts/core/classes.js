@@ -35,7 +35,7 @@ class Classes {
         if (Array.isArray(arrayOfTemplate)) {
             arrayOfTemplate.forEach(tpl => {
                 let className = tpl.Class;
-                className = !String.isNullOrEmpty(className) ? Tools.getFuncName(className) : className;
+                className = !Tools.isString(className) ? Tools.getFuncName(className) : className;
                 Core.templates[className] = tpl.template.replace(new RegExp('{className}', 'g'), className);
             });
         }

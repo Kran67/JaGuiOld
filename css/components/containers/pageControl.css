@@ -1,22 +1,19 @@
-﻿div.PageContent {
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
+﻿.Control.PageContent {
+    flex:1;
 }
 
-div.PageControl.tabsBottom > div.TabsContainer {
+.Control.PageControl.tabsBottom > .Control.TabsContainer {
     bottom: 0;
     top: auto;
 }
 
-div.PageControl.tabsBottom > div.PagesContent {
+.Control.PageControl.tabsBottom > .Control.PagesContent {
     bottom: 19px;
     top: 0;
 }
 
-div.PageControl.tabsBottom > button.TabControlLeftBtn,
-div.PageControl.tabsBottom > button.TabControlRightBtn {
+.Control.PageControl.tabsBottom .TabControlLeftBtn,
+.Control.PageControl.tabsBottom .TabControlRightBtn {
     top: auto;
     bottom: 0;
 }

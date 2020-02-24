@@ -409,5 +409,5 @@ String.uniqueId = function (size) {
     return `_${Math.random().toString(36).split(".")[1].substring(0, size)}`;
 };
 String.isNullOrEmpty = function (str) {
-    return str === String.EMPTY || str == undefined;
+    return typeof str === 'string' && (str === String.EMPTY || str == undefined);
 };

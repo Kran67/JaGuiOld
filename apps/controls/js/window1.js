@@ -41,7 +41,7 @@ import '/scripts/components/common/rating.js';
 import '/scripts/components/color/colorpanel.js';
 import '/scripts/components/common/shapes.js';
 //import { treeView } from '/scripts/components/common/treeView.js';
-//import { pageControl } from '/scripts/components/containers/pageControl.js';
+import '/scripts/components/containers/pagecontrol.js';
 import '/scripts/components/common/paintbox.js';
 import '/scripts/components/common/plotgrid.js';
 import '/scripts/components/common/textbox.js';
