@@ -36,6 +36,9 @@ const TabSheet = (() => {
         //#region Methods
         //#region show
         show() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (this.enabled) {
                 super.show();
                 priv.HTMLPage.classList.remove('noDisplay');
@@ -45,11 +48,20 @@ const TabSheet = (() => {
         //#endregion show
         //#region hide
         hide() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             super.hide();
             priv.HTMLPage.classList.add('noDisplay');
             //this.hideOrShowChildrens(true);
         }
         //#endregion hide
+        //#region loaded
+        loaded() {
+            super.loaded();
+            this.display = Types.CSSVALUES.INLINEBLOCK;
+        }
+        //#endregion
         //#region destroy
         destroy() {
             super.destroy();
@@ -88,9 +100,9 @@ const PageControl = (() => {
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
+                props.tabClass = TabSheet;
                 super(owner, props);
                 const priv = internal(this);
-                priv.tabClass = TabSheet;
             }
         }
         //#endregion constructor
@@ -134,10 +146,13 @@ const PageControl = (() => {
             this.change();
         }
         loaded() {
-            this.tabContent.components.forEach(comp => {
-                comp.tab = comp.HTMLElement.parentNode.jsObj;
-            });
             super.loaded();
+            this.tabs.forEach(tab => {
+
+            });
+            //this.tabContent.components.forEach(comp => {
+            //    comp.tab = comp.HTMLElement.parentNode.jsObj;
+            //});
         }
         //#endregion Methods
     }

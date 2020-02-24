@@ -110,87 +110,6 @@ input.Control {
     z-index: 999;
 }
 
-
-
-label.Tab {
-    text-align: center;
-    height: 17px;
-    display: inline-block;
-    padding: 0 10px;
-    font-size: 8pt;
-    position: relative;
-    margin-top: 3px;
-}
-
-div.TabControl {
-    white-space: nowrap;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-div.TabControlHeader {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    z-index: 1;
-    margin-left: 2px;
-}
-
-div.TabsContainer {
-    position: static;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    font-size: 0;
-    flex: 1;
-}
-
-div.TabsContent {
-    position: relative;
-    flex: 1;
-}
-
-div.TabControl.tabsBottom > div.TabControlHeader {
-    order: 2;
-}
-
-div.TabControl.tabsBottom > button.TabControlLeftBtn,
-div.TabControl.tabsBottom > button.TabControlRightBtn {
-}
-
-div.TabControl.showTabsCloseBtn > div.TabsContainer label.Tab {
-    padding-right: 30px;
-}
-
-    div.TabControl.showTabsCloseBtn > div.TabsContainer label.Tab:before {
-        position: absolute;
-        content: "C";
-        top: 50%;
-        right: 5px;
-        font-family: JaGui;
-        transform: translate(0,-50%);
-    }
-
-.Button.TabControlLeftBtn,
-.Button.TabControlRightBtn {
-    height: 19px;
-    font-family: Jagui;
-    font-size: 4pt;
-    padding: 0 2px;
-    width: 10px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-button.TabControlLeftBtn:before,
-button.TabControlRightBtn:before {
-}
-
 .Control.ItemsWheel {
     width: 20px;
     height: 40px;
@@ -269,95 +188,21 @@ button.TabControlRightBtn:before {
     max-height: 32px;
 }
 
-div.PopupBox {
+.Control.PopupBox {
     box-shadow: 3px 3px 2px rgba(0,0,0,.7);
     z-index: 10000;
 }
 
-div.ToolTip {
+.Control.ToolTip {
     opacity: 0;
     visibility: hidden;
 }
 
-    div.ToolTip.fade {
-        opacity: 1;
-        visibility: visible;
-        -webkit-transition: opacity 0.5s ease-in-out;
-        transition: opacity 0.5s ease-in-out;
-    }
-
-div.scrollContent div:first-child {
-    left: 0;
-    top: 0;
-}
-
-div.scrollContent.scrollbars-none > div {
-    right: 0;
-    bottom: 0;
-}
-
-div.scrollContent.scrollbars-none div.ScrollBar.orientation-horizontal,
-div.scrollContent.scrollbars-none div.ScrollBar.orientation-vertical {
-    visibility: hidden;
-}
-
-div.scrollContent.scrollbars-vertical > div {
-    right: 16px;
-    bottom: 0;
-}
-
-div.scrollContent.scrollbars-vertical div.ScrollBar.orientation-vertical {
-    left: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 16px;
-    height: auto;
-}
-
-div.scrollContent.scrollbars-vertical div.ScrollBar.orientation-horizontal {
-    bottom: -20px;
-}
-
-div.scrollContent.scrollbars-horizontal > div {
-    right: 0;
-    bottom: 16px;
-    width: auto;
-}
-
-div.scrollContent.scrollbars-horizontal div.ScrollBar.orientation-horizontal {
-    right: 0;
-    width: auto;
-    bottom: 0;
-    left: 0;
-}
-
-div.scrollContent.scrollbars-horizontal div.ScrollBar.orientation-vertical {
-    right: -20px;
-    bottom: -16px;
-    height: 16px;
-    width: auto;
-}
-
-div.scrollContent.scrollbars-both > div {
-    right: 16px;
-    bottom: 16px;
-}
-
-div.scrollContent.scrollbars-both div.ScrollBar.orientation-horizontal {
-    left: 0;
-    bottom: 0;
-    right: 16px;
-    width: auto;
-}
-
-div.scrollContent.scrollbars-both div.ScrollBar.orientation-vertical {
-    bottom: 16px;
-    height: auto;
-    right: 0;
-    width: 16px;
-    left: auto;
-    top: 0;
+.Control.ToolTip.fade {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
 }
 
 @supports ( -webkit-box-reflect: below 0px ) {

@@ -83,7 +83,7 @@ const Control = (() => {
                 priv.hitTest = new Core.classes.HitTest;
                 priv.rotateAngle = props.hasOwnProperty('rotateAngle') && Tools.isNumber(props.rotateAngle) ? props.rotateAngle : 0;
                 priv.customStyle = null;
-                priv.cssClasses = String.EMPTY;
+                priv.cssClasses = props.hasOwnProperty('cssClasses')?props.cssClasses:String.EMPTY;
                 priv.tabOrder = props.hasOwnProperty('tabOrder') && Tools.isNumber(props.tabOrder) ? props.tabOrder : 0;
                 priv.right = props.hasOwnProperty('right') && Tools.isNumber(props.right) ? props.right : null;
                 priv.bottom = props.hasOwnProperty('bottom') && Tools.isNumber(props.bottom) ? props.bottom : null;
@@ -2668,6 +2668,7 @@ const Control = (() => {
         //#region loaded
         loaded() {
             //#region Variables déclaration
+            const priv = internal(this);
             const owner = this.owner;
             //#endregion Variables déclaration
             this.sizing();
@@ -2676,6 +2677,9 @@ const Control = (() => {
                 this.tab = owner.tab;
             }
             !this.visible?this.HTMLElement.classList.add('hidden'):null;
+            if (!String.isNullOrEmpty(priv.cssClasses)) {
+                this.HTMLElement.className += priv.cssClasses;
+            }
         }
         //#endregion loaded
         //#region resized

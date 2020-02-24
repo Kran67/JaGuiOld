@@ -2,6 +2,7 @@
 import { CaptionControl } from '/scripts/core/captioncontrol.js';
 import { CustomTabControl } from "/scripts/core/customtabcontrol.js";
 import { NotifyEvent } from "/scripts/core/events.js";
+import { Mouse } from "/scripts/core/mouse.js";
 //#endregion Import
 //#region Tab
 const Tab = (() => {
@@ -33,8 +34,8 @@ const Tab = (() => {
                     num = owner.tabs.length + 1;
                 }
                 priv.caption = props.hasOwnProperty('caption')?props.caption : `${this.constructor.name}${num}`;
-                priv.hitTest.mousedown = true;
-                priv.hitTest.mouseup = true;
+                this.hitTest.mouseDown = true;
+                this.hitTest.mouseUp = true;
                 this.onClose = new NotifyEvent(this);
             }
         }
@@ -113,7 +114,7 @@ const Tab = (() => {
             const owner = this.owner;
             //#endregion Variables déclaration
             super.mouseUp();
-            if (Core.mouse.button === Core.mouse.MOUSEBUTTONS.LEFT) {
+            if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
                 if (owner.showTabsCloseBtn) {
                     if (Core.mouse.target.x < this.HTMLElement.offsetWidth - 20) {
                         this.show();
@@ -152,7 +153,7 @@ Object.seal(Tab);
 Core.classes.register(Types.CATEGORIES.CONTAINERS, Tab);
 //#region Template
 if (Core.isHTMLRenderer) {
-    const TabTpl = ['<jagui-tab id="{internalId}" data-class="TabSheet" data-name="{name}" class="Control Tab TabSheet csr_default {theme}">',
+    const TabTpl = ['<jagui-tab id="{internalId}" data-class="TabSheet" class="Control Tab TabSheet csr_default {theme}">',
         '{caption}</jagui-tab>'].join(String.EMPTY);
     Core.classes.registerTemplates([
         { Class: Tab, template: TabTpl }

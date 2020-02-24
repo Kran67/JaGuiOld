@@ -4,36 +4,36 @@ import { Tools } from '/scripts/core/tools.js';
 import '/scripts/core/geometry.js';
 //#endregion Imports
 //#region Properties
-const _MOUSEBUTTONS = Object.freeze({
+const MOUSEBUTTONS = Object.freeze({
     NONE: 'none',
     LEFT: 'left',
     RIGHT: 'right',
     MIDDLE: 'middle'
 });
-const _MOUSEWHEELDIRS = Object.freeze({
+const MOUSEWHEELDIRS = Object.freeze({
     NONE: 'none',
     UP: 'up',
     DOWN: 'down'
 });
-const _TOUCHEVENTS = Object.freeze({
+const TOUCHEVENTS = Object.freeze({
     START: 'touchstart',
     MOVE: 'touchmove',
     END: 'touchend',
     CANCEL: 'touchcancel'
 });
-const _POINTEREVENTS = Object.freeze({
+const POINTEREVENTS = Object.freeze({
     DOWN: 'pointerdown',
     MOVE: 'pointermove',
     UP: 'pointerup',
     CANCEL: 'pointercancel'
 });
-const _MSPOINTEREVENTS = Object.freeze({
+const MSPOINTEREVENTS = Object.freeze({
     DOWN: 'MSPointerDown',
     MOVE: 'MSPointerMove',
     UP: 'MSPointerUp',
     CANCEL: 'MSPointerCancel'
 });
-const _MOUSEEVENTS = Object.freeze({
+const MOUSEEVENTS = Object.freeze({
     EVENT: 'mouseevent',
     MOVE: 'mousemove',
     DOWN: 'mousedown',
@@ -89,22 +89,22 @@ const Mouse = (() => {
         //#endregion constructor
         //#region Static
         static get MOUSEBUTTONS() {
-            return _MOUSEBUTTONS;
+            return MOUSEBUTTONS;
         }
         static get MOUSEWHEELDIRS() {
-            return _MOUSEWHEELDIRS;
+            return MOUSEWHEELDIRS;
         }
         static get TOUCHEVENTS() {
-            return _TOUCHEVENTS;
+            return TOUCHEVENTS;
         }
         static get POINTEREVENTS() {
-            return _POINTEREVENTS;
+            return POINTEREVENTS;
         }
         static get MSPOINTEREVENTS() {
-            return _MSPOINTEREVENTS;
+            return MSPOINTEREVENTS;
         }
         static get MOUSEEVENTS() {
-            return _MOUSEEVENTS;
+            return MOUSEEVENTS;
         }
         //#endregion Static
         //#region Getters / Setters

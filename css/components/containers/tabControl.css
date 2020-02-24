@@ -1,1 +1,78 @@
-﻿.Control.TabControl {}
+﻿.Control.Tab {
+    text-align: center;
+    height: 17px;
+    display: inline-block;
+    padding: 0 10px;
+    font-size: 8pt;
+    position: relative;
+    margin-top: 3px;
+}
+
+.Control.TabControl {
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.Control.TabControlHeader {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    z-index: 1;
+    margin-left: 2px;
+}
+
+.Control.TabsContainer {
+    position: static;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+    flex: 1;
+}
+
+.Control.TabsContent {
+    position: relative;
+    flex: 1;
+}
+
+.Control.TabControl.tabsBottom .Control.TabControlHeader {
+    order: 2;
+}
+
+.Control.TabControl.tabsBottom .Control.TabControlLeftBtn,
+.Control.TabControl.tabsBottom .Control.TabControlRightBtn {
+}
+
+div.Control.TabControl.showTabsCloseBtn .Control.TabsContainer .Control.Tab {
+    padding-right: 30px;
+}
+
+.Control.TabControl.showTabsCloseBtn .Control.TabsContainer .Control.Tab:before {
+    position: absolute;
+    content: "C";
+    top: 50%;
+    right: 5px;
+    font-family: JaGui;
+    transform: translate(0,-50%);
+}
+
+.Control.TabControlLeftBtn,
+.Control.TabControlRightBtn {
+    height: 19px;
+    font-family: Jagui;
+    font-size: 4pt;
+    padding: 0 2px;
+    width: 10px;
+    position: relative !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .Control.TabControlLeftBtn:before,
+    .Control.TabControlRightBtn:before {
+    }

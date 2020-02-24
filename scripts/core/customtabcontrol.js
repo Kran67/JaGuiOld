@@ -1,5 +1,6 @@
 ﻿//#region Imports
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { Tab } from '/scripts/components/containers/tab.js';
 import { NotifyEvent } from '/scripts/core/events.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
@@ -38,30 +39,29 @@ const CustomTabControl = (() => {
         //#region constructor
         constructor(owner, props) {
             //#region Variables déclaration
-            const DIRECTIONS = Types.DIRECTIONS;
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.tabs = [];
+                //priv.tabs = [];
                 priv.firstVisibleTab = 0;
                 priv.lastVisibleTab = 0;
-                priv.tabClass = Tab;
-                priv.activeTab = props.hasOwnProperty('activeTab') ? props.activeTab :null;
+                priv.tabClass = props.hasOwnProperty('tabClass')?props.tabClass:Tab;
+                priv.activeTab = props.hasOwnProperty('activeTab') ? props.activeTab : null;
                 priv.images = null;
                 priv.canChange = true;
-                priv.showTabsCloseBtn = props.hasOwnProperty('showTabsCloseBtn') ? props.showTabsCloseBtn :false;
+                priv.showTabsCloseBtn = props.hasOwnProperty('showTabsCloseBtn') ? props.showTabsCloseBtn : false;
                 this.addBindableProperties(['activeTab', 'showTabsCloseBtn', 'tabStyle', 'tabPosition']);
                 this.autoCapture = true;
-                this.width = props.hasOwnProperty('width')?props.width:200;
-                this.height = props.hasOwnProperty('height')?props.height:200;
+                this.width = props.hasOwnProperty('width') ? props.width : 200;
+                this.height = props.hasOwnProperty('height') ? props.height : 200;
                 //#endregion
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'tabStyle',
                     enum: TABSTYLES,
-                    value: props.hasOwnProperty('tabStyle')?props.tabStyle:TABSTYLES.TABS,
+                    value: props.hasOwnProperty('tabStyle') ? props.tabStyle : TABSTYLES.TABS,
                     variable: priv
                 });
                 Tools.addPropertyFromEnum({
@@ -69,11 +69,12 @@ const CustomTabControl = (() => {
                     propName: 'tabPosition',
                     enum: TABPOSITIONS,
                     setter: this.tabPosition,
-                    value: props.hasOwnProperty('tabPosition')?props.tabPosition:TABPOSITIONS.TOP,
+                    value: props.hasOwnProperty('tabPosition') ? props.tabPosition : TABPOSITIONS.TOP,
                     variable: priv
                 });
                 this.onChange = new NotifyEvent(this);
                 this.canFocused = true;
+                Core.classes.newCollection(this, this, Tab, "tabs");
             }
         }
         //#region constructor
@@ -116,7 +117,7 @@ const CustomTabControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Tab) {
+            if (newValue instanceof Tab) {
                 if (priv.activeTab !== newValue) {
                     priv.activeTab = newValue;
                     priv.activeTab.show();
@@ -314,7 +315,7 @@ const CustomTabControl = (() => {
             const tabs = priv.tabs;
             const tabsContainer = priv.tabsContainer;
             //#endregion Variables déclaration
-            if (fromIndex >= 0 && fromIndex <= tabs.length - 1 && 
+            if (fromIndex >= 0 && fromIndex <= tabs.length - 1 &&
                 toIndex >= 0 && toIndex <= tabs.length - 1) {
                 const curTab = this.getTab(fromIndex);
                 tabs.splice(fromIndex, 1);
@@ -442,11 +443,11 @@ const CustomTabControl = (() => {
             //#endregion Variables déclaration
             btnRight.enabled = (tabsContainer.scrollLeft < tabsContainer.scrollWidth - tabsContainer.offsetWidth);
             btnLeft.enabled = (tabsContainer.scrollLeft > 0);
-            Css.removeClass(htmlElement, 'noButtons');
+            htmlElement.classList.remove('noButtons');
             if (tabsContainer.scrollWidth <= tabsContainer.offsetWidth) {
                 btnLeft.visible = false;
                 btnRight.visible = false;
-                Css.addClass(htmlElement, 'noButtons');
+                htmlElement.classList.add('noButtons');
             } else {
                 btnLeft.visible = true;
                 btnRight.visible = true;
@@ -499,7 +500,7 @@ const CustomTabControl = (() => {
         checkLastVisibleTab() {
             //#region Variables déclaration
             const priv = internal(this);
-            const tabs = priv.tabs;
+            const tabs = this.tabs;
             let i = 0;
             const l = tabs.length;
             const tabsContainer = priv.tabsContainer;
@@ -597,23 +598,38 @@ const CustomTabControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
+            const name = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const DIRECTIONS = Types.DIRECTIONS;
+            const properties = htmlElement.querySelector('properties');
+            let tabs = [];
+            if (properties) {
+                tabs = JSON.parse(properties.innerText).tabs;
+            }
             //#endregion Variables déclaration
             super.loaded();
-            priv.tabsHeader = document.createElement();
-            priv.tabsHeader.classList.add('Control', 'TabControlHeader', this.themeName);
-            htmlElement.appendChild(priv.tabsHeader);
-            priv.tabsContainer = document.createElement();
-            priv.tabsContainer.classList.add('Control', 'TabsContainer', this.themeName);
-            priv.tabsHeader.appendChild(priv.tabsContainer);
-            priv.tabContent = Core.classes.createComponent({
-                class: Core.classes.Layout,
-                owner: this,
-                props: {
-                    inForm: false,
-                    cssClasses: `Control TabsContent PagesContent ${this.themeName}`
-                },
-                withTpl: true
-            });
+            priv.tabsHeader = htmlElement.querySelector(`${name}header`);
+            //priv.tabsHeader.classList.add('Control', 'TabControlHeader', this.themeName);
+            //htmlElement.appendChild(priv.tabsHeader);
+            priv.tabsContainer = htmlElement.querySelector(`${name}tabscontainer`);
+            //priv.tabsContainer.classList.add('Control', 'TabsContainer', this.themeName);
+            //priv.tabsHeader.appendChild(priv.tabsContainer);
+            //tabs.forEach(tab => {
+            //    const tabSheet = Core.classes.createComponent({
+            //        class: priv.tabClass,
+            //        owner: this,
+            //        props: {
+            //            inForm: false,
+            //            parentHTML: priv.tabsContainer,
+            //            caption: tab,
+            //            name: tab,
+            //            cssClasses: tab === priv.activeTab?' selected':String.EMPTY
+            //        },
+            //        withTpl: true
+            //    });
+            //    if (tab === priv.activeTab) {
+            //        priv.activeTab = tabSheet;
+            //    }
+            //});
             priv.btnLeft = Core.classes.createComponent({
                 class: Core.classes.Button,
                 owner: this,
@@ -621,7 +637,9 @@ const CustomTabControl = (() => {
                     inForm: false,
                     parentHTML: priv.tabsHeader,
                     tag: DIRECTIONS.LEFT,
-                    canFocused: false
+                    cssClasses: ' TabControlLeftBtn',
+                    canFocused: false,
+                    caption: String.EMPTY
                 },
                 withTpl: true
             });
@@ -633,13 +651,25 @@ const CustomTabControl = (() => {
                     inForm: false,
                     parentHTML: priv.tabsHeader,
                     tag: DIRECTIONS.RIGHT,
-                    canFocused: false
+                    cssClasses: ' TabControlRightBtn',
+                    canFocused: false,
+                    caption: String.EMPTY
                 },
                 withTpl: true
             });
             priv.btnRight.onClick.addListener(this.moveTabs);
-            this.checkViewBtns();
-            this.checkLastVisibleTab();
+            priv.tabContent = htmlElement.querySelector(`${name}tabscontainer`);
+            //Core.classes.createComponent({
+            //    class: Core.classes.Layout,
+            //    owner: this,
+            //    props: {
+            //        inForm: false,
+            //        cssClasses: ` TabsContent PagesContent ${this.themeName}`
+            //    },
+            //    withTpl: true
+            //});
+            //this.checkViewBtns();
+            //this.checkLastVisibleTab();
         }
         //#endregion loaded
         //#endregion

@@ -2,18 +2,18 @@
     flex:1;
 }
 
-.Control.PageControl.tabsBottom > .Control.TabsContainer {
+.Control.PageControl.tabsBottom .Control.TabsContainer {
     bottom: 0;
     top: auto;
 }
 
-.Control.PageControl.tabsBottom > .Control.PagesContent {
+.Control.PageControl.tabsBottom .Control.PagesContent {
     bottom: 19px;
     top: 0;
 }
 
-.Control.PageControl.tabsBottom .TabControlLeftBtn,
-.Control.PageControl.tabsBottom .TabControlRightBtn {
+.Control.PageControl.tabsBottom .Control.TabControlLeftBtn,
+.Control.PageControl.tabsBottom .Control.TabControlRightBtn {
     top: auto;
     bottom: 0;
 }
