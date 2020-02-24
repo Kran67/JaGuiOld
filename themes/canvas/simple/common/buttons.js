@@ -1,6 +1,6 @@
 ﻿//#region Imports
 import { Window } from "../../../../scripts/components/containers/window.js";
-import { ArithmeticOperations as AO } from "../../../../scripts/core/types.js";
+import { ARITHMETICOPERATIONS as AO } from "../../../../scripts/core/types.js";
 //#endregion Imports
 //#region Button
 Core.themes.simple.Button = {

@@ -7,17 +7,19 @@ import { Tools } from '/scripts/core/tools.js';
 import { Text } from '/scripts/core/text.js';
 //#endregion Import
 //#region SLIDERMODES
-const SLIDERMODES = {
+const SLIDERMODES = Object.freeze({
     NORMAL: 'normal',
     RANGE: 'range'
-};
+});
+Object.seal(SLIDERMODES);
 //#endregion SLIDERMODES
 //#region TICKMARKSPOSITION
-const TICKMARKSPOSITION = {
+const TICKMARKSPOSITION = Object.freeze({
     BOTH: 'both',
     TOP: 'top',
     BOTTOM: 'bottom'
-};
+});
+Object.seal(TICKMARKSPOSITION);
 //#endregion TICKMARKSPOSITION
 //#region Slider
 const Slider = (() => {

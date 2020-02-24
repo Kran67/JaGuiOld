@@ -9,10 +9,11 @@ import { HUESlider } from '/scripts/components/color/hueslider.js';
 import { ColorBox } from '/scripts/components/color/colorbox.js';
 //#endregion Import
 //#region COLORPANELBOXES
-const COLORPANELBOXES = {
+const COLORPANELBOXES = Object.freeze({
     PRIMARY: 'primary',
     SECONDARY: 'secondary'
-};
+});
+Object.seal(COLORPANELBOXES);
 //#endregion COLORPANELBOXES
 //#region ColorPanel
 const ColorPanel = (() => {

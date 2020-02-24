@@ -6,7 +6,7 @@ import { StringList } from '/scripts/core/stringlist.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region WHITESPACES
-const WHITESPACES = {
+const WHITESPACES = Object.freeze({
     INHERIT: 'inherit', 
     INITIAL: 'initial', 
     NORMAL: 'normal', 
@@ -14,24 +14,26 @@ const WHITESPACES = {
     PRE: 'pre', 
     PRELINE: 'pre-line', 
     PREWRAP: 'pre-wrap'
-};
+});
 //#endregion WHITESPACES
 //#region WORDBREAKS
-const WORDBREAKS = {
+const WORDBREAKS = Object.freeze({
     BREAKALL: 'break-all',
     BREAKWORD: 'break-word',
     INITIAL: 'initial',
     NORMAL: 'normal',
     INHERIT: 'inherit'
-};
+});
+Object.seal(WORDBREAKS);
 //#endregion WORDBREAKS
 //#region WORDWRAPS
-const WORDWRAPS = {
+const WORDWRAPS = Object.freeze({
     BREAKWORD: 'break-word',
     INITIAL: 'initial',
     NORMAL: 'normal',
     INHERIT: 'inherit'
-};
+});
+Object.seal(WORDWRAPS);
 //#endregion WORDWRAPS
 //#region Memo
 const Memo = (() => {

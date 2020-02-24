@@ -803,4 +803,5 @@ class Tools {
     //#endregion indexOf
     //#endregion Methods
 }
+Object.seal(Object.freeze(Tools));
 export { Tools };

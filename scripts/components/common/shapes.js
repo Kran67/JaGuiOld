@@ -5,7 +5,7 @@ import { Color, Colors } from '/scripts/core/color.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region Direction of Line
-const LINEDIRECTIONS = {
+const LINEDIRECTIONS = Object.freeze({
     TOPLEFT_BOTTOMRIGHT: 'topleft-bottomright',
     TOPRIGHT_BOTTOMLEFT: 'topright-bottomleft',
     TOPLEFT_TOPRIGHT: 'topleft-topright',
@@ -14,8 +14,9 @@ const LINEDIRECTIONS = {
     TOPRIGHT_BOTTOMRIGHT: 'topright-bottomright',
     MIDDLETOP_MIDDLEBOTTOM: 'middletop-middlebottom',
     MIDDLELEFT_MIDDLERIGHT: 'middleleft-middleright'
-};
-//#endregion
+});
+Object.seal(LINEDIRECTIONS);
+//#endregion LINEDIRECTIONS
 //#region Line
 const Line = (() => {
     //#region Private

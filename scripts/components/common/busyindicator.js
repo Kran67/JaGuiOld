@@ -8,13 +8,13 @@ import { Css } from '/scripts/core/css.js';
 /**
  * @type    {Object}        BUSYINDICATORSTYLES
  */
-const BUSYINDICATORSTYLES = {
+const BUSYINDICATORSTYLES = Object.freeze({
     SPIN: 'spin',
     WIN8CIRCLE: 'win8Circle',
     BALL: 'ball',
     CIRCLE: 'circle'
-};
-Object.freeze(BUSYINDICATORSTYLES);
+});
+Object.seal(BUSYINDICATORSTYLES);
 //#endregion BUSYINDICATORSTYLES
 //#region BusyIndicatorSpinOptions
 const BusyIndicatorSpinOptions = (() => {

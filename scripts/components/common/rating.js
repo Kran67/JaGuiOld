@@ -5,13 +5,12 @@ import { Mouse } from '/scripts/core/mouse.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region RATINGPRECISIONS
-const RATINGPRECISIONS = {
+const RATINGPRECISIONS = Object.freeze({
     WHOLEITEM: 'wholeItem',
     HALFANITEM: 'halfAnItem',
     EXACTPRECISION: 'exactPrecision'
-};
+});
 Object.seal(RATINGPRECISIONS);
-Object.freeze(RATINGPRECISIONS);
 //#endregion RATINGPRECISIONS
 //#region Rating
 const Rating = (() => {

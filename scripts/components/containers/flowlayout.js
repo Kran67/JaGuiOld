@@ -12,7 +12,8 @@ const FLOWLAYOUTS = Object.freeze({
     HORIZONTAL: 'horizontal',
     VERTICAL: 'vertical'
 });
-//#endregion
+Object.seal(FLOWLAYOUTS);
+//#endregion FLOWLAYOUTS
 //#region FlowLayout
 const FlowLayout = (() => {
     //#region Private

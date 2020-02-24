@@ -3058,16 +3058,17 @@ Object.defineProperties(BaseWindow, {
 /**
  * @type    {Object}        HELPTYPES
  */
-const _HELPTYPES = Object.freeze({
+const HELPTYPES = Object.freeze({
     KEYWORD: 'keyword',
     CONTEXT: 'context'
 });
-//#endregion
+Object.seal(HELPTYPES);
+//#endregion HELPTYPES
 //#region TITLEBUTTONS
 /**
  * @type    {Object}        TITLEBUTTONS
  */
-const _TITLEBUTTONS = Object.freeze({
+const TITLEBUTTONS = Object.freeze({
     CLOSE: 'close',
     MAXRESTORE: 'maxRestore',
     MINIMIZE: 'minimize',
@@ -3075,24 +3076,26 @@ const _TITLEBUTTONS = Object.freeze({
     ROLLUPDOWN: 'rollUpDown',
     STAYONOFF: 'stayOnOff'
 });
-//#endregion
+Object.seal(TITLEBUTTONS);
+//#endregion TITLEBUTTONS
 //#region FORMSTATES
 /**
  * @type    {Object}        FORMSTATES
  */
-const _FORMSTATES = Object.freeze({
+const FORMSTATES = Object.freeze({
     CREATING: 'creating',
     VISIBLE: 'visible',
     SHOWING: 'showing',
     MODAL: 'modal',
     ACTIVATED: 'activated'
 });
-//#endregion
+Object.seal(FORMSTATES);
+//#endregion FORMSTATES
 //#region WINDOWSTATES
 /**
  * @type    {Object}        WINDOWSTATES
  */
-const _WINDOWSTATES = Object.freeze({
+const WINDOWSTATES = Object.freeze({
     NONE: 'none',
     NORMAL: 'normal',
     MINIMIZED: 'minimized',
@@ -3100,12 +3103,13 @@ const _WINDOWSTATES = Object.freeze({
     ROLLEDUP: 'rolledup',
     SNAPED: 'snaped'
 });
-//#endregion
+Object.seal(WINDOWSTATES);
+//#endregion WINDOWSTATES
 //#region MODALRESULTBUTTONS
 /**
  * @type    {Object}        MODALRESULTBUTTONS
  */
-const _MODALRESULTBUTTONS = Object.freeze({
+const MODALRESULTBUTTONS = Object.freeze({
     NONE: 'none',
     OK: 'ok',
     CANCEL: 'cancel',
@@ -3119,12 +3123,13 @@ const _MODALRESULTBUTTONS = Object.freeze({
     YESTOALL: 'yesToAll',
     CLOSE: 'close'
 });
-//#endregion
+Object.seal(MODALRESULTBUTTONS);
+//#endregion MODALRESULTBUTTONS
 //#region MODALRESULTS
 /**
  * @type    {Object}        MODALRESULTS
  */
-const _MODALRESULTS = Object.freeze({
+const MODALRESULTS = Object.freeze({
     NONE: 'none',
     OK: 'ok',
     CANCEL: 'cancel',
@@ -3138,23 +3143,25 @@ const _MODALRESULTS = Object.freeze({
     YESTOALL: 'yesToAll',
     HELP: 'help'
 });
-//#endregion
+Object.seal(MODALRESULTS);
+//#endregion MODALRESULTS
 //#region FORMPOSITIONS
 /**
  * @type    {Object}        FORMPOSITIONS
  */
-const _FORMPOSITIONS = Object.freeze({
+const FORMPOSITIONS = Object.freeze({
     DEFAULT: 'default',
     DESIGNED: 'designed',
     MAINFORMCENTER: 'mainFormCenter',
     SCREENCENTER: 'screenCenter'
 });
-//#endregion
+Object.seal(FORMPOSITIONS);
+//#endregion FORMPOSITIONS
 //#region BORDERSTYLES
 /**
  * @type    {Object}        BORDERSTYLES
  */
-const _BORDERSTYLES = Object.freeze({
+const BORDERSTYLES = Object.freeze({
     DIALOG: 'dialog',
     NONE: 'none',
     SINGLE: 'single',
@@ -3162,12 +3169,13 @@ const _BORDERSTYLES = Object.freeze({
     SIZETOOLWIN: 'sizeToolWin',
     TOOLWINDOW: 'toolWindow'*/
 });
-//#endregion
+Object.seal(BORDERSTYLES);
+//#endregion BORDERSTYLES
 //#region RESIZEMODES
 /**
  * @type    {Object}        RESIZEMODES
  */
-const _RESIZEMODES = Object.freeze({
+const RESIZEMODES = Object.freeze({
     NONE: String.EMPTY,
     LEFT: 'left',
     TOP: 'top',
@@ -3178,38 +3186,41 @@ const _RESIZEMODES = Object.freeze({
     BOTTOMRIGHT: 'bottomRight',
     BOTTOMLEFT: 'bottomLeft'
 });
-//#endregion
+Object.seal(RESIZEMODES);
+//#endregion RESIZEMODES
 //#region SNAPAREAS
 /**
  * @type    {Object}        SNAPAREAS
  */
-const _SNAPAREAS = Object.freeze({
+const SNAPAREAS = Object.freeze({
     NONE: 'none',
     LEFT: 'left',
     TOP: 'top',
     RIGHT: 'right'
 });
-//#endregion
+Object.seal(SNAPAREAS);
+//#endregion SNAPAREAS
 //#region SHOWINGMODES
 /**
  * @type    {Object}        SHOWINGMODES
  */
-const _SHOWINGMODES = Object.freeze({
+const SHOWINGMODES = Object.freeze({
     NORMAL: 'normal',
     MODAL: 'modal'
 });
-//#endregion
+Object.seal(SHOWINGMODES);
+//#endregion SHOWINGMODES
 //#region BORDERSTYPES
 /**
  * @type    {Object}        BORDERSTYPES
  */
-const _BORDERSTYPES = Object.freeze({
+const BORDERSTYPES = Object.freeze({
     NONE: 'none',
     SNAP: 'snap',
     MAGNETIC: 'magnetic'
 });
-//#endregion
-
+Object.seal(BORDERSTYPES);
+//#endregion BORDERSTYPES
 //#endregion
 //#region Window
 const Window = (() => {
@@ -3240,7 +3251,7 @@ const Window = (() => {
          * @type    {Object}        HELPTYPES
          */
         static get HELPTYPES() {
-            return _HELPTYPES;
+            return HELPTYPES;
         }
         //#endregion
         //#region TITLEBUTTONS
@@ -3248,7 +3259,7 @@ const Window = (() => {
          * @type    {Object}        TITLEBUTTONS
          */
         static get TITLEBUTTONS() {
-            return _TITLEBUTTONS;
+            return TITLEBUTTONS;
         }
         //#endregion
         //#region FORMSTATES
@@ -3256,7 +3267,7 @@ const Window = (() => {
          * @type    {Object}        FORMSTATES
          */
         static get FORMSTATES() {
-            return _FORMSTATES;
+            return FORMSTATES;
         }
         //#endregion
         //#region WINDOWSTATES
@@ -3264,7 +3275,7 @@ const Window = (() => {
          * @type    {Object}        WINDOWSTATES
          */
         static get WINDOWSTATES() {
-            return _WINDOWSTATES;
+            return WINDOWSTATES;
         }
         //#endregion
         //#region MODALRESULTBUTTONS
@@ -3272,7 +3283,7 @@ const Window = (() => {
          * @type    {Object}        MODALRESULTBUTTONS
          */
         static get MODALRESULTBUTTONS() {
-            return _MODALRESULTBUTTONS;
+            return MODALRESULTBUTTONS;
         }
         //#endregion
         //#region MODALRESULTS
@@ -3280,7 +3291,7 @@ const Window = (() => {
          * @type    {Object}        MODALRESULTS
          */
         static get MODALRESULTS() {
-            return _MODALRESULTS;
+            return MODALRESULTS;
         }
         //#endregion
         //#region FORMPOSITIONS
@@ -3288,7 +3299,7 @@ const Window = (() => {
          * @type    {Object}        FORMPOSITIONS
          */
         static get FORMPOSITIONS() {
-            return _FORMPOSITIONS;
+            return FORMPOSITIONS;
         }
         //#endregion
         //#region BORDERSTYLES
@@ -3296,7 +3307,7 @@ const Window = (() => {
          * @type    {Object}        BORDERSTYLES
          */
         static get BORDERSTYLES() {
-            return _BORDERSTYLES;
+            return BORDERSTYLES;
         }
         //#endregion
         //#region RESIZEMODES
@@ -3304,7 +3315,7 @@ const Window = (() => {
          * @type    {Object}        RESIZEMODES
          */
         static get RESIZEMODES() {
-            return _RESIZEMODES;
+            return RESIZEMODES;
         }
         //#endregion
         //#region SNAPAREAS
@@ -3312,7 +3323,7 @@ const Window = (() => {
          * @type    {Object}        SNAPAREAS
          */
         static get SNAPAREAS() {
-            return _SNAPAREAS;
+            return SNAPAREAS;
         }
         //#endregion
         //#region BORDERSTYPES
@@ -3320,7 +3331,7 @@ const Window = (() => {
          * @type    {Object}        BORDERSTYPES
          */
         static get BORDERSTYPES() {
-            return _BORDERSTYPES;
+            return BORDERSTYPES;
         }
         //#endregion
         //#region SHOWINGMODES
@@ -3328,7 +3339,7 @@ const Window = (() => {
          * @type    {Object}        SHOWINGMODES
          */
         static get SHOWINGMODES() {
-            return _SHOWINGMODES;
+            return SHOWINGMODES;
         }
         //#endregion
         //#endregion Static

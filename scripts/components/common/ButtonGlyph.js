@@ -9,14 +9,15 @@ import { Text } from '/scripts/core/text.js';
 /**
  * @type    {Object}        BUTTONLAYOUTGLYPHS
  */
-const _BUTTONLAYOUTGLYPHS = Object.freeze({
+const BUTTONLAYOUTGLYPHS = Object.freeze({
     LEFT: 'layoutLeft',
     RIGHT: 'layoutRight',
     TOP: 'layoutTop',
     BOTTOM: 'layoutBottom',
     CENTER: 'layoutCenter'
 });
-//#endregion
+Object.seal(BUTTONLAYOUTGLYPHS);
+//#endregion BUTTONLAYOUTGLYPHS
 //#region ButtonGlyph
 const ButtonGlyph = (() => {
     //#region Private
@@ -37,7 +38,7 @@ const ButtonGlyph = (() => {
          * @type    {Object}        BUTTONLAYOUTGLYPHS
          */
         static get BUTTONLAYOUTGLYPHS() {
-            return _BUTTONLAYOUTGLYPHS;
+            return BUTTONLAYOUTGLYPHS;
         }
         //#endregion
         //#region Constructor
@@ -57,12 +58,12 @@ const ButtonGlyph = (() => {
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'layout',
-                    enum: _BUTTONLAYOUTGLYPHS,
+                    enum: BUTTONLAYOUTGLYPHS,
                     setter: function (newValue) {
                         //#region Variables déclaration
                         const priv = internal(this);
                         //#endregion Variables déclaration
-                        if (Tools.valueInSet(newValue, _BUTTONLAYOUTGLYPHS)) {
+                        if (Tools.valueInSet(newValue, BUTTONLAYOUTGLYPHS)) {
                             if (priv.layout !== newValue) {
                                 priv.layout = newValue;
                                 if (Core.isHTMLRenderer) {
@@ -74,7 +75,7 @@ const ButtonGlyph = (() => {
                         }
                     },
                     variable: priv,
-                    value: props.hasOwnProperty('layout')?props.layout:_BUTTONLAYOUTGLYPHS.LEFT
+                    value: props.hasOwnProperty('layout')?props.layout:BUTTONLAYOUTGLYPHS.LEFT
                 });
                 priv.glyphHTMLElement = Types.HTMLELEMENTS.IMG;
                 this.addBindableProperties(['glyphSize', 'glyphSpacing', 'glyphMargin', 'layout']);
@@ -295,11 +296,11 @@ const ButtonGlyph = (() => {
             if (!this.loading && !this.form.loading) {
                 super.update();
                 if (isHtmlRenderer) {
-                    htmlElement.classList.remove(_BUTTONLAYOUTGLYPHS.LEFT);
-                    htmlElement.classList.remove(_BUTTONLAYOUTGLYPHS.RIGHT);
-                    htmlElement.classList.remove(_BUTTONLAYOUTGLYPHS.TOP);
-                    htmlElement.classList.remove(_BUTTONLAYOUTGLYPHS.BOTTOM);
-                    htmlElement.classList.remove(_BUTTONLAYOUTGLYPHS.CENTER);
+                    htmlElement.classList.remove(BUTTONLAYOUTGLYPHS.LEFT);
+                    htmlElement.classList.remove(BUTTONLAYOUTGLYPHS.RIGHT);
+                    htmlElement.classList.remove(BUTTONLAYOUTGLYPHS.TOP);
+                    htmlElement.classList.remove(BUTTONLAYOUTGLYPHS.BOTTOM);
+                    htmlElement.classList.remove(BUTTONLAYOUTGLYPHS.CENTER);
                     htmlElement.classList.add(layout);
                 }
                 if (textObj) {
@@ -341,16 +342,16 @@ const ButtonGlyph = (() => {
                             if (glyphSpacing > 0 && showCaption) {
                                 (isHtmlRenderer ? textObj.style : textObj).margin = 0;
                                 switch (layout) {
-                                    case _BUTTONLAYOUTGLYPHS.LEFT:
+                                    case BUTTONLAYOUTGLYPHS.LEFT:
                                         (isHtmlRenderer ? textObj.style : textObj).marginLeft = `${glyphSpacing}${PX}`;
                                         break;
-                                    case _BUTTONLAYOUTGLYPHS.RIGHT:
+                                    case BUTTONLAYOUTGLYPHS.RIGHT:
                                         (isHtmlRenderer ? textObj.style : textObj).marginRight = `${glyphSpacing}${PX}`;
                                         break;
-                                    case _BUTTONLAYOUTGLYPHS.TOP:
+                                    case BUTTONLAYOUTGLYPHS.TOP:
                                         (isHtmlRenderer ? textObj.style : textObj).marginTop = `${glyphSpacing}${PX}`;
                                         break;
-                                    case _BUTTONLAYOUTGLYPHS.BOTTOM:
+                                    case BUTTONLAYOUTGLYPHS.BOTTOM:
                                         (isHtmlRenderer ? textObj.style : textObj).marginBottom = `${glyphSpacing}${PX}`;
                                         break;
                                 }

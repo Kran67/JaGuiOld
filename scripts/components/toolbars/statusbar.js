@@ -13,6 +13,7 @@ const BEVELS = Object.freeze({
     RAISED: 'raised',
     SINGLE: 'single'
 });
+Object.seal(BEVELS);
 //#endregion BEVELS
 //#region StatusBarPanel
 const StatusBarPanel = (() => {

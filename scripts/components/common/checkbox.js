@@ -13,7 +13,8 @@ const CHECKBOXSTATES = Object.freeze({
     GRAYED: 'grayed',
     CHECKED: 'checked'
 });
-//#endregion
+Object.seal(CHECKBOXSTATES);
+//#endregion CHECKBOXSTATES
 //#region Checkbox
 const Checkbox = (() => {
     //#region Private

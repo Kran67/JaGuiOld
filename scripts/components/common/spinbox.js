@@ -4,12 +4,11 @@ import { Keyboard } from '/scripts/core/keyboard.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region SPINBOXTYPES
-const SPINBOXTYPES = {
+const SPINBOXTYPES = Object.freeze({
     INTEGER: 'integer',
     FLOAT: 'float'
-};
+});
 Object.seal(SPINBOXTYPES);
-Object.freeze(SPINBOXTYPES);
 //#endregion SPINBOXTYPES
 //#region SpinBox
 const SpinBox = (() => {

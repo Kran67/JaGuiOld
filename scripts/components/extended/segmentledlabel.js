@@ -9,41 +9,45 @@ import { Css } from '/scripts/core/css.js';
 /**
  * @type    {Object}        SEGMENTTYPES
  */
-const SEGMENTTYPES = {
+const SEGMENTTYPES = Object.freeze({
     SEVEN: 7,
     FOURTEEN: 14,
     SIXTEEN: 16
-};
+});
+Object.seal(SEGMENTTYPES);
 //#endregion SEGMENTTYPES
 //#region SEGMENTSCROLLTYPES
 /**
  * @type    {Object}        SEGMENTSCROLLTYPES
  */
-const SEGMENTSCROLLTYPES = {
+const SEGMENTSCROLLTYPES = Object.freeze({
     RESTART: 'restart',
     REVERSE: 'reverse',
     CYCLE: 'cycle'
-};
+});
+Object.seal(SEGMENTSCROLLTYPES);
 //#endregion SEGMENTSCROLLTYPES
 //#region SEGMENTSCROLLDIRECTIONS
 /**
  * @type    {Object}        SEGMENTSCROLLDIRECTIONS
  */
-const SEGMENTSCROLLDIRECTIONS = {
+const SEGMENTSCROLLDIRECTIONS = Object.freeze({
     RIGHT2LEFT: 'right2left',
     LEFT2RIGHT: 'left2right'
-};
+});
+Object.seal(SEGMENTSCROLLDIRECTIONS);
 //#endregion SEGMENTSCROLLDIRECTIONS
 //#region SEGMENTSIZES
 /**
  * @type    {Object}        SEGMENTSIZES
  */
-const SEGMENTSIZES = {
+const SEGMENTSIZES = Object.freeze({
     SMALL: 0.5,
     NORMAL: 1,
     MEDIUM: 1.5,
     LARGE: 2
-};
+});
+Object.seal(SEGMENTSIZES);
 //#endregion SEGMENTSIZES
 //#region SegmentLedLabel
 const SegmentLedLabel = (() => {

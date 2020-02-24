@@ -7,12 +7,12 @@ import { Css } from '/scripts/core/css.js';
 import { Convert } from '/scripts/core/convert.js';
 //#endregion Imports
 //#region CustomTabControl constants
-const _tabStyles = Object.freeze({
+const TABSTYLES = Object.freeze({
     TABS: 'tabs',
     BUTTONS: 'buttons',
     FLATBUTTONS: 'flatButtons'
 });
-const _tabPositions = Object.freeze({
+const TABPOSITIONS = Object.freeze({
     TOP: 'top',
     BOTTOM: 'bottom',
     LEFT: 'left',

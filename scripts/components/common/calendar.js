@@ -7,12 +7,13 @@ import { Keyboard } from '/scripts/core/keyboard.js';
 import { Convert } from '/scripts/core/convert.js';
 //#endregion Import
 //#region CALENDARMODES
-const CALENDARMODES = {
+const CALENDARMODES = Object.freeze({
     DAYS: 'days',
     MONTHS: 'months',
     DECADES: 'decades',
     CENTURIES: 'centuries'
-};
+});
+Object.seal(CALENDARMODES);
 //#endregion CALENDARMODES
 //#region Calendar
 const Calendar = (() => {

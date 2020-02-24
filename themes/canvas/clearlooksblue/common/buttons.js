@@ -1,5 +1,5 @@
 ﻿//#region Imports
-import { ArithmeticOperations as AO } from "../../../../scripts/core/types.js";
+import { ARITHMETICOPERATIONS as AO } from "../../../../scripts/core/types.js";
 //#endregion Imports
 //#region Button
 Core.themes.clearlooksblue.Button = {

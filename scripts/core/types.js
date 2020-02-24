@@ -15,8 +15,8 @@ const MESSAGEBUTTONS = Object.freeze({
     YESTOALL: 'yesToAll',
     HELP: 'help'
 });
-//#endregion
-
+Object.seal(MESSAGEBUTTONS);
+//#endregion MESSAGEBUTTONS
 //#region CONSTANTS
 /**
  * @type    {Object}        CONSTANTS
@@ -71,9 +71,10 @@ const CONSTANTS = Object.freeze({
     BTNGLYPHFONTFACE: 'jagui',
     UNSET: 'unset'
 });
-//#endregion
+Object.seal(CONSTANTS);
+//#endregion CONSTANTS
 //#region
-const ArithmeticOperations = Object.freeze({
+const ARITHMETICOPERATIONS = Object.freeze({
     EQUAL:'equal',
     NOTEQUAL:'notEqual',
     LESSTHAN:'lessThan',
@@ -86,14 +87,15 @@ const ArithmeticOperations = Object.freeze({
     AND:'and',
     INDEXOF:'indexOf'
 });
-//#endregion
-const Types = Object.freeze({
+Object.seal(ARITHMETICOPERATIONS);
+//#endregion ARITHMETICOPERATIONS
+const Types = Object.seal(Object.freeze({
     CONSTANTS: CONSTANTS,
     //#region ALIGNS
     /**
      * @type    {Object}        ALIGNS
      */
-    ALIGNS: Object.freeze({
+    ALIGNS: Object.seal(Object.freeze({
         NONE: 'none',
         MOSTTOP: 'mostTop',
         MOSTBOTTOM: 'mostBottom',
@@ -114,84 +116,84 @@ const Types = Object.freeze({
         FIT: 'fit',
         FITLEFT: 'fitLeft',
         FITRIGHT: 'fitRight'
-    }),
+    })),
     //#endregion
     //#region DRAGMODES
     /**
      * @type    {Object}        DRAGMODES
      */
-    DRAGMODES: Object.freeze({
+    DRAGMODES: Object.seal(Object.freeze({
         MANUAL: 'manual',
         AUTOMATIC: 'automatic'
-    }),
+    })),
     //#endregion
     //#region PATHWRAPS
     /**
      * @type    {Object}        PATHWRAPS
      */
-    PATHWRAPS: Object.freeze({
+    PATHWRAPS: Object.seal(Object.freeze({
         ORIGINAL: 'original',
         FIT: 'fit',
         STRETCH: 'stretch',
         TILE: 'tile'
-    }),
+    })),
     //#endregion
     //#region TEXTALIGNS
     /**
      * @type    {Object}        TEXTALIGNS
      */
-    TEXTALIGNS: Object.freeze({
+    TEXTALIGNS: Object.seal(Object.freeze({
         CENTER: 'center',
         LEFT: 'left',
         RIGHT: 'right'
-    }),
+    })),
     //#endregion
     //#region VERTTEXTALIGNS
     /**
      * @type    {Object}        VERTTEXTALIGNS
      */
-    VERTTEXTALIGNS: Object.freeze({
+    VERTTEXTALIGNS: Object.seal(Object.freeze({
         TOP: 'top',
         MIDDLE: 'middle',
         BOTTOM: 'bottom'
-    }),
+    })),
     //#endregion
     //#region WRAPMODES
     /**
      * @type    {Object}        WRAPMODES
      */
-    WRAPMODES: Object.freeze({
+    WRAPMODES: Object.seal(Object.freeze({
         TILE: 'tile',
         TILEORIGINAL: 'tileOriginal',
         TILESTRETCH: 'tileStretch'
-    }),
+    })),
     //#endregion
     //#region ORIENTATIONS
     /**
      * @type    {Object}        ORIENTATIONS
      */
-    ORIENTATIONS: Object.freeze({
+    ORIENTATIONS: Object.seal(Object.freeze({
         HORIZONTAL: 'horizontal',
         VERTICAL: 'vertical'
-    }),
+    })),
     //#endregion
     //#region MESSAGETYPES
     /**
      * @type    {Object}        MESSAGETYPES
      */
-    MESSAGETYPES: Object.freeze({
+    MESSAGETYPES: Object.seal(Object.freeze({
         WARNING: 'warning',
         ERROR: 'error',
         INFORMATION: 'information',
         CONFIRMATION: 'confirmation',
         CUSTOM: 'custom'
-    }),
+    })),
     //#endregion
     //#region CURSORS
     /**
      * @type    {Object}        CURSORS
      */
-    CURSORS: Object.freeze({
+    CURSORS: Object.seal(Object.freeze({
         ALIAS: 'alias',
         ALLSCROLL: 'all-scroll',
         AUTO: 'auto',
@@ -224,11 +226,11 @@ const Types = Object.freeze({
         ZOOMIN: 'zoom-in',
         ZOOMOUT: 'zoom-out',
         INITIAL: 'initial'
-    }),
+    })),
     /**
      * @type    {Object}
      */
-    CUSTOMCURSORS: Object.freeze({
+    CUSTOMCURSORS: Object.seal(Object.freeze({
         ALIAS: 'csr_alias',
         ALLSCROLL: 'csr_allScroll',
         AUTO: 'csr_auto',
@@ -264,73 +266,73 @@ const Types = Object.freeze({
         ZOOMOUT: 'csr_zoomOut',
         INITIAL: 'csr_initial',
         ROTATE: 'csr_rotate'
-    }),
+    })),
     //#endregion
     //#region BRUSHSTYLES
     /**
      * @type    {Object}        BRUSHSTYLES
      */
-    BRUSHSTYLES: Object.freeze({
+    BRUSHSTYLES: Object.seal(Object.freeze({
         NONE: 'none',
         SOLID: 'solid',
         GRADIENT: 'gradient',
         BITMAP: 'bitmap'
-    }),
+    })),
     //#endregion
     //#region GRADIENTSTYLES
     /**
      * @type    {Object}        GRADIENTSTYLES
      */
-    GRADIENTSTYLES: Object.freeze({
+    GRADIENTSTYLES: Object.seal(Object.freeze({
         LINEAR: 'linear',
         RADIAL: 'radial',
         CONIC: 'conic'
-    }),
+    })),
     //#endregion
     //#region FONTSTYLES
     /**
      * @type    {Object}        FONTSTYLES
      */
-    FONTSTYLES: Object.freeze({
+    FONTSTYLES: Object.seal(Object.freeze({
         NORMAL: 'normal',
         ITALIC: 'italic',
         BOLD: 'bold'
-    }),
+    })),
     //#endregion
     //#region CALLOUTPOSITIONS
     /**
      * @type    {Object}        CALLOUTPOSITIONS
      */
-    CALLOUTPOSITIONS: Object.freeze({
+    CALLOUTPOSITIONS: Object.seal(Object.freeze({
         LEFT: 'left',
         TOP: 'top',
         RIGHT: 'right',
         BOTTOM: 'bottom'
-    }),
+    })),
     /**
      * @type    {Object}
      */
-    TRAPEZOIDORIENTATIONS: Object.freeze({
+    TRAPEZOIDORIENTATIONS: Object.seal(Object.freeze({
         LEFT: 'left',
         TOP: 'top',
         RIGHT: 'right',
         BOTTOM: 'bottom'
-    }),
+    })),
     /**
      * @type    {Object}
      */
-    PARALLELOGRAMORIENTATIONS: Object.freeze({
+    PARALLELOGRAMORIENTATIONS: Object.seal(Object.freeze({
         LEFT: 'left',
         TOP: 'top',
         RIGHT: 'right',
         BOTTOM: 'bottom'
-    }),
+    })),
     //#endregion
     //#region ARROWORIENTATIONS
     /**
      * @type    {Object}        ARROWORIENTATIONS
      */
-    ARROWORIENTATIONS: Object.freeze({
+    ARROWORIENTATIONS: Object.seal(Object.freeze({
         LEFT: 'left',
         TOP: 'top',
         RIGHT: 'right',
@@ -339,13 +341,13 @@ const Types = Object.freeze({
         TOPRIGHT: 'topright',
         BOTTOMLEFT: 'bottomleft',
         BOTTOMRIGHT: 'bottomright'
-    }),
+    })),
     //#endregion
     //#region XMLNODETYPES
     /**
      * @type    {Object}        XMLNODETYPES
      */
-    XMLNODETYPES: Object.freeze({
+    XMLNODETYPES: Object.seal(Object.freeze({
         ELEMENT_NODE: 0x1,
         ATTRIBUTE_NODE: 0x2,
         TEXT_NODE: 0x3,
@@ -358,22 +360,22 @@ const Types = Object.freeze({
         DOCUMENT_TYPE_NODE: 0xA,
         DOCUMENT_FRAGMENT_NODE: 0xB,
         NOTATION_NODE: 0xC
-    }),
+    })),
     //#endregion
     //#region LISTSTYLES
     /**
      * @type    {Object}        LISTSTYLES
      */
-    LISTSTYLES: Object.freeze({
+    LISTSTYLES: Object.seal(Object.freeze({
         VERTICAL: 'vertical',
         HORIZONTAL: 'horizontal'
-    }),
+    })),
     //#endregion
     //#region SVG
     /**
      * @type    {Object}        SVG
      */
-    SVG: Object.freeze({
+    SVG: Object.seal(Object.freeze({
         XMLNS: 'http://www.w3.org/2000/svg',
         SVG: 'svg',
         DEFS: 'defs',
@@ -383,13 +385,13 @@ const Types = Object.freeze({
         STOP: 'stop',
         XLINKHREF: 'xlink:href',
         XLINK: 'http://www.w3.org/1999/xlink'
-    }),
+    })),
     //#endregion
     //#region SHAPES
     /**
      * @type    {Object}        SHAPES
      */
-    SHAPES: Object.freeze({
+    SHAPES: Object.seal(Object.freeze({
         RECTANGLE: 'rectangle',
         ELLIPSE: 'ellipse',
         CIRCLE: 'circle',
@@ -407,33 +409,33 @@ const Types = Object.freeze({
         PARALLELOGRAM: 'parallelogram',
         NINJASTAR: 'ninjaStar',
         REGULARPOLYGON: 'regularPolygon'
-    }),
+    })),
     //#endregion
     //#region OPERATIONS
     /**
      * @type    {Object}        OPERATIONS
      */
-    OPERATIONS: Object.freeze({
+    OPERATIONS: Object.seal(Object.freeze({
         INSERT: 'insert',
         REMOVE: 'remove'
-    }),
+    })),
     //#endregion
     //#region CSSSELECTORSFLAGS
     /**
      * @type    {Object}        CSSSELECTORSFLAGS
      */
-    CSSSELECTORSFLAGS: Object.freeze({
+    CSSSELECTORSFLAGS: Object.seal(Object.freeze({
         START: 'start',
         EGAL: 'egal',
         CONTAINS: 'contains',
         ENDS: 'ends'
-    }),
+    })),
     //#endregion
     //#region HTMLELEMENTS
     /**
      * @type    {Object}        HTMLELEMENTS
      */
-    HTMLELEMENTS: Object.freeze({
+    HTMLELEMENTS: Object.seal(Object.freeze({
         DIV: 'div',
         IMG: 'img',
         SPAN: 'span',
@@ -451,13 +453,13 @@ const Types = Object.freeze({
         H3: 'h3',
         A: 'a',
         DATALIST: 'datalist'
-    }),
+    })),
     //#endregion
     //#region HTMLEVENTS
     /**
      * @type    {Object}        HTMLEVENTS
      */
-    HTMLEVENTS: Object.freeze({
+    HTMLEVENTS: Object.seal(Object.freeze({
         LOAD: 'load',
         ERROR: 'error',
         CHANGE: 'change',
@@ -472,13 +474,13 @@ const Types = Object.freeze({
         MOUSEMOVE:'mousemove',
         MOUSEDOWN:'mousedown',
         MOUSEUP:'mouseup'
-    }),
+    })),
     //#endregion
     //#region HTMLINPUTTYPES
     /**
      * @type    {Object}        HTMLINPUTTYPES
      */
-    HTMLINPUTTYPES: Object.freeze({
+    HTMLINPUTTYPES: Object.seal(Object.freeze({
         TEXT: 'text',
         PASSWORD: 'password',
         COLOR: 'color',
@@ -497,42 +499,42 @@ const Types = Object.freeze({
         RADIO: 'radio',
         Checkbox: 'checkbox',
         SUBMIT: 'submit'
-    }),
+    })),
     //#endregion
     //#region WORKERSTATUS
     /**
      * @type    {Object}        WORKERSTATUS
      */
-    WORKERSTATUS: Object.freeze({
+    WORKERSTATUS: Object.seal(Object.freeze({
         START: 'start',
         UPDATE: 'update',
         END: 'end'
-    }),
+    })),
     //#endregion
     //#region CONTROLPROPS
     /**
      * @type    {Object}        CONTROLPROPS
      */
-    CONTROLPROPS: Object.freeze({
+    CONTROLPROPS: Object.seal(Object.freeze({
         ANCHOR: 'anchor'
-    }),
+    })),
     //#endregion
     //#region ANCHORS
     /**
      * @type    {Object}        ANCHORS
      */
-    ANCHORS: Object.freeze({
+    ANCHORS: Object.seal(Object.freeze({
         LEFT: 'left',
         TOP: 'top',
         RIGHT: 'right',
         BOTTOM: 'bottom'
-    }),
+    })),
     //#endregion
     //#region PSEUDOCSSCLASS
     /**
      * @type    {Object}        PSEUDOCSSCLASS
      */
-    PSEUDOCSSCLASS: Object.freeze({
+    PSEUDOCSSCLASS: Object.seal(Object.freeze({
         BEFORE: '::before',
         AFTER: '::after',
         HOVER: ':hover',
@@ -541,13 +543,13 @@ const Types = Object.freeze({
         ACTIVE: ':active',
         ACTIVE_BEFORE: ':active::before',
         ACTIVE_AFTER: ':active::after'
-    }),
+    })),
     //#endregion
     //#region PROPSNEEDUPDATE
     /**
      * @type    {Object}        PROPSNEEDUPDATE
      */
-    PROPSNEEDUPDATE: Object.freeze({
+    PROPSNEEDUPDATE: Object.seal(Object.freeze({
         WIDTH: 'width',
         HEIGHT: 'height',
         COLOR: 'color',
@@ -555,32 +557,32 @@ const Types = Object.freeze({
         LEFT: 'left',
         TOP: 'top',
         ROTATEANGLE: 'rotateAngle'
-    }),
+    })),
     //#endregion
     //#region STYLES
     /**
      * @type    {Object}        STYLES
      */
-    STYLES: Object.freeze({
+    STYLES: Object.seal(Object.freeze({
         NONE: 'none',
         NORMAL: 'normal',
         HOVERED: 'hovered',
         PRESSED: 'pressed'
-    }),
+    })),
     //#endregion
     //#region MESSAGES
     /**
      * @type    {Object}        MESSAGES
      */
-    MESSAGES: Object.freeze({
+    MESSAGES: Object.seal(Object.freeze({
         RESIZE: 'resize'
-    }),
+    })),
     //#endregion
     //#region CATEGORIES
     /**
      * @type    {Object}        CATEGORIES
      */
-    CATEGORIES: Object.freeze({
+    CATEGORIES: Object.seal(Object.freeze({
         INTERNAL: 'internal',
         COMMON: 'common',
         CONTAINERS: 'containers',
@@ -599,37 +601,37 @@ const Types = Object.freeze({
         GUITHEMES: 'guithemes',
         BASECSSCOMPONENTS: 'basecsscomponents',
         THEMESCSSCOMPONENTS: 'themescsscomponents'
-    }),
+    })),
     //#endregion
     //#region INTERNALCATEGORIES
     /**
      * @type    {Object}        INTERNALCATEGORIES
      */
-    INTERNALCATEGORIES: Object.freeze({
+    INTERNALCATEGORIES: Object.seal(Object.freeze({
         INTERNAL: 'internal',
         CORE: 'core',
         APPS: 'apps',
         COMPONENTS: 'components',
         LOCALES: 'locales',
         THIRDPARTY: 'thirdparty'
-    }),
+    })),
     //#endregion
     //#region BITMAPREPEATMODES
     /**
      * @type    {Object}        BITMAPREPEATMODES
      */
-    BITMAPREPEATMODES: Object.freeze({
+    BITMAPREPEATMODES: Object.seal(Object.freeze({
         NOREPEAT: 'no-repeat',
         REPEAT: 'repeat',
         REPEATX: 'repeat-x',
         REPEATY: 'repeat-y'
-    }),
+    })),
     //#endregion
     //#region TEXTSELECTIONMOVES
     /**
      * @type    {Object}        TEXTSELECTIONMOVES
      */
-    TEXTSELECTIONMOVES: Object.freeze({
+    TEXTSELECTIONMOVES: Object.seal(Object.freeze({
         FIRST: 'first',
         PREV: 'prev',
         NEXT: 'next',
@@ -646,13 +648,13 @@ const Types = Object.freeze({
         BOTTOM: 'bottom',
         FIRST_TOP: 'firstTop',
         LAST_BOTTOM: 'lastBottom'
-    }),
+    })),
     //#endregion
     //#region JSCSSPROPERTIES
     /**
      * @type    {Object}        JSCSSPROPERTIES
      */
-    JSCSSPROPERTIES: Object.freeze({
+    JSCSSPROPERTIES: Object.seal(Object.freeze({
         LEFT: 'left',
         TOP: 'top',
         RIGHT: 'right',
@@ -710,13 +712,13 @@ const Types = Object.freeze({
         ANIMATIONSTATE: 'animationPlayState',
         WHITESPACE: 'whiteSpace',
         TEXTDECORATION: 'textDecoration'
-    }),
+    })),
     //#endregion
     //#region CSSPROPERTIES
     /**
      * @type    {Object}        CSSPROPERTIES
      */
-    CSSPROPERTIES: Object.freeze({
+    CSSPROPERTIES: Object.seal(Object.freeze({
         LEFT: 'left',
         TOP: 'top',
         RIGHT: 'right',
@@ -769,57 +771,57 @@ const Types = Object.freeze({
         MARGINTOP: 'margin-top',
         MARGINRIGHT: 'margin-right',
         MARGINBOTTOM: 'margin-bottom'
-    }),
+    })),
     //#endregion
     //#region CSSVALUES
     /**
      * @type    {Object}        CSSVALUES
      */
-    CSSVALUES: Object.freeze({
+    CSSVALUES: Object.seal(Object.freeze({
         VISIBLE: 'visible',
         HIDDEN: 'hidden',
         NORMAL: 'normal',
         NONE: 'none',
         INLINEBLOCK: 'inline-block'
-    }),
+    })),
     //#endregion
     //#region TEXTOVERFLOWS
-    TEXTOVERFLOWS: Object.freeze({
+    TEXTOVERFLOWS: Object.seal(Object.freeze({
         CLIP: 'clip',
         ELLIPSIS: 'ellipsis'
-    }),
+    })),
     //#endregion TEXTOVERFLOWS
     //#region TEXTTRANSFORM
-    TEXTTRANSFORMS: Object.freeze({
+    TEXTTRANSFORMS: Object.seal(Object.freeze({
         CAPITALIZE: 'capitalize',
         UPPERCASE: 'uppercase',
         LOWERCASE: 'lowercase',
         NONE: 'none'
-    }),
+    })),
     //#endregion TEXTTRANSFORM
     //#region TEXTDECORATIONSTYLES
-    TEXTDECORATIONSTYLES: Object.freeze({
+    TEXTDECORATIONSTYLES: Object.seal(Object.freeze({
         SOLID: 'solid',
         DOUBLE: 'double',
         DOTTED: 'dotted',
         DASHED: 'dashed',
         WAVY: 'wavy',
         NONE: 'none'
-    }),
+    })),
     //#endregion TEXTDECORATIONSTYLES
     //#region TEXTDECORATIONS
-    TEXTDECORATIONS: Object.freeze({
+    TEXTDECORATIONS: Object.seal(Object.freeze({
         UNDERLINE: 'underline',
         OVERLINE: 'overline',
         LINETHROUGH: 'line-through',
         NONE: 'none'
-    }),
+    })),
     //#endregion TEXTDECORATIONS
     //#region CSSUNITS
     /**
      * @type    {Object}        CSSUNITS
      */
-    CSSUNITS: Object.freeze({
+    CSSUNITS: Object.seal(Object.freeze({
         CM: 'cm',
         EM: 'em',
         IN: 'in',
@@ -829,13 +831,13 @@ const Types = Object.freeze({
         PO: '%',
         PX: 'px',
         REM: 'rem'
-    }),
+    })),
     //#endregion
     //#region ANIMATIONTRIGGERS
     /**
      * @type    {Object}        ANIMATIONTRIGGERS
      */
-    ANIMATIONTRIGGERS: Object.freeze({
+    ANIMATIONTRIGGERS: Object.seal(Object.freeze({
         ISMOUSEOVER: 'isMouseOver:true',
         ISNOTMOUSEOVER: 'isMouseOver:false',
         ISFOCUSED: 'isFocused:true',
@@ -846,13 +848,13 @@ const Types = Object.freeze({
         ISNOTDRAGOVER: 'isDragOver:false',
         ISOPEN: 'isOpen:true',
         ISNOTOPEN: 'isOpen:false'
-    }),
+    })),
     //#endregion
     //#region CSSRULETYPES
     /**
      * @type    {Object}        CSSRULETYPES
      */
-    CSSRULETYPES: Object.freeze({
+    CSSRULETYPES: Object.seal(Object.freeze({
         UNKNOWN_RULE: 0,
         STYLE_RULE: 1,
         CHARSET_RULE: 2,
@@ -865,22 +867,22 @@ const Types = Object.freeze({
         NAMESPACE_RULE: 10,
         SUPPORTS_RULE: 12,
         FONT_FEATURE_VALUES_RULE: 14
-    }),
+    })),
     //#endregion
     //#region COLORFORMATS
     /**
      * @type    {Object}        COLORFORMATS
      */
-    COLORFORMATS: Object.freeze({
+    COLORFORMATS: Object.seal(Object.freeze({
         HSL: 'hsl',
         HSV: 'hsv'
-    }),
+    })),
     //#endregion
     //#region LANGUAGES
     /**
      * @type    {Object}        LANGUAGES
      */
-    LANGUAGES: Object.freeze({
+    LANGUAGES: Object.seal(Object.freeze({
         AF_ZA: 'af-ZA',
         AR_AE: 'ar-AE',
         AR_BH: 'ar-BH',
@@ -1038,85 +1040,85 @@ const Types = Object.freeze({
         ZH_SG: 'zh-SG',
         ZH_TW: 'zh-TW',
         ZU_ZA: 'zu-ZA'
-    }),
+    })),
     //#endregion
     //#region SCROLLBARS
     /**
      * @type    {Object}        SCROLLBARS
      */
-    SCROLLBARS: Object.freeze({
+    SCROLLBARS: Object.seal(Object.freeze({
         NONE: 'none',
         HORIZONTAL: 'horizontal',
         VERTICAL: 'vertical',
         BOTH: 'both'
-    }),
+    })),
     //#endregion
     //#region DIRECTIONS
     /**
      * @type    {Object}        DIRECTIONS
      */
-    DIRECTIONS: Object.freeze({
+    DIRECTIONS: Object.seal(Object.freeze({
         LEFT: 'left',
         RIGHT: 'right'
-    }),
+    })),
     //#endregion
     //#region CHARCASES
     /**
      * @type    {Object}        CHARCASES
      */
-    CHARCASES: Object.freeze({
+    CHARCASES: Object.seal(Object.freeze({
         NORMAL: 'normal',
         LOWERCASE: 'lowerCase',
         UPPERCASE: 'upperCase'
-    }),
+    })),
     //#endregion
     //#region SORTEDORDERS
     /**
      * @type    {Object}        SORTEDORDERS
      */
-    SORTEDORDERS: Object.freeze({
+    SORTEDORDERS: Object.seal(Object.freeze({
         ASC: 'asc',
         DESC: 'desc'
-    }),
+    })),
     //#endregion
     /**
      * @type    {Object}        CSSFILES
      */
-    CSSFILES: Object.freeze({
-        ANIMATE: 'animate',
-        JAGUI: 'jagui',
-        AIR: 'Air',
-        BEOS: 'BeOS',
-        BLEND: 'Blend',
-        CARBON: 'Carbon',
-        CLASSIC10K: 'Classic10K',
-        CLEARLOOKS: 'Clearlooks',
-        CORONA12: 'Corona12',
-        CRUZ: 'Cruz',
-        DEANACHM: 'Deanachm',
-        EXTREME: 'Extreme',
-        GUISTYLE: 'GUIStyle',
-        LUNABLUE: 'LunaBlue',
-        LUNAHOMESTEAD: 'LunaHomestead',
-        LUNAMETALLIC: 'LunaMetallic',
-        MACOS: 'MacOS',
-        MODERN: 'Modern',
-        PROLCD: 'ProLCD',
-        RAINBOW: 'Rainbow',
-        SIMPLE: 'Simple',
-        SMOOTHGNOME: 'SmoothGnome',
-        SUSTENANCE: 'Sustenance',
-        UBUNTU: 'Ubuntu',
-        VISTA: 'Vista',
-        WATERCOLOR: 'WaterColor',
-        WINDOWS8: 'Windows8'
-    }),
+    //CSSFILES: Object.seal(Object.freeze({
+    //    ANIMATE: 'animate',
+    //    JAGUI: 'jagui',
+    //    AIR: 'Air',
+    //    BEOS: 'BeOS',
+    //    BLEND: 'Blend',
+    //    CARBON: 'Carbon',
+    //    CLASSIC10K: 'Classic10K',
+    //    CLEARLOOKS: 'Clearlooks',
+    //    CORONA12: 'Corona12',
+    //    CRUZ: 'Cruz',
+    //    DEANACHM: 'Deanachm',
+    //    EXTREME: 'Extreme',
+    //    GUISTYLE: 'GUIStyle',
+    //    LUNABLUE: 'LunaBlue',
+    //    LUNAHOMESTEAD: 'LunaHomestead',
+    //    LUNAMETALLIC: 'LunaMetallic',
+    //    MACOS: 'MacOS',
+    //    MODERN: 'Modern',
+    //    PROLCD: 'ProLCD',
+    //    RAINBOW: 'Rainbow',
+    //    SIMPLE: 'Simple',
+    //    SMOOTHGNOME: 'SmoothGnome',
+    //    SUSTENANCE: 'Sustenance',
+    //    UBUNTU: 'Ubuntu',
+    //    VISTA: 'Vista',
+    //    WATERCOLOR: 'WaterColor',
+    //    WINDOWS8: 'Windows8'
+    //})),
     //#endregion
     //#region DISPLAYS
     /**
      * @type    {Object}        DISPLAYS
      */
-    DISPLAYS: Object.freeze({
+    DISPLAYS: Object.seal(Object.freeze({
         NONE: 'none',
         BLOCK: 'block',
         INLINE: 'inline',
@@ -1137,58 +1139,58 @@ const Types = Object.freeze({
         TABLEHEADERGROUP: 'table-header-group',
         TABLEROW: 'table-row',
         TABLEROWGROUP: 'table-row-group'
-    }),
+    })),
     //#endregion
     //#region PROPERTIESCATEGORIES
     /**
      * @type    {Object}        PROPERTIESCATEGORIES
      */
-    PROPERTIESCATEGORIES: Object.freeze({
-        ACTION: {
+    PROPERTIESCATEGORIES: Object.seal(Object.freeze({
+        ACTION: Object.seal(Object.freeze({
             label: 'Action', properties: []
-        },
-        DATABASE: {
+        })),
+        DATABASE: Object.seal(Object.freeze({
             label: 'Database', properties: []
-        },
-        DRAGDROPDOCKING: {
+        })),
+        DRAGDROPDOCKING: Object.seal(Object.freeze({
             label: 'Drag, Drop, and Docking', properties: []
-        },
-        HELPHINTS: {
+        })),
+        HELPHINTS: Object.seal(Object.freeze({
             label: 'Help and Hints', properties: []
-        },
-        LAYOUT: {
+        })),
+        LAYOUT: Object.seal(Object.freeze({
             label: 'Layout', properties: []
-        },
-        LEGACY: {
+        })),
+        LEGACY: Object.seal(Object.freeze({
             label: 'Legacy', properties: []
-        },
-        LINKAGE: {
+        })),
+        LINKAGE: Object.seal(Object.freeze({
             label: 'Linkage', properties: []
-        },
-        LOCALE: {
+        })),
+        LOCALE: Object.seal(Object.freeze({
             label: 'Locale', properties: []
-        },
-        LOCALIZABLE: {
+        })),
+        LOCALIZABLE: Object.seal(Object.freeze({
             label: 'Localizable', properties: []
-        },
-        VISUAL: {
+        })),
+        VISUAL: Object.seal(Object.freeze({
             label: 'Visual', properties: []
-        },
-        INPUT: {
+        })),
+        INPUT: Object.seal(Object.freeze({
             label: 'Input', properties: []
-        },
-        MISCELLANEOUS: {
+        })),
+        MISCELLANEOUS: Object.seal(Object.freeze({
             label: 'Miscellaneous', properties: []
-        }
-    }),
+        }))
+    })),
     //#endregion
     //#region THEMES
     /**
      * @type    {Object}        THEMES
      */
-    THEMES: Object.freeze({
+    THEMES: Object.seal(Object.freeze({
         BASE: 'base'
-    }),
+    })),
     //#endregion
     //#region BINDABLEPROPERTIES
     /**
@@ -1201,31 +1203,31 @@ const Types = Object.freeze({
     /**
      * @type    {Object}        DRAGKINDS
      */
-    DRAGKINDS: Object.freeze({
+    DRAGKINDS: Object.seal(Object.freeze({
         DRAG: 'drag',
         DOCK: 'dock'
-    }),
+    })),
     //#endregion
     //#region RENDERERS
     /**
      * @type    {Object}        RENDERERS
      */
-    RENDERERS: Object.freeze({
+    RENDERERS: Object.seal(Object.freeze({
         HTML: 'html',
         CANVAS: 'canvas',
         SVG: 'svg'
-    }),
+    })),
     //#endregion
     //#region GRADIENTDIRECTIONS
     /**
      * @type    {Object}        GRADIENTDIRECTIONS
      */
-    GRADIENTDIRECTIONS: Object.freeze({
+    GRADIENTDIRECTIONS: Object.seal(Object.freeze({
         TORIGHT: 'toRight',
         TOBOTTOM: 'toBottom',
         TOBOTTOMRIGHT: 'toBottomRight'
-    })
+    }))
     //#endregion
-});
+}));
 window.Types = Types;
-export { Types, ArithmeticOperations };
+export { Types, ARITHMETICOPERATIONS };
