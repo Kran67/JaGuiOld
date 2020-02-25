@@ -38,7 +38,7 @@ const Component = (() => {
             priv.component = true;
             priv.name = props.hasOwnProperty('name') ? props.name : String.EMPTY;
             priv.cssBorder = new Rect;
-            priv.inForm = this instanceof Core.classes.BaseWindow ? false : props.hasOwnProperty('inForm') ? props.inForm : true;
+            priv.inForm = this instanceof Core.classes.BaseWindow ? false : props.hasOwnProperty('inForm') && Tools.isBool(props.inForm) ? props.inForm : true;
             priv.visible = props.hasOwnProperty('visible') && Tools.isBool(props.visible) ? props.visible : true;
             priv.left = props.hasOwnProperty('left') && Tools.isNumber(props.left) ? props.left : 0;
             priv.top = props.hasOwnProperty('top') && Tools.isNumber(props.top) ? props.top : 0;

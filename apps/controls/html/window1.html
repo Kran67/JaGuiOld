@@ -146,19 +146,21 @@
                     <jagui-pagecontrol id="_oNHn99A1" data-class="PageControl" class="Control TabControl PageControl {theme}"><properties>{ "name": "PageControl1", "activeTab": "Tab1", "tabOrder": 37, "width": 200, "top": 250, "left": 350, "height": 100 }</properties>
                         <jagui-tabcontrolheader class="Control TabControlHeader {theme}">
                             <jagui-tabscontainer class="Control TabsContainer {theme}">
-                                <jagui-tabsheet id="_oNHn09A1" data-class="TabSheet" name="Tab1" class="Control Tab TabSheet selected csr_default {theme}">tab1</jagui-tabsheet>
-                                <jagui-tabsheet id="_oNHn19A1" data-class="TabSheet" name="Tab2" class="Control Tab TabSheet csr_default {theme}">tab2</jagui-tabsheet>
-                                <jagui-tabsheet id="_oNHn29A1" data-class="TabSheet" name="Tab3" class="Control Tab TabSheet csr_default {theme}">tab3</jagui-tabsheet>
-                                <jagui-tabsheet id="_oNHn39A1" data-class="TabSheet" name="Tab4" class="Control Tab TabSheet csr_default {theme}">tab4</jagui-tabsheet>
-                                <jagui-tabsheet id="_oNHn49A1" data-class="TabSheet" name="Tab5" class="Control Tab TabSheet csr_default {theme}">tab5</jagui-tabsheet>
+                                <jagui-tabsheet id="_oNHn09A1" data-class="TabSheet" data-name="Tab1" class="Control Tab TabSheet selected csr_default {theme}">tab1</jagui-tabsheet>
+                                <jagui-tabsheet id="_oNHn19A1" data-class="TabSheet" data-name="Tab2" class="Control Tab TabSheet csr_default {theme}">tab2</jagui-tabsheet>
+                                <jagui-tabsheet id="_oNHn29A1" data-class="TabSheet" data-name="Tab3" class="Control Tab TabSheet csr_default {theme}">tab3</jagui-tabsheet>
+                                <jagui-tabsheet id="_oNHn39A1" data-class="TabSheet" data-name="Tab4" class="Control Tab TabSheet csr_default {theme}">tab4</jagui-tabsheet>
+                                <jagui-tabsheet id="_oNHn49A1" data-class="TabSheet" data-name="Tab5" class="Control Tab TabSheet csr_default {theme}">tab5</jagui-tabsheet>
                             </jagui-tabscontainer>
                         </jagui-tabcontrolheader>
-                        <jagui-tabscontent id="_VzJzvjA" data-class="Layout" class="Control TabsContent PagesContent {theme}">
-                            <jagui-pagecontent class="Control PageContent {theme}" data-tab="Tab1">
-                                <!--<button id="_oNun99A1" name="Button2" data-class="Button" style="left: 10px;top: 10px;height: 19px;width: 68px;" class="Control Button csr_default {theme}"
-                                    data-taborder="0">Cut</button>-->
+                        <jagui-tabscontent id="_VzJzvjA" data-class="Layout" class="Control TabsContent PagesContent {theme}"><properties>{ "name": "TabContent", "inForm": false }</properties>
+                            <jagui-pagecontent id="_PzJzvjA" data-class="PageContent" class="Control PageContent {theme}"><properties>{ "name": "PageContent1", "inForm": false, "tab": "Tab1" }</properties>
+                                <jagui-button id="_oNun99A1" draggable="true" data-class="Button" class="Control Button {theme} csr_default"><properties>{ "left": 10, "top": 10, "height": 19, "width": 68, "name": "Button2", "caption": "Cut" }</properties></jagui-button>
                             </jagui-pagecontent>
-                            <jagui-pagecontent class="Control PageContent hidden {theme}" data-tab="Tab2">
+                            <jagui-pagecontent id="_PzJzv5A" data-class="PageContent" class="Control PageContent noDisplay {theme}"><properties>{ "name": "PageContent2", "inForm": false, "tab": "Tab2" }</properties>
+                                <jagui-rectangle id="_34qksx5" data-class="Rectangle" class="Control Rectangle"><properties>{ "name": "Rectangle2", "fillColor": "black", "strokeColor": "white", "strokeWidth": 1, "align": "left", "width": 20 }</properties></jagui-rectangle>
+                                <jagui-rectangle id="_38qksx5" data-class="Rectangle" class="Control Rectangle"><properties>{ "name": "Rectangle3", "fillColor": "black", "strokeColor": "white", "strokeWidth": 2, "align": "client" }</properties></jagui-rectangle>
+
                                 <!--<div id="_34qksx5" name="Rectangle2" data-class="Rectangle" class="Control Rectangle" data-align="left" style="left: 0;top: 0;bottom: 0;width:20px;"
                                     data-fillcolor="black" data-strokecolor="white" data-strokewidth="1">
                                     <svg class="Control svgShape">
@@ -174,7 +176,7 @@
                                 <div id="_34qssx5" name="Splitter1" data-class="Splitter" class="Control csr_wResize Splitter orientation-vertical {theme}"
                                     data-orientation="vertical" data-align="left" data-collapsible="true" style="left: 20px;"></div>-->
                             </jagui-pagecontent>
-                            <jagui-pagecontent class="Control PageContent hidden {theme}" data-tab="Tab3">
+                            <jagui-pagecontent  id="_PzJev5A" data-class="PageContent" class="Control PageContent noDisplay {theme}"><properties>{ "name": "PageContent3", "inForm": false, "tab": "Tab3" }</properties>
                                 <!--<div id="_34qksx6" name="Rectangle4" data-class="Rectangle" class="Control Rectangle" data-align="client" style="right:55px;top:0;bottom:0;left:0;"
                                     data-fillcolor="black" data-strokecolor="white" data-strokewidth="1">
                                     <svg class="Control svgShape">
@@ -190,7 +192,7 @@
                                 <div id="_34qssx8" name="Splitter2" data-class="Splitter" class="Control csr_wResize Splitter orientation-vertical {theme}"
                                     data-orientation="vertical" data-align="right" data-collapsible="false" style="right:50px;top:0;bottom:0;"></div>-->
                             </jagui-pagecontent>
-                            <jagui-pagecontent class="Control PageContent hidden {theme}" data-tab="Tab4">
+                            <jagui-pagecontent  id="_PaJzv5A" data-class="PageContent" class="Control PageContent noDisplay {theme}"><properties>{ "name": "PageContent4", "inForm": false, "tab": "Tab4" }</properties>
                                 <!--<div id="_34qksx9" name="Rectangle6" data-class="Rectangle" class="Control Rectangle" data-align="top" style="top:0;height:20px;left:0;right:0;"
                                     data-fillcolor="black" data-strokecolor="white" data-strokewidth="1">
                                     <svg class="Control svgShape">
@@ -206,7 +208,7 @@
                                 <div id="_34qssxB" name="Splitter3" data-class="Splitter" class="Control csr_nResize Splitter orientation-horizontal {theme}"
                                     data-orientation="horizontal" data-align="top" data-collapsible="true" style="top:20px;right:0;left:0;"></div>-->
                             </jagui-pagecontent>
-                            <jagui-pagecontent class="Control PageContent hidden {theme}" data-tab="Tab5">
+                            <jagui-pagecontent  id="_PzMuv5A" data-class="PageContent" class="Control PageContent noDisplay {theme}"><properties>{ "name": "PageContent5", "inForm": false, "tab": "Tab5" }</properties>
                                 <!--<div id="_34qksxC" name="Rectangle8" data-class="Rectangle" class="Control Rectangle" data-align="client" style="top:0;height:55px;left:0;right:0;"
                                     data-fillcolor="black" data-strokecolor="white" data-strokewidth="1">
                                     <svg class="Control svgShape">

@@ -1288,7 +1288,7 @@ const Control = (() => {
             if (htmlElementStyle) {
                 //const position = getComputedStyle(this.HTMLElement).position;
                 //if (position === "absolute") {
-                if (priv.align === Types.ALIGNS.NONE) {
+                if (priv.align === Types.ALIGNS.NONE && this.inForm) {
                     if (priv.width < 0) {
                         htmlElementStyle.width = 'auto';
                     } else {
@@ -2579,14 +2579,9 @@ const Control = (() => {
                 nodes.forEach(node => {
                     if (node.nodeType === XMLNODETYPES.ELEMENT_NODE && isHtmlRenderer) {
                         dataClass = node.dataset.class;
-                        //dataName = node.name.value;
                     } else {
                         dataClass = node.className;
-                        //dataName = node.name;
                     }
-                    //if (!dataName || !dataName) {
-                    //    dataName = String.EMPTY;
-                    //}
                     let properties = {};
                     if (isHtmlRenderer) {
                         if (node.nodeType === XMLNODETYPES.ELEMENT_NODE) {

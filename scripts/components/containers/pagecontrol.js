@@ -1,5 +1,6 @@
 ﻿//#region Import
 import { Tab } from '/scripts/components/containers/tab.js';
+import { Layout } from '/scripts/components/containers/layout.js';
 //#endregion Import
 //#region TabSheet
 const TabSheet = (() => {
@@ -29,9 +30,21 @@ const TabSheet = (() => {
         }
         //#endregion constructor
         //#region Getters / Setters
+        //#region HTMLPage
         get HTMLPage() {
             return internal(this).HTMLPage;
         }
+        set HTMLPage(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (newValue instanceof HTMLElement) {
+                if (priv.HTMLPage !== newValue) {
+                    priv.HTMLPage = newValue;
+                }
+            }
+        }
+        //#endregion HTMLPage
         //#endregion Getters / Setters
         //#region Methods
         //#region show
@@ -42,7 +55,6 @@ const TabSheet = (() => {
             if (this.enabled) {
                 super.show();
                 priv.HTMLPage.classList.remove('noDisplay');
-                //this.hideOrShowChildrens(false);
             }
         }
         //#endregion show
@@ -53,7 +65,6 @@ const TabSheet = (() => {
             //#endregion Variables déclaration
             super.hide();
             priv.HTMLPage.classList.add('noDisplay');
-            //this.hideOrShowChildrens(true);
         }
         //#endregion hide
         //#region loaded
@@ -76,6 +87,45 @@ const TabSheet = (() => {
 Object.seal(TabSheet);
 Core.classes.register(Types.CATEGORIES.INTERNAL, TabSheet);
 //#endregion TabSheet
+//#region Pagecontent
+const Pagecontent = (() => {
+    //#region Private
+    const _private = new WeakMap();
+    const internal = (key) => {
+        // Initialize if not created
+        if (!_private.has(key)) {
+            _private.set(key, {});
+        }
+        // Return private properties object
+        return _private.get(key);
+    };
+    //#endregion Private
+    //#region Class PageContent
+    class PageContent extends Layout {
+        //#region constructor
+        constructor(owner, props) {
+            //#region Variables déclaration
+            //#endregion Variables déclaration
+            props = !props ? {} : props;
+            if (owner) {
+                super(owner, props);
+                const priv = internal(this);
+                priv.tab = props.hasOwnProperty('tab')?this.form[props.tab]:null;
+            }
+        }
+        //#endregion constructor
+        //#endregion Getters / Setters
+        //#region Methods
+        //#endregion Methods
+    }
+    return PageContent;
+    //#endregion PageContent
+})();
+Object.seal(PageContent);
+Core.classes.register(Types.CATEGORIES.INTERNAL, PageContent);
+//#endregion PageContent
+
+//#endregion Pagecontent
 //#region Import
 import { CustomTabControl } from '/scripts/core/customtabcontrol.js';
 //#endregion Import
@@ -96,8 +146,6 @@ const PageControl = (() => {
     class PageControl extends CustomTabControl {
         //#region constructor
         constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
                 props.tabClass = TabSheet;
@@ -122,7 +170,7 @@ const PageControl = (() => {
             if (!caption) {
                 caption = `tab${(this.tabSheets.length + 1)}`;
             }
-            let tab = Core.classes.createComponent({
+            const tab = Core.classes.createComponent({
                 class: TabSheet,
                 owner: this,
                 caption: caption.firstCharUpper,
@@ -140,19 +188,18 @@ const PageControl = (() => {
             //tpl = a.join(tab.name);
             //div.innerHTML = tpl;
             tab.HTMLPage = tab.HTMLElement;
-            //this.tabContent.HTMLElement.appendChild(div.firstElementChild);
             this.changeActiveTab(tab);
             this.checkViewBtns();
             this.change();
         }
         loaded() {
             super.loaded();
-            this.tabs.forEach(tab => {
+            const tabsContent = this.components.find(e => e.name === 'TabContent');
+            if (tabsContent) {
+                tabsContent.components.forEach(comp => {
 
-            });
-            //this.tabContent.components.forEach(comp => {
-            //    comp.tab = comp.HTMLElement.parentNode.jsObj;
-            //});
+                });
+            }
         }
         //#endregion Methods
     }

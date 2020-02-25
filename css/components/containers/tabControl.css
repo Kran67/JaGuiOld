@@ -37,6 +37,7 @@
 .Control.TabsContent {
     position: relative;
     flex: 1;
+    display: flex;
 }
 
 .Control.TabControl.tabsBottom .Control.TabControlHeader {

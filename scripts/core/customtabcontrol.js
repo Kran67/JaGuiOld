@@ -390,47 +390,42 @@ const CustomTabControl = (() => {
         }
         //#endregion change
         //#region getChildsHTMLElement
-        //getChildsHTMLElement() {
-        //    //#region Variables déclaration
-        //    const htmlElement = this.HTMLElement;
-        //    const tabContent = this.tabContent;
-        //    const btnLeft = this.btnLeft;
-        //    const btnRight = this.btnRight;
-        //    const tabs = this.tabs;
-        //    //#endregion Variables déclaration
-        //    if (htmlElement) {
-        //        const tabsContainer = htmlElement.querySelector('.TabsContainer');
-        //        const nodes = tabsContainer.childNodes;
-        //        nodes.forEach(node => {
-        //            if (node.nodeType === Types.XMLNODETYPES.ELEMENT_NODE) {
-        //                let data = node.dataset.class;
-        //                if (data) {
-        //                    const obj = new Core.classes[data](this);
-        //                    obj.HTMLElement = node;
-        //                    obj.HTMLElementStyle = obj.HTMLElement.style;
-        //                    node.jsObj = obj;
-        //                    data = node.dataset.name;
-        //                    if (data) {
-        //                        obj.name = data;
-        //                    }
-        //                    obj.updateFromHTML();
-        //                    tabs.push(obj);
-        //                }
-        //            }
-        //        });
-        //        tabContent.getHTMLElement(htmlElement.lastElementChild.id);
-        //        tabContent.updateFromHTML();
-        //        tabContent.getChildsHTMLElement();
-        //        btnLeft.getHTMLElement(htmlElement.querySelector('.TabControlLeftBtn').id);
-        //        btnLeft.updateFromHTML();
-        //        btnLeft.getChildsHTMLElement();
-        //        btnRight.getHTMLElement(htmlElement.querySelector('.TabControlRightBtn').id);
-        //        btnRight.updateFromHTML();
-        //        btnRight.getChildsHTMLElement();
-        //    }
-        //    this.checkViewBtns();
-        //    this.checkLastVisibleTab();
-        //}
+        getHTMLElement(id) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const tabs = this.tabs;
+            //#endregion Variables déclaration
+            super.getHTMLElement(id);
+            const htmlElement = this.HTMLElement;
+            if (htmlElement) {
+                priv.tabsHeader = htmlElement.querySelector('.TabControlHeader');
+                priv.tabsContainer = htmlElement.querySelector('.TabsContainer');
+                const nodes = priv.tabsContainer.childNodes;
+                nodes.forEach(node => {
+                    if (node.nodeType === Types.XMLNODETYPES.ELEMENT_NODE) {
+                        let data = node.dataset.class;
+                        if (data) {
+                            const tab = Core.classes.createComponent({
+                                class: Core.classes[data],
+                                owner: this,
+                                props: {
+                                    inForm: true,
+                                    name: node.dataset.name,
+                                    caption: node.innerHTML
+                                },
+                                withTpl: false,
+                                internalId: node.id
+                            });
+                            node.jsObj = tab;
+                            tabs.push(tab);
+                            if (tab.name === priv.activeTab) {
+                                priv.activeTab = tab;
+                            }
+                        }
+                    }
+                });
+            }
+        }
         //#endregion getChildsHTMLElement
         //#region checkViewBtns
         checkViewBtns() {
@@ -458,10 +453,9 @@ const CustomTabControl = (() => {
         moveTabs() {
             //#region Variables déclaration
             const DIRECTIONS = Types.DIRECTIONS;
+            const tabsContainer = this.tabsContainer;
             const owner = this.owner;
-            const tabsContainer = owner.tabsContainer;
             //#endregion Variables déclaration
-            //owner = _owner;
             owner.checkLastVisibleTab();
             const firstVisibleTabWidth = owner.tabs[owner.firstVisibleTab].HTMLElement.offsetWidth;
             switch (this.tag) {
@@ -597,52 +591,23 @@ const CustomTabControl = (() => {
         loaded() {
             //#region Variables déclaration
             const priv = internal(this);
-            const htmlElement = this.HTMLElement;
-            const name = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             const DIRECTIONS = Types.DIRECTIONS;
-            const properties = htmlElement.querySelector('properties');
-            let tabs = [];
-            if (properties) {
-                tabs = JSON.parse(properties.innerText).tabs;
-            }
             //#endregion Variables déclaration
             super.loaded();
-            priv.tabsHeader = htmlElement.querySelector(`${name}header`);
-            //priv.tabsHeader.classList.add('Control', 'TabControlHeader', this.themeName);
-            //htmlElement.appendChild(priv.tabsHeader);
-            priv.tabsContainer = htmlElement.querySelector(`${name}tabscontainer`);
-            //priv.tabsContainer.classList.add('Control', 'TabsContainer', this.themeName);
-            //priv.tabsHeader.appendChild(priv.tabsContainer);
-            //tabs.forEach(tab => {
-            //    const tabSheet = Core.classes.createComponent({
-            //        class: priv.tabClass,
-            //        owner: this,
-            //        props: {
-            //            inForm: false,
-            //            parentHTML: priv.tabsContainer,
-            //            caption: tab,
-            //            name: tab,
-            //            cssClasses: tab === priv.activeTab?' selected':String.EMPTY
-            //        },
-            //        withTpl: true
-            //    });
-            //    if (tab === priv.activeTab) {
-            //        priv.activeTab = tabSheet;
-            //    }
-            //});
             priv.btnLeft = Core.classes.createComponent({
                 class: Core.classes.Button,
                 owner: this,
                 props: {
                     inForm: false,
                     parentHTML: priv.tabsHeader,
-                    tag: DIRECTIONS.LEFT,
                     cssClasses: ' TabControlLeftBtn',
                     canFocused: false,
                     caption: String.EMPTY
                 },
                 withTpl: true
             });
+            priv.btnLeft.tag = DIRECTIONS.LEFT;
+            priv.btnLeft.tabsContainer = priv.tabsContainer;
             priv.btnLeft.onClick.addListener(this.moveTabs);
             priv.btnRight = Core.classes.createComponent({
                 class: Core.classes.Button,
@@ -650,26 +615,17 @@ const CustomTabControl = (() => {
                 props: {
                     inForm: false,
                     parentHTML: priv.tabsHeader,
-                    tag: DIRECTIONS.RIGHT,
                     cssClasses: ' TabControlRightBtn',
                     canFocused: false,
                     caption: String.EMPTY
                 },
                 withTpl: true
             });
+            priv.btnRight.tag = DIRECTIONS.RIGHT;
+            priv.btnRight.tabsContainer = priv.tabsContainer;
             priv.btnRight.onClick.addListener(this.moveTabs);
-            priv.tabContent = htmlElement.querySelector(`${name}tabscontainer`);
-            //Core.classes.createComponent({
-            //    class: Core.classes.Layout,
-            //    owner: this,
-            //    props: {
-            //        inForm: false,
-            //        cssClasses: ` TabsContent PagesContent ${this.themeName}`
-            //    },
-            //    withTpl: true
-            //});
-            //this.checkViewBtns();
-            //this.checkLastVisibleTab();
+            this.checkViewBtns();
+            this.checkLastVisibleTab();
         }
         //#endregion loaded
         //#endregion
