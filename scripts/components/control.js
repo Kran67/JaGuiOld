@@ -1286,9 +1286,7 @@ const Control = (() => {
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
             if (htmlElementStyle) {
-                //const position = getComputedStyle(this.HTMLElement).position;
-                //if (position === "absolute") {
-                if (priv.align === Types.ALIGNS.NONE && this.inForm) {
+                if (this.inForm) {
                     if (priv.width < 0) {
                         htmlElementStyle.width = 'auto';
                     } else {

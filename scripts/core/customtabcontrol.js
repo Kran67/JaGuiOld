@@ -38,13 +38,10 @@ const CustomTabControl = (() => {
     class CustomTabControl extends ThemedControl {
         //#region constructor
         constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                //priv.tabs = [];
                 priv.firstVisibleTab = 0;
                 priv.lastVisibleTab = 0;
                 priv.tabClass = props.hasOwnProperty('tabClass')?props.tabClass:Tab;
@@ -56,7 +53,6 @@ const CustomTabControl = (() => {
                 this.autoCapture = true;
                 this.width = props.hasOwnProperty('width') ? props.width : 200;
                 this.height = props.hasOwnProperty('height') ? props.height : 200;
-                //#endregion
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'tabStyle',
@@ -628,7 +624,7 @@ const CustomTabControl = (() => {
             this.checkLastVisibleTab();
         }
         //#endregion loaded
-        //#endregion
+        //#endregion Methods
     }
     return CustomTabControl;
     //#region CustomTabControl
@@ -665,6 +661,6 @@ Object.defineProperties(CustomTabControl, {
 });
 Object.seal(CustomTabControl);
 //#endregion CustomTabControl defineProperties
-//#endregion CustomTabControl
 Core.classes.register(Types.CATEGORIES.INTERNAL, CustomTabControl);
+//#endregion CustomTabControl
 export { CustomTabControl };

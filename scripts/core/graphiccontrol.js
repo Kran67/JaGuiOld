@@ -137,10 +137,12 @@ const GraphicControl = (function () {
         //}
         //#endregion update
         //#region loaded
-        //loaded() {
-        //    super.loaded();
-        //    this.update();
-        //}
+        loaded() {
+            super.loaded();
+            if (Tools.isFunc(this.update)) {
+                this.update();
+            }
+        }
         //#endregion loaded
         //#region destroy
         destroy() {

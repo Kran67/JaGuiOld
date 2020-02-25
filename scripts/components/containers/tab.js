@@ -131,6 +131,7 @@ const Tab = (() => {
         update() {
             super.update();
             if (this.imageIndex > -1) {
+                // todo
             }
         }
         //#endregion update
@@ -153,7 +154,7 @@ Object.seal(Tab);
 Core.classes.register(Types.CATEGORIES.CONTAINERS, Tab);
 //#region Template
 if (Core.isHTMLRenderer) {
-    const TabTpl = ['<jagui-tab id="{internalId}" data-class="TabSheet" class="Control Tab TabSheet csr_default {theme}">',
+    const TabTpl = ['<jagui-tab id="{internalId}" data-class="TabSheet" data-name="{name}" class="Control Tab csr_default {theme}">',
         '{caption}</jagui-tab>'].join(String.EMPTY);
     Core.classes.registerTemplates([
         { Class: Tab, template: TabTpl }

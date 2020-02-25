@@ -12,19 +12,20 @@ class TabControl extends CaptionControl {
             super(owner, props);
         }
     }
+    //#endregion constructor
 }
-//#endregion constructor
 Object.seal(TabControl);
 Core.classes.register(Types.CATEGORIES.CONTAINERS, TabControl);
-//#region Template
+//#endregion Class TabControl
 //#region Template
 if (Core.isHTMLRenderer) {
-    const TabControlTpl = ['<jagui-tabcontrol id="{internalId}" data-class="TabControl" data-name="{name}" ',
-        'class="Control TabControl csr_default {theme}"></jagui-tabcontrol>'].join(String.EMPTY);
+    const TabControlTpl = ['<jagui-tabcontrol id="{internalId}" data-class="TabControl" ',
+        'class="Control TabControl csr_default {theme}"><jagui-tabcontrolheader class="Control TabControlHeader {theme}">',
+        '<jagui-tabscontainer class="Control TabsContainer {theme}"></jagui-tabscontainer>',
+        '</jagui-tabcontrolheader></jagui-tabcontrol>'].join(String.EMPTY);
     Core.classes.registerTemplates([
         { Class: CustomTabControl, template: TabControlTpl }
     ]);
 }
-//#endregion
 //#endregion
 export { TabControl };

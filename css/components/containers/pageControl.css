@@ -1,9 +1,4 @@
-﻿.PageContent {
-    position: relative;
-    flex:1;
-}
-
-.Control.PageControl.tabsBottom .Control.TabsContainer {
+﻿.Control.PageControl.tabsBottom .Control.TabsContainer {
     bottom: 0;
     top: auto;
 }
