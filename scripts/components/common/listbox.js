@@ -132,7 +132,7 @@ const ListBoxItem = (() => {
         }
         //#endregion isHeader
         //#region enabled
-        set enabled() {
+        get enabled() {
             return internal(this).enabled;
         }
         set enabled(newValue) {
@@ -151,7 +151,7 @@ const ListBoxItem = (() => {
         set height(newValue) {
             if (Tools.isNumber(newValue)) {
                 if (priv.HTMLElement.offsetHeight !== newValue) {
-                    priv.height  = newValue;
+                    priv.height = newValue;
                     priv.owner.refreshInnerHeight();
                 }
             }
@@ -242,115 +242,153 @@ const ListBoxItem = (() => {
         //#endregion isEnabled
         //#endregion Getters / Setters
         //#region Methods
+        //#region mouseMove
         mouseMove() {
             priv.owner.mouseMove();
         }
+        //#endregion mouseMove
+        //#region mouseEnter
         mouseEnter = Tools.emptyFunc
+        //#endregion mouseEnter
+        //#region mouseLeave
         mouseLeave = Tools.emptyFunc
+        //#endregion mouseLeave
+        //#region mouseDown
         mouseDown() {
             priv.owner.mouseDown();
         }
+        //#endregion mouseDown
+        //#region mouseUp
         mouseUp() {
             priv.owner.mouseUp();
         }
-        mouseWheel() {
-            if (priv.owner.orientation === Types.ORIENTATIONS.VERTICAL) {
-                priv.owner.VScrollBar.mouseWheel();
-            }
-            else {
-                priv.owner._HScrollBar.mouseWheel();
-            }
-        }
+        //#endregion mouseUp
+        //mouseWheel() {
+        //    if (priv.owner.orientation === Types.ORIENTATIONS.VERTICAL) {
+        //        priv.owner.VScrollBar.mouseWheel();
+        //    }
+        //    else {
+        //        priv.owner._HScrollBar.mouseWheel();
+        //    }
+        //}
+        //#region update
         update() {
-            if (this._html) {
-                if (this._owner.orientation === $j.types.orientations.VERTICAL) this._html.style.height = this._owner.itemsHeight + $j.types.CSSUnits.PX;
-                else this._html.style.lineHeight = this._html.offsetHeight + $j.types.CSSUnits.PX;
-                this._text.style.height = this._html.offsetHeight + $j.types.CSSUnits.PX;
-                this._text.style.lineHeight = this._html.offsetHeight + $j.types.CSSUnits.PX;
-                $j.CSS.removeClass(this._html, "disabled alternate isheader selected");
-                if (!this.enabled) $j.CSS.addClass(this._html, "disabled");
-                if (this._owner.viewCheckboxes) {
-                    $j.CSS.removeClass(this._check, "grayed checked");
-                    if (this._check) $j.CSS.removeClass(this._check, "checked");
-                    if (this.isChecked) $j.CSS.addClass(this._check, "checked");
-                    else if (this.allowGrayed && this.state === $j.types.checkboxStates.GRAYED) $j.CSS.addClass(this._check, "grayed");
+            const PX = Types.CSSUNITS.PX;
+            if (priv.html) {
+                if (priv.owner.orientation === Types.ORIENTATIONS.VERTICAL) {
+                    priv.html.style.height = `${priv.owner.itemsHeight}${PX}`;
+                } else {
+                    priv.html.style.lineHeight = `${priv.html.offsetHeight}${PX}`;
                 }
-                if (this.isAlternate) $j.CSS.addClass(this._html, "alternate");
-                if (this.isHeader) $j.CSS.addClass(this._html, "isheader");
-                if (this.selected) {
-                    $j.CSS.addClass(this._html, "selected");
-                    $j.CSS.removeClass(this._html, "alternate");
+                priv.text.style.height = `${priv.html.offsetHeight}${PX}`;
+                priv.text.style.lineHeight = `${priv.html.offsetHeight}${PX}`;
+                priv.html.classList.remove('disabled', 'alternate', 'isheader', 'selected');
+                if (!priv.enabled) {
+                    priv.html.classList.add('disabled');
                 }
-                if (this._icon) {
-                    $j.CSS.addClass(this._icon, "icon");
-                    if (this.cssImage !== String.EMPTY) {
-                        $j.CSS.addClass(this._icon, this.cssImage);
-                        this._icon.style.backgroundSize = this._owner.itemsHeight + $j.types.CSSUnits.PX + String.SPACE + this._owner.itemsHeight + $j.types.CSSUnits.PX;
-                    } else if (this.image !== String.EMPTY) {
-                        this._icon.style.backgroundImage = 'url(' + this.image + ')';
-                        this._icon.style.backgroundSize = this._owner.itemsHeight + $j.types.CSSUnits.PX + String.SPACE + this._owner.itemsHeight + $j.types.CSSUnits.PX;
-                    } else if (this._owner.images) {
-                        if (this.imageIndex < this._owner.images._images.length && this.imageIndex > -1) {
-                            this._icon.style.backgroundImage = 'url(' + this._owner.images._images[this.imageIndex] + ')';
-                            this._icon.style.backgroundSize = this._owner.images.imageWidth + $j.types.CSSUnits.PX + String.SPACE + this._owner.images.imageHeight + $j.types.CSSUnits.PX;
+                if (priv.owner.viewCheckboxes) {
+                    priv.check.classList.remove('grayed', 'checked');
+                    if (priv.check) {
+                        priv.check.classList.remove('checked');
+                    }
+                    if (priv.isChecked) {
+                        priv.check.classList.add('checked');
+                    } else if (priv.allowGrayed && priv.state === Types.CHECKBOXSTATES.GRAYED) {
+                        priv.check.classList.add('grayed');
+                    }
+                }
+                if (priv.isAlternate) {
+                    priv.html.classList.add('alternate');
+                }
+                if (priv.isHeader) {
+                    priv.html.classList.add('isheader');
+                }
+                if (priv.selected) {
+                    priv.html.classList.add('selected');
+                    priv.html.classList.remove('alternate');
+                }
+                if (priv.icon) {
+                    priv.icon.classList.add('icon');
+                    if (!String.isNullOrEmpty(priv.cssImage)) {
+                        priv.icon.classList.add(priv.cssImage);
+                        priv.icon.style.backgroundSize = `${priv.owner.itemsHeight}${PX} ${priv.owner.itemsHeight}${PX}`;
+                    } else if (!String.isNullOrEmpty(priv.image)) {
+                        priv.icon.style.backgroundImage = `url(${priv.image})`;
+                        priv.icon.style.backgroundSize = `${priv.owner.itemsHeight}${PX} ${priv.owner.itemsHeight}${PX}`;
+                    } else if (priv.owner.images) {
+                        if (priv.imageIndex < priv.owner.images.images.length && priv.imageIndex > -1) {
+                            priv.icon.style.backgroundImage = `url(${priv.owner.images.images[priv.imageIndex]})`;
+                            priv.icon.style.backgroundSize = `${priv.owner.images.imageWidth}${PX} ${priv.owner.images.imageHeight}${PX}`;
                         }
                     }
                 }
-                this.updateDataSet();
+                //this.updateDataSet();
             }
-        },
-            updateDataSet: function () {
-            this._html.dataset.height = this._html.offsetHeight;
-            this._html.dataset.ischecked = (this.allowGrayed ? this.state === $j.types.checkboxStates.CHECKED : this.isChecked);
-            this._html.dataset.isheader = this.isHeader;
-            this._html.dataset.selected = this.selected;
-            this._html.dataset.enabled = this.enabled;
-            this._html.dataset.idx = this.getIndex();
-            this._html.dataset.alternate = this.isAlternate;
-            this._html.dataset.state = this.state;
-            this._html.dataset.image = this.image;
-            this._html.dataset.cssimage = this.cssImage;
-            this._html.dataset.imageindex = this.imageIndex;
-        },
+        }
+        //#endregion update
+        //updateDataSet() {
+        //this._html.dataset.height = this._html.offsetHeight;
+        //this._html.dataset.ischecked = (this.allowGrayed ? this.state === $j.types.checkboxStates.CHECKED : this.isChecked);
+        //this._html.dataset.isheader = this.isHeader;
+        //this._html.dataset.selected = this.selected;
+        //this._html.dataset.enabled = this.enabled;
+        //this._html.dataset.idx = this.getIndex();
+        //this._html.dataset.alternate = this.isAlternate;
+        //this._html.dataset.state = this.state;
+        //this._html.dataset.image = this.image;
+        //this._html.dataset.cssimage = this.cssImage;
+        //this._html.dataset.imageindex = this.imageIndex;
+        //}
+        //#region draw
         draw(alternate) {
-            if (!this._html) {
-                this._html = $j.doc.createElement($j.types.HTMLElements.DIV);
-                if (this._owner.viewCheckboxes) {
-                    this._check = $j.doc.createElement($j.types.HTMLElements.DIV);
-                    this._check.jsObj = this;
-                    $j.CSS.addClass(this._check, "CheckboxCheck" + String.SPACE + this._owner.getThemeName() + String.SPACE + "Control");
-                    this._html.appendChild(this._check);
+            const name = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const ORIENTATIONS = Types.ORIENTATIONS;
+            if (!priv.html) {
+                priv.html = document.createElement(`${name}-listboxitem`);
+                if (priv.owner.viewCheckboxes) {
+                    priv.check = document.createElement(`${name}-listboxitem-check`);
+                    priv.check.jsObj = this;
+                    priv.check.classList.add('CheckboxCheck', priv.owner.themeName, 'Control');
+                    priv.html.appendChild(priv.check);
                 }
-                if (this._owner.images || this.image !== String.EMPTY || this.cssImage !== String.EMPTY) {
-                    this._icon = $j.doc.createElement($j.types.HTMLElements.DIV);
-                    this._icon.jsObj = this;
-                    this._html.appendChild(this._icon);
+                if (priv.owner.images || !String.isNullOrEmpty(priv.image) || !String.isNullOrEmpty(priv.cssImage)) {
+                    priv.icon = document.createElement(`${name}-listboxitem-icon`);
+                    priv.icon.jsObj = this;
+                    priv.html.appendChild(priv.icon);
                 }
-                this._text = $j.doc.createElement($j.types.HTMLElements.SPAN);
-                $j.CSS.addClass(this._text, this._ClassName + "Caption");
-                this._text.innerHTML = this.text;
-                this._html.appendChild(this._text);
-                this._html.jsObj = this;
-                $j.CSS.addClass(this._html, "Control");
-                this.isAlternate = (alternate ? (this.getIndex() % 2 != 0) : false);
-                $j.CSS.addClass(this._html, this._ClassName + String.SPACE + this._owner.getThemeName());
-                if (this._owner.orientation === $j.types.orientations.VERTICAL) $j.CSS.addClass(this._html, "VListBoxItem");
-                else $j.CSS.addClass(this._html, "HListBoxItem");
-                this._owner._content.appendChild(this._html);
-                $j.tools.events.bind(this._html, $j.types.mouseEvents.CLICK, this._owner.selectItem);
+                priv.text = document.createElement(`${name}-listboxitem-text`);
+                priv.text.classList.add(`${this.constructor.name}Caption`);
+                priv.text.innerHTML = priv.text;
+                priv.html.appendChild(priv.text);
+                priv.html.jsObj = this;
+                priv.html.classList.add('Control');
+                priv.isAlternate = alternate ? priv.index % 2 !== 0 : false;
+                priv.html.classList.add(`${name} ${priv.owner.themeName}`);
+                if (priv.owner.orientation === ORIENTATIONS.VERTICAL) {
+                    priv.html.classList.add('VListBoxItem');
+                } else {
+                    priv.html.classList.add('HListBoxItem');
+                }
+                priv.owner.appendChild(priv.html);
+                Events.bind(priv.html, Mouse.MOUSEEVENTS.CLICK, priv.owner.selectItem);
             }
             this.update();
-            if (this._owner.orientation === $j.types.orientations.VERTICAL) this._html.style.transform = "translateY(" + (this._top - this._owner._scrollTop) + $j.types.CSSUnits.PX + ")";
-            else this._html.style.transform = "translateX(" + (this._left - this._owner._scrollTop) + $j.types.CSSUnits.PX + ")";
-            if (this.css !== String.EMPTY) {
-                var cssPropsValues = this.css.split(";");
-                for (var i = 0, l = cssPropsValues.length; i < l; i++) {
-                    var cssPropValue = cssPropsValues[i].split(":");
-                    this._html.style[cssPropValue[0]] = cssPropValue[1];
+            if (priv.owner.orientation === ORIENTATIONS.VERTICAL) {
+                priv.html.style.transform = `translateY(${priv.top - priv.owner.scrollTop}${PX})`;
+            } else {
+                priv.html.style.transform = `translateX(${priv.left - priv.owner.scrollTop}${PX})`;
+            }
+            if (!String.isNullOrEmpty(priv.css)) {
+                const cssPropsValues = priv.css.split(';');
+                for (let i = 0, l = cssPropsValues.length; i < l; i++) {
+                    const cssPropValue = cssPropsValues[i].split(':');
+                    priv.html.style[cssPropValue[0]] = cssPropValue[1];
                 }
             }
-            this._owner.onDrawItem.invoke(this);
+            priv.owner.onDrawItem.invoke(this);
         }
+        //#endregion draw
+        //#region removeToHTML
         removeToHTML() {
             if (priv.html) {
                 Events.unBind(priv.html, Mouse.mouseEvents.CLICK, priv.owner.selectItem);
@@ -362,6 +400,8 @@ const ListBoxItem = (() => {
                 priv.text = null;
             }
         }
+        //#endregion removeToHTML
+        //#region destroy
         destroy() {
             this.removeToHTML();
             priv.owner.items.remove(this);
@@ -388,6 +428,8 @@ const ListBoxItem = (() => {
             //this.onDraw = null;
             super.destroy();
         }
+        //#endregion destroy
+        //#region clone
         clone() {
             const clone = Object.create(this);
             //clone.hitTest = { mouseWheel: true };
@@ -395,6 +437,7 @@ const ListBoxItem = (() => {
             //this.onDraw.copyListenerTo(clone.onDraw);
             return clone;
         }
+        //#endregion clone
         //#endregion Methods
     }
     return ListBoxItem;
