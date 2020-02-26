@@ -1364,7 +1364,7 @@ const Control = (() => {
                             htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}`;
                         }
                         child.applyTransforms();
-                        t = ~~parseFloat(cStyle.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(cStyle.marginBottom);
+                        t += ~~parseFloat(cStyle.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(cStyle.marginBottom);
                     }
                 } else {
                     child.top = t;
@@ -1389,7 +1389,7 @@ const Control = (() => {
                             htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}`;
                         }
                         child.applyTransforms();
-                        b = ~~parseFloat(cStyle.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(cStyle.marginBottom);
+                        b += ~~parseFloat(cStyle.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(cStyle.marginBottom);
                     }
                 }
                 child.realignChilds();
@@ -1408,7 +1408,7 @@ const Control = (() => {
                             htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}`;
                         }
                         child.applyTransforms();
-                        l = ~~parseFloat(cStyle.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(cStyle.marginRight);
+                        l += ~~parseFloat(cStyle.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(cStyle.marginRight);
                     }
                 }
                 child.realignChilds();
@@ -1427,7 +1427,7 @@ const Control = (() => {
                             htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}`;
                         }
                         child.applyTransforms();
-                        r = ~~parseFloat(cStyle.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(cStyle.marginRight);
+                        r += ~~parseFloat(cStyle.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(cStyle.marginRight);
                     }
                 }
                 child.realignChilds();

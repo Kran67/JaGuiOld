@@ -1,14 +1,14 @@
-﻿div.Splitter {
+﻿.Control.Splitter {
 }
 
-div.Splitter.orientation-horizontal {
+.Control.Splitter.orientation-horizontal {
     left: 0;
     max-height: 5px;
     min-height: 5px;
     right: 0;
 }
 
-div.Splitter.orientation-vertical {
+.Control.Splitter.orientation-vertical {
     bottom: 0;
     max-width: 5px;
     min-width: 5px;

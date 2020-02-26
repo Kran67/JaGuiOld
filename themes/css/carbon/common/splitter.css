@@ -1,19 +1,25 @@
-﻿.carbon.Splitter.orientation-horizontal {
+﻿.carbon.Splitter.orientation-horizontal,
+.carbon.Splitter.orientation-vertical {
+    background-color: #505050;
+}
+
+.carbon.Splitter.orientation-horizontal {
     border-bottom: 1px solid #303030;
     border-top: 1px solid #6D6D6D;
-    background-color: #505050;
 }
 
 .carbon.Splitter.orientation-vertical {
     border-right: 1px solid #303030;
     border-left: 1px solid #6D6D6D;
-    background-color: #505050;
 }
 
-.carbon.Splitter.orientation-horizontal:before {
+.carbon.Splitter:before {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAHklEQVQIW2NkYGD4D8QgwMgI4+Tm5jKAOAxABlgWAFuzBZCcNaxyAAAAAElFTkSuQmCC);
     content: "";
     position: absolute;
+}
+
+.carbon.Splitter.orientation-horizontal:before {
     top: 0;
     bottom: 0;
     width: 27px;
@@ -23,9 +29,6 @@
 }
 
 .carbon.Splitter.orientation-vertical:before {
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAHklEQVQIW2NkYGD4D8QgwMgI4+Tm5jKAOAxABlgWAFuzBZCcNaxyAAAAAElFTkSuQmCC);
-    content: "";
-    position: absolute;
     left: 0;
     right: 0;
     height: 27px;

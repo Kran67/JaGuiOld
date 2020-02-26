@@ -84,7 +84,7 @@ import '/scripts/components/extended/splitbutton.js';
 //import { dataSource } from '/scripts/components/data/dataSource.js';
 import '/scripts/components/containers/flowlayout.js';
 import '/scripts/components/containers/gridlayout.js';
-//import { splitter } from '/scripts/components/common/splitter.js';
+import '/scripts/components/common/splitter.js';
 import '/scripts/components/toolbars/splittoolbutton.js';
 //import { actnList } from '/scripts/components/actions/actnList.js';
 //import { stdActns } from '/scripts/components/actions/stdActns.js';
