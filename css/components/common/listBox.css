@@ -1,16 +1,17 @@
 ﻿.Control.ListBox {
     display: flex;
     flex-direction: column;
-    overflow: auto;
 }
 
-.HListBoxItem {
-    width: 32px;
+    .Control.ListBox.orientation-horizontal {
+        flex-direction: row;
+    }
+
+    .HListBoxItem {
     text-align: left;
 }
 
 .VListBoxItem {
-    height: 16px;
     text-align: left;
     padding-left: 2px;
 }

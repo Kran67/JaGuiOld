@@ -210,3 +210,12 @@ input.Control {
         -webkit-box-reflect: below 0px linear-gradient(to bottom, transparent, transparent 50%, black);
     }
 }
+
+.Control.scrollContent {
+    overflow: hidden;
+    scrollbar-width: thin;
+}
+
+    .Control.scrollContent:hover {
+        overflow: auto;
+    }

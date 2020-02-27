@@ -37,28 +37,28 @@ const ListBoxItem = (() => {
                 priv.text = null;
                 priv.stopEvent = true;
                 priv.props = {};
-                priv.caption = props.hasOwnProperty('caption')?props.caption:String.EMPTY;
-                priv.height = owner.itemsHeight;
-                priv.isChecked = props.hasOwnProperty('isChecked') && Tools.isBool(props.isChecked)?props.isChecked:false;
-                priv.isHeader = props.hasOwnProperty('isHeader') && Tools.isBool(props.isHeader)?props.isHeader:false;
-                priv.enabled = props.hasOwnProperty('enabled') && Tools.isBool(props.enabled)?props.enabled:true;
+                priv.caption = props.hasOwnProperty('caption') ? props.caption : String.EMPTY;
+                priv.height = props.hasOwnProperty('height') ? props.height : owner.itemsHeight;
+                priv.isChecked = props.hasOwnProperty('isChecked') && Tools.isBool(props.isChecked) ? props.isChecked : false;
+                priv.isHeader = props.hasOwnProperty('isHeader') && Tools.isBool(props.isHeader) ? props.isHeader : false;
+                priv.enabled = props.hasOwnProperty('enabled') && Tools.isBool(props.enabled) ? props.enabled : true;
                 priv.form = owner.form;
-                priv.selected = props.hasOwnProperty('selected') && Tools.isBool(props.selected)?props.selected:false;
+                priv.selected = props.hasOwnProperty('selected') && Tools.isBool(props.selected) ? props.selected : false;
                 priv.hitTest = new HitTest;
                 priv.hitTest.all = false;
                 priv.css = String.EMPTY;
-                priv.imageIndex = props.hasOwnProperty('imageIndex') && Tools.isNumber(props.imageIndex)?props.imageIndex:-1;
-                priv.image = props.hasOwnProperty('image')?props.image:String.EMPTY;
-                priv.cssImage = props.hasOwnProperty('cssImage')?props.cssImage:String.EMPTY;
+                priv.imageIndex = props.hasOwnProperty('imageIndex') && Tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
+                priv.image = props.hasOwnProperty('image') ? props.image : String.EMPTY;
+                priv.cssImage = props.hasOwnProperty('cssImage') ? props.cssImage : String.EMPTY;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'state',
                     enum: Types.CHECKBOXSTATES,
                     forceUpdate: true,
                     variable: priv,
-                    value: props.hasOwnProperty('state')?props.state:Checkbox.CHECKBOXSTATES.UNCHECKED
+                    value: props.hasOwnProperty('state') ? props.state : Checkbox.CHECKBOXSTATES.UNCHECKED
                 });
-                priv.allowGrayed = props.hasOwnProperty('allowGrayed') && Tools.isBool(props.allowGrayed)?props.allowGrayed:false;
+                priv.allowGrayed = props.hasOwnProperty('allowGrayed') && Tools.isBool(props.allowGrayed) ? props.allowGrayed : false;
                 //this.onDraw = new $j.classes.NotifyEvent(this);
                 if (owner instanceof ListBox) {
                     if (owner.allowUpdate) {
@@ -301,11 +301,13 @@ const ListBoxItem = (() => {
             //#endregion Variables déclaration
             if (priv.html) {
                 if (priv.owner.orientation === Types.ORIENTATIONS.VERTICAL) {
-                    priv.html.style.minHeight = `${priv.owner.itemsHeight}${PX}`;
-                    priv.html.style.maxHeight = `${priv.owner.itemsHeight}${PX}`;
-                    priv.html.style.height = `${priv.owner.itemsHeight}${PX}`;
+                    priv.html.style.minHeight = `${priv.height}${PX}`;
+                    priv.html.style.maxHeight = `${priv.height}${PX}`;
+                    priv.html.style.height = `${priv.height}${PX}`;
                 } else {
-                    priv.html.style.lineHeight = `${priv.html.offsetHeight}${PX}`;
+                    priv.html.style.minWidth = `${priv.height}${PX}`;
+                    priv.html.style.maxWidth = `${priv.height}${PX}`;
+                    priv.html.style.width = `${priv.height}${PX}`;
                 }
                 priv.html.classList.remove('disabled', 'isheader', 'selected');
                 if (!priv.enabled) {
@@ -332,10 +334,10 @@ const ListBoxItem = (() => {
                     priv.icon.classList.add('icon');
                     if (!String.isNullOrEmpty(priv.cssImage)) {
                         priv.icon.classList.add(priv.cssImage);
-                        priv.icon.style.backgroundSize = `${priv.owner.itemsHeight}${PX} ${priv.owner.itemsHeight}${PX}`;
+                        priv.icon.style.backgroundSize = `${priv.height}${PX} ${priv.height}${PX}`;
                     } else if (!String.isNullOrEmpty(priv.image)) {
                         priv.icon.style.backgroundImage = `url(${priv.image})`;
-                        priv.icon.style.backgroundSize = `${priv.owner.itemsHeight}${PX} ${priv.owner.itemsHeight}${PX}`;
+                        priv.icon.style.backgroundSize = `${priv.height}${PX} ${priv.height}${PX}`;
                     } else if (priv.owner.images) {
                         if (priv.imageIndex < priv.owner.images.images.length && priv.imageIndex > -1) {
                             priv.icon.style.backgroundImage = `url(${priv.owner.images.images[priv.imageIndex]})`;
@@ -479,26 +481,26 @@ const ListBox = (() => {
                 priv.visibleItems = [];
                 priv.scrollTop = 0;
                 priv.innerHeight = 0;
-                priv.items = props.hasOwnProperty('items')?props.items:null;
+                priv.items = props.hasOwnProperty('items') ? props.items : null;
                 priv.lastDelta = new Point;
                 priv.downPos = new Point;
                 priv.currentPos = new Point;
                 priv.keyDir = String.EMPTY;
-                priv.multiSelect = props.hasOwnProperty('multiSelect') && Tools.isBool(props.multiSelect)?props.multiSelect:false;
-                priv.sorted = props.hasOwnProperty('sorted')&& Tools.isBool(props.sorted)?props.sorted:false;
+                priv.multiSelect = props.hasOwnProperty('multiSelect') && Tools.isBool(props.multiSelect) ? props.multiSelect : false;
+                priv.sorted = props.hasOwnProperty('sorted') && Tools.isBool(props.sorted) ? props.sorted : false;
                 priv.itemsHeight = props.hasOwnProperty('itemsHeight') && Tools.isNumber(props.itemsHeight) ? props.itemsHeight : 16;
-                priv.itemsClass = props.hasOwnProperty('itemsClass')?Core.classes[props.itemsClass]:ListBoxItem;
+                priv.itemsClass = props.hasOwnProperty('itemsClass') ? Core.classes[props.itemsClass] : ListBoxItem;
                 Core.classes.newCollection(this, this, priv.itemsClass);
-                priv.useAlternateColor = props.hasOwnProperty('useAlternateColor') && Tools.isBool(props.useAlternateColor)?props.useAlternateColor:false;
-                priv.viewCheckboxes = props.hasOwnProperty('viewCheckboxes') && Tools.isBool(props.viewCheckboxes)?props.viewCheckboxes:false;
-                priv.itemIndex = props.hasOwnProperty('itemIndex') && Tools.isNumber(props.itemIndex)?props.itemIndex:-1;
-                priv.columns = props.hasOwnProperty('columns') && Tools.isNumber(props.columns)?props.columns:1;
-                priv.images = props.hasOwnProperty('images')?props.images:null;
+                priv.useAlternateColor = props.hasOwnProperty('useAlternateColor') && Tools.isBool(props.useAlternateColor) ? props.useAlternateColor : false;
+                priv.viewCheckboxes = props.hasOwnProperty('viewCheckboxes') && Tools.isBool(props.viewCheckboxes) ? props.viewCheckboxes : false;
+                priv.itemIndex = props.hasOwnProperty('itemIndex') && Tools.isNumber(props.itemIndex) ? props.itemIndex : -1;
+                priv.columns = props.hasOwnProperty('columns') && Tools.isNumber(props.columns) ? props.columns : 1;
+                priv.images = props.hasOwnProperty('images') ? props.images : null;
                 this.onChange = new NotifyEvent(this);
                 this.canFocused = true;
                 this.hitTest.all = true;
                 //this.animated = true;
-                priv.orientation = props.hasOwnProperty('orientation')?props.orientation:Types.ORIENTATIONS.VERTICAL;
+                priv.orientation = props.hasOwnProperty('orientation') ? props.orientation : Types.ORIENTATIONS.VERTICAL;
                 this.onSelectItem = new NotifyEvent(this);
                 this.onDrawItem = new NotifyEvent(this);
             }
@@ -640,10 +642,13 @@ const ListBox = (() => {
         set orientation(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
+            const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (Tools.valueInSet(newValue, Types.ORIENTATIONS)) {
                 if (priv.orientation !== newValue) {
+                    htmlElement.classList.remove(`orientation-${priv.orientation}`);
                     priv.orientation = newValue;
+                    htmlElement.classList.remove(`orientation-${priv.orientation}`);
                     this.draw();
                 }
             }
@@ -738,7 +743,7 @@ const ListBox = (() => {
         //#region _selectItem
         _selectItem(item) {
             if (!item.isHeader && item.enabled && item.owner.enabled && item.owner.hitTest.mouseDown) {
-                if (item.owner.multiSelect && (Core.keyboard.ctrl)) {
+                if (item.owner.multiSelect && Core.keyboard.ctrl) {
                     item.selected = !item.selected;
                 } else {
                     item.owner.itemIndex = item.index;
@@ -909,6 +914,7 @@ const ListBox = (() => {
             const VKEYSCODES = Keyboard.VKEYSCODES;
             const DIRECTIONS = Types.DIRECTIONS;
             const ORIENTATIONS = Types.ORIENTATIONS;
+            const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             super.keyDown();
             switch (Core.keyboard.keyCode) {
@@ -930,16 +936,16 @@ const ListBox = (() => {
                     break;
                 case VKEYSCODES.VK_PRIOR:
                     if (priv.orientation === ORIENTATIONS.VERTICAL) {
-                        this.itemIndex = priv.itemIndex - ~~(this.HTMLElement.offsetHeight / priv.itemsHeight);
+                        this.itemIndex = priv.itemIndex - ~~(htmlElement.offsetHeight / priv.itemsHeight);
                     } else {
-                        this.itemIndex = priv.itemIndex - ~~(this.HTMLElement.offsetWidth / priv.itemsHeight);
+                        this.itemIndex = priv.itemIndex - ~~(htmlElement.offsetWidth / priv.itemsHeight);
                     }
                     break;
                 case VKEYSCODES.VK_NEXT:
                     if (priv.orientation === ORIENTATIONS.VERTICAL) {
-                        this.itemIndex = priv.itemIndex + ~~(this.HTMLElement.offsetHeight / priv.itemsHeight);
+                        this.itemIndex = priv.itemIndex + ~~(htmlElement.offsetHeight / priv.itemsHeight);
                     } else {
-                        this.itemIndex = priv.itemIndex + ~~(this.HTMLElement.offsetWidth / priv.itemsHeight);
+                        this.itemIndex = priv.itemIndex + ~~(htmlElement.offsetWidth / priv.itemsHeight);
                     }
                     break;
                 case VKEYSCODES.VK_SPACE:
@@ -960,18 +966,19 @@ const ListBox = (() => {
             const inVisibleItems = priv.visibleItems.indexOf(this.items[priv.itemIndex]) === -1 || priv.visibleItems.last === this.items[priv.itemIndex];
             const isFirst = priv.visibleItems.first === this.items[priv.itemIndex] || priv.visibleItems.first === this.items[priv.itemIndex + 1];
             const ORIENTATIONS = Types.ORIENTATIONS;
+            const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
                 if (inVisibleItems && !isFirst) {
                     let nbrVisibleItems;
                     let base;
                     if (priv.orientation === ORIENTATIONS.VERTICAL) {
-                        nbrVisibleItems = ~~(this.HTMLElement.offsetHeight / priv.itemsHeight);
-                        base = ((nbrVisibleItems * priv.itemsHeight) - this.HTMLElement.offsetHeight) + priv.itemsHeight;
+                        nbrVisibleItems = ~~(htmlElement.offsetHeight / priv.itemsHeight);
+                        base = ((nbrVisibleItems * priv.itemsHeight) - htmlElement.offsetHeight) + priv.itemsHeight;
                         //this._VScrollBar.setValue(base + ((this.itemIndex - nbrVisibleItems) * this.itemsHeight));
                     } else {
-                        nbrVisibleItems = ~~(this.HTMLElement.offsetWidth / priv.itemsHeight);
-                        base = ((nbrVisibleItems * priv.itemsHeight) - this.HTMLElement.offsetWidth) + priv.itemsHeight;
+                        nbrVisibleItems = ~~(htmlElement.offsetWidth / priv.itemsHeight);
+                        base = ((nbrVisibleItems * priv.itemsHeight) - htmlElement.offsetWidth) + priv.itemsHeight;
                         //this._HScrollBar.setValue(base + ((this.itemIndex - nbrVisibleItems) * this.itemsHeight));
                     }
                 } else if (isFirst) {
@@ -982,10 +989,18 @@ const ListBox = (() => {
                     //}
                 }
             } else {
-                if (this.items[priv.itemIndex].html.offsetTop + this.items[priv.itemIndex].html.offsetHeight > this.HTMLElement.offsetHeight + this.HTMLElement.scrollTop) {
-                    this.HTMLElement.scrollTop = (this.items[priv.itemIndex].html.offsetTop + this.items[priv.itemIndex].html.offsetHeight + 2) - this.HTMLElement.offsetHeight;
-                } else if (this.HTMLElement.scrollTop > this.items[priv.itemIndex].html.offsetTop) {
-                    this.HTMLElement.scrollTop = this.items[priv.itemIndex].html.offsetTop - 1;
+                if (priv.orientation === ORIENTATIONS.VERTICAL) {
+                    if (this.items[priv.itemIndex].html.offsetTop + this.items[priv.itemIndex].html.offsetHeight > htmlElement.offsetHeight + htmlElement.scrollTop) {
+                        htmlElement.scrollTop = this.items[priv.itemIndex].html.offsetTop + this.items[priv.itemIndex].html.offsetHeight + 2 - htmlElement.offsetHeight;
+                    } else if (htmlElement.scrollTop > this.items[priv.itemIndex].html.offsetTop) {
+                        htmlElement.scrollTop = this.items[priv.itemIndex].html.offsetTop - 1;
+                    }
+                } else {
+                    if (this.items[priv.itemIndex].html.offsetLeft + this.items[priv.itemIndex].html.offsetWidth > htmlElement.offsetWidth + htmlElement.scrollLeft) {
+                        htmlElement.scrollLeft = this.items[priv.itemIndex].html.offsetLeft + this.items[priv.itemIndex].html.offsetWidth + 2 - htmlElement.offsetWidth;
+                    } else if (htmlElement.scrollLeft > this.items[priv.itemIndex].html.offsetLeft) {
+                        htmlElement.scrollLeft = this.items[priv.itemIndex].html.offsetLeft - 1;
+                    }
                 }
             }
         }
@@ -994,6 +1009,7 @@ const ListBox = (() => {
         loaded() {
             //#region Variables déclaration
             const priv = internal(this);
+            const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             super.loaded();
             this.getImages();
@@ -1007,11 +1023,11 @@ const ListBox = (() => {
                             props: {
                                 inForm: false,
                                 caption: item.caption,
-                                height: item.height,
+                                height: item.hasOwnProperty('height') && Tools.isNumber(item.height) ? item.height : priv.itemsHeight,
                                 isHeader: item.isHeader,
                                 isChecked: item.isChecked,
                                 selected: priv.itemIndex === idx,
-                                cssImage: item.hasOwnProperty('cssImage')?item.cssImage:String.EMPTY
+                                cssImage: item.hasOwnProperty('cssImage') ? item.cssImage : String.EMPTY
                             }
                         });
                         this.items.push(_item);
@@ -1020,8 +1036,9 @@ const ListBox = (() => {
                 }
             }
             if (priv.useAlternateColor) {
-                this.HTMLElement.classList.add('useAlternateColor');
+                htmlElement.classList.add('useAlternateColor');
             }
+            htmlElement.classList.add(`orientation-${priv.orientation}`);
             this.draw();
         }
         //#endregion loaded

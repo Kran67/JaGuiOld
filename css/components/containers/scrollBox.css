@@ -1,8 +1,1 @@
-﻿.Control.ScrollBox {
-    overflow: hidden;
-    scrollbar-width: thin;
-}
-
-.Control.ScrollBox:hover {
-    overflow: auto;
-}
+﻿
