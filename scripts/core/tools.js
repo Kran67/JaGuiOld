@@ -30,7 +30,7 @@ class Tools {
     //#endregion isFunc
     //#region isArray
     static isArray(value) {
-        return typeof value === Types.CONSTANTS.ARRAY;
+        return value.constructor.name.toLowerCase() === Types.CONSTANTS.ARRAY;
     }
     //#endregion isArray
     //#region isDate

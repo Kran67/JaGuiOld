@@ -3,6 +3,12 @@ import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Point } from '/scripts/core/geometry.js';
 import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Imports
+//#region SCROLLMODES
+const SCROLLMODES = Object.freeze(Object.seal({
+    NORMAL: 'normal',
+    VIRTUAL: 'virtual'
+}));
+//#endregion SCROLLMODES
 //#region ScrollControl
 const ScrollControl = (() => {
     //#region Private
@@ -33,10 +39,28 @@ const ScrollControl = (() => {
                 priv.down = false;
                 this.autoCapture = true;
                 this.allowRealignChildsOnResize = true;
+                priv.scrollMode = props.hasOwnProperty('scrollMode')?props.scrollMode:SCROLLMODES.NORMAL;
             }
         }
         //#endregion constructor
         //#region Methods
+        //#region SCROLLMODES
+        static SCROLLMODES() {
+            return SCROLLMODES;
+        }
+        //#endregion SCROLLMODES
+        //#region scrollMode
+        get scrollMode() {
+            return internal(this).scrollMode;
+        }
+        set scrollMode(newValue) {
+            if (Tools.valueInSet(newValue, SCROLLMODES)) {
+                if (priv.scrollMode !== newValue) {
+                    priv.scrollMode = newValue;
+                }
+            }
+        }
+        //#endregion scrollMode
         //#region mouseDown
         mouseDown() {
             //#region Variables déclaration

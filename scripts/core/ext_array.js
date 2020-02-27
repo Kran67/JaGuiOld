@@ -16,7 +16,7 @@ if (!Array.prototype.convertToCollection) {
         let _itemClass = itemClass;
         this._push = this.push;
         this._sort = this.sort;
-        const _isCollection = false;
+        const isCollection = true;
         //#endregion Variables déclaration
         Object.defineProperty(this, 'updating', {
             get: function () { return _updating; },
@@ -34,7 +34,7 @@ if (!Array.prototype.convertToCollection) {
             enumerable: false
         });
         Object.defineProperty(this, 'isCollection', {
-            get: function () { return _isCollection; },
+            get: function () { return isCollection; },
             enumerable: false
         });
         this.push = function (a) {

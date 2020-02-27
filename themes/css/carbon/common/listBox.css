@@ -4,10 +4,6 @@
     float: left;
 }
 
-.carbon.ListBoxContent {
-    background-color: #404040;
-}
-
 .carbon.ListBox {
     border: 1px solid #303030;
     border-radius: 2px;
@@ -18,18 +14,19 @@
     border-radius: 3px;
 }
 
-.carbon.ListBox.usealternatecolor .ListBoxItem.alternate {
+.carbon.ListBox.useAlternateColor .ListBoxItem:nth-of-type(even) {
     background-color: rgba(0,0,0,0.2);
 }
 
-.carbon.VListBoxItem.isheader,
-.carbon.PopupListBox .carbon.VListBoxItem.isheader:hover {
+.carbon.ListBoxItem.isheader,
+.carbon.PopupListBox .carbon.ListBoxItem.isheader:hover {
     background-color: #F9DDA2;
     color: #404040;
     font-style: italic;
 }
 
-.carbon.ListBoxItem.selected {
+.carbon.ListBox .carbon.ListBoxItem.selected,
+.carbon.ListBox.useAlternateColor .carbon.ListBoxItem.selected {
     background-color: #936639;
 }
 
