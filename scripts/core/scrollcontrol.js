@@ -45,7 +45,7 @@ const ScrollControl = (() => {
         //#endregion constructor
         //#region Methods
         //#region SCROLLMODES
-        static SCROLLMODES() {
+        static get SCROLLMODES() {
             return SCROLLMODES;
         }
         //#endregion SCROLLMODES

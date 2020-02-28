@@ -1,7 +1,6 @@
 ﻿.carbon.ListBoxItem .CheckboxCheck {
     position: relative;
     margin-right: 2px;
-    float: left;
 }
 
 .carbon.ListBox {
@@ -14,7 +13,7 @@
     border-radius: 3px;
 }
 
-.carbon.ListBox.useAlternateColor .ListBoxItem:nth-of-type(even) {
+.ListBoxItem.alternate {
     background-color: rgba(0,0,0,0.2);
 }
 

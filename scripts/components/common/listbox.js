@@ -38,7 +38,7 @@ const ListBoxItem = (() => {
                 priv.stopEvent = true;
                 priv.props = {};
                 priv.caption = props.hasOwnProperty('caption') ? props.caption : String.EMPTY;
-                priv.height = props.hasOwnProperty('height') ? props.height : owner.itemsHeight;
+                priv.size = props.hasOwnProperty('size') ? props.size : owner.itemsSize;
                 priv.isChecked = props.hasOwnProperty('isChecked') && Tools.isBool(props.isChecked) ? props.isChecked : false;
                 priv.isHeader = props.hasOwnProperty('isHeader') && Tools.isBool(props.isHeader) ? props.isHeader : false;
                 priv.enabled = props.hasOwnProperty('enabled') && Tools.isBool(props.enabled) ? props.enabled : true;
@@ -50,6 +50,7 @@ const ListBoxItem = (() => {
                 priv.imageIndex = props.hasOwnProperty('imageIndex') && Tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
                 priv.image = props.hasOwnProperty('image') ? props.image : String.EMPTY;
                 priv.cssImage = props.hasOwnProperty('cssImage') ? props.cssImage : String.EMPTY;
+                priv.pos = props.hasOwnProperty('pos') ? props.pos : 0;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'state',
@@ -69,6 +70,11 @@ const ListBoxItem = (() => {
         }
         //#endregion constructor
         //#region Getters / Setters
+        //#region pos
+        get pos() {
+            return internal(this).pos;
+        }
+        //#endregion pos
         //#region form
         get form() {
             return internal(this).owner.form;
@@ -164,18 +170,18 @@ const ListBoxItem = (() => {
             }
         }
         //#endregion enabled
-        //#region height
-        get height() {
-            return internal(this).height;
+        //#region size
+        get size() {
+            return internal(this).size;
         }
-        set height(newValue) {
+        set size(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             if (Tools.isNumber(newValue)) {
-                if (priv.HTMLElement.offsetHeight !== newValue) {
-                    priv.height = newValue;
-                    priv.owner.refreshInnerHeight();
+                if (priv.size !== newValue) {
+                    priv.size = newValue;
+                    priv.owner.refreshInnerSize();
                 }
             }
         }
@@ -298,16 +304,25 @@ const ListBoxItem = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const PX = Types.CSSUNITS.PX;
+            let prop;
+            let propPos;
             //#endregion Variables déclaration
             if (priv.html) {
                 if (priv.owner.orientation === Types.ORIENTATIONS.VERTICAL) {
-                    priv.html.style.minHeight = `${priv.height}${PX}`;
-                    priv.html.style.maxHeight = `${priv.height}${PX}`;
-                    priv.html.style.height = `${priv.height}${PX}`;
+                    prop = 'Height';
+                    propPos = 'top';
                 } else {
-                    priv.html.style.minWidth = `${priv.height}${PX}`;
-                    priv.html.style.maxWidth = `${priv.height}${PX}`;
-                    priv.html.style.width = `${priv.height}${PX}`;
+                    prop = 'Width';
+                    propPos = 'left';
+                }
+                priv.html.style[`min${prop}`] = `${priv.size}${PX}`;
+                priv.html.style[`max${prop}`] = `${priv.size}${PX}`;
+                priv.html.style[`${prop.toLowerCase()}`] = `${priv.size}${PX}`;
+                if (priv.owner.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
+                    priv.html.style[propPos] = `${priv.pos}${PX}`;
+                    priv.html.style.position = 'absolute';
+                } else {
+                    priv.html.style.position = 'static';
                 }
                 priv.html.classList.remove('disabled', 'isheader', 'selected');
                 if (!priv.enabled) {
@@ -330,14 +345,17 @@ const ListBoxItem = (() => {
                 if (priv.selected) {
                     priv.html.classList.add('selected');
                 }
+                if (priv.owner.useAlternateColor && this.index % 2 === 0) {
+                    priv.html.classList.add('alternate');
+                }
                 if (priv.icon) {
                     priv.icon.classList.add('icon');
                     if (!String.isNullOrEmpty(priv.cssImage)) {
                         priv.icon.classList.add(priv.cssImage);
-                        priv.icon.style.backgroundSize = `${priv.height}${PX} ${priv.height}${PX}`;
+                        priv.icon.style.backgroundSize = `${priv.size}${PX} ${priv.size}${PX}`;
                     } else if (!String.isNullOrEmpty(priv.image)) {
                         priv.icon.style.backgroundImage = `url(${priv.image})`;
-                        priv.icon.style.backgroundSize = `${priv.height}${PX} ${priv.height}${PX}`;
+                        priv.icon.style.backgroundSize = `${priv.size}${PX} ${priv.size}${PX}`;
                     } else if (priv.owner.images) {
                         if (priv.imageIndex < priv.owner.images.images.length && priv.imageIndex > -1) {
                             priv.icon.style.backgroundImage = `url(${priv.owner.images.images[priv.imageIndex]})`;
@@ -345,7 +363,6 @@ const ListBoxItem = (() => {
                         }
                     }
                 }
-                //this.updateDataSet();
             }
         }
         //#endregion update
@@ -386,9 +403,9 @@ const ListBoxItem = (() => {
             }
             this.update();
             if (priv.owner.orientation === ORIENTATIONS.VERTICAL) {
-                priv.html.style.transform = `translateY(${priv.top - priv.owner.scrollTop}${PX})`;
+                priv.html.style.transform = `translateY(${priv.top - priv.owner.scrollPos}${PX})`;
             } else {
-                priv.html.style.transform = `translateX(${priv.left - priv.owner.scrollTop}${PX})`;
+                priv.html.style.transform = `translateX(${priv.left - priv.owner.scrollPos}${PX})`;
             }
             if (!String.isNullOrEmpty(priv.css)) {
                 const cssPropsValues = priv.css.split(';');
@@ -407,8 +424,10 @@ const ListBoxItem = (() => {
             //#endregion Variables déclaration
             if (priv.html) {
                 Events.unBind(priv.html, Mouse.MOUSEEVENTS.DOWN, priv.owner.selectItem);
-                //if (this._icon)) this._html.removeChild(this._icon);
-                //this._html.removeChild(this._text);
+                if (priv.icon) {
+                    this.html.removeChild(priv.icon);
+                }
+                priv.html.removeChild(priv.text);
                 priv.owner.HTMLElement.removeChild(priv.html);
                 priv.html = null;
                 priv.icon = null;
@@ -424,8 +443,9 @@ const ListBoxItem = (() => {
             this.removeToHTML();
             priv.owner.items.remove(this);
             priv.owner = null;
+            priv.caption = null;
             priv.text = null;
-            priv.height = null;
+            priv.size = null;
             priv.isChecked = null;
             priv.isHeader = null;
             priv.enabled = null;
@@ -476,10 +496,11 @@ const ListBox = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                !props.hasOwnProperty('scrollMode')?props.scrollMode = ScrollControl.SCROLLMODES.VIRTUAL:null;
                 super(owner, props);
                 const priv = internal(this);
                 priv.visibleItems = [];
-                priv.scrollTop = 0;
+                priv.scrollPos = 0;
                 priv.innerHeight = 0;
                 priv.items = props.hasOwnProperty('items') ? props.items : null;
                 priv.lastDelta = new Point;
@@ -488,7 +509,7 @@ const ListBox = (() => {
                 priv.keyDir = String.EMPTY;
                 priv.multiSelect = props.hasOwnProperty('multiSelect') && Tools.isBool(props.multiSelect) ? props.multiSelect : false;
                 priv.sorted = props.hasOwnProperty('sorted') && Tools.isBool(props.sorted) ? props.sorted : false;
-                priv.itemsHeight = props.hasOwnProperty('itemsHeight') && Tools.isNumber(props.itemsHeight) ? props.itemsHeight : 16;
+                priv.itemsSize = props.hasOwnProperty('itemsSize') && Tools.isNumber(props.itemsSize) ? props.itemsSize : 16;
                 priv.itemsClass = props.hasOwnProperty('itemsClass') ? Core.classes[props.itemsClass] : ListBoxItem;
                 Core.classes.newCollection(this, this, priv.itemsClass);
                 priv.useAlternateColor = props.hasOwnProperty('useAlternateColor') && Tools.isBool(props.useAlternateColor) ? props.useAlternateColor : false;
@@ -541,27 +562,27 @@ const ListBox = (() => {
             }
         }
         //#endregion sorted
-        //#region itemsHeight
-        get itemsHeight() {
-            return internal(this).itemsHeight;
+        //#region itemsSize
+        get itemsSize() {
+            return internal(this).itemsSize;
         }
-        set itemsHeight(newValue) {
+        set itemsSize(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             if (Tools.isNumber(newValue)) {
-                if (priv.itemsHeight !== newValue) {
+                if (priv.itemsSize !== newValue) {
                     this.items.forEach(item => {
-                        if (item.height === priv.itemsHeight) {
-                            item.height = newValue;
+                        if (item.size === priv.itemsSize) {
+                            item.size = newValue;
                         }
                     });
-                    priv.itemsHeight = newValue;
+                    priv.itemsSize = newValue;
                     this.draw();
                 }
             }
         }
-        //#endregion itemsHeight
+        //#endregion itemsSize
         //#region useAlternateColor
         get useAlternateColor() {
             return internal(this).useAlternateColor;
@@ -684,18 +705,23 @@ const ListBox = (() => {
             const oldVisibleItems = priv.visibleItems;
             const items = this.items;
             const vert = priv.orientation === Types.ORIENTATIONS.VERTICAL;
+            const scrollModeNormal = this.scrollMode === ScrollControl.SCROLLMODES.NORMAL;
+            const htmlElement = this.HTMLElement;
             let itemVisible = false;
+            const prop = vert?'Top':'Left';
+            const propSize = vert?'Height':'Width';
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
-                if (vert) {
-                    priv.scrollTop = Math.max(Math.min(priv.scrollTop, priv.innerHeight - this.HTMLElement.offsetHeight), 0);
-                }
-                else {
-                    priv.scrollTop = Math.max(Math.min(priv.scrollTop, priv.innerHeight - this.HTMLElement.offsetWidth), 0);
-                }
+                priv.scrollPos = Math.max(Math.min(htmlElement[`scroll${prop}`], priv.innerHeight - htmlElement[`offset${propSize}`]), 0);
+                //if (vert) {
+                //    
+                //}
+                //else {
+                //    priv.scrollPos = Math.max(Math.min(htmlElement.scrollLeft, priv.innerHeight - htmlElement.offsetWidth), 0);
+                //}
                 priv.visibleItems = [];
                 let topIndex = 0;
-                topIndex = ~~(priv.scrollTop / priv.itemsHeight);
+                topIndex = ~~(priv.scrollPos / priv.itemsSize);
                 if (topIndex < 0) {
                     topIndex = 0;
                 }
@@ -703,19 +729,24 @@ const ListBox = (() => {
                 if (!oldVisibleItems.isEmpty) {
                     maxIndex = topIndex + oldVisibleItems.length * 2;
                 } else {
-                    maxIndex = ~~(this.HTMLElement.offsetHeight / priv.itemsHeight) + 1;
+                    maxIndex = ~~(htmlElement.offsetHeight / priv.itemsSize) + 1;
                 }
                 if (maxIndex > items.length) {
                     maxIndex = items.length;
                 }
+                if (!scrollModeNormal) {
+                    priv.scroller.style[propSize.toLowerCase()] = `${priv.innerHeight}${Types.CSSUNITS.PX}`;
+                }
                 for (let i = topIndex; i < maxIndex; i++) {
                     const item = items[i];
-                    itemVisible = true;
-                    //if (vert && ((item.top + item.height >= priv.scrollTop) && (item.top < this.HTMLElement.offsetHeight + priv.scrollTop))) {
-                    //    itemVisible = true;
-                    //} else if (!vert && ((item.left + item.height >= priv.scrollTop) && (item.left <= this.HTMLElement.offsetWidth + priv.scrollTop))) {
-                    //    itemVisible = true;
-                    //}
+                    if (scrollModeNormal) {
+                        itemVisible = true;
+                    } else {
+                        itemVisible = false;
+                        if (((item.pos + item.size >= priv.scrollPos) && (item.pos < htmlElement[`offset${propSize}`] + priv.scrollPos))) {
+                            itemVisible = true;
+                        }
+                    }
                     if (itemVisible) {
                         if (this.dropDownPopup) {
                             item.dropDownPopup = this.dropDownPopup;
@@ -779,7 +810,7 @@ const ListBox = (() => {
             //#endregion Variables déclaration
             priv.innerHeight = 0;
             items.forEach(item => {
-                priv.innerHeight += item.height;
+                priv.innerHeight += item.size;
             });
             if (this.allowUpdate) {
                 this.draw();
@@ -792,7 +823,7 @@ const ListBox = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (item instanceof ListBoxItem) {
-                priv.innerHeight += item.height;
+                priv.innerHeight += item.size;
                 this.items.push(item);
             }
         }
@@ -881,7 +912,7 @@ const ListBox = (() => {
             this.items = null;
             priv.visibleItems.destroy();
             priv.visibleItems = null;
-            priv.scrollTop = null;
+            priv.scrollPos = null;
             priv.innerHeight = null;
             priv.lastDelta.destroy();
             priv.lastDelta = null;
@@ -891,7 +922,7 @@ const ListBox = (() => {
             priv.currentPos = null;
             priv.multiSelect = null;
             priv.sorted = null;
-            priv.itemsHeight = null;
+            priv.itemsSize = null;
             priv.useAlternateColor = null;
             priv.viewCheckboxes = null;
             priv.itemIndex = null;
@@ -936,16 +967,16 @@ const ListBox = (() => {
                     break;
                 case VKEYSCODES.VK_PRIOR:
                     if (priv.orientation === ORIENTATIONS.VERTICAL) {
-                        this.itemIndex = priv.itemIndex - ~~(htmlElement.offsetHeight / priv.itemsHeight);
+                        this.itemIndex = priv.itemIndex - ~~(htmlElement.offsetHeight / priv.itemsSize);
                     } else {
-                        this.itemIndex = priv.itemIndex - ~~(htmlElement.offsetWidth / priv.itemsHeight);
+                        this.itemIndex = priv.itemIndex - ~~(htmlElement.offsetWidth / priv.itemsSize);
                     }
                     break;
                 case VKEYSCODES.VK_NEXT:
                     if (priv.orientation === ORIENTATIONS.VERTICAL) {
-                        this.itemIndex = priv.itemIndex + ~~(htmlElement.offsetHeight / priv.itemsHeight);
+                        this.itemIndex = priv.itemIndex + ~~(htmlElement.offsetHeight / priv.itemsSize);
                     } else {
-                        this.itemIndex = priv.itemIndex + ~~(htmlElement.offsetWidth / priv.itemsHeight);
+                        this.itemIndex = priv.itemIndex + ~~(htmlElement.offsetWidth / priv.itemsSize);
                     }
                     break;
                 case VKEYSCODES.VK_SPACE:
@@ -967,40 +998,26 @@ const ListBox = (() => {
             const isFirst = priv.visibleItems.first === this.items[priv.itemIndex] || priv.visibleItems.first === this.items[priv.itemIndex + 1];
             const ORIENTATIONS = Types.ORIENTATIONS;
             const htmlElement = this.HTMLElement;
+            let prop = priv.orientation === ORIENTATIONS.VERTICAL?'Top':'Left';
+            let propSize = priv.orientation === ORIENTATIONS.VERTICAL?'Height':'Width';
             //#endregion Variables déclaration
             if (this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
                 if (inVisibleItems && !isFirst) {
                     let nbrVisibleItems;
                     let base;
-                    if (priv.orientation === ORIENTATIONS.VERTICAL) {
-                        nbrVisibleItems = ~~(htmlElement.offsetHeight / priv.itemsHeight);
-                        base = ((nbrVisibleItems * priv.itemsHeight) - htmlElement.offsetHeight) + priv.itemsHeight;
-                        //this._VScrollBar.setValue(base + ((this.itemIndex - nbrVisibleItems) * this.itemsHeight));
-                    } else {
-                        nbrVisibleItems = ~~(htmlElement.offsetWidth / priv.itemsHeight);
-                        base = ((nbrVisibleItems * priv.itemsHeight) - htmlElement.offsetWidth) + priv.itemsHeight;
-                        //this._HScrollBar.setValue(base + ((this.itemIndex - nbrVisibleItems) * this.itemsHeight));
-                    }
+                    nbrVisibleItems = ~~(htmlElement[`offset${propSize}`] / priv.itemsSize);
+                    base = ((nbrVisibleItems * priv.itemsSize) - htmlElement[`offset${propSize}`]) + priv.itemsSize;
+                    htmlElement[`scroll${prop}`] = base + ((priv.itemIndex - nbrVisibleItems) * priv.itemsSize);
                 } else if (isFirst) {
-                    //if (priv.orientation === ORIENTATIONS.VERTICAL) {
-                    //    this._VScrollBar.setValue((this.itemIndex * this.itemsHeight));
-                    //} else {
-                    //    this._HScrollBar.setValue((this.itemIndex * this.itemsHeight));
-                    //}
+                    htmlElement[`scroll${prop}`] = priv.itemIndex * priv.itemsSize;
                 }
             } else {
-                if (priv.orientation === ORIENTATIONS.VERTICAL) {
-                    if (this.items[priv.itemIndex].html.offsetTop + this.items[priv.itemIndex].html.offsetHeight > htmlElement.offsetHeight + htmlElement.scrollTop) {
-                        htmlElement.scrollTop = this.items[priv.itemIndex].html.offsetTop + this.items[priv.itemIndex].html.offsetHeight + 2 - htmlElement.offsetHeight;
-                    } else if (htmlElement.scrollTop > this.items[priv.itemIndex].html.offsetTop) {
-                        htmlElement.scrollTop = this.items[priv.itemIndex].html.offsetTop - 1;
-                    }
-                } else {
-                    if (this.items[priv.itemIndex].html.offsetLeft + this.items[priv.itemIndex].html.offsetWidth > htmlElement.offsetWidth + htmlElement.scrollLeft) {
-                        htmlElement.scrollLeft = this.items[priv.itemIndex].html.offsetLeft + this.items[priv.itemIndex].html.offsetWidth + 2 - htmlElement.offsetWidth;
-                    } else if (htmlElement.scrollLeft > this.items[priv.itemIndex].html.offsetLeft) {
-                        htmlElement.scrollLeft = this.items[priv.itemIndex].html.offsetLeft - 1;
-                    }
+                if (this.items[priv.itemIndex].html[`offset${prop}`] + this.items[priv.itemIndex].html[`offset${propSize}`] > 
+                    htmlElement[`offset${propSize}`] + htmlElement[`scroll${prop}`]) {
+                    htmlElement[`scroll${prop}`] = this.items[priv.itemIndex].html[`offset${propSize}`] + 
+                        this.items[priv.itemIndex].html[`offset${propSize}`] + 2 - htmlElement[`offset${propSize}`];
+                } else if (htmlElement[`scroll${prop}`] > this.items[priv.itemIndex].html[`offset${prop}`]) {
+                    htmlElement[`scroll${prop}`] = this.items[priv.itemIndex].html[`offset${prop}`] - 1;
                 }
             }
         }
@@ -1010,10 +1027,15 @@ const ListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
+            const name = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            let pos = 0;
             //#endregion Variables déclaration
             super.loaded();
             this.getImages();
             priv.innerHeight = 0;
+            priv.scroller = document.createElement(`${name}-scroller`);
+            priv.scroller.classList.add('listBoxScroller');
+            htmlElement.appendChild(priv.scroller);
             if (priv.items) {
                 if (Tools.isArray(priv.items)) {
                     priv.items.forEach((item, idx) => {
@@ -1023,15 +1045,17 @@ const ListBox = (() => {
                             props: {
                                 inForm: false,
                                 caption: item.caption,
-                                height: item.hasOwnProperty('height') && Tools.isNumber(item.height) ? item.height : priv.itemsHeight,
+                                height: item.hasOwnProperty('height') && Tools.isNumber(item.size) ? item.size : priv.itemsSize,
                                 isHeader: item.isHeader,
                                 isChecked: item.isChecked,
                                 selected: priv.itemIndex === idx,
-                                cssImage: item.hasOwnProperty('cssImage') ? item.cssImage : String.EMPTY
+                                cssImage: item.hasOwnProperty('cssImage') ? item.cssImage : String.EMPTY,
+                                pos: pos
                             }
                         });
                         this.items.push(_item);
-                        priv.innerHeight += _item.height;
+                        priv.innerHeight += _item.size;
+                        pos += _item.size;
                     });
                 }
             }
@@ -1039,6 +1063,9 @@ const ListBox = (() => {
                 htmlElement.classList.add('useAlternateColor');
             }
             htmlElement.classList.add(`orientation-${priv.orientation}`);
+            if (this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
+                htmlElement.addEventListener(Types.HTMLEVENTS.SCROLL, this.draw.bind(this));
+            }
             this.draw();
         }
         //#endregion loaded
