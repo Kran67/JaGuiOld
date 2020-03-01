@@ -987,15 +987,16 @@ const SegmentLedLabel = (() => {
             const htmlElement = this.HTMLElement;
             const htmlElementStyle = this.HTMLElementStyle;
             const pseudoCssClass = Types.PSEUDOCSSCLASS;
+            const tag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             //#endregion Variables déclaration
             priv.conts.clear();
             htmlElement.innerHTML = String.EMPTY;
             for (let i = 0; i < priv.maxLength; i++) {
-                const div = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}segmentcontainer`);
+                const div = document.createElement(`${tag}segmentcontainer`);
                 div.className = 'segmentContainer';
                 priv.conts.push(div);
                 for (let j = 0; j < priv.segmentType; j++) {
-                    const seg = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}segment`);
+                    const seg = document.createElement(`${tag}segment`);
                     seg.className = `segment seg${j}`;
                     div.appendChild(seg);
                 }

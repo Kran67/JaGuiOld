@@ -655,9 +655,10 @@ const Calendar = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             const self = this;
+            const tag = `${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}`;
             //#region generateContentHeaderAndWeeks
             const generateContent = function() {
-                const content = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}content`);
+                const content = document.createElement(`${tag}content`);
                 content.classList.add('Control', 'CalendarContent', self.themeName);
                 htmlElement.appendChild(content);
                 generateHeader(content);
@@ -670,25 +671,25 @@ const Calendar = (() => {
             //#endregion generateContentHeaderAndWeeks
             //#region generateHeader
             const generateHeader = function(content) {
-                const header = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}header`);
+                const header = document.createElement(`${tag}header`);
                 header.classList.add('Control', 'CalendarHeader', self.themeName);
                 content.appendChild(header);
-                priv.prevMonth = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}prevmonth`);
+                priv.prevMonth = document.createElement(`${tag}prevmonth`);
                 priv.prevMonth.classList.add('Control', 'CalendarPrevMonth', self.themeName);
                 priv.prevMonth.jsObj = self;
                 Events.bind(priv.prevMonth, Mouse.MOUSEEVENTS.CLICK, self.decDate);
                 header.appendChild(priv.prevMonth);
-                priv.thisDay = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}thisday`);
+                priv.thisDay = document.createElement(`${tag}thisday`);
                 priv.thisDay.classList.add('Control', 'CalendarThisDay', self.themeName);
                 priv.thisDay.jsObj = self;
                 Events.bind(priv.thisDay, Mouse.MOUSEEVENTS.CLICK, self.goToThisDay);
                 header.appendChild(priv.thisDay);
-                priv.nextMonth = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}nextmonth`);
+                priv.nextMonth = document.createElement(`${tag}nextmonth`);
                 priv.nextMonth.classList.add('Control', 'CalendarNextMonth', self.themeName);
                 priv.nextMonth.jsObj = self;
                 Events.bind(priv.nextMonth, Mouse.MOUSEEVENTS.CLICK, self.incDate);
                 header.appendChild(priv.nextMonth);
-                priv.thisMonth = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}thismonth`);
+                priv.thisMonth = document.createElement(`${tag}thismonth`);
                 priv.thisMonth.classList.add('Control', 'CalendarThisMonth', self.themeName);
                 priv.thisMonth.jsObj = self;
                 Events.bind(priv.thisMonth, Mouse.MOUSEEVENTS.CLICK, self.viewMYDC);
@@ -697,7 +698,7 @@ const Calendar = (() => {
             //#endregion generateHeader
             //#region generateWeekDays
             const generateWeekDays = function(content) {
-                priv.weekDays = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}weekdays`);
+                priv.weekDays = document.createElement(`${tag}weekdays`);
                 priv.weekDays.classList.add('Control', 'CalendarWeekdays', self.themeName);
                 content.appendChild(priv.weekDays);
                 generateWeekNumAndDay(priv.weekDays, true);
@@ -705,11 +706,11 @@ const Calendar = (() => {
             //#endregion generateWeekDays
             //#region generateWeekNumAndDay
             const generateWeekNumAndDay = function(content, isWeekDay) {
-                const weekNum = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}weeknum`);
+                const weekNum = document.createElement(`${tag}weeknum`);
                 weekNum.classList.add('Control', 'CalendarWeekNum', self.themeName);
                 content.appendChild(weekNum);
                 for (let i = 0; i < 7; i++) {
-                    const weekDay = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}weekday`);
+                    const weekDay = document.createElement(`${tag}weekday`);
                     weekDay.classList.add('Control', `Calendar${isWeekDay?'Week':String.EMPTY}Day`, self.themeName);
                     content.appendChild(weekDay);
                 }
@@ -717,11 +718,11 @@ const Calendar = (() => {
             //#endregion generateWeekNumAndDay
             //#region generateWeeks
             const generateWeeks = function(content) {
-                const weeks = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}weeks`);
+                const weeks = document.createElement(`${tag}weeks`);
                 weeks.classList.add('Control', 'CalendarWeeks', self.themeName);
                 content.appendChild(weeks);
                 ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].forEach((weekName, idx) => {
-                    const week = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}${weekName.toLowerCase()}week`);
+                    const week = document.createElement(`${tag}${weekName.toLowerCase()}week`);
                     week.classList.add('Control', 'CalendarWeek', `Calendar${weekName}Week`, self.themeName);
                     if (idx % 2 === 0) {
                         week.classList.add('alternate');
@@ -734,12 +735,12 @@ const Calendar = (() => {
             //#endregion generateWeeks
             //#region generateMonths
             const generateMonths = function(content) {
-                priv.months = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}months`);
+                priv.months = document.createElement(`${tag}months`);
                 priv.months.classList.add("Control", "CalendarMonths", self.themeName);
                 priv.months.jsObj = self;
                 content.appendChild(priv.months);
-                for (let i=0;i<12;i++) {
-                    const month = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}month`);
+                for (let i=0; i<12; i++) {
+                    const month = document.createElement(`${tag}month`);
                     month.innerHTML = Tools.getLocale().date.abbreviatedMonthNames[i].firstCharUpper;
                     month.classList.add('Control', 'CalendarMDC', 'CalendarMonth', self.themeName);
                     month.dataset.month = i;
@@ -749,13 +750,13 @@ const Calendar = (() => {
             //#endregion generateMonths
             //#region generateDecades
             const generateDecades = function(content) {
-                priv.decades = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}decades`);
+                priv.decades = document.createElement(`${tag}decades`);
                 priv.decades.classList.add('Control', 'CalendarDecades', self.themeName);
                 priv.decades.jsObj = self;
                 content.appendChild(priv.decades);
                 let currentYear = new Date().getFullYear() - 1;
                 for (let i=0;i<12;i++) {
-                    const decade = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}decade`);
+                    const decade = document.createElement(`${tag}decade`);
                     decade.innerHTML = currentYear;
                     decade.classList.add('Control', 'CalendarMDC', 'CalendarDecade', self.themeName);
                     decade.dataset.decade = i;
@@ -766,12 +767,12 @@ const Calendar = (() => {
             //#endregion generateDecades
             //#region generateCenturies
             const generateCenturies = function(content) {
-                priv.centuries = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}centuries`);
+                priv.centuries = document.createElement(`${tag}centuries`);
                 priv.centuries.classList.add('Control', 'CalendarCenturies', self.themeName);
                 priv.centuries.jsObj = self;
                 content.appendChild(priv.centuries);
                 for (let i=0;i<11;i++) {
-                    const century = document.createElement(`${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}century`);
+                    const century = document.createElement(`${tag}century`);
                     century.classList.add('Control', 'CalendarMDC', 'CalendarMDCx2', 'CalendarCentury', self.themeName);
                     century.dataset.century = i;
                     priv.centuries.appendChild(century);

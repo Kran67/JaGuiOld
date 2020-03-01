@@ -4,7 +4,6 @@ import { Events } from '/scripts/core/events.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 import { NotifyEvent } from '/scripts/core/events.js';
 import { Tools } from '/scripts/core/tools.js';
-import { Text } from '/scripts/core/text.js';
 //#endregion Import
 //#region SLIDERMODES
 const SLIDERMODES = Object.freeze({
@@ -500,8 +499,8 @@ const Slider = (() => {
         update() {
             //#region Variables déclaration
             const priv = internal(this);
-            const lValue=(100/(~~priv.max-~~priv.min))*priv.leftInput.valueAsNumber-(100/(~~priv.max-~~priv.min))*~~priv.min;
-            const rValue=(100/(~~priv.max-~~priv.min))*priv.rightInput.valueAsNumber-(100/(~~priv.max-~~priv.min))*~~priv.min;
+            const lValue=100/(~~priv.max-~~priv.min)*priv.leftInput.valueAsNumber-100/(~~priv.max-~~priv.min)*~~priv.min;
+            const rValue=100/(~~priv.max-~~priv.min)*priv.rightInput.valueAsNumber-100/(~~priv.max-~~priv.min)*~~priv.min;
             const PX = Types.CSSUNITS.PX;
             const width = `${this.width + priv.leftThumb.offsetWidth}${PX}`;
             const height = `${this.height + priv.leftThumb.offsetHeight}${PX}`;

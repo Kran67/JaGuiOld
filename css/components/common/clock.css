@@ -1,1 +1,257 @@
-﻿div.Clock {}
+﻿.Control.Clock {
+    display: flex;
+}
+
+.Clock_hours,
+.Clock_minutes,
+.Clock_seconds,
+.Clock_hours,
+.Clock_sep {
+    position: relative;
+}
+
+.Control.Clock.digital {
+    border-radius: 6px;
+    flex-direction: column;
+}
+
+.Clock_weekdays {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin: 3px 0;
+}
+
+.Clock_day {
+    padding: 0 5px;
+    opacity: 0.2;
+}
+
+    .Clock_day.active,
+    .Clock_alarm.active {
+        opacity: 1;
+    }
+
+
+.Clock_meridian {
+    align-self: flex-end;
+    justify-self: flex-end;
+    margin: 5px;
+}
+
+.Clock_alarm {
+    width: 13px;
+    height: 13px;
+    position: relative;
+    border-radius: 50%;
+    margin: 5px;
+    opacity: 0.2;
+    align-self: flex-end;
+    justify-self: flex-start;
+}
+
+    .Clock_alarm:before,
+    .Clock_alarm:after {
+        content: '';
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        top: -3px;
+    }
+
+    .Clock_alarm:before {
+        left: -3px;
+        border-right: solid 2px transparent;
+        border-bottom: solid 2px transparent;
+    }
+
+    .Clock_alarm:after {
+        right: -3px;
+        border-left: solid 1px transparent;
+        border-bottom: solid 1px transparent;
+    }
+
+.Clock_alarm_inner {
+    position: absolute;
+    width: 3px;
+    height: 4px;
+    top: 2px;
+    left: 4px;
+}
+
+    .Clock_alarm_inner:before,
+    .Clock_alarm_inner:after {
+        content: '';
+        position: absolute;
+        width: 2px;
+        height: 4px;
+    }
+
+    .Clock_alarm_inner:before {
+        left: -7px;
+        top: 8px;
+        transform-origin: right center;
+        transform: rotate(45deg);
+    }
+
+    .Clock_alarm_inner:after {
+        left: 2px;
+        top: 8px;
+        transform-origin: left center;
+        transform: rotate(-45deg);
+    }
+
+
+.Clock_digits {
+    display: flex;
+    margin-bottom: 3px;
+}
+
+.Clock_digit,
+.Clock_dots {
+    width: 28px;
+    height: 50px;
+    margin: 0 4px;
+    text-align: left;
+    position: relative;
+}
+
+.Clock_dots {
+    width: 5px;
+}
+
+    .Clock_dots:before,
+    .Clock_dots:after {
+        width: 5px;
+        height: 5px;
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 14px;
+    }
+
+    .Clock_dots:after {
+        top: 34px;
+    }
+
+.Clock_digit_d1,
+.Clock_digit_d2,
+.Clock_digit_d3,
+.Clock_digit_d4,
+.Clock_digit_d5,
+.Clock_digit_d6,
+.Clock_digit_d7 {
+    opacity: 0;
+    position: absolute;
+    transition: 0.25s;
+}
+
+.Clock_digit_d1,
+.Clock_digit_d2,
+.Clock_digit_d3 {
+    height: 5px;
+    width: 26px;
+    top: 0;
+    left: 1px;
+}
+
+.Clock_digit_d2 {
+    top: 24px;
+}
+
+.Clock_digit_d3 {
+    top: 48px;
+}
+
+.Clock_digit_d4,
+.Clock_digit_d5,
+.Clock_digit_d6,
+.Clock_digit_d7 {
+    width: 5px;
+    height: 24px;
+    top: 2px;
+    left: 0;
+}
+
+.Clock_digit_d5,
+.Clock_digit_d7 {
+    left: auto;
+    right: 0;
+}
+
+.Clock_digit_d6,
+.Clock_digit_d7 {
+    top: 27px;
+}
+
+.Clock_digit_d1 {
+    clip-path: polygon(0 0, 26px 0, 21px 5px, 5px 5px);
+}
+.Clock_digit_d2 {
+    clip-path: polygon(5px 0, 21px 0, 26px 2px, 21px 5px, 5px 5px, 0 2px);
+}
+.Clock_digit_d3 {
+    clip-path: polygon(0 5px, 5px 0, 21px 0, 26px 5px);
+}
+
+.Clock_digit_d4,
+.Clock_digit_d6 {
+    clip-path: polygon(0 0, 5px 5px, 5px 19px, 0 24px);
+}
+.Clock_digit_d5,
+.Clock_digit_d7 {
+    clip-path: polygon(5px 0, 0 5px, 0 19px, 5px 24px);
+}
+
+.Clock_zero .Clock_digit_d1,
+.Clock_zero .Clock_digit_d3,
+.Clock_zero .Clock_digit_d4,
+.Clock_zero .Clock_digit_d5,
+.Clock_zero .Clock_digit_d6,
+.Clock_zero .Clock_digit_d7,
+.Clock_one .Clock_digit_d5,
+.Clock_one .Clock_digit_d7,
+.Clock_two .Clock_digit_d1,
+.Clock_two .Clock_digit_d2,
+.Clock_two .Clock_digit_d3,
+.Clock_two .Clock_digit_d5,
+.Clock_two .Clock_digit_d6,
+.Clock_three .Clock_digit_d1,
+.Clock_three .Clock_digit_d2,
+.Clock_three .Clock_digit_d3,
+.Clock_three .Clock_digit_d5,
+.Clock_three .Clock_digit_d7,
+.Clock_four .Clock_digit_d4,
+.Clock_four .Clock_digit_d5,
+.Clock_four .Clock_digit_d2,
+.Clock_four .Clock_digit_d7,
+.Clock_five .Clock_digit_d1,
+.Clock_five .Clock_digit_d2,
+.Clock_five .Clock_digit_d3,
+.Clock_five .Clock_digit_d4,
+.Clock_five .Clock_digit_d7,
+.Clock_six .Clock_digit_d1,
+.Clock_six .Clock_digit_d2,
+.Clock_six .Clock_digit_d3,
+.Clock_six .Clock_digit_d4,
+.Clock_six .Clock_digit_d6,
+.Clock_six .Clock_digit_d7,
+.Clock_seven .Clock_digit_d1,
+.Clock_seven .Clock_digit_d5,
+.Clock_seven .Clock_digit_d7,
+.Clock_eight .Clock_digit_d1,
+.Clock_eight .Clock_digit_d2,
+.Clock_eight .Clock_digit_d3,
+.Clock_eight .Clock_digit_d4,
+.Clock_eight .Clock_digit_d5,
+.Clock_eight .Clock_digit_d6,
+.Clock_eight .Clock_digit_d7,
+.Clock_nine .Clock_digit_d1,
+.Clock_nine .Clock_digit_d2,
+.Clock_nine .Clock_digit_d3,
+.Clock_nine .Clock_digit_d4,
+.Clock_nine .Clock_digit_d5,
+.Clock_nine .Clock_digit_d7 {
+    opacity: 1;
+}
