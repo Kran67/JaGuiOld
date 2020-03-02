@@ -30,9 +30,17 @@
 }
 
     .Clock_day.active,
-    .Clock_alarm.active {
+    .Clock_alarm.active,
+    .Clock_snooze.active {
         opacity: 1;
     }
+
+.Clock_alarm.active {
+    animation-name: blinker;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
 
 .Clock_meridian {
     align-self: flex-end;
@@ -43,7 +51,15 @@
 .Control.Clock.led .Clock_meridian,
 .Control.Clock.led .Clock_alarm,
 .Control.Clock.led .Clock_weekdays {
-    filter: blur(1px);
+    filter: blur(0.75px);
+}
+
+.Clock_alarmarea {
+    align-self: stretch;
+    justify-self: stretch;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
 }
 
 .Clock_alarm {
@@ -53,8 +69,6 @@
     border-radius: 50%;
     margin: 5px;
     opacity: 0.2;
-    align-self: flex-end;
-    justify-self: flex-start;
 }
 
     .Clock_alarm:before,
@@ -109,6 +123,41 @@
         transform: rotate(-45deg);
     }
 
+.Clock_snooze {
+    position: relative;
+    border-radius: 50%;
+    margin: 5px;
+    opacity: 0.2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 6pt;
+    padding: 4px 0 0 3px;
+}
+
+.Clock_snooze:before,
+.Clock_snooze:after {
+    content: 'Z';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+}
+
+.Clock_snooze:before {
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-size: 8pt;
+    font-weight: bold;
+}
+
+.Clock_snooze:after {
+    justify-content: flex-end;
+    align-items: flex-end;
+    font-size: 4pt;
+}
 
 .Clock_digits {
     display: flex;
@@ -168,7 +217,7 @@
 .Control.Clock.led .Clock_dots:after {
     width: 7px;
     border-radius: 50%;
-    filter: blur(1px);
+    filter: blur(0.75px);
 }
 
 .Clock_dots:after {
@@ -255,7 +304,7 @@
 
 .Control.Clock.led .Clock_digit * {
     border-radius: 50%;
-    filter: blur(1px);
+    filter: blur(0.75px);
     opacity: 0.15;
     transform: scale(1);
 }
@@ -437,22 +486,22 @@
 
 
 .Clock_digit_flip.before .Control.Clock_digit_flip_up:before {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, .1) 0%, rgba(0, 0, 0, 1) 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, .1) 0, rgba(0, 0, 0, 1) 100%);
     animation: show .5s linear both;
 }
 
 .Clock_digit_flip.active .Control.Clock_digit_flip_up:before {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, .1) 0%, rgba(0, 0, 0, 1) 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, .1) 0, rgba(0, 0, 0, 1) 100%);
     animation: hide .5s .3s linear both;
 }
 
 .Clock_digit_flip.before .Control.Clock_digit_flip_down:after {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, .1) 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0, rgba(0, 0, 0, .1) 100%);
     animation: show .5s linear both;
 }
 
 .Clock_digit_flip.active .Control.Clock_digit_flip_down:after {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, .1) 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0, rgba(0, 0, 0, .1) 100%);
     animation: hide .5s .3s linear both;
 }
 
@@ -477,13 +526,13 @@
     }
 
     100% {
-        transform: rotateX(0deg);
+        transform: rotateX(0);
     }
 }
 
 @keyframes turn2 {
     0% {
-        transform: rotateX(0deg);
+        transform: rotateX(0);
     }
 
     100% {

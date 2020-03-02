@@ -2,7 +2,7 @@
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 //import { Window } from '/scripts/components/containers/window.js';
 //import { Keyboard } from '/scripts/core/keyboard.js';
-//import { Mouse } from '/scripts/core/mouse.js';
+import { Events, NotifyEvent } from '/scripts/core/events.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region CLOCKMODES
@@ -73,6 +73,8 @@ const Clock = (() => {
                 priv.use24H = props.hasOwnProperty('use24H') ? props.use24H : false;
                 priv.autoStart = props.hasOwnProperty('autoStart') ? props.autoStart : true;
                 priv.lastDate = null;
+                priv.alarmTime = null;
+                this.onAlarm = new NotifyEvent(this);
             }
         }
         //#endregion constructor
@@ -190,14 +192,50 @@ const Clock = (() => {
             }
         }
         //#endregion autoStart
+        //#region alarm
+        get alarm() {
+            return internal(this).alarm;
+        }
+        set alarm(newValue) {
+            if (Tools.isString(newValue) && newValue.includes(':')) {
+                const parts = newValue.split(':');
+                if (parts.length >= 2) {
+                    priv.alarm = new Date();
+                    priv.alarm.clearTime();
+                    priv.alarm.setHours(~~parts.first);
+                    priv.alarm.setMinutes(~~parts[1]);
+                    if (parts.length > 3) {
+                        if (parts.length === 3) {
+                            if (['AM', 'PM'].indexOf(parts[2]) > -1 && !priv.use24H) {
+                                if (priv.alarm.getHours()>12) {
+                                    priv.alarm.setHours(priv.alarm.getHours() - 12);
+                                }
+                            } else {
+                                priv.alarm.setSeconds(~~parts[2]);
+                            }
+                        } else {
+                            priv.alarm.setSeconds(~~parts[2]);
+                            if (['AM', 'PM'].indexOf(parts[3]) > -1 && !priv.use24H) {
+                                if (priv.alarm.getHours()>12) {
+                                    priv.alarm.setHours(priv.alarm.getHours() - 12);
+                                }
+                            }
+                        }
+                    }
+                }
+                this.update();
+            }
+        }
+        //#endregion alarm
         //#endregion Getters / Setters
         //#region Methods
+        clearContent() {
+
+        }
         //#region prepareContent
         prepareContent() {
             //#region Variables déclaration
             const priv = internal(this);
-            const paused = priv.pause;
-            const started = priv.started;
             const htmlElement = this.HTMLElement;
             const className = this.constructor.name;
             const tag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
@@ -242,10 +280,18 @@ const Clock = (() => {
             digits.classList.add(`${className}_digits`);
             htmlElement.appendChild(digits);
             if (priv.showAlarm) {
-                div = document.createElement(`${tag}-alarm`);
-                div.innerHTML = `<${tag}-alarminner class="Clock_alarm_inner ${this.themeName}"></${tag}-alarminner>`;
-                div.classList.add(`${className}_alarm`, this.themeName);
+                div = document.createElement(`${tag}-alarmarea`);
+                div.classList.add(`${className}_alarmarea`);
                 digits.appendChild(div);
+                div1 = document.createElement(`${tag}-snooze`);
+                div1.classList.add(`${className}_snooze`, this.themeName);
+                div1.innerHTML = 'Z';
+                div.appendChild(div1);
+                div1 = document.createElement(`${tag}-alarm`);
+                div1.innerHTML = `<${tag}-alarminner class="Clock_alarm_inner ${this.themeName}"></${tag}-alarminner>`;
+                div1.classList.add(`${className}_alarm`, this.themeName);
+                div.appendChild(div1);
+                Events.unBind(div1, Types.HTMLEVENTS.MOUSEDOWN, this.stopAlarm.bind(this));
             }
             for (let i = 0; i < numDigits; i++) {
                 div = document.createElement(`${tag}-number`);
@@ -380,11 +426,6 @@ const Clock = (() => {
             }
             //#endregion digits
             htmlElement.classList.add(priv.mode);
-            priv.paused = paused;
-            priv.started = started;
-            if (priv.started && priv.type === CLOCKTYPES.COUNTDOWN) {
-                this.start();
-            }
         }
         //#endregion prepareContent
         //#region loaded
@@ -395,7 +436,11 @@ const Clock = (() => {
             super.loaded();
             if (priv.autoStart) {
                 this.prepareContent();
-                this.update();
+                if (priv.alarmTime) {
+                    this.alarm = priv.alarmTime;                    
+                } else {
+                    this.update();
+                }
                 this.start();
             }
         }
@@ -413,18 +458,6 @@ const Clock = (() => {
             const htmlElement = this.HTMLElement;
             let firstDigit;
             let lastDigit;
-            const numbers = {
-                '0': 'zero',
-                '1': 'one',
-                '2': 'two',
-                '3': 'three',
-                '4': 'four',
-                '5': 'five',
-                '6': 'six',
-                '7': 'seven',
-                '8': 'eight',
-                '9': 'nine'
-            };
             //#endregion Variables déclaration
             if (!priv.paused && !this.loading && !this.form.loading) {
                 const hours1 = htmlElement.querySelector(`.${className}_hours1`);
@@ -454,77 +487,29 @@ const Clock = (() => {
                         break;
                     case CLOCKMODES.DIGITAL:
                     case CLOCKMODES.LED:
-                        firstDigit = hours.split(String.EMPTY).first;
-                        lastDigit = hours.split(String.EMPTY).last;
-                        Object.keys(numbers).forEach(number => {
-                            hours1.classList.remove(`${className}_${numbers[number]}`);
-                            hours2.classList.remove(`${className}_${numbers[number]}`);
-                        });
-                        hours1.classList.add(`${className}_${numbers[firstDigit]}`);
-                        hours2.classList.add(`${className}_${numbers[lastDigit]}`);
-                        firstDigit = minutes.split(String.EMPTY).first;
-                        lastDigit = minutes.split(String.EMPTY).last;
-                        Object.keys(numbers).forEach(number => {
-                            minutes1.classList.remove(`${className}_${numbers[number]}`);
-                            minutes2.classList.remove(`${className}_${numbers[number]}`);
-                        });
-                        minutes1.classList.add(`${className}_${numbers[firstDigit]}`);
-                        minutes2.classList.add(`${className}_${numbers[lastDigit]}`);
+                        this.updateLed(hours, hours1, hours2);
+                        this.updateLed(minutes, minutes1, minutes2);
                         if (priv.showSeconds) {
-                            firstDigit = seconds.split(String.EMPTY).first;
-                            lastDigit = seconds.split(String.EMPTY).last;
-                            Object.keys(numbers).forEach(number => {
-                                seconds1.classList.remove(`${className}_${numbers[number]}`);
-                                seconds2.classList.remove(`${className}_${numbers[number]}`);
-                            });
-                            seconds1.classList.add(`${className}_${numbers[firstDigit]}`);
-                            seconds2.classList.add(`${className}_${numbers[lastDigit]}`);
+                            this.updateLed(seconds, seconds1, seconds2);
                         }
                         break;
                     case CLOCKMODES.FLIP:
                         if (priv.lastDate !== date) {
-                            let lFirstDigit;
-                            let lLastDigit;
-                            let elem;
-                            let idx = 0;
-                            let i = 0;
                             const lDate = priv.lastDate;
                             const lHours = (lDate.getHours() - (!priv.use24H && lDate.getHours() > 12 ? 12 : 0)).toString().padStart(2, '0');
                             const lMinutes = lDate.getMinutes().toString().padStart(2, '0');
                             const lSeconds = lDate.getSeconds().toString().padStart(2, '0');
                             // Hours changed
                             if (hours !== lHours) {
-                                //console.log('hours changed');
+                                this.updateFlip(hours, lHours, 'hours');
                             }
                             // Minutes changed
                             if (minutes !== lMinutes) {
-                                //console.log('minute changed');
+                                this.updateFlip(minutes, lMinutes, 'minutes');
                             }
                             // Seconds changed
                             if (seconds !== lSeconds && priv.showSeconds) {
-                                //console.log('seconds changed');
-                                firstDigit = seconds.split(String.EMPTY).first;
-                                lastDigit = seconds.split(String.EMPTY).last;
-                                lFirstDigit = lSeconds.split(String.EMPTY).first;
-                                lLastDigit = lSeconds.split(String.EMPTY).last;
-                                if (lastDigit !== lLastDigit) {
-                                    i = 1;
-                                }
-                                if (firstDigit !== lFirstDigit) {
-                                    i = 0;
-                                }
-                                for (; i < 2; i++) {
-                                    elem = htmlElement.querySelector(`.Clock_seconds${i + 1} .before`);
-                                    elem.classList.remove('before');
-                                    elem = htmlElement.querySelector(`.Clock_seconds${i + 1} .active`);
-                                    elem.classList.remove('active');
-                                    elem.classList.add('before');
-                                    if (elem.nextElementSibling) {
-                                        elem.nextElementSibling.classList.add('active');
-                                    } else {
-                                        elem.parentNode.firstElementChild.classList.add('active');
-                                    }
-                                }
+                                this.updateFlip(seconds, lSeconds, 'seconds');
                             }
 
                         }
@@ -534,8 +519,75 @@ const Clock = (() => {
                         break;
                 }
             }
+            if (priv.alarm && priv.showAlarm) {
+                htmlElement.querySelector(`.${className}_alarm`).classList.add('active');
+                const aHours = (priv.alarm.getHours() - (!priv.use24H && priv.alarm.getHours() > 12 ? 12 : 0)).toString().padStart(2, '0');
+                const aMinutes = priv.alarm.getMinutes().toString().padStart(2, '0');
+                const aSeconds = priv.alarm.getSeconds().toString().padStart(2, '0');
+                if (aHours === hours && aMinutes === minutes && aSeconds === seconds) {
+                    // snooze
+                    this.onAlarm.invoke(this);
+                }
+            }
         }
         //#endregion update
+        //#region updateLed
+        updateLed(currentValue, partOne, partTwo) {
+            //#region Variables déclaration
+            const className = this.constructor.name;
+            const numbers = {
+                '0': 'zero',
+                '1': 'one',
+                '2': 'two',
+                '3': 'three',
+                '4': 'four',
+                '5': 'five',
+                '6': 'six',
+                '7': 'seven',
+                '8': 'eight',
+                '9': 'nine'
+            };
+            const firstDigit = currentValue.split(String.EMPTY).first;
+            const lastDigit = currentValue.split(String.EMPTY).last;
+            //#endregion Variables déclaration
+            Object.keys(numbers).forEach(number => {
+                partOne.classList.remove(`${className}_${numbers[number]}`);
+                partTwo.classList.remove(`${className}_${numbers[number]}`);
+            });
+            partOne.classList.add(`${className}_${numbers[firstDigit]}`);
+            partTwo.classList.add(`${className}_${numbers[lastDigit]}`);
+        }
+        //#endregion updateLed
+        //#region updateFlip
+        updateFlip(currentValue, lastValue, partName) {
+            //#region Variables déclaration
+            const htmlElement = this.HTMLElement;
+            const firstDigit = currentValue.split(String.EMPTY).first;
+            const lastDigit = currentValue.split(String.EMPTY).last;
+            const lFirstDigit = lastValue.split(String.EMPTY).first;
+            const lLastDigit = lastValue.split(String.EMPTY).last;
+            let i = -1;
+            //#endregion Variables déclaration
+            if (lastDigit !== lLastDigit) {
+                i = 1;
+            }
+            if (firstDigit !== lFirstDigit) {
+                i = 0;
+            }
+            for (; i < 2; i++) {
+                let elem = htmlElement.querySelector(`.Clock_${partName}${i + 1} .before`);
+                elem.classList.remove('before');
+                elem = htmlElement.querySelector(`.Clock_${partName}${i + 1} .active`);
+                elem.classList.remove('active');
+                elem.classList.add('before');
+                if (elem.nextElementSibling) {
+                    elem.nextElementSibling.classList.add('active');
+                } else {
+                    elem.parentNode.firstElementChild.classList.add('active');
+                }
+            }
+        }
+        //#endregion updateFlip
         //#region start
         start() {
             //#region Variables déclaration
@@ -551,7 +603,9 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.paused = true;
+            if (priv.type === CLOCKTYPES.COUNTDOWN) {
+                priv.paused = true;
+            }
         }
         //#endregion pause
         //#region stop
@@ -559,9 +613,11 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.started = false;
-            priv.pause = false;
-            clearInterval(priv.handle);
+            if (priv.type === CLOCKTYPES.COUNTDOWN) {
+                priv.started = false;
+                priv.pause = false;
+                clearInterval(priv.handle);
+            }
         }
         //#endregion stop
         //#region resume
@@ -569,7 +625,9 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.paused = false;
+            if (priv.type === CLOCKTYPES.COUNTDOWN) {
+                priv.paused = false;
+            }
         }
         //#endregion resume
         //#region destroy
@@ -591,6 +649,11 @@ const Clock = (() => {
             super.destroy();
         }
         //#endregion destroy
+        //#region stopAlarm
+        stopAlarm() {
+
+        }
+        //#endregion stopAlarm
         //#endregion Methods
     }
     return Clock;

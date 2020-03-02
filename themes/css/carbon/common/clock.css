@@ -10,7 +10,7 @@
     }
 
 .carbon.Clock_alarm {
-    border: solid 2px;
+    border: solid 2px var(--icon-color);
 }
 
     .carbon.Clock_alarm:before {
@@ -28,7 +28,7 @@
     border-bottom: solid 2px var(--icon-color);
 }
 
-    .carbon.Clock_alarm_inner:before,
+.carbon.Clock_alarm_inner:before,
     .carbon.Clock_alarm_inner:after,
     .carbon.Clock_dots:before,
     .carbon.Clock_dots:after,
@@ -42,6 +42,19 @@
         background-color: var(--icon-color);
     }
 
+
+.carbon.Clock_alarm.active {
+    background-color: var(--icon-color);
+}
+
+.carbon.Clock_alarm.active .carbon.Clock_alarm_inner {
+    border-left: solid 2px #404040;
+    border-bottom: solid 2px #404040;
+}
+
+.carbon.Clock_snooze {
+    color: var(--icon-color);
+}
 
 .carbon.Clock.led .Clock_dots:before,
 .carbon.Clock.led .Clock_dots:after,
@@ -61,7 +74,7 @@
     color: var(--led-color);
 }
 
-.carbon.Clock_digit {
+.carbon.Clock.flip .carbon.Clock_digit {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
 }
 

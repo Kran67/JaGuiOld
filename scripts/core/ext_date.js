@@ -447,7 +447,7 @@ Date.prototype.toString = function (format) {
     format = format || String.EMPTY;
     //#region Variables déclaration
     const p = (s) => {
-        return s.toString().length === 1 ? "0" + s : s;
+        return s.toString().length === 1 ? '0' + s : s;
     };
     const self = this;
     //#endregion Variables déclaration
@@ -567,9 +567,9 @@ Date.isDate = function (a) {
 
         // On sépare la date en 3 variables pour vérification,parseInt() converti du texte en entier
         d = [];
-        d[0] = a.split("/")[0] || 0; // jour
-        d[1] = a.split("/")[1] || 0; // mois
-        d[2] = a.split("/")[2] || 0; // année
+        d[0] = a.split('/')[0] || 0; // jour
+        d[1] = a.split('/')[1] || 0; // mois
+        d[2] = a.split('/')[2] || 0; // année
 
         // Si l'année n'est composée que de 2 chiffres on complète automatiquement
         if (d[2] < 1000) {
