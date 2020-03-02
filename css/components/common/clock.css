@@ -35,12 +35,12 @@
         opacity: 1;
     }
 
-.Clock_alarm.active {
-    animation-name: blinker;
-    animation-duration: 1s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
+    .Clock_alarm.active.on {
+        animation-name: blinker;
+        animation-duration: 1s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+    }
 
 .Clock_meridian {
     align-self: flex-end;
@@ -135,29 +135,29 @@
     padding: 4px 0 0 3px;
 }
 
-.Clock_snooze:before,
-.Clock_snooze:after {
-    content: 'Z';
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-}
+    .Clock_snooze:before,
+    .Clock_snooze:after {
+        content: 'Z';
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+    }
 
-.Clock_snooze:before {
-    justify-content: flex-start;
-    align-items: flex-start;
-    font-size: 8pt;
-    font-weight: bold;
-}
+    .Clock_snooze:before {
+        justify-content: flex-start;
+        align-items: flex-start;
+        font-size: 8pt;
+        font-weight: bold;
+    }
 
-.Clock_snooze:after {
-    justify-content: flex-end;
-    align-items: flex-end;
-    font-size: 4pt;
-}
+    .Clock_snooze:after {
+        justify-content: flex-end;
+        align-items: flex-end;
+        font-size: 4pt;
+    }
 
 .Clock_digits {
     display: flex;
@@ -395,11 +395,18 @@
     right: 0;
     top: 0;
     bottom: 0;
+    overflow: visible;
 }
 
-    .Clock_digit_flip:first-child {
-        z-index: 2;
-    }
+.Clock_digit_flip_p {
+    display: block;
+    height: 100%;
+    perspective: 100px;
+}
+
+.Clock_digit_flip:first-child {
+    z-index: 2;
+}
 
 .Control.Clock_digit_flip_up,
 .Control.Clock_digit_flip_down {

@@ -1,8 +1,7 @@
 ﻿//#region Import
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 //import { Window } from '/scripts/components/containers/window.js';
-//import { Keyboard } from '/scripts/core/keyboard.js';
-import { Events, NotifyEvent } from '/scripts/core/events.js';
+import { NotifyEvent } from '/scripts/core/events.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region CLOCKMODES
@@ -69,12 +68,13 @@ const Clock = (() => {
                 priv.showDays = props.hasOwnProperty('showDays') ? props.showDays : false;
                 priv.showMonths = props.hasOwnProperty('showMonths') ? props.showMonths : false;
                 priv.showYears = props.hasOwnProperty('showYears') ? props.showYears : false;
-                priv.showAlarm = props.hasOwnProperty('showAlarm') ? props.showAlarm : false;
                 priv.use24H = props.hasOwnProperty('use24H') ? props.use24H : false;
                 priv.autoStart = props.hasOwnProperty('autoStart') ? props.autoStart : true;
                 priv.lastDate = null;
-                priv.alarmTime = null;
+                priv.alarmTime = props.hasOwnProperty('alarmTime') ? props.alarmTime : null;
                 this.onAlarm = new NotifyEvent(this);
+                this.hitTest.all = false;
+                this.hitTest.mousedown = true;
             }
         }
         //#endregion constructor
@@ -197,6 +197,9 @@ const Clock = (() => {
             return internal(this).alarm;
         }
         set alarm(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (Tools.isString(newValue) && newValue.includes(':')) {
                 const parts = newValue.split(':');
                 if (parts.length >= 2) {
@@ -207,7 +210,7 @@ const Clock = (() => {
                     if (parts.length > 3) {
                         if (parts.length === 3) {
                             if (['AM', 'PM'].indexOf(parts[2]) > -1 && !priv.use24H) {
-                                if (priv.alarm.getHours()>12) {
+                                if (priv.alarm.getHours() > 12) {
                                     priv.alarm.setHours(priv.alarm.getHours() - 12);
                                 }
                             } else {
@@ -216,7 +219,7 @@ const Clock = (() => {
                         } else {
                             priv.alarm.setSeconds(~~parts[2]);
                             if (['AM', 'PM'].indexOf(parts[3]) > -1 && !priv.use24H) {
-                                if (priv.alarm.getHours()>12) {
+                                if (priv.alarm.getHours() > 12) {
                                     priv.alarm.setHours(priv.alarm.getHours() - 12);
                                 }
                             }
@@ -279,20 +282,17 @@ const Clock = (() => {
             //#region digits
             digits.classList.add(`${className}_digits`);
             htmlElement.appendChild(digits);
-            if (priv.showAlarm) {
-                div = document.createElement(`${tag}-alarmarea`);
-                div.classList.add(`${className}_alarmarea`);
-                digits.appendChild(div);
-                div1 = document.createElement(`${tag}-snooze`);
-                div1.classList.add(`${className}_snooze`, this.themeName);
-                div1.innerHTML = 'Z';
-                div.appendChild(div1);
-                div1 = document.createElement(`${tag}-alarm`);
-                div1.innerHTML = `<${tag}-alarminner class="Clock_alarm_inner ${this.themeName}"></${tag}-alarminner>`;
-                div1.classList.add(`${className}_alarm`, this.themeName);
-                div.appendChild(div1);
-                Events.unBind(div1, Types.HTMLEVENTS.MOUSEDOWN, this.stopAlarm.bind(this));
-            }
+            div = document.createElement(`${tag}-alarmarea`);
+            div.classList.add(`${className}_alarmarea`);
+            digits.appendChild(div);
+            priv.snoozeElement = document.createElement(`${tag}-snooze`);
+            priv.snoozeElement.classList.add(`${className}_snooze`, this.themeName);
+            priv.snoozeElement.innerHTML = 'Z';
+            div.appendChild(priv.snoozeElement);
+            priv.alarmElement = document.createElement(`${tag}-alarm`);
+            priv.alarmElement.innerHTML = `<${tag}-alarminner class="Clock_alarm_inner ${this.themeName}"></${tag}-alarminner>`;
+            priv.alarmElement.classList.add(`${className}_alarm`, this.themeName, 'csr_pointer');
+            div.appendChild(priv.alarmElement);
             for (let i = 0; i < numDigits; i++) {
                 div = document.createElement(`${tag}-number`);
                 div.classList.add(`${className}_${[2, 5].indexOf(i) > -1 ? 'dots' : 'digit'}`, this.themeName);
@@ -397,16 +397,19 @@ const Clock = (() => {
                                     div1.classList.add('active');
                                 }
                                 div.appendChild(div1);
+                                let div4 = document.createElement(`${tag}-flip-p`);
+                                div4.classList.add(`${className}_digit_flip_p`);
+                                div1.appendChild(div4);
                                 let div2 = document.createElement(`${tag}-flip-up`);
                                 div2.classList.add(`${className}_digit_flip_up`, this.themeName, 'Control');
-                                div1.appendChild(div2);
+                                div4.appendChild(div2);
                                 let div3 = document.createElement(`${tag}-flip-inn`);
                                 div3.innerHTML = j;
                                 div3.classList.add(`${className}_digit_flip_inn`, this.themeName, 'Control');
                                 div2.appendChild(div3);
                                 div2 = document.createElement(`${tag}-flip-down`);
                                 div2.classList.add(`${className}_digit_flip_down`, this.themeName, 'Control');
-                                div1.appendChild(div2);
+                                div4.appendChild(div2);
                                 div3 = document.createElement(`${tag}-flip-inn`);
                                 div3.classList.add(`${className}_digit_flip_inn`, this.themeName, 'Control');
                                 div3.innerHTML = j;
@@ -437,7 +440,7 @@ const Clock = (() => {
             if (priv.autoStart) {
                 this.prepareContent();
                 if (priv.alarmTime) {
-                    this.alarm = priv.alarmTime;                    
+                    this.alarm = priv.alarmTime;
                 } else {
                     this.update();
                 }
@@ -519,18 +522,43 @@ const Clock = (() => {
                         break;
                 }
             }
-            if (priv.alarm && priv.showAlarm) {
-                htmlElement.querySelector(`.${className}_alarm`).classList.add('active');
-                const aHours = (priv.alarm.getHours() - (!priv.use24H && priv.alarm.getHours() > 12 ? 12 : 0)).toString().padStart(2, '0');
-                const aMinutes = priv.alarm.getMinutes().toString().padStart(2, '0');
-                const aSeconds = priv.alarm.getSeconds().toString().padStart(2, '0');
-                if (aHours === hours && aMinutes === minutes && aSeconds === seconds) {
-                    // snooze
-                    this.onAlarm.invoke(this);
+            if (priv.alarm) {
+                let elem = htmlElement.querySelector(`.${className}_alarm`);
+                if (elem) {
+                    elem.classList.add('active');
+                    const aHours = (priv.alarm.getHours() - (!priv.use24H && priv.alarm.getHours() > 12 ? 12 : 0)).toString().padStart(2, '0');
+                    const aMinutes = priv.alarm.getMinutes().toString().padStart(2, '0');
+                    const aSeconds = priv.alarm.getSeconds().toString().padStart(2, '0');
+                    if (aHours === hours && aMinutes === minutes && aSeconds === seconds) {
+                        elem.classList.add('on');
+                        // snooze
+                        elem = htmlElement.querySelector(`.${className}_snooze`);
+                        elem.classList.add('active', 'csr_pointer');
+                        //Events.unBind(elem, Types.HTMLEVENTS.CLICK, this.snoozeAlarm.bind(this));
+                        //Events.bind(elem, Types.HTMLEVENTS.CLICK, this.snoozeAlarm.bind(this));
+
+                    }
+                    if (elem.classList.contains('on')) {
+                        //Events.unBind(div1, Types.HTMLEVENTS.CLICK, this.stopAlarm.bind(this));
+                        //Events.bind(div1, Types.HTMLEVENTS.CLICK, this.stopAlarm.bind(this));
+                        this.onAlarm.invoke(this);
+                    }
                 }
             }
         }
         //#endregion update
+        //#region mouseDown
+        mouseDown() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (Core.mouse.event.toElement === priv.alarmElement && priv.alarmElement.classList.contains('on')) {
+                this.stopAlarm();
+            } else if (Core.mouse.event.toElement === priv.snoozeElement && priv.snoozeElement.classList.contains('active')) {
+                this.snoozeAlarm();
+            }
+        }
+        //#endregion mouseDown
         //#region updateLed
         updateLed(currentValue, partOne, partTwo) {
             //#region Variables déclaration
@@ -651,9 +679,36 @@ const Clock = (() => {
         //#endregion destroy
         //#region stopAlarm
         stopAlarm() {
-
+            //#region Variables déclaration
+            const priv = internal(this);
+            const className = this.constructor.name;
+            const htmlElement = this.HTMLElement;
+            const alarm = htmlElement.querySelector(`.${className}_alarm`);
+            const snooze = htmlElement.querySelector(`.${className}_snooze`);
+            //#endregion Variables déclaration
+            alarm.classList.remove('on', 'active');
+            snooze.classList.remove('active');
+            priv.alarm = null;
         }
         //#endregion stopAlarm
+        //#region snoozeAlarm
+        snoozeAlarm() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const className = this.constructor.name;
+            //#endregion Variables déclaration
+            const htmlElement = this.HTMLElement;
+            const snooze = htmlElement.querySelector(`.${className}_snooze`);
+            const alarm = htmlElement.querySelector(`.${className}_alarm`);
+            priv.alarm = new Date(Date.now());
+            priv.alarm = priv.alarm.addMinutes(10);
+            if (!priv.use24H && priv.alarm.getHours() > 12) {
+                priv.alarm = priv.alarm.addHours(-12);
+            }
+            alarm.classList.remove('on');
+            snooze.classList.remove('active');
+        }
+        //#endregion snoozeAlarm
         //#endregion Methods
     }
     return Clock;

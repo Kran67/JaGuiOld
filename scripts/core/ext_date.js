@@ -209,7 +209,7 @@ if (!Date.prototype.addMilliseconds) {
      * @returns     {Date}          the new date
      */
     Date.prototype.addMilliseconds = function (m) {
-        if (Tools.isNumber(a)) {
+        if (Tools.isNumber(m)) {
             const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
             a.setMilliseconds(a.getMilliseconds() + m);
             return a;
@@ -340,7 +340,7 @@ if (!Date.prototype.JJMMAAAA) {
         if (!Tools.isString(a)) {
             a = '/';
         }
-        return String(this.day).padLeft(2, '0') + a + String(this.month).padLeft(2, '0') + a + this.year;
+        return String(this.day).padStart(2, '0') + a + String(this.month).padStart(2, '0') + a + this.year;
     };
 }
 if (!Date.prototype.HHMMSS) {
@@ -353,7 +353,7 @@ if (!Date.prototype.HHMMSS) {
         if (!Tools.isString(a)) {
             a = ':';
         }
-        return String(this.hours).padLeft(2, '0') + a + String(this.minutes).padLeft(2, '0') + a + String(this.seconds).padLeft(2, '0');
+        return String(this.hours).padStart(2, '0') + a + String(this.minutes).padStart(2, '0') + a + String(this.seconds).padStart(2, '0');
     };
 }
 Object.defineProperty(Date.prototype, 'firstDayOfMonth', {
