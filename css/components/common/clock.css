@@ -5,6 +5,10 @@
     z-index: 0;
 }
 
+.Control.Clock.countdown {
+    padding: 5px 5px 0 5px;
+}
+
     .Control.Clock.simple .Clock_digit {
         justify-content: center;
         align-items: center;
@@ -22,6 +26,10 @@
     text-align: center;
     justify-content: center;
     margin: 3px 0;
+}
+
+.Control.Clock.countdown .Clock_weekdays {
+    order: 1;
 }
 
 .Clock_day {

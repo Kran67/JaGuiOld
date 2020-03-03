@@ -10,6 +10,10 @@
         pm: String.EMPTY,
         firstDayOfWeek: 1,
         dateElementOrder: 'dmy',
+        daysLabel: 'Jours',
+        hoursLabel: 'Heures',
+        minutesLabel: 'Minutes',
+        secondsLabel: 'Secondes',
         formatPatterns: {
             shortDate: 'dd/MM/yyyy',
             longDate: 'dddd d MMMM yyyy',

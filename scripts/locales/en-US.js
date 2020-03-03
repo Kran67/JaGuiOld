@@ -10,6 +10,10 @@
         pm: 'PM',
         firstDayOfWeek: 0,
         dateElementOrder: 'mdy',
+        daysLabel: 'Days',
+        hoursLabel: 'Hours',
+        minutesLabel: 'Minutes',
+        secondsLabel: 'Seconds',
         formatPatterns: {
             shortDate: 'M/d/yyyy',
             longDate: 'dddd, MMMM dd, yyyy',

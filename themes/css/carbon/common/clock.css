@@ -24,8 +24,8 @@
     }
 
 .carbon.Clock_alarm_inner {
-    border-left: solid 2px var(--icon-color);
-    border-bottom: solid 2px var(--icon-color);
+    border-left: solid 1px var(--icon-color);
+    border-bottom: solid 1px var(--icon-color);
 }
 
 .carbon.Clock_alarm_inner:before,

@@ -68,10 +68,25 @@ const Clock = (() => {
                 priv.showDays = props.hasOwnProperty('showDays') ? props.showDays : false;
                 priv.showMonths = props.hasOwnProperty('showMonths') ? props.showMonths : false;
                 priv.showYears = props.hasOwnProperty('showYears') ? props.showYears : false;
-                priv.use24H = props.hasOwnProperty('use24H') ? props.use24H : false;
+                priv.use24H = Tools.getLocale().date.pm === String.EMPTY;
                 priv.autoStart = props.hasOwnProperty('autoStart') ? props.autoStart : true;
                 priv.lastDate = null;
-                priv.alarmTime = props.hasOwnProperty('alarmTime') ? props.alarmTime : null;
+                priv.alarm = props.hasOwnProperty('alarm') ? props.alarm : null;
+                priv.countDownDate = new Date();
+                if (props.hasOwnProperty('distance')) {
+                    if (props.distance.days) {
+                        priv.countDownDate = priv.countDownDate.addDays(props.distance.days);
+                    }
+                    if (props.distance.hours) {
+                        priv.countDownDate = priv.countDownDate.addHours(props.distance.hours);
+                    }
+                    if (props.distance.minutes) {
+                        priv.countDownDate = priv.countDownDate.addMinutes(props.distance.minutes);
+                    }
+                    if (props.distance.seconds) {
+                        priv.countDownDate = priv.countDownDate.addSeconds(props.distance.seconds);
+                    }
+                }
                 this.onAlarm = new NotifyEvent(this);
                 this.hitTest.all = false;
                 this.hitTest.mousedown = true;
@@ -200,32 +215,8 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue) && newValue.includes(':')) {
-                const parts = newValue.split(':');
-                if (parts.length >= 2) {
-                    priv.alarm = new Date();
-                    priv.alarm.clearTime();
-                    priv.alarm.setHours(~~parts.first);
-                    priv.alarm.setMinutes(~~parts[1]);
-                    if (parts.length > 3) {
-                        if (parts.length === 3) {
-                            if (['AM', 'PM'].indexOf(parts[2]) > -1 && !priv.use24H) {
-                                if (priv.alarm.getHours() > 12) {
-                                    priv.alarm.setHours(priv.alarm.getHours() - 12);
-                                }
-                            } else {
-                                priv.alarm.setSeconds(~~parts[2]);
-                            }
-                        } else {
-                            priv.alarm.setSeconds(~~parts[2]);
-                            if (['AM', 'PM'].indexOf(parts[3]) > -1 && !priv.use24H) {
-                                if (priv.alarm.getHours() > 12) {
-                                    priv.alarm.setHours(priv.alarm.getHours() - 12);
-                                }
-                            }
-                        }
-                    }
-                }
+            if (Tools.isObject(newValue)) {
+                priv.alarm = newValue;
                 this.update();
             }
         }
@@ -244,19 +235,31 @@ const Clock = (() => {
             const tag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             let div, div1;
             const date = new Date(Date.now());
-            const numDigits = priv.showSeconds ? 8 : 5;
+            const distance = priv.countDownDate - date.getTime();
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            let numDigits = priv.showSeconds ? 8 : 5;
             const weekdays = document.createElement(`${tag}-weekdays`);
             const digits = document.createElement(`${tag}-digits`);
-            const hours = (date.getHours() - (!priv.use24H && date.getHours() > 12 ? 12 : 0)).toString().padStart(2, '0');
-            const minutes = date.getMinutes().toString().padStart(2, '0');
-            const seconds = date.getSeconds().toString().padStart(2, '0');
+            const hours = (priv.type === CLOCKTYPES.CLOCK ?
+                (date.getHours() - (!priv.use24H && date.getHours() > 12 ? 12 : 0)) : 
+                Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).toString().padStart(2, '0');
+            const minutes = (priv.type === CLOCKTYPES.CLOCK ?
+                date.getMinutes() :
+                Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).toString().padStart(2, '0');
+            const seconds = (priv.type === CLOCKTYPES.CLOCK ?
+                date.getSeconds() :
+                Math.floor((distance % (1000 * 60)) / 1000)).toString().padStart(2, '0');
             let firstDigit;
             let lastDigit;
+            const offset = priv.type === CLOCKTYPES.COUNTDOWN ? 3 : 0;
+            const locale = Tools.getLocale();
             //#endregion Variables déclaration
+            numDigits += priv.type === CLOCKTYPES.COUNTDOWN ? 3 : 0;
             priv.lastDate = date;
             Object.keys(CLOCKMODES).forEach(key => {
                 htmlElement.classList.remove(CLOCKMODES[key]);
             });
+            htmlElement.classList.add(priv.type);
             this.stop();
             htmlElement.innerHTML = String.EMPTY;
             //#region weekdays
@@ -264,15 +267,24 @@ const Clock = (() => {
             htmlElement.appendChild(weekdays);
             //#region days
             if (priv.showDays) {
-                for (let i = 0; i < 7; i++) {
+                const countDownLabels = [Tools.getLocale().date.daysLabel, Tools.getLocale().date.hoursLabel, Tools.getLocale().date.minutesLabel, 
+                    Tools.getLocale().date.secondsLabel];
+                const limit = (~~days>0 ? priv.showSeconds?4:3 :7);
+                for (let i = 0; i < limit; i++) {
                     div = document.createElement(`${tag}-day`);
-                    div.innerHTML = Tools.getLocale().date.abbreviatedDayNames[i].replace('.', String.EMPTY).toUpperCase();
+                    div.innerHTML = priv.type === CLOCKTYPES.CLOCK ?
+                        Tools.getLocale().date.abbreviatedDayNames[i].replace('.', String.EMPTY).toUpperCase() :
+                        countDownLabels[i];
                     div.classList.add(`${className}_day`);
-                    if (date.getDay() === i) {
+                    if (priv.type === CLOCKTYPES.CLOCK) {
+                        if (date.getDay() === i) {
+                            div.classList.add('active');
+                        }
+                        if (Tools.getLocale().date.firstDayOfWeek > 0 && i === 0) {
+                            div.style.order = 1;
+                        }
+                    } else {
                         div.classList.add('active');
-                    }
-                    if (Tools.getLocale().date.firstDayOfWeek > 0 && i === 0) {
-                        div.style.order = 1;
                     }
                     weekdays.appendChild(div);
                 }
@@ -282,23 +294,26 @@ const Clock = (() => {
             //#region digits
             digits.classList.add(`${className}_digits`);
             htmlElement.appendChild(digits);
-            div = document.createElement(`${tag}-alarmarea`);
-            div.classList.add(`${className}_alarmarea`);
-            digits.appendChild(div);
-            priv.snoozeElement = document.createElement(`${tag}-snooze`);
-            priv.snoozeElement.classList.add(`${className}_snooze`, this.themeName);
-            priv.snoozeElement.innerHTML = 'Z';
-            div.appendChild(priv.snoozeElement);
-            priv.alarmElement = document.createElement(`${tag}-alarm`);
-            priv.alarmElement.innerHTML = `<${tag}-alarminner class="Clock_alarm_inner ${this.themeName}"></${tag}-alarminner>`;
-            priv.alarmElement.classList.add(`${className}_alarm`, this.themeName, 'csr_pointer');
-            div.appendChild(priv.alarmElement);
+            if (priv.type === CLOCKTYPES.CLOCK) {
+                div = document.createElement(`${tag}-alarmarea`);
+                div.classList.add(`${className}_alarmarea`);
+                digits.appendChild(div);
+                priv.snoozeElement = document.createElement(`${tag}-snooze`);
+                priv.snoozeElement.classList.add(`${className}_snooze`, this.themeName);
+                priv.snoozeElement.innerHTML = 'Z';
+                div.appendChild(priv.snoozeElement);
+                priv.alarmElement = document.createElement(`${tag}-alarm`);
+                priv.alarmElement.innerHTML = `<${tag}-alarminner class="Clock_alarm_inner ${this.themeName}"></${tag}-alarminner>`;
+                priv.alarmElement.classList.add(`${className}_alarm`, this.themeName, 'csr_pointer');
+                div.appendChild(priv.alarmElement);
+            }
             for (let i = 0; i < numDigits; i++) {
                 div = document.createElement(`${tag}-number`);
                 div.classList.add(`${className}_${[2, 5].indexOf(i) > -1 ? 'dots' : 'digit'}`, this.themeName);
-                [0, 1].indexOf(i) > -1 ? div.classList.add(`${className}_hours${i % 2 === 0 ? '1' : '2'}`) : null;
-                [3, 4].indexOf(i) > -1 ? div.classList.add(`${className}_minutes${i % 2 !== 0 ? '1' : '2'}`) : null;
-                priv.showSeconds ? [6, 7].indexOf(i) > -1 ? div.classList.add(`${className}_seconds${i % 2 === 0 ? '1' : '2'}`) : null : null;
+
+                [0 + offset, 1 + offset].indexOf(i) > -1 ? div.classList.add(`${className}_hours${i % 2 === 0 ? '1' : '2'}`) : null;
+                [3 + offset, 4 + offset].indexOf(i) > -1 ? div.classList.add(`${className}_minutes${i % 2 !== 0 ? '1' : '2'}`) : null;
+                priv.showSeconds ? [6 + offset, 7 + offset].indexOf(i) > -1 ? div.classList.add(`${className}_seconds${i % 2 === 0 ? '1' : '2'}`) : null : null;
                 digits.appendChild(div);
                 switch (priv.mode) {
                     case CLOCKMODES.SIMPLE:
@@ -359,32 +374,76 @@ const Clock = (() => {
                         }
                         break;
                     case CLOCKMODES.FLIP:
-                        if (i !== 2 && i !== 5) {
+                        if (i !== 2 + offset && i !== 5 + offset && (i !== offset && priv.type === CLOCKTYPES.COUNTDOWN)) {
                             let txt;
                             let maxItem = 10;
                             maxItem = i === 0 ? 3 : maxItem;
                             maxItem = i === 3 || i === 6 ? 6 : maxItem;
                             switch (i) {
                                 case 0:
-                                    txt = hours.split(String.EMPTY).first;
+                                    if (offset > 0) {
+                                        txt = days.split(String.EMPTY).first;
+                                    } else {
+                                        txt = hours.split(String.EMPTY).first;
+                                    }
                                     break;
                                 case 1:
-                                    txt = hours.split(String.EMPTY).last;
+                                    if (offset > 0) {
+                                        txt = days.split(String.EMPTY)[1];
+                                    } else {
+                                        txt = hours.split(String.EMPTY).last;
+                                    }
+                                    break;
+                                case 2:
+                                    if (offset > 0) {
+                                        txt = days.split(String.EMPTY).last;
+                                    }
                                     break;
                                 case 3:
-                                    txt = minutes.split(String.EMPTY).first;
+                                    if (offset === 0) {
+                                        txt = minutes.split(String.EMPTY).first;
+                                    }
                                     break;
                                 case 4:
-                                    txt = minutes.split(String.EMPTY).last;
+                                    if (offset > 0) {
+                                        txt = hours.split(String.EMPTY).first;
+                                    } else {
+                                        txt = minutes.split(String.EMPTY).last;
+                                    }
+                                    break;
+                                case 5:
+                                    if (offset > 0) {
+                                        txt = hours.split(String.EMPTY).last;
+                                    }
                                     break;
                                 case 6:
-                                    txt = seconds.split(String.EMPTY).first;
+                                    if (offset === 0) {
+                                        txt = seconds.split(String.EMPTY).first;
+                                    }
                                     break;
                                 case 7:
-                                    txt = seconds.split(String.EMPTY).last;
+                                    if (offset > 0) {
+                                        txt = minutes.split(String.EMPTY).first;
+                                    } else {
+                                        txt = seconds.split(String.EMPTY).last;
+                                    }
+                                    break;
+                                case 8:
+                                    if (offset > 0) {
+                                        txt = minutes.split(String.EMPTY).last;
+                                    }
+                                    break;
+                                case 10:
+                                    if (offset > 0) {
+                                        txt = secondes.split(String.EMPTY).first;
+                                    }
+                                    break;
+                                case 11:
+                                    if (offset > 0) {
+                                        txt = secondes.split(String.EMPTY).last;
+                                    }
                                     break;
                             }
-
                             let hasBefore = false;
                             for (let j = 0; j < maxItem; j++) {
                                 div1 = document.createElement(`${tag}-flip`);
@@ -423,7 +482,7 @@ const Clock = (() => {
             }
             if (!priv.use24H) {
                 div = document.createElement(`${tag}-meridian`);
-                div.innerHTML = date.getHours() <= 12 ? 'AM' : 'PM';
+                div.innerHTML = date.getHours() <= 12 ? locale.am : locale.pm;
                 div.classList.add(`${className}_meridian`);
                 digits.appendChild(div);
             }
@@ -437,8 +496,8 @@ const Clock = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.loaded();
+            this.prepareContent();
             if (priv.autoStart) {
-                this.prepareContent();
                 if (priv.alarmTime) {
                     this.alarm = priv.alarmTime;
                 } else {
@@ -453,10 +512,17 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const date = new Date(Date.now());
-            const hours = (date.getHours() - (!priv.use24H && date.getHours() > 12 ? 12 : 0)).toString().padStart(2, '0');
-            const minutes = date.getMinutes().toString().padStart(2, '0');
-            const seconds = date.getSeconds().toString().padStart(2, '0');
-            const milliseconds = date.getMilliseconds().toString();
+            const distance = priv.countDownDate - date.getTime();
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = (priv.type === CLOCKTYPES.CLOCK ? 
+                (date.getHours() - (!priv.use24H && date.getHours() > 12 ? 12 : 0)) :
+                Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).toString().padStart(2, '0');
+            const minutes = (priv.type === CLOCKTYPES.CLOCK ? 
+                date.getMinutes() : 
+                Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).toString().padStart(2, '0');
+            const seconds = (priv.type === CLOCKTYPES.CLOCK ? 
+                date.getSeconds() :
+                Math.floor((distance % (1000 * 60)) / 1000)).toString().padStart(2, '0');
             const className = this.constructor.name;
             const htmlElement = this.HTMLElement;
             let firstDigit;
@@ -526,21 +592,17 @@ const Clock = (() => {
                 let elem = htmlElement.querySelector(`.${className}_alarm`);
                 if (elem) {
                     elem.classList.add('active');
-                    const aHours = (priv.alarm.getHours() - (!priv.use24H && priv.alarm.getHours() > 12 ? 12 : 0)).toString().padStart(2, '0');
-                    const aMinutes = priv.alarm.getMinutes().toString().padStart(2, '0');
-                    const aSeconds = priv.alarm.getSeconds().toString().padStart(2, '0');
+                    const aHours = (priv.alarm.hours - (!priv.use24H && priv.alarm.hours > 12 ? 12 : 0)).toString().padStart(2, '0');
+                    const aMinutes = priv.alarm.minutes.toString().padStart(2, '0');
+                    const aSeconds = priv.alarm.seconds.toString().padStart(2, '0');
                     if (aHours === hours && aMinutes === minutes && aSeconds === seconds) {
                         elem.classList.add('on');
                         // snooze
                         elem = htmlElement.querySelector(`.${className}_snooze`);
                         elem.classList.add('active', 'csr_pointer');
-                        //Events.unBind(elem, Types.HTMLEVENTS.CLICK, this.snoozeAlarm.bind(this));
-                        //Events.bind(elem, Types.HTMLEVENTS.CLICK, this.snoozeAlarm.bind(this));
 
                     }
                     if (elem.classList.contains('on')) {
-                        //Events.unBind(div1, Types.HTMLEVENTS.CLICK, this.stopAlarm.bind(this));
-                        //Events.bind(div1, Types.HTMLEVENTS.CLICK, this.stopAlarm.bind(this));
                         this.onAlarm.invoke(this);
                     }
                 }
