@@ -32,18 +32,18 @@
     order: 1;
 }
 
-    .Control.Clock.countdown .Clock_weekdays :nth-child(1) {
+    .Control.Clock.countdown .Clock_weekdays .days {
         width: 108px;
         margin-right: 13px;
     }
 
-    .Control.Clock.countdown .Clock_weekdays :nth-child(2),
-    .Control.Clock.countdown .Clock_weekdays :nth-child(3) {
+    .Control.Clock.countdown .Clock_weekdays .hours,
+    .Control.Clock.countdown .Clock_weekdays .minutes {
         width: 72px;
         margin-right: 13px;
     }
 
-    .Control.Clock.countdown .Clock_weekdays :nth-child(4) {
+    .Control.Clock.countdown .Clock_weekdays .seconds {
         width: 72px;
     }
 

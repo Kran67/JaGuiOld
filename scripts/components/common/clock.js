@@ -6,19 +6,19 @@ import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region CLOCKMODES
 const CLOCKMODES = Object.freeze(Object.seal({
-    SIMPLE: "simple", // ok
+    SIMPLE: 'simple', // ok
     DIGITAL: 'digital', // https://codepen.io/shaman_tito/pen/Ectwp ok
-    FLIP: "flip", // https://codepen.io/fuhye/pen/KKpNzwM
-    LED: "led", // https://codepen.io/killyson26/pen/jOORvJb ok
-    DOT: "dot", // http://sooncountdown.com/
+    FLIP: 'flip', // https://codepen.io/fuhye/pen/KKpNzwM
+    LED: 'led', // https://codepen.io/killyson26/pen/jOORvJb ok
+    DOT: 'dot', // http://sooncountdown.com/
     CIRCULAR: 'circular', // https://codepen.io/ahamed-abu-bakr/pen/YzXpOMj
     ROTATE: 'rotate' // https://codepen.io/zhoha/pen/VwLLEJd
 }));
 //#endregion CLOCKMODES
 //#region CLOCKTYPES
 const CLOCKTYPES = Object.freeze(Object.seal({
-    CLOCK: "clock",
-    COUNTDOWN: "countdown"
+    CLOCK: 'clock',
+    COUNTDOWN: 'countdown'
 }));
 //#endregion CLOCKTYPES
 //#region Clock
@@ -237,7 +237,8 @@ const Clock = (() => {
             const date = new Date(Date.now());
             const distance = priv.countDownDate - date.getTime();
             const days = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(3, '0');
-            let numDigits = priv.showSeconds ? 8 : 5;
+            //let numDigits = priv.showSeconds || !isClock ? 8 : 5;
+            const numDigits = [];
             const weekdays = document.createElement(`${tag}-weekdays`);
             const digits = document.createElement(`${tag}-digits`);
             const isClock = priv.type === CLOCKTYPES.CLOCK;
@@ -256,8 +257,9 @@ const Clock = (() => {
             let isDot = false;
             const offset = isClock ? 0 : 3;
             const locale = Tools.getLocale();
+            const countDownClassNames = [];
             //#endregion Variables déclaration
-            numDigits += !isClock ? 4 : 0;
+            //numDigits += !isClock ? 4 : 0;
             priv.lastDate = date;
             Object.keys(CLOCKMODES).forEach(key => {
                 htmlElement.classList.remove(CLOCKMODES[key]);
@@ -270,15 +272,60 @@ const Clock = (() => {
             htmlElement.appendChild(weekdays);
             //#region days
             if (priv.showDays) {
-                const countDownLabels = [Tools.getLocale().date.daysLabel, Tools.getLocale().date.hoursLabel, Tools.getLocale().date.minutesLabel,
-                Tools.getLocale().date.secondsLabel];
-                const limit = (~~days > 0 ? priv.showSeconds ? 4 : 3 : 7);
+                const countDownLabels = [];
+                let limit = 7;
+                if (!isClock) {
+                    limit = 1;
+                    if (~~days > 0) {
+                        limit ++;
+                        countDownLabels.push(Tools.getLocale().date.daysLabel);
+                        numDigits.push('days');
+                        numDigits.push('days');
+                        numDigits.push('days');
+                        numDigits.push('dots');
+                        countDownClassNames.push('days');
+                    }
+                    if (~~days + ~~hours > 0) {
+                        limit ++;
+                        countDownLabels.push(Tools.getLocale().date.hoursLabel);
+                        numDigits.push('hours');
+                        numDigits.push('hours');
+                        numDigits.push('dots');
+                        countDownClassNames.push('hours');
+                    }
+                    if (~~days + ~~hours + ~~minutes > 0) {
+                        limit ++;
+                        countDownLabels.push(Tools.getLocale().date.minutesLabel);
+                        numDigits.push('minutes');
+                        numDigits.push('minutes');
+                        numDigits.push('dots');
+                        countDownClassNames.push('minutes');
+                    }
+                    countDownLabels.push(Tools.getLocale().date.secondsLabel);
+                    numDigits.push('seconds');
+                    numDigits.push('seconds');
+                    countDownClassNames.push('seconds');
+                } else {
+                    numDigits.push('hours');
+                    numDigits.push('hours');
+                    numDigits.push('dots');
+                    numDigits.push('minutes');
+                    numDigits.push('minutes');
+                    if (priv.showSeconds) {
+                        numDigits.push('dots');
+                        numDigits.push('seconds');
+                        numDigits.push('seconds');
+                    }
+                }
                 for (let i = 0; i < limit; i++) {
                     div = document.createElement(`${tag}-day`);
                     div.innerHTML = isClock ?
                         Tools.getLocale().date.abbreviatedDayNames[i].replace('.', String.EMPTY).toUpperCase() :
                         countDownLabels[i];
                     div.classList.add(`${className}_day`);
+                    if (!isClock) {
+                        div.classList.add(countDownClassNames[i]);
+                    }
                     if (isClock) {
                         if (date.getDay() === i) {
                             div.classList.add('active');
@@ -310,109 +357,53 @@ const Clock = (() => {
                 priv.alarmElement.classList.add(`${className}_alarm`, this.themeName, 'csr_pointer');
                 div.appendChild(priv.alarmElement);
             }
-            for (let i = 0; i < numDigits; i++) {
+            for (let i = 0; i < numDigits.length; i++) {
                 isDot = false;
                 div = document.createElement(`${tag}-number`);
-                //if (isClock) {
-                //    [0, 1].indexOf(i) > -1 ? div.classList.add(`${className}_hours${i % 2 === 0 ? '1' : '2'}`) : null;
-                //    [3, 4].indexOf(i) > -1 ? div.classList.add(`${className}_minutes${i % 2 !== 0 ? '1' : '2'}`) : null;
-                //    priv.showSeconds ? [6, 7].indexOf(i) > -1 ? div.classList.add(`${className}_seconds${i % 2 === 0 ? '1' : '2'}`) : //null : null;
-                //}
-                if (isClock && [2, 5].indexOf(i) > -1 || !isClock && [3, 6, 9].indexOf(i) > -1) {
+                if (numDigits[i] !== 'dots') {
+                    div.classList.add(`${className}_digit`);
+                } else {
                     isDot = true;
                     div.classList.add(`${className}_dots`);
-                } else {
-                    div.classList.add(`${className}_digit`);
                 }
                 div.classList.add(this.themeName);
-                if (!isClock && i < 3) {
-                    div.classList.add(`${className}_days${num}`);
-                }
-                if (isClock && i < 2 || !isClock && i > 3 && i < 6) {
-                    div.classList.add(`${className}_hours${num}`);
-                }
-                if (isClock && i > 2 && i < 5 || !isClock && i > 6 && i < 9) {
-                    div.classList.add(`${className}_minutes${num}`);
-                }
-                if (priv.showSeconds && (isClock && i > 5 || !isClock && i > 9)) {
-                    div.classList.add(`${className}_seconds${num}`);
+                if (!isDot) {
+                    div.classList.add(`${className}_${numDigits[i]}${num}`);
                 }
                 digits.appendChild(div);
                 switch (priv.mode) {
                     case CLOCKMODES.SIMPLE:
-                        switch (i) {
-                            case 0: // first part of hours in clock mode or days in countDown mode
-                                if (isClock) {
-                                    firstDigit = hours.split(String.EMPTY).first;
-                                } else {
-                                    firstDigit = days.split(String.EMPTY).first;
-                                }
-                                div.innerHTML = firstDigit;
-                                break;
-                            case 1: // last part of hours in clock mode or second part of days in countDown mode
-                                if (isClock) {
-                                    lastDigit = hours.split(String.EMPTY).last;
-                                } else {
-                                    lastDigit = days.split(String.EMPTY)[1];
-                                }
-                                div.innerHTML = lastDigit;
-                                break;
-                            case 2: // last part days in countDown mode
-                                if (!isClock) {
-                                    lastDigit = days.split(String.EMPTY).last;
-                                    div.innerHTML = lastDigit;
+                        switch (numDigits[i]) {
+                            case 'days':
+                                {
+                                    const array = days.split(String.EMPTY);
+                                    lastDigit = array.last;
+                                    firstDigit = array.first;
+                                    div.innerHTML = num === 1 ? firstDigit : num === 3 ? lastDigit : array[1];
                                 }
                                 break;
-                            case 3:
-                                if (isClock) {
-                                    firstDigit = minutes.split(String.EMPTY).first;
-                                    div.innerHTML = firstDigit;
+                            case 'hours':
+                                {
+                                    const array = hours.split(String.EMPTY);
+                                    lastDigit = array.last;
+                                    firstDigit = array.first;
+                                    div.innerHTML = num === 1 ? firstDigit : lastDigit;
                                 }
                                 break;
-                            case 4:
-                                if (isClock) {
-                                    lastDigit = minutes.split(String.EMPTY).last;
-                                } else {
-                                    firstDigit = hours.split(String.EMPTY).first;
-                                }
-                                div.innerHTML = lastDigit;
-                                break;
-                            case 5:
-                                if (!isClock) {
-                                    lastDigit = hours.split(String.EMPTY).last;
-                                    div.innerHTML = lastDigit;
+                            case 'minutes':
+                                {
+                                    const array = minutes.split(String.EMPTY);
+                                    lastDigit = array.last;
+                                    firstDigit = array.first;
+                                    div.innerHTML = num === 1 ? firstDigit : lastDigit;
                                 }
                                 break;
-                            case 6:
-                                if (isClock && priv.showSeconds) {
-                                    firstDigit = seconds.split(String.EMPTY).first;
-                                    div.innerHTML = firstDigit;
-                                }
-                                break;
-                            case 7:
-                                if (isClock && priv.showSeconds) {
-                                    lastDigit = seconds.split(String.EMPTY).last;
-                                } else {
-                                    lastDigit = minutes.split(String.EMPTY).first;
-                                }
-                                div.innerHTML = lastDigit;
-                                break;
-                            case 8:
-                                if (!isClock) {
-                                    lastDigit = minutes.split(String.EMPTY).last;
-                                    div.innerHTML = lastDigit;
-                                }
-                                break;
-                            case 10:
-                                if (!isClock) {
-                                    firstDigit = seconds.split(String.EMPTY).first;
-                                    div.innerHTML = firstDigit;
-                                }
-                                break;
-                            case 11:
-                                if (!isClock) {
-                                    lastDigit = seconds.split(String.EMPTY).last;
-                                    div.innerHTML = lastDigit;
+                            case 'seconds':
+                                {
+                                    const array = seconds.split(String.EMPTY);
+                                    lastDigit = array.last;
+                                    firstDigit = array.first;
+                                    div.innerHTML = num === 1 ? firstDigit : lastDigit;
                                 }
                                 break;
                         }
@@ -443,12 +434,13 @@ const Clock = (() => {
                         }
                         break;
                     case CLOCKMODES.FLIP:
-                        if (i !== 2 + offset && i !== 5 + offset && (i !== offset && !isClock)) {
+                        if (!isDot) {
+                            //if (i !== 2 + offset && i !== 5 + offset && (i !== offset && !isClock)) {
                             let txt;
-                            let maxItem = 10;
-                            maxItem = i === 0 ? 3 : maxItem;
-                            maxItem = i === 3 || i === 6 ? 6 : maxItem;
-                            switch (i) {
+                            let maxItem = numDigits.length;
+                            //maxItem = i === 0 ? 3 : maxItem;
+                            //maxItem = i === 3 || i === 6 ? 6 : maxItem;
+                            /*switch (i) {
                                 case 0:
                                     if (offset > 0) {
                                         txt = days.split(String.EMPTY).first;
@@ -512,7 +504,42 @@ const Clock = (() => {
                                         txt = seconds.split(String.EMPTY).last;
                                     }
                                     break;
+                            }*/
+                            switch (numDigits[i]) {
+                                case 'days':
+                                    {
+                                        const array = days.split(String.EMPTY);
+                                        lastDigit = array.last;
+                                        firstDigit = array.first;
+                                        txt = num === 1 ? firstDigit : num === 3 ? lastDigit : array[1];
+                                    }
+                                    break;
+                                case 'hours':
+                                    {
+                                        const array = hours.split(String.EMPTY);
+                                        lastDigit = array.last;
+                                        firstDigit = array.first;
+                                        txt = num === 1 ? firstDigit : lastDigit;
+                                    }
+                                    break;
+                                case 'minutes':
+                                    {
+                                        const array = minutes.split(String.EMPTY);
+                                        lastDigit = array.last;
+                                        firstDigit = array.first;
+                                        txt = num === 1 ? firstDigit : lastDigit;
+                                    }
+                                    break;
+                                case 'seconds':
+                                    {
+                                        const array = seconds.split(String.EMPTY);
+                                        lastDigit = array.last;
+                                        firstDigit = array.first;
+                                        txt = num === 1 ? firstDigit : lastDigit;
+                                    }
+                                    break;
                             }
+
                             let hasBefore = false;
                             for (let j = 0; j < maxItem; j++) {
                                 div1 = document.createElement(`${tag}-flip`);
@@ -550,7 +577,7 @@ const Clock = (() => {
                 }
                 if (!isDot) {
                     num++;
-                    if (!isClock && ~~days > 0 && num > 3 || i > 3 && num > 2) {
+                    if (num > 2) {
                         num = 1;
                     }
                 }
@@ -588,14 +615,15 @@ const Clock = (() => {
             const priv = internal(this);
             const date = new Date(Date.now());
             const distance = priv.countDownDate - date.getTime();
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = (priv.type === CLOCKTYPES.CLOCK ?
+            const isClock = priv.type === CLOCKTYPES.CLOCK;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(3, '0');
+            const hours = (isClock ?
                 (date.getHours() - (!priv.use24H && date.getHours() > 12 ? 12 : 0)) :
                 Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).toString().padStart(2, '0');
-            const minutes = (priv.type === CLOCKTYPES.CLOCK ?
+            const minutes = (isClock ?
                 date.getMinutes() :
                 Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).toString().padStart(2, '0');
-            const seconds = (priv.type === CLOCKTYPES.CLOCK ?
+            const seconds = (isClock ?
                 date.getSeconds() :
                 Math.floor((distance % (1000 * 60)) / 1000)).toString().padStart(2, '0');
             const className = this.constructor.name;
@@ -604,6 +632,9 @@ const Clock = (() => {
             let lastDigit;
             //#endregion Variables déclaration
             if (!priv.paused && !this.loading && !this.form.loading) {
+                const days1 = htmlElement.querySelector(`.${className}_days1`);
+                const days2 = htmlElement.querySelector(`.${className}_days2`);
+                const days3 = htmlElement.querySelector(`.${className}_days3`);
                 const hours1 = htmlElement.querySelector(`.${className}_hours1`);
                 const hours2 = htmlElement.querySelector(`.${className}_hours2`);
                 const minutes1 = htmlElement.querySelector(`.${className}_minutes1`);
@@ -612,20 +643,39 @@ const Clock = (() => {
                 const seconds2 = htmlElement.querySelector(`.${className}_seconds2`);
                 switch (priv.mode) {
                     case CLOCKMODES.SIMPLE:
-                        //firstDigit = hours.split(String.EMPTY).first;
-                        //lastDigit = hours.split(String.EMPTY).last;
-                        //hours1.innerHTML = firstDigit;
-                        //hours2.innerHTML = lastDigit;
-                        //firstDigit = minutes.split(String.EMPTY).first;
-                        //lastDigit = minutes.split(String.EMPTY).last;
-                        //minutes1.innerHTML = firstDigit;
-                        //minutes2.innerHTML = lastDigit;
-                        //if (priv.showSeconds) {
-                        //    firstDigit = seconds.split(String.EMPTY).first;
-                        //    lastDigit = seconds.split(String.EMPTY).last;
-                        //    seconds1.innerHTML = firstDigit;
-                        //    seconds2.innerHTML = lastDigit;
-                        //}
+                        firstDigit = days.split(String.EMPTY).first;
+                        lastDigit = days.split(String.EMPTY).last;
+                        if (days1) {
+                            days1.innerHTML = firstDigit;
+                        }
+                        if (days2) {
+                            days2.innerHTML = days.split(String.EMPTY)[1];
+                        }
+                        if (days3) {
+                            days3.innerHTML = lastDigit;
+                        }
+                        firstDigit = hours.split(String.EMPTY).first;
+                        lastDigit = hours.split(String.EMPTY).last;
+                        if (hours1) {
+                            hours1.innerHTML = firstDigit;
+                        }
+                        if (hours2) {
+                            hours2.innerHTML = lastDigit;
+                        }
+                        firstDigit = minutes.split(String.EMPTY).first;
+                        lastDigit = minutes.split(String.EMPTY).last;
+                        if (minutes1) {
+                            minutes1.innerHTML = firstDigit;
+                        }
+                        if (minutes2) {
+                            minutes2.innerHTML = lastDigit;
+                        }
+                        if (priv.showSeconds) {
+                            firstDigit = seconds.split(String.EMPTY).first;
+                            lastDigit = seconds.split(String.EMPTY).last;
+                            seconds1.innerHTML = firstDigit;
+                            seconds2.innerHTML = lastDigit;
+                        }
                         break;
                     case CLOCKMODES.CIRCULAR:
                         break;
@@ -643,6 +693,10 @@ const Clock = (() => {
                             const lHours = (lDate.getHours() - (!priv.use24H && lDate.getHours() > 12 ? 12 : 0)).toString().padStart(2, '0');
                             const lMinutes = lDate.getMinutes().toString().padStart(2, '0');
                             const lSeconds = lDate.getSeconds().toString().padStart(2, '0');
+                            // Days changed
+                            if (hours !== lHours) {
+                                this.updateFlip(days, lDays, 'days');
+                            }
                             // Hours changed
                             if (hours !== lHours) {
                                 this.updateFlip(hours, lHours, 'hours');
@@ -681,6 +735,9 @@ const Clock = (() => {
                         this.onAlarm.invoke(this);
                     }
                 }
+            }
+            if (!isClock && ~~days + ~~hours + ~~minutes + ~~seconds === 0) {
+                this.stop();
             }
         }
         //#endregion update
@@ -856,223 +913,12 @@ Core.classes.register(Types.CATEGORIES.COMMON, Clock);
 //#endregion Clock
 //#region Templates
 if (Core.isHTMLRenderer) {
-    var ClockTpl = "<div id='{internalId}' data-class='Clock' data-name='{name}' class='Control Clock {theme}' data-theme='{theme}'></div>";
+    const ClockTpl = ['<jagui-clock id="{internalId}" data-class="Clock" class="Control Clock {theme}">',
+        '<properties>{ "name": "{name}", "mode": "simple", "showSeconds": true }</properties></jagui-clock>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: Clock, template: ClockTpl }]);
 }
 //#endregion Templates
 export { Clock };
-
-/*(function () {
-    $j.tools.loadCssFile($j.tools.getPath($j.types.categories.BASECSSCOMPONENTS) + "clock");
-    $j.tools.loadCssFile($j.tools.getPath($j.types.categories.THEMESCSSCOMPONENTS) + $j.defaultTheme + "/clock");
-    //#region ClockModes
-    $j.types.ClockModes = {
-        ANALOG: 'analog',
-        DIGITAL: 'digital',
-        NORMAL: "normal",
-        FLIP: "flip",
-        LED: "led",
-        DOT: "dot",
-        CIRCULAR: 'circular',
-        WALL: 'wall',
-        ROTATE: 'rotate'
-    };
-    //#endregion ClockModes
-    //#region ClockTypes
-    $j.types.ClockTypes = {
-        CLOCK: "clock",
-        COUNTDOWN: "countdown"
-    };
-    //#endregion ClockTypes
-    var Clock = $j.classes.ThemedControl.extend("Clock", {
-        init: function (owner, props) {
-            props = !props ? {} : props;
-            if (owner) {
-                this._inherited(owner, props);
-                //#region Private
-                this._startTime = null;
-                this._handle = null;
-                this._started = false;
-                this._paused = false;
-                //#endregion
-                this.mode = $j.types.ClockModes.NORMAL;
-                this.type = $j.types.ClockTypes.CLOCK;
-                this.showSeconds = true;
-                this.showDays = false;
-                this.showMonths = false;
-                this.showYears = false;
-                this.autoStart = true;
-            }
-        },
-        //#region Setters
-        setMode: function (newValue) {
-            if (!($j.tools.valueInSet(newValue, $j.types.ClockModes))) return;
-            if (this.mode !== newValue) {
-                this.mode = newValue;
-                this.prepareContent();
-                this.update();
-            }
-        },
-        setType: function (newValue) {
-            if (!($j.tools.valueInSet(newValue, $j.types.ClockTypes))) return;
-            if (this.type !== newValue) {
-                this.reset();
-                this.type = newValue;
-                this.update();
-            }
-        },
-        setShowSeconds: function (newValue) {
-            if (typeof newValue !== _const.BOOLEAN) return;
-            if (this.showSeconds !== newValue) {
-                this.showSeconds = newValue;
-                this.update();
-            }
-        },
-        setShowDays: function (newValue) {
-            if (typeof newValue !== _const.BOOLEAN) return;
-            if (this.showDays !== newValue) {
-                this.showDays = newValue;
-                this.update();
-            }
-        },
-        setShowMonths: function (newValue) {
-            if (typeof newValue !== _const.BOOLEAN) return;
-            if (this.showMonths !== newValue) {
-                this.showMonths = newValue;
-                this.update();
-            }
-        },
-        setShowYears: function (newValue) {
-            if (typeof newValue !== _const.BOOLEAN) return;
-            if (this.showYears !== newValue) {
-                this.showYears = newValue;
-                this.update();
-            }
-        },
-        setAutoStart: function (newValue) {
-            if (typeof newValue !== _const.BOOLEAN) return;
-            if (this.autoStart !== newValue) {
-                this.autoStart = newValue;
-            }
-        },
-        //#endregion
-        //#region Methods
-        prepareContent: function () {
-            var _paused = this.pause, _started = this.started, div, sep;
-            this.stop();
-            this._HTMLElement.innerHTML = String.EMPTY;
-            switch (this.mode) {
-                case $j.types.ClockModes.NORMAL:
-                    if (this.showDays) {
-
-                    }
-                    if (this.showMonths) {
-                        if (this.showDays) {
-                            // sep
-                            sep = $j.doc.createElement($j.types.HTMLElements.DIV);
-                            this._HTMLElement.appendChild(sep);
-                        }
-                    }
-                    if (this.showYears) {
-                        if (this.showMonths) {
-                            // sep
-                            sep = $j.doc.createElement($j.types.HTMLElements.SPAN);
-                            this._HTMLElement.appendChild(sep);
-                        }
-                    }
-                    // hours
-                    div = $j.doc.createElement($j.types.HTMLElements.DIV);
-                    this._HTMLElement.appendChild(div);
-                    div = $j.doc.createElement($j.types.HTMLElements.DIV);
-                    this._HTMLElement.appendChild(div);
-                    // sep
-                    sep = $j.doc.createElement($j.types.HTMLElements.SPAN);
-                    sep.innerHTML = ':';
-                    this._HTMLElement.appendChild(sep);
-                    // minutes
-                    div = $j.doc.createElement($j.types.HTMLElements.DIV);
-                    this._HTMLElement.appendChild(div);
-                    div = $j.doc.createElement($j.types.HTMLElements.DIV);
-                    this._HTMLElement.appendChild(div);
-                    // seconds
-                    if (this.showSeconds) {
-                        // sep
-                        sep = $j.doc.createElement($j.types.HTMLElements.SPAN);
-                        sep.innerHTML = ':';
-                        this._HTMLElement.appendChild(sep);
-                        div = $j.doc.createElement($j.types.HTMLElements.DIV);
-                        this._HTMLElement.appendChild(div);
-                        div = $j.doc.createElement($j.types.HTMLElements.DIV);
-                        this._HTMLElement.appendChild(div);
-                    }
-                    break;
-                case $j.types.ClockModes.FLIP:
-                    break;
-                case $j.types.ClockModes.LED:
-                    break;
-                case $j.types.ClockModes.DOT:
-                    break;
-            }
-            this._paused = _paused;
-            this._started = _started;
-            if (this._started) this.start();
-        },
-        loaded: function () {
-            this._inherited();
-            if (this.autoStart) {
-                this.prepareContent();
-                this.update();
-                this.start();
-            }
-        },
-        update: function () {
-            if (this._paused) return;
-            if (this._loading || this.form._loading) return;
-        },
-        start: function () {
-            var clock = this;
-            this._started = true;
-            this._pause = false;
-            this._handle = setInterval(this.update.bind(this), 1000);
-        },
-        pause: function () {
-            this._paused = true;
-        },
-        stop: function () {
-            this._started = false;
-            this._pause = false;
-            clearInterval(this._handle);
-        },
-        resume: function () {
-            this._paused = false;
-        },
-        updateFromHTML: function () {
-            var data;
-            this._inherited();
-            //if (this._textObj)) this.caption=this._textObj.innerHTML;
-            //data=($j.browser.ie)?this._HTMLElement.getAttribute("data-modalresult"):this._HTMLElement.dataset.modalresult;
-            //if (data)) this.modalResult=data;
-            //data=($j.browser.ie)?this._HTMLElement.getAttribute("data-stayspressed"):this._HTMLElement.dataset.stayspressed;
-            //if (data)) this.staysPressed=_conv.strToBool(data);
-            //data=($j.browser.ie)?this._HTMLElement.getAttribute("data-repeatclick"):this._HTMLElement.dataset.repeatclick;
-            //if (data)) this.repeatClick=_conv.strToBool(data);
-            //data=($j.browser.ie)?this._HTMLElement.getAttribute("data-action"):this._HTMLElement.dataset.action;
-            //if (data)) this.action=data;
-        },
-        destroy: function () {
-            this._inherited();
-        }
-        //#endregion
-    });
-    Object.seal(Clock);
-    $j.classes.register($j.types.categories.COMMON, Clock);
-    //#region Templates
-    if ($j.isHTMLRenderer()) {
-        var ClockTpl = "<div id='{internalId}' data-class='Clock' data-name='{name}' class='Control Clock {theme}' data-theme='{theme}'></div>";
-        $j.classes.registerTemplates([{ Class: Clock, template: ClockTpl }]);
-    }
-    //endregion
-})();
 /*
  *https://codepen.io/Leul-Dev/pen/MWYNmav -> Datetime chooser
  *https://codepen.io/vAhyThe/pen/ZEYjqrj -> dot
