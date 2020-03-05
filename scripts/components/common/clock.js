@@ -70,26 +70,23 @@ const Clock = (() => {
                 priv.showYears = props.hasOwnProperty('showYears') ? props.showYears : false;
                 priv.use24H = Tools.getLocale().date.pm === String.EMPTY;
                 priv.autoStart = props.hasOwnProperty('autoStart') ? props.autoStart : true;
-                priv.lastDate = null;
                 priv.alarm = props.hasOwnProperty('alarm') ? props.alarm : null;
-                priv.countDownDate = new Date();
-                if (props.hasOwnProperty('distance')) {
-                    if (props.distance.days) {
-                        priv.countDownDate = priv.countDownDate.addDays(props.distance.days);
-                    }
-                    if (props.distance.hours) {
-                        priv.countDownDate = priv.countDownDate.addHours(props.distance.hours);
-                    }
-                    if (props.distance.minutes) {
-                        priv.countDownDate = priv.countDownDate.addMinutes(props.distance.minutes);
-                    }
-                    if (props.distance.seconds) {
-                        priv.countDownDate = priv.countDownDate.addSeconds(props.distance.seconds);
-                    }
-                }
+                priv.countDown = props.hasOwnProperty('countDown') ? props.countDown : { seconds: 0 };
                 this.onAlarm = new NotifyEvent(this);
                 this.hitTest.all = false;
                 this.hitTest.mousedown = true;
+                priv.numbers = {
+                    '0': 'zero',
+                    '1': 'one',
+                    '2': 'two',
+                    '3': 'three',
+                    '4': 'four',
+                    '5': 'five',
+                    '6': 'six',
+                    '7': 'seven',
+                    '8': 'eight',
+                    '9': 'nine'
+                };
             }
         }
         //#endregion constructor
@@ -221,11 +218,38 @@ const Clock = (() => {
             }
         }
         //#endregion alarm
+        //#region countDown
+        get countDown() {
+            return internal(this).countDown;
+        }
+        set countDown(newValue) {
+            if (Tools.isObject(newValue) && (newValue.days || newValue.hours || newValue.minutes || newValue.seconds)) {
+                this.stop();
+                if (newValue.days) {
+                    priv.countDown.days = newValue.days;
+                }
+                if (newValue.days) {
+                    priv.countDown.days = newValue.days;
+                }
+                if (newValue.days) {
+                    priv.countDown.days = newValue.days;
+                }
+                if (newValue.days) {
+                    priv.countDown.days = newValue.days;
+                }
+                if (priv.autoStart) {
+                    this.start();
+                }
+            }
+        }
+        //#endregion countDown
         //#endregion Getters / Setters
         //#region Methods
+        //#region clearContent
         clearContent() {
 
         }
+        //#endregion clearContent
         //#region prepareContent
         prepareContent() {
             //#region Variables déclaration
@@ -234,31 +258,26 @@ const Clock = (() => {
             const className = this.constructor.name;
             const tag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             let div, div1;
-            const date = new Date(Date.now());
-            const distance = priv.countDownDate - date.getTime();
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(3, '0');
             const numDigits = [];
             const weekdays = document.createElement(`${tag}-weekdays`);
             const digits = document.createElement(`${tag}-digits`);
             const isClock = priv.type === CLOCKTYPES.CLOCK;
-            const hours = (isClock ?
-                date.getHours() - (!priv.use24H && date.getHours() > 12 ? 12 : 0) :
-                Math.floor(distance % (1000 * 60 * 60 * 24) / (1000 * 60 * 60))).toString().padStart(2, '0');
-            const minutes = (isClock ?
-                date.getMinutes() :
-                Math.floor(distance % (1000 * 60 * 60) / (1000 * 60))).toString().padStart(2, '0');
-            const seconds = (isClock ?
-                date.getSeconds() :
-                Math.floor(distance % (1000 * 60) / 1000)).toString().padStart(2, '0');
-            let firstDigit;
-            let lastDigit;
             let num = 1;
             let isDot = false;
-            const offset = isClock ? 0 : 3;
             const locale = Tools.getLocale();
             const countDownClassNames = [];
+            const date = new Date();
+            const days = (~~priv.countDown.days).toString().padStart(3, '0');
+            const hours = (isClock ?
+                date.getHours() - (!priv.use24H && date.getHours() > 12 ? 12 : 0) :
+                priv.countDown.hours ? (~~priv.countDown.hours) : 0).toString().padStart(2, '0');
+            const minutes = (isClock ?
+                date.getMinutes() :
+                priv.countDown.minutes ? (~~priv.countDown.minutes) : 0).toString().padStart(2, '0');
+            const seconds = (isClock ?
+                date.getSeconds() :
+                priv.countDown.seconds).toString().padStart(2, '0');
             //#endregion Variables déclaration
-            priv.lastDate = date;
             Object.keys(CLOCKMODES).forEach(key => {
                 htmlElement.classList.remove(CLOCKMODES[key]);
             });
@@ -370,6 +389,7 @@ const Clock = (() => {
                 }
                 digits.appendChild(div);
                 switch (priv.mode) {
+                    //#region SIMPLE
                     case CLOCKMODES.SIMPLE:
                         switch (numDigits[i]) {
                             case 'days':
@@ -386,48 +406,56 @@ const Clock = (() => {
                                 break;
                         }
                         break;
+                        //#endregion SIMPLE
+                        //#region CIRCULAR
                     case CLOCKMODES.CIRCULAR:
                         break;
+                        //#endregion CIRCULAR
+                        //#region DIGITAL & LED 
                     case CLOCKMODES.DIGITAL:
                     case CLOCKMODES.LED:
-                        //https://codepen.io/shaman_tito/pen/Ectwp
-                        const numbers = {
-                            '0': 'zero',
-                            '1': 'one',
-                            '2': 'two',
-                            '3': 'three',
-                            '4': 'four',
-                            '5': 'five',
-                            '6': 'six',
-                            '7': 'seven',
-                            '8': 'eight',
-                            '9': 'nine'
-                        };
-                        let value = 0;
-                        switch (numDigits[i]) {
-                            case 'days':
-                                value = days[num - 1];
-                                break;
-                            case 'hours':
-                                value = hours[num - 1];
-                                break;
-                            case 'minutes':
-                                value = minutes[num - 1];
-                                break;
-                            case 'seconds':
-                                value = seconds[num - 1];
-                                break;
-                        }
+                        {
+                            //https://codepen.io/shaman_tito/pen/Ectwp
+                            const numbers = {
+                                '0': 'zero',
+                                '1': 'one',
+                                '2': 'two',
+                                '3': 'three',
+                                '4': 'four',
+                                '5': 'five',
+                                '6': 'six',
+                                '7': 'seven',
+                                '8': 'eight',
+                                '9': 'nine'
+                            };
+                            let value = 0;
+                            switch (numDigits[i]) {
+                                case 'days':
+                                    value = days[num - 1];
+                                    break;
+                                case 'hours':
+                                    value = hours[num - 1];
+                                    break;
+                                case 'minutes':
+                                    value = minutes[num - 1];
+                                    break;
+                                case 'seconds':
+                                    value = seconds[num - 1];
+                                    break;
+                            }
 
-                        div.classList.add(`${className}_${numbers[value]}`);
-                        for (let j = 0; j < 7; j++) {
-                            if (!isDot) {
-                                div1 = document.createElement(`${tag}-digit`);
-                                div1.classList.add(`${className}_digit_d${j + 1}`, this.themeName);
-                                div.appendChild(div1);
+                            div.classList.add(`${className}_${numbers[value]}`);
+                            for (let j = 0; j < 7; j++) {
+                                if (!isDot) {
+                                    div1 = document.createElement(`${tag}-digit`);
+                                    div1.classList.add(`${className}_digit_d${j + 1}`, this.themeName);
+                                    div.appendChild(div1);
+                                }
                             }
                         }
                         break;
+                        //#endregion DIGITAL & LED
+                        //#region ROTATE
                     case CLOCKMODES.ROTATE:
                         if (i !== 2 && i !== 5) {
                             let maxItem = 10;
@@ -440,6 +468,8 @@ const Clock = (() => {
                             }
                         }
                         break;
+                        //#endregion ROTATE
+                        //#region FLIP
                     case CLOCKMODES.FLIP:
                         if (!isDot) {
                             let txt;
@@ -467,6 +497,7 @@ const Clock = (() => {
                             for (let j = 0; j < maxItem; j++) {
                                 div1 = document.createElement(`${tag}-flip`);
                                 div1.classList.add(`${className}_digit_flip`, this.themeName, 'Control');
+                                div1.classList.add(priv.numbers[j]);
                                 if (j === ~~txt - 1 || (!hasBefore && j === maxItem - 1)) {
                                     hasBefore = true;
                                     div1.classList.add('before');
@@ -495,8 +526,11 @@ const Clock = (() => {
                             }
                         }
                         break;
+                        //#endregion Flip
+                        //#region DOT
                     case CLOCKMODES.DOT:
                         break;
+                        //#endregion DOT
                 }
                 if (!isDot) {
                     num++;
@@ -520,9 +554,9 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.loaded();
             this.prepareContent();
-            if (priv.autoStart) {
+            super.loaded();
+            if (priv.autoStart || priv.type === CLOCKTYPES.CLOCK) {
                 if (priv.alarmTime) {
                     this.alarm = priv.alarmTime;
                 } else {
@@ -536,89 +570,99 @@ const Clock = (() => {
         update() {
             //#region Variables déclaration
             const priv = internal(this);
-            const date = new Date(Date.now());
-            const distance = priv.countDownDate - date.getTime();
+            const date = new Date();
             const isClock = priv.type === CLOCKTYPES.CLOCK;
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(3, '0');
-            const hours = (isClock ?
-                (date.getHours() - (!priv.use24H && date.getHours() > 12 ? 12 : 0)) :
-                Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).toString().padStart(2, '0');
-            const minutes = (isClock ?
+            let days = (priv.countDown.days ? priv.countDown.days : 0).toString().padStart(3, '0');
+            let hours = (isClock ? 
+                date.getHours() - (!priv.use24H && date.getHours() > 12 ? 12 : 0) : 
+                priv.countDown.hours ? ~~priv.countDown.hours : 0).toString().padStart(2, '0');
+            let minutes = (isClock ? 
                 date.getMinutes() :
-                Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).toString().padStart(2, '0');
-            const seconds = (isClock ?
-                date.getSeconds() :
-                Math.floor((distance % (1000 * 60)) / 1000)).toString().padStart(2, '0');
-            const lDate = priv.lastDate;
-            const lDistance = priv.countDownDate - lDate.getTime();
-            const lDays = Math.floor(lDistance / (1000 * 60 * 60 * 24)).toString().padStart(3, '0');
-            const lHours = (isClock ?
-                (lDate.getHours() - (!priv.use24H && lDate.getHours() > 12 ? 12 : 0)) :
-                Math.floor((lDistance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).toString().padStart(2, '0');
-            const lMinutes = (isClock ?
-                lDate.getMinutes() :
-                Math.floor((lDistance % (1000 * 60 * 60)) / (1000 * 60))).toString().padStart(2, '0');
-            const lSeconds = (isClock ?
-                lDate.getSeconds() :
-                Math.floor((lDistance % (1000 * 60)) / 1000)).toString().padStart(2, '0');
+                priv.countDown.minutes ? priv.countDown.minutes : 0).toString().padStart(2, '0');
+            let seconds = (isClock ? 
+                date.getSeconds():
+                priv.countDown.seconds).toString().padStart(2, '0');
             const className = this.constructor.name;
             const htmlElement = this.HTMLElement;
-            let firstDigit;
-            let lastDigit;
+            const days1 = htmlElement.querySelector(`.${className}_days1`);
+            const days2 = htmlElement.querySelector(`.${className}_days2`);
+            const days3 = htmlElement.querySelector(`.${className}_days3`);
+            const hours1 = htmlElement.querySelector(`.${className}_hours1`);
+            const hours2 = htmlElement.querySelector(`.${className}_hours2`);
+            const minutes1 = htmlElement.querySelector(`.${className}_minutes1`);
+            const minutes2 = htmlElement.querySelector(`.${className}_minutes2`);
+            const seconds1 = htmlElement.querySelector(`.${className}_seconds1`);
+            const seconds2 = htmlElement.querySelector(`.${className}_seconds2`);
+            const func = `update${priv.mode.firstCharUpper}`;
             //#endregion Variables déclaration
             if (!priv.paused && !this.loading && !this.form.loading) {
-                const days1 = htmlElement.querySelector(`.${className}_days1`);
-                const days2 = htmlElement.querySelector(`.${className}_days2`);
-                const days3 = htmlElement.querySelector(`.${className}_days3`);
-                const hours1 = htmlElement.querySelector(`.${className}_hours1`);
-                const hours2 = htmlElement.querySelector(`.${className}_hours2`);
-                const minutes1 = htmlElement.querySelector(`.${className}_minutes1`);
-                const minutes2 = htmlElement.querySelector(`.${className}_minutes2`);
-                const seconds1 = htmlElement.querySelector(`.${className}_seconds1`);
-                const seconds2 = htmlElement.querySelector(`.${className}_seconds2`);
-                const func = `update${priv.mode.firstCharUpper}`;
+                if (!isClock) {
+                    seconds = ~~seconds - 1;
+                    if (seconds<0) {
+                        seconds = 59;
+                        if (Tools.isNumber(priv.countDown.minutes)) {
+                            minutes = ~~minutes - 1;
+                            if (lMinutes<0) {
+                                minutes = 59;
+                                if (Tools.isNumber(priv.countDown.hours)) {
+                                    hours = hours - 1;
+                                    if (hours<0) {
+                                        hours = 23;
+                                        if (Tools.isNumber(priv.countDown.days)) {
+                                            days = ~~days - 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    days = days.toString().padStart(3, '0');
+                    hours = hours.toString().padStart(2, '0');
+                    minutes = minutes.toString().padStart(2, '0');
+                    seconds = seconds.toString().padStart(2, '0');
+                }
                 if (days1) {
-                    if (!isClock && lDays[0] !== days[0]) {
+                    if (!isClock && Tools.isNumber(priv.countDown.days)) {
                         this[func](days1, days[0]);
                     }
                 }
                 if (days2) {
-                    if (isClock && priv.showSeconds || !isClock && lDays[1] !== days[1]) {
+                    if (isClock || !isClock && Tools.isNumber(priv.countDown.days)) {
                         this[func](days2, days[1]);
                     }
                 }
                 if (days3) {
-                    if (isClock && priv.showSeconds || !isClock && lDays[3] !== days[3]) {
+                    if (isClock || !isClock && Tools.isNumber(priv.countDown.days)) {
                         this[func](days3, days[3]);
                     }
                 }
                 if (hours1) {
-                    if (isClock && priv.showSeconds || !isClock && lHours[0] !== hours[0]) {
+                    if (isClock || !isClock && Tools.isNumber(priv.countDown.hours)) {
                         this[func](hours1, hours[0]);
                     }
                 }
                 if (hours2) {
-                    if (isClock && priv.showSeconds || !isClock && lHours[1] !== hours[1]) {
+                    if (isClock || !isClock && Tools.isNumber(priv.countDown.hours)) {
                         this[func](hours2, hours[1]);
                     }
                 }
                 if (minutes1) {
-                    if (isClock && priv.showSeconds || !isClock && lMinutes[0] !== minutes[0]) {
+                    if (isClock || !isClock && Tools.isNumber(priv.countDown.minutes)) {
                         this[func](minutes1, minutes[0]);
                     }
                 }
                 if (minutes2) {
-                    if (isClock && priv.showSeconds || !isClock && lMinutes[1] !== minutes[1]) {
+                    if (isClock || !isClock && Tools.isNumber(priv.countDown.minutes)) {
                         this[func](minutes2, minutes[1]);
                     }
                 }
                 if (seconds1) {
-                    if (isClock && priv.showSeconds || !isClock && lSeconds[0] !== seconds[0]) {
+                    if (isClock && priv.showSeconds || !isClock) {
                         this[func](seconds1, seconds[0]);
                     }
                 }
                 if (seconds2) {
-                    if (isClock && priv.showSeconds || !isClock && lSeconds[1] !== seconds[1]) {
+                    if (isClock && priv.showSeconds || !isClock) {
                         this[func](seconds2, seconds[1]);
                     }
                 }
@@ -642,10 +686,22 @@ const Clock = (() => {
                     }
                 }
             }
-            if (!isClock && ~~days + ~~hours + ~~minutes + ~~seconds === 0) {
-                this.stop();
+            if (!isClock) {
+                if (~~days + ~~hours + ~~minutes + ~~seconds === 0) {
+                    this.stop();
+                } else {
+                    if (priv.countDown.days) {
+                        priv.countDown.days = ~~days;
+                    }
+                    if (priv.countDown.hours) {
+                        priv.countDown.hours = ~~hours;
+                    }
+                    if (priv.countDown.minutes) {
+                        priv.countDown.minutes = ~~minutes;
+                    }
+                    priv.countDown.seconds = seconds;
+                }
             }
-            priv.lastDate = new Date(Date.now());
         }
         //#endregion update
         //#region mouseDown
@@ -664,23 +720,11 @@ const Clock = (() => {
         updateLed(element, value) {
             //#region Variables déclaration
             const className = this.constructor.name;
-            const numbers = {
-                '0': 'zero',
-                '1': 'one',
-                '2': 'two',
-                '3': 'three',
-                '4': 'four',
-                '5': 'five',
-                '6': 'six',
-                '7': 'seven',
-                '8': 'eight',
-                '9': 'nine'
-            };
             //#endregion Variables déclaration
-            Object.keys(numbers).forEach(number => {
-                element.classList.remove(`${className}_${numbers[number]}`);
+            Object.keys(priv.numbers).forEach(number => {
+                element.classList.remove(`${className}_${priv.numbers[number]}`);
             });
-            element.classList.add(`${className}_${numbers[value]}`);
+            element.classList.add(`${className}_${priv.numbers[value]}`);
         }
         //#endregion updateLed
         //#region updateSimple
@@ -693,30 +737,42 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const isClock = priv.type === CLOCKTYPES.CLOCK;
+            const dir = isClock ? 'next': 'previous';
+            const child = isClock ? 'first': 'last';
+            let elem;
             //#endregion Variables déclaration
-            let elem = element.querySelector('.before');
+            elem = element.querySelector('.before');
             if (elem) {
                 elem.classList.remove('before');
             }
             elem = element.querySelector('.active');
             if (elem) {
                 elem.classList.remove('active');
-                elem.classList.add('before');
-                if (isClock) {
-                    if (elem.nextElementSibling) {
-                        elem.nextElementSibling.classList.add('active');
-                    } else {
-                        elem.parentNode.firstElementChild.classList.add('active');
-                    }
-                } else {
-                    if (elem.previousElementSibling) {
-                        elem.previousElementSibling.classList.add('active');
-                    } else {
-                        elem.parentNode.lastElementChild.classList.add('active');
-                    }
-
-                }
             }
+            elem = element.querySelector(`.${priv.numbers[value.toString()]}`);
+            if (elem) {
+                elem.classList.add('active');
+                if (elem[`${dir}ElementSibling`]) {
+                    elem[`${dir}ElementSibling`].classList.add('before');
+                } else {
+                    elem.parentNode[`${child}ElementChild`].classList.add('before');
+                }
+                //elem = element.querySelector(`.${priv.numbers[value.toString()]}`);
+                //if (elem) {
+                //    elem.classList.add('before');
+                //}
+            }
+            //elem = element.querySelector('.active');
+            //if (elem) {
+            //    elem.classList.remove('active');
+            //    elem.classList.add('before');
+            //    if (elem[`${dir}ElementSibling`]) {
+            //        elem[`${dir}ElementSibling`].classList.add('active');
+            //    } else {
+            //        elem.parentNode[`${child}ElementChild`].classList.add('active');
+            //    }
+            //}
+
         }
         //#endregion updateFlip
         //#region start
@@ -734,7 +790,7 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.type === CLOCKTYPES.COUNTDOWN) {
+            if (priv.type === CLOCKTYPES.COUNTDOWN && priv.started) {
                 priv.paused = true;
             }
         }
@@ -756,7 +812,7 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.type === CLOCKTYPES.COUNTDOWN) {
+            if (priv.type === CLOCKTYPES.COUNTDOWN && priv.started) {
                 priv.paused = false;
             }
         }
