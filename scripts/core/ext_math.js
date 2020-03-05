@@ -158,3 +158,12 @@ if (!Math.abs2) {
         return (value ^ value >> 31) - (value >> 31);
     };
 }
+if (!Math.getDigit) {
+    Math.getDigit = function(number, n) {
+        if (number.toString().length<n)
+        {
+            return null;
+        }
+        return Math.floor((number / Math.pow(10, n - 1)) % 10);
+    }
+}

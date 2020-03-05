@@ -406,28 +406,16 @@ const Clock = (() => {
                                 break;
                         }
                         break;
-                        //#endregion SIMPLE
-                        //#region CIRCULAR
+                    //#endregion SIMPLE
+                    //#region CIRCULAR
                     case CLOCKMODES.CIRCULAR:
                         break;
-                        //#endregion CIRCULAR
-                        //#region DIGITAL & LED 
+                    //#endregion CIRCULAR
+                    //#region DIGITAL & LED 
                     case CLOCKMODES.DIGITAL:
                     case CLOCKMODES.LED:
                         {
                             //https://codepen.io/shaman_tito/pen/Ectwp
-                            const numbers = {
-                                '0': 'zero',
-                                '1': 'one',
-                                '2': 'two',
-                                '3': 'three',
-                                '4': 'four',
-                                '5': 'five',
-                                '6': 'six',
-                                '7': 'seven',
-                                '8': 'eight',
-                                '9': 'nine'
-                            };
                             let value = 0;
                             switch (numDigits[i]) {
                                 case 'days':
@@ -444,7 +432,7 @@ const Clock = (() => {
                                     break;
                             }
 
-                            div.classList.add(`${className}_${numbers[value]}`);
+                            div.classList.add(`${className}_${priv.numbers[value]}`);
                             for (let j = 0; j < 7; j++) {
                                 if (!isDot) {
                                     div1 = document.createElement(`${tag}-digit`);
@@ -454,8 +442,8 @@ const Clock = (() => {
                             }
                         }
                         break;
-                        //#endregion DIGITAL & LED
-                        //#region ROTATE
+                    //#endregion DIGITAL & LED
+                    //#region ROTATE
                     case CLOCKMODES.ROTATE:
                         if (i !== 2 && i !== 5) {
                             let maxItem = 10;
@@ -468,8 +456,8 @@ const Clock = (() => {
                             }
                         }
                         break;
-                        //#endregion ROTATE
-                        //#region FLIP
+                    //#endregion ROTATE
+                    //#region FLIP
                     case CLOCKMODES.FLIP:
                         if (!isDot) {
                             let txt;
@@ -492,45 +480,14 @@ const Clock = (() => {
                                     maxItem = 10;
                                     break;
                             }
-
-                            let hasBefore = false;
-                            for (let j = 0; j < maxItem; j++) {
-                                div1 = document.createElement(`${tag}-flip`);
-                                div1.classList.add(`${className}_digit_flip`, this.themeName, 'Control');
-                                div1.classList.add(priv.numbers[j]);
-                                if (j === ~~txt - 1 || (!hasBefore && j === maxItem - 1)) {
-                                    hasBefore = true;
-                                    div1.classList.add('before');
-                                }
-                                if (j === ~~txt) {
-                                    div1.classList.add('active');
-                                }
-                                div.appendChild(div1);
-                                let div4 = document.createElement(`${tag}-flip-p`);
-                                div4.classList.add(`${className}_digit_flip_p`);
-                                div1.appendChild(div4);
-                                let div2 = document.createElement(`${tag}-flip-up`);
-                                div2.classList.add(`${className}_digit_flip_up`, this.themeName, 'Control');
-                                div4.appendChild(div2);
-                                let div3 = document.createElement(`${tag}-flip-inn`);
-                                div3.innerHTML = j;
-                                div3.classList.add(`${className}_digit_flip_inn`, this.themeName, 'Control');
-                                div2.appendChild(div3);
-                                div2 = document.createElement(`${tag}-flip-down`);
-                                div2.classList.add(`${className}_digit_flip_down`, this.themeName, 'Control');
-                                div4.appendChild(div2);
-                                div3 = document.createElement(`${tag}-flip-inn`);
-                                div3.classList.add(`${className}_digit_flip_inn`, this.themeName, 'Control');
-                                div3.innerHTML = j;
-                                div2.appendChild(div3);
-                            }
+                            this.createFlip(div, txt);
                         }
                         break;
-                        //#endregion Flip
-                        //#region DOT
+                    //#endregion Flip
+                    //#region DOT
                     case CLOCKMODES.DOT:
                         break;
-                        //#endregion DOT
+                    //#endregion DOT
                 }
                 if (!isDot) {
                     num++;
@@ -547,8 +504,54 @@ const Clock = (() => {
             }
             //#endregion digits
             htmlElement.classList.add(priv.mode);
+            priv.lastDate = new Date();
         }
         //#endregion prepareContent
+        createFlip(parentElement, txt) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const className = this.constructor.name;
+            const tag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const isClock = priv.type === CLOCKTYPES.CLOCK;
+            //#endregion Variables déclaration
+            parentElement.innerHTML = String.EMPTY;
+            for (let j = 0; j < 2; j++) {
+                let value = j === 0 ? txt - (isClock ? 1 : -1) : txt;
+                if (value > 9) {
+                    value = isClock ? 0 : 0;
+                }
+                if (value < 0 && isClock) {
+                    value = 5;
+                }
+                let div1 = document.createElement(`${tag}-flip`);
+                div1.classList.add(`${className}_digit_flip`, this.themeName, 'Control');
+                div1.classList.add(priv.numbers[j]);
+                if (j === 0) {
+                    div1.classList.add('before');
+                }
+                if (j === 1) {
+                    div1.classList.add('active');
+                }
+                parentElement.appendChild(div1);
+                let div4 = document.createElement(`${tag}-flip-p`);
+                div4.classList.add(`${className}_digit_flip_p`);
+                div1.appendChild(div4);
+                let div2 = document.createElement(`${tag}-flip-up`);
+                div2.classList.add(`${className}_digit_flip_up`, this.themeName, 'Control');
+                div4.appendChild(div2);
+                let div3 = document.createElement(`${tag}-flip-inn`);
+                div3.innerHTML = value;
+                div3.classList.add(`${className}_digit_flip_inn`, this.themeName, 'Control');
+                div2.appendChild(div3);
+                div2 = document.createElement(`${tag}-flip-down`);
+                div2.classList.add(`${className}_digit_flip_down`, this.themeName, 'Control');
+                div4.appendChild(div2);
+                div3 = document.createElement(`${tag}-flip-inn`);
+                div3.classList.add(`${className}_digit_flip_inn`, this.themeName, 'Control');
+                div3.innerHTML = value;
+                div2.appendChild(div3);
+            }
+        }
         //#region loaded
         loaded() {
             //#region Variables déclaration
@@ -573,14 +576,24 @@ const Clock = (() => {
             const date = new Date();
             const isClock = priv.type === CLOCKTYPES.CLOCK;
             let days = (priv.countDown.days ? priv.countDown.days : 0).toString().padStart(3, '0');
-            let hours = (isClock ? 
-                date.getHours() - (!priv.use24H && date.getHours() > 12 ? 12 : 0) : 
+            let hours = (isClock ?
+                date.getHours() - (!priv.use24H && date.getHours() > 12 ? 12 : 0) :
                 priv.countDown.hours ? ~~priv.countDown.hours : 0).toString().padStart(2, '0');
-            let minutes = (isClock ? 
+            let minutes = (isClock ?
                 date.getMinutes() :
                 priv.countDown.minutes ? priv.countDown.minutes : 0).toString().padStart(2, '0');
-            let seconds = (isClock ? 
-                date.getSeconds():
+            let seconds = (isClock ?
+                date.getSeconds() :
+                priv.countDown.seconds).toString().padStart(2, '0');
+            const lDays = (priv.countDown.days ? priv.countDown.days : 0).toString().padStart(3, '0');
+            const lHours = (isClock ?
+                priv.lastDate.getHours() - (!priv.use24H && priv.lastDate.getHours() > 12 ? 12 : 0) :
+                priv.countDown.hours ? ~~priv.countDown.hours : 0).toString().padStart(2, '0');
+            const lMinutes = (isClock ?
+                priv.lastDate.getMinutes() :
+                priv.countDown.minutes ? priv.countDown.minutes : 0).toString().padStart(2, '0');
+            const lSeconds = (isClock ?
+                priv.lastDate.getSeconds() :
                 priv.countDown.seconds).toString().padStart(2, '0');
             const className = this.constructor.name;
             const htmlElement = this.HTMLElement;
@@ -598,15 +611,15 @@ const Clock = (() => {
             if (!priv.paused && !this.loading && !this.form.loading) {
                 if (!isClock) {
                     seconds = ~~seconds - 1;
-                    if (seconds<0) {
+                    if (seconds < 0) {
                         seconds = 59;
                         if (Tools.isNumber(priv.countDown.minutes)) {
                             minutes = ~~minutes - 1;
-                            if (lMinutes<0) {
+                            if (lMinutes < 0) {
                                 minutes = 59;
                                 if (Tools.isNumber(priv.countDown.hours)) {
-                                    hours = hours - 1;
-                                    if (hours<0) {
+                                    hours = ~~hours - 1;
+                                    if (hours < 0) {
                                         hours = 23;
                                         if (Tools.isNumber(priv.countDown.days)) {
                                             days = ~~days - 1;
@@ -621,48 +634,43 @@ const Clock = (() => {
                     minutes = minutes.toString().padStart(2, '0');
                     seconds = seconds.toString().padStart(2, '0');
                 }
-                if (days1) {
-                    if (!isClock && Tools.isNumber(priv.countDown.days)) {
-                        this[func](days1, days[0]);
-                    }
+                if (days1 && !isClock && Tools.isNumber(priv.countDown.days)) {
+                    this[func](days1, days[0]);
                 }
-                if (days2) {
-                    if (isClock || !isClock && Tools.isNumber(priv.countDown.days)) {
-                        this[func](days2, days[1]);
-                    }
+                if (days2 && !isClock && Tools.isNumber(priv.countDown.days)) {
+                    this[func](days2, days[1]);
                 }
-                if (days3) {
-                    if (isClock || !isClock && Tools.isNumber(priv.countDown.days)) {
-                        this[func](days3, days[3]);
-                    }
+                if (days3 && !isClock && Tools.isNumber(priv.countDown.days)) {
+                    this[func](days3, days[3]);
                 }
                 if (hours1) {
-                    if (isClock || !isClock && Tools.isNumber(priv.countDown.hours)) {
+                    if (isClock && lHours[0] !== hours[0] || !isClock && Tools.isNumber(priv.countDown.hours)) {
                         this[func](hours1, hours[0]);
                     }
                 }
                 if (hours2) {
-                    if (isClock || !isClock && Tools.isNumber(priv.countDown.hours)) {
+                    if (isClock && lHours[1] !== hours[1] || !isClock && Tools.isNumber(priv.countDown.hours)) {
                         this[func](hours2, hours[1]);
                     }
                 }
                 if (minutes1) {
-                    if (isClock || !isClock && Tools.isNumber(priv.countDown.minutes)) {
+                    if (isClock && lMinutes[0] !== minutes[0] || !isClock && Tools.isNumber(priv.countDown.minutes)) {
                         this[func](minutes1, minutes[0]);
                     }
                 }
                 if (minutes2) {
-                    if (isClock || !isClock && Tools.isNumber(priv.countDown.minutes)) {
+                    if (isClock && priv.showSeconds && lMinutes[1] !== minutes[1] ||
+                        !isClock && Tools.isNumber(priv.countDown.minutes) && lMinutes[1] !== minutes[1]) {
                         this[func](minutes2, minutes[1]);
                     }
                 }
                 if (seconds1) {
-                    if (isClock && priv.showSeconds || !isClock) {
+                    if (lSeconds[0] !== seconds[0]) {
                         this[func](seconds1, seconds[0]);
                     }
                 }
                 if (seconds2) {
-                    if (isClock && priv.showSeconds || !isClock) {
+                    if (priv.showSeconds && lSeconds[1] !== seconds[1]) {
                         this[func](seconds2, seconds[1]);
                     }
                 }
@@ -701,6 +709,8 @@ const Clock = (() => {
                     }
                     priv.countDown.seconds = seconds;
                 }
+            } else {
+                priv.lastDate = date;
             }
         }
         //#endregion update
@@ -737,42 +747,29 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const isClock = priv.type === CLOCKTYPES.CLOCK;
-            const dir = isClock ? 'next': 'previous';
-            const child = isClock ? 'first': 'last';
+            const dir = isClock ? 'previous' : 'next';
+            const child = isClock ? 'last' : 'first';
             let elem;
             //#endregion Variables déclaration
-            elem = element.querySelector('.before');
-            if (elem) {
-                elem.classList.remove('before');
-            }
-            elem = element.querySelector('.active');
-            if (elem) {
-                elem.classList.remove('active');
-            }
-            elem = element.querySelector(`.${priv.numbers[value.toString()]}`);
-            if (elem) {
-                elem.classList.add('active');
-                if (elem[`${dir}ElementSibling`]) {
-                    elem[`${dir}ElementSibling`].classList.add('before');
-                } else {
-                    elem.parentNode[`${child}ElementChild`].classList.add('before');
-                }
-                //elem = element.querySelector(`.${priv.numbers[value.toString()]}`);
-                //if (elem) {
-                //    elem.classList.add('before');
-                //}
-            }
+            this.createFlip(element, value);
+            //elem = element.querySelector('.before');
+            //if (elem) {
+            //    elem.classList.remove('before');
+            //}
             //elem = element.querySelector('.active');
             //if (elem) {
             //    elem.classList.remove('active');
-            //    elem.classList.add('before');
+            //    elem.classList.remove('before');
+            //}
+            //elem = element.querySelector(`.${priv.numbers[value.toString()]}`);
+            //if (elem) {
+            //    elem.classList.add('active');
             //    if (elem[`${dir}ElementSibling`]) {
-            //        elem[`${dir}ElementSibling`].classList.add('active');
+            //        elem[`${dir}ElementSibling`].classList.add('before');
             //    } else {
-            //        elem.parentNode[`${child}ElementChild`].classList.add('active');
+            //        elem.parentNode[`${child}ElementChild`].classList.add('before');
             //    }
             //}
-
         }
         //#endregion updateFlip
         //#region start
