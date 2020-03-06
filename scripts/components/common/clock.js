@@ -1,8 +1,8 @@
 ﻿//#region Import
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
-//import { Window } from '/scripts/components/containers/window.js';
 import { NotifyEvent } from '/scripts/core/events.js';
 import { Tools } from '/scripts/core/tools.js';
+import { Color, Colors } from '/scripts/core/color.js';
 //#endregion Import
 //#region CLOCKMODES
 const CLOCKMODES = Object.freeze(Object.seal({
@@ -10,7 +10,7 @@ const CLOCKMODES = Object.freeze(Object.seal({
     DIGITAL: 'digital', // https://codepen.io/shaman_tito/pen/Ectwp ok
     FLIP: 'flip', // https://codepen.io/fuhye/pen/KKpNzwM
     LED: 'led', // https://codepen.io/killyson26/pen/jOORvJb ok
-    DOT: 'dot', // http://sooncountdown.com/
+    DOTS: 'dots', // http://sooncountdown.com/
     CIRCULAR: 'circular', // https://codepen.io/ahamed-abu-bakr/pen/YzXpOMj
     ROTATE: 'rotate' // https://codepen.io/zhoha/pen/VwLLEJd
 }));
@@ -21,6 +21,20 @@ const CLOCKTYPES = Object.freeze(Object.seal({
     COUNTDOWN: 'countdown'
 }));
 //#endregion CLOCKTYPES
+//#region CLOCKDOTSTYPES
+const CLOCKDOTSTYPES = Object.freeze(Object.seal({
+    SQUARE: 'square',
+    CIRCLE: 'circle'
+}));
+//#endregion CLOCKDOTSTYPES
+//#region CLOCKDOTSANIMATIONDIRECTION
+const CLOCKDOTSANIMATIONDIRECTION = Object.freeze(Object.seal({
+    TOLEFT: 'toTeft',
+    TORIGHT: 'toRight',
+    TOTOP: 'toTop',
+    TOBOTTOM: 'toBottom'
+}));
+//#endregion CLOCKDOTSANIMATIONDIRECTION
 //#region Clock
 const Clock = (() => {
     //#region Private
@@ -46,8 +60,8 @@ const Clock = (() => {
                 const priv = internal(this);
                 priv.startTime = null;
                 priv.handle = null;
-                priv.started = false;
-                priv.paused = false;
+                priv.started = !1;
+                priv.paused = !1;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'mode',
@@ -64,16 +78,35 @@ const Clock = (() => {
                     variable: priv,
                     value: props.hasOwnProperty('type') ? props.type : CLOCKTYPES.CLOCK
                 });
-                priv.showSeconds = props.hasOwnProperty('showSeconds') ? props.showSeconds : false;
-                priv.showDays = props.hasOwnProperty('showDays') ? props.showDays : false;
-                priv.showMonths = props.hasOwnProperty('showMonths') ? props.showMonths : false;
-                priv.showYears = props.hasOwnProperty('showYears') ? props.showYears : false;
+                priv.showSeconds = props.hasOwnProperty('showSeconds') && Tools.isBool(props.showSeconds) ? props.showSeconds : !1;
+                priv.showDays = props.hasOwnProperty('showDays') && Tools.isBool(props.showDays) ? props.showDays : !1;
+                priv.showMonths = props.hasOwnProperty('showMonths') && Tools.isBool(props.showMonths) ? props.showMonths : !1;
+                priv.showYears = props.hasOwnProperty('showYears') && Tools.isBool(props.showYears) ? props.showYears : !1;
                 priv.use24H = Tools.getLocale().date.pm === String.EMPTY;
-                priv.autoStart = props.hasOwnProperty('autoStart') ? props.autoStart : true;
-                priv.alarm = props.hasOwnProperty('alarm') ? props.alarm : null;
-                priv.countDown = props.hasOwnProperty('countDown') ? props.countDown : { seconds: 0 };
+                priv.autoStart = props.hasOwnProperty('autoStart') && Tools.isBool(props.autoStart) ? props.autoStart : true;
+                priv.alarm = props.hasOwnProperty('alarm') && Tools.isObject(props.alarm) ? props.alarm : null;
+                priv.countDown = props.hasOwnProperty('countDown') && Tools.isObject(props.countDown) ? props.countDown : { seconds: 0 };
+                Tools.addPropertyFromEnum({
+                    component: this,
+                    propName: 'dotsType',
+                    enum: CLOCKDOTSTYPES,
+                    forceUpdate: true,
+                    variable: priv,
+                    value: props.hasOwnProperty('dotsType') ? props.dotsType : CLOCKDOTSTYPES.SQUARE
+                });
+                Tools.addPropertyFromEnum({
+                    component: this,
+                    propName: 'dotsAnimationDirection',
+                    enum: CLOCKDOTSANIMATIONDIRECTION,
+                    forceUpdate: true,
+                    variable: priv,
+                    value: props.hasOwnProperty('dotsAnimationDirection') ? props.dotsAnimationDirection : CLOCKDOTSANIMATIONDIRECTION.TOLEFT
+                });
+                priv.dotsGap = props.hasOwnProperty('dotsGap') && Tools.isNumber(props.dotsGap) ? props.dotsGap : 0;
+                priv.dotsFirstColor = props.hasOwnProperty('dotsFirstColor') ? Color.parse(props.dotsFirstColor) : Colors.BLUE;
+                priv.dotsLastColor = props.hasOwnProperty('dotsLastColor') ? Color.parse(props.dotsLastColor) : Colors.BLUE;
                 this.onAlarm = new NotifyEvent(this);
-                this.hitTest.all = false;
+                this.hitTest.all = !1;
                 this.hitTest.mousedown = true;
                 priv.numbers = {
                     '0': 'zero',
@@ -263,7 +296,7 @@ const Clock = (() => {
             const digits = document.createElement(`${tag}-digits`);
             const isClock = priv.type === CLOCKTYPES.CLOCK;
             let num = 1;
-            let isDot = false;
+            let isDot = !1;
             const locale = Tools.getLocale();
             const countDownClassNames = [];
             const date = new Date();
@@ -277,6 +310,7 @@ const Clock = (() => {
             const seconds = (isClock ?
                 date.getSeconds() :
                 priv.countDown.seconds).toString().padStart(2, '0');
+            const PX = Types.CSSUNITS.PX;
             //#endregion Variables déclaration
             Object.keys(CLOCKMODES).forEach(key => {
                 htmlElement.classList.remove(CLOCKMODES[key]);
@@ -375,7 +409,7 @@ const Clock = (() => {
                 div.appendChild(priv.alarmElement);
             }
             for (let i = 0; i < numDigits.length; i++) {
-                isDot = false;
+                isDot = !1;
                 div = document.createElement(`${tag}-number`);
                 if (numDigits[i] !== 'dots') {
                     div.classList.add(`${className}_digit`);
@@ -480,14 +514,16 @@ const Clock = (() => {
                                     maxItem = 10;
                                     break;
                             }
-                            this.createFlip(div, txt);
+                            this.updateFlip(div, txt);
                         }
                         break;
                     //#endregion Flip
-                    //#region DOT
-                    case CLOCKMODES.DOT:
+                    //#region DOTS
+                    case CLOCKMODES.DOTS:
+                        div.classList.add('dots', priv.dotsType);
+                        div.style.gridGap = `${priv.dotsGap}${PX}`;
                         break;
-                    //#endregion DOT
+                    //#endregion DOTS
                 }
                 if (!isDot) {
                     num++;
@@ -498,7 +534,7 @@ const Clock = (() => {
             }
             if (!priv.use24H) {
                 div = document.createElement(`${tag}-meridian`);
-                div.innerHTML = date.getHours() <= 12 ? locale.am : locale.pm;
+                div.innerHTML = date.getHours() <= 12 ? locale.date.am : locale.date.pm;
                 div.classList.add(`${className}_meridian`);
                 digits.appendChild(div);
             }
@@ -507,51 +543,6 @@ const Clock = (() => {
             priv.lastDate = new Date();
         }
         //#endregion prepareContent
-        createFlip(parentElement, txt) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const className = this.constructor.name;
-            const tag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
-            const isClock = priv.type === CLOCKTYPES.CLOCK;
-            //#endregion Variables déclaration
-            parentElement.innerHTML = String.EMPTY;
-            for (let j = 0; j < 2; j++) {
-                let value = j === 0 ? txt - (isClock ? 1 : -1) : txt;
-                if (value > 9) {
-                    value = isClock ? 0 : 0;
-                }
-                if (value < 0 && isClock) {
-                    value = 5;
-                }
-                let div1 = document.createElement(`${tag}-flip`);
-                div1.classList.add(`${className}_digit_flip`, this.themeName, 'Control');
-                div1.classList.add(priv.numbers[j]);
-                if (j === 0) {
-                    div1.classList.add('before');
-                }
-                if (j === 1) {
-                    div1.classList.add('active');
-                }
-                parentElement.appendChild(div1);
-                let div4 = document.createElement(`${tag}-flip-p`);
-                div4.classList.add(`${className}_digit_flip_p`);
-                div1.appendChild(div4);
-                let div2 = document.createElement(`${tag}-flip-up`);
-                div2.classList.add(`${className}_digit_flip_up`, this.themeName, 'Control');
-                div4.appendChild(div2);
-                let div3 = document.createElement(`${tag}-flip-inn`);
-                div3.innerHTML = value;
-                div3.classList.add(`${className}_digit_flip_inn`, this.themeName, 'Control');
-                div2.appendChild(div3);
-                div2 = document.createElement(`${tag}-flip-down`);
-                div2.classList.add(`${className}_digit_flip_down`, this.themeName, 'Control');
-                div4.appendChild(div2);
-                div3 = document.createElement(`${tag}-flip-inn`);
-                div3.classList.add(`${className}_digit_flip_inn`, this.themeName, 'Control');
-                div3.innerHTML = value;
-                div2.appendChild(div3);
-            }
-        }
         //#region loaded
         loaded() {
             //#region Variables déclaration
@@ -634,44 +625,43 @@ const Clock = (() => {
                     minutes = minutes.toString().padStart(2, '0');
                     seconds = seconds.toString().padStart(2, '0');
                 }
-                if (days1 && !isClock && Tools.isNumber(priv.countDown.days)) {
-                    this[func](days1, days[0]);
+                if (days1 && lDays[0] !== days[0]) {
+                    this[func](days1, days[0], 0, 9);
                 }
-                if (days2 && !isClock && Tools.isNumber(priv.countDown.days)) {
-                    this[func](days2, days[1]);
+                if (days2 && lDays[1] !== days[1]) {
+                    this[func](days2, days[1], 0, 9);
                 }
-                if (days3 && !isClock && Tools.isNumber(priv.countDown.days)) {
-                    this[func](days3, days[3]);
+                if (days3 && lDays[2] !== days[2]) {
+                    this[func](days3, days[2], 0, 9);
                 }
                 if (hours1) {
-                    if (isClock && lHours[0] !== hours[0] || !isClock && Tools.isNumber(priv.countDown.hours)) {
-                        this[func](hours1, hours[0]);
+                    if (lHours[0] !== hours[0]) {
+                        this[func](hours1, hours[0], 0, priv.use24H ? 2 : 1);
                     }
                 }
                 if (hours2) {
-                    if (isClock && lHours[1] !== hours[1] || !isClock && Tools.isNumber(priv.countDown.hours)) {
-                        this[func](hours2, hours[1]);
+                    if (lHours[1] !== hours[1]) {
+                        this[func](hours2, hours[1], 0, priv.use24H ? 3 : 2);
                     }
                 }
                 if (minutes1) {
-                    if (isClock && lMinutes[0] !== minutes[0] || !isClock && Tools.isNumber(priv.countDown.minutes)) {
-                        this[func](minutes1, minutes[0]);
+                    if (lMinutes[0] !== minutes[0]) {
+                        this[func](minutes1, minutes[0], 0, 5);
                     }
                 }
                 if (minutes2) {
-                    if (isClock && priv.showSeconds && lMinutes[1] !== minutes[1] ||
-                        !isClock && Tools.isNumber(priv.countDown.minutes) && lMinutes[1] !== minutes[1]) {
-                        this[func](minutes2, minutes[1]);
+                    if (lMinutes[1] !== minutes[1]) {
+                        this[func](minutes2, minutes[1], 0, 9);
                     }
                 }
                 if (seconds1) {
                     if (lSeconds[0] !== seconds[0]) {
-                        this[func](seconds1, seconds[0]);
+                        this[func](seconds1, seconds[0], 0, 5);
                     }
                 }
                 if (seconds2) {
                     if (priv.showSeconds && lSeconds[1] !== seconds[1]) {
-                        this[func](seconds2, seconds[1]);
+                        this[func](seconds2, seconds[1], 0, 9);
                     }
                 }
             }
@@ -714,6 +704,80 @@ const Clock = (() => {
             }
         }
         //#endregion update
+        //#region updateSimple
+        updateSimple(element, value) {
+            element.innerHTML = value;
+        }
+        //#endregion updateSimple
+        //#region updateDigital
+        updateDigital(element, value) {
+            this.updateLed(element, value);
+        }
+        //#endregion updateDigital
+        //#region updateLed
+        updateLed(element, value) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const className = this.constructor.name;
+            //#endregion Variables déclaration
+            Object.keys(priv.numbers).forEach(number => {
+                element.classList.remove(`${className}_${priv.numbers[number]}`);
+            });
+            element.classList.add(`${className}_${priv.numbers[value]}`);
+        }
+        //#endregion updateLed
+        //#region updateFlip
+        updateFlip(element, txt, min, max) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const className = this.constructor.name;
+            const tag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const isClock = priv.type === CLOCKTYPES.CLOCK;
+            //#endregion Variables déclaration
+            parentElement.innerHTML = String.EMPTY;
+            for (let j = 0; j < 2; j++) {
+                let value = j === 0 ? txt - (isClock ? 1 : -1) : txt;
+                if (value > max) {
+                    value = min;
+                }
+                if (value < min) {
+                    value = max;
+                }
+                let div1 = document.createElement(`${tag}-flip`);
+                div1.classList.add(`${className}_digit_flip`, this.themeName, 'Control');
+                div1.classList.add(priv.numbers[j]);
+                if (j === 0) {
+                    div1.classList.add('before');
+                }
+                if (j === 1) {
+                    div1.classList.add('active');
+                }
+                parentElement.appendChild(div1);
+                let div4 = document.createElement(`${tag}-flip-p`);
+                div4.classList.add(`${className}_digit_flip_p`);
+                div1.appendChild(div4);
+                let div2 = document.createElement(`${tag}-flip-up`);
+                div2.classList.add(`${className}_digit_flip_up`, this.themeName, 'Control');
+                div4.appendChild(div2);
+                let div3 = document.createElement(`${tag}-flip-inn`);
+                div3.innerHTML = value;
+                div3.classList.add(`${className}_digit_flip_inn`, this.themeName, 'Control');
+                div2.appendChild(div3);
+                div2 = document.createElement(`${tag}-flip-down`);
+                div2.classList.add(`${className}_digit_flip_down`, this.themeName, 'Control');
+                div4.appendChild(div2);
+                div3 = document.createElement(`${tag}-flip-inn`);
+                div3.classList.add(`${className}_digit_flip_inn`, this.themeName, 'Control');
+                div3.innerHTML = value;
+                div2.appendChild(div3);
+            }
+        }
+        //#endregion updateFlip
+        //#region updateDots
+        updateDots(element, value, min, max) {
+
+        }
+        //#endregion updateDots
         //#region mouseDown
         mouseDown() {
             //#region Variables déclaration
@@ -726,59 +790,13 @@ const Clock = (() => {
             }
         }
         //#endregion mouseDown
-        //#region updateLed
-        updateLed(element, value) {
-            //#region Variables déclaration
-            const className = this.constructor.name;
-            //#endregion Variables déclaration
-            Object.keys(priv.numbers).forEach(number => {
-                element.classList.remove(`${className}_${priv.numbers[number]}`);
-            });
-            element.classList.add(`${className}_${priv.numbers[value]}`);
-        }
-        //#endregion updateLed
-        //#region updateSimple
-        updateSimple(element, value) {
-            element.innerHTML = value;
-        }
-        //#endregion updateSimple
-        //#region updateFlip
-        updateFlip(element, value) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const isClock = priv.type === CLOCKTYPES.CLOCK;
-            const dir = isClock ? 'previous' : 'next';
-            const child = isClock ? 'last' : 'first';
-            let elem;
-            //#endregion Variables déclaration
-            this.createFlip(element, value);
-            //elem = element.querySelector('.before');
-            //if (elem) {
-            //    elem.classList.remove('before');
-            //}
-            //elem = element.querySelector('.active');
-            //if (elem) {
-            //    elem.classList.remove('active');
-            //    elem.classList.remove('before');
-            //}
-            //elem = element.querySelector(`.${priv.numbers[value.toString()]}`);
-            //if (elem) {
-            //    elem.classList.add('active');
-            //    if (elem[`${dir}ElementSibling`]) {
-            //        elem[`${dir}ElementSibling`].classList.add('before');
-            //    } else {
-            //        elem.parentNode[`${child}ElementChild`].classList.add('before');
-            //    }
-            //}
-        }
-        //#endregion updateFlip
         //#region start
         start() {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.started = true;
-            priv.pause = false;
+            priv.pause = !1;
             priv.handle = setInterval(this.update.bind(this), 1000);
         }
         //#endregion start
@@ -798,8 +816,8 @@ const Clock = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (priv.type === CLOCKTYPES.COUNTDOWN) {
-                priv.started = false;
-                priv.pause = false;
+                priv.started = !1;
+                priv.pause = !1;
                 clearInterval(priv.handle);
             }
         }
@@ -810,7 +828,7 @@ const Clock = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (priv.type === CLOCKTYPES.COUNTDOWN && priv.started) {
-                priv.paused = false;
+                priv.paused = !1;
             }
         }
         //#endregion resume
@@ -886,4 +904,12 @@ export { Clock };
  *https://codepen.io/vAhyThe/pen/ZEYjqrj -> dot
  *https://codepen.io/jxglwdco/pen/LYExqOR -> dot
  *https://codepen.io/sandeep-krishna/pen/xxxyQbX -> three js
-*/
+ * .000.  .11..  .222.  .333.  ..444  55555  .666.  77777  .888.  .999.
+ * 00.00  111..  22.22  33.33  .4.44  55...  66...  ...77  88.88  99.99
+ * 00.00  .11..  ...22  ...33  44.44  55...  6666.  ...77  88.88  99.99
+ * 00.00  .11..  ..22.  ..33.  44444  5555.  66.66  ..77.  .888.  99.99
+ * 00.00  .11..  .22..  ...33  ...44  ...55  66.66  .77..  88.88  .9999
+ * 00.00  .11..  22...  33.33  ...44  55.55  66.66  77...  88.88  ...99
+ * .000.  1111.  22222  .333.  ...44  .555.  .666.  77...  .888.  .999.
+ *
+*/     

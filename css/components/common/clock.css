@@ -589,3 +589,13 @@
         opacity: 0;
     }
 }
+
+.Clock_digit.dots.square {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.Clock_dots.circle {
+    border-radius: 50%;
+}
