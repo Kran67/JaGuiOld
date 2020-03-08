@@ -3,6 +3,7 @@ import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { NotifyEvent } from '/scripts/core/events.js';
 import { Tools } from '/scripts/core/tools.js';
 import { Color, Colors } from '/scripts/core/color.js';
+import { Interpolation } from '/scripts/core/interpolations.js';
 //#endregion Import
 //#region CLOCKMODES
 const CLOCKMODES = Object.freeze(Object.seal({
@@ -21,20 +22,27 @@ const CLOCKTYPES = Object.freeze(Object.seal({
     COUNTDOWN: 'countdown'
 }));
 //#endregion CLOCKTYPES
-//#region CLOCKDOTSTYPES
-const CLOCKDOTSTYPES = Object.freeze(Object.seal({
+//#region DOTSTYPES
+const DOTSTYPES = Object.freeze(Object.seal({
     SQUARE: 'square',
     CIRCLE: 'circle'
 }));
-//#endregion CLOCKDOTSTYPES
-//#region CLOCKDOTSANIMATIONDIRECTION
-const CLOCKDOTSANIMATIONDIRECTION = Object.freeze(Object.seal({
-    TOLEFT: 'toTeft',
-    TORIGHT: 'toRight',
-    TOTOP: 'toTop',
-    TOBOTTOM: 'toBottom'
+//#endregion DOTSTYPES
+//#region DOTSANIMATIONDIRECTION
+const DOTSANIMATIONDIRECTION = Object.freeze(Object.seal({
+    TOLEFT: 'toleft',
+    TORIGHT: 'toright',
+    TOTOP: 'totop',
+    TOBOTTOM: 'tobottom'
 }));
-//#endregion CLOCKDOTSANIMATIONDIRECTION
+//#endregion DOTSANIMATIONDIRECTION
+//#region DOTSANIMATIONTYPES
+const DOTSANIMATIONTYPES = Object.freeze(Object.seal({
+    FADE: 'fade',
+    SLIDE: 'slide',
+    ROTOZOOM: 'rotozoom'
+}));
+//#endregion DOTSANIMATIONTYPES
 //#region Clock
 const Clock = (() => {
     //#region Private
@@ -89,25 +97,96 @@ const Clock = (() => {
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'dotsType',
-                    enum: CLOCKDOTSTYPES,
+                    enum: DOTSTYPES,
                     forceUpdate: true,
                     variable: priv,
-                    value: props.hasOwnProperty('dotsType') ? props.dotsType : CLOCKDOTSTYPES.SQUARE
+                    setter: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const htmlElement = this.HTMLElement;
+                        const elems = htmlElement.querySelectorAll(`.${priv.dotsType}`);
+                        //#endregion Variables déclaration
+                        if (Tools.valueInSet(newValue, DOTSTYPES)) {
+                            if (priv.dotsType !== newValue) {
+                                elems.forEach(elem => {
+                                    elem.classList.remove(priv.dotsType);
+                                });
+                                htmlElement.querySelectorAll('.Clock_dots').forEach(elem => {
+                                    elem.classList.remove(priv.dotsType);
+                                });
+                                priv.dotsType = newValue;
+                                elems.forEach(elem => {
+                                    elem.classList.add(priv.dotsType);
+                                });
+                                htmlElement.querySelectorAll('.Clock_dots').forEach(elem => {
+                                    elem.classList.add(priv.dotsType);
+                                });
+                            }
+                        }
+                    },
+                    value: props.hasOwnProperty('dotsType') ? props.dotsType : DOTSTYPES.SQUARE
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'dotsAnimationDirection',
-                    enum: CLOCKDOTSANIMATIONDIRECTION,
+                    enum: DOTSANIMATIONDIRECTION,
                     forceUpdate: true,
                     variable: priv,
-                    value: props.hasOwnProperty('dotsAnimationDirection') ? props.dotsAnimationDirection : CLOCKDOTSANIMATIONDIRECTION.TOLEFT
+                    setter: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const htmlElement = this.HTMLElement;
+                        const elems = htmlElement.querySelectorAll('.Clock_dot');
+                        //#endregion Variables déclaration
+                        if (Tools.valueInSet(newValue, DOTSANIMATIONDIRECTION)) {
+                            if (priv.dotsAnimationDirection !== newValue) {
+                                elems.forEach(elem => {
+                                    elem.classList.remove(priv.dotsAnimationDirection);
+                                });
+                                priv.dotsAnimationDirection = newValue;
+                                if (priv.dotsAnimationType === DOTSANIMATIONTYPES.SLIDE) {
+                                    elems.forEach(elem => {
+                                        elem.classList.add(priv.dotsAnimationDirection);
+                                    });
+                                }
+                            }
+                        }
+                    },
+                    value: props.hasOwnProperty('dotsAnimationDirection') ? props.dotsAnimationDirection : DOTSANIMATIONDIRECTION.TOLEFT
                 });
-                priv.dotsGap = props.hasOwnProperty('dotsGap') && Tools.isNumber(props.dotsGap) ? props.dotsGap : 0;
-                priv.dotsFirstColor = props.hasOwnProperty('dotsFirstColor') ? Color.parse(props.dotsFirstColor) : Colors.BLUE;
-                priv.dotsLastColor = props.hasOwnProperty('dotsLastColor') ? Color.parse(props.dotsLastColor) : Colors.BLUE;
+                priv.dotsGap = props.hasOwnProperty('dotsGap') && Tools.isNumber(props.dotsGap) ? props.dotsGap : 1;
+                priv.dotsFirstColor = props.hasOwnProperty('dotsFirstColor') ? Color.parse(props.dotsFirstColor) : Color.parse('#3559ff');
+                priv.dotsLastColor = props.hasOwnProperty('dotsLastColor') ? Color.parse(props.dotsLastColor) : Color.parse('#0a1854');
+                Tools.addPropertyFromEnum({
+                    component: this,
+                    propName: 'dotsAnimationType',
+                    enum: DOTSANIMATIONTYPES,
+                    forceUpdate: true,
+                    variable: priv,
+                    setter: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const htmlElement = this.HTMLElement;
+                        const elems = htmlElement.querySelectorAll('.Clock_dot');
+                        //#endregion Variables déclaration
+                        if (Tools.valueInSet(newValue, DOTSANIMATIONTYPES)) {
+                            if (priv.dotsAnimationType !== newValue) {
+                                elems.forEach(elem => {
+                                    elem.classList.remove('slide', 'rotozoom', 'fade');
+                                });
+                                priv.dotsAnimationType = newValue;
+                                elems.forEach(elem => {
+                                    elem.classList.add(priv.dotsAnimationType);
+                                });
+                            }
+                        }
+                    },
+                    value: props.hasOwnProperty('dotsAnimationType') ? props.dotsAnimationType : DOTSANIMATIONTYPES.FADE
+                });
                 this.onAlarm = new NotifyEvent(this);
                 this.hitTest.all = !1;
                 this.hitTest.mousedown = true;
+                priv.dotsGap = priv.dotsGap > 2 ? 2 : priv.dotsGap;
                 priv.numbers = {
                     '0': 'zero',
                     '1': 'one',
@@ -120,10 +199,129 @@ const Clock = (() => {
                     '8': 'eight',
                     '9': 'nine'
                 };
+                //#region dotMatrix
+                priv.dotMatrix = {
+                    '0': [
+                        [!1, !0, !0, !0, !1],
+                        [!0, !0, !1, !0, !0],
+                        [!0, !0, !1, !0, !0],
+                        [!0, !0, !1, !0, !0],
+                        [!0, !0, !1, !0, !0],
+                        [!0, !0, !1, !0, !0],
+                        [!1, !0, !0, !0, !1]
+                    ],
+                    '1': [
+                        [!1, !0, !0, !1, !1],
+                        [!0, !0, !0, !1, !1],
+                        [!1, !0, !0, !1, !1],
+                        [!1, !0, !0, !1, !1],
+                        [!1, !0, !0, !1, !1],
+                        [!1, !0, !0, !1, !1],
+                        [!0, !0, !0, !0, !1]
+                    ],
+                    '2': [
+                        [!1, !0, !0, !0, !1],
+                        [!0, !0, !1, !0, !0],
+                        [!1, !1, !1, !0, !0],
+                        [!1, !1, !0, !0, !1],
+                        [!1, !0, !0, !1, !1],
+                        [!0, !0, !1, !1, !1],
+                        [!0, !0, !0, !0, !0]
+                    ],
+                    '3': [
+                        [!1, !0, !0, !0, !1],
+                        [!0, !0, !1, !0, !0],
+                        [!1, !1, !1, !0, !0],
+                        [!1, !1, !0, !0, !1],
+                        [!1, !1, !1, !0, !0],
+                        [!0, !0, !1, !0, !0],
+                        [!1, !0, !0, !0, !1]
+                    ],
+                    '4': [
+                        [!1, !1, !0, !0, !0],
+                        [!1, !0, !1, !0, !0],
+                        [!0, !0, !1, !0, !0],
+                        [!0, !0, !0, !0, !0],
+                        [!1, !1, !1, !0, !0],
+                        [!1, !1, !1, !0, !0],
+                        [!1, !1, !1, !0, !0]
+                    ],
+                    '5': [
+                        [!0, !0, !0, !0, !0],
+                        [!0, !0, !1, !1, !1],
+                        [!0, !0, !1, !1, !1],
+                        [!0, !0, !0, !0, !1],
+                        [!1, !1, !1, !0, !0],
+                        [!0, !0, !1, !0, !0],
+                        [!1, !0, !0, !0, !1]
+                    ],
+                    '6': [
+                        [!1, !0, !0, !0, !1],
+                        [!0, !0, !1, !1, !1],
+                        [!0, !0, !0, !0, !1],
+                        [!0, !0, !1, !0, !0],
+                        [!0, !0, !1, !0, !0],
+                        [!0, !0, !1, !0, !0],
+                        [!1, !0, !0, !0, !1]
+                    ],
+                    '7': [
+                        [!0, !0, !0, !0, !0],
+                        [!1, !1, !1, !0, !0],
+                        [!1, !1, !1, !0, !0],
+                        [!1, !1, !0, !0, !1],
+                        [!1, !0, !0, !1, !1],
+                        [!0, !0, !1, !1, !1],
+                        [!0, !0, !1, !1, !1]
+                    ],
+                    '8': [
+                        [!1, !0, !0, !0, !1],
+                        [!0, !0, !1, !0, !0],
+                        [!0, !0, !1, !0, !0],
+                        [!1, !0, !0, !0, !1],
+                        [!0, !0, !1, !0, !0],
+                        [!0, !0, !1, !0, !0],
+                        [!1, !0, !0, !0, !1]
+                    ],
+                    '9': [
+                        [!1, !0, !0, !0, !1],
+                        [!0, !0, !1, !0, !0],
+                        [!0, !0, !1, !0, !0],
+                        [!0, !0, !1, !0, !0],
+                        [!1, !0, !0, !0, !0],
+                        [!1, !1, !1, !0, !0],
+                        [!1, !0, !0, !0, !1]
+                    ]
+                };
+                //#endregion dotMatrix
             }
         }
         //#endregion constructor
         //#region Getters / Setters
+        //#region CLOCKMODES
+        static get CLOCKMODES() {
+            return CLOCKMODES;
+        }
+        //#endregion CLOCKMODES
+        //#region CLOCKTYPES
+        static get CLOCKTYPES() {
+            return CLOCKTYPES;
+        }
+        //#endregion CLOCKTYPES
+        //#region DOTSTYPES
+        static get DOTSTYPES() {
+            return DOTSTYPES;
+        }
+        //#endregion DOTSTYPES
+        //#region DOTSANIMATIONDIRECTION
+        static get DOTSANIMATIONDIRECTION() {
+            return DOTSANIMATIONDIRECTION;
+        }
+        //#endregion DOTSANIMATIONDIRECTION
+        //#region DOTSANIMATIONTYPES
+        static get DOTSANIMATIONTYPES() {
+            return DOTSANIMATIONTYPES;
+        }
+        //#endregion DOTSANIMATIONTYPES
         //#region mode
         get mode() {
             return internal(this).mode;
@@ -256,6 +454,9 @@ const Clock = (() => {
             return internal(this).countDown;
         }
         set countDown(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (Tools.isObject(newValue) && (newValue.days || newValue.hours || newValue.minutes || newValue.seconds)) {
                 this.stop();
                 if (newValue.days) {
@@ -276,6 +477,26 @@ const Clock = (() => {
             }
         }
         //#endregion countDown
+        //#region dotsGap
+        get dotsGap() {
+            return internal(this).dotsGap;
+        }
+        set dotsGap(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const PX = Types.CSSUNITS.PX;
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
+                if (priv.dotsGap !== newValue) {
+                    newValue = Math.max(0, Math.min(newValue, 2));
+                    priv.dotsGap = newValue;
+                    this.HTMLElement.querySelectorAll('.Clock_digit').forEach(elem => {
+                        elem.style.gridGap = `${priv.dotsGap}${PX}`;
+                    });
+                }
+            }
+        }
+        //#endregion dotsGap
         //#endregion Getters / Setters
         //#region Methods
         //#region clearContent
@@ -290,7 +511,7 @@ const Clock = (() => {
             const htmlElement = this.HTMLElement;
             const className = this.constructor.name;
             const tag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
-            let div, div1;
+            let div, div1, svg;
             const numDigits = [];
             const weekdays = document.createElement(`${tag}-weekdays`);
             const digits = document.createElement(`${tag}-digits`);
@@ -311,6 +532,10 @@ const Clock = (() => {
                 date.getSeconds() :
                 priv.countDown.seconds).toString().padStart(2, '0');
             const PX = Types.CSSUNITS.PX;
+            const SVG = Types.SVG.SVG;
+            const XMLNS = Types.SVG.XMLNS;
+            let value, max;
+            let c = Math.PI * 40;
             //#endregion Variables déclaration
             Object.keys(CLOCKMODES).forEach(key => {
                 htmlElement.classList.remove(CLOCKMODES[key]);
@@ -331,40 +556,54 @@ const Clock = (() => {
                         limit++;
                         countDownLabels.push(Tools.getLocale().date.daysLabel);
                         numDigits.push('days');
-                        numDigits.push('days');
-                        numDigits.push('days');
-                        numDigits.push('dots');
+                        if (priv.mode !== CLOCKMODES.CIRCULAR) {
+                            numDigits.push('days');
+                            numDigits.push('days');
+                            numDigits.push('dots');
+                        }
                         countDownClassNames.push('days');
                     }
                     if (~~days + ~~hours > 0) {
                         limit++;
                         countDownLabels.push(Tools.getLocale().date.hoursLabel);
                         numDigits.push('hours');
-                        numDigits.push('hours');
-                        numDigits.push('dots');
+                        if (priv.mode !== CLOCKMODES.CIRCULAR) {
+                            numDigits.push('hours');
+                            numDigits.push('dots');
+                        }
                         countDownClassNames.push('hours');
                     }
                     if (~~days + ~~hours + ~~minutes > 0) {
                         limit++;
                         countDownLabels.push(Tools.getLocale().date.minutesLabel);
                         numDigits.push('minutes');
-                        numDigits.push('minutes');
-                        numDigits.push('dots');
+                        if (priv.mode !== CLOCKMODES.CIRCULAR) {
+                            numDigits.push('minutes');
+                            numDigits.push('dots');
+                        }
                         countDownClassNames.push('minutes');
                     }
                     countDownLabels.push(Tools.getLocale().date.secondsLabel);
-                    numDigits.push('seconds');
-                    numDigits.push('seconds');
+                    if (priv.mode !== CLOCKMODES.CIRCULAR) {
+                        numDigits.push('seconds');
+                        numDigits.push('seconds');
+                    }
                     countDownClassNames.push('seconds');
                 } else {
                     numDigits.push('hours');
-                    numDigits.push('hours');
-                    numDigits.push('dots');
-                    numDigits.push('minutes');
-                    numDigits.push('minutes');
-                    if (priv.showSeconds) {
+                    if (priv.mode !== CLOCKMODES.CIRCULAR) {
+                        numDigits.push('hours');
                         numDigits.push('dots');
-                        numDigits.push('seconds');
+                    }
+                    numDigits.push('minutes');
+                    if (priv.mode !== CLOCKMODES.CIRCULAR) {
+                        numDigits.push('minutes');
+                    }
+                    if (priv.showSeconds) {
+                        if (priv.mode !== CLOCKMODES.CIRCULAR) {
+                            numDigits.push('dots');
+                            numDigits.push('seconds');
+                        }
                         numDigits.push('seconds');
                     }
                 }
@@ -443,12 +682,47 @@ const Clock = (() => {
                     //#endregion SIMPLE
                     //#region CIRCULAR
                     case CLOCKMODES.CIRCULAR:
+                        switch (numDigits[i]) {
+                            case 'days':
+                                div.dataset.value = value = days;
+                                max = ~~priv.countDown.days;
+                                break;
+                            case 'hours':
+                                div.dataset.value = value = hours;
+                                max = 23;
+                                break;
+                            case 'minutes':
+                                div.dataset.value = value = minutes;
+                                max = 59;
+                                break;
+                            case 'seconds':
+                                div.dataset.value = value = seconds;
+                                max = 59;
+                                break;
+                        }
+                        svg = document.createElementNS(XMLNS, SVG);
+                        div1 = document.createElementNS(XMLNS, Types.SHAPES.CIRCLE);
+                        div1.classList.add('Control', 'ClockDigit_Circular_back', this.themeName);
+                        div1.setAttribute('cx', '50%');
+                        div1.setAttribute('cy', '50%');
+                        div1.setAttribute('r', '20');
+                        svg.appendChild(div1);
+                        div1 = document.createElementNS(XMLNS, Types.SHAPES.CIRCLE);
+                        div1.classList.add('Control', 'ClockDigit_Circular_progress', this.themeName);
+                        div1.setAttribute('cx', '50%');
+                        div1.setAttribute('cy', '50%');
+                        div1.setAttribute('r', '20');
+                        div1.setAttribute('stroke-dasharray', c);
+                        div1.setAttribute('stroke-linecap', 'round');
+                        div1.style.strokeDashoffset = c - ((c * ~~value) / max);
+                        svg.appendChild(div1);
+                        div.appendChild(svg);
                         break;
                     //#endregion CIRCULAR
                     //#region DIGITAL & LED 
                     case CLOCKMODES.DIGITAL:
                     case CLOCKMODES.LED:
-                        {
+                        if (!isDot) {
                             //https://codepen.io/shaman_tito/pen/Ectwp
                             let value = 0;
                             switch (numDigits[i]) {
@@ -468,11 +742,9 @@ const Clock = (() => {
 
                             div.classList.add(`${className}_${priv.numbers[value]}`);
                             for (let j = 0; j < 7; j++) {
-                                if (!isDot) {
-                                    div1 = document.createElement(`${tag}-digit`);
-                                    div1.classList.add(`${className}_digit_d${j + 1}`, this.themeName);
-                                    div.appendChild(div1);
-                                }
+                                div1 = document.createElement(`${tag}-digit`);
+                                div1.classList.add(`${className}_digit_d${j + 1}`, this.themeName);
+                                div.appendChild(div1);
                             }
                         }
                         break;
@@ -520,14 +792,49 @@ const Clock = (() => {
                     //#endregion Flip
                     //#region DOTS
                     case CLOCKMODES.DOTS:
-                        div.classList.add('dots', priv.dotsType);
-                        div.style.gridGap = `${priv.dotsGap}${PX}`;
+                        if (!isDot) {
+                            let matrix = priv.dotMatrix[i];
+                            switch (numDigits[i]) {
+                                case 'days':
+                                    matrix = priv.dotMatrix[days[num - 1]];
+                                    break;
+                                case 'hours':
+                                    matrix = priv.dotMatrix[hours[num - 1]];
+                                    break;
+                                case 'minutes':
+                                    matrix = priv.dotMatrix[minutes[num - 1]];
+                                    break;
+                                case 'seconds':
+                                    matrix = priv.dotMatrix[seconds[num - 1]];
+                                    break;
+                            }
+                            div.classList.add('dots', priv.dotsType);
+                            div.style.gridGap = `${priv.dotsGap}${PX}`;
+                            for (let y = 0; y < 7; y++) {
+                                for (let x = 0; x < 5; x++) {
+                                    const dot = document.createElement(`${tag}-dot`);
+                                    dot.classList.add(`${className}_dot`, priv.dotsAnimationDirection, this.themeName, priv.dotsAnimationType);
+                                    //dot.style.backgroundColor = x === 0 ?
+                                    //    priv.dotsFirstColor.toRGBHexString() :
+                                    //    x === 4 ?
+                                    //        priv.dotsLastColor.toRGBHexString() :
+                                    //        Interpolation.color(priv.dotsFirstColor, priv.dotsLastColor, (x + 1) / 5).toRGBHexString();
+                                    if (matrix[y][x]) {
+                                        dot.classList.add('active');
+                                    }
+                                    div.appendChild(dot);
+                                }
+                            }
+                        }
                         break;
                     //#endregion DOTS
                 }
                 if (!isDot) {
                     num++;
                     if (num > 2) {
+                        num = 1;
+                    }
+                    if (priv.mode === CLOCKMODES.CIRCULAR) {
                         num = 1;
                     }
                 }
@@ -566,6 +873,7 @@ const Clock = (() => {
             const priv = internal(this);
             const date = new Date();
             const isClock = priv.type === CLOCKTYPES.CLOCK;
+            const isCircular = priv.mode === CLOCKMODES.CIRCULAR;
             let days = (priv.countDown.days ? priv.countDown.days : 0).toString().padStart(3, '0');
             let hours = (isClock ?
                 date.getHours() - (!priv.use24H && date.getHours() > 12 ? 12 : 0) :
@@ -625,8 +933,8 @@ const Clock = (() => {
                     minutes = minutes.toString().padStart(2, '0');
                     seconds = seconds.toString().padStart(2, '0');
                 }
-                if (days1 && lDays[0] !== days[0]) {
-                    this[func](days1, days[0], 0, 9);
+                if (days1 && lDays[0] !== days[0] || isCircular && lDays !== days) {
+                    this[func](days1, !isCircular ? days[0] : days, 0, 9);
                 }
                 if (days2 && lDays[1] !== days[1]) {
                     this[func](days2, days[1], 0, 9);
@@ -635,8 +943,8 @@ const Clock = (() => {
                     this[func](days3, days[2], 0, 9);
                 }
                 if (hours1) {
-                    if (lHours[0] !== hours[0]) {
-                        this[func](hours1, hours[0], 0, priv.use24H ? 2 : 1);
+                    if (lHours[0] !== hours[0] || isCircular && lHours !== hours) {
+                        this[func](hours1, !isCircular ? hours[0] : hours, 0, !isCircular ? (priv.use24H ? 2 : 1) : 23);
                     }
                 }
                 if (hours2) {
@@ -645,8 +953,8 @@ const Clock = (() => {
                     }
                 }
                 if (minutes1) {
-                    if (lMinutes[0] !== minutes[0]) {
-                        this[func](minutes1, minutes[0], 0, 5);
+                    if (lMinutes[0] !== minutes[0] || isCircular && lMinutes !== minutes) {
+                        this[func](minutes1, !isCircular ? minutes[0] : minutes, 0, !isCircular ? 5 : 59);
                     }
                 }
                 if (minutes2) {
@@ -655,8 +963,8 @@ const Clock = (() => {
                     }
                 }
                 if (seconds1) {
-                    if (lSeconds[0] !== seconds[0]) {
-                        this[func](seconds1, seconds[0], 0, 5);
+                    if (lSeconds[0] !== seconds[0] || isCircular && lSeconds !== seconds) {
+                        this[func](seconds1, !isCircular ? seconds[0] : seconds, 0, !isCircular ? 5 : 59);
                     }
                 }
                 if (seconds2) {
@@ -774,10 +1082,37 @@ const Clock = (() => {
         }
         //#endregion updateFlip
         //#region updateDots
-        updateDots(element, value, min, max) {
-
+        updateDots(element, value) {
+            const priv = internal(this);
+            const matrix = priv.dotMatrix[value];
+            let i = 0;
+            let elem;
+            for (let y = 0; y < 7; y++) {
+                for (let x = 0; x < 5; x++) {
+                    elem = element.children[i];
+                    if (matrix[y][x]) {
+                        elem.classList.add('active');
+                    } else {
+                        elem.classList.remove('active');
+                    }
+                    i++;
+                }
+            }
         }
         //#endregion updateDots
+        //#region updateCircular
+        updateCircular(element, value, min, max) {
+            //#region Variables déclaration
+            const circle = element.querySelectorAll('circle')[1];
+            const r = ~~circle.getAttribute('r');
+            const c = Math.PI * (r * 2);
+            const pct = c - ((c * ~~value) / max);
+            //#endregion Variables déclaration
+            circle.setAttribute('stroke-dasharray', c);
+            circle.style.strokeDashoffset = pct;
+            element.dataset.value = value;
+        }
+        //#endregion updateCircular
         //#region mouseDown
         mouseDown() {
             //#region Variables déclaration
@@ -904,12 +1239,6 @@ export { Clock };
  *https://codepen.io/vAhyThe/pen/ZEYjqrj -> dot
  *https://codepen.io/jxglwdco/pen/LYExqOR -> dot
  *https://codepen.io/sandeep-krishna/pen/xxxyQbX -> three js
- * .000.  .11..  .222.  .333.  ..444  55555  .666.  77777  .888.  .999.
- * 00.00  111..  22.22  33.33  .4.44  55...  66...  ...77  88.88  99.99
- * 00.00  .11..  ...22  ...33  44.44  55...  6666.  ...77  88.88  99.99
- * 00.00  .11..  ..22.  ..33.  44444  5555.  66.66  ..77.  .888.  99.99
- * 00.00  .11..  .22..  ...33  ...44  ...55  66.66  .77..  88.88  .9999
- * 00.00  .11..  22...  33.33  ...44  55.55  66.66  77...  88.88  ...99
- * .000.  1111.  22222  .333.  ...44  .555.  .666.  77...  .888.  .999.
  *
-*/     
+ *
+*/

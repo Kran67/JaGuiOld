@@ -434,8 +434,6 @@ class Tools {
                 }
             }
         };
-        //params.component[params.propName] = params.value;
-        //params.variable = params.value;
         Object.defineProperty(params.component, params.propName, {
             get: () => { return params.variable[params.propName]; },
             set: setter,

@@ -77,3 +77,25 @@
     text-shadow: 0 1px 2px #000;
     background-color: #333;
 }
+
+.carbon.Clock_dot {
+    background-color: var(--icon-color);
+}
+
+.carbon.Clock.circular .carbon.Clock_digit {
+    border: 1px solid #303030;
+}
+
+.carbon.Clock.circular .carbon.Clock_digit:after {
+    border: 1px solid #303030;
+}
+
+.carbon.ClockDigit_Circular_back {
+    stroke: #4A4A4A;
+    fill: transparent;
+    stroke-width: 8px;
+}
+
+.carbon.ClockDigit_Circular_progress {
+    stroke: #B48625;
+}

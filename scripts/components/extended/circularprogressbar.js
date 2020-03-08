@@ -167,6 +167,7 @@ const CircularProgressBar = (() => {
                 priv.progress.setAttribute('cx', '50%');
                 priv.progress.setAttribute('cy', '50%');
                 priv.progress.setAttribute('r', '20');
+                priv.progress.setAttribute('stroke-linecap', 'round');
                 priv.svg.appendChild(priv.backCircle);
                 priv.svg.appendChild(priv.progress);
                 htmlElement.appendChild(priv.svg);

@@ -5,9 +5,9 @@
     z-index: 0;
 }
 
-.Control.Clock.countdown {
-    padding: 5px 5px 0 5px;
-}
+    .Control.Clock.countdown {
+        padding: 5px 5px 0 5px;
+    }
 
     .Control.Clock.simple .Clock_digit {
         justify-content: center;
@@ -58,12 +58,12 @@
         opacity: 1;
     }
 
-    .Clock_alarm.active.on {
-        animation-name: blinker;
-        animation-duration: 1s;
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
-    }
+        .Clock_alarm.active.on {
+            animation-name: blinker;
+            animation-duration: 1s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
 
 .Clock_meridian {
     align-self: flex-end;
@@ -590,12 +590,117 @@
     }
 }
 
-.Clock_digit.dots.square {
+.Clock_digit.dots {
+    width: 35px;
+    height: 49px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    background-image: none;
+    overflow: hidden;
 }
 
+    .Clock_digit.dots.circle * {
+        border-radius: 50%;
+    }
+
+.Clock_dot {
+    transition: transform .5s ease-in-out,opacity .5s ease-in-out;
+}
+
+    .Clock_dot.fade.active,
+    .Clock_dot.fade.active,
+    .Clock_dot.fade.active,
+    .Clock_dot.fade.active,
+    .Clock_dot.slide.toleft.active,
+    .Clock_dot.slide.toright.active,
+    .Clock_dot.slide.totop.active,
+    .Clock_dot.slide.tobottom.active,
+    .Clock_dot.toleft.active,
+    .Clock_dot.toright.active,
+    .Clock_dot.totop.active,
+    .Clock_dot.tobottom.active {
+        transform: none;
+        opacity: 1;
+    }
+
+.Clock_dot,
+.Clock_dot,
+.Clock_dot,
+.Clock_dot {
+    opacity: 0;
+}
+
+    .Clock_dot.rotozoom,
+    .Clock_dot.rotozoom,
+    .Clock_dot.rotozoom,
+    .Clock_dot.rotozoom {
+        transform: scale(0.2) rotate(90deg);
+    }
+
+    .Clock_dot.slide.toleft {
+        transform: translateX(-100%);
+    }
+
+    .Clock_dot.slide.toright {
+        transform: translateX(100%);
+    }
+
+    .Clock_dot.slide.totop {
+        transform: translateY(-100%);
+    }
+
+    .Clock_dot.slide.tobottom {
+        transform: translateY(100%);
+    }
+
 .Clock_dots.circle {
+    background: none;
+}
+
+    .Clock_dots.circle:before,
+    .Clock_dots.circle:after {
+        border-radius: 50%;
+    }
+
+
+.Clock.circular .Clock_digits {
+    justify-content: space-between;
+}
+
+.Clock.circular .Clock_digit {
+    width: 50px;
+    height: 50px;
+}
+
+    .Clock.circular .Clock_digit svg {
+        width: 100%;
+        height: 100%;
+    }
+
+.Control.Clock.circular .Clock_digit {
     border-radius: 50%;
+}
+
+    .Control.Clock.circular .Clock_digit:after {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        left: 8px;
+        bottom: 8px;
+        content: attr(data-value);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        box-sizing: border-box;
+    }
+
+.ClockDigit_Circular_progress {
+    fill: transparent;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s linear;
+    transform-origin: center center;
+    transform: rotate(-90deg);
+    stroke-width: 5px;
 }
