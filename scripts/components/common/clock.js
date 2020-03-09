@@ -100,10 +100,10 @@ const Clock = (() => {
                 if (priv.countDown.hours && priv.countDown.hours > 23) {
                     priv.countDown.hours = 23;
                 }
-                if (priv.countDown.minutes && priv.countDown.days> 59) {
+                if (priv.countDown.minutes && priv.countDown.days > 59) {
                     priv.countDown.minutes = 59;
                 }
-                if (priv.countDown.seconds && priv.countDown.seconds> 59) {
+                if (priv.countDown.seconds && priv.countDown.seconds > 59) {
                     priv.countDown.seconds = 59;
                 }
                 Tools.addPropertyFromEnum({
@@ -766,31 +766,58 @@ const Clock = (() => {
                     //#region ROTATE
                     case CLOCKMODES.ROTATE:
                         if (!isDot) {
+                            let a = [];
                             value = 0;
                             switch (numDigits[i]) {
-                            case 'days':
-                                value = days[num - 1];
-                                max = 10;
-                                break;
-                            case 'hours':
-                                value = hours[num - 1];
-                                max = num === 1 ? 3 : 10;
-                                break;
-                            case 'minutes':
-                                value = minutes[num - 1];
-                                max = num === 1 ? 6 : 10;
-                                break;
-                            case 'seconds':
-                                value = seconds[num - 1];
-                                max = num === 1 ? 6 : 10;
-                                break;
-                            }
+                                case 'days':
+                                    value = days[num - 1];
+                                    max = 10;
 
+                                    break;
+                                case 'hours':
+                                    value = hours[num - 1];
+                                    max = num === 1 ? 3 : 10;
+                                    break;
+                                case 'minutes':
+                                    value = minutes[num - 1];
+                                    max = num === 1 ? 6 : 10;
+                                    break;
+                                case 'seconds':
+                                    value = seconds[num - 1];
+                                    max = num === 1 ? 6 : 10;
+                                    break;
+                            }
+                            for (let j = 0; j < max; j++) {
+                                c = (j + 1) + ~~value;
+                                if (c > max) {
+                                    c -= max;
+                                }
+                                a[c] = j + 1;
+                            }
                             div.classList.add(`${className}_wheels`);
                             for (let j = 0; j < max; j++) {
                                 div1 = document.createElement(`${tag}-wheel`);
                                 div1.innerHTML = j;
-                                //div1.classList.add(`${className}_digit_d${j + 1}`, this.themeName);
+                                div1.classList.add(`${className}_wheel`);
+                                switch (numDigits[i]) {
+                                    case 'days':
+
+                                        break;
+                                    case 'hours':
+                                        div1.style.animation = num === 1 ? `three${a[j + 1]} 108000s cubic-bezier(1, 0, 1, 0) infinite` : `ten${a[j + 1]} 36000s cubic-bezier(1, 0, 1, 0) infinite`;
+                                        //div1.style.animationDelay = num === 1 ? '-8067s' : '-867s';
+                                        break;
+                                    case 'minutes':
+                                        div1.style.animation = num === 1 ? `six${a[j + 1]} 3600s cubic-bezier(1, 0, 1, 0) infinite` : `ten${a[j + 1]} 600s cubic-bezier(1, 0, 1, 0) infinite`;
+                                        div1.style.animationDelay = num === 1 ? '-267s' : '-27s';
+                                        break;
+                                    case 'seconds':
+                                        div1.style.animation = num === 1 ? `six${a[j + 1]} 60s cubic-bezier(1, 0, 1, 0) infinite` : `ten${a[j + 1]} 10s cubic-bezier(0.9, 0, 0.9, 0) infinite`;
+                                        if (num === 1) {
+                                            div1.style.animationDelay = '-7s';
+                                        }
+                                        break;
+                                }
                                 div.appendChild(div1);
                             }
                         }
@@ -1149,6 +1176,9 @@ const Clock = (() => {
             element.dataset.value = value;
         }
         //#endregion updateCircular
+        //#region updateRotate
+        updateRotate() { }
+        //#endregion updateRotate
         //#region mouseDown
         mouseDown() {
             //#region Variables déclaration

@@ -706,12 +706,19 @@
 }
 
 .Clock_wheels {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
     font-size: 40pt;
     overflow: hidden;
+}
+
+.Clock_wheel {
+    position: absolute;
+    backface-visibility: hidden;
+    line-height: 1;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    right: 0;
 }
 
 @keyframes three1 {
