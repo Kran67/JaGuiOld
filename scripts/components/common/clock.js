@@ -94,6 +94,18 @@ const Clock = (() => {
                 priv.autoStart = props.hasOwnProperty('autoStart') && Tools.isBool(props.autoStart) ? props.autoStart : true;
                 priv.alarm = props.hasOwnProperty('alarm') && Tools.isObject(props.alarm) ? props.alarm : null;
                 priv.countDown = props.hasOwnProperty('countDown') && Tools.isObject(props.countDown) ? props.countDown : { seconds: 0 };
+                if (priv.countDown.days && priv.countDown.days > 999) {
+                    priv.countDown.days = 999;
+                }
+                if (priv.countDown.hours && priv.countDown.hours > 23) {
+                    priv.countDown.hours = 23;
+                }
+                if (priv.countDown.minutes && priv.countDown.days> 59) {
+                    priv.countDown.minutes = 59;
+                }
+                if (priv.countDown.seconds && priv.countDown.seconds> 59) {
+                    priv.countDown.seconds = 59;
+                }
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'dotsType',
@@ -172,7 +184,9 @@ const Clock = (() => {
                         if (Tools.valueInSet(newValue, DOTSANIMATIONTYPES)) {
                             if (priv.dotsAnimationType !== newValue) {
                                 elems.forEach(elem => {
-                                    elem.classList.remove('slide', 'rotozoom', 'fade');
+                                    Object.keys(DOTSANIMATIONTYPES).forEach(dat => {
+                                        elem.classList.remove(dat);
+                                    });
                                 });
                                 priv.dotsAnimationType = newValue;
                                 elems.forEach(elem => {
@@ -584,8 +598,8 @@ const Clock = (() => {
                         countDownClassNames.push('minutes');
                     }
                     countDownLabels.push(Tools.getLocale().date.secondsLabel);
+                    numDigits.push('seconds');
                     if (priv.mode !== CLOCKMODES.CIRCULAR) {
-                        numDigits.push('seconds');
                         numDigits.push('seconds');
                     }
                     countDownClassNames.push('seconds');
@@ -724,7 +738,7 @@ const Clock = (() => {
                     case CLOCKMODES.LED:
                         if (!isDot) {
                             //https://codepen.io/shaman_tito/pen/Ectwp
-                            let value = 0;
+                            value = 0;
                             switch (numDigits[i]) {
                                 case 'days':
                                     value = days[num - 1];
@@ -751,13 +765,32 @@ const Clock = (() => {
                     //#endregion DIGITAL & LED
                     //#region ROTATE
                     case CLOCKMODES.ROTATE:
-                        if (i !== 2 && i !== 5) {
-                            let maxItem = 10;
-                            maxItem = i === 0 ? 3 : maxItem;
-                            maxItem = i === 3 || i === 6 ? 6 : maxItem;
-                            for (let j = 0; j < maxItem; j++) {
+                        if (!isDot) {
+                            value = 0;
+                            switch (numDigits[i]) {
+                            case 'days':
+                                value = days[num - 1];
+                                max = 10;
+                                break;
+                            case 'hours':
+                                value = hours[num - 1];
+                                max = num === 1 ? 3 : 10;
+                                break;
+                            case 'minutes':
+                                value = minutes[num - 1];
+                                max = num === 1 ? 6 : 10;
+                                break;
+                            case 'seconds':
+                                value = seconds[num - 1];
+                                max = num === 1 ? 6 : 10;
+                                break;
+                            }
+
+                            div.classList.add(`${className}_wheels`);
+                            for (let j = 0; j < max; j++) {
                                 div1 = document.createElement(`${tag}-wheel`);
-                                div1.classList.add(`${className}_digit_wheel`, this.themeName);
+                                div1.innerHTML = j;
+                                //div1.classList.add(`${className}_digit_d${j + 1}`, this.themeName);
                                 div.appendChild(div1);
                             }
                         }
@@ -838,6 +871,9 @@ const Clock = (() => {
                         num = 1;
                     }
                 }
+            }
+            if (numDigits.length === 1) {
+                digits.style.justifyContent = Types.ALIGNS.CENTER;
             }
             if (!priv.use24H) {
                 div = document.createElement(`${tag}-meridian`);
