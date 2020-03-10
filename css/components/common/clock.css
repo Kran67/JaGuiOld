@@ -737,7 +737,6 @@
     0%, 100% {
         top: 0;
         transform: rotateX(0);
-        color: #FFF;
     }
 }
 
@@ -745,7 +744,6 @@
     33.3333% {
         top: 0;
         transform: rotateX(0);
-        color: #FFF;
     }
 
     66.6667% {
@@ -770,7 +768,6 @@
     66.6667% {
         top: 0;
         transform: rotateX(0);
-        color: #FFF;
     }
 
     0%, 100% {

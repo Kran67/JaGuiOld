@@ -9,11 +9,11 @@ import { Interpolation } from '/scripts/core/interpolations.js';
 const CLOCKMODES = Object.freeze(Object.seal({
     SIMPLE: 'simple', // ok
     DIGITAL: 'digital', // https://codepen.io/shaman_tito/pen/Ectwp ok
-    FLIP: 'flip', // https://codepen.io/fuhye/pen/KKpNzwM
+    FLIP: 'flip', // https://codepen.io/fuhye/pen/KKpNzwM ok
     LED: 'led', // https://codepen.io/killyson26/pen/jOORvJb ok
-    DOTS: 'dots', // http://sooncountdown.com/
-    CIRCULAR: 'circular', // https://codepen.io/ahamed-abu-bakr/pen/YzXpOMj
-    ROTATE: 'rotate' // https://codepen.io/zhoha/pen/VwLLEJd
+    DOTS: 'dots', // http://sooncountdown.com/ ok
+    CIRCULAR: 'circular', // https://codepen.io/ahamed-abu-bakr/pen/YzXpOMj ok
+    ROTATE: 'rotate' // https://codepen.io/zhoha/pen/VwLLEJd ou https://codepen.io/glaubersampaio/pen/vOZbPx
 }));
 //#endregion CLOCKMODES
 //#region CLOCKTYPES
@@ -98,12 +98,18 @@ const Clock = (() => {
                     priv.countDown.days = 999;
                 }
                 if (priv.countDown.hours && priv.countDown.hours > 23) {
-                    priv.countDown.hours = 23;
+                    priv.countDown.hours = !String.isNullOrEmpty(priv.use24H) ? 12: 23;
                 }
                 if (priv.countDown.minutes && priv.countDown.days > 59) {
+                    if (priv.countDown.days && !priv.countDown.hours) {
+                        priv.countDown.hours = 0;
+                    }
                     priv.countDown.minutes = 59;
                 }
                 if (priv.countDown.seconds && priv.countDown.seconds > 59) {
+                    if (priv.countDown.days || priv.countDown.hours && ! priv.countDown.minutes) {
+                        priv.countDown.minutes = 0;
+                    }
                     priv.countDown.seconds = 59;
                 }
                 Tools.addPropertyFromEnum({
@@ -537,7 +543,7 @@ const Clock = (() => {
             const date = new Date();
             const days = (~~priv.countDown.days).toString().padStart(3, '0');
             const hours = (isClock ?
-                date.getHours() - (!priv.use24H && date.getHours() > 12 ? 12 : 0) :
+                date.getHours() - (!String.isNullOrEmpty(priv.use24H) && date.getHours() > 12 ? 12 : 0) :
                 priv.countDown.hours ? (~~priv.countDown.hours) : 0).toString().padStart(2, '0');
             const minutes = (isClock ?
                 date.getMinutes() :
@@ -550,6 +556,14 @@ const Clock = (() => {
             const XMLNS = Types.SVG.XMLNS;
             let value, max;
             let c = Math.PI * 40;
+            const dayTens = Math.floor(~~days / 10);
+            const dayOnes = ~~days % 10;
+            const hourTens = Math.floor(~~hours / 10);
+            const hourOnes = ~~hours % 10;
+            const minuteTens = Math.floor(~~minutes / 10);
+            const minuteOnes = ~~minutes % 10;
+            const secondTens = Math.floor(seconds / 10);
+            const secondOnes = ~~seconds % 10;
             //#endregion Variables déclaration
             Object.keys(CLOCKMODES).forEach(key => {
                 htmlElement.classList.remove(CLOCKMODES[key]);
@@ -693,8 +707,8 @@ const Clock = (() => {
                                 break;
                         }
                         break;
-                    //#endregion SIMPLE
-                    //#region CIRCULAR
+                        //#endregion SIMPLE
+                        //#region CIRCULAR
                     case CLOCKMODES.CIRCULAR:
                         switch (numDigits[i]) {
                             case 'days':
@@ -732,8 +746,8 @@ const Clock = (() => {
                         svg.appendChild(div1);
                         div.appendChild(svg);
                         break;
-                    //#endregion CIRCULAR
-                    //#region DIGITAL & LED 
+                        //#endregion CIRCULAR
+                        //#region DIGITAL & LED 
                     case CLOCKMODES.DIGITAL:
                     case CLOCKMODES.LED:
                         if (!isDot) {
@@ -762,8 +776,8 @@ const Clock = (() => {
                             }
                         }
                         break;
-                    //#endregion DIGITAL & LED
-                    //#region ROTATE
+                        //#endregion DIGITAL & LED
+                        //#region ROTATE
                     case CLOCKMODES.ROTATE:
                         if (!isDot) {
                             let a = [];
@@ -772,7 +786,6 @@ const Clock = (() => {
                                 case 'days':
                                     value = days[num - 1];
                                     max = 10;
-
                                     break;
                                 case 'hours':
                                     value = hours[num - 1];
@@ -801,29 +814,56 @@ const Clock = (() => {
                                 div1.classList.add(`${className}_wheel`);
                                 switch (numDigits[i]) {
                                     case 'days':
-
+                                        switch (num) {
+                                            case 1:
+                                                c = 864000;
+                                                div1.style.animationDelay = `-${36000*hourTens + 3600*hourOnes + 600*minuteTens + 60*minuteOnes + 10*secondTens + secondOnes}s`;
+                                                break;
+                                            case 2:
+                                                c = 3,154e+9;
+                                                div1.style.animationDelay = `-${86400*dayOnes + 36000*hourTens + 3600*hourOnes + 600*minuteTens + 60*minuteOnes + 10*secondTens + secondOnes}s`;
+                                                break;
+                                            case 3:
+                                                c = 3,154e+10;
+                                                div1.style.animationDelay = `-${864000 * dayTens + 86400*dayOnes + 36000*hourTens + 3600*hourOnes + 600*minuteTens + 60*minuteOnes + 10*secondTens + secondOnes}s`;
+                                                break;
+                                        }
+                                        div1.style.animation = `ten${a[j + 1]} ${c}s cubic-bezier(1, 0, 1, 0) infinite`;
                                         break;
                                     case 'hours':
-                                        div1.style.animation = num === 1 ? `three${a[j + 1]} 108000s cubic-bezier(1, 0, 1, 0) infinite` : `ten${a[j + 1]} 36000s cubic-bezier(1, 0, 1, 0) infinite`;
-                                        //div1.style.animationDelay = num === 1 ? '-8067s' : '-867s';
+                                        div1.style.animation = num === 1 ? 
+                                            `three${a[j + 1]} 86400s cubic-bezier(1, 0, 1, 0) infinite` : 
+                                            `ten${a[j + 1]} 36000s cubic-bezier(1, 0, 1, 0) infinite`;
+                                        div1.style.animationDelay = num === 1 ? 
+                                            `-${3600*hourOnes + 600*minuteTens + 60*minuteOnes + 10*secondTens + secondOnes}s` : 
+                                            `-${600*minuteTens + 60*minuteOnes + 10*secondTens + secondOnes}s`;
                                         break;
                                     case 'minutes':
-                                        div1.style.animation = num === 1 ? `six${a[j + 1]} 3600s cubic-bezier(1, 0, 1, 0) infinite` : `ten${a[j + 1]} 600s cubic-bezier(1, 0, 1, 0) infinite`;
-                                        div1.style.animationDelay = num === 1 ? '-267s' : '-27s';
+                                        div1.style.animation = num === 1 ? 
+                                            `six${a[j + 1]} 3600s cubic-bezier(1, 0, 1, 0) infinite` : 
+                                            `ten${a[j + 1]} 600s cubic-bezier(1, 0, 1, 0) infinite`;
+                                        div1.style.animationDelay = num === 1 ? 
+                                            `-${60*minuteOnes + 10*secondTens + secondOnes}s` : 
+                                            `-${10 * secondTens + secondOnes}s`;
                                         break;
                                     case 'seconds':
-                                        div1.style.animation = num === 1 ? `six${a[j + 1]} 60s cubic-bezier(1, 0, 1, 0) infinite` : `ten${a[j + 1]} 10s cubic-bezier(0.9, 0, 0.9, 0) infinite`;
+                                        div1.style.animation = num === 1 ? 
+                                            `six${a[j + 1]} 60s cubic-bezier(1, 0, 1, 0) infinite` : 
+                                            `ten${a[j + 1]} 10s cubic-bezier(0.9, 0, 0.9, 0) infinite`;
                                         if (num === 1) {
-                                            div1.style.animationDelay = '-7s';
+                                            div1.style.animationDelay = `-${secondOnes}s`;
                                         }
                                         break;
+                                }
+                                if (priv.type === CLOCKTYPES.COUNTDOWN) {
+                                    div1.style.animationDirection = 'reverse';
                                 }
                                 div.appendChild(div1);
                             }
                         }
                         break;
-                    //#endregion ROTATE
-                    //#region FLIP
+                        //#endregion ROTATE
+                        //#region FLIP
                     case CLOCKMODES.FLIP:
                         if (!isDot) {
                             let txt;
@@ -849,8 +889,8 @@ const Clock = (() => {
                             this.updateFlip(div, txt);
                         }
                         break;
-                    //#endregion Flip
-                    //#region DOTS
+                        //#endregion Flip
+                        //#region DOTS
                     case CLOCKMODES.DOTS:
                         if (!isDot) {
                             let matrix = priv.dotMatrix[i];
@@ -887,7 +927,7 @@ const Clock = (() => {
                             }
                         }
                         break;
-                    //#endregion DOTS
+                        //#endregion DOTS
                 }
                 if (!isDot) {
                     num++;
@@ -902,7 +942,7 @@ const Clock = (() => {
             if (numDigits.length === 1) {
                 digits.style.justifyContent = Types.ALIGNS.CENTER;
             }
-            if (!priv.use24H) {
+            if (!String.isNullOrEmpty(priv.use24H)) {
                 div = document.createElement(`${tag}-meridian`);
                 div.innerHTML = date.getHours() <= 12 ? locale.date.am : locale.date.pm;
                 div.classList.add(`${className}_meridian`);
@@ -939,7 +979,7 @@ const Clock = (() => {
             const isCircular = priv.mode === CLOCKMODES.CIRCULAR;
             let days = (priv.countDown.days ? priv.countDown.days : 0).toString().padStart(3, '0');
             let hours = (isClock ?
-                date.getHours() - (!priv.use24H && date.getHours() > 12 ? 12 : 0) :
+                date.getHours() - (!String.isNullOrEmpty(priv.use24H) && date.getHours() > 12 ? 12 : 0) :
                 priv.countDown.hours ? ~~priv.countDown.hours : 0).toString().padStart(2, '0');
             let minutes = (isClock ?
                 date.getMinutes() :
@@ -949,7 +989,7 @@ const Clock = (() => {
                 priv.countDown.seconds).toString().padStart(2, '0');
             const lDays = (priv.countDown.days ? priv.countDown.days : 0).toString().padStart(3, '0');
             const lHours = (isClock ?
-                priv.lastDate.getHours() - (!priv.use24H && priv.lastDate.getHours() > 12 ? 12 : 0) :
+                priv.lastDate.getHours() - (!String.isNullOrEmpty(priv.use24H) && priv.lastDate.getHours() > 12 ? 12 : 0) :
                 priv.countDown.hours ? ~~priv.countDown.hours : 0).toString().padStart(2, '0');
             const lMinutes = (isClock ?
                 priv.lastDate.getMinutes() :
@@ -970,7 +1010,7 @@ const Clock = (() => {
             const seconds2 = htmlElement.querySelector(`.${className}_seconds2`);
             const func = `update${priv.mode.firstCharUpper}`;
             //#endregion Variables déclaration
-            if (!priv.paused && !this.loading && !this.form.loading) {
+            if (!priv.paused && !this.loading && !this.form.loading && this[func]) {
                 if (!isClock) {
                     seconds = ~~seconds - 1;
                     if (seconds < 0) {
@@ -1007,12 +1047,12 @@ const Clock = (() => {
                 }
                 if (hours1) {
                     if (lHours[0] !== hours[0] || isCircular && lHours !== hours) {
-                        this[func](hours1, !isCircular ? hours[0] : hours, 0, !isCircular ? (priv.use24H ? 2 : 1) : 23);
+                        this[func](hours1, !isCircular ? hours[0] : hours, 0, !isCircular ? (String.isNullOrEmpty(priv.use24H) ? 2 : 1) : 23);
                     }
                 }
                 if (hours2) {
                     if (lHours[1] !== hours[1]) {
-                        this[func](hours2, hours[1], 0, priv.use24H ? 3 : 2);
+                        this[func](hours2, hours[1], 0, String.isNullOrEmpty(priv.use24H) ? 3 : 2);
                     }
                 }
                 if (minutes1) {
@@ -1040,7 +1080,7 @@ const Clock = (() => {
                 let elem = htmlElement.querySelector(`.${className}_alarm`);
                 if (elem) {
                     elem.classList.add('active');
-                    const aHours = (priv.alarm.hours - (!priv.use24H && priv.alarm.hours > 12 ? 12 : 0)).toString().padStart(2, '0');
+                    const aHours = (priv.alarm.hours - (!String.isNullOrEmpty(priv.use24H) && priv.alarm.hours > 12 ? 12 : 0)).toString().padStart(2, '0');
                     const aMinutes = priv.alarm.minutes.toString().padStart(2, '0');
                     const aSeconds = priv.alarm.seconds.toString().padStart(2, '0');
                     if (aHours === hours && aMinutes === minutes && aSeconds === seconds) {
@@ -1177,7 +1217,7 @@ const Clock = (() => {
         }
         //#endregion updateCircular
         //#region updateRotate
-        updateRotate() { }
+        //updateRotate() { }
         //#endregion updateRotate
         //#region mouseDown
         mouseDown() {
@@ -1199,6 +1239,10 @@ const Clock = (() => {
             priv.started = true;
             priv.pause = !1;
             priv.handle = setInterval(this.update.bind(this), 1000);
+            if (priv.mode === CLOCKMODES.ROTATE) {
+                this.clearContent();
+                this.prepareContent();
+            }
         }
         //#endregion start
         //#region pause
@@ -1208,6 +1252,12 @@ const Clock = (() => {
             //#endregion Variables déclaration
             if (priv.type === CLOCKTYPES.COUNTDOWN && priv.started) {
                 priv.paused = true;
+                if (priv.mode === CLOCKMODES.ROTATE) {
+                    const elems = this.HTMLElement.querySelectorAll('.Clock_wheel');
+                    elems.forEach(elem => {
+                        elem.style.animationPlayState = 'paused';
+                    });
+                }
             }
         }
         //#endregion pause
@@ -1220,6 +1270,12 @@ const Clock = (() => {
                 priv.started = !1;
                 priv.pause = !1;
                 clearInterval(priv.handle);
+                if (priv.mode === CLOCKMODES.ROTATE) {
+                    const elems = this.HTMLElement.querySelectorAll('.Clock_wheel');
+                    elems.forEach(elem => {
+                        elem.style.animationPlayState = 'paused';
+                    });
+                }
             }
         }
         //#endregion stop
@@ -1230,6 +1286,12 @@ const Clock = (() => {
             //#endregion Variables déclaration
             if (priv.type === CLOCKTYPES.COUNTDOWN && priv.started) {
                 priv.paused = !1;
+                if (priv.mode === CLOCKMODES.ROTATE) {
+                    const elems = this.HTMLElement.querySelectorAll('.Clock_wheel');
+                    elems.forEach(elem => {
+                        elem.style.animationPlayState = 'running';
+                    });
+                }
             }
         }
         //#endregion resume
@@ -1277,7 +1339,7 @@ const Clock = (() => {
             const alarm = htmlElement.querySelector(`.${className}_alarm`);
             priv.alarm = new Date(Date.now());
             priv.alarm = priv.alarm.addMinutes(10);
-            if (!priv.use24H && priv.alarm.getHours() > 12) {
+            if (!String.isNullOrEmpty(priv.use24H) && priv.alarm.getHours() > 12) {
                 priv.alarm = priv.alarm.addHours(-12);
             }
             alarm.classList.remove('on');
