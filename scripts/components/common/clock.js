@@ -74,7 +74,7 @@ const Clock = (() => {
                     component: this,
                     propName: 'mode',
                     enum: CLOCKMODES,
-                    forceUpdate: true,
+                    forceUpdate: !0,
                     variable: priv,
                     value: props.hasOwnProperty('mode') ? props.mode : CLOCKMODES.SIMPLE
                 });
@@ -82,16 +82,15 @@ const Clock = (() => {
                     component: this,
                     propName: 'type',
                     enum: CLOCKTYPES,
-                    forceUpdate: true,
+                    forceUpdate: !0,
                     variable: priv,
                     value: props.hasOwnProperty('type') ? props.type : CLOCKTYPES.CLOCK
                 });
                 priv.showSeconds = props.hasOwnProperty('showSeconds') && Tools.isBool(props.showSeconds) ? props.showSeconds : !1;
                 priv.showDays = props.hasOwnProperty('showDays') && Tools.isBool(props.showDays) ? props.showDays : !1;
-                priv.showMonths = props.hasOwnProperty('showMonths') && Tools.isBool(props.showMonths) ? props.showMonths : !1;
-                priv.showYears = props.hasOwnProperty('showYears') && Tools.isBool(props.showYears) ? props.showYears : !1;
+                priv.showDate = props.hasOwnProperty('showDate') && Tools.isBool(props.showDate) ? props.showDate : !0;
                 priv.use24H = Tools.getLocale().date.pm === String.EMPTY;
-                priv.autoStart = props.hasOwnProperty('autoStart') && Tools.isBool(props.autoStart) ? props.autoStart : true;
+                priv.autoStart = props.hasOwnProperty('autoStart') && Tools.isBool(props.autoStart) ? props.autoStart : !0;
                 priv.alarm = props.hasOwnProperty('alarm') && Tools.isObject(props.alarm) ? props.alarm : null;
                 priv.countDown = props.hasOwnProperty('countDown') && Tools.isObject(props.countDown) ? props.countDown : { seconds: 0 };
                 if (priv.countDown.days && priv.countDown.days > 999) {
@@ -116,7 +115,7 @@ const Clock = (() => {
                     component: this,
                     propName: 'dotsType',
                     enum: DOTSTYPES,
-                    forceUpdate: true,
+                    forceUpdate: !0,
                     variable: priv,
                     setter: function (newValue) {
                         //#region Variables déclaration
@@ -148,7 +147,7 @@ const Clock = (() => {
                     component: this,
                     propName: 'dotsAnimationDirection',
                     enum: DOTSANIMATIONDIRECTION,
-                    forceUpdate: true,
+                    forceUpdate: !0,
                     variable: priv,
                     setter: function (newValue) {
                         //#region Variables déclaration
@@ -179,7 +178,7 @@ const Clock = (() => {
                     component: this,
                     propName: 'dotsAnimationType',
                     enum: DOTSANIMATIONTYPES,
-                    forceUpdate: true,
+                    forceUpdate: !0,
                     variable: priv,
                     setter: function (newValue) {
                         //#region Variables déclaration
@@ -205,7 +204,7 @@ const Clock = (() => {
                 });
                 this.onAlarm = new NotifyEvent(this);
                 this.hitTest.all = !1;
-                this.hitTest.mousedown = true;
+                this.hitTest.mousedown = !0;
                 priv.dotsGap = priv.dotsGap > 2 ? 2 : priv.dotsGap;
                 priv.numbers = {
                     '0': 'zero',
@@ -521,7 +520,7 @@ const Clock = (() => {
         //#region Methods
         //#region clearContent
         clearContent() {
-
+            this.HTMLElement.innerHTML = String.EMPTY;
         }
         //#endregion clearContent
         //#region prepareContent
@@ -534,6 +533,7 @@ const Clock = (() => {
             let div, div1, svg;
             const numDigits = [];
             const weekdays = document.createElement(`${tag}-weekdays`);
+            const currentDate = document.createElement(`${tag}-currentdate`);
             const digits = document.createElement(`${tag}-digits`);
             const isClock = priv.type === CLOCKTYPES.CLOCK;
             let num = 1;
@@ -554,16 +554,7 @@ const Clock = (() => {
             const PX = Types.CSSUNITS.PX;
             const SVG = Types.SVG.SVG;
             const XMLNS = Types.SVG.XMLNS;
-            let value, max;
-            let c = Math.PI * 40;
-            const dayTens = Math.floor(~~days / 10);
-            const dayOnes = ~~days % 10;
-            const hourTens = Math.floor(~~hours / 10);
-            const hourOnes = ~~hours % 10;
-            const minuteTens = Math.floor(~~minutes / 10);
-            const minuteOnes = ~~minutes % 10;
-            const secondTens = Math.floor(seconds / 10);
-            const secondOnes = ~~seconds % 10;
+            let value, max, h;
             //#endregion Variables déclaration
             Object.keys(CLOCKMODES).forEach(key => {
                 htmlElement.classList.remove(CLOCKMODES[key]);
@@ -659,6 +650,13 @@ const Clock = (() => {
             }
             //#endregion days
             //#endregion weekdays
+            //#region DayMonthYear
+            if (priv.showDate && isClock) {
+                currentDate.classList.add(`${className}_currentdate`);
+                currentDate.innerHTML = date.toString(Tools.getLocale().date.formatPatterns.longDate);
+                htmlElement.appendChild(currentDate);
+            }
+            //#endregion DayMonthYear
             //#region digits
             digits.classList.add(`${className}_digits`);
             htmlElement.appendChild(digits);
@@ -681,7 +679,7 @@ const Clock = (() => {
                 if (numDigits[i] !== 'dots') {
                     div.classList.add(`${className}_digit`);
                 } else {
-                    isDot = true;
+                    isDot = !0;
                     div.classList.add(`${className}_dots`);
                 }
                 div.classList.add(this.themeName);
@@ -689,6 +687,7 @@ const Clock = (() => {
                     div.classList.add(`${className}_${numDigits[i]}${num}`);
                 }
                 digits.appendChild(div);
+                h = parseFloat(getComputedStyle(div).height);
                 switch (priv.mode) {
                     //#region SIMPLE
                     case CLOCKMODES.SIMPLE:
@@ -780,85 +779,34 @@ const Clock = (() => {
                         //#region ROTATE
                     case CLOCKMODES.ROTATE:
                         if (!isDot) {
-                            let a = [];
                             value = 0;
                             switch (numDigits[i]) {
                                 case 'days':
-                                    value = days[num - 1];
+                                    value = ~~days[num - 1];
                                     max = 10;
                                     break;
                                 case 'hours':
-                                    value = hours[num - 1];
+                                    value = ~~hours[num - 1];
                                     max = num === 1 ? 3 : 10;
                                     break;
                                 case 'minutes':
-                                    value = minutes[num - 1];
+                                    value = ~~minutes[num - 1];
                                     max = num === 1 ? 6 : 10;
                                     break;
                                 case 'seconds':
-                                    value = seconds[num - 1];
+                                    value = ~~seconds[num - 1];
                                     max = num === 1 ? 6 : 10;
                                     break;
                             }
-                            for (let j = 0; j < max; j++) {
-                                c = (j + 1) + ~~value;
-                                if (c > max) {
-                                    c -= max;
-                                }
-                                a[c] = j + 1;
-                            }
                             div.classList.add(`${className}_wheels`);
-                            for (let j = 0; j < max; j++) {
+                            for (let j = max-1; j >= 0; j--) {
                                 div1 = document.createElement(`${tag}-wheel`);
-                                div1.innerHTML = j;
+                                div1.innerHTML = isClock ? j : max - 1 - j;
                                 div1.classList.add(`${className}_wheel`);
-                                switch (numDigits[i]) {
-                                    case 'days':
-                                        switch (num) {
-                                            case 1:
-                                                c = 864000;
-                                                div1.style.animationDelay = `-${36000*hourTens + 3600*hourOnes + 600*minuteTens + 60*minuteOnes + 10*secondTens + secondOnes}s`;
-                                                break;
-                                            case 2:
-                                                c = 3,154e+9;
-                                                div1.style.animationDelay = `-${86400*dayOnes + 36000*hourTens + 3600*hourOnes + 600*minuteTens + 60*minuteOnes + 10*secondTens + secondOnes}s`;
-                                                break;
-                                            case 3:
-                                                c = 3,154e+10;
-                                                div1.style.animationDelay = `-${864000 * dayTens + 86400*dayOnes + 36000*hourTens + 3600*hourOnes + 600*minuteTens + 60*minuteOnes + 10*secondTens + secondOnes}s`;
-                                                break;
-                                        }
-                                        div1.style.animation = `ten${a[j + 1]} ${c}s cubic-bezier(1, 0, 1, 0) infinite`;
-                                        break;
-                                    case 'hours':
-                                        div1.style.animation = num === 1 ? 
-                                            `three${a[j + 1]} 86400s cubic-bezier(1, 0, 1, 0) infinite` : 
-                                            `ten${a[j + 1]} 36000s cubic-bezier(1, 0, 1, 0) infinite`;
-                                        div1.style.animationDelay = num === 1 ? 
-                                            `-${3600*hourOnes + 600*minuteTens + 60*minuteOnes + 10*secondTens + secondOnes}s` : 
-                                            `-${600*minuteTens + 60*minuteOnes + 10*secondTens + secondOnes}s`;
-                                        break;
-                                    case 'minutes':
-                                        div1.style.animation = num === 1 ? 
-                                            `six${a[j + 1]} 3600s cubic-bezier(1, 0, 1, 0) infinite` : 
-                                            `ten${a[j + 1]} 600s cubic-bezier(1, 0, 1, 0) infinite`;
-                                        div1.style.animationDelay = num === 1 ? 
-                                            `-${60*minuteOnes + 10*secondTens + secondOnes}s` : 
-                                            `-${10 * secondTens + secondOnes}s`;
-                                        break;
-                                    case 'seconds':
-                                        div1.style.animation = num === 1 ? 
-                                            `six${a[j + 1]} 60s cubic-bezier(1, 0, 1, 0) infinite` : 
-                                            `ten${a[j + 1]} 10s cubic-bezier(0.9, 0, 0.9, 0) infinite`;
-                                        if (num === 1) {
-                                            div1.style.animationDelay = `-${secondOnes}s`;
-                                        }
-                                        break;
-                                }
-                                if (priv.type === CLOCKTYPES.COUNTDOWN) {
-                                    div1.style.animationDirection = 'reverse';
-                                }
                                 div.appendChild(div1);
+                                if (j === value) {
+                                    div.style.transform = `translateY(${isClock ? 1 : -j * h}${PX})`;
+                                }
                             }
                         }
                         break;
@@ -1017,7 +965,7 @@ const Clock = (() => {
                         seconds = 59;
                         if (Tools.isNumber(priv.countDown.minutes)) {
                             minutes = ~~minutes - 1;
-                            if (lMinutes < 0) {
+                            if (minutes < 0) {
                                 minutes = 59;
                                 if (Tools.isNumber(priv.countDown.hours)) {
                                     hours = ~~hours - 1;
@@ -1217,7 +1165,13 @@ const Clock = (() => {
         }
         //#endregion updateCircular
         //#region updateRotate
-        //updateRotate() { }
+        updateRotate(element, value, min, max) {
+            const priv = internal(this);
+            const isClock = priv.type === CLOCKTYPES.CLOCK;
+            const PX = Types.CSSUNITS.PX;
+            const h = parseFloat(getComputedStyle(element.parentNode).height);
+            element.style.transform = `translateY(${isClock ? -(max * h) + (h * value) : -value * h}${PX})`;
+        }
         //#endregion updateRotate
         //#region mouseDown
         mouseDown() {
@@ -1236,13 +1190,9 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.started = true;
+            priv.started = !0;
             priv.pause = !1;
             priv.handle = setInterval(this.update.bind(this), 1000);
-            if (priv.mode === CLOCKMODES.ROTATE) {
-                this.clearContent();
-                this.prepareContent();
-            }
         }
         //#endregion start
         //#region pause
@@ -1251,13 +1201,7 @@ const Clock = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (priv.type === CLOCKTYPES.COUNTDOWN && priv.started) {
-                priv.paused = true;
-                if (priv.mode === CLOCKMODES.ROTATE) {
-                    const elems = this.HTMLElement.querySelectorAll('.Clock_wheel');
-                    elems.forEach(elem => {
-                        elem.style.animationPlayState = 'paused';
-                    });
-                }
+                priv.paused = !0;
             }
         }
         //#endregion pause
@@ -1270,12 +1214,6 @@ const Clock = (() => {
                 priv.started = !1;
                 priv.pause = !1;
                 clearInterval(priv.handle);
-                if (priv.mode === CLOCKMODES.ROTATE) {
-                    const elems = this.HTMLElement.querySelectorAll('.Clock_wheel');
-                    elems.forEach(elem => {
-                        elem.style.animationPlayState = 'paused';
-                    });
-                }
             }
         }
         //#endregion stop
@@ -1286,12 +1224,6 @@ const Clock = (() => {
             //#endregion Variables déclaration
             if (priv.type === CLOCKTYPES.COUNTDOWN && priv.started) {
                 priv.paused = !1;
-                if (priv.mode === CLOCKMODES.ROTATE) {
-                    const elems = this.HTMLElement.querySelectorAll('.Clock_wheel');
-                    elems.forEach(elem => {
-                        elem.style.animationPlayState = 'running';
-                    });
-                }
             }
         }
         //#endregion resume
@@ -1357,7 +1289,7 @@ Core.classes.register(Types.CATEGORIES.COMMON, Clock);
 //#region Templates
 if (Core.isHTMLRenderer) {
     const ClockTpl = ['<jagui-clock id="{internalId}" data-class="Clock" class="Control Clock {theme}">',
-        '<properties>{ "name": "{name}", "mode": "simple", "showSeconds": true }</properties></jagui-clock>'].join(String.EMPTY);
+        '<properties>{ "name": "{name}", "mode": "simple", "showSeconds": !0 }</properties></jagui-clock>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: Clock, template: ClockTpl }]);
 }
 //#endregion Templates

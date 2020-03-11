@@ -1,4 +1,5 @@
-﻿/*************************/
+﻿import { Tools } from '/scripts/core/tools.js';
+/*************************/
 /*                       */
 /* array.js extend Array */
 /*                       */

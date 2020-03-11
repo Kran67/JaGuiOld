@@ -21,7 +21,7 @@ Object.defineProperty(Date.prototype, 'dayName', {
      * @returns     {String}        the day name of the date
      */
     get: function () {
-        return Date.dayNames[this.getDay()];
+        return Tools.getLocale().date.dayNames[this.getDay()];
     }
 });
 Object.defineProperty(Date.prototype, 'shortDayName', {
@@ -30,7 +30,7 @@ Object.defineProperty(Date.prototype, 'shortDayName', {
      * @returns     {String}        the short day name of the date
      */
     get: function () {
-        return Date.dayNames[this.getDay()].substr(0, 3);
+        return Tools.getLocale().date.dayNames[this.getDay()].substr(0, 3);
     }
 });
 Object.defineProperty(Date.prototype, 'month', {
@@ -48,7 +48,7 @@ Object.defineProperty(Date.prototype, 'monthName', {
      * @returns     {String}        the month name of the date
      */
     get: function () {
-        return Date.monthNames[this.getMonth()];
+        return Tools.getLocale().date.monthNames[this.getMonth()];
     }
 });
 Object.defineProperty(Date.prototype, 'shortMonthName', {
@@ -61,7 +61,7 @@ Object.defineProperty(Date.prototype, 'shortMonthName', {
         let cMonth = String.EMPTY;
         const nMonth = this.getMonth();
         //#endregion Variables déclaration
-        cMonth = Date.monthNames[nMonth];
+        cMonth = Tools.getLocale().date.monthNames[nMonth];
         if (nMonth === 5 || nMonth === 6) {
             cMonth.remove(2, 1);
         }
@@ -454,45 +454,45 @@ Date.prototype.toString = function (format) {
     return format ? format.replace(/dd?d?d?|MM?M?M?|yy?y?y?|hh?|HH?|mm?|ss?|tt?|zz?z?/g,
         (f) => {
             if (f === 'hh') {
-                return p(self.getHours() < 13 ? self.getHours() : self.getHours() - 12);
+                return p(self.hours < 13 ? self.hours : self.hours - 12);
             } else if (f === 'h') {
-                return self.getHours() < 13 ? self.getHours() : self.getHours() - 12;
+                return self.hours < 13 ? self.hours : self.hours - 12;
             } else if (f === 'HH') {
-                return p(self.getHours());
+                return p(self.hours);
             } else if (f === 'H') {
-                return self.getHours();
+                return self.hours;
             } else if (f === 'mm') {
-                return p(self.getMinutes());
+                return p(self.minutes);
             } else if (f === 'm') {
-                return self.getMinutes();
+                return self.minutes;
             } else if (f === 'ss') {
-                return p(self.getSeconds());
+                return p(self.seconds);
             } else if (f === 's') {
-                return self.getSeconds();
+                return self.seconds;
             } else if (f === 'yyyy') {
-                return self.getFullYear();
+                return self.year;
             } else if (f === 'yy') {
-                return self.getFullYear().toString().substring(2, 4);
+                return self.year.toString().substring(2, 4);
             } else if (f === 'dddd') {
-                return self.getDayName();
+                return self.dayName;
             } else if (f === 'ddd') {
-                return self.getDayName(true);
+                return self.shortDayName;
             } else if (f === 'dd') {
-                return p(self.getDate());
+                return p(self.day);
             } else if (f === 'd') {
-                return self.getDate().toString();
+                return self.day.toString();
             } else if (f === 'MMMM') {
-                return self.getMonthName();
+                return self.monthName;
             } else if (f === 'MMM') {
-                return self.getMonthName(true);
+                return self.shortMonthName;
             } else if (f === 'MM') {
-                return p(self.getMonth() + 1);
+                return p(self.month + 1);
             } else if (f === 'M') {
-                return self.getMonth() + 1;
+                return self.month + 1;
             } else if (f === 't') {
-                return self.getHours() < 12 ? Core.currentLocale.am.substring(0, 1) : Core.currentLocale.pm.substring(0, 1);
+                return self.hours < 12 ? Core.currentLocale.am.substring(0, 1) : Core.currentLocale.pm.substring(0, 1);
             } else if (f === 'tt') {
-                return self.getHours() < 12 ? Core.currentLocale.am : Core.currentLocale.pm;
+                return self.hours < 12 ? Core.currentLocale.am : Core.currentLocale.pm;
             } else if (f === 'zzz' || f === 'zz' || f === 'z') {
                 return String.EMPTY;
             }
