@@ -97,7 +97,7 @@ const Clock = (() => {
                     priv.countDown.days = 999;
                 }
                 if (priv.countDown.hours && priv.countDown.hours > 23) {
-                    priv.countDown.hours = !String.isNullOrEmpty(priv.use24H) ? 12: 23;
+                    priv.countDown.hours = !String.isNullOrEmpty(priv.use24H) ? 12 : 23;
                 }
                 if (priv.countDown.minutes && priv.countDown.days > 59) {
                     if (priv.countDown.days && !priv.countDown.hours) {
@@ -106,7 +106,7 @@ const Clock = (() => {
                     priv.countDown.minutes = 59;
                 }
                 if (priv.countDown.seconds && priv.countDown.seconds > 59) {
-                    if (priv.countDown.days || priv.countDown.hours && ! priv.countDown.minutes) {
+                    if (priv.countDown.days || priv.countDown.hours && !priv.countDown.minutes) {
                         priv.countDown.minutes = 0;
                     }
                     priv.countDown.seconds = 59;
@@ -706,8 +706,8 @@ const Clock = (() => {
                                 break;
                         }
                         break;
-                        //#endregion SIMPLE
-                        //#region CIRCULAR
+                    //#endregion SIMPLE
+                    //#region CIRCULAR
                     case CLOCKMODES.CIRCULAR:
                         switch (numDigits[i]) {
                             case 'days':
@@ -745,8 +745,8 @@ const Clock = (() => {
                         svg.appendChild(div1);
                         div.appendChild(svg);
                         break;
-                        //#endregion CIRCULAR
-                        //#region DIGITAL & LED 
+                    //#endregion CIRCULAR
+                    //#region DIGITAL & LED 
                     case CLOCKMODES.DIGITAL:
                     case CLOCKMODES.LED:
                         if (!isDot) {
@@ -775,8 +775,8 @@ const Clock = (() => {
                             }
                         }
                         break;
-                        //#endregion DIGITAL & LED
-                        //#region ROTATE
+                    //#endregion DIGITAL & LED
+                    //#region ROTATE
                     case CLOCKMODES.ROTATE:
                         if (!isDot) {
                             value = 0;
@@ -799,19 +799,19 @@ const Clock = (() => {
                                     break;
                             }
                             div.classList.add(`${className}_wheels`);
-                            for (let j = max-1; j >= 0; j--) {
+                            for (let j = max - 1; j >= 0; j--) {
                                 div1 = document.createElement(`${tag}-wheel`);
-                                div1.innerHTML = isClock ? j : max - 1 - j;
+                                div1.innerHTML = j; //isClock ? j : max - 1 - j;
                                 div1.classList.add(`${className}_wheel`);
                                 div.appendChild(div1);
                                 if (j === value) {
-                                    div.style.transform = `translateY(${isClock ? 1 : -j * h}${PX})`;
+                                    div.style.transform = `translateY(${isClock ? 1 : -((max - 1) * h) - (j * h)}${PX})`;
                                 }
                             }
                         }
                         break;
-                        //#endregion ROTATE
-                        //#region FLIP
+                    //#endregion ROTATE
+                    //#region FLIP
                     case CLOCKMODES.FLIP:
                         if (!isDot) {
                             let txt;
@@ -837,8 +837,8 @@ const Clock = (() => {
                             this.updateFlip(div, txt);
                         }
                         break;
-                        //#endregion Flip
-                        //#region DOTS
+                    //#endregion Flip
+                    //#region DOTS
                     case CLOCKMODES.DOTS:
                         if (!isDot) {
                             let matrix = priv.dotMatrix[i];
@@ -875,7 +875,7 @@ const Clock = (() => {
                             }
                         }
                         break;
-                        //#endregion DOTS
+                    //#endregion DOTS
                 }
                 if (!isDot) {
                     num++;
@@ -1170,7 +1170,7 @@ const Clock = (() => {
             const isClock = priv.type === CLOCKTYPES.CLOCK;
             const PX = Types.CSSUNITS.PX;
             const h = parseFloat(getComputedStyle(element.parentNode).height);
-            element.style.transform = `translateY(${isClock ? -(max * h) + (h * value) : -value * h}${PX})`;
+            element.style.transform = `translateY(${isClock ? -(max * h) + (h * value) : -(max * h) + (value * h)}${PX})`;
         }
         //#endregion updateRotate
         //#region mouseDown
@@ -1184,7 +1184,7 @@ const Clock = (() => {
                 this.snoozeAlarm();
             }
         }
-        //#endregion mouseDown
+        //#endregion mouseDown               
         //#region start
         start() {
             //#region Variables déclaration
