@@ -783,29 +783,29 @@ const Clock = (() => {
                             switch (numDigits[i]) {
                                 case 'days':
                                     value = ~~days[num - 1];
-                                    max = 10;
+                                    max = 9;
                                     break;
                                 case 'hours':
                                     value = ~~hours[num - 1];
-                                    max = num === 1 ? 3 : 10;
+                                    max = num === 1 ? 2 : 9;
                                     break;
                                 case 'minutes':
                                     value = ~~minutes[num - 1];
-                                    max = num === 1 ? 6 : 10;
+                                    max = num === 1 ? 5 : 9;
                                     break;
                                 case 'seconds':
                                     value = ~~seconds[num - 1];
-                                    max = num === 1 ? 6 : 10;
+                                    max = num === 1 ? 5 : 9;
                                     break;
                             }
                             div.classList.add(`${className}_wheels`);
-                            for (let j = max - 1; j >= 0; j--) {
+                            for (let j = max; j >= 0; j--) {
                                 div1 = document.createElement(`${tag}-wheel`);
-                                div1.innerHTML = j; //isClock ? j : max - 1 - j;
+                                div1.innerHTML = j;
                                 div1.classList.add(`${className}_wheel`);
                                 div.appendChild(div1);
                                 if (j === value) {
-                                    div.style.transform = `translateY(${isClock ? 1 : -((max - 1) * h) - (j * h)}${PX})`;
+                                    div.style.transform = `translateY(${isClock ? 1 : -((max * h) - (j * h))}${PX})`;
                                 }
                             }
                         }
@@ -1170,7 +1170,11 @@ const Clock = (() => {
             const isClock = priv.type === CLOCKTYPES.CLOCK;
             const PX = Types.CSSUNITS.PX;
             const h = parseFloat(getComputedStyle(element.parentNode).height);
-            element.style.transform = `translateY(${isClock ? -(max * h) + (h * value) : -(max * h) + (value * h)}${PX})`;
+            if (max === 3) {
+                element.style.transform = `translateY(${isClock ? -(max * h) + (h * value) : -((max * h) + (value * h))}${PX})`;
+            } else {
+                element.style.transform = `translateY(${isClock ? -(max * h) + (h * value) : -((max * h) - (value * h))}${PX})`;
+            }
         }
         //#endregion updateRotate
         //#region mouseDown
