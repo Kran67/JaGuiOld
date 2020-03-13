@@ -264,6 +264,7 @@ class Window1 extends Window {
         let x = null;
         let y = null;
         let i = null;
+        let l;
         this._ctx.save();
         // Paint sin
         for (i = 0, l = p.length; i < l; i++) {
@@ -333,6 +334,9 @@ class Window1 extends Window {
     }
     showBorderSizeableWindow() {
         this.app.newWindow('borderSizeable');
+    }
+    countdownEnd() {
+        alert("countdownEnd");
     }
 }
 

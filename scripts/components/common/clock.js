@@ -7,13 +7,13 @@ import { Interpolation } from '/scripts/core/interpolations.js';
 //#endregion Import
 //#region CLOCKMODES
 const CLOCKMODES = Object.freeze(Object.seal({
-    SIMPLE: 'simple', // ok
-    DIGITAL: 'digital', // https://codepen.io/shaman_tito/pen/Ectwp ok
-    FLIP: 'flip', // https://codepen.io/fuhye/pen/KKpNzwM ok
-    LED: 'led', // https://codepen.io/killyson26/pen/jOORvJb ok
-    DOTS: 'dots', // http://sooncountdown.com/ ok
-    CIRCULAR: 'circular', // https://codepen.io/ahamed-abu-bakr/pen/YzXpOMj ok
-    ROTATE: 'rotate' // https://codepen.io/zhoha/pen/VwLLEJd ou https://codepen.io/glaubersampaio/pen/vOZbPx
+    SIMPLE: 'simple',
+    DIGITAL: 'digital',
+    FLIP: 'flip',
+    LED: 'led',
+    DOTS: 'dots',
+    CIRCULAR: 'circular',
+    ROTATE: 'rotate'
 }));
 //#endregion CLOCKMODES
 //#region CLOCKTYPES
@@ -203,6 +203,9 @@ const Clock = (() => {
                     value: props.hasOwnProperty('dotsAnimationType') ? props.dotsAnimationType : DOTSANIMATIONTYPES.FADE
                 });
                 this.onAlarm = new NotifyEvent(this);
+                this.onAlarm.addListener(this.form[props.onAlarm]);
+                this.onCountdownEnd = new NotifyEvent(this);
+                this.onCountdownEnd.addListener(this.form[props.onCountdownEnd]);
                 this.hitTest.all = !1;
                 this.hitTest.mousedown = !0;
                 priv.dotsGap = priv.dotsGap > 2 ? 2 : priv.dotsGap;
@@ -706,8 +709,8 @@ const Clock = (() => {
                                 break;
                         }
                         break;
-                    //#endregion SIMPLE
-                    //#region CIRCULAR
+                        //#endregion SIMPLE
+                        //#region CIRCULAR
                     case CLOCKMODES.CIRCULAR:
                         switch (numDigits[i]) {
                             case 'days':
@@ -745,8 +748,8 @@ const Clock = (() => {
                         svg.appendChild(div1);
                         div.appendChild(svg);
                         break;
-                    //#endregion CIRCULAR
-                    //#region DIGITAL & LED 
+                        //#endregion CIRCULAR
+                        //#region DIGITAL & LED 
                     case CLOCKMODES.DIGITAL:
                     case CLOCKMODES.LED:
                         if (!isDot) {
@@ -775,8 +778,8 @@ const Clock = (() => {
                             }
                         }
                         break;
-                    //#endregion DIGITAL & LED
-                    //#region ROTATE
+                        //#endregion DIGITAL & LED
+                        //#region ROTATE
                     case CLOCKMODES.ROTATE:
                         if (!isDot) {
                             value = 0;
@@ -810,8 +813,8 @@ const Clock = (() => {
                             }
                         }
                         break;
-                    //#endregion ROTATE
-                    //#region FLIP
+                        //#endregion ROTATE
+                        //#region FLIP
                     case CLOCKMODES.FLIP:
                         if (!isDot) {
                             let txt;
@@ -837,8 +840,8 @@ const Clock = (() => {
                             this.updateFlip(div, txt);
                         }
                         break;
-                    //#endregion Flip
-                    //#region DOTS
+                        //#endregion Flip
+                        //#region DOTS
                     case CLOCKMODES.DOTS:
                         if (!isDot) {
                             let matrix = priv.dotMatrix[i];
@@ -875,7 +878,7 @@ const Clock = (() => {
                             }
                         }
                         break;
-                    //#endregion DOTS
+                        //#endregion DOTS
                 }
                 if (!isDot) {
                     num++;
@@ -1046,6 +1049,7 @@ const Clock = (() => {
             if (!isClock) {
                 if (~~days + ~~hours + ~~minutes + ~~seconds === 0) {
                     this.stop();
+                    this.onCountdownEnd.invoke(this);
                 } else {
                     if (priv.countDown.days) {
                         priv.countDown.days = ~~days;
@@ -1170,11 +1174,12 @@ const Clock = (() => {
             const isClock = priv.type === CLOCKTYPES.CLOCK;
             const PX = Types.CSSUNITS.PX;
             const h = parseFloat(getComputedStyle(element.parentNode).height);
-            if (max === 3) {
-                element.style.transform = `translateY(${isClock ? -(max * h) + (h * value) : -((max * h) + (value * h))}${PX})`;
+            if (max === 3 && !isClock) {
+                value = -((element.children.length - 1) - ~~value) * h;
             } else {
-                element.style.transform = `translateY(${isClock ? -(max * h) + (h * value) : -((max * h) - (value * h))}${PX})`;
+                value = isClock ? -(max * h) + (h * ~~value): -((max * h) - (~~value * h));
             }
+            element.style.transform = `translateY(${value}${PX})`;
         }
         //#endregion updateRotate
         //#region mouseDown
@@ -1293,7 +1298,7 @@ Core.classes.register(Types.CATEGORIES.COMMON, Clock);
 //#region Templates
 if (Core.isHTMLRenderer) {
     const ClockTpl = ['<jagui-clock id="{internalId}" data-class="Clock" class="Control Clock {theme}">',
-        '<properties>{ "name": "{name}", "mode": "simple", "showSeconds": !0 }</properties></jagui-clock>'].join(String.EMPTY);
+        '<properties>{ "name": "{name}", "mode": "simple", "showSeconds": true }</properties></jagui-clock>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: Clock, template: ClockTpl }]);
 }
 //#endregion Templates
