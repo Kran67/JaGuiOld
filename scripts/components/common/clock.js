@@ -2,8 +2,7 @@
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { NotifyEvent } from '/scripts/core/events.js';
 import { Tools } from '/scripts/core/tools.js';
-import { Color, Colors } from '/scripts/core/color.js';
-import { Interpolation } from '/scripts/core/interpolations.js';
+import { Color } from '/scripts/core/color.js';
 //#endregion Import
 //#region CLOCKMODES
 const CLOCKMODES = Object.freeze(Object.seal({
@@ -709,8 +708,8 @@ const Clock = (() => {
                                 break;
                         }
                         break;
-                        //#endregion SIMPLE
-                        //#region CIRCULAR
+                    //#endregion SIMPLE
+                    //#region CIRCULAR
                     case CLOCKMODES.CIRCULAR:
                         switch (numDigits[i]) {
                             case 'days':
@@ -748,8 +747,8 @@ const Clock = (() => {
                         svg.appendChild(div1);
                         div.appendChild(svg);
                         break;
-                        //#endregion CIRCULAR
-                        //#region DIGITAL & LED 
+                    //#endregion CIRCULAR
+                    //#region DIGITAL & LED 
                     case CLOCKMODES.DIGITAL:
                     case CLOCKMODES.LED:
                         if (!isDot) {
@@ -778,8 +777,8 @@ const Clock = (() => {
                             }
                         }
                         break;
-                        //#endregion DIGITAL & LED
-                        //#region ROTATE
+                    //#endregion DIGITAL & LED
+                    //#region ROTATE
                     case CLOCKMODES.ROTATE:
                         if (!isDot) {
                             value = 0;
@@ -813,8 +812,8 @@ const Clock = (() => {
                             }
                         }
                         break;
-                        //#endregion ROTATE
-                        //#region FLIP
+                    //#endregion ROTATE
+                    //#region FLIP
                     case CLOCKMODES.FLIP:
                         if (!isDot) {
                             let txt;
@@ -840,8 +839,8 @@ const Clock = (() => {
                             this.updateFlip(div, txt);
                         }
                         break;
-                        //#endregion Flip
-                        //#region DOTS
+                    //#endregion Flip
+                    //#region DOTS
                     case CLOCKMODES.DOTS:
                         if (!isDot) {
                             let matrix = priv.dotMatrix[i];
@@ -878,7 +877,7 @@ const Clock = (() => {
                             }
                         }
                         break;
-                        //#endregion DOTS
+                    //#endregion DOTS
                 }
                 if (!isDot) {
                     num++;
@@ -1177,7 +1176,7 @@ const Clock = (() => {
             if (max === 3 && !isClock) {
                 value = -((element.children.length - 1) - ~~value) * h;
             } else {
-                value = isClock ? -(max * h) + (h * ~~value): -((max * h) - (~~value * h));
+                value = isClock ? -(max * h) + (h * ~~value) : -((max * h) - (~~value * h));
             }
             element.style.transform = `translateY(${value}${PX})`;
         }
