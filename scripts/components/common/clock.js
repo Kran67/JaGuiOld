@@ -1173,7 +1173,7 @@ const Clock = (() => {
             const isClock = priv.type === CLOCKTYPES.CLOCK;
             const PX = Types.CSSUNITS.PX;
             const h = parseFloat(getComputedStyle(element.parentNode).height);
-            if (max === 3 && !isClock) {
+            if (max === 3) {
                 value = -((element.children.length - 1) - ~~value) * h;
             } else {
                 value = isClock ? -(max * h) + (h * ~~value) : -((max * h) - (~~value * h));
