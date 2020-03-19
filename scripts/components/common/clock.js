@@ -807,7 +807,7 @@ const Clock = (() => {
                                 div1.classList.add(`${className}_wheel`);
                                 div.appendChild(div1);
                                 if (j === value) {
-                                    div.style.transform = `translateY(${isClock ? 1 : -((max * h) - (j * h))}${PX})`;
+                                    div.style.transform = `translateY(${-((max * h) - (j * h))}${PX})`;
                                 }
                             }
                         }
