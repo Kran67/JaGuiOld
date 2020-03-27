@@ -1,79 +1,38 @@
-﻿div.TreeViewContent {
-    left: 0;
+﻿.Control.TreeView {
+    display: flex;
+    flex-direction: column;
+}
+
+.treeViewScroller {
+    position: absolute;
+    width: 1px;
     top: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-}
-
-div.TreeView.scrollbars-vertical div.TreeViewContent {
-    right: 16px;
-    bottom: 0;
-}
-
-div.TreeView.scrollbars-vertical div.ScrollBar.orientation-vertical {
-    bottom: 0;
-    height: auto;
-}
-
-div.TreeView.scrollbars-vertical div.ScrollBar.orientation-horizontal {
-    bottom: -20px;
-}
-
-div.TreeView.scrollbars-horizontal div.TreeViewContent {
-    right: 0;
-    bottom: 16px;
-    width: auto;
-}
-
-div.TreeView.scrollbars-horizontal div.ScrollBar.orientation-vertical {
-    right: -20px;
-}
-
-div.TreeView.scrollbars-both div.TreeViewContent {
-    right: 16px;
-    bottom: 16px;
-}
-
-div.TreeView.scrollbars-both div.ScrollBar.orientation-horizontal {
-    right: 16px;
-    width: auto;
-}
-
-div.TreeView.scrollbars-both div.ScrollBar.orientation-vertical {
-    bottom: 16px;
-    height: auto;
-}
-
-div.TreeViewItem {
-    text-align: left;
-    height: 16px;
-    white-space: nowrap;
     left: 0;
-    top: 0;
-    right: 0;
+    height: 1px;
+    z-index: -1;
 }
 
-div.TreeViewItem div.icon {
-    width: 16px;
-    float: left;
-    margin: 0 2px;
-    padding: 0;
-    position: relative;
-    background-position: center center;
+.TreeViewItem {
+    display: flex;
+    align-items: center;
 }
 
-div.TreeViewRoot {
+    .TreeViewItem .icon {
+        width: 16px;
+        margin: 0 2px;
+        padding: 0;
+        background-position: center center;
+        align-self: stretch;
+    }
+
+.TreeViewRoot {
     display: inline-block;
-    float: left;
     width: 10px;
     font-family: JaGui;
     font-size: 4pt;
-    position: relative;
-    float: left;
     margin-right: 2px;
 }
 
-div.TVIHasChild {
+.TVIHasChild {
     text-align: center;
 }

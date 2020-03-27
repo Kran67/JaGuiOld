@@ -40,7 +40,7 @@ import '/scripts/components/common/rating.js';
 //import { gradientEdit } from '/scripts/components/color/gradientEdit.js';
 import '/scripts/components/color/colorpanel.js';
 import '/scripts/components/common/shapes.js';
-//import { treeView } from '/scripts/components/common/treeView.js';
+import '/scripts/components/common/treeview.js';
 import '/scripts/components/containers/pagecontrol.js';
 import '/scripts/components/common/paintbox.js';
 import '/scripts/components/common/plotgrid.js';

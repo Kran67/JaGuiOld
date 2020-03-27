@@ -35,17 +35,17 @@ const ListBoxItem = (() => {
                 priv.check = null;
                 priv.icon = null;
                 priv.text = null;
-                priv.stopEvent = true;
-                priv.props = {};
+                priv.stopEvent = !0;
+                //priv.props = {};
                 priv.caption = props.hasOwnProperty('caption') ? props.caption : String.EMPTY;
                 priv.size = props.hasOwnProperty('size') ? props.size : owner.itemsSize;
-                priv.isChecked = props.hasOwnProperty('isChecked') && Tools.isBool(props.isChecked) ? props.isChecked : false;
-                priv.isHeader = props.hasOwnProperty('isHeader') && Tools.isBool(props.isHeader) ? props.isHeader : false;
-                priv.enabled = props.hasOwnProperty('enabled') && Tools.isBool(props.enabled) ? props.enabled : true;
+                priv.isChecked = props.hasOwnProperty('isChecked') && Tools.isBool(props.isChecked) ? props.isChecked : !1;
+                priv.isHeader = props.hasOwnProperty('isHeader') && Tools.isBool(props.isHeader) ? props.isHeader : !1;
+                priv.enabled = props.hasOwnProperty('enabled') && Tools.isBool(props.enabled) ? props.enabled : !0;
                 priv.form = owner.form;
-                priv.selected = props.hasOwnProperty('selected') && Tools.isBool(props.selected) ? props.selected : false;
+                priv.selected = props.hasOwnProperty('selected') && Tools.isBool(props.selected) ? props.selected : !1;
                 priv.hitTest = new HitTest;
-                priv.hitTest.all = false;
+                priv.hitTest.all = !1;
                 priv.css = String.EMPTY;
                 priv.imageIndex = props.hasOwnProperty('imageIndex') && Tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
                 priv.image = props.hasOwnProperty('image') ? props.image : String.EMPTY;
@@ -54,12 +54,12 @@ const ListBoxItem = (() => {
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'state',
-                    enum: Types.CHECKBOXSTATES,
-                    forceUpdate: true,
+                    enum: Checkbox.CHECKBOXSTATES,
+                    forceUpdate: !0,
                     variable: priv,
                     value: props.hasOwnProperty('state') ? props.state : Checkbox.CHECKBOXSTATES.UNCHECKED
                 });
-                priv.allowGrayed = props.hasOwnProperty('allowGrayed') && Tools.isBool(props.allowGrayed) ? props.allowGrayed : false;
+                priv.allowGrayed = props.hasOwnProperty('allowGrayed') && Tools.isBool(props.allowGrayed) ? props.allowGrayed : !1;
                 //this.onDraw = new $j.classes.NotifyEvent(this);
                 if (owner instanceof ListBox) {
                     if (owner.allowUpdate) {
@@ -104,15 +104,15 @@ const ListBoxItem = (() => {
                     switch (priv.state) {
                         case checkboxStates.UNCHECKED:
                             priv.state = CHECKBOXSTATES.GRAYED;
-                            newValue = false;
+                            newValue = !1;
                             break;
                         case checkboxStates.GRAYED:
                             priv.state = checkboxStates.CHECKED;
-                            newValue = true;
+                            newValue = !0;
                             break;
                         case checkboxStates.CHECKED:
                             priv.state = checkboxStates.UNCHECKED;
-                            newValue = false;
+                            newValue = !1;
                             break;
                     }
                 }
@@ -186,7 +186,7 @@ const ListBoxItem = (() => {
             }
         }
         //#endregion height
-        //#region text
+        //#region caption
         get caption() {
             return internal(this).caption;
         }
@@ -201,7 +201,7 @@ const ListBoxItem = (() => {
                 }
             }
         }
-        //#endregion text
+        //#endregion caption
         //#region selected
         get selected() {
             return internal(this).selected;
@@ -507,20 +507,20 @@ const ListBox = (() => {
                 priv.downPos = new Point;
                 priv.currentPos = new Point;
                 priv.keyDir = String.EMPTY;
-                priv.multiSelect = props.hasOwnProperty('multiSelect') && Tools.isBool(props.multiSelect) ? props.multiSelect : false;
-                priv.sorted = props.hasOwnProperty('sorted') && Tools.isBool(props.sorted) ? props.sorted : false;
+                priv.multiSelect = props.hasOwnProperty('multiSelect') && Tools.isBool(props.multiSelect) ? props.multiSelect : !1;
+                priv.sorted = props.hasOwnProperty('sorted') && Tools.isBool(props.sorted) ? props.sorted : !1;
                 priv.itemsSize = props.hasOwnProperty('itemsSize') && Tools.isNumber(props.itemsSize) ? props.itemsSize : 16;
                 priv.itemsClass = props.hasOwnProperty('itemsClass') ? Core.classes[props.itemsClass] : ListBoxItem;
                 Core.classes.newCollection(this, this, priv.itemsClass);
-                priv.useAlternateColor = props.hasOwnProperty('useAlternateColor') && Tools.isBool(props.useAlternateColor) ? props.useAlternateColor : false;
-                priv.viewCheckboxes = props.hasOwnProperty('viewCheckboxes') && Tools.isBool(props.viewCheckboxes) ? props.viewCheckboxes : false;
+                priv.useAlternateColor = props.hasOwnProperty('useAlternateColor') && Tools.isBool(props.useAlternateColor) ? props.useAlternateColor : !1;
+                priv.viewCheckboxes = props.hasOwnProperty('viewCheckboxes') && Tools.isBool(props.viewCheckboxes) ? props.viewCheckboxes : !1;
                 priv.itemIndex = props.hasOwnProperty('itemIndex') && Tools.isNumber(props.itemIndex) ? props.itemIndex : -1;
                 priv.columns = props.hasOwnProperty('columns') && Tools.isNumber(props.columns) ? props.columns : 1;
                 priv.images = props.hasOwnProperty('images') ? props.images : null;
                 this.onChange = new NotifyEvent(this);
-                this.canFocused = true;
-                this.hitTest.all = true;
-                //this.animated = true;
+                this.canFocused = !0;
+                this.hitTest.all = !0;
+                //this.animated = !0;
                 priv.orientation = props.hasOwnProperty('orientation') ? props.orientation : Types.ORIENTATIONS.VERTICAL;
                 this.onSelectItem = new NotifyEvent(this);
                 this.onDrawItem = new NotifyEvent(this);
@@ -648,7 +648,7 @@ const ListBox = (() => {
                         priv.itemIndex = newValue;
                         item = this.items[priv.itemIndex];
                         if (item) {
-                            item.selected = true;
+                            item.selected = !0;
                             this.scrollToItem();
                         }
                     }
@@ -707,7 +707,7 @@ const ListBox = (() => {
             const vert = priv.orientation === Types.ORIENTATIONS.VERTICAL;
             const scrollModeNormal = this.scrollMode === ScrollControl.SCROLLMODES.NORMAL;
             const htmlElement = this.HTMLElement;
-            let itemVisible = false;
+            let itemVisible = !1;
             const prop = vert?'Top':'Left';
             const propSize = vert?'Height':'Width';
             //#endregion Variables déclaration
@@ -740,11 +740,11 @@ const ListBox = (() => {
                 for (let i = topIndex; i < maxIndex; i++) {
                     const item = items[i];
                     if (scrollModeNormal) {
-                        itemVisible = true;
+                        itemVisible = !0;
                     } else {
-                        itemVisible = false;
+                        itemVisible = !1;
                         if (((item.pos + item.size >= priv.scrollPos) && (item.pos < htmlElement[`offset${propSize}`] + priv.scrollPos))) {
-                            itemVisible = true;
+                            itemVisible = !0;
                         }
                     }
                     if (itemVisible) {
@@ -797,7 +797,7 @@ const ListBox = (() => {
             if (priv.itemIndex !== -1) {
                 const item = this.items[priv.itemIndex];
                 if (item) {
-                    item.selected = false;
+                    item.selected = !1;
                 }
             }
         }
@@ -862,13 +862,13 @@ const ListBox = (() => {
         //#endregion moveItem
         //#region beginUpdate
         beginUpdate() {
-            this.allowUpdate = false;
+            this.allowUpdate = !1;
             this.items.beginUpdate();
         }
         //#endregion beginUpdate
         //#region endUpdate
         endUpdate() {
-            this.allowUpdate = true;
+            this.allowUpdate = !0;
             this.items.endUpdate();
         }
         //#endregion endUpdate
@@ -887,14 +887,14 @@ const ListBox = (() => {
         //#region clearSelection
         clearSelection() {
             this.items.forEach(item => {
-                item.selected = false;
+                item.selected = !1;
             });
         }
         //#endregion clearSelection
         //#region selectAll
         selectAll() {
             this.items.forEach(item => {
-                item.selected = true;
+                item.selected = !0;
             });
         }
         //#endregion selectAll
@@ -1043,7 +1043,7 @@ const ListBox = (() => {
                             class: priv.itemsClass,
                             owner: this,
                             props: {
-                                inForm: false,
+                                inForm: !1,
                                 caption: item.caption,
                                 height: item.hasOwnProperty('height') && Tools.isNumber(item.size) ? item.size : priv.itemsSize,
                                 isHeader: item.isHeader,
