@@ -191,12 +191,14 @@
 .Clock_digits {
     display: flex;
     margin-bottom: 3px;
-    overflow: hidden;
     order: 1;
 }
 
-.Clock_digit,
-.Clock_dots {
+.Clock.rotate .Clock_digits {
+    overflow: hidden;
+}
+
+.Clock_digit, .Clock_dots {
     margin: 0 4px;
     text-align: left;
     position: relative;

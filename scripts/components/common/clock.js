@@ -75,7 +75,19 @@ const Clock = (() => {
                     enum: CLOCKMODES,
                     forceUpdate: !0,
                     variable: priv,
-                    value: props.hasOwnProperty('mode') ? props.mode : CLOCKMODES.SIMPLE
+                    value: props.hasOwnProperty('mode') ? props.mode : CLOCKMODES.SIMPLE,
+                    setter:function(newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        if (Tools.valueInSet(newValue, CLOCKMODES)) {
+                            if (priv.mode !== newValue) {
+                                priv.mode = newValue;
+                                this.prepareContent();
+                                this.update();
+                            }
+                        }
+                    }
                 });
                 Tools.addPropertyFromEnum({
                     component: this,
@@ -83,7 +95,19 @@ const Clock = (() => {
                     enum: CLOCKTYPES,
                     forceUpdate: !0,
                     variable: priv,
-                    value: props.hasOwnProperty('type') ? props.type : CLOCKTYPES.CLOCK
+                    value: props.hasOwnProperty('type') ? props.type : CLOCKTYPES.CLOCK,
+                    setter: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        if (Tools.valueInSet(newValue, CLOCKTYPES)) {
+                            if (priv.type !== newValue) {
+                                this.reset();
+                                priv.type = newValue;
+                                this.update();
+                            }
+                        }
+                    }
                 });
                 priv.showSeconds = props.hasOwnProperty('showSeconds') && Tools.isBool(props.showSeconds) ? props.showSeconds : !1;
                 priv.showDays = props.hasOwnProperty('showDays') && Tools.isBool(props.showDays) ? props.showDays : !1;
@@ -343,40 +367,6 @@ const Clock = (() => {
             return DOTSANIMATIONTYPES;
         }
         //#endregion DOTSANIMATIONTYPES
-        //#region mode
-        get mode() {
-            return internal(this).mode;
-        }
-        set mode(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, CLOCKMODES)) {
-                if (priv.mode !== newValue) {
-                    priv.mode = newValue;
-                    this.prepareContent();
-                    this.update();
-                }
-            }
-        }
-        //#endregion mode
-        //#region type
-        get type() {
-            return internal(this).type;
-        }
-        set type(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, CLOCKTYPES)) {
-                if (priv.type !== newValue) {
-                    this.reset();
-                    priv.type = newValue;
-                    this.update();
-                }
-            }
-        }
-        //#endregion type
         //#region showSeconds
         get showSeconds() {
             return internal(this).showSeconds;
@@ -557,6 +547,7 @@ const Clock = (() => {
             const SVG = Types.SVG.SVG;
             const XMLNS = Types.SVG.XMLNS;
             let value, max, h;
+            const c = Math.PI * 40;
             //#endregion Variables déclaration
             Object.keys(CLOCKMODES).forEach(key => {
                 htmlElement.classList.remove(CLOCKMODES[key]);
@@ -1096,7 +1087,7 @@ const Clock = (() => {
             const tag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             const isClock = priv.type === CLOCKTYPES.CLOCK;
             //#endregion Variables déclaration
-            parentElement.innerHTML = String.EMPTY;
+            element.innerHTML = String.EMPTY;
             for (let j = 0; j < 2; j++) {
                 let value = j === 0 ? txt - (isClock ? 1 : -1) : txt;
                 if (value > max) {
@@ -1114,7 +1105,7 @@ const Clock = (() => {
                 if (j === 1) {
                     div1.classList.add('active');
                 }
-                parentElement.appendChild(div1);
+                element.appendChild(div1);
                 let div4 = document.createElement(`${tag}-flip-p`);
                 div4.classList.add(`${className}_digit_flip_p`);
                 div1.appendChild(div4);

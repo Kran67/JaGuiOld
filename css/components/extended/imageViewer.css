@@ -1,4 +1,4 @@
-﻿.Control.ImageViewer {
+﻿.Control.ImageViewer:hover {
     overflow: auto;
 }
 
