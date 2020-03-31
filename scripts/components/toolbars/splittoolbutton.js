@@ -98,7 +98,7 @@ const SplitToolButton = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (priv.popupMenu) {
-                if (priv.popupMenu instanceof $j.classes.PopupMenu) {
+                if (priv.popupMenu instanceof Core.classes.PopupMenu) {
                     const pt = this.owner.clientToDocument();
                     priv.popupMenu.control = this.owner;
                     priv.popupMenu.show(pt.x, pt.y + this.owner.HTMLElement.offsetHeight);
