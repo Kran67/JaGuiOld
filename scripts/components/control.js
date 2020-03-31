@@ -206,7 +206,7 @@ const Control = (() => {
                             }
                         }
                     },
-                    value: props.hasOwnProperty('cursor') && Tools.isStirng(props.cursor) ? props.cursor : Types.CUSTOMCURSORS.DEFAULT
+                    value: props.hasOwnProperty('cursor') && Tools.isString(props.cursor) ? props.cursor : Types.CUSTOMCURSORS.DEFAULT
                 });
                 const dragKinds = Types.DRAGKINDS;
                 Tools.addPropertyFromEnum({
@@ -2663,16 +2663,18 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const owner = this.owner;
+            const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             this.sizing();
             super.loaded();
             if (owner.tab) {
                 this.tab = owner.tab;
             }
-            !this.visible?this.HTMLElement.classList.add('hidden'):null;
+            !this.visible?htmlElement.classList.add('hidden'):null;
             if (!String.isNullOrEmpty(priv.cssClasses)) {
-                this.HTMLElement.className += priv.cssClasses;
+                htmlElement.className += priv.cssClasses;
             }
+            htmlElement.classList.add(this.cursor);
         }
         //#endregion loaded
         //#region resized
