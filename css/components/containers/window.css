@@ -154,6 +154,7 @@
 }
 
 .WindowContent {
+    display: grid;
     flex: 1;
     order: 4;
     overflow: auto;
@@ -184,7 +185,11 @@
 .Window.dialog .WindowRollUpDownButton,
 .Window.dialog .WindowStayOnOffButton,
 .Window.none .WindowTitleBar {
-    display: none;
+    display: none !important;
+}
+
+.Window.dialog .WindowContent {
+    overflow: hidden;
 }
 
 .Window:not(.none) .WindowLayout {

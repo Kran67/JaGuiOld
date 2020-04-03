@@ -196,15 +196,20 @@ const Icon = (() => {
         }
         //#endregion constructor
         //#region Getters / Setters
+        //#endregion Getters / Setters
+        //#region Methods
         //#region changeCSS
         changeCSS(cssClass) {
             //#region Variables déclaration
             const priv = internal(this);
+            const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (Tools.isString(cssClass)) {
                 if (!String.isNullOrEmpty(cssClass)) {
                     if (priv.cssClass !== cssClass) {
-                        htmlElement.classList.remove(priv.cssClass);
+                        if (!String.isNullOrEmpty(priv.cssClass)) {
+                            htmlElement.classList.remove(priv.cssClass);
+                        }
                         htmlElement.classList.add(cssClass);
                         priv.cssClass = cssClass;
                     }
@@ -212,6 +217,11 @@ const Icon = (() => {
             }
         }
         //#endregion changeCSS
+        //#region load
+        load(uri) {
+            this.HTMLElementStyle.backgroundImage = `url(${uri})`;
+        }
+        //#endregion load
         //#region destroy
         destroy() {
             //#region Variables déclaration
@@ -221,8 +231,6 @@ const Icon = (() => {
             priv.cssClass = null;
         }
         //#endregion destroy
-        //#endregion Getters / Setters
-        //#region Methods
         //#endregion Methods
     }
     return Icon;

@@ -79,11 +79,18 @@ const Label = (() => {
             const htmlElementStyle = this.HTMLElementStyle;
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            super.update();
-            if (priv.effect) {
-                htmlElementStyle.textShadow = String.EMPTY;
-                htmlElement.classList.add(priv.effect.cssName);
-                priv.effect.update();
+            if (Core.isHTMLRenderer) {
+                if (htmlElement) {
+                    htmlElement.innerHTML = this.caption;
+                    this.updateCssProperties();
+                }
+                if (priv.effect) {
+                    htmlElementStyle.textShadow = String.EMPTY;
+                    htmlElement.classList.add(priv.effect.cssName);
+                    priv.effect.update();
+                }
+            } else {
+                //
             }
         }
         //#endregion update

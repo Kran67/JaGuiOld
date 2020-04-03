@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { Control } from '/scripts/components/control.js';
 import { Tools } from '/scripts/core/tools.js';
-import { NotifyEvent } from '/scripts/core/events.js';
 //#endregion Import
 //#region PaintBox
 const PaintBox = (() => {
@@ -26,7 +25,7 @@ const PaintBox = (() => {
                 const priv = internal(this);
                 priv.ctx = null;
                 delete this.tabOrder;
-                priv.onPaint = new NotifyEvent(this);
+                this.createEventsAndBind(['onPaint'], props);
                 this.allowUpdateOnResize = true;
             }
         }

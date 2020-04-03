@@ -2,7 +2,6 @@
 import { LabeledControl } from '/scripts/core/labeledcontrol.js';
 import { Slider } from '/scripts/components/common/slider.js';
 import { ValueLabel } from '/scripts/components/extended/valuelabel.js';
-import { NotifyEvent } from '/scripts/core/events.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region LabeledSlider
@@ -33,7 +32,7 @@ const LabeledSlider = (() => {
                     }
                 }
                 super(owner, props);
-                this.onChanged = new NotifyEvent(this);
+                this.createEventsAndBind(['onChanged'], props);
             }
         }
         //#endregion constructor

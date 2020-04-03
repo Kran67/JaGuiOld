@@ -72,6 +72,20 @@ class Uri {
         return uri;
     }
     //#endregion convertToRealURI
+    //#region isBase64URI
+    static isBase64URI(uri) {
+        const regex = /^data:.+\/(.+);base64,(.*)$/;
+        const result = uri.match(regex);
+        return result && result.length > 0;
+    }
+    //#endregion isBase64URI
+    //#region isHttpURI
+    static isHttpURI(uri) {
+        const regex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+        const result = uri.match(regex);
+        return result && result.length > 0;
+    }
+    //#endregion isHttpURI
     //#endregion Methods
 }
 //#endregion Uri

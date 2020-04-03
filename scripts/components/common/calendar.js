@@ -84,7 +84,7 @@ const Calendar = (() => {
                 });
                 this.hitTest = [true, false, true];
                 this.canFocused = true;
-                this.onChange = new Core.classes.NotifyEvent(this);
+                this.createEventsAndBind(['onChange'], props);
                 this.stopEvent = false;
             }
         }

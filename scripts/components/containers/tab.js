@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { CaptionControl } from '/scripts/core/captioncontrol.js';
 import { CustomTabControl } from "/scripts/core/customtabcontrol.js";
-import { NotifyEvent } from "/scripts/core/events.js";
 import { Mouse } from "/scripts/core/mouse.js";
 //#endregion Import
 //#region Tab
@@ -36,7 +35,7 @@ const Tab = (() => {
                 priv.caption = props.hasOwnProperty('caption')?props.caption : `${this.constructor.name}${num}`;
                 this.hitTest.mouseDown = true;
                 this.hitTest.mouseUp = true;
-                this.onClose = new NotifyEvent(this);
+                this.createEventsAndBind(['onClose'], props);
             }
         }
         //#endregion constructor

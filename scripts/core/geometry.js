@@ -462,6 +462,7 @@ Object.defineProperties(Point, {
     }
 });
 //#endregion Point defineProperties
+//#endregion Point
 //#region Rect
 const Rect = (() => {
     //#region Private

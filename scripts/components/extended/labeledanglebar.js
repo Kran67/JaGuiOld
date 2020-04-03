@@ -2,7 +2,6 @@
 import { LabeledControl } from '/scripts/core/labeledcontrol.js';
 import { AngleButton } from '/scripts/components/extended/anglebutton.js';
 import { ValueLabel } from '/scripts/components/extended/valuelabel.js';
-import { NotifyEvent } from '/scripts/core/events.js';
 //#endregion Import
 //#region LabeledAngleBar
 const LabeledAngleBar = (() => {
@@ -24,7 +23,7 @@ const LabeledAngleBar = (() => {
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
-                this.onChanged = new NotifyEvent(this);
+                this.createEventsAndBind(['onChanged'], props);
             }
         }
         //#endregion constructor

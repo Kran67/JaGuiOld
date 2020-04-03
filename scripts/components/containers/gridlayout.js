@@ -138,12 +138,17 @@ const GridLayout = (() => {
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
             //super.update();
-            htmlElementStyle.gridTemplateColumns = !String.isNullOrEmpty(priv.templateColumns)?priv.templateColumns:`repeat(${priv.columns}, 1fr [col-start])`;
-            htmlElementStyle.gridTemplateRows = !String.isNullOrEmpty(priv.templateRows)?priv.templateRows:`repeat(${priv.rows}, 1fr [row-start])`;
+            htmlElementStyle.gridTemplateColumns = !String.isNullOrEmpty(priv.templateColumns) ? priv.templateColumns : `repeat(${priv.columns}, 1fr [col-start])`;
+            htmlElementStyle.gridTemplateRows = !String.isNullOrEmpty(priv.templateRows) ? priv.templateRows : `repeat(${priv.rows}, 1fr [row-start])`;
             htmlElementStyle.columnGap = `${priv.columnGap}${PX}`;
             htmlElementStyle.rowGap = `${priv.rowGap}${PX}`;
             this.components.forEach(comps => {
-                comps.update();
+                comps.HTMLElement.classList.remove('Control');
+                comps.HTMLElementStyle.width = 'auto';
+                comps.HTMLElementStyle.height = 'auto';
+                if (Tools.isFunc(comps.update)) {
+                    comps.update();
+                }
             });
         }
         //#region destroy

@@ -69,11 +69,11 @@ input.Control {
     opacity: 0.5;
 }
 
-.Control.hidden {
+.hidden {
     visibility: hidden !important;
 }
 
-.Control.noDisplay {
+.noDisplay {
     display: none !important;
 }
 

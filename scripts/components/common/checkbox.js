@@ -50,7 +50,7 @@ const Checkbox = (() => {
                 this.autoCapture = true;
                 priv.isChecked = props.hasOwnProperty('isChecked') ? props.isChecked : false;
                 priv.autoWidth = props.hasOwnProperty('autoWidth') ? props.autoWidth : true;
-                this.onChange = new Core.classes.NotifyEvent(this);
+                this.createEventsAndBind(['onChange'], props);
                 if (!Core.isHTMLRenderer) {
                     this.width = 120;
                     this.height = 19;

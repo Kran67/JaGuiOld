@@ -1,6 +1,5 @@
 ﻿//#region Import
 import { SplitButton } from '/scripts/components/extended/splitbutton.js';
-import { NotifyEvent } from '/scripts/core/events.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region SplitToolButton
@@ -24,8 +23,7 @@ const SplitToolButton = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                this.onCloseMenu = new NotifyEvent(this);
-                this.onOpenMenu = new NotifyEvent(this);
+                this.createEventsAndBind(['onCloseMenu', 'onOpenMenu'], props);
                 priv.imageIndex = -1;
                 priv.popupMenu = props.hasOwnProperty('popupMenu') && this.form[props.popupMenu] ? this.form[props.popupMenu] : null;
                 this.allowUpdateOnResize = true;

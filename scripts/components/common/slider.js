@@ -2,7 +2,6 @@
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Events } from '/scripts/core/events.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
-import { NotifyEvent } from '/scripts/core/events.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region SLIDERMODES
@@ -81,7 +80,7 @@ const Slider = (() => {
                     value: props.hasOwnProperty('toolTipsPosition') ? props.toolTipsPosition : Types.ANCHORS.TOP
                 });
                 priv.decimalPrecision = props.hasOwnProperty('decimalPrecision') ? props.decimalPrecision : 0;
-                this.onChange = new NotifyEvent(this);
+                this.createEventsAndBind(['onChange'], props);
                 priv.values = props.hasOwnProperty('values') ? props.values : [0, 0];
                 priv.tickmarks = props.hasOwnProperty('tickmarks') ? props.tickmarks : [];
                 priv.showTickmarks = props.hasOwnProperty('showTickmarks') ? props.showTickmarks : false;
@@ -421,7 +420,6 @@ const Slider = (() => {
             priv.rightTooltip.classList.add('Control', this.themeName, 'SliderTooltip', 'csr_default', `orientation-${priv.orientation}`, priv.toolTipsPosition);
             htmlElement.appendChild(priv.rightTooltip);
             //#endregion Create ToolTips
-            this.bindEventToHTML('onChange');
             super.loaded();
             this.update();
         }

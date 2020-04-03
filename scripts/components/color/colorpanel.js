@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { Control } from '/scripts/components/control.js';
 import { Tools } from '/scripts/core/tools.js';
-import { NotifyEvent } from '/scripts/core/events.js';
 import { Color, Colors } from '/scripts/core/color.js';
 import { ColorQuad } from '/scripts/components/color/colorquad.js';
 import { AlphaSlider } from '/scripts/components/color/alphaslider.js';
@@ -80,7 +79,7 @@ const ColorPanel = (() => {
                     this.width = 160;
                     this.height = 160;
                 }
-                this.onChange = new NotifyEvent(this);
+                this.createEventsAndBind(['onChange'], props);
             }
         }
         //#endregion constructor

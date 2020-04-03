@@ -195,7 +195,7 @@ const Application = (() => {
                             comps.forEach(comp => {
                                 if (comp instanceof Core.classes.CaptionControl/* || comp instanceof Core.classes.CustomTextControl*/) {
                                     this.getLocalText(comp);
-                                //} else {
+                                    //} else {
                                     //comp.update();
                                 }
                             });
@@ -366,7 +366,7 @@ const Application = (() => {
                 case Types.RENDERERS.CANVAS:
                     data = document.querySelector('object.mainWindow');
                     if (data) {
-                        data = JSON.parse(data.innerHTML.replace(/{theme}/g,Core.defaultTheme));
+                        data = JSON.parse(data.innerHTML.replace(/{theme}/g, Core.defaultTheme));
                         if (data.themes) {
                             this.themeManifest.addThemes(data.themes);
                         }
@@ -509,10 +509,10 @@ const Application = (() => {
                             //} else if (obj instanceof Core.classes.CustomTextControl) {
                             //    obj.placeHolder = c[key];
                         }
-                    //} else {
+                        //} else {
                         //obj.update();
                     }
-                //} else {
+                    //} else {
                     //obj.update();
                 }
             }

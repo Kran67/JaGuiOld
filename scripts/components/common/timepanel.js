@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { NumberWheel } from '/scripts/components/common/numberwheel.js';
-import { NotifyEvent } from '/scripts/core/events.js';
 import { ItemsWheel } from '/scripts/core/itemswheel.js';
 import { Tools } from '/scripts/core/tools.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
@@ -33,7 +32,7 @@ const TimePanel = (() => {
                 priv.time = props.hasOwnProperty('time') ? props.time : String.EMPTY;
                 priv.use24H = props.hasOwnProperty('use24H') && Tools.isBool(props.use24H) ? props.use24H : true;
                 priv.viewSeconds = props.hasOwnProperty('viewSeconds') && Tools.isBool(props.viewSeconds) ? props.viewSeconds : false;
-                this.onChange = new NotifyEvent(this);
+                this.createEventsAndBind(['onChange'], props);
                 this.canFocused = true;
             }
         }

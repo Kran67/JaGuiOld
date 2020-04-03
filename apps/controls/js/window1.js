@@ -1,10 +1,10 @@
 //#region Imports
 import { Window } from '/scripts/components/containers/window.js';
-import * as Canvas from '/scripts/core/canvas.js';
+import { CANVAS as canvas } from '/scripts/core/canvas.js';
 import '/scripts/components/common/label.js';
 import '/scripts/components/common/speedbutton.js';
 //import { Point } from '/scripts/core/geometry.js';
-//import { Dialogs } from '/scripts/components/dialogs/dialogs.js';
+import '/scripts/components/dialogs/dialogs.js';
 import '/scripts/components/common/listbox.js';
 import '/scripts/components/common/image.js';
 //import { Animation } from '/scripts/animation.js';
@@ -100,18 +100,19 @@ import '/scripts/components/extended/circularprogressbar.js';
 let lastTime;
 class Window1 extends Window {
     get MAX_DEPTH() { return 32; }
-    get STARS() { return this._stars; }
+    get STARS() { return this.stars; }
     get TOTALSTARS() { return 512; }
     get SIZE() { return [10, 30]; }
     get SHINEDIR() { return [0.01, 0.05]; }
     get ANGSPEED() { return [0.01, 0.04]; }
     get PENTARADIANT() { return Math.PI * 2 / 5; }
     get COLORS() { return ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#8b00ff']; }
-    get FRAME() { return (Math.random() * 360) | 0; }
+    //get FRAME() { return (Math.random() * 360) | 0; }
     constructor(owner, props) {
         super(owner, props);
-        this._stars = [];
+        this.stars = [];
         this.onShow.addListener(this.formShow);
+        this.frame = (Math.random() * 360) | 0;
     }
     rand(ar) {
         return Math.random() * (ar[1] - ar[0]) + ar[0];
@@ -122,8 +123,8 @@ class Window1 extends Window {
             //this.Gauge2.createArrow=this.createArrowBlue;
             //this.Gauge3.createArrow=this.createArrowBlack;
         }
-        //this.initStars();
-        //Core.looper.addListener(this, "paint");
+        this.initStars();
+        Core.looper.addListener(this, "paint");
     }
     formShow() {
         if (!Core.browser.chrome) {
@@ -145,7 +146,7 @@ class Window1 extends Window {
         return Math.floor(Math.random() * (maxVal - minVal - 1)) + minVal;
     }
     Button1_onClick(sender) {
-        const confirm = Dialogs.confirm('This operation takes several seconds.<br />It depends on your CPU.<br />Proceed?');
+        const confirm = dialogs.confirm('This operation takes several seconds.<br />It depends on your CPU.<br />Proceed?');
         confirm.onClose.addListener(this.form.createListBoxItems);
     }
     createListBoxItems() {
@@ -167,7 +168,7 @@ class Window1 extends Window {
         this.form.FontDialog1.execute(this);
     }
     paint(elapsedTime) {
-        //this.PaintBox1.onPaint.invoke();
+        this.PaintBox1.onPaint.invoke();
         if ((new Date().getTime() - lastTime) > 3000) {
             this.CircularProgressBar1.value = ~~(Math.random() * 101);
             this.ProgressBar1.value = ~~(Math.random() * 101);
@@ -176,34 +177,37 @@ class Window1 extends Window {
         }
     }
     PaintBox1_onClick() {
+        const form = this.form;
         this.drawType++;
         if (this.drawType > 2) {
             this.drawType = 0;
         }
-        this.form.STARS.clear();
+        form.STARS.clear();
         if (this.drawType === 0) {
-            this.form.initStars();
+            form.initStars();
         }
     }
     PaintBox1_onPaint() {
-        const halfWidth = this.HTMLElement.offsetWidth / 2;
-        const halfHeight = this.HTMLElement.offsetHeight / 2;
+        const htmlElement = this.HTMLElement;
+        const halfWidth = htmlElement.offsetWidth / 2;
+        const halfHeight = htmlElement.offsetHeight / 2;
         let star = null;
-        const stars = this.form.STARS;
-
+        const form = this.form;
+        const stars = form.STARS;
+        const ctx = this.ctx;
         switch (this.drawType) {
             case 0:
-                this._ctx.globalCompositeOperation = Canvas.GLOBALCOMPOSITEOPERATIONS.SOURCEOVER;
-                this._ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-                this._ctx.fillRect(0, 0, this.HTMLElement.offsetWidth, this.HTMLElement.offsetHeight);
+                ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.SOURCEOVER;
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                ctx.fillRect(0, 0, htmlElement.offsetWidth, htmlElement.offsetHeight);
                 for (let i = 0; i < stars.length; i++) {
                     star = stars[i];
                     star.z -= 0.2;
 
                     if (star.z <= 0) {
-                        star.x = this.form.randomRange(-25, 25);
-                        star.y = this.form.randomRange(-25, 25);
-                        star.z = this.form.MAX_DEPTH;
+                        star.x = form.randomRange(-25, 25);
+                        star.y = form.randomRange(-25, 25);
+                        star.z = form.MAX_DEPTH;
                     }
 
                     const k = 128.0 / star.z;
@@ -213,46 +217,46 @@ class Window1 extends Window {
                     if (px >= 0 && px <= 500 && py >= 0 && py <= 400) {
                         const size = (1 - star.z / 32.0) * 5;
                         const shade = ~~((1 - star.z / 32.0) * 255);
-                        this._ctx.fillStyle = 'rgb(' + shade + ',' + shade + ',' + shade + ')';
-                        this._ctx.fillRect(px, py, size, size);
+                        ctx.fillStyle = 'rgb(' + shade + ',' + shade + ',' + shade + ')';
+                        ctx.fillRect(px, py, size, size);
                     }
                 }
                 break;
             case 1:
-                ++this.form._frame;
-                this._ctx.globalCompositeOperation = Canvas.GLOBALCOMPOSITEOPERATIONS.DESTINATIONOUT;
-                this._ctx.fillStyle = 'rgba(0, 0, 0, .1)';
-                this._ctx.fillRect(0, 0, this.HTMLElement.offsetWidth, this.HTMLElement.offsetHeight);
-                this._ctx.globalCompositeOperation = Canvas.GLOBALCOMPOSITEOPERATIONS.LIGHTER;
+                ++form.FRAME;
+                ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.DESTINATIONOUT;
+                ctx.fillStyle = 'rgba(0, 0, 0, .1)';
+                ctx.fillRect(0, 0, htmlElement.offsetWidth, htmlElement.offsetHeight);
+                ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.LIGHTER;
 
                 if (Math.random() < 0.3) {
-                    stars.push(new Star(this.form, this._ctx));
+                    stars.push(new Star(form, ctx));
                 }
 
                 for (let s = 0; s < stars.length; ++s) {
                     star = stars[s];
                     star.use();
 
-                    if ((star.x + star.size < 0) || (star.y + star.size > this.HTMLElement.offsetHeight + star.size * 2) || (star.x + star.size > this.HTMLElement.offsetWidth + star.size * 2)) {
+                    if ((star.x + star.size < 0) || (star.y + star.size > htmlElement.offsetHeight + star.size * 2) || (star.x + star.size > htmlElement.offsetWidth + star.size * 2)) {
                         stars.splice(s, 1);
                         --s;
                     }
                 }
                 break;
             case 2: {
-                const total = ~~(this.HTMLElement.offsetWidth * 0.5);
-                this._ctx.globalCompositeOperation = Canvas.GLOBALCOMPOSITEOPERATIONS.SOURCEOVER;
+                const total = ~~(htmlElement.offsetWidth * 0.5);
+                ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.SOURCEOVER;
                 for (let i = 0; i < stars.length; ++i) {
-                    stars[i].update(this._ctx);
-                    if (stars[i].pos.y < 0 || stars[i].pos.y > this.HTMLElement.offsetHeight || stars[i].pos.x < 0 || stars[i].pos.x > this.HTMLElement.offsetWidth) {
+                    stars[i].update(ctx);
+                    if (stars[i].pos.y < 0 || stars[i].pos.y > htmlElement.offsetHeight || stars[i].pos.x < 0 || stars[i].pos.x > htmlElement.offsetWidth) {
                         stars.splice(i, 1);
                     }
                 }
                 if (stars.length < total) {
                     stars.push(new Circle(Math.random() - 0.5, Math.random() - 0.5, halfWidth, halfHeight));
                 }
-                this._ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-                this._ctx.fillRect(0, 0, this.HTMLElement.offsetWidth, this.HTMLElement.offsetHeight);
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                ctx.fillRect(0, 0, htmlElement.offsetWidth, htmlElement.offsetHeight);
 
                 break;
             }
@@ -261,51 +265,51 @@ class Window1 extends Window {
     }
     PlotGrid1_onPaint() {
         let p = new Array(100);
-        let x = null;
-        let y = null;
-        let i = null;
-        let l;
-        this._ctx.save();
-        // Paint sin
-        for (i = 0, l = p.length; i < l; i++) {
-            // calc only in PlotGrid area
-            x = -(this.HTMLElement.offsetWidth / 2) + ((i / l) * this.HTMLElement.offsetWidth);
-            x = x / this.frequency;
-            // formula here
-            y = Math.sin(x);
-            p[i] = new Point(this.HTMLElement.offsetWidth / 2 + x * this.frequency, this.HTMLElement.offsetHeight / 2 - y * this.frequency);
+        const htmlElement = this.HTMLElement;
+        const frequency = this.frequency;
+        const ctx = this.ctx;
+        const calc = (formula) => {
+            let x = null;
+            let y = null;
+            for (let i = 0, l = p.length; i < l; i++) {
+                // calc only in PlotGrid area
+                x = -(htmlElement.offsetWidth / 2) + ((i / l) * htmlElement.offsetWidth);
+                x = x / frequency;
+                // formula here
+                switch (formula) {
+                    case 'sin':
+                        y = Math.sin(x);
+                        break;
+                    case 'cos':
+                        y = Math.cos(x) * x;
+                        break;
+                    default: //(x * x)
+                        y = x * x;
+                        break;
+                }
+                p[i] = new Core.classes.Point(htmlElement.offsetWidth / 2 + x * frequency, htmlElement.offsetHeight / 2 - y * frequency);
+            }
         }
-        this._ctx.lineWidth = 2;
-        this._ctx.strokeStyle = 'red';
-        this._ctx.drawPolyline(p);
+        ctx.save();
+        // Paint sin
+        calc('sin');
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'red';
+        ctx.drawPolyline(p);
         // Paint cos * x
         p = new Array(100);
-        for (i = 0, l = p.length; i < l; i++) {
-            // calc only in PlotGrid area
-            x = -(this.HTMLElement.offsetWidth / 2) + ((i / l) * this.HTMLElement.offsetWidth);
-            x = x / this.frequency;
-            // formula here
-            y = Math.cos(x) * x;
-            p[i] = new Point(this.HTMLElement.offsetWidth / 2 + x * this.frequency, this.HTMLElement.offsetHeight / 2 - y * this.frequency);
-        }
-        this._ctx.linewidth = 2;
-        this._ctx.strokeStyle = 'green';
-        this._ctx.drawPolyline(p);
+        calc('cos');
+        ctx.linewidth = 2;
+        ctx.strokeStyle = 'green';
+        ctx.drawPolyline(p);
         // Paint x * x }
         p = new Array(100);
-        for (i = 0, l = p.length; i < l; i++) {
-            // calc only in PlotGrid area
-            x = -(this.HTMLElement.offsetWidth / 2) + ((i / l) * this.HTMLElement.offsetWidth);
-            x = x / this.frequency;
-            // formula here
-            y = x * x;
-            p[i] = new Point(this.HTMLElement.offsetWidth / 2 + x * this.frequency, this.HTMLElement.offsetHeight / 2 - y * this.frequency);
-        }
-        this._ctx.lineWidth = 2;
-        this._ctx.strokeStyle = 'blue';
-        this._ctx.drawPolyline(p);
+        calc();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'blue';
+        ctx.drawPolyline(p);
         // End Paint
-        this._ctx.restore();
+        ctx.restore();
     }
     ToolButton1_onClick() {
         window.location.href = '/index.html';
@@ -341,8 +345,8 @@ class Window1 extends Window {
 }
 
 class Circle {
-    constructor() {
-        this.color = Core.apps.activeApplication.activeWindow.COLORS[(Math.random() * Core.apps.activeApplication.activeWindow.COLORS.length) | 0];
+    constructor(vx, vy, cx, cy) {
+        this.color = activeWindow.COLORS[(Math.random() * activeWindow.COLORS.length) | 0];
         this.pos = { x: cx, y: cy };
         this.vel = { x: vx, y: vy };
         this.frame = 1;
@@ -363,7 +367,7 @@ class Circle {
 }
 
 class Star {
-    constructor() {
+    constructor(form, ctx) {
         this.size = form.rand(form.SIZE);
         this.x = Math.random() * ctx.canvas.width;
         this.y = -this.size * 2;
@@ -372,7 +376,7 @@ class Star {
         this.ay = this.size / 5000;
         this.shine = 0;
         this.shineDir = form.rand(form.SHINEDIR);
-        this.color = 'hsla(hue, 80%, brightness%, .15)'.replace('hue', form.FRAME % 360);
+        this.color = 'hsla(hue, 80%, brightness%, .15)'.replace('hue', form.frame % 360);
         this.rot = Math.random() * 2 * Math.PI;
         this.omega = form.rand(form.ANGSPEED);
         if (Math.random() < 0.5) {

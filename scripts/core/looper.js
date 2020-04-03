@@ -21,8 +21,8 @@ const Looper = (() => {
         constructor() {
             super();
             const priv = internal(this);
-            priv.listeners = [];
-            priv.functions = [];
+            priv.listeners = {};
+            //priv.functions = [];
             priv.fps = 60;
             priv.handle = null;
             priv.paused = false;
@@ -37,9 +37,9 @@ const Looper = (() => {
         }
         //#endregion listeners
         //#region functions
-        get functions() {
-            return internal(this).functions;
-        }
+        //get functions() {
+        //    return internal(this).functions;
+        //}
         //#endregion functions
         //#region fps
         get fps() {
@@ -142,13 +142,14 @@ const Looper = (() => {
         //#endregion pause
         //#region loop
         loop(elapsedTime) {
+            const keys = Object.keys(Core.looper.listeners);
             if (!Core.looper.paused && !Core.looper.isBusy && Core.looper.handle) {
                 Core.looper.isBusy = true;
-                Core.looper.listeners.forEach((listener, i) => {
-                    const func = Core.looper.functions[i];
-                    if (listener) {
-                        listener[func](elapsedTime);
-                    }
+                keys.forEach(key => {
+                    const obj = Core.looper.listeners[key];
+                    obj.functions.forEach(func => {
+                        obj.component[func](elapsedTime);
+                    });
                 });
                 Core.looper.isBusy = false;
                 Core.looper.rAF(Core.looper.loop);
@@ -160,25 +161,29 @@ const Looper = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (obj && priv.listeners.indexOf(obj) === -1) {
-                this.removeListener(obj);
-                priv.listeners.push(obj);
-                if (!func) {
-                    func = 'processTick';
+            func = func || 'processTick';
+            if (!priv.listeners.hasOwnProperty(obj.name)) {
+                priv.listeners[obj.name] = { component: obj, functions: [] };
+                priv.listeners[obj.name].functions.push(func);
+            } else {
+                const idx = priv.listeners[obj.name].functions.indexOf(func);
+                if (idx === -1) {
+                    priv.listeners[obj.name].functions.push(func);
                 }
-                priv.functions.push(func);
             }
         }
         //#endregion addListener
         //#region removeListener
-        removeListener(obj) {
+        removeListener(obj, func) {
             //#region Variables déclaration
             const priv = internal(this);
-            const index = priv.listeners.indexOf(obj);
             //#endregion Variables déclaration
-            if (index !== -1) {
-                priv.listeners.splice(index, 1);
-                priv.functions.splice(index, 1);
+            func = func || 'processTick';
+            if (priv.listeners.hasOwnProperty(obj.name)) {
+                const idx = priv.listeners[obj.name].functions.indexOf(func);
+                if (idx > -1) {
+                    priv.listeners[obj.name].functions.removeAt(idx);
+                }
             }
         }
         //#endregion removeListener
@@ -186,9 +191,13 @@ const Looper = (() => {
         removeAllListeners() {
             //#region Variables déclaration
             const priv = internal(this);
+            const keys = Objects.keys(priv.listeners);
             //#endregion Variables déclaration
-            priv.listeners.length = 0;
-            priv.functions.length = 0;
+            keys.forEach(key => {
+                priv.listeners[key].functions.length = 0;
+                priv.listeners[key].component = null;
+            });
+            priv.listeners = {};
         }
         //#endregion removeAllListeners
         //#endregion Methods

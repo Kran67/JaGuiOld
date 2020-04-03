@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { Control } from '/scripts/components/control.js';
 import { Tools } from '/scripts/core/tools.js';
-import { NotifyEvent } from '/scripts/core/events.js';
 import { Convert } from '/scripts/core/convert.js';
 import { Text } from '/scripts/core/text.js';
 //#endregion Import
@@ -33,10 +32,8 @@ const BatteryIndicator = (() => {
                 priv.baseWidth = 120;
                 priv.baseHeight = 230;
                 priv.baseFluidHeight = 190;
-                this.onChargingChange = new NotifyEvent(this);
-                this.onLevelChange = new NotifyEvent(this);
-                this.onChargingTimeChange = new NotifyEvent(this);
-                this.onDischargingTimeChange = new NotifyEvent(this);
+                this.createEventsAndBind(['onChargingChange', 'onLevelChange', 'onChargingTimeChange',
+                    'onDischargingTimeChange'], props);
                 delete this.tabOrder;
             }
         }

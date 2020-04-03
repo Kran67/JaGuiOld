@@ -108,32 +108,6 @@
     };
     Object.freeze(ORIENTATIONS);
     //#endregion
-    //#region MESSAGETYPES
-    const MESSAGETYPES = {
-        WARNING: "warning",
-        ERROR: "error",
-        INFORMATION: "information",
-        CONFIRMATION: "confirmation",
-        CUSTOM: "custom"
-    };
-    Object.freeze(MESSAGETYPES);
-    //#endregion
-    //#region MESSAGEBUTTONS
-    const MESSAGEBUTTONS = {
-        YES: "yes",
-        NO: "no",
-        OK: "ok",
-        CANCEL: "cancel",
-        ABORT: "abort",
-        RETRY: "retry",
-        IGNORE: "ignore",
-        ALL: "all",
-        NOTOALL: "noToAll",
-        YESTOALL: "yesToAll",
-        HELP: "help"
-    };
-    Object.freeze(MESSAGEBUTTONS);
-    //#endregion
     //#region CONSTANTS
     const CONSTANTS = {
         _2PI: Math.PI * 2,
@@ -170,17 +144,6 @@
         LINECAPTION: "-",
         HOTKEYPREFIX: "&",
         PIX: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==",
-        BTNS_ALL: [MESSAGEBUTTONS.YES, MESSAGEBUTTONS.NO, MESSAGEBUTTONS.OK, MESSAGEBUTTONS.CANCEL, MESSAGEBUTTONS.ABORT, MESSAGEBUTTONS.RETRY, MESSAGEBUTTONS.IGNORE, MESSAGEBUTTONS.ALL, MESSAGEBUTTONS.NOTOALL, MESSAGEBUTTONS.YESTOALL, MESSAGEBUTTONS.HELP],
-        BTNS_YESNO: [MESSAGEBUTTONS.YES, MESSAGEBUTTONS.NO],
-        BTNS_YESNOCANCEL: [MESSAGEBUTTONS.YES, MESSAGEBUTTONS.NO, MESSAGEBUTTONS.CANCEL],
-        BTNS_YESALLNOALLCANCEL: [MESSAGEBUTTONS.YES, MESSAGEBUTTONS.YESTOALL, MESSAGEBUTTONS.NO, MESSAGEBUTTONS.NOTOALL, MESSAGEBUTTONS.CANCEL],
-        BTNS_OKCANCEL: [MESSAGEBUTTONS.OK, MESSAGEBUTTONS.CANCEL],
-        BTNS_ABORTRETRYIGNORE: [MESSAGEBUTTONS.ABORT, MESSAGEBUTTONS.RETRY, MESSAGEBUTTONS.IGNORE],
-        BTNS_ABORTIGNORE: [MESSAGEBUTTONS.ABORT, MESSAGEBUTTONS.IGNORE],
-        WARNING_CSS: "warning",
-        ERROR_CSS: "error",
-        INFORMATION_CSS: "information",
-        CONFIRMATION_CSS: "confirmation",
         CHANNELMAP: { R: 0, G: 1, B: 2, A: 3 },
         PSEUDOCLASSBEFORE: Browser.webkit ? ":" : ""
     };

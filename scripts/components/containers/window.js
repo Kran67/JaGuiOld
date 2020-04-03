@@ -61,7 +61,7 @@ const WindowTitleBar = (() => {
                 hitTest.all = true;
                 hitTest.mouseWheel = false;
                 //#endregion Public
-                this.onCaptionChanged = new classes.NotifyEvent(this);
+                this.createEventsAndBind(['onCaptionChanged'], props);
             }
         }
         //#endregion Constructor
@@ -785,14 +785,7 @@ const BaseWindow = (() => {
                 this.app[this.constructor.name.toLowerCase()] = this;
                 //#endregion Public
                 //#region Events
-                this.onActivate = new classes.NotifyEvent(this);
-                this.onDeactivate = new classes.NotifyEvent(this);
-                this.onHide = new classes.NotifyEvent(this);
-                this.onShow = new classes.NotifyEvent(this);
-                this.onCreate = new classes.NotifyEvent(this);
-                this.onClose = new classes.NotifyEvent(this);
-                this.onCloseQuery = new classes.NotifyEvent(this);
-                this.onThemeChanged = new classes.NotifyEvent(this);
+                this.createEventsAndBind(['onActivate', 'onDeactivate', 'onHide', 'onShow', 'onCreate', 'onClose', 'onCloseQuery', 'onThemeChanged'], props);
                 //#endregion Events
                 //if (!Core.isHTMLRenderer) {
                 //    priv.minimizeAnimation.hideOnFinish = true;
@@ -805,6 +798,13 @@ const BaseWindow = (() => {
         }
         //#endregion constructor
         //#region getters / setters
+        get titleBarSize() {
+            const priv = internal(this);
+            return {
+                width: priv.titleBar.HTMLElement.offsetWidth,
+                height: priv.titleBar.HTMLElement.offsetHeight
+            };
+        }
         //#region savedSizePosState
         get savedSizePosState() {
             return internal(this).savedSizePosState;
@@ -1160,11 +1160,11 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             if (Tools.isString(newValue)) {
                 if (title !== newValue) {
-                    title = newValue;
+                    //priv.titleBar.title.innerText = newValue;
                     this.captionChanged();
                     //this.onCaptionChanged.invoke(priv.titleBar);
                     if (Core.isHTMLRenderer) {
-                        title = newValue;
+                        priv.titleBar.title.innerText = newValue;
                     }
                 }
             }
@@ -1196,7 +1196,7 @@ const BaseWindow = (() => {
             let html = super.template;
             let a = html.split('{appName}');
             //#endregion Variables déclaration
-            html = a.join(internal(this).app.name);
+            html = a.join(this.app.name);
             a = html.split('{internalId_Layout}');
             html = a.join(String.uniqueId());
             a = html.split('{internalId_content}');
@@ -1219,6 +1219,8 @@ const BaseWindow = (() => {
             html = a.join(String.uniqueId());
             a = html.split('{internalId_StayOnOffButton}');
             html = a.join(String.uniqueId());
+            a = html.split('{content}');
+            html = a.join(String.EMPTY);
             return html;
         }
         //#endregion template
@@ -1261,10 +1263,11 @@ const BaseWindow = (() => {
             const app = this.app;
             const isHtmlRenderer = Core.isHTMLRenderer;
             const lastActiveWindow = app.lastActiveWindow;
-            const htmlElement = activeWindow.HTMLElement;
+            let htmlElement;
             //#endregion Variables déclaration
             if (activeWindow !== this) {
                 if (activeWindow) {
+                    htmlElement = activeWindow.HTMLElement;
                     activeWindow.releaseCapture();
                     if (activeWindow.focusedControl) {
                         activeWindow.focusedControl.killFocus();
@@ -1283,7 +1286,7 @@ const BaseWindow = (() => {
                 }
             }
             window.activeWindow = activeWindow = app.activeWindow = this;
-            if (isHtmlRenderer) {
+            if (isHtmlRenderer && htmlElement) {
                 htmlElement.classList.remove('inactive');
             }
             this.onActivate.invoke();
@@ -1487,7 +1490,6 @@ const BaseWindow = (() => {
             if (!priv.canClose) {
                 return;
             }
-            Tools.removeResizeListeners(this);
             this.hide();
         }
         //#endregion _close
@@ -1499,12 +1501,9 @@ const BaseWindow = (() => {
             const lastActiveWindow = app.lastActiveWindow;
             const priv = internal(this);
             const isHtmlRenderer = Core.isHTMLRenderer;
+            let glass;
             //#endregion Variables déclaration
-            if (priv.isModal && isHtmlRenderer) {
-                lastActiveWindow.last.HTMLElement.removeChild(lastHtmlElement.lastElementChild);
-            }
             this.onHide.invoke();
-            priv.isModal = false;
             if (isHtmlRenderer) {
                 htmlElement.classList.remove('bounceIn');
                 htmlElement.classList.add('bounceOut');
@@ -1526,6 +1525,21 @@ const BaseWindow = (() => {
                 lastActiveWindow.last.setActive();
                 lastActiveWindow.pop();
             }
+            if (priv.isModal && isHtmlRenderer) {
+                glass = activeWindow.HTMLElement.querySelector('.noEvents')
+                if (!activeWindow.isChildWindow) {
+                    if (isHtmlRenderer) {
+                        activeWindow.HTMLElement.removeChild(glass);
+                    }
+                } else {
+                    if (isHtmlRenderer) {
+                        app.mainWindow.HTMLElement.removeChild(glass);
+                    }
+                    activeWindow = app.mainWindow;
+                }
+            }
+            priv.isModal = false;
+
         }
         //#endregion hide
         //#region minimize
@@ -1946,9 +1960,9 @@ const BaseWindow = (() => {
             //#endregion Variables declaration
             //this.checkBorderStyle();
             if (priv.firstShow) {
-                if (isHtmlRenderer) {
-                    this.HTMLResize();
-                }
+                //if (isHtmlRenderer) {
+                //    this.HTMLResize();
+                //}
                 priv.firstShow = false;
                 if (this.isMaximized) {
                     priv.windowState = Window.WINDOWSTATES.NORMAL;
@@ -1968,21 +1982,11 @@ const BaseWindow = (() => {
         //#endregion beforeShow
         //#region show
         show() {
-            //this.onBeforeShow.invoke();
-            this.beforeShow();
-            this._show();
-            this.onShow.invoke();
-            if (!Core.isHTMLRenderer) {
-                Core.canvas.needRedraw = true;
-            }
-        }
-        //#endregion show
-        //#region _show
-        _show() {
             //#region Variables déclaration
             const htmlElement = this.HTMLElement;
             const priv = internal(this);
             //#endregion Variables déclaration
+            this.beforeShow();
             this.visible = true;
             this.setActive();
             if (priv.animated && Core.isHTMLRenderer) {
@@ -1993,8 +1997,12 @@ const BaseWindow = (() => {
                     defaultBtn.jsObj.setFocus();
                 }
             }
+            this.onShow.invoke();
+            if (!Core.isHTMLRenderer) {
+                Core.canvas.needRedraw = true;
+            }
         }
-        //#endregion _show
+        //#endregion show
         //#region anitmationEndOnShow
         anitmationEndOnShow() {
             Events.unBind(this, Events.whichAnimationEvent(), this.jsObj.anitmationEndOnShow);
@@ -2038,7 +2046,7 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             if (isHtmlRenderer) {
                 glass = document.createElement(Types.HTMLELEMENTS.DIV);
-                glass.classList.add('noEvents');
+                glass.classList.add('Control', 'noEvents');
                 glass.jsObj = this;
             }
             priv.isModal = true;
@@ -2082,11 +2090,10 @@ const BaseWindow = (() => {
             if (!this.loading && !priv.creating) {
                 priv.firstShow = false;
             }
-            const childs = Core.looper.listeners.filter(e => {
-                return e.hasResizeEvent;
-            });
-            childs.forEach(child => {
-                child.resized();
+            Object.keys(Core.looper.listeners).forEach(key => {
+                if (Core.looper.listeners[key].component.hasResizeEvent) {
+                    Core.looper.listeners[key].component.resized();
+                }
             });
             htmlElementStyle.width = `${width}${PX}`;
             htmlElementStyle.height = `${height}${PX}`;
@@ -2192,7 +2199,7 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             resizeMode.rightEdge = resizeMode.bottomEdge = resizeMode.topEdge = resizeMode.leftEdge = false;
             priv.isResizing = false;
-            Core.looper.removeListener(this);
+            Core.looper.removeListener(this, 'resize');
             Core.resizeWindow = null;
             Events.unBind(document, Mouse.MOUSEEVENTS.UP.toLowerCase(), this.docMouseUp);
             Events.unBind(document, Mouse.MOUSEEVENTS.MOVE.toLowerCase(), this.docMouseMove);
@@ -2571,24 +2578,12 @@ const BaseWindow = (() => {
                     this.maximize();
                     this.desactiveHitTest();
                 }
+                this.HTMLResize();
             } else {
                 this.getChilds(id);
             }
         }
         //#endregion formCreated
-        //#region bindEvents
-        bindEvents() {
-            super.bindEvents();
-            this.bindEventToHTML('onClose');
-            this.bindEventToHTML('onCloseQuery');
-            this.bindEventToHTML('onActivate');
-            this.bindEventToHTML('onDeactivate');
-            this.bindEventToHTML('onHide');
-            this.bindEventToHTML('onShow');
-            this.bindEventToHTML('onCreate');
-            this.bindEventToHTML('onThemeChanged');
-        }
-        //#endregion center
         //#region loaded
         loaded() {
             //#region Variables déclaration
@@ -2869,8 +2864,11 @@ const BaseWindow = (() => {
             const head = document.head;
             const className = this.constructor.name;
             const windows = app.windows;
-            //#endregion Variables déclaration
             const scripts = Convert.nodeListToArray(head.getElementsByTagName('script'));
+            //#endregion Variables déclaration
+            if (priv.isModal && isHtmlRenderer) {
+                priv.parentHTML.removeChild(this.HTMLElement);
+            }
             scripts.forEach(script => {
                 if (script.src.indexOf(className.toLowerCase()) > -1) {
                     head.removeChild(script);
@@ -3058,58 +3056,54 @@ Object.defineProperties(BaseWindow, {
 /**
  * @type    {Object}        HELPTYPES
  */
-const HELPTYPES = Object.freeze({
+const HELPTYPES = Object.freeze(Object.seal({
     KEYWORD: 'keyword',
     CONTEXT: 'context'
-});
-Object.seal(HELPTYPES);
+}));
 //#endregion HELPTYPES
 //#region TITLEBUTTONS
 /**
  * @type    {Object}        TITLEBUTTONS
  */
-const TITLEBUTTONS = Object.freeze({
+const TITLEBUTTONS = Object.freeze(Object.seal({
     CLOSE: 'close',
     MAXRESTORE: 'maxRestore',
     MINIMIZE: 'minimize',
     HELP: 'help',
     ROLLUPDOWN: 'rollUpDown',
     STAYONOFF: 'stayOnOff'
-});
-Object.seal(TITLEBUTTONS);
+}));
 //#endregion TITLEBUTTONS
 //#region FORMSTATES
 /**
  * @type    {Object}        FORMSTATES
  */
-const FORMSTATES = Object.freeze({
+const FORMSTATES = Object.freeze(Object.seal({
     CREATING: 'creating',
     VISIBLE: 'visible',
     SHOWING: 'showing',
     MODAL: 'modal',
     ACTIVATED: 'activated'
-});
-Object.seal(FORMSTATES);
+}));
 //#endregion FORMSTATES
 //#region WINDOWSTATES
 /**
  * @type    {Object}        WINDOWSTATES
  */
-const WINDOWSTATES = Object.freeze({
+const WINDOWSTATES = Object.freeze(Object.seal({
     NONE: 'none',
     NORMAL: 'normal',
     MINIMIZED: 'minimized',
     MAXIMIZED: 'maximized',
     ROLLEDUP: 'rolledup',
     SNAPED: 'snaped'
-});
-Object.seal(WINDOWSTATES);
+}));
 //#endregion WINDOWSTATES
 //#region MODALRESULTBUTTONS
 /**
  * @type    {Object}        MODALRESULTBUTTONS
  */
-const MODALRESULTBUTTONS = Object.freeze({
+const MODALRESULTBUTTONS = Object.freeze(Object.seal({
     NONE: 'none',
     OK: 'ok',
     CANCEL: 'cancel',
@@ -3122,14 +3116,13 @@ const MODALRESULTBUTTONS = Object.freeze({
     NOTOALL: 'noToAll',
     YESTOALL: 'yesToAll',
     CLOSE: 'close'
-});
-Object.seal(MODALRESULTBUTTONS);
+}));
 //#endregion MODALRESULTBUTTONS
 //#region MODALRESULTS
 /**
  * @type    {Object}        MODALRESULTS
  */
-const MODALRESULTS = Object.freeze({
+const MODALRESULTS = Object.freeze(Object.seal({
     NONE: 'none',
     OK: 'ok',
     CANCEL: 'cancel',
@@ -3142,40 +3135,37 @@ const MODALRESULTS = Object.freeze({
     NOTOALL: 'noToAll',
     YESTOALL: 'yesToAll',
     HELP: 'help'
-});
-Object.seal(MODALRESULTS);
+}));
 //#endregion MODALRESULTS
 //#region FORMPOSITIONS
 /**
  * @type    {Object}        FORMPOSITIONS
  */
-const FORMPOSITIONS = Object.freeze({
+const FORMPOSITIONS = Object.freeze(Object.seal({
     DEFAULT: 'default',
     DESIGNED: 'designed',
     MAINFORMCENTER: 'mainFormCenter',
     SCREENCENTER: 'screenCenter'
-});
-Object.seal(FORMPOSITIONS);
+}));
 //#endregion FORMPOSITIONS
 //#region BORDERSTYLES
 /**
  * @type    {Object}        BORDERSTYLES
  */
-const BORDERSTYLES = Object.freeze({
+const BORDERSTYLES = Object.freeze(Object.seal({
     DIALOG: 'dialog',
     NONE: 'none',
     SINGLE: 'single',
     SIZEABLE: 'sizeable'/*,
     SIZETOOLWIN: 'sizeToolWin',
     TOOLWINDOW: 'toolWindow'*/
-});
-Object.seal(BORDERSTYLES);
+}));
 //#endregion BORDERSTYLES
 //#region RESIZEMODES
 /**
  * @type    {Object}        RESIZEMODES
  */
-const RESIZEMODES = Object.freeze({
+const RESIZEMODES = Object.freeze(Object.seal({
     NONE: String.EMPTY,
     LEFT: 'left',
     TOP: 'top',
@@ -3185,41 +3175,37 @@ const RESIZEMODES = Object.freeze({
     TOPRIGHT: 'topRight',
     BOTTOMRIGHT: 'bottomRight',
     BOTTOMLEFT: 'bottomLeft'
-});
-Object.seal(RESIZEMODES);
+}));
 //#endregion RESIZEMODES
 //#region SNAPAREAS
 /**
  * @type    {Object}        SNAPAREAS
  */
-const SNAPAREAS = Object.freeze({
+const SNAPAREAS = Object.freeze(Object.seal({
     NONE: 'none',
     LEFT: 'left',
     TOP: 'top',
     RIGHT: 'right'
-});
-Object.seal(SNAPAREAS);
+}));
 //#endregion SNAPAREAS
 //#region SHOWINGMODES
 /**
  * @type    {Object}        SHOWINGMODES
  */
-const SHOWINGMODES = Object.freeze({
+const SHOWINGMODES = Object.freeze(Object.seal({
     NORMAL: 'normal',
     MODAL: 'modal'
-});
-Object.seal(SHOWINGMODES);
+}));
 //#endregion SHOWINGMODES
 //#region BORDERSTYPES
 /**
  * @type    {Object}        BORDERSTYPES
  */
-const BORDERSTYPES = Object.freeze({
+const BORDERSTYPES = Object.freeze(Object.seal({
     NONE: 'none',
     SNAP: 'snap',
     MAGNETIC: 'magnetic'
-});
-Object.seal(BORDERSTYPES);
+}));
 //#endregion BORDERSTYPES
 //#endregion
 //#region Window
@@ -3361,22 +3347,16 @@ const Window = (() => {
 Core.classes.register(Types.CATEGORIES.CONTAINERS, Window);
 Core.classes.register(Types.INTERNALCATEGORIES.INTERNAL, WindowTitleBar, WindowContent, BaseWindow);
 const WindowTitleBarTpl = ['<jagui-windowtitlebar id="{internalId_TitleBar}" data-class="WindowTitleBar" class="Control WindowTitleBar {theme}">',
-    '<jagui-windowtitle id="{internalId_Title}" data-class="CaptionControl" class="Control CaptionControl WindowTitle logo WindowIcon {theme}">',
-    '{title}</jagui-windowtitle><jagui-windowclosebutton id="{internalId_CloseButton}" data-class="WindowCloseButton ',
-    'class="Control WindowTitleButton WindowCloseButton {theme}"></jagui-windowclosebutton><jagui-windowmaxrestorebutton ',
-    'id="{internalId_MaxRestoreButton}" data-class="WindowMaxRestoreButton" class="Control WindowTitleButton WindowMaxRestoreButton {theme}',
-    ' data-isrestore="false"></jagui-windowmaxrestorebutton><jagui-windowminimizebutton id="{internalId_MinimizeButton}" ',
-    'data-class="WindowMinimizeButton" class="Control WindowTitleButton WindowMinimizeButton {theme}"></jagui-windowminimizebutton>',
-    '<jagui-windowhelpbutton id="{internalId_HelpButton}" data-class="WindowHelpButton" class="Control WindowTitleButton WindowHelpButton hidden {theme}"',
-    '></jagui-windowhelpbutton><jagui-windowrollupdownbutton id="{internalId_RollUpDownButton}" data-class="WindowRollUpDownButton"',
-    ' class="Control WindowTitleButton WindowRollUpDownButton hidden {theme}" data-isup="true"></jagui-windowrollupdownbutton>',
-    '<jagui-windowstayonoffbutton id="{internalId_StayOnOffButton}" data-class="WindowStayOnOffButton" ',
-    'class="Control WindowTitleButton WindowStayOnOffButton hidden {theme}" data-ison="true"></jagui-windowstayonoffbutton>',
+    '<jagui-windowtitle id="_oNun98l0" data-class="WindowTitle" class="WindowTitle {theme}">{title}</jagui-windowtitle>',
+    '<jagui-windowstayonoffbutton id="{internalId_StayOnOffButton}" data-class="WindowStayOnOffButton" class="Control Button WindowTitleButton WindowStayOnOffButton {theme}"></jagui-windowstayonoffbutton>',
+    '<jagui-windowrollupdownbutton id="{internalId_RollUpDownButton}"" data-class="WindowRollUpDownButton" class="Control Button WindowTitleButton WindowRollUpDownButton {theme}"></jagui-windowrollupdownbutton>',
+    '<jagui-windowhelpbutton id="{internalId_HelpButton}" data-class="WindowHelpButton" class="Control Button WindowTitleButton WindowHelpButton {theme}"></jagui-windowhelpbutton>',
+    '<jagui-windowminimizebutton id="{internalId_MinimizeButton}" data-class="WindowMinimizeButton" class="Control Button WindowTitleButton WindowMinimizeButton {theme}"></jagui-windowminimizebutton>',
+    '<jagui-windowmaxrestorebutton id="{internalId_MaxRestoreButton}"" data-class="WindowMaxRestoreButton" class="Control Button WindowTitleButton WindowMaxRestoreButton {theme}"></jagui-windowmaxrestorebutton>',
+    '<jagui-windowclosebutton id="{internalId_CloseButton}" data-class="WindowCloseButton" class="Control Button WindowTitleButton WindowCloseButton {theme}"></jagui-windowclosebutton>',
     '</jagui-windowtitlebar>'].join(String.EMPTY);
-const WindowTpl = ['<jagui-window id="{internalId}" data-name="{name}" data-class="Window" class="Control csr_default Window {theme}"',
-    ' data-appName="{appName}" data-visible="false"><jagui-windowlayout id="{internalId_Layout}" data-class="Layout" ',
-    'class="Control Layout WindowLayout"><jagui-windowcontent id="{internalId_content}" data-name="{windowName_content}"',
-    ' data-class="WindowContent" class="Control WindowContent {theme}" data-popupmenu="{popupMenu}">${WindowTitleBarTpl}</jagui-windowcontent>',
+const WindowTpl = ['<jagui-window id="{internalId}" data-class="Window" class="Control Window {theme} {appName}"><jagui-windowlayout id="{internalId_Layout}" data-class="Layout" ',
+    `class="Control Layout WindowLayout {theme}">${WindowTitleBarTpl}<jagui-windowcontent id="{internalId_content}" data-class="WindowContent" class="Control WindowContent {theme}">{content}</jagui-windowcontent>`,
     '</jagui-windowlayout></jagui-window>'].join(String.EMPTY);
-Core.classes.registerTemplates([{ Class: Window, template: WindowTpl }]);
+Core.classes.registerTemplates([{ Class: Window, template: WindowTpl }, { Class: WindowTitleBar, template: WindowTitleBarTpl }]);
 export { Window };

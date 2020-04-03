@@ -50,6 +50,7 @@
 @import url('containers/calloutpanel.css');
 @import url('containers/domlayout.css');
 @import url('containers/expander.css');
+@import url('containers/flexlayout.css');
 @import url('containers/flowlayout.css');
 @import url('containers/gridlayout.css');
 @import url('containers/groupbox.css');

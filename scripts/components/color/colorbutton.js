@@ -1,7 +1,6 @@
 ﻿//#region Imports
 import { Button } from '/scripts/components/common/button.js';
 import { Color, Colors } from '/scripts/core/color.js';
-import { NotifyEvent } from '/scripts/core/events.js';
 import { Window } from '/scripts/components/containers/window.js';
 //#endregion Imports
 //#region ColorButton
@@ -28,7 +27,7 @@ const ColorButton = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 priv.color = color;
-                this.onChange = new NotifyEvent(this);
+                this.createEventsAndBind(['onChange'], props);
                 priv.colorDlg = null;
                 //priv.colorObj = null;
             }

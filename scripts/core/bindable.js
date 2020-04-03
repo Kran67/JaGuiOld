@@ -131,7 +131,7 @@ const Bindable = (() => {
          * @override
          */
         destroy() {
-            internal(this).dataBindings.destroy();
+            //internal(this).dataBindings.destroy();
             super.destroy();
         }
         //#endregion

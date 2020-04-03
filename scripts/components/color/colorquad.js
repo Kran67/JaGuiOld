@@ -3,7 +3,6 @@ import { GraphicControl } from '/scripts/core/graphiccontrol.js';
 import { Tools } from '/scripts/core/tools.js';
 import { Color } from '/scripts/core/color.js';
 import { Point } from '/scripts/core/geometry.js';
-import { NotifyEvent } from '/scripts/core/events.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Imports
@@ -32,7 +31,7 @@ const ColorQuad = (() => {
                 priv.handle = new Point;
                 this.autoCapture = true;
                 priv.colorBox = props.hasOwnProperty('colorBox') ? this.form[props.colorBox] : null;
-                this.onChange = new NotifyEvent(this);
+                this.createEventsAndBind(['onChange'], props);
                 priv.color = props.hasOwnProperty('color') ? Color.parse(props.color) : new Color(this.fillColor);
                 Tools.addPropertyFromEnum({
                     component: this,
@@ -46,7 +45,6 @@ const ColorQuad = (() => {
                 priv.gradientEdit = props.hasOwnProperty('gradientEdit') ? this.form[props.gradientEdit] : null;
                 this.canFocused = true;
                 delete this.tabOrder;
-                this.bindEventToHTML('onChange');
                 this.allowUpdateOnResize = true;
             }
         }

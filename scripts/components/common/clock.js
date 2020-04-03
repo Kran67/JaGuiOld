@@ -1,6 +1,5 @@
 ﻿//#region Import
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
-import { NotifyEvent } from '/scripts/core/events.js';
 import { Tools } from '/scripts/core/tools.js';
 import { Color } from '/scripts/core/color.js';
 //#endregion Import
@@ -225,10 +224,7 @@ const Clock = (() => {
                     },
                     value: props.hasOwnProperty('dotsAnimationType') ? props.dotsAnimationType : DOTSANIMATIONTYPES.FADE
                 });
-                this.onAlarm = new NotifyEvent(this);
-                this.onAlarm.addListener(this.form[props.onAlarm]);
-                this.onCountdownEnd = new NotifyEvent(this);
-                this.onCountdownEnd.addListener(this.form[props.onCountdownEnd]);
+                this.createEventsAndBind(['onAlarm', 'onCountdownEnd', 'onCountdownEnd'], props);
                 this.hitTest.all = !1;
                 this.hitTest.mousedown = !0;
                 priv.dotsGap = priv.dotsGap > 2 ? 2 : priv.dotsGap;

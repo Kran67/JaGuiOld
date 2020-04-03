@@ -1,6 +1,5 @@
 ﻿//#region Import
 import { Button } from '/scripts/components/common/button.js';
-import { NotifyEvent } from '/scripts/core/events.js';
 import { Vector } from '/scripts/core/geometry.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 import { Mouse } from '/scripts/core/mouse.js';
@@ -42,7 +41,7 @@ const AngleButton = (() => {
                 this.autoCapture = true;
                 this.caption = String.EMPTY;
                 this.canFocused = true;
-                this.onChanged = new NotifyEvent(this);
+                this.createEventsAndBind(['onChanged'], props);
                 const self = this;
                 priv.setInternalValue = function (newValue) {
                     //#region Variables déclaration

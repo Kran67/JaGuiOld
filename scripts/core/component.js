@@ -551,7 +551,7 @@ const Component = (() => {
             const owner = priv.owner;
             const owners = priv.owners;
             //#endregion Variables déclaration
-            priv.destroying();
+            //this.destroying();
             this.destroyComponents();
             if (htmlElement) {
                 htmlElement.parentNode.removeChild(htmlElement);
@@ -576,7 +576,6 @@ const Component = (() => {
             //#endregion Variables déclaration
             priv.loading = false;
             if (Core.isHTMLRenderer) {
-                this.bindEvents();
                 if (htmlElement) {
                     const properties = htmlElement.querySelector(`[id='${priv.internalId}']> properties:first-child`);
                     if (properties) {
@@ -684,6 +683,7 @@ const Component = (() => {
         //#region getComponent
         getComponent(index) {
             //#region Variables déclaration
+            const priv = internal(this);
             const components = priv.components;
             //#endregion Variables déclaration
             if (components.length === 0 || index >= components.length) {
@@ -702,6 +702,7 @@ const Component = (() => {
         //#region destroyComponents
         destroyComponents() {
             //#region Variables déclaration
+            const priv = internal(this);
             let instance;
             //#endregion Variables déclaration
             const components = priv.components;
@@ -811,9 +812,6 @@ const Component = (() => {
         //#region getChilds
         getChilds() { }
         //#endregion getChilds
-        //#region bindEvents
-        bindEvents() { }
-        //#endregion bindEvents
         /*updateFromHTML() {
             let properties = this.HTMLElement.querySelector("properties"), props;
             if (!properties) return;
@@ -838,27 +836,29 @@ const Component = (() => {
             return result;
         }
         //#endregion clientToDocument
-        //#region bindEventToHTML
-        bindEventToHTML(eventName) { // à vérifier
+        //#region createEventsAndBind
+        createEventsAndBind(eventsName, props) {
             //#region Variables déclaration
             const priv = internal(this);
-            const htmlElement = priv.HTMLElement;
             //#endregion Variables déclaration
             const form = priv.form;
-            if (Tools.isString(eventName) && htmlElement) {
-                const data = htmlElement.dataset[eventName.toLowerCase()];
-                if (data) {
-                    if (Tools.isFunc(form[data])) {
-                        this[eventName].addListener(form[data]);
-                    } else if (Tools.isString(data)) {
-                        if (!String.isNullOrEmpty(data)) {
-                            this[eventName].addListener(new Function(data));
+            if (Array.isArray(eventsName)) {
+                eventsName.forEach(eventName => {
+                    const eventValue = props[eventName];
+                    this[eventName] = new Core.classes.NotifyEvent(this);
+                    if (props.hasOwnProperty(eventName)) {
+                        if (Tools.isFunc(form[eventValue])) {
+                            this[eventName].addListener(form[eventValue]);
+                        } else if (Tools.isString(eventValue)) {
+                            if (!String.isNullOrEmpty(eventValue)) {
+                                this[eventName].addListener(new Function(eventValue));
+                            }
                         }
                     }
-                }
+                });
             }
         }
-        //#endregion bindEventToHTML
+        //#endregion createEventsAndBind
         //#endregion
     }
     return Component;

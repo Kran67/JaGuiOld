@@ -2,7 +2,6 @@
 import { GraphicControl } from '/scripts/core/graphiccontrol.js';
 import { Tools } from '/scripts/core/tools.js';
 import { Point } from '/scripts/core/geometry.js';
-import { NotifyEvent } from '/scripts/core/events.js';
 import { Color, Colors } from '/scripts/core/color.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
@@ -30,7 +29,7 @@ const ColorPicker = (() => {
                 const priv = internal(this);
                 priv.handle = new Point((props.width / 2) - 5, -5);
                 priv.handleObj = null;
-                this.onChange = new NotifyEvent(this);
+                this.createEventsAndBind(['onChange'], props);
                 priv.color = props.hasOwnProperty('color') ? Color.parse(props.color) : new Color(Colors.RED);
                 this.autoCapture = true;
                 this.hitTest.all = true;

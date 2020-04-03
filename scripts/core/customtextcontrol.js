@@ -57,7 +57,7 @@ const CustomTextControl = (function () {
                     value: props.hasOwnProperty('type')?props.type:htmlInputTypes.TEXT
                 });
                 htmlInputTypes = null;
-                this.onChange = new Core.classes.NotifyEvent(this);
+                this.createEventsAndBind(['onChange'], props);
                 this.canFocused = true;
             }
         }
@@ -302,7 +302,6 @@ const CustomTextControl = (function () {
                 htmlElement.appendChild(priv.inputObj);
                 this.bindEventToHTMLInput();
             }
-            this.bindEventToHTML('onChange');
             super.loaded();
             this.app.getLocalText(this);
             this.update();

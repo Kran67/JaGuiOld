@@ -2,7 +2,7 @@
 import { ScrollControl } from '/scripts/core/scrollcontrol.js';
 import { BaseClass } from '/scripts/core/baseclass.js';
 import { HitTest } from '/scripts/core/hittest.js';
-import { Events, NotifyEvent } from '/scripts/core/events.js';
+import { Events } from '/scripts/core/events.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 import { Tools } from '/scripts/core/tools.js';
@@ -60,7 +60,6 @@ const ListBoxItem = (() => {
                     value: props.hasOwnProperty('state') ? props.state : Checkbox.CHECKBOXSTATES.UNCHECKED
                 });
                 priv.allowGrayed = props.hasOwnProperty('allowGrayed') && Tools.isBool(props.allowGrayed) ? props.allowGrayed : !1;
-                //this.onDraw = new $j.classes.NotifyEvent(this);
                 if (owner instanceof ListBox) {
                     if (owner.allowUpdate) {
                         owner.draw();
@@ -517,13 +516,11 @@ const ListBox = (() => {
                 priv.itemIndex = props.hasOwnProperty('itemIndex') && Tools.isNumber(props.itemIndex) ? props.itemIndex : -1;
                 priv.columns = props.hasOwnProperty('columns') && Tools.isNumber(props.columns) ? props.columns : 1;
                 priv.images = props.hasOwnProperty('images') ? props.images : null;
-                this.onChange = new NotifyEvent(this);
+                this.createEventsAndBind(['onChange', 'onSelectItem', 'onDrawItem'], props);
                 this.canFocused = !0;
                 this.hitTest.all = !0;
                 //this.animated = !0;
                 priv.orientation = props.hasOwnProperty('orientation') ? props.orientation : Types.ORIENTATIONS.VERTICAL;
-                this.onSelectItem = new NotifyEvent(this);
-                this.onDrawItem = new NotifyEvent(this);
             }
         }
         //#endregion constructor
