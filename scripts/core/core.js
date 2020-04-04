@@ -95,7 +95,17 @@ window.Core = {
     isMouseDown: false,
     windowZIndex: 0,
     currentLocale: null,
-    locales: {},
+    locales: {
+        translateConstant: (app, key) => {
+            const c = Core.locales[app.locale];
+            if (c) {
+                if (c.constantMessages[key]) {
+                    return c.constantMessages[key];
+                }
+            }
+            return null;
+        }
+    },
     version: '0.8b',
     /*this.folders = {
         BASE: `JaGui${version}`, GUI: 'gui/', CORE: 'scripts/core/', COMPONENTS: 'gui/components/', COMMON: 'gui/components/common/', COLOR: 'gui/components/color/',

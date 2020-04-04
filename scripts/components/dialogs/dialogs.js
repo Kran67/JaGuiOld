@@ -1,7 +1,6 @@
 //#region Import
 import { Window } from '/scripts/components/containers/window.js';
 import { Tools } from '/scripts/core/tools.js';
-import { Text } from '/scripts/core/text.js';
 import '/scripts/components/containers/flexlayout.js';
 import '/scripts/components/containers/gridlayout.js';
 //#endregion Import
@@ -181,7 +180,7 @@ const MessageDlg = (() => {
                             button.margin.right = 10;
                             button.sizing();
                         }
-                        const translatedCaption = Text.translateConstant(this.app, `msgDlg${btn.toUpperCase()}`);
+                        const translatedCaption = Core.locales.translateConstant(this.app, `msgDlg${btn.toUpperCase()}`);
                         if (translatedCaption) {
                             button.caption = translatedCaption;
                         }
@@ -264,8 +263,19 @@ class InputDlg extends Window {
     //#endregion resizeByContent
     //#region loaded
     loaded() {
+        //#region Variables déclaration
+        let translatedCaption;
+        //#endregion Variables déclaration
         super.loaded();
         this.borderStyle = Window.BORDERSTYLES.DIALOG;
+        translatedCaption = Core.locales.translateConstant(this.app, `msgDlgOK`);
+        if (translatedCaption) {
+            this.btnOk.caption = translatedCaption;
+        }
+        translatedCaption = Core.locales.translateConstant(this.app, `msgDlgCANCEL`);
+        if (translatedCaption) {
+            this.btnCancel.caption = translatedCaption;
+        }
         this.resizeByContent();
     }
     //#endregion loaded

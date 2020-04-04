@@ -1,4 +1,4 @@
-﻿.Control.TextBox {
+﻿.TextBox {
     min-height: 20px;
     overflow: visible;
     display: flex;
@@ -18,7 +18,7 @@ input.TextBoxInput {
     position: static;
 }
 
-.Control.TextBox.required:before {
+.TextBox.required:before {
     position: absolute;
     content: "*";
     color: red;
@@ -27,11 +27,11 @@ input.TextBoxInput {
     top: 0;
 }
 
-.Control.TextBox.required.haserror {
+.TextBox.required.haserror {
     border-color: red;
 }
 
-.Control.TextBox.haserror:after {
+.TextBox.haserror:after {
     position: absolute;
     content: "";
     right: 0;

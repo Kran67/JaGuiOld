@@ -424,6 +424,8 @@
         noMDIForm:'Cannot create form. No MDI forms are currently active',
         imageCanvasNeedsBitmap:'Can only modify an image if it contains a bitmap',*/
         controlParentSetToSelf: 'Un contrôle ne peut pas être parent de lui-même',
+        yes: 'oui',
+        no: 'non',
         okButton: 'OK',
         cancelButton: 'Annuler',
         yesButton: '&Oui',

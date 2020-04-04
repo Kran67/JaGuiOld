@@ -28,8 +28,12 @@ const Toggle = (() => {
                     this.height = 21;
                     this.width = 50;
                 }
-                priv.uncheckedLabel = props.hasOwnProperty('uncheckedLabel') ? props.uncheckedLabel : 'NO';
-                priv.checkedLabel = props.hasOwnProperty('checkedLabel') ? props.checkedLabel : 'YES';
+                priv.uncheckedLabel = props.hasOwnProperty('uncheckedLabel') ? 
+                    props.uncheckedLabel : 
+                    Core.locales.translateConstant(this.app, 'no').toUpperCase();
+                priv.checkedLabel = props.hasOwnProperty('checkedLabel') ? 
+                    props.checkedLabel : 
+                    Core.locales.translateConstant(this.app, 'yes').toUpperCase();
                 this.allowGrayed = false;
                 this.autoWidth = false;
                 this.caption = String.EMPTY;
