@@ -129,7 +129,8 @@ const RadioGroup = (() => {
                     const item = Core.classes.createComponent({ class:this.items.itemClass, owner: this, props: {
                         caption: obj.caption,
                         enabled: obj.enabled,
-                        checked: priv.itemIndex === i || obj.isChecked
+                        checked: priv.itemIndex === i || obj.isChecked,
+                        autoWidth: false
                     }, withTpl: true });
                     item.onClick.addListener(this.changeItemIndex);
                     this.items.push(item);
