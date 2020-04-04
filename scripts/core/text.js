@@ -284,6 +284,17 @@ class Text {
         return result.join(String.EMPTY);
     }
     //#endregion formatHTML
+    //#region translate
+    static translateConstant(app, key) {
+        const c = Core.locales[app.locale];
+        if (c) {
+            if (c.constantMessages[key]) {
+                return c.constantMessages[key];
+            }
+        }
+        return null;
+    }
+    //#endregion translate
     //#endregion Methods
 }
 //#endregion Text

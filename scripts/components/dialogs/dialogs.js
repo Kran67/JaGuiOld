@@ -1,6 +1,7 @@
 //#region Import
 import { Window } from '/scripts/components/containers/window.js';
 import { Tools } from '/scripts/core/tools.js';
+import { Text } from '/scripts/core/text.js';
 import '/scripts/components/containers/flexlayout.js';
 import '/scripts/components/containers/gridlayout.js';
 //#endregion Import
@@ -179,6 +180,10 @@ const MessageDlg = (() => {
                         if (buttons.length > 1 && btn !== buttons.last) {
                             button.margin.right = 10;
                             button.sizing();
+                        }
+                        const translatedCaption = Text.translateConstant(this.app, `msgDlg${btn.toUpperCase()}`);
+                        if (translatedCaption) {
+                            button.caption = translatedCaption;
                         }
                         btnsWidth += button.width + button.margin.right;
                     }
