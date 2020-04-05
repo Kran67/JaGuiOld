@@ -2,6 +2,7 @@
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Tools } from '/scripts/core/tools.js';
 import { Color } from '/scripts/core/color.js';
+import { Convert } from '/scripts/core/convert.js';
 //#endregion Import
 //#region CLOCKMODES
 const CLOCKMODES = Object.freeze(Object.seal({
@@ -1049,6 +1050,13 @@ const Clock = (() => {
                     priv.countDown.seconds = seconds;
                 }
             } else {
+                htmlElement.querySelector('.Clock_day.active').classList.remove('active');
+                Convert.nodeListToArray(htmlElement.querySelectorAll('.Clock_day')).forEach(day => {
+                    if (day.innerHTML === Tools.getLocale().date.abbreviatedDayNames[date.getDay()].replace('.', String.EMPTY).toUpperCase()) {
+                        day.classList.add('active');
+                    }
+                });
+                htmlElement.querySelector('.Clock_currentdate').innerHTML = date.toString(Tools.getLocale().date.formatPatterns.longDate);
                 priv.lastDate = date;
             }
         }
