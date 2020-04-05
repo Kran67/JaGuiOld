@@ -364,7 +364,7 @@ const BusyIndicator = (() => {
             const htmlElement = this.HTMLElement;
             const PX = Types.CSSUNITS.PX;
             const browser = Core.browser;
-            let TAG = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const TAG = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             let child = null;
             let child1 = null;
             let child2 = null;
