@@ -3,36 +3,46 @@ import { BaseClass } from '/scripts/core/baseclass.js';
 import { Tools } from '/scripts/core/tools.js';
 import '/scripts/core/geometry.js';
 //#endregion Imports
-//#region Properties
+//#region MOUSEBUTTONS
 const MOUSEBUTTONS = Object.freeze({
     NONE: 'none',
     LEFT: 'left',
     RIGHT: 'right',
     MIDDLE: 'middle'
 });
+//#endregion MOUSEBUTTONS
+//#region MOUSEWHEELDIRS
 const MOUSEWHEELDIRS = Object.freeze({
     NONE: 'none',
     UP: 'up',
     DOWN: 'down'
 });
+//#endregion MOUSEWHEELDIRS
+//#region TOUCHEVENTS
 const TOUCHEVENTS = Object.freeze({
     START: 'touchstart',
     MOVE: 'touchmove',
     END: 'touchend',
     CANCEL: 'touchcancel'
 });
+//#endregion TOUCHEVENTS
+//#region POINTEREVENTS
 const POINTEREVENTS = Object.freeze({
     DOWN: 'pointerdown',
     MOVE: 'pointermove',
     UP: 'pointerup',
     CANCEL: 'pointercancel'
 });
+//#endregion POINTEREVENTS
+//#region MSPOINTEREVENTS
 const MSPOINTEREVENTS = Object.freeze({
     DOWN: 'MSPointerDown',
     MOVE: 'MSPointerMove',
     UP: 'MSPointerUp',
     CANCEL: 'MSPointerCancel'
 });
+//#endregion MSPOINTEREVENTS
+//#region MOUSEEVENTS
 const MOUSEEVENTS = Object.freeze({
     EVENT: 'mouseevent',
     MOVE: 'mousemove',
@@ -56,7 +66,7 @@ const MOUSEEVENTS = Object.freeze({
     DRAGOVER: 'dragover',
     DRAGSTART: 'dragstart'
 });
-//#endregion
+//#endregion MOUSEEVENTS
 //#region Mouse
 const Mouse = (() => {
     //#region Private

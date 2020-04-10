@@ -357,6 +357,17 @@ const Slider = (() => {
             }
         }
         //#endregion showTooltips
+        //#region template
+        get template() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            let html = super.template;
+            const a = html.split('{orientation}');
+            //#endregion Variables déclaration
+            html = a.join(priv.orientation);
+            return html;
+        }
+        //#endregion template
         //#endregion Getters / Setters
         //#region Methods
         //#region loaded
@@ -620,16 +631,6 @@ const Slider = (() => {
             }
         }
         //#endregion moveToolTips
-        //#region getTemplate
-        getTemplate() {
-            //#region Variables déclaration
-            let html = super.getTemplate();
-            const a = html.split('{orientation}');
-            //#endregion Variables déclaration
-            html = a.join(this.orientation);
-            return html;
-        }
-        //#endregion getTemplate
         //#region destroy
         destroy() {
             //#region Variables déclaration

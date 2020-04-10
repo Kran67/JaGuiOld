@@ -2470,54 +2470,54 @@ const Control = (() => {
         }
         //#endregion getChilds
         //#region clientOrigin
-        clientOrigin() {
-            //#region Variables déclaration
-            const result = new Core.classes.Point;
-            const htmlElement = this.HTMLElement;
-            const htmlParentElement = Tools.HTMLParentElement;
-            //#endregion Variables déclaration
-            this.owners.forEach(owner => {
-                const oHtmlElement = owner.HTMLElement;
-                const border = getComputedStyle(oHtmlElement);
-                result.x += oHtmlElement.offsetLeft + ~~parseFloat(border.borderLeftWidth);
-                result.y += oHtmlElement.offsetTop + ~~parseFloat(border.borderTopWidth);
-            });
-            result.x += htmlElement.offsetLeft;
-            result.y += htmlElement.offsetTop;
-            if (htmlParentElement) {
-                result.x += htmlParentElement.offsetLeft;
-                result.y = htmlParentElement.offsetTop;
-            }
-            return result;
-        }
+        //clientOrigin() {
+        //    //#region Variables déclaration
+        //    const result = new Core.classes.Point;
+        //    const htmlElement = this.HTMLElement;
+        //    const htmlParentElement = Tools.HTMLParentElement;
+        //    //#endregion Variables déclaration
+        //    this.owners.forEach(owner => {
+        //        const oHtmlElement = owner.HTMLElement;
+        //        const border = getComputedStyle(oHtmlElement);
+        //        result.x += oHtmlElement.offsetLeft + ~~parseFloat(border.borderLeftWidth) + oHtmlElement.scrollLeft;
+        //        result.y += oHtmlElement.offsetTop + ~~parseFloat(border.borderTopWidth) + oHtmlElement.scrollTop;
+        //    });
+        //    result.x += htmlElement.offsetLeft;
+        //    result.y += htmlElement.offsetTop;
+        //    if (htmlParentElement) {
+        //        result.x += htmlParentElement.offsetLeft;
+        //        result.y = htmlParentElement.offsetTop;
+        //    }
+        //    return result;
+        //}
         //#endregion clientOrigin
         //#region documentToClient
-        documentToClient(pt) {
-            //#region Variables déclaration
-            const origin = this.clientOrigin();
-            const result = new Core.classes.Point;
-            const width = this.width;
-            const height = this.height;
-            //#endregion Variables déclaration
-            if (!pt) {
-                pt = Core.mouse.document;
-            }
-            result.x = pt.x - origin.x;
-            result.y = pt.y - origin.y;
-            if (result.x < 0) {
-                result.x = 0;
-            }
-            if (result.y < 0) {
-                result.y = 0;
-            }
-            if (result.x > width) {
-                result.x = width;
-            }
-            if (result.y > height) {
-                result.y = height;
-            }
-            return result;
-        }
+        //documentToClient(pt) {
+        //    //#region Variables déclaration
+        //    const origin = this.clientOrigin();
+        //    const result = new Core.classes.Point;
+        //    const width = this.width;
+        //    const height = this.height;
+        //    //#endregion Variables déclaration
+        //    if (!pt) {
+        //        pt = Core.mouse.document;
+        //    }
+        //    result.x = pt.x - origin.x;
+        //    result.y = pt.y - origin.y;
+        //    if (result.x < 0) {
+        //        result.x = 0;
+        //    }
+        //    if (result.y < 0) {
+        //        result.y = 0;
+        //    }
+        //    if (result.x > width) {
+        //        result.x = width;
+        //    }
+        //    if (result.y > height) {
+        //        result.y = height;
+        //    }
+        //    return result;
+        //}
         //#endregion documentToClient
         //#region loaded
         loaded() {
@@ -2738,6 +2738,7 @@ const Control = (() => {
             if (margin) {
                 margin.destroy();
             }
+            // à remplacer par une boucle - début
             if (this.onMouseDown) {
                 this.onMouseDown.destroy();
             }
@@ -2825,6 +2826,7 @@ const Control = (() => {
             if (this.scale) {
                 this.scale.destroy();
             }
+            // à remplacer par une boucle - fin
             //this.align = null;
             if (this.rotateCenter) {
                 this.rotateCenter.destroy();

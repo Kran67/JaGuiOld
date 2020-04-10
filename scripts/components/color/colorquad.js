@@ -5,6 +5,7 @@ import { Color } from '/scripts/core/color.js';
 import { Point } from '/scripts/core/geometry.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
+import { Convert } from '/scripts/core/convert.js';
 //#endregion Imports
 //#region ColorQuad
 const ColorQuad = (() => {
@@ -29,7 +30,7 @@ const ColorQuad = (() => {
                 const priv = internal(this);
                 priv.handleObj = null;
                 priv.handle = new Point;
-                this.autoCapture = true;
+                this.autoCapture = !0;
                 priv.colorBox = props.hasOwnProperty('colorBox') ? this.form[props.colorBox] : null;
                 this.createEventsAndBind(['onChange'], props);
                 priv.color = props.hasOwnProperty('color') ? Color.parse(props.color) : new Color(this.fillColor);
@@ -40,12 +41,13 @@ const ColorQuad = (() => {
                     variable: priv,
                     value: props.hasOwnProperty('format') ? props.format : Types.COLORFORMATS.HSL
                 });
-                this.hitTest.all = true;
-                this.clipChilds = false;
+                this.hitTest.all = !0;
+                this.clipChilds = !1;
                 priv.gradientEdit = props.hasOwnProperty('gradientEdit') ? this.form[props.gradientEdit] : null;
-                this.canFocused = true;
+                this.canFocused = !0;
                 delete this.tabOrder;
-                this.allowUpdateOnResize = true;
+                this.allowUpdateOnResize = !0;
+                this.autoCapture = !0;
             }
         }
         //#endregion Constructor
@@ -61,11 +63,11 @@ const ColorQuad = (() => {
             if (newValue instanceof Core.classes.ColorBox) {
                 if (priv.colorBox !== newValue) {
                     priv.colorBox = newValue;
-                    if (priv.colorBox instanceof Core.classes.ColorBox) {
-                        //if (priv.colorBox.fillColor) {
-                        //    priv.colorBox.fillColor.assign(priv.color);
-                        //}
-                    }
+                    //if (priv.colorBox instanceof Core.classes.ColorBox) {
+                    //    if (priv.colorBox.fillColor) {
+                    //        priv.colorBox.fillColor.assign(priv.color);
+                    //    }
+                    //}
                 }
             }
         }
@@ -179,20 +181,8 @@ const ColorQuad = (() => {
                 point.x = ~~(priv.color.saturation * htmlElement.offsetWidth / 100);
                 point.y = ~~(htmlElement.offsetHeight - value * htmlElement.offsetHeight / 100);
             }
-            priv.handle.x = point.x;
-            priv.handle.y = point.y;
-            if (priv.handle.x < 0) {
-                priv.handle.x = 0;
-            }
-            if (priv.handle.x > htmlElement.offsetWidth) {
-                priv.handle.x = htmlElement.offsetWidth;
-            }
-            if (priv.handle.y < 0) {
-                priv.handle.y = 0;
-            }
-            if (priv.handle.y > htmlElement.offsetHeight) {
-                priv.handle.y = htmlElement.offsetHeight;
-            }
+            priv.handle.x = Math.max(Math.min(point.x, htmlElement.offsetWidth), 0);
+            priv.handle.y = Math.max(Math.min(point.y, htmlElement.offsetHeight), 0);
             if (priv.handleObj) {
                 priv.handleObj.style.transform = `translate(${(priv.handle.x - COLORPICKSIZE / 2)}${PX},${(priv.handle.y - COLORPICKSIZE / 2)}${PX})`;
             }
@@ -200,18 +190,30 @@ const ColorQuad = (() => {
         }
         //#endregion update
         //#region mouseDown
-        mouseDown(mouseButton, point) {
+        mouseDown() {
             super.mouseDown();
             if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.isPressed) {
-                this.update(this.documentToClient());
+                this.update(Core.mouse.target);
             }
         }
         //#endregion mouseDown
         //#region mouseMove
         mouseMove() {
+            //#region Variables déclaration
+            const point = new Core.classes.Point;
+            const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
             super.mouseMove();
             if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.isPressed) {
-                this.update(this.documentToClient());
+                if (Core.mouse.event.target !== htmlElement) {
+                    point.assign(Core.mouse.window);
+                    const bounds = htmlElement.getBoundingClientRect();
+                    point.x -= bounds.left;
+                    point.y -= bounds.top;
+                } else {
+                    point.assign(Core.mouse.target);
+                }
+                this.update(point);
             }
         }
         //#endregion mouseMove
@@ -302,7 +304,7 @@ const ColorQuad = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             const pt = new Point(priv.handle.x, priv.handle.y);
-            let changeHandle = false;
+            let changeHandle = !1;
             let offset = 1;
             const VKEYSCODES = Keyboard.VKEYSCODES;
             //#endregion Variables déclaration
@@ -316,28 +318,28 @@ const ColorQuad = (() => {
                     if (pt.x < 0) {
                         pt.x = 0;
                     }
-                    changeHandle = true;
+                    changeHandle = !0;
                     break;
                 case VKEYSCODES.VK_UP:
                     pt.y -= offset;
                     if (pt.y < 0) {
                         pt.y = 0;
                     }
-                    changeHandle = true;
+                    changeHandle = !0;
                     break;
                 case VKEYSCODES.VK_RIGHT:
                     pt.x += offset;
                     if (pt.x > htmlElement.offsetWidth) {
                         pt.x = htmlElement.offsetWidth;
                     }
-                    changeHandle = true;
+                    changeHandle = !0;
                     break;
                 case VKEYSCODES.VK_DOWN:
                     pt.y += offset;
                     if (pt.y > htmlElement.offsetHeight) {
                         pt.y = htmlElement.offsetHeight;
                     }
-                    changeHandle = true;
+                    changeHandle = !0;
                     break;
             }
             if (changeHandle) {

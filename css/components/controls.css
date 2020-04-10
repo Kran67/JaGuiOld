@@ -102,7 +102,7 @@ input.Control {
     transform: translateZ(0);
 }
 
-.noEvents {
+.glass {
     bottom: 0;
     left: 0;
     right: 0;
@@ -219,3 +219,7 @@ input.Control {
     .scrollContent:hover {
         overflow: auto;
     }
+
+.noEvents {
+    pointer-events: none;
+}

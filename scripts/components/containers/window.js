@@ -1527,7 +1527,7 @@ const BaseWindow = (() => {
                 lastActiveWindow.pop();
             }
             if (priv.isModal && isHtmlRenderer) {
-                glass = activeWindow.HTMLElement.querySelector('.noEvents')
+                glass = activeWindow.HTMLElement.querySelector('.glass')
                 if (!activeWindow.isChildWindow) {
                     if (isHtmlRenderer) {
                         activeWindow.HTMLElement.removeChild(glass);
@@ -2047,7 +2047,7 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             if (isHtmlRenderer) {
                 glass = document.createElement(Types.HTMLELEMENTS.DIV);
-                glass.classList.add('Control', 'noEvents');
+                glass.classList.add('Control', 'glass');
                 glass.jsObj = this;
             }
             priv.isModal = !0;

@@ -31,11 +31,11 @@ const ColorPicker = (() => {
                 priv.handleObj = null;
                 this.createEventsAndBind(['onChange'], props);
                 priv.color = props.hasOwnProperty('color') ? Color.parse(props.color) : new Color(Colors.RED);
-                this.autoCapture = true;
-                this.hitTest.all = true;
+                this.autoCapture = !0;
+                this.hitTest.all = !0;
                 priv.colorQuad = props.hasOwnProperty('colorQuad') ? this.form[props.colorQuad] : null;
-                this.clipChilds = false;
-                this.canFocused = true;
+                this.clipChilds = !1;
+                this.canFocused = !0;
                 delete this.fillColor;
                 delete this.strokeColor;
                 delete this.strokeWidth;
@@ -43,7 +43,7 @@ const ColorPicker = (() => {
                 delete this.setFillColor;
                 delete this.setStrokeColor;
                 delete this.tabOrder;
-                this.allowUpdateOnResize = true;
+                this.allowUpdateOnResize = !0;
             }
         }
         //#endregion constructor
@@ -93,32 +93,30 @@ const ColorPicker = (() => {
         mouseDown() {
             super.mouseDown();
             if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.isPressed) {
-                if (this.HTMLElement.offsetHeight !== 0) {
-                    this.update(this.documentToClient());
-                }
+                this.update(Core.mouse.target);
             }
         }
         //#endregion mouseDown
         //#region mouseMove
         mouseMove() {
+            //#region Variables déclaration
+            const point = new Core.classes.Point;
+            const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
             super.mouseMove();
             if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.isPressed) {
-                if (this.HTMLElement.offsetHeight !== 0) {
-                    this.update(this.documentToClient());
+                if (Core.mouse.event.target !== htmlElement) {
+                    point.assign(Core.mouse.window);
+                    const bounds = htmlElement.getBoundingClientRect();
+                    point.x -= bounds.left;
+                    point.y -= bounds.top;
+                } else {
+                    point.assign(Core.mouse.target);
                 }
+                this.update(point);
             }
         }
         //#endregion mouseMove
-        //#region mouseUp
-        mouseUp() {
-            super.mouseUp();
-            if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.isPressed) {
-                if (this.HTMLElement.offsetHeight !== 0) {
-                    this.update(this.documentToClient());
-                }
-            }
-        }
-        //#endregion mouseUp
         //#region destroy
         destroy() {
             //#region Variables déclaration
@@ -174,7 +172,7 @@ const ColorPicker = (() => {
         keyDown() {
             //#region Variables déclaration
             const pt = new Point(priv.handle.x, priv.handle.y);
-            let changeHandle = false;
+            let changeHandle = !1;
             let offset = 1;
             const VKEYSCODES = Keyboard.VKEYSCODES;
             const COLORPICKSIZE = Types.CONSTANTS.COLORPICKSIZE;
@@ -188,14 +186,14 @@ const ColorPicker = (() => {
                 case VKEYSCODES.VK_UP:
                     pt.y -= offset - COLORPICKSIZE / 2;
                     if (pt.y < 0) pt.y = 0;
-                    changeHandle = true;
+                    changeHandle = !0;
                     break;
                 case VKEYSCODES.VK_DOWN:
                     pt.y += offset + COLORPICKSIZE / 2;
                     if (pt.y > htmlElement.offsetHeight) {
                         pt.y = htmlElement.offsetHeight;
                     }
-                    changeHandle = true;
+                    changeHandle = !0;
                     break;
             }
             if (changeHandle) {
