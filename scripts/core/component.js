@@ -27,19 +27,19 @@ const Component = (() => {
             priv.owners = [];
             priv.app = null;
             priv.form = null;
-            priv.loading = true;
-            priv.destroying = false;
+            priv.loading = !0;
+            priv.destroying = !1;
             priv.HTMLElement = null;
             priv.HTMLElementStyle = null;
-            priv.designing = false;
+            priv.designing = !1;
             priv.internalId = String.uniqueId();
-            priv.updating = false;
-            priv.designInstance = false;
-            priv.component = true;
+            priv.updating = !1;
+            priv.designInstance = !1;
+            priv.component = !0;
             priv.name = props.hasOwnProperty('name') ? props.name : String.EMPTY;
             priv.cssBorder = new Rect;
-            priv.inForm = this instanceof Core.classes.BaseWindow ? false : props.hasOwnProperty('inForm') && Tools.isBool(props.inForm) ? props.inForm : true;
-            priv.visible = props.hasOwnProperty('visible') && Tools.isBool(props.visible) ? props.visible : true;
+            priv.inForm = this instanceof Core.classes.BaseWindow ? !1 : props.hasOwnProperty('inForm') && Tools.isBool(props.inForm) ? props.inForm : !0;
+            priv.visible = props.hasOwnProperty('visible') && Tools.isBool(props.visible) ? props.visible : !0;
             priv.left = props.hasOwnProperty('left') && Tools.isNumber(props.left) ? props.left : 0;
             priv.top = props.hasOwnProperty('top') && Tools.isNumber(props.top) ? props.top : 0;
             if (owner instanceof Core.classes.Application) {
@@ -374,12 +374,12 @@ const Component = (() => {
             if (Core.isHTMLRenderer) {
                 if (htmlElement.offsetLeft + htmlElement.offsetWidth < 0 || htmlElement.offsetLeft > oHtmlElement.offsetWidth ||
                     htmlElement.offsetTop + htmlElement.offsetHeight < 0 || htmlElement.offsetTop > oHtmlElement.offsetHeight) {
-                    visible = false;
+                    visible = !1;
                 }
             } else if (Core.isCanvasRenderer) {
                 if (left + priv.width < 0 || left > owner.width ||
                     top + priv.height < 0 || top > owner.height) {
-                    visible = false;
+                    visible = !1;
                 }
             }
             if (visible) {
@@ -574,7 +574,7 @@ const Component = (() => {
             const htmlElement = priv.HTMLElement;
             const form = priv.form;
             //#endregion Variables déclaration
-            priv.loading = false;
+            priv.loading = !1;
             if (Core.isHTMLRenderer) {
                 if (htmlElement) {
                     const properties = htmlElement.querySelector(`[id='${priv.internalId}']> properties:first-child`);
@@ -722,7 +722,7 @@ const Component = (() => {
             const components = priv.components;
             //#endregion Variables déclaration
             if (!priv.destroying) {
-                priv.destroying = true;
+                priv.destroying = !0;
                 if (components) {
                     components.forEach(comp => {
                         comp._destroying();
@@ -754,7 +754,7 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.updating = true;
+            priv.updating = !0;
         }
         //#endregion _updating
         //#region updated
@@ -762,7 +762,7 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.updating = false;
+            priv.updating = !1;
         }
         //#endregion updated
         //#region validateRename
@@ -826,7 +826,7 @@ const Component = (() => {
             }
             this.HTMLElement.removeChild(properties);
         }*/
-        //#region clientToDocument
+        //#region clientToDocument // TODO : changer en get
         clientToDocument() {
             //#region Variables déclaration
             const result = new Core.classes.Point;
@@ -867,7 +867,7 @@ const Component = (() => {
 //#region Component defineProperties
 Object.defineProperties(Component, {
     'name': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion Component defineProperties

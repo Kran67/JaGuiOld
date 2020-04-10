@@ -3,6 +3,14 @@ import { Panel } from '/scripts/components/containers/panel.js';
 import { Tools } from '/scripts/core/tools.js';
 import { Css } from '/scripts/core/css.js';
 //#endregion Import
+//#region CALLOUTPOSITIONS
+const CALLOUTPOSITIONS = Object.seal(Object.freeze({
+    LEFT: 'left',
+    TOP: 'top',
+    RIGHT: 'right',
+    BOTTOM: 'bottom'
+}))
+//#endregion CALLOUTPOSITIONS
 //#region CalloutPanel
 const CalloutPanel = (() => {
     //#region Private
@@ -20,33 +28,33 @@ const CalloutPanel = (() => {
     class CalloutPanel extends Panel {
         //#region Constructor
         constructor(owner, props) {
-            //#region Variables déclaration
-            const calloutPositions = Types.CALLOUTPOSITIONS;
-            //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.calloutOffset = props.hasOwnProperty('calloutOffset')?props.calloutOffset:0;
-                priv.calloutLength = props.hasOwnProperty('calloutLength')?props.calloutLength:11;
-                priv.calloutWidth = props.hasOwnProperty('calloutWidth')?props.calloutWidth:23;
-                priv.clipChilds = false;
+                priv.calloutOffset = props.hasOwnProperty('calloutOffset') ? props.calloutOffset : 0;
+                priv.calloutLength = props.hasOwnProperty('calloutLength') ? props.calloutLength : 11;
+                priv.calloutWidth = props.hasOwnProperty('calloutWidth') ? props.calloutWidth : 23;
+                priv.clipChilds = !1;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'calloutPosition',
-                    enum: calloutPositions,
+                    enum: CALLOUTPOSITIONS,
                     variable: priv,
-                    forceUpdate: true,
-                    value:props.hasOwnProperty('calloutPosition') ? props.calloutPosition : calloutPositions.TOP
+                    forceUpdate: !0,
+                    value: props.hasOwnProperty('calloutPosition') ? props.calloutPosition : CALLOUTPOSITIONS.TOP
                 });
                 priv.content = null;
                 priv.arrow = null;
-                this.allowUpdateOnResize = true;
-                this.allowRealignChildsOnResize = true;
+                this.allowUpdateOnResize = !0;
+                this.allowRealignChildsOnResize = !0;
             }
         }
         //#endregion
         //#region Getter / Setter
+        static get CALLOUTPOSITIONS() {
+            return CALLOUTPOSITIONS;
+        }
         //#region calloutPosition
         get calloutPosition() {
             return internal(this).calloutPosition;
@@ -55,7 +63,7 @@ const CalloutPanel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, Types.CALLOUTPOSITIONS)) {
+            if (Tools.valueInSet(newValue, CALLOUTPOSITIONS)) {
                 if (priv.calloutPosition !== newValue) {
                     priv.calloutPosition = newValue;
                     if (Core.isHTMLRenderer) {
@@ -161,7 +169,6 @@ const CalloutPanel = (() => {
             const priv = internal(this);
             const cw = ~~(priv.calloutWidth / 2);
             let pos = 0;
-            const calloutPositions = Types.CALLOUTPOSITIONS;
             const htmlElement = this.HTMLElement;
             const PX = Types.CSSUNITS.PX;
             let top;
@@ -176,13 +183,13 @@ const CalloutPanel = (() => {
             const pseudoCssClass = Types.PSEUDOCSSCLASS;
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
-                Object.entries(calloutPositions).forEach(entry => {
-                    htmlElement.classList.remove(`calloutposition-${calloutPositions[entry.first]}`);
+                Object.entries(CALLOUTPOSITIONS).forEach(entry => {
+                    htmlElement.classList.remove(`calloutposition-${CALLOUTPOSITIONS[entry.first]}`);
                 });
                 // remove all CSS rules for this component
                 this.removeCssRules();
                 switch (priv.calloutPosition) {
-                    case calloutPositions.TOP:
+                    case CALLOUTPOSITIONS.TOP:
                         pos = ~~((htmlElement.offsetWidth - priv.calloutWidth) / 2) - priv.calloutOffset;
                         if (pos < 0) {
                             pos = 0;
@@ -199,7 +206,7 @@ const CalloutPanel = (() => {
                         right = 'auto';
                         path = `0 0, ${left} 0, ${pos + cw}${PX} ${top}, ${pos + cw + 1}${PX} ${top}, ${pos + 1 + cw * 2}${PX} 0, 100% 0, 100% 100%, 0 100%`;
                         break;
-                    case calloutPositions.RIGHT:
+                    case CALLOUTPOSITIONS.RIGHT:
                         pos = ~~((htmlElement.offsetHeight - priv.calloutWidth) / 2) - priv.calloutOffset;
                         if (pos < 0) {
                             pos = 0;
@@ -216,7 +223,7 @@ const CalloutPanel = (() => {
                         left = 'auto';
                         path = `0 0, 100% 0, 100% ${top}, ${htmlElement.offsetWidth + priv.calloutLength} ${pos + cw}${PX}, ${htmlElement.offsetWidth + priv.calloutLength} ${pos + cw + 1}${PX}, 100% ${pos + 1 + cw * 2}${PX}, 100% 100%, 0 100%`;
                         break;
-                    case calloutPositions.BOTTOM:
+                    case CALLOUTPOSITIONS.BOTTOM:
                         pos = ~~((htmlElement.offsetWidth - priv.calloutWidth) / 2) - priv.calloutOffset;
                         if (pos < 0) {
                             pos = 0;
@@ -233,7 +240,7 @@ const CalloutPanel = (() => {
                         right = 'auto';
                         path = `0 0, 100% 0, 100% 100%, ${pos + 1 + cw * 2}${PX} 100%, ${pos + cw + 1}${PX} ${htmlElement.offsetHeight + priv.calloutLength}, ${pos + cw}${PX} ${htmlElement.offsetHeight + priv.calloutLength}, ${left} 100%, 0 100%`;
                         break;
-                    case calloutPositions.LEFT:
+                    case CALLOUTPOSITIONS.LEFT:
                         pos = ~~((htmlElement.offsetHeight - priv.calloutWidth) / 2) - priv.calloutOffset;
                         if (pos < 0) {
                             pos = 0;
@@ -264,11 +271,10 @@ const CalloutPanel = (() => {
         //#endregion update
         //#region removeCssRules
         removeCssRules() {
-            const calloutPositions = Types.CALLOUTPOSITIONS;
             const styleRule = Types.CSSRULETYPES.STYLE_RULE;
             const pseudoCssClass = Types.PSEUDOCSSCLASS;
-            Object.entries(calloutPositions).forEach(entry => {
-                Css.removeCSSRule(`#${this.internalId}.calloutposition-${calloutPositions[entry.first]}${pseudoCssClass.BEFORE}`, styleRule);
+            Object.entries(CALLOUTPOSITIONS).forEach(entry => {
+                Css.removeCSSRule(`#${this.internalId}.calloutposition-${CALLOUTPOSITIONS[entry.first]}${pseudoCssClass.BEFORE}`, styleRule);
             });
         }
         //#endregion removeCssRules

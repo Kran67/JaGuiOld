@@ -129,6 +129,16 @@ const Calendar = (() => {
             }
         }
         //#endregion date
+        //#region template
+        get template() {
+            //#region Variables déclaration
+            let html = super.template;
+            //#endregion Variables déclaration
+            const a = html.split('{date}');
+            html = a.join(Date.now());
+            return html;
+        }
+        //#endregion template
         //#endregion Getters / Setters
         //#region Methods
         //#region decDate
@@ -639,16 +649,6 @@ const Calendar = (() => {
             priv.viewWeeksNum = null;
         }
         //#endregion destroy
-        //#region getTemplate
-        getTemplate() {
-            //#region Variables déclaration
-            let html = super.getTemplate();
-            //#endregion Variables déclaration
-            const a = html.split('{date}');
-            html = a.join(Date.now());
-            return html;
-        }
-        //#endregion getTemplate
         //#region loaded
         loaded() {
             //#region Variables déclaration
@@ -780,10 +780,10 @@ const Calendar = (() => {
             };
             //#endregion generateCenturies
             //#endregion Variables déclaration
+            super.loaded();
             if (!htmlElement.querySelector('.CalendarContent')) {
                 generateContent();
             }
-            super.loaded();
             this.update();
         }
         //#region loaded
@@ -800,3 +800,4 @@ const CalendarTpl = ['<jagui-calendar id="{internalId}" data-class="Calendar" cl
     '<properties>{ "name": "{name}" }</properties></jagui-calendar>'].join(String.EMPTY);
 Core.classes.registerTemplates([{ Class: Calendar, template: CalendarTpl }]);
 //#endregion
+export { Calendar}

@@ -2,7 +2,7 @@
 /**
  * @type    {Object}        MESSAGEBUTTONS
  */
-const MESSAGEBUTTONS = Object.freeze({
+const MESSAGEBUTTONS = Object.freeze(Object.seal({
     YES: 'yes',
     NO: 'no',
     OK: 'ok',
@@ -14,14 +14,13 @@ const MESSAGEBUTTONS = Object.freeze({
     NOTOALL: 'noToAll',
     YESTOALL: 'yesToAll',
     HELP: 'help'
-});
-Object.seal(MESSAGEBUTTONS);
+}));
 //#endregion MESSAGEBUTTONS
 //#region CONSTANTS
 /**
  * @type    {Object}        CONSTANTS
  */
-const CONSTANTS = Object.freeze({
+const CONSTANTS = Object.freeze(Object.seal({
     _2PI: Math.PI * 2,
     INV180: 1 / 180,
     INV360: 1 / 360,
@@ -29,10 +28,10 @@ const CONSTANTS = Object.freeze({
     GRIPSIZE: 3,
     ROTSIZE: 10,
     //#region CLOSEPOLYGON
-    CLOSEPOLYGON: Object.freeze({
+    CLOSEPOLYGON: Object.freeze(Object.seal({
         x: 0xFFFF,
         y: 0xFFFF
-    }),
+    })),
     //#endregion
     FUNCTION: 'function',
     OBJECT: 'object',
@@ -70,11 +69,10 @@ const CONSTANTS = Object.freeze({
     STAYONBTNGLYPH: '?',
     BTNGLYPHFONTFACE: 'jagui',
     UNSET: 'unset'
-});
-Object.seal(CONSTANTS);
+}));
 //#endregion CONSTANTS
 //#region
-const ARITHMETICOPERATIONS = Object.freeze({
+const ARITHMETICOPERATIONS = Object.freeze(Object.seal({
     EQUAL:'equal',
     NOTEQUAL:'notEqual',
     LESSTHAN:'lessThan',
@@ -86,8 +84,7 @@ const ARITHMETICOPERATIONS = Object.freeze({
     OR:'or',
     AND:'and',
     INDEXOF:'indexOf'
-});
-Object.seal(ARITHMETICOPERATIONS);
+}));
 //#endregion ARITHMETICOPERATIONS
 const Types = Object.seal(Object.freeze({
     CONSTANTS: CONSTANTS,
@@ -175,18 +172,6 @@ const Types = Object.seal(Object.freeze({
     ORIENTATIONS: Object.seal(Object.freeze({
         HORIZONTAL: 'horizontal',
         VERTICAL: 'vertical'
-    })),
-    //#endregion
-    //#region MESSAGETYPES
-    /**
-     * @type    {Object}        MESSAGETYPES
-     */
-    MESSAGETYPES: Object.seal(Object.freeze({
-        WARNING: 'warning',
-        ERROR: 'error',
-        INFORMATION: 'information',
-        CONFIRMATION: 'confirmation',
-        CUSTOM: 'custom'
     })),
     //#endregion
     //#region CURSORS
@@ -301,15 +286,6 @@ const Types = Object.seal(Object.freeze({
     //#endregion
     //#region CALLOUTPOSITIONS
     /**
-     * @type    {Object}        CALLOUTPOSITIONS
-     */
-    CALLOUTPOSITIONS: Object.seal(Object.freeze({
-        LEFT: 'left',
-        TOP: 'top',
-        RIGHT: 'right',
-        BOTTOM: 'bottom'
-    })),
-    /**
      * @type    {Object}
      */
     TRAPEZOIDORIENTATIONS: Object.seal(Object.freeze({
@@ -362,15 +338,6 @@ const Types = Object.seal(Object.freeze({
         NOTATION_NODE: 0xC
     })),
     //#endregion
-    //#region LISTSTYLES
-    /**
-     * @type    {Object}        LISTSTYLES
-     */
-    LISTSTYLES: Object.seal(Object.freeze({
-        VERTICAL: 'vertical',
-        HORIZONTAL: 'horizontal'
-    })),
-    //#endregion
     //#region SVG
     /**
      * @type    {Object}        SVG
@@ -391,25 +358,25 @@ const Types = Object.seal(Object.freeze({
     /**
      * @type    {Object}        SHAPES
      */
-    SHAPES: Object.seal(Object.freeze({
-        RECTANGLE: 'rectangle',
-        ELLIPSE: 'ellipse',
-        CIRCLE: 'circle',
-        ROUNDRECT: 'roundRect',
-        PIE: 'pie',
-        CALLOUT: 'callout',
-        ARC: 'arc',
-        CHORD: 'chord',
-        PATH: 'path',
-        LINE: 'line',
-        SCROLLARROWLEFT: 'scrollArrowLeft',
-        SCROLLARROWRIGHT: 'scrollArrowRight',
-        STAR: 'star',
-        TRAPEZOID: 'trapezoid',
-        PARALLELOGRAM: 'parallelogram',
-        NINJASTAR: 'ninjaStar',
-        REGULARPOLYGON: 'regularPolygon'
-    })),
+    //SHAPES: Object.seal(Object.freeze({
+    //    RECTANGLE: 'rectangle',
+    //    ELLIPSE: 'ellipse',
+    //    CIRCLE: 'circle',
+    //    ROUNDRECT: 'roundRect',
+    //    PIE: 'pie',
+    //    CALLOUT: 'callout',
+    //    ARC: 'arc',
+    //    CHORD: 'chord',
+    //    PATH: 'path',
+    //    LINE: 'line',
+    //    SCROLLARROWLEFT: 'scrollArrowLeft',
+    //    SCROLLARROWRIGHT: 'scrollArrowRight',
+    //    STAR: 'star',
+    //    TRAPEZOID: 'trapezoid',
+    //    PARALLELOGRAM: 'parallelogram',
+    //    NINJASTAR: 'ninjaStar',
+    //    REGULARPOLYGON: 'regularPolygon'
+    //})),
     //#endregion
     //#region OPERATIONS
     /**
@@ -563,12 +530,12 @@ const Types = Object.seal(Object.freeze({
     /**
      * @type    {Object}        STYLES
      */
-    STYLES: Object.seal(Object.freeze({
-        NONE: 'none',
-        NORMAL: 'normal',
-        HOVERED: 'hovered',
-        PRESSED: 'pressed'
-    })),
+    //STYLES: Object.seal(Object.freeze({
+    //    NONE: 'none',
+    //    NORMAL: 'normal',
+    //    HOVERED: 'hovered',
+    //    PRESSED: 'pressed'
+    //})),
     //#endregion
     //#region MESSAGES
     /**
@@ -1046,12 +1013,12 @@ const Types = Object.seal(Object.freeze({
     /**
      * @type    {Object}        SCROLLBARS
      */
-    SCROLLBARS: Object.seal(Object.freeze({
-        NONE: 'none',
-        HORIZONTAL: 'horizontal',
-        VERTICAL: 'vertical',
-        BOTH: 'both'
-    })),
+    //SCROLLBARS: Object.seal(Object.freeze({
+    //    NONE: 'none',
+    //    HORIZONTAL: 'horizontal',
+    //    VERTICAL: 'vertical',
+    //    BOTH: 'both'
+    //})),
     //#endregion
     //#region DIRECTIONS
     /**
@@ -1188,9 +1155,9 @@ const Types = Object.seal(Object.freeze({
     /**
      * @type    {Object}        THEMES
      */
-    THEMES: Object.seal(Object.freeze({
-        BASE: 'base'
-    })),
+    //THEMES: Object.seal(Object.freeze({
+    //    BASE: 'base'
+    //})),
     //#endregion
     //#region BINDABLEPROPERTIES
     /**

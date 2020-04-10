@@ -56,11 +56,11 @@ const Rating = (() => {
                 });
                 priv.nbItem = props.hasOwnProperty('nbItem') ? props.nbItem : 5;
                 priv.value = props.hasOwnProperty('value') ? props.value : 0;
-                this.autoCapture = true;
-                this.hitTest.mouseDown = true;
-                this.hitTest.mousemove = true;
-                this.hitTest.mouseup = true;
-                this.hitTest.mousewheel = false;
+                this.autoCapture = !0;
+                this.hitTest.mouseDown = !0;
+                this.hitTest.mouseMove = !0;
+                this.hitTest.mouseUp = !0;
+                this.hitTest.mouseWheel = !1;
                 if (props.hasOwnProperty('normalImg')) {
                     priv.normalImg = new Image;
                     Events.bind(priv.normalImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
@@ -95,9 +95,9 @@ const Rating = (() => {
                     variable: priv,
                     value: props.hasOwnProperty('orientation') ? props.orientation : ORIENTATIONS.HORIZONTAL
                 });
-                this.canFocused = true;
+                this.canFocused = !0;
                 delete this.tabOrder;
-                this.allowUpdateOnResize = true;
+                this.allowUpdateOnResize = !0;
             }
         }
         //#endregion constructor

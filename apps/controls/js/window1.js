@@ -61,7 +61,7 @@ import '/scripts/components/extended/labeledtextbox.js';
 import '/scripts/components/extended/labeledslider.js';
 import '/scripts/components/extended/labeledmemo.js';
 //import { dropDownColors } from '/scripts/components/color/dropDownColors.js';
-//import { dropDownCalendar } from '/scripts/components/common/dropDownCalendar.js';
+import '/scripts/components/common/dropdowncalendar.js';
 //import { dropDownSlider } from '/scripts/components/extended/dropDownSlider.js';
 import '/scripts/components/common/numberwheel.js';
 import '/scripts/components/common/timepanel.js';
@@ -124,7 +124,7 @@ class Window1 extends Window {
             //this.Gauge3.createArrow=this.createArrowBlack;
         }
         this.initStars();
-        Core.looper.addListener(this, "paint");
+        //Core.looper.addListener(this, "paint");
     }
     formShow() {
         if (!Core.browser.chrome) {
@@ -154,11 +154,11 @@ class Window1 extends Window {
             const t = new Date().getTime();
             this.app.activeWindow.ListBox2.beginUpdate();
             for (let i = 0; i < 1000000; i++) {
-                const span = new ListBoxItem(this.app.activeWindow.ListBox2, 'item' + i);
+                const span = new ListBoxItem(this.app.activeWindow.ListBox2, `item${i}`);
                 this.app.activeWindow.ListBox2.addItem(span);
             }
             this.app.activeWindow.ListBox2.endUpdate();
-            console.log((new Date().getTime() - t) + 'ms');
+            console.log(`${new Date().getTime() - t}ms`);
         }
     }
     RoundButton1_onClick() {
@@ -217,7 +217,7 @@ class Window1 extends Window {
                     if (px >= 0 && px <= 500 && py >= 0 && py <= 400) {
                         const size = (1 - star.z / 32.0) * 5;
                         const shade = ~~((1 - star.z / 32.0) * 255);
-                        ctx.fillStyle = 'rgb(' + shade + ',' + shade + ',' + shade + ')';
+                        ctx.fillStyle = `rgb(${shade},${shade},${shade})`;
                         ctx.fillRect(px, py, size, size);
                     }
                 }
@@ -269,11 +269,10 @@ class Window1 extends Window {
         const frequency = this.frequency;
         const ctx = this.ctx;
         const calc = (formula) => {
-            let x = null;
             let y = null;
             for (let i = 0, l = p.length; i < l; i++) {
                 // calc only in PlotGrid area
-                x = -(htmlElement.offsetWidth / 2) + ((i / l) * htmlElement.offsetWidth);
+                let x = -(htmlElement.offsetWidth / 2) + ((i / l) * htmlElement.offsetWidth);
                 x = x / frequency;
                 // formula here
                 switch (formula) {

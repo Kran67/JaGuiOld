@@ -1,6 +1,7 @@
 ﻿.LabeledTextBox {
     display: flex;
     align-items: center;
+    overflow: visible;
 }
 
 .LabeledTextBox .TextBox {

@@ -18,17 +18,6 @@ const LabeledMemo = (() => {
     //#endregion Private
     //#region Class LabeledMemo
     class LabeledMemo extends LabeledControl {
-        //#region constructor
-        constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
-            props = !props ? {} : props;
-            if (owner) {
-                super(owner, props);
-                const priv = internal(this);
-            }
-        }
-        //#endregion constructor
         //#region Getters / Setters
         //#endregion Getters / Setters
         //#region Methods
@@ -42,10 +31,8 @@ const LabeledMemo = (() => {
             priv.memo = Core.classes.createComponent({
                 class: Memo,
                 owner: this,
-                props: { inForm: false, text: props.hasOwnProperty('text')?props.text:String.EMPTY },
-                withTpl: true
+                props: { inForm: false, text: props.hasOwnProperty('text')?props.text:String.EMPTY }
             });
-            priv.memo.canFocused = false;
         }
         //#endregion loaded
         //#region destroy

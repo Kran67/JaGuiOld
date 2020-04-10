@@ -29,7 +29,6 @@ const WindowTitleBar = (() => {
         //#region Constructor
         constructor(owner, props) {
             //#region Variables déclaration
-            const classes = Core.classes;
             const textAligns = Types.TEXTALIGNS;
             //#endregion Variables déclaration
             props = !props ? {} : props;
@@ -50,16 +49,16 @@ const WindowTitleBar = (() => {
                     component: this,
                     propName: 'horizAlign',
                     enum: textAligns,
-                    forceUpdate: true,
+                    forceUpdate: !0,
                     variable: priv,
                     value: textAligns.LEFT
                 });
                 //#endregion
                 //#region Public
-                this.autoCapture = true;
+                this.autoCapture = !0;
                 const hitTest = this.hitTest;
-                hitTest.all = true;
-                hitTest.mouseWheel = false;
+                hitTest.all = !0;
+                hitTest.mouseWheel = !1;
                 //#endregion Public
                 this.createEventsAndBind(['onCaptionChanged'], props);
             }
@@ -242,7 +241,7 @@ const WindowTitleBar = (() => {
             }
             startDragOff.x = p.x;
             startDragOff.y = p.y;
-            this.isPressed = true;
+            this.isPressed = !0;
             Core.dragWindow = this;
             Events.bind(document, Mouse.MOUSEEVENTS.MOVE.toLowerCase(), this.mouseMove);
         }
@@ -287,7 +286,7 @@ const WindowTitleBar = (() => {
                 }
             } else if (mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
                 super.mouseUp();
-                this.isPressed = false;
+                this.isPressed = !1;
                 Core.dragWindow = null;
                 Events.unBind(document, Mouse.MOUSEEVENTS.MOVE, this.mouseMove);
                 if (form.bordersType === Window.BORDERSTYPES.SNAP && form.windowState !== Window.WINDOWSTATES.SNAPED) {
@@ -295,7 +294,7 @@ const WindowTitleBar = (() => {
                         form.applySnap();
                     }
                 }
-                form.enabledShadow = true;
+                form.enabledShadow = !0;
             }
         }
         //#endregion mouseUp
@@ -318,7 +317,7 @@ const WindowTitleBar = (() => {
                     const titlebar = Core.dragWindow;
                     const form = titlebar.form;
                     const snapArea = form.snapArea;
-                    form.enabledShadow = false;
+                    form.enabledShadow = !1;
                     if (form.moveable && !form.isMaximized) {
                         const fHtmlElement = form.HTMLElement;
                         const bordersType = form.bordersType;
@@ -399,7 +398,7 @@ const WindowTitleBar = (() => {
                         }
                     }
                     if (!Core.isHTMLRenderer) {
-                        Core.canvas.needRedraw = true;
+                        Core.canvas.needRedraw = !0;
                     }
                 }
             }
@@ -447,10 +446,10 @@ const WindowTitleBar = (() => {
                     properties = node.properties;
                 }
                 if (properties) {
-                    properties.inForm = false;
+                    properties.inForm = !1;
                 } else {
                     properties = {
-                        inForm: false
+                        inForm: !1
                     };
                 }
                 if (dataClass) {
@@ -460,7 +459,7 @@ const WindowTitleBar = (() => {
                             owner: this,
                             name: dataName,
                             props: properties,
-                            withTpl: false,
+                            withTpl: !1,
                             internalId: node.id
                         });
                     }
@@ -479,7 +478,7 @@ const WindowTitleBar = (() => {
                             title.dblClick = this.dblClick;*/
                             //title.height = this.height;
                             //title.width = this.width;
-                            //title.hitTest.all = false;
+                            //title.hitTest.all = !1;
                             break;
                         case 'WindowCloseButton':
                             priv.closeBtn = obj;
@@ -566,11 +565,14 @@ class WindowContent extends ThemedControl {
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
+            props.stopEvent = !1;
+            props.hitTest = {};
+            props.hitTest.mouseDown = !0;
+            props.hitTest.mouseWheel = !0;
             super(owner, props);
             //#region Public
-            this.hitTest.mouseDown = true;
-            this.hitTest.mouseWheel = true;
-            this.stopEvent = false;
+            //this.hitTest.mouseDown = !0;
+            //this.hitTest.mouseWheel = !0;
             //#endregion Public
         }
     }
@@ -603,26 +605,25 @@ const BaseWindow = (() => {
             const BORDERSTYPES = Window.BORDERSTYLES;
             const MODALRESULTS = Window.MODALRESULTS;
             const SHOWINGMODES = Window.SHOWINGMODES;
-            const classes = Core.classes;
             //#endregion Variables déclaration
             if (owner) {
                 super(owner, props);
                 //#region Private
                 const priv = internal(this);
                 priv.resizeMode = {
-                    leftEdge: false,
-                    topEdge: false,
-                    rightEdge: false,
-                    bottomEdge: false
+                    leftEdge: !1,
+                    topEdge: !1,
+                    rightEdge: !1,
+                    bottomEdge: !1
                 };
                 priv.savedSizePosState = {};
-                priv.isModal = false;
-                priv.creating = true;
+                priv.isModal = !1;
+                priv.creating = !0;
                 priv.layout = null;
                 priv.titleBar = null;
                 priv.content = null;
                 priv.titleBarObj = {};
-                priv.firstShow = true;
+                priv.firstShow = !0;
                 priv.controlsToResize = [];
                 priv.focusedControl = null;
                 priv.hoveredControl = null;
@@ -631,23 +632,23 @@ const BaseWindow = (() => {
                 priv.popups = [];
                 priv.toolBars = [];
                 priv.statusBars = [];
-                priv.isResizing = false;
+                priv.isResizing = !1;
                 priv.snapArea = props.hasOwnProperty('snapArea') ? props.snapArea : Window.SNAPAREAS.NONE;
-                priv.destroyOnHide = false;
+                priv.destroyOnHide = !1;
                 priv.controls = [];
-                priv.isChildWindow = props.hasOwnProperty('parentHTML') ? (props.parentHTML !== document.body ? true : false) : false;
+                priv.isChildWindow = props.hasOwnProperty('parentHTML') ? (props.parentHTML !== document.body ? !0 : !1) : !1;
                 priv.parentHTML = props.hasOwnProperty('parentHTML') ? props.parentHTML : null;
                 priv.lastZIndex = -1;
-                priv.animated = true;
-                priv.keyPreview = false;
+                priv.animated = !0;
+                priv.keyPreview = !1;
                 priv.icon = 'logo';
                 priv.mainMenu = null;
                 priv.activeControl = null;
-                priv.canClose = true;
-                priv.moveable = true;
-                priv.stayOn = props.hasOwnProperty('stayOn') ? props.stayOn : false;
-                priv.enabledShadow = props.hasOwnProperty('enabledShadow') ? props.enabledShadow : true;
-                //priv.minimizeAnimation = new RectAnimation(this, { inForm: false });
+                priv.canClose = !0;
+                priv.moveable = !0;
+                priv.stayOn = props.hasOwnProperty('stayOn') ? props.stayOn : !1;
+                priv.enabledShadow = props.hasOwnProperty('enabledShadow') ? props.enabledShadow : !0;
+                //priv.minimizeAnimation = new RectAnimation(this, { inForm: !1 });
                 priv.position = props.hasOwnProperty('position') ? props.position : FORMPOSITIONS.DEFAULT;
                 priv.buttons = props.hasOwnProperty('buttons') ? props.buttons : null;
                 Tools.addPropertyFromEnum({
@@ -746,7 +747,7 @@ const BaseWindow = (() => {
                                         }
                                     }
                                     this.realignChilds();
-                                    Core.canvas.needRedraw = true;
+                                    Core.canvas.needRedraw = !0;
                                 }
                             }
                         }
@@ -778,17 +779,17 @@ const BaseWindow = (() => {
                 //#endregion Private
                 //#region Public
                 const hitTest = this.hitTest;
-                hitTest.mouseMove = true;
-                hitTest.mouseDown = true;
-                hitTest.mouseUp = true;
-                //this.visible = false;
+                hitTest.mouseMove = !0;
+                hitTest.mouseDown = !0;
+                hitTest.mouseUp = !0;
+                //this.visible = !1;
                 this.app[this.constructor.name.toLowerCase()] = this;
                 //#endregion Public
                 //#region Events
                 this.createEventsAndBind(['onActivate', 'onDeactivate', 'onHide', 'onShow', 'onCreate', 'onClose', 'onCloseQuery', 'onThemeChanged'], props);
                 //#endregion Events
                 //if (!Core.isHTMLRenderer) {
-                //    priv.minimizeAnimation.hideOnFinish = true;
+                //    priv.minimizeAnimation.hideOnFinish = !0;
                 //    priv.minimizeAnimation.control = this;
                 //    priv.minimizeAnimation.propertyName = "bounds";
                 //    priv.minimizeAnimation.onProcess.addListener(this._onMinimizeProcess);
@@ -1021,7 +1022,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.MainMenu) {
+            if (Core.classes.MainMenu && newValue instanceof Core.classes.MainMenu) {
                 if (newValue !== priv.mainMenu) {
                     priv.mainMenu = newValue;
                     this.redraw();
@@ -1234,9 +1235,9 @@ const BaseWindow = (() => {
                     super.visible = newValue;
                     // à revoir
                     //if (!priv.visible) {
-                    //    //priv.visible = false;
+                    //    //priv.visible = !1;
                     //    //Css.removeClass(this.HTMLElement,"isactive");
-                    //    //this.HTMLElement.dataset.isactive = false;
+                    //    //this.HTMLElement.dataset.isactive = !1;
                     //}
                 }
             }
@@ -1316,14 +1317,14 @@ const BaseWindow = (() => {
         //#endregion setFocused
         //#region setTitleBar
         setTitleBar() {
-            //this._titleBar.visible=false;
+            //this._titleBar.visible=!1;
             //this._titleBarObj.mouseDown=this._titleBar.mouseDown;
             //this._titleBarObj.mouseUp=this._titleBar.mouseUp;
             //this._titleBarObj.mouseMove=this._titleBar.mouseMove;
-            //this._titleBarObj.hitTest.mouseDown=false;
-            //this._titleBarObj.hitTest.mouseMove=false;
-            //this._titleBarObj.hitTest.mouseUp=false;
-            //this._titleBarObj.hitTest.mouseWheel=false;
+            //this._titleBarObj.hitTest.mouseDown=!1;
+            //this._titleBarObj.hitTest.mouseMove=!1;
+            //this._titleBarObj.hitTest.mouseUp=!1;
+            //this._titleBarObj.hitTest.mouseWheel=!1;
             //if (this._titleBarObj._startDragOff===null) this._titleBarObj._startDragOff=new Core.classes.Point();
         }
         //#endregion setTitleBar
@@ -1339,12 +1340,12 @@ const BaseWindow = (() => {
                 tab = [TITLEBUTTONS.MINIMIZE, TITLEBUTTONS.MAXRESTORE];
             }
             allBtns.forEach(t => {
-                titleBar[`${t}Btn`].visible = false;
+                titleBar[`${t}Btn`].visible = !1;
             });
             tab.forEach(t => {
-                titleBar[`${t}Btn`].visible = true;
+                titleBar[`${t}Btn`].visible = !0;
             });
-            titleBar[`${TITLEBUTTONS.CLOSE}Btn`].visible = true;
+            titleBar[`${TITLEBUTTONS.CLOSE}Btn`].visible = !0;
         }
         //#endregion setTitleBtn
         //#region layoutMargin
@@ -1514,11 +1515,11 @@ const BaseWindow = (() => {
                     Events.bind(htmlElement, Events.whichAnimationEvent(), this.anitmationEndOnHide);
                 }
                 else {
-                    this.visible = false;
+                    this.visible = !1;
                 }
             } else {
-                this.visible = false;
-                Core.canvas.needRedraw = true;
+                this.visible = !1;
+                Core.canvas.needRedraw = !0;
             }
             if (lastActiveWindow.length > 0) {
                 app.activeWindow = null;
@@ -1538,7 +1539,7 @@ const BaseWindow = (() => {
                     activeWindow = app.mainWindow;
                 }
             }
-            priv.isModal = false;
+            priv.isModal = !1;
 
         }
         //#endregion hide
@@ -1587,8 +1588,8 @@ const BaseWindow = (() => {
                     }
                     priv.windowState = WINDOWSTATES.NONE;
                     //const minimizeAnimation = priv.minimizeAnimation;
-                    //minimizeAnimation.startFromCurrent = false;
-                    //minimizeAnimation.inverse = false;
+                    //minimizeAnimation.startFromCurrent = !1;
+                    //minimizeAnimation.inverse = !1;
                     //minimizeAnimation.stopValue.setValues(0, document.body.offsetHeight - minWinHeight, minWinWidth, document.body.offsetHeight);
                     //if (priv.windowState === WINDOWSTATES.MAXIMIZED) {
                     //    minimizeAnimation.startValue.setValues(this.left, this.top, this.left + this.width, this.top + this.height);
@@ -1597,11 +1598,11 @@ const BaseWindow = (() => {
                     //}
                     //minimizeAnimation.start();
                 }
-                priv.enabledShadow = false;
-                titleBar.maxRestoreBtn.enabled = false;
-                titleBar.helpBtn.enabled = false;
-                titleBar.rollUpDownBtn.enabled = false;
-                titleBar.stayOnOffBtn.enabled = false;
+                priv.enabledShadow = !1;
+                titleBar.maxRestoreBtn.enabled = !1;
+                titleBar.helpBtn.enabled = !1;
+                titleBar.rollUpDownBtn.enabled = !1;
+                titleBar.stayOnOffBtn.enabled = !1;
                 this.stopResize();
             }
         }
@@ -1618,7 +1619,7 @@ const BaseWindow = (() => {
             form.width = ~~rect.width;
             form.height = ~~rect.height;
             form.endUpdate();
-            Core.canvas.needRedraw = true;
+            Core.canvas.needRedraw = !0;
             //console.log(Convert.rect2Str(rect));
         }
         //#endregion _onMinimizeProcess
@@ -1643,7 +1644,7 @@ const BaseWindow = (() => {
                 htmlElementStyle.transitionDuration = String.EMPTY;
                 Events.unBind(form.HTMLElement, 'transitionend', form._onMinimizeFinish);
             } else {
-                Core.canvas.needRedraw = true;
+                Core.canvas.needRedraw = !0;
             }
         }
         //#endregion _onMinimizeFinish
@@ -1699,8 +1700,8 @@ const BaseWindow = (() => {
                     priv.windowState = WINDOWSTATES.MAXIMIZED;
                 } else {
                     //const minimizeAnimation = priv.minimizeAnimation;
-                    //minimizeAnimation.startFromCurrent = false;
-                    //minimizeAnimation.inverse = false;
+                    //minimizeAnimation.startFromCurrent = !1;
+                    //minimizeAnimation.inverse = !1;
                     //minimizeAnimation.stopValue.setValues(0, 0, document.body.offsetWidth, document.body.offsetHeight);
                     //if (priv.windowState === WINDOWSTATES.MINIMIZED) {
                     //    minimizeAnimation.startValue.setValues(this.left, this.top, this.left + this.width, this.top + this.height);
@@ -1710,12 +1711,12 @@ const BaseWindow = (() => {
                     //minimizeAnimation.start();
                     priv.windowState = WINDOWSTATES.NONE;
                 }
-                priv.enabledShadow = false;
+                priv.enabledShadow = !1;
                 // on désactive les autres boutons
-                titleBar.maxRestoreBtn.enabled = true;
-                //titleBar.helpBtn.enabled = false;
-                titleBar.rollUpDownBtn.enabled = false;
-                titleBar.stayOnOffBtn.enabled = false;
+                titleBar.maxRestoreBtn.enabled = !0;
+                //titleBar.helpBtn.enabled = !1;
+                titleBar.rollUpDownBtn.enabled = !1;
+                titleBar.stayOnOffBtn.enabled = !1;
                 this.stopResize();
             }
         }
@@ -1777,19 +1778,19 @@ const BaseWindow = (() => {
                 }
                 this.HTMLElement.classList.remove(WINDOWSTATES.MAXIMIZED, WINDOWSTATES.MINIMIZED);
             } else {
-                priv.enabledShadow = true;
+                priv.enabledShadow = !0;
                 priv.windowState = WINDOWSTATES.NONE;
                 //const minimizeAnimation = priv.minimizeAnimation;
-                //minimizeAnimation.startFromCurrent = false;
+                //minimizeAnimation.startFromCurrent = !1;
                 //minimizeAnimation.startValue.setValues(this.left, this.top, this.left + this.width, this.top + this.height);
                 //minimizeAnimation.stopValue.setValues(savedSizePosState.left, savedSizePosState.top, savedSizePosState.left + savedSizePosState.width, savedSizePosState.top + savedSizePosState.height);
                 //minimizeAnimation.start();
             }
             savedSizePosState.state = WINDOWSTATES.NORMAL;
-            titleBar.maxRestoreBtn.enabled = true;
-            titleBar.helpBtn.enabled = true;
-            titleBar.rollUpDownBtn.enabled = true;
-            titleBar.stayOnOffBtn.enabled = true;
+            titleBar.maxRestoreBtn.enabled = !0;
+            titleBar.helpBtn.enabled = !0;
+            titleBar.rollUpDownBtn.enabled = !0;
+            titleBar.stayOnOffBtn.enabled = !0;
         }
         //#endregion restore
         //#region maximizeRestore
@@ -1843,18 +1844,18 @@ const BaseWindow = (() => {
                     this.height = minWinHeight;
                 }
                 if (maxRestoreBtn.visible) {
-                    maxRestoreBtn.enabled = false;
+                    maxRestoreBtn.enabled = !1;
                 }
                 if (minimizeBtn.visible) {
-                    minimizeBtn.enabled = false;
+                    minimizeBtn.enabled = !1;
                 }
-                priv.content.visible = false;
+                priv.content.visible = !1;
                 priv.windowState = Window.WINDOWSTATES.ROLLEDUP;
-                rollUpDownBtn.isRolledUp = true;
+                rollUpDownBtn.isRolledUp = !0;
                 if (isHtmlRenderer) {
                     rollUpDownBtn.HTMLElement.classList.add('isup');
                 } else {
-                    Core.canvas.needRedraw = true;
+                    Core.canvas.needRedraw = !0;
                 }
                 this.stopResize();
             }
@@ -1879,18 +1880,18 @@ const BaseWindow = (() => {
                 }
                 priv.windowState = Window.WINDOWSTATES.NORMAL;
                 if (maxRestoreBtn.visible) {
-                    maxRestoreBtn.enabled = true;
+                    maxRestoreBtn.enabled = !0;
                 }
                 if (minimizeBtn.visible) {
-                    minimizeBtn.enabled = true;
+                    minimizeBtn.enabled = !0;
                 }
-                priv.content.visible = true;
-                rollUpDownBtn.isRolledUp = false;
+                priv.content.visible = !0;
+                rollUpDownBtn.isRolledUp = !1;
                 if (isHtmlRenderer) {
                     rollUpDownBtn.HTMLElement.classList.remove('isup');
                 } else {
                     this.realignChilds();
-                    Core.canvas.needRedraw = true;
+                    Core.canvas.needRedraw = !0;
                 }
             }
         }
@@ -1921,7 +1922,7 @@ const BaseWindow = (() => {
                 if (Core.isHTMLRenderer) {
                     stayOnOffBtn.HTMLElement.classList.add('isstayon');
                 }
-                stayOnOffBtn.isStayOn = priv.stayOn = true;
+                stayOnOffBtn.isStayOn = priv.stayOn = !0;
                 this.stopResize();
             }
         }
@@ -1934,7 +1935,7 @@ const BaseWindow = (() => {
             const stayOnOffBtn = titleBar.stayOnOffBtn;
             //#endregion Variables déclaration
             if (this.isBorderSizeable || this.isBorderSingle || titleBar.stayOnOffBtn.visible) {
-                stayOnOffBtn.isStayOn = priv.stayOn = false;
+                stayOnOffBtn.isStayOn = priv.stayOn = !1;
                 stayOnOffBtn.toolTip = 'Epingler au dessus'; // à voir pour mettre en locale
                 if (Core.isHTMLRenderer) {
                     stayOnOffBtn.HTMLElement.classList.remove('isstayon');
@@ -1963,7 +1964,7 @@ const BaseWindow = (() => {
                 //if (isHtmlRenderer) {
                 //    this.HTMLResize();
                 //}
-                priv.firstShow = false;
+                priv.firstShow = !1;
                 if (this.isMaximized) {
                     priv.windowState = Window.WINDOWSTATES.NORMAL;
                     this.toogleMaxRestore();
@@ -1987,7 +1988,7 @@ const BaseWindow = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             this.beforeShow();
-            this.visible = true;
+            this.visible = !0;
             this.setActive();
             if (priv.animated && Core.isHTMLRenderer) {
                 htmlElement.classList.add('animated', 'bounceIn');
@@ -1999,7 +2000,7 @@ const BaseWindow = (() => {
             }
             this.onShow.invoke();
             if (!Core.isHTMLRenderer) {
-                Core.canvas.needRedraw = true;
+                Core.canvas.needRedraw = !0;
             }
         }
         //#endregion show
@@ -2020,11 +2021,11 @@ const BaseWindow = (() => {
                 Events.unBind(this, Events.whichAnimationEvent(), jsObj.anitmationEndOnHide);
                 this.classList.remove('bounceOut', 'animated', 'inactive');
             }
-            jsObj.visible = false;
-            //this.dataset.isactive = false;
+            jsObj.visible = !1;
+            //this.dataset.isactive = !1;
             jsObj.onClose.invoke();
             if (jsObj.app.lastActiveWindow.length === 0) {
-                internal(jsObj).destroyOnHide = true;
+                internal(jsObj).destroyOnHide = !0;
             }
             if (jsObj.destroyOnHide) {
                 jsObj.destroy();
@@ -2049,7 +2050,7 @@ const BaseWindow = (() => {
                 glass.classList.add('Control', 'noEvents');
                 glass.jsObj = this;
             }
-            priv.isModal = true;
+            priv.isModal = !0;
             priv.modalResult = Window.MODALRESULTS.NONE;
             if (!activeWindow.isChildWindow) {
                 if (isHtmlRenderer) {
@@ -2088,7 +2089,7 @@ const BaseWindow = (() => {
             const height = this.height;
             //#endregion Variables déclaration
             if (!this.loading && !priv.creating) {
-                priv.firstShow = false;
+                priv.firstShow = !1;
             }
             Object.keys(Core.looper.listeners).forEach(key => {
                 if (Core.looper.listeners[key].component.hasResizeEvent) {
@@ -2123,7 +2124,7 @@ const BaseWindow = (() => {
             //}
             //touch.preventDefault();
             //simulatedEvent=document.createEvent(Core.types.mouseEvents.EVENT);
-            //simulatedEvent.initMouseEvent(type,true,true,this.canvas,1,touch.screenX,touch.screenY,touch.clientX,touch.clientY,false,false,false,false,0,null);
+            //simulatedEvent.initMouseEvent(type,!0,!0,this.canvas,1,touch.screenX,touch.screenY,touch.clientX,touch.clientY,!1,!1,!1,!1,0,null);
             //touch.target.dispatchEvent(simulatedEvent);
         }
         //#endregion touchToMouse
@@ -2197,14 +2198,14 @@ const BaseWindow = (() => {
             const priv = internal(this);
             const resizeMode = priv.resizeMode;
             //#endregion Variables déclaration
-            resizeMode.rightEdge = resizeMode.bottomEdge = resizeMode.topEdge = resizeMode.leftEdge = false;
-            priv.isResizing = false;
+            resizeMode.rightEdge = resizeMode.bottomEdge = resizeMode.topEdge = resizeMode.leftEdge = !1;
+            priv.isResizing = !1;
             Core.looper.removeListener(this, 'resize');
             Core.resizeWindow = null;
             Events.unBind(document, Mouse.MOUSEEVENTS.UP.toLowerCase(), this.docMouseUp);
             Events.unBind(document, Mouse.MOUSEEVENTS.MOVE.toLowerCase(), this.docMouseMove);
             if (!Core.isHTMLRenderer) {
-                Core.canvas.needRedraw = true;
+                Core.canvas.needRedraw = !0;
             }
         }
         //#endregion stopResize
@@ -2214,7 +2215,7 @@ const BaseWindow = (() => {
             const priv = internal(this);
             const layoutRect = {};
             let cs = null;
-            let csrDefault = true;
+            let csrDefault = !0;
             const CUSTOMCURSORS = Types.CUSTOMCURSORS;
             const isHtmlRenderer = Core.isHTMLRenderer;
             const htmlElement = isHtmlRenderer ? this.HTMLElement : Core.canvas;
@@ -2231,7 +2232,7 @@ const BaseWindow = (() => {
             this.removeCursors();
             if (this.isBorderSizeable && !this.isMaximized && !this.isMinimized && !priv.isResizing && !this.isRolledUp && priv.snapArea !== Window.SNAPAREAS.TOP) {
                 if (mouse.event.srcElement === htmlElement || isHtmlRenderer) {
-                    resizeMode.rightEdge = resizeMode.bottomEdge = resizeMode.topEdge = resizeMode.leftEdge = false;
+                    resizeMode.rightEdge = resizeMode.bottomEdge = resizeMode.topEdge = resizeMode.leftEdge = !1;
                     if (isHtmlRenderer) {
                         cs = getComputedStyle(lHtmlElement);
                     } else {
@@ -2255,7 +2256,7 @@ const BaseWindow = (() => {
                     resizeMode.rightEdge = x >= cs.width - layoutRect.r;
                     resizeMode.bottomEdge = y >= cs.height - layoutRect.b;
                     if (resizeMode.rightEdge || resizeMode.bottomEdge || resizeMode.topEdge || resizeMode.leftEdge) {
-                        csrDefault = false;
+                        csrDefault = !1;
                     }
                     if (resizeMode.rightEdge && resizeMode.bottomEdge || resizeMode.leftEdge && resizeMode.topEdge) {
                         htmlElement.classList.add(CUSTOMCURSORS.NWRESIZE);
@@ -2303,7 +2304,7 @@ const BaseWindow = (() => {
                     savedSizePosState.y = p.y;
                 }
                 if (!Core.isHTMLRenderer) {
-                    Core.canvas.needRedraw = true;
+                    Core.canvas.needRedraw = !0;
                 }
             }
         }
@@ -2470,13 +2471,13 @@ const BaseWindow = (() => {
                 class: classes.Layout,
                 owner: this,
                 props: {
-                    inForm: false,
+                    inForm: !1,
                     align: Types.ALIGNS.CLIENT
                 },
-                withTpl: false
+                withTpl: !1
             });
             const layout = priv.layout;
-            layout.hitTest.all = false;
+            layout.hitTest.all = !1;
             if (isHtmlRenderer) {
                 layout.getHTMLElement(this.HTMLElement.querySelector('[data-class="Layout"]').id);
                 nodes = layout.HTMLElement.childNodes;
@@ -2505,9 +2506,9 @@ const BaseWindow = (() => {
                     }
                     if ((classes[dataClass] === WindowTitleBar) ||
                         (classes[dataClass] === WindowContent) ||
-                        (classes[dataClass] === Core.classes.StatusBar) ||
-                        (classes[dataClass] === Core.classes.ToolBar)) {
-                        props.inForm = false;
+                        (Core.classes.StatusBar && classes[dataClass] === Core.classes.StatusBar) ||
+                        (Core.classes.ToolBar && classes[dataClass] === Core.classes.ToolBar)) {
+                        props.inForm = !1;
                     }
                     const obj = classes.createComponent({
                         class: classes[dataClass],
@@ -2515,7 +2516,7 @@ const BaseWindow = (() => {
                         name: dataName,
                         props: props,
                         internalId: node.id,
-                        withTpl: false
+                        withTpl: !1
                     });
                     switch (dataClass) {
                         case 'WindowTitleBar': {
@@ -2525,9 +2526,9 @@ const BaseWindow = (() => {
                                 if (isHtmlRenderer) {
                                     titleBar.display = Types.DISPLAYS.NONE;
                                 } else {
-                                    titleBar.visible = false;
+                                    titleBar.visible = !1;
                                 }
-                                titleBar.inForm = false;
+                                titleBar.inForm = !1;
                             } else if (!isHtmlRenderer && theme.WindowTitleBar && theme.WindowTitleBar.height) {
                                 titleBar.height = theme.WindowTitleBar.height;
                             } else {
@@ -2539,8 +2540,9 @@ const BaseWindow = (() => {
                         case 'WindowContent': {
                             priv.content = obj;
                             const content = priv.content;
-                            content.inForm = false;
-                            content.hitTest.all = false;
+                            content.inForm = !1;
+                            content.hitTest.all = !1;
+                            content.hitTest.mouseDown = !0;
                             content.align = Types.ALIGNS.CLIENT;
                             break;
                         }
@@ -2639,7 +2641,7 @@ const BaseWindow = (() => {
             }
             this.realignChilds();
             super.loaded();
-            priv.creating = false;
+            priv.creating = !1;
             const comp = priv.content.components.find(component => {
                 if (component instanceof Core.classes.Control) {
                     if (component.visible && component.canFocused && component.isEnabled) {
@@ -2670,17 +2672,17 @@ const BaseWindow = (() => {
             if (popups) {
                 if (popups.length > 0) {
                     popups.reverse().forEach((popup, i) => {
-                        const control = popup.control;
-                        if (control instanceof classes.MenuItem) {
-                            control.closeSubMenu();
-                        } else if (control) {
-                            if (control.dropDownPopup instanceof classes.PopupBox) {
-                                control.destroyPopup();
-                                popup.control = null;
+                        const refControl = popup.refControl;
+                        if (classes.MenuItem && refControl instanceof classes.MenuItem) {
+                            refControl.closeSubMenu();
+                        } else if (refControl) {
+                            if (classes.PopupBox && refControl.dropDownPopup instanceof classes.PopupBox) {
+                                refControl.destroyPopup();
+                                popup.refControl = null;
                             }
                         }
                         if (popup) {
-                            if (popup.owner instanceof classes.PopupMenu) {
+                            if (classes.PopupMenu && popup.owner instanceof classes.PopupMenu) {
                                 popup.owner.close();
                             }
                             popups[i] = null;
@@ -2691,10 +2693,10 @@ const BaseWindow = (() => {
             }
             if (mainMenu) {
                 mainMenu.items.forEach(item => {
-                    item.setActive(false);
+                    item.setActive(!1);
                 });
                 //Css.removeClass(this.mainMenu.HTMLElement,"isactive
-                //this.mainMenu.HTMLElement.dataset.isactive = false;
+                //this.mainMenu.HTMLElement.dataset.isactive = !1;
             }
         }
         //#endregion closePopups
@@ -2846,11 +2848,11 @@ const BaseWindow = (() => {
                 // TODO enable rollup and stayon button
                 // change maxRestore button to max
                 // change maxRestore button to restore
-                priv.enabledShadow = true;
+                priv.enabledShadow = !0;
                 // on désactive les autres boutons
-                maxRestoreBtn.enabled = true;
-                rollUpDownBtn.enabled = true;
-                stayOnOffBtn.enabled = true;
+                maxRestoreBtn.enabled = !0;
+                rollUpDownBtn.enabled = !0;
+                stayOnOffBtn.enabled = !0;
                 priv.windowState = WINDOWSTATES.NORMAL;
                 priv.snapArea = SNAPAREAS.NONE;
             }
@@ -2905,13 +2907,13 @@ const BaseWindow = (() => {
             //#region Variables declaration
             const priv = internal(this);
             //#endregion Variables declaration
-            priv.content.hitTest = false;
-            priv.layout.hitTest = false;
-            priv.titleBar.hitTest = false;
+            priv.content.hitTest = !1;
+            priv.layout.hitTest = !1;
+            priv.titleBar.hitTest = !1;
             if (Core.isHTMLRenderer) {
                 this.HTMLElement.classList.add('inactive');
             }
-            //this.HTMLElement.dataset.isactive = false;
+            //this.HTMLElement.dataset.isactive = !1;
         }
         //#endregion desactiveHitTest
         //#region applySnap
@@ -2940,11 +2942,11 @@ const BaseWindow = (() => {
             }
             if (snapArea !== SNAPAREAS.NONE) {
                 // change maxRestore button to restore
-                priv.enabledShadow = false;
+                priv.enabledShadow = !1;
                 // on désactive les autres boutons
-                maxRestoreBtn.enabled = true;
-                rollUpDownBtn.enabled = false;
-                stayOnOffBtn.enabled = false;
+                maxRestoreBtn.enabled = !0;
+                rollUpDownBtn.enabled = !1;
+                stayOnOffBtn.enabled = !1;
             }
             switch (snapArea) {
                 case SNAPAREAS.LEFT:
@@ -3013,40 +3015,40 @@ const BaseWindow = (() => {
 //#region BaseWindow defineProperties
 Object.defineProperties(BaseWindow, {
     toolBars: {
-        enumerable: true
+        enumerable: !0
     },
     statusBars: {
-        enumerable: true
+        enumerable: !0
     },
     //themeManifest: {
-    //    enumerable: true
+    //    enumerable: !0
     //},
     snapArea: {
-        enumerable: true
+        enumerable: !0
     },
     destroyOnHide: {
-        enumerable: true
+        enumerable: !0
     },
     animated: {
-        enumerable: true
+        enumerable: !0
     },
     keyPreview: {
-        enumerable: true
+        enumerable: !0
     },
     icon: {
-        enumerable: true
+        enumerable: !0
     },
     mainMenu: {
-        enumerable: true
+        enumerable: !0
     },
     activeControl: {
-        enumerable: true
+        enumerable: !0
     },
     canClose: {
-        enumerable: true
+        enumerable: !0
     },
     moveable: {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion BaseWindow defineProperties
@@ -3208,141 +3210,125 @@ const BORDERSTYPES = Object.freeze(Object.seal({
 }));
 //#endregion BORDERSTYPES
 //#endregion
-//#region Window
-const Window = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class Window
-    class Window extends BaseWindow {
-        //#region Static
-        static get SIZEABLEBORDERSIZE() { return 4; }
-        static get CORNERSIZE() { return 10; }
-        static get MINWIDTH() { return 150; }
-        static get MINHEIGHT() { return 26; }
-        static get TITLEBARHEIGHT() { return 25; }
-        static get MAGNETICSIZE() { return 10; }
-        static get SNAPAREADISTANCE() { return 20; }
-        static get STAYONTOP() { return 999999999; }
-        //#region HELPTYPES
-        /**
-         * @type    {Object}        HELPTYPES
-         */
-        static get HELPTYPES() {
-            return HELPTYPES;
-        }
-        //#endregion
-        //#region TITLEBUTTONS
-        /**
-         * @type    {Object}        TITLEBUTTONS
-         */
-        static get TITLEBUTTONS() {
-            return TITLEBUTTONS;
-        }
-        //#endregion
-        //#region FORMSTATES
-        /**
-         * @type    {Object}        FORMSTATES
-         */
-        static get FORMSTATES() {
-            return FORMSTATES;
-        }
-        //#endregion
-        //#region WINDOWSTATES
-        /**
-         * @type    {Object}        WINDOWSTATES
-         */
-        static get WINDOWSTATES() {
-            return WINDOWSTATES;
-        }
-        //#endregion
-        //#region MODALRESULTBUTTONS
-        /**
-         * @type    {Object}        MODALRESULTBUTTONS
-         */
-        static get MODALRESULTBUTTONS() {
-            return MODALRESULTBUTTONS;
-        }
-        //#endregion
-        //#region MODALRESULTS
-        /**
-         * @type    {Object}        MODALRESULTS
-         */
-        static get MODALRESULTS() {
-            return MODALRESULTS;
-        }
-        //#endregion
-        //#region FORMPOSITIONS
-        /**
-         * @type    {Object}        FORMPOSITIONS
-         */
-        static get FORMPOSITIONS() {
-            return FORMPOSITIONS;
-        }
-        //#endregion
-        //#region BORDERSTYLES
-        /**
-         * @type    {Object}        BORDERSTYLES
-         */
-        static get BORDERSTYLES() {
-            return BORDERSTYLES;
-        }
-        //#endregion
-        //#region RESIZEMODES
-        /**
-         * @type    {Object}        RESIZEMODES
-         */
-        static get RESIZEMODES() {
-            return RESIZEMODES;
-        }
-        //#endregion
-        //#region SNAPAREAS
-        /**
-         * @type    {Object}        SNAPAREAS
-         */
-        static get SNAPAREAS() {
-            return SNAPAREAS;
-        }
-        //#endregion
-        //#region BORDERSTYPES
-        /**
-         * @type    {Object}        BORDERSTYPES
-         */
-        static get BORDERSTYPES() {
-            return BORDERSTYPES;
-        }
-        //#endregion
-        //#region SHOWINGMODES
-        /**
-         * @type    {Object}        SHOWINGMODES
-         */
-        static get SHOWINGMODES() {
-            return SHOWINGMODES;
-        }
-        //#endregion
-        //#endregion Static
-        //#region constructor
-        constructor(owner, props) {
-            props = !props ? {} : props;
-            if (owner) {
-                super(owner, props);
-            }
-        }
-        //#endregion constructor
-        //#region getters / setters
-        //#endregion getters / setters
+//#region Class Window
+class Window extends BaseWindow {
+    //#region Static
+    static get SIZEABLEBORDERSIZE() { return 4; }
+    static get CORNERSIZE() { return 10; }
+    static get MINWIDTH() { return 150; }
+    static get MINHEIGHT() { return 26; }
+    static get TITLEBARHEIGHT() { return 25; }
+    static get MAGNETICSIZE() { return 10; }
+    static get SNAPAREADISTANCE() { return 20; }
+    static get STAYONTOP() { return 999999999; }
+    //#region HELPTYPES
+    /**
+     * @type    {Object}        HELPTYPES
+     */
+    static get HELPTYPES() {
+        return HELPTYPES;
     }
-    return Window;
-    //#endregion Class Window
-})();
+    //#endregion
+    //#region TITLEBUTTONS
+    /**
+     * @type    {Object}        TITLEBUTTONS
+     */
+    static get TITLEBUTTONS() {
+        return TITLEBUTTONS;
+    }
+    //#endregion
+    //#region FORMSTATES
+    /**
+     * @type    {Object}        FORMSTATES
+     */
+    static get FORMSTATES() {
+        return FORMSTATES;
+    }
+    //#endregion
+    //#region WINDOWSTATES
+    /**
+     * @type    {Object}        WINDOWSTATES
+     */
+    static get WINDOWSTATES() {
+        return WINDOWSTATES;
+    }
+    //#endregion
+    //#region MODALRESULTBUTTONS
+    /**
+     * @type    {Object}        MODALRESULTBUTTONS
+     */
+    static get MODALRESULTBUTTONS() {
+        return MODALRESULTBUTTONS;
+    }
+    //#endregion
+    //#region MODALRESULTS
+    /**
+     * @type    {Object}        MODALRESULTS
+     */
+    static get MODALRESULTS() {
+        return MODALRESULTS;
+    }
+    //#endregion
+    //#region FORMPOSITIONS
+    /**
+     * @type    {Object}        FORMPOSITIONS
+     */
+    static get FORMPOSITIONS() {
+        return FORMPOSITIONS;
+    }
+    //#endregion
+    //#region BORDERSTYLES
+    /**
+     * @type    {Object}        BORDERSTYLES
+     */
+    static get BORDERSTYLES() {
+        return BORDERSTYLES;
+    }
+    //#endregion
+    //#region RESIZEMODES
+    /**
+     * @type    {Object}        RESIZEMODES
+     */
+    static get RESIZEMODES() {
+        return RESIZEMODES;
+    }
+    //#endregion
+    //#region SNAPAREAS
+    /**
+     * @type    {Object}        SNAPAREAS
+     */
+    static get SNAPAREAS() {
+        return SNAPAREAS;
+    }
+    //#endregion
+    //#region BORDERSTYPES
+    /**
+     * @type    {Object}        BORDERSTYPES
+     */
+    static get BORDERSTYPES() {
+        return BORDERSTYPES;
+    }
+    //#endregion
+    //#region SHOWINGMODES
+    /**
+     * @type    {Object}        SHOWINGMODES
+     */
+    static get SHOWINGMODES() {
+        return SHOWINGMODES;
+    }
+    //#endregion
+    //#endregion Static
+    //#region constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            super(owner, props);
+        }
+    }
+    //#endregion constructor
+    //#region getters / setters
+    //#endregion getters / setters
+}
 //#endregion
 Core.classes.register(Types.CATEGORIES.CONTAINERS, Window);
 Core.classes.register(Types.INTERNALCATEGORIES.INTERNAL, WindowTitleBar, WindowContent, BaseWindow);

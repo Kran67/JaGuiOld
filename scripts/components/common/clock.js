@@ -227,7 +227,7 @@ const Clock = (() => {
                 });
                 this.createEventsAndBind(['onAlarm', 'onCountdownEnd', 'onCountdownEnd'], props);
                 this.hitTest.all = !1;
-                this.hitTest.mousedown = !0;
+                this.hitTest.mouseDown = !0;
                 priv.dotsGap = priv.dotsGap > 2 ? 2 : priv.dotsGap;
                 priv.numbers = {
                     '0': 'zero',
@@ -718,13 +718,13 @@ const Clock = (() => {
                                 break;
                         }
                         svg = document.createElementNS(XMLNS, SVG);
-                        div1 = document.createElementNS(XMLNS, Types.SHAPES.CIRCLE);
+                        div1 = document.createElementNS(XMLNS, 'circle');
                         div1.classList.add('Control', 'ClockDigit_Circular_back', this.themeName);
                         div1.setAttribute('cx', '50%');
                         div1.setAttribute('cy', '50%');
                         div1.setAttribute('r', '20');
                         svg.appendChild(div1);
-                        div1 = document.createElementNS(XMLNS, Types.SHAPES.CIRCLE);
+                        div1 = document.createElementNS(XMLNS, 'circle');
                         div1.classList.add('Control', 'ClockDigit_Circular_progress', this.themeName);
                         div1.setAttribute('cx', '50%');
                         div1.setAttribute('cy', '50%');

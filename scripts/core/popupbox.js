@@ -1,5 +1,6 @@
 ﻿//#region Import
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Import
 //#region PopupBox
 const PopupBox = (() => {
@@ -20,48 +21,54 @@ const PopupBox = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.height = -1;
+                props.width = -1;
                 super(owner, props);
                 const priv = internal(this);
-                priv.control = null;
-                //#region Private
+                priv.refControl = props.hasOwnProperty('refControl') ? props.refControl : null;
                 this.owners.destroy();
-                //#endregion
                 delete this.tabOrder;
             }
         }
         //#endregion constructor
         //#region Getter / Setter
-        //#region control
-        get control() {
-            return internal(this).control;
+        //#region refControl
+        get refControl() {
+            return internal(this).refControl;
         }
-        set control(newValue) {
+        set refControl(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof Core.classes.Control) {
-                if (priv.control !== newValue) {
-                    priv.control = newValue;
+                if (priv.refControl !== newValue) {
+                    priv.refControl = newValue;
                 }
             }
         }
-        //#endregion control
+        //#endregion refControl
         //#endregion Getter / Setter
         //#region Methods
         //#region show
         show(x, y) {
+            //#region Variables déclaration
             const priv = internal(this);
             const PX = Types.CSSUNITS.PX;
             const htmlElement = this.HTMLElement;
-            const control = priv.control;
+            const refControl = priv.refControl;
             const htmlElementStyle = this.HTMLElementStyle;
+            const cHtmlElement = refControl.HTMLElement;
+            const TAG = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            //#endregion Variables déclaration
             if (!this.form) {
-                this.form = control.form;
+                this.form = refControl.form;
             }
             if (!this.app) {
-                this.app = control.app;
+                this.app = refControl.app;
             }
             if (!htmlElement) {
                 const tpl = this.template;
-                const container = document.createElement(Types.HTMLELEMENTS.DIV);
+                const container = document.createElement(`${TAG}container`);
                 container.innerHTML = tpl;
                 document.body.appendChild(container.firstElementChild);
                 this.getHTMLElement(this.internalId);
@@ -70,14 +77,14 @@ const PopupBox = (() => {
                 // for the PopupBox
                 if (this instanceof Core.classes.PopupBox) {
                     // _control is MenuItem
-                    if (control instanceof Core.classes.MenuItem) {
-                        y = y - htmlElement.offsetHeight + control.HTMLElement.offsetHeight;
+                    if (Core.classes.MenuItem && refControl instanceof Core.classes.MenuItem) {
+                        y = y - htmlElement.offsetHeight + cHtmlElement.offsetHeight;
                     }
-                        // _control is WindowContent
-                    else if (control !== control.form.content) {
-                        y -= htmlElement.offsetHeight + control.HTMLElement.offsetHeight;
+                    // _control is WindowContent
+                    else if (refControl !== refControl.form.content) {
+                        y -= htmlElement.offsetHeight + cHtmlElement.offsetHeight;
                     }
-                        // other
+                    // other
                     else {
                         y = document.body.offsetHeight - htmlElement.offsetHeight;
                     }
@@ -86,9 +93,9 @@ const PopupBox = (() => {
                     y = 0;
                 }
             }
-            if (Core.mouse.button !== Core.mouse.MOUSEBUTTONS.RIGHT) {
-                if (this instanceof Core.classes.PopupMenu) {
-                    if (control instanceof Core.classes.MenuItem && !(control.owner instanceof Core.classes.MainMenu)) {
+            if (Core.mouse.button !== Mouse.MOUSEBUTTONS.RIGHT) {
+                if (Core.classes.PopupMenu && this instanceof Core.classes.PopupMenu) {
+                    if (Core.classes.MenuItem && refControl instanceof Core.classes.MenuItem && !(refControl.owner instanceof Core.classes.MainMenu)) {
                         x += ~~parseFloat(getComputedStyle(htmlElement.firstElementChild).paddingLeft);
                         y -= ~~parseFloat(getComputedStyle(htmlElement.firstElementChild).paddingTop);
                     }
@@ -103,25 +110,28 @@ const PopupBox = (() => {
                 htmlElementStyle.zIndex = this.zIndex;
             }
             this.form.popups.push(this);
-            if (control) {
-                control.HTMLElement.classList.add('opened');
-                if (control.onOpenMenu) {
-                    control.onOpenMenu.invoke();
+            if (refControl) {
+                cHtmlElement.classList.add('opened');
+                if (refControl.onOpenMenu) {
+                    refControl.onOpenMenu.invoke();
                 }
             }
         }
         //#endregion show
         //#region destroy
         destroy() {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (priv.control) {
-                control.HTMLElement.classList.add('opened');
-                if (priv.control.onCloseMenu) {
-                    priv.control.onCloseMenu.invoke();
+            //#endregion Variables déclaration
+            if (priv.refControl) {
+                priv.refControl.HTMLElement.classList.remove('opened');
+                if (priv.refControl.onCloseMenu) {
+                    priv.refControl.onCloseMenu.invoke();
                 }
             }
-            priv.control.destroy();
-            priv.control=null;
+            //priv.refControl.
+            //priv.refControl.destroy();
+            priv.refControl = null;
             super.destroy();
         }
         //#endregion destroy

@@ -104,38 +104,38 @@
                         this.hitTest.mouseMove = false;
                         this.hitTest.mouseUp = false;
                         this.hitTest.mouseWheel = false;
-                        this.hitTest.mouseDblClick = false;
+                        this.hitTest.dblClick = false;
                         break;
                     case 2:
                         this.hitTest.mouseDown = newValue[0];
                         this.hitTest.mouseMove = newValue[1];
                         this.hitTest.mouseUp = false;
                         this.hitTest.mouseWheel = false;
-                        this.hitTest.mouseDblClick = false;
+                        this.hitTest.dblClick = false;
                         break;
                     case 3:
                         this.hitTest.mouseDown = newValue[0];
                         this.hitTest.mouseMove = newValue[1];
                         this.hitTest.mouseUp = newValue[2];
                         this.hitTest.mouseWheel = false;
-                        this.hitTest.mouseDblClick = false;
+                        this.hitTest.dblClick = false;
                         break;
                     case 4:
                         this.hitTest.mouseDown = newValue[0];
                         this.hitTest.mouseMove = newValue[1];
                         this.hitTest.mouseUp = newValue[2];
                         this.hitTest.mouseWheel = newValue[3];
-                        this.hitTest.mouseDblClick = false;
+                        this.hitTest.dblClick = false;
                         break;
                     case 5:
                         this.hitTest.mouseDown = newValue[0];
                         this.hitTest.mouseMove = newValue[1];
                         this.hitTest.mouseUp = newValue[2];
                         this.hitTest.mouseWheel = newValue[3];
-                        this.hitTest.mouseDblClick = newValue[4];
+                        this.hitTest.dblClick = newValue[4];
                         break;
                 }
-            } else if (typeof newValue === _const.BOOLEAN) this.hitTest.mouseDown = this.hitTest.mouseMove = this.hitTest.mouseUp = this.hitTest.mouseWheel = this.hitTest.mouseDblClick = newValue;
+            } else if (typeof newValue === _const.BOOLEAN) this.hitTest.mouseDown = this.hitTest.mouseMove = this.hitTest.mouseUp = this.hitTest.mouseWheel = this.hitTest.dblClick = newValue;
         },
         setIsMouseOver: function (newValue) {
             if (typeof newValue !== _const.BOOLEAN) return;
@@ -1510,7 +1510,7 @@
                 this.hitTest.mouseMove = null;
                 this.hitTest.mouseUp = null;
                 this.hitTest.mouseWheel = null;
-                this.hitTest.mouseDblClick = null;
+                this.hitTest.dblClick = null;
             }
             this.hitTest = null;
             this.rotateAngle = null;

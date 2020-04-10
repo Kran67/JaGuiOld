@@ -38,10 +38,10 @@ const CustomButton = (() => {
                 super(owner, props);
                 this.addBindableProperties(['staysPressed', 'repeatClick']);
                 const priv = internal(this);
-                priv.pressing = false;
+                priv.pressing = !1;
                 priv.repeatTimer = null;
-                priv.staysPressed = props.hasOwnProperty('staysPressed') ? props.staysPressed : false;
-                priv.repeatClick = props.hasOwnProperty('repeatClick') ? props.repeatClick : false;
+                priv.staysPressed = props.hasOwnProperty('staysPressed') ? props.staysPressed : !1;
+                priv.repeatClick = props.hasOwnProperty('repeatClick') ? props.repeatClick : !1;
                 priv.action = null;
                 Tools.addPropertyFromEnum({
                     component: this,
@@ -50,11 +50,11 @@ const CustomButton = (() => {
                     variable: priv,
                     value: props.hasOwnProperty('modalResult') ? props.modalResult : modalResult.NONE
                 });
-                this.hitTest.all = true;
-                this.autoCapture = true;
+                this.hitTest.all = !0;
+                this.autoCapture = !0;
                 this.horizAlign = props.hasOwnProperty('horizAlign') ? props.horizAlign : Types.TEXTALIGNS.CENTER;
                 this.vertAlign = props.hasOwnProperty('vertAlign') ? props.vertAlign : Types.VERTTEXTALIGNS.MIDDLE;
-                this.autoSize = false;
+                this.autoSize = !1;
                 priv.borderRadius = props.hasOwnProperty('borderRadius') && Tools.isNumber(props.borderRadius) || Tools.isObject(props.borderRadius) ? props.borderRadius : null;
             }
         }
@@ -226,7 +226,7 @@ const CustomButton = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (priv.staysPressed) {
-                this.pressing = true;
+                this.pressing = !0;
             } else if (priv.repeatClick && priv.repeatTimer === null) {
                 priv.repeatTimer = setInterval(this.onTimer.bind(this), 200);
             }
@@ -268,7 +268,7 @@ const CustomButton = (() => {
             this.resetTimer();
             super.mouseUp();
             if (priv.staysPressed) {
-                priv.isPressed = true;
+                priv.isPressed = !0;
                 return;
             }
             this._up();
@@ -287,7 +287,7 @@ const CustomButton = (() => {
                     this.HTMLElement.classList.remove('buttonPaddingDownText');
                 }
             } else {
-                Core.canvas.needRedraw = true;
+                Core.canvas.needRedraw = !0;
             }
         }
         //#endregion _up
@@ -367,9 +367,9 @@ const Button = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 this.addBindableProperties(['isDefault']);
-                this.canFocused = props.hasOwnProperty('canFocused') && Tools.isBool(props.canFocused) ? props.canFocused : true;
-                this.autoCapture = true;
-                priv.isDefault = props.hasOwnProperty('isDefault') && Tools.isBool(props.isDefault) ? props.isDefault : false;
+                this.canFocused = props.hasOwnProperty('canFocused') && Tools.isBool(props.canFocused) ? props.canFocused : !0;
+                this.autoCapture = !0;
+                priv.isDefault = props.hasOwnProperty('isDefault') && Tools.isBool(props.isDefault) ? props.isDefault : !1;
             }
         }
         //#endregion

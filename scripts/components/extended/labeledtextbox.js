@@ -18,17 +18,6 @@ const LabeledTextBox = (() => {
     //#endregion Private
     //#region Class LabeledTextBox
     class LabeledTextBox extends LabeledControl {
-        //#region constructor
-        constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
-            props = !props ? {} : props;
-            if (owner) {
-                super(owner, props);
-                const priv = internal(this);
-            }
-        }
-        //#endregion constructor
         //#region Getters / Setters
         //#endregion Getters / Setters
         //#region Methods
@@ -42,8 +31,7 @@ const LabeledTextBox = (() => {
             priv.textBox = Core.classes.createComponent({
                 class: TextBox,
                 owner: this,
-                props: { inForm: false, text: props.hasOwnProperty('text')?props.text:String.EMPTY },
-                withTpl: true
+                props: { inForm: false, text: props.hasOwnProperty('text')?props.text:String.EMPTY }
             });
         }
         //#endregion loaded

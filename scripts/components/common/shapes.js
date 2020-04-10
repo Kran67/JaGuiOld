@@ -1,7 +1,7 @@
 ﻿//#region Import
 import { GraphicControl } from '/scripts/core/graphiccontrol.js';
 import { SVGGraphicControl } from '/scripts/core/svggraphiccontrol.js';
-import { Color, Colors } from '/scripts/core/color.js';
+import { Colors } from '/scripts/core/color.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region Direction of Line
@@ -17,6 +17,27 @@ const LINEDIRECTIONS = Object.freeze({
 });
 Object.seal(LINEDIRECTIONS);
 //#endregion LINEDIRECTIONS
+//#region SHAPES
+const SHAPES = Object.seal(Object.freeze({
+    RECTANGLE: 'rectangle',
+    ELLIPSE: 'ellipse',
+    CIRCLE: 'circle',
+    ROUNDRECT: 'roundRect',
+    PIE: 'pie',
+    CALLOUT: 'callout',
+    ARC: 'arc',
+    CHORD: 'chord',
+    PATH: 'path',
+    LINE: 'line',
+    SCROLLARROWLEFT: 'scrollArrowLeft',
+    SCROLLARROWRIGHT: 'scrollArrowRight',
+    STAR: 'star',
+    TRAPEZOID: 'trapezoid',
+    PARALLELOGRAM: 'parallelogram',
+    NINJASTAR: 'ninjaStar',
+    REGULARPOLYGON: 'regularPolygon'
+}));
+//#endregion
 //#region Line
 const Line = (() => {
     //#region Private
@@ -36,7 +57,7 @@ const Line = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                props.shape = Types.SHAPES.LINE;
+                props.shape = SHAPES.LINE;
                 super(owner, props);
                 const priv = internal(this);
                 this.strokeColor.assign(props.hasOwnProperty('color') ? color.parse(props.color) : Colors.WHITE);
@@ -45,6 +66,14 @@ const Line = (() => {
         }
         //#endregion constructor
         //#region Getters / Setters
+        //#region SHAPES
+        /**
+         * @type    {Object}        SHAPES
+         */
+        static get SHAPES() {
+            return SHAPES;
+        }
+        //#endregion SHAPES
         //#region LINEDIRECTIONS
         /**
          * @type    {Object}        LINEDIRECTIONS
@@ -53,6 +82,7 @@ const Line = (() => {
             return LINEDIRECTIONS;
         }
         //#endregion LINEDIRECTIONS
+        //#region lineDirection
         get lineDirection() {
             return internal(this).lineDirection;
         }
@@ -64,6 +94,7 @@ const Line = (() => {
                 }
             }
         }
+        //#endregion lineDirection
         //#endregion Getters / Setters
         //#region Methods
         //#region update
@@ -400,7 +431,7 @@ const Circle = (() => {
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
-                props.shape = Types.SHAPES.CIRCLE;
+                props.shape = SHAPES.CIRCLE;
                 super(owner, props);
                 svgShape = this.svgShape;
                 svgShape.setAttribute('cx', '50%');
@@ -503,7 +534,7 @@ const Path = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                props.shape = Types.SHAPES.PATH;
+                props.shape = SHAPES.PATH;
                 super(owner, props);
                 const priv = internal(this);
                 if (this instanceof Core.classes.Path) {
@@ -649,7 +680,7 @@ const Pie = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                props.shape = Types.SHAPES.PATH;
+                props.shape = SHAPES.PATH;
                 super(owner, props);
                 const priv = internal(this);
                 priv.startAngle = props.hasOwnProperty('startAngle') ? props.startAngle : 0;
@@ -766,7 +797,7 @@ const Star = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                props.shape = Types.SHAPES.PATH;
+                props.shape = SHAPES.PATH;
                 super(owner, props);
                 const priv = internal(this);
                 priv.spikes = props.hasOwnProperty('spikes') ? props.spikes : 4;
@@ -920,7 +951,7 @@ const Polygon = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                props.shape = Types.SHAPES.PATH;
+                props.shape = SHAPES.PATH;
                 super(owner, props);
                 const priv = internal(this);
                 priv.sides = props.hasOwnProperty('sides') ? props.sides : POLYGONSIDES.TRIANGLE;

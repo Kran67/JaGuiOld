@@ -18,15 +18,15 @@ const HitTest = (function () {
     //#region HitTest
     class HitTest extends BaseClass {
         //#region constructor
-        constructor(owner) {
-            super(owner);
+        constructor(props) {
+            super();
             const priv = internal(this);
-            priv.owner = owner;
-            priv.mousedown = true;
-            priv.mousemove = false;
-            priv.mouseup = true;
-            priv.mousewheel = false;
-            priv.dblclick = false;
+            //priv.owner = owner;
+            priv.mouseDown = props && props.hasOwnProperty('mouseDown') ? props.mouseDown : !0;
+            priv.mouseMove = props && props.hasOwnProperty('mouseMove') ? props.mouseMove : !1;
+            priv.mouseUp = props && props.hasOwnProperty('mouseUp') ? props.mouseUp : !0;
+            priv.mouseWheel = props && props.hasOwnProperty('mouseWheel') ? props.mouseWheel : !1;
+            priv.dblClick = props && props.hasOwnProperty('dblClick') ? props.dblClick : !1;
         }
         //#endregion constructor
         //#region Getter / Setters
@@ -37,75 +37,75 @@ const HitTest = (function () {
         //#endregion owner
         //#region mouseDown
         get mouseDown() {
-            return internal(this).mousedown;
+            return internal(this).mouseDown;
         }
         set mouseDown(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             if (Tools.isBool(newValue)) {
-                if (priv.mousedown !== newValue) {
-                    priv.mousedown = newValue;
+                if (priv.mouseDown !== newValue) {
+                    priv.mouseDown = newValue;
                 }
             }
         }
         //#endregion mouseDown
         //#region mouseMove
         get mouseMove() {
-            return internal(this).mousemove;
+            return internal(this).mouseMove;
         }
         set mouseMove(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             if (Tools.isBool(newValue)) {
-                if (priv.mousemove !== newValue) {
-                    priv.mousemove = newValue;
+                if (priv.mouseMove !== newValue) {
+                    priv.mouseMove = newValue;
                 }
             }
         }
         //#endregion mouseMove
         //#region mouseUp
         get mouseUp() {
-            return internal(this).mouseup;
+            return internal(this).mouseUp;
         }
         set mouseUp(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             if (Tools.isBool(newValue)) {
-                if (priv.mouseup !== newValue) {
-                    priv.mouseup = newValue;
+                if (priv.mouseUp !== newValue) {
+                    priv.mouseUp = newValue;
                 }
             }
         }
         //#endregion mouseUp
         //#region mouseWheel
         get mouseWheel() {
-            return internal(this).mousewheel;
+            return internal(this).mouseWheel;
         }
         set mouseWheel(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             if (Tools.isBool(newValue)) {
-                if (priv.mousewheel !== newValue) {
-                    priv.mousewheel = newValue;
+                if (priv.mouseWheel !== newValue) {
+                    priv.mouseWheel = newValue;
                 }
             }
         }
         //#endregion mouseWheel
         //#region dblClick
         get dblClick() {
-            return internal(this).dblclick;
+            return internal(this).dblClick;
         }
         set dblClick(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             if (Tools.isBool(newValue)) {
-                if (priv.dblclick !== newValue) {
-                    priv.dblclick = newValue;
+                if (priv.dblClick !== newValue) {
+                    priv.dblClick = newValue;
                 }
             }
         }
@@ -116,8 +116,8 @@ const HitTest = (function () {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (Tools.isBool(newValue)) {
-                priv.mousedown = priv.mousemove = priv.mouseup =
-                    priv.mousewheel = priv.dblclick = newValue;
+                priv.mouseDown = priv.mouseMove = priv.mouseUp =
+                    priv.mouseWheel = priv.dblClick = newValue;
             }
         }
         //#endregion all
@@ -136,18 +136,18 @@ const HitTest = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            return priv.mousedown === obj.mouseDown &&
-                priv.mousemove === obj.mouseMove &&
-                priv.mouseup === obj.mouseUp &&
-                priv.mousewheel === obj.mouseWheel &&
-                priv.dblclick === obj.dblClick;
+            return priv.mouseDown === obj.mouseDown &&
+                priv.mouseMove === obj.mouseMove &&
+                priv.mouseUp === obj.mouseUp &&
+                priv.mouseWheel === obj.mouseWheel &&
+                priv.dblClick === obj.dblClick;
         }
         //#endregion equals
         //#region has
         has(type) {
             //#region Variables déclaration
             const priv = internal(this);
-            const res = (priv.hasOwnProperty(type) ? priv[type] === true : false);
+            const res = (priv.hasOwnProperty(type) && Tools.isBool(priv[type]) ? priv[type] : !1);
             //#endregion Variables déclaration
             return res;
         }
@@ -160,19 +160,19 @@ const HitTest = (function () {
 //#region HitTest defineProperties
 Object.defineProperties(HitTest, {
     'mouseDown': {
-        enumerable: true
+        enumerable: !0
     },
     'mouseMove': {
-        enumerable: true
+        enumerable: !0
     },
     'mouseUp': {
-        enumerable: true
+        enumerable: !0
     },
     'mouseWheel': {
-        enumerable: true
+        enumerable: !0
     },
     'dblClick': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion HitTest defineProperties

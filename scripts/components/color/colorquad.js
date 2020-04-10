@@ -299,6 +299,7 @@ const ColorQuad = (() => {
         //#region keyDown
         keyDown() {
             //#region Variables déclaration
+            const priv = internal(this);
             const htmlElement = this.HTMLElement;
             const pt = new Point(priv.handle.x, priv.handle.y);
             let changeHandle = false;

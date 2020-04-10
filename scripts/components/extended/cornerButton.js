@@ -71,7 +71,7 @@ const CornerButton = (() => {
                 const bottomLeftCorner = props.hasOwnProperty('bottomLeftCorner')?props.bottomLeftCorner:null;
                 priv.bottomLeftCorner = bottomLeftCorner?new Point(bottomLeftCorner.x,bottomLeftCorner.y):new Point;
                 priv.bottomLeftCornerType = bottomLeftCorner.hasOwnProperty('type')?bottomLeftCorner.type:CORNERSTYPES.ROUND;
-                this.allowUpdateOnResize = true;
+                this.allowUpdateOnResize = !0;
             }
         }
         //#endregion constructor
@@ -398,7 +398,7 @@ const CornerButton = (() => {
                 stop.classList.add(this.themeName, 'secondary-corner-button-color');
                 lineargradient.appendChild(stop);
                 svg.appendChild(lineargradient);
-                priv.path = document.createElementNS(XMLNS, Types.SHAPES.PATH);
+                priv.path = document.createElementNS(XMLNS, 'path');
                 priv.path.setAttribute('stroke', `url(#${this.name}Gradient)`);
                 priv.path.classList.add('CornerButtonClipPath');
                 priv.path.id = `${this.name}ClipPath`;

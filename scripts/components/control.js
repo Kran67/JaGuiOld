@@ -34,24 +34,24 @@ const Control = (() => {
                 super(owner, props);
                 const self = this;
                 const priv = internal(this);
-                priv.allowUpdate = true;
-                priv.autoTranslate = props.hasOwnProperty('autoTranslate') && Tools.isBool(props.autoTranslate) ? props.autoTranslate : false;
-                priv.isMouseOver = false;
-                priv.isFocused = false;
-                priv.isPressed = false;
-                priv.closePopups = true;
+                priv.allowUpdate = !0;
+                priv.autoTranslate = props.hasOwnProperty('autoTranslate') && Tools.isBool(props.autoTranslate) ? props.autoTranslate : !1;
+                priv.isMouseOver = !1;
+                priv.isFocused = !1;
+                priv.isPressed = !1;
+                priv.closePopups = props.hasOwnProperty('closePopups') && Tools.isBool(props.closePopups) ? props.closePopups : !0;
                 priv.wrapper = String.EMPTY;
-                priv.forceMouseWheel = false;
-                priv.hasResizeEvent = false;
+                priv.forceMouseWheel = props.hasOwnProperty('forceMouseWheel') && Tools.isBool(props.forceMouseWheel) ? props.forceMouseWheel : !1;
+                priv.hasResizeEvent = !1;
                 priv.resizeData = {
                     width: null,
                     height: null
                 };
                 priv.tabList = [];
-                priv.stopEvent = true;
+                priv.stopEvent = props.hasOwnProperty('stopEvent') && Tools.isBool(props.stopEvent) ? props.stopEvent : !0;
                 priv.constraints = new Core.classes.SizeConstraints(this);
-                priv.ownerShowToolTip = props.hasOwnProperty('ownerShowToolTip') && Tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : true;
-                priv.autoCapture = props.hasOwnProperty('autoCapture') ? props.autoCapture : false;
+                priv.ownerShowToolTip = props.hasOwnProperty('ownerShowToolTip') && Tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : !0;
+                priv.autoCapture = props.hasOwnProperty('autoCapture') && Tools.isBool(props.autoCapture) ? props.autoCapture : !1;
                 priv.padding = new Core.classes.Padding(this);
                 if (props.hasOwnProperty('padding')) {
                     const padding = props.padding;
@@ -75,16 +75,16 @@ const Control = (() => {
                 priv.width = props.hasOwnProperty('width') && Tools.isNumber(props.width) ? props.width : 50;
                 priv.height = props.hasOwnProperty('height') && Tools.isNumber(props.height) ? props.height : 50;
                 priv.scale = new Core.classes.Scale(this);
-                priv.canFocused = false;
-                priv.showFocus = true;
+                priv.canFocused = props.hasOwnProperty('canFocused') && Tools.isBool(props.canFocused) ? props.canFocused : !1;
+                priv.showFocus = props.hasOwnProperty('showFocus') && Tools.isBool(props.showFocus) ? props.showFocus : !0;
                 priv.enabled = props.hasOwnProperty('enabled') && Tools.isBool(props.enabled) ? props.enabled : true;
                 priv.rotateCenter = new Core.classes.RotateCenter(this);
                 priv.toolTip = props.hasOwnProperty('toolTip') ? props.toolTip : String.EMPTY;
                 priv.showToolTip = props.hasOwnProperty('showToolTip') && Tools.isBool(props.showToolTip) ? props.showToolTip : false;
-                priv.hitTest = new Core.classes.HitTest;
+                priv.hitTest = new Core.classes.HitTest(props.hasOwnProperty('hitTest') ? props.hitTest: null);
                 priv.rotateAngle = props.hasOwnProperty('rotateAngle') && Tools.isNumber(props.rotateAngle) ? props.rotateAngle : 0;
                 priv.customStyle = null;
-                priv.cssClasses = props.hasOwnProperty('cssClasses')?props.cssClasses:String.EMPTY;
+                priv.cssClasses = props.hasOwnProperty('cssClasses') ? props.cssClasses : String.EMPTY;
                 priv.tabOrder = props.hasOwnProperty('tabOrder') && Tools.isNumber(props.tabOrder) ? props.tabOrder : 0;
                 priv.right = props.hasOwnProperty('right') && Tools.isNumber(props.right) ? props.right : null;
                 priv.bottom = props.hasOwnProperty('bottom') && Tools.isNumber(props.bottom) ? props.bottom : null;
@@ -201,12 +201,12 @@ const Control = (() => {
                     variable: priv,
                     value: props.hasOwnProperty('dragMode') && Tools.isString(props.dragMode) ? props.dragMode : Types.DRAGMODES.MANUAL
                 });
-                priv.updateCell = function() {
+                priv.updateCell = function () {
                     const htmlElementStyle = self.HTMLElementStyle;
                     // columns
-                    htmlElementStyle.gridColumn = `${priv.column} / span ${priv.colSpan>1?priv.colSpan:1}`;
+                    htmlElementStyle.gridColumn = `${priv.column} / span ${priv.colSpan > 1 ? priv.colSpan : 1}`;
                     // rows
-                    htmlElementStyle.gridRow = `${priv.row} / span ${priv.rowSpan>1?priv.rowSpan:1}`;
+                    htmlElementStyle.gridRow = `${priv.row} / span ${priv.rowSpan > 1 ? priv.rowSpan : 1}`;
                 }
             }
         }
@@ -638,10 +638,10 @@ const Control = (() => {
             if (!Core.isHTMLRenderer) {
                 return priv.width;
             } else {
-                let width = htmlElement.offsetWidth > 0 ? 
-                    htmlElement.offsetWidth : 
+                let width = htmlElement.offsetWidth > 0 ?
+                    htmlElement.offsetWidth :
                     parseInt(getComputedStyle(this.HTMLElement).width, 10);
-                priv.width = priv.width !== width && priv.width<=0?width:priv.width;
+                priv.width = priv.width !== width ? width : priv.width;
                 return priv.width;
             }
         }
@@ -694,10 +694,10 @@ const Control = (() => {
             if (!Core.isHTMLRenderer) {
                 return priv.height;
             } else {
-                let height = htmlElement.offsetHeight > 0 ? 
-                    htmlElement.offsetHeight : 
+                let height = htmlElement.offsetHeight > 0 ?
+                    htmlElement.offsetHeight :
                     parseInt(getComputedStyle(this.HTMLElement).height, 10);
-                priv.height = priv.height !== height && priv.height<=0?height:priv.height;
+                priv.height = priv.height !== height ? height : priv.height;
                 return priv.height;
             }
         }
@@ -874,40 +874,40 @@ const Control = (() => {
                         hitTest.mouseMove = false;
                         hitTest.mouseUp = false;
                         hitTest.mouseWheel = false;
-                        hitTest.mouseDblClick = false;
+                        hitTest.dblClick = false;
                         break;
                     case 2:
                         hitTest.mouseDown = newValue.first;
                         hitTest.mouseMove = newValue.last;
                         hitTest.mouseUp = false;
                         hitTest.mouseWheel = false;
-                        hitTest.mouseDblClick = false;
+                        hitTest.dblClick = false;
                         break;
                     case 3:
                         hitTest.mouseDown = newValue.first;
                         hitTest.mouseMove = newValue[1];
                         hitTest.mouseUp = newValue.last;
                         hitTest.mouseWheel = false;
-                        hitTest.mouseDblClick = false;
+                        hitTest.dblClick = false;
                         break;
                     case 4:
                         hitTest.mouseDown = newValue.first;
                         hitTest.mouseMove = newValue[1];
                         hitTest.mouseUp = newValue[2];
                         hitTest.mouseWheel = newValue.last;
-                        hitTest.mouseDblClick = false;
+                        hitTest.dblClick = false;
                         break;
                     case 5:
                         hitTest.mouseDown = newValue.first;
                         hitTest.mouseMove = newValue[1];
                         hitTest.mouseUp = newValue[2];
                         hitTest.mouseWheel = newValue[3];
-                        hitTest.mouseDblClick = newValue.last;
+                        hitTest.dblClick = newValue.last;
                         break;
                 }
             } else if (Tools.isBool(newValue)) {
                 hitTest.mouseDown = hitTest.mouseMove =
-                    hitTest.mouseUp = hitTest.mouseWheel = hitTest.mouseDblClick = newValue;
+                    hitTest.mouseUp = hitTest.mouseWheel = hitTest.dblClick = newValue;
             }
         }
         //#endregion hitTest
@@ -1828,7 +1828,7 @@ const Control = (() => {
                         }
                         if (!priv.canFocused && this !== form.content) {
                             const parentCanFocused = this.owner;
-                            if (parentCanFocused && form.focusedControl !== parentCanFocused) {
+                            if (parentCanFocused && parentCanFocused.canFocused && form.focusedControl !== parentCanFocused) {
                                 parentCanFocused.setFocus();
                             }
                         } else if (!priv.isFocused && form.focusedControl !== this) {
@@ -1988,25 +1988,15 @@ const Control = (() => {
             const MOUSEEVENTS = Mouse.MOUSEEVENTS;
             const htmlElement = this.HTMLElement;
             const dispatchEvent = this.dispatchEvent;
+            const events = [MOUSEEVENTS.OVER, MOUSEEVENTS.OUT, MOUSEEVENTS.CLICK, MOUSEEVENTS.MOVE, MOUSEEVENTS.DOWN, MOUSEEVENTS.UP,
+                MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK, MOUSEEVENTS.DOMSCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG,
+                MOUSEEVENTS.DROP, MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
+                MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
+            ];
             //#endregion Variables déclaration
-            Events.bind(htmlElement, MOUSEEVENTS.OVER, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.OUT, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.CLICK, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.MOVE, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.DOWN, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.UP, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.WHEEL, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.DBLCLICK, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.DOMSCROLL, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.ENTER, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.DRAG, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.DROP, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.DRAGEND, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.DRAGENTER, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.DRAGEXIT, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.DRAGLEAVE, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.DRAGOVER, dispatchEvent);
-            Events.bind(htmlElement, MOUSEEVENTS.DRAGSTART, dispatchEvent);
+            events.forEach(event => {
+                Events.bind(htmlElement, event, dispatchEvent);
+            });
         }
         //#endregion initEvents
         //#region resetEvent
@@ -2015,25 +2005,15 @@ const Control = (() => {
             const MOUSEEVENTS = Mouse.MOUSEEVENTS;
             const htmlElement = this.HTMLElement;
             const dispatchEvent = this.dispatchEvent;
+            const events = [MOUSEEVENTS.OVER, MOUSEEVENTS.OUT, MOUSEEVENTS.CLICK, MOUSEEVENTS.MOVE, MOUSEEVENTS.DOWN, MOUSEEVENTS.UP,
+                MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK, MOUSEEVENTS.DOMSCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG,
+                MOUSEEVENTS.DROP, MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
+                MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
+            ];
             //#endregion Variables déclaration
-            Events.unBind(htmlElement, MOUSEEVENTS.OVER, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.OUT, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.CLICK, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.MOVE, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.DOWN, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.UP, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.WHEEL, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.DBLCLICK, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.DOMSCROLL, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.ENTER, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.DRAG, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.DROP, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.DRAGEND, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.DRAGENTER, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.DRAGEXIT, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.DRAGLEAVE, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.DRAGOVER, dispatchEvent);
-            Events.unBind(htmlElement, MOUSEEVENTS.DRAGSTART, dispatchEvent);
+            events.forEach(event => {
+                Events.unBind(htmlElement, event, dispatchEvent);
+            });
         }
         //#endregion resetEvent
         //#region dispatchEvent
@@ -2552,8 +2532,8 @@ const Control = (() => {
             if (owner.tab) {
                 this.tab = owner.tab;
             }
-            !this.enabled?htmlElement.classList.add('disabled'):null;
-            !this.visible?priv.forceDisplayVisibility?htmlElement.classList.add('noDisplay'):htmlElement.classList.add('hidden'):null;
+            !this.enabled ? htmlElement.classList.add('disabled') : null;
+            !this.visible ? priv.forceDisplayVisibility ? htmlElement.classList.add('noDisplay') : htmlElement.classList.add('hidden') : null;
             if (!String.isNullOrEmpty(priv.cssClasses)) {
                 htmlElement.className += priv.cssClasses;
             }

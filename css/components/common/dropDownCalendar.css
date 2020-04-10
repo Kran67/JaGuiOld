@@ -1,24 +1,19 @@
-﻿div.DropDownCalendar {
-    /*max-width:80px;*/
+﻿.DropDownCalendar {
     min-width: 80px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
 }
 
-div.DropDownCalendarCaption {
+.DropDownCalendarCaption {
     white-space: nowrap;
     overflow: hidden;
-    position: relative;
     flex: 1;
     display: flex;
     margin: 2px;
 }
 
-div.PopupCalendar {
+.PopupCalendar {
     border-radius: 6px;
 }
 
-div.PopupCalendar div.Calendar {
+.PopupCalendar .Calendar {
     position: relative;
 }

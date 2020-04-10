@@ -55,8 +55,7 @@ const LabeledSlider = (() => {
             priv.valueLabel = Core.classes.createComponent({
                 class: ValueLabel,
                 owner: this, 
-                props: { inForm: false, caption: priv.slider.firstValue.toFixed(priv.slider.decimalPrecision) },
-                withTpl: true
+                props: { inForm: false, caption: priv.slider.firstValue.toFixed(priv.slider.decimalPrecision) }
             });
             priv.slider.valueLabel = priv.valueLabel;
         }

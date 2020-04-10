@@ -24,12 +24,12 @@ const CircularProgressBar = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 priv.value = props.hasOwnProperty('value') ? props.value : 0;
-                this.hitTest.all = false;
+                this.hitTest.all = !1;
                 priv.svg = null;
                 priv.backCircle = null;
                 priv.progress = null;
                 delete this.tabOrder;
-                this.allowUpdateOnResize = true;
+                this.allowUpdateOnResize = !0;
             }
         }
         //#endregion constructor
@@ -157,12 +157,12 @@ const CircularProgressBar = (() => {
             if (!htmlElement.querySelector(SVG)) {
                 priv.svg = document.createElementNS(XMLNS, SVG);
                 priv.svg.jsObj = this;
-                priv.backCircle = document.createElementNS(XMLNS, Types.SHAPES.CIRCLE);
+                priv.backCircle = document.createElementNS(XMLNS, 'circle');
                 priv.backCircle.classList.add('Control', 'CircularProgressBar_back');
                 priv.backCircle.setAttribute('cx', '50%');
                 priv.backCircle.setAttribute('cy', '50%');
                 priv.backCircle.setAttribute('r', '20');
-                priv.progress = document.createElementNS(XMLNS, Types.SHAPES.CIRCLE);
+                priv.progress = document.createElementNS(XMLNS, 'circle');
                 priv.progress.classList.add('Control', 'CircularProgressBar_progress');
                 priv.progress.setAttribute('cx', '50%');
                 priv.progress.setAttribute('cy', '50%');
