@@ -2311,6 +2311,8 @@ const BaseWindow = (() => {
         //#endregion docMouseMove
         //#region mouseWheel
         mouseWheel() {
+            const priv = internal(this);
+            priv.content.mouseWheel();
             //let p,obj,frm=this.form;
             //if (!frm.hasHitTest()) return;
             //Core.mouse.getMouseInfos(mouseEventArg);

@@ -46,6 +46,7 @@ const ItemsWheel = (() => {
                 this.onChange = new NotifyEvent(this);
                 this.canFocused = !0;
                 delete this.tabOrder;
+                this.stopEvent = !0;
             }
         }
         //#endregion constructor

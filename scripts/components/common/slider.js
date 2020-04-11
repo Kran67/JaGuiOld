@@ -86,6 +86,7 @@ const Slider = (() => {
                 priv.showTickmarks = props.hasOwnProperty('showTickmarks') ? props.showTickmarks : false;
                 priv.tickmarksPosition = props.hasOwnProperty('tickmarksPosition') ? props.tickmarksPosition : TICKMARKSPOSITION.BOTH;
                 this.allowUpdateOnResize = true;
+                this.stopEvent = !0;
             }
         }
         //#endregion constructor

@@ -51,6 +51,7 @@ const SpinBox = (() => {
                 priv.min = props.hasOwnProperty('min') && Tools.isNumber(props.min)?props.min:0;
                 priv.max = props.hasOwnProperty('max') && Tools.isNumber(props.max)?props.max:100;
                 this.filterChars = '0123456789.,-';
+                this.stopEvent = !0;
             }
         }
         //#endregion constructor

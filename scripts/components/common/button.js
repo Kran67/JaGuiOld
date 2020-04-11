@@ -55,6 +55,7 @@ const CustomButton = (() => {
                 this.vertAlign = props.hasOwnProperty('vertAlign') ? props.vertAlign : Types.VERTTEXTALIGNS.MIDDLE;
                 this.autoSize = !1;
                 priv.borderRadius = props.hasOwnProperty('borderRadius') && Tools.isNumber(props.borderRadius) || Tools.isObject(props.borderRadius) ? props.borderRadius : null;
+                this.stopEvent = false;
             }
         }
         //#endregion constructor

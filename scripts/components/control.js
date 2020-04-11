@@ -48,7 +48,7 @@ const Control = (() => {
                     height: null
                 };
                 priv.tabList = [];
-                priv.stopEvent = props.hasOwnProperty('stopEvent') && Tools.isBool(props.stopEvent) ? props.stopEvent : !0;
+                priv.stopEvent = props.hasOwnProperty('stopEvent') && Tools.isBool(props.stopEvent) ? props.stopEvent : !1;
                 priv.constraints = new Core.classes.SizeConstraints(this);
                 priv.ownerShowToolTip = props.hasOwnProperty('ownerShowToolTip') && Tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : !0;
                 priv.autoCapture = props.hasOwnProperty('autoCapture') && Tools.isBool(props.autoCapture) ? props.autoCapture : !1;
@@ -1889,9 +1889,9 @@ const Control = (() => {
                 //  } else clearTimeout(this.wheelTimer);
                 //  this.onMouseWheel.invoke(arguments);
                 //}
-                if (!priv.hitTest.mouseWheel) {
-                    this.owner.mouseWheel();
-                }
+                //if (!priv.hitTest.mouseWheel) {
+                //    this.owner.mouseWheel();
+                //}
             }
         }
         //#endregion mouseWheel
@@ -2109,7 +2109,7 @@ const Control = (() => {
                         jsObj.mouseWheel();
                     }
                     forceStopEvent = !0;
-                    jsObj.stopEvent ? event.preventDefault() : null;
+                    jsObj.stopEvent ? event.preventDefault() : jsObj.form.mouseWheel();
                     break;
                 case MOUSEEVENTS.DBLCLICK:
                     if (activeWin.capturedControl) {

@@ -74,6 +74,7 @@ const AngleButton = (() => {
                         }
                     }
                 };
+                this.stopEvent = !0;
             }
         }
         //#endregion Constructor
