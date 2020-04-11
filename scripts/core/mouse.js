@@ -299,6 +299,7 @@ const Mouse = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
+            mouseEventArg = mouseEventArg ? mouseEventArg : priv.event;
             priv.target.setValues(0, 0);
             priv.screen.setValues(0, 0);
             priv.button = Mouse.MOUSEBUTTONS.NONE;

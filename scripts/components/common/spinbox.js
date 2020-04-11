@@ -28,6 +28,8 @@ const SpinBox = (() => {
         //#region constructor
         constructor(owner, props) {
             props = !props ? {} : props;
+            props.hitTest = { mouseWheel: !0 };
+            props.stopEvent = !0;
             if (owner) {
                 props.numBtns = 2;
                 super(owner, props);
@@ -274,6 +276,20 @@ const SpinBox = (() => {
             this.value = this.valueType === SPINBOXTYPES.INTEGER ? ~~this.inputObj.value : parseFloat(this.inputObj.value);
         }
         //#endregion keyUp
+        //#region mouseWheel
+        mouseWheel() {
+            //#region Variables déclaration
+            const wheelDelta = Core.mouse.wheelDelta;
+            const multiplier = wheelDelta < 0 ? -1 : 1;
+            //#endregion Variables déclaration
+            super.mouseWheel();
+            multiplier > 0 ? this.incValue() : this.decValue();
+            if (this.form.focusedControl !== this) {
+                this.setFocus();
+            }
+            //Core.mouse.preventDefault();
+        }
+        //#endregion mouseWheel
         //#region destroy
         destroy() {
             //#region Variables déclaration
