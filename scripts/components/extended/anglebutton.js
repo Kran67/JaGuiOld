@@ -35,12 +35,12 @@ const AngleButton = (() => {
                     this.height = 30;
                 }
                 priv.frequency = props.hasOwnProperty('frequency') ? props.frequency : 1;
-                priv.tracking = props.hasOwnProperty('tracking') ? props.tracking : true;
+                priv.tracking = props.hasOwnProperty('tracking') ? props.tracking : !0;
                 priv.value = props.hasOwnProperty('value') ? props.value : 0;
-                priv.showValue = props.hasOwnProperty('showValue') ? props.showValue : true;
-                this.autoCapture = true;
+                priv.showValue = props.hasOwnProperty('showValue') ? props.showValue : !0;
+                this.autoCapture = !0;
                 this.caption = String.EMPTY;
-                this.canFocused = true;
+                this.canFocused = !0;
                 this.createEventsAndBind(['onChanged'], props);
                 const self = this;
                 priv.setInternalValue = function (newValue) {
@@ -200,26 +200,30 @@ const AngleButton = (() => {
             super.mouseDown();
             if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
                 priv.saveValue = priv.internalValue;
-                this.valueFromPoint(this.documentToClient());
+                this.valueFromPoint(Core.mouse.target);
             }
         }
         //#endregion mouseDown
         //#region mouseMove
         mouseMove() {
+            //#region Variables déclaration
+            const point = new Core.classes.Point;
+            const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
             super.mouseMove();
             if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.isPressed) {
-                this.valueFromPoint(this.documentToClient());
+                if (Core.mouse.event.target !== htmlElement) {
+                    point.assign(Core.mouse.window);
+                    const bounds = htmlElement.getBoundingClientRect();
+                    point.x -= bounds.left;
+                    point.y -= bounds.top;
+                } else {
+                    point.assign(Core.mouse.target);
+                }
+                this.valueFromPoint(point);
             }
         }
         //#endregion mouseMove
-        //#region mouseUp
-        mouseUp() {
-            super.mouseUp();
-            if (this.isPressed) {
-                this.valueFromPoint(this.documentToClient());
-            }
-        }
-        //#endregion mouseUp
         //#region update
         update() {
             super.update();
