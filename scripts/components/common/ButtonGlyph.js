@@ -51,10 +51,10 @@ const ButtonGlyph = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 priv.glyphPos = new Point;
-                priv.glyphSize = props.hasOwnProperty('glyphSize')?props.glyphSize:32;
-                priv.glyphSpacing = props.hasOwnProperty('glyphSpacing')?props.glyphSpacing:4;
-                priv.glyphMargin = props.hasOwnProperty('glyphMargin')?props.glyphMargin:0;
-                priv.showCaption = props.hasOwnProperty('showCaption')?props.showCaption:true;
+                priv.glyphSize = props.hasOwnProperty('glyphSize') ? props.glyphSize : 32;
+                priv.glyphSpacing = props.hasOwnProperty('glyphSpacing') ? props.glyphSpacing : 4;
+                priv.glyphMargin = props.hasOwnProperty('glyphMargin') ? props.glyphMargin : 0;
+                priv.showCaption = props.hasOwnProperty('showCaption') ? props.showCaption : !0;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'layout',
@@ -75,10 +75,9 @@ const ButtonGlyph = (() => {
                         }
                     },
                     variable: priv,
-                    value: props.hasOwnProperty('layout')?props.layout:BUTTONLAYOUTGLYPHS.LEFT
+                    value: props.hasOwnProperty('layout') ? props.layout : BUTTONLAYOUTGLYPHS.LEFT
                 });
                 priv.glyphHTMLElement = Types.HTMLELEMENTS.IMG;
-                this.addBindableProperties(['glyphSize', 'glyphSpacing', 'glyphMargin', 'layout']);
                 priv.src = props.src ? props.src : String.EMPTY;
             }
         }
@@ -264,9 +263,9 @@ const ButtonGlyph = (() => {
                 htmlElement.appendChild(priv.textObj);
                 priv.glyph = document.createElement(priv.glyphHTMLElement);
                 if (priv.glyphHTMLElement === Types.HTMLELEMENTS.IMG) {
-                    priv.glyph.src = priv.src !== String.EMPTY?priv.src:Types.CONSTANTS.PIX;
+                    priv.glyph.src = priv.src !== String.EMPTY ? priv.src : Types.CONSTANTS.PIX;
                 }
-                priv.glyph.draggable = false;
+                priv.glyph.draggable = !1;
                 htmlElement.appendChild(priv.glyph);
             } else {
                 if (priv.src !== String.EMPTY) {

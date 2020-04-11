@@ -77,10 +77,10 @@ const Control = (() => {
                 priv.scale = new Core.classes.Scale(this);
                 priv.canFocused = props.hasOwnProperty('canFocused') && Tools.isBool(props.canFocused) ? props.canFocused : !1;
                 priv.showFocus = props.hasOwnProperty('showFocus') && Tools.isBool(props.showFocus) ? props.showFocus : !0;
-                priv.enabled = props.hasOwnProperty('enabled') && Tools.isBool(props.enabled) ? props.enabled : true;
+                priv.enabled = props.hasOwnProperty('enabled') && Tools.isBool(props.enabled) ? props.enabled : !0;
                 priv.rotateCenter = new Core.classes.RotateCenter(this);
                 priv.toolTip = props.hasOwnProperty('toolTip') ? props.toolTip : String.EMPTY;
-                priv.showToolTip = props.hasOwnProperty('showToolTip') && Tools.isBool(props.showToolTip) ? props.showToolTip : false;
+                priv.showToolTip = props.hasOwnProperty('showToolTip') && Tools.isBool(props.showToolTip) ? props.showToolTip : !1;
                 priv.hitTest = new Core.classes.HitTest(props.hasOwnProperty('hitTest') ? props.hitTest: null);
                 priv.rotateAngle = props.hasOwnProperty('rotateAngle') && Tools.isNumber(props.rotateAngle) ? props.rotateAngle : 0;
                 priv.customStyle = null;
@@ -88,17 +88,17 @@ const Control = (() => {
                 priv.tabOrder = props.hasOwnProperty('tabOrder') && Tools.isNumber(props.tabOrder) ? props.tabOrder : 0;
                 priv.right = props.hasOwnProperty('right') && Tools.isNumber(props.right) ? props.right : null;
                 priv.bottom = props.hasOwnProperty('bottom') && Tools.isNumber(props.bottom) ? props.bottom : null;
-                priv.doubleClick = false;
-                priv.component = false;
-                priv.forceDisplayVisibility = props.hasOwnProperty('forceDisplayVisibility') && Tools.isBool(props.forceDisplayVisibility) ? props.forceDisplayVisibility : false;
-                priv.clipped = props.hasOwnProperty('clipped') && Tools.isBool(props.clipped) ? props.clipped : true;
-                priv.reflected = props.hasOwnProperty('reflected') && Tools.isBool(props.reflected) ? props.reflected : false;
+                priv.doubleClick = !1;
+                priv.component = !1;
+                priv.forceDisplayVisibility = props.hasOwnProperty('forceDisplayVisibility') && Tools.isBool(props.forceDisplayVisibility) ? props.forceDisplayVisibility : !1;
+                priv.clipped = props.hasOwnProperty('clipped') && Tools.isBool(props.clipped) ? props.clipped : !0;
+                priv.reflected = props.hasOwnProperty('reflected') && Tools.isBool(props.reflected) ? props.reflected : !1;
                 priv.column = props.hasOwnProperty('column') && Tools.isNumber(props.column) ? props.column : 0;
                 priv.row = props.hasOwnProperty('row') && Tools.isNumber(props.row) ? props.row : 0;
                 priv.colSpan = props.hasOwnProperty('colSpan') && Tools.isNumber(props.colSpan) ? props.colSpan : 0;
                 priv.rowSpan = props.hasOwnProperty('rowSpan') && Tools.isNumber(props.rowSpan) ? props.rowSpan : 0;
-                priv.allowUpdateOnResize = false;
-                priv.allowRealignChildsOnResize = false;
+                priv.allowUpdateOnResize = !1;
+                priv.allowRealignChildsOnResize = !1;
                 priv.update = function () {
                     const obj = this.obj;
                     if (obj.allowUpdateOnResize) {
@@ -116,7 +116,6 @@ const Control = (() => {
                     'onAfterPaint', 'onEnterFocus', 'onKillFocus', 'onKeyDown', 'onKeyUp', 'onKeyPress', 'onAfterResized',
                     'onDragStart', 'onDrag', 'onDragExit', 'onDragEnd', 'onDragEnter', 'onDragOver', 'onDragLeave',
                     'onDrop', 'onDestroy', 'onResize', 'onResize'], props);
-                this.addBindableProperties(['opacity', 'right', 'bottom', 'width', 'height', 'visible', 'left', 'top', 'rotateAngle', 'align']);
                 let anchors = Types.ANCHORS;
                 Tools.addPropertyFromEnum({
                     component: this,
@@ -796,7 +795,7 @@ const Control = (() => {
                     Core.isHTMLRenderer && htmlElement.classList.remove('disabled');
                     if (!newValue) {
                         Core.isHTMLRenderer && htmlElement.classList.add('disabled');
-                        priv.isPressed = false;
+                        priv.isPressed = !1;
                     }
                     const comps = this.components.filter(e => {
                         return e instanceof Core.classes.Control;
@@ -871,31 +870,31 @@ const Control = (() => {
                 switch (newValue.length) {
                     case 1:
                         hitTest.mouseDown = newValue.first;
-                        hitTest.mouseMove = false;
-                        hitTest.mouseUp = false;
-                        hitTest.mouseWheel = false;
-                        hitTest.dblClick = false;
+                        hitTest.mouseMove = !1;
+                        hitTest.mouseUp = !1;
+                        hitTest.mouseWheel = !1;
+                        hitTest.dblClick = !1;
                         break;
                     case 2:
                         hitTest.mouseDown = newValue.first;
                         hitTest.mouseMove = newValue.last;
-                        hitTest.mouseUp = false;
-                        hitTest.mouseWheel = false;
-                        hitTest.dblClick = false;
+                        hitTest.mouseUp = !1;
+                        hitTest.mouseWheel = !1;
+                        hitTest.dblClick = !1;
                         break;
                     case 3:
                         hitTest.mouseDown = newValue.first;
                         hitTest.mouseMove = newValue[1];
                         hitTest.mouseUp = newValue.last;
-                        hitTest.mouseWheel = false;
-                        hitTest.dblClick = false;
+                        hitTest.mouseWheel = !1;
+                        hitTest.dblClick = !1;
                         break;
                     case 4:
                         hitTest.mouseDown = newValue.first;
                         hitTest.mouseMove = newValue[1];
                         hitTest.mouseUp = newValue[2];
                         hitTest.mouseWheel = newValue.last;
-                        hitTest.dblClick = false;
+                        hitTest.dblClick = !1;
                         break;
                     case 5:
                         hitTest.mouseDown = newValue.first;
@@ -1313,7 +1312,7 @@ const Control = (() => {
                     htmlElementStyle.padding = `${priv.padding.top}${PX} ${priv.padding.right}${PX} ${priv.padding.bottom}${PX} ${priv.padding.left}${PX}`;
                 }
             } else {
-                Core.canvas.needRedraw = true;
+                Core.canvas.needRedraw = !0;
             }
             if (this.form !== this) {
                 if (right !== null) {
@@ -1680,7 +1679,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.allowUpdate = false;
+            priv.allowUpdate = !1;
             if (Core.isHTMLRenderer) {
                 //priv.wrapper = this.HTMLElement.innerHTML;
             }
@@ -1691,7 +1690,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.allowUpdate = true;
+            priv.allowUpdate = !0;
             this.realignChilds();
             //this.update();
             //if (this._owner._allowUpdate&&Core.renderer!==Types.renderers.HTML) this.redraw(this.lastRect);
@@ -1822,7 +1821,7 @@ const Control = (() => {
                     if (form && form instanceof Core.classes.Window) {
                         if (priv.closePopups) {
                             if (form.mainMenu) {
-                                form.mainMenu.isActive = false;
+                                form.mainMenu.isActive = !1;
                             }
                             form.closePopups();
                         }
@@ -1842,11 +1841,11 @@ const Control = (() => {
                         if (this.autoCapture) {
                             this.capture();
                         }
-                        this.isPressed = true;
+                        this.isPressed = !0;
                         this.onMouseDown.invoke();
                     }
                     if (!Core.isHTMLRenderer) {
-                        Core.canvas.needRedraw = true;
+                        Core.canvas.needRedraw = !0;
                     }
                 }
             }
@@ -1857,7 +1856,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             let target = Core.mouse.event.target;
-            let clicked = false;
+            let clicked = !1;
             //#endregion Variables déclaration
             if (!target.jsObj) {
                 target = target.parentNode;
@@ -1866,12 +1865,12 @@ const Control = (() => {
                 this.releaseCapture();
                 this.onMouseUp.invoke();
                 clicked = priv.isPressed && !priv.doubleClick;
-                this.isPressed = false;
-                this.doubleClick = false;
+                this.isPressed = !1;
+                this.doubleClick = !1;
                 if (clicked && Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
                     this.click();
                     if (!Core.isHTMLRenderer) {
-                        Core.canvas.needRedraw = true;
+                        Core.canvas.needRedraw = !0;
                     }
                 }
             }
@@ -1912,18 +1911,18 @@ const Control = (() => {
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (this instanceof Core.classes.Control) {
-                this.isMouseOver = true;
+                this.isMouseOver = !0;
                 this.onMouseEnter.invoke();
                 if (cursor !== CUSTOMCURSORS.DEFAULT) {
                     if ((cursor === CUSTOMCURSORS.WAIT || cursor === CUSTOMCURSORS.PROGRESS)) {
                         Core.animatedCursor.initAnimation(Core.isHTMLRenderer ? htmlElement : Core.canvas, cursor);
                     }
                 }
-                this.form.app.showToolTip(this, Core.mouse.document, true);
+                this.form.app.showToolTip(this, Core.mouse.document, !0);
                 if (priv.isPressed && Core.isHTMLRenderer) {
                     htmlElement.classList.add('pressed');
                 } else if (!Core.isHTMLRenderer) {
-                    Core.canvas.needRedraw = true;
+                    Core.canvas.needRedraw = !0;
                 }
             }
         }
@@ -1936,7 +1935,7 @@ const Control = (() => {
             const CUSTOMCURSORS = Types.CUSTOMCURSORS;
             //#endregion Variables déclaration
             if (this instanceof Core.classes.Control) {
-                this.isMouseOver = false;
+                this.isMouseOver = !1;
                 this.onMouseLeave.invoke();
                 if (cursor !== CUSTOMCURSORS.DEFAULT) {
                     if ((cursor === CUSTOMCURSORS.WAIT || cursor === CUSTOMCURSORS.PROGRESS)) {
@@ -1947,7 +1946,7 @@ const Control = (() => {
                 if (Core.isHTMLRenderer) {
                     this.HTMLElement.classList.remove('pressed');
                 } else if (!Core.isHTMLRenderer) {
-                    Core.canvas.needRedraw = true;
+                    Core.canvas.needRedraw = !0;
                 }
             }
         }
@@ -1964,7 +1963,7 @@ const Control = (() => {
                         focusedControl.killFocus();
                     }
                 }
-                this.isFocused = true;
+                this.isFocused = !0;
                 this.onEnterFocus.invoke();
             }
         }
@@ -1975,7 +1974,7 @@ const Control = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if ((this instanceof Core.classes.Control) && priv.canFocused) {
-                this.isFocused = false;
+                this.isFocused = !1;
                 //this._applyTriggerEffect(this,'isFocused');
                 //this.startTriggerAnimation(this,'isFocused');
                 this.onKillFocus.invoke();
@@ -2022,7 +2021,7 @@ const Control = (() => {
             let htmlObj = event.target;
             let jsObj = htmlObj.jsObj;
             let activeWin = null;
-            let forceStopEvent = false;
+            let forceStopEvent = !1;
             const AUTOMATIC = Types.DRAGMODES.AUTOMATIC;
             const DOCK = Types.DRAGKINDS.DOCK;
             const MOUSEEVENTS = Mouse.MOUSEEVENTS;
@@ -2062,7 +2061,7 @@ const Control = (() => {
                 case MOUSEEVENTS.DOWN:
                     if (activeWin !== jsObj.form) {
                         if (activeWin.mainMenu) {
-                            activeWin.mainMenu.isActive = false;
+                            activeWin.mainMenu.isActive = !1;
                         }
                         activeWin.app.closeAllPopups();
                     }
@@ -2074,7 +2073,7 @@ const Control = (() => {
                         }
                         if (activeWin !== jsObj.form.app.mainWindow) {
                             if (jsObj.form.app.mainWindow.mainMenu) {
-                                jsObj.form.app.mainWindow.mainMenu.isActive = false;
+                                jsObj.form.app.mainWindow.mainMenu.isActive = !1;
                             }
                             jsObj.form.app.mainWindow.closePopups();
                         }
@@ -2109,7 +2108,7 @@ const Control = (() => {
                     if (Tools.isFunc(jsObj.mouseWheel)) {
                         jsObj.mouseWheel();
                     }
-                    forceStopEvent = true;
+                    forceStopEvent = !0;
                     jsObj.stopEvent ? event.preventDefault() : null;
                     break;
                 case MOUSEEVENTS.DBLCLICK:
@@ -2253,7 +2252,7 @@ const Control = (() => {
             this.onKeyDown.invoke();
             if (Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
                 if (!(this instanceof Core.classes.CustomTextControl)) {
-                    this.isPressed = true;
+                    this.isPressed = !0;
                 }
             }
         }
@@ -2267,7 +2266,7 @@ const Control = (() => {
             if (Core.keyboard.keyCode === VKEYSCODES.VK_SPACE || Core.keyboard.keyCode === VKEYSCODES.VK_RETURN) {
                 if (!(this instanceof Core.classes.CustomTextControl)) {
                     this.click();
-                    this.isPressed = false;
+                    this.isPressed = !1;
                 }
             } else if (Core.keyboard.keyCode === VKEYSCODES.VK_MENU) {
                 if (this.popupMenu) {
@@ -2391,7 +2390,7 @@ const Control = (() => {
             if (popupMenu) {
                 const x = Core.mouse.window.x;
                 const y = Core.mouse.window.y;
-                //this.popup.staysOpen=false;
+                //this.popup.staysOpen=!1;
                 popupMenu.control = this;
                 popupMenu.show(x, y);
             }
@@ -2460,7 +2459,7 @@ const Control = (() => {
                             class: classes[dataClass],
                             owner: owner,
                             name: properties.name ? properties.name : String.EMPTY,
-                            withTpl: false,
+                            withTpl: !1,
                             internalId: node.id,
                             props: properties
                         });
@@ -2700,7 +2699,7 @@ const Control = (() => {
             const tabList = priv.tabList;
             //#endregion Variables déclaration
             if (children) {
-                children = true;
+                children = !0;
             }
             if (!list) {
                 return;
@@ -2936,7 +2935,7 @@ const Control = (() => {
                                 top = eval(eval(top));
                             }
                             let offset = 0;
-                            let canDraw = true;
+                            let canDraw = !0;
                             // Offset
                             if (shape.offset != undefined) {
                                 offset = shape.offset;
@@ -2965,13 +2964,13 @@ const Control = (() => {
                                         if (img) {
                                             ctx[shape.type](this, img, shape);
                                         }
-                                        canDraw = false;
+                                        canDraw = !1;
                                         break;
                                     }
                                     case 'drawText':
                                         returnTrigger.isDialog = this.form.isBorderDialog;
                                         ctx[shape.type](this, shape, returnTrigger, state);
-                                        canDraw = false;
+                                        canDraw = !1;
                                         break;
                                     case 'ellipse':
                                         params.insert(0, CONSTANTS._2PI);   // endAngle
@@ -3073,8 +3072,8 @@ const Control = (() => {
                 CustomTabControlTpl = `< div id = '{internalId}' data - name='{name}' data - class='TabControl' class='Control TabControl {theme}' style = 'width:289px;height:193px;' >
                                         <div class='Control TabControlHeader {theme}'>
                                             <div class='Control TabsContainer {theme}'></div>
-                                            <button id='{internalId}_1' class='Control Button TabControlLeftBtn {theme}' data-enabled='false'>*</button>
-                                            <button id='{internalId}_2' class='Control Button TabControlRightBtn {theme}' data-enabled='false'>)</button>
+                                            <button id='{internalId}_1' class='Control Button TabControlLeftBtn {theme}' data-enabled='!1'>*</button>
+                                            <button id='{internalId}_2' class='Control Button TabControlRightBtn {theme}' data-enabled='!1'>)</button>
                                         </div>
                                         <div id='{internalId}_3' data-class='Layout' class='Control TabsContent PagesContent {theme}'></div>
                              </div > `,
@@ -3096,100 +3095,100 @@ const Control = (() => {
 //#region Control defineProperties
 Object.defineProperties(Control, {
     'autoTranslate': {
-        enumerable: true
+        enumerable: !0
     },
     'closePopups': {
-        enumerable: true
+        enumerable: !0
     },
     'forceMouseWheel': {
-        enumerable: true
+        enumerable: !0
     },
     'stopEvent': {
-        enumerable: true
+        enumerable: !0
     },
     'constraints': {
-        enumerable: true
+        enumerable: !0
     },
     'ownerShowToolTip': {
-        enumerable: true
+        enumerable: !0
     },
     'autoCapture': {
-        enumerable: true
+        enumerable: !0
     },
     'padding': {
-        enumerable: true
+        enumerable: !0
     },
     'margin': {
-        enumerable: true
+        enumerable: !0
     },
     'popupMenu': {
-        enumerable: true
+        enumerable: !0
     },
     'opacity': {
-        enumerable: true
+        enumerable: !0
     },
     'width': {
-        enumerable: true
+        enumerable: !0
     },
     'height': {
-        enumerable: true
+        enumerable: !0
     },
     'scale': {
-        enumerable: true
+        enumerable: !0
     },
     'canFocused': {
-        enumerable: true
+        enumerable: !0
     },
     'showFocus': {
-        enumerable: true
+        enumerable: !0
     },
     'enabled': {
-        enumerable: true
+        enumerable: !0
     },
     'rotateCenter': {
-        enumerable: true
+        enumerable: !0
     },
     'toolTip': {
-        enumerable: true
+        enumerable: !0
     },
     'showToolTip': {
-        enumerable: true
+        enumerable: !0
     },
     'hitTest': {
-        enumerable: true
+        enumerable: !0
     },
     'rotateAngle': {
-        enumerable: true
+        enumerable: !0
     },
     'customStyle': {
-        enumerable: true
+        enumerable: !0
     },
     'cssClasses': {
-        enumerable: true
+        enumerable: !0
     },
     'tabOrder': {
-        enumerable: true
+        enumerable: !0
     },
     'right': {
-        enumerable: true
+        enumerable: !0
     },
     'bottom': {
-        enumerable: true
+        enumerable: !0
     },
     'doubleClick': {
-        enumerable: true
+        enumerable: !0
     },
     'visible': {
-        enumerable: true
+        enumerable: !0
     },
     'display': {
-        enumerable: true
+        enumerable: !0
     },
     'left': {
-        enumerable: true
+        enumerable: !0
     },
     'top': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion Control defineProperties

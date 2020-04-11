@@ -32,20 +32,19 @@ const ItemsWheel = (() => {
                 priv.lastDelta = new Point;
                 priv.downPos = new Point;
                 priv.currentPos = new Point;
-                priv.down = false;
+                priv.down = !1;
                 priv.scrollAni = null;
                 priv.sep = null;
                 priv.topGradient = null;
                 priv.bottomGradient = null;
                 priv.value = String.EMPTY;
                 priv.index = -1;
-                priv.mouseTracking = true;
-                priv.animated = true;
-                this.addBindableProperties(['value']);
-                this.hitTest = true;
+                priv.mouseTracking = !0;
+                priv.animated = !0;
+                this.hitTest = !0;
                 Core.classes.newCollection(this, this, Types.CONSTANTS.STRING);
                 this.onChange = new NotifyEvent(this);
-                this.canFocused = true;
+                this.canFocused = !0;
                 delete this.tabOrder;
             }
         }
@@ -207,7 +206,7 @@ const ItemsWheel = (() => {
                 priv.lastDelta.setValues(0, 0);
                 priv.downPos.assign(Core.mouse.screen);
                 priv.currentPos.assign(Core.mouse.screen);
-                priv.down = true;
+                priv.down = !0;
                 //if (scrollAni && scrollAni.running) {
                 //    scrollAni.stopAtCurrent();
                 this.index = Math.intCeiling(priv.index, 1);
@@ -241,7 +240,7 @@ const ItemsWheel = (() => {
             super.mouseUp();
             //const offset = Core.mouse.screen.y - currentPos.y;
             if (priv.down && priv.mouseTracking) {
-                priv.down = false;
+                priv.down = !1;
                 if (priv.animated && priv.lastDelta.y !== 0) {
                     if (Math.abs(priv.downPos.y - priv.currentPos.y) > 20) {
                         //this.createScrollAni();
@@ -265,8 +264,8 @@ const ItemsWheel = (() => {
         //        scrollAni.duration = 3;
         //        scrollAni.control = this;
         //        scrollAni.propertyName = "index";
-        //        scrollAni.startFromCurrent = true;
-        //        scrollAni.convertToCSS = false;
+        //        scrollAni.startFromCurrent = !0;
+        //        scrollAni.convertToCSS = !1;
         //        scrollAni.initialValue = this.index;
         //    }
         //}
@@ -324,13 +323,13 @@ const ItemsWheel = (() => {
 //#region ItemsWheel defineProperties
 Object.defineProperties(ItemsWheel, {
     'value': {
-        enumerable: true
+        enumerable: !0
     },
     'mouseTracking': {
-        enumerable: true
+        enumerable: !0
     },
     'animated': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion ItemsWheel defineProperties

@@ -32,7 +32,7 @@ const CaptionControl = (() => {
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
-                this.autoTranslate = true;
+                this.autoTranslate = !0;
                 const priv = internal(this);
                 if (!Core.isHTMLRenderer) {
                     themeName = this.app.themeName;
@@ -43,7 +43,7 @@ const CaptionControl = (() => {
                     captionControlTheme = {};
                     priv.caption = props.hasOwnProperty('caption') ? props.caption : this.constructor.name;
                 }
-                priv.wordWrap = captionControlTheme.hasOwnProperty('wordWrap') ? captionControlTheme.wordWrap : props.hasOwnProperty('wordWrap') ? props.wordWrap : false;
+                priv.wordWrap = captionControlTheme.hasOwnProperty('wordWrap') ? captionControlTheme.wordWrap : props.hasOwnProperty('wordWrap') ? props.wordWrap : !1;
                 priv.horizAlign = props.hasOwnProperty('horizAlign') ? props.horizAlign : captionControlTheme.hasOwnProperty('horizAlign') ? captionControlTheme.horizAlign : props.hasOwnProperty('horizAlign') ? props.horizAlign : Types.TEXTALIGNS.LEFT;
                 priv.color = Color.parse(captionControlTheme.hasOwnProperty('color') ? captionControlTheme.color : theme.DEFAULTTEXTCOLOR ? theme.DEFAULTTEXTCOLOR : props.hasOwnProperty('color') ? Color.parse(props.color) : null);
                 if (props.hasOwnProperty('color')) {
@@ -54,7 +54,7 @@ const CaptionControl = (() => {
                 priv.fontFamily = props.hasOwnProperty('fontFamily') ? props.fontFamily : captionControlTheme.hasOwnProperty('fontFamily') ? captionControlTheme.fontFamily : props.hasOwnProperty('fontFamily') ? props.fontFamily : null;
                 priv.fontSize = props.hasOwnProperty('fontSize') ? props.fontSize : captionControlTheme.hasOwnProperty('fontSize') ? captionControlTheme.fontSize : props.hasOwnProperty('fontSize') ? props.fontSize : 8;
                 priv.fontSizeUnit = props.hasOwnProperty('fontSizeUnit') ? props.fontSizeUnit : Types.CSSUNITS.PT;
-                priv.fontBold = props.hasOwnProperty('fontBold') && typeof props.fontBold === CONSTANTS.BOOLEAN ? props.fontBold : captionControlTheme.hasOwnProperty('fontBold') ? captionControlTheme.fontBold : props.hasOwnProperty('fontBold') ? props.fontBold : false;
+                priv.fontBold = props.hasOwnProperty('fontBold') && typeof props.fontBold === CONSTANTS.BOOLEAN ? props.fontBold : captionControlTheme.hasOwnProperty('fontBold') ? captionControlTheme.fontBold : props.hasOwnProperty('fontBold') ? props.fontBold : !1;
                 priv.fontStyle = props.hasOwnProperty('fontStyle') ? props.fontStyle : captionControlTheme.hasOwnProperty('fontStyle') ? captionControlTheme.fontStyle : props.hasOwnProperty('fontStyle') ? props.fontStyle : Types.FONTSTYLES.NORMAL;
                 priv.textDecoration = new TextDecoration(this, props.hasOwnProperty('textDecoration') ? props.textDecoration : captionControlTheme.hasOwnProperty('textDecoration') ? captionControlTheme.textDecoration : props.hasOwnProperty('textDecoration') ? props.textDecoration : null);
                 priv.textShadows = new TextShadows(this, props.hasOwnProperty('textShadow') ? props.textShadow : captionControlTheme.hasOwnProperty('textShadow') ? captionControlTheme.textShadow : props.hasOwnProperty('textShadow') ? props.textShadow : null);
@@ -68,10 +68,8 @@ const CaptionControl = (() => {
                         priv.backColor = props.backColor;
                     }
                 }
-                priv.autoSize = props.hasOwnProperty('autoSize') ? props.autoSize : captionControlTheme.hasOwnProperty('autoSize') ? captionControlTheme.autoSize : props.hasOwnProperty('autoSize') ? props.autoSize : true;
+                priv.autoSize = props.hasOwnProperty('autoSize') ? props.autoSize : captionControlTheme.hasOwnProperty('autoSize') ? captionControlTheme.autoSize : props.hasOwnProperty('autoSize') ? props.autoSize : !0;
                 priv.textOverflow = props.hasOwnProperty('textOverflow') ? props.textOverflow : captionControlTheme.hasOwnProperty('textOverflow') ? captionControlTheme.textOverflow : props.hasOwnProperty('textOverflow') ? props.textOverflow : Types.TEXTOVERFLOWS.CLIP;
-                this.addBindableProperties(['caption', 'horizAlign', 'wordWrap', 'color', 'fontFamily', 'fontSize', 'fontSizeUnit',
-                    'fontBold', 'fontStyle', 'textTransform', 'vertAlign', 'backColor', 'autSize', 'textOverflow']);
             }
         }
         //#endregion Constructor
@@ -87,7 +85,7 @@ const CaptionControl = (() => {
             if (Tools.isString(newValue)) {
                 if (priv.caption !== newValue) {
                     priv.caption = Text.replace(newValue, Types.CONSTANTS.HOTKEYPREFIX, String.EMPTY);
-                    //if ((this.loading||this.form.loading)&&!Tools.Debugger.useFragment) return;
+                    this.propertyChanged(Tools.getPropertyName());
                     this.update();
                 }
             }
@@ -105,11 +103,11 @@ const CaptionControl = (() => {
             if (Tools.isBool(newValue)) {
                 if (priv.wordWrap !== newValue) {
                     priv.wordWrap = newValue;
-                    if (this.loading || form.loading) {
-                        return;
-                    }
-                    if (!Core.isHTMLRenderer && this.allowUpdate) {
-                        this.update();
+                    this.propertyChanged(Tools.getPropertyName());
+                    if (!this.loading && !form.loading) {
+                        if (!Core.isHTMLRenderer && this.allowUpdate) {
+                            this.update();
+                        }
                     }
                 }
             }
@@ -127,11 +125,11 @@ const CaptionControl = (() => {
             if (Tools.valueInSet(newValue, Types.TEXTALIGNS)) {
                 if (newValue !== priv.horizAlign) {
                     priv.horizAlign = newValue;
-                    if (this.loading || form.loading) {
-                        return;
-                    }
-                    if (!Core.isHTMLRenderer && this.allowUpdate) {
-                        this.update();
+                    this.propertyChanged(Tools.getPropertyName());
+                    if (!this.loading && !form.loading) {
+                        if (!Core.isHTMLRenderer && this.allowUpdate) {
+                            this.update();
+                        }
                     }
                 }
             }
@@ -149,11 +147,11 @@ const CaptionControl = (() => {
             if (Tools.valueInSet(newValue, Types.VERTTEXTALIGNS)) {
                 if (newValue !== priv.vertAlign) {
                     priv.vertAlign = newValue;
-                    if (this.loading || form.loading) {
-                        return;
-                    }
-                    if (!Core.isHTMLRenderer && this.allowUpdate) {
-                        this.update();
+                    this.propertyChanged(Tools.getPropertyName());
+                    if (!this.loading && !form.loading) {
+                        if (!Core.isHTMLRenderer && this.allowUpdate) {
+                            this.update();
+                        }
                     }
                 }
             }
@@ -174,11 +172,11 @@ const CaptionControl = (() => {
             if (newValue instanceof Color) {
                 if (!priv.color.equals(newValue)) {
                     priv.color.assign(newValue);
-                    if (this.loading || form.loading) {
-                        return;
-                    }
-                    if (Core.isHTMLRenderer && this.allowUpdate) {
-                        this.update();
+                    this.propertyChanged(Tools.getPropertyName());
+                    if (!this.loading && !form.loading) {
+                        if (Core.isHTMLRenderer && this.allowUpdate) {
+                            this.update();
+                        }
                     }
                 }
             }
@@ -196,11 +194,11 @@ const CaptionControl = (() => {
             if (Tools.isString(newValue)) {
                 if (priv.fontFamily !== newValue) {
                     priv.fontFamily = newValue;
-                    if (this.loading || form.loading) {
-                        return;
-                    }
-                    if (Core.isHTMLRenderer && this.allowUpdate) {
-                        this.update();
+                    this.propertyChanged(Tools.getPropertyName());
+                    if (!this.loading && !form.loading) {
+                        if (Core.isHTMLRenderer && this.allowUpdate) {
+                            this.update();
+                        }
                     }
                 }
             }
@@ -218,11 +216,11 @@ const CaptionControl = (() => {
             if (Tools.isNumber(newValue)) {
                 if (priv.fontSize !== newValue) {
                     priv.fontSize = newValue;
-                    if (this.loading || form.loading) {
-                        return;
-                    }
-                    if (Core.isHTMLRenderer && this.allowUpdate) {
-                        this.update();
+                    this.propertyChanged(Tools.getPropertyName());
+                    if (!this.loading && !form.loading) {
+                        if (Core.isHTMLRenderer && this.allowUpdate) {
+                            this.update();
+                        }
                     }
                 }
             }
@@ -241,11 +239,11 @@ const CaptionControl = (() => {
             if (Tools.valueInSet(newValue, CSSUNITS)) {
                 if (priv.fontSizeUnit !== newValue) {
                     priv.fontSizeUnit = newValue;
-                    if (this.loading || form.loading) {
-                        return;
-                    }
-                    if (Core.isHTMLRenderer && this.allowUpdate) {
-                        this.update();
+                    this.propertyChanged(Tools.getPropertyName());
+                    if (!this.loading && !form.loading) {
+                        if (Core.isHTMLRenderer && this.allowUpdate) {
+                            this.update();
+                        }
                     }
                 }
             }
@@ -263,11 +261,11 @@ const CaptionControl = (() => {
             if (Tools.isBool(newValue)) {
                 if (priv.fontBold !== newValue) {
                     priv.fontBold = newValue;
-                    if (this.loading || form.loading) {
-                        return;
-                    }
-                    if (Core.isHTMLRenderer && this.allowUpdate) {
-                        this.update();
+                    this.propertyChanged(Tools.getPropertyName());
+                    if (!this.loading && !form.loading) {
+                        if (Core.isHTMLRenderer && this.allowUpdate) {
+                            this.update();
+                        }
                     }
                 }
             }
@@ -286,11 +284,11 @@ const CaptionControl = (() => {
             if (Tools.valueInSet(newValue, FONTSTYLES)) {
                 if (priv.fontStyle !== newValue) {
                     priv.fontStyle = newValue;
-                    if (this.loading || form.loading) {
-                        return;
-                    }
-                    if (Core.isHTMLRenderer && this.allowUpdate) {
-                        this.update();
+                    this.propertyChanged(Tools.getPropertyName());
+                    if (!this.loading && !form.loading) {
+                        if (Core.isHTMLRenderer && this.allowUpdate) {
+                            this.update();
+                        }
                     }
                 }
             }
@@ -309,11 +307,11 @@ const CaptionControl = (() => {
             if (Tools.valueInSet(newValue, TEXTTRANSFORMS)) {
                 if (priv.textTransform !== newValue) {
                     priv.textTransform = newValue;
-                    if (this.loading || form.loading) {
-                        return;
-                    }
-                    if (Core.isHTMLRenderer && this.allowUpdate) {
-                        this.update();
+                    this.propertyChanged(Tools.getPropertyName());
+                    if (!this.loading && !form.loading) {
+                        if (Core.isHTMLRenderer && this.allowUpdate) {
+                            this.update();
+                        }
                     }
                 }
             }
@@ -332,11 +330,11 @@ const CaptionControl = (() => {
                 if (!priv.textShadows.equals(newValue.items)) {
                     priv.textShadows.items.clear();
                     priv.textShadows.items.addRange(newValue.items);
-                    if ((this.loading || form.loading)) {
-                        return;
-                    }
-                    if (Core.isHTMLRenderer && this.allowUpdate) {
-                        this.update();
+                    this.propertyChanged(Tools.getPropertyName());
+                    if (!this.loading && !form.loading) {
+                        if (Core.isHTMLRenderer && this.allowUpdate) {
+                            this.update();
+                        }
                     }
                 }
             }
@@ -358,6 +356,7 @@ const CaptionControl = (() => {
             if (Tools.isBool(newValue)) {
                 if (newValue !== priv.autoSize) {
                     priv.autoSize = newValue;
+                    this.propertyChanged(Tools.getPropertyName());
                     if (!this.loading && !this.form.loading) {
                         this.update();
                     }
@@ -378,11 +377,11 @@ const CaptionControl = (() => {
             if (Tools.valueInSet(newValue, TEXTOVERFLOWS)) {
                 if (priv.textOverflow !== newValue) {
                     priv.textOverflow = newValue;
-                    if (this.loading || form.loading) {
-                        return;
-                    }
-                    if (Core.isHTMLRenderer && this.allowUpdate) {
-                        this.update();
+                    this.propertyChanged(Tools.getPropertyName());
+                    if (!this.loading && !form.loading) {
+                        if (Core.isHTMLRenderer && this.allowUpdate) {
+                            this.update();
+                        }
                     }
                 }
             }
@@ -403,11 +402,11 @@ const CaptionControl = (() => {
             if (newValue instanceof Color) {
                 if (!priv.backColor.equals(newValue)) {
                     priv.backColor.assign(newValue);
-                    if (this.loading || form.loading) {
-                        return;
-                    }
-                    if (Core.isHTMLRenderer && this.allowUpdate) {
-                        this.update();
+                    this.propertyChanged(Tools.getPropertyName());
+                    if (!this.loading && !form.loading) {
+                        if (Core.isHTMLRenderer && this.allowUpdate) {
+                            this.update();
+                        }
                     }
                 }
             }
@@ -575,52 +574,52 @@ const CaptionControl = (() => {
 //#region CaptionControl defineProperties
 Object.defineProperties(CaptionControl, {
     'caption': {
-        enumerable: true
+        enumerable: !0
     },
     'wordWrap': {
-        enumerable: true
+        enumerable: !0
     },
     'autoTranslate': {
-        enumerable: true
+        enumerable: !0
     },
     'horizAlign': {
-        enumerable: true
+        enumerable: !0
     },
     'color': {
-        enumerable: true
+        enumerable: !0
     },
     'fontFamily': {
-        enumerable: true
+        enumerable: !0
     },
     'fontSize': {
-        enumerable: true
+        enumerable: !0
     },
     'fontSizeUnit': {
-        enumerable: true
+        enumerable: !0
     },
     'fontBold': {
-        enumerable: true
+        enumerable: !0
     },
     'fontStyle': {
-        enumerable: true
+        enumerable: !0
     },
     'textDecoration': {
-        enumerable: true
+        enumerable: !0
     },
     'textShadows': {
-        enumerable: true
+        enumerable: !0
     },
     'textTransform': {
-        enumerable: true
+        enumerable: !0
     },
     'vertAlign': {
-        enumerable: true
+        enumerable: !0
     },
     'backColor': {
-        enumerable: true
+        enumerable: !0
     },
     'textOverflow': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion CaptionControl defineProperties

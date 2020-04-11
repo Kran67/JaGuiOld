@@ -37,13 +37,12 @@ const DataSet = (() => {
                 priv.cursor = null;
                 priv.numFields = 0;
                 priv.numRecords = 0;
-                priv.keyValues = props.hasOwnProperty('keyValues') ? props.keyValues: String.EMPTY;
+                priv.keyValues = props.hasOwnProperty('keyValues') ? props.keyValues : String.EMPTY;
                 priv.dataSource = props.hasOwnProperty('dataSource') ? props.dataSource : null;
-                priv.active = props.hasOwnProperty('active') ? props.active: false;
-                priv.activeOnLoad = props.hasOwnProperty('activeOnLoad') ? props.activeOnLoad: true;
-                priv.isOpen = props.hasOwnProperty('isOpen') ? props.isOpen: false;
-                priv.keyField = props.hasOwnProperty('keyField') ? props.keyField: String.EMPTY;
-                this.addBindableProperties(['active', 'isOpen']);
+                priv.active = props.hasOwnProperty('active') ? props.active : !1;
+                priv.activeOnLoad = props.hasOwnProperty('activeOnLoad') ? props.activeOnLoad : !0;
+                priv.isOpen = props.hasOwnProperty('isOpen') ? props.isOpen : !1;
+                priv.keyField = props.hasOwnProperty('keyField') ? props.keyField : String.EMPTY;
             }
         }
         //#endregion constructor
@@ -146,9 +145,9 @@ const DataSet = (() => {
             //#endregion Variables déclaration
             if (newValue instanceof Core.classes.DataSource) {
                 if (priv.dataSource !== newValue) {
-                    priv.active = false;
+                    priv.active = !1;
                     priv.dataSource = newValue;
-                    priv.active = true;
+                    priv.active = !0;
                 }
             }
         }
@@ -159,20 +158,23 @@ const DataSet = (() => {
          */
         //#region active
         get active() {
-            return _active;
+            return internal(this).active;
         }
         /**
          * Set the active status of the dataset
          * @param   {Boolean}       newValue        the new active status
          */
         set active(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (Tools.isBool(newValue)) {
-                if (_active !== newValue) {
-                    _active = newValue;
-                    if (_active) {
+                if (priv.active !== newValue) {
+                    priv.active = newValue;
+                    if (priv.active) {
                         this.open();
                         this.getKeyValues();
-                        _cursorIdx = 0;
+                        priv.cursorIdx = 0;
                     } else {
                         this.close();
                     }
@@ -231,11 +233,14 @@ const DataSet = (() => {
          */
         //#region open
         open() {
-            if (!this.data.isEmpty) {
-                this.cursorIdx = 0;
-                this.cursor = this.data[this.cursorIdx];
-                this.isOpen = true;
-                this.dataSource.refreshControls();
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (!priv.data.isEmpty) {
+                priv.cursorIdx = 0;
+                priv.cursor = priv.data[priv.cursorIdx];
+                priv.isOpen = !0;
+                priv.dataSource.refreshControls();
             }
         }
         //#endregion open
@@ -244,10 +249,13 @@ const DataSet = (() => {
          */
         //#region close
         close() {
-            this.isOpen = false;
-            this.cursorIdx = -1;
-            this.keyValues = String.EMPTY;
-            this.dataSource.refreshControls();
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.isOpen = !1;
+            priv.cursorIdx = -1;
+            priv.keyValues = String.EMPTY;
+            priv.dataSource.refreshControls();
         }
         //#endregion close
         /**
@@ -255,12 +263,15 @@ const DataSet = (() => {
          */
         //#region next
         next() {
-            this.cursorIdx++;
-            if (this.cursorIdx > this.numRecords) {
-                this.cursorIdx = this.numRecords - 1;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.cursorIdx++;
+            if (priv.cursorIdx > priv.numRecords) {
+                priv.cursorIdx = priv.numRecords - 1;
             }
             this.getKeyValues();
-            this.dataSource.refreshControls();
+            priv.dataSource.refreshControls();
         }
         //#endregion next
         /**
@@ -268,12 +279,15 @@ const DataSet = (() => {
          */
         //#region prev
         prev() {
-            this.cursorIdx--;
-            if (this.cursorIdx < 0) {
-                this.cursorIdx = 0;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.cursorIdx--;
+            if (priv.cursorIdx < 0) {
+                priv.cursorIdx = 0;
             }
             this.getKeyValues();
-            this.dataSource.refreshControls();
+            priv.dataSource.refreshControls();
         }
         //#endregion prev
         /**
@@ -281,9 +295,12 @@ const DataSet = (() => {
          */
         //#region first
         first() {
-            this.cursorIdx = 0;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.cursorIdx = 0;
             this.getKeyValues();
-            this.dataSource.refreshControls();
+            priv.dataSource.refreshControls();
         }
         //#endregion first
         /**
@@ -291,18 +308,24 @@ const DataSet = (() => {
          */
         //#region last
         last() {
-            this.cursorIdx = this.numRecords - 1;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.cursorIdx = priv.numRecords - 1;
             this.getKeyValues();
-            this.dataSource.refreshControls();
+            priv.dataSource.refreshControls();
         }
         //#endregion last
         /**
          * Indicate if the dataset contains a key field
-         * @return  {Boolean}       true
+         * @return  {Boolean}       !0
          */
         //#region hasKeyfield
         hasKeyfield() {
-            return !this.keyFields.isEmpty;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            return !priv.keyFields.isEmpty;
         }
         //#endregion hasKeyfield
         /**
@@ -311,12 +334,13 @@ const DataSet = (() => {
         //#region getKeyValues
         getKeyValues() {
             //#region Variables déclaration
+            const priv = internal(this);
             let values = null;
             //#endregion Variables déclaration
-            if (!String.isNullOrEmpty(this.keyFields)) {
+            if (!String.isNullOrEmpty(priv.keyFields)) {
                 const keyFields = this.keyFields.split(',');
-                const cursor = this.data[this.cursorIdx];
-                this.keyValues = String.EMPTY;
+                const cursor = priv.data[priv.cursorIdx];
+                priv.keyValues = String.EMPTY;
                 keyFields.forEach((key, i) => {
                     if (cursor[key]) {
                         if (i > 0) {
@@ -325,7 +349,7 @@ const DataSet = (() => {
                         values += cursor[key];
                     }
                 });
-                this.keyValues = values;
+                priv.keyValues = values;
             }
         }
         //#endregion getKeyValues
@@ -335,12 +359,13 @@ const DataSet = (() => {
         //#region goToCurrentCursor
         goToCurrentCursor() {
             //#region Variables déclaration
-            const keyValues = this.keyValues;
-            const keyFields = this._keyFields.split(',');
+            const priv = internal(this);
+            const keyValues = prvi.keyValues;
+            const keyFields = prvi.keyFields.split(',');
             let idx = -1;
             //#endregion Variables déclaration
-            this.data.filter((e, i) => {
-                let ret = false;
+            priv.data.filter((e, i) => {
+                let ret = !1;
                 let keyValue = String.EMPTY;
                 keyFields.forEach((key, j) => {
                     if (j > 0) {
@@ -349,14 +374,14 @@ const DataSet = (() => {
                     keyValue += e[key];
                 });
                 if (keyValue === keyValues) {
-                    ret = true;
+                    ret = !0;
                     idx = i;
                 }
                 return ret;
             }
             );
-            this.cursorIdx = idx;
-            this.cursor = this.data[this.cursorIdx];
+            priv.cursorIdx = idx;
+            priv.cursor = priv.data[priv.cursorIdx];
         }
         //#endregion goToCurrentCursor
         /**
@@ -463,9 +488,23 @@ const DataSet = (() => {
          */
         //#region destroy
         destroy() {
-            if (this.data) {
-                this.data.destroy();
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.cursorIdx = null;
+            priv.cursor = null;
+            priv.numFields = null;
+            priv.numRecords = null;
+            priv.keyValues = null;
+            priv.dataSource = null;
+            priv.active = null;
+            priv.activeOnLoad = null;
+            priv.isOpen = null;
+            priv.keyField = null;
+            if (priv.data) {
+                priv.data.destroy();
             }
+            priv.data = null;
             super.destroy();
         }
         //#endregion destroy
@@ -478,16 +517,16 @@ const DataSet = (() => {
 //#region DataSet defineProperties
 Object.defineProperties(DataSet, {
     'dataSource': {
-        enumerable: true
+        enumerable: !0
     },
     'active': {
-        enumerable: true
+        enumerable: !0
     },
     'isOpen': {
-        enumerable: true
+        enumerable: !0
     },
     'keyField': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion DataSet defineProperties

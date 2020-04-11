@@ -22,8 +22,7 @@ const LabeledControl = (() => {
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
-                const priv = internal(this);
-                this.onChange = new Core.classes.NotifyEvent(this);
+                this.createEventsAndBind(['onChange'], props);
                 this.width = 200;
                 this.height = 20;
             }
@@ -87,7 +86,14 @@ const LabeledControl = (() => {
                 owner: this,
                 props: {
                     inForm: false,
-                    caption: props.hasOwnProperty('caption')?props.caption:this.name
+                    caption: props.hasOwnProperty('caption') ? props.caption : this.name,
+                    hitTest: { mouseDown: !0 },
+                    onMouseDown: function () {
+                        const components = this.owner.components.filter(comp => { return comp.canFocused; });
+                        if (components.length > 0) {
+                            components.first.setFocus();
+                        }
+                    }
                 },
                 withTpl: true
             });

@@ -1,6 +1,11 @@
 ﻿//#region Tools
 class Tools {
     //#region Methods
+    //#region isUndefined
+    static isUndefined(value) {
+        return typeof value === Types.CONSTANTS.UNDEFINED;
+    }
+    //#endregion isUndefined
     //#region isNumber
     static isNumber(value) {
         const reg = /^-?\d+\.?\d*$/;
@@ -799,6 +804,15 @@ class Tools {
         return right.indexOf(left) > -1;
     }
     //#endregion indexOf
+    //#region
+    static getPropertyName() {
+        return new Error('dummy')
+            .stack
+            .match(/(?:as )(?:[^\]]*)/gm).first
+            .split(" ")
+            .last;
+    }
+    //#endregion
     //#endregion Methods
 }
 Object.seal(Object.freeze(Tools));

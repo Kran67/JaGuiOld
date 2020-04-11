@@ -1,0 +1,6 @@
+Controls :
+  SpinBox, ajouter le mousewheel pur incrémenter / décrémenter la valeur
+  SplitToolButton, vérifier l'icône, une fois le composant ImageList ajouté
+
+Apps :
+  Vérifier la tabulation entre composants

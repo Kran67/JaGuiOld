@@ -25,16 +25,15 @@ const Tab = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 priv.imageIndex = -1;
-                priv.showCaption = props.hasOwnProperty('showCaption')?props.showCaption:true;
+                priv.showCaption = props.hasOwnProperty('showCaption')?props.showCaption:!0;
                 priv.tabControl = owner;
-                this.addBindableProperties(['showCaption', 'imageIndex']);
                 let num = 1;
                 if (owner instanceof CustomTabControl) {
                     num = owner.tabs.length + 1;
                 }
                 priv.caption = props.hasOwnProperty('caption')?props.caption : `${this.constructor.name}${num}`;
-                this.hitTest.mouseDown = true;
-                this.hitTest.mouseUp = true;
+                this.hitTest.mouseDown = !0;
+                this.hitTest.mouseUp = !0;
                 this.createEventsAndBind(['onClose'], props);
             }
         }
@@ -142,10 +141,10 @@ const Tab = (() => {
 //#region defineProperties
 Object.defineProperties(Tab, {
     'imageIndex': {
-        enumerable: true
+        enumerable: !0
     },
     'showCaption': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion defineProperties

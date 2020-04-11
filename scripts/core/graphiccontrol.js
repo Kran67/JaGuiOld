@@ -29,7 +29,6 @@ const GraphicControl = (function () {
                 priv.strokeWidth = props.hasOwnProperty('strokeWidth') ? props.strokeWidth : 1;
                 priv.strokeDash = props.hasOwnProperty('strokeDash') ? props.strokeDash : '[]';
                 priv.strokeDashOffset = props.hasOwnProperty('strokeDashOffset') ? props.strokeDashOffset : 0;
-                this.addBindableProperties(['fillColor', 'strokeColor', 'strokeWidth', 'strokeDash', 'strokeDashOffset']);
                 delete this.tabOrder;
             }
         }
@@ -76,7 +75,7 @@ const GraphicControl = (function () {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (Tools.isNumber(newValue)) {
-                if (newValue < 0) newValue = 0;
+                newValue = Math.max(0, newValue);
                 if (priv.strokeWidth !== newValue) {
                     priv.strokeWidth = newValue;
                     this.update();
@@ -121,21 +120,6 @@ const GraphicControl = (function () {
         //#region changed
         changed() { }
         //#endregion changed
-        //#region update
-        //update() {
-        //    if (!this.loading) {
-        //        //if (this._fillColor)) {
-        //        //    if (!this._fillColor.equals(_colors.TRANSPARENT)) this.HTMLElementStyle.backgroundColor = this._fillColor.toARGBString();
-        //        //}
-        //        //if (this._strokeWidth) && this._strokeColor)) {
-        //        //    stroke = this._strokeWidth + Types.CSSUnits.PX + String.SPACE + "solid" + String.SPACE;
-        //        //    stroke += this._strokeColor.toARGBString();
-        //        //    this.HTMLElementStyle.border = stroke;
-        //        //}
-        //        super.update();
-        //    }
-        //}
-        //#endregion update
         //#region loaded
         loaded() {
             super.loaded();
@@ -160,51 +144,7 @@ const GraphicControl = (function () {
             super.destroy();
         }
         //#endregion destroy
-        //reset GraphicControl_reset(){
-        //  this.background.clear();
-        //  this.color.assign(_colors.TRANSPARENT);
-        //  this.font.reset();
-        //  this.borderWidth=0;
-        //  this.borderColor.assign(_colors.TRANSPARENT);
-        //  this.bordersRadius={topLeft:0,topRight:0,bottomLeft:0,bottomRight:0};
-        //  this.shadowColor.assign(_colors.TRANSPARENT);
-        //  this.shadowOffsetX=0;
-        //  this.shadowOffsetY=0;
-        //  this.shadowBlur=0;
-        //},
-        //empty GraphicControl_empty(){
-        //  let background=(this.background.style===Types.brushStyles.NONE)&&(this.background.color.equals(_colors.TRANSPARENT));
-        //  let color=this.color.equals(_colors.TRANSPARENT);
-        //  let font=(!this.font.underline)&&(!this.font.strikeout)&&(this.font.size===10)&&(this.font.family==="Tahoma")&&(this.font.style===Types.fontStyles.NORMAL)&&(this.font.height===0);
-        //  let borderWidth=this.borderWidth===0;
-        //  let borderColor=this.borderColor.equals(_colors.TRANSPARENT);
-        //  let bordersRadius=(this.bordersRadius.topLeft===0)&&(this.bordersRadius.topRight===0)&&(this.bordersRadius.bottomLeft===0)&&(this.bordersRadius.bottomRight===0);
-        //  let shadowColor=this.shadowColor.equals(_colors.TRANSPARENT);
-        //  let shadowOffsetX=this.shadowOffsetX===0;
-        //  let shadowOffsetY=this.shadowOffsetY===0;
-        //  let shadowBlur=this.shadowBlur===0;
-        //  let shape=this.shape===Types.shapes.RECTANGLE;
-        //  return background&&color&&font&&borderWidth&&borderColor&&bordersRadius&&shadowColor&&shadowOffsetX&&shadowOffsetY&&shadowBlur&&shape;
-        //},
-        //assign GraphicControl_assign(source) {
-        //  this.background.assign(source.background);
-        //  this.color.assign(source.color);
-        //  this.font.assign(source.font);
-        //  this._align=source.align;
-        //  this.borderWidth=source.borderWidth;
-        //  this.borderColor.assign(source.borderColor);
-        //  this.bordersRadius.topLeft=source.bordersRadius.topLeft;
-        //  this.bordersRadius.topRight=source.bordersRadius.topRight;
-        //  this.bordersRadius.bottomLeft=source.bordersRadius.bottomLeft;
-        //  this.bordersRadius.bottomRight=source.bordersRadius.bottomRight;
-        //  this.shadowColor.assign(source.shadowColor);
-        //  this.shadowOffsetX=source.shadowOffsetX;
-        //  this.shadowOffsetY=source.shadowOffsetY;
-        //  this.shadowBlur=source.shadowBlur;
-        //  this.shape=source.shape;
-        //  this.borderDash=source.borderDash;
-        //}
-        //#endregion
+        //#endregion Methods
     }
     return GraphicControl;
     //#endregion GraphicControl
@@ -212,19 +152,19 @@ const GraphicControl = (function () {
 //#region GraphicControl defineProperties
 Object.defineProperties(GraphicControl, {
     'fillColor': {
-        enumerable: true
+        enumerable: !0
     },
     'strokeColor': {
-        enumerable: true
+        enumerable: !0
     },
     'strokeWidth': {
-        enumerable: true
+        enumerable: !0
     },
     'strokeDash': {
-        enumerable: true
+        enumerable: !0
     },
     'strokeDashOffset': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion GraphicControl defineProperties

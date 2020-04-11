@@ -34,17 +34,16 @@ const Action = (() => {
                 const priv = internal(this);
                 priv.propertiesToUpdate = ['caption', 'isChecked', 'enabled', 'groupIndex', 'hint', 'imageIndex', 'shortCut', 'visible', 'autoCheck'];
                 priv.caption = String.EMPTY;
-                priv.isChecked = false;
-                priv.enabled = true;
+                priv.isChecked = !1;
+                priv.enabled = !0;
                 priv.groupIndex = 0;
                 priv.hint = String.EMPTY;
                 priv.imageIndex = -1;
                 priv.shortCut = String.EMPTY;
-                priv.autoCheck = false;
+                priv.autoCheck = !1;
                 priv.targets = [];
                 const form = this.form;
-                this.visible = true;
-                this.addBindableProperties(['caption', 'isChecked', 'enabled', 'imageIndex', 'visible', 'autoCheck']);
+                this.visible = !0;
                 this.onHint = new Core.classes.NotifyEvent(this);
                 this.onChange = new Core.classes.NotifyEvent(this);
                 this.onExecute = new Core.classes.NotifyEvent(this);
@@ -339,28 +338,28 @@ const Action = (() => {
 //#region Action defineProperties
 Object.defineProperties(Action, {
     'caption': {
-        enumerable: true
+        enumerable: !0
     },
     'isChecked': {
-        enumerable: true
+        enumerable: !0
     },
     'enabled': {
-        enumerable: true
+        enumerable: !0
     },
     'groupIndex': {
-        enumerable: true
+        enumerable: !0
     },
     'hint': {
-        enumerable: true
+        enumerable: !0
     },
     'imageIndex': {
-        enumerable: true
+        enumerable: !0
     },
     'shortCut': {
-        enumerable: true
+        enumerable: !0
     },
     'autoCheck': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion Action defineProperties

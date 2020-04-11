@@ -261,6 +261,7 @@ const Slider = (() => {
             if (Tools.isNumber(newValue)) {
                 if (priv.leftInput.valueAsNumber !== newValue) {
                     priv.leftInput.valueAsNumber = newValue;
+                    this.propertyChanged(Tools.getPropertyName());
                     this.update();
                 }
             }
@@ -277,6 +278,7 @@ const Slider = (() => {
             if (Tools.isNumber(newValue)) {
                 if (priv.rightInput.valueAsNumber !== newValue) {
                     priv.rightInput.valueAsNumber = newValue;
+                    this.propertyChanged(Tools.getPropertyName());
                     this.update();
                 }
             }
@@ -459,12 +461,14 @@ const Slider = (() => {
             const leftInput = inputs[0];
             const rightInput = inputs[1];
             //#endregion Variables déclaration
+            obj.propertyChanged('firstValue');
             if (obj.mode === SLIDERMODES.RANGE) {
                 if (this === leftInput) {
                     this.value=Math.min(this.valueAsNumber,obj.lastValue-1);
                 }
                 if (this === rightInput) {
                     this.value=Math.max(this.valueAsNumber,obj.firstValue+1);
+                    obj.propertyChanged('lastValue');
                 }
             }
             obj.update();

@@ -27,17 +27,16 @@ const CustomTextControl = (function () {
                 super(owner, props);
                 const priv = internal(this);
                 priv.inputObj = null;
-                priv.hasError = props.hasOwnProperty('hasError')?props.hasError:false;
-                this.stopEvent = false;
+                priv.hasError = props.hasOwnProperty('hasError')?props.hasError:!1;
+                this.stopEvent = !1;
                 priv.text = props.hasOwnProperty('text')?props.text:String.EMPTY;
                 priv.maxLength = props.hasOwnProperty('maxLength')?props.maxLength:0;
-                priv.readOnly = props.hasOwnProperty('readOnly')?props.readOnly:false;
+                priv.readOnly = props.hasOwnProperty('readOnly')?props.readOnly:!1;
                 priv.placeHolder = props.hasOwnProperty('placeHolder')?props.placeHolder:String.EMPTY;
                 priv.filterChars = props.hasOwnProperty('filterChars')?props.filterChars:String.EMPTY;
-                priv.autoTranslate = true;
-                priv.required = props.hasOwnProperty('required')?props.required:false;
+                priv.autoTranslate = !0;
+                priv.required = props.hasOwnProperty('required')?props.required:!1;
                 priv.errorMsg = props.hasOwnProperty('errorMsg')?props.errorMsg:String.EMPTY;
-                this.addBindableProperties(['text', 'readOnly', 'placeHolder', 'autoTranslate', 'horizAlign']);
                 let textAligns = Types.TEXTALIGNS;
                 Tools.addPropertyFromEnum({
                     component: this,
@@ -53,12 +52,12 @@ const CustomTextControl = (function () {
                     propName: 'type',
                     enum: htmlInputTypes,
                     variable: priv,
-                    forceUpdate: true,
+                    forceUpdate: !0,
                     value: props.hasOwnProperty('type')?props.type:htmlInputTypes.TEXT
                 });
                 htmlInputTypes = null;
                 this.createEventsAndBind(['onChange'], props);
-                this.canFocused = true;
+                this.canFocused = !0;
             }
         }
         //#endregion constructor
@@ -122,6 +121,7 @@ const CustomTextControl = (function () {
             if (Tools.isString(newValue)) {
                 if (priv.text !== newValue) {
                     priv.text = newValue;
+                    this.propertyChanged(Tools.getPropertyName());
                     if (!this.loading && !this.form.loading) {
                         if (Core.isHTMLRenderer) {
                             this.update();
@@ -142,6 +142,7 @@ const CustomTextControl = (function () {
             if (Tools.isNumber(newValue)) {
                 if (priv.maxLength !== newValue) {
                     priv.maxLength = newValue;
+                    this.propertyChanged(Tools.getPropertyName());
                     if (Core.isHTMLRenderer) {
                         this.update();
                     }
@@ -160,6 +161,7 @@ const CustomTextControl = (function () {
             if (Tools.isBool(newValue)) {
                 if (priv.readOnly !== newValue) {
                     priv.readOnly = newValue;
+                    this.propertyChanged(Tools.getPropertyName());
                     if (Core.isHTMLRenderer) {
                         this.update();
                     }
@@ -178,6 +180,7 @@ const CustomTextControl = (function () {
             if (Tools.isString(newValue)) {
                 if (priv.placeHolder !== newValue) {
                     priv.placeHolder = newValue;
+                    this.propertyChanged(Tools.getPropertyName());
                     if (Core.isHTMLRenderer) {
                         this.update();
                     }
@@ -460,28 +463,28 @@ const CustomTextControl = (function () {
 //#region BaseWindow defineProperties
 Object.defineProperties(CustomTextControl, {
     'text': {
-        enumerable: true
+        enumerable: !0
     },
     'maxLength': {
-        enumerable: true
+        enumerable: !0
     },
     'readOnly': {
-        enumerable: true
+        enumerable: !0
     },
     'placeHolder': {
-        enumerable: true
+        enumerable: !0
     },
     'filterChars': {
-        enumerable: true
+        enumerable: !0
     },
     'autoTranslate': {
-        enumerable: true
+        enumerable: !0
     },
     'required': {
-        enumerable: true
+        enumerable: !0
     },
     'errorMsg': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion BaseWindow defineProperties

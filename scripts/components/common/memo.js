@@ -64,7 +64,6 @@ const Memo = (() => {
                     this.height = 89;
                 }
                 this.hitTest.mouseWheel = true;
-                this.removeBindableProperties(['text']);
                 priv.lines = new StringList(this);
                 priv.lines.onChange.addListener(this.update);
                 priv.text = props.hasOwnProperty('text')?props.text:this.name;

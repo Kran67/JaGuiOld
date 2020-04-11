@@ -47,10 +47,9 @@ const CustomTabControl = (() => {
                 priv.tabClass = props.hasOwnProperty('tabClass')?props.tabClass:Tab;
                 priv.activeTab = props.hasOwnProperty('activeTab') ? props.activeTab : null;
                 priv.images = null;
-                priv.canChange = true;
-                priv.showTabsCloseBtn = props.hasOwnProperty('showTabsCloseBtn') ? props.showTabsCloseBtn : false;
-                this.addBindableProperties(['activeTab', 'showTabsCloseBtn', 'tabStyle', 'tabPosition']);
-                this.autoCapture = true;
+                priv.canChange = !0;
+                priv.showTabsCloseBtn = props.hasOwnProperty('showTabsCloseBtn') ? props.showTabsCloseBtn : !1;
+                this.autoCapture = !0;
                 this.width = props.hasOwnProperty('width') ? props.width : 200;
                 this.height = props.hasOwnProperty('height') ? props.height : 200;
                 Tools.addPropertyFromEnum({
@@ -69,7 +68,7 @@ const CustomTabControl = (() => {
                     variable: priv
                 });
                 this.onChange = new NotifyEvent(this);
-                this.canFocused = true;
+                this.canFocused = !0;
                 Core.classes.newCollection(this, this, Tab, "tabs");
             }
         }
@@ -273,7 +272,7 @@ const CustomTabControl = (() => {
                     parentHTML: priv.tabsContainer,
                     caption: caption
                 },
-                withTpl: true
+                withTpl: !0
             });
             tabs.push(tab);
             this.changeActiveTab(tab);
@@ -405,11 +404,11 @@ const CustomTabControl = (() => {
                                 class: Core.classes[data],
                                 owner: this,
                                 props: {
-                                    inForm: true,
+                                    inForm: !0,
                                     name: node.dataset.name,
                                     caption: node.innerHTML
                                 },
-                                withTpl: false,
+                                withTpl: !1,
                                 internalId: node.id
                             });
                             node.jsObj = tab;
@@ -436,12 +435,12 @@ const CustomTabControl = (() => {
             btnLeft.enabled = (tabsContainer.scrollLeft > 0);
             htmlElement.classList.remove('noButtons');
             if (tabsContainer.scrollWidth <= tabsContainer.offsetWidth) {
-                btnLeft.visible = false;
-                btnRight.visible = false;
+                btnLeft.visible = !1;
+                btnRight.visible = !1;
                 htmlElement.classList.add('noButtons');
             } else {
-                btnLeft.visible = true;
-                btnRight.visible = true;
+                btnLeft.visible = !0;
+                btnRight.visible = !0;
             }
         }
         //#endregion checkViewBtns
@@ -534,7 +533,7 @@ const CustomTabControl = (() => {
                     if (activeTab === tabs.first) {
                         return;
                     }
-                    this.selectNextTab(false, true);
+                    this.selectNextTab(!1, !0);
                     if (tabs.indexOf(activeTab) < priv.firstVisibleTab) {
                         this.updateTabs(DIRECTIONS.LEFT);
                     }
@@ -543,7 +542,7 @@ const CustomTabControl = (() => {
                     if (activeTab === tabs.last) {
                         return;
                     }
-                    this.selectNextTab(true, true);
+                    this.selectNextTab(!0, !0);
                     if (tabs.indexOf(activeTab) > priv.lastVisibleTab) {
                         this.updateTabs(DIRECTIONS.RIGHT);
                     }
@@ -558,7 +557,7 @@ const CustomTabControl = (() => {
             const tabList = priv.tabContent.tabList;
             //#endregion Variables déclaration
             if (children) {
-                children = true;
+                children = !0;
             }
             if (list) {
                 if (tabList) {
@@ -594,13 +593,13 @@ const CustomTabControl = (() => {
                 class: Core.classes.Button,
                 owner: this,
                 props: {
-                    inForm: false,
+                    inForm: !1,
                     parentHTML: priv.tabsHeader,
                     cssClasses: ' TabControlLeftBtn',
-                    canFocused: false,
+                    canFocused: !1,
                     caption: String.EMPTY
                 },
-                withTpl: true
+                withTpl: !0
             });
             priv.btnLeft.tag = DIRECTIONS.LEFT;
             priv.btnLeft.tabsContainer = priv.tabsContainer;
@@ -609,13 +608,13 @@ const CustomTabControl = (() => {
                 class: Core.classes.Button,
                 owner: this,
                 props: {
-                    inForm: false,
+                    inForm: !1,
                     parentHTML: priv.tabsHeader,
                     cssClasses: ' TabControlRightBtn',
-                    canFocused: false,
+                    canFocused: !1,
                     caption: String.EMPTY
                 },
-                withTpl: true
+                withTpl: !0
             });
             priv.btnRight.tag = DIRECTIONS.RIGHT;
             priv.btnRight.tabsContainer = priv.tabsContainer;
@@ -632,31 +631,31 @@ const CustomTabControl = (() => {
 //#region CustomTabControl defineProperties
 Object.defineProperties(CustomTabControl, {
     'tabs': {
-        enumerable: true
+        enumerable: !0
     },
     'tabClass': {
-        enumerable: true
+        enumerable: !0
     },
     'activeTab': {
-        enumerable: true
+        enumerable: !0
     },
     'images': {
-        enumerable: true
+        enumerable: !0
     },
     'canChange': {
-        enumerable: true
+        enumerable: !0
     },
     'showTabsCloseBtn': {
-        enumerable: true
+        enumerable: !0
     },
     'activeTabIndex': {
-        enumerable: true
+        enumerable: !0
     },
     'width': {
-        enumerable: true
+        enumerable: !0
     },
     'height': {
-        enumerable: true
+        enumerable: !0
     }
 });
 Object.seal(CustomTabControl);

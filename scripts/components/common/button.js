@@ -36,7 +36,6 @@ const CustomButton = (() => {
                     }
                 }
                 super(owner, props);
-                this.addBindableProperties(['staysPressed', 'repeatClick']);
                 const priv = internal(this);
                 priv.pressing = !1;
                 priv.repeatTimer = null;
@@ -366,7 +365,6 @@ const Button = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                this.addBindableProperties(['isDefault']);
                 this.canFocused = props.hasOwnProperty('canFocused') && Tools.isBool(props.canFocused) ? props.canFocused : !0;
                 this.autoCapture = !0;
                 priv.isDefault = props.hasOwnProperty('isDefault') && Tools.isBool(props.isDefault) ? props.isDefault : !1;
