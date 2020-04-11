@@ -1,5 +1,8 @@
 Controls :
-  SplitToolButton, vérifier l'icône, une fois le composant ImageList ajouté
+  SplitToolButton : vérifier l'icône, une fois le composant ImageList ajouté
+  Dialog : gérer le bouton par défaut
+  Splitter : Bug ghost qui reste
+  PageControl / TabControl : ajouter mouseWheel sur les tabs
 
 Apps :
   Vérifier la tabulation entre composants

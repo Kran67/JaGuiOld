@@ -158,6 +158,7 @@ const DropDownCalendar = (() => {
                 this.hitTest.mouseWheel = false;
                 this.hitTest.dblClick = false;
                 this.createEventsAndBind(['onChange'], props);
+                this.stopEvent = !0;
             }
         }
         //#endregion constructor

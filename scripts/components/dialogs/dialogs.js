@@ -277,6 +277,8 @@ class InputDlg extends Window {
             this.btnCancel.caption = translatedCaption;
         }
         this.resizeByContent();
+        this.TextBox.setFocus();
+        this.TextBox.selectAll();
     }
     //#endregion loaded
     //#endregion Methods

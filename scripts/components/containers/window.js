@@ -61,6 +61,7 @@ const WindowTitleBar = (() => {
                 hitTest.mouseWheel = !1;
                 //#endregion Public
                 this.createEventsAndBind(['onCaptionChanged'], props);
+                this.stopEvent = !0;
             }
         }
         //#endregion Constructor

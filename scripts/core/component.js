@@ -523,25 +523,25 @@ const Component = (() => {
         }
         //#endregion moveTo
         //#region getBoundingClientRect
-        //getBoundingClientRect() {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    const margin = this.margin;
-        //    //#endregion Variables déclaration
-        //    if (Core.isHTMLRenderer) {
-        //        return priv.HTMLElement.getBoundingClientRect();
-        //    } else {
-        //        const boundingClientRect = new Rect(priv.left + margin.left, priv.top + margin.top, 0, 0);
-        //        priv.owners.forEach(owner => {
-        //            const oMargin = owner.margin;
-        //            boundingClientRect.left += owner.left + oMargin.left;
-        //            boundingClientRect.top += owner.top + oMargin.top;
-        //        });
-        //        boundingClientRect.right = boundingClientRect.left + this.width;
-        //        boundingClientRect.bottom = boundingClientRect.top + this.height;
-        //        return boundingClientRect;
-        //    }
-        //}
+        getBoundingClientRect() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const margin = this.margin;
+            //#endregion Variables déclaration
+            if (Core.isHTMLRenderer) {
+                return priv.HTMLElement.getBoundingClientRect();
+            } else {
+                const boundingClientRect = new Rect(priv.left + margin.left, priv.top + margin.top, 0, 0);
+                priv.owners.forEach(owner => {
+                    const oMargin = owner.margin;
+                    boundingClientRect.left += owner.left + oMargin.left;
+                    boundingClientRect.top += owner.top + oMargin.top;
+                });
+                boundingClientRect.right = boundingClientRect.left + this.width;
+                boundingClientRect.bottom = boundingClientRect.top + this.height;
+                return boundingClientRect;
+            }
+        }
         //#endregion getBoundingClientRect
         //#region destroy
         destroy() {

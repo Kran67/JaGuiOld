@@ -321,7 +321,7 @@ class Window1 extends Window {
         this.app.newWindow('window2');
     }
     closeQuery() {
-        const dlg = Dialogs.confirmation('Are you sure you want to quit?');
+        const dlg = dialogs.confirmation('Are you sure you want to quit?');
         dlg.onClose.addListener(function () {
             Core.apps.activeApplication.activeWindow.canClose = this.modalResult === Window.MODALRESULTS.OK;
         });

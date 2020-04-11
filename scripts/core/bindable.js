@@ -111,6 +111,9 @@ const Bindable = (() => {
         //#endregion removeDataBinding
         //#region clear
         clear() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             priv.dataBindings.length = 0;
         }
         //#endregion clear
