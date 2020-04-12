@@ -81,13 +81,26 @@ const SplitButton = (() => {
             }
         }
         //#endregion popupMenu
+        //#region getTemplate
+        get template() {
+            const priv = internal(this);
+            let html = super.template;
+            let a = html.split('{bitmapButton}');
+            let tpl = priv.btn.getTemplate();
+            html = a.join(tpl);
+            a = html.split('{popupButton}');
+            tpl = priv.popupBtn.getTemplate();
+            html = a.join(tpl);
+            return html;
+        }
+        //#endregion getTemplate
         //#endregion Getters / Setters
         //#region Methods
         //#region clickPopup
         clickPopup() {
             const priv = internal(this);
             if (priv.popupMenu) {
-                if (priv.popupMenu instanceof Core.classes.PopupMenu) {
+                if (Core.classes.PopupMenu && priv.popupMenu instanceof Core.classes.PopupMenu) {
                     const pt = this.owner.clientToDocument();
                     priv.popupMenu.control = this.owner;
                     priv.popupMenu.show(pt.x, pt.y + this.owner.HTMLElement.offsetHeight);
@@ -109,26 +122,13 @@ const SplitButton = (() => {
             priv.action = null;
         }
         //#endregion destroy
-        //#region getTemplate
-        getTemplate() {
-            const priv = internal(this);
-            let html = super.getTemplate();
-            let a = html.split('{bitmapButton}');
-            let tpl = priv.btn.getTemplate();
-            html = a.join(tpl);
-            a = html.split('{popupButton}');
-            tpl = priv.popupBtn.getTemplate();
-            html = a.join(tpl);
-            return html;
-        }
-        //#endregion getTemplate
         //#region loaded
         loaded() {
             const priv = internal(this);
             super.loaded();
             if (Core.isHTMLRenderer) {
-                priv.btn = Core.classes.createComponent({ class: Core.classes.BitmapButton, owner: this, props: { inForm: false, caption: priv.caption, width: -1, height: -1, canFocused: false }, withTpl: true });
-                priv.popupBtn = Core.classes.createComponent({ class: Core.classes.PopupButton, owner: this, props: { inForm: false, caption: String.EMPTY, width: 14, height: -1, canFocused: false }, withTpl: true });
+                priv.btn = Core.classes.createComponent({ class: Core.classes.BitmapButton, owner: this, props: { inForm: !1, caption: priv.caption, width: -1, height: -1, canFocused: !1 }});
+                priv.popupBtn = Core.classes.createComponent({ class: Core.classes.PopupButton, owner: this, props: { inForm: !1, caption: String.EMPTY, width: 14, height: -1, canFocused: !1 } });
                 priv.popupBtn.click = this.clickPopup;
                 if (Core.classes.PopupMenu && priv.popupMenu instanceof Core.classes.PopupMenu) {
                     priv.popupBtn.popupMenu = priv.popupMenu;

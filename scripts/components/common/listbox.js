@@ -36,7 +36,6 @@ const ListBoxItem = (() => {
                 priv.icon = null;
                 priv.text = null;
                 priv.stopEvent = !0;
-                //priv.props = {};
                 priv.caption = props.hasOwnProperty('caption') ? props.caption : String.EMPTY;
                 priv.size = props.hasOwnProperty('size') ? props.size : owner.itemsSize;
                 priv.isChecked = props.hasOwnProperty('isChecked') && Tools.isBool(props.isChecked) ? props.isChecked : !1;
@@ -495,7 +494,7 @@ const ListBox = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                !props.hasOwnProperty('scrollMode')?props.scrollMode = ScrollControl.SCROLLMODES.VIRTUAL:null;
+                !props.hasOwnProperty('scrollMode') ? props.scrollMode = ScrollControl.SCROLLMODES.VIRTUAL : null;
                 super(owner, props);
                 const priv = internal(this);
                 priv.visibleItems = [];
@@ -705,8 +704,8 @@ const ListBox = (() => {
             const scrollModeNormal = this.scrollMode === ScrollControl.SCROLLMODES.NORMAL;
             const htmlElement = this.HTMLElement;
             let itemVisible = !1;
-            const prop = vert?'Top':'Left';
-            const propSize = vert?'Height':'Width';
+            const prop = vert ? 'Top' : 'Left';
+            const propSize = vert ? 'Height' : 'Width';
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
                 priv.scrollPos = Math.max(Math.min(htmlElement[`scroll${prop}`], priv.innerHeight - htmlElement[`offset${propSize}`]), 0);
@@ -995,8 +994,8 @@ const ListBox = (() => {
             const isFirst = priv.visibleItems.first === this.items[priv.itemIndex] || priv.visibleItems.first === this.items[priv.itemIndex + 1];
             const ORIENTATIONS = Types.ORIENTATIONS;
             const htmlElement = this.HTMLElement;
-            let prop = priv.orientation === ORIENTATIONS.VERTICAL?'Top':'Left';
-            let propSize = priv.orientation === ORIENTATIONS.VERTICAL?'Height':'Width';
+            let prop = priv.orientation === ORIENTATIONS.VERTICAL ? 'Top' : 'Left';
+            let propSize = priv.orientation === ORIENTATIONS.VERTICAL ? 'Height' : 'Width';
             //#endregion Variables déclaration
             if (this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
                 if (inVisibleItems && !isFirst) {
@@ -1009,9 +1008,9 @@ const ListBox = (() => {
                     htmlElement[`scroll${prop}`] = priv.itemIndex * priv.itemsSize;
                 }
             } else {
-                if (this.items[priv.itemIndex].html[`offset${prop}`] + this.items[priv.itemIndex].html[`offset${propSize}`] > 
+                if (this.items[priv.itemIndex].html[`offset${prop}`] + this.items[priv.itemIndex].html[`offset${propSize}`] >
                     htmlElement[`offset${propSize}`] + htmlElement[`scroll${prop}`]) {
-                    htmlElement[`scroll${prop}`] = this.items[priv.itemIndex].html[`offset${propSize}`] + 
+                    htmlElement[`scroll${prop}`] = this.items[priv.itemIndex].html[`offset${propSize}`] +
                         this.items[priv.itemIndex].html[`offset${propSize}`] + 2 - htmlElement[`offset${propSize}`];
                 } else if (htmlElement[`scroll${prop}`] > this.items[priv.itemIndex].html[`offset${prop}`]) {
                     htmlElement[`scroll${prop}`] = this.items[priv.itemIndex].html[`offset${prop}`] - 1;

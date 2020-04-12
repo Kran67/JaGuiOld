@@ -11,7 +11,7 @@ class Interpolation {
      * @type    {Object}
      */
     static get INTERPOLATIONTYPES() {
-        return {
+        return Object.freeze(Object.seal({
             BACK: 'back',
             BOUNCE: 'bounce',
             CIRCULAR: 'circular',
@@ -23,7 +23,7 @@ class Interpolation {
             QUARTIC: 'quartic',
             QUINTIC: 'quintic',
             SINUSOIDAL: 'sinusoidal'
-        };
+        }));
     }
     //#endregion
     //#region Interpolation functions

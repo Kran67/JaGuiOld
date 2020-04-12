@@ -51,30 +51,29 @@ class GradientAnimation extends Animation {
         const control = this.control;
         const form = this.form;
         const propertyName = this.propertyName;
-        if (!control) return;
-        if (!this.convertToCSS || control.HTMLElement === Types.HTMLELEMENTS.CANVAS) {
-            if (!Core.isHTMLRenderer) {
-                if (!control.checkOwnerVisible()) return;
-                if (form.loading || form.creating) return;
-            }
-            super.processAnimation();
-            if (control[propertyName]) {
-                if (control[propertyName] instanceof Core.classes.Gradient) {
-                    const g = control[propertyName];
-                    g.items.forEach((item, i) => {
-                        const stopValue = this.stopValue;
-                        const startValue = this.startValue;
-                        if (i < stopValue.items.length || i < startValue.items.length) {
-                            const newColor = Interpolation.color(startValue.items[i].color, stopValue.items[i].color, this.normalizedTime());
-                            item.color.assign(newColor);
+        if (control) {
+            if (!this.convertToCSS || control.HTMLElement === Types.HTMLELEMENTS.CANVAS) {
+                if (Core.isHTMLRenderer && control.checkOwnerVisible() && !form.loading && !form.creating) {
+                    super.processAnimation();
+                    if (control[propertyName]) {
+                        if (control[propertyName] instanceof Core.classes.Gradient) {
+                            const g = control[propertyName];
+                            g.items.forEach((item, i) => {
+                                const stopValue = this.stopValue;
+                                const startValue = this.startValue;
+                                if (i < stopValue.items.length || i < startValue.items.length) {
+                                    const newColor = Interpolation.color(startValue.items[i].color, stopValue.items[i].color, this.normalizedTime());
+                                    item.color.assign(newColor);
+                                }
+                            });
+                            if (!Core.isHTMLRenderer) {
+                                if (control.allowUpdate) control.update();
+                                if (!form.useRequestAnim) control.redraw();
+                                else form.needRedraw = true;
+                            } else {
+                                control.paint();
+                            }
                         }
-                    });
-                    if (!Core.isHTMLRenderer) {
-                        if (control.allowUpdate) control.update();
-                        if (!form.useRequestAnim) control.redraw();
-                        else form.needRedraw = true;
-                    } else {
-                        control.paint();
                     }
                 }
             }

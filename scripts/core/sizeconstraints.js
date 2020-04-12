@@ -231,16 +231,16 @@ const SizeConstraints = (() => {
 //#region BaseWindow defineProperties
 Object.defineProperties(SizeConstraints, {
     'maxHeight': {
-        enumerable: true
+        enumerable: !0
     },
     'maxWidth': {
-        enumerable: true
+        enumerable: !0
     },
     'minHeight': {
-        enumerable: true
+        enumerable: !0
     },
     'minWidth': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion BaseWindow defineProperties

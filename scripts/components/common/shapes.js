@@ -5,7 +5,7 @@ import { Colors } from '/scripts/core/color.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region Direction of Line
-const LINEDIRECTIONS = Object.freeze({
+const LINEDIRECTIONS = Object.freeze(Object.seal({
     TOPLEFT_BOTTOMRIGHT: 'topleft-bottomright',
     TOPRIGHT_BOTTOMLEFT: 'topright-bottomleft',
     TOPLEFT_TOPRIGHT: 'topleft-topright',
@@ -14,8 +14,7 @@ const LINEDIRECTIONS = Object.freeze({
     TOPRIGHT_BOTTOMRIGHT: 'topright-bottomright',
     MIDDLETOP_MIDDLEBOTTOM: 'middletop-middlebottom',
     MIDDLELEFT_MIDDLERIGHT: 'middleleft-middleright'
-});
-Object.seal(LINEDIRECTIONS);
+}));
 //#endregion LINEDIRECTIONS
 //#region SHAPES
 const SHAPES = Object.seal(Object.freeze({
@@ -166,8 +165,7 @@ const Line = (() => {
     return Line;
     //#endregion Line
 })();
-Object.seal(Line);
-Object.freeze(Line);
+Object.seal(Object.freeze(Line));
 //#endregion Line
 //#region Rectangle
 class Rectangle extends GraphicControl {
@@ -206,8 +204,7 @@ class Rectangle extends GraphicControl {
     //#endregion update
     //#endregion Methods
 }
-Object.seal(Rectangle);
-Object.freeze(Rectangle);
+Object.seal(Object.freeze(Rectangle));
 //#endregion Rectangle
 //#region RoundRect
 const RoundRect = (() => {
@@ -345,175 +342,139 @@ const RoundRect = (() => {
     return RoundRect;
     //#endregion RoundRect
 })();
-Object.seal(RoundRect);
-Object.freeze(RoundRect);
+Object.seal(Object.freeze(RoundRect));
 //#endregion RoundRect
-//#region Ellipse
-const Ellipse = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
+//#region Class Ellipse
+class Ellipse extends GraphicControl {
+    //#region constructor
+    constructor(owner, props) {
+        //#region Variables déclaration
+        //#endregion Variables déclaration
+        props = !props ? {} : props;
+        if (owner) {
+            super(owner, props);
         }
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class Ellipse
-    class Ellipse extends GraphicControl {
-        //#region constructor
-        constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
-            props = !props ? {} : props;
-            if (owner) {
-                super(owner, props);
-                const priv = internal(this);
+    }
+    //#endregion constructor
+    //#region Getters / Setters
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region update
+    update() {
+        //#region Variables déclaration
+        const fillColor = this.fillColor;
+        const strokeColor = this.strokeColor;
+        const strokeDash = this.strokeDash;
+        const strokeWidth = this.strokeWidth;
+        const htmlElementStyle = this.HTMLElementStyle;
+        //#endregion Variables déclaration
+        if (!this.loading && !this.form.loading) {
+            htmlElementStyle.borderRadius = '50%';
+            if (fillColor) {
+                htmlElementStyle.backgroundColor = fillColor.toRGBAString();
             }
-        }
-        //#endregion constructor
-        //#region Getters / Setters
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region update
-        update() {
-            //#region Variables déclaration
-            const fillColor = this.fillColor;
-            const strokeColor = this.strokeColor;
-            const strokeDash = this.strokeDash;
-            const strokeWidth = this.strokeWidth;
-            const htmlElementStyle = this.HTMLElementStyle;
-            //#endregion Variables déclaration
-            if (!this.loading && !this.form.loading) {
-                htmlElementStyle.borderRadius = '50%';
-                if (fillColor) {
-                    htmlElementStyle.backgroundColor = fillColor.toRGBAString();
-                }
-                if (strokeColor && strokeWidth > 0) {
+            if (strokeColor && strokeWidth > 0) {
 
-                    htmlElementStyle.border = `${strokeWidth}${Types.CSSUNITS.PX} solid ${strokeColor.toRGBAString()}`;
-                }
-                if (strokeDash && strokeDash !== String.EMPTY) {
-                    //
-                }
+                htmlElementStyle.border = `${strokeWidth}${Types.CSSUNITS.PX} solid ${strokeColor.toRGBAString()}`;
+            }
+            if (strokeDash && strokeDash !== String.EMPTY) {
+                //
             }
         }
-        //#endregion update
-        //#endregion Methods
     }
-    return Ellipse;
-    //#endregion Ellipse
-})();
-Object.seal(Ellipse);
-Object.freeze(Ellipse);
+    //#endregion update
+    //#endregion Methods
+}
+Object.seal(Object.freeze(Ellipse));
 //#endregion Ellipse
-//#region Circle
-const Circle = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
+//#region Class Circle
+class Circle extends SVGGraphicControl {
+    //#region constructor
+    constructor(owner, props) {
+        //#region Variables déclaration
+        let svgShape;
+        //#endregion Variables déclaration
+        props = !props ? {} : props;
+        if (owner) {
+            props.shape = SHAPES.CIRCLE;
+            super(owner, props);
+            svgShape = this.svgShape;
+            svgShape.setAttribute('cx', '50%');
+            svgShape.setAttribute('cy', '50%');
         }
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class Circle
-    class Circle extends SVGGraphicControl {
-        //#region constructor
-        constructor(owner, props) {
-            //#region Variables déclaration
-            let svgShape;
-            //#endregion Variables déclaration
-            props = !props ? {} : props;
-            if (owner) {
-                props.shape = SHAPES.CIRCLE;
-                super(owner, props);
-                svgShape = this.svgShape;
-                svgShape.setAttribute('cx', '50%');
-                svgShape.setAttribute('cy', '50%');
-            }
-        }
-        //#endregion constructor
-        //#region Getters / Setters
-        //#region width
-        get width() {
-            return super.width;
-        }
-        set width(newValue) {
-            //#region Variables déclaration
-            const htmlElementStyle = this.HTMLElementStyle;
-            const currentHeight = this.height;
-            const currentWidth = this.width;
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (currentWidth !== newValue) {
-                    if (Core.isHTMLRenderer && !this.loading) {
-                        this.propertyChanged(Types.BINDABLEPROPERTIES.WIDTH);
-                        if (newValue === 0) {
-                            htmlElementStyle.width = String.EMPTY;
-                        } else {
-                            htmlElementStyle.width = `${newValue}${Types.CSSUNITS.PX}`;
-                        }
-                        if (currentHeight !== newValue) {
-                            htmlElementStyle.height = htmlElementStyle.width;
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion width
-        //#region height
-        get height() {
-            return super.height;
-        }
-        set height(newValue) {
-            //#region Variables déclaration
-            const htmlElementStyle = this.HTMLElementStyle;
-            const currentHeight = this.height;
-            //const currentWidth = this.width;
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (currentHeight !== newValue) {
-                    if (Core.isHTMLRenderer && !this.loading) {
-                        this.propertyChanged(Types.BINDABLEPROPERTIES.WIDTH);
-                        if (newValue === 0) {
-                            htmlElementStyle.height = String.EMPTY;
-                        } else {
-                            htmlElementStyle.height = `${newValue}${Types.CSSUNITS.PX}`;
-                        }
-                        if (currentHeight !== newValue) {
-                            htmlElementStyle.width = htmlElementStyle.height;
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion height
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region update
-        update() {
-            const sStyle = getComputedStyle(this.HTMLElement);
-            const w = parseFloat(sStyle.width) - parseFloat(sStyle.strokeWidth) * 2;
-            const h = parseFloat(sStyle.height) - parseFloat(sStyle.strokeWidth) * 2;
-            let r = w > h ? ~~(h / 2) : ~~(w / 2);
-            super.update();
-            r = r < 0 ? 1 : r;
-            this.svgShape.setAttribute('r', r);
-        }
-        //#endregion update
-        //#endregion Methods
     }
-    return Circle;
-    //#endregion Circle
-})();
-Object.seal(Circle);
-Object.freeze(Circle);
+    //#endregion constructor
+    //#region Getters / Setters
+    //#region width
+    get width() {
+        return super.width;
+    }
+    set width(newValue) {
+        //#region Variables déclaration
+        const htmlElementStyle = this.HTMLElementStyle;
+        const currentHeight = this.height;
+        const currentWidth = this.width;
+        //#endregion Variables déclaration
+        if (Tools.isNumber(newValue)) {
+            if (currentWidth !== newValue) {
+                if (Core.isHTMLRenderer && !this.loading) {
+                    this.propertyChanged(Types.BINDABLEPROPERTIES.WIDTH);
+                    if (newValue === 0) {
+                        htmlElementStyle.width = String.EMPTY;
+                    } else {
+                        htmlElementStyle.width = `${newValue}${Types.CSSUNITS.PX}`;
+                    }
+                    if (currentHeight !== newValue) {
+                        htmlElementStyle.height = htmlElementStyle.width;
+                    }
+                }
+            }
+        }
+    }
+    //#endregion width
+    //#region height
+    get height() {
+        return super.height;
+    }
+    set height(newValue) {
+        //#region Variables déclaration
+        const htmlElementStyle = this.HTMLElementStyle;
+        const currentHeight = this.height;
+        //const currentWidth = this.width;
+        //#endregion Variables déclaration
+        if (Tools.isNumber(newValue)) {
+            if (currentHeight !== newValue) {
+                if (Core.isHTMLRenderer && !this.loading) {
+                    this.propertyChanged(Types.BINDABLEPROPERTIES.WIDTH);
+                    if (newValue === 0) {
+                        htmlElementStyle.height = String.EMPTY;
+                    } else {
+                        htmlElementStyle.height = `${newValue}${Types.CSSUNITS.PX}`;
+                    }
+                    if (currentHeight !== newValue) {
+                        htmlElementStyle.width = htmlElementStyle.height;
+                    }
+                }
+            }
+        }
+    }
+    //#endregion height
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region update
+    update() {
+        const sStyle = getComputedStyle(this.HTMLElement);
+        const w = parseFloat(sStyle.width) - parseFloat(sStyle.strokeWidth) * 2;
+        const h = parseFloat(sStyle.height) - parseFloat(sStyle.strokeWidth) * 2;
+        let r = w > h ? ~~(h / 2) : ~~(w / 2);
+        super.update();
+        r = r < 0 ? 1 : r;
+        this.svgShape.setAttribute('r', r);
+    }
+    //#endregion update
+    //#endregion Methods
+}
+Object.seal(Object.freeze(Circle));
 //#endregion Circle
 //#region Path
 const Path = (() => {
@@ -658,8 +619,7 @@ const Path = (() => {
     return Path;
     //#endregion Path
 })();
-Object.seal(Path);
-Object.freeze(Path);
+Object.seal(Object.freeze(Path));
 //#endregion Path
 //#region Pie
 const Pie = (() => {
@@ -770,13 +730,11 @@ Object.freeze(Pie);
 //#endregion Pie
 //#region Chord
 class Chord extends Pie { }
-Object.seal(Chord);
-Object.freeze(Chord);
+Object.seal(Object.freeze(Chord));
 //#endregion Chord
 //#region Arc
 class Arc extends Pie { }
-Object.seal(Arc);
-Object.freeze(Arc);
+Object.seal(Object.freeze(Arc));
 //#endregion Arc
 //#region Star
 const Star = (() => {
@@ -871,11 +829,10 @@ const Star = (() => {
     return Star;
     //#endregion Star
 })();
-Object.seal(Star);
-Object.freeze(Star);
+Object.seal(Object.freeze(Star));
 //#endregion Star
 //#region POLYGONSIDES
-const POLYGONSIDES = {
+const POLYGONSIDES = Object.seal(Object.freeze({
     TRIANGLE: 3,
     LOSANGE: 4,
     PENTAGONE: 5,
@@ -930,7 +887,7 @@ const POLYGONSIDES = {
     ENNEAHECTOGONE: 900,
     CHILIOGONE: 1000,
     MYRIAGONE: 10000
-};
+}));
 //#endregion POLYGONSIDES
 //#region Polygon
 const Polygon = (() => {
@@ -975,7 +932,7 @@ const Polygon = (() => {
             const priv = internal(this);
             const pts = [];
             const sStyle = getComputedStyle(this.HTMLElement);
-            const strokeWidth = parseFloat(sStyle.strokeWidth);
+            //const strokeWidth = parseFloat(sStyle.strokeWidth);
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
                 if (this.svgShape) {
@@ -1007,8 +964,7 @@ const Polygon = (() => {
     return Polygon;
     //#endregion Polygon
 })();
-Object.seal(Polygon);
-Object.freeze(Polygon);
+Object.seal(Object.freeze(Polygon));
 //#endregion Polygon
 Core.classes.register(Types.CATEGORIES.SHAPES, Line, Rectangle, RoundRect, Ellipse, Circle, Pie, Chord, Arc, Path, Star, Polygon);
 //#region Templates

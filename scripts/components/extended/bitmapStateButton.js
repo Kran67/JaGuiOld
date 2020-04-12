@@ -31,7 +31,7 @@ const BitmapStateButton = (() => {
                 priv.bitmapState.src = props.hasOwnProperty('bitmap')?props.bitmap:Types.CONSTANTS.PIX;
                 Events.bind(priv.bitmapState, htmlEvents.LOAD, this.doBitmapLoaded);
                 Events.bind(priv.bitmapState, htmlEvents.ERROR, this.doBitmapNotLoaded);
-                this.auotSize = true;
+                this.auotSize = !0;
             }
         }
         //#endregion

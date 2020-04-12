@@ -40,25 +40,25 @@ const Animation = (() => {
             priv.delayTime = 0;
             priv.time = 0;
             priv.initialValue = 0;
-            priv.pause = false;
+            priv.pause = !1;
             priv.animationType = Animation.ANIMATIONTYPES.IN;
-            priv.autoReverse = false;
-            priv.enabled = true;
+            priv.autoReverse = !1;
+            priv.enabled = !0;
             priv.delay = 0;
             priv.duration = 0.2;
             priv.interpolation = Interpolation.INTERPOLATIONTYPES.LINEAR;
-            priv.inverse = false;
-            priv.hideOnFinish = false;
-            priv.loop = false;
+            priv.inverse = !1;
+            priv.hideOnFinish = !1;
+            priv.loop = !1;
             priv.trigger = String.EMPTY;
             priv.triggerInverse = String.EMPTY;
             priv.propertyName = String.EMPTY;
             priv.control = null;
-            priv.startFromCurrent = false;
+            priv.startFromCurrent = !1;
             priv.startValue = null;
             priv.stopValue = null;
-            priv.autoStart = autoStart ? true : false;
-            priv.running = false;
+            priv.autoStart = autoStart ? !0 : !1;
+            priv.running = !1;
             priv.convertToCSS = Core.isHTMLRenderer;
             //#region Events
             this.onProcess = new Core.classes.NotifyEvent(this);
@@ -491,16 +491,16 @@ const Animation = (() => {
                             priv.time = 1;
                             priv.duration = 1;
                         }
-                        priv.running = true;
+                        priv.running = !0;
                         this.processAnimation();
-                        priv.running = false;
+                        priv.running = !1;
                         priv.time = 0;
                         priv.duration = 0.00001;
                         this.onFinish.invoke();
-                        priv.enabled = false;
+                        priv.enabled = !1;
                     } else {
                         priv.delayTime = priv.delay;
-                        priv.running = true;
+                        priv.running = !0;
                         if (inverse) {
                             priv.time = priv.duration;
                         } else {
@@ -509,11 +509,11 @@ const Animation = (() => {
                         if (priv.delay === 0) {
                             this.processAnimation();
                         }
-                        priv.enabled = true;
+                        priv.enabled = !0;
                     }
                     Core.looper.addListener(this, 'animate');
                 } else {
-                    priv.running = true;
+                    priv.running = !0;
                     Core.isHTMLRenderer && Css.updateInlineCSS(this, Types.JSCSSPROPERTIES.ANIMATION);
                 }
             }
@@ -536,8 +536,8 @@ const Animation = (() => {
                 }
                 this.processAnimation();
             }
-            priv.running = false;
-            priv.enabled = false;
+            priv.running = !1;
+            priv.enabled = !1;
             this.onFinish.invoke();
             if (!this.convertToCSS /*|| this instanceof Core.classes.PathAnimation*/ || htmlElement === htmlElements.CANVAS) {
                 //renderer.removeListener(this);
@@ -570,7 +570,7 @@ const Animation = (() => {
                 Css.removeCSSRule(`@${Core.browser.getVendorPrefix('keyframes')}keyframes${this.priv}, Types.CSSRULETYPES.KEYFRAMES_RULE}`);
                 if (priv.propertyName !== String.EMPTY) {
                     cssProp = `0% { ${Convert.propertyToCssProperty(this)} }
-                       100% { ${Convert.propertyToCssProperty(this, true)} } `;
+                       100% { ${Convert.propertyToCssProperty(this, !0)} } `;
                     Css.addCSSRule(`@${Core.browser.getVendorPrefix('keyframes')}keyframes ${this.priv}`, cssProp);
                 }
             }
@@ -591,8 +591,8 @@ const Animation = (() => {
                 } else {
                     priv.time = priv.duration;
                 }
-                priv.running = false;
-                this.enabled = false;
+                priv.running = !1;
+                this.enabled = !1;
                 this.onFinish.invoke();
             }
         }
@@ -606,7 +606,7 @@ const Animation = (() => {
             const triggerInverse = priv.triggerInverse;
             const thisTrigger = priv.trigger;
             if (control) {
-                let startValue = false;
+                let startValue = !1;
                 let line = null;
                 let setter = null;
                 let prop = null;
@@ -614,7 +614,7 @@ const Animation = (() => {
                 if (triggerInverse !== String.EMPTY && triggerInverse.toLowerCase().indexOf(trigger.toLowerCase()) > -1) {
                     line = triggerInverse;
                     setter = line.split(';');
-                    startValue = false;
+                    startValue = !1;
                     while (setter.length > 0) {
                         prop = setter[0].split('=');
                         value = prop.last;
@@ -628,7 +628,7 @@ const Animation = (() => {
                         setter.removeAt(0);
                     }
                     if (startValue) {
-                        priv.inverse = true;
+                        priv.inverse = !0;
                         this.start();
                         return;
                     }
@@ -636,7 +636,7 @@ const Animation = (() => {
                 if (thisTrigger !== String.EMPTY && thisTrigger.toLowerCase().indexOf(trigger.toLowerCase()) > -1) {
                     line = thisTrigger;
                     setter = line.split(';');
-                    startValue = false;
+                    startValue = !1;
                     while (setter.length > 0) {
                         prop = setter[0].split('=').first;
                         value = setter[0].split('=').last;
@@ -650,7 +650,7 @@ const Animation = (() => {
                     }
                     if (startValue) {
                         if (triggerInverse !== String.EMPTY) {
-                            priv.inverse = false;
+                            priv.inverse = !1;
                         }
                         this.start();
                     }
@@ -759,17 +759,17 @@ const Animation = (() => {
                 if (owner) {
                     if (!Core.isHTMLRenderer) {
                         if (!owner.isVisible) {
-                            //this.pause = true;
+                            //this.pause = !0;
                             this.stop();
                         } else if (running) {
-                            this.pause = false;
+                            this.pause = !1;
                         }
                     } else {
                         if (!owner.isVisible) {
-                            //this.pause = true;
+                            //this.pause = !0;
                             this.stop();
                         } else if (running) {
-                            this.pause = false;
+                            this.pause = !1;
                         }
                     }
                 }
@@ -795,25 +795,25 @@ const Animation = (() => {
                     priv.time = duration;
                     if (loop) {
                         if (autoReverse) {
-                            priv.inverse = true;
+                            priv.inverse = !0;
                             priv.time = duration;
                         } else {
                             priv.time = 0;
                         }
                     } else {
-                        running = priv.running = false;
+                        running = priv.running = !1;
                     }
                 } else if (priv.time <= 0) {
                     priv.time = 0;
                     if (loop) {
                         if (autoReverse) {
-                            priv.inverse = false;
+                            priv.inverse = !1;
                             priv.time = 0;
                         } else {
                             priv.time = duration;
                         }
                     } else {
-                        running = priv.running = false;
+                        running = priv.running = !1;
                     }
                 }
                 this.processAnimation();
@@ -1055,58 +1055,58 @@ const Animation = (() => {
 })();
 Object.defineProperties(Animation, {
     'animationType': {
-        enumerable: true
+        enumerable: !0
     },
     'autoReverse': {
-        enumerable: true
+        enumerable: !0
     },
     'enabled': {
-        enumerable: true
+        enumerable: !0
     },
     'delay': {
-        enumerable: true
+        enumerable: !0
     },
     'duration': {
-        enumerable: true
+        enumerable: !0
     },
     'interpolation': {
-        enumerable: true
+        enumerable: !0
     },
     'inverse': {
-        enumerable: true
+        enumerable: !0
     },
     'hideOnFinish': {
-        enumerable: true
+        enumerable: !0
     },
     'loop': {
-        enumerable: true
+        enumerable: !0
     },
     'trigger': {
-        enumerable: true
+        enumerable: !0
     },
     'triggerInverse': {
-        enumerable: true
+        enumerable: !0
     },
     'propertyName': {
-        enumerable: true
+        enumerable: !0
     },
     'control': {
-        enumerable: true
+        enumerable: !0
     },
     'startFromCurrent': {
-        enumerable: true
+        enumerable: !0
     },
     'startValue': {
-        enumerable: true
+        enumerable: !0
     },
     'stopValue': {
-        enumerable: true
+        enumerable: !0
     },
     'autoStart': {
-        enumerable: true
+        enumerable: !0
     },
     'convertToCSS': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion

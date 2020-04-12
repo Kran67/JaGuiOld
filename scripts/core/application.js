@@ -40,7 +40,7 @@ const Application = (() => {
             priv.loadedWindowsHTML = 0;
             priv.windowsClass = {};
             priv.toolTip = null;
-            priv.showMainWindow = true;
+            priv.showMainWindow = !0;
             priv.name = appName;
             priv.mainWindow = null;
             priv.activeWindow = null;
@@ -152,7 +152,7 @@ const Application = (() => {
             if (priv.activeWindow !== newValue) {
                 priv.activeWindow = newValue;
                 if (Core.isCanvasRenderer) {
-                    Core.canvas.needRedraw = true;
+                    Core.canvas.needRedraw = !0;
                 }
             }
         }
@@ -296,7 +296,7 @@ const Application = (() => {
             //let i = this.windows.length - 1;
             const windows = this.windows.reverse();
             windows.forEach((window) => {
-                window.destroyOnHide = true;
+                window.destroyOnHide = !0;
                 window.hide();
                 window.removeToHTML();
             });
@@ -411,7 +411,7 @@ const Application = (() => {
                 this.locale = Core.currentLocale;
             }
             //if (!createIcon) {
-            //    createIcon = false;
+            //    createIcon = !1;
             //}
             //if (createIcon) {
             //    this.icon = Core.classes.createComponent({
@@ -454,7 +454,7 @@ const Application = (() => {
         //    // la fiche est déjà chargée
         //    var html_doc, style, windowClass;
         //    windowClass = Tools.uri.extractFileName(windowPath);
-        //    show = !show ? true : show;
+        //    show = !show ? !0 : show;
         //    html_doc = document.getElementsByTagName("head")[0];
         //    style = document.createElement("link");
         //    style.setAttribute("rel", "stylesheet");
@@ -467,7 +467,7 @@ const Application = (() => {
         //    node.addEventListener("load", function () {
         //        var Xhr = require("xhr");
         //        var Uri = require("uri");
-        //        Xhr.load(true, Uri.base() + windowPath + ".html?rnd=" + new Date().getTime(), function (dx) {
+        //        Xhr.load(!0, Uri.base() + windowPath + ".html?rnd=" + new Date().getTime(), function (dx) {
         //            var Text = require("text");
         //            var Core = require("core");
         //            var div = document.createElement(Types.HTMLELEMENTS.DIV);
@@ -478,7 +478,7 @@ const Application = (() => {
         //            var wins = document.querySelectorAll("[data-appname='" + app.name + "']"), form;//docment.documentElement.getElementsByClassName(app.name),form;
         //            for (var i = 0, l = wins.length; i < l; i++) {
         //                data = wins[i].dataset.class;
-        //                if (data.toLowerCase() === Uri.split(windowPath, true).toLowerCase()) {
+        //                if (data.toLowerCase() === Uri.split(windowPath, !0).toLowerCase()) {
         //                    form = app.createForm(wins[i].id, data);
         //                    if (show) {
         //                        if (form.showingMode === Types.SHOWINGMODES.MODAL) form.showModal();
@@ -487,11 +487,11 @@ const Application = (() => {
         //                }
         //            }
         //            if (callBack) callBack(form);
-        //        }, false);
-        //    }, false);
+        //        }, !1);
+        //    }, !1);
         //    node.addEventListener("error", function () {
         //        console.log(windowPath + " not loaded");
-        //    }, false);
+        //    }, !1);
         //    node.setAttribute("src", Uri.base() + windowPath + ".js");//?rnd="+new Date().getTime());
         //    html_doc.appendChild(node);
         //},
@@ -540,14 +540,14 @@ const Application = (() => {
          */
         showToolTip(obj, coord, useOffset) {
             let text = String.EMPTY;
-            let exit = false;
+            let exit = !1;
             this.hideToolTip();
             if (!obj.showToolTip && !obj.ownerShowToolTip) {
-                exit = true;
+                exit = !0;
             }
             if (Core.classes.CustomTextControl && obj instanceof Core.classes.CustomTextControl) {
                 if (!obj.hasError) {
-                    exit = true;
+                    exit = !0;
                 }
             }
             if (!exit) {
@@ -587,7 +587,7 @@ const Application = (() => {
         placeToolTip(coord, useOffset) {
             const cssUnits = Types.CSSUNITS;
             if (!useOffset) {
-                useOffset = true;
+                useOffset = !0;
             }
             const tt = this.toolTip;
             let tx = coord.x;
@@ -687,19 +687,19 @@ const Application = (() => {
 //#endregion
 Object.defineProperties(Application, {
     'toolTip': {
-        enumerable: true
+        enumerable: !0
     },
     'showMainWindow': {
-        enumerable: true
+        enumerable: !0
     },
     'name': {
-        enumerable: true
+        enumerable: !0
     },
     'locale': {
-        enumerable: true
+        enumerable: !0
     },
     'themeManifest': {
-        enumerable: true
+        enumerable: !0
     }
 });
 Core.classes.register(Types.CATEGORIES.COMMON, Application);

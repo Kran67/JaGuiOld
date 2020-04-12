@@ -18,7 +18,7 @@ class Uri {
         const splited = path.split('/');
         //#endregion Variables déclaration
         if (!returnLast) {
-            returnLast = false;
+            returnLast = !1;
         }
         if (returnLast) {
             return splited[splited.length - 1];
@@ -40,7 +40,7 @@ class Uri {
     //#endregion base
     //#region extractFileName
     static extractFileName(url) {
-        return Uri.split(url, true);
+        return Uri.split(url, !0);
     }
     //#endregion extractFileName
     //#region extractFileExt

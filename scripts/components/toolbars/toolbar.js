@@ -31,7 +31,7 @@ const ToolBar = (() => {
                     this.height = 29;
                 }
                 priv.images = props.hasOwnProperty('images') && this.form.hasOwnProperty(props.images) ? this.form[props.images] : null;
-                priv.showCaption = props.hasOwnProperty('showCaption') && Tools.isBool(props.showCaption) ? props.showCaption : true;
+                priv.showCaption = props.hasOwnProperty('showCaption') && Tools.isBool(props.showCaption) ? props.showCaption : !0;
             }
         }
         //#endregion constructor

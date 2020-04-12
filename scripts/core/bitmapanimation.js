@@ -39,7 +39,7 @@ const BitmapAnimation = (() => {
                 //#region Getter/Setter
                 //#endregion
                 this.startValue = new Image;
-                this.startFromCurrent = false;
+                this.startFromCurrent = !1;
                 this.stopValue = new Image;
             }
         }
@@ -113,7 +113,7 @@ const BitmapAnimation = (() => {
                         if (!form.useRequestAnim) {
                             control.redraw(r);
                         } else {
-                            form.needRedraw = true;
+                            form.needRedraw = !0;
                         }
                     }
                 }
@@ -133,7 +133,7 @@ const BitmapAnimation = (() => {
             const internalId = this.internalId;
             if (control) {
                 super.loaded();
-                const cssProp = `0% { ${Convert.propertyToCssProperty(this, true)} }
+                const cssProp = `0% { ${Convert.propertyToCssProperty(this, !0)} }
                    100% { ${Convert.propertyToCssProperty(this)} } `;
                 Css.addCSSRule(`@${Core.browser.getVendorPrefix('keyframes')} keyframes ${internalId}_hover`, cssProp);
                 control.bitmap.src = _const.PIX;

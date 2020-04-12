@@ -76,40 +76,40 @@ class Tools {
         //#endregion Variables déclaration
         if (typeof ident === CONSTANTS.STRING) {
             if (typeof allowDots !== CONSTANTS.BOOLEAN) {
-                allowDots = false;
+                allowDots = !1;
             }
             if (ident.length === 0 || alpha.indexOf(ident[0]) === -1) {
-                return false;
+                return !1;
             }
             if (allowDots) {
                 ident.forEach(id => {
                     if (alphaNumericDot.indexOf(id) === -1) {
-                        return false;
+                        return !1;
                     }
                 });
             } else {
                 ident.forEach(id => {
                     if (alphaNumeric.indexOf(id) === -1) {
-                        return false;
+                        return !1;
                     }
                 });
             }
-            return true;
+            return !0;
         }
-        return false;
+        return !1;
     }
     //#endregion isValidIdent
     //#region valueInSet
     static valueInSet(value, set) {
         if (typeof set === Types.CONSTANTS.OBJECT) {
             const names = Object.getOwnPropertyNames(set);
-            let founded = false;
+            let founded = !1;
             founded = names.some(name => {
                 return set[name] === value;
             });
             return founded;
         }
-        return false;
+        return !1;
     }
     //#endregion valueInSet
     //#region emptyFunc
@@ -127,7 +127,7 @@ class Tools {
     /*loadScript () {
         let html_doc, node, fileText, scriptName;
         //if ($j.tools.scripts[$j.tools.idx] === "") $j.tools.loadNextScript();
-        //scriptName=$j.tools.uri.split($j.tools.scripts[$j.tools.idx],true);
+        //scriptName=$j.tools.uri.split($j.tools.scripts[$j.tools.idx],!0);
         let Tools = require("tools");
         let Types = require("types");
         scriptName = Tools.scripts[Tools.idx];
@@ -136,7 +136,7 @@ class Tools {
             node = document.createElement("script");
             node.setAttribute("type", "text/javascript");
             node.addEventListener("load", function () {
-                let p, isComponent = false, splitedPath, t, i, l;
+                let p, isComponent = !1, splitedPath, t, i, l;
                 //if ($j.isHTMLRenderer()) {
                 //    p = $j.doc.getElementById($j.tools.currentProgress);
                 //    if (p) {
@@ -162,7 +162,7 @@ class Tools {
                         Types.CATEGORIES.EXTRAS,
                         Types.CATEGORIES.COLOR,
                         Types.CATEGORIES.DATA].indexOf(p);
-                    isComponent = t > -1 ? true : false;
+                    isComponent = t > -1 ? !0 : !1;
                     if (isComponent) {
                         t = Tools.uri.extractFileName(Tools.scripts[Tools.idx]);
                         Tools.loadCssFile(Tools.getPath(Types.CATEGORIES.BASECSSCOMPONENTS) + t);
@@ -173,12 +173,12 @@ class Tools {
                     }
                 }
                 //$j.tools.loadNextScript();
-            } false);
+            } !1);
             node.addEventListener("error", function () {
                 if (Tools.debug) console.log(Tools.scripts[Tools.idx] + " not loaded");
                 Tools.loadedScripts.remove(Tools.scripts[Tools.idx]);
                 Tools.loadNextScript();
-            } false);
+            } !1);
             node.setAttribute("src", Tools.uri.base() + Tools.scripts[Tools.idx] + ".js");//?rnd="+new Date().getTime());
             if (Core.isHTMLRenderer()) {
                 fileText = document.getElementById("file_text");
@@ -238,9 +238,9 @@ class Tools {
             //document.getElementsByTagName("head")[0].appendChild(style);
             //}
         }
-        //$j.tools.xhr.load(true,$j.tools.uri.base()+resName+".html?rnd="+new Date().getTime(),function(dx) {
+        //$j.tools.xhr.load(!0,$j.tools.uri.base()+resName+".html?rnd="+new Date().getTime(),function(dx) {
         //  $j.doc.body.innerHTML+=dx;
-        //}false);
+        //}!1);
         //Tools.windowsHTML.push(Tools.uri.base() + resName + ".html?rnd=" + new Date().getTime());
         Core.apps.activeApplication.loadedWindowsHTML++;
     }
@@ -297,7 +297,7 @@ class Tools {
     //    let node = document.createElement("script");
     //    node.setAttribute("type", "text/javascript");
     //    node.setAttribute("src", fileName + "?rnd=" + new Date().getTime());
-    //    node.addEventListener("load", function () { } false);
+    //    node.addEventListener("load", function () { } !1);
     //    node.addEventListener("error", function () { });
     //    document.getElementsByTagName("head")[0].appendChild(node);
     //}
@@ -379,7 +379,7 @@ class Tools {
     //#endregion getFuncName
     //#region addResizeListener
     //static addResizeListener(obj) {
-    //    obj.hasResizeEvent = true;
+    //    obj.hasResizeEvent = !0;
     //    //obj._resizeDatas.width=obj.HTMLElement.offsetWidth;
     //    //obj._resizeDatas.height=obj.HTMLElement.offsetHeight;
     //    Core.looper.addListener(obj, "resized");
@@ -422,10 +422,10 @@ class Tools {
             params.variable[params.propName] = params.value;
         }
         if (params.forceUpdate === undefined) {
-            params.forceUpdate = false;
+            params.forceUpdate = !1;
         }
         if (params.enumerable === undefined) {
-            params.enumerable = true;
+            params.enumerable = !0;
         }
         const setter = params.setter ? params.setter : (newValue) => {
             if (!Tools.valueInSet(newValue, params.enum)) {
@@ -581,7 +581,7 @@ class Tools {
     //#region checkTrigger
     static checkTrigger(instance, obj) {
         //#region Variables déclaration
-        let trigger = true;
+        let trigger = !0;
         let value = null;
         //#endregion Variables déclaration
         if (obj.triggers) {
@@ -613,7 +613,7 @@ class Tools {
     //#region processRadius
     static processRadius(instance, dic, radius) {
         //#region Variables déclaration
-        let trigger = false;
+        let trigger = !1;
         let params = {};
         //#endregion Variables déclaration
         if (radius.triggers) {
@@ -779,16 +779,16 @@ class Tools {
         return left >= right;
     }
     //#endregion greaterThanOrEqual
-    //#region isFalse
-    static isFalse(value) {
+    //#region is!1
+    static isTrue(value) {
         return typeof value === Types.CONSTANTS.BOOLEAN && !value;
     }
-    //#endregion isFalse
-    //#region isTrue
-    static isTrue(value) {
+    //#endregion is!1
+    //#region is!0
+    static isFalse(value) {
         return typeof value === Types.CONSTANTS.BOOLEAN && value;
     }
-    //#endregion isTrue
+    //#endregion is!0
     //#region or
     static or(left, right) {
         return left || right;

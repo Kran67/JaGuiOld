@@ -11,7 +11,7 @@ class Xml {
             version = '1.0';
         }
         if (!standalone) {
-            standalone = 'false';
+            standalone = '!1';
         }
         if (!rootName) {
             rootName = 'root';
@@ -19,7 +19,7 @@ class Xml {
         const xmlDoc = `<?xml version='${version}' encoding='${encoding}' ?><${rootName}></${rootName}>`;
         if (window.ActiveXObject) { // IE
             const doc = new ActiveXObject('Microsoft.XMLDOM');
-            doc.async = false;
+            doc.async = !1;
             doc.loadXML(xmlDoc);
             return doc;
         } else {// Mozilla, Firefox, Opera, etc.

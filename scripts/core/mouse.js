@@ -4,46 +4,46 @@ import { Tools } from '/scripts/core/tools.js';
 import '/scripts/core/geometry.js';
 //#endregion Imports
 //#region MOUSEBUTTONS
-const MOUSEBUTTONS = Object.freeze({
+const MOUSEBUTTONS = Object.freeze(Object.seal({
     NONE: 'none',
     LEFT: 'left',
     RIGHT: 'right',
     MIDDLE: 'middle'
-});
+}));
 //#endregion MOUSEBUTTONS
 //#region MOUSEWHEELDIRS
-const MOUSEWHEELDIRS = Object.freeze({
+const MOUSEWHEELDIRS = Object.freeze(Object.seal({
     NONE: 'none',
     UP: 'up',
     DOWN: 'down'
-});
+}));
 //#endregion MOUSEWHEELDIRS
 //#region TOUCHEVENTS
-const TOUCHEVENTS = Object.freeze({
+const TOUCHEVENTS = Object.freeze(Object.seal({
     START: 'touchstart',
     MOVE: 'touchmove',
     END: 'touchend',
     CANCEL: 'touchcancel'
-});
+}));
 //#endregion TOUCHEVENTS
 //#region POINTEREVENTS
-const POINTEREVENTS = Object.freeze({
+const POINTEREVENTS = Object.freeze(Object.seal({
     DOWN: 'pointerdown',
     MOVE: 'pointermove',
     UP: 'pointerup',
     CANCEL: 'pointercancel'
-});
+}));
 //#endregion POINTEREVENTS
 //#region MSPOINTEREVENTS
-const MSPOINTEREVENTS = Object.freeze({
+const MSPOINTEREVENTS = Object.freeze(Object.seal({
     DOWN: 'MSPointerDown',
     MOVE: 'MSPointerMove',
     UP: 'MSPointerUp',
     CANCEL: 'MSPointerCancel'
-});
+}));
 //#endregion MSPOINTEREVENTS
 //#region MOUSEEVENTS
-const MOUSEEVENTS = Object.freeze({
+const MOUSEEVENTS = Object.freeze(Object.seal({
     EVENT: 'mouseevent',
     MOVE: 'mousemove',
     DOWN: 'mousedown',
@@ -65,7 +65,7 @@ const MOUSEEVENTS = Object.freeze({
     DRAGLEAVE: 'dragleave',
     DRAGOVER: 'dragover',
     DRAGSTART: 'dragstart'
-});
+}));
 //#endregion MOUSEEVENTS
 //#region Mouse
 const Mouse = (() => {

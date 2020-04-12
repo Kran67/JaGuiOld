@@ -26,8 +26,8 @@ const BatteryIndicator = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.showLegend = props.hasOwnProperty('showLegend')?props.showLegend:false;
-                priv.showPercent = props.hasOwnProperty('showPercent')?props.showPercent:false;
+                priv.showLegend = props.hasOwnProperty('showLegend') ? props.showLegend : !1;
+                priv.showPercent = props.hasOwnProperty('showPercent') ? props.showPercent : !1;
                 priv.battery = null;
                 priv.baseWidth = 120;
                 priv.baseHeight = 230;
@@ -97,10 +97,10 @@ const BatteryIndicator = (() => {
 
                 if (this.width !== priv.baseWidth || this.height !== priv.baseHeight) {
                     if (this.width !== priv.baseWidth) {
-                        ratioW = this.width > priv.baseWidth ? priv.baseWidth / this.width: this.width / priv.baseWidth;
+                        ratioW = this.width > priv.baseWidth ? priv.baseWidth / this.width : this.width / priv.baseWidth;
                     }
                     if (this.height !== priv.baseHeight) {
-                        ratioH = this.height > priv.baseHeight ? priv.baseHeight / this.height: this.height / priv.baseHeight;
+                        ratioH = this.height > priv.baseHeight ? priv.baseHeight / this.height : this.height / priv.baseHeight;
                     }
                 }
 
@@ -115,7 +115,7 @@ const BatteryIndicator = (() => {
                     htmlElement.dataset.legend1 = `${Convert.sec2hrs(battery.dischargingTime)} restants`;
                 }
                 if (ctxt.showPercent) {
-                    htmlElement.dataset.percentvalue = `${(text.length>0?'\A':String.EMPTY)}${value}${Types.CSSUNITS.PO}`;
+                    htmlElement.dataset.percentvalue = `${(text.length > 0 ? '\A' : String.EMPTY)}${value}${Types.CSSUNITS.PO}`;
                 }
                 htmlElement.dataset.value = value;
                 NiMH.classList.remove('empty', 'warning', 'alarm');
@@ -132,7 +132,7 @@ const BatteryIndicator = (() => {
                     NiMHBefore.classList.add('warning');
                 }
                 htmlElementStyle.borderRadius = `${60 * ratioW}${PX}/${30 * ratioH}${PX}`;
-                htmlElementStyle.fontSize = `${14 * (ratioW>ratioH?ratioW:ratioH)}pt`;
+                htmlElementStyle.fontSize = `${14 * (ratioW > ratioH ? ratioW : ratioH)}pt`;
                 bib.style.top = `${179 * ratioH}${PX}`;
                 bib.style.height = `${46 * ratioH}${PX}`;
                 bib.style.left = `${5 * ratioW}${PX}`;
@@ -239,7 +239,7 @@ export { BatteryIndicator };
 //#region Templates
 if (Core.isHTMLRenderer) {
     const BatteryIndicatorTpl = ['<jagui-batteryindicator id="{internalId}" data-class="BatteryIndicator" class="Control BatteryIndicator csr_default">',
-        '<properties>{ "name": "{name}", "height": 230, "width": 120, "showLegend": false, "showPercent": false }',
+        '<properties>{ "name": "{name}", "height": 230, "width": 120, "showLegend": !1, "showPercent": !1 }',
         '</properties></jagui-batteryindicator>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: BatteryIndicator, template: BatteryIndicatorTpl }]);
 }

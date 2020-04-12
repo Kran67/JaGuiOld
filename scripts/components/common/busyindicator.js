@@ -38,19 +38,19 @@ const BusyIndicatorSpinOptions = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 // The number of lines to draw
-                priv.lines = props.hasOwnProperty('lines')?props.lines:12;
+                priv.lines = props.hasOwnProperty('lines') ? props.lines : 12;
                 // The length of each line
-                priv.length = props.hasOwnProperty('length')?props.length:7;
+                priv.length = props.hasOwnProperty('length') ? props.length : 7;
                 // The line thickness
-                priv.lWidth = props.hasOwnProperty('lWidth')?props.lWidth:4;
+                priv.lWidth = props.hasOwnProperty('lWidth') ? props.lWidth : 4;
                 // Roundness (0..1)
-                priv.corners = props.hasOwnProperty('corners')?props.corners:0;
+                priv.corners = props.hasOwnProperty('corners') ? props.corners : 0;
                 // 1: clockwise, -1: counterclockwise
-                priv.direction = props.hasOwnProperty('direction')?props.direction:1;
+                priv.direction = props.hasOwnProperty('direction') ? props.direction : 1;
                 // Rounds per second
-                priv.speed = props.hasOwnProperty('speed')?props.speed:1;
+                priv.speed = props.hasOwnProperty('speed') ? props.speed : 1;
                 // Afterglow percentage
-                priv.trail = props.hasOwnProperty('trail')?props.trail:100;
+                priv.trail = props.hasOwnProperty('trail') ? props.trail : 100;
             }
         }
         //#endregion constructor
@@ -258,9 +258,9 @@ const BusyIndicator = (() => {
                     variable: priv,
                     value: props.hasOwnProperty('indicatorStyle') ? props.indicatorStyle : BUSYINDICATORSTYLES.SPIN
                 });
-                priv.spinIndicatorOptions = new BusyIndicatorSpinOptions(this,  props);
+                priv.spinIndicatorOptions = new BusyIndicatorSpinOptions(this, props);
                 delete this.tabOrder;
-                this.allowUpdateOnResize = true;
+                this.allowUpdateOnResize = !0;
             }
         }
         //#endregion constructor
@@ -276,7 +276,7 @@ const BusyIndicator = (() => {
             if (Tools.valueInSet(newValue, BUSYINDICATORSTYLES)) {
                 if (priv.indicatorStyle !== newValue) {
                     priv.indicatorStyle = newValue;
-                    if(core.isHTMLRenderer) {
+                    if (core.isHTMLRenderer) {
                         this.update();
                     }
                 }
@@ -305,33 +305,33 @@ const BusyIndicator = (() => {
                 case BUSYINDICATORSTYLES.WIN8CIRCLE:
                     if (!Css.isCSSRuleExist(`@${browser.getVendorPrefix('keyframes')}keyframes orbit`)) {
                         cssProp = ['0% { ', transform, 'transform: rotate(225deg);opacity: 1;', atf, 'animation-timing-function: ease-out; } ',
-                                 '7% { ', transform, 'transform: rotate(345deg);', atf, 'animation-timing-function: linear; } ',
-                                 '30% { ', transform, 'transform: rotate(455deg);', atf, 'animation-timing-function: ease-in-out; } ',
-                                 '39% { ', transform, 'transform: rotate(690deg);', atf, 'animation-timing-function: linear; } ',
-                                 '70% { ', transform, 'transform: rotate(815deg);opacity: 1;', atf, 'animation-timing-function: ease-out; } ',
-                                 '75% { ', transform, 'transform: rotate(945deg);', atf, 'animation-timing-function: ease-out; } ',
-                                 '76% { ', transform, 'transform: rotate(945deg);opacity: 0; } ',
-                                 '100% { ', transform, 'transform: rotate(945deg);opacity: 0; } '].join(String.EMPTY);
+                            '7% { ', transform, 'transform: rotate(345deg);', atf, 'animation-timing-function: linear; } ',
+                            '30% { ', transform, 'transform: rotate(455deg);', atf, 'animation-timing-function: ease-in-out; } ',
+                            '39% { ', transform, 'transform: rotate(690deg);', atf, 'animation-timing-function: linear; } ',
+                            '70% { ', transform, 'transform: rotate(815deg);opacity: 1;', atf, 'animation-timing-function: ease-out; } ',
+                            '75% { ', transform, 'transform: rotate(945deg);', atf, 'animation-timing-function: ease-out; } ',
+                            '76% { ', transform, 'transform: rotate(945deg);opacity: 0; } ',
+                            '100% { ', transform, 'transform: rotate(945deg);opacity: 0; } '].join(String.EMPTY);
                         Css.addCSSRule(`@${browser.getVendorPrefix('keyframes')}keyframes orbit`, cssProp);
                     }
                     break;
                 case BUSYINDICATORSTYLES.BALL:
                     if (!Css.isCSSRuleExist(`@${browser.getVendorPrefix('keyframes')}keyframes spinoff`)) {
-                        cssProp = ['0% { ', transform, 'transform: rotate(0deg); }', 
-                                   '100% { ', transform, 'transform: rotate(360deg); }'].join(String.EMPTY);
+                        cssProp = ['0% { ', transform, 'transform: rotate(0deg); }',
+                            '100% { ', transform, 'transform: rotate(360deg); }'].join(String.EMPTY);
                         Css.addCSSRule(`@${browser.getVendorPrefix('keyframes')}keyframes spin`, cssProp);
-                        cssProp = ['0% { ', transform, 'transform: rotate(0deg); }', 
-                                    '100% { ', transform, 'transform: rotate(-360deg); }'].join(String.EMPTY);
+                        cssProp = ['0% { ', transform, 'transform: rotate(0deg); }',
+                            '100% { ', transform, 'transform: rotate(-360deg); }'].join(String.EMPTY);
                         Css.addCSSRule(`@${browser.getVendorPrefix('keyframes')}keyframes spinoff`, cssProp);
                     }
                     break;
                 case BUSYINDICATORSTYLES.CIRCLE:
                     if (!Css.isCSSRuleExist(`@${browser.getVendorPrefix('keyframes')}keyframes spinoffPulse`)) {
-                        cssProp = ['50% { ', transform, 'transform: rotate(145deg);opacity: 1; } ', 
-                                    '100% { ', transform, 'transform: rotate(-320deg);opacity: 0; }; '].join(String.EMPTY);
+                        cssProp = ['50% { ', transform, 'transform: rotate(145deg);opacity: 1; } ',
+                            '100% { ', transform, 'transform: rotate(-320deg);opacity: 0; }; '].join(String.EMPTY);
                         Css.addCSSRule(`@${browser.getVendorPrefix('keyframes')}keyframes spinPulse`, cssProp);
-                        cssProp = ['0% { ', transform, 'transform: rotate(0deg); } ', 
-                                    '100% { ', transform, 'transform: rotate(360deg); }; '].join(String.EMPTY);
+                        cssProp = ['0% { ', transform, 'transform: rotate(0deg); } ',
+                            '100% { ', transform, 'transform: rotate(360deg); }; '].join(String.EMPTY);
                         Css.addCSSRule(`@${browser.getVendorPrefix('keyframes')}keyframes spinoffPulse`, cssProp);
                     }
                     break;
@@ -393,22 +393,22 @@ const BusyIndicator = (() => {
                             rule = `@${browser.getVendorPrefix('keyframes')}keyframes ${child1.id}`;
                             Css.removeCSSRule(rule);
                             Css.addCSSRule(rule,
-                              ['0%{opacity:', z + '}',
-                              start, '%{opacity:0}',
-                              (start + 0.01), '%{opacity:1}',
-                              (start + sio.trail) % 100, '%{opacity:0}',
-                              '100%{opacity:', z, '}'].join(String.EMPTY)
+                                ['0%{opacity:', z + '}',
+                                    start, '%{opacity:0}',
+                                    (start + 0.01), '%{opacity:1}',
+                                    (start + sio.trail) % 100, '%{opacity:0}',
+                                    '100%{opacity:', z, '}'].join(String.EMPTY)
                             );
                             child1.setAttribute('style', style);
                             child1.jsObj = this;
                             child1.classList.add('Control', 'spinC');
                             child2 = document.createElement(`${TAG}spinindic`);
                             style = ['width:', (sio.length + sio.lWidth), PX, ';',
-                                    'height:', sio.lWidth, PX, ';',
-                                    browser.getVendorPrefix('transform-origin'), 'transform-origin:left;',
-                                    browser.getVendorPrefix('transform'), 'transform:rotate(', ~~(360 / sio.lines * i) + 'deg) ',
-                                    browser.getVendorPrefix('translate'), 'translate(', sio.length, PX, ',0);',
-                                    'border-radius:', (sio.corners * sio.lWidth >> 1), PX, ';'].join(String.EMPTY);
+                                'height:', sio.lWidth, PX, ';',
+                                browser.getVendorPrefix('transform-origin'), 'transform-origin:left;',
+                                browser.getVendorPrefix('transform'), 'transform:rotate(', ~~(360 / sio.lines * i) + 'deg) ',
+                                browser.getVendorPrefix('translate'), 'translate(', sio.length, PX, ',0);',
+                                'border-radius:', (sio.corners * sio.lWidth >> 1), PX, ';'].join(String.EMPTY);
                             child2.setAttribute('style', style);
                             child2.classList.add('spinIndic', this.themeName);
                             child2.jsObj = this;

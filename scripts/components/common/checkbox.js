@@ -47,17 +47,17 @@ const Checkbox = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                this.autoCapture = true;
-                priv.isChecked = props.hasOwnProperty('isChecked') ? props.isChecked : false;
-                priv.autoWidth = props.hasOwnProperty('autoWidth') ? props.autoWidth : true;
+                this.autoCapture = !0;
+                priv.isChecked = props.hasOwnProperty('isChecked') ? props.isChecked : !1;
+                priv.autoWidth = props.hasOwnProperty('autoWidth') ? props.autoWidth : !0;
                 this.createEventsAndBind(['onChange'], props);
                 if (!Core.isHTMLRenderer) {
                     this.width = 120;
                     this.height = 19;
                 }
-                this.canFocused = true;
-                this.hitTest.mouseDown = true;
-                this.hitTest.mouseUp = true;
+                this.canFocused = !0;
+                this.hitTest.mouseDown = !0;
+                this.hitTest.mouseUp = !0;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'state',
@@ -65,10 +65,10 @@ const Checkbox = (() => {
                     variable: priv,
                     value: props.hasOwnProperty('state') ? props.state : CHECKBOXSTATES.UNCHECKED
                 });
-                priv.allowGrayed = props.hasOwnProperty('allowGrayed') ? props.allowGrayed : false;
+                priv.allowGrayed = props.hasOwnProperty('allowGrayed') ? props.allowGrayed : !1;
                 priv.action = null;
-                this.autoSize = false;
-                this.clipped = false;
+                this.autoSize = !1;
+                this.clipped = !1;
                 priv.check = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}check`);
                 priv.input = document.createElement(htmlElements.INPUT);
             }
@@ -93,15 +93,15 @@ const Checkbox = (() => {
                     switch (priv.state) {
                         case CHECKBOXSTATES.UNCHECKED:
                             priv.state = CHECKBOXSTATES.GRAYED;
-                            newValue = false;
+                            newValue = !1;
                             break;
                         case CHECKBOXSTATES.GRAYED:
                             priv.state = CHECKBOXSTATES.CHECKED;
-                            newValue = true;
+                            newValue = !0;
                             break;
                         case CHECKBOXSTATES.CHECKED:
                             priv.state = CHECKBOXSTATES.UNCHECKED;
-                            newValue = false;
+                            newValue = !1;
                             break;
                     }
                 }
@@ -187,8 +187,8 @@ const Checkbox = (() => {
         mouseDown() {
             super.mouseDown();
             if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
-                this.pressing = true;
-                this.isPressed = true;
+                this.pressing = !0;
+                this.isPressed = !0;
             }
         }
         //#endregion mouseDown
@@ -199,8 +199,8 @@ const Checkbox = (() => {
             //#endregion Variables déclaration
             super.mouseUp();
             if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.pressing) {
-                this.pressing = false;
-                this.isPressed = false;
+                this.pressing = !1;
+                this.isPressed = !1;
                 this.isChecked = !priv.isChecked;
                 this.update();
             }
@@ -282,7 +282,7 @@ const Checkbox = (() => {
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (!htmlElement.querySelector('input')) {
-                priv.input.type = this instanceof Core.classes.RadioButton?'radio':'checkbox';
+                priv.input.type = this instanceof Core.classes.RadioButton ? 'radio' : 'checkbox';
                 priv.input.classList.add('Control', `${this.constructor.name}Input`);
                 priv.input.checked = priv.isChecked;
                 priv.check.classList.add('Control', this.themeName, `${this.constructor.name}Check`);

@@ -80,7 +80,7 @@ const StringList = (() => {
             //#endregion Variables déclaration
             if (Tools.isString(str)) {
                 if (!fireEvent) {
-                    fireEvent = true;
+                    fireEvent = !0;
                 }
                 priv.list.addRange(str.split('\n'));
                 if (fireEvent) {

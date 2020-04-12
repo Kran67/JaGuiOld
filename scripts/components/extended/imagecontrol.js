@@ -121,7 +121,7 @@ const ImageControl = (() => {
             this.HTMLElement.appendChild(priv.bitmap);
             priv.bitmapStyle = priv.bitmap.style;
             priv.bitmap.jsObj = this;
-            priv.bitmap.src = props.hasOwnProperty('src')?props.src:Types.CONSTANTS.PIX;
+            priv.bitmap.src = props.hasOwnProperty('src') ? props.src : Types.CONSTANTS.PIX;
             Events.bind(priv.bitmap, htmlEvents.LOAD, this.doBitmapLoaded);
             Events.bind(priv.bitmap, htmlEvents.ERROR, this.doBitmapNotLoaded);
         }

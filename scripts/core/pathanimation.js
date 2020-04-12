@@ -35,7 +35,7 @@ const PathAnimation = (() => {
                 const priv = internal(this);
                 // Initialization
                 priv.path = new Core.classes.PathData(this);
-                priv.rotate = false;
+                priv.rotate = !1;
                 priv.startPt = new Core.classes.Point(1, 1);
                 priv.obj = null;
                 priv.polygon = null;

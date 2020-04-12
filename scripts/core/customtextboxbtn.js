@@ -29,7 +29,7 @@ const CustomTextBoxBtn = (() => {
                 priv.btns = [];
                 priv.btnClass = props.btnClass ? props.btnClass : Button;
                 priv.numBtns = props.hasOwnProperty('numBtns') ? props.numBtns : 1;
-                priv.autoHideButtons = props.hasOwnProperty('autoHideButtons') && Tools.isBool(props.autoHideButtons) ? props.autoHideButtons : false;
+                priv.autoHideButtons = props.hasOwnProperty('autoHideButtons') && Tools.isBool(props.autoHideButtons) ? props.autoHideButtons : !1;
             }
         }
         //#endregion constructor
@@ -67,16 +67,16 @@ const CustomTextBoxBtn = (() => {
                     class: priv.btnClass,
                     owner: this,
                     props: {
-                        inForm: false,
+                        inForm: !1,
                         caption: '…',
-                        forceDisplayVisibility: true,
+                        forceDisplayVisibility: !0,
                         height: -1
                     },
-                    withTpl: true
+                    withTpl: !0
                 });
                 btn.HTMLElement.classList.add('TextBoxBtnButton');
                 btn.name = `btn${i}`;
-                btn.canFocused = false;
+                btn.canFocused = !1;
                 priv.btns.add(btn);
             }
             this.update();

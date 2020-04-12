@@ -24,14 +24,14 @@ const PasswordTextBox = (() => {
             props = !props ? {} : props;
             if (owner) {
                 props.type = HTMLInputTypes.PASSWORD;
-                props.autoHideButtons = true;
+                props.autoHideButtons = !0;
                 super(owner, props);
                 if (!Core.isHTMLRenderer) {
                     this.width = 121;
                     this.height = 21;
                 }
                 const priv = internal(this);
-                priv.showComplexityIndicator = props.hasOwnProperty('showComplexityIndicator') && Tools.isBool(props.showComplexityIndicator) ? props.showComplexityIndicator : false;
+                priv.showComplexityIndicator = props.hasOwnProperty('showComplexityIndicator') && Tools.isBool(props.showComplexityIndicator) ? props.showComplexityIndicator : !1;
                 priv.checkPassword = function (complexityIndicator) {
                     //#region Variables déclaration
                     let score = 0;
@@ -69,7 +69,6 @@ const PasswordTextBox = (() => {
                         idx = 1;
                     }
                     complexityIndicator.style.backgroundImage = `linear-gradient(to right, ${colors[idx]}, ${colors[idx]})`;
-
                 };
             }
         }
@@ -103,9 +102,9 @@ const PasswordTextBox = (() => {
                 if (this.enabled !== newValue) {
                     super.enabled = newValue;
                     if (this.enabled) {
-                        btnHtmlElment.removeAttribute("disabled");
+                        btnHtmlElment.removeAttribute('disabled');
                     } else {
-                        btnHtmlElment.setAttribute("disabled", "disabled");
+                        btnHtmlElment.setAttribute('disabled', 'disabled');
                     }
                 }
             }
@@ -122,9 +121,9 @@ const PasswordTextBox = (() => {
             if (this.isEnabled) {
                 if (Core.isHTMLRenderer) {
                     if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && Core.mouse.eventType === Mouse.MOUSEEVENTS.DOWN) {
-                        inputObj.setAttribute("type", HTMLInputTypes.TEXT);
+                        inputObj.setAttribute('type', HTMLInputTypes.TEXT);
                     } else {
-                        inputObj.setAttribute("type", HTMLInputTypes.PASSWORD);
+                        inputObj.setAttribute('type', HTMLInputTypes.PASSWORD);
                         inputObj.focus();
                     }
                 }
@@ -156,7 +155,7 @@ const PasswordTextBox = (() => {
             button = this.btns.first;
             button.caption = '0';
             button.fontFamily = 'JaGui';
-            button.canFocused = false;
+            button.canFocused = !1;
             btnHtmlElment = button.HTMLElement;
             btnHtmlElment.classList.add('PasswordTextBoxButton');
             button.onMouseDown.addListener(this.revealPassword);

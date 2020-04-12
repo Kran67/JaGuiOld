@@ -25,25 +25,25 @@ const Splitter = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.down = false;
+                priv.down = !1;
                 priv.downPos = new Point;
                 priv.firstCtrl = props.hasOwnProperty('firstCtrl')?props.firstCtrl:null;
                 priv.lastCtrl = props.hasOwnProperty('lastCtrl')?props.lastCtrl:null;
                 priv.lastLeftTop = 0;
-                priv.isCollapsed = false;
+                priv.isCollapsed = !1;
                 priv.minSize = props.hasOwnProperty('minSize')?props.minSize:10;
                 priv.maxSize = props.hasOwnProperty('maxSize')?props.maxSize:100;
-                priv.collapsible = props.hasOwnProperty('collapsible') && Tools.isBool(props.collapsible)?props.collapsible:false;
-                this.autoCapture = true;
+                priv.collapsible = props.hasOwnProperty('collapsible') && Tools.isBool(props.collapsible)?props.collapsible:!1;
+                this.autoCapture = !0;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'orientation',
                     enum: Types.ORIENTATIONS,
-                    forceUpdate: true,
+                    forceUpdate: !0,
                     variable: priv,
                     value: props.hasOwnProperty('orientation')?props.orientation:Types.ORIENTATIONS.VERTICAL
                 });
-                this.hitTest.mouseMove = true;
+                this.hitTest.mouseMove = !0;
                 delete this.tabOrder;
             }
         }
@@ -147,7 +147,7 @@ const Splitter = (() => {
             if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
                 if (!this.canCollapse()) {
                     priv.downPos.assign(Core.mouse.document);
-                    priv.down = true;
+                    priv.down = !0;
                     const resizeLine = document.createElement(Types.HTMLELEMENTS.DIV);
                     const style = resizeLine.style;
                     if (priv.orientation === Types.ORIENTATIONS.VERTICAL) {
@@ -228,7 +228,7 @@ const Splitter = (() => {
             //#endregion Variables déclaration
             super.mouseUp();
             if (priv.down) {
-                priv.down = false;
+                priv.down = !1;
                 this.updateControls();
                 parentNode.lastElementChild.jsObj = null;
                 parentNode.removeChild(parentNode.lastElementChild);
@@ -287,7 +287,7 @@ const Splitter = (() => {
                     htmlElementStyle.bottom = "0";
                 }
             }
-            priv.isCollapsed = true;
+            priv.isCollapsed = !0;
         }
         //#endregion collapse
         //#region expand
@@ -324,14 +324,14 @@ const Splitter = (() => {
                 }
                 priv.lastLeftTop = 0;
             }
-            priv.isCollapsed = false;
+            priv.isCollapsed = !1;
         }
         //#endregion expand
         //#region canCollapse
         canCollapse() {
             //#region Variables déclaration
             const priv = internal(this);
-            let inCollapsibleArea = false;
+            let inCollapsibleArea = !1;
             const htmlElement = this.HTMLElement;
             const target = Core.mouse.target;
             //#endregion Variables déclaration
@@ -516,10 +516,9 @@ Core.classes.register(Types.CATEGORIES.COMMON, Splitter);
 //#region Templates
 if (Core.isHTMLRenderer) {
     const SplitterTpl = ['<jagui-splitter id="{internalId}" data-class="Splitter" class="Control csr_wResize Splitter {theme}">',
-        '<properties>{ "name": "{name}", "orientation": "vertical", "align": "left", "collapsible": true }</properties>',
+        '<properties>{ "name": "{name}", "orientation": "vertical", "align": "left", "collapsible": !0 }</properties>',
         '</jagui-splitter>'].join(String.EMPTY);
     Core.classes.registerTemplates([{ Class: Splitter, template: SplitterTpl }]);
 }
 //endregion
 export { Splitter };
-//http://codepen.io/enxaneta/pen/zGGMxq*/

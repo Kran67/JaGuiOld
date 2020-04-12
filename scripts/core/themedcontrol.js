@@ -42,13 +42,13 @@ const ThemedControl = (() => {
             if (Tools.isString(newValue)) {
                 if (priv.themeName !== newValue) {
                     // on recherche s'il existe un theme
-                    let newThemeOk = false;
+                    let newThemeOk = !1;
                     if (Core.isHTMLRenderer) {
                         newThemeOk = Array.from(document.styleSheets).some(styleSheet => {
                             if (styleSheet.href) {
                                 return styleSheet.href.includes(`${newValue}.css`);
                             } else {
-                                return false;
+                                return !1;
                             }
                         });
                     } else {
@@ -101,7 +101,7 @@ const ThemedControl = (() => {
 //#region ThemedControl defineProperties
 Object.defineProperties(ThemedControl, {
     'themeName': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion ThemedControl defineProperties

@@ -25,9 +25,9 @@ const Looper = (() => {
             //priv.functions = [];
             priv.fps = 60;
             priv.handle = null;
-            priv.paused = false;
+            priv.paused = !1;
             priv.rAF = null;
-            priv.isBusy = false;
+            priv.isBusy = !1;
         }
         //#endregion constructor
         //#region Getter / Setter
@@ -144,14 +144,14 @@ const Looper = (() => {
         loop(elapsedTime) {
             const keys = Object.keys(Core.looper.listeners);
             if (!Core.looper.paused && !Core.looper.isBusy && Core.looper.handle) {
-                Core.looper.isBusy = true;
+                Core.looper.isBusy = !0;
                 keys.forEach(key => {
                     const obj = Core.looper.listeners[key];
                     obj.functions.forEach(func => {
                         obj.component[func](elapsedTime);
                     });
                 });
-                Core.looper.isBusy = false;
+                Core.looper.isBusy = !1;
                 Core.looper.rAF(Core.looper.loop);
             }
         }

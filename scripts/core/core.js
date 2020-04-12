@@ -64,7 +64,7 @@ window.Core = {
     onGetMouseInfos: null,
     doc: document,
     clipboard: null,
-    ready: false,
+    ready: !1,
     onStart: null,
     //defaultTheme: 'air', /* ok */
     //defaultTheme: 'blend', /* ok */
@@ -91,8 +91,8 @@ window.Core = {
     //defaultTheme: 'vista',
     //defaultTheme: 'watercolor',
     //defaultTheme: 'windows8',
-    disableAnimation: false,
-    isMouseDown: false,
+    disableAnimation: !1,
+    isMouseDown: !1,
     windowZIndex: 0,
     currentLocale: null,
     locales: {
@@ -130,21 +130,21 @@ window.Core = {
     get renderer() { return document.documentElement.dataset.renderer !== undefined ? document.documentElement.dataset.renderer : "html"; },
     /**
      * Check if the current renderer is the HTML renderer
-     * @returns     {Boolean}       True if the current renderer is HTML or false
+     * @returns     {Boolean}       true if the current renderer is HTML or false
      */
     get isHTMLRenderer() {
         return this.renderer === Types.RENDERERS.HTML;
     },
     /**
      * Check if the current renderer is the canvas renderer
-     * @returns     {Boolean}       True if the current renderer is canvas or false
+     * @returns     {Boolean}       true if the current renderer is canvas or false
      */
     get isCanvasRenderer() {
         return this.renderer === Types.RENDERERS.CANVAS;
     },
     /**
      * Check if the current renderer is the SVG renderer
-     * @returns     {Boolean}       True if the current renderer is SVG or false
+     * @returns     {Boolean}       true if the current renderer is SVG or false
      */
     get isSVGRenderer() {
         return this.renderer === Types.RENDERERS.SVG;
@@ -182,10 +182,10 @@ window.Core = {
                 Core.looper.fps = 25;
             }
             Core.looper.start();
-            document.oncontextmenu = () => { return false; };
-            document.addEventListener('keydown', Core.apps.keyDown, true);
-            document.addEventListener('keyup', Core.apps.keyUp, true);
-            document.addEventListener('keypress', Core.apps.keyPress, true);
+            document.oncontextmenu = () => { return !1; };
+            document.addEventListener('keydown', Core.apps.keyDown, !0);
+            document.addEventListener('keyup', Core.apps.keyUp, !0);
+            document.addEventListener('keypress', Core.apps.keyPress, !0);
             if (Core.isHTMLRenderer) {
                 Core.clipboard = document.createElement('textarea');
                 Core.clipboard.id = 'jaguiClipboard';
@@ -227,7 +227,7 @@ window.Core = {
             });
             //        function () {
             //            require(['Core', 'Tools', 'Classes'], function (Core, Tools, Classes) {
-            //                //var logo, waiting, progressOuter, progressInner, text, ie = false;
+            //                //var logo, waiting, progressOuter, progressInner, text, ie = !1;
             //                //var match = navigator.userAgent.match(/(?:MSIE |Trident\/.*; rv:)(\d+)/);
             //                //if (match) ie = match.length > 0;
             //                // on charge le theme par défaut
@@ -261,9 +261,9 @@ window.Core = {
             //                }
             //                Tools.loadScript();
             //                Tools.afterLoadScripts = function () {
-            //                    Tools.xhr.load(true, Tools.uri.base() + Core.folders["{LOCALES}"] + Core.currentLocale + ".json", function (dx, localeName) {
+            //                    Tools.xhr.load(!0, Tools.uri.base() + Core.folders["{LOCALES}"] + Core.currentLocale + ".json", function (dx, localeName) {
             //                        Core.locales[$j.types.languages[localeName.replace("-", "_")]] = JSON.parse(dx);
-            //                    }, false, Core.currentLocale);
+            //                    }, !1, Core.currentLocale);
             //                    Classes.registerPropertiesInCategory("ACTION", ["action", "caption", "enabled", "helpContext", "toolTip", "visible"]);
             //                    Classes.registerPropertiesInCategory("HELPHINTS", ["helpContext", "helpFile", "helpKeyWord", "helpType", "toolTip", "showToolTip", "ownerShowToolTip"]);
             //                    Classes.registerPropertiesInCategory("LAYOUT", ["align", "anchors", "autosize", "constraints", "height", "left", "margins", "padding", "top", "width", "tabOrder"]);
@@ -279,9 +279,9 @@ window.Core = {
             //                    if (typeof Core.ready === "function") Core.ready();
             //                };
             //            });
-            //        }, false
+            //        }, !1
             //    );
-            Core.ready = true;
+            Core.ready = !0;
             window.activeWindow = null;
             if (Core.onStart) {
                 Core.onStart();

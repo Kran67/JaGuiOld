@@ -85,7 +85,7 @@ const LabeledControl = (() => {
                 class: Core.classes.Label,
                 owner: this,
                 props: {
-                    inForm: false,
+                    inForm: !1,
                     caption: props.hasOwnProperty('caption') ? props.caption : this.name,
                     hitTest: { mouseDown: !0 },
                     onMouseDown: function () {
@@ -94,8 +94,7 @@ const LabeledControl = (() => {
                             components.first.setFocus();
                         }
                     }
-                },
-                withTpl: true
+                }
             });
         }
         //#endregion loaded
@@ -117,7 +116,7 @@ const LabeledControl = (() => {
 //#region BaseWindow defineProperties
 Object.defineProperties(LabeledControl, {
     'label': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion BaseWindow defineProperties

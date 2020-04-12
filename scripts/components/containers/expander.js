@@ -27,11 +27,11 @@ const Expander = (() => {
                 priv.header = null;
                 priv.headerCaption = null;
                 priv.lastHeight = props.hasOwnProperty('height') ? props.height : 0;
-                priv.expanded = props.hasOwnProperty('expanded') ? props.expanded : false;
-                priv.checked = props.hasOwnProperty('checked') ? props.checked : false;
+                priv.expanded = props.hasOwnProperty('expanded') ? props.expanded : !1;
+                priv.checked = props.hasOwnProperty('checked') ? props.checked : !1;
                 priv.caption = props.hasOwnProperty('caption') ? props.caption : this.name;
-                priv.viewCheck = props.hasOwnProperty('viewCheck') && Tools.isBool(props.viewCheck) ? props.viewCheck : true;
-                priv.allowRealignChildsOnResize = true;
+                priv.viewCheck = props.hasOwnProperty('viewCheck') && Tools.isBool(props.viewCheck) ? props.viewCheck : !0;
+                priv.allowRealignChildsOnResize = !0;
             }
         }
         //#endregion constructor
@@ -193,7 +193,7 @@ const Expander = (() => {
             //#endregion Variables déclaration
             const tabList = priv.container.tabList;
             if (children) {
-                children = true;
+                children = !0;
             }
             if (list && tabList) {
                 tabList.forEach(tab => {

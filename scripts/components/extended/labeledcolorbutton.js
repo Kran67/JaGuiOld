@@ -39,8 +39,7 @@ const LabeledColorButton = (() => {
             priv.colorButton = Core.classes.createComponent({
                 class: ColorButton, 
                 owner: this, 
-                props: { inForm: false, color: props.hasOwnProperty('color')?props.color:Colors.RED }, 
-                withTpl: true
+                props: { inForm: !1, color: props.hasOwnProperty('color')?props.color:Colors.RED }
             });
         }
         //#endregion loaded

@@ -695,11 +695,11 @@ class Css {
             if (Core.rtStyle.sheet.cssRules[i].type === ruleType) {
                 if (ruleType === Types.CSSRULETYPES.STYLE_RULE) {
                     if (Core.rtStyle.sheet.cssRules[i].selectorText === selector) {
-                        return true;
+                        return !0;
                     }
                 } else if (ruleType === Types.CSSRULETYPES.KEYFRAMES_RULE) {
                     if (Core.rtStyle.sheet.cssRules[i].cssText.includes(selector)) {
-                        return true;
+                        return !0;
                     }
                 }
             }

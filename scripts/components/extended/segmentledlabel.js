@@ -9,45 +9,41 @@ import { Css } from '/scripts/core/css.js';
 /**
  * @type    {Object}        SEGMENTTYPES
  */
-const SEGMENTTYPES = Object.freeze({
+const SEGMENTTYPES = Object.freeze(Object.seal({
     SEVEN: 7,
     FOURTEEN: 14,
     SIXTEEN: 16
-});
-Object.seal(SEGMENTTYPES);
+}));
 //#endregion SEGMENTTYPES
 //#region SEGMENTSCROLLTYPES
 /**
  * @type    {Object}        SEGMENTSCROLLTYPES
  */
-const SEGMENTSCROLLTYPES = Object.freeze({
+const SEGMENTSCROLLTYPES = Object.freeze(Object.seal({
     RESTART: 'restart',
     REVERSE: 'reverse',
     CYCLE: 'cycle'
-});
-Object.seal(SEGMENTSCROLLTYPES);
+}));
 //#endregion SEGMENTSCROLLTYPES
 //#region SEGMENTSCROLLDIRECTIONS
 /**
  * @type    {Object}        SEGMENTSCROLLDIRECTIONS
  */
-const SEGMENTSCROLLDIRECTIONS = Object.freeze({
+const SEGMENTSCROLLDIRECTIONS = Object.freeze(Object.seal({
     RIGHT2LEFT: 'right2left',
     LEFT2RIGHT: 'left2right'
-});
-Object.seal(SEGMENTSCROLLDIRECTIONS);
+}));
 //#endregion SEGMENTSCROLLDIRECTIONS
 //#region SEGMENTSIZES
 /**
  * @type    {Object}        SEGMENTSIZES
  */
-const SEGMENTSIZES = Object.freeze({
+const SEGMENTSIZES = Object.freeze(Object.seal({
     SMALL: 0.5,
     NORMAL: 1,
     MEDIUM: 1.5,
     LARGE: 2
-});
-Object.seal(SEGMENTSIZES);
+}));
 //#endregion SEGMENTSIZES
 //#region SegmentLedLabel
 const SegmentLedLabel = (() => {
@@ -71,15 +67,15 @@ const SegmentLedLabel = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 delete this.tabOrder;
-                priv.maxLength = props.hasOwnProperty('maxLength') && Tools.isNumber(props.maxLength)?props.maxLength:10;
-                priv.autoScroll = props.hasOwnProperty('autoScroll') && Tools.isBool(props.autoScroll)?props.autoScroll:false;
-                priv.scrollSpeed = props.hasOwnProperty('scrollSpeed') && Tools.isNumber(props.scrollSpeed)?props.scrollSpeed:1;
-                priv.color = props.hasOwnProperty('color')?Color.parse(props.color):Colors.LIME;
-                priv.segmentSize = props.hasOwnProperty('segmentSize') && Tools.valueInSet(props.segmentSize, SEGMENTSIZES)?
-                    props.segmentSize:SEGMENTSIZES.NORMAL;
-                priv.segmentType = props.hasOwnProperty('segmentType') && Tools.valueInSet(props.segmentType, SEGMENTTYPES)?
-                    props.segmentType:SEGMENTTYPES.SEVEN;
-                priv.caption = props.hasOwnProperty('caption') && Tools.isString(props.caption)?props.caption:this.name;
+                priv.maxLength = props.hasOwnProperty('maxLength') && Tools.isNumber(props.maxLength) ? props.maxLength : 10;
+                priv.autoScroll = props.hasOwnProperty('autoScroll') && Tools.isBool(props.autoScroll) ? props.autoScroll : !1;
+                priv.scrollSpeed = props.hasOwnProperty('scrollSpeed') && Tools.isNumber(props.scrollSpeed) ? props.scrollSpeed : 1;
+                priv.color = props.hasOwnProperty('color') ? Color.parse(props.color) : Colors.LIME;
+                priv.segmentSize = props.hasOwnProperty('segmentSize') && Tools.valueInSet(props.segmentSize, SEGMENTSIZES) ?
+                    props.segmentSize : SEGMENTSIZES.NORMAL;
+                priv.segmentType = props.hasOwnProperty('segmentType') && Tools.valueInSet(props.segmentType, SEGMENTTYPES) ?
+                    props.segmentType : SEGMENTTYPES.SEVEN;
+                priv.caption = props.hasOwnProperty('caption') && Tools.isString(props.caption) ? props.caption : this.name;
                 //#region segmentChars
                 priv.segmentChars = [];
                 //#region !
@@ -744,13 +740,13 @@ const SegmentLedLabel = (() => {
                 priv.conts = [];
                 priv.lastTime = new Date().getTime();
                 priv.startIndex = 0;
-                priv.scrollType = props.hasOwnProperty('scrollType') && Tools.valueInSet(props.scrollType, SEGMENTSCROLLTYPES)?
-                    props.scrollType:SEGMENTSCROLLTYPES.CYCLE;
-                priv.scrollDir = props.hasOwnProperty('scrollDir') && Tools.valueInSet(props.scrollDir, SEGMENTSCROLLDIRECTIONS)?
-                    props.scrollDir:SEGMENTSCROLLDIRECTIONS.LEFT2RIGHT;
+                priv.scrollType = props.hasOwnProperty('scrollType') && Tools.valueInSet(props.scrollType, SEGMENTSCROLLTYPES) ?
+                    props.scrollType : SEGMENTSCROLLTYPES.CYCLE;
+                priv.scrollDir = props.hasOwnProperty('scrollDir') && Tools.valueInSet(props.scrollDir, SEGMENTSCROLLDIRECTIONS) ?
+                    props.scrollDir : SEGMENTSCROLLDIRECTIONS.LEFT2RIGHT;
                 priv.text = priv.caption;
-                priv.autoAdjustTextLengthWithSpace = props.hasOwnProperty('autoAdjustTextLengthWithSpace') && 
-                    Tools.isBool(props.autoAdjustTextLengthWithSpace)?props.autoAdjustTextLengthWithSpace:true;
+                priv.autoAdjustTextLengthWithSpace = props.hasOwnProperty('autoAdjustTextLengthWithSpace') &&
+                    Tools.isBool(props.autoAdjustTextLengthWithSpace) ? props.autoAdjustTextLengthWithSpace : !0;
                 this.normalizeCaption();
             }
         }

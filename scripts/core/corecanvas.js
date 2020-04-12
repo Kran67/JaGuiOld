@@ -11,7 +11,7 @@ const PerfGraph = class PerfGraph {
         this.name = '';
         this.values = [];
         this.head = 0;
-        this.show = false;
+        this.show = !1;
     }
     //#endregion Constructor
     //#region Methods
@@ -165,7 +165,7 @@ Core.initCanvas = function () {
     if (isCoreReady) {
         fps.initGraph(fps.GRAPH_RENDER_FPS, 'Frame Time');
         this.canvas = canvas;
-        this.canvas.needRedraw = false;
+        this.canvas.needRedraw = !1;
         this.buffer = buffer;
         this.perfCanvas = perfCanvas;
         this.fps = fps;
@@ -198,15 +198,15 @@ Core.initCanvas = function () {
         });
         this.ctxC = canvas.getContext('2d');
         this.ctx = buffer.getContext('2d');
-        canvas.addEventListener('mousemove', this.internalMouseEvent, true);
-        canvas.addEventListener('mousedown', this.internalMouseEvent, true);
-        canvas.addEventListener('mouseup', this.internalMouseEvent, true);
-        canvas.addEventListener('DOMMouseScroll', this.internalMouseEvent, true);
-        canvas.addEventListener('mousewheel', this.internalMouseEvent, true);
-        canvas.addEventListener('touchstart', this.internalMouseEvent, true);
-        canvas.addEventListener('touchmove', this.internalMouseEvent, true);
-        canvas.addEventListener('touchend', this.internalMouseEvent, true);
-        canvas.addEventListener('dblclick', this.internalMouseEvent, true);
+        canvas.addEventListener('mousemove', this.internalMouseEvent, !0);
+        canvas.addEventListener('mousedown', this.internalMouseEvent, !0);
+        canvas.addEventListener('mouseup', this.internalMouseEvent, !0);
+        canvas.addEventListener('DOMMouseScroll', this.internalMouseEvent, !0);
+        canvas.addEventListener('mousewheel', this.internalMouseEvent, !0);
+        canvas.addEventListener('touchstart', this.internalMouseEvent, !0);
+        canvas.addEventListener('touchmove', this.internalMouseEvent, !0);
+        canvas.addEventListener('touchend', this.internalMouseEvent, !0);
+        canvas.addEventListener('dblclick', this.internalMouseEvent, !0);
         //prevt = new Date().getTime() / 1000;
     }
     this.themes.images = {};
@@ -241,13 +241,13 @@ Core._tick = (time) => {
     Core.fps.updateGraph(time / 1000);
     // Update and render
     if (Core.canvas.needRedraw && !Core.canvas.busy) {
-        Core.canvas.busy = true;
-        Core.canvas.needRedraw = false;
+        Core.canvas.busy = !0;
+        Core.canvas.needRedraw = !1;
         Core.ctxC.clear();
         ctx.clear();
         Core.apps.renderApplications();
         Core.ctxC.drawImage(Core.buffer, 0, 0);
-        Core.canvas.busy = false;
+        Core.canvas.busy = !1;
     }
     Core.fps.renderGraph(0, 0);
     //if (isCoreReady) {
@@ -327,7 +327,7 @@ Core.checkFontAvailable = (font) => {
         context.font = `200px ${font.replace(/^\s*['']|['']\s*$/g, String.EMPTY)}`;
         return context.measureText('A').width !== originalWidth;
     }
-    return false;
+    return !1;
 };
 Core.internalMouseEvent = function (mouseEventArg) {
     const filterControls = (ctrl) => {

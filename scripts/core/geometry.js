@@ -224,7 +224,7 @@ const Point = (() => {
             if (r instanceof Core.classes.Rect) {
                 return priv.x >= r.left && priv.x <= r.right && priv.y >= r.top && priv.y <= r.bottom;
             }
-            return false;
+            return !1;
         }
         //#endregion inRect
         //#region rotate
@@ -395,13 +395,13 @@ const Point = (() => {
                     }
                     j1 = i;
                 }
-                let inside = false;
+                let inside = !1;
                 if (c !== 0) {
-                    inside = true;
+                    inside = !0;
                 }
                 return inside;
             }
-            return false;
+            return !1;
         }
         //#endregion inPolygon
         //#region inEllipse
@@ -414,9 +414,9 @@ const Point = (() => {
             const b = (r.bottom - r.top) * 0.5;
             //#endregion Variables déclaration
             if (Math.sqr((priv.x - x0) / a) + Math.sqr((priv.y - y0) / b) <= 1.0) {
-                return true;
+                return !0;
             }
-            return false;
+            return !1;
         }
         //#endregion inEllipse
         //#region onLine
@@ -455,10 +455,10 @@ const Point = (() => {
 //#region Point defineProperties
 Object.defineProperties(Point, {
     'x': {
-        enumerable: true
+        enumerable: !0
     },
     'y': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion Point defineProperties
@@ -847,7 +847,7 @@ const Rect = (() => {
             if (r instanceof Core.classes.Rect) {
                 return this.left <= r.right && priv.right >= r.left && priv.top <= r.bottom && priv.bottom >= r.top;
             }
-            return false;
+            return !1;
         }
         //#endregion intersect
         //#region intersectRectDS
@@ -917,7 +917,7 @@ const Rect = (() => {
             if (r instanceof Core.classes.Rect) {
                 return r.left === priv.left && r.top === priv.top && r.right === priv.right && r.bottom === priv.bottom;
             }
-            return false;
+            return !1;
         }
         //#endregion equals
         //#region rotate
@@ -963,16 +963,16 @@ const Rect = (() => {
 //#region Rect defineProperties
 Object.defineProperties(Rect, {
     'left': {
-        enumerable: true
+        enumerable: !0
     },
     'top': {
-        enumerable: true
+        enumerable: !0
     },
     'right': {
-        enumerable: true
+        enumerable: !0
     },
     'bottom': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion Rect defineProperties
@@ -1276,13 +1276,13 @@ const Vector = (() => {
 //#region Vector defineProperties
 Object.defineProperties(Vector.prototype, {
     'x': {
-        enumerable: true
+        enumerable: !0
     },
     'y': {
-        enumerable: true
+        enumerable: !0
     },
     'z': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion Vector defineProperties
@@ -1684,7 +1684,7 @@ const Matrix = (() => {
                 sep = String.SPACE;
             }
             if (!Tools.isBool(withBracket) && !withBracket) {
-                withBracket = false;
+                withBracket = !1;
             }
             result += withBracket ? '[' : String.SPACE;
             result += priv.m11 + sep;
@@ -1708,31 +1708,31 @@ const Matrix = (() => {
 //#region Matrix defineProperties
 Object.defineProperties(Matrix, {
     'm11': {
-        enumerable: true
+        enumerable: !0
     },
     'm12': {
-        enumerable: true
+        enumerable: !0
     },
     'm13': {
-        enumerable: true
+        enumerable: !0
     },
     'm21': {
-        enumerable: true
+        enumerable: !0
     },
     'm22': {
-        enumerable: true
+        enumerable: !0
     },
     'm23': {
-        enumerable: true
+        enumerable: !0
     },
     'm31': {
-        enumerable: true
+        enumerable: !0
     },
     'm32': {
-        enumerable: true
+        enumerable: !0
     },
     'm33': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion Matrix defineProperties

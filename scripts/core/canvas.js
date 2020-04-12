@@ -12,32 +12,32 @@ import { Tools } from '/scripts/core/tools.js';
  */
 export const CANVAS = {
     CURVEKAPPA: 0.2761423749153967, CURVEKAPPAINV: 0.7238576250846033, CURVE2KAPPA: 0.5522847498307934, CURVE2KAPPAINV: 1 - 0.5522847498307934,
-    LINECAPS: { BUTT: 'butt', ROUND: 'round', SQUARE: 'square' },
-    LINEJOINS: { MITER: 'miter', ROUND: 'round', BEVEL: 'bevel' },
-    GLOBALCOMPOSITEOPERATIONS: {
+    LINECAPS: Object.freeze(Object.seal({ BUTT: 'butt', ROUND: 'round', SQUARE: 'square' })),
+    LINEJOINS: Object.freeze(Object.seal({ MITER: 'miter', ROUND: 'round', BEVEL: 'bevel' })),
+    GLOBALCOMPOSITEOPERATIONS: Object.freeze(Object.seal({
         SOURCEOVER: 'source-over', SOURCEIN: 'source-in', SOURCEOUT: 'source-out', SOURCEATOP: 'source-atop', DESTINATIONOVER: 'destination-over',
         DESTINATIONIN: 'destination-in', DESTINATIONOUT: 'destination-out', DESTINATIONATOP: 'destination-atop', LIGHTER: 'lighter', COPY: 'copy', XOR: 'xor',
         MULTIPLY: 'multiply', SCREEN: 'screen', OVERLAY: 'overlay', DARKEN: 'darken', LIGHTEN: 'lighten', COLORDODGE: 'color-dodge', COLORBURN: 'color-burn',
         HARDLIGHT: 'hard-light', SOFTLIGHT: 'soft-light', DIFFERENCE: 'difference', EXCLUSION: 'exclusion', HUE: 'hue', SATURATION: 'saturation', COLOR: 'color',
         LUMINOSITY: 'luminosity'
-    },
-    PATHOPERATIONS: { MOVE: 0x234, LINE: 0x235 },
-    SPARKTYPES: { LINE: 'line', BAR: 'bar', PIE: 'pie', BOXPLOT: 'boxPlot' },
-    PATTERNREPEATS: { REPEAT: 'repeat', REPEATX: 'repeat-x', REPEATY: 'repeat-y', NOREPEAT: 'no-repeat' },
-    LINEPOSITIONS: { LEFTTORIGHT: 0x239, RIGHTTOLEFT: 0x23A, NEAR: 0x23B, MIDDLE: 0x23C, FAR: 0x23D },
-    STROKEDASHS: { SOLID: [], SHORTDASH: [4, 1], SHORTDOT: [1, 1], SHORTDASHDOT: [4, 1, 1, 1], SHORTDASHDOTDOT: [4, 1, 1, 1, 1, 1], DOT: [1, 3], DASH: [4, 3], LONGDASH: [8, 3], DASHDOT: [4, 3, 1, 3], LONGDASHDOT: [8, 3, 1, 3], LONGDASHDOTDOT: [8, 3, 1, 3, 1, 3] },
-    COMPOSITEOPERATORS: { OVER: 'source-over', IN: 'source-in', OUT: 'source-out', ATOP: 'source-atop', XOR: 'xor', ARITHMETIC: 'arithmetic' },
-    EDGEMODES: { DUPLICATE: 'duplicate', WRAP: 'wrap', NONE: 'none' },
-    COLORMATRIXTYPES: { MATRIX: 'matrix', SATURATE: 'saturate', HUEROTATE: 'hueRotate', LUMINANCETOALPHA: 'luminanceToAlpha' },
-    COMPONENTTRANSFERTYPES: { IDENTITY: 'identity', TABLE: 'table', DISCRETE: 'discrete', LINEAR: 'linear', GAMMA: 'gamma' },
-    MORPHOLOGYOPERATORS: { ERODE: 'erode', DILATE: 'dilate' },
-    CONVOLVEMATRIXEDGEMODES: { DUPLICATE: 'duplicate', WRAP: 'wrap', NONE: 'none' },
-    CHANNELSELECTORTYPES: { A: 'A', R: 'R', G: 'G', B: 'B' },
-    TURBULENCETYPES: { TRANSLATE: 'translate', SCALE: 'scale', ROTATE: 'rotate', SKEWX: 'skewX', SKEWY: 'skewY' },
-    TURBULENCESTITCHTILES: { NOSTITCH: 'noStitch', STITCH: 'stitch' },
-    LIGTHTYPES: { POINT: 'point', SPOT: 'spot', DISTANT: 'distant' }
+    })),
+    PATHOPERATIONS: Object.freeze(Object.seal({ MOVE: 0x234, LINE: 0x235 })),
+    SPARKTYPES: Object.freeze(Object.seal({ LINE: 'line', BAR: 'bar', PIE: 'pie', BOXPLOT: 'boxPlot' })),
+    PATTERNREPEATS: Object.freeze(Object.seal({ REPEAT: 'repeat', REPEATX: 'repeat-x', REPEATY: 'repeat-y', NOREPEAT: 'no-repeat' })),
+    LINEPOSITIONS: Object.freeze(Object.seal({ LEFTTORIGHT: 0x239, RIGHTTOLEFT: 0x23A, NEAR: 0x23B, MIDDLE: 0x23C, FAR: 0x23D })),
+    STROKEDASHS: Object.freeze(Object.seal({ SOLID: [], SHORTDASH: [4, 1], SHORTDOT: [1, 1], SHORTDASHDOT: [4, 1, 1, 1], SHORTDASHDOTDOT: [4, 1, 1, 1, 1, 1], DOT: [1, 3], DASH: [4, 3], LONGDASH: [8, 3], DASHDOT: [4, 3, 1, 3], LONGDASHDOT: [8, 3, 1, 3], LONGDASHDOTDOT: [8, 3, 1, 3, 1, 3] })),
+    COMPOSITEOPERATORS: Object.freeze(Object.seal({ OVER: 'source-over', IN: 'source-in', OUT: 'source-out', ATOP: 'source-atop', XOR: 'xor', ARITHMETIC: 'arithmetic' })),
+    EDGEMODES: Object.freeze(Object.seal({ DUPLICATE: 'duplicate', WRAP: 'wrap', NONE: 'none' })),
+    COLORMATRIXTYPES: Object.freeze(Object.seal({ MATRIX: 'matrix', SATURATE: 'saturate', HUEROTATE: 'hueRotate', LUMINANCETOALPHA: 'luminanceToAlpha' })),
+    COMPONENTTRANSFERTYPES: Object.freeze(Object.seal({ IDENTITY: 'identity', TABLE: 'table', DISCRETE: 'discrete', LINEAR: 'linear', GAMMA: 'gamma' })),
+    MORPHOLOGYOPERATORS: Object.freeze(Object.seal({ ERODE: 'erode', DILATE: 'dilate' })),
+    CONVOLVEMATRIXEDGEMODES: Object.freeze(Object.seal({ DUPLICATE: 'duplicate', WRAP: 'wrap', NONE: 'none' })),
+    CHANNELSELECTORTYPES: Object.freeze(Object.seal({ A: 'A', R: 'R', G: 'G', B: 'B' })),
+    TURBULENCETYPES: Object.freeze(Object.seal({ TRANSLATE: 'translate', SCALE: 'scale', ROTATE: 'rotate', SKEWX: 'skewX', SKEWY: 'skewY' })),
+    TURBULENCESTITCHTILES: Object.freeze(Object.seal({ NOSTITCH: 'noStitch', STITCH: 'stitch' })),
+    LIGTHTYPES: Object.freeze(Object.seal({ POINT: 'point', SPOT: 'spot', DISTANT: 'distant' }))
 };
-Object.freeze(CANVAS);
+Object.freeze(Object.seal(CANVAS));
 //#endregion
 //#region Extended CanvasRenderingContext2D
 /**
@@ -501,7 +501,7 @@ CanvasRenderingContext2D.prototype.setMatrix = function(mat) {
  * @param   {Number}        x       the x coordiante of the point
  * @param   {Number}        y       the y coordiante of the point
  * @param   {Color}         color   the color of flood fill
- * @returns {Boolean}       true if succed otherwise false
+ * @returns {Boolean}       !0 if succed otherwise !1
  */
 CanvasRenderingContext2D.prototype.floodFill = function(x, y, color) {
     // if values are not set just exit
@@ -543,7 +543,7 @@ CanvasRenderingContext2D.prototype.floodFill = function(x, y, color) {
         };
         // if pixel and color the same do nothing
         if (comparePixel(color)) {
-            return true;
+            return !0;
         }
         while (pixelStack.length) {
             const newPos = pixelStack.pop();
@@ -554,37 +554,37 @@ CanvasRenderingContext2D.prototype.floodFill = function(x, y, color) {
             }
             pixelPos += width * 4;
             ++newPos[1];
-            let reachLeft = false;
-            let reachRight = false;
+            let reachLeft = !1;
+            let reachRight = !1;
             while (newPos[1]++ < height - 1 && comparePixel(getPixel(pixelPos))) {
                 setPixel(pixelPos);
                 if (newPos[0] > 0) {
                     if (comparePixel(getPixel(pixelPos - 4))) {
                         if (!reachLeft) {
                             pixelStack.push([newPos[0] - 1, newPos[1]]);
-                            reachLeft = true;
+                            reachLeft = !0;
                         }
                     } else if (reachLeft) {
-                        reachLeft = false;
+                        reachLeft = !1;
                     }
                 }
                 if (newPos[0] < width - 1) {
                     if (comparePixel(getPixel(pixelPos + 4))) {
                         if (!reachRight) {
                             pixelStack.push([newPos[0] + 1, newPos[1]]);
-                            reachRight = true;
+                            reachRight = !0;
                         }
                     } else if (reachRight) {
-                        reachRight = false;
+                        reachRight = !1;
                     }
                 }
                 pixelPos += width * 4;
             }
         }
         this.putImageData(image, 0, 0);
-        return true;
+        return !0;
     }
-    return false;
+    return !1;
 };
 /**
  * Draw a star
@@ -920,7 +920,7 @@ CanvasRenderingContext2D.prototype.drawSparkPie = function(data) {
                     this.fillStyle = colors[x % colors.length];
                     this.beginPath();
                     this.moveTo(radius, radius);
-                    this.arc(radius, radius, radius, start, end, false);
+                    this.arc(radius, radius, radius, start, end, !1);
                     this.lineTo(radius, radius);
                     this.closePath();
                     this.fill();
@@ -996,10 +996,10 @@ CanvasRenderingContext2D.prototype.drawSparkBoxPlot = function(data) {
         data.outlierIQR = 1.5;
     }
     if (!data.raw) {
-        data.raw = false;
+        data.raw = !1;
     }
     if (!data.showOutliers) {
-        data.showOutliers = false;
+        data.showOutliers = !1;
     }
     //l = data.values.length;
     if (data.raw) {
@@ -1050,7 +1050,7 @@ CanvasRenderingContext2D.prototype.drawSparkBoxPlot = function(data) {
             this.strokeStyle = data.outlierLineColor;
             this.fillStyle = data.outlierFillColor;
             this.beginPath();
-            this.arc((lOutlier - minValue) * unitSize + left, height / 2, data.spotRadius, 0, Math.PI * 2, true);
+            this.arc((lOutlier - minValue) * unitSize + left, height / 2, data.spotRadius, 0, Math.PI * 2, !0);
             this.fill();
             this.stroke();
         }
@@ -1058,7 +1058,7 @@ CanvasRenderingContext2D.prototype.drawSparkBoxPlot = function(data) {
             this.strokeStyle = data.outlierLineColor;
             this.fillStyle = data.outlierFillColor;
             this.beginPath();
-            this.arc((rOutlier - minValue) * unitSize + left, height / 2, data.spotRadius, 0, Math.PI * 2, true);
+            this.arc((rOutlier - minValue) * unitSize + left, height / 2, data.spotRadius, 0, Math.PI * 2, !0);
             this.fill();
             this.stroke();
         }

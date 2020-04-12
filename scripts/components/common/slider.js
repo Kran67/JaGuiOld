@@ -5,19 +5,17 @@ import { Keyboard } from '/scripts/core/keyboard.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region SLIDERMODES
-const SLIDERMODES = Object.freeze({
+const SLIDERMODES = Object.freeze(Object.seal({
     NORMAL: 'normal',
     RANGE: 'range'
-});
-Object.seal(SLIDERMODES);
+}));
 //#endregion SLIDERMODES
 //#region TICKMARKSPOSITION
-const TICKMARKSPOSITION = Object.freeze({
+const TICKMARKSPOSITION = Object.freeze(Object.seal({
     BOTH: 'both',
     TOP: 'top',
     BOTTOM: 'bottom'
-});
-Object.seal(TICKMARKSPOSITION);
+}));
 //#endregion TICKMARKSPOSITION
 //#region Slider
 const Slider = (() => {
@@ -44,7 +42,7 @@ const Slider = (() => {
                     component: this,
                     propName: 'orientation',
                     enum: Types.ORIENTATIONS,
-                    forceUpdate: true,
+                    forceUpdate: !0,
                     variable: priv,
                     value: props.hasOwnProperty('orientation') ? props.orientation : Types.ORIENTATIONS.HORIZONTAL
                 });
@@ -57,7 +55,7 @@ const Slider = (() => {
                     this.width = 100;
                     this.height = 14;
                 }
-                this.canFocused = true;
+                this.canFocused = !0;
                 priv.min = props.hasOwnProperty('min') ? props.min : 0;
                 priv.max = props.hasOwnProperty('max') ? props.max : 100;
                 priv.frequency = props.hasOwnProperty('frequency') ? props.frequency : 1;
@@ -65,17 +63,17 @@ const Slider = (() => {
                     component: this,
                     propName: 'mode',
                     enum: SLIDERMODES,
-                    forceUpdate: true,
+                    forceUpdate: !0,
                     variable: priv,
                     value: props.hasOwnProperty('mode') ? props.mode : SLIDERMODES.NORMAL
                 });
-                this.hitTest = true;
-                priv.showTooltips = props.hasOwnProperty('showTooltips') ? props.showTooltips : false;
+                this.hitTest = !0;
+                priv.showTooltips = props.hasOwnProperty('showTooltips') ? props.showTooltips : !1;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'toolTipsPosition',
                     enum: Types.ANCHORS,
-                    forceUpdate: true,
+                    forceUpdate: !0,
                     variable: priv,
                     value: props.hasOwnProperty('toolTipsPosition') ? props.toolTipsPosition : Types.ANCHORS.TOP
                 });
@@ -83,9 +81,9 @@ const Slider = (() => {
                 this.createEventsAndBind(['onChange'], props);
                 priv.values = props.hasOwnProperty('values') ? props.values : [0, 0];
                 priv.tickmarks = props.hasOwnProperty('tickmarks') ? props.tickmarks : [];
-                priv.showTickmarks = props.hasOwnProperty('showTickmarks') ? props.showTickmarks : false;
+                priv.showTickmarks = props.hasOwnProperty('showTickmarks') ? props.showTickmarks : !1;
                 priv.tickmarksPosition = props.hasOwnProperty('tickmarksPosition') ? props.tickmarksPosition : TICKMARKSPOSITION.BOTH;
-                this.allowUpdateOnResize = true;
+                this.allowUpdateOnResize = !0;
                 this.stopEvent = !0;
             }
         }
@@ -695,4 +693,3 @@ if (Core.isHTMLRenderer) {
     Core.classes.registerTemplates([{ Class: Slider, template: SliderTpl }]);
 }
 //#endregion
-//https://codepen.io/glitchworker/pen/XVdKqj

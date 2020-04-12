@@ -227,7 +227,7 @@ if (!Date.prototype.compareTo) {
      */
     Date.prototype.compareTo = function (a) {
         if (a == undefined) {
-            return false;
+            return !1;
         }
         if (a instanceof Date) {
             return this > a ? 1 : this < a ? -1 : 0;
@@ -555,14 +555,14 @@ Date.isDate = function (a) {
 
         // si la variable est vide on retourne faux
         if (a === String.EMPTY) {
-            return false;
+            return !1;
         }
 
         const e = new RegExp('^[0-9]{1,2}\/[0-9]{1,2}\/([0-9]{2}|[0-9]{4})');
 
         // On teste l'expression régulière pour valider la forme de la date
         if (!e.test(a)) {
-            return false; // Si pas bon,retourne faux
+            return !1; // Si pas bon,retourne faux
         }
 
         // On sépare la date en 3 variables pour vérification,parseInt() converti du texte en entier
@@ -604,14 +604,14 @@ Date.dateExists = function (a) {
     if (a != undefined && Tools.isString(a)) {
         const d = a.split('/'), c = d[0] + d[1] + d[2];
         if (a.length !== 10 || a.charAt(2) !== '/' || a.charAt(5) !== '/') {
-            return false;
+            return !1;
         }
         d.forEach(x => {
             if (c.charAt(x) < '0' || c.charAt(x) > '9') {
-                return false;
+                return !1;
             }
         });
-        return d[1] > 12 || d[0] > new Date(d[2], d[1], 0).getDate() ? false : true;
+        return d[1] > 12 || d[0] > new Date(d[2], d[1], 0).getDate() ? !1 : !0;
     }
-    return false;
+    return !1;
 };

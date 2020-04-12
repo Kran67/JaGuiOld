@@ -30,10 +30,10 @@ const TimePanel = (() => {
                 const priv = internal(this);
                 priv.currentItemWheel = null;
                 priv.time = props.hasOwnProperty('time') ? props.time : String.EMPTY;
-                priv.use24H = props.hasOwnProperty('use24H') && Tools.isBool(props.use24H) ? props.use24H : true;
-                priv.viewSeconds = props.hasOwnProperty('viewSeconds') && Tools.isBool(props.viewSeconds) ? props.viewSeconds : false;
+                priv.use24H = props.hasOwnProperty('use24H') && Tools.isBool(props.use24H) ? props.use24H : !0;
+                priv.viewSeconds = props.hasOwnProperty('viewSeconds') && Tools.isBool(props.viewSeconds) ? props.viewSeconds : !1;
                 this.createEventsAndBind(['onChange'], props);
-                this.canFocused = true;
+                this.canFocused = !0;
             }
         }
         //#endregion constructor
@@ -169,54 +169,54 @@ const TimePanel = (() => {
                 class: NumberWheel,
                 owner: this,
                 props: {
-                    inForm: false,
+                    inForm: !1,
                     max: priv.use24H?23:11
                 },
-                withTpl: true
+                withTpl: !0
             });
             priv.hours.HTMLElement.classList.add('TimePanel_Hours');
-            priv.hours.canFocused = false;
+            priv.hours.canFocused = !1;
             priv.hours.onChange.addListener(this.change);
             priv.minutes = Core.classes.createComponent({
                 class: NumberWheel,
                 owner: this,
                 props: {
-                    inForm: false,
+                    inForm: !1,
                     max: 59
                 },
-                withTpl: true
+                withTpl: !0
             });
             priv.minutes.HTMLElement.classList.add('TimePanel_Minutes');
-            priv.minutes.canFocused = false;
+            priv.minutes.canFocused = !1;
             priv.minutes.onChange.addListener(this.change);
             priv.seconds = Core.classes.createComponent({
                 class: NumberWheel,
                 owner: this,
                 props: {
-                    inForm: false,
+                    inForm: !1,
                     max: 59,
-                    forceDisplayVisibility: true
+                    forceDisplayVisibility: !0
                 },
-                withTpl: true
+                withTpl: !0
             });
             priv.seconds.HTMLElement.classList.add('TimePanel_Seconds');
-            priv.seconds.canFocused = false;
+            priv.seconds.canFocused = !1;
             priv.seconds.onChange.addListener(this.change);
             priv.meridiem = Core.classes.createComponent({
                 class: ItemsWheel,
                 owner: this,
                 props: {
-                    inForm: false,
-                    forceDisplayVisibility: true
+                    inForm: !1,
+                    forceDisplayVisibility: !0
                 },
-                withTpl: true
+                withTpl: !0
             });
             priv.meridiem.HTMLElement.classList.add('TimePanel_Meridiem');
             priv.meridiem.beginUpdate();
             priv.meridiem.items.push("AM");
             priv.meridiem.items.push("PM");
             priv.meridiem.endUpdate();
-            priv.meridiem.canFocused = false;
+            priv.meridiem.canFocused = !1;
             priv.meridiem.onChange.addListener(this.change);
             if (priv.time !== String.EMPTY) {
                 priv.time = String.EMPTY;

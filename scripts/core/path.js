@@ -6,12 +6,12 @@ import { Convert } from '/scripts/core/convert.js';
 import '/scripts/core/canvas.js';
 //#endregion Import
 //#region _KINDS
-const _KINDS = Object.freeze({
+const _KINDS = Object.freeze(Object.seal({
     MOVETO: 'moveTo',
     LINETO: 'lineTo',
     CURVETO: 'curveTo',
     CLOSE: 'close'
-});
+}));
 //#endregion _KINDS
 //#region PathPoint
 const PathPoint = (() => {
@@ -508,7 +508,7 @@ const PathData = (() => {
                 this.updateOwner();
                 if (priv.owner.allowUpdate) {
                     //this._owner.update();
-                    //  $j.canvas.needUpdate=true;
+                    //  $j.canvas.needUpdate=!0;
                 }
             }
         }
@@ -618,7 +618,7 @@ const PathData = (() => {
                     return;
                 }
                 let totalSweep = 0;
-                let done = false;
+                let done = !1;
                 while (!done) {
                     let localSweep = 0;
                     let prevSweep = 0;
@@ -628,7 +628,7 @@ const PathData = (() => {
                         totalSweep = totalSweep - Math.PI * 0.5;
                         if (totalSweep <= sweep + bezierArcAngleEpsilon) {
                             localSweep = sweep - prevSweep;
-                            done = true;
+                            done = !0;
                         }
                     } else {
                         prevSweep = totalSweep;
@@ -636,7 +636,7 @@ const PathData = (() => {
                         totalSweep = totalSweep + Math.PI * 0.5;
                         if (totalSweep >= sweep - bezierArcAngleEpsilon) {
                             localSweep = sweep - prevSweep;
-                            done = true;
+                            done = !0;
                         }
                     }
                     this.drawArcWithBezier({
@@ -647,7 +647,7 @@ const PathData = (() => {
                         ry: ray.y,
                         sa: angle,
                         sr: localSweep,
-                        u: false
+                        u: !1
                     });
                     angle += localSweep;
                 }
@@ -679,7 +679,7 @@ const PathData = (() => {
                 const x2 = params.p2.x;
                 const y2 = params.p2.y;
                 params.a = Convert.deg2Rad(params.a);
-                let mRadiiOk = true;
+                let mRadiiOk = !0;
                 if (rx < 0) {
                     rx = -rx;
                 }
@@ -709,7 +709,7 @@ const PathData = (() => {
                     prx = rx * rx;
                     pry = ry * ry;
                     if (radiiCheck > 10) {
-                        mRadiiOk = false;
+                        mRadiiOk = !1;
                     }
                 }
                 //Calculate (cx1,cy1)
@@ -1278,7 +1278,7 @@ const PathData = (() => {
                         return;
                     }
                     let total_sweep = 0;
-                    let done = false;
+                    let done = !1;
                     while (!done) {
                         if (a < 0) {
                             prev_sweep = total_sweep;
@@ -1286,7 +1286,7 @@ const PathData = (() => {
                             total_sweep = total_sweep - Math.PI * 0.5;
                             if (total_sweep <= a + bezierArcAngleEpsilon) {
                                 local_sweep = a - prev_sweep;
-                                done = true;
+                                done = !0;
                             }
                         } else {
                             prev_sweep = total_sweep;
@@ -1294,7 +1294,7 @@ const PathData = (() => {
                             total_sweep = total_sweep + Math.PI * 0.5;
                             if (total_sweep >= a - bezierArcAngleEpsilon) {
                                 local_sweep = a - prev_sweep;
-                                done = true;
+                                done = !0;
                             }
                         }
                         this.drawArcWithBezier({
@@ -1305,7 +1305,7 @@ const PathData = (() => {
                             ry: r.y,
                             sa: sa,
                             sr: local_sweep,
-                            u: true
+                            u: !0
                         });
                         sa += local_sweep;
                     }
@@ -1797,10 +1797,10 @@ const PathData = (() => {
 //#region PathData defineProperties
 Object.defineProperties(PathData, {
     'startPoint': {
-        enumerable: true
+        enumerable: !0
     },
     'data': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion PathData defineProperties

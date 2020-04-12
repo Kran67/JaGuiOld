@@ -25,7 +25,7 @@ const PopupButton = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 this.textObj = null;
-                priv.popupMenu = props.hasOwnProperty('popupMenu')?this.form[priv.popupMenu]:null;
+                priv.popupMenu = props.hasOwnProperty('popupMenu') ? this.form[priv.popupMenu] : null;
             }
         }
         //#endregion constructor

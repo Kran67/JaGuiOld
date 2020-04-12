@@ -199,22 +199,22 @@ const ColorPanel = (() => {
             const color = json.hasOwnProperty('color')?json.color:Colors.RED;
             //#endregion Variables déclaration
             super.loaded();
-            priv.colorQuad = Core.classes.createComponent({ class: ColorQuad, owner: this, props: { inForm: false, format: 'hsl' }, withTpl : true });
+            priv.colorQuad = Core.classes.createComponent({ class: ColorQuad, owner: this, props: { inForm: !1, format: 'hsl' }});
             priv.colorQuad.onChange.addListener(this.doQuadChange);
             priv.hueSlider = Core.classes.createComponent({ class: HUESlider, owner: this, props: {
-                inForm: false,
+                inForm: !1,
                 orientation: Types.ORIENTATIONS.VERTICAL
-            }, withTpl: true });
+            }});
             priv.hueSlider.onChange.addListener(this.doHueChange);
-            priv.alphaSlider = Core.classes.createComponent({ class: AlphaSlider, owner: this, props: { inForm: false, values: [1, 0] }, withTpl: true });
+            priv.alphaSlider = Core.classes.createComponent({ class: AlphaSlider, owner: this, props: { inForm: !1, values: [1, 0] }});
             priv.alphaSlider.onChange.addListener(this.doAlphaChange);
-            priv.secondaryColorBox = Core.classes.createComponent({ class: ColorBox, owner: this, props: { inForm: false }, withTpl: true });
+            priv.secondaryColorBox = Core.classes.createComponent({ class: ColorBox, owner: this, props: { inForm: !1 }});
             priv.secondaryColorBox.onClick.addListener(this.changeColorBox);
-            priv.secondaryColorBox.hitTest.mouseDown = true;
+            priv.secondaryColorBox.hitTest.mouseDown = !0;
             priv.secondaryColorBox.HTMLElement.classList.add('secondaryColorBox');
-            priv.primaryColorBox = Core.classes.createComponent({class: ColorBox, owner: this, props: { inForm: false, color: color }, withTpl: true });
+            priv.primaryColorBox = Core.classes.createComponent({class: ColorBox, owner: this, props: { inForm: !1, color: color }, withTpl: !0 });
             priv.primaryColorBox.onClick.addListener(this.changeColorBox);
-            priv.primaryColorBox.hitTest.mouseDown = true;
+            priv.primaryColorBox.hitTest.mouseDown = !0;
             priv.primaryColorBox.HTMLElement.classList.add('primaryColorBox');
             priv.colorQuad.colorBox = priv.primaryColorBox;
             priv.colorQuad.color = priv.primaryColorBox.color;

@@ -23,9 +23,9 @@ const TextDecoration = (() => {
             if (owner) {
                 const priv = internal(this);
                 priv.owner = owner;
-                priv.underline = Tools.isBool(props.underline) ? props.underline : false;
-                priv.overline = Tools.isBool(props.overline) ? props.overline : false;
-                priv.lineThrough = Tools.isBool(props.lineThrough) ? props.lineThrough : false;
+                priv.underline = Tools.isBool(props.underline) ? props.underline : !1;
+                priv.overline = Tools.isBool(props.overline) ? props.overline : !1;
+                priv.lineThrough = Tools.isBool(props.lineThrough) ? props.lineThrough : !1;
                 priv.color = owner.color;
                 if (props.color) {
                     if (Tools.isString(props.color)) {
@@ -160,19 +160,19 @@ const TextDecoration = (() => {
 //#region TextDecoration defineProperties
 Object.defineProperties(TextDecoration, {
     'underline': {
-        enumerable: true
+        enumerable: !0
     },
     'overline': {
-        enumerable: true
+        enumerable: !0
     },
     'lineThrough': {
-        enumerable: true
+        enumerable: !0
     },
     'color': {
-        enumerable: true
+        enumerable: !0
     },
     'style': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion TextDecoration defineProperties

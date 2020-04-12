@@ -19,7 +19,7 @@ class FloatAnimation extends Animation {
         if (owner) {
             super(owner, props, autoStart);
             this.startValue = 0;
-            this.startFromCurrent = false;
+            this.startFromCurrent = !1;
             this.stopValue = 0;
         }
     }

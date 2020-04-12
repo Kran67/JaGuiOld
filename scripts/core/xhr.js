@@ -19,10 +19,10 @@ class Xhr {
     //#region load
     static load(params) {
         if (!Tools.isBool(params.async)) {
-            params.async = false;
+            params.async = !1;
         }
         if (!Tools.isBool(params.xml)) {
-            params.xml = false;
+            params.xml = !1;
         }
         if (!params.callback) {
             params.callback = null;

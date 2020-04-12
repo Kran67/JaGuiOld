@@ -52,8 +52,8 @@ const Font = (() => {
         constructor(owner) {
             super(owner);
             const priv = internal(this);
-            priv.underline = false;
-            priv.strikeout = false;
+            priv.underline = !1;
+            priv.strikeout = !1;
             priv.size = 10;
             priv.sizeUnit = Types.CSSUNITS.PT;
             priv.family = 'Tahoma';
@@ -228,8 +228,8 @@ const Font = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            return priv.underline === false &&
-                priv.strikeout === false &&
+            return priv.underline === !1 &&
+                priv.strikeout === !1 &&
                 priv.size === 10 &&
                 priv.family === 'Tahoma' &&
                 priv.style === Types.FONTSTYLES.NORMAL &&
@@ -342,8 +342,8 @@ const Font = (() => {
                 priv.size = 0;
                 priv.family = String.EMPTY;
                 priv.style = FONTSTYLES.NORMAL;
-                priv.underline = false;
-                priv.strikeout = false;
+                priv.underline = !1;
+                priv.strikeout = !1;
                 str = str.split(String.SPACE);
                 str.forEach(s => {
                     if (!isNaN(~~parseFloat(s))) {
@@ -397,7 +397,7 @@ const Font = (() => {
         //#endregion equals
         //#region reset
         reset() {
-            priv.underline = priv.strikeout = false;
+            priv.underline = priv.strikeout = !1;
             priv.size = 10;
             priv.sizeUnit = Types.CSSUNITS.PT;
             priv.family = 'Tahoma';
@@ -437,25 +437,25 @@ const Font = (() => {
 //#region Font defineProperties
 Object.defineProperties(Font, {
     'underline': {
-        enumerable: true
+        enumerable: !0
     },
     'strikeout': {
-        enumerable: true
+        enumerable: !0
     },
     'size': {
-        enumerable: true
+        enumerable: !0
     },
     'sizeUnit': {
-        enumerable: true
+        enumerable: !0
     },
     'family': {
-        enumerable: true
+        enumerable: !0
     },
     'style': {
-        enumerable: true
+        enumerable: !0
     },
     'brush': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion

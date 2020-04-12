@@ -34,7 +34,7 @@ const ImageViewer = (() => {
                 Events.bind(priv.bitmap, HTMLEvents.LOAD, this.doBitmapLoaded);
                 Events.bind(priv.bitmap, HTMLEvents.ERROR, this.doBitmapNotLoaded);
                 priv.scale = 1;
-                this.hitTest.all = true;
+                this.hitTest.all = !0;
                 this.canFocused = !0;
             }
         }

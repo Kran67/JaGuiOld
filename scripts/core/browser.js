@@ -10,15 +10,15 @@ class Browser {
         //#region Variables déclaration
         const _n = navigator;
         const _av = _n.appVersion;
-        let _ie = false;
-        let _ff = false;
-        let _opera = false;
-        let _mac = false;
-        let _safari = false;
-        let _chrome = false;
-        let _khtml = false;
-        let _iphone = false;
-        let _webkit = false;
+        let _ie = !1;
+        let _ff = !1;
+        let _opera = !1;
+        let _mac = !1;
+        let _safari = !1;
+        let _chrome = !1;
+        let _khtml = !1;
+        let _iphone = !1;
+        let _webkit = !1;
         let _coreVersion = ~~parseFloat(_av);
         let _vendorPrefix = null;
         //#endregion Variables déclaration
@@ -39,7 +39,7 @@ class Browser {
         _iphone = navigator.platform.indexOf('iPhone') !== -1 || navigator.platform.indexOf('iPod') !== -1;
         if (!_ie && !_opera && !_webkit && !_khtml && !_chrome && !_safari && !_iphone) {
             if (_n.appCodeName === 'Mozilla') {
-                _ff = true;
+                _ff = !0;
             }
         }
         if (!_ie) {
@@ -181,17 +181,17 @@ class Browser {
      */
     getVendorPrefix(cssProperty) {
         //#region Variables déclaration
-        let ret = false;
+        let ret = !1;
         //#endregion Variables déclaration
         if (this.ie && this.msCSSPrefix.indexOf(cssProperty) > -1) {
-            ret = true;
+            ret = !0;
         } else if (this.ff && this.mozillaCSSPrefix.indexOf(cssProperty) > -1) {
-            ret = true;
+            ret = !0;
         } else if ((this.chrome || this.safari || this.webkit) && this.webkitCSSPrefix.indexOf(cssProperty) > -1) {
-            ret = true;
+            ret = !0;
         } else if (this.opera) {
             if (this.coreVersion < 15 && this.operaCSSPrefix.indexOf(cssProperty) > -1) {
-                ret = true;
+                ret = !0;
             }
         }
         if (ret) {

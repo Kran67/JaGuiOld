@@ -40,7 +40,7 @@ const Color = (function () {
             priv.value = 0;
             priv.lightness = 0;
             priv.owner = _owner;
-            priv.updating = false;
+            priv.updating = !1;
             if (arguments.length > 0) {
                 for (let i = 0, l = arguments.length; i < l; i++) {
                     const arg = arguments[i];
@@ -870,13 +870,13 @@ const Color = (function () {
          * Prevent repaints until the operation is complete
          */
         beginUpdate() {
-            this.updating = true;
+            this.updating = !0;
         }
         /**
          * Enables repaints when the operation is complete
          */
         endUpdate() {
-            this.updating = false;
+            this.updating = !1;
         }
         /**
          * Convert HSV to RGB
@@ -1025,28 +1025,28 @@ const Color = (function () {
     }
     Object.defineProperties(Color, {
         'red': {
-            enumerable: true
+            enumerable: !0
         },
         'green': {
-            enumerable: true
+            enumerable: !0
         },
         'blue': {
-            enumerable: true
+            enumerable: !0
         },
         'alpha': {
-            enumerable: true
+            enumerable: !0
         },
         'hue': {
-            enumerable: true
+            enumerable: !0
         },
         'saturation': {
-            enumerable: true
+            enumerable: !0
         },
         'value': {
-            enumerable: true
+            enumerable: !0
         },
         'lightness': {
-            enumerable: true
+            enumerable: !0
         }
     });
     return Color;

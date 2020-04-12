@@ -41,7 +41,7 @@ const MaskedTextBox = (() => {
                     this.height = 21;
                 }
                 priv.mask = props.hasOwnProperty('mask')?props.mask: String.EMPTY;
-                priv.maskDefinitions = { '9': "[0-9]", 'a': "[A-Za-z]", '*': "[A-Za-z0-9]" };
+                priv.maskDefinitions = { '9': '[0-9]', 'a': '[A-Za-z]', '*': '"[A-Za-z0-9]' };
                 priv.blankSpace = props.hasOwnProperty('blankSpace')?props.blankSpace: String.SPACE;
             }
         }
@@ -78,12 +78,12 @@ const MaskedTextBox = (() => {
             const maskArray = priv.mask.split(String.EMPTY);
             //#endregion Variables déclaration
             if (!this.readOnly) {
-                let len = priv.mask.length;
+                //let len = priv.mask.length;
                 this.unMask();
                 priv.partialPosition = priv.mask.length;
                 for (let i = 0, l = maskArray.length; i < l; i++) {
                     if (maskArray[i] === '?') {
-                        len--;
+                        //len--;
                         priv.partialPosition = i;
                     } else if (priv.maskDefinitions[maskArray[i]]) {
                         priv.tests.push(new RegExp(priv.maskDefinitions[maskArray[i]]));
@@ -126,7 +126,7 @@ const MaskedTextBox = (() => {
                     inputObj.setSelectionRange(begin, end);
                 } else if (inputObj.createTextRange) {
                     range = inputObj.createTextRange();
-                    range.collapse(true);
+                    range.collapse(!0);
                     range.moveEnd('character', end);
                     range.moveStart('character', begin);
                     range.select();

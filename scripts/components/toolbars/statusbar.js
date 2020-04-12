@@ -7,13 +7,12 @@ import { BaseClass } from '/scripts/core/baseclass.js';
 /**
  * @type    {Object}        BEVELS
  */
-const BEVELS = Object.freeze({
+const BEVELS = Object.freeze(Object.seal({
     LOWERED: 'lowered',
     NONE: 'none',
     RAISED: 'raised',
     SINGLE: 'single'
-});
-Object.seal(BEVELS);
+}));
 //#endregion BEVELS
 //#region StatusBarPanel
 const StatusBarPanel = (() => {
@@ -90,8 +89,8 @@ const StatusBarPanel = (() => {
                         }
                     }
                 });
-                priv.text = props.hasOwnProperty('text')?props.text:String.EMPTY;
-                priv.width = props.hasOwnProperty('width')?props.width:50;
+                priv.text = props.hasOwnProperty('text') ? props.text : String.EMPTY;
+                priv.width = props.hasOwnProperty('width') ? props.width : 50;
             }
         }
         //#endregion constructor
@@ -209,9 +208,9 @@ const StatusBar = (() => {
                     this.height = 19;
                 }
                 Core.classes.newCollection(this, this, StatusBarPanel, 'panels');
-                priv.autoHint = props.hasOwnProperty('autoHint')?props.autoHint:false;
-                priv.simplePanel = props.hasOwnProperty('simplePanel')?props.simplePanel:false;
-                priv.simpleText = props.hasOwnProperty('simpleText')?props.simpleText:String.EMPTY;
+                priv.autoHint = props.hasOwnProperty('autoHint') ? props.autoHint : !1;
+                priv.simplePanel = props.hasOwnProperty('simplePanel') ? props.simplePanel : !1;
+                priv.simpleText = props.hasOwnProperty('simpleText') ? props.simpleText : String.EMPTY;
             }
         }
         //#endregion constructor

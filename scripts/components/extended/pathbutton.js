@@ -37,7 +37,7 @@ const PathButton = (() => {
                 priv.glyphPressedStrokeColor = props.hasOwnProperty('glyphPressedStrokeColor')?Color.parse(props.glyphPressedStrokeColor):new Color(Colors.BLACK);
                 priv.glyphPressedFillColor = props.hasOwnProperty('glyphPressedFillColor')?Color.parse(props.glyphPressedFillColor):new Color(Colors.WHITE);
                 priv.ctx = null;
-                this.canFocused = true;
+                this.canFocused = !0;
             }
         }
         //#endregion constructor
@@ -178,7 +178,7 @@ const PathButton = (() => {
                     priv.ctx.strokeStyle = priv.glyphNormalStrokeColor.toRGBAString();
                     priv.ctx.fillStyle = priv.glyphNormalFillColor.toRGBAString();
                 }
-                priv.ctx.drawPath(this, priv.path, false);
+                priv.ctx.drawPath(this, priv.path, !1);
                 priv.ctx.restore();
             }
         }

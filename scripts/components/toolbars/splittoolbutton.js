@@ -26,7 +26,7 @@ const SplitToolButton = (() => {
                 this.createEventsAndBind(['onCloseMenu', 'onOpenMenu'], props);
                 priv.imageIndex = -1;
                 priv.popupMenu = props.hasOwnProperty('popupMenu') && this.form[props.popupMenu] ? this.form[props.popupMenu] : null;
-                this.allowUpdateOnResize = true;
+                this.allowUpdateOnResize = !0;
             }
         }
         //#endregion constructor
@@ -47,7 +47,7 @@ const SplitToolButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Menu) {
+            if (Core.classes.Menu && newValue instanceof Core.classes.Menu) {
                 if (priv.popupMenu !== newValue) {
                     priv.popupMenu = newValue;
                 }

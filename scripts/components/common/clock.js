@@ -1297,11 +1297,3 @@ if (Core.isHTMLRenderer) {
 }
 //#endregion Templates
 export { Clock };
-/*
- *https://codepen.io/Leul-Dev/pen/MWYNmav -> Datetime chooser
- *https://codepen.io/vAhyThe/pen/ZEYjqrj -> dot
- *https://codepen.io/jxglwdco/pen/LYExqOR -> dot
- *https://codepen.io/sandeep-krishna/pen/xxxyQbX -> three js
- *
- *
-*/

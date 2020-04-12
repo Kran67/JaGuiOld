@@ -7,13 +7,12 @@ import { Keyboard } from '/scripts/core/keyboard.js';
 import { Convert } from '/scripts/core/convert.js';
 //#endregion Import
 //#region CALENDARMODES
-const CALENDARMODES = Object.freeze({
+const CALENDARMODES = Object.freeze(Object.seal({
     DAYS: 'days',
     MONTHS: 'months',
     DECADES: 'decades',
     CENTURIES: 'centuries'
-});
-Object.seal(CALENDARMODES);
+}));
 //#endregion CALENDARMODES
 //#region Calendar
 const Calendar = (() => {
@@ -46,9 +45,9 @@ const Calendar = (() => {
                 priv.decades = null;
                 priv.centuries = null;
                 priv.lastSelectedDay = null;
-                priv.autoTranslate = true;
+                priv.autoTranslate = !0;
                 priv.curDate = props.hasOwnProperty('date') ? new Date(props.date) : new Date(Date.now());
-                priv.viewWeeksNum = props.hasOwnProperty('viewWeeksNum') && Tools.isBool(props.viewWeeksNum) ? props.viewWeeksNum : false;
+                priv.viewWeeksNum = props.hasOwnProperty('viewWeeksNum') && Tools.isBool(props.viewWeeksNum) ? props.viewWeeksNum : !1;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'mode',
@@ -80,12 +79,12 @@ const Calendar = (() => {
                     },
                     variable: priv,
                     value: props.hasOwnProperty('mode') ? props.mode : CALENDARMODES.DAYS,
-                    forceUpdate: true
+                    forceUpdate: !0
                 });
-                this.hitTest = [true, false, true];
-                this.canFocused = true;
+                this.hitTest = [!0, !1, !0];
+                this.canFocused = !0;
                 this.createEventsAndBind(['onChange'], props);
-                this.stopEvent = false;
+                this.stopEvent = !1;
             }
         }
         //#endregion constructor
@@ -245,7 +244,7 @@ const Calendar = (() => {
                     priv.curDate.setMonth(~~data);
                 }
                 Events.bind(priv.months, 'AnimationEnd', this.animationEnd);
-                priv.months.dataset.view = false;
+                priv.months.dataset.view = !1;
                 this.mode = CALENDARMODES.DAYS;
             }
         }
@@ -268,7 +267,7 @@ const Calendar = (() => {
                     priv.curDate.setFullYear(data);
                 }
                 Events.bind(priv.decades, 'AnimationEnd', this.animationEnd);
-                priv.decades.dataset.view = false;
+                priv.decades.dataset.view = !1;
                 this.mode = CALENDARMODES.MONTHS;
             }
         }
@@ -291,7 +290,7 @@ const Calendar = (() => {
                     priv.curDate.setFullYear(data);
                 }
                 Events.bind(priv.centuries, 'AnimationEnd', this.animationEnd);
-                priv.centuries.dataset.view = false;
+                priv.centuries.dataset.view = !1;
                 this.mode = CALENDARMODES.DECADES;
             }
         }
@@ -301,7 +300,7 @@ const Calendar = (() => {
             //#region Variables déclaration
             const data = this.dataset.view;
             //#endregion Variables déclaration
-            if (data === 'false') {
+            if (data === '!1') {
                 this.classList.remove('zoomOut');
                 Events.unBind(this, 'AnimationEnd', this.jsObj.animationEnd);
             }
@@ -337,7 +336,7 @@ const Calendar = (() => {
                     case CALENDARMODES.MONTHS:
                         d = 0;
                         div = priv.months.querySelectorAll('.CalendarMonth');
-                        priv.months.dataset.view = true;
+                        priv.months.dataset.view = !0;
                         priv.months.classList.remove('hidden');
                         priv.thisMonth.innerHTML = priv.curDate.getFullYear();
                         for (let i = 0; i < 12; i++) {
@@ -380,7 +379,7 @@ const Calendar = (() => {
                             d++;
                         }
                         priv.thisMonth.innerHTML = `${l}-${(l + 9)}`;
-                        priv.decades.dataset.view = true;
+                        priv.decades.dataset.view = !0;
                         priv.decades.classList.remove('hidden');
                         break;
                     case CALENDARMODES.CENTURIES:
@@ -389,7 +388,7 @@ const Calendar = (() => {
                             let startCentury = thisCentury - 10;
                             const endCentury = thisCentury + 100;
                             priv.thisMonth.innerHTML = `${thisCentury}-${(endCentury - 1)}`;
-                            priv.centuries.dataset.view = true;
+                            priv.centuries.dataset.view = !0;
                             priv.centuries.classList.remove('hidden');
                             d = 0;
                             div = priv.centuries.querySelectorAll('.CalendarCentury');
@@ -701,7 +700,7 @@ const Calendar = (() => {
                 priv.weekDays = document.createElement(`${tag}weekdays`);
                 priv.weekDays.classList.add('Control', 'CalendarWeekdays', self.themeName);
                 content.appendChild(priv.weekDays);
-                generateWeekNumAndDay(priv.weekDays, true);
+                generateWeekNumAndDay(priv.weekDays, !0);
             };
             //#endregion generateWeekDays
             //#region generateWeekNumAndDay

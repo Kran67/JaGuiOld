@@ -6,34 +6,32 @@ import { StringList } from '/scripts/core/stringlist.js';
 import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region WHITESPACES
-const WHITESPACES = Object.freeze({
-    INHERIT: 'inherit', 
-    INITIAL: 'initial', 
-    NORMAL: 'normal', 
-    NOWRAP: 'nowrap', 
-    PRE: 'pre', 
-    PRELINE: 'pre-line', 
+const WHITESPACES = Object.freeze(Object.seal({
+    INHERIT: 'inherit',
+    INITIAL: 'initial',
+    NORMAL: 'normal',
+    NOWRAP: 'nowrap',
+    PRE: 'pre',
+    PRELINE: 'pre-line',
     PREWRAP: 'pre-wrap'
-});
+}));
 //#endregion WHITESPACES
 //#region WORDBREAKS
-const WORDBREAKS = Object.freeze({
+const WORDBREAKS = Object.freeze(Object.seal({
     BREAKALL: 'break-all',
     BREAKWORD: 'break-word',
     INITIAL: 'initial',
     NORMAL: 'normal',
     INHERIT: 'inherit'
-});
-Object.seal(WORDBREAKS);
+}));
 //#endregion WORDBREAKS
 //#region WORDWRAPS
-const WORDWRAPS = Object.freeze({
+const WORDWRAPS = Object.freeze(Object.seal({
     BREAKWORD: 'break-word',
     INITIAL: 'initial',
     NORMAL: 'normal',
     INHERIT: 'inherit'
-});
-Object.seal(WORDWRAPS);
+}));
 //#endregion WORDWRAPS
 //#region Memo
 const Memo = (() => {
@@ -56,17 +54,17 @@ const Memo = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.whiteSpace = props.hasOwnProperty('whiteSpace')?props.whiteSpace:WHITESPACES.INHERIT;
-                priv.wordBreak = props.hasOwnProperty('wordBreak')?props.wordBreak:WORDBREAKS.INHERIT;
-                priv.wordWraps = props.hasOwnProperty('wordWraps')?props.wordWraps:WORDWRAPS.INHERIT;
+                priv.whiteSpace = props.hasOwnProperty('whiteSpace') ? props.whiteSpace : WHITESPACES.INHERIT;
+                priv.wordBreak = props.hasOwnProperty('wordBreak') ? props.wordBreak : WORDBREAKS.INHERIT;
+                priv.wordWraps = props.hasOwnProperty('wordWraps') ? props.wordWraps : WORDWRAPS.INHERIT;
                 if (!Core.isHTMLRenderer) {
                     this.width = 185;
                     this.height = 89;
                 }
-                this.hitTest.mouseWheel = true;
+                this.hitTest.mouseWheel = !0;
                 priv.lines = new StringList(this);
                 priv.lines.onChange.addListener(this.update);
-                priv.text = props.hasOwnProperty('text')?props.text:this.name;
+                priv.text = props.hasOwnProperty('text') ? props.text : this.name;
             }
         }
         //#endregion constructor

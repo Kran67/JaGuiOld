@@ -7,26 +7,24 @@ import { Tools } from '/scripts/core/tools.js';
 /**
  * @type    {Object}        CORNERSTYPES
  */
-const CORNERSTYPES = Object.freeze({
+const CORNERSTYPES = Object.freeze(Object.seal({
     ROUND: 'round',
     BEVEL: 'bevel',
     NOTCH: 'notch',
     SCOOP: 'scoop',
     SHARP: 'sharp'
-});
-Object.seal(CORNERSTYPES);
+}));
 //#endregion CORNERSTYPES
 //#region CORNERS
 /**
  * @type    {Object}        CORNERS
  */
-const CORNERS = Object.freeze({
+const CORNERS = Object.freeze(Object.seal({
     TOPLEFT: 'topleft',
     TOPRIGHT: 'topright',
     BOTTOMRIGHT: 'bottomright',
     BOTTOMLEFT: 'bottomleft'
-});
-Object.seal(CORNERSTYPES);
+}));
 //#endregion CORNERSTYPES
 //#region CornerButton
 const CornerButton = (() => {
@@ -424,5 +422,3 @@ const CornerButtonTpl = ['<jagui-cornerbutton id="{internalId}" data-class="Corn
 }
 //#endregion Template
 export { CornerButton };
-// http://leaverou.github.io/corner-shape/
-// https://jaketrent.com/post/create-bezier-curve-clip-path/

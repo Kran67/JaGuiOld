@@ -28,7 +28,7 @@ const PathSwitcher = (() => {
                 super(owner, props, autoStart);
                 const priv = internal(this);
                 priv.duration = 0.001;
-                priv.pathTrue = null;
+                priv.path!0 = null;
                 priv.pathFalse = null;
             }
         }
@@ -44,14 +44,14 @@ const PathSwitcher = (() => {
                 }
             }
         }
-        get pathTrue() {
-            return internal(this).pathTrue;
+        get path!0() {
+            return internal(this).path!0;
         }
-        set pathTrue(newValue) {
+        set path!0(newValue) {
             const priv = internal(this);
             if (typeof newValue === Types.CONSTANTS.STRING) {
-                if (priv.pathTrue !== newValue) {
-                    priv.pathTrue = newValue;
+                if (priv.path!0 !== newValue) {
+                    priv.path!0 = newValue;
                 }
             }
         }
@@ -75,7 +75,7 @@ const PathSwitcher = (() => {
         assign(source) {
             if (source instanceof Core.classes.PathSwitcher) {
                 super.assign(source);
-                this.pathTrue = source.pathTrue;
+                this.path!0 = source.path!0;
                 this.pathFalse = source.pathFalse;
             }
         }
@@ -91,13 +91,13 @@ const PathSwitcher = (() => {
 })();
 Object.defineProperties(PathSwitcher, {
     'duration': {
-        enumerable: true
+        enumerable: !0
     },
-    'pathTrue': {
-        enumerable: true
+    'path!0': {
+        enumerable: !0
     },
     'pathFalse': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion

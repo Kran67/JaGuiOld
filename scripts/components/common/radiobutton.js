@@ -50,7 +50,7 @@ const RadioButton = (() => {
             return super.allowGrayed;
         }
         set allowGrayed(newValue) {
-            this.allowGrayed = false;
+            this.allowGrayed = !1;
         }
         //#endregion allowGrayed
         //#region isChecked
@@ -75,7 +75,7 @@ const RadioButton = (() => {
                             if (comp instanceof Core.classes.RadioButton && comp !== this && comp.groupName === priv.groupName) {
                                 if (comp.isChecked) cc++;
                                 if (newValue) {
-                                    comp.isChecked = false;
+                                    comp.isChecked = !1;
                                 }
                                 c++;
                             }

@@ -30,15 +30,15 @@ const ScrollControl = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                this.hitTest.mouseWheel = true;
-                this.mouseTracking = true;
-                this.stopEvent = false;
+                this.hitTest.mouseWheel = !0;
+                this.mouseTracking = !0;
+                this.stopEvent = !1;
                 priv.lastDelta = new Point;
                 priv.downPos = new Point;
                 priv.currentPos = new Point;
-                priv.down = false;
-                this.autoCapture = true;
-                this.allowRealignChildsOnResize = true;
+                priv.down = !1;
+                this.autoCapture = !0;
+                this.allowRealignChildsOnResize = !0;
                 priv.scrollMode = props.hasOwnProperty('scrollMode')?props.scrollMode:SCROLLMODES.NORMAL;
             }
         }
@@ -55,9 +55,7 @@ const ScrollControl = (() => {
         }
         set scrollMode(newValue) {
             if (Tools.valueInSet(newValue, SCROLLMODES)) {
-                if (priv.scrollMode !== newValue) {
-                    priv.scrollMode = newValue;
-                }
+                priv.scrollMode !== newValue ? priv.scrollMode = newValue : null;
             }
         }
         //#endregion scrollMode
@@ -71,7 +69,7 @@ const ScrollControl = (() => {
                 priv.lastDelta.setValues(0, 0);
                 priv.downPos.assign(Core.mouse.screen);
                 priv.currentPos.assign(Core.mouse.screen);
-                priv.down = true;
+                priv.down = !0;
                 //if (this._VScrollAni && this._VScrollAni.running) this._VScrollAni.stopAtCurrent();
                 //if (this._HScrollAni && this._HScrollAni.running) this._HScrollAni.stopAtCurrent();
             }
@@ -107,7 +105,7 @@ const ScrollControl = (() => {
             //#endregion Variables déclaration
             super.mouseUp();
             if (priv.down && this.mouseTracking) {
-                priv.down = false;
+                priv.down = !1;
                 //if (this.animated && ((this._lastDelta.x !== 0) || (this._lastDelta.y !== 0))) {
                 //    data = this._HTMLElement.dataset.scrollbars;
                 //    if (data === $j.types.scrollbars.VERTICAL || data === $j.types.scrollbars.BOTH) {

@@ -1,6 +1,6 @@
 ﻿//#region Imports
 import { Component } from '/scripts/core/component.js';
-//import { NotifyEvent } from '/scripts/core/events.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion
 //#region Action
 /**
@@ -44,17 +44,16 @@ const Action = (() => {
                 priv.targets = [];
                 const form = this.form;
                 this.visible = !0;
-                this.onHint = new Core.classes.NotifyEvent(this);
-                this.onChange = new Core.classes.NotifyEvent(this);
-                this.onExecute = new Core.classes.NotifyEvent(this);
-                if (props.onExecute) {
+                this.createEventsAndBind(['onHint', 'onChange', 'onExecute', 'onUpdate'], props);
+                if (props.hasOwnProperty('onExecute')) {
                     if (form[props.onExecute]) {
                         this.onExecute.addListener(form[props.onExecute]);
-                    } else if (typeof props.onExecute === Types.CONSTANTS.STRING) {
+                    } else if (Tools.isString(props.onExecute)) {
                         this.onExecute.addListener(new Function(props.onExecute));
+                    } else if (Tools.isFunc(props.onExecute)) {
+                        this.onExecute.addListener(props.onExecute);
                     }
                 }
-                this.onUpdate = new Core.classes.NotifyEvent(this);
             }
         }
         //#endregion constructor
@@ -82,7 +81,7 @@ const Action = (() => {
          */
         set caption(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            if (Tools.isString(newValue)) {
                 if (priv.caption !== newValue) {
                     priv.caption = newValue;
                     this.change();
@@ -103,7 +102,7 @@ const Action = (() => {
          */
         set isChecked(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (priv.isChecked !== newValue) {
                     priv.isChecked = newValue;
                     this.change();
@@ -124,7 +123,7 @@ const Action = (() => {
          */
         set enabled(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (priv.enabled !== newValue) {
                     priv.enabled = newValue;
                     this.change();
@@ -145,7 +144,7 @@ const Action = (() => {
          */
         set groupIndex(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            if (Tools.isNumber(newValue)) {
                 if (priv.groupIndex !== newValue) {
                     priv.groupIndex = newValue;
                     this.change();
@@ -166,7 +165,7 @@ const Action = (() => {
          */
         set hint(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            if (Tools.isString(newValue)) {
                 if (priv.hint !== newValue) {
                     priv.hint = newValue;
                     this.change();
@@ -187,7 +186,7 @@ const Action = (() => {
          */
         set imageIndex(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            if (Tools.isNumber(newValue)) {
                 if (priv.imageIndex !== newValue) {
                     priv.imageIndex = newValue;
                     this.change();
@@ -208,7 +207,7 @@ const Action = (() => {
          */
         set shortCut(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            if (Tools.isString(newValue)) {
                 if (priv.shortCut !== newValue) {
                     priv.shortCut = newValue;
                     this.change();
@@ -229,7 +228,7 @@ const Action = (() => {
          */
         set autoCheck(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (priv.autoCheck !== newValue) {
                     priv.autoCheck = newValue;
                     this.change();
@@ -250,7 +249,7 @@ const Action = (() => {
          */
         set visible(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
+            if (Tools.isBool(newValue)) {
                 if (priv.visible !== newValue) {
                     priv.visible = newValue;
                     this.change();

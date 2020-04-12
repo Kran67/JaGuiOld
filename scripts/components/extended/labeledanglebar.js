@@ -39,15 +39,13 @@ const LabeledAngleBar = (() => {
             priv.angleButton = Core.classes.createComponent({
                 class: AngleButton,
                 owner: this,
-                props: { inForm: false, height: this.height, showValue: false, value: props.hasOwnProperty('value')?props.value:0 },
-                withTpl: true
+                props: { inForm: !1, height: this.height, showValue: !1, value: props.hasOwnProperty('value')?props.value:0 }
             });
             priv.angleButton.onChanged.addListener(this.valueChanged);
             priv.valueLabel = Core.classes.createComponent({
                 class: ValueLabel,
                 owner: this,
-                props: { inForm: false, caption: `${priv.angleButton.value}°` },
-                withTpl: true
+                props: { inForm: !1, caption: `${priv.angleButton.value}°` }
             });
             priv.angleButton.valueLabel = priv.valueLabel;
         }

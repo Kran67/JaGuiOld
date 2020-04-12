@@ -14,8 +14,8 @@ const WindowButton = (() => {
             if (owner) {
                 props.caption = String.EMPTY;
                 super(owner, props);
-                this.canFocused = false;
-                this.forceDisplayVisibility = true;
+                this.canFocused = !1;
+                this.forceDisplayVisibility = !0;
                 this.fontFamily = Types.CONSTANTS.BTNGLYPHFONTFACE;
                 this.fontSizeUnit = Types.CSSUNITS.PT;
             }
@@ -63,7 +63,7 @@ const WindowCloseButton = (() => {
                 super(owner, props);
                 this.modalResult = Window.MODALRESULTS.CANCEL;
                 this.toolTip = 'Fermer'; // � voir pour mettre en locale
-                this.showToolTip = true;
+                this.showToolTip = !0;
             }
         }
         //#endregion Constructor
@@ -92,7 +92,7 @@ const WindowMinimizeButton = (() => {
             if (owner) {
                 super(owner, props);
                 this.toolTip = 'Réduire'; // à voir pour mettre en locale
-                this.showToolTip = true;
+                this.showToolTip = !0;
             }
         }
         //#endregion Constructor
@@ -128,7 +128,7 @@ const WindowMaxRestoreButton = (() => {
             if (owner) {
                 super(owner, props);
                 this.toolTip = 'Agrandir'; // à voir pour mettre en locale
-                this.showToolTip = true;
+                this.showToolTip = !0;
             }
         }
         //#endregion Constructor
@@ -164,7 +164,7 @@ const WindowHelpButton = (() => {
             if (owner) {
                 super(owner, props);
                 this.toolTip = 'Aide'; // à voir pour mettre en locale
-                this.showToolTip = true;
+                this.showToolTip = !0;
                 this.onClick.addListener(this.form.showHelp);
             }
         }
@@ -197,9 +197,9 @@ const WindowRollUpDownButton = (() => {
                 //#endregion Variables déclaration
                 super(owner, props);
                 const priv = internal(this);
-                priv.isRolledUp = false;
+                priv.isRolledUp = !1;
                 this.toolTip = 'Taille minimale'; // à voir pour mettre en locale
-                this.showToolTip = true;
+                this.showToolTip = !0;
             }
         }
         //#endregion Constructor
@@ -282,9 +282,9 @@ const WindowStayOnOffButton = (() => {
                 //#endregion Variables déclaration
                 super(owner, props);
                 const priv = internal(this);
-                priv.isStayOn = false;
+                priv.isStayOn = !1;
                 this.toolTip = 'Epingler au dessus'; // à voir pour mettre en locale
-                this.showToolTip = true;
+                this.showToolTip = !0;
             }
         }
         //#endregion Constructor

@@ -35,7 +35,7 @@ const ProgressBar = (() => {
                 priv.value = props.hasOwnProperty('value') ? props.value : 0;
                 priv.min = props.hasOwnProperty('min') ? props.min : 0;
                 priv.max = props.hasOwnProperty('max') ? props.max : 100;
-                this.hitTest = false;
+                this.hitTest = !1;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'orientation',
@@ -44,7 +44,7 @@ const ProgressBar = (() => {
                     value: props.hasOwnProperty('orientation') ? props.orientation : orientations.NONE
                 });
                 delete this.tabOrder;
-                this.allowUpdateOnResize = true;
+                this.allowUpdateOnResize = !0;
             }
         }
         //#endregion Constructor

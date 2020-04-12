@@ -20,7 +20,7 @@ class ColorAnimation extends Animation {
         if (owner) {
             super(owner, props, autoStart);
             this.startValue = new Core.classes.Color(Colors.TRANSPARENT);
-            this.startFromCurrent = false;
+            this.startFromCurrent = !1;
             this.stopValue = new Core.classes.Color(Colors.TRANSPARENT);
         }
     }
@@ -62,7 +62,7 @@ class ColorAnimation extends Animation {
                         }
                     }
                     //if (!this.form.useRequestAnim) this.owner.redraw();
-                    //else this.form.needRedraw=true;
+                    //else this.form.needRedraw=!0;
                 }
             }
         }

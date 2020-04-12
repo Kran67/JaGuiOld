@@ -28,7 +28,7 @@ const RadioGroup = (() => {
                 priv.itemIndex = -1;
                 priv.columns = 1;
                 //priv.legendObj = null;
-                this.allowUpdateOnResize = true;
+                this.allowUpdateOnResize = !0;
             }
         }
         //#endregion constructor
@@ -46,9 +46,9 @@ const RadioGroup = (() => {
                     priv.itemIndex = newValue;
                     this.items.forEach((item, i) => {
                         if (i === priv.itemIndex) {
-                            item.isChecked = true;
+                            item.isChecked = !0;
                         } else {
-                            item.isChecked = false;
+                            item.isChecked = !1;
                         }
                     });
                 }
@@ -96,13 +96,13 @@ const RadioGroup = (() => {
         //#endregion changeItemIndex
         //#region beginUpdate
         beginUpdate() {
-            this.allowUpdate = false;
+            this.allowUpdate = !1;
             this.items.beginUpdate();
         }
         //#endregion beginUpdate
         //#region endUpdate
         endUpdate() {
-            this.allowUpdate = true;
+            this.allowUpdate = !0;
             this.items.endUpdate();
         }
         //#endregion endUpdate
@@ -130,8 +130,8 @@ const RadioGroup = (() => {
                         caption: obj.caption,
                         enabled: obj.enabled,
                         checked: priv.itemIndex === i || obj.isChecked,
-                        autoWidth: false
-                    }, withTpl: true });
+                        autoWidth: !1
+                    }});
                     item.onClick.addListener(this.changeItemIndex);
                     this.items.push(item);
                 });

@@ -112,7 +112,7 @@ class Classes {
             obj = new params.class(params.owner, params.props);
             if (obj instanceof Core.classes.Component) {
                 if (!Tools.isBool(params.withTpl) && !params.withTpl) {
-                    params.withTpl = true;
+                    params.withTpl = !0;
                 }
                 if (!params.props) {
                     params.props = {};
@@ -155,11 +155,11 @@ class Classes {
     //#region checkClassAndOwnerClass
     static checkClassAndOwnerClass(Class, owner) {
         //#region Variables déclaration
-        let result = true;
+        let result = !0;
         //#endregion Variables déclaration
         if (Core.classes.ToolBar) {
             if (['ToolButtonSep', 'ToolButton', 'ToolButtonSepSplit'].indexOf(Class.name)>-1 && !(owner instanceof Core.classes.ToolBar)) {
-                result = false;
+                result = !1;
             }
         }
         return result;

@@ -106,10 +106,10 @@ const ColorButton = (() => {
             colorDlg.obj = this;
             colorDlg.caption = 'Couleurs'; // à traduire
             colorDlg.color = priv.color;
-            colorDlg.lblOpacity.visible = false;
-            colorDlg.slrOpacity.visible = false;
-            colorDlg.txtbOpacity.visible = false;
-            colorDlg.lblOpacityPer.visible = false;
+            colorDlg.lblOpacity.visible = !1;
+            colorDlg.slrOpacity.visible = !1;
+            colorDlg.txtbOpacity.visible = !1;
+            colorDlg.lblOpacityPer.visible = !1;
             colorDlg.onClose.addListener(this.updateColor);
             colorDlg.center();
             colorDlg.showModal();

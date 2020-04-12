@@ -12,7 +12,7 @@ class ToolButtonSep extends ThemedControl {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            this.canFocused = false;
+            this.canFocused = !1;
         }
     }
     //#endregion constructor

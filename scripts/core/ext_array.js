@@ -12,38 +12,38 @@ if (!Array.prototype.convertToCollection) {
      */
     Array.prototype.convertToCollection = function (owner, itemClass) {
         //#region Variables déclaration
-        let _updating = false;
+        let _updating = !1;
         let _owner = owner;
         let _itemClass = itemClass;
         this._push = this.push;
         this._sort = this.sort;
-        const isCollection = true;
+        const isCollection = !0;
         //#endregion Variables déclaration
         Object.defineProperty(this, 'updating', {
             get: function () { return _updating; },
             set: function (newValue) { _updating = newValue; },
-            enumerable: false
+            enumerable: !1
         });
         Object.defineProperty(this, 'owner', {
             get: function () { return _owner; },
             set: function (newValue) { _owner = newValue; },
-            enumerable: false
+            enumerable: !1
         });
         Object.defineProperty(this, 'itemClass', {
             get: function () { return _itemClass; },
             set: function (newValue) { _itemClass = newValue; },
-            enumerable: false
+            enumerable: !1
         });
         Object.defineProperty(this, 'isCollection', {
             get: function () { return isCollection; },
-            enumerable: false
+            enumerable: !1
         });
         this.push = function (a) {
             //#region Variables déclaration
-            let canPush = false;
+            let canPush = !1;
             //#endregion Variables déclaration
             if (typeof _itemClass === typeof a || !canPush && a instanceof _itemClass) {
-                canPush = true;
+                canPush = !0;
             }
             if (canPush) {
                 this._push(a);
@@ -54,10 +54,10 @@ if (!Array.prototype.convertToCollection) {
         };
         this.onChange = new Core.classes.NotifyEvent(owner);
         this.beginUpdate = function () {
-            _updating = true;
+            _updating = !0;
         };
         this.endUpdate = function () {
-            _updating = false;
+            _updating = !1;
             this.onChange.invoke();
         };
         this.sort = function (callback) {
@@ -168,7 +168,7 @@ if (!Array.prototype.contains) {
         if (a != undefined) {
             return this.indexOf(a) > -1;
         }
-        return false;
+        return !1;
     };
 }
 // Méthode queue -> détermine si un item existe déjà dans le tableau
@@ -272,15 +272,15 @@ if (!Array.prototype.equals) {
     /**
      * Indicate if an Array/Collection is equal to the current Array/Collection
      * @param       {Array}         a       The Array/Collection to test
-     * @returns     {Boolean}       True if equal else false
+     * @returns     {Boolean}       !0 if equal else !1
      */
     Array.prototype.equals = function (a) {
         const temp = [];
         if (a == undefined) { // If either is not an array
-            return false;
+            return !1;
         }
         if (this.length !== a.length) {
-            return false;
+            return !1;
         }
         // Put all the elements from array1 into a "tagged" array
         for (let i = 0; i < this.length; i++) {
@@ -298,18 +298,18 @@ if (!Array.prototype.equals) {
             const key = `${typeof a[i]}~${a[i]}`;
             if (temp[key]) {
                 if (temp[key] === 0) {
-                    return false;
+                    return !1;
                 } else {
                     temp[key]--;
                 }
                 // Subtract to keep track of # of appearances in array2
             } else { // Key didn't appear in array1,arrays are not equal.
-                return false;
+                return !1;
             }
         }
         // If we get to this point,then every generated key in array1 showed up the exact same
         // number of times in array2,so the arrays are equal.
-        return true;
+        return !0;
     };
 }
 if (!Array.prototype.filterBy) {

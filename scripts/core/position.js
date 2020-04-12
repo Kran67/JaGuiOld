@@ -129,10 +129,10 @@ const Position = (() => {
 //#region Position defineProperties
 Object.defineProperties(Position, {
     'x': {
-        enumerable: true
+        enumerable: !0
     },
     'y': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion Position defineProperties

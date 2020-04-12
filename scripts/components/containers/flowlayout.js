@@ -8,11 +8,10 @@ import { Tools } from '/scripts/core/tools.js';
 /**
     * @type    {Object}        FLOWLAYOUTS
     */
-const FLOWLAYOUTS = Object.freeze({
+const FLOWLAYOUTS = Object.freeze(Object.seal({
     HORIZONTAL: 'horizontal',
     VERTICAL: 'vertical'
-});
-Object.seal(FLOWLAYOUTS);
+}));
 //#endregion FLOWLAYOUTS
 //#region FlowLayout
 const FlowLayout = (() => {

@@ -7,20 +7,20 @@ class Events {
     //#region bind
     static bind(object, eventName, callBack) {
         if (Tools.isFunc(callBack) && object && Tools.isString(eventName)) {
-            object.addEventListener(eventName, callBack, true);
+            object.addEventListener(eventName, callBack, !0);
         }
     }
     //#endregion bind
     //#region unBind
     static unBind(object, eventName, callBack) {
         if (Tools.isFunc(callBack) && object && Tools.isString(eventName)) {
-            object.removeEventListener(eventName, callBack, true);
+            object.removeEventListener(eventName, callBack, !0);
         }
     }
     //#endregion unBind
     //#region stop
     static stop(eventArg) {
-        eventArg.cancelBubble = true;
+        eventArg.cancelBubble = !0;
         eventArg.stopPropagation();
         eventArg.preventDefault();
     }

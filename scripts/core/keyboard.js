@@ -6,7 +6,7 @@ import { Tools } from '/scripts/core/tools.js';
 /**
  * @type    {Object}
  */
-const _VKEYSCODES = Object.freeze({
+const _VKEYSCODES = Object.freeze(Object.seal({
     VK_NONE: 0x00,
     VK_LBUTTON: 0x01, //Left mouse button
     VK_RBUTTON: 0x02, //Right mouse button
@@ -131,15 +131,15 @@ const _VKEYSCODES = Object.freeze({
     VK_OPENBRACKET: 0xDB, //[ key
     VK_BACKSLASH: 0xDC, //\ key
     VK_CLOSEBRACKET: 0xDD, //] key
-    //Object.defineProperty($j.types.VKeysCodes.addProperty("VK_CLOSEBRACKET",null,null,true,false,false,0xDE), //] key
+    //Object.defineProperty($j.types.VKeysCodes.addProperty("VK_CLOSEBRACKET",null,null,!0,!1,!1,0xDE), //] key
     VK_ZOOM: 0xFB //Zoom key
-});
-const _KEYBORDEVENTS = Object.freeze({
+}));
+const _KEYBORDEVENTS = Object.freeze(Object.seal({
     NONE: 'none',
     UP: 'keyup',
     DOWN: 'keydown',
     PRESS: 'keypress'
-});
+}));
 //#endregion
 //#region Keyboard
 const Keyboard = (() => {
@@ -160,10 +160,10 @@ const Keyboard = (() => {
         constructor() {
             super();
             const priv = internal(this);
-            priv.ctrl = false;
-            priv.alt = false;
-            priv.shift = false;
-            priv.meta = false;
+            priv.ctrl = !1;
+            priv.alt = !1;
+            priv.shift = !1;
+            priv.meta = !1;
             priv.keyCode = Keyboard.VKEYSCODES.NONE;
             priv.keyEvent = Keyboard.KEYBORDEVENTS.NONE;
             priv.keyChar = String.EMPTY;
@@ -400,12 +400,12 @@ const Keyboard = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.event.cancelBubble = true;
+            priv.event.cancelBubble = !0;
             priv.event.stopPropagation();
             priv.event.preventDefault();
-            priv.ctrl = false;
-            priv.alt = false;
-            priv.shift = false;
+            priv.ctrl = !1;
+            priv.alt = !1;
+            priv.shift = !1;
             priv.keyCode = Keyboard.VKEYSCODES.NONE;
             priv.keyEvent = Keyboard.KEYBORDEVENTS.NONE;
             priv.keyChar = String.EMPTY;

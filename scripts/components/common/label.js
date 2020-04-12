@@ -34,7 +34,7 @@ const Label = (() => {
                 }
                 //#endregion Private
                 delete this.tabOrder;
-                this.clipped = false;
+                this.clipped = !1;
             }
         }
         //#endregion
@@ -112,7 +112,7 @@ const Label = (() => {
 //#region Label defineProperties
 Object.defineProperties(Label, {
     'effet': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion Label defineProperties

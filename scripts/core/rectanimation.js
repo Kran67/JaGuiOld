@@ -21,7 +21,7 @@ const RectAnimation = (() => {
                 super(owner, props, autoStart);
                 const priv = internal(this);
                 this.startValue = new Core.classes.Rect;
-                this.startFromCurrent = false;
+                this.startFromCurrent = !1;
                 this.stopValue = new Core.classes.Rect;
                 priv.current = new Core.classes.Rect;
             }
@@ -80,9 +80,9 @@ const RectAnimation = (() => {
                                 //if (!form.useRequestAnim) {
                                 //    control.redraw(r);
                                 //} else {
-                                    //form.needRedraw = true;
+                                    //form.needRedraw = !0;
                                 //}
-                                Core.canvas.needRedraw = true;
+                                Core.canvas.needRedraw = !0;
                             } else {
                                 Css.updateInlineCSS(control, Types.JSCSSPROPERTIES.MARGIN);
                                 //this.owner.update();

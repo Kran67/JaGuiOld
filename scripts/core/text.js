@@ -14,7 +14,7 @@ class Text {
             return text.split();
         }
         if (!Tools.isBool(withSpace)) {
-            withSpace = false;
+            withSpace = !1;
         }
         if (withSpace) {
             text = text.replace(/ /g, ' [|]');
@@ -210,7 +210,7 @@ class Text {
             element,
             NodeFilter.SHOW_TEXT,
             null,
-            false
+            !1
         );
 
         let node = walker.nextNode();

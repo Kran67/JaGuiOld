@@ -31,7 +31,7 @@ const LabeledMemo = (() => {
             priv.memo = Core.classes.createComponent({
                 class: Memo,
                 owner: this,
-                props: { inForm: false, text: props.hasOwnProperty('text')?props.text:String.EMPTY }
+                props: { inForm: !1, text: props.hasOwnProperty('text')?props.text:String.EMPTY }
             });
         }
         //#endregion loaded

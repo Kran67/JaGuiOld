@@ -193,19 +193,19 @@ const Brush = (() => {
 })();
 Object.defineProperties(Brush, {
     'gradient': {
-        enumerable: true
+        enumerable: !0
     },
     'bitmap': {
-        enumerable: true
+        enumerable: !0
     },
     'color': {
-        enumerable: true
+        enumerable: !0
     },
     'bitmapRepeatMode': {
-        enumerable: true
+        enumerable: !0
     },
     'style': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion

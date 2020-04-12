@@ -187,14 +187,14 @@ class Convert {
     static strToBool(a) {
         if (Tools.isString(a) && (a.toLowerCase() === 'true' || a.toLowerCase() === 'false')) {
             if (a.toLowerCase() === 'true') {
-                return true;
+                return !0;
             } else if (a.toLowerCase() === 'false') {
-                return false;
+                return !1;
             } else {
-                return false;
+                return !1;
             }
         }
-        return false;
+        return !1;
     }
     /**
      * Convert a integer to a boolean
@@ -498,7 +498,7 @@ class Convert {
             'rem-%': params.value * 100,
             'rem-px': params.value * params.base
         };
-        const result = formulas[units] || false;
+        const result = formulas[units] || !1;
         return isNaN(result) ? 'N/A' : Math.round(result, params.decimals) + params.to;
     }
     /**
@@ -510,7 +510,7 @@ class Convert {
     static propertyToCssProperty(animationObj, endValue) {
         let result = String.EMPTY;
         if (!endValue) {
-            endValue = false;
+            endValue = !1;
         }
         switch (animationObj.propertyName) {
             case 'width':

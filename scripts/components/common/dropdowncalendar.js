@@ -59,17 +59,6 @@ const DropDownCalendarPopup = (() => {
         get calendar() {
             return internal(this).calendar;
         }
-        //get template() {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    let html = super.template;
-        //    let a = html.split("{calendar}");
-        //    //#endregion Variables déclaration
-        //    html = a.join(priv.calendar.template);
-        //    a = html.split("{date}");
-        //    html = a.join(priv.calendar.dropDownCalendar.date.toString());
-        //    return html;
-        //}
         //#endregion Getters / Setters
         //#region Methods
         //#region show
@@ -100,18 +89,11 @@ const DropDownCalendarPopup = (() => {
         //#region destroy
         destroy() {
             //#region Variables déclaration
-            const priv = internal(this);
-            //const refControl = priv.refControl;
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            //if (refControl) {
-            //    refControl.opened = false;
-            //    refControl.HTMLElement.classList.remove('opened');
-            //}
             if (htmlElement) {
                 htmlElement.classList.remove('animated', 'fadeIn');
             }
-            //priv.refControl = null;
             super.destroy();
         }
         //#endregion destroy

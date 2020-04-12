@@ -28,11 +28,11 @@ const BaseEffect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.enabled = false;
+            priv.enabled = !1;
             priv.trigger = String.EMPTY;
-            priv.prepareBeforePaint = false;
-            priv.applyOnChilds = false;
-            priv.disablePaint = false;
+            priv.prepareBeforePaint = !1;
+            priv.applyOnChilds = !1;
+            priv.disablePaint = !1;
         }
         //#region constructor
         //#region Getter/Setter
@@ -174,8 +174,8 @@ const BaseEffect = (() => {
                 line = this._trigger;
                 let setter = null;
                 setter = line.split(";");
-                let startValue = false;
-                startValue = false;
+                let startValue = !1;
+                startValue = !1;
                 while (setter.length > 0) {
                     prop = setter[0].split("=")[0];
                     value = setter[0].split("=")[1];
@@ -195,19 +195,19 @@ const BaseEffect = (() => {
 //#region BaseEffect defineProperties
 Object.defineProperties(BaseEffect, {
     'enabled': {
-        enumerable: true
+        enumerable: !0
     },
     'trigger': {
-        enumerable: true
+        enumerable: !0
     },
     'prepareBeforePaint': {
-        enumerable: true
+        enumerable: !0
     },
     'applyOnChilds': {
-        enumerable: true
+        enumerable: !0
     },
     'disablePaint': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion BaseEffect defineProperties

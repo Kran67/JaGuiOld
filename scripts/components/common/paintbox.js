@@ -26,7 +26,7 @@ const PaintBox = (() => {
                 priv.ctx = null;
                 delete this.tabOrder;
                 this.createEventsAndBind(['onPaint'], props);
-                this.allowUpdateOnResize = true;
+                this.allowUpdateOnResize = !0;
             }
         }
         //#endregion constructor

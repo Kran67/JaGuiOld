@@ -5,17 +5,16 @@ import '/scripts/components/containers/flexlayout.js';
 import '/scripts/components/containers/gridlayout.js';
 //#endregion Import
 //#region MESSAGETYPES
-const MESSAGETYPES = {
+const MESSAGETYPES = Object.freeze(Object.seal({
     WARNING: 'warning',
     ERROR: 'error',
     INFORMATION: 'information',
     CONFIRMATION: 'confirmation',
     CUSTOM: 'custom'
-};
-Object.freeze(Object.seal(MESSAGETYPES));
+}));
 //#endregion
 //#region MESSAGEBUTTONS
-const MESSAGEBUTTONS = {
+const MESSAGEBUTTONS = Object.freeze(Object.seal({
     YES: 'yes',
     NO: 'no',
     OK: 'ok',
@@ -27,11 +26,10 @@ const MESSAGEBUTTONS = {
     NOTOALL: 'noToAll',
     YESTOALL: 'yesToAll',
     HELP: 'help'
-};
-Object.freeze(Object.seal(MESSAGEBUTTONS));
+}));
 //#endregion
 //#region Dialogs constants
-const DIALOGS_CONSTS = {
+const DIALOGS_CONSTS = Object.freeze(Object.seal({
     BTNS_ALL: [MESSAGEBUTTONS.YES, MESSAGEBUTTONS.NO, MESSAGEBUTTONS.OK, MESSAGEBUTTONS.CANCEL, MESSAGEBUTTONS.ABORT, MESSAGEBUTTONS.RETRY, MESSAGEBUTTONS.IGNORE, MESSAGEBUTTONS.ALL, MESSAGEBUTTONS.NOTOALL, MESSAGEBUTTONS.YESTOALL, MESSAGEBUTTONS.HELP],
     BTNS_YESNO: [MESSAGEBUTTONS.YES, MESSAGEBUTTONS.NO],
     BTNS_YESNOCANCEL: [MESSAGEBUTTONS.YES, MESSAGEBUTTONS.NO, MESSAGEBUTTONS.CANCEL],
@@ -39,8 +37,7 @@ const DIALOGS_CONSTS = {
     BTNS_OKCANCEL: [MESSAGEBUTTONS.OK, MESSAGEBUTTONS.CANCEL],
     BTNS_ABORTRETRYIGNORE: [MESSAGEBUTTONS.ABORT, MESSAGEBUTTONS.RETRY, MESSAGEBUTTONS.IGNORE],
     BTNS_ABORTIGNORE: [MESSAGEBUTTONS.ABORT, MESSAGEBUTTONS.IGNORE]
-}
-Object.freeze(Object.seal(DIALOGS_CONSTS));
+}));
 //#endregion Dialogs constants
 //#region MessageDlg
 const MessageDlg = (() => {
@@ -161,7 +158,7 @@ const MessageDlg = (() => {
             //#endregion Variables déclaration
             if (!String.isNullOrEmpty(priv.dlgIcon)) {
                 nH += (msgH < 32 ? 32 : msgH);
-                msgIcon.visible = true;
+                msgIcon.visible = !0;
                 if (priv.dlgType == MESSAGETYPES.CUSTOM) {
                     msgIcon.load(priv.dlgIcon);
                 } else {
@@ -175,7 +172,7 @@ const MessageDlg = (() => {
                     const btnName = `btn${btn.firstCharUpper}`;
                     if (this.hasOwnProperty(btnName)) {
                         const button = this[btnName];
-                        button.visible = true;
+                        button.visible = !0;
                         if (buttons.length > 1 && btn !== buttons.last) {
                             button.margin.right = 10;
                             button.sizing();

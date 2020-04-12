@@ -24,8 +24,8 @@ const GroupBox = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 //priv.legend = null;
-                this.autoTranslate = true;
-                this.canFocused = false;
+                this.autoTranslate = !0;
+                this.canFocused = !1;
                 if (!Core.isHTMLRenderer) {
                     this.width = 120;
                     this.height = 100;
@@ -38,8 +38,8 @@ const GroupBox = (() => {
                     variable: priv,
                     value: props.hasOwnProperty('horizAlign')? props.horizAlign : Types.TEXTALIGNS.LEFT
                 });
-                this.autoSize = false;
-                this.allowRealignChildsOnResize = true;
+                this.autoSize = !1;
+                this.allowRealignChildsOnResize = !0;
             }
         }
         //#endregion Constructor

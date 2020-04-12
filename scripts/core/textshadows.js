@@ -68,7 +68,7 @@ class TextShadows {
 //#region TextShadows defineProperties
 Object.defineProperties(TextShadows, {
     'items': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion TextShadows defineProperties

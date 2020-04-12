@@ -85,7 +85,7 @@ const ThemeManifest = (() => {
             //#endregion Variables declaration
             if (!isHtmlRenderer) {
                 Core.deleteImages(Core.themes[lastThemeName]);
-                Core.themes[lastThemeName].initialized = false;
+                Core.themes[lastThemeName].initialized = !1;
             }
             // Delete all image from previous theme
             wins.forEach(win => {
@@ -194,7 +194,7 @@ const ThemeManifest = (() => {
 //#region ThemeManifest defineProperties
 Object.defineProperties(ThemeManifest, {
     'themeName': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion ThemeManifest defineProperties

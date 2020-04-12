@@ -82,10 +82,10 @@ const GradientPoint = (() => {
 //#region GradientPoint defineProperties
 Object.defineProperties(GradientPoint, {
     'offset': {
-        enumerable: true
+        enumerable: !0
     },
     'color': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion GradientPoint defineProperties
@@ -275,16 +275,16 @@ const Gradient = (() => {
 //#region Gradient defineProperties
 Object.defineProperties(Gradient, {
     'startPosition': {
-        enumerable: true
+        enumerable: !0
     },
     'stopPosition': {
-        enumerable: true
+        enumerable: !0
     },
     'style': {
-        enumerable: true
+        enumerable: !0
     },
     'items': {
-        enumerable: true
+        enumerable: !0
     }
 });
 //#endregion Gradient defineProperties

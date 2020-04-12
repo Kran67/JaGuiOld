@@ -29,7 +29,7 @@ const PathCheckbox = (() => {
                 }
                 priv.checkSvg = props.hasOwnProperty('checkSvg') ? atob(props.checkSvg) : 'm49.568024,19.824736l-31.863983,29.73797l-17.705017,-16.521305l0,-19.824999l17.705017,16.469412l31.863983,-29.686078l0,19.825z';
                 priv.svgViewBox = props.hasOwnProperty('svgViewBox') ? props.svgViewBox : '0 0 50 50';
-                this.canFocused = false;
+                this.canFocused = !1;
                 delete this.tabOrder;
             }
         }
@@ -71,7 +71,7 @@ const PathCheckbox = (() => {
             return super.allowGrayed;
         }
         set allowGrayed(newValue) {
-            super.allowGrayed = false;
+            super.allowGrayed = !1;
         }
         //#endregion allowGrayed
         //#endregion Getters / Setters

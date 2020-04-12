@@ -10,15 +10,15 @@ class LabelEffect {
     constructor(owner, name) {
         this.owner = owner;
         this.cssName = name;
-        this.drawBefore = true;
+        this.drawBefore = !0;
     }
     //#endregion Constructor
     //#region Methods
     //#region prepare
-    prepare() {}
+    prepare() { }
     //#endregion prepare
     //#region update
-    update() {}
+    update() { }
     //#endregion update
     //#region destroy
     destroy() {
@@ -56,10 +56,10 @@ class LabelNeonEffect extends LabelEffect {
     //#region processTick
     processTick(elapsedTime) {
         this.currentTick += elapsedTime;
-        if (this.currentTick>1500) {
+        if (this.currentTick > 1500) {
             this.currentTick = 0;
         }
-        Core.canvas.needRedraw = true;
+        Core.canvas.needRedraw = !0;
     }
     //#endregion processTick
     //#region update
@@ -73,7 +73,7 @@ class LabelNeonEffect extends LabelEffect {
     //#region destroy
     destroy() {
         this.color.destroy();
-        this.color =  null;
+        this.color = null;
         this.currentTick = null;
         delete this.color;
         super.destroy();
@@ -115,7 +115,7 @@ class LabelOutlinedEffect extends LabelEffect {
     //#region destroy
     destroy() {
         this.color.destroy();
-        this.color =  null;
+        this.color = null;
         delete this.color;
         super.destroy();
     }
@@ -259,9 +259,9 @@ class LabelNeonlasenterEffect extends LabelEffect {
     //#region destroy
     destroy() {
         this.color.destroy();
-        this.color =  null;
+        this.color = null;
         this.colorShadow.destroy();
-        this.colorShadow =  null;
+        this.colorShadow = null;
         delete this.color;
         delete this.colorShadow;
         super.destroy();
@@ -288,7 +288,7 @@ class LabelFireEffect extends LabelEffect {
         for (let i = 0; i < 6; i++) {
             this.fireDelta[i] = Math.random() * 2 - 1;
         }
-        looper.addListener(this,'updateFire');
+        looper.addListener(this, 'updateFire');
     }
     //#endregion Constructor
     //#region Methods
@@ -312,7 +312,7 @@ class LabelFireEffect extends LabelEffect {
             if (Core.isHTMLRenderer) {
                 this.shadows.push(`${x}${PX} ${y}${PX} ${blur}${PX} ${color}`);
             } else {
-                this.shadows.push({ x:x, y:y, blur:blur, color:color});
+                this.shadows.push({ x: x, y: y, blur: blur, color: color });
             }
         }
         if (Core.isHTMLRenderer) {
@@ -320,9 +320,9 @@ class LabelFireEffect extends LabelEffect {
                 htmlElementStyle.textShadow = this.shadows.join(',');
             }
         } else {
-            if (this.currentTick>64) {
+            if (this.currentTick > 64) {
                 this.currentTick = 0;
-                Core.canvas.needRedraw = true;
+                Core.canvas.needRedraw = !0;
             }
         }
         this.step = (step + 1) % fireCount;
@@ -336,7 +336,7 @@ class LabelFireEffect extends LabelEffect {
         this.textBrightness = null;
         this.shadows.clear();
         this.color.destroy();
-        this.color =  null;
+        this.color = null;
         this.currentTick = null;
         this.shadows = null;
         this.fireDelta = null;
@@ -482,8 +482,8 @@ class LabelReflectEffect extends LabelEffect {
                 this.color.owner = this;
             }
         }
-        owner.autoSize = true;
-        owner.wordWrap = false;
+        owner.autoSize = !0;
+        owner.wordWrap = !1;
         if (Core.isHTMLRenderer) {
             this.updateCss();
         }
@@ -520,7 +520,7 @@ class LabelReflectEffect extends LabelEffect {
     //#region destroy
     destroy() {
         this.color.destroy();
-        this.color =  null;
+        this.color = null;
         delete this.color;
         super.destroy();
     }
