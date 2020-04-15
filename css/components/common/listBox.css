@@ -1,4 +1,4 @@
-﻿.Control.ListBox {
+﻿.ListBox {
     display: flex;
     flex-direction: column;
 }
@@ -12,11 +12,11 @@
     z-index: -1;
 }
 
-    .Control.ListBox.orientation-horizontal {
+    .ListBox.orientation-horizontal {
         flex-direction: row;
     }
 
-        .Control.ListBox.orientation-horizontal:hover .HListBoxItem {
+        .ListBox.orientation-horizontal:hover .HListBoxItem {
             padding-bottom: 0;
         }
 

@@ -640,7 +640,7 @@ const Control = (() => {
                 let width = htmlElement.offsetWidth > 0 ?
                     htmlElement.offsetWidth :
                     parseInt(getComputedStyle(this.HTMLElement).width, 10);
-                priv.width = priv.width !== width && width > 0 ? width : priv.width;
+                priv.width = priv.width !== width /*&& width > 0*/ ? width : priv.width;
                 return priv.width;
             }
         }
@@ -696,7 +696,7 @@ const Control = (() => {
                 let height = htmlElement.offsetHeight > 0 ?
                     htmlElement.offsetHeight :
                     parseInt(getComputedStyle(this.HTMLElement).height, 10);
-                priv.height = priv.height !== height && height > 0 ? height : priv.height;
+                priv.height = priv.height !== height /*&& height > 0*/ ? height : priv.height;
                 return priv.height;
             }
         }

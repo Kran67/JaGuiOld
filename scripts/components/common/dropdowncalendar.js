@@ -19,12 +19,14 @@ class CalendarPopup extends Calendar {
     }
     //#endregion constructor
     //#region Methods
+    //#region selectDay
     selectDay() {
         const obj = this.jsObj;
         super.selectDay();
         obj.dropDownCalendar.date = obj.date;
         obj.form.closePopups();
     }
+    //#endregion selectDay
     //#endregion Methods
 }
 //#endregion CalendarPopup
@@ -56,9 +58,11 @@ const DropDownCalendarPopup = (() => {
         }
         //#endregion constructor
         //#region Getters / Setters
+        //#region calendar
         get calendar() {
             return internal(this).calendar;
         }
+        //#endregion calendar
         //#endregion Getters / Setters
         //#region Methods
         //#region show
@@ -210,7 +214,7 @@ const DropDownCalendar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             let html = super.template();
-            let a = html.split("{date}");
+            let a = html.split('{date}');
             //#endregion Variables déclaration
             html = a.join(priv.date.toString());
             return html;
@@ -339,11 +343,8 @@ Core.classes.register(Types.CATEGORIES.INTERNAL, CalendarPopup, DropDownCalendar
 Core.classes.register(Types.CATEGORIES.COMMON, DropDownCalendar);
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const DropDownCalendarTpl = `<div id="{internalId}" data-name="{name}" data-class="DropDownCalendar" class="Control DropDownListBox DropDownCalendar {theme}" data-date="{date}" style="width:80px;height:20px;">
-                            <div class="Control DropDownCalendarCaption {theme}"></div>
-                            <span class="Control DropDownListBoxArrow {theme}"></span>
-                            </div>`;
-    const DropDownCalendarPopupTpl = '<div id="{internalId}" class="Control PopupBox PopupCalendar csr_default {theme}"></div>';
+    const DropDownCalendarTpl = `<jagui-dropdowncalendar id="{internalId}" data-class="DropDownCalendar" class="Control DropDownListBox DropDownCalendar {theme}"><properties>{ "name": "{name}", "width": 80 }</properties></jagui-dropdowncalendar>`;
+    const DropDownCalendarPopupTpl = Core.templates['PopupBox'].replace('PopupBox', 'PopupBox PopupBoxCalendar');
     Core.classes.registerTemplates([
         { Class: DropDownCalendar, template: DropDownCalendarTpl },
         { Class: DropDownCalendarPopup, template: DropDownCalendarPopupTpl },

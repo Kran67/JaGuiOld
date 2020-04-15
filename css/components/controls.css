@@ -1,8 +1,8 @@
 ﻿.basefont,
 .Control,
-input.Control,
+input,
 .Control.Button,
-textarea.Control {
+textarea {
     font-family: "Tahoma";
     font-size: 8pt;
 }
@@ -194,16 +194,21 @@ input.Control {
     display: flex;
 }
 
+    .PopupBox > * {
+        position: relative;
+        flex: 1;
+    }
+
 .ToolTip {
     opacity: 0;
     visibility: hidden;
 }
 
-.ToolTip.fade {
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.5s ease-in-out;
-}
+    .ToolTip.fade {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.5s ease-in-out;
+    }
 
 @supports ( -webkit-box-reflect: below 0px ) {
     .reflected {

@@ -2342,11 +2342,7 @@ const BaseWindow = (() => {
             const CUSTOMCURSORS = Types.CUSTOMCURSORS;
             const htmlElement = Core.isHTMLRenderer ? this.HTMLElement : Core.canvas;
             //#endregion Variables déclaration
-            htmlElement.classList.remove(CUSTOMCURSORS.DEFAULT);
-            htmlElement.classList.remove(CUSTOMCURSORS.NRESIZE);
-            htmlElement.classList.remove(CUSTOMCURSORS.ERESIZE);
-            htmlElement.classList.remove(CUSTOMCURSORS.NWRESIZE);
-            htmlElement.classList.remove(CUSTOMCURSORS.NERESIZE);
+            htmlElement.classList.remove(CUSTOMCURSORS.DEFAULT, CUSTOMCURSORS.NRESIZE, CUSTOMCURSORS.ERESIZE, CUSTOMCURSORS.NWRESIZE, CUSTOMCURSORS.NERESIZE);
         }
         //#endregion removeCursors
         //#region keyDown

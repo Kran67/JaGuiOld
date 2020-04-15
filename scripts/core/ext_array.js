@@ -76,7 +76,6 @@ if (!Array.prototype.destroy) {
             this.updating = null;
             this.owner = null;
             this.itemClass = null;
-            this.isCollection = null;
             this.onChange.destroy();
             this.onChange = null;
         }

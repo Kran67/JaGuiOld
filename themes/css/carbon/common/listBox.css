@@ -18,7 +18,7 @@
 }
 
 .carbon.ListBoxItem.isheader,
-.carbon.PopupListBox .carbon.ListBoxItem.isheader:hover {
+.carbon.PopupListBox .carbon.ListBoxItemPopup.isheader {
     background-color: #F9DDA2;
     color: #404040;
     font-style: italic;

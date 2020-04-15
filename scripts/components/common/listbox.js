@@ -905,7 +905,6 @@ const ListBox = (() => {
                 this.items.pop();
             }
             this.items.destroy();
-            this.items = null;
             priv.visibleItems.destroy();
             priv.visibleItems = null;
             priv.scrollPos = null;

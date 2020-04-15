@@ -21,8 +21,8 @@ const PopupBox = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                props.height = -1;
-                props.width = -1;
+                !props.height ? (props.height = -1) : null;
+                !props.width ? (props.width = -1) : null;
                 super(owner, props);
                 const priv = internal(this);
                 priv.refControl = props.hasOwnProperty('refControl') ? props.refControl : null;
@@ -142,4 +142,10 @@ const PopupBox = (() => {
 })();
 Core.classes.register(Types.CATEGORIES.INTERNAL, PopupBox);
 //#endregion Class PopupBox
+//#region Templates
+if (Core.isHTMLRenderer) {
+    const PopupBoxTpl = '<jagui-popupbox id="{internalId}" class="Control PopupBox csr_default {theme}" />';
+    Core.classes.registerTemplates([{ Class: PopupBox, template: PopupBoxTpl }]);
+}
+//#endregion Templates
 export { PopupBox };

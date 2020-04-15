@@ -45,6 +45,7 @@ const Splitter = (() => {
                 });
                 this.hitTest.mouseMove = !0;
                 delete this.tabOrder;
+                this.stopEvent = !0;
             }
         }
         //#endregion constructor
@@ -148,6 +149,7 @@ const Splitter = (() => {
                 if (!this.canCollapse()) {
                     priv.downPos.assign(Core.mouse.document);
                     priv.down = !0;
+                    console.log('mouseDown');
                     const resizeLine = document.createElement(Types.HTMLELEMENTS.DIV);
                     const style = resizeLine.style;
                     if (priv.orientation === Types.ORIENTATIONS.VERTICAL) {

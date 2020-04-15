@@ -209,7 +209,7 @@
                         <properties>
                             { "name": "ListBox1", "scrollbars": "vertical", "useAlternateColor": true, "orientation": "vertical", "tabOrder": 54, "left": 900, "top": 10, "width": 100, "height": 140, "itemsSize": 20, "items": [{ "caption": "Item1" }, { "caption": "Item2" },
                             { "caption": "Item3" }, { "caption": "Item4" },
-                            { "caption": "Item5" }, { "caption": "Item6" },
+                            { "caption": "Item5", "isHeader": true }, { "caption": "Item6" },
                             { "caption": "Item7" }, { "caption": "Item8" },
                             { "caption": "Item9" }, { "caption": "Item10" },
                             { "caption": "Item11" }, { "caption": "Item12" },
@@ -227,7 +227,8 @@
                         </properties>
                     </jagui-listbox>
                     <jagui-listbox id="_pghpwb3" data-class="ListBox" class="Control scrollContent ListBox {theme}">
-                        <properties>{ "name": "ListBox3", "itemsSize": 48, "viewCheckboxes": false, "useAlternateColor": true, "orientation": "horizontal", "tabOrder": 56, "left": 750, "top": 160, "width": 140, "height": 140, "items": [{ "caption": "Item1" }, { "caption": "Item2", "isChecked": true },
+                        <properties>
+                            { "name": "ListBox3", "itemsSize": 48, "viewCheckboxes": false, "useAlternateColor": true, "orientation": "horizontal", "tabOrder": 56, "left": 750, "top": 160, "width": 140, "height": 140, "items": [{ "caption": "Item1" }, { "caption": "Item2", "isChecked": true },
                             { "caption": "Item3" }, { "caption": "Item4" },
                             { "caption": "Item5", "isChecked": true }, { "caption": "Item6", "isChecked": true },
                             { "caption": "Item7", "isChecked": true }] }
@@ -248,85 +249,71 @@
                     <jagui-labeledimage id="_feijqi4" data-class="LabeledImage" class="Control LabeledImage"><properties>{ "name": "LabeledImage1", "tabOrder": 62, "left": 1010, "top": 600, "width": 205, "height": 60, "caption": "LabeledImage :&nbsp;", "src": "images/bag.png" }</properties></jagui-labeledimage>
                     <jagui-labeledmemo id="_v03cbfk" data-class="LabeledMemo" class="Control LabeledMemo"><properties>{ "name": "LabeledMemo1", "tabOrder": 63, "left": 1010, "top": 530, "width": 205, "height": 60, "caption": "LabeledMemo :&nbsp;", "text": "LabeledMemo" }</properties></jagui-labeledmemo>
                     <jagui-treeview id="_n2vg450" data-class="TreeView" class="Control scrollContent TreeView {theme}"><properties>{ "name": "TreeView1", "tabOrder": 64, "left": 1010, "top": 10, "width": 100, "height": 140, "items": [{ "caption": "Item1" }, { "caption": "Item2", "expanded": true, "items":[{ "caption": "Item3" }, { "caption": "Item4", "isChecked": true, "items": [{ "caption": "Item5", "isChecked": true, "visible": false }, { "caption": "Item6", "isChecked": true, "enabled": false, "visible": false }] }] }, { "caption": "Item7", "isChecked": true }, { "caption": "Item8", "isChecked": true },{ "caption": "Item9", "isChecked": true }, { "caption": "Item10" }, { "caption": "Item11" }, { "caption": "Item12" }, { "caption": "Item13" }, { "caption": "Item14" }, { "caption": "Item15" }, { "caption": "Item16" }, { "caption": "Item17" }] }</properties></jagui-treeview>
-                            <!--<div id="_faqc3ci" name="TreeView2" data-class="TreeView" class="Control scrollContent TreeView {theme} viewcheckboxes scrollbars-both"
-                                data-scrollbars="both" data-viewcheckboxes="true" data-taborder="65" data-images="imageList1" style="left: 1010px;top: 160px;width: 100px;height: 140px;">
-                                <div class="Control TreeViewContent {theme}"></div>
-                                <div id="_ysbexpp" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
-                                    data-orientation="horizontal">
-                                    <div id="_ysbexpp_3" class="Control {theme} csr_default">
-                                        <div class="Control ScrollBar_thumb {theme} csr_default"></div>
-                                    </div>
-                                    <button id="_ysbexpp_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
-                                    <button id="_ysbexpp_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
-                                </div>
-                                <div id="_8iivvty" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
-                                    data-orientation="vertical">
-                                    <div id="_8iivvty_3" class="Control {theme} csr_default">
-                                        <div class="Control ScrollBar_thumb {theme} csr_default"></div>
-                                    </div>
-                                    <button id="_8iivvty_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
-                                    <button id="_8iivvty_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
-                                </div>
-                                <properties>
-                                    [{ "text":"Item1","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":true,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":0,"items":[]
-                                    }, { "text":"Item2","height":16,"isChecked":false,"enabled":true,"expanded":true,"visible":true,"allowgrayed":true,"state":"grayed","isChecked":false,"imageIndex":1,
-                                    "items":[ { "text":"Item3","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":true,"allowgrayed":false,"state":"unchecked","isChecked":true,"imageIndex":2,"items":[]
-                                    }, {"text":"Item4","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":true,"allowgrayed":true,"state":"grayed","isChecked":false,"imageIndex":3,
-                                    "items":[ {"text":"Item5","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":true,"imageIndex":4,"items":[]},
-                                    {"text":"Item6","height":16,"isChecked":true,"enabled":false,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":5,"items":[]},
-                                    {"text":"Item7","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":6,"items":[]},
-                                    {"text":"Item8","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":7,"items":[]},
-                                    {"text":"Item9","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":8,"items":[]},
-                                    {"text":"Item10","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":9,"items":[]},
-                                    {"text":"Item11","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":10,"items":[]},
-                                    {"text":"Item12","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":11,"items":[]},
-                                    {"text":"Item13","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":12,"items":[]},
-                                    {"text":"Item14","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"cssImage":"button","items":[]}
-                                    ] } ] } ]
-                                </properties>
+                    <!--<div id="_faqc3ci" name="TreeView2" data-class="TreeView" class="Control scrollContent TreeView {theme} viewcheckboxes scrollbars-both"
+                        data-scrollbars="both" data-viewcheckboxes="true" data-taborder="65" data-images="imageList1" style="left: 1010px;top: 160px;width: 100px;height: 140px;">
+                        <div class="Control TreeViewContent {theme}"></div>
+                        <div id="_ysbexpp" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
+                            data-orientation="horizontal">
+                            <div id="_ysbexpp_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
                             </div>
-                            <div id="_t61e8xz" name="imageList1" data-class="ImageList" class="Control ShortCutIcon imageList" style="left: 0;top: 400px;">
-                                <properties>["images/home.png","images/duck.png","images/clock.png","images/earth.png","images/folder.png"]</properties>
-                                <div class="Control ShortCutIconImg imagelist">
-                                    <div class="Control ShortCutIconCaption">imageList1</div>
-                                </div>
-                            </div>
-                            <div id="_t61e8xs" name="PopupMenu1" data-class="PopupMenu" class="Control PopupMenu ShortCutIcon" data-images="imageList1"
-                                style="left: 40px;top: 400px;">
-                                <properties>[{"caption":"File","shortcut":"","enabled":true,"visible":true,"items":[ {"caption":"New","shortcut":"","enabled":true,"visible":true,"imageIndex":0,"items":[]},
-                                    {"caption":"Open","shortcut":"","enabled":true,"visible":true,"imageIndex":1,"items":[]}, {"caption":"-","shortcut":"","enabled":true,"visible":true,"items":[]},
-                                    {"caption":"Save","shortcut":"","enabled":true,"visible":true,"imageIndex":2,"items":[]}, {"caption":"Save
-                                    As...","shortcut":"","enabled":true,"visible":true,"imageIndex":3,"items":[]}, {"caption":"-","shortcut":"","enabled":true,"visible":true,"items":[]},
-                                    {"caption":"Others","shortcut":"","enabled":true,"visible":true,"imageIndex":4,"items":[ {"caption":"New","shortcut":"","enabled":true,"visible":true,"items":[
-                                    {"caption":"New","shortcut":"","enabled":true,"visible":true,"items":[]} ]}, {"caption":"Save
-                                    As...","shortcut":"","enabled":true,"visible":true,"items":[]} ]}, {"caption":"-","shortcut":"","enabled":true,"visible":true,"items":[]},
-                                    {"caption":"Quit","shortcut":"","enabled":true,"visible":true,"imageIndex":5,"items":[]} ]},
-                                    {"caption":"Edit","shortcut":"","enabled":true,"visible":true,"items":[]}, {"caption":"View","shortcut":"","enabled":true,"visible":true,"items":[]}
-                                    ]
-                                </properties>
-                                <div class="Control ShortCutIconImg popupmenu">
-                                    <div class="Control ShortCutIconCaption">PopupMenu1</div>
-                                </div>
-                            </div>-->
-                    <jagui-memo id="_gkawh6l" data-class="Memo" class="Control Memo {theme}"><properties>{ "name": "Memo1", "tabOrder": 66, "left": 1290, "top": 410, "width": 134, "height": 94, "text": "Memo" }</properties></jagui-memo>
-                    <!--<div id="_xh655zu" name="DropDownListBox1" data-class="DropDownListBox" class="Control DropDownListBox {theme}" data-editable="false"
-                        data-taborder="67" style="left: 900px;top: 370px;width:100px;">
-                        <div class="Control DropDownListBoxContent">
-                            <input type="text" readonly="readonly" class="Control csr_default DropDownListBoxInput {theme}" />
+                            <button id="_ysbexpp_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_ysbexpp_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
                         </div>
-                        <span class="Control DropDownListBoxArrow {theme}"></span>
-                        <properties>[{"text":"Item1","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":0}, {"text":"Item2","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":16},
-                            {"text":"Item3","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":32}, {"text":"Item4","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":48},
-                            {"text":"Item5","height":13,"isChecked":false,"enabled":true,"isHeader":true,"top":64}, {"text":"Item6","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":80},
-                            {"text":"Item7","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":112}, {"text":"Item8","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":128},
-                            {"text":"Item9","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":144}, {"text":"Item10","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":160},
-                            {"text":"Item11","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":176}, {"text":"Item12","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":192},
-                            {"text":"Item13","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":208}, {"text":"Item14","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":224},
-                            {"text":"Item15","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":240}, {"text":"Item16","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":256},
-                            {"text":"Item17","height":13,"isChecked":false,"enabled":true,"isHeader":false,"top":272}]
+                        <div id="_8iivvty" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-vertical" data-value="0" data-contentsize="0"
+                            data-orientation="vertical">
+                            <div id="_8iivvty_3" class="Control {theme} csr_default">
+                                <div class="Control ScrollBar_thumb {theme} csr_default"></div>
+                            </div>
+                            <button id="_8iivvty_1" data-class="Button" class="Control Button {theme} ScrollBarFirstButton csr_default"></button>
+                            <button id="_8iivvty_2" data-class="Button" class="Control Button {theme} ScrollBarLastButton csr_default"></button>
+                        </div>
+                        <properties>
+                            [{ "text":"Item1","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":true,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":0,"items":[]
+                            }, { "text":"Item2","height":16,"isChecked":false,"enabled":true,"expanded":true,"visible":true,"allowgrayed":true,"state":"grayed","isChecked":false,"imageIndex":1,
+                            "items":[ { "text":"Item3","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":true,"allowgrayed":false,"state":"unchecked","isChecked":true,"imageIndex":2,"items":[]
+                            }, {"text":"Item4","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":true,"allowgrayed":true,"state":"grayed","isChecked":false,"imageIndex":3,
+                            "items":[ {"text":"Item5","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":true,"imageIndex":4,"items":[]},
+                            {"text":"Item6","height":16,"isChecked":true,"enabled":false,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":5,"items":[]},
+                            {"text":"Item7","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":6,"items":[]},
+                            {"text":"Item8","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":7,"items":[]},
+                            {"text":"Item9","height":16,"isChecked":true,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":8,"items":[]},
+                            {"text":"Item10","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":9,"items":[]},
+                            {"text":"Item11","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":10,"items":[]},
+                            {"text":"Item12","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":11,"items":[]},
+                            {"text":"Item13","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"imageIndex":12,"items":[]},
+                            {"text":"Item14","height":16,"isChecked":false,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","isChecked":false,"cssImage":"button","items":[]}
+                            ] } ] } ]
                         </properties>
                     </div>
-                    <div id="_xh685zu" name="DropDownListBoxColor1" data-class="DropDownListBoxColor" class="Control DropDownListBox DropDownListBoxColor {theme}"
+                    <div id="_t61e8xz" name="imageList1" data-class="ImageList" class="Control ShortCutIcon imageList" style="left: 0;top: 400px;">
+                        <properties>["images/home.png","images/duck.png","images/clock.png","images/earth.png","images/folder.png"]</properties>
+                        <div class="Control ShortCutIconImg imagelist">
+                            <div class="Control ShortCutIconCaption">imageList1</div>
+                        </div>
+                    </div>
+                    <div id="_t61e8xs" name="PopupMenu1" data-class="PopupMenu" class="Control PopupMenu ShortCutIcon" data-images="imageList1"
+                        style="left: 40px;top: 400px;">
+                        <properties>[{"caption":"File","shortcut":"","enabled":true,"visible":true,"items":[ {"caption":"New","shortcut":"","enabled":true,"visible":true,"imageIndex":0,"items":[]},
+                            {"caption":"Open","shortcut":"","enabled":true,"visible":true,"imageIndex":1,"items":[]}, {"caption":"-","shortcut":"","enabled":true,"visible":true,"items":[]},
+                            {"caption":"Save","shortcut":"","enabled":true,"visible":true,"imageIndex":2,"items":[]}, {"caption":"Save
+                            As...","shortcut":"","enabled":true,"visible":true,"imageIndex":3,"items":[]}, {"caption":"-","shortcut":"","enabled":true,"visible":true,"items":[]},
+                            {"caption":"Others","shortcut":"","enabled":true,"visible":true,"imageIndex":4,"items":[ {"caption":"New","shortcut":"","enabled":true,"visible":true,"items":[
+                            {"caption":"New","shortcut":"","enabled":true,"visible":true,"items":[]} ]}, {"caption":"Save
+                            As...","shortcut":"","enabled":true,"visible":true,"items":[]} ]}, {"caption":"-","shortcut":"","enabled":true,"visible":true,"items":[]},
+                            {"caption":"Quit","shortcut":"","enabled":true,"visible":true,"imageIndex":5,"items":[]} ]},
+                            {"caption":"Edit","shortcut":"","enabled":true,"visible":true,"items":[]}, {"caption":"View","shortcut":"","enabled":true,"visible":true,"items":[]}
+                            ]
+                        </properties>
+                        <div class="Control ShortCutIconImg popupmenu">
+                            <div class="Control ShortCutIconCaption">PopupMenu1</div>
+                        </div>
+                    </div>-->
+                    <jagui-memo id="_gkawh6l" data-class="Memo" class="Control Memo {theme}"><properties>{ "name": "Memo1", "tabOrder": 66, "left": 1290, "top": 410, "width": 134, "height": 94, "text": "Memo" }</properties></jagui-memo>
+                    <jagui-dropdownlistbox id="_xh655zu" data-class="DropDownListBox" class="Control DropDownListBox {theme}">
+                        <properties>{ "name": "DropDownListBox1", "editable": false, "taborder": 67, "left": 900, "top": 370, "width": 100, "items" : [{ "caption": "Item1" }, { "caption": "Item2" }, { "caption": "Item3" }, {"caption": "Item4" }, { "caption": "Item5", "isHeader": true }, { "caption": "Item6" }, { "caption": "Item7" }, { "caption": "Item8" }, { "caption": "Item9" }, { "caption": "Item10" }, { "caption": "Item11" }, { "caption": "Item12" },
+                            { "caption": "Item13" }, { "caption": "Item14" }, { "caption": "Item15" }, { "caption": "Item16" }, { "caption": "Item17" }] }</properties></jagui-dropdownlistbox>
+                    <!--<div id="_xh685zu" name="DropDownListBoxColor1" data-class="DropDownListBoxColor" class="Control DropDownListBox DropDownListBoxColor {theme}"
                         data-editable="false" data-value="" data-taborder="68" style="left: 1010px;top: 370px;width:100px;">
                         <div class="Control DropDownListBoxColorColorBox {theme}"></div>
                         <div class="Control DropDownListBoxColorContent DropDownListBoxContent {theme}">
