@@ -91,7 +91,6 @@ class ListBoxPopup extends ListBox {
             if (!dropDownListBox.updating) {
                 dropDownListBox.onChange.invoke();
             }
-            //dropDownListBox.lastScrollTop = item._owner._scrollTop;
             item.form.closePopups();
         }
     }
@@ -147,21 +146,6 @@ const DropDownListBoxPopup = (() => {
             return internal(this).listBox;
         }
         //#endregion listBox
-        //get template() {
-        //    let html = super.template;
-        //    let a = html.split('{listBox}');
-        //    const arr = [];
-        //    if (a.length > 1) {
-        //        Array.prototype.push.apply(arr, priv.listBox.dropDownListBox.items);
-        //        while (i = arr.pop()) {
-        //            priv.listBox.items.push(i.clone());
-        //        }
-        //        priv.listBox.items.reverse();
-        //        html = a.join(priv.listBox.template);
-        //    }
-        //    return html;
-        //}
-        //#endregion Getters / Setters
         //#region Method
         loaded() {
             //#region Variables déclaration
@@ -212,14 +196,6 @@ const DropDownListBoxPopup = (() => {
             priv.lbItemsHeight = null;
             priv.listBox = null;
         }
-        //getChildsHTMLElement: function () {
-        //    this._listBox.getHTMLElement(this._HTMLElement.firstElementChild.id);
-        //    this._listBox._HTMLElementStyle.width = this._lbWidth + $j.types.CSSUnits.PX;
-        //    this._listBox._HTMLElementStyle.height = this._lbHeight + $j.types.CSSUnits.PX;
-        //    this._listBox.getChildsHTMLElement();
-        //    this._listBox.refreshInnerHeight();
-        //    $j.CSS.addClass(this._listBox._HTMLElement, "csr_default");
-        //}
         keyUp() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -662,11 +638,6 @@ const DropDownListBox = (() => {
             priv.input = null;
             priv.opened = null;
             priv.text = null;
-            //while (this.items.length > 0) {
-            //    this.items.last.destroy();
-            //    this.items[this.items.length - 1] = null;
-            //    this.items.removeAt(this.items.length - 1);
-            //}
             this.clearItems();
             this.items.clear();
             this.items.destroy();
@@ -773,28 +744,3 @@ if (Core.isHTMLRenderer) {
     ]);
 }
 //#endregion Templates
-/*
-(function () {
-    //#region DropDownListBox
-    var DropDownListBox = $j.classes.ThemedControl.extend("DropDownListBox", {
-        //#region Setters
-        //#endregion
-        //#region Methods
-        loaded: function () {
-            this._inherited();
-            this.getImages();
-        },
-        getImages: function () {
-            var data = this._HTMLElement.dataset.images;
-            if (data) {
-                if (this.form[data]) {
-                    this.images = this.form[data];
-                }
-            }
-        }
-        //#endregion
-    });
-    Object.seal(DropDownListBox);
-    //#endregion
-})();
-*/

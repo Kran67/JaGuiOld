@@ -709,12 +709,6 @@ const ListBox = (() => {
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
                 priv.scrollPos = Math.max(Math.min(htmlElement[`scroll${prop}`], priv.innerHeight - htmlElement[`offset${propSize}`]), 0);
-                //if (vert) {
-                //    
-                //}
-                //else {
-                //    priv.scrollPos = Math.max(Math.min(htmlElement.scrollLeft, priv.innerHeight - htmlElement.offsetWidth), 0);
-                //}
                 priv.visibleItems = [];
                 let topIndex = 0;
                 topIndex = ~~(priv.scrollPos / priv.itemsSize);
