@@ -67,7 +67,7 @@ import '/scripts/components/common/timepanel.js';
 import '/scripts/components/extended/imagecontrol.js';
 import '/scripts/components/extended/labeledimage.js';
 import '/scripts/components/extended/imageviewer.js';
-//import { dropDownTimePanel } from '/scripts/components/common/dropDownTimePanel.js';
+import '/scripts/components/common/dropdowntimepanel.js';
 import '/scripts/components/extended/bitmapstatebutton.js';
 import '/scripts/components/common/busyindicator.js';
 import '/scripts/components/extended/splitbutton.js';

@@ -43,7 +43,7 @@ const ItemsWheel = (() => {
                 priv.animated = !0;
                 this.hitTest = !0;
                 Core.classes.newCollection(this, this, Types.CONSTANTS.STRING);
-                this.onChange = new NotifyEvent(this);
+                this.createEventsAndBind(['onChange'], props);
                 this.canFocused = !0;
                 delete this.tabOrder;
                 this.stopEvent = !0;
@@ -90,6 +90,7 @@ const ItemsWheel = (() => {
                         priv.content.style.top = `${-offset}${Types.CSSUNITS.PX}`;
                     }
                     priv.value = items[priv.index];
+                    this.onChange.invoke();
                 }
             }
         }
@@ -168,7 +169,9 @@ const ItemsWheel = (() => {
             if (index + offset < 0 || index + offset > this.items.length - 1) {
                 offset = 0;
             }
-            if (offset === 0) return;
+            if (offset === 0) {
+                return;
+            }
             this.index = index + offset;
         }
         //#endregion scrollBy

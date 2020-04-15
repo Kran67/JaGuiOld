@@ -33,7 +33,7 @@ const TimePanel = (() => {
                 priv.use24H = props.hasOwnProperty('use24H') && Tools.isBool(props.use24H) ? props.use24H : !0;
                 priv.viewSeconds = props.hasOwnProperty('viewSeconds') && Tools.isBool(props.viewSeconds) ? props.viewSeconds : !1;
                 this.createEventsAndBind(['onChange'], props);
-                this.canFocused = !0;
+                this.canFocused = props.hasOwnProperty('canFocused') && Tools.isBool(props.canFocused) ? props.canFocused : !0;
             }
         }
         //#endregion constructor
@@ -121,6 +121,26 @@ const TimePanel = (() => {
             }
         }
         //#endregion isFocused
+        //#region hours
+        get hours() {
+            return internal(this).hours;
+        }
+        //#endregion hours
+        //#region minutes
+        get minutes() {
+            return internal(this).minutes;
+        }
+        //#endregion minutes
+        //#region seconds
+        get seconds() {
+            return internal(this).seconds;
+        }
+        //#endregion seconds
+        //#region meridiem
+        get meridiem() {
+            return internal(this).meridiem;
+        }
+        //#endregion meridiem
         //#endregion Getters / Setters
         //#region Methods
         killFocus() {
@@ -311,3 +331,4 @@ if (Core.isHTMLRenderer) {
     Core.classes.registerTemplates([{ Class: TimePanel, template: TimePanelTpl }]);
 }
 //#endregion
+export { TimePanel };

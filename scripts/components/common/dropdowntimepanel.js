@@ -1,12 +1,12 @@
 ﻿//#region Import
-import { Calendar } from '/scripts/components/common/calendar.js';
+import { TimePanel } from '/scripts/components/common/timepanel.js';
 import { PopupBox } from '/scripts/core/popupbox.js';
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Tools } from '/scripts/core/tools.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Import
-//#region Class CalendarPopup
-class CalendarPopup extends Calendar {
+//#region Class TimePanelPopup
+class TimePanelPopup extends TimePanel {
     //#region constructor
     constructor(owner, props) {
         //#region Variables déclaration
@@ -15,23 +15,33 @@ class CalendarPopup extends Calendar {
         if (owner) {
             props.closePopups = !1;
             super(owner, props);
+            this.forceMouseWheel = !0;
         }
     }
     //#endregion constructor
-    //#region Methods
-    //#region selectDay
-    selectDay() {
-        const obj = this.jsObj;
-        super.selectDay();
-        obj.dropDownCalendar.date = obj.date;
-        obj.form.closePopups();
+    //#region change
+    change() {
+        super.change();
+        this.owner.dropDownTimePanel.text = this.owner.time;
     }
-    //#endregion selectDay
+    //#endregion change
+    //#region Methods
+    //#region loaded
+    loaded() {
+        super.loaded();
+        const hours = this.hours;
+        hours.forceMouseWheel = this.minutes.forceMouseWheel = this.seconds.forceMouseWheel = this.meridiem.forceMouseWheel = !0;
+        hours.closePopups = this.minutes.closePopups = this.seconds.closePopups = this.meridiem.closePopups = !1;
+        hours.canFocused = this.minutes.canFocused = this.seconds.canFocused = this.meridiem.canFocused = !1;
+        hours.HTMLElement.classList.add('focused');
+        this.isFocused = !0;
+    }
+    //#endregion loaded
     //#endregion Methods
 }
-//#endregion CalendarPopup
-//#region DropDownCalendarPopup
-const DropDownCalendarPopup = (() => {
+//#endregion TimePanelPopup
+//#region DropDownTimePanelPopup
+const DropDownTimePanelPopup = (() => {
     //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
@@ -43,26 +53,27 @@ const DropDownCalendarPopup = (() => {
         return _private.get(key);
     };
     //#endregion Private
-    //#region Class DropDownCalendarPopup
-    class DropDownCalendarPopup extends PopupBox {
+    //#region Class DropDownTimePanelPopup
+    class DropDownTimePanelPopup extends PopupBox {
         //#region constructor
         constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
                 props.closePopups = !1;
-                props.canFocused = !1
+                props.canFocused = !1;
                 super(owner, props);
+                const priv = internal(this);
+                priv.use24H = props.use24H;
+                priv.viewSeconds = props.viewSeconds;
             }
         }
         //#endregion constructor
         //#region Getters / Setters
-        //#region calendar
-        get calendar() {
-            return internal(this).calendar;
+        //#region timePanel
+        get timePanel() {
+            return internal(this).timePanel;
         }
-        //#endregion calendar
+        //#endregion timePanel
         //#endregion Getters / Setters
         //#region Methods
         //#region show
@@ -71,23 +82,30 @@ const DropDownCalendarPopup = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.show(x, y);
-            if (!priv.calendar.HTMLElement) {
-                priv.calendar.getHTMLElement(priv.calendar.internalId);
+            if (!priv.timePanel.HTMLElement) {
+                priv.timePanel.getHTMLElement(priv.timePanel.internalId);
             }
+            priv.timePanel.HTMLElement.classList.add('focused');
+            priv.timePanel.time = this.owner.text;
         }
         //#endregion show
         //#region loaded
         loaded() {
             //#region Variables déclaration
             const priv = internal(this);
+            const owner = this.owner;
             //#endregion Variables déclaration
             super.loaded();
-            priv.calendar = Core.classes.createComponent({
-                class: CalendarPopup,
+            priv.timePanel = Core.classes.createComponent({
+                class: TimePanelPopup,
                 owner: this,
-                canFocused: !1
+                props: {
+                    canFocused: !1,
+                    use24H: priv.use24H,
+                    viewSeconds: priv.viewSeconds
+                }
             });
-            priv.calendar.dropDownCalendar = this.owner;
+            priv.timePanel.dropDownTimePanel = owner;
         }
         //#endregion loaded
         //#region destroy
@@ -103,13 +121,13 @@ const DropDownCalendarPopup = (() => {
         //#endregion destroy
         //#endregion Methods
     }
-    return DropDownCalendarPopup;
-    //#endregion DropDownCalendarPopup
+    return DropDownTimePanelPopup;
+    //#endregion DropDownTimePanelPopup
 })();
-Object.seal(DropDownCalendarPopup);
-//#endregion DropDownCalendarPopup
-//#region DropDownCalendar
-const DropDownCalendar = (() => {
+Object.seal(DropDownTimePanelPopup);
+//#endregion DropDownTimePanelPopup
+//#region DropDownTimePanel
+const DropDownTimePanel = (() => {
     //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
@@ -121,12 +139,10 @@ const DropDownCalendar = (() => {
         return _private.get(key);
     };
     //#endregion Private
-    //#region Class DropDownCalendar
-    class DropDownCalendar extends ThemedControl {
+    //#region Class DropDownTimePanel
+    class DropDownTimePanel extends ThemedControl {
         //#region constructor
         constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
                 props.height = 20;
@@ -137,14 +153,14 @@ const DropDownCalendar = (() => {
                 priv.content = null;
                 priv.dropDownPopup = null;
                 priv.opened = props.hasOwnProperty('opened') && Tools.isBool(props.opened) ? props.opened : !1;
-                priv.date = props.hasOwnProperty('date') ? new Date(props.date) : new Date();
                 priv.text = props.hasOwnProperty('text') ? props.text : String.EMPTY;
-                //priv.editable=!1;
                 this.hitTest.all = !0;
                 this.hitTest.mouseWheel = !1;
                 this.hitTest.dblClick = !1;
                 this.createEventsAndBind(['onChange'], props);
                 this.stopEvent = !0;
+                priv.use24H = props.hasOwnProperty('use24H') && Tools.isBool(props.use24H) ? props.use24H : !1;
+                priv.viewSeconds = props.hasOwnProperty('viewSeconds') && Tools.isBool(props.viewSeconds) ? props.viewSeconds : !1;
             }
         }
         //#endregion constructor
@@ -191,32 +207,14 @@ const DropDownCalendar = (() => {
             }
         }
         //#endregion opened
-        //#region date
-        get date() {
-            return internal(this).date;
-        }
-        set date(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if ((newValue instanceof Date)) {
-                if (!priv.date.equals(newValue)) {
-                    priv.date = new Date(newValue);
-                    priv.text = priv.date.toString(Tools.getLocale().date.formatPatterns.shortDate);
-                    this.update();
-                    this.onChange.invoke();
-                }
-            }
-        }
-        //#endregion date
         //#region template
         get template() {
             //#region Variables déclaration
             const priv = internal(this);
-            let html = super.template();
-            let a = html.split('{date}');
+            let html = super.template;
+            let a = html.split('{text}');
             //#endregion Variables déclaration
-            html = a.join(priv.date.toString());
+            html = a.join(priv.text.toString());
             return html;
         }
         //#endregion template
@@ -242,11 +240,11 @@ const DropDownCalendar = (() => {
             //#endregion Variables déclaration
             if (this === this.form.focusedControl) {
                 if (lastOpened) {
-                    this.closePopups = !1;
+                    this.closePopups = false;
                 }
             }
             super.mouseDown();
-            this.closePopups = !0;
+            this.closePopups = true;
             this.opened = !this.opened;
         }
         //#endregion mouseDown
@@ -258,14 +256,16 @@ const DropDownCalendar = (() => {
             //#endregion Variables déclaration
             if (!priv.dropDownPopup) {
                 priv.dropDownPopup = Core.classes.createComponent({
-                    class: DropDownCalendarPopup,
+                    class: DropDownTimePanelPopup,
                     owner: this,
                     props: {
                         parentHTML: document.body,
-                        refControl: this
+                        refControl: this,
+                        use24H: priv.use24H,
+                        viewSeconds: priv.viewSeconds,
+                        time: priv.text
                     }
                 });
-                priv.dropDownPopup.calendar.date = new Date(priv.date);
                 priv.dropDownPopup.HTMLElement.classList.remove('hidden');
                 priv.dropDownPopup.show(pt.x, pt.y + this.HTMLElement.offsetHeight);
                 priv.dropDownPopup.HTMLElement.classList.add('animated', 'fadeIn');
@@ -277,7 +277,7 @@ const DropDownCalendar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.dropDownPopup.calendar.destroy();
+            priv.dropDownPopup.timePanel.destroy();
             priv.dropDownPopup.destroy();
             priv.dropDownPopup = null;
             priv.opened = !1;
@@ -285,20 +285,20 @@ const DropDownCalendar = (() => {
         //#endregion destroyPopup
         //#region keyDown
         keyDown() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             super.keyDown();
             if (Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
                 if (!priv.opened) {
-                    this.opened = !0;
+                    this.opened = true;
                 } else {
-                    if (!priv.dropDownPopup.calendar.mode) {
-                        this.text = priv.dropDownPopup.calendar.curDate.toString(Tools.getLocale().date.formatPatterns.shortDate);
-                        this.opened = !1;
-                    } else if (priv.dropDownPopup) {
-                        priv.dropDownPopup.calendar.keyDown();
+                    if (priv.dropDownPopup) {
+                        priv.dropDownPopup.timePanel.keyDown();
                     }
                 }
             } else if (priv.dropDownPopup) {
-                priv.dropDownPopup.calendar.keyDown();
+                priv.dropDownPopup.timePanel.keyDown();
             }
         }
         //#endregion keyDown
@@ -311,12 +311,11 @@ const DropDownCalendar = (() => {
             //#endregion Variables déclaration
             super.loaded();
             priv.content = document.createElement(`${TAG}caption`);
-            priv.content.classList.add('DropDownCalendarCaption');
+            priv.content.classList.add('DropDownTimePanelCaption');
             priv.content.jsObj = this;
             htmlElement.appendChild(priv.content);
             htmlElement.appendChild(document.createElement(`${TAG}arrow`));
             htmlElement.lastElementChild.classList.add('DropDownListBoxArrow');
-            priv.text = priv.date.toString(Tools.getLocale().date.formatPatterns.shortDate);
             priv.content.innerHTML = priv.text;
         }
         //#endregion loaded
@@ -327,29 +326,28 @@ const DropDownCalendar = (() => {
             //#endregion Variables déclaration
             priv.content = null;
             priv.opened = null;
-            priv.date = null;
             priv.text = null;
             super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
     }
-    return DropDownCalendar;
-    //#endregion DropDownCalendar
+    return DropDownTimePanel;
+    //#endregion DropDownTimePanel
 })();
-Object.seal(DropDownCalendar);
-//#endregion DropDownCalendar
-Core.classes.register(Types.CATEGORIES.INTERNAL, CalendarPopup, DropDownCalendarPopup);
-Core.classes.register(Types.CATEGORIES.COMMON, DropDownCalendar);
+Object.seal(DropDownTimePanel);
+//#endregion DropDownTimePanel
+Core.classes.register(Types.CATEGORIES.INTERNAL, TimePanelPopup, DropDownTimePanelPopup);
+Core.classes.register(Types.CATEGORIES.COMMON, DropDownTimePanel);
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const DropDownCalendarTpl = `<jagui-dropdowncalendar id="{internalId}" data-class="DropDownCalendar" class="Control DropDownListBox DropDownCalendar {theme}"><properties>{ "name": "{name}", "width": 80 }</properties></jagui-dropdowncalendar>`;
-    const DropDownCalendarPopupTpl = Core.templates['PopupBox'].replace('PopupBox', 'PopupBox PopupBoxCalendar');
+    const DropDownTimePanelTpl = `<jagui-dropdowncalendar id="{internalId}" data-class="DropDownTimePanel" class="Control DropDownListBox DropDownTimePanel {theme}"><properties>{ "name": "{name}", "width": 80 }</properties></jagui-dropdowntimepanel>`;
+    const DropDownTimePanelPopupTpl = Core.templates['PopupBox'].replace('PopupBox', 'PopupBox PopupBoxTimePanel');
     Core.classes.registerTemplates([
-        { Class: DropDownCalendar, template: DropDownCalendarTpl },
-        { Class: DropDownCalendarPopup, template: DropDownCalendarPopupTpl },
-        { Class: CalendarPopup, template: Core.templates['Calendar'] }
+        { Class: DropDownTimePanel, template: DropDownTimePanelTpl },
+        { Class: DropDownTimePanelPopup, template: DropDownTimePanelPopupTpl },
+        { Class: TimePanelPopup, template: Core.templates['TimePanel'] }
     ]);
 }
 //#endregion
-export { CalendarPopup, DropDownCalendarPopup, DropDownCalendar }
+export { TimePanelPopup, DropDownTimePanelPopup, DropDownTimePanel }

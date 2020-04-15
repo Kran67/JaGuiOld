@@ -1,4 +1,4 @@
-﻿div.DropDownTimePanel {
+﻿.DropDownTimePanel {
     max-width: 85px;
     min-width: 85px;
     display: flex;
@@ -6,7 +6,7 @@
     flex-wrap: nowrap;
 }
 
-div.DropDownTimePanelCaption {
+.DropDownTimePanelCaption {
     white-space: nowrap;
     overflow: hidden;
     flex: 1;
@@ -14,8 +14,4 @@ div.DropDownTimePanelCaption {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-div.PopupTimePanel div.TimePanel {
-    position: relative;
 }

@@ -75,8 +75,8 @@ class ListBoxPopup extends ListBox {
             items.forEach(item => {
                 item.removeToHTML();
                 item.owner = this;
-                item.isChecked = false;
-                item.selected = false;
+                item.isChecked = !1;
+                item.selected = !1;
             });
             super.refreshInnerHeight();
         }
@@ -245,20 +245,20 @@ const DropDownListBox = (() => {
                 const priv = internal(this);
                 priv.content = null;
                 priv.dropDownPopup = null;
-                priv.opened = props.hasOwnProperty('opened') && Tools.isBool(props.opened) ? props.opened : false;
+                priv.opened = props.hasOwnProperty('opened') && Tools.isBool(props.opened) ? props.opened : !1;
                 priv.text = props.hasOwnProperty('text') ? props.text : String.EMPTY;
                 priv.input = null;
                 priv.dropDownCount = 8;
-                priv.editable = false;
-                this.hitTest.all = true;
-                this.hitTest.mouseWheel = false;
-                this.hitTest.dblClick = false;
+                priv.editable = !1;
+                this.hitTest.all = !0;
+                this.hitTest.mouseWheel = !1;
+                this.hitTest.dblClick = !1;
                 this.createEventsAndBind(['onChange', 'onDrawItem'], props);
                 this.stopEvent = !0;
                 Core.classes.newCollection(this, this, ListBoxItemPopup);
                 //if (this._ClassName === "DropDownListBox") {
-                //    priv.editable = false;
-                //    priv.autoComplete = false;
+                //    priv.editable = !1;
+                //    priv.autoComplete = !1;
                 //    priv.autoCompleteDelay = 500;
                 //    $j.tools.addPropertyFromSet(this, "charCase", $j.types.charCases, $j.types.charCases.NORMAL);
                 //    priv.maxLength = 0;
@@ -735,7 +735,7 @@ Core.classes.register(Types.CATEGORIES.INTERNAL, DropDownListBoxPopup, ListBoxPo
 Core.classes.register(Types.CATEGORIES.COMMON, DropDownListBox);
 //#region Templates
 if (Core.isHTMLRenderer) {
-    const DropDownListBoxTpl = '<jagui-dropdownlistbox id="{internalId}" data-class="DropDownListBox" class="Control DropDownListBox {theme}"><properties>{ "name": "{name}", "editable": false, "width": 100 }</properties></jagui-dropdownlistbox>';
+    const DropDownListBoxTpl = '<jagui-dropdownlistbox id="{internalId}" data-class="DropDownListBox" class="Control DropDownListBox {theme}"><properties>{ "name": "{name}", "editable": !1, "width": 100 }</properties></jagui-dropdownlistbox>';
     const DropDownListBoxPopupTpl = Core.templates['PopupBox'].replace('PopupBox', 'PopupBox PopupListBox');
     Core.classes.registerTemplates([
         { Class: DropDownListBox, template: DropDownListBoxTpl },

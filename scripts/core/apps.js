@@ -244,7 +244,7 @@ let Apps = (() => {
                             }
                         }
                         if (!form.popups.isEmpty) {
-                            if (form.popups.last instanceof Core.classes.PopupMenu) {
+                            if (Core.classes.PopupMenu && form.popups.last instanceof Core.classes.PopupMenu) {
                                 form.popups.last.keyDown();
                                 break;
                             }
