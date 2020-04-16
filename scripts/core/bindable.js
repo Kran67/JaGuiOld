@@ -120,7 +120,6 @@ const Bindable = (() => {
         //#region destroy
         destroy() {
             this.clear();
-            internal(this).dataBindings = null;
             super.destroy();
         }
         //#endregion destroy

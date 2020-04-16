@@ -148,7 +148,7 @@ const TimePanel = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.killFocus();
-            priv.currentItemWheel.HTMLElement.classList.remove('focused');
+            priv.currentItemWheel ? priv.currentItemWheel.HTMLElement.classList.remove('focused') : null;
         }
         update() {
             //#region Variables déclaration

@@ -186,11 +186,6 @@ class NotifyEvent {
      */
     //#region clearListeners
     clearListeners() {
-        //for (let i = 0, l = this.listeners.length; i < l; i++) {
-        //    if (this.listeners[i] && this.listeners[i].func) {
-        //        if (typeof this.listeners[i].func === Types.CONSTANTS.FUNCTION) this.removeListener(this.listeners[i].func);
-        //    }
-        //}
         this.listeners.length = 0;
     }
     //#endregion clearListeners
@@ -199,6 +194,7 @@ class NotifyEvent {
      */
     //#region destroy
     destroy() {
+        this.clearListeners();
         this.listeners.destroy();
     }
     //#endregion destroy

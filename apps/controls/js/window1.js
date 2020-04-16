@@ -61,7 +61,7 @@ import '/scripts/components/extended/labeledslider.js';
 import '/scripts/components/extended/labeledmemo.js';
 //import { dropDownColors } from '/scripts/components/color/dropDownColors.js';
 import '/scripts/components/common/dropdowncalendar.js';
-//import { dropDownSlider } from '/scripts/components/extended/dropDownSlider.js';
+import '/scripts/components/extended/dropdownslider.js';
 import '/scripts/components/common/numberwheel.js';
 import '/scripts/components/common/timepanel.js';
 import '/scripts/components/extended/imagecontrol.js';

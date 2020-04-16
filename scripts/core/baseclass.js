@@ -72,7 +72,7 @@ const BaseClass = (() => {
                 this.tag.destroy();
             }
             this.tag = null;
-            //this.propsEnums.clear();
+            delete this.tag;
             delete this.propsEnums;
         }
         addPropertyEnum(propName, _enum) {

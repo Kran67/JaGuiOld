@@ -547,9 +547,9 @@ const Component = (() => {
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
-            const htmlElement = priv.HTMLElement;
-            const owner = priv.owner;
-            const owners = priv.owners;
+            let htmlElement = priv.HTMLElement;
+            let owner = priv.owner;
+            let owners = priv.owners;
             //#endregion Variables déclaration
             //this.destroying();
             this.destroyComponents();
@@ -564,6 +564,7 @@ const Component = (() => {
             if (owners) {
                 owners.destroy();
             }
+            this.unBindAndDestroyEvents();
             super.destroy();
         }
         //#endregion destroy
@@ -711,6 +712,7 @@ const Component = (() => {
                     instance = components.last;
                     this.remove(instance);
                     instance.destroy();
+                    instance = null;
                 }
             }
             //Tools.Debugger.log(arguments, this, t);
@@ -861,6 +863,18 @@ const Component = (() => {
             }
         }
         //#endregion createEventsAndBind
+        //#region unBindAndDestroyEvents
+        unBindAndDestroyEvents(eventsName) {
+            if (Array.isArray(eventsName)) {
+                eventsName.forEach(eventName => {
+                    console.log(eventName);
+                    this[eventName].destroy();
+                    this[eventName] = null;
+                    delete this[eventName];
+                });
+            }
+        }
+        //#endregion unBindAndDestroyEvents
         //#endregion
     }
     return Component;

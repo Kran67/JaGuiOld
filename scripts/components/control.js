@@ -111,11 +111,11 @@ const Control = (() => {
                 };
                 priv.resizer = new ResizeObserver(priv.update);
                 priv.resizer.obj = this;
-                this.createEventsAndBind(['onMouseDown', 'onMouseDown', 'onMouseMove', 'onMouseUp', 'onClick', 'onDblClick',
+                this.createEventsAndBind(['onMouseDown', 'onMouseMove', 'onMouseUp', 'onClick', 'onDblClick',
                     'onMouseLeave', 'onMouseEnter', 'onMouseWheel', 'onMouseWheelEnd', 'onBeforePaint', 'onPaint',
                     'onAfterPaint', 'onEnterFocus', 'onKillFocus', 'onKeyDown', 'onKeyUp', 'onKeyPress', 'onAfterResized',
                     'onDragStart', 'onDrag', 'onDragExit', 'onDragEnd', 'onDragEnter', 'onDragOver', 'onDragLeave',
-                    'onDrop', 'onDestroy', 'onResize', 'onResize'], props);
+                    'onDrop', 'onDestroy', 'onResize'], props);
                 let anchors = Types.ANCHORS;
                 Tools.addPropertyFromEnum({
                     component: this,
@@ -2724,6 +2724,8 @@ const Control = (() => {
             const padding = priv.padding;
             const margin = priv.margin;
             //#endregion Variables déclaration
+            priv.resizer.disconnect();
+            priv.allowUpdateOnResize = !1;
             if (this.hasResizeEvent) {
                 Core.looper.removeListener(this, 'resized');
             }
@@ -2737,91 +2739,13 @@ const Control = (() => {
             if (margin) {
                 margin.destroy();
             }
+            console.log(Object.keys(priv));
             // à remplacer par une boucle - début
-            if (this.onMouseDown) {
-                this.onMouseDown.destroy();
-            }
-            if (this.onMouseMove) {
-                this.onMouseMove.destroy();
-            }
-            if (this.onMouseUp) {
-                this.onMouseUp.destroy();
-            }
-            if (this.onClick) {
-                this.onClick.destroy();
-            }
-            if (this.onDblClick) {
-                this.onDblClick.destroy();
-            }
-            if (this.onMouseLeave) {
-                this.onMouseLeave.destroy();
-            }
-            if (this.onMouseEnter) {
-                this.onMouseEnter.destroy();
-            }
-            if (this.onMouseWheel) {
-                this.onMouseWheel.destroy();
-            }
-            if (this.onMouseWheelStart) {
-                this.onMouseWheelStart.destroy();
-            }
-            if (this.onMouseWheelEnd) {
-                this.onMouseWheelEnd.destroy();
-            }
-            if (this.onBeforePaint) {
-                this.onBeforePaint.destroy();
-            }
-            if (this.onPaint) {
-                this.onPaint.destroy();
-            }
-            if (this.onAfterPaint) {
-                this.onAfterPaint.destroy();
-            }
-            if (this.onEnterFocus) {
-                this.onEnterFocus.destroy();
-            }
-            if (this.onKillFocus) {
-                this.onKillFocus.destroy();
-            }
-            if (this.onKeyDown) {
-                this.onKeyDown.destroy();
-            }
-            if (this.onKeyUp) {
-                this.onKeyUp.destroy();
-            }
-            if (this.onKeyPress) {
-                this.onKeyPress.destroy();
-            }
-            if (this.onAfterResized) {
-                this.onAfterResized.destroy();
-            }
-            if (this.onDragStart) {
-                this.onDragStart.destroy();
-            }
-            if (this.onDrag) {
-                this.onDrag.destroy();
-            }
-            if (this.onDragExit) {
-                this.onDragExit.destroy();
-            }
-            if (this.onDragEnd) {
-                this.onDragEnd.destroy();
-            }
-            if (this.onDragEnter) {
-                this.onDragEnter.destroy();
-            }
-            if (this.onDragOver) {
-                this.onDragOver.destroy();
-            }
-            if (this.onDragLeave) {
-                this.onDragLeave.destroy();
-            }
-            if (this.onDrop) {
-                this.onDrop.destroy();
-            }
-            if (this.onDestroy) {
-                this.onDestroy.destroy();
-            }
+            this.unBindAndDestroyEvents(['onMouseDown', 'onMouseMove', 'onMouseUp', 'onClick', 'onDblClick',
+                    'onMouseLeave', 'onMouseEnter', 'onMouseWheel', 'onMouseWheelEnd', 'onBeforePaint', 'onPaint',
+                    'onAfterPaint', 'onEnterFocus', 'onKillFocus', 'onKeyDown', 'onKeyUp', 'onKeyPress', 'onAfterResized',
+                    'onDragStart', 'onDrag', 'onDragExit', 'onDragEnd', 'onDragEnter', 'onDragOver', 'onDragLeave',
+                    'onDrop', 'onDestroy', 'onResize']);
             if (this.scale) {
                 this.scale.destroy();
             }

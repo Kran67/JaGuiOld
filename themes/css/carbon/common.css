@@ -307,3 +307,7 @@ input.carbon, textarea.carbon, button.carbon, .Control.carbon {
 
 .carbon::-webkit-resizer:corner-present {
 }
+
+.carbon.PopupBox {
+    border-radius: 3px;
+}

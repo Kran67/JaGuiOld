@@ -46,16 +46,16 @@ const Slider = (() => {
                     variable: priv,
                     value: props.hasOwnProperty('orientation') ? props.orientation : Types.ORIENTATIONS.HORIZONTAL
                 });
-                this.leftInput = null;
-                this.rightInput = null;
-                this.range = null;
-                this.leftToolTip = null;
-                this.rightToolTip = null;
+                priv.leftInput = null;
+                priv.rightInput = null;
+                priv.range = null;
+                priv.leftToolTip = null;
+                priv.rightToolTip = null;
                 if (!Core.isHTMLRenderer) {
                     this.width = 100;
                     this.height = 14;
                 }
-                this.canFocused = !0;
+                this.canFocused = props.hasOwnProperty('canFocused') && Tools.isBool(props.canFocused) ? props.canFocused : !0;
                 priv.min = props.hasOwnProperty('min') ? props.min : 0;
                 priv.max = props.hasOwnProperty('max') ? props.max : 100;
                 priv.frequency = props.hasOwnProperty('frequency') ? props.frequency : 1;
@@ -634,13 +634,25 @@ const Slider = (() => {
             }
         }
         //#endregion moveToolTips
+        //#region destroyToolTips
+        destroyToolTips() {
+            priv.leftToolTip = null;
+            priv.rightToolTip = null;
+        }
+        //#endregion destroyToolTips
         //#region destroy
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
+            const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            this.destroyToolTips();
-            super.destroy();
+            priv.leftInput ? htmlElement.removeChild(priv.leftInput) : null;
+            priv.rightInput ? htmlElement.removeChild(priv.rightInput) : null;
+            priv.range ? htmlElement.removeChild(priv.range) : null;
+            priv.leftThumb ? htmlElement.removeChild(priv.leftThumb) : null;
+            priv.rightThumb ? htmlElement.removeChild(priv.rightThumb) : null;
+            priv.leftToolTip ? htmlElement.removeChild(priv.leftToolTip) : null;
+            priv.rightToolTip ? htmlElement.removeChild(priv.rightToolTip) : null;
             priv.leftInput = null;
             priv.rightInput = null;
             priv.range = null;
@@ -658,6 +670,7 @@ const Slider = (() => {
             priv.tickmarks = null;
             this.onChange.destroy();
             this.onChange = null;
+            super.destroy();
         }
         //#endregion destroy
         //#region moveRange

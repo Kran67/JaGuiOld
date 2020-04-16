@@ -1,4 +1,4 @@
-﻿div.DropDownSlider {
+﻿.DropDownSlider {
     max-width: 50px;
     min-width: 50px;
     display: flex;
@@ -6,7 +6,7 @@
     flex-wrap: nowrap;
 }
 
-div.DropDownSliderCaption {
+.DropDownSliderCaption {
     white-space: nowrap;
     overflow: hidden;
     flex: 1;
@@ -16,7 +16,7 @@ div.DropDownSliderCaption {
     justify-content: center;
 }
 
-div.PopupSlider {
+.PopupSlider {
     border-radius: 3px;
     height: 24px;
     width: 110px;
@@ -24,9 +24,4 @@ div.PopupSlider {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-}
-
-div.PopupSlider div.Slider {
-    position: relative;
-    flex: 1;
 }
