@@ -74,7 +74,7 @@ class ListBoxPopup extends ListBox {
         if (this.owner) {
             items.forEach(item => {
                 item.removeToHTML();
-                item.owner = this;
+                //item.owner = this;
                 item.isChecked = !1;
                 item.selected = !1;
             });
@@ -137,6 +137,7 @@ const DropDownListBoxPopup = (() => {
                 priv.lbItemsSize = props.hasOwnProperty('itemsSize') && Tools.isNumber(props.itemsSize) ? props.itemsSize : 13;
                 priv.items = props.hasOwnProperty('items') && Array.isArray(props.items) ? props.items : [];
                 //priv.dropDownListBox.onDrawItem.copyListenerTo(this._listBox.onDrawItem);
+                priv.listBoxPopupClass = props.hasOwnProperty('listBoxPopupClass') ? props.listBoxPopupClass : ListBoxPopup;
             }
         }
         //#endregion constructor
@@ -153,7 +154,7 @@ const DropDownListBoxPopup = (() => {
             //#endregion Variables déclaration
             super.loaded();
             priv.listBox = Core.classes.createComponent({
-                class: ListBoxPopup,
+                class: priv.listBoxPopupClass,
                 owner: this,
                 props: {
                     width: -1,
@@ -255,7 +256,7 @@ const DropDownListBox = (() => {
                 this.hitTest.dblClick = !1;
                 this.createEventsAndBind(['onChange', 'onDrawItem'], props);
                 this.stopEvent = !0;
-                Core.classes.newCollection(this, this, ListBoxItemPopup);
+                //Core.classes.newCollection(this, this, ListBoxItem);
                 //if (this._ClassName === "DropDownListBox") {
                 //    priv.editable = !1;
                 //    priv.autoComplete = !1;
@@ -267,12 +268,28 @@ const DropDownListBox = (() => {
                 priv.itemIndex = -1;
                 priv.itemsSize = 13;
                 priv.images = null;
+                priv.listBoxPopupClass = props.hasOwnProperty('listBoxPopupClass') ? props.listBoxPopupClass : ListBoxPopup;
                 this.canFocused = !0;
                 this.autoCapture = !0;
             }
         }
         //#endregion constructor
         //#region Getters / Setters
+        //#region listBoxPopupClass
+        get listBoxPopupClass() {
+            return internal(this).listBoxPopupClass;
+        }
+        set listBoxPopupClass(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (newValue.prototype instanceof ListBox) {
+                if (priv.listBoxPopupClass !== newValue) {
+                    priv.listBoxPopupClass = newValue;
+                }
+            }
+        }
+        //#endregion listBoxPopupClass
         //#region dropDownPopup
         get dropDownPopup() {
             return internal(this).dropDownPopup;
@@ -423,15 +440,15 @@ const DropDownListBox = (() => {
             //#endregion Variables déclaration
             if (Tools.isNumber(newValue)) {
                 if (priv.itemIndex !== newValue) {
-                    newValue = Math.max(Math.min(newValue, this.items.length - 1), 0);
+                    newValue = Math.max(Math.min(newValue, priv.items.length - 1), 0);
                     if (priv.itemIndex > -1) {
-                        this.items[priv.itemIndex].selected = !1;
+                        priv.items[priv.itemIndex].selected = !1;
                     }
                     priv.itemIndex = newValue;
                     if (newValue > -1) {
-                        this.text = this.items[newValue].text;
+                        this.text = priv.items[newValue].text;
                     }
-                    this.items[newValue].selected = !0;
+                    priv.items[newValue].selected = !0;
                 }
             }
         }
@@ -537,7 +554,8 @@ const DropDownListBox = (() => {
                         width: this.HTMLElement.offsetWidth,
                         height: priv.dropDownCount * priv.itemsSize,
                         itemsSize: priv.itemsSize,
-                        items: this.items
+                        items: priv.items,
+                        listBoxPopupClass: priv.listBoxPopupClass
                     }
                 });
                 priv.dropDownPopup.HTMLElement.classList.remove('hidden');
@@ -600,25 +618,6 @@ const DropDownListBox = (() => {
             priv.input.jsObj = this;
             Events.bind(priv.input, Mouse.MOUSEEVENTS.DOWN, this.mouseDown);
             priv.content.appendChild(priv.input);
-            //priv.text = priv.date.toString(Tools.getLocale().date.formatPatterns.shortDate);
-            //priv.content.innerHTML = priv.text;
-            priv.items.forEach(item => {
-                const newItem = Core.classes.createComponent({
-                    class: ListBoxItemPopup,
-                    owner: this,
-                    props: {
-                        size: item.hasOwnProperty('size') ? item.size : priv.itemsSize,
-                        isChecked: item.hasOwnProperty('isChecked') && Tools.isBool(item.isChecked) ? item.isChecked : !1,
-                        isHeader: item.hasOwnProperty('isHeader') && Tools.isBool(item.isHeader) ? item.isHeader : !1,
-                        enabled: item.hasOwnProperty('enabled') && Tools.isBool(item.enabled) ? item.enabled : !1,
-                        css: item.hasOwnProperty('css') ? item.css : null,
-                        imageIndex: item.hasOwnProperty('imageIndex') ? item.imageIndex : -1,
-                        caption: item.hasOwnProperty('caption') ? item.caption : String.EMPTY
-                    }
-                });
-                //if (items[i].onDraw && this.form[items[i].onDraw]) item.onDraw.addListener(this.form[items[i].onDraw]);
-                this.items.push(newItem);
-            });
             this.getImages();
         }
         //#endregion loaded
@@ -639,8 +638,8 @@ const DropDownListBox = (() => {
             priv.opened = null;
             priv.text = null;
             this.clearItems();
-            this.items.clear();
-            this.items.destroy();
+            //this.items.clear();
+            //this.items.destroy();
             priv.items = null;
             priv.dropDownCount = null;
             priv.itemIndex = null;
@@ -668,7 +667,7 @@ const DropDownListBox = (() => {
         //#endregion getImages
         //#region findItemFromText
         findItemFromText(text) {
-            const items = this.items.filter(function (e) {
+            const items = priv.items.filter(function (e) {
                 return (e.caption === text);
             });
             if (items.length > 0) {
@@ -679,23 +678,26 @@ const DropDownListBox = (() => {
         }
         //#endregion findItemFromText
         //#region newItem
-        newItem(text, props) {
+        newItem(props) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             const item = Core.classes.createComponent({
-                class: ListBoxItemPopup,
+                class: ListBoxItem, // à voir ici
                 owner: this,
                 props
             });
-            this.items.push(item);
+            priv.items.push(item);
             return item;
         }
         //#endregion newItem
         //#region addItem
         addItem(item) {
-            if (item && item instanceof ListBoxItemPopup) {
-                this.items.add(item);
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (item && item instanceof ListBoxItem) {
+                priv.items.add(item);
             }
         }
         //#endregion addItem
@@ -707,12 +709,12 @@ const DropDownListBox = (() => {
         clearItems() {
             //#region Variables déclaration
             const priv = internal(this);
-            const items = this.items;
+            const items = priv.items;
             //#endregion Variables déclaration
-            items.forEach((item, index) => {
-                item.destroy();
-                items[index] = null;
-            });
+            //items.forEach((item, index) => {
+            //    item.destroy();
+            //    items[index] = null;
+            //});
             items.clear();
             this.text = String.EMPTY;
             priv.itemIndex = -1;
@@ -740,7 +742,8 @@ if (Core.isHTMLRenderer) {
     Core.classes.registerTemplates([
         { Class: DropDownListBox, template: DropDownListBoxTpl },
         { Class: DropDownListBoxPopup, template: DropDownListBoxPopupTpl },
-        { Class: ListBoxPopup, template: Core.templates["ListBox"] }
+        { Class: ListBoxPopup, template: Core.templates['ListBox'] }
     ]);
 }
 //#endregion Templates
+export { DropDownListBox };
