@@ -215,6 +215,7 @@ const DropDownListBoxColor = (() => {
             if (owner) {
                 props.listBoxPopupClass = ListBoxColorPopup;
                 props.items = [];
+                props.dropDownWidth = 130;
                 const colors = Object.keys(Colors);
                 colors.forEach(color => {
                     const item = {

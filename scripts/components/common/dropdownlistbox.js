@@ -249,8 +249,8 @@ const DropDownListBox = (() => {
                 priv.opened = props.hasOwnProperty('opened') && Tools.isBool(props.opened) ? props.opened : !1;
                 priv.text = props.hasOwnProperty('text') ? props.text : String.EMPTY;
                 priv.input = null;
-                priv.dropDownCount = 8;
-                priv.editable = !1;
+                priv.dropDownCount = props.hasOwnProperty('dropDownCount') && Tools.isNumber(props.dropDownCount) ? props.dropDownCount : 8;
+                priv.editable = props.hasOwnProperty('editable') && Tools.isBool(props.editable) ? props.editable : !1;
                 this.hitTest.all = !0;
                 this.hitTest.mouseWheel = !1;
                 this.hitTest.dblClick = !1;
@@ -265,10 +265,11 @@ const DropDownListBox = (() => {
                 //    priv.maxLength = 0;
                 //}
                 priv.items = props.hasOwnProperty('items') && Array.isArray(props.items) ? props.items : [];
-                priv.itemIndex = -1;
-                priv.itemsSize = 13;
+                priv.itemIndex = props.hasOwnProperty('itemIndex') && Tools.isNumber(props.itemIndex) ? props.itemIndex : -1;
+                priv.itemsSize = props.hasOwnProperty('itemsSize') && Tools.isNumber(props.itemsSize) ? props.itemsSize : 13;
                 priv.images = null;
                 priv.listBoxPopupClass = props.hasOwnProperty('listBoxPopupClass') ? props.listBoxPopupClass : ListBoxPopup;
+                priv.dropDownWidth = props.hasOwnProperty('dropDownWidth') && Tools.isNumber(props.dropDownWidth) ? props.dropDownWidth : -1;
                 this.canFocused = !0;
                 this.autoCapture = !0;
             }
@@ -341,17 +342,6 @@ const DropDownListBox = (() => {
             }
         }
         //#endregion opened
-        //#region template
-        //get template() {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    let html = super.template();
-        //    let a = html.split('{date}');
-        //    //#endregion Variables déclaration
-        //    html = a.join(priv.date.toString());
-        //    return html;
-        //}
-        //#endregion template
         //#region editable
         get editable() {
             return internal(this).editable;
@@ -384,6 +374,19 @@ const DropDownListBox = (() => {
             }
         }
         //#endregion dropDownCount
+        //#region dropDownWidth
+        get dropDownWidth() {
+            return internal(this).dropDownWidth;
+        }
+        set dropDownWidth(newValue) {
+            const priv = internal(this);
+            if (Tools.isNumber(newValue)) {
+                if (priv.dropDownWidth !== newValue) {
+                    priv.dropDownWidth = newValue;
+                }
+            }
+        }
+        //#endregion dropDownWidth
         //#region autoComplete
         get autoComplete() {
             return internal(this).autoComplete;
@@ -551,11 +554,11 @@ const DropDownListBox = (() => {
                     props: {
                         parentHTML: document.body,
                         refControl: this,
-                        width: this.HTMLElement.offsetWidth,
+                        width: priv.dropDownWidth > -1 ? priv.dropDownWidth : this.HTMLElement.offsetWidth,
                         height: priv.dropDownCount * priv.itemsSize,
                         itemsSize: priv.itemsSize,
                         items: priv.items,
-                        listBoxPopupClass: priv.listBoxPopupClass
+                        listBoxPopupClass: priv.listBoxPopupClass,
                     }
                 });
                 priv.dropDownPopup.HTMLElement.classList.remove('hidden');
@@ -614,8 +617,11 @@ const DropDownListBox = (() => {
             priv.input = document.createElement(Types.HTMLELEMENTS.INPUT);
             priv.input.type = 'text';
             priv.input.classList.add('DropDownListBoxInput', this.themeName, 'csr_default');
-            priv.input.readOnly = 'readOnly';
             priv.input.jsObj = this;
+            if (!priv.editable) {
+                priv.input.classList.add('noEvents');
+                priv.input.readOnly = 'readOnly';
+            }
             Events.bind(priv.input, Mouse.MOUSEEVENTS.DOWN, this.mouseDown);
             priv.content.appendChild(priv.input);
             this.getImages();
