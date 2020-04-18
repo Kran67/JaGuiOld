@@ -3119,11 +3119,11 @@ Object.defineProperties(Control, {
 //#endregion Control
 //#region Templates
 //const controlTpl = ['<div id='{internalId}' data-name='{name}' data-class='{className}' class='Control {className}' style='width:100px;height:100px;'></div>";
-//const ToolTipTpl = "<div class='Control ToolTip {theme}'>{text}</div>";
+const ToolTipTpl = "<jagui-tooltip class='Control ToolTip {theme}'>{text}</jagui-tooltip>";
 Core.classes.register(Types.CATEGORIES.INTERNAL, Control);
-//Core.classes.registerTemplates([
-//    { Class: Control, template: controlTpl }
-//]);
+Core.classes.registerTemplates([
+    { Class: 'ToolTip', template: ToolTipTpl }
+]);
 //#endregion
 export { Control };
 //http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/

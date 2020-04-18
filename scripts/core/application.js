@@ -1,10 +1,12 @@
 ﻿//#region Imports
 import { BaseClass } from '/scripts/core/baseclass.js';
 import { Tools } from '/scripts/core/tools.js';
-import { Uri } from '/scripts/core/uri.js';
-import { Xhr } from '/scripts/core/xhr.js';
+//import { Uri } from '/scripts/core/uri.js';
+//import { Xhr } from '/scripts/core/xhr.js';
 import { Text } from '/scripts/core/text.js';
 import { Convert } from '/scripts/core/convert.js';
+import { Events } from '/scripts/core/events.js';
+import { Mouse } from '/scripts/core/mouse.js';
 import { ShortCutIcon } from '/scripts/components/common/shortcuticon.js';
 //Mouseevents
 //#endregion
@@ -61,8 +63,10 @@ const Application = (() => {
             return internal(this).toolTipTimerHandle;
         }
         set toolTipTimerHandle(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 if (priv.toolTipTimerHandle !== newValue) {
                     priv.toolTipTimerHandle = newValue;
                 }
@@ -93,8 +97,10 @@ const Application = (() => {
             return internal(this).loadedWindowsHTML;
         }
         set loadedWindowsHTML(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
+            //#endregion Variables déclaration
+            if (Tools.isNumber(newValue)) {
                 if (priv.loadedWindowsHTML !== newValue) {
                     priv.loadedWindowsHTML = newValue;
                 }
@@ -131,7 +137,9 @@ const Application = (() => {
             return internal(this).mainWindow;
         }
         set mainWindow(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof Core.classes.Window) {
                 if (priv.mainWindow !== newValue) {
                     priv.mainWindow = newValue;
@@ -145,14 +153,15 @@ const Application = (() => {
             return internal(this).activeWindow;
         }
         set activeWindow(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            //if (!(newValue instanceof Core.classes.Window)) {
-            //    return;
-            //}
-            if (priv.activeWindow !== newValue) {
-                priv.activeWindow = newValue;
-                if (Core.isCanvasRenderer) {
-                    Core.canvas.needRedraw = !0;
+            //#endregion Variables déclaration
+            if (newValue instanceof Core.classes.Window) {
+                if (priv.activeWindow !== newValue) {
+                    priv.activeWindow = newValue;
+                    if (Core.isCanvasRenderer) {
+                        Core.canvas.needRedraw = !0;
+                    }
                 }
             }
         }
@@ -166,8 +175,10 @@ const Application = (() => {
          * Set the title property
          */
         set title(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.STRING) {
+            //#endregion Variables déclaration
+            if (Tools.isString(newValue)) {
                 priv.title = newValue;
             }
         }
@@ -181,9 +192,11 @@ const Application = (() => {
          * Set the locale of the application
          */
         set locale(locale) {
+            //#region Variables déclaration
             const priv = internal(this);
             let comps = null;
             const windows = priv.windows;
+            //#endregion Variables déclaration
             if (priv.locales[locale]) {
                 if (priv.locale !== locale) {
                     priv.locale = locale;
@@ -193,7 +206,7 @@ const Application = (() => {
                                 return e instanceof Core.classes.Control && e.autoTranslate && e.visible;
                             });
                             comps.forEach(comp => {
-                                if (comp instanceof Core.classes.CaptionControl/* || comp instanceof Core.classes.CustomTextControl*/) {
+                                if (comp instanceof Core.classes.CaptionControl || comp instanceof Core.classes.CustomTextControl) {
                                     this.getLocalText(comp);
                                     //} else {
                                     //comp.update();
@@ -214,7 +227,9 @@ const Application = (() => {
          * Get the themeManifest property
          */
         set themeManifest(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof Core.Classes.ThemeManifest) {
                 priv.themeManifest = newValue;
             }
@@ -225,7 +240,7 @@ const Application = (() => {
          * @return  {Object}    return a window
          */
         getWindow(windowName) {
-            const windows = this.windows.filter((e) => {
+            const windows = priv.windows.filter((e) => {
                 return e.name === windowName;
             });
             if (!windows.isEmpty) {
@@ -240,21 +255,25 @@ const Application = (() => {
          * Check if the new component name is unique
          */
         isUniqueGlobalComponentName(name) {
-            return this.globalComponentName.indexOf(name) === -1;
+            return priv.globalComponentName.indexOf(name) === -1;
         }
         /**
          * Generate a new unique name
          */
         uniqueName(object) {
+            //#region Variables déclaration
             const _class = object.constructor.name;
             let idx = null;
+            //#endregion Variables déclaration
             if (!this[`_${_class}s`]) {
                 this[`_${_class}s`] = {};
                 this[`_${_class}s`].names = [String.EMPTY];
             }
             const a = this[`_${_class}s`].names;
             for (idx = 1; idx < a.length; idx++) {
-                if (!a[idx]) break;
+                if (!a[idx]) {
+                    break;
+                }
             }
             return `${_class}${idx}`;
         }
@@ -262,11 +281,12 @@ const Application = (() => {
          * Remove the name from unique name list
          */
         removeName(object) {
+            //#region Variables déclaration
             const _class = object.constructor.name;
+            //#endregion Variables déclaration
             if (this[`_${_class}s`]) {
                 const a = this[`_${_class}s`].names;
-                let idx = null;
-                idx = a.indexOf(object.name);
+                let idx = a.indexOf(object.name);
                 if (idx > -1) {
                     a[idx] = null;
                 }
@@ -276,7 +296,9 @@ const Application = (() => {
          * Add a name to the unique name list if not exist
          */
         addName(object) {
+            //#region Variables déclaration
             const _class = object.constructor.name;
+            //#endregion Variables déclaration
             if (this[`_${_class}s`]) {
                 const a = this[`_${_class}s`].names;
                 const idx = a.indexOf(object.name);
@@ -293,8 +315,9 @@ const Application = (() => {
          * Ternimate the application and destroy her and all components
          */
         terminate() {
-            //let i = this.windows.length - 1;
+            //#region Variables déclaration
             const windows = this.windows.reverse();
+            //#endregion Variables déclaration
             windows.forEach((window) => {
                 window.destroyOnHide = !0;
                 window.hide();
@@ -303,9 +326,9 @@ const Application = (() => {
             if (Core.apps.activeApplication === this) {
                 Core.apps.activeApplication = null;
             }
-            Core.apps.applications[this.name] = null;
-            delete Core.apps.applications[this.name];
-            const icon = Convert.nodeListToArray(document.getElementsByName(`ShortCutIcon_${this.name}`)).first;
+            Core.apps.applications[priv.name] = null;
+            delete Core.apps.applications[priv.name];
+            const icon = Convert.nodeListToArray(document.getElementsByName(`ShortCutIcon_${priv.name}`)).first;
             if (icon) {
                 icon.classList.toggle('hidden');
             }
@@ -315,7 +338,9 @@ const Application = (() => {
          * Load the HTML of all windows
          */
         loadWindowsHTML() {
+            //#region Variables déclaration
             const window = document.querySelector('object.mainWindow');
+            //#endregion Variables déclaration
             if (window) {
                 const template = window.contentDocument.body.querySelector('template').innerHTML;
                 const div = document.createElement(Types.HTMLELEMENTS.DIV);
@@ -336,12 +361,15 @@ const Application = (() => {
          * Run the application
          */
         run() {
+            //#region Variables déclaration
+            const priv = internal(this);
             let data = null;
             let form = null;
             let wins = null;
+            //#endregion Variables déclaration
             switch (Core.renderer) {
                 case Types.RENDERERS.HTML:
-                    wins = document.querySelectorAll(`jagui-window.${this.name}`);
+                    wins = document.querySelectorAll(`jagui-window.${priv.name}`);
                     wins.forEach(win => {
                         let props = {};
                         const properties = win.querySelector('properties');
@@ -351,9 +379,9 @@ const Application = (() => {
                         form = this.createForm(win.id, win.dataset.class, props);
                         this.windows.push(form);
                         if (win.style.display !== 'none') {
-                            if (!this.mainWindow) {
+                            if (!priv.mainWindow) {
                                 if (form instanceof Core.classes.Window) {
-                                    this.mainWindow = this.activeWindow = form;
+                                    priv.mainWindow = priv.activeWindow = form;
                                 }
                             } else {
                                 form.show();
@@ -368,14 +396,14 @@ const Application = (() => {
                     if (data) {
                         data = JSON.parse(data.innerHTML.replace(/{theme}/g, Core.defaultTheme));
                         if (data.themes) {
-                            this.themeManifest.addThemes(data.themes);
+                            priv.themeManifest.addThemes(data.themes);
                         }
                         wins = data.windows;
                         wins.forEach(win => {
                             form = this.createForm(win.childs, win.className, win.properties);
-                            this.windows.push(form);
+                            priv.windows.push(form);
                             if (form.name === data.mainForm) {
-                                this.mainWindow = this.activeWindow = form;
+                                priv.mainWindow = priv.activeWindow = form;
                             } else {
                                 form.show();
                             }
@@ -383,13 +411,13 @@ const Application = (() => {
                     }
                     break;
             }
-            this.mainWindow.show();
+            priv.mainWindow.show();
             data = document.getElementById('loading_msg');
             if (data) {
                 document.body.removeChild(data);
             }
             //data = null;
-            //this.createToolTip();
+            this.createToolTip();
             window.activeApp = this;
         }
         /**
@@ -407,8 +435,11 @@ const Application = (() => {
          * Initialize the application
          */
         initialize(/*createIcon*/) {
-            if (!this.locale) {
-                this.locale = Core.currentLocale;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (!priv.locale) {
+                priv.locale = Core.currentLocale;
             }
             //if (!createIcon) {
             //    createIcon = !1;
@@ -443,8 +474,11 @@ const Application = (() => {
             }
         }
         addWindow(maxWins) {
-            this.loadedWindowsHTML++;
-            if (this.loadedWindowsHTML === maxWins) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.loadedWindowsHTML++;
+            if (priv.loadedWindowsHTML === maxWins) {
                 this.loadWindowsHTML();
             }
         }
@@ -499,39 +533,45 @@ const Application = (() => {
          * Change the caption / placer holder of CaptionControl current locale
          */
         getLocalText(obj) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (obj instanceof Core.classes.CaptionControl) {
-                const c = this.locales[this.locale];
+                const c = priv.locales[priv.locale];
                 if (c) {
                     const key = `${obj.form.name}.${obj.name}`;
                     if (c[key]) {
                         if (obj instanceof Core.classes.CaptionControl) {
                             obj.caption = c[key];
-                            //} else if (obj instanceof Core.classes.CustomTextControl) {
-                            //    obj.placeHolder = c[key];
+                        } else if (obj instanceof Core.classes.CustomTextControl) {
+                            obj.placeHolder = c[key];
                         }
-                        //} else {
-                        //obj.update();
                     }
-                    //} else {
-                    //obj.update();
+                } else {
+                    obj.update();
                 }
+            } else {
+                obj.update();
             }
         }
         /**
          * Create the tooltip of the application
          */
         createToolTip() {
+            //#region Variables déclaration
+            const priv = internal(this);
             const wrapper = document.createElement(Types.HTMLELEMENTS.DIV);
             let tpl = Core.templates.ToolTip;
             let a = tpl.split('{theme}');
-            tpl = a.join(this.mainWindow.getThemeName());
+            //#endregion Variables déclaration
+            tpl = a.join(priv.mainWindow.themeName);
             a = tpl.split('{text}');
             tpl = a.join(String.EMPTY);
             wrapper.innerHTML = tpl;
             document.body.appendChild(wrapper.firstElementChild);
-            this.toolTip = document.body.lastElementChild;
-            this.toolTip.style.zIndex = Types.CONSTANTS.STAYONTOP + 1;
-            Events.bind(this.toolTip, Mouse.MOUSEEVENTS.MOVE, () => {
+            priv.toolTip = document.body.lastElementChild;
+            priv.toolTip.style.zIndex = Types.CONSTANTS.STAYONTOP + 1;
+            Events.bind(priv.toolTip, Mouse.MOUSEEVENTS.MOVE, () => {
                 Core.apps.activeApplication.hideToolTip();
             });
         }
@@ -539,8 +579,11 @@ const Application = (() => {
          * Show the tooltip of a component
          */
         showToolTip(obj, coord, useOffset) {
+            //#region Variables déclaration
+            const priv = internal(this);
             let text = String.EMPTY;
             let exit = !1;
+            //#endregion Variables déclaration
             this.hideToolTip();
             if (!obj.showToolTip && !obj.ownerShowToolTip) {
                 exit = !0;
@@ -569,8 +612,8 @@ const Application = (() => {
                 if (typeof text !== Types.CONSTANTS.STRING) {
                     return;
                 }
-                if (text !== String.EMPTY && this.toolTip) {
-                    this.toolTip.innerHTML = text;
+                if (text !== String.EMPTY && priv.toolTip) {
+                    priv.toolTip.innerHTML = text;
                     setTimeout(() => {
                         if (Core.apps.activeApplication.toolTip) {
                             Core.apps.activeApplication.toolTip.classList.toggle('fade');
@@ -585,16 +628,19 @@ const Application = (() => {
          * Move the tooltip
          */
         placeToolTip(coord, useOffset) {
+            //#region Variables déclaration
+            const priv = internal(this);
             const cssUnits = Types.CSSUNITS;
+            const tt = priv.toolTip;
+            let tx = coord.x;
+            let ty = coord.y;
+            //#endregion Variables déclaration
             if (!useOffset) {
                 useOffset = !0;
             }
-            const tt = this.toolTip;
-            let tx = coord.x;
             if (tx + tt.offsetWidth > document.body.offsetWidth) {
                 tx = document.body.offsetWidth - tt.offsetWidth;
             }
-            let ty = coord.y;
             if (useOffset) {
                 ty += 20;
             }
@@ -602,15 +648,18 @@ const Application = (() => {
                 ty = coord.y - tt.offsetHeight;
             }
             tt.style.transform = `translate(${tx}${cssUnits.PX},${ty}${cssUnits.PX})`;
-            tt.classList.toggle('fade');
-            clearTimeout(this.toolTipTimerHandle);
+            tt.classList.add('fade');
+            clearTimeout(priv.toolTipTimerHandle);
         }
         /**
          * Prepare hiding the tooltip
          */
         closeToolTip() {
-            clearTimeout(this.toolTipTimerHandle);
-            this.toolTipTimerHandle = setTimeout(() => {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            clearTimeout(priv.toolTipTimerHandle);
+            priv.toolTipTimerHandle = setTimeout(() => {
                 Core.apps.activeApplication.hideToolTip();
             }, 4000);
         }
@@ -618,28 +667,37 @@ const Application = (() => {
          * Hide the tooltip
          */
         hideToolTip() {
-            if (this.toolTip) {
-                this.toolTip.classList.toggle('fade');
-                clearTimeout(this.toolTipTimerHandle);
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (priv.toolTip) {
+                priv.toolTip.classList.remove('fade');
+                clearTimeout(priv.toolTipTimerHandle);
             }
         }
         /**
          * Destroy the tooltip
          */
         destroyToolTip() {
-            const toolTip = this.toolTip;
+            //#region Variables déclaration
+            const priv = internal(this);
+            const toolTip = priv.toolTip;
+            //#endregion Variables déclaration
             if (toolTip) {
-                clearTimeout(this.toolTipTimerHandle);
-                Events.unBind(toolTip, Mouse.MOUSEEVENTS.MOVE, this.hideToolTip);
+                clearTimeout(priv.toolTipTimerHandle);
+                Events.unBind(toolTip, Mouse.MOUSEEVENTS.MOVE, priv.hideToolTip);
                 document.body.removeChild(toolTip);
-                this.toolTip = null;
+                priv.toolTip = null;
             }
         }
         /**
          * Close all popups
          */
         closeAllPopups() {
-            this.windows.forEach(win => {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.windows.forEach(win => {
                 win.closePopups();
             });
         }
@@ -648,11 +706,14 @@ const Application = (() => {
          * @override
          */
         destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             //this._toolTipTimerHandle = null;
-            this.windows.destroy();
+            priv.windows.destroy();
             //this._windows = null;
             //this._windowsClass = null;
-            this.globalComponentName.destroy();
+            priv.globalComponentName.destroy();
             //this._globalComponentName = null;
             //this._lastThemeName = null;
             //this._themeName = null;
@@ -662,18 +723,21 @@ const Application = (() => {
             //this._mainWindow = null;
             //this._activeWindow = null;
             //this._title = String.null;
-            this.lastActiveWindow.destroy();
+            priv.lastActiveWindow.destroy();
             //this._lastActiveWindow = null;
             //this._locale = null;
             //this._locales = null;
         }
         render() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (Core.isCanvasRenderer) {
-                if (!Core.themes[this.themeManifest.themeName].initialized) {
-                    Core.themes[this.themeManifest.themeName].initialize();
+                if (!Core.themes[priv.themeManifest.themeName].initialized) {
+                    Core.themes[priv.themeManifest.themeName].initialize();
                 }
             }
-            const wins = this.windows;
+            const wins = priv.windows;
             wins.forEach(win => {
                 if (!win.creating && win.visible) {
                     win.render();
@@ -684,7 +748,6 @@ const Application = (() => {
     }
     return Application;
 })();
-//#endregion
 Object.defineProperties(Application, {
     'toolTip': {
         enumerable: !0
@@ -703,4 +766,11 @@ Object.defineProperties(Application, {
     }
 });
 Core.classes.register(Types.CATEGORIES.COMMON, Application);
+//#endregion
+//#region Templates
+const ToolTipTpl = "<jagui-tooltip class='Control ToolTip {theme}'>{text}</jagui-tooltip>";
+Core.classes.registerTemplates([
+    { Class: 'ToolTip', template: ToolTipTpl }
+]);
+//#endregion Templates
 export { Application };
