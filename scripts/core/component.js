@@ -1,6 +1,5 @@
 ﻿//#region Imports
 import { Bindable } from '/scripts/core/bindable.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Rect } from '/scripts/core/geometry.js';
 //#endregion Imports
 //#region Component
@@ -22,6 +21,10 @@ const Component = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             super(props);
+            //#region Properties
+            //#region Private Properties
+            const classes = core.classes;
+            const tools = core.tools;
             const priv = internal(this);
             priv.owner = owner;
             priv.owners = [];
@@ -36,470 +39,513 @@ const Component = (() => {
             priv.updating = !1;
             priv.designInstance = !1;
             priv.component = !0;
-            priv.name = props.hasOwnProperty('name') ? props.name : String.EMPTY;
             priv.cssBorder = new Rect;
-            priv.inForm = this instanceof Core.classes.BaseWindow ? !1 : props.hasOwnProperty('inForm') && Tools.isBool(props.inForm) ? props.inForm : !0;
-            priv.visible = props.hasOwnProperty('visible') && Tools.isBool(props.visible) ? props.visible : !0;
-            priv.left = props.hasOwnProperty('left') && Tools.isNumber(props.left) ? props.left : 0;
-            priv.top = props.hasOwnProperty('top') && Tools.isNumber(props.top) ? props.top : 0;
-            if (owner instanceof Core.classes.Application) {
-                priv.app = owner;
-            } else {
-                priv.app = priv.owner.app;
-            }
-            if (owner instanceof Core.classes.Component) {
+            priv.inForm = this instanceof classes.BaseWindow
+                ? !1
+                : props.hasOwnProperty('inForm') && tools.isBool(props.inForm)
+                    ? props.inForm
+                    : !0;
+            priv.visible = props.hasOwnProperty('visible') && tools.isBool(props.visible) ? props.visible : !0;
+            priv.left = props.hasOwnProperty('left') && tools.isNumber(props.left) ? props.left : 0;
+            priv.top = props.hasOwnProperty('top') && tools.isNumber(props.top) ? props.top : 0;
+            priv.app = owner instanceof classes.Application ? owner : priv.owner.app;
+            priv.destroyComponents = function () {
+                //#region Variables déclaration
+                const priv = internal(this);
+                //#endregion Variables déclaration
+                const components = priv.components;
+                if (components) {
+                    while (components.length > 0) {
+                        let instance = components.last;
+                        this.remove(instance);
+                        instance.destroy();
+                        instance = null;
+                    }
+                }
+            };
+            priv.insert = function (component) {
+                //#region Variables déclaration
+                //const priv = internal(this);
+                const self = this.HTMLElement.jsObj;
+                const components = self.components;
+                const form = this.form;
+                const controls = form.controls;
+                //#endregion Variables déclaration
+                if (components.indexOf(component) === -1) {
+                    components.push(component);
+                    component.app = this.app;
+                    component.owner = self;
+                    if (form !== component) {
+                        if (component.inForm && controls.indexOf(component) === -1) {
+                            controls.push(component);
+                            if (!form[component.name]) {
+                                Object.defineProperty(form, component.name, {
+                                    enumerable: !1,
+                                    configurable: !0,
+                                    writable: !0,
+                                    value: component
+                                });
+                            }
+                        }
+                    }
+                }
+            };
+            priv.positioning = function () {
+                //#region Variables déclaration
+                const self = this.HTMLElement.jsObj;
+                //#endregion Variables déclaration
+                if (this.form !== self) {
+                    if (core.isHTMLRenderer && this.HTMLElement) {
+                        const position = getComputedStyle(this.HTMLElement).position;
+                        position === 'absolute' ? self.moveTo(this.left, this.top) : 1;
+                    }
+                }
+            };
+            //#endregion Private Properties
+            //#region Public Properties
+            classes.newCollection(this, this, classes.Component, 'components');
+            Object.defineProperties(this, {
+                'owner': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).owner;
+                    },
+                    set: function (newValue) {
+                        internal(this).owner = newValue;
+                    }
+                },
+                'componentIndex': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        //#region Variables déclaration
+                        const owner = internal(this).owner;
+                        //#endregion Variables déclaration
+                        return owner && owner.components.length > 0 ? owner.components.indexOf(this) : -1;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const owner = internal(this).owner;
+                        //#endregion Variables déclaration
+                        if (core.tools.isNumber(newValue)) {
+                            if (owner) {
+                                const i = owner.components.indexOf(this);
+                                if (i >= 0) {
+                                    const count = owner.components.length;
+                                    newValue = math.Max(math.Min(newValue, count - 1), 0);
+                                    if (newValue !== i) {
+                                        owner.components.splice(i, 1);
+                                        owner.components.insert(newValue, this);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                'owners': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).owners;
+                    }
+                },
+                'app': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).app;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        newValue instanceof core.classes.Application && priv.app !== newValue ? priv.app = newValue : 1;
+                    }
+                },
+                'form': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).form;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        newValue instanceof core.classes.Window && priv.form !== newValue ? priv.form = newValue : 1;
+                    }
+                },
+                'loading': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).loading;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        priv.loading !== newValue ? priv.loading = newValue : 1;
+                    }
+                },
+                'destroying': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).destroying;
+                    }
+                },
+                'HTMLElement': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).HTMLElement;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        newValue instanceof HTMLElement && priv.HTMLElement !== newValue ? priv.HTMLElement = newValue : 1;
+                    }
+                },
+                'HTMLElementStyle': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).HTMLElementStyle;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        newValue instanceof CSSStyleDeclaration && priv.HTMLElementStyle !== newValue
+                            ? priv.HTMLElementStyle = newValue
+                            : 1;
+                    }
+                },
+                'designing': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).designing;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        core.tools.isBool(newValue) && priv.designing !== newValue ? priv.designing = newValue : 1;
+                    }
+                },
+                'internalId': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).internalId;
+                    },
+                    set: function (newValue) {
+                        internal(this).internalId = newValue;
+                    }
+                },
+                'updating': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).updating;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        core.tools.isBool(newValue) && priv.updating !== newValue ? priv.updating = newValue : 1;
+                    }
+                },
+                'designInstance': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).designInstance;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        core.tools.isBool(newValue) && priv.designInstance !== newValue ? priv.designInstance = newValue : 1;
+                    }
+                },
+                'component': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).component;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        core.tools.isBool(newValue) && priv.component !== newValue ? priv.component = newValue : 1;
+                    }
+                },
+                'inForm': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).inForm;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        core.tools.isBool(newValue) && priv.inForm !== newValue ? priv.inForm = newValue : 1;
+                    }
+                },
+                'visible': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).visible;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        core.tools.isBool(newValue) && priv.visible !== newValue ? priv.visible = newValue : 1;
+                    }
+                },
+                'template': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        let html = core.classes.getTemplate(this.constructor.name);
+                        let a = html.split('{name}');
+                        //#endregion Variables déclaration
+                        html = a.join(priv.name);
+                        a = html.split('{internalId}');
+                        html = a.join(priv.internalId);
+                        return html;
+                    }
+                },
+                'properties': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        let prop = null;
+                        const htmlElement = priv.HTMLElement;
+                        const props = core.tools.getPropertiesFromObject(this);
+                        const classes = core.classes;
+                        //#endregion Variables déclaration
+                        if (!priv.component) {
+                            prop = 'width';
+                            props.push({ property: prop, value: htmlElement.offsetWidth, categories: classes.getPropertyCategories(prop) });
+                            prop = 'height';
+                            props.push({ property: prop, value: htmlElement.offsetHeight, categories: classes.getPropertyCategories(prop) });
+                        }
+                        prop = 'left';
+                        props.push({ property: prop, value: htmlElement.offsetLeft, categories: classes.getPropertyCategories(prop) });
+                        prop = 'top';
+                        props.push({ property: prop, value: htmlElement.offsetTop, categories: classes.getPropertyCategories(prop) });
+                        return props;
+                    }
+                },
+                'events': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        //#region Variables déclaration
+                        const props = [];
+                        //#endregion Variables déclaration
+                        for (let prop in this) {
+                            if (this.hasOwnProperty(prop)) {
+                                prop.startsWith('on') && this[prop] instanceof core.classes.NotifyEvent
+                                    ? props.push({ event: prop, value: this[prop] })
+                                    : 1;
+                            }
+                        }
+                        return props;
+                    }
+                },
+                'isVisible': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        let visible = priv.visible;
+                        const htmlElement = priv.HTMLElement;
+                        const owner = priv.owner;
+                        const left = priv.left;
+                        const top = priv.top;
+                        const owners = priv.owners;
+                        const oHtmlElement = owner.HTMLElement;
+                        //#endregion Variables déclaration
+                        // si le composant dépasse de son parent
+                        if (core.isHTMLRenderer) {
+                            if (htmlElement.offsetLeft + htmlElement.offsetWidth < 0 || htmlElement.offsetLeft > oHtmlElement.offsetWidth ||
+                                htmlElement.offsetTop + htmlElement.offsetHeight < 0 || htmlElement.offsetTop > oHtmlElement.offsetHeight) {
+                                visible = !1;
+                            }
+                        } else if (core.isCanvasRenderer) {
+                            if (left + priv.width < 0 || left > owner.width ||
+                                top + priv.height < 0 || top > owner.height) {
+                                visible = !1;
+                            }
+                        }
+                        if (visible) {
+                            owners.forEach(o => {
+                                visible = visible && o.visible;
+                            });
+                        }
+                        return visible;
+                    }
+                },
+                'zOrder': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const owner = priv.owner;
+                        //#endregion Variables déclaration
+                        return owner && priv.HTMLElement ? owner.components.length + 1 : -1;
+                    }
+                },
+                'contentLeft': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        let left = priv.left;
+                        const margin = this.margin;
+                        const padding = this.padding;
+                        const right = this.right;
+                        //#endregion Variables déclaration
+                        left += margin.left + padding.left;
+                        right !== null ? left = priv.owner.contentWidth - this.width - right - padding.right - margin.right : 1;
+                        return left;
+                    }
+                },
+                'left': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        let left = priv.left;
+                        const margin = this.margin;
+                        const padding = this.padding;
+                        const right = this.right;
+                        //#endregion Variables déclaration
+                        right !== null ? left = priv.owner.contentWidth - this.width - right - padding.right - margin.right : 1;
+                        return left;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const htmlElement = priv.HTMLElement;
+                        const cStyle = getComputedStyle(htmlElement);
+                        const isHTMLRenderer = core.isHTMLRenderer;
+                        //#endregion Variables déclaration
+                        if (core.tools.isNumber(newValue)) {
+                            if (cStyle.position === 'absolute') {
+                                const lastLeft = isHTMLRenderer ? htmlElement.offsetLeft : priv.left;
+                                if (lastLeft !== newValue && !priv.loading) {
+                                    this.propertyChanged(Types.BINDABLEPROPERTIES.LEFT);
+                                    isHTMLRenderer
+                                        ? priv.HTMLElementStyle.left = `${newValue}${Types.CSSUNITS.PX}`
+                                        : priv.left = newValue;
+                                }
+                            }
+                        }
+                    }
+                },
+                'contentTop': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const top = priv.top;
+                        const margin = this.margin;
+                        const padding = this.padding;
+                        //#endregion Variables déclaration
+                        return top + margin.top + padding.top;
+                    }
+                },
+                'top': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        let top = priv.top;
+                        const bottom = this.bottom;
+                        //#endregion Variables déclaration
+                        bottom !== null ? top = priv.owner.height - this.height - bottom - this.margin.bottom : 1;
+                        return top;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const htmlElement = priv.HTMLElement;
+                        const cStyle = getComputedStyle(htmlElement);
+                        const isHTMLRenderer = core.isHTMLRenderer;
+                        //#endregion Variables déclaration
+                        if (core.tools.isNumber(newValue)) {
+                            if (cStyle.position === 'absolute') {
+                                const lastTop = (isHTMLRenderer ? htmlElement.offsetTop : priv.top);
+                                if (lastTop !== newValue && !priv.loading) {
+                                    this.propertyChanged(Types.BINDABLEPROPERTIES.TOP);
+                                    isHTMLRenderer
+                                        ? priv.HTMLElementStyle.top = `${newValue}${Types.CSSUNITS.PX}`
+                                        : priv.top = newValue;
+                                }
+                            }
+                        }
+                    }
+                },
+                'boundingClientRect': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const margin = this.margin;
+                        //#endregion Variables déclaration
+                        if (core.isHTMLRenderer) {
+                            return priv.HTMLElement.boundingClientRect;
+                        } else {
+                            const boundingClientRect = new Rect(priv.left + margin.left, priv.top + margin.top, 0, 0);
+                            priv.owners.forEach(owner => {
+                                const oMargin = owner.margin;
+                                boundingClientRect.left += owner.left + oMargin.left;
+                                boundingClientRect.top += owner.top + oMargin.top;
+                            });
+                            boundingClientRect.right = boundingClientRect.left + this.width;
+                            boundingClientRect.bottom = boundingClientRect.top + this.height;
+                            return boundingClientRect;
+                        }
+                    }
+                }
+            });
+            //#endregion Public Properties
+            //#endregion Properties
+            if (owner instanceof classes.Component) {
                 priv.form = priv.owner.form;
                 priv.owner.insertComponent(this);
             } else {
                 priv.form = this;
             }
-            Core.classes.newCollection(this, this, Core.classes.Component, 'components');
-            if (priv.owner instanceof Core.classes.Component) {
+            if (priv.owner instanceof classes.Component) {
                 priv.owners.addRange(priv.owner.owners);
                 priv.owners.push(priv.owner);
             }
         }
         //#endregion constructor
-        //#region Getter / Setters
-        //#region owner
-        get owner() {
-            return internal(this).owner;
-        }
-        set owner(newValue) {
-            internal(this).owner = newValue;
-        }
-        //#endregion owner
-        //#region componentIndex
-        get componentIndex() {
-            //#region Variables déclaration
-            const owner = internal(this).owner;
-            //#endregion Variables déclaration
-            if (owner && owner.components.length > 0) {
-                return owner.components.indexOf(this);
-            } else {
-                return -1;
-            }
-        }
-        set componentIndex(newValue) {
-            //#region Variables déclaration
-            const owner = internal(this).owner;
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue < 0) {
-                    newValue = 0;
-                }
-                if (owner) {
-                    const i = owner.components.indexOf(this);
-                    if (i >= 0) {
-                        const count = owner.components.length;
-                        if (newValue < 0) newValue = 0;
-                        if (newValue >= count) newValue = count - 1;
-                        if (newValue !== i) {
-                            owner.components.splice(i, 1);
-                            owner.components.insert(newValue, this);
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion componentIndex
-        //#region owners
-        get owners() {
-            return internal(this).owners;
-        }
-        //#endregion owners
-        //#region app
-        get app() {
-            return internal(this).app;
-        }
-        set app(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Application) {
-                if (priv.app !== newValue) {
-                    priv.app = newValue;
-                }
-            }
-        }
-        //#endregion app
-        //#region form
-        get form() {
-            return internal(this).form;
-        }
-        set form(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Window) {
-                if (priv.form !== newValue) {
-                    priv.form = newValue;
-                }
-            }
-        }
-        //#endregion form
-        //#region loading
-        get loading() {
-            return internal(this).loading;
-        }
-        set loading(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (priv.loading !== newValue) {
-                priv.loading = newValue;
-            }
-        }
-        //#endregion loading
-        //#region destroying
-        get destroying() {
-            return internal(this).destroying;
-        }
-        //#endregion destroying
-        //#region HTMLElement
-        get HTMLElement() {
-            return internal(this).HTMLElement;
-        }
-        set HTMLElement(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (newValue instanceof HTMLElement) {
-                if (priv.HTMLElement !== newValue) {
-                    priv.HTMLElement = newValue;
-                }
-            }
-        }
-        //#endregion HTMLElement
-        //#region HTMLElementStyle
-        get HTMLElementStyle() {
-            return internal(this).HTMLElementStyle;
-        }
-        set HTMLElementStyle(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (newValue instanceof CSSStyleDeclaration) {
-                if (priv.HTMLElementStyle !== newValue) {
-                    priv.HTMLElementStyle = newValue;
-                }
-            }
-        }
-        //#endregion HTMLElementStyle
-        //#region designing
-        get designing() {
-            return internal(this).designing;
-        }
-        set designing(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.designing !== newValue) {
-                    priv.designing = newValue;
-                }
-            }
-        }
-        //#endregion designing
-        //#region internalId
-        get internalId() {
-            return internal(this).internalId;
-        }
-        set internalId(newValue) {
-            internal(this).internalId = newValue;
-        }
-        //#endregion internalId
-        //#region updating
-        get updating() {
-            return internal(this).updating;
-        }
-        set updating(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.updating !== newValue) {
-                    priv.updating = newValue;
-                }
-            }
-        }
-        //#endregion updating
-        //#region designInstance
-        get designInstance() {
-            return internal(this).designInstance;
-        }
-        set designInstance(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.designInstance !== newValue) {
-                    priv.designInstance = newValue;
-                }
-            }
-        }
-        //#endregion designInstance
-        //#region name
-        get name() {
-            return internal(this).name;
-        }
-        set name(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const form = priv.form;
-            let name = priv.name;
-            //#endregion Variables déclaration
-            if (String.isNullOrEmpty(newValue) && newValue.trim() !== String.EMPTY) {
-                if (priv.name !== newValue) {
-                    if (form !== this && form && form[name]) {
-                        delete form[name];
-                    }
-                    name = priv.name = newValue;
-                    if (form !== this && this !== form.layout && this !== form.content) {
-                        if (form) {
-                            if (!form[name]) form[name] = this;
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion name
-        //#region component
-        get component() {
-            return internal(this).component;
-        }
-        set component(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.component !== newValue) {
-                    priv.component = newValue;
-                }
-            }
-        }
-        //#endregion component
-        //#region inForm
-        get inForm() {
-            return internal(this).inForm;
-        }
-        set inForm(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.inForm !== newValue) {
-                    priv.inForm = newValue;
-                }
-            }
-        }
-        //#endregion inForm
-        //#region visible
-        get visible() {
-            return internal(this).visible;
-        }
-        set visible(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.visible !== newValue) {
-                    priv.visible = newValue;
-                }
-            }
-        }
-        //#endregion visible
-        //#region template
-        get template() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            let html = Core.classes.getTemplate(this.constructor.name);
-            let a = html.split('{name}');
-            //#endregion Variables déclaration
-            html = a.join(priv.name);
-            a = html.split('{internalId}');
-            html = a.join(priv.internalId);
-            return html;
-        }
-        //#endregion template
-        //#region properties
-        get properties() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            let prop = null;
-            const htmlElement = priv.HTMLElement;
-            const props = Tools.getPropertiesFromObject(this);
-            //#endregion Variables déclaration
-            if (!priv.component) {
-                prop = 'width';
-                props.push({ property: prop, value: htmlElement.offsetWidth, categories: Core.classes.getPropertyCategories(prop) });
-                prop = 'height';
-                props.push({ property: prop, value: htmlElement.offsetHeight, categories: Core.classes.getPropertyCategories(prop) });
-            }
-            prop = 'left';
-            props.push({ property: prop, value: htmlElement.offsetLeft, categories: Core.classes.getPropertyCategories(prop) });
-            prop = 'top';
-            props.push({ property: prop, value: htmlElement.offsetTop, categories: Core.classes.getPropertyCategories(prop) });
-            return props;
-        }
-        //#endregion properties
-        //#region events
-        get events() {
-            //#region Variables déclaration
-            const props = [];
-            //#endregion Variables déclaration
-            for (let prop in this) {
-                if (this.hasOwnProperty(prop)) {
-                    if (prop.startsWith('on') && this[prop] instanceof Core.classes.NotifyEvent) {
-                        props.push({ event: prop, value: this[prop] });
-                    }
-                }
-            }
-            return props;
-        }
-        //#endregion events
-        //#region isVisible
-        get isVisible() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            let visible = priv.visible;
-            const htmlElement = priv.HTMLElement;
-            const owner = priv.owner;
-            const left = priv.left;
-            const top = priv.top;
-            const owners = priv.owners;
-            const oHtmlElement = owner.HTMLElement;
-            //#endregion Variables déclaration
-            // si le composant dépasse de son parent
-            if (Core.isHTMLRenderer) {
-                if (htmlElement.offsetLeft + htmlElement.offsetWidth < 0 || htmlElement.offsetLeft > oHtmlElement.offsetWidth ||
-                    htmlElement.offsetTop + htmlElement.offsetHeight < 0 || htmlElement.offsetTop > oHtmlElement.offsetHeight) {
-                    visible = !1;
-                }
-            } else if (Core.isCanvasRenderer) {
-                if (left + priv.width < 0 || left > owner.width ||
-                    top + priv.height < 0 || top > owner.height) {
-                    visible = !1;
-                }
-            }
-            if (visible) {
-                owners.forEach(o => {
-                    visible = visible && o.visible;
-                });
-            }
-            return visible;
-        }
-        //#endregion isVisible
-        //#region zOrder
-        get zOrder() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = priv.owner;
-            //#endregion Variables déclaration
-            if (owner && priv.HTMLElement) {
-                return owner.components.length + 1;
-            }
-            return -1;
-        }
-        //#endregion zOrder
-        //#region contentLeft
-        get contentLeft() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            let left = priv.left;
-            const margin = this.margin;
-            const padding = this.padding;
-            const right = this.right;
-            //#endregion Variables déclaration
-            left += margin.left + padding.left;
-            if (right != null) {
-                left = priv.owner.contentWidth - this.width - right - padding.right - margin.right;
-            }
-            return left;
-        }
-        //#endregion contentLeft
-        //#region left
-        get left() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            let left = priv.left;
-            const margin = this.margin;
-            const padding = this.padding;
-            const right = this.right;
-            //#endregion Variables déclaration
-            if (right != null) {
-                left = priv.owner.contentWidth - this.width - right - padding.right - margin.right;
-            }
-            return left;
-        }
-        set left(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const cStyle = getComputedStyle(this.HTMLElement);
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (cStyle.position === 'absolute') {
-                    const lastLeft = Core.isHTMLRenderer ? priv.HTMLElement.offsetLeft : priv.left;
-                    if (lastLeft !== newValue) {
-                        if (!priv.loading) {
-                            this.propertyChanged(Types.BINDABLEPROPERTIES.LEFT);
-                            if (Core.isHTMLRenderer) {
-                                priv.HTMLElementStyle.left = `${newValue}${Types.CSSUNITS.PX}`;
-                            } else {
-                                priv.left = newValue;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion left
-        //#region contentTop
-        get contentTop() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const top = priv.top;
-            const margin = this.margin;
-            const padding = this.padding;
-            //#endregion Variables déclaration
-            return top + margin.top + padding.top;
-        }
-        //#endregion contentTop
-        //#region top
-        get top() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            let top = priv.top;
-            const bottom = this.bottom;
-            //#endregion Variables déclaration
-            if (bottom != null) {
-                top = priv.owner.height - this.height - bottom - this.margin.bottom;
-            }
-            return top;
-        }
-        set top(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const cStyle = getComputedStyle(this.HTMLElement);
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (cStyle.position === 'absolute') {
-                    const lastTop = (Core.isHTMLRenderer ? priv.HTMLElement.offsetTop : priv.top);
-                    if (lastTop !== newValue) {
-                        if (!priv.loading) {
-                            this.propertyChanged(Types.BINDABLEPROPERTIES.TOP);
-                            if (Core.isHTMLRenderer) {
-                                priv.HTMLElementStyle.top = `${newValue}${Types.CSSUNITS.PX}`;
-                            } else {
-                                priv.top = newValue;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion top
-        //#endregion Getter / Setters
         //#region Methods
         //#region moveTo
         moveTo(x, y) {
@@ -509,12 +555,13 @@ const Component = (() => {
             const htmlElementStyle = priv.HTMLElementStyle;
             const PX = Types.CSSUNITS.PX;
             const cStyle = getComputedStyle(this.HTMLElement);
+            const tools = core.tools;
             //#endregion Variables déclaration
-            if (Tools.isNumber(x) && Tools.isNumber(y) || this instanceof Core.classes.Control) {
+            if (tools.isNumber(x) && tools.isNumber(y) || this instanceof core.classes.Control) {
                 if (cStyle.position === 'absolute') {
                     priv.left = x;
                     priv.top = y;
-                    if (Core.isHTMLRenderer && htmlElement && priv.inForm) {
+                    if (core.isHTMLRenderer && htmlElement && priv.inForm) {
                         htmlElementStyle.left = `${x}${PX}`;
                         htmlElementStyle.top = `${y}${PX}`;
                     }
@@ -522,27 +569,6 @@ const Component = (() => {
             }
         }
         //#endregion moveTo
-        //#region getBoundingClientRect
-        getBoundingClientRect() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const margin = this.margin;
-            //#endregion Variables déclaration
-            if (Core.isHTMLRenderer) {
-                return priv.HTMLElement.getBoundingClientRect();
-            } else {
-                const boundingClientRect = new Rect(priv.left + margin.left, priv.top + margin.top, 0, 0);
-                priv.owners.forEach(owner => {
-                    const oMargin = owner.margin;
-                    boundingClientRect.left += owner.left + oMargin.left;
-                    boundingClientRect.top += owner.top + oMargin.top;
-                });
-                boundingClientRect.right = boundingClientRect.left + this.width;
-                boundingClientRect.bottom = boundingClientRect.top + this.height;
-                return boundingClientRect;
-            }
-        }
-        //#endregion getBoundingClientRect
         //#region destroy
         destroy() {
             //#region Variables déclaration
@@ -552,19 +578,36 @@ const Component = (() => {
             let owners = priv.owners;
             //#endregion Variables déclaration
             //this.destroying();
-            this.destroyComponents();
-            if (htmlElement) {
-                htmlElement.parentNode.removeChild(htmlElement);
-            }
-            if (owner) {
-                if (!(owner instanceof Core.classes.Application)) {
-                    owner.remove(this);
-                }
-            }
-            if (owners) {
-                owners.destroy();
-            }
+            priv.destroyComponents();
+            htmlElement ? htmlElement.parentNode.removeChild(htmlElement) : 1;
+            owner && !(owner instanceof core.classes.Application) ? owner.remove(this) : 1;
+            owners ? owners.destroy() : 1;
             this.unBindAndDestroyEvents();
+            this.owner = null;
+            this.componentIndex = null;
+            this.owners = null;
+            this.app = null;
+            this.form = null;
+            this.loading = null;
+            this.destroying = null;
+            this.HTMLElement = null;
+            this.HTMLElementStyle = null;
+            this.designing = null;
+            this.internalId = null;
+            this.updating = null;
+            this.designInstance = null;
+            this.component = null;
+            this.inForm = null;
+            this.visible = null;
+            this.template = null;
+            this.properties = null;
+            this.events = null;
+            this.isVisible = null;
+            this.zOrder = null;
+            this.contentLeft = null;
+            this.left = null;
+            this.contentTop = null;
+            this.top = null;
             super.destroy();
         }
         //#endregion destroy
@@ -576,12 +619,10 @@ const Component = (() => {
             const form = priv.form;
             //#endregion Variables déclaration
             priv.loading = !1;
-            if (Core.isHTMLRenderer) {
+            if (core.isHTMLRenderer) {
                 if (htmlElement) {
                     const properties = htmlElement.querySelector(`[id='${priv.internalId}'] > properties:first-child`);
-                    if (properties) {
-                        htmlElement.removeChild(properties);
-                    }
+                    properties ? htmlElement.removeChild(properties) : 1;
                 }
             }
             if (this.hasOwnProperty('action')) {
@@ -594,61 +635,17 @@ const Component = (() => {
                         let data = action.split(".");
                         if (app[data.first]) {
                             data = app[data.first][data.last];
-                            if (data) {
-                                this.action = data;
-                            }
+                            data ? this.action = data : 1;
                         }
                     }
                 }
             }
-            this.positioning();
+            priv.positioning();
             this.components.forEach(comp => {
-                if (comp.loaded) {
-                    if (comp.loading) {
-                        comp.loaded();
-                    }
-                }
+                comp.loaded && comp.loading ? comp.loaded() : 1;
             });
         }
         //#endregion loaded
-        //#region positioning
-        positioning() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (priv.form !== this) {
-                if (Core.isHTMLRenderer && priv.HTMLElement) {
-                    const position = getComputedStyle(priv.HTMLElement).position;
-                    if (position === 'absolute') {
-                        this.moveTo(priv.left, priv.top);
-                    }
-                }
-            }
-        }
-        //#endregion positioning
-        //#region insert
-        insert(component) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const components = this.components;
-            const form = priv.form;
-            const controls = form.controls;
-            //#endregion Variables déclaration
-            if (components.indexOf(component) === -1) {
-                components.push(component);
-                component.app = priv.app;
-                component.owner = this;
-                if (form !== component) {
-                    if (component.inForm && controls.indexOf(component) === -1) {
-                        controls.push(component);
-                        if (!form[component.name]) {
-                            form[component.name] = component;
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion insert
         //#region remove
         remove(component) {
             //#region Variables déclaration
@@ -659,81 +656,23 @@ const Component = (() => {
             //#endregion Variables déclaration
             if (components.indexOf(component) > -1) {
                 let idx = components.indexOf(component);
-                if (idx > -1) {
-                    components.removeAt(idx);
-                }
+                idx > -1 ? components.removeAt(idx) : 1;
                 if (form[component.name]) {
                     form[component.name] = null;
                     delete form[component.name];
                 }
                 idx = controls.indexOf(component);
-                if (idx > -1) {
-                    controls.removeAt(idx);
-                }
+                idx > -1 ? controls.removeAt(idx) : 1;
             }
         }
         //#endregion remove
         //#region insertComponent
         insertComponent(component) {
-            if (component.owner !== component.app) {
-                component.owner.remove(component);
-            }
-            this.insert(component);
+            const priv = internal(this);
+            component.owner !== component.app ? component.owner.remove(component) : 1;
+            priv.insert(component);
         }
         //#endregion insertComponent
-        //#region getComponent
-        getComponent(index) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const components = priv.components;
-            //#endregion Variables déclaration
-            if (components.length === 0 || index >= components.length) {
-                throw Core.errMsg.LISTINDEXERROR.format(index);
-            }
-            return components[index];
-        }
-        //#endregion getComponent
-        //#region beforeDestruction
-        beforeDestruction() {
-            if (!priv.destroying) {
-                this._destroying();
-            }
-        }
-        //#endregion beforeDestruction
-        //#region destroyComponents
-        destroyComponents() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            let instance;
-            //#endregion Variables déclaration
-            const components = priv.components;
-            if (components) {
-                while (components.length > 0) {
-                    instance = components.last;
-                    this.remove(instance);
-                    instance.destroy();
-                    instance = null;
-                }
-            }
-            //Tools.Debugger.log(arguments, this, t);
-        }
-        //#endregion destroyComponents
-        //#region _destroying
-        _destroying() {
-            //#region Variables déclaration
-            const components = priv.components;
-            //#endregion Variables déclaration
-            if (!priv.destroying) {
-                priv.destroying = !0;
-                if (components) {
-                    components.forEach(comp => {
-                        comp._destroying();
-                    });
-                }
-            }
-            //Tools.Debugger.log(arguments, this, t);
-        }
-        //#endregion _destroying
         //#region findComponent
         findComponent(name) {
             //#region Variables déclaration
@@ -751,38 +690,17 @@ const Component = (() => {
             return null;
         }
         //#endregion findComponent
-        //#region _updating
-        _updating() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.updating = !0;
-        }
-        //#endregion _updating
-        //#region updated
-        updated() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.updating = !1;
-        }
-        //#endregion updated
         //#region validateRename
         validateRename(component, curName, newName) {
             //#region Variables déclaration
             const priv = internal(this);
             const owner = priv.owner;
             //#endregion Variables déclaration
-            if (priv.designing && owner) {
-                if (!(owner instanceof Core.classes.App)) {
-                    owner.validateRename(component, curName, newName);
-                }
-            }
+            priv.designing && owner && !(owner instanceof core.classes.App) 
+                ? owner.validateRename(component, curName, newName) 
+                : 1;
         }
         //#endregion validateRename
-        //#region setChildOrder
-        setChildOrder(child, order) { }
-        //#endregion setChildOrder
         //#region beginUpdate
         beginUpdate() { }
         //#endregion beginUpdate
@@ -798,41 +716,21 @@ const Component = (() => {
             //#endregion Variables déclaration
             if (htmlElement) {
                 priv.HTMLElementStyle = htmlElement.style;
-                if (!htmlElement.jsObj) {
-                    htmlElement.jsObj = this;
-                }
+                !htmlElement.jsObj ? htmlElement.jsObj = this : 1;
                 const data = htmlElement.name;
-                if (data) {
-                    priv.name = data;
-                }
+                data ? priv.name = data : 1;
             }
-            if (!internalId || internalId !== id) {
-                priv.internalId = id;
-            }
+            !internalId || internalId !== id ? priv.internalId = id : 1;
         }
         //#endregion getHTMLElement
         //#region getChilds
         getChilds() { }
         //#endregion getChilds
-        /*updateFromHTML() {
-            let properties = this.HTMLElement.querySelector("properties"), props;
-            if (!properties) return;
-            if (properties.parentNode !== this.HTMLElement) return;
-            props = JSON.parse(properties.innerHTML);
-            // à modifier avec getOwnPropertyNames
-            for (let prop in props) {
-                if (this[prop] !== null && this[prop] !== undefined) {
-                    //if (prop === "name") internal(this).name = props[prop];
-                    this[prop] = props[prop];
-                }
-            }
-            this.HTMLElement.removeChild(properties);
-        }*/
         //#region clientToDocument // TODO : changer en get
         clientToDocument() {
             //#region Variables déclaration
-            const result = new Core.classes.Point;
-            const bRect = this.getBoundingClientRect();
+            const result = new core.classes.Point;
+            const bRect = this.boundingClientRect;
             //#endregion Variables déclaration
             result.setValues(bRect.left, bRect.top);
             return result;
@@ -842,20 +740,19 @@ const Component = (() => {
         createEventsAndBind(eventsName, props) {
             //#region Variables déclaration
             const priv = internal(this);
+            const tools = core.tools;
             //#endregion Variables déclaration
             const form = priv.form;
             if (Array.isArray(eventsName)) {
                 eventsName.forEach(eventName => {
                     const eventValue = props[eventName];
-                    this[eventName] = new Core.classes.NotifyEvent(this);
+                    this[eventName] = new core.classes.NotifyEvent(this);
                     if (props.hasOwnProperty(eventName)) {
-                        if (Tools.isFunc(form[eventValue])) {
+                        if (tools.isFunc(form[eventValue])) {
                             this[eventName].addListener(form[eventValue]);
-                        } else if (Tools.isString(eventValue)) {
-                            if (!String.isNullOrEmpty(eventValue)) {
-                                this[eventName].addListener(new Function(eventValue));
-                            }
-                        } else if (Tools.isFunc(eventValue)) {
+                        } else if (tools.isString(eventValue)) {
+                            !String.isNullOrEmpty(eventValue) ? this[eventName].addListener(new Function(eventValue)) : 1;
+                        } else if (tools.isFunc(eventValue)) {
                             this[eventName].addListener(eventValue);
                         }
                     }
@@ -880,13 +777,6 @@ const Component = (() => {
     return Component;
 })();
 //#endregion Component
-//#region Component defineProperties
-Object.defineProperties(Component, {
-    'name': {
-        enumerable: !0
-    }
-});
-//#endregion Component defineProperties
 //#endregion
-Core.classes.register(Types.CATEGORIES.COMMON, Component);
+core.classes.register(core.types.CATEGORIES.COMMON, Component);
 export { Component };

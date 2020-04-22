@@ -78,10 +78,10 @@ const ThemedControl = (() => {
         //#endregion themeAndClassName
         //#region template
         get template() {
-            //#region Variables déclaration
+            //#region Variables declaration
             let html = super.template;
             const a = html.split('{theme}');
-            //#endregion Variables déclaration
+            //#endregion Variables declaration
             html = a.join(this.form.themeName);
             return html;
         }

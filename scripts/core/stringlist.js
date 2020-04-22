@@ -24,7 +24,7 @@ const StringList = (() => {
             const priv = internal(this);
             priv.list = [];
             priv.owner = owner;
-            this.onChange = new NotifyEvent(this);
+            this.onChange = new NotifyEvent(this); // à changer
         }
         //#endregion constructor
         //#region Getter / Setter

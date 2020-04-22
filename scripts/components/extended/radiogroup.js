@@ -130,7 +130,8 @@ const RadioGroup = (() => {
                         caption: obj.caption,
                         enabled: obj.enabled,
                         checked: priv.itemIndex === i || obj.isChecked,
-                        autoWidth: !1
+                        autoWidth: !1,
+                        name: `${this.name}_radioButton${i}`
                     }});
                     item.onClick.addListener(this.changeItemIndex);
                     this.items.push(item);

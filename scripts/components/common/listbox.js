@@ -1012,7 +1012,6 @@ const ListBox = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             const name = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
-            let pos = 0;
             //#endregion Variables déclaration
             super.loaded();
             this.getImages();

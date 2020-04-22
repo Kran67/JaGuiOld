@@ -107,7 +107,7 @@ const ColorPicker = (() => {
             if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.isPressed) {
                 if (Core.mouse.event.target !== htmlElement) {
                     point.assign(Core.mouse.window);
-                    const bounds = htmlElement.getBoundingClientRect();
+                    const bounds = htmlElement.boundingClientRect;
                     point.x -= bounds.left;
                     point.y -= bounds.top;
                 } else {

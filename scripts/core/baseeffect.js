@@ -1,7 +1,4 @@
-﻿//#region Imports
-import { Component } from '/scripts/core/component.js';
-//#endregion
-//#region BaseEffect
+﻿//#region BaseEffect
 /**
  * Class representing an base class of all effect in JaGui
  * @extend  {Component}
@@ -17,136 +14,107 @@ const BaseEffect = (() => {
         return _private.get(key);
     };
     //#region BaseEffect
-    class BaseEffect extends Component {
+    class BaseEffect {
         /**
          * Create a new instance of BaseEffect.
          * @param   {owner}     owner   the owner of the effect
          */
         //#region constructor
         constructor(owner) {
-            super(owner);
-            //#region Variables déclaration
+            //#region Properties
+            //#region Private Properties
             const priv = internal(this);
-            //#endregion Variables déclaration
+            priv.owner = owner;
             priv.enabled = !1;
             priv.trigger = String.EMPTY;
             priv.prepareBeforePaint = !1;
             priv.applyOnChilds = !1;
             priv.disablePaint = !1;
+            //#endregion Private Properties
+            //#region Public Properties
+            Object.defineProperties(this, {
+                'enabled': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).enabled;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const owner = priv.owner;
+                        //#endregion Variables déclaration
+                        if (core.tools.isBool(newValue) && priv.enabled !== newValue) {
+                            priv.enabled = newValue;
+                            owner.form.addControlToRedraw(owner);
+                        }
+                    }
+                },
+                'trigger': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).trigger;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        String.isNullOrEmpty(newValue) && priv.trigger !== newValue
+                            ? priv.trigger = newValue
+                            : 1;
+                    }
+                },
+                'prepareBeforePaint': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).prepareBeforePaint;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        core.tools.isBool(newValue) && priv.prepareBeforePaint !== newValue
+                            ? priv.prepareBeforePaint = newValue
+                            : 1;
+                    }
+                },
+                'applyOnChilds': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).applyOnChilds;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        core.tools.isBool(newValue) && priv.applyOnChilds !== newValue
+                            ? priv.applyOnChilds = newValue
+                            : 1;
+                    }
+                },
+                'disablePaint': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).disablePaint;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        //#endregion Variables déclaration
+                        core.tools.isBool(newValue) && priv.disablePaint !== newValue
+                            ? priv.disablePaint = newValue
+                            : 1;
+                    }
+                }
+            });
+            //#endregion Public Properties
+            //#endregion Properties
         }
         //#region constructor
-        //#region Getter/Setter
-        //#region enabled
-        /**
-         * Get the enabled property
-         */
-        get enabled() {
-            return internal(this).enabled;
-        }
-        /**
-         * Set the enabled property
-         */
-        set enabled(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = priv.owner;
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.enabled !== newValue) {
-                    //let lastRect = owner.screenRect();
-                    priv.enabled = newValue;
-                    owner.form.addControlToRedraw(owner);
-                }
-            }
-        }
-        //#endregion enabled
-        //#region trigger
-        /**
-         * Get the trigger property
-         */
-        get trigger() {
-            return internal(this).trigger;
-        }
-        /**
-         * Set the trigger property
-         */
-        set trigger(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (String.isNullOrEmpty(newValue)) {
-                if (priv.trigger !== newValue) {
-                    priv.trigger = newValue;
-                }
-            }
-        }
-        //#endregion trigger
-        //#region prepareBeforePaint
-        /**
-         * Get the prepareBeforePaint property
-         */
-        get prepareBeforePaint() {
-            return internal(this).prepareBeforePaint;
-        }
-        /**
-         * Set the prepareBeforePaint property
-         */
-        set prepareBeforePaint(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.prepareBeforePaint !== newValue) {
-                    priv.prepareBeforePaint = newValue;
-                }
-            }
-        }
-        //#endregion prepareBeforePaint
-        //#region applyOnChilds
-        /**
-         * Get the applyOnChilds property
-         */
-        get applyOnChilds() {
-            return internal(this).applyOnChilds;
-        }
-        /**
-         * Set the applyOnChilds property
-         */
-        set applyOnChilds(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.applyOnChilds !== newValue) {
-                    priv.applyOnChilds = newValue;
-                }
-            }
-        }
-        //#endregion applyOnChilds
-        //#region disablePaint
-        /**
-         * Get the disablePaint property
-         * @return  {Boolean}
-         */
-        get disablePaint() {
-            return internal(this).disablePaint;
-        }
-        /**
-         * Set the disablePaint property
-         * @param   {Boolean}  newValue    -
-         */
-        set disablePaint(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.disablePaint !== newValue) {
-                    priv.disablePaint = newValue;
-                }
-            }
-        }
-        //#endregion disablePaint
-        //#endregion
         //#region Methods
         /**
          * rect
@@ -166,12 +134,13 @@ const BaseEffect = (() => {
          */
         applyTrigger(instance, trigger) {
             //#region Variables déclaration
+            const priv = internal(this);
             let prop = null;
             let value = null;
             //#endregion Variables déclaration
             if (instance && this.trigger.toLowerCase().indexOf(trigger.toLowerCase()) > -1) {
                 let line = null;
-                line = this._trigger;
+                line = this.trigger;
                 let setter = null;
                 setter = line.split(";");
                 let startValue = !1;
@@ -184,7 +153,7 @@ const BaseEffect = (() => {
                     }
                     setter.removeAt(0);
                 }
-                this.enabled = startValue;
+                priv.enabled = startValue;
             }
         }
         //#endregion
@@ -192,25 +161,6 @@ const BaseEffect = (() => {
     return BaseEffect;
     //#endregion BaseEffect
 })();
-//#region BaseEffect defineProperties
-Object.defineProperties(BaseEffect, {
-    'enabled': {
-        enumerable: !0
-    },
-    'trigger': {
-        enumerable: !0
-    },
-    'prepareBeforePaint': {
-        enumerable: !0
-    },
-    'applyOnChilds': {
-        enumerable: !0
-    },
-    'disablePaint': {
-        enumerable: !0
-    }
-});
-//#endregion BaseEffect defineProperties
 //#endregion
-Core.classes.register(Types.CATEGORIES.INTERNAL, BaseEffect);
+core.classes.register(core.types.CATEGORIES.INTERNAL, BaseEffect);
 export { BaseEffect };

@@ -1,6 +1,3 @@
-//#region Import
-import { Tools } from '/scripts/core/tools.js';
-//#endregion Import
 //#region BaseClass
 /**
  * Base class of all object in JaGui
@@ -20,18 +17,53 @@ const BaseClass = (() => {
         /**
          * Create a new instance of BaseClass.
          */
-        constructor() {
-            //#region Variables déclaration
+        constructor(props) {
+            props = !props ? {} : props;
+            //#region Properties
+            //#region Private Properties
             const priv = internal(this);
-            //#endregion Variables déclaration
-            this.tag = null;
             priv.propsEnums = {};
+            priv.name = props.hasOwnProperty('name') ? props.name : String.EMPTY;
+            //#endregion Private Properties
+            //#region Public Properties
+            this.tag = null;
+            Object.defineProperties(this, {
+                'name': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).name;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const form = priv.form;
+                        let name = priv.name;
+                        //#endregion Variables déclaration
+                        if (String.isNullOrEmpty(newValue) && newValue.trim() !== String.EMPTY) {
+                            if (priv.name !== newValue) {
+                                form !== this && form && form[name] ? delete form[name] : 1;
+                                name = priv.name = newValue;
+                                form !== this && this !== form.layout && this !== form.content
+                                    ? form && !form[name]
+                                        ? form[name] = this
+                                        : 1
+                                    : 1;
+                            }
+                        }
+                    }
+                },
+                'propsEnums': {
+                    enumerable: !1,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).propsEnums;
+                    }
+                }
+            });
+            //#endregion Public Properties
+            //#endregion Properties
         }
-        //#region Getter / Setter
-        get propsEnums() {
-            return internal(this).propsEnums;
-        }
-        //#endregion Getter / Setter
         //#region Methods
         /**
          * Mixin for classes
@@ -68,15 +100,15 @@ const BaseClass = (() => {
          * @override
          */
         destroy() {
-            if (this.tag != null && Tools.isObject(this.tag) && Tools.isFunc(this.tag.destroy)) {
-                this.tag.destroy();
-            }
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            this.tag != null && core.tools.isObject(this.tag) && core.tools.isFunc(this.tag.destroy) ? this.tag.destroy() : 1;
             this.tag = null;
             delete this.tag;
+            delete priv.propsEnums;
             delete this.propsEnums;
-        }
-        addPropertyEnum(propName, _enum) {
-            this.propsEnums[propName] = _enum;
+            delete this.name;
         }
         //#endregion Methods
     }
@@ -84,5 +116,5 @@ const BaseClass = (() => {
     //#endregion BaseClass
 })();
 //#endregion
-Core.classes.register(Types.CATEGORIES.INTERNAL, BaseClass);
+core.classes.register(core.types.CATEGORIES.INTERNAL, BaseClass);
 export { BaseClass };
