@@ -177,12 +177,12 @@ const AnimatedCursor = (() => {
             priv.className = null;
             priv.iterationBetweenFrames = null;
             priv.iteration = null;
-            this.HTMLElement = null;
-            this.maxFrame = null;
-            this.curFrame = null;
-            this.className = null;
-            this.iterationBetweenFrames = null;
-            this.iteration = null;
+            delete this.HTMLElement;
+            delete this.maxFrame;
+            delete this.curFrame;
+            delete this.className;
+            delete this.iterationBetweenFrames;
+            delete this.iteration;
         }
         //#endregion
         //#endregion Methods

@@ -383,17 +383,7 @@ const Animation = (() => {
                         //#endregion Variables déclaration
                         core.tools.isBool(newValue) && newValue !== priv.convertToCSS ? priv.convertToCSS = newValue : 1;
                     }
-                },
-                '': {
-                    enumerable: !0,
-                    configurable: !0,
-
-                },
-                '': {
-                    enumerable: !0,
-                    configurable: !0,
-
-                },
+                }
             });
             //#endregion Public Properties
             //#endregion Properties
@@ -895,13 +885,54 @@ const Animation = (() => {
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
-            const startValue = priv.startValue;
-            const stopValue = priv.stopValue;
-            this.onProcess.destroy();
-            this.onFinish.destroy();
             //#endregion Variables déclaration
-            startValue && startValue.destroy ? startValue.destroy() : 1;
-            stopValue && stopValue.destroy ? stopValue.destroy() : 1;
+            this.unBindAndDestroyEvents(['onProcess', 'onFinish']);
+            priv.delayTime = null;
+            priv.time = null;
+            priv.initialValue = null;
+            priv.pause = null;
+            priv.animationType = null;
+            priv.autoReverse = null;
+            priv.enabled = null;
+            priv.delay = null;
+            priv.duration = null;
+            priv.interpolation = null;
+            priv.inverse = null;
+            priv.hideOnFinish = null;
+            priv.loop = null;
+            priv.trigger = null;
+            priv.triggerInverse = null;
+            priv.propertyName = null;
+            priv.control = null;
+            priv.startFromCurrent = null;
+            priv.startValue = null;
+            priv.stopValue = null;
+            priv.autoStart = null;
+            priv.running = null;
+            priv.convertToCSS = null;
+            delete this.delayTime;
+            delete this.time;
+            delete this.initialValue;
+            delete this.pause;
+            delete this.animationType;
+            delete this.autoReverse;
+            delete this.enabled;
+            delete this.delay;
+            delete this.duration;
+            delete this.interpolation;
+            delete this.inverse;
+            delete this.hideOnFinish;
+            delete this.loop;
+            delete this.trigger;
+            delete this.triggerInverse;
+            delete this.propertyName;
+            delete this.control;
+            delete this.startFromCurrent;
+            delete this.startValue;
+            delete this.stopValue;
+            delete this.autoStart;
+            delete this.running;
+            delete this.convertToCSS;
         }
         //#endregion
     }

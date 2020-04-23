@@ -672,24 +672,44 @@ const Application = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            //this._toolTipTimerHandle = null;
             priv.windows.destroy();
-            //this._windows = null;
-            //this._windowsClass = null;
             priv.globalComponentName.destroy();
-            //this._globalComponentName = null;
-            //this._lastThemeName = null;
-            //this._themeName = null;
-            //this._toolTip = null;
-            //this._showMainWindow = null;
-            //this._name = null;
-            //this._mainWindow = null;
-            //this._activeWindow = null;
-            //this._title = String.null;
             priv.lastActiveWindow.destroy();
-            //this._lastActiveWindow = null;
-            //this._locale = null;
-            //this._locales = null;
+            priv.toolTipTimerHandle = null;
+            priv.windows.clear();
+            priv.windows = null;
+            priv.globalComponentName = null;
+            //priv.aceWrappers = [];
+            priv.lastActiveWindow = null;
+            priv.locales = null;
+            priv.loadedWindowsHTML = null;
+            priv.windowsClass = null;
+            priv.toolTip = null;
+            priv.showMainWindow = null;
+            priv.name = null;
+            priv.mainWindow = null;
+            priv.activeWindow = null;
+            priv.title = null;
+            priv.locale = null;
+            priv.themeManifest.destroy();
+            priv.themeManifest = null;
+            delete this.themeName;
+            delete this.toolTipTimerHandle;
+            delete this.windows;
+            delete this.globalComponentName;
+            delete this.aceWrappers;
+            delete this.lastActiveWindow;
+            delete this.locales;
+            delete this.loadedWindowsHTML;
+            delete this.windowsClass;
+            delete this.toolTip;
+            delete this.showMainWindow;
+            delete this.name;
+            delete this.mainWindow;
+            delete this.activeWindow;
+            delete this.title;
+            delete this.locale;
+            delete this.themeManifest;
         }
         render() {
             //#region Variables déclaration

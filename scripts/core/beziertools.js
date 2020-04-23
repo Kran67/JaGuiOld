@@ -60,15 +60,15 @@ class BezierTools {
         while (t < 1) {
             // get the 't' corresponding to the given dash value.
             t = BezierTools.tAtLength(params.points, dash);
-            if (t === 1) {
-                result = { l: dash - BezierTools.computeLength(params.points), i: i };
-            }
+            t === 1
+                ? result = { l: dash - BezierTools.computeLength(params.points), i: i }
+                : 1;
             // split bezier at t: left part is the "dash" curve, right part is the remaining bezier points
             const curves = BezierTools.splitBezierAtT(params.points, t);
-            if (i % 2 !== 0) {
+            i % 2 !== 0
                 // only keep the "dash" curve
-                params.newPoints.push(curves[0]);
-            }
+                ? params.newPoints.push(curves[0])
+                : 1;
             params.points = curves[1];
             ++i;
             dash = params.dashArray[i % params.dashArray.length] * params.lineWidth;
@@ -96,7 +96,9 @@ class BezierTools {
                 pLen += BezierTools.distance(p[i], p[i + 1], p[i + 2], p[i + 3]);
             }
             // chord length
-            const chord = quadratic ? BezierTools.distance(points[0], points[1], points[4], points[5]) : BezierTools.distance(points[0], points[1], points[6], points[7]);
+            const chord = quadratic
+                ? BezierTools.distance(points[0], points[1], points[4], points[5])
+                : BezierTools.distance(points[0], points[1], points[6], points[7]);
             // if needs more approx. or if currentLen is greater than the target length,
             // split the curve one more time
             if (pLen - chord > error || currentLen + pLen > length + error) {
@@ -116,9 +118,9 @@ class BezierTools {
             t += 1.0 / (1 << splitCount);
         };
         //#endregion Variables déclaration
-        if (length) {
-            _compute(points, 0.5);
-        }
+        length
+            ? _compute(points, 0.5)
+            : 1;
         return t;
     }
     /**
@@ -210,8 +212,7 @@ class BezierTools {
         // split polygons until the polygon and the chord are "the same"
         if (pLen - chord > error) {
             const newBeziers = quadratic ? BezierTools.splitQBezierAtT(points, 0.5) : BezierTools.splitCBezierAtT(points, 0.5);
-            let length = null;
-            length = BezierTools.computeLength(newBeziers[0], quadratic);
+            let length = BezierTools.computeLength(newBeziers[0], quadratic);
             length += BezierTools.computeLength(newBeziers[1], quadratic);
             return length;
         }
@@ -225,7 +226,9 @@ class BezierTools {
      * @return  {Array}                 two bezier curves
      */
     static splitBezierAtT(points, t) {
-        return points.length === 6 ? BezierTools.splitQBezierAtT(points, t) : BezierTools.splitCBezierAtT(points, t);
+        return points.length === 6
+            ? BezierTools.splitQBezierAtT(points, t)
+            : BezierTools.splitCBezierAtT(points, t);
     }
     //#endregion Methods
 }

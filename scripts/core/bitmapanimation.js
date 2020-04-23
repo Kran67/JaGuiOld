@@ -9,6 +9,7 @@ import { Css } from '/scripts/core/css.js';
  * @extends {Animation}
  */
 const BitmapAnimation = (() => {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
@@ -18,6 +19,8 @@ const BitmapAnimation = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#endregion Private
+    //#region BitmapAnimation
     class BitmapAnimation extends Animation {
         /**
          * Create a new instance of BitmapAnimation.
@@ -28,34 +31,39 @@ const BitmapAnimation = (() => {
         constructor(owner, props, autoStart) {
             props = !props ? {} : props;
             if (owner) {
+                props.startValue = new Image;
+                props.startFromCurrent = !1;
+                props.stopValue = new Image;
                 super(owner, props, autoStart);
-                // Initialization
+                //#region Properties
+                //#region Private Properties
                 const priv = internal(this);
                 const current = priv.current = {};
-                current.canvas = doc.createElement(Types.HTMLELEMENTS.CANVAS);
+                current.canvas = doc.createElement(core.types.HTMLELEMENTS.CANVAS);
                 current.canvas.width = 1;
                 current.canvas.height = 1;
                 current.ctx = canvas.getContext('2d');
-                //#region Getter/Setter
-                //#endregion
-                this.startValue = new Image;
-                this.startFromCurrent = !1;
-                this.stopValue = new Image;
-            }
-        }
-        get current() {
-            return internal(this).current;
-        }
-        /**
-         * Set the current property
-         * @param   {Object}   newValue    the new value
-         */
-        set current(newValue) {
-            const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.OBJECT && newValue.canvas) {
-                if (priv.current !== newValue) {
-                    priv.current = newValue;
-                }
+                //#endregion Private Properties
+                //#region Public Properties
+                Object.defineProperties(this, {
+                    'current': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).current;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            core.tools.isObject(newValue) && newValue.canvas && priv.current !== newValue
+                                ? priv.current = newValue
+                                : 1;
+                        }
+                    }
+                });
+                //#endregion Public Properties
+                //#endregion Properties
             }
         }
         //#region Methods
@@ -64,24 +72,26 @@ const BitmapAnimation = (() => {
          * @override
          */
         processAnimation() {
+            //#region Variables déclaration
+            const priv = internal(this);
             const form = this.form;
             const control = this.control;
             const propertyName = this.propertyName;
             const stopValue = this.stopValue;
             const inverse = this.inverse;
-            const current = this.current;
+            const current = priv.current;
             const currentCtx = current.ctx;
             const startValue = this.startValue;
             const imgCanvasCtx = control.imgCanvas.ctx;
+            //#endregion Variables déclaration
             if (control && control.checkOwnerVisible() && !form.loading && !form.creating) {
                 super.processAnimation();
                 if (control[propertyName]) {
                     if (control[propertyName] instanceof Image) {
                         let r;
-                        if (control.allowUpdate) {
-                            r = control.screenRect();
-                            //this.owner.redraw(r);
-                        }
+                        control.allowUpdate
+                            ? r = control.screenRect()
+                            : 1;
                         if (stopValue.width === 0 || stopValue.height === 0) {
                             return;
                         }
@@ -107,14 +117,12 @@ const BitmapAnimation = (() => {
                                 imgCanvasCtx.drawImage(current.canvas, 0, 0);
                             }
                         }
-                        if (control.allowUpdate) {
-                            control.update();
-                        }
-                        if (!form.useRequestAnim) {
-                            control.redraw(r);
-                        } else {
-                            form.needRedraw = !0;
-                        }
+                        control.allowUpdate
+                            ? control.update()
+                            : 1;
+                        !form.useRequestAnim
+                            ? control.redraw(r)
+                            : form.needRedraw = !0;
                     }
                 }
             }
@@ -124,13 +132,15 @@ const BitmapAnimation = (() => {
          * @override
          */
         loaded() {
+            //#region Variables déclaration
             let style = String.EMPTY;
             let back = String.EMPTY;
-            const imageWraps = Types.IMAGEWRAPS;
-            const _const = Types.CONSTANTS;
+            const imageWraps = core.types.IMAGEWRAPS;
+            const _const = core.types.CONSTANTS;
             const control = this.control;
             const ctrlInternalId = control.internalId;
             const internalId = this.internalId;
+            //#endregion Variables déclaration
             if (control) {
                 super.loaded();
                 const cssProp = `0% { ${Convert.propertyToCssProperty(this, !0)} }
@@ -175,7 +185,7 @@ const BitmapAnimation = (() => {
          * @override
          */
         assign(source) {
-            if (source instanceof Core.classes.BitmapAnimation) {
+            if (source instanceof core.classes.BitmapAnimation) {
                 super.assign(source);
                 this.startValue = source.startValue;
                 this.startFromCurrent = source.startFromCurrent;
@@ -187,17 +197,23 @@ const BitmapAnimation = (() => {
          * @override
          */
         destroy() {
-            const current = this.current;
+            //#region Variables déclaration
+            const priv = internal(this);
+            const current = priv.current;
+            //#endregion Variables déclaration
             if (current) {
                 current.canvas = null;
                 current.ctx = null;
             }
+            priv.current = null;
+            delete this.current;
             super.destroy();
         }
         //#endregion
     }
     return BitmapAnimation;
+    //#endregion BitmapAnimation
 })();
-//#endregion
-Core.classes.register(Types.CATEGORIES.ANIMATIONS, BitmapAnimation);
+Core.classes.register(core.types.CATEGORIES.ANIMATIONS, BitmapAnimation);
+//#endregion BitmapAnimation
 export { BitmapAnimation };

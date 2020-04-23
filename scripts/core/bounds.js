@@ -1,7 +1,5 @@
 ﻿//#region Imports
 import { Rect } from '/scripts/core/geometry.js';
-//import { Events } from './events.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion
 //#region Bounds
 /**
@@ -9,6 +7,7 @@ import { Tools } from '/scripts/core/tools.js';
  * @extends {Rect}
  */
 const Bounds = (() => {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
@@ -18,6 +17,7 @@ const Bounds = (() => {
         // Return private properties object
         return _private.get(key);
     };
+    //#endregion Private
     //#region Bounds
     class Bounds extends Rect {
         /**
@@ -27,16 +27,16 @@ const Bounds = (() => {
          */
         //#region constructor
         constructor(rect, owner) {
-            if (!(rect instanceof Core.classes.Rect)) {
-                rect = new Core.classes.Rect;
-            }
+            !(rect instanceof core.classes.Rect)
+                ? rect = new core.classes.Rect
+                : 1;
             super(rect.left, rect.top, rect.right, rect.bottom);
             const priv = internal(this);
             priv.owner = owner;
             //if (!rect) rect = new Rect;
             //#region Private
             //#endregion
-            this.onChange = new Core.classes.NotifyEvent(owner);
+            this.onChange = new core.classes.NotifyEvent(owner);
         }
         //#endregion constructor
         //#region Getters / Setter
@@ -59,7 +59,7 @@ const Bounds = (() => {
          * @param   {Number}   newValue    the new value
          */
         //set left(newValue) {
-        //    if (typeof newValue !== Types.CONSTANTS.NUMBER) return;
+        //    if (typeof newValue !== core.types.CONSTANTS.NUMBER) return;
         //    if (this.left !== newValue) {
         //        this.setValues(newValue, this.top, this.right, this.bottom);
         //    }
@@ -69,7 +69,7 @@ const Bounds = (() => {
          * @param   {Number}   newValue    the new value
          */
         //set top(newValue) {
-        //    if (typeof newValue !== Types.CONSTANTS.NUMBER) return;
+        //    if (typeof newValue !== core.types.CONSTANTS.NUMBER) return;
         //    if (this.top !== newValue) {
         //        this.setValues(this.left, newValue, this.right, this.bottom);
         //    }
@@ -79,7 +79,7 @@ const Bounds = (() => {
          * @param   {Number}   newValue    the new value
          */
         //set right(newValue) {
-        //    if (typeof newValue !== Types.CONSTANTS.NUMBER) return;
+        //    if (typeof newValue !== core.types.CONSTANTS.NUMBER) return;
         //    if (this.right !== newValue) {
         //        this.setValues(this.left, this.top, newValue, this.bottom);
         //    }
@@ -89,14 +89,14 @@ const Bounds = (() => {
          * @param   {Number}   newValue    the new value
          */
         //set bottom(newValue) {
-        //    if (typeof newValue !== Types.CONSTANTS.NUMBER) return;
+        //    if (typeof newValue !== core.types.CONSTANTS.NUMBER) return;
         //    if (this.bottom !== newValue) {
         //        this.setValues(this.left, this.top, this.right, newValue);
         //    }
         //}
         //#region properties
         get properties() {
-            return Tools.getPropertiesFromObject(this);
+            return core.tools.getPropertiesFromObject(this);
         }
         //#endregion properties
         //#endregion
@@ -107,10 +107,9 @@ const Bounds = (() => {
          * @return  {Rect}                  The new rect
          */
         marginRect(rect) {
-            if (rect instanceof Core.classes.Rect) {
-                return new Core.classes.Rect(rect.left + this.left, rect.top + this.top, rect.right - this.right, rect.bottom - this.bottom);
-            }
-            return rect;
+            return rect instanceof core.classes.Rect
+                ? new core.classes.Rect(rect.left + this.left, rect.top + this.top, rect.right - this.right, rect.bottom - this.bottom)
+                : rect;
         }
         /**
          * Return a new rect that combine the local rect and the rect parameter
@@ -118,10 +117,9 @@ const Bounds = (() => {
          * @return  {Rect}                  The new rect
          */
         paddingRect(rect) {
-            if (rect instanceof Core.classes.Rect) {
-                return new Core.classes.Rect(rect.left + this.left, rect.top + this.top, rect.right - this.right, rect.bottom - this.bottom);
-            }
-            return rect;
+            return rect instanceof core.classes.Rect
+                ? new core.classes.Rect(rect.left + this.left, rect.top + this.top, rect.right - this.right, rect.bottom - this.bottom)
+                : rect;
         }
         /**
          * Apply the local property to another object
@@ -146,7 +144,9 @@ const Bounds = (() => {
          * Convert the local rect to css
          */
         toCSS() {
-            const PX = Types.CSSUNITS.PX;
+            //#region Variables déclaration
+            const PX = core.types.CSSUNITS.PX;
+            //#endregion Variables déclaration
             return `${this.top}${PX}${String.SPACE}${this.right}${PX}${String.SPACE}${this.bottom}${PX}${String.SPACE}${this.left}${PX}`;
         }
         /**
@@ -156,6 +156,7 @@ const Bounds = (() => {
         destroy() {
             this.onChange.destroy();
             this.onChange = null;
+            delete this.onChange;
             super.destroy();
         }
         /**
@@ -166,6 +167,6 @@ const Bounds = (() => {
     return Bounds;
     //#endregion Bounds
 })();
-//#endregion
-Core.classes.register(Types.CATEGORIES.COMMON, Bounds);
+core.classes.register(core.types.CATEGORIES.COMMON, Bounds);
+//#endregion Bounds
 export { Bounds };

@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Text } from '/scripts/core/text.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Colors, Color } from '/scripts/core/color.js';
 import { TextDecoration } from '/scripts/core/textdecoration.js';
 import { TextShadows } from '/scripts/core/textshadows.js';
@@ -19,411 +18,420 @@ const CaptionControl = (() => {
         return _private.get(key);
     };
     //#endregion Private
+    //#region CaptionControl
     class CaptionControl extends ThemedControl {
         //#region Constructor
         constructor(owner, props) {
             //#region Variables déclaration
-            const CONSTANTS = Types.CONSTANTS;
-            const VERTTEXTALIGNS = Types.VERTTEXTALIGNS;
+            const CONSTANTS = core.types.CONSTANTS;
+            const VERTTEXTALIGNS = core.types.VERTTEXTALIGNS;
             let themeName = null;
             let theme = null;
             let captionControlTheme = null;
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
+                props.autoTranslate = !0;
                 super(owner, props);
-                this.autoTranslate = !0;
+                //#region Properties
+                //#region Private Properties
                 const priv = internal(this);
-                if (!Core.isHTMLRenderer) {
+                if (!core.isHTMLRenderer) {
                     themeName = this.app.themeName;
-                    theme = Core.themes[themeName];
+                    theme = core.themes[themeName];
                     captionControlTheme = theme[this.constructor.name] ? theme[this.constructor.name] : {};
                 } else {
                     theme = {};
                     captionControlTheme = {};
                     priv.caption = props.hasOwnProperty('caption') ? props.caption : this.constructor.name;
                 }
-                priv.wordWrap = captionControlTheme.hasOwnProperty('wordWrap') ? captionControlTheme.wordWrap : props.hasOwnProperty('wordWrap') ? props.wordWrap : !1;
-                priv.horizAlign = props.hasOwnProperty('horizAlign') ? props.horizAlign : captionControlTheme.hasOwnProperty('horizAlign') ? captionControlTheme.horizAlign : props.hasOwnProperty('horizAlign') ? props.horizAlign : Types.TEXTALIGNS.LEFT;
-                priv.color = Color.parse(captionControlTheme.hasOwnProperty('color') ? captionControlTheme.color : theme.DEFAULTTEXTCOLOR ? theme.DEFAULTTEXTCOLOR : props.hasOwnProperty('color') ? Color.parse(props.color) : null);
-                if (props.hasOwnProperty('color')) {
-                    if (Tools.isString(props.color)) {
-                        priv.color = Color.parse(props.color);
-                    }
-                }
-                priv.fontFamily = props.hasOwnProperty('fontFamily') ? props.fontFamily : captionControlTheme.hasOwnProperty('fontFamily') ? captionControlTheme.fontFamily : props.hasOwnProperty('fontFamily') ? props.fontFamily : null;
-                priv.fontSize = props.hasOwnProperty('fontSize') ? props.fontSize : captionControlTheme.hasOwnProperty('fontSize') ? captionControlTheme.fontSize : props.hasOwnProperty('fontSize') ? props.fontSize : 8;
-                priv.fontSizeUnit = props.hasOwnProperty('fontSizeUnit') ? props.fontSizeUnit : Types.CSSUNITS.PT;
-                priv.fontBold = props.hasOwnProperty('fontBold') && typeof props.fontBold === CONSTANTS.BOOLEAN ? props.fontBold : captionControlTheme.hasOwnProperty('fontBold') ? captionControlTheme.fontBold : props.hasOwnProperty('fontBold') ? props.fontBold : !1;
-                priv.fontStyle = props.hasOwnProperty('fontStyle') ? props.fontStyle : captionControlTheme.hasOwnProperty('fontStyle') ? captionControlTheme.fontStyle : props.hasOwnProperty('fontStyle') ? props.fontStyle : Types.FONTSTYLES.NORMAL;
-                priv.textDecoration = new TextDecoration(this, props.hasOwnProperty('textDecoration') ? props.textDecoration : captionControlTheme.hasOwnProperty('textDecoration') ? captionControlTheme.textDecoration : props.hasOwnProperty('textDecoration') ? props.textDecoration : null);
-                priv.textShadows = new TextShadows(this, props.hasOwnProperty('textShadow') ? props.textShadow : captionControlTheme.hasOwnProperty('textShadow') ? captionControlTheme.textShadow : props.hasOwnProperty('textShadow') ? props.textShadow : null);
-                priv.textTransform = props.hasOwnProperty('textTransform') ? props.textTransform : captionControlTheme.hasOwnProperty('textTransform') ? captionControlTheme.textTransform : props.hasOwnProperty('textTransform') ? props.textTransform : Types.TEXTTRANSFORMS.NONE;
-                priv.vertAlign = props.hasOwnProperty('vertAlign') ? props.vertAlign : captionControlTheme.hasOwnProperty('vertAlign') ? captionControlTheme.vertAlign : props.hasOwnProperty('vertAlign') ? props.vertAlign : VERTTEXTALIGNS.TOP;
-                priv.backColor = Color.parse(captionControlTheme.hasOwnProperty('backColor') ? captionControlTheme.backColor : props.hasOwnProperty('backColor') ? Color.parse(props.backColor) : Colors.TRANSPARENT.toRGBAString());
-                if (props.hasOwnProperty('backColor')) {
-                    if (Tools.isString(props.backColor)) {
-                        priv.backColor = Color.parse(props.backColor);
-                    } else if (props.backColor instanceof Color) {
-                        priv.backColor = props.backColor;
-                    }
-                }
-                priv.autoSize = props.hasOwnProperty('autoSize') ? props.autoSize : captionControlTheme.hasOwnProperty('autoSize') ? captionControlTheme.autoSize : props.hasOwnProperty('autoSize') ? props.autoSize : !0;
-                priv.textOverflow = props.hasOwnProperty('textOverflow') ? props.textOverflow : captionControlTheme.hasOwnProperty('textOverflow') ? captionControlTheme.textOverflow : props.hasOwnProperty('textOverflow') ? props.textOverflow : Types.TEXTOVERFLOWS.CLIP;
+                priv.wordWrap = captionControlTheme.hasOwnProperty('wordWrap')
+                    ? captionControlTheme.wordWrap : props.hasOwnProperty('wordWrap')
+                        ? props.wordWrap : !1;
+                priv.horizAlign = props.hasOwnProperty('horizAlign')
+                    ? props.horizAlign : captionControlTheme.hasOwnProperty('horizAlign')
+                        ? captionControlTheme.horizAlign : props.hasOwnProperty('horizAlign')
+                            ? props.horizAlign : core.types.TEXTALIGNS.LEFT;
+                priv.color = Color.parse(captionControlTheme.hasOwnProperty('color')
+                    ? captionControlTheme.color : theme.DEFAULTTEXTCOLOR
+                        ? theme.DEFAULTTEXTCOLOR : props.hasOwnProperty('color')
+                            ? Color.parse(props.color) : null);
+                props.hasOwnProperty('color') && core.tools.isString(props.color)
+                    ? priv.color = Color.parse(props.color) : 1;
+                priv.fontFamily = props.hasOwnProperty('fontFamily')
+                    ? props.fontFamily : captionControlTheme.hasOwnProperty('fontFamily')
+                        ? captionControlTheme.fontFamily : props.hasOwnProperty('fontFamily')
+                            ? props.fontFamily : null;
+                priv.fontSize = props.hasOwnProperty('fontSize')
+                    ? props.fontSize : captionControlTheme.hasOwnProperty('fontSize')
+                        ? captionControlTheme.fontSize : props.hasOwnProperty('fontSize')
+                            ? props.fontSize : 8;
+                priv.fontSizeUnit = props.hasOwnProperty('fontSizeUnit')
+                    ? props.fontSizeUnit : core.types.CSSUNITS.PT;
+                priv.fontBold = props.hasOwnProperty('fontBold') && core.tools.isBool(props.fontBold)
+                    ? props.fontBold : captionControlTheme.hasOwnProperty('fontBold')
+                        ? captionControlTheme.fontBold : props.hasOwnProperty('fontBold')
+                            ? props.fontBold : !1;
+                priv.fontStyle = props.hasOwnProperty('fontStyle')
+                    ? props.fontStyle : captionControlTheme.hasOwnProperty('fontStyle')
+                        ? captionControlTheme.fontStyle : props.hasOwnProperty('fontStyle')
+                            ? props.fontStyle : core.types.FONTSTYLES.NORMAL;
+                priv.textDecoration = new TextDecoration(this, props.hasOwnProperty('textDecoration')
+                    ? props.textDecoration : captionControlTheme.hasOwnProperty('textDecoration')
+                        ? captionControlTheme.textDecoration : props.hasOwnProperty('textDecoration')
+                            ? props.textDecoration : null);
+                priv.textShadows = new TextShadows(this, props.hasOwnProperty('textShadow')
+                    ? props.textShadow : captionControlTheme.hasOwnProperty('textShadow')
+                        ? captionControlTheme.textShadow : props.hasOwnProperty('textShadow')
+                            ? props.textShadow : null);
+                priv.textTransform = props.hasOwnProperty('textTransform')
+                    ? props.textTransform : captionControlTheme.hasOwnProperty('textTransform')
+                        ? captionControlTheme.textTransform : props.hasOwnProperty('textTransform')
+                            ? props.textTransform : core.types.TEXTTRANSFORMS.NONE;
+                priv.vertAlign = props.hasOwnProperty('vertAlign')
+                    ? props.vertAlign : captionControlTheme.hasOwnProperty('vertAlign')
+                        ? captionControlTheme.vertAlign : props.hasOwnProperty('vertAlign')
+                            ? props.vertAlign : VERTTEXTALIGNS.TOP;
+                priv.backColor = Color.parse(captionControlTheme.hasOwnProperty('backColor')
+                    ? captionControlTheme.backColor : props.hasOwnProperty('backColor')
+                        ? Color.parse(props.backColor) : Colors.TRANSPARENT.toRGBAString());
+                props.hasOwnProperty('backColor')
+                    ? core.tools.isString(props.backColor) : priv.backColor = Color.parse(props.backColor)
+                        ? props.backColor instanceof Color : priv.backColor = props.backColor;
+                priv.autoSize = props.hasOwnProperty('autoSize')
+                    ? props.autoSize : captionControlTheme.hasOwnProperty('autoSize')
+                        ? captionControlTheme.autoSize : props.hasOwnProperty('autoSize')
+                            ? props.autoSize : !0;
+                priv.textOverflow = props.hasOwnProperty('textOverflow')
+                    ? props.textOverflow : captionControlTheme.hasOwnProperty('textOverflow')
+                        ? captionControlTheme.textOverflow : props.hasOwnProperty('textOverflow')
+                            ? props.textOverflow : core.types.TEXTOVERFLOWS.CLIP;
+                //#endregion Private Properties
+                //#region Public Properties
+                Object.defineProperties(this, {
+                    'caption': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).caption;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            if (core.tools.isString(newValue) && priv.caption !== newValue) {
+                                priv.caption = Text.replace(newValue, core.types.CONSTANTS.HOTKEYPREFIX, String.EMPTY);
+                                this.propertyChanged(core.tools.getPropertyName());
+                                this.update();
+                            }
+                        }
+                    },
+                    'wordWrap': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).wordWrap;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            const form = this.form;
+                            //#endregion Variables déclaration
+                            if (core.tools.isBool(newValue) && priv.wordWrap !== newValue) {
+                                priv.wordWrap = newValue;
+                                this.propertyChanged(core.tools.getPropertyName());
+                                !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate
+                                    ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'horizAlign': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).horizAlign;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            const form = this.form;
+                            //#endregion Variables déclaration
+                            if (core.tools.valueInSet(newValue, core.types.TEXTALIGNS) && newValue !== priv.horizAlign) {
+                                priv.horizAlign = newValue;
+                                this.propertyChanged(core.tools.getPropertyName());
+                                !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate
+                                    ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'vertAlign': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).vertAlign;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            const form = this.form;
+                            //#endregion Variables déclaration
+                            if (core.tools.valueInSet(newValue, core.types.VERTTEXTALIGNS) && newValue !== priv.vertAlign) {
+                                priv.vertAlign = newValue;
+                                this.propertyChanged(core.tools.getPropertyName());
+                                !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate
+                                    ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'color': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).color;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            const form = this.form;
+                            //#endregion Variables déclaration
+                            core.tools.isString(newValue) ? newValue = Color.parse(newValue) : 1;
+                            if (newValue instanceof Color && !priv.color.equals(newValue)) {
+                                priv.color.assign(newValue);
+                                this.propertyChanged(core.tools.getPropertyName());
+                                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
+                                    ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'fontFamily': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).fontFamily;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            const form = this.form;
+                            //#endregion Variables déclaration
+                            if (core.tools.isString(newValue) && priv.fontFamily !== newValue) {
+                                priv.fontFamily = newValue;
+                                this.propertyChanged(core.tools.getPropertyName());
+                                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
+                                    ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'fontSize': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).fontSize;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            const form = this.form;
+                            //#endregion Variables déclaration
+                            if (core.tools.isNumber(newValue) && priv.fontSize !== newValue) {
+                                priv.fontSize = newValue;
+                                this.propertyChanged(core.tools.getPropertyName());
+                                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
+                                    ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'fontSizeUnit': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).fontSizeUnit;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            const form = this.form;
+                            const CSSUNITS = core.types.CSSUNITS;
+                            //#endregion Variables déclaration
+                            if (core.tools.valueInSet(newValue, CSSUNITS) && priv.fontSizeUnit !== newValue) {
+                                priv.fontSizeUnit = newValue;
+                                this.propertyChanged(core.tools.getPropertyName());
+                                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
+                                    ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'fontBold': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).fontBold;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            const form = this.form;
+                            //#endregion Variables déclaration
+                            if (core.tools.isBool(newValue) && priv.fontBold !== newValue) {
+                                priv.fontBold = newValue;
+                                this.propertyChanged(core.tools.getPropertyName());
+                                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
+                                    ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'fontStyle': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).fontStyle;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            const form = this.form;
+                            const FONTSTYLES = core.types.FONTSTYLES;
+                            //#endregion Variables déclaration
+                            if (core.tools.valueInSet(newValue, FONTSTYLES) && priv.fontStyle !== newValue) {
+                                priv.fontStyle = newValue;
+                                this.propertyChanged(core.tools.getPropertyName());
+                                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
+                                    ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'textTransform': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).textTransform;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            const form = this.form;
+                            const TEXTTRANSFORMS = core.types.TEXTTRANSFORMS;
+                            //#endregion Variables déclaration
+                            if (core.tools.valueInSet(newValue, TEXTTRANSFORMS) && priv.textTransform !== newValue) {
+                                priv.textTransform = newValue;
+                                this.propertyChanged(core.tools.getPropertyName());
+                                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
+                                    ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'textShadows': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).textShadows;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            const form = this.form;
+                            //#endregion Variables déclaration
+                            if (newValue instanceof TextShadows && !priv.textShadows.equals(newValue.items)) {
+                                priv.textShadows.items.clear();
+                                priv.textShadows.items.addRange(newValue.items);
+                                this.propertyChanged(core.tools.getPropertyName());
+                                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
+                                    ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'textDecoration': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).textDecoration;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            const form = this.form;
+                            //#endregion Variables déclaration
+                        }
+                    },
+                    'autoSize': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).autoSize;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            if (core.tools.isBool(newValue) && newValue !== priv.autoSize) {
+                                priv.autoSize = newValue;
+                                this.propertyChanged(core.tools.getPropertyName());
+                                !this.loading && !this.form.loading
+                                    ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'textOverflow': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).textOverflow;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            const form = this.form;
+                            const TEXTOVERFLOWS = core.types.TEXTOVERFLOWS;
+                            //#endregion Variables déclaration
+                            if (core.tools.valueInSet(newValue, TEXTOVERFLOWS) && priv.textOverflow !== newValue) {
+                                priv.textOverflow = newValue;
+                                this.propertyChanged(core.tools.getPropertyName());
+                                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
+                                    ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'backColor': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).backColor;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            const form = this.form;
+                            //#endregion Variables déclaration
+                            if (core.tools.isString(newValue)) {
+                                newValue = Color.parse(newValue);
+                            }
+                            if (newValue instanceof Color && !priv.backColor.equals(newValue)) {
+                                priv.backColor.assign(newValue);
+                                this.propertyChanged(core.tools.getPropertyName());
+                                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
+                                    ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'template': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            let html = super.template;
+                            const a = html.split('{caption}');
+                            //#endregion Variables déclaration
+                            html = a.join(priv.caption);
+                            return html;
+                        }
+                    },
+                });
+                //#endregion Public Properties
+                //#endregion Properties
             }
         }
         //#endregion Constructor
-        //#region Getter/Setter
-        //#region caption
-        get caption() {
-            return internal(this).caption;
-        }
-        set caption(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.caption !== newValue) {
-                    priv.caption = Text.replace(newValue, Types.CONSTANTS.HOTKEYPREFIX, String.EMPTY);
-                    this.propertyChanged(Tools.getPropertyName());
-                    this.update();
-                }
-            }
-        }
-        //#endregion caption
-        //#region wordWrap
-        get wordWrap() {
-            return internal(this).wordWrap;
-        }
-        set wordWrap(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const form = this.form;
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.wordWrap !== newValue) {
-                    priv.wordWrap = newValue;
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (!this.loading && !form.loading) {
-                        if (!Core.isHTMLRenderer && this.allowUpdate) {
-                            this.update();
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion wordWrap
-        //#region horizAlign
-        get horizAlign() {
-            return internal(this).horizAlign;
-        }
-        set horizAlign(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const form = this.form;
-            //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, Types.TEXTALIGNS)) {
-                if (newValue !== priv.horizAlign) {
-                    priv.horizAlign = newValue;
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (!this.loading && !form.loading) {
-                        if (!Core.isHTMLRenderer && this.allowUpdate) {
-                            this.update();
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion horizAlign
-        //#region vertAlign
-        get vertAlign() {
-            return internal(this).vertAlign;
-        }
-        set vertAlign(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const form = this.form;
-            //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, Types.VERTTEXTALIGNS)) {
-                if (newValue !== priv.vertAlign) {
-                    priv.vertAlign = newValue;
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (!this.loading && !form.loading) {
-                        if (!Core.isHTMLRenderer && this.allowUpdate) {
-                            this.update();
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion vertAlign
-        //#region color
-        get color() {
-            return internal(this).color;
-        }
-        set color(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const form = this.form;
-            //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                newValue = Color.parse(newValue);
-            }
-            if (newValue instanceof Color) {
-                if (!priv.color.equals(newValue)) {
-                    priv.color.assign(newValue);
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (!this.loading && !form.loading) {
-                        if (Core.isHTMLRenderer && this.allowUpdate) {
-                            this.update();
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion color
-        //#region fontFamily
-        get fontFamily() {
-            return internal(this).fontFamily;
-        }
-        set fontFamily(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const form = this.form;
-            //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.fontFamily !== newValue) {
-                    priv.fontFamily = newValue;
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (!this.loading && !form.loading) {
-                        if (Core.isHTMLRenderer && this.allowUpdate) {
-                            this.update();
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion fontFamily
-        //#region fontSize
-        get fontSize() {
-            return internal(this).fontSize;
-        }
-        set fontSize(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const form = this.form;
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.fontSize !== newValue) {
-                    priv.fontSize = newValue;
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (!this.loading && !form.loading) {
-                        if (Core.isHTMLRenderer && this.allowUpdate) {
-                            this.update();
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion fontSize
-        //#region fontSizeUnit
-        get fontSizeUnit() {
-            return internal(this).fontSizeUnit;
-        }
-        set fontSizeUnit(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const form = this.form;
-            const CSSUNITS = Types.CSSUNITS;
-            //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, CSSUNITS)) {
-                if (priv.fontSizeUnit !== newValue) {
-                    priv.fontSizeUnit = newValue;
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (!this.loading && !form.loading) {
-                        if (Core.isHTMLRenderer && this.allowUpdate) {
-                            this.update();
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion fontSizeUnit
-        //#region fontBold
-        get fontBold() {
-            return internal(this).fontBold;
-        }
-        set fontBold(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const form = this.form;
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.fontBold !== newValue) {
-                    priv.fontBold = newValue;
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (!this.loading && !form.loading) {
-                        if (Core.isHTMLRenderer && this.allowUpdate) {
-                            this.update();
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion fontBold
-        //#region fontStyle
-        get fontStyle() {
-            return internal(this).fontStyle;
-        }
-        set fontStyle(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const form = this.form;
-            const FONTSTYLES = Types.FONTSTYLES;
-            //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, FONTSTYLES)) {
-                if (priv.fontStyle !== newValue) {
-                    priv.fontStyle = newValue;
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (!this.loading && !form.loading) {
-                        if (Core.isHTMLRenderer && this.allowUpdate) {
-                            this.update();
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion fontStyle
-        //#region textTransform
-        get textTransform() {
-            return internal(this).textTransform;
-        }
-        set textTransform(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const form = this.form;
-            const TEXTTRANSFORMS = Types.TEXTTRANSFORMS;
-            //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, TEXTTRANSFORMS)) {
-                if (priv.textTransform !== newValue) {
-                    priv.textTransform = newValue;
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (!this.loading && !form.loading) {
-                        if (Core.isHTMLRenderer && this.allowUpdate) {
-                            this.update();
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion textTransform
-        //#region textShadows
-        get textShadows() {
-            return internal(this).textShadows;
-        }
-        set textShadows(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const form = this.form;
-            //#endregion Variables déclaration
-            if (newValue instanceof TextShadows) {
-                if (!priv.textShadows.equals(newValue.items)) {
-                    priv.textShadows.items.clear();
-                    priv.textShadows.items.addRange(newValue.items);
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (!this.loading && !form.loading) {
-                        if (Core.isHTMLRenderer && this.allowUpdate) {
-                            this.update();
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion textShadows
-        //#region TextDecoration
-        get textDecoration() {
-            return internal(this).textDecoration;
-        }
-        //#endregion TextDecoration
-        //#region autoSize
-        get autoSize() {
-            return internal(this).autoSize;
-        }
-        set autoSize(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (newValue !== priv.autoSize) {
-                    priv.autoSize = newValue;
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (!this.loading && !this.form.loading) {
-                        this.update();
-                    }
-                }
-            }
-        }
-        //#endregion autoSize
-        //#region textOverflow
-        get textOverflow() {
-            return internal(this).textOverflow;
-        }
-        set textOverflow(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const form = this.form;
-            const TEXTOVERFLOWS = Types.TEXTOVERFLOWS;
-            //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, TEXTOVERFLOWS)) {
-                if (priv.textOverflow !== newValue) {
-                    priv.textOverflow = newValue;
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (!this.loading && !form.loading) {
-                        if (Core.isHTMLRenderer && this.allowUpdate) {
-                            this.update();
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion textOverflow
-        //#region backColor
-        get backColor() {
-            return internal(this).backColor;
-        }
-        set backColor(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const form = this.form;
-            //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                newValue = Color.parse(newValue);
-            }
-            if (newValue instanceof Color) {
-                if (!priv.backColor.equals(newValue)) {
-                    priv.backColor.assign(newValue);
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (!this.loading && !form.loading) {
-                        if (Core.isHTMLRenderer && this.allowUpdate) {
-                            this.update();
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion backColor
-        //#region getTemplate
-        get template() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            let html = super.template;
-            const a = html.split('{caption}');
-            //#endregion Variables déclaration
-            html = a.join(priv.caption);
-            return html;
-        }
-        //#endregion getTemplate
-        //#endregion Getter/Setter
         //#region Methods
         //#region update
         update() {
@@ -431,7 +439,7 @@ const CaptionControl = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (Core.isHTMLRenderer) {
+            if (core.isHTMLRenderer) {
                 if (htmlElement) {
                     Text.setTextNode(htmlElement, priv.caption);
                     this.updateCssProperties();
@@ -446,16 +454,16 @@ const CaptionControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
-            const FONTSTYLES = Types.FONTSTYLES;
-            const TEXTDECORATIONS = Types.TEXTDECORATIONS;
+            const FONTSTYLES = core.types.FONTSTYLES;
+            const TEXTDECORATIONS = core.types.TEXTDECORATIONS;
             const textDecoration = priv.textDecoration;
             let textDecorationStr = String.EMPTY;
             const color = priv.color ? priv.color.toRGBAString() : priv.color;
-            const TEXTALIGNS = Types.TEXTALIGNS;
-            const VERTTEXTALIGNS = Types.VERTTEXTALIGNS;
-            const isHtmlRenderer = Core.isHTMLRenderer;
-            const CSSVALUES = Types.CSSVALUES;
-            const DISPLAYS = Types.DISPLAYS;
+            const TEXTALIGNS = core.types.TEXTALIGNS;
+            const VERTTEXTALIGNS = core.types.VERTTEXTALIGNS;
+            const isHtmlRenderer = core.isHTMLRenderer;
+            const CSSVALUES = core.types.CSSVALUES;
+            const DISPLAYS = core.types.DISPLAYS;
             //#endregion Variables déclaration
             if (priv.autoSize) {
                 if (isHtmlRenderer) {
@@ -472,50 +480,36 @@ const CaptionControl = (() => {
                     // change font properties
 
                 } else {
-                    this.width = this.width;
-                    this.height = this.height;
+                    //this.width = this.width;
+                    //this.height = this.height;
                 }
                 this.endUpdate();
             }
-            if (this.clipped) {
-                htmlElementStyle.overflow = CSSVALUES.HIDDEN;
-            } else {
-                htmlElementStyle.overflow = CSSVALUES.VISIBLE;
-            }
-            if (color) {
-                this.HTMLElementStyle.color = color;
-            }
-            if (!this.wordWrap) {
-                this.HTMLElementStyle.whiteSpace = 'nowrap';
-            } else {
-                this.HTMLElementStyle.whiteSpace = 'normal';
-            }
-            if (priv.fontFamily) {
-                htmlElementStyle.fontFamily = priv.fontFamily;
-            } else {
-                htmlElementStyle.fontFamily = 'inherit';
-            }
-            if (priv.fontSize) {
-                htmlElementStyle.fontSize = `${priv.fontSize}${priv.fontSizeUnit}`;
-            }
+            this.clipped
+                ? htmlElementStyle.overflow = CSSVALUES.HIDDEN
+                : htmlElementStyle.overflow = CSSVALUES.VISIBLE;
+            color ? this.HTMLElementStyle.color = color : 1
+            !this.wordWrap
+                ? htmlElementStyle.whiteSpace = 'nowrap'
+                : htmlElementStyle.whiteSpace = 'normal';
+            priv.fontFamily
+                ? htmlElementStyle.fontFamily = priv.fontFamily
+                : htmlElementStyle.fontFamily = 'inherit';
+            priv.fontSize
+                ? htmlElementStyle.fontSize = `${priv.fontSize}${priv.fontSizeUnit}` : 1;
             htmlElementStyle.fontWeight = priv.fontBold ? FONTSTYLES.BOLD : FONTSTYLES.NORMAL;
             htmlElementStyle.fontStyle = priv.fontStyle;
             if (textDecoration) {
-                if (textDecoration.underline) {
-                    textDecorationStr += `${String.SPACE}${TEXTDECORATIONS.UNDERLINE}`;
-                }
-                if (textDecoration.overline) {
-                    textDecorationStr += `${String.SPACE}${TEXTDECORATIONS.OVERLINE}`;
-                }
-                if (textDecoration.lineThrough) {
-                    textDecorationStr += `${String.SPACE}${TEXTDECORATIONS.LINETHROUGH}`;
-                }
-                if (textDecoration.color) {
-                    textDecorationStr += `${String.SPACE}${textDecoration.color.toRGBAString()}`;
-                }
-                if (textDecoration.style) {
-                    textDecorationStr += `${String.SPACE}${textDecoration.style}`;
-                }
+                textDecorationStr += textDecoration.underline
+                    ? `${String.SPACE}${TEXTDECORATIONS.UNDERLINE}` : String.EMPTY;
+                textDecorationStr += textDecoration.overline
+                    ? `${String.SPACE}${TEXTDECORATIONS.OVERLINE}` : String.EMPTY;
+                textDecorationStr += textDecoration.lineThrough
+                    ? `${String.SPACE}${TEXTDECORATIONS.LINETHROUGH}` : String.EMPTY;
+                textDecorationStr += textDecoration.color
+                    ? `${String.SPACE}${textDecoration.color.toRGBAString()}` : String.EMPTY;
+                textDecorationStr += textDecoration.style
+                    ? `${String.SPACE}${textDecoration.style}` : String.EMPTY;
                 htmlElementStyle.textDecoration = textDecorationStr.trim();
             } else {
                 htmlElementStyle.textDecoration = 'unset';
@@ -554,9 +548,8 @@ const CaptionControl = (() => {
                         break;
                 }
             }
-            if (priv.backColor.alpha !== 0) {
-                htmlElementStyle.backgroundColor = priv.backColor.toRGBAString();
-            }
+            priv.backColor.alpha !== 0
+                ? htmlElementStyle.backgroundColor = priv.backColor.toRGBAString() : 1;
         }
         //#endregion updateCssProperties
         //#region loaded
@@ -566,63 +559,53 @@ const CaptionControl = (() => {
             this.update();
         }
         //#endregion loaded
+        //#region destroy
+        destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.wordWrap = null;
+            priv.horizAlign = null;
+            priv.color.destroy();
+            priv.color = null;
+            priv.fontFamily = null;
+            priv.fontSize = null;
+            priv.fontSizeUnit = null;
+            priv.fontBold = null;
+            priv.fontStyle = null
+            priv.textDecoration = null;
+            priv.textShadows = null;
+            priv.textTransform = null;
+            priv.vertAlign = null;
+            priv.backColor.destroy();
+            priv.backColor = null;
+            priv.autoSize = null;
+            priv.textOverflow = null;
+            delete this.caption;
+            delete this.wordWrap;
+            delete this.horizAlign;
+            delete this.vertAlign;
+            delete this.color;
+            delete this.fontFamily;
+            delete this.fontSize;
+            delete this.fontSizeUnit;
+            delete this.fontBold;
+            delete this.fontStyle;
+            delete this.textTransfor;
+            delete this.textShadows;
+            delete this.textDecoration;
+            delete this.autoSize;
+            delete this.textOverflow;
+            delete this.backColor;
+            delete this.template;
+            super.destroy();
+        }
+        //#region destroy
         //#endregion
     }
     return CaptionControl;
+    //#endregion CaptionControl
 })();
+core.classes.register(core.types.CATEGORIES.COMMON, CaptionControl);
 //#region CaptionControl
-//#region CaptionControl defineProperties
-Object.defineProperties(CaptionControl, {
-    'caption': {
-        enumerable: !0
-    },
-    'wordWrap': {
-        enumerable: !0
-    },
-    'autoTranslate': {
-        enumerable: !0
-    },
-    'horizAlign': {
-        enumerable: !0
-    },
-    'color': {
-        enumerable: !0
-    },
-    'fontFamily': {
-        enumerable: !0
-    },
-    'fontSize': {
-        enumerable: !0
-    },
-    'fontSizeUnit': {
-        enumerable: !0
-    },
-    'fontBold': {
-        enumerable: !0
-    },
-    'fontStyle': {
-        enumerable: !0
-    },
-    'textDecoration': {
-        enumerable: !0
-    },
-    'textShadows': {
-        enumerable: !0
-    },
-    'textTransform': {
-        enumerable: !0
-    },
-    'vertAlign': {
-        enumerable: !0
-    },
-    'backColor': {
-        enumerable: !0
-    },
-    'textOverflow': {
-        enumerable: !0
-    }
-});
-//#endregion CaptionControl defineProperties
-//#region CaptionControl
-Core.classes.register(Types.CATEGORIES.COMMON, CaptionControl);
 export { CaptionControl };

@@ -7,41 +7,125 @@ class Browser {
      * Create a new instance of Browser.
      */
     constructor() {
-        //#region Variables déclaration
+        //#region Properties
+        //#region Private Properties
         const _n = navigator;
         const _av = _n.appVersion;
         let _ie = !1;
         let _ff = !1;
-        let _opera = !1;
-        let _mac = !1;
+        let _opera = window.opera !== undefined;
+        let _mac = _av.indexOf('Macintosh') !== -1;
         let _safari = !1;
-        let _chrome = !1;
-        let _khtml = !1;
-        let _iphone = !1;
-        let _webkit = !1;
+        let _chrome = window.chrome !== undefined;
+        let _khtml = _av.indexOf('Konqueror') !== -1;
+        let _iphone = navigator.platform.indexOf('iPhone') !== -1 || navigator.platform.indexOf('iPod') !== -1;
+        let _webkit = _av.indexOf('WebKit') !== -1;
         let _coreVersion = ~~parseFloat(_av);
         let _vendorPrefix = null;
-        //#endregion Variables déclaration
-        _opera = window.opera !== undefined;
-        _khtml = _av.indexOf('Konqueror') !== -1;
-        _webkit = _av.indexOf('WebKit') !== -1;
-        _chrome = window.chrome !== undefined;
-        if (_chrome) {
-            _coreVersion = +_av.split('Chrome/')[1];
-        }
-        _mac = _av.indexOf('Macintosh') !== -1;
+        //#endregion Private Properties
+        //#region Public Properties
+        Object.defineProperties(this, {
+            'ie': {
+                enumerable: !1,
+                configurable: !0,
+                value: _ie
+            },
+            'ff': {
+                enumerable: !1,
+                configurable: !0,
+                value: _ff
+            },
+            'opera': {
+                enumerable: !1,
+                configurable: !0,
+                value: _opera
+            },
+            'mac': {
+                enumerable: !1,
+                configurable: !0,
+                value: _mac
+            },
+            'safari': {
+                enumerable: !1,
+                configurable: !0,
+                value: _safari
+            },
+            'chrome': {
+                enumerable: !1,
+                configurable: !0,
+                value: _chrome
+            },
+            'khtml': {
+                enumerable: !1,
+                configurable: !0,
+                value: _khtml
+            },
+            'iphone': {
+                enumerable: !1,
+                configurable: !0,
+                value: _iphone
+            },
+            'webkit': {
+                enumerable: !1,
+                configurable: !0,
+                value: _webkit
+            },
+            'coreVersion': {
+                enumerable: !1,
+                configurable: !0,
+                value: _coreVersion
+            },
+            'vendorPrefix': {
+                enumerable: !1,
+                configurable: !0,
+                value: _vendorPrefix
+            },
+            'webkitCSSPrefix': {
+                enumerable: !1,
+                configurable: !0,
+                value: ['animation', 'animation-delay', 'animation-direction', 'animation-duration',
+                    'animation-fill-mode', 'animation-iteration-count', 'animation-name',
+                    'animation-play-state', 'animation-timing-function', 'backface-visibility',
+                    'border-image', 'column-count', 'column-gap', 'column-rule', 'column-rule-color',
+                    'column-rule-style', 'column-rule-width', 'column-span', 'column-width', 'columns',
+                    'keyframes', 'linear-gradient', 'perspective', 'perspective-origin', 'transform-origin',
+                    'transform', 'transform-style', 'transition', 'transition-delay', 'transition-duration',
+                    'transition-property', 'transition-timing-function']
+            },
+            'mozillaCSSPrefix': {
+                enumerable: !1,
+                configurable: !0,
+                value: ['box-sizing', 'column-count', 'column-gap', 'column-rule', 'column-rule-color', 'column-rule-style',
+                    'column-rule-width', 'column-width', 'columns', 'linear-gradient', 'tab-size', 'text-align-last',
+                    'text-decoration-color', 'text-decoration-line', 'transition-property']
+            },
+            'msCSSPrefix': {
+                enumerable: !1,
+                configurable: !0,
+                value: ['keyframes', 'linear-gradient', 'transform-origin', 'transform']
+            },
+            'operaCSSPrefix': {
+                enumerable: !1,
+                configurable: !0,
+                value: ['keyframes', 'linear-gradient', 'tabSize', 'transition-property']
+            }
+        });
+        //#endregion Public Properties
+        //#endregion Properties
+        _chrome
+            ? _coreVersion = +_av.split('Chrome/')[1]
+            : 1;
         if (_webkit && !_chrome) {
             _safari = _av.indexOf('Safari') !== -1;
-            if (_safari) {
-                _coreVersion = +_av.split('Version/')[1];
-            }
+            _safari
+                ? _coreVersion = +_av.split('Version/')[1]
+                : 1;
         }
-        _iphone = navigator.platform.indexOf('iPhone') !== -1 || navigator.platform.indexOf('iPod') !== -1;
-        if (!_ie && !_opera && !_webkit && !_khtml && !_chrome && !_safari && !_iphone) {
-            if (_n.appCodeName === 'Mozilla') {
-                _ff = !0;
-            }
-        }
+        !_ie && !_opera && !_webkit && !_khtml && !_chrome && !_safari && !_iphone
+            ? _n.appCodeName === 'Mozilla'
+                ? _ff = !0
+                : 1
+            : 1;
         if (!_ie) {
             const match = _n.userAgent.match(/(?:MSIE |Trident\/.*; rv:)(\d+)/);
             if (match) {
@@ -58,92 +142,6 @@ class Browser {
         } else if (_safari || _chrome || _khtml) {
             _vendorPrefix = '-webkit-';
         }
-        Object.defineProperties(this, {
-            'ie': {
-                get: () => {
-                    return _ie;
-                }
-            },
-            'ff': {
-                get: () => {
-                    return _ff;
-                }
-            },
-            'opera': {
-                get: () => {
-                    return _opera;
-                }
-            },
-            'mac': {
-                get: () => {
-                    return _mac;
-                }
-            },
-            'safari': {
-                get: () => {
-                    return _safari;
-                }
-            },
-            'chrome': {
-                get: () => {
-                    return _chrome;
-                }
-            },
-            'khtml': {
-                get: () => {
-                    return _khtml;
-                }
-            },
-            'iphone': {
-                get: () => {
-                    return _iphone;
-                }
-            },
-            'webkit': {
-                get: () => {
-                    return _webkit;
-                }
-            },
-            'coreVersion': {
-                get: () => {
-                    return _coreVersion;
-                }
-            },
-            'vendorPrefix': {
-                get: () => {
-                    return _vendorPrefix;
-                }
-            },
-            'webkitCSSPrefix': {
-                get: () => {
-                    return ['animation', 'animation-delay', 'animation-direction', 'animation-duration',
-                        'animation-fill-mode', 'animation-iteration-count', 'animation-name',
-                        'animation-play-state', 'animation-timing-function', 'backface-visibility',
-                        'border-image', 'column-count', 'column-gap', 'column-rule', 'column-rule-color',
-                        'column-rule-style', 'column-rule-width', 'column-span', 'column-width', 'columns',
-                        'keyframes', 'linear-gradient', 'perspective', 'perspective-origin', 'transform-origin',
-                        'transform', 'transform-style', 'transition', 'transition-delay', 'transition-duration',
-                        'transition-property', 'transition-timing-function'];
-                }
-            },
-            'mozillaCSSPrefix': {
-                get: () => {
-                    return ['box-sizing', 'column-count', 'column-gap', 'column-rule', 'column-rule-color', 'column-rule-style',
-                        'column-rule-width', 'column-width', 'columns', 'linear-gradient', 'tab-size', 'text-align-last',
-                        'text-decoration-color', 'text-decoration-line', 'transition-property'];
-                }
-            },
-            'msCSSPrefix': {
-                get: () => {
-                    return ['keyframes', 'linear-gradient', 'transform-origin', 'transform'];
-                }
-            },
-            'operaCSSPrefix': {
-                get: () => {
-                    return ['keyframes', 'linear-gradient', 'tabSize', 'transition-property'];
-                }
-            }
-        });
     }
     //#region Methods
     /**
@@ -190,15 +188,13 @@ class Browser {
         } else if ((this.chrome || this.safari || this.webkit) && this.webkitCSSPrefix.indexOf(cssProperty) > -1) {
             ret = !0;
         } else if (this.opera) {
-            if (this.coreVersion < 15 && this.operaCSSPrefix.indexOf(cssProperty) > -1) {
-                ret = !0;
-            }
+            this.coreVersion < 15 && this.operaCSSPrefix.indexOf(cssProperty) > -1
+                ? ret = !0
+                : 1;
         }
-        if (ret) {
-            return this.vendorPrefix;
-        } else {
-            return String.EMPTY;
-        }
+        return ret
+            ? this.vendorPrefix
+            : String.EMPTY;
     }
     /**
      * Add properties can be binded
@@ -208,8 +204,8 @@ class Browser {
     getVendorPrefixedCssProperty(cssProperty) {
         return this.getVendorPrefix(cssProperty) + cssProperty;
     }
-    //#endregion
+    //#endregion browser
 }
 Core.browser = new Browser;
-//#endregion
+//#endregion browser
 export { Browser };

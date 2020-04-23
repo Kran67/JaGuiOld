@@ -1,10 +1,8 @@
 ﻿//#region Imports
 import { Color, Colors } from '/scripts/core/color.js';
 import { Point/*, Rect, Matrix*/ } from '/scripts/core/geometry.js';
-//import { PathData } from '/scripts/core/path.js';
 import { Text } from '/scripts/core/text.js';
-import { BezierTools } from '/scripts/core/beziertools.js';
-import { Tools } from '/scripts/core/tools.js';
+import { BezierTools } from '/scripts/core/beziercore.tools.js';
 //#endregion
 //#region Constantes CANVAS
 /**
@@ -45,9 +43,9 @@ Object.freeze(Object.seal(CANVAS));
  * @param   {Number}    newWidth    the new width
  * @param   {Number}    newHeight   the new height
  */
-CanvasRenderingContext2D.prototype.resize = function(newWidth, newHeight) {
+CanvasRenderingContext2D.prototype.resize = function (newWidth, newHeight) {
     //#region Variables déclaration
-    const PX = Types.CSSUNITS.PX;
+    const PX = core.types.CSSUNITS.PX;
     //#endregion Variables déclaration
     this.canvas.width = newWidth;
     this.canvas.height = newHeight;
@@ -57,110 +55,108 @@ CanvasRenderingContext2D.prototype.resize = function(newWidth, newHeight) {
 /**
  * Clear the canvas
  */
-CanvasRenderingContext2D.prototype.clear = function() {
+CanvasRenderingContext2D.prototype.clear = function () {
     this.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.clearShadow();
 };
 /**
  * Clear the shadow configuration of the canvas
  */
-CanvasRenderingContext2D.prototype.clearShadow = function() {
+CanvasRenderingContext2D.prototype.clearShadow = function () {
     this.shadowBlur = 0;
     this.shadowOffsetX = 0;
     this.shadowOffsetY = 0;
     this.shadowColor = Colors.TRANSPARENT.toRGBAString();
 };
 
-CanvasRenderingContext2D.prototype.drawImg = function(instance, img, params) {
+CanvasRenderingContext2D.prototype.drawImg = function (instance, img, params) {
     //#region Variables déclaration
     let left = params.x;
     let top = params.y;
     //#endregion Variables déclaration
     if (params.align) {
         switch (params.align) {
-            case Types.TEXTALIGNS.RIGHT:
+            case core.types.TEXTALIGNS.RIGHT:
                 left = instance.width - params.width - left;
                 break;
         }
     }
-    if (instance instanceof Core.classes.WindowButton) {
-        if (String.isNullOrEmpty(left)) {
-            left = -eval(eval(left));
-        }
-        if (String.isNullOrEmpty(top)) {
-            top = -eval(eval(top));
-        }
-        if (instance.isPressed && params.hasOwnProperty('pressedOffset')) {
-            left -= params.pressedOffset;
-        } else if (instance.isMouseOver && params.hasOwnProperty('hoveredOffset')) {
-            left -= params.hoveredOffset;
-        }
+    if (instance instanceof core.classes.WindowButton) {
+        String.isNullOrEmpty(left)
+            ? left = -eval(eval(left))
+            : 1;
+        String.isNullOrEmpty(top)
+            ? top = -eval(eval(top))
+            : 1
+        instance.isPressed && params.hasOwnProperty('pressedOffset')
+            ? left -= params.pressedOffset
+                ? instance.isMouseOver && params.hasOwnProperty('hoveredOffset')
+                : left -= params.hoveredOffset
+            : 1;
     }
-    if (params && params.sx && params.sy && params.sWidth && params.sHeight) {
-        this.drawImage(img, params.sx, params.sy, params.sWidth, params.sHeight, left, top, params.width, params.height);
-    } else {
-        this.drawImage(img, left, top, params.width, params.height);
-    }
+    params && params.sx && params.sy && params.sWidth && params.sHeight
+        ? this.drawImage(img, params.sx, params.sy, params.sWidth, params.sHeight, left, top, params.width, params.height)
+        : this.drawImage(img, left, top, params.width, params.height);
 }
 /**
  * Draw a path on the canvas
  * @param   {PathData}      path        the path object
  */
-CanvasRenderingContext2D.prototype.drawPath = function(comp,path,clip) {
+CanvasRenderingContext2D.prototype.drawPath = function (comp, path, clip) {
     //#region Variables déclaration
     let cp = null;
-    const sp=new Point();
-    const KINDS = Core.classes.PathPoint.KINDS;
+    const sp = new Point();
+    const KINDS = core.classes.PathPoint.KINDS;
     //#endregion Variables déclaration
-    if (path instanceof Core.classes.PathData) {
-        //if (!comp.borderDash) comp.borderDash=$j.types.canvas.strokeDashs.SOLID;
-        //if (!$j.tools.isNull(this.useNativeDash&&comp.borderDash)) this.setDash(comp.borderDash);
-        if (!path.isEmpty){
-            const b=path.bounds;
-            const w=b.width;
-            const h=b.height;
-            if (w*h>0) {
-                let i=0;
-                const pathData=path.data;
+    if (path instanceof core.classes.PathData) {
+        //if (!comp.borderDash) comp.borderDash=$j.core.types.canvas.strokeDashs.SOLID;
+        //if (!$j.core.tools.isNull(this.useNativeDash&&comp.borderDash)) this.setDash(comp.borderDash);
+        if (!path.isEmpty) {
+            const b = path.bounds;
+            const w = b.width;
+            const h = b.height;
+            if (w * h > 0) {
+                let i = 0;
+                const pathData = path.data;
                 this.beginPath();
                 const l = pathData.length;
-                while (i<l){
-                    if (pathData[i].kind === KINDS.MOVETO){
-                        cp=pathData[i].point;
-                        this.moveTo(cp.x,cp.y);
+                while (i < l) {
+                    if (pathData[i].kind === KINDS.MOVETO) {
+                        cp = pathData[i].point;
+                        this.moveTo(cp.x, cp.y);
                         sp.assign(cp);
-                    }else if (pathData[i].kind === KINDS.LINETO){
-                        cp=pathData[i].point;
-                        this.lineTo(cp.x,cp.y);
-                    }else if (pathData[i].kind === KINDS.CURVETO){
-                        const cp1=pathData[i].point;
+                    } else if (pathData[i].kind === KINDS.LINETO) {
+                        cp = pathData[i].point;
+                        this.lineTo(cp.x, cp.y);
+                    } else if (pathData[i].kind === KINDS.CURVETO) {
+                        const cp1 = pathData[i].point;
                         i++;
-                        const cp2=pathData[i].point;
+                        const cp2 = pathData[i].point;
                         i++;
-                        this.bezierCurveTo(cp1.x,cp1.y,cp2.x,cp2.y,pathData[i].point.x,pathData[i].point.y);
-                        cp=pathData[i].point;
-                    }else if (pathData[i].kind === KINDS.CLOSE) {
+                        this.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, pathData[i].point.x, pathData[i].point.y);
+                        cp = pathData[i].point;
+                    } else if (pathData[i].kind === KINDS.CLOSE) {
                         this.closePath();
                     }
                     i++;
                 }
-                if (!clip){
+                if (!clip) {
                     this.fill();
                     //if (!this.useNativeDash&&comp.borderDash.length>0){
                     //    this.beginPath();
                     //    let i=0;
                     //    while (i<l){
-                    //        if (pathData[i].kind===Core.classes.PathPoint.KINDS.MOVETO){
+                    //        if (pathData[i].kind===core.classes.PathPoint.KINDS.MOVETO){
                     //            cp=pathData[i].point;
                     //            sp.assign(cp);
                     //            lastX=cp.x;
                     //            lastY=cp.y;
-                    //        }else if (pathData[i].kind===Core.classes.PathPoint.KINDS.LINETO){
+                    //        }else if (pathData[i].kind===core.classes.PathPoint.KINDS.LINETO){
                     //            cp=pathData[i].point;
                     //            result=this.dashedLineTo(comp.borderDash,lastX,lastY,cp.x,cp.y,result);
                     //            lastX=cp.x;
                     //            lastY=cp.y;
-                    //        }else if (pathData[i].kind===Core.classes.PathPoint.KINDS.CURVETO){
+                    //        }else if (pathData[i].kind===core.classes.PathPoint.KINDS.CURVETO){
                     //            const cp1=pathData[i].point;
                     //            i++;
                     //            const cp2=pathData[i].point;
@@ -176,14 +172,16 @@ CanvasRenderingContext2D.prototype.drawPath = function(comp,path,clip) {
                     //            cp=pathData[i].point;
                     //            lastX=cp.x;
                     //            lastY=cp.y;
-                    //        }else if (pathData[i].kind===Core.classes.PathPoint.KINDS.CLOSE) {
+                    //        }else if (pathData[i].kind===core.classes.PathPoint.KINDS.CLOSE) {
                     //            this.closePath();
                     //        }
                     //        i++;
                     //    }
                     //}
                     this.stroke();
-                } else this.clip();
+                } else {
+                    this.clip();
+                }
             }
         }
     }
@@ -192,20 +190,20 @@ CanvasRenderingContext2D.prototype.drawPath = function(comp,path,clip) {
  * Draw a shape on the canvas
  * @param   {Rect}          rect        the shape rect
  */
-CanvasRenderingContext2D.prototype.drawShape = function(rect) {
+CanvasRenderingContext2D.prototype.drawShape = function (rect) {
 };
 /**
  * Return a byteArray of one line of the canvas
  * @return  {byteArray}     the byte array of the line
  */
-CanvasRenderingContext2D.prototype.beginScanlines = function() {
+CanvasRenderingContext2D.prototype.beginScanlines = function () {
     this.scanLines = this.getImageData(0, 0, this.canvas.width, this.canvas.height);
 };
 /**
  * Return a byteArray of one line of the canvas
  * @return  {byteArray}     the byte array of the line
  */
-CanvasRenderingContext2D.prototype.getScanlines = function(row) {
+CanvasRenderingContext2D.prototype.getScanlines = function (row) {
     if (row > 0 && row < this.canvas.height) {
         const size = this.canvas.width * 4;
         const start = size * row;
@@ -217,7 +215,7 @@ CanvasRenderingContext2D.prototype.getScanlines = function(row) {
  * Return a byteArray of one line of the canvas
  * @return  {byteArray}     the byte array of the line
  */
-CanvasRenderingContext2D.prototype.putScanlines = function(row, scanline) {
+CanvasRenderingContext2D.prototype.putScanlines = function (row, scanline) {
     if (row > 0 && row < this.canvas.height) {
         const size = this.canvas.width * 4;
         const start = size * row;
@@ -229,7 +227,7 @@ CanvasRenderingContext2D.prototype.putScanlines = function(row, scanline) {
  * Put a byte array line to the canvas
  * @param   {byteArray}     data        the byte array of the line to put on the canvas
  */
-CanvasRenderingContext2D.prototype.endScanlines = function() {
+CanvasRenderingContext2D.prototype.endScanlines = function () {
     this.putImageData(this.scanLines, 0, 0);
     this.scanLines = this.currentScanLine = null;
 };
@@ -237,14 +235,14 @@ CanvasRenderingContext2D.prototype.endScanlines = function() {
  * Return a byteArray of one line of the canvas
  * @return  {byteArray}     the byte array of the line
  */
-CanvasRenderingContext2D.prototype.getPixelFromScanline = function(x, scanline) {
+CanvasRenderingContext2D.prototype.getPixelFromScanline = function (x, scanline) {
     if (x > 0 && x < this.canvas.width) {
         scanline = scanline ? scanline : this.currentScanLine;
         return {
-            red:scanline[x+0],
-            green:scanline[x+1],
-            blue:scanline[x+2],
-            alpha:scanline[x+3]/255
+            red: scanline[x + 0],
+            green: scanline[x + 1],
+            blue: scanline[x + 2],
+            alpha: scanline[x + 3] / 255
         };
     }
 };
@@ -252,14 +250,14 @@ CanvasRenderingContext2D.prototype.getPixelFromScanline = function(x, scanline) 
  * Return a byteArray of one line of the canvas
  * @return  {byteArray}     the byte array of the line
  */
-CanvasRenderingContext2D.prototype.putPixelToScanline = function(x, color, scanline) {
+CanvasRenderingContext2D.prototype.putPixelToScanline = function (x, color, scanline) {
     if (x > 0 && x < this.canvas.width && color) {
-        x*=4;
+        x *= 4;
         scanline = scanline ? scanline : this.currentScanLine;
-        scanline[x+0] = color.red;
-        scanline[x+1] = color.green;
-        scanline[x+2] = color.blue;
-        scanline[x+3] = color.alpha*255;
+        scanline[x + 0] = color.red;
+        scanline[x + 1] = color.green;
+        scanline[x + 2] = color.blue;
+        scanline[x + 3] = color.alpha * 255;
     }
 };
 /**
@@ -267,24 +265,20 @@ CanvasRenderingContext2D.prototype.putPixelToScanline = function(x, color, scanl
  * @param   {Rect}          rect            the rect of the text
  * @param   {Boolean}       calcRect        indicate if the fonction prepare or calculte the rect of the text
  */
-CanvasRenderingContext2D.prototype.prepareText = function(rect, calcRect) {
+CanvasRenderingContext2D.prototype.prepareText = function (rect, calcRect) {
 };
 /**
  * Draw a text on the canvas
  * @param   {Rect}          rect        the rect of the text
  */
-CanvasRenderingContext2D.prototype.drawText = function(instance, shape, params, state) {
+CanvasRenderingContext2D.prototype.drawText = function (instance, shape, params, state) {
     //#region Variables déclaration
     let offsetX = 0;
     let caption = null;
-    const TEXTALIGNS = Types.TEXTALIGNS;
+    const TEXTALIGNS = core.types.TEXTALIGNS;
     //#endregion Variables déclaration
-    if (shape.ref != undefined) {
-        caption = instance[shape.ref].caption;
-    }
-    if (shape.font) {
-        this.font = shape.font;
-    }
+    shape.ref != undefined ? caption = instance[shape.ref].caption : 1;
+    shape.font ? this.font = shape.font : 1;
     const textM = this.measureText(caption);
     if (shape.textAlign) {
         this.textAlign = shape.textAlign;
@@ -293,19 +287,16 @@ CanvasRenderingContext2D.prototype.drawText = function(instance, shape, params, 
             case TEXTALIGNS.CENTER:
                 offsetX = instance.width;
                 if (shape.alignWithButtonsAndIcon != undefined && shape.alignWithButtonsAndIcon) {
-                    offsetX -= (instance.visibleButtons * Core.themes[instance.themeName].WindowButton.width);
-                    logoShape = Core.themes[instance.themeName].WindowTitleBar.shapes.filter(e => { return e.type === 'drawImg'}).first;
+                    offsetX -= (instance.visibleButtons * core.themes[instance.themeName].WindowButton.width);
+                    logoShape = core.themes[instance.themeName].WindowTitleBar.shapes.filter(e => { return e.type === 'drawImg' }).first;
                     offsetX -= logoShape.width;;
                 }
                 offsetX = (offsetX - textM.width) * 0.5;
                 if (params.hasOwnProperty('isDialog') && !params.isDialog) {
-                    if (Core.themes[instance.themeName].WindowButton.left != null) {
-                        offsetX += (instance.visibleButtons * Core.themes[instance.themeName].WindowButton.width);
-                    } else {
-                        if (logoShape) {
-                            offsetX += logoShape.width;
-                        }
-                    }
+                    core.themes[instance.themeName].WindowButton.left != null
+                        ? offsetX += (instance.visibleButtons * core.themes[instance.themeName].WindowButton.width)
+                            ? logoShape ? offsetX += logoShape.width : 1
+                            : 1;
                 }
                 break;
             case TEXTALIGNS.RIGHT:
@@ -313,27 +304,21 @@ CanvasRenderingContext2D.prototype.drawText = function(instance, shape, params, 
                 break;
         }
     }
-    if (shape.textBaseline) {
-        this.textBaseline = shape.textBaseline;
-    }
+    shape.textBaseline ? this.textBaseline = shape.textBaseline : 1;
     if (state) {
         this.translate(offsetX, 0);
-        Tools.processStyle(instance, shape, state, 'Text', [caption, shape.x, shape.y]);
+        core.tools.processStyle(instance, shape, state, 'Text', [caption, shape.x, shape.y]);
     }
 };
 /**
  * Draw a ploygon on the canvas
  * @param       {Array}         a          the ploygon points
  */
-CanvasRenderingContext2D.prototype.drawPolygon = function(a) {
+CanvasRenderingContext2D.prototype.drawPolygon = function (a) {
     if (Array.isArray(a)) {
         this.beginPath();
         a.forEach((w, i) => {
-            if (i === 0) {
-                this.moveTo(w.x, w.y);
-            } else {
-                this.lineTo(w.x, w.y);
-            }
+            i === 0 ? this.moveTo(w.x, w.y) : this.lineTo(w.x, w.y);
         });
         this.closePath();
         this.fill();
@@ -344,15 +329,11 @@ CanvasRenderingContext2D.prototype.drawPolygon = function(a) {
  * Draw a polyline on the canvas
  * @param       {Array}         a          the polyline points
  */
-CanvasRenderingContext2D.prototype.drawPolyline = function(a) {
+CanvasRenderingContext2D.prototype.drawPolyline = function (a) {
     if (Array.isArray(a)) {
         this.beginPath();
         a.forEach((w, i) => {
-            if (i === 0) {
-                this.moveTo(w.x, w.y);
-            } else {
-                this.lineTo(w.x, w.y);
-            }
+            i === 0 ? this.moveTo(w.x, w.y) : this.lineTo(w.x, w.y);
         });
         this.stroke();
     }
@@ -367,7 +348,7 @@ CanvasRenderingContext2D.prototype.drawPolyline = function(a) {
  * @param   {Color}         params.outlineColor    the outline color
  * @param   {Color}         params.fillColor       the fill color
  */
-CanvasRenderingContext2D.prototype.drawDigit = function(params) {
+CanvasRenderingContext2D.prototype.drawDigit = function (params) {
     //#region Variables déclaration
     const width = 10 * params.height / 13;
     const segmentA = [];
@@ -377,47 +358,47 @@ CanvasRenderingContext2D.prototype.drawDigit = function(params) {
     const segmentE = [];
     const segmentF = [];
     const segmentG = [];
-    const getX = (_x, _width) => { return _x * _width / 12; };
-    const getY = (_y, _height) => { return _y * _height / 15; };
+    const getX = (x, width) => { return x * width / 12; };
+    const getY = (y, height) => { return y * height / 15; };
     //#endregion Variables déclaration
     params.outlineColor.alpha = ((40 * 100) / 255) / 100;
     //Segment A
-    segmentA[0] = segmentA[4] = new Core.classes.Point(params.x + getX(2.8, width), params.y + getY(1, params.height));
-    segmentA[1] = new Core.classes.Point(params.x + getX(10, width), params.y + getY(1, params.height));
-    segmentA[2] = new Core.classes.Point(params.x + getX(8.8, width), params.y + getY(2, params.height));
-    segmentA[3] = new Core.classes.Point(params.x + getX(3.8, width), params.y + getY(2, params.height));
+    segmentA[0] = segmentA[4] = new core.classes.Point(params.x + getX(2.8, width), params.y + getY(1, params.height));
+    segmentA[1] = new core.classes.Point(params.x + getX(10, width), params.y + getY(1, params.height));
+    segmentA[2] = new core.classes.Point(params.x + getX(8.8, width), params.y + getY(2, params.height));
+    segmentA[3] = new core.classes.Point(params.x + getX(3.8, width), params.y + getY(2, params.height));
     //Segment B
-    segmentB[0] = segmentB[4] = new Core.classes.Point(params.x + getX(10, width), params.y + getY(1.4, params.height));
-    segmentB[1] = new Core.classes.Point(params.x + getX(9.3, width), params.y + getY(6.8, params.height));
-    segmentB[2] = new Core.classes.Point(params.x + getX(8.4, width), params.y + getY(6.4, params.height));
-    segmentB[3] = new Core.classes.Point(params.x + getX(9, width), params.y + getY(2.2, params.height));
+    segmentB[0] = segmentB[4] = new core.classes.Point(params.x + getX(10, width), params.y + getY(1.4, params.height));
+    segmentB[1] = new core.classes.Point(params.x + getX(9.3, width), params.y + getY(6.8, params.height));
+    segmentB[2] = new core.classes.Point(params.x + getX(8.4, width), params.y + getY(6.4, params.height));
+    segmentB[3] = new core.classes.Point(params.x + getX(9, width), params.y + getY(2.2, params.height));
     //Segment C
-    segmentC[0] = segmentC[4] = new Core.classes.Point(params.x + getX(9.2, width), params.y + getY(7.2, params.height));
-    segmentC[1] = new Core.classes.Point(params.x + getX(8.7, width), params.y + getY(12.7, params.height));
-    segmentC[2] = new Core.classes.Point(params.x + getX(7.6, width), params.y + getY(11.9, params.height));
-    segmentC[3] = new Core.classes.Point(params.x + getX(8.2, width), params.y + getY(7.7, params.height));
+    segmentC[0] = segmentC[4] = new core.classes.Point(params.x + getX(9.2, width), params.y + getY(7.2, params.height));
+    segmentC[1] = new core.classes.Point(params.x + getX(8.7, width), params.y + getY(12.7, params.height));
+    segmentC[2] = new core.classes.Point(params.x + getX(7.6, width), params.y + getY(11.9, params.height));
+    segmentC[3] = new core.classes.Point(params.x + getX(8.2, width), params.y + getY(7.7, params.height));
     //Segment D
-    segmentD[0] = segmentD[4] = new Core.classes.Point(params.x + getX(7.4, width), params.y + getY(12.1, params.height));
-    segmentD[1] = new Core.classes.Point(params.x + getX(8.4, width), params.y + getY(13, params.height));
-    segmentD[2] = new Core.classes.Point(params.x + getX(1.3, width), params.y + getY(13, params.height));
-    segmentD[3] = new Core.classes.Point(params.x + getX(2.2, width), params.y + getY(12.1, params.height));
+    segmentD[0] = segmentD[4] = new core.classes.Point(params.x + getX(7.4, width), params.y + getY(12.1, params.height));
+    segmentD[1] = new core.classes.Point(params.x + getX(8.4, width), params.y + getY(13, params.height));
+    segmentD[2] = new core.classes.Point(params.x + getX(1.3, width), params.y + getY(13, params.height));
+    segmentD[3] = new core.classes.Point(params.x + getX(2.2, width), params.y + getY(12.1, params.height));
     //Segment E
-    segmentE[0] = segmentE[4] = new Core.classes.Point(params.x + getX(2.2, width), params.y + getY(11.8, params.height));
-    segmentE[1] = new Core.classes.Point(params.x + getX(1, width), params.y + getY(12.7, params.height));
-    segmentE[2] = new Core.classes.Point(params.x + getX(1.7, width), params.y + getY(7.2, params.height));
-    segmentE[3] = new Core.classes.Point(params.x + getX(2.8, width), params.y + getY(7.7, params.height));
+    segmentE[0] = segmentE[4] = new core.classes.Point(params.x + getX(2.2, width), params.y + getY(11.8, params.height));
+    segmentE[1] = new core.classes.Point(params.x + getX(1, width), params.y + getY(12.7, params.height));
+    segmentE[2] = new core.classes.Point(params.x + getX(1.7, width), params.y + getY(7.2, params.height));
+    segmentE[3] = new core.classes.Point(params.x + getX(2.8, width), params.y + getY(7.7, params.height));
     //Segment F
-    segmentF[0] = segmentF[4] = new Core.classes.Point(params.x + getX(3, width), params.y + getY(6.4, params.height));
-    segmentF[1] = new Core.classes.Point(params.x + getX(1.8, width), params.y + getY(6.8, params.height));
-    segmentF[2] = new Core.classes.Point(params.x + getX(2.6, width), params.y + getY(1.3, params.height));
-    segmentF[3] = new Core.classes.Point(params.x + getX(3.6, width), params.y + getY(2.2, params.height));
+    segmentF[0] = segmentF[4] = new core.classes.Point(params.x + getX(3, width), params.y + getY(6.4, params.height));
+    segmentF[1] = new core.classes.Point(params.x + getX(1.8, width), params.y + getY(6.8, params.height));
+    segmentF[2] = new core.classes.Point(params.x + getX(2.6, width), params.y + getY(1.3, params.height));
+    segmentF[3] = new core.classes.Point(params.x + getX(3.6, width), params.y + getY(2.2, params.height));
     //Segment G
-    segmentG[0] = segmentG[6] = new Core.classes.Point(params.x + getX(2, width), params.y + getY(7, params.height));
-    segmentG[1] = new Core.classes.Point(params.x + getX(3.1, width), params.y + getY(6.5, params.height));
-    segmentG[2] = new Core.classes.Point(params.x + getX(8.3, width), params.y + getY(6.5, params.height));
-    segmentG[3] = new Core.classes.Point(params.x + getX(9, width), params.y + getY(7, params.height));
-    segmentG[4] = new Core.classes.Point(params.x + getX(8.2, width), params.y + getY(7.5, params.height));
-    segmentG[5] = new Core.classes.Point(params.x + getX(2.9, width), params.y + getY(7.5, params.height));
+    segmentG[0] = segmentG[6] = new core.classes.Point(params.x + getX(2, width), params.y + getY(7, params.height));
+    segmentG[1] = new core.classes.Point(params.x + getX(3.1, width), params.y + getY(6.5, params.height));
+    segmentG[2] = new core.classes.Point(params.x + getX(8.3, width), params.y + getY(6.5, params.height));
+    segmentG[3] = new core.classes.Point(params.x + getX(9, width), params.y + getY(7, params.height));
+    segmentG[4] = new core.classes.Point(params.x + getX(8.2, width), params.y + getY(7.5, params.height));
+    segmentG[5] = new core.classes.Point(params.x + getX(2.9, width), params.y + getY(7.5, params.height));
     //Segment DP
     // Draw Segments Outline
     this.fillStyle = params.outlineColor.toRGBAString();
@@ -433,40 +414,26 @@ CanvasRenderingContext2D.prototype.drawDigit = function(params) {
     this.fillStyle = params.fillColor.toRGBAString();
     this.strokeStyle = params.fillColor.toRGBAString();
     //Fill SegmentA
-    if ([0, 2, 3, 5, 6, 7, 8, 9].indexOf(params.value) > -1) {
-        this.drawPolygon(segmentA);
-    }
+    [0, 2, 3, 5, 6, 7, 8, 9].indexOf(params.value) > -1 ? this.drawPolygon(segmentA) : 1;
     //Fill SegmentB
-    if ([0, 1, 2, 3, 4, 7, 8, 9].indexOf(params.value) > -1) {
-        this.drawPolygon(segmentB);
-    }
+    [0, 1, 2, 3, 4, 7, 8, 9].indexOf(params.value) > -1 ? this.drawPolygon(segmentB) : 1;
     //Fill SegmentC
-    if ([0, 1, 3, 4, 5, 6, 7, 8, 9].indexOf(params.value) > -1) {
-        this.drawPolygon(segmentC);
-    }
+    [0, 1, 3, 4, 5, 6, 7, 8, 9].indexOf(params.value) > -1 ? this.drawPolygon(segmentC) : 1;
     //Fill SegmentD
-    if ([0, 2, 3, 5, 6, 8, 9].indexOf(params.value) > -1) {
-        this.drawPolygon(segmentD);
-    }
+    [0, 2, 3, 5, 6, 8, 9].indexOf(params.value) > -1 ? this.drawPolygon(segmentD) : 1;
     //Fill SegmentE
-    if ([0, 2, 6, 8].indexOf(params.value) > -1) {
-        this.drawPolygon(segmentE);
-    }
+    [0, 2, 6, 8].indexOf(params.value) > -1 ? this.drawPolygon(segmentE) : 1;
     //Fill SegmentF
-    if ([0, 4, 5, 6, 7, 8, 9].indexOf(params.value) > -1) {
-        this.drawPolygon(segmentF);
-    }
+    [0, 4, 5, 6, 7, 8, 9].indexOf(params.value) > -1 ? this.drawPolygon(segmentF) : 1;
     //Fill SegmentG
-    if ([2, 3, 4, 5, 6, 8, 9, -1].indexOf(params.value) > -1) {
-        this.drawPolygon(segmentG);
-    }
+    [2, 3, 4, 5, 6, 8, 9, -1].indexOf(params.value) > -1 ? this.drawPolygon(segmentG) : 1;
 };
 /**
  * Draw a reflexion of an canvas on the canvas
  * @param   {CanvasElement}     canvas      the canvas to be reflected
  * @param   {Control}           object      the control for properties
  */
-CanvasRenderingContext2D.prototype.drawReflection = function(canvas, object) {
+CanvasRenderingContext2D.prototype.drawReflection = function (canvas, object) {
     //#region Variables déclaration
     const h = (object.owner.height * object.length);
     const c = newCanvas;
@@ -491,10 +458,8 @@ CanvasRenderingContext2D.prototype.drawReflection = function(canvas, object) {
  * Set the transformation matrix of the canvas
  * @param   {Matrix}        mat     then new transformation matrix
  */
-CanvasRenderingContext2D.prototype.setMatrix = function(mat) {
-    if (mat instanceof Core.classes.Matrix) {
-        this.setTransform(mat.m11, mat.m12, mat.m21, mat.m22, mat.m31, mat.m32);
-    }
+CanvasRenderingContext2D.prototype.setMatrix = function (mat) {
+    mat instanceof core.classes.Matrix ? this.setTransform(mat.m11, mat.m12, mat.m21, mat.m22, mat.m31, mat.m32) : 1;
 };
 /**
  * Flood fill from a x/y coordinate with a color
@@ -503,7 +468,7 @@ CanvasRenderingContext2D.prototype.setMatrix = function(mat) {
  * @param   {Color}         color   the color of flood fill
  * @returns {Boolean}       !0 if succed otherwise !1
  */
-CanvasRenderingContext2D.prototype.floodFill = function(x, y, color) {
+CanvasRenderingContext2D.prototype.floodFill = function (x, y, color) {
     // if values are not set just exit
     if (x && y && color) {
         const width = this.canvas.width;
@@ -592,13 +557,9 @@ CanvasRenderingContext2D.prototype.floodFill = function(x, y, color) {
  * @param   {Component}     comp    the component that contain all properties of the star
  * @param   {Boolean}       clip    clip the star or not
  */
-CanvasRenderingContext2D.prototype.drawStar = function(r, comp, clip) {
-    if (!comp.borderDash) {
-        comp.borderDash = CANVAS.STROKEDASHS.SOLID;
-    }
-    if (this.useNativeDash && comp.borderDash) {
-        this.setDash(comp.borderDash);
-    }
+CanvasRenderingContext2D.prototype.drawStar = function (r, comp, clip) {
+    !comp.borderDash ? comp.borderDash = CANVAS.STROKEDASHS.SOLID : 1;
+    this.useNativeDash && comp.borderDash ? this.setDash(comp.borderDash) : 1;
     const w2 = r.width / 2;
     this.beginPath();
     this.moveTo(w2, 0);
@@ -626,13 +587,9 @@ CanvasRenderingContext2D.prototype.drawStar = function(r, comp, clip) {
  * @param   {Component}     comp    the component that contain all properties of the trapezoid
  * @param   {Boolean}       clip    clip the trapezoid or not
  */
-CanvasRenderingContext2D.prototype.drawTrapezoid = function(r, comp, clip) {
-    if (!comp.borderDash) {
-        comp.borderDash = CANVAS.STROKEDASHS.SOLID;
-    }
-    if (this.useNativeDash && comp.borderDash) {
-        this.setDash(comp.borderDash);
-    }
+CanvasRenderingContext2D.prototype.drawTrapezoid = function (r, comp, clip) {
+    !comp.borderDash ? comp.borderDash = CANVAS.STROKEDASHS.SOLID : 1;
+    this.useNativeDash && comp.borderDash ? this.setDash(comp.borderDash) : 1;
     this.beginPath();
     this.moveTo(r.width * 0.2, r.top);
     this.lineTo(r.top, r.height);
@@ -653,13 +610,9 @@ CanvasRenderingContext2D.prototype.drawTrapezoid = function(r, comp, clip) {
  * @param   {Component}     comp    the component that contain all properties of the parallelogram
  * @param   {Boolean}       clip    clip the parallelogram or not
  */
-CanvasRenderingContext2D.prototype.drawParallelogram = function(r, comp, clip) {
-    if (!comp.borderDash) {
-        comp.borderDash = CANVAS.STROKEDASHS.SOLID;
-    }
-    if (this.useNativeDash && comp.borderDash) {
-        this.setDash(comp.borderDash);
-    }
+CanvasRenderingContext2D.prototype.drawParallelogram = function (r, comp, clip) {
+    !comp.borderDash ? comp.borderDash = CANVAS.STROKEDASHS.SOLID : 1;
+    this.useNativeDash && comp.borderDash ? this.setDash(comp.borderDash) : 1;
     this.beginPath();
     this.moveTo(r.width * 0.3, r.top);
     this.lineTo(r.left, r.height);
@@ -680,13 +633,9 @@ CanvasRenderingContext2D.prototype.drawParallelogram = function(r, comp, clip) {
  * @param   {Component}     comp    the component that contain all properties of the ninja star
  * @param   {Boolean}       clip    clip the ninja star or not
  */
-CanvasRenderingContext2D.prototype.drawNinjaStar = function(r, comp, clip) {
-    if (!comp.borderDash) {
-        comp.borderDash = CANVAS.STROKEDASHS.SOLID;
-    }
-    if (this.useNativeDash && comp.borderDash) {
-        this.setDash(comp.borderDash);
-    }
+CanvasRenderingContext2D.prototype.drawNinjaStar = function (r, comp, clip) {
+    !comp.borderDash ? comp.borderDash = CANVAS.STROKEDASHS.SOLID : 1;
+    this.useNativeDash && comp.borderDash ? this.setDash(comp.borderDash) : 1;
     this.beginPath();
     this.moveTo(r.width * 0.5, r.top);
     this.lineTo(r.width * 0.35, r.height * 0.35);
@@ -711,13 +660,9 @@ CanvasRenderingContext2D.prototype.drawNinjaStar = function(r, comp, clip) {
  * @param   {Component}     comp    the component that contain all properties of the polygon
  * @param   {Boolean}       clip    clip the polygon or not
  */
-CanvasRenderingContext2D.prototype.drawRegularPolygon = function(r, comp, clip) {
-    if (!comp.borderDash) {
-        comp.borderDash = CANVAS.STROKEDASHS.SOLID;
-    }
-    if (this.useNativeDash && comp.borderDash) {
-        this.setDash(comp.borderDash);
-    }
+CanvasRenderingContext2D.prototype.drawRegularPolygon = function (r, comp, clip) {
+    !comp.borderDash ? comp.borderDash = CANVAS.STROKEDASHS.SOLID : 1;
+    this.useNativeDash && comp.borderDash ? this.setDash(comp.borderDash) : 1;
     const w2 = r.width / 2;
     const h2 = r.height / 2;
     const size = (comp.width > comp.height ? comp.height : comp.width) / 2;
@@ -737,15 +682,13 @@ CanvasRenderingContext2D.prototype.drawRegularPolygon = function(r, comp, clip) 
  * Draw a spark graph
  * @param   {Array}     data        the data to draw
  */
-CanvasRenderingContext2D.prototype.drawSpark = function(data) {
+CanvasRenderingContext2D.prototype.drawSpark = function (data) {
     //#region Variables déclaration
     const SPARKTYPES = CANVAS.SPARKTYPES;
     //#endregion Variables déclaration
     if (data && data.values.length > 0) {
         let type = data.type;
-        if (!type) {
-            type = CANVAS.SPARKLINESTYPES.LINE;
-        }
+        !type ? type = SPARKTYPES.LINE : 1;
         this.save();
         this.translate(0.5, 0.5);
         switch (type) {
@@ -770,7 +713,7 @@ CanvasRenderingContext2D.prototype.drawSpark = function(data) {
  * Draw a spark line graph
  * @param   {Array}     data        the data to draw
  */
-CanvasRenderingContext2D.prototype.drawSparkLine = function(data) {
+CanvasRenderingContext2D.prototype.drawSparkLine = function (data) {
     //#region Variables déclaration
     let color = data.color;
     let minColor = data.minColor;
@@ -783,15 +726,9 @@ CanvasRenderingContext2D.prototype.drawSparkLine = function(data) {
     const yValues = [];
     const path = [];
     //#endregion Variables déclaration
-    if (!color) {
-        color = 'black';
-    }
-    if (!minColor) {
-        minColor = 'black';
-    }
-    if (!maxColor) {
-        maxColor = 'black';
-    }
+    !color ? color = 'black' : 1;
+    !minColor ? minColor = 'black' : 1;
+    !maxColor ? maxColor = 'black' : 1;
     let l = data.values.length;
     for (; i < l; i++) {
         xValues.push(i);
@@ -808,20 +745,11 @@ CanvasRenderingContext2D.prototype.drawSparkLine = function(data) {
         const x = xValues[i];
         let y = yValues[i];
         const xPos = 2 + Math.round((x - minX) * (width / rangeX));
-        if (y < minY) {
-            y = minY;
-        }
-        if (y > maxY) {
-            y = maxY;
-        }
-        if (path.length === 0) {
-            path.push({ x: xPos, y: height + 2 });
-        }
+        y = Math.max(Math.min(y, maxY), minY);
+        path.length === 0 ? path.push({ x: xPos, y: height + 2 }) : 1;
         path.push({ x: xPos, y: 2 + Math.round(height - (height * ((y - minY) / rangeY))) });
     }
-    if (path.length > 2) {
-        path[0] = { x: path[0].x, y: path[1].y };
-    }
+    path.length > 2 ? path[0] = { x: path[0].x, y: path[1].y } : 1;
     l = path.length;
     if (filledColor) {
         this.fillStyle = filledColor;
@@ -847,7 +775,7 @@ CanvasRenderingContext2D.prototype.drawSparkLine = function(data) {
  * Draw a spark bar graph
  * @param   {Array}     data        the data to draw
  */
-CanvasRenderingContext2D.prototype.drawSparkBar = function(data) {
+CanvasRenderingContext2D.prototype.drawSparkBar = function (data) {
     //#region Variables déclaration
     const height = this.canvas.height;
     const width = this.canvas.width;
@@ -861,30 +789,18 @@ CanvasRenderingContext2D.prototype.drawSparkBar = function(data) {
     const offset = ~~((width - (barWidth * l) - (l - 1)) / 2);
     const rangeHeight = height / (max - min);
     //#endregion Variables déclaration
-    if (min < 0) {
-        yOrg = ~~(max * rangeHeight);
-    } else {
-        yOrg = height;
-    }
+    yOrg = min < 0 ? ~~(max * rangeHeight) : height;
     let i = 0;
     let x = 0;
     this.translate(offset, 0);
     for (; i < l; i++) {
-        if (data.values[i] >= 0) {
-            this.fillStyle = maxColor;
-        } else {
-            this.fillStyle = minColor;
-        }
+        this.fillStyle = data.values[i] >= 0 ? maxColor : minColor;
         y = ~~(data.values[i] * rangeHeight);
-        if (yOrg < height) {
-            if (data.values[i] < 0) {
-                this.fillRect(x, yOrg, barWidth, Math.abs(y));
-            } else {
-                this.fillRect(x, yOrg - y, barWidth, y);
-            }
-        } else {
-            this.fillRect(x, height - y, barWidth, y);
-        }
+        yOrg < height
+            ? data.values[i] < 0
+                ? this.fillRect(x, yOrg, barWidth, Math.abs(y))
+                : this.fillRect(x, yOrg - y, barWidth, y)
+            : this.fillRect(x, height - y, barWidth, y);
         x += barWidth + 1;
     }
 };
@@ -892,7 +808,7 @@ CanvasRenderingContext2D.prototype.drawSparkBar = function(data) {
  * Draw a spark pie graph
  * @param   {Array}     data        the data to draw
  */
-CanvasRenderingContext2D.prototype.drawSparkPie = function(data) {
+CanvasRenderingContext2D.prototype.drawSparkPie = function (data) {
     //#region Variables déclaration
     const height = this.canvas.height;
     const width = this.canvas.width;
@@ -913,9 +829,7 @@ CanvasRenderingContext2D.prototype.drawSparkPie = function(data) {
             for (x = 0; x < l; x++) {
                 let start = next;
                 let end = next;
-                if (total > 0) {
-                    end = next + (circle * (data.values[x] / total));
-                }
+                total > 0 ? end = next + (circle * (data.values[x] / total)) : 1;
                 if (x === i) {
                     this.fillStyle = colors[x % colors.length];
                     this.beginPath();
@@ -934,7 +848,7 @@ CanvasRenderingContext2D.prototype.drawSparkPie = function(data) {
  * Draw a spark box plot graph
  * @param   {Array}     data        the data to draw
  */
-CanvasRenderingContext2D.prototype.drawSparkBoxPlot = function(data) {
+CanvasRenderingContext2D.prototype.drawSparkBoxPlot = function (data) {
     //#region Variables déclaration
     const height = this.canvas.height;
     let width = this.canvas.width;
@@ -968,39 +882,17 @@ CanvasRenderingContext2D.prototype.drawSparkBoxPlot = function(data) {
         }
     };
     //#endregion Variables déclaration
-    if (!data.boxLineColor) {
-        data.boxLineColor = '#000';
-    }
-    if (!data.boxFillColor) {
-        data.boxFillColor = '#C0D0F0';
-    }
-    if (!data.whiskerColor) {
-        data.whiskerColor = '#000';
-    }
-    if (!data.outlierLineColor) {
-        data.outlierLineColor = '#303030';
-    }
-    if (!data.outlierFillColor) {
-        data.outlierFillColor = '#F0F0F0';
-    }
-    if (!data.medianColor) {
-        data.medianColor = 'red';
-    }
-    if (!data.targetColor) {
-        data.targetColor = '#40A020';
-    }
-    if (!data.spotRadius) {
-        data.spotRadius = 1.5;
-    }
-    if (!data.outlierIQR) {
-        data.outlierIQR = 1.5;
-    }
-    if (!data.raw) {
-        data.raw = !1;
-    }
-    if (!data.showOutliers) {
-        data.showOutliers = !1;
-    }
+    !data.boxLineColor ? data.boxLineColor = '#000' : 1;
+    !data.boxFillColor ? data.boxFillColor = '#C0D0F0' : 1;
+    !data.whiskerColor ? data.whiskerColor = '#000' : 1;
+    !data.outlierLineColor ? data.outlierLineColor = '#303030' : 1;
+    !data.outlierFillColor ? data.outlierFillColor = '#F0F0F0' : 1;
+    !data.medianColor ? data.medianColor = 'red' : 1;
+    !data.targetColor ? data.targetColor = '#40A020' : 1;
+    !data.spotRadius ? data.spotRadius = 1.5 : 1;
+    !data.outlierIQR ? data.outlierIQR = 1.5 : 1;
+    !data.raw ? data.raw = !1 : 1;
+    !data.showOutliers ? data.showOutliers = !1 : 1;
     //l = data.values.length;
     if (data.raw) {
         if (data.showOutliers && data.values.length > 5) {
@@ -1027,12 +919,8 @@ CanvasRenderingContext2D.prototype.drawSparkBoxPlot = function(data) {
         if (data.showOutliers) {
             lWhisker = rWhisker = null;
             data.values.forEach(val => {
-                if (!lWhisker && val > q1 - (iqr * data.outlierIQR)) {
-                    lWhisker = val;
-                }
-                if (val < q3 + (iqr * data.outlierIQR)) {
-                    rWhisker = val;
-                }
+                !lWhisker && val > q1 - (iqr * data.outlierIQR) ? lWhisker = val : 1;
+                val < q3 + (iqr * data.outlierIQR) ? rWhisker = val : 1;
             });
             lOutlier = data.values[0];
             rOutlier = data.values[l - 1];
@@ -1126,77 +1014,67 @@ CanvasRenderingContext2D.prototype.drawSparkBoxPlot = function(data) {
  * @param {Number} [radius.br = 0] Bottom right
  * @param {Number} [radius.bl = 0] Bottom left
  */
-CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, radius, bordersColor) {
+CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, radius, bordersColor) {
     //#region Variables déclaration
     const r = x + width;
     const b = y + height;
     //#endregion Variables déclaration
-    if (radius == undefined) {
-        radius = 5;
-    }
+    radius = radius || 5;
     if (typeof radius === 'number') {
-        if (radius>~~(height / 2)) {
-            radius = ~~(height / 2);
-        }
+        radius > ~~(height / 2) ? radius = ~~(height / 2) : 1;
         radius = { tl: radius, tr: radius, br: radius, bl: radius };
     } else {
         const defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 };
         for (let side in defaultRadius) {
-            if (defaultRadius.hasOwnProperty(side)) {
-                radius[side] = radius[side] || defaultRadius[side];
-            }
+            defaultRadius.hasOwnProperty(side) ? radius[side] = radius[side] || defaultRadius[side] : 1;
         }
     }
     if (bordersColor) {
         this.save();
-        if (radius.tl + radius.tr + radius.br + radius.bl !== 0) {
-            this.translate(0.5,0.5);
-        }
-        if (Tools.isString(bordersColor)) {
-            bordersColor = { left:bordersColor, top:bordersColor, right:bordersColor, bottom:bordersColor };
-        }
+        radius.tl + radius.tr + radius.br + radius.bl !== 0 ? this.translate(0.5, 0.5) : 1;
+        core.tools.isString(bordersColor)
+            ? bordersColor = { left: bordersColor, top: bordersColor, right: bordersColor, bottom: bordersColor }
+            : 1;
     }
     if (radius.tl + radius.tr + radius.bl + radius.br <= 0) {
-        if (bordersColor) {
-            this.rectWithBordersColor(x, y, width, height, bordersColor);
-        } else {
-            this.rect(x, y, width, height);
-        }
+        bordersColor
+            ? this.rectWithBordersColor(x, y, width, height, bordersColor)
+            : this.rect(x, y, width, height);
     } else {
         this.beginPath();
-        this.moveTo(x+radius.tl-0.5, y);
-        this.lineTo(r-radius.tr, y);
-        this.quadraticCurveTo(r, y, r, y+radius.tr);
+        this.moveTo(x + radius.tl - 0.5, y);
+        this.lineTo(r - radius.tr, y);
+        this.quadraticCurveTo(r, y, r, y + radius.tr);
         if (bordersColor) {
             this.strokeStyle = bordersColor.top;
             this.stroke();
             this.beginPath();
-            this.moveTo(r, y+radius.tr);
+            this.moveTo(r, y + radius.tr);
         }
-        this.lineTo(r, b-radius.br+0.5);
+        this.lineTo(r, b - radius.br + 0.5);
         if (bordersColor) {
             this.strokeStyle = bordersColor.right;
             this.stroke();
             this.beginPath();
-            this.moveTo(r, b-radius.br+0.5);
+            this.moveTo(r, b - radius.br + 0.5);
         }
-        this.quadraticCurveTo(r, b, r-radius.br, b);
-        this.lineTo(x+radius.bl-0.5, b);
-        this.quadraticCurveTo(x, b, x, b-radius.bl-0.5);
+        this.quadraticCurveTo(r, b, r - radius.br, b);
+        this.lineTo(x + radius.bl - 0.5, b);
+        this.quadraticCurveTo(x, b, x, b - radius.bl - 0.5);
         if (bordersColor) {
             this.strokeStyle = bordersColor.bottom;
             this.stroke();
             this.beginPath();
-            this.moveTo(x, b-radius.bl+0.5);
+            this.moveTo(x, b - radius.bl + 0.5);
         }
-        this.lineTo(x, y+radius.tl);
+        this.lineTo(x, y + radius.tl);
         if (bordersColor) {
             this.strokeStyle = bordersColor.left;
             this.stroke();
             this.beginPath();
-            this.moveTo(x, y+radius.tl);
+            this.moveTo(x, y + radius.tl);
         }
-        this.quadraticCurveTo(x, y, x+radius.tl, y);
+        this.quadraticCurveTo(x, y, x + radius.tl, y);
         if (bordersColor) {
             this.strokeStyle = bordersColor.top;
             this.stroke();
@@ -1204,9 +1082,7 @@ CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, rad
             this.stroke();
         }
     }
-    if (bordersColor) {
-        this.restore();
-    }
+    bordersColor ? this.restore() : 1;
 };
 /**
  * Clip the canvas to a rectangle
@@ -1215,7 +1091,7 @@ CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, rad
  * @param   {Numver}     w    the component rect to be clipped
  * @param   {Numver}     h    the component rect to be clipped
  */
-CanvasRenderingContext2D.prototype.clipRect = function(x, y, w, h) {
+CanvasRenderingContext2D.prototype.clipRect = function (x, y, w, h) {
     this.beginPath();
     this.rect(x, y, w, h);
     this.clip();
@@ -1228,12 +1104,12 @@ CanvasRenderingContext2D.prototype._measureText = CanvasRenderingContext2D.proto
  * Get the text metrics
  * @param   {String}    text    the text to get metrics
  */
-CanvasRenderingContext2D.prototype.measureText = function(text) {
+CanvasRenderingContext2D.prototype.measureText = function (text) {
     //#region Variables déclaration
     const metrics = this._measureText(text);
     let block;
     const isInDoc = document.querySelector('.textSizer');
-    const textSpan = isInDoc?isInDoc:document.createElement('span');
+    const textSpan = isInDoc ? isInDoc : document.createElement('span');
     //#endregion Variables déclaration
     textSpan.innerHTML = text;
     textSpan.style.font = this.font;
@@ -1293,15 +1169,13 @@ CanvasRenderingContext2D.prototype.measureText = function(text) {
 
     // Copy the new metrics over, if and only if the CanvasRenderingContext2D API doesn't provide them
     for (let key in newMetrics) {
-        if (newMetrics.hasOwnProperty(key) && !(key in metrics)) {
-            metrics[key] = newMetrics[key];
-        }
+        newMetrics.hasOwnProperty(key) && !(key in metrics) ? metrics[key] = newMetrics[key] : 1;
     }
 
     return metrics;
 };
 
-CanvasRenderingContext2D.prototype.wavy = function(from, to, frequency, amplitude, step, negative) { 
+CanvasRenderingContext2D.prototype.wavy = function (from, to, frequency, amplitude, step, negative) {
     //#region Variables déclaration
     const fx = from.x;
     const fy = from.y;
@@ -1313,22 +1187,21 @@ CanvasRenderingContext2D.prototype.wavy = function(from, to, frequency, amplitud
     const a = amplitude * (!negative ? 1 : -1);
     const f = Math.PI * frequency;
     //#endregion Variables déclaration
-    for (; i <= distance; i += step) 
-    {
+    for (; i <= distance; i += step) {
         const waveOffsetLength = Math.sin((i / distance) * f) * a;
-        const cx = from.x + Math.cos(ang) * i + Math.cos(ang - Math.PI/2) * waveOffsetLength;
-        const cy = from.y + Math.sin(ang) * i + Math.sin(ang - Math.PI/2) * waveOffsetLength;
+        const cx = from.x + Math.cos(ang) * i + Math.cos(ang - Math.PI / 2) * waveOffsetLength;
+        const cy = from.y + Math.sin(ang) * i + Math.sin(ang - Math.PI / 2) * waveOffsetLength;
         i > 0 ? this.lineTo(cx, cy) : this.moveTo(cx, cy);
     }
 }
 
-CanvasRenderingContext2D.prototype.rectWithBordersColor = function(x, y, width, height, bordersColor) { 
-    if (Tools.isString(bordersColor)) {
-        bordersColor = { left:bordersColor, top:bordersColor, right:bordersColor, bottom:bordersColor };
-    }
+CanvasRenderingContext2D.prototype.rectWithBordersColor = function (x, y, width, height, bordersColor) {
+    core.tools.isString(bordersColor)
+        ? bordersColor = { left: bordersColor, top: bordersColor, right: bordersColor, bottom: bordersColor }
+        : 1;
     this.beginPath();
     this.moveTo(x, y + 0.5);
-    this.lineTo(x + width , y + 0.5);
+    this.lineTo(x + width, y + 0.5);
     this.strokeStyle = bordersColor.top;
     this.stroke();
     this.beginPath();
@@ -1337,7 +1210,7 @@ CanvasRenderingContext2D.prototype.rectWithBordersColor = function(x, y, width, 
     this.strokeStyle = bordersColor.right;
     this.stroke();
     this.beginPath();
-    this.moveTo(x + width , y + height - 0.5);
+    this.moveTo(x + width, y + height - 0.5);
     this.lineTo(x, y + height - 0.5);
     this.strokeStyle = bordersColor.bottom;
     this.stroke();
@@ -1348,25 +1221,19 @@ CanvasRenderingContext2D.prototype.rectWithBordersColor = function(x, y, width, 
     this.stroke();
 }
 
-CanvasRenderingContext2D.prototype.clipRegion = function(clippingData, left, top, width, height) {
+CanvasRenderingContext2D.prototype.clipRegion = function (clippingData, left, top, width, height) {
     //#region Variables déclaration
-    const clip = [clippingData.left,clippingData.top];
+    const clip = [clippingData.left, clippingData.top];
     //#endregion Variables déclaration
     this.save();
-    if (clippingData.hasOwnProperty('right')) {
-        clip.push(width-left-clippingData.right);
-    } else {
-        clip.push(clippingData.width);
-    }
-    if (clippingData.hasOwnProperty('bottom')) {
-        clip.push(height-top-clippingData.bottom);
-    } else {
-        clip.push(clippingData.height);
-    }
+    clippingData.hasOwnProperty('right')
+        ? clip.push(width - left - clippingData.right)
+        : clip.push(clippingData.width);
+    clippingData.hasOwnProperty('bottom')
+        ? clip.push(height - top - clippingData.bottom)
+        : clip.push(clippingData.height);
     this.beginPath();
-    if (this[clippingData.shape]) {
-        this[clippingData.shape](...clip);
-    }
+    this[clippingData.shape] ? this[clippingData.shape](...clip) : 1;
     this.clip();
 }
 
@@ -1381,29 +1248,29 @@ export function newCanvas() {
 //#endregion
 
 /*
-var canvas = document.getElementById("canV"); 
+var canvas = document.getElementById("canV");
 var ctx = canvas.getContext("2d");
 
 // copies an image adding the 2d context
 function copyImage(img){
-    var image = document.createElement("canvas");  
+    var image = document.createElement("canvas");
     image.width = img.width;
-    image.height = img.height; 
-    image.ctx = image.getContext("2d"); 
+    image.height = img.height;
+    image.ctx = image.getContext("2d");
     image.ctx.drawImage(img,0,0);
     return image;
 }
 
 // creates a blank image with 2d context
 var createImage = function(w,h){
-    var image = document.createElement("canvas");  
+    var image = document.createElement("canvas");
     image.width = w;
-    image.height =h; 
-    image.ctx = image.getContext("2d"); 
+    image.height =h;
+    image.ctx = image.getContext("2d");
     return image;
-}  
+}
 
-// load an image from URL. Create a editable copy and then 
+// load an image from URL. Create a editable copy and then
 // call the function ready
 var loadImage = function(url,ready){
     function onload(){
@@ -1418,7 +1285,7 @@ var loadImage = function(url,ready){
 
 
 function innerShadow(image,shadowCol,offX,offY,blur){
-    var mx, my, img1; 
+    var mx, my, img1;
     // create a mask image, with pixel alpha the invers of original
     // Needs to be bigger so that the shadow is consistant at edges
     img1 = createImage(image.width+Math.abs(offX)+blur,image.height+Math.abs(offY)+blur);
@@ -1438,7 +1305,7 @@ function innerShadow(image,shadowCol,offX,offY,blur){
     image.ctx.shadowOffsetX = offX;
     image.ctx.shadowOffsetY = offY;
     image.ctx.shadowBlur = blur;
-    // draw the mask with the shadow on original image 
+    // draw the mask with the shadow on original image
     image.ctx.globalCompositeOperation = "source-atop"; // only visible pixels
     image.ctx.drawImage(img1,-mx,-my);  // draw the shadow
 }
@@ -1446,7 +1313,7 @@ function innerShadow(image,shadowCol,offX,offY,blur){
 
 // clear the canvas
 ctx.clearRect(0,0,canvas.width,canvas.height)
-// load and add shadow. 
+// load and add shadow.
 var imageWithInnerShadow;
 var shadowOffX = 10;
 var shadowOffY = 10;
@@ -1457,6 +1324,6 @@ loadImage("http://i.stack.imgur.com/Jafta.png",function(img){
     // add the shadow
     innerShadow(img,shadowCol,shadowOffX,shadowOffY,shadowBlur);
     ctx.drawImage(img,20,20); // show that it worked
-    imageWithInnerShadow = img; // hold the image for use 
+    imageWithInnerShadow = img; // hold the image for use
 })
 */

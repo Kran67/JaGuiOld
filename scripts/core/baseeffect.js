@@ -121,17 +121,22 @@ const BaseEffect = (() => {
          * @param {Rect} rect - the rect
          * @abstract
          */
+        //#region rect
         rect(rect) { }
+        //#endregion rect
         /**
          * Apply the effect
          * @abstract
          */
+        //#region applyEffect
         applyEffect() { }
+        //#endregion applyEffect
         /**
          * Apply the effect with a trigger
          * @param {Control} instance - the control to apply the effect
          * @param {String} trigger - the trigger property
          */
+        //#region applyTrigger
         applyTrigger(instance, trigger) {
             //#region Variables déclaration
             const priv = internal(this);
@@ -156,11 +161,27 @@ const BaseEffect = (() => {
                 priv.enabled = startValue;
             }
         }
-        //#endregion
+        //#endregion applyTrigger
+        //#region destroy
+        destroy() {
+            priv.owner = null;
+            priv.enabled = null;
+            priv.trigger = null;
+            priv.prepareBeforePaint = null;
+            priv.applyOnChilds = null;
+            priv.disablePaint = null;
+            delete this.enabled;
+            delete this.trigger;
+            delete this.prepareBeforePaint;
+            delete this.applyOnChilds;
+            delete this.disablePaint;
+        }
+        //#endregion destroy
+        //#endregion Methods
     }
     return BaseEffect;
     //#endregion BaseEffect
 })();
-//#endregion
 core.classes.register(core.types.CATEGORIES.INTERNAL, BaseEffect);
+//#endregion
 export { BaseEffect };
