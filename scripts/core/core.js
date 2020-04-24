@@ -54,8 +54,8 @@ class Core {
      * Create a new instance of Core.
      */
     constructor() {
-        this.name = 'JaGui',
-            this.propertiesCategories = {};
+        this.name = 'JaGui';
+        this.propertiesCategories = {};
         this.bindableProperties = [];
         this.themes = {};
         this.onGetMouseInfos = null;

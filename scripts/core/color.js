@@ -1,6 +1,5 @@
 ﻿//#region Imports
 import { Bindable } from '/scripts/core/bindable.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Convert } from '/scripts/core/convert.js';
 //#endregion Imports
 //#region Color
@@ -20,6 +19,7 @@ const Color = (function () {
         return _private.get(key);
     };
     //#endregion Private
+    //#region Color
     class Color extends Bindable {
         //#region Constructor
         /**
@@ -27,9 +27,11 @@ const Color = (function () {
          */
         constructor() {
             //#region Variables déclaration
-            let _owner = null;
+            let owner = null;
             //#endregion Variables déclaration
             super();
+            //#region Properties
+            //#region Private Properties
             const priv = internal(this);
             priv.red = 0;
             priv.green = 0;
@@ -39,293 +41,211 @@ const Color = (function () {
             priv.saturation = 0;
             priv.value = 0;
             priv.lightness = 0;
-            priv.owner = _owner;
             priv.updating = !1;
             if (arguments.length > 0) {
                 for (let i = 0, l = arguments.length; i < l; i++) {
                     const arg = arguments[i];
-                    if (arg instanceof Color) {
-                        this.assign(arg);
-                    }
-                    if (arg instanceof Core.classes.Control) {
-                        _owner = arg;
-                    }
+                    arg instanceof Color ? this.assign(arg) : 1;
+                    arg instanceof core.classes.Control ? owner = arg : 1;
                 }
             }
+            priv.owner = owner;
+            //#endregion Private Properties
+            //#region Public Properties
+            Object.defineProperties(this, {
+                'red': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).red;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const owner = priv.owner;
+                        //#endregion Variables déclaration
+                        if (core.tools.isNumber(newValue) && newValue !== priv.red) {
+                            newValue = newValue & 0xFF;
+                            priv.red = newValue;
+                            if (!priv.updating) {
+                                this.RGBtoHSV();
+                                this.RGBtoHSL();
+                            }
+                            this.propertyChanged('red');
+                            owner && !owner.loading ? owner.update() : 1;
+                        }
+                    }
+                },
+                'green': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).green;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const owner = priv.owner;
+                        //#endregion Variables déclaration
+                        if (core.tools.isNumber(newValue) && newValue !== priv.green) {
+                            newValue = newValue & 0xFF;
+                            priv.green = newValue;
+                            if (!priv.updating) {
+                                this.RGBtoHSV();
+                                this.RGBtoHSL();
+                            }
+                            this.propertyChanged('green');
+                            owner && !owner.loading ? owner.update() : 1;
+                        }
+                    }
+                },
+                'blue': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).blue;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const owner = priv.owner;
+                        //#endregion Variables déclaration
+                        if (core.tools.isNumber(newValue) && newValue !== priv.blue) {
+                            newValue = newValue & 0xFF;
+                            priv.blue = newValue;
+                            if (!priv.updating) {
+                                this.RGBtoHSV();
+                                this.RGBtoHSL();
+                            }
+                            this.propertyChanged('blue');
+                            owner && !owner.loading ? owner.update() : 1;
+                        }
+                    }
+                },
+                'alpha': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).alpha;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const owner = priv.owner;
+                        //#endregion Variables déclaration
+                        if (core.tools.isNumber(newValue) && newValue !== priv.alpha) {
+                            newValue = Math.max(Math.min(newValue, 1), 0);
+                            priv.alpha = newValue;
+                            this.propertyChanged('alpha');
+                            owner && !owner.loading ? owner.update() : 1;
+                        }
+                    }
+                },
+                'hue': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).hue;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const owner = priv.owner;
+                        //#endregion Variables déclaration
+                        if (core.tools.isNumber(newValue) && newValue !== priv.hue) {
+                            newValue = Math.max(Math.min(newValue, 360), 0);
+                            priv.hue = newValue;
+                            !priv.updating ? this.HSVtoRGB() : 1;
+                            this.propertyChanged('hue');
+                            owner && !owner.loading ? owner.update() : 1;
+                        }
+                    }
+                },
+                'saturation': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).saturation;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const owner = priv.owner;
+                        //#endregion Variables déclaration
+                        if (core.tools.isNumber(newValue) && newValue !== priv.saturation) {
+                            newValue = Math.max(Math.min(newValue, 100), 0);
+                            priv.saturation = newValue;
+                            !priv.updating ? this.HSVtoRGB() : 1;
+                            this.propertyChanged('saturation');
+                            owner && !owner.loading ? owner.update() : 1;
+                        }
+                    }
+                },
+                'value': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).value;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const owner = this.owner;
+                        //#endregion Variables déclaration
+                        if (core.tools.isNumber(newValue) && newValue !== priv.value) {
+                            newValue = Math.max(Math.min(newValue, 100), 0);
+                            priv.value = newValue;
+                            !priv.updating ? this.HSVtoRGB() : 1;
+                            this.propertyChanged('value');
+                            owner && !owner.loading ? owner.update() : 1;
+                        }
+                    }
+                },
+                'lightness': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).lightness;
+                    },
+                    set: function (newValue) {
+                        //#region Variables déclaration
+                        const priv = internal(this);
+                        const owner = this.owner;
+                        //#endregion Variables déclaration
+                        if (core.tools.isNumber(newValue) && newValue !== priv.lightness) {
+                            newValue = Math.max(Math.min(newValue, 100), 0);
+                            priv.lightness = newValue;
+                            !priv.updating ? this.HSLtoRGB() : 1;
+                            this.propertyChanged('lightness');
+                            owner && !owner.loading ? owner.update() : 1;
+                        }
+                    }
+                },
+                'owner': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).owner;
+                    },
+                    set: function (newValue) {
+                        internal(this).owner = newValue;
+                    }
+                },
+                'updating': {
+                    enumerable: !0,
+                    configurable: !0,
+                    get: function () {
+                        return internal(this).updating;
+                    },
+                    set: function (newValue) {
+                        internal(this).updating = newValue;
+                    }
+                },
+            });
+            //#endregion Public Properties
+            //#endregion Properties
         }
         //#endregion Constructor
-        //#region Private properties
-        /**
-         * @return  {Number}    the red value of the color
-         */
-        get red() {
-            return internal(this).red;
-        }
-        /**
-         * Set the red property
-         * @param   {Number}   newValue    the new value
-         */
-        set red(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = this.owner;
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.red) {
-                    newValue = newValue & 0xFF;
-                    priv.red = newValue;
-                    if (!priv.updating) {
-                        this.RGBtoHSV();
-                        this.RGBtoHSL();
-                    }
-                    this.propertyChanged('red');
-                    if (owner && !owner.loading) {
-                        owner.update();
-                    }
-                }
-            }
-        }
-        /**
-         * @return  {Number}    the green value of the color
-         */
-        get green() {
-            return internal(this).green;
-        }
-        /**
-         * Set the green property
-         * @param   {Number}   newValue    the new value
-         */
-        set green(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = this.owner;
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.green) {
-                    newValue = newValue & 0xFF;
-                    priv.green = newValue;
-                    if (!priv.updating) {
-                        this.RGBtoHSV();
-                        this.RGBtoHSL();
-                    }
-                    this.propertyChanged('green');
-                    if (owner && !owner.loading) {
-                        owner.update();
-                    }
-                }
-            }
-        }
-        /**
-         * @return  {Number}    the blue value of the color
-         */
-        get blue() {
-            return internal(this).blue;
-        }
-        /**
-         * Set the blue property
-         * @param   {Number}   newValue    the new value
-         */
-        set blue(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = this.owner;
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.blue) {
-                    newValue = newValue & 0xFF;
-                    priv.blue = newValue;
-                    if (!priv.updating) {
-                        this.RGBtoHSV();
-                        this.RGBtoHSL();
-                    }
-                    this.propertyChanged('blue');
-                    if (owner && !owner.loading) {
-                        owner.update();
-                    }
-                }
-            }
-        }
-        /**
-         * @return  {Number}    the alpha value of the color
-         */
-        get alpha() {
-            return internal(this).alpha;
-        }
-        /**
-         * Set the alpha property
-         * @param   {Number}   newValue    the new value
-         */
-        set alpha(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = this.owner;
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.alpha) {
-                    if (newValue > 1) {
-                        newValue = 1;
-                    }
-                    if (newValue < 0) {
-                        newValue = 0;
-                    }
-                    priv.alpha = newValue;
-                    this.propertyChanged('alpha');
-                    if (owner && !owner.loading) {
-                        owner.update();
-                    }
-                }
-            }
-        }
-        /**
-         * @return  {Number}    the hue value of the color
-         */
-        get hue() {
-            return internal(this).hue;
-        }
-        /**
-         * Set the hue property
-         * @param   {Number}   newValue    the new value
-         */
-        set hue(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = this.owner;
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.hue) {
-                    //newValue=newValue%360;
-                    if (newValue < 0) {
-                        newValue = 0;
-                    }
-                    if (newValue > 360) {
-                        newValue = 360;
-                    }
-                    priv.hue = newValue;
-                    if (!priv.updating) {
-                        this.HSVtoRGB();
-                    }
-                    this.propertyChanged('hue');
-                    if (owner && !owner.loading) {
-                        owner.update();
-                    }
-                }
-            }
-        }
-        /**
-         * @return  {Number}    the saturation value of the color
-         */
-        get saturation() {
-            return internal(this).saturation;
-        }
-        /**
-         * Set the saturation property
-         * @param   {Number}   newValue    the new value
-         */
-        set saturation(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = this.owner;
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.saturation) {
-                    if (newValue < 0) {
-                        newValue = 0;
-                    }
-                    if (newValue > 100) {
-                        newValue = 100;
-                    }
-                    priv.saturation = newValue;
-                    if (!priv.updating) {
-                        this.HSVtoRGB();
-                    }
-                    this.propertyChanged('saturation');
-                    if (owner && !owner.loading) {
-                        owner.update();
-                    }
-                }
-            }
-        }
-        /**
-         * @return  {Number}    the value of the color
-         */
-        get value() {
-            return internal(this).value;
-        }
-        /**
-         * Set the value property
-         * @param   {Number}   newValue    the new value
-         */
-        set value(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = this.owner;
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.value) {
-                    if (newValue < 0) {
-                        newValue = 0;
-                    }
-                    if (newValue > 100) {
-                        newValue = 100;
-                    }
-                    priv.value = newValue;
-                    if (!priv.updating) {
-                        this.HSVtoRGB();
-                    }
-                    this.propertyChanged('value');
-                    if (owner && !owner.loading) {
-                        owner.update();
-                    }
-                }
-            }
-        }
-        /**
-         * @return  {Number}    the lightness value of the color
-         */
-        get lightness() {
-            return internal(this).lightness;
-        }
-        /**
-         * Set the lightness property
-         * @param   {Number}   newValue    the new value
-         */
-        set lightness(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = this.owner;
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.lightness) {
-                    if (newValue < 0) {
-                        newValue = 0;
-                    }
-                    if (newValue > 100) {
-                        newValue = 100;
-                    }
-                    priv.lightness = newValue;
-                    if (!priv.updating) {
-                        this.HSLtoRGB();
-                    }
-                    this.propertyChanged('lightness');
-                    if (owner && !owner.loading) {
-                        owner.update();
-                    }
-                }
-            }
-        }
-        get owner() {
-            return internal(this).owner;
-        }
-        set owner(newValue) {
-            internal(this).owner = newValue;
-        }
-        get updating() {
-            return internal(this).updating;
-        }
-        set updating(newValue) {
-            internal(this).updating = newValue;
-        }
-        //#endregion
         //#region Setter
         /**
          * Set the HSV of the color
@@ -338,16 +258,12 @@ const Color = (function () {
             const priv = internal(this);
             const owner = this.owner;
             //#endregion Variables déclaration
-            if (Tools.isNumber(hue) && Tools.isNumber(saturation) && Tools.isNumber(value)) {
+            if (core.tools.isNumber(hue) && core.tools.isNumber(saturation) && core.tools.isNumber(value)) {
                 priv.hue = hue;
                 priv.saturation = saturation;
                 priv.value = value;
-                if (!this.updating) {
-                    this.HSVtoRGB();
-                }
-                if (owner && !owner.loading) {
-                    owner.update();
-                }
+                !this.updating ? this.HSVtoRGB() : 1;
+                owner && !owner.loading ? owner.update() : 1;
             }
         }
         /**
@@ -361,19 +277,14 @@ const Color = (function () {
             const priv = internal(this);
             const owner = this.owner;
             //#endregion Variables déclaration
-            if (Tools.isNumber(hue) && Tools.isNumber(saturation) && Tools.isNumber(lightness)) {
+            if (core.tools.isNumber(hue) && core.tools.isNumber(saturation) && core.tools.isNumber(lightness)) {
                 priv.hue = hue;
                 priv.saturation = saturation;
                 priv.lightness = lightness;
-                if (!this.updating) {
-                    this.HSLtoRGB();
-                }
-                if (owner && !owner.loading) {
-                    owner.update();
-                }
+                !this.updating ? this.HSLtoRGB() : 1;
+                owner && !owner.loading ? owner.update() : 1;
             }
         }
-
         //#region Statics
         /**
          * Create a new color from RGBA values
@@ -536,18 +447,14 @@ const Color = (function () {
             if (strColor == undefined) {
                 return strColor;
             }
-            if (!Tools.isString(strColor)) {
-                strColor = String.EMPTY;
-            }
+            !core.tools.isString(strColor) ? strColor = String.EMPTY : 1;
             if (strColor === String.EMPTY) {
                 return Colors.TRANSPARENT;
             }
             let result = new Color;
             result.beginUpdate();
             if (strColor.indexOf('#') === -1 && strColor.indexOf('rgb') === -1) {
-                if (Colors[strColor.toUpperCase()]) {
-                    result = Colors[strColor.toUpperCase()];
-                }
+                Colors[strColor.toUpperCase()] ? result = Colors[strColor.toUpperCase()] : 1;
             } else {
                 strColor = strColor.replace('#', String.EMPTY);
                 // search through the definitions to find a match
@@ -581,28 +488,13 @@ const Color = (function () {
             const hsl = c.RGB2HSL();
             const result = new Color;
             //#endregion Variables déclaration
-            if (Tools.isNumber(h) && Tools.isNumber(s) && Tools.isNumber(l)) {
+            if (core.tools.isNumber(h) && core.tools.isNumber(s) && core.tools.isNumber(l)) {
                 hsl.h = hsl.h + h;
-                if (hsl.h < 0) {
-                    hsl.h = 0;
-                }
-                if (hsl.h > 1) {
-                    hsl.h = 1;
-                }
+                hsl.h = Math.max(Math.min(hsl.h, 1), 0);
                 hsl.s = hsl.s + s;
-                if (s < 0) {
-                    hsl.s = 0;
-                }
-                if (s > 1) {
-                    hsl.s = 1;
-                }
+                hsl.s = Math.max(Math.min(hsl.s, 1), 0);
                 hsl.l = hsl.l + l;
-                if (hsl.l < 0) {
-                    hsl.l = 0;
-                }
-                if (hsl.l > 1) {
-                    hsl.l = 1;
-                }
+                hsl.l = Math.max(Math.min(hsl.l, 1), 0);
                 result.beginUpdate();
                 result.HSLRGB(hsl.h, hsl.s, hsl.l);
                 result.alpha = a;
@@ -619,10 +511,8 @@ const Color = (function () {
         static getColorName(color) {
             const colors = Object.keys(this);
             const name = colors.find(c => {
-                if (this[c] instanceof Color) {
-                    if (this[c].equals(color)) {
-                        return c.firstCharUpper();
-                    }
+                if (this[c] instanceof Color && this[c].equals(color)) {
+                    return c.firstCharUpper();
                 }
             });
             return name ? name : color.toRGBHexString();
@@ -704,7 +594,8 @@ const Color = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            return (Convert.dec2Hex(priv.blue).padStart(2, '0') + Convert.dec2Hex(priv.green).padStart(2, '0') + Convert.dec2Hex(priv.red).padStart(2, '0')).toUpperCase(); }
+            return (Convert.dec2Hex(priv.blue).padStart(2, '0') + Convert.dec2Hex(priv.green).padStart(2, '0') + Convert.dec2Hex(priv.red).padStart(2, '0')).toUpperCase();
+        }
         /**
          * Return the int string format of the color instance
          * @returns     {String}        the string
@@ -797,15 +688,13 @@ const Color = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(opacity)) {
-                if (opacity < 1) {
-                    priv.alpha = priv.alpha * 0xFF * opacity / 0xFF;
-                }
-                if (priv.alpha > 1) {
-                    priv.alpha = 1;
-                } else if (priv.alpha < 0) {
-                    priv.alpha = 0;
-                }
+            if (core.tools.isNumber(opacity)) {
+                opacity < 1 ? priv.alpha = priv.alpha * 0xFF * opacity / 0xFF : 1;
+                priv.alpha > 1
+                    ? priv.alpha = 1
+                        ? priv.alpha < 0
+                        : priv.alpha = 0
+                    : 1;
                 return this;
             }
             return this;
@@ -846,9 +735,7 @@ const Color = (function () {
                 priv.saturation = source.saturation;
                 priv.value = source.value;
                 priv.lightness = source.lightness;
-                if (owner && !owner.loading) {
-                    owner.update();
-                }
+                owner && !owner.loading ? owner.update() : 1;
             }
         }
         /**
@@ -949,23 +836,13 @@ const Color = (function () {
             let saturation = 0;
             //#endregion Variables déclaration
             if (delta) {
-                if (cMax === red) {
-                    hue = green - blue / delta;
-                }
-                if (cMax === green) {
-                    hue = 2 + blue - red / delta;
-                }
-                if (cMax === blue) {
-                    hue = 4 + red - green / delta;
-                }
-                if (cMax) {
-                    saturation = delta / cMax;
-                }
+                cMax === red ? hue = green - blue / delta : 1;
+                cMax === green ? hue = 2 + blue - red / delta : 1;
+                cMax === blue ? hue = 4 + red - green / delta : 1;
+                cMax ? saturation = delta / cMax : 1;
             }
             hue = priv.hue = 60 * hue | 0;
-            if (hue < 0) {
-                priv.hue += 360;
-            }
+            hue < 0 ? priv.hue += 360 : 1;
             priv.saturation = saturation * 100 | 0;
             priv.value = cMax * 100 | 0;
         }
@@ -987,23 +864,13 @@ const Color = (function () {
             const x = 1 - Math.abs(2 * lightness - 1);
             //#endregion Variables déclaration
             if (delta) {
-                if (cMax === red) {
-                    hue = green - blue / delta;
-                }
-                if (cMax === green) {
-                    hue = 2 + blue - red / delta;
-                }
-                if (cMax === blue) {
-                    hue = 4 + red - green / delta;
-                }
-                if (cMax) {
-                    saturation = delta / x;
-                }
+                cMax === red ? hue = green - blue / delta : 1;
+                cMax === green ? hue = 2 + blue - red / delta : 1;
+                cMax === blue ? hue = 4 + red - green / delta : 1;
+                cMax ? saturation = delta / x : 1;
             }
             hue = priv.hue = 60 * hue | 0;
-            if (hue < 0) {
-                priv.hue += 360;
-            }
+            hue < 0 ? priv.hue += 360 : 1;
             priv.saturation = saturation * 100 | 0;
             priv.lightness = lightness * 100 | 0;
         }
@@ -1015,46 +882,42 @@ const Color = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (0.3 * priv.red + 0.59 * priv.green + 0.11 * priv.blue <= 128) {
-                return '#FFF';
-            } else {
-                return '#000';
-            }
+            return 0.3 * priv.red + 0.59 * priv.green + 0.11 * priv.blue <= 128?'#FFF':'#000';
         }
+        //#region destroy
+        destroy() {
+            priv.red = null;
+            priv.green = null;
+            priv.blue = null;
+            priv.alpha = null;
+            priv.hue = null;
+            priv.saturation = null;
+            priv.value = null;
+            priv.lightness = null;
+            priv.updating = null;
+            priv.owner = null;
+            delete this.red;
+            delete this.green;
+            delete this.blue;
+            delete this.alpha;
+            delete this.hue;
+            delete this.saturation;
+            delete this.value;
+            delete this.lightness;
+            delete this.owner;
+            delete this.updating;
+            super.destroy();
+        }
+        //#endregion destroy
         //#endregion
     }
-    Object.defineProperties(Color, {
-        'red': {
-            enumerable: !0
-        },
-        'green': {
-            enumerable: !0
-        },
-        'blue': {
-            enumerable: !0
-        },
-        'alpha': {
-            enumerable: !0
-        },
-        'hue': {
-            enumerable: !0
-        },
-        'saturation': {
-            enumerable: !0
-        },
-        'value': {
-            enumerable: !0
-        },
-        'lightness': {
-            enumerable: !0
-        }
-    });
     return Color;
+    //#region Color
 })();
-
-//#endregion
+core.classes.register(core.types.CATEGORIES.COLOR, Color);
+//#region Color
 //#region Colors
-const Colors = Object.freeze({
+const Colors = Object.freeze(Object.seal({
     /**
      * @return  {Color}    the ALICEBLUE color
      */
@@ -1647,8 +1510,7 @@ const Colors = Object.freeze({
      * @return  {Color}    the YELLOWGREEN color
      */
     get YELLOWGREEN() { return Color.createFromRGBA(154, 205, 50, 1); }
-});
-//#endregion
-Core.Colors = Colors;
-Core.classes.register(Types.CATEGORIES.COLOR, Color);
+}));
+core.Colors = Colors;
+//#endregion Colors
 export { Color, Colors };

@@ -1,8 +1,3 @@
-//#region import
-//import { ToolBar } from '/scripts/components/toolbars/toolbar.js';
-//import { Component } from '/scripts/core/component.js';
-//import { Window } from '/scripts/components/containers/window.js';
-//#endregion import
 //#region Classes
 class Classes {
     //#region nameSpace
@@ -15,7 +10,8 @@ class Classes {
         //#region Variables déclaration
         const category = arguments[0];
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(category, core.types.CATEGORIES) || core.tools.valueInSet(category, core.types.INTERNALCATEGORIES)) {
+        if (core.tools.valueInSet(category, core.types.CATEGORIES) ||
+            core.tools.valueInSet(category, core.types.INTERNALCATEGORIES)) {
             !core.classes[category] ? core.classes.nameSpace(category) : 1;
             Array.from(arguments).forEach((arg, i) => {
                 if (i > 0) {
@@ -45,8 +41,8 @@ class Classes {
         //#endregion Variables déclaration
         propertiesCategories[category] && Array.isArray(properties) ?
             properties.forEach(prop => {
-                propertiesCategories[category].properties.push(prop);
-            }) : propertiesCategories[category].properties.push(properties);
+                propertiesCategories[category].properties = [...propertiesCategories[category].properties, prop];
+            }) : propertiesCategories[category].properties = [...propertiesCategories[category].properties, properties];
     }
     //#endregion registerPropertiesInCategory
     //#region getPropertyCategories
@@ -57,9 +53,10 @@ class Classes {
         const keys = Object.keys(propertiesCategories);
         //#endregion Variables déclaration
         keys.forEach(key => {
-            propertiesCategories[key].properties.indexOf(prop) > -1 ? cat.push(propertiesCategories[key].properties) : 1;
+            propertiesCategories[key].properties.indexOf(prop) > -1
+                ? cat = [...cat, propertiesCategories[key].properties] : 1;
         });
-        cat.push(propertiesCategories.MISCELLANEOUS);
+        cat = [...cat, propertiesCategories.MISCELLANEOUS];
         return cat;
     }
     //#endregion getPropertyCategories
@@ -86,9 +83,11 @@ class Classes {
         //#endregion Variables déclaration
         if (this.checkClassAndOwnerClass(params.class, params.owner)) {
             !params.name ? params.name = String.EMPTY : 1;
-            if (params.name !== String.EMPTY) {
-                params.props ? params.props.name = params.name : params.props = { name: params.name };
-            }
+            params.name !== String.EMPTY
+                ? params.props
+                    ? params.props.name = params.name
+                    : params.props = { name: params.name }
+                : 1;
             obj = new params.class(params.owner, params.props);
             if (obj instanceof core.classes.Component) {
                 !core.tools.isBool(params.withTpl) && !params.withTpl ? params.withTpl = !0 : 1;
@@ -126,7 +125,7 @@ class Classes {
         let result = !0;
         //#endregion Variables déclaration
         if (core.classes.ToolBar) {
-            ['ToolButtonSep', 'ToolButton', 'ToolButtonSepSplit'].indexOf(Class.name) > -1 && 
+            ['ToolButtonSep', 'ToolButton', 'ToolButtonSepSplit'].indexOf(Class.name) > -1 &&
                 !(owner instanceof core.classes.ToolBar) ? result = !1 : 1;
         }
         return result;
@@ -136,7 +135,7 @@ class Classes {
     static newCollection(obj, owner, itemsClass, propName) {
         !propName ? propName = 'items' : 1;
         Object.defineProperty(obj, propName, {
-            enumerable: !1,
+            enumerable: !0,
             configurable: !0,
             value: []
         });

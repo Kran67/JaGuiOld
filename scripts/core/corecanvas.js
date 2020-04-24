@@ -48,7 +48,7 @@ const PerfGraph = class PerfGraph {
         let str = null;
         let i = 0;
         const fontName = 'serif';
-        const ctx = Core.perfCanvas.getContext('2d');
+        const ctx = core.perfCanvas.getContext('2d');
         const avg = this.getGraphAverage();
         const w = ctx.canvas.width;
         const h = ctx.canvas.height;
@@ -70,9 +70,7 @@ const PerfGraph = class PerfGraph {
                     let v = 1.0 / (0.00001 + this.values[(this.head + i) % GRAPH_HISTORY_COUNT]);
                     let vx = null;
                     let vy = null;
-                    if (v > 80.0) {
-                        v = 80.0;
-                    }
+                    v > 80.0 ? v = 80.0 : 1;
                     vx = x + (i / (GRAPH_HISTORY_COUNT - 1)) * w;
                     vy = y + h - ((v / 80.0) * h);
                     ctx.lineTo(vx, vy);
@@ -83,9 +81,7 @@ const PerfGraph = class PerfGraph {
                     let v = this.values[(this.head + i) % GRAPH_HISTORY_COUNT] * 1.0;
                     let vx = null;
                     let vy = null;
-                    if (v > 100.0) {
-                        v = 100.0;
-                    }
+                    v > 100.0 ? v = 100.0 : 1;
                     vx = x + (i / (GRAPH_HISTORY_COUNT - 1)) * w;
                     vy = y + h - ((v / 100.0) * h);
                     ctx.lineTo(vx, vy);
@@ -96,9 +92,7 @@ const PerfGraph = class PerfGraph {
                     let v = this.values[(this.head + i) % GRAPH_HISTORY_COUNT] * 1000.0;
                     let vx = null;
                     let vy = null;
-                    if (v > 20.0) {
-                        v = 20.0;
-                    }
+                    v > 20.0 ? v = 20.0 : 1;
                     vx = x + (i / (GRAPH_HISTORY_COUNT - 1)) * w;
                     vy = y + h - ((v / 20.0) * h);
                     ctx.lineTo(vx, vy);
@@ -152,7 +146,7 @@ const PerfGraph = class PerfGraph {
 };
 //#endregion PerfGraph
 //#region initCanvas
-Core.initCanvas = function () {
+core.initCanvas = function () {
     //#region Variables déclaration
     const canvas = document.createElement('canvas');
     const buffer = document.createElement('canvas');
@@ -192,7 +186,7 @@ Core.initCanvas = function () {
 
         buffer.width = canvas.width = window.innerWidth;
         buffer.height = canvas.height = window.innerHeight;
-        window.addEventListener('resize', (event) => {
+        window.addEventListener('resize', () => {
             buffer.width = canvas.width = window.innerWidth;
             buffer.height = canvas.height = window.innerHeight;
         });
@@ -219,53 +213,51 @@ Core.initCanvas = function () {
         }
     ]);
     const _fini = () => {
-        Core.ctx = null;
+        core.ctx = null;
     };
     if (isCoreReady) {
         //window.requestAnimationFrame(_tick);
-        Core.looper.addListener(Core, '_tick');
+        core.looper.addListener(Core, '_tick');
     }
 };
 //#endregion initCanvas
 //#region _tick
-Core._tick = (time) => {
+core._tick = (time) => {
     //#region Variables déclaration
-    const ctx = Core.ctx;
+    const ctx = core.ctx;
     //#endregion Variables déclaration
     if (!ctx) {
         throw new Error();
     }
-    if (!Core.vars) {
-        Core.vars = {};
-    }
-    Core.fps.updateGraph(time / 1000);
+    !core.vars ? core.vars = {} : 1;
+    core.fps.updateGraph(time / 1000);
     // Update and render
-    if (Core.canvas.needRedraw && !Core.canvas.busy) {
-        Core.canvas.busy = !0;
-        Core.canvas.needRedraw = !1;
-        Core.ctxC.clear();
+    if (core.canvas.needRedraw && !core.canvas.busy) {
+        core.canvas.busy = !0;
+        core.canvas.needRedraw = !1;
+        core.ctxC.clear();
         ctx.clear();
-        Core.apps.renderApplications();
-        Core.ctxC.drawImage(Core.buffer, 0, 0);
-        Core.canvas.busy = !1;
+        core.apps.renderApplications();
+        core.ctxC.drawImage(core.buffer, 0, 0);
+        core.canvas.busy = !1;
     }
-    Core.fps.renderGraph(0, 0);
+    core.fps.renderGraph(0, 0);
     //if (isCoreReady) {
     //    window.requestAnimationFrame(_tick);
     //}
 };
 //#endregion _tick
 //#region loadFonts
-Core.loadFonts = (path, fonts, callback) => {
+core.loadFonts = (path, fonts, callback) => {
     fonts.forEach(font => {
-        if (!Core.checkFontAvailable(font.alias)) {
-            if (!Core.themes.fonts[font.alias]) {
+        if (!core.checkFontAvailable(font.alias)) {
+            if (!core.themes.fonts[font.alias]) {
                 const fontFace = new FontFace(font.alias, `url(${path}/${font.file})`);
                 fontFace.load().then((loaded_face) => {
                     // use font here
                     document.fonts.add(loaded_face);
-                    Core.themes.fonts[font.alias] = loaded_face;
-                    if (callback && Tools.isFunc(callback)) {
+                    core.themes.fonts[font.alias] = loaded_face;
+                    if (callback && core.tools.isFunc(callback)) {
                         callback();
                     }
                 }).catch((error) => {
@@ -273,23 +265,19 @@ Core.loadFonts = (path, fonts, callback) => {
                 });
             }
         } else {
-            Core.themes.fonts[font.alias] = { status: 'loaded' };
-            if (callback && Tools.isFunc(callback)) {
-                callback();
-            }
+            core.themes.fonts[font.alias] = { status: 'loaded' };
+            callback && core.tools.isFunc(callback) ? callback() : 1;
         }
     });
 };
 //#endregion loadFonts
 //#region loadImages
-Core.loadImages = (path, images) => {
-    //#region Variables déclaration
-    //#endregion Variables déclaration
+core.loadImages = (path, images) => {
     images.forEach(image => {
         const imgName = image.split('.')[0];
         const img = new Image();
-        Core.themes.images[imgName] = img;
-        img.onerror = function () {
+        core.themes.images[imgName] = img;
+        img.onerror = () => {
             console.log(`Could not load ${image}.`);
         };
         img.src = `${path}${image}`;
@@ -297,7 +285,7 @@ Core.loadImages = (path, images) => {
 };
 //#endregion loadImages
 //#region deleteImages
-Core.deleteImages = (theme) => {
+core.deleteImages = (theme) => {
     //#region Variables déclaration
     const keys = Object.keys(theme.images);
     //#endregion Variables déclaration
@@ -308,18 +296,18 @@ Core.deleteImages = (theme) => {
     });
 };
 //#endregion deleteImages
-Object.defineProperty(Core, 'showFPS', {
+Object.defineProperty(core, 'showFPS', {
     get: function () {
         return this.fps.show;
     },
     set: function (newValue) {
-        if (Tools.isBool(newValue)) {
+        if (core.tools.isBool(newValue)) {
             this.fps.show = newValue;
         }
     }
 
 });
-Core.checkFontAvailable = (font) => {
+core.checkFontAvailable = (font) => {
     if (font && font !== '______NONE______') {
         const context = document.createElement('canvas').getContext('2d');
         context.font = `200px ______NONE______`;
@@ -329,11 +317,11 @@ Core.checkFontAvailable = (font) => {
     }
     return !1;
 };
-Core.internalMouseEvent = function (mouseEventArg) {
+core.internalMouseEvent = function (mouseEventArg) {
     const filterControls = (ctrl) => {
-        if (ctrl.isVisible && ctrl instanceof Core.classes.Control && ctrl.hitTest.has(mouseEventArg.type)) {
+        if (ctrl.isVisible && ctrl instanceof core.classes.Control && ctrl.hitTest.has(mouseEventArg.type)) {
             const bcr = ctrl.boundingClientRect;
-            if (Core.mouse.document.inRect(bcr)) {
+            if (core.mouse.document.inRect(bcr)) {
                 return ctrl;
             }
         }
@@ -343,14 +331,12 @@ Core.internalMouseEvent = function (mouseEventArg) {
             return win;
         }
     };
-    const activeApp = Core.apps.activeApplication;
+    const activeApp = core.apps.activeApplication;
     let activeWin = activeApp.activeWindow;
-    const mouseMove = Types.HTMLEVENTS.MOUSEMOVE;
-    if (mouseEventArg) {
-        Core.mouse.getMouseInfos(mouseEventArg);
-    }
+    const mouseMove = core.types.HTMLEVENTS.MOUSEMOVE;
+    mouseEventArg ? core.mouse.getMouseInfos(mouseEventArg) : 1;
     if (!activeWin) {
-        if (Core.mouse.button !== Core.mouse.MOUSEBUTTONS.NONE) {
+        if (core.mouse.button !== core.mouse.MOUSEBUTTONS.NONE) {
             activeApp.activeWindow = activeApp.lastActiveWindow.length ? activeApp.lastActiveWindow.last : activeApp.windows.first;
         } else {
             return;
@@ -358,29 +344,25 @@ Core.internalMouseEvent = function (mouseEventArg) {
     }
     activeWin = activeApp.activeWindow;
     const bcr = activeWin.boundingClientRect;
-    if (Core.mouse.document.inRect(bcr)) {
+    if (core.mouse.document.inRect(bcr)) {
         const ctrls = activeWin.allControls.filterBy(filterControls, activeApp);
         if (ctrls.length > 0) {
             const ctrl = ctrls.slice().reverse().first;
-            if (Core.mouse.event.type === mouseMove && Core.previousHoveredControl !== ctrl) {
-                if (Core.previousHoveredControl) {
-                    Core.previousHoveredControl.mouseLeave();
-                }
+            if (core.mouse.event.type === mouseMove && core.previousHoveredControl !== ctrl) {
+                core.previousHoveredControl ? core.previousHoveredControl.mouseLeave() : 1;
                 ctrl.mouseEnter();
             }
             ctrl.dispatchEvent(mouseEventArg);
-            Core.previousHoveredControl = ctrl;
+            core.previousHoveredControl = ctrl;
         } else if (activeWin.visible) {
-            if (Core.previousHoveredControl) {
-                Core.previousHoveredControl.mouseLeave();
-            }
+            core.previousHoveredControl ? core.previousHoveredControl.mouseLeave() : 1;
             activeWin.dispatchEvent(mouseEventArg);
-            Core.previousHoveredControl = activeWin;
+            core.previousHoveredControl = activeWin;
         }
     } else {
-        if (Core.previousHoveredControl) {
-            Core.previousHoveredControl.mouseLeave();
-            Core.previousHoveredControl = null;
+        if (core.previousHoveredControl) {
+            core.previousHoveredControl.mouseLeave();
+            core.previousHoveredControl = null;
         }
         // on est pas dans la fenêtre active, on va chercher dans les autres fenêtres affichées
         if (activeApp.windows.length > 1 && !activeWin.isModal) {
@@ -390,13 +372,13 @@ Core.internalMouseEvent = function (mouseEventArg) {
             }
         } else {
             // on à rien trouvé dans les autres fenêtres affichées, on va chercher dans les autres applications
-            const appsKey = Object.keys(Core.apps.applications);
+            const appsKey = Object.keys(core.apps.applications);
             appsKey.forEach(app => {
-                if (app !== Core.apps.activeApplication.name) {
+                if (app !== core.apps.activeApplication.name) {
                     // TODO
                 }
             });
         }
     }
 };
-Core.onStart = Core.initCanvas;
+core.onStart = core.initCanvas;

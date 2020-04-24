@@ -4,7 +4,6 @@ import { Rect, Point, Vector, Matrix } from '/scripts/core/geometry.js';
 //import { Browser } from './browser.js';
 import { Color } from '/scripts/core/color.js';
 import { Text } from '/scripts/core/text.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region Convert
 class Convert {
@@ -27,10 +26,9 @@ class Convert {
      * @returns     {String}        the result
      */
     static rect2Str(r) {
-        if (r instanceof Rect) {
-            return `left:${r.left} top:${r.top} right:${r.right} bottom:${r.bottom} width:${r.width} height:${r.height}`;
-        }
-        return String.EMPTY;
+        return r instanceof Rect
+            ? `left:${r.left} top:${r.top} right:${r.right} bottom:${r.bottom} width:${r.width} height:${r.height}`
+            : String.EMPTY;
     }
     /**
      * Convert a string to a rect
@@ -38,7 +36,7 @@ class Convert {
      * @returns     {Rect}          the new rect instance from the string
      */
     static str2Rect(s) {
-        if (Tools.isString(s) && s.indexOf(',') > -1) {
+        if (core.tools.isString(s) && s.indexOf(',') > -1) {
             const a = s.split(',');
             const l = a[0] * 1;
             const t = a[1] * 1;
@@ -55,13 +53,13 @@ class Convert {
      * @returns     {Bounds}        the new bounds instance
      */
     static str2Bound(s, o) {
-        if (Tools.isString(s) && s.indexOf(',') > -1) {
+        if (core.tools.isString(s) && s.indexOf(',') > -1) {
             const a = s.split(',');
             const l = a[0] * 1;
             const t = a[1] * 1;
             const r = a[2] * 1;
             const b = a[3] * 1;
-            return new Core.classes.Bounds(new Rect(l, t, r, b), o);
+            return new core.classes.Bounds(new Rect(l, t, r, b), o);
         }
         return null;
     }
@@ -71,10 +69,7 @@ class Convert {
      * @returns     {String}        the result
      */
     static point2Str(p) {
-        if (p instanceof Point) {
-            return `X:${p.x} Y:${p.y}`;
-        }
-        return String.EMPTY;
+        return p instanceof Point ? `X:${p.x} Y:${p.y}` : String.EMPTY;
     }
     /**
      * Convert a string to a point
@@ -82,7 +77,7 @@ class Convert {
      * @returns     {Point}         the new point instance
      */
     static str2Point(s) {
-        if (Tools.isString(s) && s.indexOf(',') > -1) {
+        if (core.tools.isString(s) && s.indexOf(',') > -1) {
             const a = s.split(',');
             const x = a[0] * 1;
             const y = a[1] * 1;
@@ -96,10 +91,7 @@ class Convert {
      * @returns     {String}        the result
      */
     static vector2Str(a) {
-        if (a instanceof Vector) {
-            return `X:${a.x} Y:${a.y} Z:${a.z}`;
-        }
-        return String.EMPTY;
+        return a instanceof Vector ? `X:${a.x} Y:${a.y} Z:${a.z}` : String.EMPTY;
     }
     /**
      * Convert a matrix to a string
@@ -107,12 +99,11 @@ class Convert {
      * @returns     {String}        the result
      */
     static matrix2Str(a) {
-        if (a instanceof Matrix) {
-            return `m11:${a.m11} m12:${a.m12} m13:${a.m13}\n
+        return a instanceof Matrix
+            ? `m11:${a.m11} m12:${a.m12} m13:${a.m13}\n
                 m21:${a.m21} m22:${a.m22} m23:${a.m23}\n
-                m31:${a.m31} m32:${a.m32} m33:${a.m33}`;
-        }
-        return String.EMPTY;
+                m31:${a.m31} m32:${a.m32} m33:${a.m33}`
+            : String.EMPTY;
     }
     /**
      * Convert a integer number to a string
@@ -120,10 +111,7 @@ class Convert {
      * @returns     {String}        the result
      */
     static intToStr(a) {
-        if (Tools.isNumber(a)) {
-            return String(~~a);
-        }
-        return String.EMPTY;
+        return core.tools.isNumber(a) ? String(~~a) : String.EMPTY;
     }
     /**
      * Convert a float number to a string
@@ -131,10 +119,7 @@ class Convert {
      * @returns     {String}        the result
      */
     static floatToStr(a) {
-        if (Tools.isNumber(a)) {
-            return String(a);
-        }
-        return String.EMPTY;
+        return core.tools.isNumber(a) ? String(a) : String.EMPTY;
     }
     /**
      * Convert a float number to a string
@@ -142,10 +127,7 @@ class Convert {
      * @returns     {Integer}        the result
      */
     static floatToInt(a) {
-        if (Tools.isNumber(a)) {
-            return ~~a;
-        }
-        return 0;
+        return core.tools.isNumber(a) ? ~~a : 0;
     }
     /**
      * Convert a boolean to a string
@@ -153,14 +135,11 @@ class Convert {
      * @returns     {String}        the result
      */
     static boolToStr(a) {
-        if (Tools.isBool(a)) {
-            if (a) {
-                return 'true';
-            } else {
-                return 'false';
-            }
-        }
-        return 'false';
+        return core.tools.isBool(a)
+            ? a
+                ? 'true'
+                : 'false'
+            : 'false';
     }
     /**
      * Convert a string to a integer
@@ -176,8 +155,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static strToFloat(a) {
-        a = a * 1;
-        return a;
+        return a * 1;
     }
     /**
      * Convert a string to a boolean
@@ -185,14 +163,12 @@ class Convert {
      * @returns     {Boolean}       the result
      */
     static strToBool(a) {
-        if (Tools.isString(a) && (a.toLowerCase() === 'true' || a.toLowerCase() === 'false')) {
-            if (a.toLowerCase() === 'true') {
-                return !0;
-            } else if (a.toLowerCase() === 'false') {
-                return !1;
-            } else {
-                return !1;
-            }
+        if (core.tools.isString(a) && (a.toLowerCase() === 'true' || a.toLowerCase() === 'false')) {
+            return a.toLowerCase() === 'true'
+                ? !0
+                    ? a.toLowerCase() === 'false'
+                    : !1
+                : !1;
         }
         return !1;
     }
@@ -202,12 +178,8 @@ class Convert {
      * @returns     {Boolean}       the result
      */
     static intToBool(a) {
-        if (Tools.isNumber(a)) {
-            a = a | 0;
-        }
-        if (a > 1) {
-            a = 1;
-        }
+        core.tools.isNumber(a) ? a = a | 0 : 1;
+        a = Math.min(a, 1);
         return a === 1;
     }
     /**
@@ -216,11 +188,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static deg2Rad(a) {
-        if (Tools.isNumber(a)) {
-            return a * Math.PI / 180;
-        } else {
-            return a;
-        }
+        return core.tools.isNumber(a) ? a * Math.PI / 180 : a;
     }
     /**
      * Convert a radian to a degres
@@ -228,11 +196,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static rad2Deg(a) {
-        if (Tools.isNumber(a)) {
-            return a * 180 / Math.PI;
-        } else {
-            return a;
-        }
+        return core.tools.isNumber(a) ? a * 180 / Math.PI : a;
     }
     /**
      * Convert a decimal to a binary
@@ -240,8 +204,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static dec2Bin(a) {
-        a = ~~a;
-        return a.toString(2);
+        return ~~a.toString(2);
     }
     /**
      * Convert a decimal to an hexadecimal
@@ -249,8 +212,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static dec2Hex(a) {
-        a = ~~a;
-        return a.toString(16);
+        return ~~a.toString(16);
     }
     /**
      * Convert a decimal to an octal
@@ -258,8 +220,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static dec2Oct(a) {
-        a = ~~a;
-        return a.toString(8);
+        return ~~a.toString(8);
     }
     /**
      * Convert a binary to an hexadecimal
@@ -267,10 +228,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static bin2Hex(a) {
-        if (Tools.isString(a)) {
-            return _conv.dec2Hex(parseInt(a, 2));
-        }
-        return String.EMPTY;
+        return core.tools.isString(a) ? dec2Hex(parseInt(a, 2)) : String.EMPTY;
     }
     /**
      * Convert a binary to a decimal
@@ -278,10 +236,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static bin2Dec(a) {
-        if (Tools.isString(a)) {
-            return parseInt(a, 2);
-        }
-        return String.EMPTY;
+        return core.tools.isString(a) ? parseInt(a, 2) : String.EMPTY;
     }
     /**
      * Convert a binary to an octal
@@ -289,10 +244,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static bin2Oct(a) {
-        if (Tools.isString(a)) {
-            return parseInt(a, 2).toString(8);
-        }
-        return String.EMPTY;
+        return core.tools.isString(a) ? parseInt(a, 2).toString(8) : String.EMPTY;
     }
     /**
      * Convert an hexadecimal to a binary
@@ -300,10 +252,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static hex2Bin(a) {
-        if (Tools.isString(a)) {
-            return parseInt(a, 16).toString(2);
-        }
-        return String.EMPTY;
+        return core.tools.isString(a) ? parseInt(a, 16).toString(2) : String.EMPTY;
     }
     /**
      * Convert an hexadecimal to a decimal
@@ -311,10 +260,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static hex2Dec(a) {
-        if (Tools.isString(a)) {
-            return parseInt(a, 16);
-        }
-        return String.EMPTY;
+        return core.tools.isString(a) ? parseInt(a, 16) : String.EMPTY;
     }
     /**
      * Convert an hexadecimal to an octal
@@ -322,10 +268,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static hex2Oct(a) {
-        if (Tools.isString(a)) {
-            return parseInt(a, 16).toString(8);
-        }
-        return String.EMPTY;
+        return core.tools.isString(a) ? parseInt(a, 16).toString(8) : String.EMPTY;
     }
     /**
      * Convert an octal to a decimal
@@ -333,10 +276,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static oct2Dec(a) {
-        if (Tools.isString(a)) {
-            return parseInt(a.toString(), 8);
-        }
-        return String.EMPTY;
+        return core.tools.isString(a) ? parseInt(a.toString(), 8) : String.EMPTY;
     }
     /**
      * Convert an octal to a binary
@@ -344,10 +284,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static oct2Bin(a) {
-        if (Tools.isString(a)) {
-            return parseInt(a.toString(), 8).toString(2);
-        }
-        return String.EMPTY;
+        return core.tools.isString(a) ? parseInt(a.toString(), 8).toString(2) : String.EMPTY;
     }
     /**
      * Convert an octal to an hexadecimal
@@ -355,10 +292,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static oct2Hex(a) {
-        if (Tools.isString(a)) {
-            return parseInt(a.toString(), 8).toString(16);
-        }
-        return String.EMPTY;
+        return core.tools.isString(a) ? parseInt(a.toString(), 8).toString(16) : String.EMPTY;
     }
     /**
      * Convert a number to a byte
@@ -405,15 +339,9 @@ class Convert {
      */
     static cssUnit(params/*value, from, to, base, dpi, decimals*/) {
         //1em == 16px == 0.17in == 12pt == 1pc == 4.2mm == 0.42cm
-        if (Tools.isNumber(params.value)) {
-            params.value = 1;
-        }
-        if (isNaN(params.params.base)) {
-            params.base = 10;
-        }
-        if (isNaN(params.dpi)) {
-            params.dpi = 72;
-        }
+        core.tools.isNumber(params.value) ? params.value = 1 : 1;
+        isNaN(params.params.base) ? params.base = 10 : 1;
+        isNaN(params.dpi) ? params.dpi = 72 : 1;
         params.decimals = params.decimals | 0;
         const units = `${params.from}-${params.to}`;
         const formulas = {
@@ -508,10 +436,10 @@ class Convert {
      * @returns     {String}        the css property
      */
     static propertyToCssProperty(animationObj, endValue) {
+        //#region Variables déclaration
         let result = String.EMPTY;
-        if (!endValue) {
-            endValue = !1;
-        }
+        //#endregion Variables déclaration
+        !endValue ? endValue = !1 : 1;
         switch (animationObj.propertyName) {
             case 'width':
             case 'height':
@@ -519,16 +447,16 @@ class Convert {
             case 'top':
             case 'right':
             case 'bottom':
-                result = `${Core.browser.getVendorPrefix(animationObj.propertyName)}${animationObj.propertyName}:${(endValue ? animationObj.stopValue : animationObj.startValue)}${Types.CSSUNITS.PX};`;
+                result = `${core.browser.getVendorPrefix(animationObj.propertyName)}${animationObj.propertyName}:${(endValue ? animationObj.stopValue : animationObj.startValue)}${core.types.CSSUNITS.PX};`;
                 break;
             case 'opacity':
-                result = `${Core.browser.getVendorPrefix(animationObj.propertyName)}${animationObj.propertyName}:${(endValue ? animationObj.stopValue : animationObj.startValue)};`;
+                result = `${core.browser.getVendorPrefix(animationObj.propertyName)}${animationObj.propertyName}:${(endValue ? animationObj.stopValue : animationObj.startValue)};`;
                 break;
             case 'rotateAngle':
-                result = `${Core.browser.getVendorPrefix('transform')}transform:rotate(${(endValue ? animationObj.stopValue : animationObj.startValue)}deg);`;
+                result = `${core.browser.getVendorPrefix('transform')}transform:rotate(${(endValue ? animationObj.stopValue : animationObj.startValue)}deg);`;
                 break;
             case 'background.color':
-                result = `${Core.browser.getVendorPrefix('background-color')}background-color:${(endValue ? animationObj.stopValue.toARGBString() : animationObj.startValue.toARGBString())};`;
+                result = `${core.browser.getVendorPrefix('background-color')}background-color:${(endValue ? animationObj.stopValue.toARGBString() : animationObj.startValue.toARGBString())};`;
                 break;
             case 'bitmap':
                 result = `opacity:${(endValue ? 1 : 0)};`;
@@ -581,30 +509,34 @@ class Convert {
      * @returns     {Gradient}      the gradient instance
      */
     static cssGradient2Gradient(cssGradient) {
-        const gradient = new Core.classes.Gradient(window);
-        const PO = Types.CSSUNITS.PO;
+        //#region Variables déclaration
+        const gradient = new core.classes.Gradient(window);
+        const PO = core.types.CSSUNITS.PO;
+        //#endregion Variables déclaration
         if (cssGradient.indexOf('gradient') !== -1) {
             cssGradient = cssGradient.replace('-o-', String.EMPTY);
             cssGradient = cssGradient.replace('-moz-', String.EMPTY);
             cssGradient = cssGradient.replace('-ms-', String.EMPTY);
             cssGradient = cssGradient.replace('-webkit-', String.EMPTY);
             if (cssGradient.indexOf('linear') !== -1) { // linear gradient
-                gradient.style = Types.GRADIENTSTYLES.LINEAR;
+                gradient.style = core.types.GRADIENTSTYLES.LINEAR;
                 cssGradient = cssGradient.replace('linear-gradient(', String.EMPTY);
                 cssGradient = cssGradient.replace('%)', PO);
                 cssGradient = Text.replace(cssGradient, 'transparent', 'rgba(0,0,0,0)');
                 cssGradient = Text.replace(cssGradient, ', rgb', '|rgb');
                 const gradValues = cssGradient.split('|');
-                gradient.startPosition.assign(new Core.classes.Point());
-                if (gradValues[0].indexOf('top') !== -1) {
-                    gradient.stopPosition = new Core.classes.Point(0, 1);
-                } else if (gradValues[0].indexOf('left') !== -1) {
-                    gradient.stopPosition.assign(new Core.classes.Point(1, 0));
-                }
+                gradient.startPosition.assign(new core.classes.Point());
+                gradValues[0].indexOf('top') !== -1
+                    ? gradient.stopPosition = new core.classes.Point(0, 1)
+                        ? gradValues[0].indexOf('left') !== -1
+                        : gradient.stopPosition.assign(new core.classes.Point(1, 0))
+                    : 1;
                 gradient.items.clear();
                 gradValues.forEach(grad => {
-                    const colorOffset = grad.replace(') ', ')|'), color = colorOffset.split('|')[0], offset = +colorOffset.split('|')[1].replace(PO, String.EMPTY);
-                    gradient.items.push(new Core.classes.GradientPoint(offset / 100, Color.parse(color)));
+                    const colorOffset = grad.replace(') ', ')|');
+                    const color = colorOffset.split('|')[0];
+                    const offset = +colorOffset.split('|')[1].replace(PO, String.EMPTY);
+                    gradient.items.push(new core.classes.GradientPoint(offset / 100, Color.parse(color)));
                 });
             }
         }
@@ -616,8 +548,10 @@ class Convert {
      * @returns     {String}        the result
      */
     static sec2min(seconds) {
+        //#region Variables déclaration
         const mins = ~~(seconds % 3600 / 60);
         const secs = seconds % 60;
+        //#endregion Variables déclaration
         return `${mins} minute(s) ${secs} seconde(s)`;
     }
     /**
@@ -626,8 +560,10 @@ class Convert {
      * @returns     {String}        the result
      */
     static sec2hrs(seconds) {
+        //#region Variables déclaration
         const hrs = ~~(seconds / 3600);
         const mins = ~~(seconds % 3600 / 60);
+        //#endregion Variables déclaration
         const secs = seconds % 60;
         return `${hrs} heure(s) ${mins} minute(s) ${secs} seconde(s)`;
     }

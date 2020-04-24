@@ -23,7 +23,6 @@ const CaptionControl = (() => {
         //#region Constructor
         constructor(owner, props) {
             //#region Variables déclaration
-            const CONSTANTS = core.types.CONSTANTS;
             const VERTTEXTALIGNS = core.types.VERTTEXTALIGNS;
             let themeName = null;
             let theme = null;
