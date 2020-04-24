@@ -1,7 +1,6 @@
 ﻿//#region Imports
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Tab } from '/scripts/components/containers/tab.js';
-import { NotifyEvent } from '/scripts/core/events.js';
 //#endregion Imports
 //#region CustomTabControl constants
 //#region TABSTYLES
@@ -82,8 +81,7 @@ const CustomTabControl = (() => {
                             //#region Variables déclaration
                             const priv = internal(this);
                             //#endregion Variables déclaration
-                            newValue instanceof Tab && priv.tabClass !== newValue
-                                ? priv.tabClass = newValue : 1;
+                            newValue instanceof Tab && priv.tabClass !== newValue ? priv.tabClass = newValue : 1;
                         }
                     },
                     'firstVisibleTab': {
@@ -96,8 +94,7 @@ const CustomTabControl = (() => {
                             //#region Variables déclaration
                             const priv = internal(this);
                             //#endregion Variables déclaration
-                            core.tools.isNumber(newValue) && priv.firstVisibleTab !== newValue
-                                ? priv.firstVisibleTab = newValue : 1;
+                            core.tools.isNumber(newValue) && priv.firstVisibleTab !== newValue ? priv.firstVisibleTab = newValue : 1;
                         }
                     },
                     'lastVisibleTab': {
@@ -110,8 +107,7 @@ const CustomTabControl = (() => {
                             //#region Variables déclaration
                             const priv = internal(this);
                             //#endregion Variables déclaration
-                            core.tools.isNumber(newValue) && priv.lastVisibleTab !== newValue
-                                ? priv.lastVisibleTab = newValue : 1;
+                            core.tools.isNumber(newValue) && priv.lastVisibleTab !== newValue ? priv.lastVisibleTab = newValue : 1;
                         }
                     },
                     'activeTab': {
@@ -140,8 +136,7 @@ const CustomTabControl = (() => {
                             //#region Variables déclaration
                             const priv = internal(this);
                             //#endregion Variables déclaration
-                            newValue instanceof core.classes.ImageList && priv.images !== newValue
-                                ? priv.images = newValue : 1;
+                            newValue instanceof core.classes.ImageList && priv.images !== newValue ? priv.images = newValue : 1;
                         }
                     },
                     'canChange': {
@@ -154,8 +149,7 @@ const CustomTabControl = (() => {
                             //#region Variables déclaration
                             const priv = internal(this);
                             //#endregion Variables déclaration
-                            core.tools.isBool(newValue) && priv.canChange !== newValue
-                                ? priv.canChange = newValue : 1;
+                            core.tools.isBool(newValue) && priv.canChange !== newValue ? priv.canChange = newValue : 1;
                         }
                     },
                     'showTabsCloseBtn': {
@@ -187,8 +181,7 @@ const CustomTabControl = (() => {
                             //#region Variables déclaration
                             const priv = internal(this);
                             //#endregion Variables déclaration
-                            index >= 0 && index <= priv.tabs.length - 1
-                                ? priv.tabs[index].show() : 1;
+                            index >= 0 && index <= priv.tabs.length - 1 ? priv.tabs[index].show() : 1;
                         }
                     }
                 });

@@ -582,7 +582,6 @@ const Component = (() => {
             htmlElement ? htmlElement.parentNode.removeChild(htmlElement) : 1;
             owner && !(owner instanceof core.classes.Application) ? owner.remove(this) : 1;
             owners ? owners.destroy() : 1;
-            this.unBindAndDestroyEvents();
             delete this.owner;
             delete this.componentIndex;
             delete this.owners;
