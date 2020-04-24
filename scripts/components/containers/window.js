@@ -253,7 +253,7 @@ const WindowTitleBar = (() => {
             const mouse = Core.mouse;
             const mDocument = mouse.document;
             const form = this.form;
-            const bcr = this.boundingClientRect;
+            const bcr = this.getBoundingClientRect();
             const htmlElement = this.HTMLElement;
             const themeName = this.app.themeManifest.themeName;
             const snapElement = document.getElementById('snapArea');
@@ -514,7 +514,7 @@ const WindowTitleBar = (() => {
         dblClick() {
             //#region Variables déclaration
             const form = this.form;
-            const bcr = this.boundingClientRect;
+            const bcr = this.getBoundingClientRect();
             const mouse = Core.mouse;
             const document = mouse.document;
             //#endregion Variables déclaration
@@ -2249,7 +2249,7 @@ const BaseWindow = (() => {
                     layoutRect.t = ~~parseFloat(cs.marginTop);
                     layoutRect.r = ~~parseFloat(cs.marginRight);
                     layoutRect.b = ~~parseFloat(cs.marginBottom);
-                    cs = isHtmlRenderer ? htmlElement.boundingClientRect : this.boundingClientRect;
+                    cs = isHtmlRenderer ? htmlElement.getBoundingClientRect() : this.getBoundingClientRect();
                     const x = mDocument.x - cs.left;
                     const y = mDocument.y - cs.top;
                     resizeMode.topEdge = y < layoutRect.l;
@@ -2394,7 +2394,7 @@ const BaseWindow = (() => {
             const minHeight = windowTheme && windowTheme.minHeight ? windowTheme.minHeight : Window.MINHEIGHT;
             //#endregion Variables déclaration
             if (priv.isResizing) {
-                const b = (isHtmlRenderer ? htmlElement : this).boundingClientRect;
+                const b = (isHtmlRenderer ? htmlElement : this).getBoundingClientRect();
                 pos.l = isHtmlRenderer ? htmlElement.offsetLeft : this.left;
                 pos.t = isHtmlRenderer ? htmlElement.offsetTop : this.top;
                 const x = Math.min(window.innerWidth, savedSizePosState.x) - b.left;

@@ -10,7 +10,11 @@ window.requestAnimationFrameRate = function (fps) {
     let limit = null;
     let jitter = null;
     const maxFps = 60;
-    fps = typeof fps !== 'number' ? maxFps : Math.max(1, Math.min(maxFps, fps));
+    if (typeof fps !== 'number') {
+        fps = maxFps;
+    } else {
+        fps = Math.max(1, Math.min(maxFps, fps));
+    }
     period = 1000 / fps;
     jitter = period * 0.1;
     limit = period - jitter;
@@ -49,90 +53,102 @@ window.cancelAnimationFrameRate = (handle) => {
 /**
  * The core of JaGui
  */
-class Core {
+window.Core = {
     /**
      * Create a new instance of Core.
      */
-    constructor() {
-        this.name = 'JaGui',
-            this.propertiesCategories = {};
-        this.bindableProperties = [];
-        this.themes = {};
-        this.onGetMouseInfos = null;
-        this.clipboard = null;
-        this.ready = !1;
-        this.onStart = null;
-        this.defaultTheme =
-            //'air';
-            //'blend';
-            'carbon'; /* ok */
-        //'classic10k';
-        //'clearlooksblue';
-        //'corona12';
-        //'cruz';
-        //'deanachm';
-        //'extreme';
-        //'guistyle';
-        //'haiku';
-        //'lunablue';
-        //'lunahomestead';
-        //'lunametallic';
-        //'macos';
-        //'modern';
-        //'prolcd';
-        //'rainbow';
-        //'simple';
-        //'smoothgnome';
-        //'sustenance';
-        //'ubuntu';
-        //'vista';
-        //'watercolor';
-        //'windows8'
-        this.disableAnimation = !1;
-        this.isMouseDown = !1;
-        this.windowZIndex = 0;
-        this.currentLocale = null;
-        this.locales = {
-            translateConstant: (app, key) => {
-                const c = core.locales[app.locale];
-                return c && c.constantMessages[key] ? c.constantMessages[key] : null;
+    name: 'JaGui',
+    propertiesCategories: {},
+    bindableProperties: [],
+    themes: {},
+    onGetMouseInfos: null,
+    doc: document,
+    clipboard: null,
+    ready: !1,
+    onStart: null,
+    //defaultTheme: 'air', /* ok */
+    //defaultTheme: 'blend', /* ok */
+    defaultTheme: 'carbon', /* ok */
+    //defaultTheme: 'classic10k', /* ok */
+    /*defaultTheme: 'clearlooksblue',*/
+    //defaultTheme: 'corona12',
+    //defaultTheme: 'cruz',
+    //defaultTheme: 'deanachm',
+    //defaultTheme: 'extreme', /* ok */
+    //defaultTheme: 'guistyle',
+    //defaultTheme: 'haiku',
+    //defaultTheme: 'lunablue',
+    //defaultTheme: 'lunahomestead',
+    //defaultTheme: 'lunametallic',
+    //defaultTheme: 'macos',
+    //defaultTheme: 'modern', /* ok */
+    //defaultTheme: 'prolcd',
+    //defaultTheme: 'rainbow',
+    //defaultTheme: 'simple', /* ok */
+    //defaultTheme: 'smoothgnome',
+    //defaultTheme: 'sustenance',
+    //defaultTheme: 'ubuntu',
+    //defaultTheme: 'vista',
+    //defaultTheme: 'watercolor',
+    //defaultTheme: 'windows8',
+    disableAnimation: !1,
+    isMouseDown: !1,
+    windowZIndex: 0,
+    currentLocale: null,
+    locales: {
+        translateConstant: (app, key) => {
+            const c = Core.locales[app.locale];
+            if (c) {
+                if (c.constantMessages[key]) {
+                    return c.constantMessages[key];
+                }
             }
-        };
-        this.version = '0.8b';
-        this.rtStyle = null;
-        this.dragWindow = null;
-        this.resizeWindow = null;
-        this.templates = {};
-        this.HTMLParentElement = null;
-        this.previousHoveredControl = null;
-        this.canvas = null;
-    }
+            return null;
+        }
+    },
+    version: '0.8b',
+    /*this.folders = {
+        BASE: `JaGui${version}`, GUI: 'gui/', CORE: 'scripts/core/', COMPONENTS: 'gui/components/', COMMON: 'gui/components/common/', COLOR: 'gui/components/color/',
+        CONTAINERS: 'gui/components/containers/', DATA: 'gui/components/data/', EXTENDED: 'gui/components/extended/', EXTRAS: 'gui/components/extras/',
+        LISTS: 'gui/components/lists/', MENUS: 'gui/components/menus/', TOOLBARS: 'gui/components/toolbars/', NONVISUAL: 'gui/components/nonvisual/',
+        APPS: 'apps/', DEMOS: 'demos/', LOCALES: 'gui/locales/', CONTROLS: 'controls/', CSS: 'css/', THEMES: 'css/themes/', IMAGES: 'images/',
+        EFFECTS: 'gui/effects/', DIALOGS: 'gui/components/dialogs/', ACTIONS: 'gui/components/actions/', GUITHEMES: 'gui/themes/',
+        BASECSSCOMPONENTS: 'css/components/base/', THEMESCSSCOMPONENTS: 'css/components/themes/', THIRDPARTY: 'gui/thirdparty/'
+    };
+    Object.freeze(this.folders);*/
+    rtStyle: null,
+    dragWindow: null,
+    resizeWindow: null,
+    templates: {},
+    HTMLParentElement: null,
+    previousHoveredControl: null,
+    canvas: null,
     /**
      * Return the current renderer
      * @returns     {String}        The name of the current renderer
      */
-    get renderer() { return document.documentElement.dataset.renderer !== undefined ? document.documentElement.dataset.renderer : 'html'; }
+    get renderer() { return document.documentElement.dataset.renderer !== undefined ? document.documentElement.dataset.renderer : "html"; },
     /**
      * Check if the current renderer is the HTML renderer
      * @returns     {Boolean}       true if the current renderer is HTML or false
      */
     get isHTMLRenderer() {
         return this.renderer === Types.RENDERERS.HTML;
-    }
+    },
     /**
      * Check if the current renderer is the canvas renderer
      * @returns     {Boolean}       true if the current renderer is canvas or false
      */
     get isCanvasRenderer() {
         return this.renderer === Types.RENDERERS.CANVAS;
-    }
+    },
     /**
      * Check if the current renderer is the SVG renderer
      * @returns     {Boolean}       true if the current renderer is SVG or false
      */
     get isSVGRenderer() {
         return this.renderer === Types.RENDERERS.SVG;
-    }
+    },
     /**
      * Check if the current renderer is the SVG renderer
      * @function registerPropertiesInCategory
@@ -150,50 +166,58 @@ class Core {
         this.classes.registerPropertiesInCategory('LOCALIZABLE', ['caption', 'constraints', 'font', 'height', 'toolTip', 'icon', 'left', 'top', 'width']);
         this.classes.registerPropertiesInCategory('VISUAL', ['align', 'cursor', 'enabled', 'caption', 'visible', 'width', 'top', 'left', 'height']);
         this.classes.registerPropertiesInCategory('DATABASE', []);
-    }
+    },
     /**
      * Start the framework
      * @function start
      */
     start() {
-        const apps = core.apps;
-        if (!core.ready) {
+        if (!Core.ready) {
             let language = window.navigator.userLanguage || window.navigator.language;
-            language.indexOf('-') === -1 ? language = language + '-' + language.toUpperCase() : 1;
-            core.currentLocale = language;
-            core.isHTMLRenderer ? core.looper.fps = 25 : 1;
-            core.looper.start();
+            if (language.indexOf('-') === -1) {
+                language = language + '-' + language.toUpperCase();
+            }
+            Core.currentLocale = language;
+            if (Core.isHTMLRenderer) {
+                Core.looper.fps = 25;
+            }
+            Core.looper.start();
             document.oncontextmenu = () => { return !1; };
-            document.addEventListener('keydown', apps.keyDown, !0);
-            document.addEventListener('keyup', apps.keyUp, !0);
-            document.addEventListener('keypress', apps.keyPress, !0);
-            if (core.isHTMLRenderer) {
-                core.clipboard = document.createElement('textarea');
-                core.clipboard.id = 'jaguiClipboard';
-                core.clipboard.value = '.';
+            document.addEventListener('keydown', Core.apps.keyDown, !0);
+            document.addEventListener('keyup', Core.apps.keyUp, !0);
+            document.addEventListener('keypress', Core.apps.keyPress, !0);
+            if (Core.isHTMLRenderer) {
+                Core.clipboard = document.createElement('textarea');
+                Core.clipboard.id = 'jaguiClipboard';
+                Core.clipboard.value = '.';
                 document.body.appendChild(Core.clipboard);
                 // création de l'emplacement des css en runtime
-                core.rtStyle = document.createElement('style');
-                core.rtStyle.setAttribute('id', 'rtStyle');
-                core.rtStyle.setAttribute('type', 'text/css');
-                core.rtStyle.setAttribute('media', 'screen');
-                document.getElementsByTagName('head')[0].appendChild(core.rtStyle);
+                Core.rtStyle = document.createElement('style');
+                Core.rtStyle.setAttribute('id', 'rtStyle');
+                Core.rtStyle.setAttribute('type', 'text/css');
+                Core.rtStyle.setAttribute('media', 'screen');
+                document.getElementsByTagName('head')[0].appendChild(Core.rtStyle);
                 //let styleSheet = Core.rtStyle.sheet;
                 //styleSheet.insertRule('.hidden {display:none !important;}', styleSheet.cssRules.length);
                 //return;
             }
-            core.registerPropertiesInCategory();
-            core.animatedCursor = new core.classes.AnimatedCursor();
+            Core.registerPropertiesInCategory();
+            Core.animatedCursor = new Core.classes.AnimatedCursor();
             document.addEventListener('DOMContentLoaded', () => {
                 const logo = document.createElement('span');
                 logo.className = 'logo JAGUI';
-                !core.HTMLParentElement ? document.body.appendChild(logo) : core.HTMLParentElement.appendChild(logo);
+                if (!Core.HTMLParentElement) {
+                    document.body.appendChild(logo);
+                }
+                else {
+                    Core.HTMLParentElement.appendChild(logo);
+                }
             });
             window.addEventListener('resize', () => {
-                const applicationsKeys = Object.keys(apps.applications);
+                const applicationsKeys = Object.keys(Core.apps.applications);
                 applicationsKeys.forEach(key => {
-                    apps.applications[key].windows.forEach(win => {
-                        if (win.windowState === core.classes.Window.WINDOWSTATES.MAXIMIZED) {
+                    Core.apps.applications[key].windows.forEach(win => {
+                        if (win.windowState === Core.classes.Window.WINDOWSTATES.MAXIMIZED) {
                             win.width = window.innerWidth;
                             win.height = window.innerHeight;
                             win.resize();
@@ -201,11 +225,68 @@ class Core {
                     });
                 });
             });
-            core.ready = !0;
+            //        function () {
+            //            require(['Core', 'Tools', 'Classes'], function (Core, Tools, Classes) {
+            //                //var logo, waiting, progressOuter, progressInner, text, ie = !1;
+            //                //var match = navigator.userAgent.match(/(?:MSIE |Trident\/.*; rv:)(\d+)/);
+            //                //if (match) ie = match.length > 0;
+            //                // on charge le theme par défaut
+            //                if ($j.isHTMLRenderer())
+            //                {
+            //                    Tools.loadTheme($j.defaultTheme);
+            //                    Core.clipboard = document.createElement("textarea");
+            //                    Core.clipboard.id = "jaguiClipboard";
+            //                    Core.clipboard.value = ".";
+            //                    document.body.appendChild(Core.clipboard);
+            //                }// else this.themes[this.defaultTheme]={};
+            //                if (!Tools.HTMLParentElement)
+            //                {
+            //                    //$j.doc.documentElement.ClassName=$j.defaultTheme+"_body "+$j.defaultTheme+"_default";
+            //                    //if (ie) $j.doc.body.setAttribute("data-theme",$j.defaultTheme);
+            //                    //else $j.doc.body.dataset.theme=$j.defaultTheme;
+            //                    document.body.className += " " + Core.defaultTheme;
+            //                }
+            //                document.body.className = Core.defaultTheme;
+            //                //logo = $j.doc.createElement("span");
+            //                //logo.className = "JAGUI";
+            //                //logo.innerHTML="D";
+            //                //if (!$j.tools.HTMLParentElement) $j.doc.body.appendChild(logo);
+            //                //else $j.tools.HTMLParentElement.appendChild(logo);
+            //                //if($j.HTMLParentElement) $j.HTMLParentElement.ClassName=$j.defaultTheme+"_body";
+            //                if (Tools.HTMLParentElement)
+            //                {
+            //                    //if (ie) $j.HTMLParentElement.setAttribute("data-theme",$j.defaultTheme);
+            //                    //else $j.HTMLParentElement.dataset.theme=$j.defaultTheme;
+            //                    Tools.HTMLParentElement.className += " " + Core.defaultTheme
+            //                }
+            //                Tools.loadScript();
+            //                Tools.afterLoadScripts = function () {
+            //                    Tools.xhr.load(!0, Tools.uri.base() + Core.folders["{LOCALES}"] + Core.currentLocale + ".json", function (dx, localeName) {
+            //                        Core.locales[$j.types.languages[localeName.replace("-", "_")]] = JSON.parse(dx);
+            //                    }, !1, Core.currentLocale);
+            //                    Classes.registerPropertiesInCategory("ACTION", ["action", "caption", "enabled", "helpContext", "toolTip", "visible"]);
+            //                    Classes.registerPropertiesInCategory("HELPHINTS", ["helpContext", "helpFile", "helpKeyWord", "helpType", "toolTip", "showToolTip", "ownerShowToolTip"]);
+            //                    Classes.registerPropertiesInCategory("LAYOUT", ["align", "anchors", "autosize", "constraints", "height", "left", "margins", "padding", "top", "width", "tabOrder"]);
+            //                    Classes.registerPropertiesInCategory("MISCELLANEOUS", []);
+            //                    Classes.registerPropertiesInCategory("INPUT", ["enabled"]);
+            //                    Classes.registerPropertiesInCategory("DRAGDROPDOCKING", []);
+            //                    Classes.registerPropertiesInCategory("LEGACY", []);
+            //                    Classes.registerPropertiesInCategory("LINKAGE", ["action", "popupMenu"]);
+            //                    Classes.registerPropertiesInCategory("LOCALE", []);
+            //                    Classes.registerPropertiesInCategory("LOCALIZABLE", ["caption", "constraints", "font", "height", "toolTip", "icon", "left", "top", "width"]);
+            //                    Classes.registerPropertiesInCategory("VISUAL", ["align", "cursor", "enabled", "caption", "visible", "width", "top", "left", "height"]);
+            //                    Classes.registerPropertiesInCategory("DATABASE", []);
+            //                    if (typeof Core.ready === "function") Core.ready();
+            //                };
+            //            });
+            //        }, !1
+            //    );
+            Core.ready = !0;
             window.activeWindow = null;
-            core.onStart && typeof core.onStart === 'function' ? core.onStart() : 1;
+            if (Core.onStart) {
+                Core.onStart();
+            }
         }
     }
 };
-window.core = new Core;
 //#endregion

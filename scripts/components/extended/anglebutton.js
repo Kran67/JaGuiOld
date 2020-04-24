@@ -215,7 +215,7 @@ const AngleButton = (() => {
             if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.isPressed) {
                 if (Core.mouse.event.target !== htmlElement) {
                     point.assign(Core.mouse.window);
-                    const bounds = htmlElement.boundingClientRect;
+                    const bounds = htmlElement.getBoundingClientRect();
                     point.x -= bounds.left;
                     point.y -= bounds.top;
                 } else {

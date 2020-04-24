@@ -1196,5 +1196,5 @@ const Types = Object.seal(Object.freeze({
     }))
     //#endregion
 }));
-core.types = Types;
+window.Types = Types;
 export { Types, ARITHMETICOPERATIONS };

@@ -3,49 +3,51 @@ class Tools {
     //#region Methods
     //#region isUndefined
     static isUndefined(value) {
-        return typeof value === core.types.CONSTANTS.UNDEFINED;
+        return typeof value === Types.CONSTANTS.UNDEFINED;
     }
     //#endregion isUndefined
     //#region isNumber
     static isNumber(value) {
         const reg = /^-?\d+\.?\d*$/;
         const regEx = new RegExp(reg);
-        return typeof value === core.types.CONSTANTS.NUMBER || regEx.test(value);
+        return typeof value === Types.CONSTANTS.NUMBER || regEx.test(value);
     }
     //#endregion isNumber
     //#region isString
     static isString(value) {
-        return typeof value === core.types.CONSTANTS.STRING;
+        return typeof value === Types.CONSTANTS.STRING;
     }
     //#endregion isString
     //#region isBool
     static isBool(value) {
-        return typeof value === core.types.CONSTANTS.BOOLEAN;
+        return typeof value === Types.CONSTANTS.BOOLEAN;
     }
     //#endregion isBool
     //#region isObject
     static isObject(value) {
-        return typeof value === core.types.CONSTANTS.OBJECT;
+        return typeof value === Types.CONSTANTS.OBJECT;
     }
     //#endregion isObject
     //#region isFunc
     static isFunc(value) {
-        return typeof value === core.types.CONSTANTS.FUNCTION;
+        return typeof value === Types.CONSTANTS.FUNCTION;
     }
     //#endregion isFunc
     //#region isArray
     static isArray(value) {
-        return value.constructor.name.toLowerCase() === core.types.CONSTANTS.ARRAY;
+        return value.constructor.name.toLowerCase() === Types.CONSTANTS.ARRAY;
     }
     //#endregion isArray
     //#region isDate
     static isDate(value) {
-        return typeof value === core.types.CONSTANTS.DATE;
+        return typeof value === Types.CONSTANTS.DATE;
     }
     //#endregion isDate
     //#region include
     static include(object, property, value) {
-        !bitTest(object[property], value) ? object[property].push(value) : 1;
+        if (!bitTest(object[property], value)) {
+            object[property].push(value);
+        }
     }
     //#endregion include
     //#region bitTest
@@ -57,29 +59,39 @@ class Tools {
     static exclude(object, property, value) {
         if (bitTest(object[property], value)) {
             const idx = object[property].indexOf(value);
-            idx > -1 ? object[property].splice(idx, 1) : 1;
+            if (idx > -1) {
+                object[property].splice(idx, 1);
+            }
         }
     }
     //#endregion exclude
     //#region isValidIdent
     static isValidIdent(ident, allowDots) {
         //#region Variables déclaration
-        const CONSTANTS = core.types.CONSTANTS;
+        const CONSTANTS = Types.CONSTANTS;
         const alphaChars = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,_';
         const alpha = alphaChars.split(',');
         const alphaNumeric = (`${alpha.join(',')},0,1,2,3,4,5,6,7,8,9`).split(',');
         const alphaNumericDot = (alphaNumeric.join(',') + ',.').split(',');
         //#endregion Variables déclaration
         if (typeof ident === CONSTANTS.STRING) {
-            typeof allowDots !== CONSTANTS.BOOLEAN ? allowDots = !1 : 1;
-            return ident.length === 0 || alpha.indexOf(ident[0]) === -1 ? !1 : !0;
+            if (typeof allowDots !== CONSTANTS.BOOLEAN) {
+                allowDots = !1;
+            }
+            if (ident.length === 0 || alpha.indexOf(ident[0]) === -1) {
+                return !1;
+            }
             if (allowDots) {
                 ident.forEach(id => {
-                    return alphaNumericDot.indexOf(id) === -1 ? !1 : !0;
+                    if (alphaNumericDot.indexOf(id) === -1) {
+                        return !1;
+                    }
                 });
             } else {
                 ident.forEach(id => {
-                    return alphaNumeric.indexOf(id) === -1 ? !1 : !0;
+                    if (alphaNumeric.indexOf(id) === -1) {
+                        return !1;
+                    }
                 });
             }
             return !0;
@@ -89,7 +101,7 @@ class Tools {
     //#endregion isValidIdent
     //#region valueInSet
     static valueInSet(value, set) {
-        if (typeof set === core.types.CONSTANTS.OBJECT) {
+        if (typeof set === Types.CONSTANTS.OBJECT) {
             const names = Object.getOwnPropertyNames(set);
             let founded = !1;
             founded = names.some(name => {
@@ -103,12 +115,107 @@ class Tools {
     //#region emptyFunc
     static emptyFunc() { }
     //#endregion emptyFunc
+    //loadNextScript () {
+    //    $j.tools.idx++;
+    //    if ($j.tools.idx >= $j.tools.scripts.length) {
+    //        $j.tools.scripts.length = 0;
+    //        $j.tools.idx = 0;
+    //        if (typeof $j.tools.afterLoadScripts === "function") $j.tools.afterLoadScripts();
+    //        $j.tools.afterLoadScripts = null;
+    //    } else $j.tools.loadScript();
+    //}
+    /*loadScript () {
+        let html_doc, node, fileText, scriptName;
+        //if ($j.tools.scripts[$j.tools.idx] === "") $j.tools.loadNextScript();
+        //scriptName=$j.tools.uri.split($j.tools.scripts[$j.tools.idx],!0);
+        let Tools = require("tools");
+        let Types = require("types");
+        scriptName = Tools.scripts[Tools.idx];
+        if (Tools.loadedScripts.indexOf(scriptName) === -1) {
+            html_doc = document.getElementsByTagName("head")[0];
+            node = document.createElement("script");
+            node.setAttribute("type", "text/javascript");
+            node.addEventListener("load", function () {
+                let p, isComponent = !1, splitedPath, t, i, l;
+                //if ($j.isHTMLRenderer()) {
+                //    p = $j.doc.getElementById($j.tools.currentProgress);
+                //    if (p) {
+                //        if ($j.tools.currentProgress === "progressInner" && $j.tools.idx === 0) {
+                //            $j.tools.step = (180 / ($j.tools.scripts.length - 2));
+                //            p.style.width = 0;
+                //        }
+                //        p.style.width = (p.offsetWidth + $j.tools.step) + "px";
+                //    }
+                //}
+                if (Types.CATEGORIES) {
+                    splitedPath = Tools.uri.split(Tools.scripts[Tools.idx]);
+                    p = splitedPath[splitedPath.length - 2];
+                    t = [Types.INTERNALCATEGORIES.COMPONENTS,
+                        Types.CATEGORIES.COMMON,
+                        Types.CATEGORIES.ACTIONS,
+                        Types.CATEGORIES.CONTAINERS,
+                        Types.CATEGORIES.NONVISUAL,
+                        Types.CATEGORIES.EXTENDED,
+                        Types.CATEGORIES.TOOLBARS,
+                        Types.CATEGORIES.MENUS,
+                        Types.CATEGORIES.DIALOGS,
+                        Types.CATEGORIES.EXTRAS,
+                        Types.CATEGORIES.COLOR,
+                        Types.CATEGORIES.DATA].indexOf(p);
+                    isComponent = t > -1 ? !0 : !1;
+                    if (isComponent) {
+                        t = Tools.uri.extractFileName(Tools.scripts[Tools.idx]);
+                        Tools.loadCssFile(Tools.getPath(Types.CATEGORIES.BASECSSCOMPONENTS) + t);
+                        if ([Types.CATEGORIES.NONVISUAL, Types.CATEGORIES.DIALOGS, Types.CATEGORIES.ACTIONS, Types.CATEGORIES.DATA].indexOf(p) === -1) {
+                            Tools.loadCssFile(Tools.getPath(Types.CATEGORIES.THEMESCSSCOMPONENTS) + Core.defaultTheme + "/" + t);
+                        }
+                        Core.apps.activeApplication.themeManifest.loadComponentTheme(t);
+                    }
+                }
+                //$j.tools.loadNextScript();
+            } !1);
+            node.addEventListener("error", function () {
+                if (Tools.debug) console.log(Tools.scripts[Tools.idx] + " not loaded");
+                Tools.loadedScripts.remove(Tools.scripts[Tools.idx]);
+                Tools.loadNextScript();
+            } !1);
+            node.setAttribute("src", Tools.uri.base() + Tools.scripts[Tools.idx] + ".js");//?rnd="+new Date().getTime());
+            if (Core.isHTMLRenderer()) {
+                fileText = document.getElementById("file_text");
+                if (fileText) {
+                    fileText.innerHTML = Tools.scripts[Tools.idx] + ".js";
+                }
+            }
+            Tools.loadedScripts.push(scriptName);
+            html_doc.appendChild(node);
+        } else Tools.loadNextScript();
+        node = null;
+        html_doc = null;
+    }
+    uses () {
+        let Tools = require("tools");
+        for (let i = 0, l = arguments.length; i < l; i++) {
+            if (arguments[i] === '') continue;
+            if ((Tools.loadedScripts.indexOf(arguments[i]) === -1) && Tools.scripts.indexOf(arguments[i]) === -1) Tools.scripts.push(arguments[i]);
+        }
+        //if (Core.isHTMLRenderer()) {
+        //    if ($j.tools.currentProgress === "progressInner") {
+        //        let p = $j.doc.getElementById($j.tools.currentProgress);
+        //        if (p) {
+        //            p.style.width = "0px";
+        //            $j.tools.step = ~~(180 / $j.tools.scripts.length + 1);
+        //        }
+        //    }
+        //}
+    }*/
     //#region loadFormRes
     static loadFormRes(resName) {
         //let fileText, p, style;
         if (Core.isHTMLRenderer) {
             const fileText = document.getElementById('file_text');
-            fileText ? fileText.innerHTML = 'Creating window & objects\nPlease wait...' : 1;
+            if (fileText) {
+                fileText.innerHTML = 'Creating window & objects\nPlease wait...';
+            }
             //p = document.getElementById($j.tools.currentProgress);
             //if (p) {
             //    if ($j.tools.currentProgress === "progressInner") p.style.width = "99%";
@@ -144,7 +251,7 @@ class Tools {
         const tabs = stringProp.split('.').shift();
         let obj = _object.first;
         //#endregion Variables déclaration
-        if (typeof obj === core.types.CONSTANTS.OBJECT && obj) {
+        if (typeof obj === Types.CONSTANTS.OBJECT && obj) {
             tabs.forEach(tab => {
                 obj = obj[tab];
             });
@@ -158,10 +265,46 @@ class Tools {
         setTimeout(() => { object[func](param); }, timeToWait ? timeToWait : 0);
     }
     //#endregion execFunc
+    //getPath (subfolder) {
+    //    let path = subfolder.toUpperCase();
+    //    path = Core.folders[path];
+    //    return path;
+    //}
+    //loadTheme (themeName) {
+    //    let Tools = require("tools");
+    //    //vérification que le thème n'a pas déjà été chargé
+    //    for (let i = 0, l = document.styleSheets.length; i < l; i++) {
+    //        if (document.styleSheets[i].id === themeName) return;
+    //    }
+    //    let style = document.createElement("link");
+    //    style.setAttribute("rel", "stylesheet");
+    //    style.setAttribute("href", Tools.uri.base() + this.getPath("THEMESCSSCOMPONENTS") + themeName + "/" + themeName.toLowerCase() + ".css?rnd=" + new Date().getTime());
+    //    style.setAttribute("media", "screen");
+    //    style.addEventListener("error", function () { });
+    //    document.getElementsByTagName("head")[0].appendChild(style);
+    //    Core.themes[themeName] = {};
+    //}
+    //loadCssFile (fileName) {
+    //    let Tools = require("tools");
+    //    let style = document.createElement("link");
+    //    style.setAttribute("rel", "stylesheet");
+    //    style.setAttribute("href", Tools.uri.base() + fileName + ".css?rnd=" + new Date().getTime());
+    //    style.setAttribute("media", "screen");
+    //    style.addEventListener("error", function () { });
+    //    document.getElementsByTagName("head")[0].appendChild(style);
+    //}
+    //loadJsFile (fileName) {
+    //    let node = document.createElement("script");
+    //    node.setAttribute("type", "text/javascript");
+    //    node.setAttribute("src", fileName + "?rnd=" + new Date().getTime());
+    //    node.addEventListener("load", function () { } !1);
+    //    node.addEventListener("error", function () { });
+    //    document.getElementsByTagName("head")[0].appendChild(node);
+    //}
     //#region clone
     static clone(object) {
         //answer a new instance of target's type
-        if (typeof object === core.types.CONSTANTS.OBJECT) {
+        if (typeof object === Types.CONSTANTS.OBJECT) {
             const Clone = () => { object.constructor.apply(this); };
             Clone.prototype = object;
             return new Clone();
@@ -173,7 +316,7 @@ class Tools {
     //#region copy
     static copy(object) {
         //answer a shallow copy of target
-        if (typeof object === core.types.CONSTANTS.OBJECT) {
+        if (typeof object === Types.CONSTANTS.OBJECT) {
             const value = object.valueOf();
             if (object !== value) {
                 return new object.constructor(value);
@@ -183,13 +326,17 @@ class Tools {
                     const c = Core.clone(object.constructor.prototype);
                     const names = Object.getOwnPropertyNames(object);
                     names.forEach(name => {
-                        object.hasOwnProperty(name) ? c[names[name]] = object[name] : 1;
+                        if (object.hasOwnProperty(name)) {
+                            c[names[name]] = object[name];
+                        }
                     });
                 } else {
                     const c = {};
                     const names = Object.getOwnPropertyNames(object);
                     names.forEach(name => {
-                        !c[name] ? c[name] = object[name] : 1;
+                        if (!c[name]) {
+                            c[name] = object[name];
+                        }
                     });
                 }
                 return c;
@@ -201,7 +348,11 @@ class Tools {
     //#region getLocale
     static getLocale() {
         if (Core.apps.activeApplication.locale) {
-            return Core.locales[Core.apps.activeApplication.locale] ? Core.locales[Core.apps.activeApplication.locale] : Core.locales[Core.currentLocale];
+            if (Core.locales[Core.apps.activeApplication.locale]) {
+                return Core.locales[Core.apps.activeApplication.locale];
+            } else {
+                return Core.locales[Core.currentLocale];
+            }
         } else {
             return Core.locales[Core.currentLocale];
         }
@@ -219,9 +370,36 @@ class Tools {
     //#endregion localeExist
     //#region getFuncName
     static getFuncName(func) {
-        return func.name ? func.name : func.toString().match(/^function\s*([^\s(]+)/)[1];
+        if (func.name) {
+            return func.name;
+        } else {
+            return func.toString().match(/^function\s*([^\s(]+)/)[1];
+        }
     }
     //#endregion getFuncName
+    //#region addResizeListener
+    //static addResizeListener(obj) {
+    //    obj.hasResizeEvent = !0;
+    //    //obj._resizeDatas.width=obj.HTMLElement.offsetWidth;
+    //    //obj._resizeDatas.height=obj.HTMLElement.offsetHeight;
+    //    Core.looper.addListener(obj, "resized");
+    //}
+    //#endregion addResizeListener
+    //#region removeResizeListeners
+    //static removeResizeListeners(form) {
+    //    //#region Variables déclaration
+    //    let i = Core.looper.listeners.length - 1;
+    //    //#endregion Variables déclaration
+    //    Core.looper.stop();
+    //    while (i >= 0) {
+    //        if (Core.looper.listeners[i].form === form) {
+    //            Core.looper.removeListener(Core.looper.listeners[i]);
+    //        }
+    //        i--;
+    //    }
+    //    if (Core.looper.listeners.length > 0) Core.looper.start();
+    //}
+    //#endregion removeResizeListeners
     /**
      * Add a property whose value is contained in a set
      * @method addPropertyFromEnum
@@ -237,12 +415,20 @@ class Tools {
      */
     //#region addPropertyFromEnum
     static addPropertyFromEnum(params) {
-        params.component.propsEnums[params.propName] = params.enum;
-        params.hasOwnProperty('value') ? params.variable[params.propName] = params.value : 1;
-        params.forceUpdate === undefined ? params.forceUpdate = !1 : 1;
-        params.enumerable === undefined ? params.enumerable = !0 : 1;
+        //obj._props[prop] = set;
+        //obj[prop] = value;
+        params.component.addPropertyEnum(params.propName, params.enum);
+        if (params.hasOwnProperty('value')) {
+            params.variable[params.propName] = params.value;
+        }
+        if (params.forceUpdate === undefined) {
+            params.forceUpdate = !1;
+        }
+        if (params.enumerable === undefined) {
+            params.enumerable = !0;
+        }
         const setter = params.setter ? params.setter : (newValue) => {
-            if (!core.tools.valueInSet(newValue, params.enum)) {
+            if (!Tools.valueInSet(newValue, params.enum)) {
                 return null;
             }
             if (params.variable[params.propName] !== newValue) {
@@ -268,10 +454,10 @@ class Tools {
         //#endregion Variables déclaration
         keys.forEach(propName => {
             if (propName !== 'rotateAngle' && propName !== 'rotateCenter') {
-                if (/*obj.hasOwnProperty(propName) && */obj.propertyIsEnumerable(propName)) {
+                if (obj.hasOwnProperty(propName)) {
                     if (!propName.startsWith('on') &&
-                        !core.tools.isFunc(obj[propName]) /*&& 
-                        propName !== 'form' && propName !== 'app'*/) {
+                        typeof obj[propName] !== Types.CONSTANTS.FUNCTION &&
+                        propName !== 'form' && propName !== 'app') {
                         props.push({
                             property: propName,
                             value: obj[propName],
@@ -301,7 +487,10 @@ class Tools {
         //#region Variables déclaration
         const values = [];
         //#endregion Variables déclaration
-        if (!_enum || !currentValue) { // à voir
+        if (!_enum) {
+            return currentValue;
+        }
+        if (!currentValue) { // à voir
             return currentValue;
         }
         const keys = Object.keys(_enum);
@@ -313,7 +502,9 @@ class Tools {
             return currentValue;
         }
         curIndex++;
-        curIndex = math.min(curIndex, keys.length - 1);
+        if (curIndex > keys.length) {
+            curIndex = keys.length - 1;
+        }
         return values[curIndex];
     }
     //#endregion getNextValueFromEnum
@@ -322,7 +513,10 @@ class Tools {
         //#region Variables déclaration
         const values = [];
         //#endregion Variables déclaration
-        if (!_enum || !currentValue) { // à voir
+        if (!_enum) {
+            return currentValue;
+        }
+        if (!currentValue) { // à voir
             return currentValue;
         }
         const keys = Object.keys(_enum);
@@ -334,7 +528,9 @@ class Tools {
             return currentValue;
         }
         curIndex--;
-        curIndex = Math.max(curIndex, 0);
+        if (curIndex < 0) {
+            curIndex = 0;
+        }
         return values[curIndex];
     }
     //#endregion getPreviousValueFromEnum
@@ -343,19 +539,26 @@ class Tools {
         //#region Variables déclaration
         const values = [];
         //#endregion Variables déclaration
-        if (!_enum || !currentValue) { // à voir
+        if (!_enum) {
+            return currentValue;
+        }
+        if (!currentValue) { // à voir
             return currentValue;
         }
         const keys = Object.keys(_enum);
         keys.forEach(key => {
             values.push(_enum[key]);
         });
-        return values.indexOf(currentValue);
+        const curIndex = values.indexOf(currentValue);
+        return curIndex;
     }
     //#endregion getValueIndexFromEnum
     //#region getEnumNameFromValue
     static getEnumNameFromValue(_enum, currentValue) {
-        if (!_enum || !currentValue) { // à voir
+        if (!_enum) {
+            return currentValue;
+        }
+        if (!currentValue) { // à voir
             return currentValue;
         }
         const keys = Object.keys(_enum);
@@ -380,14 +583,18 @@ class Tools {
         //#region Variables déclaration
         let trigger = !0;
         let value = null;
-        const tools = core.tools;
         //#endregion Variables déclaration
         if (obj.triggers) {
             obj.triggers.forEach((trig, i) => {
-                trig.ref !== undefined ? instance = instance[trig.ref] : 1;
+                if (trig.ref !== undefined) {
+                    instance = instance[trig.ref];
+                }
                 if (instance[trig.prop] !== undefined) {
-                    trigger = i > 0 ? tools[trig.bExp](trigger, tools[trig.op](instance[trig.prop], trig.value)) :
-                        tools[trig.op](instance[trig.prop], trig.value);
+                    if (i > 0) {
+                        trigger = Tools[trig.bExp](trigger, Tools[trig.op](instance[trig.prop], trig.value));
+                    } else {
+                        trigger = Tools[trig.op](instance[trig.prop], trig.value);
+                    }
                 }
             });
             value = trigger ? obj.trueValue : obj.falseValue ? obj.falseValue : value;
@@ -408,26 +615,34 @@ class Tools {
         //#region Variables déclaration
         let trigger = !1;
         let params = {};
-        const CONSTANTS = core.types.CONSTANTS;
-        const tools = core.tools;
         //#endregion Variables déclaration
         if (radius.triggers) {
-            trigger = tools.checkTrigger(instance, radius);
-            if (trigger.isOK && trigger.value) {
-                params = trigger.value;
-                tools.storeValue(dic, radius.storedName, trigger.value);
+            trigger = Tools.checkTrigger(instance, radius);
+            if (trigger.isOK) {
+                if (trigger.value) {
+                    params = trigger.value;
+                    Tools.storeValue(dic, radius.storedName, trigger.value);
+                }
             }
         } else if (radius.hasOwnProperty('tl') && radius.hasOwnProperty('tr') && radius.hasOwnProperty('br') &&
             radius.hasOwnProperty('bl')) {
             const keys = Object.keys(radius);
             keys.forEach(key => {
                 if (radius[key].triggers) {
-                    trigger = tools.checkTrigger(instance, radius[key]);
-                    if (trigger.isOK && trigger.value) {
-                        params[key] = typeof trigger.value === CONSTANTS.STRING ? dic[trigger.value] : trigger.value;
-                        radius[key].storedName && trigger.value ? tools.storeValue(dic, radius[key].storedName, trigger.value) : 1;
+                    trigger = Tools.checkTrigger(instance, radius[key]);
+                    if (trigger.isOK) {
+                        if (trigger.value) {
+                            if (typeof trigger.value === Types.CONSTANTS.STRING) {
+                                params[key] = dic[trigger.value];
+                            } else {
+                                params[key] = trigger.value;
+                            }
+                            if (radius[key].storedName && trigger.value) {
+                                Tools.storeValue(dic, radius[key].storedName, trigger.value);
+                            }
+                        }
                     }
-                } else if (typeof radius[key] === CONSTANTS.STRING) {
+                } else if (typeof radius[key] === Types.CONSTANTS.STRING) {
                     params[key] = dic[radius[key]];
                 } else {
                     params[key] = radius[key];
@@ -442,13 +657,15 @@ class Tools {
     //#region processShadow
     static processShadow(instance, shadow, ctx) {
         if (shadow.triggers) {
-            const trigger = core.tools.checkTrigger(instance, shadow);
-            if (trigger.isOK && trigger.value) {
-                const value = trigger.value;
-                ctx.shadowBlur = value.blur;
-                ctx.shadowColor = value.color;
-                ctx.shadowOffsetX = value.offsetX ? value.offsetX : 0;
-                ctx.shadowOffsetY = value.offsetY ? value.offsetY : 0;
+            const trigger = Tools.checkTrigger(instance, shadow);
+            if (trigger.isOK) {
+                if (trigger.value) {
+                    const value = trigger.value;
+                    ctx.shadowBlur = value.blur;
+                    ctx.shadowColor = value.color;
+                    ctx.shadowOffsetX = value.offsetX ? value.offsetX : 0;
+                    ctx.shadowOffsetY = value.offsetY ? value.offsetY : 0;
+                }
             }
         } else {
             ctx.shadowBlur = shadow.blur;
@@ -462,11 +679,13 @@ class Tools {
     static processStyle(instance, shape, state, suffixFunc, params) {
         //#region Variables déclaration
         const ctx = Core.ctx;
-        const GRADDIRS = core.types.GRADIENTDIRECTIONS;
+        const GRADDIRS = Types.GRADIENTDIRECTIONS;
         const changingTheme = document.body.classList.contains('changingTheme');
         const themeName = changingTheme ? instance.app.themeManifest.lastThemeName : instance.themeName;
         //#endregion Variables déclaration
-        !suffixFunc ? suffixFunc = String.EMPTY : 1;
+        if (!suffixFunc) {
+            suffixFunc = String.EMPTY;
+        }
         params = params || [];
         ['fill', 'stroke'].forEach(prop => {
             let _state = state;
@@ -478,7 +697,9 @@ class Tools {
                 if (!color || !instance.enabled) {
                     _state = 'normal';
                     color = style[_state];
-                    !color ? color = Core.themes[themeName].DEFAULTTEXTCOLOR : 1;
+                    if (!color) {
+                        color = Core.themes[themeName].DEFAULTTEXTCOLOR;
+                    }
                 }
                 if (color) {
                     if (Array.isArray(color)) {
@@ -494,12 +715,16 @@ class Tools {
                     }
                     // Shadow
                     if (style.shadow) {
-                        const shadow = core.tools.processShadow(instance, style.shadow, ctx);
+                        const shadow = Tools.processShadow(instance, style.shadow, ctx);
                     }
                     // lineWidth
-                    style.lineWidth && style.lineWidth > 0 ? ctx.lineWidth = style.lineWidth : 1;
+                    if (style.lineWidth && style.lineWidth > 0) {
+                        ctx.lineWidth = style.lineWidth;
+                    }
                     // Clip
-                    style.clipped != undefined && style.clipped ? ctx.clip() : 1;
+                    if (style.clipped != undefined && style.clipped) {
+                        ctx.clip();
+                    }
                     let idx = 0;
                     for (; idx < to; idx++) {
                         ctx[`${prop}${suffixFunc}`](...params);
@@ -513,8 +738,12 @@ class Tools {
     //#region processBorders
     static processBorders(instance, borders) {
         if (borders.triggers) {
-            const trigger = core.tools.checkTrigger(instance, borders);
-            return trigger.value ? trigger.value : null;
+            const trigger = Tools.checkTrigger(instance, borders);
+            if (trigger.value) {
+                return trigger.value;
+            } else {
+                return null;
+            }
         } else {
             return borders;
         }
@@ -552,12 +781,12 @@ class Tools {
     //#endregion greaterThanOrEqual
     //#region is!1
     static isTrue(value) {
-        return typeof value === core.types.CONSTANTS.BOOLEAN && !value;
+        return typeof value === Types.CONSTANTS.BOOLEAN && !value;
     }
     //#endregion is!1
     //#region is!0
     static isFalse(value) {
-        return typeof value === core.types.CONSTANTS.BOOLEAN && value;
+        return typeof value === Types.CONSTANTS.BOOLEAN && value;
     }
     //#endregion is!0
     //#region or
@@ -586,6 +815,5 @@ class Tools {
     //#endregion
     //#endregion Methods
 }
-core.tools = Tools;
 Object.seal(Object.freeze(Tools));
 export { Tools };

@@ -55,24 +55,24 @@ const ToolButton = (() => {
         }
         //#endregion height
         //#region action
-        //get action() {
-        //    return internal(this).action;
-        //}
-        //set action(newValue) {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    //#endregion Variables déclaration
-        //    if (newValue instanceof Core.classes.Action) {
-        //        if (priv.action !== newValue) {
-        //            if (priv.action instanceof Core.classes.Action) {
-        //                priv.action.unRegisterChanges(this);
-        //            }
-        //            priv.action = newValue;
-        //            priv.action.registerChanges(this);
-        //            priv.action.updateTarget(this);
-        //        }
-        //    }
-        //}
+        get action() {
+            return internal(this).action;
+        }
+        set action(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (newValue instanceof Core.classes.Action) {
+                if (priv.action !== newValue) {
+                    if (priv.action instanceof Core.classes.Action) {
+                        priv.action.unRegisterChanges(this);
+                    }
+                    priv.action = newValue;
+                    priv.action.registerChanges(this);
+                    priv.action.updateTarget(this);
+                }
+            }
+        }
         //#endregion action
         //#endregion Getters / Setters
         //#region Methods

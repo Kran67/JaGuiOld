@@ -77,7 +77,7 @@ import '/scripts/components/extended/splitbutton.js';
 //import { fontDialog } from '/scripts/components/dialogs/fontDialog.js';
 //import { colorDialog } from '/scripts/components/dialogs/colorDialog.js';
 //import { gridView } from '/scripts/components/common/gridView.js';
-import '/scripts/components/nonvisual/imagelist.js';
+//import { imageList } from '/scripts/components/nonvisual/imageList.js';
 //import { timers } from '/scripts/components/nonvisual/timers.js';
 //import { dataFile } from '/scripts/components/data/dataFile.js';
 //import { dataSource } from '/scripts/components/data/dataSource.js';
@@ -95,281 +95,256 @@ import '/scripts/components/extended/toggle.js';
 import '/scripts/components/common/batteryindicator.js';
 import '/scripts/components/extended/segmentledlabel.js';
 import '/scripts/components/extended/circularprogressbar.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 let lastTime;
-const Window1 = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
+class Window1 extends Window {
+    get MAX_DEPTH() { return 32; }
+    get STARS() { return this.stars; }
+    get TOTALSTARS() { return 512; }
+    get SIZE() { return [10, 30]; }
+    get SHINEDIR() { return [0.01, 0.05]; }
+    get ANGSPEED() { return [0.01, 0.04]; }
+    get PENTARADIANT() { return Math.PI * 2 / 5; }
+    get COLORS() { return ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#8b00ff']; }
+    //get FRAME() { return (Math.random() * 360) | 0; }
+    constructor(owner, props) {
+        super(owner, props);
+        this.stars = [];
+        this.onShow.addListener(this.formShow);
+        this.frame = (Math.random() * 360) | 0;
+    }
+    rand(ar) {
+        return Math.random() * (ar[1] - ar[0]) + ar[0];
+    }
+    formCreated(id) {
+        super.formCreated(id);
+        if (Core.isCanvasRenderer) {
+            //this.Gauge2.createArrow=this.createArrowBlue;
+            //this.Gauge3.createArrow=this.createArrowBlack;
         }
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    class Window1 extends Window {
-        constructor(owner, props) {
-            super(owner, props);
-            const priv = internal(this);
-            priv.stars = [];
-            this.onShow.addListener(this.formShow);
-            priv.frame = (Math.random() * 360) | 0;
-            Object.defineProperties(this, {
-                'frame': {
-                    enumerable: !1,
-                    configurable: !0,
-                    get: function () { return internal(this).frame; },
-                    set: function (newValue) {
-                        const priv = internal(this);
-                        if (Tools.isNumber(newValue) && priv.frame !== newValue) {
-                            priv.frame = newValue;
-                        }
-                    }
-                },
-                'max_depth': {
-                    enumerable: !1,
-                    configurable: !0,
-                    get: function () { return 32; },
-                },
-                'stars': {
-                    enumerable: !1,
-                    configurable: !0,
-                    get: function () { return internal(this).stars; },
-                }
-            });
+        this.initStars();
+        //Core.looper.addListener(this, "paint");
+    }
+    formShow() {
+        if (!Core.browser.chrome) {
+            Dialogs.alert('Best experience with Chrome Browser');
         }
-        rand(ar) {
-            return Math.random() * (ar[1] - ar[0]) + ar[0];
+        lastTime = new Date().getTime();
+    }
+    initStars() {
+        for (let i = 0; i < this.TOTALSTARS; i++) {
+            this.STARS[i] = {
+                x: this.randomRange(-25, 25),
+                y: this.randomRange(-25, 25),
+                z: this.randomRange(1, this.MAX_DEPTH)
+            };
         }
-        formShow() {
-            this.initStars();
-            if (!Core.browser.chrome) {
-                Dialogs.alert('Best experience with Chrome Browser');
+        this.PaintBox1.drawType = 0;
+    }
+    randomRange(minVal, maxVal) {
+        return Math.floor(Math.random() * (maxVal - minVal - 1)) + minVal;
+    }
+    Button1_onClick(sender) {
+        const confirm = dialogs.confirm('This operation takes several seconds.<br />It depends on your CPU.<br />Proceed?');
+        confirm.onClose.addListener(this.form.createListBoxItems);
+    }
+    createListBoxItems() {
+        if (this.modalResult === Window.MODALRESULTS.OK) {
+            const t = new Date().getTime();
+            this.app.activeWindow.ListBox2.beginUpdate();
+            for (let i = 0; i < 1000000; i++) {
+                const span = new ListBoxItem(this.app.activeWindow.ListBox2, `item${i}`);
+                this.app.activeWindow.ListBox2.addItem(span);
             }
-            lastTime = new Date().getTime();
-            //Core.looper.addListener(this, 'paint');
-        }
-        initStars() {
-            const priv = internal(this);
-            for (let i = 0; i < 512; i++) {
-                priv.stars[i] = {
-                    x: this.randomRange(-25, 25),
-                    y: this.randomRange(-25, 25),
-                    z: this.randomRange(1, this.max_depth)
-                };
-            }
-            this.PaintBox1.drawType = 0;
-        }
-        randomRange(minVal, maxVal) {
-            return Math.floor(Math.random() * (maxVal - minVal - 1)) + minVal;
-        }
-        Button1_onClick(sender) {
-            const confirm = dialogs.confirm('This operation takes several seconds.<br />It depends on your CPU.<br />Proceed?');
-            confirm.onClose.addListener(this.form.createListBoxItems);
-        }
-        createListBoxItems() {
-            if (this.modalResult === Window.MODALRESULTS.OK) {
-                const t = new Date().getTime();
-                this.app.activeWindow.ListBox2.beginUpdate();
-                for (let i = 0; i < 1000000; i++) {
-                    const span = new ListBoxItem(this.app.activeWindow.ListBox2, `item${i}`);
-                    this.app.activeWindow.ListBox2.addItem(span);
-                }
-                this.app.activeWindow.ListBox2.endUpdate();
-                console.log(`${new Date().getTime() - t}ms`);
-            }
-        }
-        RoundButton1_onClick() {
-            this.form.OpenDialog1.execute();
-        }
-        Label1_onClick() {
-            this.form.FontDialog1.execute(this);
-        }
-        paint(elapsedTime) {
-            this.PaintBox1.onPaint.invoke();
-            if ((new Date().getTime() - lastTime) > 3000) {
-                this.CircularProgressBar1.value = ~~(Math.random() * 101);
-                this.ProgressBar1.value = ~~(Math.random() * 101);
-                this.ProgressBar2.value = ~~(Math.random() * 101);
-                lastTime = new Date().getTime();
-            }
-        }
-        PaintBox1_onClick() {
-            const form = this.form;
-            this.drawType++;
-            if (this.drawType > 2) {
-                this.drawType = 0;
-            }
-            form.stars.clear();
-            if (this.drawType === 0) {
-                form.initStars();
-            }
-        }
-        PaintBox1_onPaint() {
-            const htmlElement = this.HTMLElement;
-            const halfWidth = htmlElement.offsetWidth / 2;
-            const halfHeight = htmlElement.offsetHeight / 2;
-            let star = null;
-            const form = this.form;
-            const stars = form.stars;
-            const ctx = this.ctx;
-            switch (this.drawType) {
-                case 0:
-                    ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.SOURCEOVER;
-                    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-                    ctx.fillRect(0, 0, htmlElement.offsetWidth, htmlElement.offsetHeight);
-                    for (let i = 0; i < stars.length; i++) {
-                        star = stars[i];
-                        star.z -= 0.2;
-
-                        if (star.z <= 0) {
-                            star.x = form.randomRange(-25, 25);
-                            star.y = form.randomRange(-25, 25);
-                            star.z = form.max_depth;
-                        }
-
-                        const k = 128.0 / star.z;
-                        const px = star.x * k + halfWidth;
-                        const py = star.y * k + halfHeight;
-
-                        if (px >= 0 && px <= 500 && py >= 0 && py <= 400) {
-                            const size = (1 - star.z / 32.0) * 5;
-                            const shade = ~~((1 - star.z / 32.0) * 255);
-                            ctx.fillStyle = `rgb(${shade},${shade},${shade})`;
-                            ctx.fillRect(px, py, size, size);
-                        }
-                    }
-                    break;
-                case 1:
-                    ++form.frame;
-                    ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.DESTINATIONOUT;
-                    ctx.fillStyle = 'rgba(0, 0, 0, .1)';
-                    ctx.fillRect(0, 0, htmlElement.offsetWidth, htmlElement.offsetHeight);
-                    ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.LIGHTER;
-
-                    if (Math.random() < 0.3) {
-                        stars.push(new Star(form, ctx));
-                    }
-
-                    for (let s = 0; s < stars.length; ++s) {
-                        star = stars[s];
-                        star.use();
-
-                        if ((star.x + star.size < 0) || (star.y + star.size > htmlElement.offsetHeight + star.size * 2) || (star.x + star.size > htmlElement.offsetWidth + star.size * 2)) {
-                            stars.splice(s, 1);
-                            --s;
-                        }
-                    }
-                    break;
-                case 2: {
-                    const total = ~~(htmlElement.offsetWidth * 0.5);
-                    ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.SOURCEOVER;
-                    for (let i = 0; i < stars.length; ++i) {
-                        stars[i].update(ctx);
-                        if (stars[i].pos.y < 0 || stars[i].pos.y > htmlElement.offsetHeight || stars[i].pos.x < 0 || stars[i].pos.x > htmlElement.offsetWidth) {
-                            stars.splice(i, 1);
-                        }
-                    }
-                    if (stars.length < total) {
-                        stars.push(new Circle(Math.random() - 0.5, Math.random() - 0.5, halfWidth, halfHeight));
-                    }
-                    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-                    ctx.fillRect(0, 0, htmlElement.offsetWidth, htmlElement.offsetHeight);
-
-                    break;
-                }
-
-            }
-        }
-        PlotGrid1_onPaint() {
-            let p = new Array(100);
-            const htmlElement = this.HTMLElement;
-            const frequency = this.frequency;
-            const ctx = this.ctx;
-            const calc = (formula) => {
-                let y = null;
-                for (let i = 0, l = p.length; i < l; i++) {
-                    // calc only in PlotGrid area
-                    let x = -(htmlElement.offsetWidth / 2) + ((i / l) * htmlElement.offsetWidth);
-                    x = x / frequency;
-                    // formula here
-                    switch (formula) {
-                        case 'sin':
-                            y = Math.sin(x);
-                            break;
-                        case 'cos':
-                            y = Math.cos(x) * x;
-                            break;
-                        default: //(x * x)
-                            y = x * x;
-                            break;
-                    }
-                    p[i] = new Core.classes.Point(htmlElement.offsetWidth / 2 + x * frequency, htmlElement.offsetHeight / 2 - y * frequency);
-                }
-            }
-            ctx.save();
-            // Paint sin
-            calc('sin');
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = 'red';
-            ctx.drawPolyline(p);
-            // Paint cos * x
-            p = new Array(100);
-            calc('cos');
-            ctx.linewidth = 2;
-            ctx.strokeStyle = 'green';
-            ctx.drawPolyline(p);
-            // Paint x * x }
-            p = new Array(100);
-            calc();
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = 'blue';
-            ctx.drawPolyline(p);
-            // End Paint
-            ctx.restore();
-        }
-        ToolButton1_onClick() {
-            window.location.href = '/index.html';
-        }
-        changeTheme() {
-            this.app.themeManifest.themeName = this.caption.replace(String.SPACE, String.EMPTY).toLowerCase();
-        }
-        SpeedButton1_onClick() {
-            //this.app.addWindow($j.tools.getPath($j.types.internalCategories.APPS)+this.app.name+'/window2');
-            this.app.newWindow('window2');
-        }
-        closeQuery() {
-            const dlg = dialogs.confirmation('Are you sure you want to quit?');
-            dlg.onClose.addListener(function () {
-                Core.apps.activeApplication.activeWindow.canClose = this.modalResult === Window.MODALRESULTS.OK;
-            });
-        }
-        showBorderDialogWindow() {
-            this.app.newWindow('borderDialog');
-        }
-        showBorderNoneWindow() {
-            this.app.newWindow('borderNone');
-        }
-        showBorderSingleWindow() {
-            this.app.newWindow('borderSingle');
-        }
-        showBorderSizeableWindow() {
-            this.app.newWindow('borderSizeable');
-        }
-        countdownEnd() {
-            alert("countdownEnd");
+            this.app.activeWindow.ListBox2.endUpdate();
+            console.log(`${new Date().getTime() - t}ms`);
         }
     }
-    return Window1;
-})();
+    RoundButton1_onClick() {
+        this.form.OpenDialog1.execute();
+    }
+    Label1_onClick() {
+        this.form.FontDialog1.execute(this);
+    }
+    paint(elapsedTime) {
+        this.PaintBox1.onPaint.invoke();
+        if ((new Date().getTime() - lastTime) > 3000) {
+            this.CircularProgressBar1.value = ~~(Math.random() * 101);
+            this.ProgressBar1.value = ~~(Math.random() * 101);
+            this.ProgressBar2.value = ~~(Math.random() * 101);
+            lastTime = new Date().getTime();
+        }
+    }
+    PaintBox1_onClick() {
+        const form = this.form;
+        this.drawType++;
+        if (this.drawType > 2) {
+            this.drawType = 0;
+        }
+        form.STARS.clear();
+        if (this.drawType === 0) {
+            form.initStars();
+        }
+    }
+    PaintBox1_onPaint() {
+        const htmlElement = this.HTMLElement;
+        const halfWidth = htmlElement.offsetWidth / 2;
+        const halfHeight = htmlElement.offsetHeight / 2;
+        let star = null;
+        const form = this.form;
+        const stars = form.STARS;
+        const ctx = this.ctx;
+        switch (this.drawType) {
+            case 0:
+                ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.SOURCEOVER;
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                ctx.fillRect(0, 0, htmlElement.offsetWidth, htmlElement.offsetHeight);
+                for (let i = 0; i < stars.length; i++) {
+                    star = stars[i];
+                    star.z -= 0.2;
+
+                    if (star.z <= 0) {
+                        star.x = form.randomRange(-25, 25);
+                        star.y = form.randomRange(-25, 25);
+                        star.z = form.MAX_DEPTH;
+                    }
+
+                    const k = 128.0 / star.z;
+                    const px = star.x * k + halfWidth;
+                    const py = star.y * k + halfHeight;
+
+                    if (px >= 0 && px <= 500 && py >= 0 && py <= 400) {
+                        const size = (1 - star.z / 32.0) * 5;
+                        const shade = ~~((1 - star.z / 32.0) * 255);
+                        ctx.fillStyle = `rgb(${shade},${shade},${shade})`;
+                        ctx.fillRect(px, py, size, size);
+                    }
+                }
+                break;
+            case 1:
+                ++form.FRAME;
+                ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.DESTINATIONOUT;
+                ctx.fillStyle = 'rgba(0, 0, 0, .1)';
+                ctx.fillRect(0, 0, htmlElement.offsetWidth, htmlElement.offsetHeight);
+                ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.LIGHTER;
+
+                if (Math.random() < 0.3) {
+                    stars.push(new Star(form, ctx));
+                }
+
+                for (let s = 0; s < stars.length; ++s) {
+                    star = stars[s];
+                    star.use();
+
+                    if ((star.x + star.size < 0) || (star.y + star.size > htmlElement.offsetHeight + star.size * 2) || (star.x + star.size > htmlElement.offsetWidth + star.size * 2)) {
+                        stars.splice(s, 1);
+                        --s;
+                    }
+                }
+                break;
+            case 2: {
+                const total = ~~(htmlElement.offsetWidth * 0.5);
+                ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.SOURCEOVER;
+                for (let i = 0; i < stars.length; ++i) {
+                    stars[i].update(ctx);
+                    if (stars[i].pos.y < 0 || stars[i].pos.y > htmlElement.offsetHeight || stars[i].pos.x < 0 || stars[i].pos.x > htmlElement.offsetWidth) {
+                        stars.splice(i, 1);
+                    }
+                }
+                if (stars.length < total) {
+                    stars.push(new Circle(Math.random() - 0.5, Math.random() - 0.5, halfWidth, halfHeight));
+                }
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                ctx.fillRect(0, 0, htmlElement.offsetWidth, htmlElement.offsetHeight);
+
+                break;
+            }
+
+        }
+    }
+    PlotGrid1_onPaint() {
+        let p = new Array(100);
+        const htmlElement = this.HTMLElement;
+        const frequency = this.frequency;
+        const ctx = this.ctx;
+        const calc = (formula) => {
+            let y = null;
+            for (let i = 0, l = p.length; i < l; i++) {
+                // calc only in PlotGrid area
+                let x = -(htmlElement.offsetWidth / 2) + ((i / l) * htmlElement.offsetWidth);
+                x = x / frequency;
+                // formula here
+                switch (formula) {
+                    case 'sin':
+                        y = Math.sin(x);
+                        break;
+                    case 'cos':
+                        y = Math.cos(x) * x;
+                        break;
+                    default: //(x * x)
+                        y = x * x;
+                        break;
+                }
+                p[i] = new Core.classes.Point(htmlElement.offsetWidth / 2 + x * frequency, htmlElement.offsetHeight / 2 - y * frequency);
+            }
+        }
+        ctx.save();
+        // Paint sin
+        calc('sin');
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'red';
+        ctx.drawPolyline(p);
+        // Paint cos * x
+        p = new Array(100);
+        calc('cos');
+        ctx.linewidth = 2;
+        ctx.strokeStyle = 'green';
+        ctx.drawPolyline(p);
+        // Paint x * x }
+        p = new Array(100);
+        calc();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'blue';
+        ctx.drawPolyline(p);
+        // End Paint
+        ctx.restore();
+    }
+    ToolButton1_onClick() {
+        window.location.href = '/index.html';
+    }
+    changeTheme() {
+        this.app.themeManifest.themeName = this.caption.replace(String.SPACE, String.EMPTY).toLowerCase();
+    }
+    SpeedButton1_onClick() {
+        //this.app.addWindow($j.tools.getPath($j.types.internalCategories.APPS)+this.app.name+'/window2');
+        this.app.newWindow('window2');
+    }
+    closeQuery() {
+        const dlg = dialogs.confirmation('Are you sure you want to quit?');
+        dlg.onClose.addListener(function () {
+            Core.apps.activeApplication.activeWindow.canClose = this.modalResult === Window.MODALRESULTS.OK;
+        });
+    }
+    showBorderDialogWindow() {
+        this.app.newWindow('borderDialog');
+    }
+    showBorderNoneWindow() {
+        this.app.newWindow('borderNone');
+    }
+    showBorderSingleWindow() {
+        this.app.newWindow('borderSingle');
+    }
+    showBorderSizeableWindow() {
+        this.app.newWindow('borderSizeable');
+    }
+    countdownEnd() {
+        alert("countdownEnd");
+    }
+}
 
 class Circle {
     constructor(vx, vy, cx, cy) {
-        const colors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#8b00ff'];
-        this.color = colors[(Math.random() * colors.length) | 0];
+        this.color = activeWindow.COLORS[(Math.random() * activeWindow.COLORS.length) | 0];
         this.pos = { x: cx, y: cy };
         this.vel = { x: vx, y: vy };
         this.frame = 1;
@@ -391,18 +366,17 @@ class Circle {
 
 class Star {
     constructor(form, ctx) {
-        const angspeed = [0.01, 0.04];
-        this.size = form.rand([10, 30]);
+        this.size = form.rand(form.SIZE);
         this.x = Math.random() * ctx.canvas.width;
         this.y = -this.size * 2;
         this.vy = this.size / 10;
         this.vx = Math.random() * 6 - 3;
         this.ay = this.size / 5000;
         this.shine = 0;
-        this.shineDir = form.rand([0.01, 0.05]);
+        this.shineDir = form.rand(form.SHINEDIR);
         this.color = 'hsla(hue, 80%, brightness%, .15)'.replace('hue', form.frame % 360);
         this.rot = Math.random() * 2 * Math.PI;
-        this.omega = form.rand(angspeed);
+        this.omega = form.rand(form.ANGSPEED);
         if (Math.random() < 0.5) {
             this.omega *= -1;
         }
@@ -410,7 +384,6 @@ class Star {
         this.ctx = ctx;
     }
     use() {
-        const pentaradiant = Math.PI * 2 / 5;
         this.x += this.vx;
         this.y += this.vy += this.ay;
 
@@ -430,8 +403,8 @@ class Star {
         this.ctx.moveTo(this.size, 0);
 
         for (let i = 0; i < 5; ++i) {
-            const rad = pentaradiant * i;
-            const halfRad = rad + pentaradiant / 2;
+            const rad = this.form.PENTARADIANT * i;
+            const halfRad = rad + this.form.PENTARADIANT / 2;
             this.ctx.lineTo(Math.cos(rad) * this.size, Math.sin(rad) * this.size);
             this.ctx.lineTo(Math.cos(halfRad) * this.size / 2, Math.sin(halfRad) * this.size / 2);
         }

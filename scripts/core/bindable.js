@@ -1,5 +1,6 @@
 ﻿//#region Imports
 import { BaseClass } from '/scripts/core/baseclass.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion
 //#region Bindable
 /**
@@ -24,24 +25,17 @@ const Bindable = (() => {
          * Create a new instance of Bindable.
          */
         constructor(props) {
-            props = !props ? {} : props;
-            super(props);
-            //#region Properties
-            //#region Private Properties
+            super();
             const priv = internal(this);
             priv.dataBindings = props && props.hasOwnProperty('dataBindings') ? props.dataBindings : [];
-            //#endregion Private Properties
-            //#region Public Properties
-            Object.defineProperty(this, 'dataBindings', {
-                enumerable: !0,
-                configurable: !0,
-                get: function () {
-                    return internal(this).dataBindings;
-                }
-            });
-            //#endregion Public Properties
-            //#endregion Properties
         }
+        //#region Getter / Setter
+        //#region dataBindings
+        get dataBindings() {
+            return internal(this).dataBindings;
+        }
+        //#endregion dataBindings
+        //#endregion Getter / Setter
         //#region Methods
         //#region addDataBindings
         addDataBindings(dataBindings) {
@@ -92,9 +86,9 @@ const Bindable = (() => {
                 }
             }
             //#endregion Variables déclaration
-            if (!core.tools.isUndefined(this[property])) {
+            if (!Tools.isUndefined(this[property])) {
                 if (form && form[component]) {
-                    if (!core.tools.isUndefined(form[component][propertyComponent]) &&
+                    if (!Tools.isUndefined(form[component][propertyComponent]) &&
                         typeof this[property] === typeof form[component][propertyComponent]) {
                         priv.dataBindings.push(dataBinding);
                     } else {
@@ -125,12 +119,7 @@ const Bindable = (() => {
         //#endregion clear
         //#region destroy
         destroy() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
             this.clear();
-            priv.dataBindings = null;
-            delete this.dataBindings;
             super.destroy();
         }
         //#endregion destroy
@@ -139,6 +128,6 @@ const Bindable = (() => {
     return Bindable;
     //#endregion Bindable
 })();
-core.classes.register(core.types.CATEGORIES.INTERNAL, Bindable);
+Core.classes.register(Types.CATEGORIES.INTERNAL, Bindable);
 //#endregion Bindable
 export { Bindable };

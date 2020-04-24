@@ -1,5 +1,6 @@
 ﻿//#region Imports
-import { BaseClass } from '/scripts/core/baseclass.js';
+import { Component } from '/scripts/core/component.js';
+import { Tools } from '/scripts/core/tools.js';
 //#endregion
 //#region Action
 /**
@@ -19,17 +20,17 @@ const Action = (() => {
     };
     //#endregion Private
     //#region Action
-    class Action extends BaseClass {
+    class Action extends Component {
         /**
          * Create a new instance of Action.
          * @param    {object}    owner  Owner of the Action.
          * @param    {object}    props  Properties to initialize the Action.
          */
         //#region constructor
-        constructor( props) {
+        constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                super(props);
+                super(owner, props);
                 const priv = internal(this);
                 priv.propertiesToUpdate = ['caption', 'isChecked', 'enabled', 'groupIndex', 'hint', 'imageIndex', 'shortCut', 'visible', 'autoCheck'];
                 priv.caption = String.EMPTY;
@@ -41,8 +42,18 @@ const Action = (() => {
                 priv.shortCut = String.EMPTY;
                 priv.autoCheck = !1;
                 priv.targets = [];
-                priv.owner = owner;
-                priv.visible = !1;
+                const form = this.form;
+                this.visible = !0;
+                this.createEventsAndBind(['onHint', 'onChange', 'onExecute', 'onUpdate'], props);
+                if (props.hasOwnProperty('onExecute')) {
+                    if (form[props.onExecute]) {
+                        this.onExecute.addListener(form[props.onExecute]);
+                    } else if (Tools.isString(props.onExecute)) {
+                        this.onExecute.addListener(new Function(props.onExecute));
+                    } else if (Tools.isFunc(props.onExecute)) {
+                        this.onExecute.addListener(props.onExecute);
+                    }
+                }
             }
         }
         //#endregion constructor
@@ -70,7 +81,7 @@ const Action = (() => {
          */
         set caption(newValue) {
             const priv = internal(this);
-            if (core.core.tools.isString(newValue)) {
+            if (Tools.isString(newValue)) {
                 if (priv.caption !== newValue) {
                     priv.caption = newValue;
                     this.change();
@@ -91,7 +102,7 @@ const Action = (() => {
          */
         set isChecked(newValue) {
             const priv = internal(this);
-            if (core.core.tools.isBool(newValue)) {
+            if (Tools.isBool(newValue)) {
                 if (priv.isChecked !== newValue) {
                     priv.isChecked = newValue;
                     this.change();
@@ -112,7 +123,7 @@ const Action = (() => {
          */
         set enabled(newValue) {
             const priv = internal(this);
-            if (core.core.tools.isBool(newValue)) {
+            if (Tools.isBool(newValue)) {
                 if (priv.enabled !== newValue) {
                     priv.enabled = newValue;
                     this.change();
@@ -133,7 +144,7 @@ const Action = (() => {
          */
         set groupIndex(newValue) {
             const priv = internal(this);
-            if (core.core.tools.isNumber(newValue)) {
+            if (Tools.isNumber(newValue)) {
                 if (priv.groupIndex !== newValue) {
                     priv.groupIndex = newValue;
                     this.change();
@@ -154,7 +165,7 @@ const Action = (() => {
          */
         set hint(newValue) {
             const priv = internal(this);
-            if (core.core.tools.isString(newValue)) {
+            if (Tools.isString(newValue)) {
                 if (priv.hint !== newValue) {
                     priv.hint = newValue;
                     this.change();
@@ -175,7 +186,7 @@ const Action = (() => {
          */
         set imageIndex(newValue) {
             const priv = internal(this);
-            if (core.core.tools.isNumber(newValue)) {
+            if (Tools.isNumber(newValue)) {
                 if (priv.imageIndex !== newValue) {
                     priv.imageIndex = newValue;
                     this.change();
@@ -196,7 +207,7 @@ const Action = (() => {
          */
         set shortCut(newValue) {
             const priv = internal(this);
-            if (core.core.tools.isString(newValue)) {
+            if (Tools.isString(newValue)) {
                 if (priv.shortCut !== newValue) {
                     priv.shortCut = newValue;
                     this.change();
@@ -217,7 +228,7 @@ const Action = (() => {
          */
         set autoCheck(newValue) {
             const priv = internal(this);
-            if (core.tools.isBool(newValue)) {
+            if (Tools.isBool(newValue)) {
                 if (priv.autoCheck !== newValue) {
                     priv.autoCheck = newValue;
                     this.change();
@@ -238,7 +249,7 @@ const Action = (() => {
          */
         set visible(newValue) {
             const priv = internal(this);
-            if (core.tools.isBool(newValue)) {
+            if (Tools.isBool(newValue)) {
                 if (priv.visible !== newValue) {
                     priv.visible = newValue;
                     this.change();
@@ -262,7 +273,7 @@ const Action = (() => {
          */
         //#region registerChanges
         registerChanges(component) {
-            const targets = priv.targets;
+            const targets = this.targets;
             if (targets.indexOf(component) === -1) {
                 targets.push(component);
                 this.updateTarget(component);
@@ -275,7 +286,7 @@ const Action = (() => {
          */
         //#region unRegisterChanges
         unRegisterChanges(component) {
-            const targets = priv.targets;
+            const targets = this.targets;
             if (targets.indexOf(component) > -1) {
                 targets.remove(component);
             }
@@ -287,7 +298,7 @@ const Action = (() => {
          */
         //#region updateTarget
         updateTarget(target) {
-            priv.propertiesToUpdate.forEach(prop => {
+            this.propertiesToUpdate.forEach(prop => {
                 if (target.hasOwnProperty(prop)) {
                     /*if (typeof target[this._propertiesToUpdate[j].firstCharUpper()] === _const.FUNCTION)*/
                     target[prop.firstCharUpper()] = this[prop];
@@ -300,7 +311,7 @@ const Action = (() => {
          */
         //#region change
         change() {
-            priv.targets.forEach(target => {
+            this.targets.forEach(target => {
                 this.updateTarget(target);
             });
         }
@@ -311,7 +322,7 @@ const Action = (() => {
          */
         //#region destroy
         destroy() {
-            priv.targets.forEach(target => {
+            this.targets.forEach(target => {
                 target.action = null;
             });
             targets.clear();
@@ -352,5 +363,5 @@ Object.defineProperties(Action, {
 });
 //#endregion Action defineProperties
 //#endregion Action
-core.classes.register(core.types.CATEGORIES.ACTIONS, Action);
+Core.classes.register(Types.CATEGORIES.ACTIONS, Action);
 export { Action };

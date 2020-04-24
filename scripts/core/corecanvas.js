@@ -332,7 +332,7 @@ Core.checkFontAvailable = (font) => {
 Core.internalMouseEvent = function (mouseEventArg) {
     const filterControls = (ctrl) => {
         if (ctrl.isVisible && ctrl instanceof Core.classes.Control && ctrl.hitTest.has(mouseEventArg.type)) {
-            const bcr = ctrl.boundingClientRect;
+            const bcr = ctrl.getBoundingClientRect();
             if (Core.mouse.document.inRect(bcr)) {
                 return ctrl;
             }
@@ -357,7 +357,7 @@ Core.internalMouseEvent = function (mouseEventArg) {
         }
     }
     activeWin = activeApp.activeWindow;
-    const bcr = activeWin.boundingClientRect;
+    const bcr = activeWin.getBoundingClientRect();
     if (Core.mouse.document.inRect(bcr)) {
         const ctrls = activeWin.allControls.filterBy(filterControls, activeApp);
         if (ctrls.length > 0) {
