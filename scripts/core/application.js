@@ -1,5 +1,4 @@
 ﻿//#region Imports
-import { BaseClass } from '/scripts/core/baseclass.js';
 import { Tools } from '/scripts/core/tools.js';
 //import { Uri } from '/scripts/core/uri.js';
 //import { Xhr } from '/scripts/core/xhr.js';
@@ -25,13 +24,12 @@ const Application = (() => {
         // Return private properties object
         return _private.get(key);
     };
-    class Application extends BaseClass {
+    class Application {
         /**
          * Create a new instance of Application.
          * @param {String}      appName     Name of the Application.
          */
         constructor(appName) {
-            super(appName);
             const priv = internal(this);
             priv.toolTipTimerHandle = null;
             priv.windows = [];

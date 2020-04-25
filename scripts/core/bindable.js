@@ -24,8 +24,8 @@ const Bindable = (() => {
         /**
          * Create a new instance of Bindable.
          */
-        constructor(props) {
-            super();
+        constructor(owner, props) {
+            super(owner, props);
             const priv = internal(this);
             priv.dataBindings = props && props.hasOwnProperty('dataBindings') ? props.dataBindings : [];
         }

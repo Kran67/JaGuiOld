@@ -21,7 +21,7 @@ const Component = (() => {
         //#region constructor
         constructor(owner, props) {
             props = !props ? {} : props;
-            super(props);
+            super(owner, props);
             const priv = internal(this);
             priv.owner = owner;
             priv.owners = [];

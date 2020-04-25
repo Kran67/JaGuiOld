@@ -20,7 +20,7 @@ const BaseClass = (() => {
         /**
          * Create a new instance of BaseClass.
          */
-        constructor() {
+        constructor(owner, props) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration

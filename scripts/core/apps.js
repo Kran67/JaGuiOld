@@ -20,7 +20,7 @@ import '/scripts/core/themedcontrol.js';
 import '/scripts/components/control.js';
 import '/scripts/core/thememanifest.js';
 
-import { BaseClass } from '/scripts/core/baseclass.js';
+import '/scripts/core/baseclass.js';
 import { Tools } from '/scripts/core/tools.js';
 import { Css } from '/scripts/core/css.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
@@ -38,12 +38,11 @@ let Apps = (() => {
         // Return private properties object
         return _private.get(key);
     };
-    class Apps extends BaseClass {
+    class Apps {
         /**
          * Create a new instance of Application.
          */
         constructor() {
-            super();
             const priv = internal(this);
             priv.applications = {};
             priv.activeApplication = null;
