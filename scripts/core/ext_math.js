@@ -1,7 +1,4 @@
-﻿//#region Imports
-import { Tools } from '/scripts/core/tools.js';
-//#endregion Imports
-/***********************/
+﻿/***********************/
 /*                     */
 /* date.js extend Date */
 /*                     */
@@ -13,13 +10,11 @@ if (!Math.intCeiling) {
      * @param       {Number}        precision       Result precision.
      * @returns     {Number}        the int result
      */
-    Math.intCeiling = function (value, precision) {
-        if (Tools.isNumber(value)) {
-            precision = precision || 1;
-            return Math.ceil(value / precision) * precision;
-        } else {
-            return value;
-        }
+    Math.intCeiling = (value, precision) => {
+        precision = precision || 1;
+        return core.tools.isNumber(value)
+            ? Math.ceil(value / precision) * precision
+            : value;
     };
 }
 if (!Math.intFloor) {
@@ -29,13 +24,11 @@ if (!Math.intFloor) {
      * @param       {Number}        precision       Result precision.
      * @returns     {Number}        the int result
      */
-    Math.intFloor = function (value, precision) {
-        if (Tools.isNumber(value)) {
-            precision = precision || 1;
-            return Math.floor(value / precision) * precision;
-        } else {
-            return value;
-        }
+    Math.intFloor = (value, precision) => {
+        precision = precision || 1;
+        return core.tools.isNumber(value)
+            ? Math.floor(value / precision) * precision
+            : value;
     };
 }
 if (!Math.intRound) {
@@ -45,13 +38,11 @@ if (!Math.intRound) {
      * @param       {Number}        precision       Result precision.
      * @returns     {Number}        the int result
      */
-    Math.intRound = function (value, precision) {
-        if (Tools.isNumber(value)) {
-            precision = precision || 1;
-            return Math.round(value / precision) * precision;
-        } else {
-            return value;
-        }
+    Math.intRound = (value, precision) => {
+        precision = precision || 1;
+        return core.tools.isNumber(value)
+            ? Math.round(value / precision) * precision
+            : value;
     };
 }
 if (!Math.sqr) {
@@ -60,11 +51,10 @@ if (!Math.sqr) {
      * @param       {Number}        value       Value to sqr
      * @returns     {Number}        the result in absolute value
      */
-    Math.sqr = function (value) {
-        if (Tools.isNumber(value)) {
-            return Math.abs2(value) * Math.abs(value);
-        }
-        return value;
+    Math.sqr = (value) => {
+        return core.tools.isNumber(value)
+            ? Math.abs2(value) * Math.abs(value)
+            : value;
     };
 }
 if (!Math.frac) {
@@ -73,11 +63,10 @@ if (!Math.frac) {
      * @param       {Number}        value       Value to get frac part
      * @returns     {Number}        the fractional part
      */
-    Math.frac = function (value) {
-        if (Tools.isNumber(value)) {
-            return +value - ~~value;
-        }
-        return value;
+    Math.frac = (value) => {
+        return core.tools.isNumber(value)
+            ? +value - ~~value
+            : value;
     };
 }
 if (!Math.RSqrt) {
@@ -86,84 +75,74 @@ if (!Math.RSqrt) {
      * @param       {Number}        value value to evaluate
      * @return {Number} the inverse of the sqrt
      */
-    Math.RSqrt = function (value) {
-        if (Tools.isNumber(value)) {
+    Math.RSqrt = (value) => {
+        if (core.tools.isNumber(value)) {
             const r = Math.abs2(value);
-            if (r > 0) {
-                return 1 / Math.sqrt(r);
-            } else {
-                return 1;
-            }
+            return r > 0
+                ? 1 / Math.sqrt(r)
+                : 1;
         }
         return value;
     };
 }
 if (!Math.mod) {
-    Math.mod = function (value, value1) {
-        if (Tools.isNumber(value) || Tools.isNumber(value1)) {
-            return value & value1 - 1;
-        }
-        return 0;
+    Math.mod = (value, value1) => {
+        return core.tools.isNumber(value) || core.tools.isNumber(value1)
+            ? value & value1 - 1
+            : 0;
     };
 }
 if (!Math.maxFloat) {
-    Math.maxFloat = function (value, value1) {
-        if (Tools.isNumber(value) && Tools.isNumber(value1)) {
-            if (value > value1) {
-                return value;
-            } else {
-                return value1;
-            }
-        }
-        return 0;
+    Math.maxFloat = (value, value1) => {
+        return core.tools.isNumber(value) && core.tools.isNumber(value1)
+            ? value > value1
+                ? value
+                : value1
+            : 0;
     };
 }
 if (!Math.sinCos) {
-    Math.sinCos = function (value) {
-        if (Tools.isNumber(value)) {
-            const s = Math.sin(value), c = Math.cos(value);
-            return { sin: s, cos: c };
-        }
-        return 0;
+    Math.sinCos = (value) => {
+        return core.tools.isNumber(value)
+            ? { sin: Math.sin(value), cos: Math.cos(value) }
+            : 0;
     };
 }
 if (!Math.mulDiv) {
-    Math.mulDiv = function (number, numerator, denominator) {
+    Math.mulDiv = (number, numerator, denominator) => {
         return ~~(number * numerator / denominator);
     };
 }
 if (!Math.isZero) {
-    Math.isZero = function (value, epsilon) {
-        if (epsilon === undefined) {
-            epsilon = 1E-19 * 1000;
-        }
+    Math.isZero = (value, epsilon) => {
+        epsilon === undefined
+            ? epsilon = 1E-19 * 1000
+            : 1;
         return Math.abs2(value) <= epsilon;
     };
 }
 if (!Math.isUndefined) {
-    Math.isUndefined = function (obj) {
+    Math.isUndefined = (obj) => {
         return obj === undefined;
     };
 }
 if (!Math.decimalPart) {
-    Math.decimalPart = function (value) {
+    Math.decimalPart = (value) => {
         return ~~value - value;
     };
 }
 if (!Math.isNumber) {
-    Math.isNumber = function (num) { return !Array.isArray(num) && num - parseFloat(num) + 1 >= 0; };
+    Math.isNumber = (num) => { return !Array.isArray(num) && num - parseFloat(num) + 1 >= 0; };
 }
 if (!Math.abs2) {
-    Math.abs2 = function (value) {
+    Math.abs2 = (value) => {
         return (value ^ value >> 31) - (value >> 31);
     };
 }
 if (!Math.getDigit) {
-    Math.getDigit = function(number, n) {
-        if (number.toString().length<n)
-        {
-            return null;
-        }
-        return Math.floor((number / Math.pow(10, n - 1)) % 10);
+    Math.getDigit = (number, n) => {
+        return number.toString().length < n
+            ? null
+            : Math.floor((number / Math.pow(10, n - 1)) % 10);
     }
 }

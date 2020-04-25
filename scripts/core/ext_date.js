@@ -1,7 +1,4 @@
-﻿//#region imports
-import { Tools } from '/scripts/core/tools.js';
-//#endregion imports
-/***********************/
+﻿/***********************/
 /*                     */
 /* date.js extend Date */
 /*                     */
@@ -21,7 +18,7 @@ Object.defineProperty(Date.prototype, 'dayName', {
      * @returns     {String}        the day name of the date
      */
     get: function () {
-        return Tools.getLocale().date.dayNames[this.getDay()];
+        return core.tools.getLocale().date.dayNames[this.getDay()];
     }
 });
 Object.defineProperty(Date.prototype, 'shortDayName', {
@@ -30,7 +27,7 @@ Object.defineProperty(Date.prototype, 'shortDayName', {
      * @returns     {String}        the short day name of the date
      */
     get: function () {
-        return Tools.getLocale().date.dayNames[this.getDay()].substr(0, 3);
+        return core.tools.getLocale().date.dayNames[this.getDay()].substr(0, 3);
     }
 });
 Object.defineProperty(Date.prototype, 'month', {
@@ -48,7 +45,7 @@ Object.defineProperty(Date.prototype, 'monthName', {
      * @returns     {String}        the month name of the date
      */
     get: function () {
-        return Tools.getLocale().date.monthNames[this.getMonth()];
+        return core.tools.getLocale().date.monthNames[this.getMonth()];
     }
 });
 Object.defineProperty(Date.prototype, 'shortMonthName', {
@@ -61,10 +58,8 @@ Object.defineProperty(Date.prototype, 'shortMonthName', {
         let cMonth = String.EMPTY;
         const nMonth = this.getMonth();
         //#endregion Variables déclaration
-        cMonth = Tools.getLocale().date.monthNames[nMonth];
-        if (nMonth === 5 || nMonth === 6) {
-            cMonth.remove(2, 1);
-        }
+        cMonth = core.tools.getLocale().date.monthNames[nMonth];
+        nMonth === 5 || nMonth === 6 ? cMonth.remove(2, 1) : 1;
         return cMonth.substr(0, 3);
     }
 });
@@ -120,7 +115,7 @@ if (!Date.prototype.addDays) {
      * @returns     {Date}          the new date
      */
     Date.prototype.addDays = function (d) {
-        if (Tools.isNumber(d)) {
+        if (core.tools.isNumber(d)) {
             const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
             a.setDate(this.getDate() + d);
             return a;
@@ -135,7 +130,7 @@ if (!Date.prototype.addMonths) {
      * @returns     {Date}          the new date
      */
     Date.prototype.addMonths = function (m) {
-        if (Tools.isNumber(m)) {
+        if (core.tools.isNumber(m)) {
             const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
             if (a.getMonth() + m > 11) {
                 a.setMonth(0);
@@ -155,7 +150,7 @@ if (!Date.prototype.addYears) {
      * @returns     {Date}          the new date
      */
     Date.prototype.addYears = function (y) {
-        if (Tools.isNumber(y)) {
+        if (core.tools.isNumber(y)) {
             const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
             a.setFullYear(a.getFullYear() + y);
             return a;
@@ -170,10 +165,9 @@ if (!Date.prototype.addHours) {
      * @returns     {Date}          the new date
      */
     Date.prototype.addHours = function (a) {
-        if (Tools.isNumber(a)) {
-            return this.addMilliseconds(a * 3600000);
-        }
-        return this;
+        return core.tools.isNumber(a)
+            ? this.addMilliseconds(a * 3600000)
+            : this;
     };
 }
 if (!Date.prototype.addMinutes) {
@@ -183,10 +177,9 @@ if (!Date.prototype.addMinutes) {
      * @returns     {Date}          the new date
      */
     Date.prototype.addMinutes = function (a) {
-        if (Tools.isNumber(a)) {
-            return this.addMilliseconds(a * 60000);
-        }
-        return this;
+        return core.tools.isNumber(a)
+            ? this.addMilliseconds(a * 60000)
+            : this;
     };
 }
 if (!Date.prototype.addSeconds) {
@@ -196,10 +189,9 @@ if (!Date.prototype.addSeconds) {
      * @returns     {Date}          the new date
      */
     Date.prototype.addSeconds = function (a) {
-        if (Tools.isNumber(a)) {
-            return this.addMilliseconds(a * 1000);
-        }
-        return this;
+        return core.tools.isNumber(a)
+            ? this.addMilliseconds(a * 1000)
+            : this;
     };
 }
 if (!Date.prototype.addMilliseconds) {
@@ -209,7 +201,7 @@ if (!Date.prototype.addMilliseconds) {
      * @returns     {Date}          the new date
      */
     Date.prototype.addMilliseconds = function (m) {
-        if (Tools.isNumber(m)) {
+        if (core.tools.isNumber(m)) {
             const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
             a.setMilliseconds(a.getMilliseconds() + m);
             return a;
@@ -267,7 +259,7 @@ Object.defineProperty(Date.prototype, 'isLeapYear', {
  * @returns     {Boolean}       true if date is within a LeapYear, otherwise false.
 */
 Date.isLeapYear = function (a) {
-    if (Tools.isNumber(a)) {
+    if (core.tools.isNumber(a)) {
         return Math.mod(a, 4) === 0 && Math.mod(a, 100) !== 0 || Math.mod(a, 400) === 0;
     }
 };
@@ -278,10 +270,9 @@ Date.isLeapYear = function (a) {
  * @returns     {Number}        The number of days in the month.
  */
 Date.getDaysInMonth = function (y, m) {
-    if (Tools.isNumber(y) && Tools.isNumber(m)) {
-        return [31, Date.isLeapYear(y) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m];
-    }
-    return 0;
+    return core.tools.isNumber(y) && core.tools.isNumber(m)
+        ? [31, Date.isLeapYear(y) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m]
+        : 0;
 };
 Object.defineProperty(Date.prototype, 'daysInMonth', {
     /**
@@ -324,10 +315,9 @@ if (!Date.prototype.addWeeks) {
      * @returns     {Date}          the new date
      */
     Date.prototype.addWeeks = function (a) {
-        if (Tools.isNumber(a)) {
-            return this.addMilliseconds(a * 604800000);
-        }
-        return this;
+        return core.tools.isNumber(a)
+            ? this.addMilliseconds(a * 604800000)
+            : this;
     };
 }
 if (!Date.prototype.JJMMAAAA) {
@@ -337,9 +327,7 @@ if (!Date.prototype.JJMMAAAA) {
      * @returns     {String}        the string date
      */
     Date.prototype.JJMMAAAA = function (a) {
-        if (!Tools.isString(a)) {
-            a = '/';
-        }
+        !core.tools.isString(a) ? a = '/' : 1;
         return String(this.day).padStart(2, '0') + a + String(this.month).padStart(2, '0') + a + this.year;
     };
 }
@@ -350,9 +338,7 @@ if (!Date.prototype.HHMMSS) {
      * @returns     {String}        the string date
      */
     Date.prototype.HHMMSS = function (a) {
-        if (!Tools.isString(a)) {
-            a = ':';
-        }
+        !core.tools.isString(a) ? a = ':' : 1;
         return String(this.hours).padStart(2, '0') + a + String(this.minutes).padStart(2, '0') + a + String(this.seconds).padStart(2, '0');
     };
 }
@@ -443,61 +429,71 @@ Object.defineProperty(Date.prototype, 'firstDayOfWeek', {
  * @param {String}   A format string consisting of one or more format spcifiers [Optional].
  * @return {String}  A string representation of the current Date object.
  */
-Date.prototype.toString = function (format) {
-    format = format || String.EMPTY;
-    //#region Variables déclaration
-    const p = (s) => {
-        return s.toString().length === 1 ? '0' + s : s;
+Date.prototype.toString = function (local, format) {
+    format = format || {
+        hour12: true,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
     };
-    const self = this;
-    //#endregion Variables déclaration
-    return format ? format.replace(/dd?d?d?|MM?M?M?|yy?y?y?|hh?|HH?|mm?|ss?|tt?|zz?z?/g,
-        (f) => {
-            if (f === 'hh') {
-                return p(self.hours < 13 ? self.hours : self.hours - 12);
-            } else if (f === 'h') {
-                return self.hours < 13 ? self.hours : self.hours - 12;
-            } else if (f === 'HH') {
-                return p(self.hours);
-            } else if (f === 'H') {
-                return self.hours;
-            } else if (f === 'mm') {
-                return p(self.minutes);
-            } else if (f === 'm') {
-                return self.minutes;
-            } else if (f === 'ss') {
-                return p(self.seconds);
-            } else if (f === 's') {
-                return self.seconds;
-            } else if (f === 'yyyy') {
-                return self.year;
-            } else if (f === 'yy') {
-                return self.year.toString().substring(2, 4);
-            } else if (f === 'dddd') {
-                return self.dayName;
-            } else if (f === 'ddd') {
-                return self.shortDayName;
-            } else if (f === 'dd') {
-                return p(self.day);
-            } else if (f === 'd') {
-                return self.day.toString();
-            } else if (f === 'MMMM') {
-                return self.monthName;
-            } else if (f === 'MMM') {
-                return self.shortMonthName;
-            } else if (f === 'MM') {
-                return p(self.month + 1);
-            } else if (f === 'M') {
-                return self.month + 1;
-            } else if (f === 't') {
-                return self.hours < 12 ? Core.currentLocale.am.substring(0, 1) : Core.currentLocale.pm.substring(0, 1);
-            } else if (f === 'tt') {
-                return self.hours < 12 ? Core.currentLocale.am : Core.currentLocale.pm;
-            } else if (f === 'zzz' || f === 'zz' || f === 'z') {
-                return String.EMPTY;
-            }
-        }
-    ) : this._toString();
+    return new Intl.DateTimeFormat(local).format(this);
+    //format = format || String.EMPTY;
+    ////#region Variables déclaration
+    //const p = (s) => {
+    //    return s.toString().length === 1 ? '0' + s : s;
+    //};
+    //const self = this;
+    ////#endregion Variables déclaration
+    //return format ? format.replace(/dd?d?d?|MM?M?M?|yy?y?y?|hh?|HH?|mm?|ss?|tt?|zz?z?/g,
+    //    (f) => {
+    //        if (f === 'hh') {
+    //            return p(self.hours < 13 ? self.hours : self.hours - 12);
+    //        } else if (f === 'h') {
+    //            return self.hours < 13 ? self.hours : self.hours - 12;
+    //        } else if (f === 'HH') {
+    //            return p(self.hours);
+    //        } else if (f === 'H') {
+    //            return self.hours;
+    //        } else if (f === 'mm') {
+    //            return p(self.minutes);
+    //        } else if (f === 'm') {
+    //            return self.minutes;
+    //        } else if (f === 'ss') {
+    //            return p(self.seconds);
+    //        } else if (f === 's') {
+    //            return self.seconds;
+    //        } else if (f === 'yyyy') {
+    //            return self.year;
+    //        } else if (f === 'yy') {
+    //            return self.year.toString().substring(2, 4);
+    //        } else if (f === 'dddd') {
+    //            return self.dayName;
+    //        } else if (f === 'ddd') {
+    //            return self.shortDayName;
+    //        } else if (f === 'dd') {
+    //            return p(self.day);
+    //        } else if (f === 'd') {
+    //            return self.day.toString();
+    //        } else if (f === 'MMMM') {
+    //            return self.monthName;
+    //        } else if (f === 'MMM') {
+    //            return self.shortMonthName;
+    //        } else if (f === 'MM') {
+    //            return p(self.month + 1);
+    //        } else if (f === 'M') {
+    //            return self.month + 1;
+    //        } else if (f === 't') {
+    //            return self.hours < 12 ? Core.currentLocale.am.substring(0, 1) : Core.currentLocale.pm.substring(0, 1);
+    //        } else if (f === 'tt') {
+    //            return self.hours < 12 ? Core.currentLocale.am : Core.currentLocale.pm;
+    //        } else if (f === 'zzz' || f === 'zz' || f === 'z') {
+    //            return String.EMPTY;
+    //        }
+    //    }
+    //) : this._toString();
 };
 
 Object.defineProperty(Date.prototype, 'yearDay', {
@@ -573,27 +569,23 @@ Date.isDate = function (a) {
 
         // Si l'année n'est composée que de 2 chiffres on complète automatiquement
         if (d[2] < 1000) {
-            if (d[2] < 89) {
-                d[2] += 2000; // Si a<89 alors on ajoute 2000 sinon on ajoute 1900
-            } else {
-                d[2] += 1900;
-            }
+            d[2] < 89
+                ? d[2] += 2000 // Si a<89 alors on ajoute 2000 sinon on ajoute 1900
+                : d[2] += 1900;
         }
 
         // Définition du dernier jour de février
         // Année bissextile si annnée divisible par 4 et que ce n'est pas un siècle,ou bien si divisible par 400
-        if (Math.mod(d[2], 4) === 0 && Math.mod(d[2], 100) !== 0 || Math.mod(d[2], 400) === 0) {
-            d[3] = 29;
-        } else {
-            d[3] = 28;
-        }
+        Math.mod(d[2], 4) === 0 && Math.mod(d[2], 100) !== 0 || Math.mod(d[2], 400) === 0
+            ? d[3] = 29
+            : d[3] = 28;
 
         // Nombre de jours pour chaque mois
         d[4] = new Array(31, d[3], 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
         // Enfin,retourne vrai si le jour est bien entre 1 et le bon nombre de jours,idem pour les mois,sinon retourn faux
         return d[1] >= 1 && d[1] <= 12 && d[0] >= 1 && d[0] <= d[4][d[1] - 1];
     }
-    return false;
+    return !1;
 };
 /**
  * Check if a string date is a real french date
@@ -601,7 +593,7 @@ Date.isDate = function (a) {
  * @returns     {Boolean}       true if the string is a french date otherwise false
  */
 Date.dateExists = function (a) {
-    if (a != undefined && Tools.isString(a)) {
+    if (a != undefined && core.tools.isString(a)) {
         const d = a.split('/'), c = d[0] + d[1] + d[2];
         if (a.length !== 10 || a.charAt(2) !== '/' || a.charAt(5) !== '/') {
             return !1;

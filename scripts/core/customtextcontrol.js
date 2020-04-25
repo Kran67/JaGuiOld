@@ -1,7 +1,5 @@
 ﻿//#region Imports
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
-import { Tools } from '/scripts/core/tools.js';
-import { Convert } from '/scripts/core/convert.js';
 import { Events } from '/scripts/core/events.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Imports
@@ -24,271 +22,220 @@ const CustomTextControl = (function () {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.canFocused = !0;
                 super(owner, props);
+                //#region Properties
+                //#region Private Properties
                 const priv = internal(this);
                 priv.inputObj = null;
-                priv.hasError = props.hasOwnProperty('hasError')?props.hasError:!1;
-                priv.text = props.hasOwnProperty('text')?props.text:String.EMPTY;
-                priv.maxLength = props.hasOwnProperty('maxLength')?props.maxLength:0;
-                priv.readOnly = props.hasOwnProperty('readOnly')?props.readOnly:!1;
-                priv.placeHolder = props.hasOwnProperty('placeHolder')?props.placeHolder:String.EMPTY;
-                priv.filterChars = props.hasOwnProperty('filterChars')?props.filterChars:String.EMPTY;
+                priv.hasError = props.hasOwnProperty('hasError') ? props.hasError : !1;
+                priv.text = props.hasOwnProperty('text') ? props.text : String.EMPTY;
+                priv.maxLength = props.hasOwnProperty('maxLength') ? props.maxLength : 0;
+                priv.readOnly = props.hasOwnProperty('readOnly') ? props.readOnly : !1;
+                priv.placeHolder = props.hasOwnProperty('placeHolder') ? props.placeHolder : String.EMPTY;
+                priv.filterChars = props.hasOwnProperty('filterChars') ? props.filterChars : String.EMPTY;
                 priv.autoTranslate = !0;
-                priv.required = props.hasOwnProperty('required')?props.required:!1;
-                priv.errorMsg = props.hasOwnProperty('errorMsg')?props.errorMsg:String.EMPTY;
-                let textAligns = Types.TEXTALIGNS;
-                Tools.addPropertyFromEnum({
+                priv.required = props.hasOwnProperty('required') ? props.required : !1;
+                priv.errorMsg = props.hasOwnProperty('errorMsg') ? props.errorMsg : String.EMPTY;
+                let textAligns = core.types.TEXTALIGNS;
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'horizAlign',
                     enum: textAligns,
                     variable: priv,
-                    value: props.hasOwnProperty('horizAlign')?props.horizAlign:textAligns.CENTER
+                    forceUpdate: !0,
+                    value: props.hasOwnProperty('horizAlign') ? props.horizAlign : textAligns.CENTER
                 });
                 textAligns = null;
-                let htmlInputTypes = Types.HTMLINPUTTYPES;
-                Tools.addPropertyFromEnum({
+                let htmlInputTypes = core.types.HTMLINPUTTYPES;
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'type',
                     enum: htmlInputTypes,
                     variable: priv,
                     forceUpdate: !0,
-                    value: props.hasOwnProperty('type')?props.type:htmlInputTypes.TEXT
+                    value: props.hasOwnProperty('type') ? props.type : htmlInputcore.types.TEXT
                 });
                 htmlInputTypes = null;
+                //#endregion Private Properties
+                //#region Public Properties
                 this.createEventsAndBind(['onChange'], props);
-                this.canFocused = !0;
+                Object.defineProperties(this, {
+                    'inputObj': {
+                        enumerable: !1,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).inputObj;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            const htmlElement = this.HTMLElement;
+                            //#endregion Variables déclaration
+                            if ((newValue instanceof HTMLInputElement || newValue instanceof HTMLTextAreaElement)
+                                && priv.inputObj !== newValue) {
+                                htmlElement.removeChild(priv.inputObj);
+                                priv.inputObj = newValue;
+                                htmlElement.appendChild(priv.inputObj);
+                            }
+                        }
+                    },
+                    'hasError': {
+                        enumerable: !1,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).hasError;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            core.tools.isBool(newValue) && priv.hasError !== newValue ? priv.hasError = newValue : 1;
+                        }
+                    },
+                    'text': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return this.inputObj.value;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            if (core.tools.isString(newValue) && priv.text !== newValue) {
+                                priv.text = newValue;
+                                this.propertyChanged(core.tools.getPropertyName());
+                                !this.loading && !this.form.loading && core.isHTMLRenderer ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'maxLength': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).maxLength;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            if (core.tools.isNumber(newValue) && priv.maxLength !== newValue) {
+                                priv.maxLength = newValue;
+                                this.propertyChanged(core.tools.getPropertyName());
+                                core.isHTMLRenderer ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'readOnly': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).readOnly;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            if (core.tools.isBool(newValue) && priv.readOnly !== newValue) {
+                                priv.readOnly = newValue;
+                                this.propertyChanged(core.tools.getPropertyName());
+                                core.isHTMLRenderer ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'placeHolder': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).placeHolder;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            if (core.tools.isString(newValue) && priv.placeHolder !== newValue) {
+                                priv.placeHolder = newValue;
+                                this.propertyChanged(core.tools.getPropertyName());
+                                core.isHTMLRenderer ? this.update() : 1;
+                            }
+                        }
+                    },
+                    'filterChars': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).filterChars;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            core.tools.isString(newValue) && priv.filterChars !== newValue ? priv.filterChars = newValue : 1;
+                        }
+                    },
+                    'autoTranslate': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).autoTranslate;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            core.tools.isBool(newValue) && priv.autoTranslate !== newValue ? priv.autoTranslate = newValue : ;
+                        }
+                    },
+                    'required': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).required;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            core.tools.isBool(newValue) && priv.required !== newValue ? priv.required = newValue : 1;
+                        }
+                    },
+                    'errorMsg': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).errorMsg;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            core.tools.isBool(newValue) && priv.errorMsg !== newValue ? priv.errorMsg = newValue : 1;
+                        }
+                    },
+                    'enabled': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return super.enabled;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            const inputObj = priv.inputObj;
+                            //#endregion Variables déclaration
+                            if (core.tools.isBool(newValue) && this.enabled !== newValue) {
+                                super.enabled = newValue;
+                                newValue ? inputObj.removeAttribute('disabled') : inputObj.setAttribute('disabled', 'disabled');
+                            }
+                        }
+                    }
+                });
+                //#endregion Public Properties
+                //#endregion Properties
             }
         }
         //#endregion constructor
-        //#region Getters / Setters
-        //#region inputObj
-        get inputObj() {
-            return internal(this).inputObj;
-        }
-        set inputObj(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const htmlElement = this.HTMLElement;
-            //#endregion Variables déclaration
-            if (newValue instanceof HTMLInputElement || newValue instanceof HTMLTextAreaElement) {
-                if (priv.inputObj !== newValue) {
-                    htmlElement.removeChild(priv.inputObj);
-                    priv.inputObj = newValue;
-                    htmlElement.appendChild(priv.inputObj);
-                }
-            }
-        }
-        //#endregion inputObj
-        //#region hasError
-        get hasError() {
-            return internal(this).hasError;
-        }
-        set hasError(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.hasError !== newValue) {
-                    priv.hasError = newValue;
-                }
-            }
-        }
-        //#endregion hasError
-        //#region stopEvent
-        get stopEvent() {
-            return internal(this).stopEvent;
-        }
-        set stopEvent(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.stopEvent !== newValue) {
-                    priv.stopEvent = newValue;
-                }
-            }
-        }
-        //#endregion stopEvent
-        //#region text
-        get text() {
-            return this.inputObj.value;
-        }
-        set text(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.text !== newValue) {
-                    priv.text = newValue;
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (!this.loading && !this.form.loading) {
-                        if (Core.isHTMLRenderer) {
-                            this.update();
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion text
-        //#region maxLength
-        get maxLength() {
-            return internal(this).maxLength;
-        }
-        set maxLength(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.maxLength !== newValue) {
-                    priv.maxLength = newValue;
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (Core.isHTMLRenderer) {
-                        this.update();
-                    }
-                }
-            }
-        }
-        //#endregion maxLength
-        //#region readOnly
-        get readOnly() {
-            return internal(this).readOnly;
-        }
-        set readOnly(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.readOnly !== newValue) {
-                    priv.readOnly = newValue;
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (Core.isHTMLRenderer) {
-                        this.update();
-                    }
-                }
-            }
-        }
-        //#endregion readOnly
-        //#region placeHolder
-        get placeHolder() {
-            return internal(this).placeHolder;
-        }
-        set placeHolder(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.placeHolder !== newValue) {
-                    priv.placeHolder = newValue;
-                    this.propertyChanged(Tools.getPropertyName());
-                    if (Core.isHTMLRenderer) {
-                        this.update();
-                    }
-                }
-            }
-        }
-        //#endregion placeHolder
-        //#region filterChars
-        get filterChars() {
-            return internal(this).filterChars;
-        }
-        set filterChars(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.filterChars !== newValue) {
-                    priv.filterChars = newValue;
-                }
-            }
-        }
-        //#endregion filterChars
-        //#region autoTranslate
-        get autoTranslate() {
-            return internal(this).autoTranslate;
-        }
-        set autoTranslate(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.autoTranslate !== newValue) {
-                    priv.autoTranslate = newValue;
-                }
-            }
-        }
-        //#endregion autoTranslate
-        //#region required
-        get required() {
-            return internal(this).required;
-        }
-        set required(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.required !== newValue) {
-                    priv.required = newValue;
-                }
-            }
-        }
-        //#endregion required
-        //#region errorMsg
-        get errorMsg() {
-            return internal(this).errorMsg;
-        }
-        set errorMsg(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.errorMsg !== newValue) {
-                    priv.errorMsg = newValue;
-                }
-            }
-        }
-        //#endregion errorMsg
-        //#region enabled
-        get enabled() {
-            return super.enabled;
-        }
-        set enabled(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const inputObj = priv.inputObj;
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (this.enabled !== newValue) {
-                    super.enabled = newValue;
-                    if (this.enabled) {
-                        inputObj.removeAttribute('disabled');
-                    } else {
-                        inputObj.setAttribute('disabled', 'disabled');
-                    }
-                }
-            }
-        }
-        //#endregion enabled
-        //#region _horizAlign
-        _horizAlign(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, Types.TEXTALIGNS)) {
-                if (newValue !== priv.horizAlign) {
-                    priv.horizAlign = newValue;
-                    if ((!this.loading && !this.form.loading)) {
-                        if (this.allowUpdate) {
-                            this.update();
-                        }
-                        if (!Core.isHTMLRenderer) {
-                            this.form.addControlToRedraw(this);
-                        }
-                    }
-                }
-            }
-        }
-        //#endregion _horizAlign
-        //#endregion Getters / Setters
         //#region Methods
         //#region loaded
         loaded() {
@@ -297,7 +244,7 @@ const CustomTextControl = (function () {
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (!htmlElement.querySelector('input')) {
-                priv.inputObj = document.createElement(Types.HTMLELEMENTS.INPUT);
+                priv.inputObj = document.createElement(core.types.HTMLELEMENTS.INPUT);
                 priv.inputObj.type = priv.type;
                 priv.inputObj.classList.add('Control', 'csr_text', 'TextBoxInput', `${this.constructor.name}Input`, this.themeName);
                 priv.inputObj.jsObj = this;
@@ -315,19 +262,13 @@ const CustomTextControl = (function () {
             const priv = internal(this);
             const inputObj = priv.inputObj;
             //#endregion Variables déclaration
-            if (!this.loading && !this.form.loading) {
-                if (inputObj) {
-                    inputObj.value = priv.text;
-                    if (priv.maxLength > 0) {
-                        inputObj.setAttribute('maxlength', priv.maxLength);
-                    }
-                    inputObj.setAttribute('placeholder', priv.placeHolder);
-                    if (priv.readOnly) {
-                        inputObj.setAttribute('readonly', String.EMPTY);
-                    } else {
-                        inputObj.removeAttribute('readonly');
-                    }
-                }
+            if (!this.loading && !this.form.loading && inputObj) {
+                inputObj.value = priv.text;
+                priv.maxLength > 0 ? inputObj.setAttribute('maxlength', priv.maxLength) : 1;
+                inputObj.setAttribute('placeholder', priv.placeHolder);
+                priv.readOnly
+                    ? inputObj.setAttribute('readonly', String.EMPTY)
+                    : inputObj.removeAttribute('readonly');
             }
         }
         //#endregion update
@@ -337,9 +278,7 @@ const CustomTextControl = (function () {
             const jsObj = this.jsObj;
             //#endregion Variables déclaration
             jsObj.text = this.value;
-            if (!jsObj.updating) {
-                jsObj.onChange.invoke();
-            }
+            !jsObj.updating ? jsObj.onChange.invoke() : 1;
         }
         //#endregion textChanged
         //#region keyPress
@@ -348,11 +287,8 @@ const CustomTextControl = (function () {
             const priv = internal(this);
             //#endregion Variables déclaration
             const filterChars = this.filterChars;
-            if (!Core.keyboard.isNavigationKey) {
-                if (filterChars.length > 0 && filterChars.indexOf(Core.keyboard.keyChar) === -1) {
-                    Core.keyboard.stopEvent();
-                }
-            }
+            !core.keyboard.isNavigationKey && filterChars.length > 0 && filterChars.indexOf(core.keyboard.keyChar) === -1
+                ? core.keyboard.stopEvent() : 1;
             this.textChanged.apply(priv.inputObj);
             super.keyPress();
             this.onChange.invoke();
@@ -373,23 +309,18 @@ const CustomTextControl = (function () {
             //#region Variables déclaration
             const jsObj = this.jsObj;
             //#endregion Variables déclaration
-            if (jsObj.canFocused) {
-                jsObj.enterFocus();
-            }
+            jsObj.canFocused ? jsObj.enterFocus() : 1;
         }
-        //#ndregion HTMLFocus
+        //#endregion HTMLFocus
         //#region HTMLBlur
         HTMLBlur() {
             //#region Variables déclaration
             const jsObj = this.jsObj;
             //#endregion Variables déclaration
-            if (jsObj.form.focusedControl === jsObj) {
-                if (jsObj.app.activeWindow === jsObj.form) {
-                    this.focus();
-                } else {
-                    this.blur();
-                }
-            }
+            jsObj.form.focusedControl === jsObj
+                ? jsObj.app.activeWindow === jsObj.form
+                    ? this.focus() : this.blur()
+                : 1;
         }
         //#endregion HTMLBlur
         //#region setFocus
@@ -399,12 +330,9 @@ const CustomTextControl = (function () {
             //#endregion Variables déclaration
             const inputObj = priv.inputObj;
             super.setFocus();
-            if (this.canFocused) {
-                if (inputObj) {
-                    //this.selectAll();
-                    inputObj.focus();
-                }
-            }
+            this.canFocused
+                ? inputObj ? inputObj.focus() : 1
+                : 1
         }
         //#endregion setFocus
         //#region selectAll
@@ -418,7 +346,28 @@ const CustomTextControl = (function () {
         //#region destroy
         destroy() {
             this.unbindEventToHTMLInput();
-            this.onChange.destroy();
+            this.unBindAndDestroyEvents(['onChange']);
+            priv.inputObj = null;
+            priv.hasError = null;
+            priv.text = null;
+            priv.maxLength = null;
+            priv.readOnly = null;
+            priv.placeHolder = null;
+            priv.filterChars = null;
+            priv.autoTranslate = null;
+            priv.required = null;
+            priv.errorMsg = null;
+            delete this.inputObj;
+            delete this.hasError;
+            delete this.text;
+            delete this.maxLength;
+            delete this.readOnly;
+            delete this.placeHolder;
+            delete this.filterChars;
+            delete this.autoTranslate;
+            delete this.required;
+            delete this.errorMsg;
+            delete this.enabled;
             super.destroy();
         }
         //#endregion destroy
@@ -427,7 +376,7 @@ const CustomTextControl = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             const inputObj = priv.inputObj;
-            const htmlEvents = Types.HTMLEVENTS;
+            const htmlEvents = core.types.HTMLEVENTS;
             const KEYBORDEVENTS = Keyboard.KEYBORDEVENTS;
             //#endregion Variables déclaration
             Events.bind(inputObj, htmlEvents.CHANGE, this.textChanged);
@@ -443,7 +392,7 @@ const CustomTextControl = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             const inputObj = priv.inputObj;
-            const htmlEvents = Types.HTMLEVENTS;
+            const htmlEvents = core.types.HTMLEVENTS;
             const KEYBORDEVENTS = Keyboard.KEYBORDEVENTS;
             //#endregion Variables déclaration
             Events.unBind(inputObj, htmlEvents.CHANGE, this.textChanged);
@@ -459,34 +408,6 @@ const CustomTextControl = (function () {
     return CustomTextControl;
     //#endregion Class CustomTextControl
 })();
-//#region BaseWindow defineProperties
-Object.defineProperties(CustomTextControl, {
-    'text': {
-        enumerable: !0
-    },
-    'maxLength': {
-        enumerable: !0
-    },
-    'readOnly': {
-        enumerable: !0
-    },
-    'placeHolder': {
-        enumerable: !0
-    },
-    'filterChars': {
-        enumerable: !0
-    },
-    'autoTranslate': {
-        enumerable: !0
-    },
-    'required': {
-        enumerable: !0
-    },
-    'errorMsg': {
-        enumerable: !0
-    }
-});
-//#endregion BaseWindow defineProperties
+core.classes.register(core.types.CATEGORIES.INTERNAL, CustomTextControl);
 //#endregion Class CustomTextControl
-Core.classes.register(Types.CATEGORIES.INTERNAL, CustomTextControl);
 export { CustomTextControl };

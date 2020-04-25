@@ -1,5 +1,4 @@
-﻿import { Tools } from '/scripts/core/tools.js';
-/*************************/
+﻿/*************************/
 /*                       */
 /* array.js extend Array */
 /*                       */
@@ -12,52 +11,52 @@ if (!Array.prototype.convertToCollection) {
      */
     Array.prototype.convertToCollection = function (owner, itemClass) {
         //#region Variables déclaration
-        let _updating = !1;
-        let _owner = owner;
-        let _itemClass = itemClass;
+        let updating = !1;
+        let owner = owner;
+        let itemClass = itemClass;
         this._push = this.push;
         this._sort = this.sort;
         const isCollection = !0;
         //#endregion Variables déclaration
         Object.defineProperty(this, 'updating', {
-            get: function () { return _updating; },
-            set: function (newValue) { _updating = newValue; },
-            enumerable: !1
+            get: () => { return updating; },
+            set: (newValue) => { updating = newValue; },
+            enumerable: !1,
+            configurable: !0
         });
         Object.defineProperty(this, 'owner', {
-            get: function () { return _owner; },
-            set: function (newValue) { _owner = newValue; },
-            enumerable: !1
+            get: () => { return owner; },
+            set: (newValue) => { owner = newValue; },
+            enumerable: !1,
+            configurable: !0
         });
         Object.defineProperty(this, 'itemClass', {
-            get: function () { return _itemClass; },
-            set: function (newValue) { _itemClass = newValue; },
-            enumerable: !1
+            get: () => { return itemClass; },
+            set: (newValue) => { itemClass = newValue; },
+            enumerable: !1,
+            configurable: !0
         });
         Object.defineProperty(this, 'isCollection', {
-            get: function () { return isCollection; },
-            enumerable: !1
+            get: () => { return isCollection; },
+            enumerable: !1,
+            configurable: !0
         });
         this.push = function (a) {
             //#region Variables déclaration
             let canPush = !1;
             //#endregion Variables déclaration
-            if (typeof _itemClass === typeof a || !canPush && a instanceof _itemClass) {
-                canPush = !0;
-            }
+            typeof itemClass === typeof a || !canPush && a instanceof itemClass ? canPush = !0 : 1;
             if (canPush) {
                 this._push(a);
-                if (!_updating) {
-                    this.onChange.invoke(Types.OPERATIONS.INSERT, a);
-                }
+                !updating ? this.onChange.invoke(Types.OPERATIONS.INSERT, a) : 1;
             }
         };
         this.onChange = new Core.classes.NotifyEvent(owner);
-        this.beginUpdate = function () {
-            _updating = !0;
+        this.beginUpdate = () => {
+            updating = !0;
         };
-        this.endUpdate = function () {
-            _updating = !1;
+        this.endUpdate = () => {
+            updating = !1;
             this.onChange.invoke();
         };
         this.sort = function (callback) {
@@ -73,11 +72,11 @@ if (!Array.prototype.destroy) {
     Array.prototype.destroy = function () {
         this.clear();
         if (this.isCollection) {
-            this.updating = null;
-            this.owner = null;
-            this.itemClass = null;
+            delete this.updating;
+            delete this.owner;
+            delete this.itemClass;
             this.onChange.destroy();
-            this.onChange = null;
+            delete this.onChange;
         }
     };
 }
@@ -91,9 +90,7 @@ if (!Array.prototype.add) {
      * @Returns     {Number}            The length of the array
      */
     Array.prototype.add = function (a) {
-        if (a != undefined) {
-            this.push(a);
-        }
+        a != undefined ? this.push(a) : 1;
         //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
         return this.length;
     };
@@ -111,13 +108,9 @@ if (!Array.prototype.addRange) {
             const length = a.length;
             if (length !== 0) {
                 //for (var index=0;index<length;index++) this.push(a[index]);
-                if (this.isCollection) {
-                    this.beginUpdate();
-                }
+                this.isCollection ? this.beginUpdate() : 1;
                 Array.prototype.push.apply(this, a);
-                if (this.isCollection) {
-                    this.endUpdate();
-                }
+                this.isCollection ? this.endUpdate() : 1;
             }
             //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
         }
@@ -130,13 +123,9 @@ if (!Array.prototype.clear) {
      * Clear the Array/Collection
      */
     Array.prototype.clear = function () {
-        if (this.length > 0) {
-            this.splice(0, this.length);
-        }
+        this.length > 0 ? this.splice(0, this.length) : 1;
         this.length = 0;
-        if (this.isCollection) {
-            this.onChange.invoke(Types.OPERATIONS.REMOVE);
-        }
+        this.isCollection ? this.onChange.invoke(Types.OPERATIONS.REMOVE) : 1;
         //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
     };
 }
@@ -164,10 +153,7 @@ if (!Array.prototype.contains) {
      * @param       {Any}       a       The value to check existance
      */
     Array.prototype.contains = function (a) {
-        if (a != undefined) {
-            return this.indexOf(a) > -1;
-        }
-        return !1;
+        return a != undefined ? this.indexOf(a) > -1 : !1;
     };
 }
 // Méthode queue -> détermine si un item existe déjà dans le tableau
@@ -178,11 +164,9 @@ if (!Array.prototype.queue) {
      * @param       {Any}       a       The value to append
      */
     Array.prototype.queue = function (a) {
-        if (a != undefined) {
-            this.push(a);
-            //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
-            //if (this.isCollection) this.onChange.invoke($j.types.operations.);
-        }
+        a != undefined ? this.push(a) : 1;
+        //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
+        //if (this.isCollection) this.onChange.invoke($j.types.operations.);
         return;
     };
 }
@@ -195,9 +179,7 @@ if (!Array.prototype.dequeue) {
     Array.prototype.dequeue = function () {
         //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
         const a = this.shift();
-        if (this.isCollection) {
-            this.onChange.invoke(Types.OPERATIONS.REMOVE, a);
-        }
+        this.isCollection ? this.onChange.invoke(Types.OPERATIONS.REMOVE, a) : 1;
         return a;
     };
 }
@@ -211,12 +193,10 @@ if (!Array.prototype.insert) {
      * @param       {Any}           i       The new value to insert
      */
     Array.prototype.insert = function (a, i) {
-        if (i != undefined && Tools.isNumber(a)) {
+        if (i != undefined && core.ools.isNumber(a)) {
             this.splice(a, 0, i);
             //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
-            if (this.isCollection) {
-                this.onChange.invoke(Types.OPERATIONS.INSERT, i);
-            }
+            this.isCollection ? this.onChange.invoke(Types.OPERATIONS.INSERT, i) : 1;
         }
     };
 }
@@ -230,13 +210,9 @@ if (!Array.prototype.remove) {
     Array.prototype.remove = function (a) {
         if (a != undefined) {
             const index = this.indexOf(a);
-            if (index >= 0) {
-                this.splice(index, 1);
-            }
+            index >= 0 ? this.splice(index, 1) : 1;
             //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
-            if (this.isCollection) {
-                this.onChange.invoke(Types.OPERATIONS.REMOVE, a);
-            }
+            this.isCollection ? this.onChange.invoke(Types.OPERATIONS.REMOVE, a) : 1;
         }
     };
 }
@@ -248,12 +224,10 @@ if (!Array.prototype.removeAt) {
      * @param       {Number}        a       The index of the value to remove
      */
     Array.prototype.removeAt = function (a) {
-        if (Tools.isNumber(a)) {
+        if (core.tools.isNumber(a)) {
             a = this.splice(a, 1);
             //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
-            if (this.isCollection) {
-                this.onChange.invoke(Types.OPERATIONS.REMOVE, a.first);
-            }
+            this.isCollection ? this.onChange.invoke(Types.OPERATIONS.REMOVE, a.first) : 1;
         }
     };
 }
@@ -262,7 +236,9 @@ if (!Array.prototype.removeAt) {
 Object.defineProperty(Array.prototype, 'isEmpty', {
     get: function () {
         return this.length < 1;
-    }
+    },
+    enumerable: !1,
+    configurable: !1
 });
 // Méthode isArray -> test si l'objet passé en paramètre est un tableau
 // Paramètre obj : objet à tester
@@ -275,40 +251,33 @@ if (!Array.prototype.equals) {
      */
     Array.prototype.equals = function (a) {
         const temp = [];
-        if (a == undefined) { // If either is not an array
-            return !1;
-        }
-        if (this.length !== a.length) {
-            return !1;
-        }
-        // Put all the elements from array1 into a "tagged" array
-        for (let i = 0; i < this.length; i++) {
-            const key = `${typeof this[i]}~${this[i]}`;
-            // Use "typeof" so a number 1 isn't equal to a string "1".
-            if (temp[key]) {
-                temp[key]++;
-            } else {
-                temp[key] = 1;
+        if (a != undefined && this.length === a.length) {
+            // Put all the elements from array1 into a "tagged" array
+            for (let i = 0; i < this.length; i++) {
+                const key = `${typeof this[i]}~${this[i]}`;
+                // Use "typeof" so a number 1 isn't equal to a string "1".
+                temp[key] ? temp[key]++ : temp[key] = 1;
+                // temp[key]=# of occurrences of the value (so an element could appear multiple times)
             }
-            // temp[key]=# of occurrences of the value (so an element could appear multiple times)
-        }
-        // Go through array2 - if same tag missing in "tagged" array,not equal
-        for (let i = 0; i < a.length; i++) {
-            const key = `${typeof a[i]}~${a[i]}`;
-            if (temp[key]) {
-                if (temp[key] === 0) {
+            // Go through array2 - if same tag missing in "tagged" array,not equal
+            for (let i = 0; i < a.length; i++) {
+                const key = `${typeof a[i]}~${a[i]}`;
+                if (temp[key]) {
+                    if (temp[key] === 0) {
+                        return !1;
+                    } else {
+                        temp[key]--;
+                    }
+                    // Subtract to keep track of # of appearances in array2
+                } else { // Key didn't appear in array1,arrays are not equal.
                     return !1;
-                } else {
-                    temp[key]--;
                 }
-                // Subtract to keep track of # of appearances in array2
-            } else { // Key didn't appear in array1,arrays are not equal.
-                return !1;
             }
+            // If we get to this point,then every generated key in array1 showed up the exact same
+            // number of times in array2,so the arrays are equal.
+            return !0;
         }
-        // If we get to this point,then every generated key in array1 showed up the exact same
-        // number of times in array2,so the arrays are equal.
-        return !0;
+        return !1;
     };
 }
 if (!Array.prototype.filterBy) {
@@ -358,9 +327,7 @@ if (!Array.prototype.swap) {
         const b = this[x];
         this[x] = this[y];
         this[y] = b;
-        if (this.isCollection) {
-            this.onChange.invoke();
-        }
+        this.isCollection ? this.onChange.invoke() : 1;
         return this;
     };
 }

@@ -1,6 +1,5 @@
 ﻿//#region Imports
 import { Convert } from '/scripts/core/convert.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion
 //#region DataSet
 /**
@@ -31,6 +30,8 @@ const DataSet = (() => {
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
+                //#region Properties
+                //#region Private Properties
                 const priv = internal(this);
                 priv.data = [];
                 priv.cursorIdx = -1;
@@ -43,144 +44,172 @@ const DataSet = (() => {
                 priv.activeOnLoad = props.hasOwnProperty('activeOnLoad') ? props.activeOnLoad : !0;
                 priv.isOpen = props.hasOwnProperty('isOpen') ? props.isOpen : !1;
                 priv.keyField = props.hasOwnProperty('keyField') ? props.keyField : String.EMPTY;
+                //#endregion Private Properties
+                //#region Public Properties
+                Object.defineProperties(this, {
+                    'data': {
+                        enumerable: !1,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).data;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            Array.isArray(newValue) && priv.data !== newValue ? priv.data = newValue : 1;
+                        }
+                    },
+                    'cursorIdx': {
+                        enumerable: !1,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).cursorIdx;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            core.tools.isNumber(newValue) && priv.cursorIdx !== newValue ? priv.cursorIdx = newValue : 1;
+                        }
+                    },
+                    'cursor': {
+                        enumerable: !1,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).cursor;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            priv.cursor !== newValue ? priv.cursor = newValue : 1;
+                        }
+                    },
+                    'numFields': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).numFields;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            core.tools.isNumber(newValue) && priv.numFields !== newValue ? priv.numFields = newValue : 1;
+                        }
+                    },
+                    'numRecords': {
+                        enumerable: !1,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).numRecords;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            core.tools.isNumber(newValue) && priv.numRecords !== newValue ? priv.numRecords = newValue : 1;
+                        }
+                    },
+                    'keyValues': {
+                        enumerable: !1,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).keyValues;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            core.tools.isString(newValue) && priv.keyValues !== newValue ? priv.keyValues = newValue : 1;
+                        }
+                    },
+                    'dataSource': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).dataSource;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            if (newValue instanceof core.classes.DataSource && priv.dataSource !== newValue) {
+                                priv.active = !1;
+                                priv.dataSource = newValue;
+                                priv.active = !0;
+                            }
+                        }
+                    },
+                    'active': {
+                        enumerable: !0,
+                        configurable: !0,
+                        get: function () {
+                            return internal(this).active;
+                        },
+                        set: function (newValue) {
+                            //#region Variables déclaration
+                            const priv = internal(this);
+                            //#endregion Variables déclaration
+                            if (core.tools.isBool(newValue) && priv.active !== newValue) {
+                                priv.active = newValue;
+                                if (priv.active) {
+                                    this.open();
+                                    this.getKeyValues();
+                                    priv.cursorIdx = 0;
+                                } else {
+                                    this.close();
+                                }
+                            }
+                        }
+                    },
+                    '': {
+                        enumerable: !0,
+                        configurable: !0,
+
+                    },
+                    '': {
+                        enumerable: !0,
+                        configurable: !0,
+
+                    },
+                    '': {
+                        enumerable: !0,
+                        configurable: !0,
+
+                    },
+                    '': {
+                        enumerable: !0,
+                        configurable: !0,
+
+                    },
+                });
+                //#endregion Public Properties
+                //#endregion Properties
             }
         }
         //#endregion constructor
         //#region Getter / Setters
         //#region data
-        get data() {
-            return internal(this).data;
-        }
-        set data(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Array.isArray(newValue)) {
-                if (priv.data !== newValue) {
-                    priv.data = newValue;
-                }
-            }
-        }
         //#endregion data
         //#region cursorIdx
-        get cursorIdx() {
-            return internal(this).cursorIdx;
-        }
-        set cursorIdx(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.cursorIdx !== newValue) {
-                    priv.cursorIdx = newValue;
-                }
-            }
-        }
         //#endregion cursorIdx
         //#region cursor
-        get cursor() {
-            return internal(this).cursor;
-        }
-        set cursor(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (priv.cursor !== newValue) {
-                priv.cursor = newValue;
-            }
-        }
         //#endregion cursor
         //#region numFields
-        get numFields() {
-            return internal(this).numFields;
-        }
-        set numFields(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.numFields !== newValue) {
-                    priv.numFields = newValue;
-                }
-            }
-        }
         //#endregion numFields
         //#region numRecords
-        get numRecords() {
-            return internal(this).numRecords;
-        }
-        set numRecords(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.numRecords !== newValue) {
-                    priv.numRecords = newValue;
-                }
-            }
-        }
         //#endregion numRecords
         //#region keyValues
-        get keyValues() {
-            return internal(this).keyValues;
-        }
-        set keyValues(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.keyValues !== newValue) {
-                    priv.keyValues = newValue;
-                }
-            }
-        }
         //#endregion keyValues
         //#region dataSource
-        get dataSource() {
-            return internal(this).dataSource;
-        }
-        set dataSource(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.DataSource) {
-                if (priv.dataSource !== newValue) {
-                    priv.active = !1;
-                    priv.dataSource = newValue;
-                    priv.active = !0;
-                }
-            }
-        }
         //#endregion dataSource
         /**
          * Return the active status
          * @returns     {Boolean}       the active status
          */
         //#region active
-        get active() {
-            return internal(this).active;
-        }
-        /**
-         * Set the active status of the dataset
-         * @param   {Boolean}       newValue        the new active status
-         */
-        set active(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.active !== newValue) {
-                    priv.active = newValue;
-                    if (priv.active) {
-                        this.open();
-                        this.getKeyValues();
-                        priv.cursorIdx = 0;
-                    } else {
-                        this.close();
-                    }
-                }
-            }
-        }
         //#endregion active
         //#region activeOnLoad
         get activeOnLoad() {
@@ -195,7 +224,7 @@ const DataSet = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
+            if (core.tools.isBool(newValue)) {
                 if (priv.isOpen !== newValue) {
                     priv.isOpen = newValue;
                 }
@@ -218,7 +247,7 @@ const DataSet = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
+            if (core.tools.isString(newValue)) {
                 if (priv.keyField !== newValue) {
                     priv.keyField = newValue;
                     priv.dataSource.refreshControls();
@@ -399,7 +428,7 @@ const DataSet = (() => {
                 a = a[fieldsNames[col]];
                 fieldsNames = Object.keys(b);
                 b = b[fieldsNames[col]];
-                if (order === Types.SORTEDORDERS.ASC) {
+                if (order === core.types.SORTEDORDERS.ASC) {
                     return a === b ? 0 : a < b ? -1 : 1;
                 } else {
                     return a === b ? 0 : a < b ? 1 : -1;
@@ -422,7 +451,7 @@ const DataSet = (() => {
                 a = a[fieldsNames[col]];
                 fieldsNames = Object.keys(b);
                 b = b[fieldsNames[col]];
-                if (order === Types.SORTEDORDERS.ASC) {
+                if (order === core.types.SORTEDORDERS.ASC) {
                     return a === b ? 0 : a < b ? -1 : 1;
                 } else {
                     return a === b ? 0 : a < b ? 1 : -1;
@@ -445,7 +474,7 @@ const DataSet = (() => {
                 a = ~~parseFloat(a[fieldsNames[col]]);
                 fieldsNames = Object.keys(b);
                 b = ~~parseFloat(b[fieldsNames[col]]);
-                if (order === Types.SORTEDORDERS.ASC) {
+                if (order === core.types.SORTEDORDERS.ASC) {
                     return a === b ? 0 : a < b ? -1 : 1;
                 } else {
                     return a === b ? 0 : a < b ? 1 : -1;
@@ -463,18 +492,18 @@ const DataSet = (() => {
         sortByBoolean(col, order) {
             return (a, b) => {
                 let fieldsNames = Object.keys(a);
-                if (Tools.isBool(a[fieldsNames[col]])) {
+                if (core.tools.isBool(a[fieldsNames[col]])) {
                     a = a[fieldsNames[col]];
                 } else {
                     a = Convert.strToBool(a[fieldsNames[col]].toString());
                 }
                 fieldsNames = Object.keys(b);
-                if (Tools.isBool(b[fieldsNames[col]])) {
+                if (core.tools.isBool(b[fieldsNames[col]])) {
                     b = b[fieldsNames[col]];
                 } else {
                     b = Convert.strToBool(b[fieldsNames[col]].toString());
                 }
-                if (order === Types.SORTEDORDERS.ASC) {
+                if (order === core.types.SORTEDORDERS.ASC) {
                     return a === b ? 0 : a < b ? -1 : 1;
                 } else {
                     return a === b ? 0 : a < b ? 1 : -1;
@@ -530,5 +559,5 @@ Object.defineProperties(DataSet, {
     }
 });
 //#endregion DataSet defineProperties
-Core.classes.register(Types.CATEGORIES.NONVISUAL, DataSet);
+core.classes.register(core.types.CATEGORIES.NONVISUAL, DataSet);
 export { DataSet };
