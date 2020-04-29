@@ -2,36 +2,107 @@
 import { Color, Colors } from '/scripts/core/color.js';
 import { Point/*, Rect, Matrix*/ } from '/scripts/core/geometry.js';
 import { Text } from '/scripts/core/text.js';
-import { BezierTools } from '/scripts/core/beziercore.tools.js';
+import { BezierTools } from '/scripts/core/beziertools.js';
 //#endregion
 //#region Constantes CANVAS
 /**
  * Canvas Contants
  */
 export const CANVAS = {
-    CURVEKAPPA: 0.2761423749153967, CURVEKAPPAINV: 0.7238576250846033, CURVE2KAPPA: 0.5522847498307934, CURVE2KAPPAINV: 1 - 0.5522847498307934,
+    CURVEKAPPA: 0.2761423749153967,
+    CURVEKAPPAINV: 0.7238576250846033,
+    CURVE2KAPPA: 0.5522847498307934,
+    CURVE2KAPPAINV: 1 - 0.5522847498307934,
     LINECAPS: Object.freeze(Object.seal({ BUTT: 'butt', ROUND: 'round', SQUARE: 'square' })),
     LINEJOINS: Object.freeze(Object.seal({ MITER: 'miter', ROUND: 'round', BEVEL: 'bevel' })),
     GLOBALCOMPOSITEOPERATIONS: Object.freeze(Object.seal({
-        SOURCEOVER: 'source-over', SOURCEIN: 'source-in', SOURCEOUT: 'source-out', SOURCEATOP: 'source-atop', DESTINATIONOVER: 'destination-over',
-        DESTINATIONIN: 'destination-in', DESTINATIONOUT: 'destination-out', DESTINATIONATOP: 'destination-atop', LIGHTER: 'lighter', COPY: 'copy', XOR: 'xor',
-        MULTIPLY: 'multiply', SCREEN: 'screen', OVERLAY: 'overlay', DARKEN: 'darken', LIGHTEN: 'lighten', COLORDODGE: 'color-dodge', COLORBURN: 'color-burn',
-        HARDLIGHT: 'hard-light', SOFTLIGHT: 'soft-light', DIFFERENCE: 'difference', EXCLUSION: 'exclusion', HUE: 'hue', SATURATION: 'saturation', COLOR: 'color',
+        SOURCEOVER: 'source-over',
+        SOURCEIN: 'source-in',
+        SOURCEOUT: 'source-out',
+        SOURCEATOP: 'source-atop',
+        DESTINATIONOVER: 'destination-over',
+        DESTINATIONIN: 'destination-in',
+        DESTINATIONOUT: 'destination-out',
+        DESTINATIONATOP: 'destination-atop',
+        LIGHTER: 'lighter',
+        COPY: 'copy',
+        XOR: 'xor',
+        MULTIPLY: 'multiply',
+        SCREEN: 'screen',
+        OVERLAY: 'overlay',
+        DARKEN: 'darken',
+        LIGHTEN: 'lighten',
+        COLORDODGE: 'color-dodge',
+        COLORBURN: 'color-burn',
+        HARDLIGHT: 'hard-light',
+        SOFTLIGHT: 'soft-light',
+        DIFFERENCE: 'difference',
+        EXCLUSION: 'exclusion',
+        HUE: 'hue',
+        SATURATION: 'saturation',
+        COLOR: 'color',
         LUMINOSITY: 'luminosity'
     })),
     PATHOPERATIONS: Object.freeze(Object.seal({ MOVE: 0x234, LINE: 0x235 })),
     SPARKTYPES: Object.freeze(Object.seal({ LINE: 'line', BAR: 'bar', PIE: 'pie', BOXPLOT: 'boxPlot' })),
-    PATTERNREPEATS: Object.freeze(Object.seal({ REPEAT: 'repeat', REPEATX: 'repeat-x', REPEATY: 'repeat-y', NOREPEAT: 'no-repeat' })),
-    LINEPOSITIONS: Object.freeze(Object.seal({ LEFTTORIGHT: 0x239, RIGHTTOLEFT: 0x23A, NEAR: 0x23B, MIDDLE: 0x23C, FAR: 0x23D })),
-    STROKEDASHS: Object.freeze(Object.seal({ SOLID: [], SHORTDASH: [4, 1], SHORTDOT: [1, 1], SHORTDASHDOT: [4, 1, 1, 1], SHORTDASHDOTDOT: [4, 1, 1, 1, 1, 1], DOT: [1, 3], DASH: [4, 3], LONGDASH: [8, 3], DASHDOT: [4, 3, 1, 3], LONGDASHDOT: [8, 3, 1, 3], LONGDASHDOTDOT: [8, 3, 1, 3, 1, 3] })),
-    COMPOSITEOPERATORS: Object.freeze(Object.seal({ OVER: 'source-over', IN: 'source-in', OUT: 'source-out', ATOP: 'source-atop', XOR: 'xor', ARITHMETIC: 'arithmetic' })),
+    PATTERNREPEATS: Object.freeze(Object.seal({
+        REPEAT: 'repeat',
+        REPEATX: 'repeat-x',
+        REPEATY: 'repeat-y',
+        NOREPEAT: 'no-repeat'
+    })),
+    LINEPOSITIONS: Object.freeze(Object.seal({
+        LEFTTORIGHT: 0x239,
+        RIGHTTOLEFT: 0x23A,
+        NEAR: 0x23B,
+        MIDDLE: 0x23C,
+        FAR: 0x23D
+    })),
+    STROKEDASHS: Object.freeze(Object.seal({
+        SOLID: [],
+        SHORTDASH: [4, 1],
+        SHORTDOT: [1, 1],
+        SHORTDASHDOT: [4, 1, 1, 1],
+        SHORTDASHDOTDOT: [4, 1, 1, 1, 1, 1],
+        DOT: [1, 3],
+        DASH: [4, 3],
+        LONGDASH: [8, 3],
+        DASHDOT: [4, 3, 1, 3],
+        LONGDASHDOT: [8, 3, 1, 3],
+        LONGDASHDOTDOT: [8, 3, 1, 3, 1, 3]
+    })),
+    COMPOSITEOPERATORS: Object.freeze(Object.seal({
+        OVER: 'source-over',
+        IN: 'source-in',
+        OUT: 'source-out',
+        ATOP: 'source-atop',
+        XOR: 'xor',
+        ARITHMETIC: 'arithmetic'
+    })),
     EDGEMODES: Object.freeze(Object.seal({ DUPLICATE: 'duplicate', WRAP: 'wrap', NONE: 'none' })),
-    COLORMATRIXTYPES: Object.freeze(Object.seal({ MATRIX: 'matrix', SATURATE: 'saturate', HUEROTATE: 'hueRotate', LUMINANCETOALPHA: 'luminanceToAlpha' })),
-    COMPONENTTRANSFERTYPES: Object.freeze(Object.seal({ IDENTITY: 'identity', TABLE: 'table', DISCRETE: 'discrete', LINEAR: 'linear', GAMMA: 'gamma' })),
+    COLORMATRIXTYPES: Object.freeze(Object.seal({
+        MATRIX: 'matrix',
+        SATURATE: 'saturate',
+        HUEROTATE: 'hueRotate',
+        LUMINANCETOALPHA: 'luminanceToAlpha'
+    })),
+    COMPONENTTRANSFERTYPES: Object.freeze(Object.seal({
+        IDENTITY: 'identity',
+        TABLE: 'table',
+        DISCRETE: 'discrete',
+        LINEAR: 'linear',
+        GAMMA: 'gamma'
+    })),
     MORPHOLOGYOPERATORS: Object.freeze(Object.seal({ ERODE: 'erode', DILATE: 'dilate' })),
     CONVOLVEMATRIXEDGEMODES: Object.freeze(Object.seal({ DUPLICATE: 'duplicate', WRAP: 'wrap', NONE: 'none' })),
     CHANNELSELECTORTYPES: Object.freeze(Object.seal({ A: 'A', R: 'R', G: 'G', B: 'B' })),
-    TURBULENCETYPES: Object.freeze(Object.seal({ TRANSLATE: 'translate', SCALE: 'scale', ROTATE: 'rotate', SKEWX: 'skewX', SKEWY: 'skewY' })),
+    TURBULENCETYPES: Object.freeze(Object.seal({
+        TRANSLATE: 'translate',
+        SCALE: 'scale',
+        ROTATE: 'rotate',
+        SKEWX: 'skewX',
+        SKEWY: 'skewY'
+    })),
     TURBULENCESTITCHTILES: Object.freeze(Object.seal({ NOSTITCH: 'noStitch', STITCH: 'stitch' })),
     LIGTHTYPES: Object.freeze(Object.seal({ POINT: 'point', SPOT: 'spot', DISTANT: 'distant' }))
 };
@@ -82,12 +153,8 @@ CanvasRenderingContext2D.prototype.drawImg = function (instance, img, params) {
         }
     }
     if (instance instanceof core.classes.WindowButton) {
-        String.isNullOrEmpty(left)
-            ? left = -eval(eval(left))
-            : 1;
-        String.isNullOrEmpty(top)
-            ? top = -eval(eval(top))
-            : 1
+        String.isNullOrEmpty(left) ? left = -eval(eval(left)) : 1;
+        String.isNullOrEmpty(top) ? top = -eval(eval(top)) : 1
         instance.isPressed && params.hasOwnProperty('pressedOffset')
             ? left -= params.pressedOffset
                 ? instance.isMouseOver && params.hasOwnProperty('hoveredOffset')
@@ -289,14 +356,16 @@ CanvasRenderingContext2D.prototype.drawText = function (instance, shape, params,
                 if (shape.alignWithButtonsAndIcon != undefined && shape.alignWithButtonsAndIcon) {
                     offsetX -= (instance.visibleButtons * core.themes[instance.themeName].WindowButton.width);
                     logoShape = core.themes[instance.themeName].WindowTitleBar.shapes.filter(e => { return e.type === 'drawImg' }).first;
-                    offsetX -= logoShape.width;;
+                    offsetX -= logoShape.width;
                 }
                 offsetX = (offsetX - textM.width) * 0.5;
                 if (params.hasOwnProperty('isDialog') && !params.isDialog) {
                     core.themes[instance.themeName].WindowButton.left != null
                         ? offsetX += (instance.visibleButtons * core.themes[instance.themeName].WindowButton.width)
-                            ? logoShape ? offsetX += logoShape.width : 1
-                            : 1;
+                            ? logoShape
+                                ? offsetX += logoShape.width : 1
+                            : 1
+                        : 1;
                 }
                 break;
             case TEXTALIGNS.RIGHT:
@@ -1226,12 +1295,8 @@ CanvasRenderingContext2D.prototype.clipRegion = function (clippingData, left, to
     const clip = [clippingData.left, clippingData.top];
     //#endregion Variables déclaration
     this.save();
-    clippingData.hasOwnProperty('right')
-        ? clip.push(width - left - clippingData.right)
-        : clip.push(clippingData.width);
-    clippingData.hasOwnProperty('bottom')
-        ? clip.push(height - top - clippingData.bottom)
-        : clip.push(clippingData.height);
+    clippingData.hasOwnProperty('right') ? clip.push(width - left - clippingData.right) : clip.push(clippingData.width);
+    clippingData.hasOwnProperty('bottom') ? clip.push(height - top - clippingData.bottom) : clip.push(clippingData.height);
     this.beginPath();
     this[clippingData.shape] ? this[clippingData.shape](...clip) : 1;
     this.clip();

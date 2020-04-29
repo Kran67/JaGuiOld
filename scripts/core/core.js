@@ -50,9 +50,7 @@ window.cancelAnimationFrameRate = (handle) => {
  * The core of JaGui
  */
 class _Core {
-    /**
-     * Create a new instance of Core.
-     */
+    //#region constructor
     constructor() {
         this.name = 'JaGui';
         this.propertiesCategories = {};
@@ -106,6 +104,8 @@ class _Core {
         this.previousHoveredControl = null;
         this.canvas = null;
     }
+    //#endregion constructor
+    //#region Getters / Setters
     /**
      * Return the current renderer
      * @returns     {String}        The name of the current renderer
@@ -132,6 +132,8 @@ class _Core {
     get isSVGRenderer() {
         return this.renderer === core.types.RENDERERS.SVG;
     }
+    //#endregion Getters / Setters
+    //#region Methods
     /**
      * Check if the current renderer is the SVG renderer
      * @function registerPropertiesInCategory
@@ -205,6 +207,7 @@ class _Core {
             core.onStart ? core.onStart() : 1;
         }
     }
+    //#endregion Methods
 };
 window.core = window.Core = new _Core;
 //#endregion Core

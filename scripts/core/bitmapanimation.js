@@ -13,9 +13,7 @@ const BitmapAnimation = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -44,28 +42,21 @@ const BitmapAnimation = (() => {
                 current.canvas.height = 1;
                 current.ctx = canvas.getContext('2d');
                 //#endregion Private Properties
-                //#region Public Properties
-                Object.defineProperties(this, {
-                    'current': {
-                        enumerable: !0,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).current;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            core.tools.isObject(newValue) && newValue.canvas && priv.current !== newValue
-                                ? priv.current = newValue
-                                : 1;
-                        }
-                    }
-                });
-                //#endregion Public Properties
                 //#endregion Properties
             }
         }
+        //#region Getters / Setters
+        get current() {
+            return internal(this).current;
+        }
+        set current(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            core.tools.isObject(newValue) && newValue.canvas && priv.current !== newValue
+                ? priv.current = newValue: 1;
+        }
+        //#endregion Getters / Setters
         //#region Methods
         /**
          * process animation on each tick
@@ -89,9 +80,7 @@ const BitmapAnimation = (() => {
                 if (control[propertyName]) {
                     if (control[propertyName] instanceof Image) {
                         let r;
-                        control.allowUpdate
-                            ? r = control.screenRect()
-                            : 1;
+                        control.allowUpdate ? r = control.screenRect() : 1;
                         if (stopValue.width === 0 || stopValue.height === 0) {
                             return;
                         }
@@ -117,12 +106,8 @@ const BitmapAnimation = (() => {
                                 imgCanvasCtx.drawImage(current.canvas, 0, 0);
                             }
                         }
-                        control.allowUpdate
-                            ? control.update()
-                            : 1;
-                        !form.useRequestAnim
-                            ? control.redraw(r)
-                            : form.needRedraw = !0;
+                        control.allowUpdate ? control.update() : 1;
+                        !form.useRequestAnim ? control.redraw(r) : form.needRedraw = !0;
                     }
                 }
             }
@@ -145,38 +130,38 @@ const BitmapAnimation = (() => {
                 super.loaded();
                 const cssProp = `0% { ${Convert.propertyToCssProperty(this, !0)} }
                    100% { ${Convert.propertyToCssProperty(this)} } `;
-                Css.addCSSRule(`@${Core.browser.getVendorPrefix('keyframes')} keyframes ${internalId}_hover`, cssProp);
+                Css.addCSSRule(`@${core.browser.getVendorPrefix('keyframes')} keyframes ${internalId}_hover`, cssProp);
                 control.bitmap.src = _const.PIX;
                 switch (control.wrapMode) {
                     case imageWraps.ORIGINAL:
                         back = `background-size:auto auto;
-                background-position:auto auto;
-                background-repeat:no-repeat;`;
+                                background-position:auto auto;
+                                background-repeat:no-repeat;`;
                         break;
                     case imageWraps.FIT:
                         back = `background-size:contain;
-                background-position:center center;
-                background-repeat:no-repeat;`;
+                                background-position:center center;
+                                background-repeat:no-repeat;`;
                         break;
                     case imageWraps.STRETCH:
                         back = `background-size:100% 100%;
-                background-position:center center;
-                background-repeat:no-repeat;`;
+                                background-position:center center;
+                                background-repeat:no-repeat;`;
                         break;
                     case imageWraps.TILED:
                         back = `background-size:auto auto;
-                background-position:auto auto;
-                background-repeat:repeat;`;
+                                background-position:auto auto;
+                                background-repeat:repeat;`;
                         break;
                 }
                 style = `position:absolute;left:0;top:0;right:0;bottom:0;content:'';background-image:url('${this.startValue.src}');`;
                 Css.addCSSRule(`#${ctrlInternalId}${_const.PSEUDOCLASSBEFORE}:before`, `${style}${back}`);
                 Css.addCSSRule(`#${ctrlInternalId}${_const.PSEUDOCLASSBEFORE}:before`, `animation:${this.toCSS().replace(' none ', ' backwards ')};`);
-                Css.addCSSRule(`#${ctrlInternalId}:hover${_const.PSEUDOCLASSBEFORE}:before`, Core.browser.getVendorPrefix('animation') + `animation:${this.toCSS(internalId + '_hover').replace(' none ', ' forwards ')};`);
+                Css.addCSSRule(`#${ctrlInternalId}:hover${_const.PSEUDOCLASSBEFORE}:before`, core.browser.getVendorPrefix('animation') + `animation:${this.toCSS(internalId + '_hover').replace(' none ', ' forwards ')};`);
                 style = `position:absolute;left:0;top:0;right:0;bottom:0;content:'';opacity:0;background-image:url('${this.stopValue.src}');`;
                 Css.addCSSRule(`#${ctrlInternalId}${_const.PSEUDOCLASSBEFORE}:after`, `${style}${back}`);
                 Css.addCSSRule(`#${ctrlInternalId}${_const.PSEUDOCLASSBEFORE}:after`, `animation:${this.toCSS(internalId + '_hover')};`);
-                Css.addCSSRule(`#${ctrlInternalId}:hover${_const.PSEUDOCLASSBEFORE}:after`, Core.browser.getVendorPrefix('animation') + `animation:${this.toCSS().replace(' none ', ' forwards ')};`);
+                Css.addCSSRule(`#${ctrlInternalId}:hover${_const.PSEUDOCLASSBEFORE}:after`, core.browser.getVendorPrefix('animation') + `animation:${this.toCSS().replace(' none ', ' forwards ')};`);
             }
         }
         /**
@@ -214,6 +199,6 @@ const BitmapAnimation = (() => {
     return BitmapAnimation;
     //#endregion BitmapAnimation
 })();
-Core.classes.register(core.types.CATEGORIES.ANIMATIONS, BitmapAnimation);
+core.classes.register(core.types.CATEGORIES.ANIMATIONS, BitmapAnimation);
 //#endregion BitmapAnimation
 export { BitmapAnimation };

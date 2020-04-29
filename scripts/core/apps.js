@@ -21,7 +21,7 @@ import '/scripts/components/control.js';
 import '/scripts/core/thememanifest.js';
 
 import '/scripts/core/baseclass.js';
-import { Tools } from '/scripts/core/tools.js';
+import '/scripts/core/tools.js';
 import { Css } from '/scripts/core/css.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion
@@ -32,9 +32,7 @@ let Apps = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -48,6 +46,7 @@ let Apps = (() => {
             priv.activeApplication = null;
             priv.capslock = 'UNKNOWN';
         }
+        //#region Getters / Setters
         /**
          * Get the applications list
          */
@@ -67,11 +66,8 @@ let Apps = (() => {
          */
         set activeApplication(newValue) {
             const priv = internal(this);
-            if (newValue instanceof Core.classes.Application || newValue == null) {
-                if (priv.activeApplication !== newValue) {
-                    priv.activeApplication = newValue;
-                }
-            }
+            (newValue instanceof core.classes.Application || newValue == null) && priv.activeApplication !== newValue
+                ? priv.activeApplication = newValue : 1;
         }
         /**
          * Get the capslock
@@ -84,12 +80,9 @@ let Apps = (() => {
          */
         set capslock(newValue) {
             const priv = internal(this);
-            if (Tools.isString(newValue)) {
-                priv.capslock = newValue;
-            }
+            core.tools.isString(newValue) ? priv.capslock = newValue : 1;
         }
-        //#region Getter/Setter
-        //#endregion
+        //#endregion Getters / Setters
         //#region Methods
         /**
          * Create an application
@@ -98,11 +91,11 @@ let Apps = (() => {
          */
         async createApp(appClass) {
             //let icon;
-            //if (Core.isHTMLRenderer) {
+            //if (core.isHTMLRenderer) {
             //    icon = document.getElementById(`${appName}_Icon`);
             //    if (icon) {
             //        //$j.CSS.addClass(icon,"noDisplay");
-            //        icon = document.getElementById(Tools.currentProgress);
+            //        icon = document.getElementById(core.tools.currentProgress);
             //        if (!icon) {
             //            document.body.appendChild(document.createElement("span"));
             //            document.body.lastElementChild.className = `${document.body.className} Control loading_text`;
@@ -111,8 +104,8 @@ let Apps = (() => {
             //        }
             //    }
             //}
-            Core.start();
-            const currentLocale = `/scripts/locales/${Core.currentLocale}.js`;
+            core.start();
+            const currentLocale = `/scripts/locales/${core.currentLocale}.js`;
             await import(currentLocale);
             this.activeApplication = new appClass;
             document.body.classList.add(this.activeApplication.themeManifest.themeName);
@@ -121,7 +114,7 @@ let Apps = (() => {
          * Kill the active application
          */
         killApp() {
-            Core.apps.activeApplication.terminate();
+            core.apps.activeApplication.terminate();
         }
         /**
          * General keyDown event
@@ -138,40 +131,26 @@ let Apps = (() => {
             let dealEvent = true;
             let i = null;
             const vKeysCodes = Keyboard.VKEYSCODES;
-            if (Core.apps.activeApplication) {
-                form = Core.apps.activeApplication.activeWindow;
-            }
-            Core.keyboard.getKeyboardInfos(event);
+            core.apps.activeApplication ? form = core.apps.activeApplication.activeWindow : 1;
+            core.keyboard.getKeyboardInfos(event);
             obj = event.target;
-            if (obj !== document.body) {
-                if (obj.jsObj) {
-                    dealEvent = obj.jsObj.stopEvent;
-                }
-            }
-            dealEvent = dealEvent || Core.keyboard.keyCode === vKeysCodes.VK_ALT || Core.keyboard.keyCode === vKeysCodes.VK_TAB || form.mainMenu && form.mainMenu.activeItem;
+            obj !== document.body && obj.jsObj ? dealEvent = obj.jsObj.stopEvent : 1;
+            dealEvent = dealEvent || core.keyboard.keyCode === vKeysCodes.VK_ALT || core.keyboard.keyCode === vKeysCodes.VK_TAB || form.mainMenu && form.mainMenu.activeItem;
             if (dealEvent) {
-                switch (Core.keyboard.keyCode) {
+                switch (core.keyboard.keyCode) {
                     case vKeysCodes.VK_SPACE:
                     case vKeysCodes.VK_RETURN:
                         if (form) {
-                            if (form.focusedControl) {
-                                form.focusedControl.keyDown();
-                            } else {
-                                form.keyDown();
-                            }
+                            form.focusedControl ? form.focusedControl.keyDown() : form.keyDown();
                         }
                         //$j.keyboard.stopEvent();
                         break;
                     case vKeysCodes.VK_TAB:
                         form.closePopups();
                         form.content.getTabOrderList(list, true);
-                        if (Core.keyboard.shift) {
+                        if (core.keyboard.shift) {
                             // second search in first part of list
-                            if (form.focusedControl) {
-                                curIdx = list.indexOf(form.focusedControl) - 1;
-                            } else {
-                                curIdx = list.length - 1;
-                            }
+                            curIdx = form.focusedControl ? list.indexOf(form.focusedControl) - 1 : list.length - 1;
                             if (curIdx >= 0) {
                                 // à remplacer par un filter
                                 for (i = curIdx; i >= 0; i--) {
@@ -197,11 +176,7 @@ let Apps = (() => {
                                 }
                             }
                         } else {
-                            if (form.focusedControl) {
-                                curIdx = list.indexOf(form.focusedControl) + 1;
-                            } else {
-                                curIdx = 0;
-                            }
+                            curIdx = form.focusedControl ? list.indexOf(form.focusedControl) + 1 : 0;
                             // first search in last part of list
                             l = list.length;
                             if (list.length > 2 && curIdx < l) {
@@ -238,25 +213,20 @@ let Apps = (() => {
                                 form.mainMenu.keyDown();
                                 break;
                             }
-                            if (Core.keyboard.ctrl || Core.keyboard.alt || Core.keyboard.shift) {
-                                if (form.mainMenu) form.mainMenu.keyDown();
-                            }
+                            (core.keyboard.ctrl || core.keyboard.alt || core.keyboard.shift) && form.mainMenu
+                                ? form.mainMenu.keyDown() : 1;
                         }
                         if (!form.popups.isEmpty) {
-                            if (Core.classes.PopupMenu && form.popups.last instanceof Core.classes.PopupMenu) {
+                            if (core.classes.PopupMenu && form.popups.last instanceof core.classes.PopupMenu) {
                                 form.popups.last.keyDown();
                                 break;
                             }
                         }
-                        if (form.focusedControl) {
-                            form.focusedControl.keyDown();
-                        } else {
-                            form.keyDown();
-                        }
+                        form.focusedControl ? form.focusedControl.keyDown() : form.keyDown();
                         //$j.keyboard.stopEvent();
                         break;
                 }
-                Core.keyboard.stopEvent();
+                core.keyboard.stopEvent();
             } else if (form.focusedControl) {
                 form.focusedControl.keyDown();
             }
@@ -267,21 +237,16 @@ let Apps = (() => {
          */
         keyUp() {
             console.log('keyUp');
-            let form = null;
+            let form;
             const vKeysCodes = Keyboard.VKEYSCODES;
-            if (Core.apps.activeApplication) {
-                form = Core.apps.activeApplication.activeWindow;
-            }
-            if (Core.keyboard && form) {
-                Core.keyboard.getKeyboardInfos(event);
-                switch (Core.keyboard.keyCode) {
+            form = core.apps.activeApplication ? core.apps.activeApplication.activeWindow : null;
+            if (core.keyboard && form) {
+                core.keyboard.getKeyboardInfos(event);
+                switch (core.keyboard.keyCode) {
                     case vKeysCodes.VK_ALT:
-                        if (form.mainMenu) {
-                            if (!Core.keyboard.ctrl && !Core.keyboard.shift && !Core.keyboard.meta) {
-                                form.mainMenu.keyUp();
-                            }
-                        }
-                        Core.keyboard.stopEvent();
+                        form.mainMenu && (!core.keyboard.ctrl && !core.keyboard.shift && !core.keyboard.meta)
+                            ? form.mainMenu.keyUp() : 1;
+                        core.keyboard.stopEvent();
                         break;
                     case vKeysCodes.VK_ESCAPE:
                         // à exporter dans window.js
@@ -312,22 +277,19 @@ let Apps = (() => {
                     case vKeysCodes.VK_SPACE:
                     case vKeysCodes.VK_RETURN:
                         if (form) {
-                            if (!form.popups.isEmpty) {
-                                form.popups.last.keyUp();
-                            } else if (form.focusedControl) {
-                                form.focusedControl.keyUp();
-                            }
+                            !form.popups.isEmpty
+                                ? form.popups.last.keyUp()
+                                    ? form.focusedControl
+                                        ? form.focusedControl.keyUp() : 1
+                                    : 1
+                                : 1;
                         }
                         break;
                     case vKeysCodes.VK_TAB:
-                        Core.keyboard.stopEvent();
+                        core.keyboard.stopEvent();
                         break;
                     default:
-                        if (form.focusedControl) {
-                            form.focusedControl.keyUp();
-                        } else {
-                            form.keyUp();
-                        }
+                        form.focusedControl ? form.focusedControl.keyUp() : form.keyUp();
                         break;
                 }
             }
@@ -338,32 +300,28 @@ let Apps = (() => {
          */
         keyPress(keyBoardEventArgs) {
             console.log('keyPress');
-            let form = null;
-            const keyCode = Core.keyboard.keyCode;
+            let form;
+            const keyCode = core.keyboard.keyCode;
             const vKeysCodes = Keyboard.VKEYSCODES;
-            if (Core.apps.activeApplication) {
-                form = Core.apps.activeApplication.activeWindow;
-            }
+            form = core.apps.activeApplication ? core.apps.activeApplication.activeWindow : null;
             if (form) {
-                Core.keyboard.getKeyboardInfos(event);
+                core.keyboard.getKeyboardInfos(event);
                 // test CapsLock
-                Core.apps.capslock = 'OFF';
+                core.apps.capslock = 'OFF';
                 let shiftOn = false;
-                if (Core.keyboard.shift) {
-                    shiftOn = Core.keyboard.shift;
-                } else if (keyBoardEventArgs.modifiers) {
-                    shiftOn = !!(keyBoardEventArgs.modifiers & 4);
-                }
-                if (keyCode >= vKeysCodes.VK_NUMPAD1 && keyCode <= vKeysCodes.VK_F11 && shiftOn || keyCode >= vKeysCodes.VK_A && 
-                    keyCode <= vKeysCodes.VK_Z && !shiftOn) {
-                    Core.apps.capslock = 'ON';
-                }
+                shiftOn = core.keyboard.shift
+                    ? core.keyboard.shift
+                        ? keyBoardEventArgs.modifiers
+                            ? !!(keyBoardEventArgs.modifiers & 4)
+                            : 1
+                        : 1
+                    : 1;
+                keyCode >= vKeysCodes.VK_NUMPAD1 && keyCode <= vKeysCodes.VK_F11 && shiftOn
+                    || keyCode >= vKeysCodes.VK_A &&
+                    keyCode <= vKeysCodes.VK_Z && !shiftOn
+                    ? core.apps.capslock = 'ON' : 1;
 
-                if (form.focusedControl) {
-                    form.focusedControl.keyPress();
-                } else {
-                    form.keyPress();
-                }
+                form.focusedControl ? form.focusedControl.keyPress() : form.keyPress();
             }
         }
         renderApplications() {
@@ -377,7 +335,7 @@ let Apps = (() => {
     }
     return Apps;
 })();
+core.apps = new Apps;
+core.classes.register(core.types.CATEGORIES.INTERNAL, Apps);
 //#endregion Apps
-Core.apps = new Apps;
-Core.classes.register(Types.CATEGORIES.INTERNAL, Apps);
 export { Apps };

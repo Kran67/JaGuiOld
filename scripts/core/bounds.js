@@ -11,9 +11,7 @@ const Bounds = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -27,9 +25,7 @@ const Bounds = (() => {
          */
         //#region constructor
         constructor(rect, owner) {
-            !(rect instanceof core.classes.Rect)
-                ? rect = new core.classes.Rect
-                : 1;
+            !(rect instanceof core.classes.Rect) ? rect = new core.classes.Rect : 1;
             super(rect.left, rect.top, rect.right, rect.bottom);
             const priv = internal(this);
             priv.owner = owner;
@@ -39,7 +35,7 @@ const Bounds = (() => {
             this.onChange = new core.classes.NotifyEvent(owner);
         }
         //#endregion constructor
-        //#region Getters / Setter
+        //#region Getters / Setters
         /**
          * @return {Number} the width of the bounds
          */
@@ -53,7 +49,7 @@ const Bounds = (() => {
         //    return this.bottom + this.top;
         //}
         //#endregion
-        //#region Setters
+        //#region Getters / Setters
         /**
          * Set the left property
          * @param   {Number}   newValue    the new value
@@ -108,7 +104,8 @@ const Bounds = (() => {
          */
         marginRect(rect) {
             return rect instanceof core.classes.Rect
-                ? new core.classes.Rect(rect.left + this.left, rect.top + this.top, rect.right - this.right, rect.bottom - this.bottom)
+                ? new core.classes.Rect(rect.left + this.left, rect.top + this.top,
+                    rect.right - this.right, rect.bottom - this.bottom)
                 : rect;
         }
         /**
@@ -118,7 +115,8 @@ const Bounds = (() => {
          */
         paddingRect(rect) {
             return rect instanceof core.classes.Rect
-                ? new core.classes.Rect(rect.left + this.left, rect.top + this.top, rect.right - this.right, rect.bottom - this.bottom)
+                ? new core.classes.Rect(rect.left + this.left, rect.top + this.top,
+                    rect.right - this.right, rect.bottom - this.bottom)
                 : rect;
         }
         /**

@@ -1,7 +1,5 @@
 ﻿//#region Imports
-import { BaseClass } from '/scripts/core/baseclass.js';
 import { Convert } from '/scripts/core/convert.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Component } from '/scripts/core/component.js';
 //import { NotifyEvent } from '/scripts/core/events.js';
 import { Css } from '/scripts/core/css.js';
@@ -11,18 +9,16 @@ import { Interpolation } from '/scripts/core/interpolations.js';
  * Class representing an Animation.
  * @extends Component
  */
-const _animationTypes = Object.freeze({
+const ANIMATIONTYPES = Object.freeze(Object.seal({
     IN: 'in',
     INOUT: 'inOut',
     OUT: 'out'
-});
+}));
 const Animation = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -41,7 +37,7 @@ const Animation = (() => {
             priv.time = 0;
             priv.initialValue = 0;
             priv.pause = !1;
-            priv.animationType = Animation.ANIMATIONTYPES.IN;
+            priv.animationType = ANIMATIONTYPES.IN;
             priv.autoReverse = !1;
             priv.enabled = !0;
             priv.delay = 0;
@@ -59,417 +55,267 @@ const Animation = (() => {
             priv.stopValue = null;
             priv.autoStart = autoStart ? !0 : !1;
             priv.running = !1;
-            priv.convertToCSS = Core.isHTMLRenderer;
-            //#region Events
-            this.onProcess = new Core.classes.NotifyEvent(this);
-            this.onFinish = new Core.classes.NotifyEvent(this);
-            //#endregion
+            priv.convertToCSS = core.isHTMLRenderer;
+            this.createEventsAndBind(['onProcess', 'onFinish'], props);
         }
-        //#region Getters/Setters
+        //#region Getters / Setters
+        //#region delayTime
         get delayTime() {
             return internal(this).delayTime;
         }
         set delayTime(newValue) {
             internal(this).delayTime = newValue;
         }
+        //#endregion delayTime
+        //#region time
         get time() {
             return internal(this).time;
         }
         set time(newValue) {
             internal(this).time = newValue;
         }
+        //#endregion time
+        //#region initialValue
         get initialValue() {
             return internal(this).initialValue;
         }
         set initialValue(newValue) {
             internal(this).initialValue = newValue;
         }
-        /**
-         * @return {Boolean} the pause property
-         */
+        //#endregion initialValue
+        //#region pause
         get pause() {
             return internal(this).pause;
         }
-        /**
-         * Set the pause property
-         * @param   {Boolean}   newValue    the new value
-         */
         set pause(newValue) {
             const priv = internal(this);
             let pause = priv.pause;
-            const jsCssProperties = Types.JSCSSPROPERTIES;
+            const jsCssProperties = core.types.JSCSSPROPERTIES;
             const owner = priv.owner;
             const form = priv.form;
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
-                if (newValue !== pause) {
-                    pause = priv.pause = newValue;
-                    if (pause) {
-                        if (priv.running) {
-                            if (!Core.isHTMLRenderer /*|| this instanceof Core.classes.PathAnimation*/ || owner.HTMLElement === Types.HTMLELEMENTS.CANVAS) {
-                                this.stopAtCurrent();
-                            } else if (!priv.loading && !form.loading) {
-                                Core.isHTMLRenderer && Css.updateInlineCSS(this, jsCssProperties.ANIMATIONSTATE);
-                            }
+            if (core.tools.isBool(newValue) && newValue !== pause) {
+                pause = priv.pause = newValue;
+                if (pause) {
+                    if (priv.running) {
+                        if (!core.isHTMLRenderer || owner.HTMLElement === core.types.HTMLELEMENTS.CANVAS) {
+                            this.stopAtCurrent();
+                        } else if (!priv.loading && !form.loading) {
+                            core.isHTMLRenderer && Css.updateInlineCSS(this, jsCssProperties.ANIMATIONSTATE);
                         }
-                        else {
-                            this.stop();
-                        }
-                    } else if (!priv.loading && !form.loading && Core.isHTMLRenderer) {
-                        Css.updateInlineCSS(owner, jsCssProperties.ANIMATIONSTATE, String.EMPTY);
                     }
+                    else {
+                        this.stop();
+                    }
+                } else if (!priv.loading && !form.loading && core.isHTMLRenderer) {
+                    Css.updateInlineCSS(owner, jsCssProperties.ANIMATIONSTATE, String.EMPTY);
                 }
             }
         }
-
-        /**
-         * @return {String} the animationType property
-         */
+        //#endregion pause
+        //#region animationType
         get animationType() {
             return internal(this).animationType;
         }
-        /**
-         * Set the animationType property
-         * @param   {String}    newValue    the new value
-         */
         set animationType(newValue) {
             const priv = internal(this);
-            if (Tools.valueInSet(newValue, Animation.ANIMATIONTYPES)) {
-                if (newValue !== priv.animationType) {
-                    priv.animationType = newValue;
-                }
-            }
+            core.tools.valueInSet(newValue, Animation.ANIMATIONTYPES) && newValue !== priv.animationType
+                ? priv.animationType = newValue : 1;
         }
-        /**
-         * @return {Boolean} the autoReverse property
-         */
+        //#endregion animationType
+        //#region autoReverse
         get autoReverse() {
             return internal(this).autoReverse;
         }
-        /**
-         * Set the autoReverse property
-         * @param   {Boolean}   newValue    the new value
-         */
         set autoReverse(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
-                if (newValue !== priv.autoReverse) {
-                    priv.autoReverse = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && newValue !== priv.autoReverse
+                ? priv.autoReverse = newValue : 1;
         }
-        /**
-         * @return  {Boolean}   the enabled property
-         */
+        //#endregion autoReverse
+        //#region enabled
         get enabled() {
             return internal(this).enabled;
         }
-        /**
-         * Set the enabled property
-         * @param   {Boolean}   newValue    the new value
-         */
         set enabled(newValue) {
             const priv = internal(this);
             let enabled = priv.enabled;
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
-                if (newValue !== enabled) {
-                    enabled = priv.enabled = newValue;
-                    if (enabled) {
-                        this.start();
-                    } else {
-                        this.stop();
-                    }
-                }
+            if (core.tools.isBool(newValue) && newValue !== enabled) {
+                enabled = priv.enabled = newValue;
+                enabled ? this.start() : this.stop();
             }
         }
-        /**
-         * @return  {Number}    the delay property
-         */
+        //#endregion enabled
+        //#region delay
         get delay() {
             return internal(this).delay;
         }
-        /**
-         * Set the delay property
-         * @param   {Number}    newValue    the new value
-         */
         set delay(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
-                if (newValue !== priv.delay) {
-                    priv.delay = newValue;
-                }
-            }
+            core.tools.isNumber(newValue) && newValue !== priv.delay
+                ? priv.delay = newValue : 1;
         }
-        /**
-         * @return  {Number}    the duration property
-         */
+        //#endregion delay
+        //#region duration
         get duration() {
             return internal(this).duration;
         }
-        /**
-         * Set the duration property
-         * @param   {Number}    newValue    the new value
-         */
         set duration(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
-                if (newValue !== priv.duration) {
-                    priv.duration = newValue;
-                }
-            }
+            core.tools.isNumber(newValue) && newValue !== priv.duration
+                ? priv.duration = newValue : 1;
         }
-        /**
-         * @return  {String}    the interpolation property
-         */
+        //#endregion duration
+        //#region interpolation
         get interpolation() {
             return internal(this).interpolation;
         }
-        /**
-         * Set the interpolation property
-         * @param   {String}    newValue    the new value
-         */
         set interpolation(newValue) {
             const priv = internal(this);
-            if (Tools.valueInSet(newValue, Interpolation.INTERPOLATIONTYPES)) {
-                if (newValue !== priv.interpolation) {
-                    priv.interpolation = newValue;
-                }
-            }
+            core.tools.valueInSet(newValue, Interpolation.INTERPOLATIONTYPES) && newValue !== priv.interpolation
+                ? priv.interpolation = newValue : 1;
         }
-        /**
-         * @return  {Boolean}   the inverse property
-         */
+        //#endregion interpolation
+        //#region inverse
         get inverse() {
             return internal(this).inverse;
         }
-        /**
-         * Set the inverse property
-         * @param   {Boolean}   newValue    the new value
-         */
         set inverse(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
-                if (newValue !== priv.inverse) {
-                    priv.inverse = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && newValue !== priv.inverse
+                ? priv.inverse = newValue : 1;
         }
-        /**
-         * @return  {Boolean}   the hideOnFinish property
-         */
+        //#endregion inverse
+        //#region hideOnFinish
         get hideOnFinish() {
             return internal(this).hideOnFinish;
         }
-        /**
-         * Set the hideOnFinish property
-         * @param   {Boolean}   newValue    the new value
-         */
         set hideOnFinish(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
-                if (newValue !== priv.hideOnFinish) {
-                    priv.hideOnFinish = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && newValue !== priv.hideOnFinish
+                ? priv.hideOnFinish = newValue : 1;
         }
-        /**
-         * @return  {Boolean}   the loop property
-         */
+        //#endregion hideOnFinish
+        //#region loop
         get loop() {
             return internal(this).loop;
         }
-        /**
-         * Set the loop property
-         * @param   {Boolean}   newValue    the new value
-         */
         set loop(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
-                if (newValue !== priv.loop) {
-                    priv.loop = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && newValue !== priv.loop
+                ? priv.loop = newValue : 1;
         }
-        /**
-         * @return  {String}    the trigger property
-         */
+        //#endregion loop
+        //#region trigger
         get trigger() {
             return internal(this).trigger;
         }
-        /**
-         * Set the trigger property
-         * @param   {String}    newValue    the new value
-         */
         set trigger(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.STRING) {
-                if (newValue !== priv.trigger) {
-                    priv.trigger = newValue;
-                }
-            }
+            core.tools.isString(newValue) && newValue !== priv.trigger
+                ? priv.trigger = newValue : 1;
         }
-        /**
-         * @return  {Boolean}   the triggerInverse property
-         */
+        //#endregion trigger
+        //#region triggerInverse
         get triggerInverse() {
             return internal(this).triggerInverse;
         }
-        /**
-         * Set the triggerInverse property
-         * @param   {Boolean}   newValue    the new value
-         */
         set triggerInverse(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
-                if (newValue !== priv.triggerInverse) {
-                    priv.triggerInverse = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && newValue !== priv.triggerInverse
+                ? priv.triggerInverse = newValue : 1;
         }
-        /**
-         * @return  {String}    the propertyName property
-         */
+        //#endregion triggerInverse
+        //#region propertyName
         get propertyName() {
             return internal(this).propertyName;
         }
-        /**
-         * Set the propertyName property
-         * @param   {String}    newValue    the new value
-         */
         set propertyName(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.STRING) {
-                if (newValue !== priv.propertyName) {
-                    priv.propertyName = newValue;
-                    this.updateCSS();
-                }
+            if (core.tools.isString(newValue) && newValue !== priv.propertyName) {
+                priv.propertyName = newValue;
+                this.updateCSS();
             }
         }
+        //#endregion propertyName
+        //#region control
         get control() {
             return internal(this).control;
         }
         set control(newValue) {
             const priv = internal(this);
-            if (newValue instanceof Core.classes.Control) {
-                if (priv.control !== newValue) {
-                    this.stop();
-                    priv.control = newValue;
-                    if (priv.autoStart) {
-                        this.start();
-                    }
-                }
+            if (newValue instanceof core.classes.Control && priv.control !== newValue) {
+                this.stop();
+                priv.control = newValue;
+                priv.autoStart ? this.start() : 1;
             }
         }
-        /**
-         * @return  {Boolean}    the startFromCurrent property
-         */
+        //#endregion control
+        //#region startFromCurrent
         get startFromCurrent() {
             return internal(this).startFromCurrent;
         }
-        /**
-         * Set the startFromCurrent property
-         * @param   {Boolean}    newValue    the new value
-         */
         set startFromCurrent(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
-                if (newValue !== priv.startFromCurrent) {
-                    priv.startFromCurrent = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && newValue !== priv.startFromCurrent
+                ? priv.startFromCurrent = newValue : 1;
         }
-        /**
-         * @return  {Any}    the startValue property
-         */
+        //#endregion startFromCurrent
+        //#region startValue
         get startValue() {
             return internal(this).startValue;
         }
-        /**
-         * Set the stopValue property
-         * @param   {Any}       newValue    the new value
-         */
         set startValue(newValue) {
             const priv = internal(this);
-            if (newValue !== priv.startValue) {
-                priv.startValue = newValue;
-            }
+            typeof priv.startValue === typeof newValue && newValue !== priv.startValue
+                ? priv.startValue = newValue : 1;
         }
-        /**
-         * @return  {Any}    the stopValue property
-         */
+        //#endregion startValue
+        //#region stopValue
         get stopValue() {
             return internal(this).stopValue;
         }
-        /**
-         * Set the stopValue property
-         * @param   {Any}       newValue    the new value
-         */
         set stopValue(newValue) {
             const priv = internal(this);
-            if (newValue !== priv.stopValue) {
-                priv.stopValue = newValue;
-            }
+            typeof priv.stopValue === typeof newValue && newValue !== priv.stopValue
+                ? priv.stopValue = newValue : 1;
         }
-        /**
-         * @return  {Boolean}    the autoStart property
-         */
+        //#endregion stopValue
+        //#region autoStart
         get autoStart() {
             return internal(this).autoStart;
         }
-        /**
-         * Set the convertToCSS property
-         * @param   {Boolean}   newValue    the new value
-         */
         set autoStart(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
-                if (newValue !== priv.autoStart) {
-                    priv.autoStart = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && newValue !== priv.autoStart
+                ? priv.autoStart = newValue : 1;
         }
-        /**
-         * @return  {Boolean}    the running property
-         */
+        //#endregion autoStart
+        //#region running
         get running() {
             return internal(this).running;
         }
-        /**
-         * Set the running property
-         * @param   {Boolean}   newValue    the new value
-         */
         set running(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
-                if (newValue !== priv.running) {
-                    priv.running = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && newValue !== priv.running
+                ? priv.running = newValue : 1;
         }
-        /**
-         * @return  {Boolean}    the convertToCSS property
-         */
+        //#endregion running
+        //#region convertToCSS
         get convertToCSS() {
             return internal(this).convertToCSS;
         }
-        /**
-         * Set the convertToCSS property
-         * @param   {Boolean}   newValue    the new value
-         */
         set convertToCSS(newValue) {
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
-                if (newValue !== priv.convertToCSS) {
-                    priv.convertToCSS = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && newValue !== priv.convertToCSS
+                ? priv.convertToCSS = newValue : 1;
         }
-        /**
-         * @type    {Object}
-         */
+        //#endregion convertToCSS
+        //#region ANIMATIONTYPES
         static get ANIMATIONTYPES() {
             return _animationTypes;
         }
-        //#endregion
+        //#endregion ANIMATIONTYPES
+        //#endregion Getters / Setters
         //#region Methods
         /**
          * Start the animation
@@ -478,10 +324,8 @@ const Animation = (() => {
             const inverse = this.inverse;
             const priv = internal(this);
             if (this.control) {
-                if (!this.convertToCSS /*|| this instanceof Core.classes.PathAnimation*/ || this.owner.HTMLElement === Types.HTMLELEMENTS.CANVAS) {
-                    if (Core.disableAnimation) {
-                        priv.duration = 0.001;
-                    }
+                if (!this.convertToCSS /*|| this instanceof core.classes.PathAnimation*/ || this.owner.HTMLElement === core.types.HTMLELEMENTS.CANVAS) {
+                    core.disableAnimation ? priv.duration = 0.001 : 1;
                     if (Math.abs(priv.duration) < 0.001) {
                         priv.delayTime = 0;
                         if (inverse) {
@@ -501,20 +345,14 @@ const Animation = (() => {
                     } else {
                         priv.delayTime = priv.delay;
                         priv.running = !0;
-                        if (inverse) {
-                            priv.time = priv.duration;
-                        } else {
-                            priv.time = 0;
-                        }
-                        if (priv.delay === 0) {
-                            this.processAnimation();
-                        }
+                        priv.time = inverse ? priv.duration : 0;
+                        priv.delay === 0 ? this.processAnimation() : 1;
                         priv.enabled = !0;
                     }
-                    Core.looper.addListener(this, 'animate');
+                    core.looper.addListener(this, 'animate');
                 } else {
                     priv.running = !0;
-                    Core.isHTMLRenderer && Css.updateInlineCSS(this, Types.JSCSSPROPERTIES.ANIMATION);
+                    core.isHTMLRenderer && Css.updateInlineCSS(this, core.types.JSCSSPROPERTIES.ANIMATION);
                 }
             }
         }
@@ -523,28 +361,20 @@ const Animation = (() => {
          */
         stop() {
             const priv = internal(this);
-            const htmlElements = Types.HTMLELEMENTS;
-            //if (!this.running || !this.control) {
-            //    return;
-            //}
+            const htmlElements = core.types.HTMLELEMENTS;
             const htmlElement = this.control ? this.control.HTMLElement : null;
-            if (!this.convertToCSS /*|| this instanceof Core.classes.PathAnimation*/ || htmlElement === htmlElements.CANVAS) {
-                if (priv.inverse) {
-                    priv.time = 0;
-                } else {
-                    priv.time = priv.duration;
-                }
+            if (!this.convertToCSS || htmlElement === htmlElements.CANVAS) {
+                priv.time = priv.inverse ? 0 : priv.duration;
                 this.processAnimation();
             }
             priv.running = !1;
             priv.enabled = !1;
             this.onFinish.invoke();
-            if (!this.convertToCSS /*|| this instanceof Core.classes.PathAnimation*/ || htmlElement === htmlElements.CANVAS) {
-                //renderer.removeListener(this);
-                Core.looper.removeListener(this);
-            } else if (!this.loading && !this.form.loading) {
-                Core.isHTMLRenderer && Css.updateInlineCSS(this.control, Types.JSCSSPROPERTIES.ANIMATION, String.EMPTY);
-            }
+            !this.convertToCSS || htmlElement === htmlElements.CANVAS
+                ? core.looper.removeListener(this)
+                    ? !this.loading && !this.form.loading
+                    : core.isHTMLRenderer && Css.updateInlineCSS(this.control, core.types.JSCSSPROPERTIES.ANIMATION, String.EMPTY)
+                : 1;
         }
         /**
          * When the class is loaded
@@ -552,13 +382,10 @@ const Animation = (() => {
          */
         loaded() {
             super.loaded();
-            if (!Core.isHTMLRenderer /*|| this instanceof Core.classes.PathAnimation*/ || this.control && this.control.HTMLElement === Types.HTMLELEMENTS.CANVAS) {
-                if (this.startFromCurrent) {
-                    this.initialValue = this.startValue;
-                }
-            } else {
-                this.updateCSS();
-            }
+            !core.isHTMLRenderer || this.control && this.control.HTMLElement === core.types.HTMLELEMENTS.CANVAS
+                ? this.startFromCurrent
+                    ? this.initialValue = this.startValue : 1
+                : this.updateCSS();
             //if(this._enabled&&!this._running&&this._autoStart) this.start();
         }
         /**
@@ -566,12 +393,12 @@ const Animation = (() => {
          */
         updateCSS() {
             const priv = internal(this);
-            if (Core.isHTMLRenderer) {
-                Css.removeCSSRule(`@${Core.browser.getVendorPrefix('keyframes')}keyframes${this.priv}, Types.CSSRULETYPES.KEYFRAMES_RULE}`);
+            if (core.isHTMLRenderer) {
+                Css.removeCSSRule(`@${core.browser.getVendorPrefix('keyframes')}keyframes${this.priv}, core.types.CSSRULEcore.types.KEYFRAMES_RULE}`);
                 if (priv.propertyName !== String.EMPTY) {
                     cssProp = `0% { ${Convert.propertyToCssProperty(this)} }
                        100% { ${Convert.propertyToCssProperty(this, !0)} } `;
-                    Css.addCSSRule(`@${Core.browser.getVendorPrefix('keyframes')}keyframes ${this.priv}`, cssProp);
+                    Css.addCSSRule(`@${core.browser.getVendorPrefix('keyframes')}keyframes ${this.priv}`, cssProp);
                 }
             }
         }
@@ -586,11 +413,7 @@ const Animation = (() => {
         stopAtCurrent() {
             const priv = internal(this);
             if (priv.running) {
-                if (priv.inverse) {
-                    priv.time = 0;
-                } else {
-                    priv.time = priv.duration;
-                }
+                priv.time = priv.inverse ? 0 : priv.duration;
                 priv.running = !1;
                 this.enabled = !1;
                 this.onFinish.invoke();
@@ -649,9 +472,7 @@ const Animation = (() => {
                         setter.removeAt(0);
                     }
                     if (startValue) {
-                        if (triggerInverse !== String.EMPTY) {
-                            priv.inverse = !1;
-                        }
+                        !String.isNullOrEmpty(triggerInverse) ? priv.inverse = !1 : 1;
                         this.start();
                     }
                 }
@@ -676,11 +497,11 @@ const Animation = (() => {
                 a: animationType
             };
             if (duration > 0 && priv.delayTime <= 0) {
-                if (!Tools.valueInSet(interpolation, interpolationTypes)) {
+                if (!core.tools.valueInSet(interpolation, interpolationTypes)) {
                     return 0;
-                } if (interpolation === interpolationTypes.LINEAR) {
+                } if (interpolation === INTERPOLATIONTYPES.LINEAR) {
                     return Interpolation.linear(time, 0, 1, duration);
-                } else if (interpolation === interpolationTypes.ELASTIC) {
+                } else if (interpolation === INTERPOLATIONTYPES.ELASTIC) {
                     return Interpolation.elastic({
                         t: time,
                         b: 0,
@@ -690,7 +511,7 @@ const Animation = (() => {
                         p: 0,
                         a: animationType
                     });
-                } else if (interpolation === interpolationTypes.BACK) {
+                } else if (interpolation === INTERPOLATIONTYPES.BACK) {
                     return Interpolation.back({
                         t: time,
                         b: 0,
@@ -700,23 +521,23 @@ const Animation = (() => {
                         a: animationType
                     });
                 } else return Interpolation[interpolation](fiveProps);
-                /*if (interpolation === interpolationTypes.LINEAR) {
+                /*if (interpolation === INTERPOLATIONTYPES.LINEAR) {
                     return Interpolation.linear(time, 0, 1, duration);
-                } else if (interpolation === interpolationTypes.QUADRATIC) {
+                } else if (interpolation === INTERPOLATIONTYPES.QUADRATIC) {
                     return Interpolation.quad(fiveProps);
-                } else if (interpolation === interpolationTypes.CUBIC) {
+                } else if (interpolation === INTERPOLATIONTYPES.CUBIC) {
                     return Interpolation.cubic(fiveProps);
-                } else if (interpolation === interpolationTypes.QUARTIC) {
+                } else if (interpolation === INTERPOLATIONTYPES.QUARTIC) {
                     return Interpolation.quart(fiveProps);
-                } else if (interpolation === interpolationTypes.QUINTIC) {
+                } else if (interpolation === INTERPOLATIONTYPES.QUINTIC) {
                     return Interpolation.quint(fiveProps);
-                } else if (interpolation === interpolationTypes.SINUSOIDAL) {
+                } else if (interpolation === INTERPOLATIONTYPES.SINUSOIDAL) {
                     return Interpolation.sine(fiveProps);
-                } else if (interpolation === interpolationTypes.EXPONENTIAL) {
+                } else if (interpolation === INTERPOLATIONTYPES.EXPONENTIAL) {
                     return Interpolation.expo(fiveProps);
-                } else if (interpolation === interpolationTypes.CIRCULAR) {
+                } else if (interpolation === INTERPOLATIONTYPES.CIRCULAR) {
                     return Interpolation.circ(fiveProps);
-                } else if (interpolation === interpolationTypes.ELASTIC) {
+                } else if (interpolation === INTERPOLATIONTYPES.ELASTIC) {
                     return Interpolation.elastic({
                         t: time,
                         b: 0,
@@ -726,7 +547,7 @@ const Animation = (() => {
                         p: 0,
                         a: animationType
                     });
-                } else if (interpolation === interpolationTypes.BACK) {
+                } else if (interpolation === INTERPOLATIONTYPES.BACK) {
                     return Interpolation.back({
                         t: time,
                         b: 0,
@@ -735,7 +556,7 @@ const Animation = (() => {
                         s: 0,
                         a: animationType
                     });
-                } else if (interpolation === interpolationTypes.BOUNCE) {
+                } else if (interpolation === INTERPOLATIONTYPES.BOUNCE) {
                     return Interpolation.bounce(fiveProps);
                 } else {
                     return 0;
@@ -757,21 +578,17 @@ const Animation = (() => {
             elapsedTime /= 1000;
             if (running && priv.pause) {
                 if (owner) {
-                    if (!Core.isHTMLRenderer) {
-                        if (!owner.isVisible) {
-                            //this.pause = !0;
-                            this.stop();
-                        } else if (running) {
-                            this.pause = !1;
-                        }
-                    } else {
-                        if (!owner.isVisible) {
-                            //this.pause = !0;
-                            this.stop();
-                        } else if (running) {
-                            this.pause = !1;
-                        }
+                    if (!core.isHTMLRenderer) {
+                        !owner.isVisible
+                            ? this.stop()
+                                ? running : this.pause = !1
+                            : 1;
                     }
+                } else {
+                    !owner.isVisible
+                        ? this.stop()
+                            ? running : this.pause = !1
+                        : 1;
                 }
                 if (priv.delay > 0 && delayTime !== 0) {
                     if (delayTime > 0) {
@@ -783,46 +600,37 @@ const Animation = (() => {
                     }
                     return;
                 }
-                if (priv.inverse) {
-                    priv.time -= elapsedTime;
-                } else {
-                    priv.time += elapsedTime;
-                }
+                priv.inverse ? priv.time -= elapsedTime : priv.time += elapsedTime;
                 if (priv.time >= duration) {
-                    if (priv.startFromCurrent) {
-                        priv.startValue = priv.initialValue;
-                    }
-                    priv.time = duration;
-                    if (loop) {
-                        if (autoReverse) {
-                            priv.inverse = !0;
-                            priv.time = duration;
-                        } else {
-                            priv.time = 0;
-                        }
-                    } else {
-                        running = priv.running = !1;
-                    }
-                } else if (priv.time <= 0) {
-                    priv.time = 0;
-                    if (loop) {
-                        if (autoReverse) {
-                            priv.inverse = !1;
-                            priv.time = 0;
-                        } else {
-                            priv.time = duration;
-                        }
-                    } else {
-                        running = priv.running = !1;
-                    }
+                    priv.startFromCurrent ? priv.startValue = priv.initialValue : 1;
                 }
-                this.processAnimation();
-                this.onProcess.invoke();
-                if (!running) {
-                    //this.onFinish.invoke();
-                    this.stop();
+                priv.time = duration;
+                if (loop) {
+                    if (autoReverse) {
+                        priv.inverse = !0;
+                        priv.time = duration;
+                    } else {
+                        priv.time = 0;
+                    }
+                } else {
+                    running = priv.running = !1;
+                }
+            } else if (priv.time <= 0) {
+                priv.time = 0;
+                if (loop) {
+                    if (autoReverse) {
+                        priv.inverse = !1;
+                        priv.time = 0;
+                    } else {
+                        priv.time = duration;
+                    }
+                } else {
+                    running = priv.running = !1;
                 }
             }
+            this.processAnimation();
+            this.onProcess.invoke();
+            !running ? this.stop() : 1;
         }
         /**
          * Convert animation properties to CSS
@@ -832,7 +640,6 @@ const Animation = (() => {
         toCSS(aniName) {
             const priv = internal(this);
             const interpolationTypes = Interpolation.INTERPOLATIONTYPES;
-            const animationTypes = Animation.ANIMATIONTYPES;
             let ani = String.EMPTY;
             const interpolation = priv.interpolation;
             const animationType = priv.animationType;
@@ -841,142 +648,142 @@ const Animation = (() => {
             if (!this.convertToCSS) {
                 return String.EMPTY;
             }
-            if (interpolation === interpolationTypes.BOUNCE || interpolation === interpolationTypes.ELASTIC) {
+            if (interpolation === INTERPOLATIONTYPES.BOUNCE || interpolation === INTERPOLATIONTYPES.ELASTIC) {
                 return ani;
             }
             // animation-name + animation-duration
             ani += (aniName ? aniName : priv.name) + String.SPACE + priv.duration + 's ';
             // animation-timing-function
             switch (interpolation) {
-                case interpolationTypes.BACK:
+                case INTERPOLATIONTYPES.BACK:
                     switch (animationType) {
-                        case animationTypes.IN:
+                        case ANIMATIONTYPES.types.IN:
                             ani += 'cubic-bezier(0.6, -0.28, 0.735, 0.045)';
                             break;
-                        case animationTypes.OUT:
+                        case ANIMATIONTYPES.types.OUT:
                             ani += 'cubic-bezier(0.175, 0.885, 0.32, 1.275)';
                             break;
-                        case animationTypes.INOUT:
+                        case ANIMATIONTYPES.types.INOUT:
                             ani += 'cubic-bezier(0.68, -0.55, 0.265, 1.55)';
                             break;
                     }
                     break;
-                    //case types.interpolationType.BOUNCE:
-                    //  switch (this._animationType) {
-                    //    case types.animationType.IN:
-                    //      ani+="";
-                    //      break;
-                    //    case types.animationType.OUT:
-                    //      ani+="";
-                    //      break;
-                    //    case types.animationType.INOUT:
-                    //      ani+="";
-                    //      break;
-                    //  }
-                    //  break;
-                case interpolationTypes.CIRCULAR:
+                //case core.types.interpolationType.BOUNCE:
+                //  switch (this._animationType) {
+                //    case core.types.animationType.IN:
+                //      ani+="";
+                //      break;
+                //    case core.types.animationType.OUT:
+                //      ani+="";
+                //      break;
+                //    case core.types.animationType.INOUT:
+                //      ani+="";
+                //      break;
+                //  }
+                //  break;
+                case INTERPOLATIONTYPES.CIRCULAR:
                     switch (animationType) {
-                        case animationTypes.IN:
+                        case ANIMATIONTYPES.IN:
                             ani += 'cubic-bezier(0.6, 0.04, 0.98, 0.335)';
                             break;
-                        case animationTypes.OUT:
+                        case ANIMATIONTYPES.OUT:
                             ani += 'cubic-bezier(0.075, 0.82, 0.165, 1)';
                             break;
-                        case animationTypes.INOUT:
+                        case ANIMATIONTYPES.INOUT:
                             ani += 'cubic-bezier(0.785, 0.135, 0.15, 0.86)';
                             break;
                     }
                     break;
-                case interpolationTypes.CUBIC:
+                case INTERPOLATIONTYPES.CUBIC:
                     switch (animationType) {
-                        case animationTypes.IN:
+                        case ANIMATIONTYPES.IN:
                             ani += 'cubic-bezier(0.55, 0.055, 0.675, 0.19)';
                             break;
-                        case animationTypes.OUT:
+                        case ANIMATIONTYPES.OUT:
                             ani += 'cubic-bezier(0.215, 0.61, 0.355, 1)';
                             break;
-                        case animationTypes.INOUT:
+                        case ANIMATIONTYPES.INOUT:
                             ani += 'cubic-bezier(0.645, 0.045, 0.355, 1)';
                             break;
                     }
                     break;
-                    //case types.interpolationType.ELASTIC:
-                    //  switch (this._animationType) {
-                    //    case types.animationType.IN:
-                    //      ani+="";
-                    //      break;
-                    //    case types.animationType.OUT:
-                    //      ani+="";
-                    //      break;
-                    //    case types.animationType.INOUT:
-                    //      ani+="";
-                    //      break;
-                    //  }
-                    //  break;
-                case interpolationTypes.EXPONENTIAL:
+                //case core.types.interpolationType.ELASTIC:
+                //  switch (this._animationType) {
+                //    case core.types.animationType.IN:
+                //      ani+="";
+                //      break;
+                //    case core.types.animationType.OUT:
+                //      ani+="";
+                //      break;
+                //    case core.types.animationType.INOUT:
+                //      ani+="";
+                //      break;
+                //  }
+                //  break;
+                case INTERPOLATIONTYPES.EXPONENTIAL:
                     switch (animationType) {
-                        case animationTypes.IN:
+                        case ANIMATIONTYPES.IN:
                             ani += 'cubic-bezier(0.95, 0.05, 0.795, 0.035)';
                             break;
-                        case animationTypes.OUT:
+                        case ANIMATIONTYPES.OUT:
                             ani += 'cubic-bezier(0.19, 1, 0.22, 1)';
                             break;
-                        case animationTypes.INOUT:
+                        case ANIMATIONTYPES.INOUT:
                             ani += 'cubic-bezier(1, 0, 0, 1)';
                             break;
                     }
                     break;
-                case interpolationTypes.LINEAR:
+                case INTERPOLATIONTYPES.LINEAR:
                     ani += 'linear ';
                     break;
-                case interpolationTypes.QUADRATIC:
+                case INTERPOLATIONTYPES.QUADRATIC:
                     switch (animationType) {
-                        case animationTypes.IN:
+                        case ANIMATIONTYPES.IN:
                             ani += 'cubic-bezier(0.55, 0.085, 0.68, 0.53)';
                             break;
-                        case animationTypes.OUT:
+                        case ANIMATIONTYPES.OUT:
                             ani += 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
                             break;
-                        case animationTypes.INOUT:
+                        case ANIMATIONTYPES.INOUT:
                             ani += 'cubic-bezier(0.455, 0.03, 0.515, 0.955)';
                             break;
                     }
                     break;
-                case interpolationTypes.QUARTIC:
+                case INTERPOLATIONTYPES.QUARTIC:
                     switch (animationType) {
-                        case animationTypes.IN:
+                        case ANIMATIONTYPES.IN:
                             ani += 'cubic-bezier(0.895, 0.03, 0.685, 0.22)';
                             break;
-                        case animationTypes.OUT:
+                        case ANIMATIONTYPES.OUT:
                             ani += 'cubic-bezier(0.165, 0.84, 0.44, 1)';
                             break;
-                        case animationTypes.INOUT:
+                        case ANIMATIONTYPES.INOUT:
                             ani += 'cubic-bezier(0.77, 0, 0.175, 1)';
                             break;
                     }
                     break;
-                case interpolationTypes.QUINTIC:
+                case INTERPOLATIONTYPES.QUINTIC:
                     switch (animationType) {
-                        case animationTypes.IN:
+                        case ANIMATIONTYPES.IN:
                             ani += 'cubic-bezier(0.755, 0.05, 0.855, 0.06)';
                             break;
-                        case animationTypes.OUT:
+                        case ANIMATIONTYPES.OUT:
                             ani += 'cubic-bezier(0.23, 1, 0.32, 1)';
                             break;
-                        case animationTypes.INOUT:
+                        case ANIMATIONTYPES.INOUT:
                             ani += 'cubic-bezier(0.86, 0, 0.07, 1)';
                             break;
                     }
                     break;
-                case interpolationTypes.SINUSOIDAL:
+                case INTERPOLATIONTYPES.SINUSOIDAL:
                     switch (animationType) {
-                        case animationTypes.IN:
+                        case ANIMATIONTYPES.IN:
                             ani += 'cubic-bezier(0.47, 0, 0.745, 0.715)';
                             break;
-                        case animationTypes.OUT:
+                        case ANIMATIONTYPES.OUT:
                             ani += 'cubic-bezier(0.39, 0.575, 0.565, 1)';
                             break;
-                        case animationTypes.INOUT:
+                        case ANIMATIONTYPES.INOUT:
                             ani += 'cubic-bezier(0.445, 0.05, 0.55, 0.95)';
                             break;
                     }
@@ -985,11 +792,7 @@ const Animation = (() => {
             // animation-delay
             ani += priv.delay + 's ';
             // animation-iteration-count
-            if (this.loop) {
-                ani += 'infinite ';
-            } else {
-                ani += '1 ';
-            }
+            this.loop ? ani += 'infinite ' : ani += '1 ';
             // animation-direction
             if (autoReverse && !inverse) {
                 ani += 'alternate ';
@@ -1010,7 +813,7 @@ const Animation = (() => {
          * @override
          */
         assign(source) {
-            if (source instanceof Core.classes.Animation) {
+            if (source instanceof core.classes.Animation) {
                 const priv = internal(this);
                 priv.running = source.running;
                 priv.pause = source.pause;
@@ -1038,77 +841,13 @@ const Animation = (() => {
             const stopValue = priv.stopValue;
             this.onProcess.destroy();
             this.onFinish.destroy();
-            if (startValue) {
-                if (startValue.destroy) {
-                    startValue.destroy();
-                }
-            }
-            if (stopValue) {
-                if (stopValue.destroy) {
-                    stopValue.destroy();
-                }
-            }
+            startValue && startValue.destroy ? startValue.destroy() : 1;
+            stopValue && stopValue.destroy ? stopValue.destroy() : 1;
         }
         //#endregion
     }
     return Animation;
 })();
-Object.defineProperties(Animation, {
-    'animationType': {
-        enumerable: !0
-    },
-    'autoReverse': {
-        enumerable: !0
-    },
-    'enabled': {
-        enumerable: !0
-    },
-    'delay': {
-        enumerable: !0
-    },
-    'duration': {
-        enumerable: !0
-    },
-    'interpolation': {
-        enumerable: !0
-    },
-    'inverse': {
-        enumerable: !0
-    },
-    'hideOnFinish': {
-        enumerable: !0
-    },
-    'loop': {
-        enumerable: !0
-    },
-    'trigger': {
-        enumerable: !0
-    },
-    'triggerInverse': {
-        enumerable: !0
-    },
-    'propertyName': {
-        enumerable: !0
-    },
-    'control': {
-        enumerable: !0
-    },
-    'startFromCurrent': {
-        enumerable: !0
-    },
-    'startValue': {
-        enumerable: !0
-    },
-    'stopValue': {
-        enumerable: !0
-    },
-    'autoStart': {
-        enumerable: !0
-    },
-    'convertToCSS': {
-        enumerable: !0
-    }
-});
 //#endregion
 
 
@@ -1147,5 +886,5 @@ Classes.registerTemplates([{ Class: ColorAnimation,template: ColorAnimationTpl }
                               { Class: RectAnimation,template: RectAnimationTpl },{ Class: BitmapAnimation,template: BitmapAnimationTpl },{ Class: PathAnimation,template: PathAnimationTpl },
                               { Class: PathSwitcher,template: PathSwitcherTpl }]);*/
 //#endregion
-Core.classes.register(Types.CATEGORIES.ANIMATIONS, Animation);
+core.classes.register(core.types.CATEGORIES.ANIMATIONS, Animation);
 export { Animation };

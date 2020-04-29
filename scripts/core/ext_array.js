@@ -12,8 +12,8 @@ if (!Array.prototype.convertToCollection) {
     Array.prototype.convertToCollection = function (owner, itemClass) {
         //#region Variables déclaration
         let updating = !1;
-        let owner = owner;
-        let itemClass = itemClass;
+        let _owner = owner;
+        let _itemClass = itemClass;
         this._push = this.push;
         this._sort = this.sort;
         const isCollection = !0;
@@ -25,14 +25,14 @@ if (!Array.prototype.convertToCollection) {
             configurable: !0
         });
         Object.defineProperty(this, 'owner', {
-            get: () => { return owner; },
-            set: (newValue) => { owner = newValue; },
+            get: () => { return _owner; },
+            set: (newValue) => { _owner = newValue; },
             enumerable: !1,
             configurable: !0
         });
         Object.defineProperty(this, 'itemClass', {
-            get: () => { return itemClass; },
-            set: (newValue) => { itemClass = newValue; },
+            get: () => { return _itemClass; },
+            set: (newValue) => { _itemClass = newValue; },
             enumerable: !1,
             configurable: !0
         });

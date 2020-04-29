@@ -51,240 +51,9 @@ const Color = (function () {
             }
             priv.owner = owner;
             //#endregion Private Properties
-            //#region Public Properties
-            Object.defineProperties(this, {
-                'red': {
-                    enumerable: !0,
-                    configurable: !0,
-                    get: function () {
-                        return internal(this).red;
-                    },
-                    set: function (newValue) {
-                        //#region Variables déclaration
-                        const priv = internal(this);
-                        const owner = priv.owner;
-                        //#endregion Variables déclaration
-                        if (core.tools.isNumber(newValue) && newValue !== priv.red) {
-                            newValue = newValue & 0xFF;
-                            priv.red = newValue;
-                            if (!priv.updating) {
-                                this.RGBtoHSV();
-                                this.RGBtoHSL();
-                            }
-                            this.propertyChanged('red');
-                            owner && !owner.loading ? owner.update() : 1;
-                        }
-                    }
-                },
-                'green': {
-                    enumerable: !0,
-                    configurable: !0,
-                    get: function () {
-                        return internal(this).green;
-                    },
-                    set: function (newValue) {
-                        //#region Variables déclaration
-                        const priv = internal(this);
-                        const owner = priv.owner;
-                        //#endregion Variables déclaration
-                        if (core.tools.isNumber(newValue) && newValue !== priv.green) {
-                            newValue = newValue & 0xFF;
-                            priv.green = newValue;
-                            if (!priv.updating) {
-                                this.RGBtoHSV();
-                                this.RGBtoHSL();
-                            }
-                            this.propertyChanged('green');
-                            owner && !owner.loading ? owner.update() : 1;
-                        }
-                    }
-                },
-                'blue': {
-                    enumerable: !0,
-                    configurable: !0,
-                    get: function () {
-                        return internal(this).blue;
-                    },
-                    set: function (newValue) {
-                        //#region Variables déclaration
-                        const priv = internal(this);
-                        const owner = priv.owner;
-                        //#endregion Variables déclaration
-                        if (core.tools.isNumber(newValue) && newValue !== priv.blue) {
-                            newValue = newValue & 0xFF;
-                            priv.blue = newValue;
-                            if (!priv.updating) {
-                                this.RGBtoHSV();
-                                this.RGBtoHSL();
-                            }
-                            this.propertyChanged('blue');
-                            owner && !owner.loading ? owner.update() : 1;
-                        }
-                    }
-                },
-                'alpha': {
-                    enumerable: !0,
-                    configurable: !0,
-                    get: function () {
-                        return internal(this).alpha;
-                    },
-                    set: function (newValue) {
-                        //#region Variables déclaration
-                        const priv = internal(this);
-                        const owner = priv.owner;
-                        //#endregion Variables déclaration
-                        if (core.tools.isNumber(newValue) && newValue !== priv.alpha) {
-                            newValue = Math.max(Math.min(newValue, 1), 0);
-                            priv.alpha = newValue;
-                            this.propertyChanged('alpha');
-                            owner && !owner.loading ? owner.update() : 1;
-                        }
-                    }
-                },
-                'hue': {
-                    enumerable: !0,
-                    configurable: !0,
-                    get: function () {
-                        return internal(this).hue;
-                    },
-                    set: function (newValue) {
-                        //#region Variables déclaration
-                        const priv = internal(this);
-                        const owner = priv.owner;
-                        //#endregion Variables déclaration
-                        if (core.tools.isNumber(newValue) && newValue !== priv.hue) {
-                            newValue = Math.max(Math.min(newValue, 360), 0);
-                            priv.hue = newValue;
-                            !priv.updating ? this.HSVtoRGB() : 1;
-                            this.propertyChanged('hue');
-                            owner && !owner.loading ? owner.update() : 1;
-                        }
-                    }
-                },
-                'saturation': {
-                    enumerable: !0,
-                    configurable: !0,
-                    get: function () {
-                        return internal(this).saturation;
-                    },
-                    set: function (newValue) {
-                        //#region Variables déclaration
-                        const priv = internal(this);
-                        const owner = priv.owner;
-                        //#endregion Variables déclaration
-                        if (core.tools.isNumber(newValue) && newValue !== priv.saturation) {
-                            newValue = Math.max(Math.min(newValue, 100), 0);
-                            priv.saturation = newValue;
-                            !priv.updating ? this.HSVtoRGB() : 1;
-                            this.propertyChanged('saturation');
-                            owner && !owner.loading ? owner.update() : 1;
-                        }
-                    }
-                },
-                'value': {
-                    enumerable: !0,
-                    configurable: !0,
-                    get: function () {
-                        return internal(this).value;
-                    },
-                    set: function (newValue) {
-                        //#region Variables déclaration
-                        const priv = internal(this);
-                        const owner = this.owner;
-                        //#endregion Variables déclaration
-                        if (core.tools.isNumber(newValue) && newValue !== priv.value) {
-                            newValue = Math.max(Math.min(newValue, 100), 0);
-                            priv.value = newValue;
-                            !priv.updating ? this.HSVtoRGB() : 1;
-                            this.propertyChanged('value');
-                            owner && !owner.loading ? owner.update() : 1;
-                        }
-                    }
-                },
-                'lightness': {
-                    enumerable: !0,
-                    configurable: !0,
-                    get: function () {
-                        return internal(this).lightness;
-                    },
-                    set: function (newValue) {
-                        //#region Variables déclaration
-                        const priv = internal(this);
-                        const owner = this.owner;
-                        //#endregion Variables déclaration
-                        if (core.tools.isNumber(newValue) && newValue !== priv.lightness) {
-                            newValue = Math.max(Math.min(newValue, 100), 0);
-                            priv.lightness = newValue;
-                            !priv.updating ? this.HSLtoRGB() : 1;
-                            this.propertyChanged('lightness');
-                            owner && !owner.loading ? owner.update() : 1;
-                        }
-                    }
-                },
-                'owner': {
-                    enumerable: !0,
-                    configurable: !0,
-                    get: function () {
-                        return internal(this).owner;
-                    },
-                    set: function (newValue) {
-                        internal(this).owner = newValue;
-                    }
-                },
-                'updating': {
-                    enumerable: !0,
-                    configurable: !0,
-                    get: function () {
-                        return internal(this).updating;
-                    },
-                    set: function (newValue) {
-                        internal(this).updating = newValue;
-                    }
-                },
-            });
-            //#endregion Public Properties
             //#endregion Properties
         }
         //#endregion Constructor
-        //#region Setter
-        /**
-         * Set the HSV of the color
-         * @param   {Number}   hue              the new hue value
-         * @param   {Number}   saturation       the new saturation value
-         * @param   {Number}   value            the new value
-         */
-        setHSV(hue, saturation, value) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = this.owner;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(hue) && core.tools.isNumber(saturation) && core.tools.isNumber(value)) {
-                priv.hue = hue;
-                priv.saturation = saturation;
-                priv.value = value;
-                !this.updating ? this.HSVtoRGB() : 1;
-                owner && !owner.loading ? owner.update() : 1;
-            }
-        }
-        /**
-         * Set the HLS of the color
-         * @param   {Number}   hue              the new hue value
-         * @param   {Number}   saturation       the new saturation value
-         * @param   {Number}   lightness        the new lightness value
-         */
-        setHSL(hue, saturation, lightness) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = this.owner;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(hue) && core.tools.isNumber(saturation) && core.tools.isNumber(lightness)) {
-                priv.hue = hue;
-                priv.saturation = saturation;
-                priv.lightness = lightness;
-                !this.updating ? this.HSLtoRGB() : 1;
-                owner && !owner.loading ? owner.update() : 1;
-            }
-        }
         //#region Statics
         /**
          * Create a new color from RGBA values
@@ -518,7 +287,214 @@ const Color = (function () {
             return name ? name : color.toRGBHexString();
         }
         //#endregion
-        //#region Methods
+        //#region Getters / Setters
+        //#region red
+        get red() {
+            return internal(this).red;
+        }
+        set red(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const owner = priv.owner;
+            //#endregion Variables déclaration
+            if (core.tools.isNumber(newValue) && newValue !== priv.red) {
+                newValue = newValue & 0xFF;
+                priv.red = newValue;
+                if (!priv.updating) {
+                    this.RGBtoHSV();
+                    this.RGBtoHSL();
+                }
+                this.propertyChanged('red');
+                owner && !owner.loading ? owner.update() : 1;
+            }
+        }
+        //#endregion red
+        //#region green
+        get green() {
+            return internal(this).green;
+        }
+        set green(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const owner = priv.owner;
+            //#endregion Variables déclaration
+            if (core.tools.isNumber(newValue) && newValue !== priv.green) {
+                newValue = newValue & 0xFF;
+                priv.green = newValue;
+                if (!priv.updating) {
+                    this.RGBtoHSV();
+                    this.RGBtoHSL();
+                }
+                this.propertyChanged('green');
+                owner && !owner.loading ? owner.update() : 1;
+            }
+        }
+        //#endregion green
+        //#region blue
+        get blue() {
+            return internal(this).blue;
+        }
+        set blue(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const owner = priv.owner;
+            //#endregion Variables déclaration
+            if (core.tools.isNumber(newValue) && newValue !== priv.blue) {
+                newValue = newValue & 0xFF;
+                priv.blue = newValue;
+                if (!priv.updating) {
+                    this.RGBtoHSV();
+                    this.RGBtoHSL();
+                }
+                this.propertyChanged('blue');
+                owner && !owner.loading ? owner.update() : 1;
+            }
+        }
+        //#endregion blue
+        //#region alpha
+        get alpha() {
+            return internal(this).alpha;
+        }
+        set alpha(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const owner = priv.owner;
+            //#endregion Variables déclaration
+            if (core.tools.isNumber(newValue) && newValue !== priv.alpha) {
+                newValue = Math.max(Math.min(newValue, 1), 0);
+                priv.alpha = newValue;
+                this.propertyChanged('alpha');
+                owner && !owner.loading ? owner.update() : 1;
+            }
+        }
+        //#endregion alpha
+        //#region hue
+        get hue() {
+            return internal(this).hue;
+        }
+        set hue(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const owner = priv.owner;
+            //#endregion Variables déclaration
+            if (core.tools.isNumber(newValue) && newValue !== priv.hue) {
+                newValue = Math.max(Math.min(newValue, 360), 0);
+                priv.hue = newValue;
+                !priv.updating ? this.HSVtoRGB() : 1;
+                this.propertyChanged('hue');
+                owner && !owner.loading ? owner.update() : 1;
+            }
+        }
+        //#endregion hue
+        //#region saturation
+        get saturation() {
+            return internal(this).saturation;
+        }
+        set saturation(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const owner = priv.owner;
+            //#endregion Variables déclaration
+            if (core.tools.isNumber(newValue) && newValue !== priv.saturation) {
+                newValue = Math.max(Math.min(newValue, 100), 0);
+                priv.saturation = newValue;
+                !priv.updating ? this.HSVtoRGB() : 1;
+                this.propertyChanged('saturation');
+                owner && !owner.loading ? owner.update() : 1;
+            }
+        }
+        //#endregion saturation
+        //#region value
+        get value() {
+            return internal(this).value;
+        }
+        set value(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const owner = this.owner;
+            //#endregion Variables déclaration
+            if (core.tools.isNumber(newValue) && newValue !== priv.value) {
+                newValue = Math.max(Math.min(newValue, 100), 0);
+                priv.value = newValue;
+                !priv.updating ? this.HSVtoRGB() : 1;
+                this.propertyChanged('value');
+                owner && !owner.loading ? owner.update() : 1;
+            }
+        }
+        //#endregion value
+        //#region lightness
+        get lightness() {
+            return internal(this).lightness;
+        }
+        set lightness(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const owner = this.owner;
+            //#endregion Variables déclaration
+            if (core.tools.isNumber(newValue) && newValue !== priv.lightness) {
+                newValue = Math.max(Math.min(newValue, 100), 0);
+                priv.lightness = newValue;
+                !priv.updating ? this.HSLtoRGB() : 1;
+                this.propertyChanged('lightness');
+                owner && !owner.loading ? owner.update() : 1;
+            }
+        }
+        //#endregion lightness
+        //#region owner
+        get owner() {
+            return internal(this).owner;
+        }
+        set owner(newValue) {
+            internal(this).owner = newValue;
+        }
+        //#endregion owner
+        //#region updating
+        get updating() {
+            return internal(this).updating;
+        }
+        set updating(newValue) {
+            internal(this).updating = newValue;
+        }
+        //#endregion updating
+        //#endregion Getters / Setters
+        /**
+         * Set the HSV of the color
+         * @param   {Number}   hue              the new hue value
+         * @param   {Number}   saturation       the new saturation value
+         * @param   {Number}   value            the new value
+         */
+        setHSV(hue, saturation, value) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const owner = this.owner;
+            //#endregion Variables déclaration
+            if (core.tools.isNumber(hue) && core.tools.isNumber(saturation) && core.tools.isNumber(value)) {
+                priv.hue = hue;
+                priv.saturation = saturation;
+                priv.value = value;
+                !this.updating ? this.HSVtoRGB() : 1;
+                owner && !owner.loading ? owner.update() : 1;
+            }
+        }
+        /**
+         * Set the HLS of the color
+         * @param   {Number}   hue              the new hue value
+         * @param   {Number}   saturation       the new saturation value
+         * @param   {Number}   lightness        the new lightness value
+         */
+        setHSL(hue, saturation, lightness) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const owner = this.owner;
+            //#endregion Variables déclaration
+            if (core.tools.isNumber(hue) && core.tools.isNumber(saturation) && core.tools.isNumber(lightness)) {
+                priv.hue = hue;
+                priv.saturation = saturation;
+                priv.lightness = lightness;
+                !this.updating ? this.HSLtoRGB() : 1;
+                owner && !owner.loading ? owner.update() : 1;
+            }
+        }
         /**
          * Clone a color
          * @returns     {Color}     the cloned color
@@ -882,7 +858,7 @@ const Color = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            return 0.3 * priv.red + 0.59 * priv.green + 0.11 * priv.blue <= 128?'#FFF':'#000';
+            return 0.3 * priv.red + 0.59 * priv.green + 0.11 * priv.blue <= 128 ? '#FFF' : '#000';
         }
         //#region destroy
         destroy() {

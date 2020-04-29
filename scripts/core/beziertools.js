@@ -118,9 +118,7 @@ class BezierTools {
             t += 1.0 / (1 << splitCount);
         };
         //#endregion Variables déclaration
-        length
-            ? _compute(points, 0.5)
-            : 1;
+        length ? _compute(points, 0.5) : 1;
         return t;
     }
     /**
@@ -211,7 +209,9 @@ class BezierTools {
         const chord = quadratic ? BezierTools.distance(points[0], points[1], points[4], points[5]) : BezierTools.distance(points[0], points[1], points[6], points[7]);
         // split polygons until the polygon and the chord are "the same"
         if (pLen - chord > error) {
-            const newBeziers = quadratic ? BezierTools.splitQBezierAtT(points, 0.5) : BezierTools.splitCBezierAtT(points, 0.5);
+            const newBeziers = quadratic
+                ? BezierTools.splitQBezierAtT(points, 0.5)
+                : BezierTools.splitCBezierAtT(points, 0.5);
             let length = BezierTools.computeLength(newBeziers[0], quadratic);
             length += BezierTools.computeLength(newBeziers[1], quadratic);
             return length;

@@ -11,9 +11,7 @@ const AnimatedCursor = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -43,11 +41,8 @@ const AnimatedCursor = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof HTMLElement) {
-                if (priv.HTMLElement !== newValue) {
-                    priv.HTMLElement = newValue;
-                }
-            }
+            newValue instanceof HTMLElement && priv.HTMLElement !== newValue
+                ? priv.HTMLElement = newValue : 1;
         }
         //#endregion HTMLElement
         //#region maxFrame
@@ -58,11 +53,8 @@ const AnimatedCursor = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
-                if (priv.maxFrame !== newValue) {
-                    priv.maxFrame = newValue;
-                }
-            }
+            core.tools.isNumber(newValue) && priv.maxFrame !== newValue
+                ? priv.maxFrame = newValue : 1;
         }
         //#endregion maxFrame
         //#region curFrame
@@ -73,11 +65,8 @@ const AnimatedCursor = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
-                if (priv.curFrame !== newValue) {
-                    priv.curFrame = newValue;
-                }
-            }
+            core.tools.isNumber(newValue) && priv.curFrame !== newValue
+                ? priv.curFrame = newValue : 1;
         }
         //#endregion curFrame
         //#region className
@@ -88,11 +77,8 @@ const AnimatedCursor = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.STRING) {
-                if (priv.className !== newValue) {
-                    priv.className = newValue;
-                }
-            }
+            core.tools.isString(newValue) && priv.className !== newValue
+                ? priv.className = newValue : 1;
         }
         //#endregion className
         //#region iterationBetweenFrames
@@ -103,11 +89,8 @@ const AnimatedCursor = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
-                if (priv.iterationBetweenFrames !== newValue) {
-                    priv.iterationBetweenFrames = newValue;
-                }
-            }
+            core.tools.isNumber(newValue) && priv.iterationBetweenFrames !== newValue
+                ? priv.iterationBetweenFrames = newValue : 1;
         }
         //#endregion iterationBetweenFrames
         //#region iteration
@@ -118,11 +101,8 @@ const AnimatedCursor = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
-                if (priv.iteration !== newValue) {
-                    priv.iteration = newValue;
-                }
-            }
+            core.tools.isNumber(newValue) && priv.iteration !== newValue
+                ? priv.iteration = newValue : 1;
         }
         //#endregion iteration
         //#endregion Getters / Setters
@@ -137,18 +117,13 @@ const AnimatedCursor = (() => {
             const className = priv.className;
             const iterationBetweenFrames = priv.iterationBetweenFrames;
             //#endregion Variables déclaration
-            if (iterationBetweenFrames > 0) {
-                if (iteration < iterationBetweenFrames) {
-                    iteration = priv.iteration++;
-                    //console.log("frame skipped");
-                    return;
-                }
+            if (iterationBetweenFrames > 0 && iteration < iterationBetweenFrames) {
+                iteration = priv.iteration++;
+                return;
             }
             htmlElement.classList.remove(`${className}${curFrame}`);
             curFrame++;
-            if (curFrame > priv.maxFrame) {
-                curFrame = priv.curFrame = 0;
-            }
+            curFrame > priv.maxFrame ? curFrame = priv.curFrame = 0 : 1;
             htmlElement.classList.add(`${className}${curFrame}`);
             priv.iteration = 0;
             priv.curFrame = curFrame;
@@ -168,7 +143,7 @@ const AnimatedCursor = (() => {
             htmlElement.classList.add(`${className}${curFrame}`);
             priv.maxFrame = ~~getComputedStyle(htmlElement).animationIterationCount;
             priv.iterationBetweenFrames = ~~getComputedStyle(htmlElement).animationDuration;
-            Core.looper.addListener(this, 'animate');
+            core.looper.addListener(this, 'animate');
         }
         //#endregion initAnimation
         //#region stopAnimation
@@ -176,7 +151,7 @@ const AnimatedCursor = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            Core.looper.removeListener(this);
+            core.looper.removeListener(this);
             priv.HTMLElement.classList.remove(`${priv.className}${priv.curFrame}`);
         }
         //#endregion stopAnimation
@@ -185,6 +160,6 @@ const AnimatedCursor = (() => {
     return AnimatedCursor;
     //#endregion Class AnimatedCursor
 })();
-Core.classes.register(Types.CATEGORIES.INTERNAL, AnimatedCursor);
+core.classes.register(core.types.CATEGORIES.INTERNAL, AnimatedCursor);
 //#endregion AnimatedCursor
 export { AnimatedCursor };

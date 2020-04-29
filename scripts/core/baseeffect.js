@@ -10,9 +10,7 @@ const BaseEffect = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -35,7 +33,7 @@ const BaseEffect = (() => {
             priv.disablePaint = !1;
         }
         //#region constructor
-        //#region Getter/Setter
+        //#region Getters / Setters
         //#region enabled
         /**
          * Get the enabled property
@@ -51,12 +49,10 @@ const BaseEffect = (() => {
             const priv = internal(this);
             const owner = priv.owner;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.enabled !== newValue) {
-                    //let lastRect = owner.screenRect();
-                    priv.enabled = newValue;
-                    owner.form.addControlToRedraw(owner);
-                }
+            if (core.tools.isBool(newValue) && priv.enabled !== newValue) {
+                //let lastRect = owner.screenRect();
+                priv.enabled = newValue;
+                owner.form.addControlToRedraw(owner);
             }
         }
         //#endregion enabled
@@ -74,11 +70,8 @@ const BaseEffect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (String.isNullOrEmpty(newValue)) {
-                if (priv.trigger !== newValue) {
-                    priv.trigger = newValue;
-                }
-            }
+            String.isNullOrEmpty(newValue) && priv.trigger !== newValue
+                ? priv.trigger = newValue : 1;
         }
         //#endregion trigger
         //#region prepareBeforePaint
@@ -95,11 +88,8 @@ const BaseEffect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.prepareBeforePaint !== newValue) {
-                    priv.prepareBeforePaint = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.prepareBeforePaint !== newValue
+                ? priv.prepareBeforePaint = newValue : 1;
         }
         //#endregion prepareBeforePaint
         //#region applyOnChilds
@@ -116,11 +106,8 @@ const BaseEffect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.applyOnChilds !== newValue) {
-                    priv.applyOnChilds = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.applyOnChilds !== newValue
+                ? priv.applyOnChilds = newValue : 1;
         }
         //#endregion applyOnChilds
         //#region disablePaint
@@ -139,14 +126,11 @@ const BaseEffect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.disablePaint !== newValue) {
-                    priv.disablePaint = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.disablePaint !== newValue
+                ? priv.disablePaint = newValue : 1;
         }
         //#endregion disablePaint
-        //#endregion
+        //#endregion Getters / Setters
         //#region Methods
         /**
          * rect
@@ -179,9 +163,8 @@ const BaseEffect = (() => {
                 while (setter.length > 0) {
                     prop = setter[0].split("=")[0];
                     value = setter[0].split("=")[1];
-                    if (instance.hasOwnProperty(prop)) {
-                        startValue = instance[prop].toString().toLowerCase() === value.toLowerCase();
-                    }
+                    instance.hasOwnProperty(prop)
+                        ? startValue = instance[prop].toString().toLowerCase() === value.toLowerCase() : 1;
                     setter.removeAt(0);
                 }
                 this.enabled = startValue;
@@ -192,25 +175,6 @@ const BaseEffect = (() => {
     return BaseEffect;
     //#endregion BaseEffect
 })();
-//#region BaseEffect defineProperties
-Object.defineProperties(BaseEffect, {
-    'enabled': {
-        enumerable: !0
-    },
-    'trigger': {
-        enumerable: !0
-    },
-    'prepareBeforePaint': {
-        enumerable: !0
-    },
-    'applyOnChilds': {
-        enumerable: !0
-    },
-    'disablePaint': {
-        enumerable: !0
-    }
-});
-//#endregion BaseEffect defineProperties
 //#endregion
-Core.classes.register(Types.CATEGORIES.INTERNAL, BaseEffect);
+core.classes.register(core.types.CATEGORIES.INTERNAL, BaseEffect);
 export { BaseEffect };

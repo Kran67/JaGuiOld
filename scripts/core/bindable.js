@@ -1,6 +1,5 @@
 ﻿//#region Imports
 import { BaseClass } from '/scripts/core/baseclass.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion
 //#region Bindable
 /**
@@ -12,9 +11,7 @@ const Bindable = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -29,30 +26,28 @@ const Bindable = (() => {
             const priv = internal(this);
             priv.dataBindings = props && props.hasOwnProperty('dataBindings') ? props.dataBindings : [];
         }
-        //#region Getter / Setter
+        //#region Getters / Setters
         //#region dataBindings
         get dataBindings() {
             return internal(this).dataBindings;
         }
         //#endregion dataBindings
-        //#endregion Getter / Setter
+        //#endregion Getters / Setters
         //#region Methods
         //#region addDataBindings
         addDataBindings(dataBindings) {
-            if (Array.isArray(dataBindings)) {
-                dataBindings.forEach(dataBinding => {
+            Array.isArray(dataBindings)
+                ? dataBindings.forEach(dataBinding => {
                     this.addDataBinding(...dataBinding);
-                });
-            }
+                }) : 1;
         }
         //#endregion addDataBindings
         //#region removeDataBindings
         removeDataBindings(dataBindings) {
-            if (Array.isArray(dataBindings)) {
-                dataBindings.forEach(dataBinding => {
+            Array.isArray(dataBindings)
+                ? dataBindings.forEach(dataBinding => {
                     this.removeDataBinding(...dataBinding);
-                });
-            }
+                }) : 1;
         }
         //#endregion removeDataBindings
         //#region propertyChanged
@@ -62,15 +57,14 @@ const Bindable = (() => {
             const dataBindings = priv.dataBindings;
             const form = this.form;
             //#endregion Variables déclaration
-            if (dataBindings.find(item => item.property === property)) {
-                dataBindings.filter(item => item.property === property)
+            dataBindings.find(item => item.property === property)
+                ? dataBindings.filter(item => item.property === property)
                     .forEach(dataBinding => {
                         const destination = dataBinding.destination;
                         if (form[destination.component]) {
                             form[destination.component][destination.property] = this[property];
                         }
-                    });
-            }
+                    }) : 1;
         }
         //#endregion propertyChanged
         //#region addDataBinding
@@ -86,14 +80,12 @@ const Bindable = (() => {
                 }
             }
             //#endregion Variables déclaration
-            if (!Tools.isUndefined(this[property])) {
-                if (form && form[component]) {
-                    if (!Tools.isUndefined(form[component][propertyComponent]) &&
-                        typeof this[property] === typeof form[component][propertyComponent]) {
-                        priv.dataBindings.push(dataBinding);
-                    } else {
-                        console.log('');
-                    }
+            if (!core.tools.isUndefined(this[property]) && form && form[component]) {
+                if (!core.tools.isUndefined(form[component][propertyComponent]) &&
+                    typeof this[property] === typeof form[component][propertyComponent]) {
+                    priv.dataBindings.push(dataBinding);
+                } else {
+                    console.log('');
                 }
             }
         }
@@ -128,6 +120,6 @@ const Bindable = (() => {
     return Bindable;
     //#endregion Bindable
 })();
-Core.classes.register(Types.CATEGORIES.INTERNAL, Bindable);
+core.classes.register(core.types.CATEGORIES.INTERNAL, Bindable);
 //#endregion Bindable
 export { Bindable };
