@@ -31,7 +31,7 @@ class Cookie {
     static read(name) {
         //#region Variables déclaration
         const nameEq = `${name}=`;
-        const ca = document.cookie.split(";");
+        const ca = document.cookie.split(';');
         //#endregion Variables déclaration
         ca.forEach(c => {
             c = c.trim();

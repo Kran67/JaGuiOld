@@ -9,9 +9,7 @@ const CustomTextControl = (function () {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -54,188 +52,166 @@ const CustomTextControl = (function () {
                     enum: htmlInputTypes,
                     variable: priv,
                     forceUpdate: !0,
-                    value: props.hasOwnProperty('type') ? props.type : htmlInputcore.types.TEXT
+                    value: props.hasOwnProperty('type') ? props.type : htmlInputTypes.TEXT
                 });
                 htmlInputTypes = null;
                 //#endregion Private Properties
                 //#region Public Properties
                 this.createEventsAndBind(['onChange'], props);
-                Object.defineProperties(this, {
-                    'inputObj': {
-                        enumerable: !1,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).inputObj;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            const htmlElement = this.HTMLElement;
-                            //#endregion Variables déclaration
-                            if ((newValue instanceof HTMLInputElement || newValue instanceof HTMLTextAreaElement)
-                                && priv.inputObj !== newValue) {
-                                htmlElement.removeChild(priv.inputObj);
-                                priv.inputObj = newValue;
-                                htmlElement.appendChild(priv.inputObj);
-                            }
-                        }
-                    },
-                    'hasError': {
-                        enumerable: !1,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).hasError;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            core.tools.isBool(newValue) && priv.hasError !== newValue ? priv.hasError = newValue : 1;
-                        }
-                    },
-                    'text': {
-                        enumerable: !0,
-                        configurable: !0,
-                        get: function () {
-                            return this.inputObj.value;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            if (core.tools.isString(newValue) && priv.text !== newValue) {
-                                priv.text = newValue;
-                                this.propertyChanged(core.tools.getPropertyName());
-                                !this.loading && !this.form.loading && core.isHTMLRenderer ? this.update() : 1;
-                            }
-                        }
-                    },
-                    'maxLength': {
-                        enumerable: !0,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).maxLength;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            if (core.tools.isNumber(newValue) && priv.maxLength !== newValue) {
-                                priv.maxLength = newValue;
-                                this.propertyChanged(core.tools.getPropertyName());
-                                core.isHTMLRenderer ? this.update() : 1;
-                            }
-                        }
-                    },
-                    'readOnly': {
-                        enumerable: !0,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).readOnly;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            if (core.tools.isBool(newValue) && priv.readOnly !== newValue) {
-                                priv.readOnly = newValue;
-                                this.propertyChanged(core.tools.getPropertyName());
-                                core.isHTMLRenderer ? this.update() : 1;
-                            }
-                        }
-                    },
-                    'placeHolder': {
-                        enumerable: !0,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).placeHolder;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            if (core.tools.isString(newValue) && priv.placeHolder !== newValue) {
-                                priv.placeHolder = newValue;
-                                this.propertyChanged(core.tools.getPropertyName());
-                                core.isHTMLRenderer ? this.update() : 1;
-                            }
-                        }
-                    },
-                    'filterChars': {
-                        enumerable: !0,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).filterChars;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            core.tools.isString(newValue) && priv.filterChars !== newValue ? priv.filterChars = newValue : 1;
-                        }
-                    },
-                    'autoTranslate': {
-                        enumerable: !0,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).autoTranslate;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            core.tools.isBool(newValue) && priv.autoTranslate !== newValue ? priv.autoTranslate = newValue : ;
-                        }
-                    },
-                    'required': {
-                        enumerable: !0,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).required;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            core.tools.isBool(newValue) && priv.required !== newValue ? priv.required = newValue : 1;
-                        }
-                    },
-                    'errorMsg': {
-                        enumerable: !0,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).errorMsg;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            core.tools.isBool(newValue) && priv.errorMsg !== newValue ? priv.errorMsg = newValue : 1;
-                        }
-                    },
-                    'enabled': {
-                        enumerable: !0,
-                        configurable: !0,
-                        get: function () {
-                            return super.enabled;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            const inputObj = priv.inputObj;
-                            //#endregion Variables déclaration
-                            if (core.tools.isBool(newValue) && this.enabled !== newValue) {
-                                super.enabled = newValue;
-                                newValue ? inputObj.removeAttribute('disabled') : inputObj.setAttribute('disabled', 'disabled');
-                            }
-                        }
-                    }
-                });
                 //#endregion Public Properties
                 //#endregion Properties
             }
         }
         //#endregion constructor
+        //#region Getters / Setters
+        //#region inputObj
+        get inputObj() {
+            return internal(this).inputObj;
+        }
+        set inputObj(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
+            if ((newValue instanceof HTMLInputElement || newValue instanceof HTMLTextAreaElement)
+                && priv.inputObj !== newValue) {
+                htmlElement.removeChild(priv.inputObj);
+                priv.inputObj = newValue;
+                htmlElement.appendChild(priv.inputObj);
+            }
+        }
+        //#endregion inputObj
+        //#region hasError
+        get hasError() {
+            return internal(this).hasError;
+        }
+        set hasError(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            core.tools.isBool(newValue) && priv.hasError !== newValue ? priv.hasError = newValue : 1;
+        }
+        //#endregion hasError
+        //#region text
+        get text() {
+            return this.inputObj.value;
+        }
+        set text(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (core.tools.isString(newValue) && priv.text !== newValue) {
+                priv.text = newValue;
+                this.propertyChanged(core.tools.getPropertyName());
+                !this.loading && !this.form.loading && core.isHTMLRenderer ? this.update() : 1;
+            }
+        }
+        //#endregion text
+        //#region maxLength
+        get maxLength() {
+            return internal(this).maxLength;
+        }
+        set maxLength(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (core.tools.isNumber(newValue) && priv.maxLength !== newValue) {
+                priv.maxLength = newValue;
+                this.propertyChanged(core.tools.getPropertyName());
+                core.isHTMLRenderer ? this.update() : 1;
+            }
+        }
+        //#endregion maxLength
+        //#region readOnly
+        get readOnly() {
+            return internal(this).readOnly;
+        }
+        set readOnly(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (core.tools.isBool(newValue) && priv.readOnly !== newValue) {
+                priv.readOnly = newValue;
+                this.propertyChanged(core.tools.getPropertyName());
+                core.isHTMLRenderer ? this.update() : 1;
+            }
+        }
+        //#endregion readOnly
+        //#region placeHolder
+        get placeHolder() {
+            return internal(this).placeHolder;
+        }
+        set placeHolder(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (core.tools.isString(newValue) && priv.placeHolder !== newValue) {
+                priv.placeHolder = newValue;
+                this.propertyChanged(core.tools.getPropertyName());
+                core.isHTMLRenderer ? this.update() : 1;
+            }
+        }
+        //#endregion placeHolder
+        //#region filterChars
+        get filterChars() {
+            return internal(this).filterChars;
+        }
+        set filterChars(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            core.tools.isString(newValue) && priv.filterChars !== newValue ? priv.filterChars = newValue : 1;
+        }
+        //#endregion filterChars
+        //#region autoTranslate
+        get autoTranslate() {
+            return internal(this).autoTranslate;
+        }
+        set autoTranslate(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            core.tools.isBool(newValue) && priv.autoTranslate !== newValue ? priv.autoTranslate = newValue : 1;
+        }
+        //#endregion autoTranslate
+        //#region required
+        get required() {
+            return internal(this).required;
+        }
+        set required(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            core.tools.isBool(newValue) && priv.required !== newValue ? priv.required = newValue : 1;
+        }
+        //#endregion required
+        //#region errorMsg
+        get errorMsg() {
+            return internal(this).errorMsg;
+        }
+        set errorMsg(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            core.tools.isBool(newValue) && priv.errorMsg !== newValue ? priv.errorMsg = newValue : 1;
+        }
+        //#endregion errorMsg
+        //#region enabled
+        get enabled() {
+            return super.enabled;
+        }
+        set enabled(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const inputObj = priv.inputObj;
+            //#endregion Variables déclaration
+            if (core.tools.isBool(newValue) && this.enabled !== newValue) {
+                super.enabled = newValue;
+                newValue ? inputObj.removeAttribute('disabled') : inputObj.setAttribute('disabled', 'disabled');
+            }
+        }
+        //#endregion enabled
+        //#endregion Getters / Setters
         //#region Methods
         //#region loaded
         loaded() {
@@ -357,17 +333,6 @@ const CustomTextControl = (function () {
             priv.autoTranslate = null;
             priv.required = null;
             priv.errorMsg = null;
-            delete this.inputObj;
-            delete this.hasError;
-            delete this.text;
-            delete this.maxLength;
-            delete this.readOnly;
-            delete this.placeHolder;
-            delete this.filterChars;
-            delete this.autoTranslate;
-            delete this.required;
-            delete this.errorMsg;
-            delete this.enabled;
             super.destroy();
         }
         //#endregion destroy

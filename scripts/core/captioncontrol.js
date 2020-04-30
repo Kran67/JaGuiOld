@@ -21,7 +21,7 @@ const CaptionControl = (() => {
         //#region Constructor
         constructor(owner, props) {
             //#region Variables déclaration
-            const VERTTEXTALIGNS = core.core.types.VERTTEXTALIGNS;
+            const VERTTEXTALIGNS = core.types.VERTTEXTALIGNS;
             let themeName = null;
             let theme = null;
             let captionControlTheme = null;
@@ -173,7 +173,7 @@ const CaptionControl = (() => {
                         priv.backColor = props.backColor;
                     }
                 } else {
-                    priv.backColor = Colors.TRANSPARENT.toRGBAString();
+                    priv.backColor = Colors.TRANSPARENT;//.toRGBAString();
                 }
                 //#endregion backColor
                 //#region autoSize
@@ -212,9 +212,9 @@ const CaptionControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (core.core.tools.isString(newValue) && priv.caption !== newValue) {
-                priv.caption = Text.replace(newValue, core.core.types.CONSTANTS.HOTKEYPREFIX, String.EMPTY);
-                this.propertyChanged(core.core.tools.getPropertyName());
+            if (core.tools.isString(newValue) && priv.caption !== newValue) {
+                priv.caption = Text.replace(newValue, core.types.CONSTANTS.HOTKEYPREFIX, String.EMPTY);
+                this.propertyChanged(core.tools.getPropertyName());
                 this.update();
             }
         }
@@ -228,9 +228,9 @@ const CaptionControl = (() => {
             const priv = internal(this);
             const form = this.form;
             //#endregion Variables déclaration
-            if (core.core.tools.isBool(newValue) && priv.wordWrap !== newValue) {
+            if (core.tools.isBool(newValue) && priv.wordWrap !== newValue) {
                 priv.wordWrap = newValue;
-                this.propertyChanged(core.core.tools.getPropertyName());
+                this.propertyChanged(core.tools.getPropertyName());
                 !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate
                     ? this.update() : 1;
             }
@@ -245,9 +245,9 @@ const CaptionControl = (() => {
             const priv = internal(this);
             const form = this.form;
             //#endregion Variables déclaration
-            if (core.core.tools.valueInSet(newValue, core.core.types.TEXTALIGNS) && newValue !== priv.horizAlign) {
+            if (core.tools.valueInSet(newValue, core.types.TEXTALIGNS) && newValue !== priv.horizAlign) {
                 priv.horizAlign = newValue;
-                this.propertyChanged(core.core.tools.getPropertyName());
+                this.propertyChanged(core.tools.getPropertyName());
                 !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate
                     ? this.update() : 1;
             }
@@ -262,9 +262,9 @@ const CaptionControl = (() => {
             const priv = internal(this);
             const form = this.form;
             //#endregion Variables déclaration
-            if (core.core.tools.valueInSet(newValue, core.core.types.VERTTEXTALIGNS) && newValue !== priv.vertAlign) {
+            if (core.tools.valueInSet(newValue, core.types.VERTTEXTALIGNS) && newValue !== priv.vertAlign) {
                 priv.vertAlign = newValue;
-                this.propertyChanged(core.core.tools.getPropertyName());
+                this.propertyChanged(core.tools.getPropertyName());
                 !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate
                     ? this.update() : 1;
             }
@@ -279,10 +279,10 @@ const CaptionControl = (() => {
             const priv = internal(this);
             const form = this.form;
             //#endregion Variables déclaration
-            core.core.tools.isString(newValue) ? newValue = Color.parse(newValue) : 1;
+            core.tools.isString(newValue) ? newValue = Color.parse(newValue) : 1;
             if (newValue instanceof Color && !priv.color.equals(newValue)) {
                 priv.color.assign(newValue);
-                this.propertyChanged(core.core.tools.getPropertyName());
+                this.propertyChanged(core.tools.getPropertyName());
                 !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
                     ? this.update() : 1;
             }
@@ -297,9 +297,9 @@ const CaptionControl = (() => {
             const priv = internal(this);
             const form = this.form;
             //#endregion Variables déclaration
-            if (core.core.tools.isString(newValue) && priv.fontFamily !== newValue) {
+            if (core.tools.isString(newValue) && priv.fontFamily !== newValue) {
                 priv.fontFamily = newValue;
-                this.propertyChanged(core.core.tools.getPropertyName());
+                this.propertyChanged(core.tools.getPropertyName());
                 !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
                     ? this.update() : 1;
             }
@@ -314,9 +314,9 @@ const CaptionControl = (() => {
             const priv = internal(this);
             const form = this.form;
             //#endregion Variables déclaration
-            if (core.core.tools.isNumber(newValue) && priv.fontSize !== newValue) {
+            if (core.tools.isNumber(newValue) && priv.fontSize !== newValue) {
                 priv.fontSize = newValue;
-                this.propertyChanged(core.core.tools.getPropertyName());
+                this.propertyChanged(core.tools.getPropertyName());
                 !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
                     ? this.update() : 1;
             }
@@ -330,11 +330,11 @@ const CaptionControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const form = this.form;
-            const CSSUNITS = core.core.types.CSSUNITS;
+            const CSSUNITS = core.types.CSSUNITS;
             //#endregion Variables déclaration
-            if (core.core.tools.valueInSet(newValue, CSSUNITS) && priv.fontSizeUnit !== newValue) {
+            if (core.tools.valueInSet(newValue, CSSUNITS) && priv.fontSizeUnit !== newValue) {
                 priv.fontSizeUnit = newValue;
-                this.propertyChanged(core.core.tools.getPropertyName());
+                this.propertyChanged(core.tools.getPropertyName());
                 !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
                     ? this.update() : 1;
             }
@@ -349,9 +349,9 @@ const CaptionControl = (() => {
             const priv = internal(this);
             const form = this.form;
             //#endregion Variables déclaration
-            if (core.core.tools.isBool(newValue) && priv.fontBold !== newValue) {
+            if (core.tools.isBool(newValue) && priv.fontBold !== newValue) {
                 priv.fontBold = newValue;
-                this.propertyChanged(core.core.tools.getPropertyName());
+                this.propertyChanged(core.tools.getPropertyName());
                 !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
                     ? this.update() : 1;
             }
@@ -365,11 +365,11 @@ const CaptionControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const form = this.form;
-            const FONTSTYLES = core.core.types.FONTSTYLES;
+            const FONTSTYLES = core.types.FONTSTYLES;
             //#endregion Variables déclaration
-            if (core.core.tools.valueInSet(newValue, FONTSTYLES) && priv.fontStyle !== newValue) {
+            if (core.tools.valueInSet(newValue, FONTSTYLES) && priv.fontStyle !== newValue) {
                 priv.fontStyle = newValue;
-                this.propertyChanged(core.core.tools.getPropertyName());
+                this.propertyChanged(core.tools.getPropertyName());
                 !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
                     ? this.update() : 1;
             }
@@ -383,11 +383,11 @@ const CaptionControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const form = this.form;
-            const TEXTTRANSFORMS = core.core.types.TEXTTRANSFORMS;
+            const TEXTTRANSFORMS = core.types.TEXTTRANSFORMS;
             //#endregion Variables déclaration
-            if (core.core.tools.valueInSet(newValue, TEXTTRANSFORMS) && priv.textTransform !== newValue) {
+            if (core.tools.valueInSet(newValue, TEXTTRANSFORMS) && priv.textTransform !== newValue) {
                 priv.textTransform = newValue;
-                this.propertyChanged(core.core.tools.getPropertyName());
+                this.propertyChanged(core.tools.getPropertyName());
                 !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
                     ? this.update() : 1;
             }
@@ -405,7 +405,7 @@ const CaptionControl = (() => {
             if (newValue instanceof TextShadows && !priv.textShadows.equals(newValue.items)) {
                 priv.textShadows.items.clear();
                 priv.textShadows.items.addRange(newValue.items);
-                this.propertyChanged(core.core.tools.getPropertyName());
+                this.propertyChanged(core.tools.getPropertyName());
                 !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
                     ? this.update() : 1;
             }
@@ -423,7 +423,7 @@ const CaptionControl = (() => {
             if (newValue instanceof TextDecoration && !priv.textDecoration.equals(newValue.items)) {
                 priv.textDecoration.items.clear();
                 priv.textDecoration.items.addRange(newValue.items);
-                this.propertyChanged(core.core.tools.getPropertyName());
+                this.propertyChanged(core.tools.getPropertyName());
                 !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
                     ? this.update() : 1;
             }
@@ -437,9 +437,9 @@ const CaptionControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (core.core.tools.isBool(newValue) && newValue !== priv.autoSize) {
+            if (core.tools.isBool(newValue) && newValue !== priv.autoSize) {
                 priv.autoSize = newValue;
-                this.propertyChanged(core.core.tools.getPropertyName());
+                this.propertyChanged(core.tools.getPropertyName());
                 !this.loading && !this.form.loading
                     ? this.update() : 1;
             }
@@ -453,11 +453,11 @@ const CaptionControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const form = this.form;
-            const TEXTOVERFLOWS = core.core.types.TEXTOVERFLOWS;
+            const TEXTOVERFLOWS = core.types.TEXTOVERFLOWS;
             //#endregion Variables déclaration
-            if (core.core.tools.valueInSet(newValue, TEXTOVERFLOWS) && priv.textOverflow !== newValue) {
+            if (core.tools.valueInSet(newValue, TEXTOVERFLOWS) && priv.textOverflow !== newValue) {
                 priv.textOverflow = newValue;
-                this.propertyChanged(core.core.tools.getPropertyName());
+                this.propertyChanged(core.tools.getPropertyName());
                 !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
                     ? this.update() : 1;
             }
@@ -472,12 +472,12 @@ const CaptionControl = (() => {
             const priv = internal(this);
             const form = this.form;
             //#endregion Variables déclaration
-            if (core.core.tools.isString(newValue)) {
+            if (core.tools.isString(newValue)) {
                 newValue = Color.parse(newValue);
             }
             if (newValue instanceof Color && !priv.backColor.equals(newValue)) {
                 priv.backColor.assign(newValue);
-                this.propertyChanged(core.core.tools.getPropertyName());
+                this.propertyChanged(core.tools.getPropertyName());
                 !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
                     ? this.update() : 1;
             }
@@ -517,16 +517,16 @@ const CaptionControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
-            const FONTSTYLES = core.core.types.FONTSTYLES;
-            const TEXTDECORATIONS = core.core.types.TEXTDECORATIONS;
+            const FONTSTYLES = core.types.FONTSTYLES;
+            const TEXTDECORATIONS = core.types.TEXTDECORATIONS;
             const textDecoration = priv.textDecoration;
             let textDecorationStr = String.EMPTY;
             const color = priv.color ? priv.color.toRGBAString() : priv.color;
-            const TEXTALIGNS = core.core.types.TEXTALIGNS;
-            const VERTTEXTALIGNS = core.core.types.VERTTEXTALIGNS;
+            const TEXTALIGNS = core.types.TEXTALIGNS;
+            const VERTTEXTALIGNS = core.types.VERTTEXTALIGNS;
             const isHtmlRenderer = core.isHTMLRenderer;
-            const CSSVALUES = core.core.types.CSSVALUES;
-            const DISPLAYS = core.core.types.DISPLAYS;
+            const CSSVALUES = core.types.CSSVALUES;
+            const DISPLAYS = core.types.DISPLAYS;
             //#endregion Variables déclaration
             if (priv.autoSize) {
                 if (isHtmlRenderer) {
@@ -652,6 +652,6 @@ const CaptionControl = (() => {
     return CaptionControl;
     //#endregion CaptionControl
 })();
-core.classes.register(core.core.types.CATEGORIES.COMMON, CaptionControl);
+core.classes.register(core.types.CATEGORIES.COMMON, CaptionControl);
 //#region CaptionControl
 export { CaptionControl };

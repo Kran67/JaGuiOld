@@ -11,9 +11,7 @@ const DataSet = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -46,170 +44,112 @@ const DataSet = (() => {
                 priv.keyField = props.hasOwnProperty('keyField') ? props.keyField : String.EMPTY;
                 //#endregion Private Properties
                 //#region Public Properties
-                Object.defineProperties(this, {
-                    'data': {
-                        enumerable: !1,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).data;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            Array.isArray(newValue) && priv.data !== newValue ? priv.data = newValue : 1;
-                        }
-                    },
-                    'cursorIdx': {
-                        enumerable: !1,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).cursorIdx;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            core.tools.isNumber(newValue) && priv.cursorIdx !== newValue ? priv.cursorIdx = newValue : 1;
-                        }
-                    },
-                    'cursor': {
-                        enumerable: !1,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).cursor;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            priv.cursor !== newValue ? priv.cursor = newValue : 1;
-                        }
-                    },
-                    'numFields': {
-                        enumerable: !0,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).numFields;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            core.tools.isNumber(newValue) && priv.numFields !== newValue ? priv.numFields = newValue : 1;
-                        }
-                    },
-                    'numRecords': {
-                        enumerable: !1,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).numRecords;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            core.tools.isNumber(newValue) && priv.numRecords !== newValue ? priv.numRecords = newValue : 1;
-                        }
-                    },
-                    'keyValues': {
-                        enumerable: !1,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).keyValues;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            core.tools.isString(newValue) && priv.keyValues !== newValue ? priv.keyValues = newValue : 1;
-                        }
-                    },
-                    'dataSource': {
-                        enumerable: !0,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).dataSource;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            if (newValue instanceof core.classes.DataSource && priv.dataSource !== newValue) {
-                                priv.active = !1;
-                                priv.dataSource = newValue;
-                                priv.active = !0;
-                            }
-                        }
-                    },
-                    'active': {
-                        enumerable: !0,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).active;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            if (core.tools.isBool(newValue) && priv.active !== newValue) {
-                                priv.active = newValue;
-                                if (priv.active) {
-                                    this.open();
-                                    this.getKeyValues();
-                                    priv.cursorIdx = 0;
-                                } else {
-                                    this.close();
-                                }
-                            }
-                        }
-                    },
-                    '': {
-                        enumerable: !0,
-                        configurable: !0,
-
-                    },
-                    '': {
-                        enumerable: !0,
-                        configurable: !0,
-
-                    },
-                    '': {
-                        enumerable: !0,
-                        configurable: !0,
-
-                    },
-                    '': {
-                        enumerable: !0,
-                        configurable: !0,
-
-                    },
-                });
                 //#endregion Public Properties
                 //#endregion Properties
             }
         }
         //#endregion constructor
-        //#region Getter / Setters
+        //#region Getters / Setters
         //#region data
+        get data() {
+            return internal(this).data;
+        }
+        set data(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            Array.isArray(newValue) && priv.data !== newValue ? priv.data = newValue : 1;
+        }
         //#endregion data
         //#region cursorIdx
+        get cursorIdx() {
+            return internal(this).cursorIdx;
+        }
+        set cursorIdx(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            core.tools.isNumber(newValue) && priv.cursorIdx !== newValue ? priv.cursorIdx = newValue : 1;
+        }
         //#endregion cursorIdx
         //#region cursor
+        get cursor() {
+            return internal(this).cursor;
+        }
+        set cursor(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.cursor !== newValue ? priv.cursor = newValue : 1;
+        }
         //#endregion cursor
         //#region numFields
+        get numFields() {
+            return internal(this).numFields;
+        }
+        set numFields(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            core.tools.isNumber(newValue) && priv.numFields !== newValue ? priv.numFields = newValue : 1;
+        }
         //#endregion numFields
         //#region numRecords
+        get numRecords() {
+            return internal(this).numRecords;
+        }
+        set numRecords(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            core.tools.isNumber(newValue) && priv.numRecords !== newValue ? priv.numRecords = newValue : 1;
+        }
         //#endregion numRecords
         //#region keyValues
+        get keyValues() {
+            return internal(this).keyValues;
+        }
+        set keyValues(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            core.tools.isString(newValue) && priv.keyValues !== newValue ? priv.keyValues = newValue : 1;
+        }
         //#endregion keyValues
         //#region dataSource
+        get dataSource() {
+            return internal(this).dataSource;
+        }
+        set dataSource(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (newValue instanceof core.classes.DataSource && priv.dataSource !== newValue) {
+                priv.active = !1;
+                priv.dataSource = newValue;
+                priv.active = !0;
+            }
+        }
         //#endregion dataSource
-        /**
-         * Return the active status
-         * @returns     {Boolean}       the active status
-         */
         //#region active
+        get active() {
+            return internal(this).active;
+        }
+        set active(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (core.tools.isBool(newValue) && priv.active !== newValue) {
+                priv.active = newValue;
+                if (priv.active) {
+                    this.open();
+                    this.getKeyValues();
+                    priv.cursorIdx = 0;
+                } else {
+                    this.close();
+                }
+            }
+        }
         //#endregion active
         //#region activeOnLoad
         get activeOnLoad() {
@@ -224,11 +164,7 @@ const DataSet = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (core.tools.isBool(newValue)) {
-                if (priv.isOpen !== newValue) {
-                    priv.isOpen = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.isOpen !== newValue ? priv.isOpen = newValue : 1;
         }
         //#endregion isOpen
         /**
@@ -247,11 +183,9 @@ const DataSet = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (core.tools.isString(newValue)) {
-                if (priv.keyField !== newValue) {
-                    priv.keyField = newValue;
-                    priv.dataSource.refreshControls();
-                }
+            if (core.tools.isString(newValue) && priv.keyField !== newValue) {
+                priv.keyField = newValue;
+                priv.dataSource.refreshControls();
             }
         }
         //#endregion keyField
@@ -296,9 +230,7 @@ const DataSet = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.cursorIdx++;
-            if (priv.cursorIdx > priv.numRecords) {
-                priv.cursorIdx = priv.numRecords - 1;
-            }
+            priv.cursorIdx > priv.numRecords ? priv.cursorIdx = priv.numRecords - 1 : 1;
             this.getKeyValues();
             priv.dataSource.refreshControls();
         }
@@ -312,9 +244,7 @@ const DataSet = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.cursorIdx--;
-            if (priv.cursorIdx < 0) {
-                priv.cursorIdx = 0;
-            }
+            priv.cursorIdx = Math.max(priv.cursorIdx, 0);
             this.getKeyValues();
             priv.dataSource.refreshControls();
         }
@@ -372,9 +302,7 @@ const DataSet = (() => {
                 priv.keyValues = String.EMPTY;
                 keyFields.forEach((key, i) => {
                     if (cursor[key]) {
-                        if (i > 0) {
-                            values += '|';
-                        }
+                        i > 0 ? values += '|' : 1;
                         values += cursor[key];
                     }
                 });
@@ -397,9 +325,7 @@ const DataSet = (() => {
                 let ret = !1;
                 let keyValue = String.EMPTY;
                 keyFields.forEach((key, j) => {
-                    if (j > 0) {
-                        keyValue += '|';
-                    }
+                    j > 0 ? keyValue += '|' : 1;
                     keyValue += e[key];
                 });
                 if (keyValue === keyValues) {
@@ -428,11 +354,9 @@ const DataSet = (() => {
                 a = a[fieldsNames[col]];
                 fieldsNames = Object.keys(b);
                 b = b[fieldsNames[col]];
-                if (order === core.types.SORTEDORDERS.ASC) {
-                    return a === b ? 0 : a < b ? -1 : 1;
-                } else {
-                    return a === b ? 0 : a < b ? 1 : -1;
-                }
+                return order === core.types.SORTEDORDERS.ASC
+                    ? a === b ? 0 : a < b ? -1 : 1
+                    : a === b ? 0 : a < b ? 1 : -1;
             };
         }
         //#endregion sortByString
@@ -451,11 +375,9 @@ const DataSet = (() => {
                 a = a[fieldsNames[col]];
                 fieldsNames = Object.keys(b);
                 b = b[fieldsNames[col]];
-                if (order === core.types.SORTEDORDERS.ASC) {
-                    return a === b ? 0 : a < b ? -1 : 1;
-                } else {
-                    return a === b ? 0 : a < b ? 1 : -1;
-                }
+                return order === core.types.SORTEDORDERS.ASC
+                    ? a === b ? 0 : a < b ? -1 : 1
+                    : a === b ? 0 : a < b ? 1 : -1;
             };
         }
         //#endregion sortByDate
@@ -474,11 +396,9 @@ const DataSet = (() => {
                 a = ~~parseFloat(a[fieldsNames[col]]);
                 fieldsNames = Object.keys(b);
                 b = ~~parseFloat(b[fieldsNames[col]]);
-                if (order === core.types.SORTEDORDERS.ASC) {
-                    return a === b ? 0 : a < b ? -1 : 1;
-                } else {
-                    return a === b ? 0 : a < b ? 1 : -1;
-                }
+                return order === core.types.SORTEDORDERS.ASC
+                    ? a === b ? 0 : a < b ? -1 : 1
+                    : a === b ? 0 : a < b ? 1 : -1;
             };
         }
         //#endregion sortByNumber
@@ -492,22 +412,14 @@ const DataSet = (() => {
         sortByBoolean(col, order) {
             return (a, b) => {
                 let fieldsNames = Object.keys(a);
-                if (core.tools.isBool(a[fieldsNames[col]])) {
-                    a = a[fieldsNames[col]];
-                } else {
-                    a = Convert.strToBool(a[fieldsNames[col]].toString());
-                }
+                a = core.tools.isBool(a[fieldsNames[col]])
+                    ? a[fieldsNames[col]] : Convert.strToBool(a[fieldsNames[col]].toString());
                 fieldsNames = Object.keys(b);
-                if (core.tools.isBool(b[fieldsNames[col]])) {
-                    b = b[fieldsNames[col]];
-                } else {
-                    b = Convert.strToBool(b[fieldsNames[col]].toString());
-                }
-                if (order === core.types.SORTEDORDERS.ASC) {
-                    return a === b ? 0 : a < b ? -1 : 1;
-                } else {
-                    return a === b ? 0 : a < b ? 1 : -1;
-                }
+                b = core.tools.isBool(b[fieldsNames[col]])
+                    ? b[fieldsNames[col]] : Convert.strToBool(b[fieldsNames[col]].toString());
+                return order === core.types.SORTEDORDERS.ASC
+                    ? a === b ? 0 : a < b ? -1 : 1
+                    : a === b ? 0 : a < b ? 1 : -1;
             };
         }
         //#endregion sortByBoolean
@@ -530,9 +442,7 @@ const DataSet = (() => {
             priv.activeOnLoad = null;
             priv.isOpen = null;
             priv.keyField = null;
-            if (priv.data) {
-                priv.data.destroy();
-            }
+            priv.data ? priv.data.destroy() : 1;
             priv.data = null;
             super.destroy();
         }
@@ -542,22 +452,6 @@ const DataSet = (() => {
     return DataSet;
     //#region DataSet
 })();
-//#region DataSet
-//#region DataSet defineProperties
-Object.defineProperties(DataSet, {
-    'dataSource': {
-        enumerable: !0
-    },
-    'active': {
-        enumerable: !0
-    },
-    'isOpen': {
-        enumerable: !0
-    },
-    'keyField': {
-        enumerable: !0
-    }
-});
-//#endregion DataSet defineProperties
 core.classes.register(core.types.CATEGORIES.NONVISUAL, DataSet);
+//#region DataSet
 export { DataSet };

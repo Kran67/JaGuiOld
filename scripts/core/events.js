@@ -1,21 +1,16 @@
-﻿//#region Imports
-import { Tools } from '/scripts/core/tools.js';
-//#endregion
-//#region Events
+﻿//#region Events
 class Events {
     //#region Methods
     //#region bind
     static bind(object, eventName, callBack) {
-        if (Tools.isFunc(callBack) && object && Tools.isString(eventName)) {
-            object.addEventListener(eventName, callBack, !0);
-        }
+        core.tools.isFunc(callBack) && object && core.tools.isString(eventName)
+            ? object.addEventListener(eventName, callBack, !0) : 1;
     }
     //#endregion bind
     //#region unBind
     static unBind(object, eventName, callBack) {
-        if (Tools.isFunc(callBack) && object && Tools.isString(eventName)) {
-            object.removeEventListener(eventName, callBack, !0);
-        }
+        core.tools.isFunc(callBack) && object && core.tools.isString(eventName)
+            ? object.removeEventListener(eventName, callBack, !0) : 1;
     }
     //#endregion unBind
     //#region stop
@@ -80,18 +75,6 @@ class NotifyEvent {
         const _sender = sender;
         //#endregion Variables déclaration
         Object.defineProperties(this, {
-            //"stopPropagation": {
-            //    get: () => {
-            //        return _stopPropagation;
-            //    },
-            //    set: (newValue) => {
-            //        if (typeof newValue === Types.CONSTANTS.BOOLEAN) {
-            //            if (_stopPropagation !== newValue) {
-            //                _stopPropagation = newValue;
-            //            }
-            //        }
-            //    }
-            //},
             'listeners': {
                 get: () => {
                     return _listeners;
@@ -104,8 +87,8 @@ class NotifyEvent {
             }
         });
     }
-    //#region constructor
-    //#region Getter / Setter
+    //#endregion constructor
+    //#region Getters / Setters
     /**
      * Check if the notifyEvent has listeners
      */
@@ -113,8 +96,8 @@ class NotifyEvent {
     get hasListener() {
         return this.listeners.length > 0;
     }
-    //#region hasListener
-    //#region Getter / Setter
+    //#endregion hasListener
+    //#endregion Getters / Setters
     //#region Methods
     /**
      * Add a listener to the event
@@ -123,7 +106,7 @@ class NotifyEvent {
      */
     //#region addListener
     addListener(f, d) {
-        if (Tools.isFunc(f)) {
+        if (core.tools.isFunc(f)) {
             d = d | 0;
             this.listeners.push({ func: f, delay: d });
         }
@@ -135,7 +118,7 @@ class NotifyEvent {
      */
     //#region removeListener
     removeListener(f) {
-        if (Tools.isFunc(f)) {
+        if (core.tools.isFunc(f)) {
             const index = this.listeners.findIndex(elem => {
                 return elem.func === f;
             });
@@ -152,11 +135,10 @@ class NotifyEvent {
      */
     //#region copyListenerTo
     copyListenerTo(notifyEvent) {
-        if (notifyEvent && notifyEvent instanceof Core.classes.NotifyEvent) {
+        if (notifyEvent && notifyEvent instanceof core.classes.NotifyEvent) {
             this.listeners.forEach(listener => {
-                if (Tools.isFunc(this.listeners[i].func)) {
-                    notifyEvent.addListener(listener.func, listener.delay);
-                }
+                core.tools.isFunc(this.listeners[i].func)
+                    ? notifyEvent.addListener(listener.func, listener.delay) : 1;
             });
         }
     }
@@ -198,9 +180,9 @@ class NotifyEvent {
         this.listeners.destroy();
     }
     //#endregion destroy
-    //#endregion
+    //#endregion Methods
 }
-//#endregion
+//#endregion NotifyEvent
 /**
  * Class representing a TimerEvent.
  */
@@ -212,7 +194,7 @@ class TimerEvent {
      */
     //#region constructor
     constructor() {
-        Core.looper.addListener(this, '_onTimerEvent');
+        core.looper.addListener(this, '_onTimerEvent');
     }
     //#region constructor
     //#region Methods
@@ -225,6 +207,6 @@ class TimerEvent {
     //#endregion _onTimerEvent
     //#endregion
 }
-//#endregion
-Core.classes.register(Types.CATEGORIES.INTERNAL, NotifyEvent, TimerEvent);
+//#endregion TimerEvent
+core.classes.register(core.types.CATEGORIES.INTERNAL, NotifyEvent, TimerEvent);
 export { Events, NotifyEvent, TimerEvent };

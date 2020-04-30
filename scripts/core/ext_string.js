@@ -1,5 +1,4 @@
-﻿import { Tools } from '/scripts/core/tools.js';
-/**********************************************************************************/
+﻿/**********************************************************************************/
 /*                                                                                */
 /* string.js cette partie définit les fonctions supplémentaires de l'objet String */
 /*                                                                                */
@@ -103,11 +102,7 @@ if (!String.prototype.insert) {
         const thisOk = this.length > 0,
             strok = s.length > 0;
         if (!strok) {
-            if (thisOk) {
-                s = this.toString();
-            } else {
-                s = String.EMPTY;
-            }
+            s = thisOk ? this.toString() : String.EMPTY;
         } else {
             if (thisOk) {
                 if (p >= 0 && p < this.length) {
@@ -298,9 +293,9 @@ if (!String.prototype.format) {
                 }
                 s = obj.toString();
             } else if (s.slice(0, 1) === '%') {
-                const frmt = new Tools.formatSpecifier(s);//get the formating object
+                const frmt = new core.tools.formatSpecifier(s);//get the formating object
                 if (frmt.key) {//an object was given as formating value
-                    if (Tools.isObject(arguments[0]) && arguments.length === 1) {
+                    if (core.tools.isObject(arguments[0]) && arguments.length === 1) {
                         obj = arguments[0][frmt.key];
                     } else {
                         throw 'Object or associative array expected as formating value.';
@@ -320,18 +315,16 @@ if (!String.prototype.format) {
                         obj = 'undefined';
                     }
                     s = obj.toString();
-                    s = Tools.pad(s, frmt.paddingFlag, frmt.minLength);
+                    s = core.tools.pad(s, frmt.paddingFlag, frmt.minLength);
                 } else if (frmt.type === 'c') {//Character
-                    if (frmt.paddingFlag === '0') {
-                        frmt.paddingFlag = String.SPACE;//padding only spaces
-                    }
-                    if (Tools.isNumber(obj)) {//get the character code
+                    frmt.paddingFlag === '0' ? frmt.paddingFlag = String.SPACE : 1;//padding only spaces
+                    if (core.tools.isNumber(obj)) {//get the character code
                         s = String.fromCharCode(obj);
-                        s = Tools.pad(s, frmt.paddingFlag, frmt.minLength);
-                    } else if (Tools.isString(obj)) {
+                        s = core.tools.pad(s, frmt.paddingFlag, frmt.minLength);
+                    } else if (core.tools.isString(obj)) {
                         if (obj.length === 1) {//make sure it's a single character
                             s = obj;
-                            s = Tools.pad(s, frmt.paddingFlag, frmt.minLength);
+                            s = core.tools.pad(s, frmt.paddingFlag, frmt.minLength);
                         } else {
                             throw 'Character of length 1 required.';
                         }
@@ -352,19 +345,11 @@ if (!String.prototype.format) {
                     switch (frmt.type) {
                         case 'f': //floats
                         case 'F':
-                            if (frmt.percision > -1) {
-                                s = obj.toFixed(frmt.percision).toString();
-                            } else {
-                                s = obj.toString();
-                            }
+                            s = frmt.percision > -1 ? obj.toFixed(frmt.percision).toString() : obj.toString();
                             break;
                         case 'E': //exponential
                         case 'e':
-                            if (frmt.percision > -1) {
-                                s = obj.toExponential(frmt.percision);
-                            } else {
-                                s = obj.toExponential();
-                            }
+                            s = frmt.percision > -1 ? obj.toExponential(frmt.percision) : obj.toExponential();
                             s = s.replace('e', frmt.type);
                             break;
                         case 'b': //binary
@@ -389,10 +374,8 @@ if (!String.prototype.format) {
                             s = Tools.pad(s, '0', frmt.percision);
                             break;
                     }
-                    if (frmt.paddingFlag === '0') {//do 0-padding
-                        //make sure that the length of the possible sign is not ignored
-                        s = Tools.pad(s, '0', frmt.minLength - sign.length);
-                    }
+                    //make sure that the length of the possible sign is not ignored
+                    frmt.paddingFlag === '0' ? s = Tools.pad(s, '0', frmt.minLength - sign.length) : 1;
                     s = sign + s;//add sign
                     s = Tools.pad(s, frmt.paddingFlag, frmt.minLength);//do padding and justifiing
                 } else {
@@ -409,8 +392,5 @@ String.uniqueId = function (size) {
     return `_${Math.random().toString(36).split(".")[1].substring(0, size)}`;
 };
 String.isNullOrEmpty = function (str) {
-    if (typeof str !== 'string') {
-        return !0;
-    }
-    return str === String.EMPTY || str == undefined;
+    return !core.tools.isString(str) ? !0 : String.EMPTY || str == undefined;
 };

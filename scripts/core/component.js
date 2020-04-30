@@ -1,6 +1,5 @@
 ﻿//#region Imports
 import { Bindable } from '/scripts/core/bindable.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Rect } from '/scripts/core/geometry.js';
 //#endregion Imports
 //#region Component
@@ -9,9 +8,7 @@ const Component = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -38,23 +35,26 @@ const Component = (() => {
             priv.component = !0;
             priv.name = props.hasOwnProperty('name') ? props.name : String.EMPTY;
             priv.cssBorder = new Rect;
-            priv.inForm = this instanceof Core.classes.BaseWindow ? !1 : props.hasOwnProperty('inForm') && Tools.isBool(props.inForm) ? props.inForm : !0;
-            priv.visible = props.hasOwnProperty('visible') && Tools.isBool(props.visible) ? props.visible : !0;
-            priv.left = props.hasOwnProperty('left') && Tools.isNumber(props.left) ? props.left : 0;
-            priv.top = props.hasOwnProperty('top') && Tools.isNumber(props.top) ? props.top : 0;
-            if (owner instanceof Core.classes.Application) {
-                priv.app = owner;
+            if (this instanceof core.classes.BaseWindow) {
+                priv.inForm = !1;
+            } else if (props.hasOwnProperty('inForm') && core.tools.isBool(props.inForm)) {
+                priv.inForm = props.inForm;
             } else {
-                priv.app = priv.owner.app;
+                priv.inForm = !0
             }
-            if (owner instanceof Core.classes.Component) {
+            priv.visible = props.hasOwnProperty('visible') && core.tools.isBool(props.visible) ? props.visible : !0;
+            priv.left = props.hasOwnProperty('left') && core.tools.isNumber(props.left) ? props.left : 0;
+            priv.top = props.hasOwnProperty('top') && core.tools.isNumber(props.top) ? props.top : 0;
+
+            priv.app = owner instanceof core.classes.Application ? owner : priv.owner.app;
+            if (owner instanceof core.classes.Component) {
                 priv.form = priv.owner.form;
                 priv.owner.insertComponent(this);
             } else {
                 priv.form = this;
             }
-            Core.classes.newCollection(this, this, Core.classes.Component, 'components');
-            if (priv.owner instanceof Core.classes.Component) {
+            core.classes.newCollection(this, this, core.classes.Component, 'components');
+            if (priv.owner instanceof core.classes.Component) {
                 priv.owners.addRange(priv.owner.owners);
                 priv.owners.push(priv.owner);
             }
@@ -74,26 +74,19 @@ const Component = (() => {
             //#region Variables déclaration
             const owner = internal(this).owner;
             //#endregion Variables déclaration
-            if (owner && owner.components.length > 0) {
-                return owner.components.indexOf(this);
-            } else {
-                return -1;
-            }
+            return owner && owner.components.length > 0 ? owner.components.indexOf(this) : -1;
         }
         set componentIndex(newValue) {
             //#region Variables déclaration
             const owner = internal(this).owner;
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue < 0) {
-                    newValue = 0;
-                }
+            if (core.tools.isNumber(newValue)) {
+                newValue = Math.max(newValue, 0);
                 if (owner) {
                     const i = owner.components.indexOf(this);
                     if (i >= 0) {
-                        const count = owner.components.length;
-                        if (newValue < 0) newValue = 0;
-                        if (newValue >= count) newValue = count - 1;
+                        const count = owner.components.length - 1;
+                        newValue = Math.min(newValue, count);
                         if (newValue !== i) {
                             owner.components.splice(i, 1);
                             owner.components.insert(newValue, this);
@@ -116,11 +109,7 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Application) {
-                if (priv.app !== newValue) {
-                    priv.app = newValue;
-                }
-            }
+            newValue instanceof core.classes.Application && priv.app !== newValue ? priv.app = newValue : 1;
         }
         //#endregion app
         //#region form
@@ -131,11 +120,7 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Window) {
-                if (priv.form !== newValue) {
-                    priv.form = newValue;
-                }
-            }
+            newValue instanceof core.classes.Window && priv.form !== newValue ? priv.form = newValue : 1;
         }
         //#endregion form
         //#region loading
@@ -146,9 +131,7 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.loading !== newValue) {
-                priv.loading = newValue;
-            }
+            priv.loading !== newValue ? priv.loading = newValue : 1;
         }
         //#endregion loading
         //#region destroying
@@ -164,11 +147,8 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof HTMLElement) {
-                if (priv.HTMLElement !== newValue) {
-                    priv.HTMLElement = newValue;
-                }
-            }
+            newValue instanceof HTMLElement && priv.HTMLElement !== newValue
+                ? priv.HTMLElement = newValue : 1;
         }
         //#endregion HTMLElement
         //#region HTMLElementStyle
@@ -179,11 +159,8 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof CSSStyleDeclaration) {
-                if (priv.HTMLElementStyle !== newValue) {
-                    priv.HTMLElementStyle = newValue;
-                }
-            }
+            newValue instanceof CSSStyleDeclaration && priv.HTMLElementStyle !== newValue
+                ? priv.HTMLElementStyle = newValue : 1;
         }
         //#endregion HTMLElementStyle
         //#region designing
@@ -194,11 +171,8 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.designing !== newValue) {
-                    priv.designing = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.designing !== newValue
+                ? priv.designing = newValue : 1;
         }
         //#endregion designing
         //#region internalId
@@ -217,11 +191,8 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.updating !== newValue) {
-                    priv.updating = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.updating !== newValue
+                ? priv.updating = newValue : 1;
         }
         //#endregion updating
         //#region designInstance
@@ -232,11 +203,8 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.designInstance !== newValue) {
-                    priv.designInstance = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.designInstance !== newValue
+                ? priv.designInstance = newValue : 1;
         }
         //#endregion designInstance
         //#region name
@@ -249,18 +217,13 @@ const Component = (() => {
             const form = priv.form;
             let name = priv.name;
             //#endregion Variables déclaration
-            if (String.isNullOrEmpty(newValue) && newValue.trim() !== String.EMPTY) {
-                if (priv.name !== newValue) {
-                    if (form !== this && form && form[name]) {
-                        delete form[name];
-                    }
-                    name = priv.name = newValue;
-                    if (form !== this && this !== form.layout && this !== form.content) {
-                        if (form) {
-                            if (!form[name]) form[name] = this;
-                        }
-                    }
-                }
+            if (String.isNullOrEmpty(newValue) && !String.isNullOrEmpty(newValue.trim()) && priv.name !== newValue) {
+                form !== this && form && form[name] ? delete form[name] : 1;
+                name = priv.name = newValue;
+                form !== this && this !== form.layout && this !== form.content && form
+                    ? !form[name]
+                        ? form[name] = this : 1
+                    : 1;
             }
         }
         //#endregion name
@@ -272,11 +235,8 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.component !== newValue) {
-                    priv.component = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.component !== newValue
+                ? priv.component = newValue : 1;
         }
         //#endregion component
         //#region inForm
@@ -287,11 +247,8 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.inForm !== newValue) {
-                    priv.inForm = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.inForm !== newValue
+                ? priv.inForm = newValue : 1;
         }
         //#endregion inForm
         //#region visible
@@ -302,18 +259,15 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.visible !== newValue) {
-                    priv.visible = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.visible !== newValue
+                ? priv.visible = newValue : 1;
         }
         //#endregion visible
         //#region template
         get template() {
             //#region Variables déclaration
             const priv = internal(this);
-            let html = Core.classes.getTemplate(this.constructor.name);
+            let html = core.classes.getTemplate(this.constructor.name);
             let a = html.split('{name}');
             //#endregion Variables déclaration
             html = a.join(priv.name);
@@ -328,31 +282,46 @@ const Component = (() => {
             const priv = internal(this);
             let prop = null;
             const htmlElement = priv.HTMLElement;
-            const props = Tools.getPropertiesFromObject(this);
+            let props = core.tools.getPropertiesFromObject(this);
             //#endregion Variables déclaration
             if (!priv.component) {
                 prop = 'width';
-                props.push({ property: prop, value: htmlElement.offsetWidth, categories: Core.classes.getPropertyCategories(prop) });
+                props = [...props, {
+                    property: prop,
+                    value: htmlElement.offsetWidth,
+                    categories: core.classes.getPropertyCategories(prop)
+                }];
                 prop = 'height';
-                props.push({ property: prop, value: htmlElement.offsetHeight, categories: Core.classes.getPropertyCategories(prop) });
+                props = [...props, {
+                    property: prop,
+                    value: htmlElement.offsetHeight,
+                    categories: core.classes.getPropertyCategories(prop)
+                }];
             }
             prop = 'left';
-            props.push({ property: prop, value: htmlElement.offsetLeft, categories: Core.classes.getPropertyCategories(prop) });
+            props = [...props, {
+                property: prop,
+                value: htmlElement.offsetLeft,
+                categories: core.classes.getPropertyCategories(prop)
+            }];
             prop = 'top';
-            props.push({ property: prop, value: htmlElement.offsetTop, categories: Core.classes.getPropertyCategories(prop) });
+            props = [...props, {
+                property: prop,
+                value: htmlElement.offsetTop,
+                categories: core.classes.getPropertyCategories(prop)
+            }];
             return props;
         }
         //#endregion properties
         //#region events
         get events() {
             //#region Variables déclaration
-            const props = [];
+            let props = [];
             //#endregion Variables déclaration
             for (let prop in this) {
                 if (this.hasOwnProperty(prop)) {
-                    if (prop.startsWith('on') && this[prop] instanceof Core.classes.NotifyEvent) {
-                        props.push({ event: prop, value: this[prop] });
-                    }
+                    props = prop.startsWith('on') && this[prop] instanceof core.classes.NotifyEvent
+                        ? [...props, { event: prop, value: this[prop] }] : 1;
                 }
             }
             return props;
@@ -371,22 +340,19 @@ const Component = (() => {
             const oHtmlElement = owner.HTMLElement;
             //#endregion Variables déclaration
             // si le composant dépasse de son parent
-            if (Core.isHTMLRenderer) {
+            if (core.isHTMLRenderer) {
                 if (htmlElement.offsetLeft + htmlElement.offsetWidth < 0 || htmlElement.offsetLeft > oHtmlElement.offsetWidth ||
                     htmlElement.offsetTop + htmlElement.offsetHeight < 0 || htmlElement.offsetTop > oHtmlElement.offsetHeight) {
                     visible = !1;
                 }
-            } else if (Core.isCanvasRenderer) {
-                if (left + priv.width < 0 || left > owner.width ||
-                    top + priv.height < 0 || top > owner.height) {
-                    visible = !1;
-                }
+            } else if (core.isCanvasRenderer) {
+                left + priv.width < 0 || left > owner.width ||
+                    top + priv.height < 0 || top > owner.height ? visible = !1 : 1;
             }
-            if (visible) {
-                owners.forEach(o => {
+            visible
+                ? owners.forEach(o => {
                     visible = visible && o.visible;
-                });
-            }
+                }) : 1;
             return visible;
         }
         //#endregion isVisible
@@ -396,10 +362,8 @@ const Component = (() => {
             const priv = internal(this);
             const owner = priv.owner;
             //#endregion Variables déclaration
-            if (owner && priv.HTMLElement) {
-                return owner.components.length + 1;
-            }
-            return -1;
+            return owner && priv.HTMLElement
+                ? owner.components.length + 1 : -1;
         }
         //#endregion zOrder
         //#region contentLeft
@@ -412,9 +376,8 @@ const Component = (() => {
             const right = this.right;
             //#endregion Variables déclaration
             left += margin.left + padding.left;
-            if (right != null) {
-                left = priv.owner.contentWidth - this.width - right - padding.right - margin.right;
-            }
+            right != null
+                ? left = priv.owner.contentWidth - this.width - right - padding.right - margin.right : 1;
             return left;
         }
         //#endregion contentLeft
@@ -427,9 +390,8 @@ const Component = (() => {
             const padding = this.padding;
             const right = this.right;
             //#endregion Variables déclaration
-            if (right != null) {
-                left = priv.owner.contentWidth - this.width - right - padding.right - margin.right;
-            }
+            right != null
+                ? left = priv.owner.contentWidth - this.width - right - padding.right - margin.right : 1;
             return left;
         }
         set left(newValue) {
@@ -437,19 +399,13 @@ const Component = (() => {
             const priv = internal(this);
             const cStyle = getComputedStyle(this.HTMLElement);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (cStyle.position === 'absolute') {
-                    const lastLeft = Core.isHTMLRenderer ? priv.HTMLElement.offsetLeft : priv.left;
-                    if (lastLeft !== newValue) {
-                        if (!priv.loading) {
-                            this.propertyChanged(Types.BINDABLEPROPERTIES.LEFT);
-                            if (Core.isHTMLRenderer) {
-                                priv.HTMLElementStyle.left = `${newValue}${Types.CSSUNITS.PX}`;
-                            } else {
-                                priv.left = newValue;
-                            }
-                        }
-                    }
+            if (core.tools.isNumber(newValue) && cStyle.position === 'absolute') {
+                const lastLeft = core.isHTMLRenderer ? priv.HTMLElement.offsetLeft : priv.left;
+                if (lastLeft !== newValue && !priv.loading) {
+                    this.propertyChanged(core.types.BINDABLEPROPERTIES.LEFT);
+                    core.isHTMLRenderer
+                        ? priv.HTMLElementStyle.left = `${newValue}${core.types.CSSUNITS.PX}`
+                        : priv.left = newValue;
                 }
             }
         }
@@ -472,9 +428,8 @@ const Component = (() => {
             let top = priv.top;
             const bottom = this.bottom;
             //#endregion Variables déclaration
-            if (bottom != null) {
-                top = priv.owner.height - this.height - bottom - this.margin.bottom;
-            }
+            bottom != null
+                ? top = priv.owner.height - this.height - bottom - this.margin.bottom : 1;
             return top;
         }
         set top(newValue) {
@@ -482,19 +437,13 @@ const Component = (() => {
             const priv = internal(this);
             const cStyle = getComputedStyle(this.HTMLElement);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (cStyle.position === 'absolute') {
-                    const lastTop = (Core.isHTMLRenderer ? priv.HTMLElement.offsetTop : priv.top);
-                    if (lastTop !== newValue) {
-                        if (!priv.loading) {
-                            this.propertyChanged(Types.BINDABLEPROPERTIES.TOP);
-                            if (Core.isHTMLRenderer) {
-                                priv.HTMLElementStyle.top = `${newValue}${Types.CSSUNITS.PX}`;
-                            } else {
-                                priv.top = newValue;
-                            }
-                        }
-                    }
+            if (core.tools.isNumber(newValue) && cStyle.position === 'absolute') {
+                const lastTop = (core.isHTMLRenderer ? priv.HTMLElement.offsetTop : priv.top);
+                if (lastTop !== newValue && !priv.loading) {
+                    this.propertyChanged(core.types.BINDABLEPROPERTIES.TOP);
+                    core.isHTMLRenderer
+                        ? priv.HTMLElementStyle.top = `${newValue}${core.types.CSSUNITS.PX}`
+                        : priv.top = newValue;
                 }
             }
         }
@@ -507,17 +456,16 @@ const Component = (() => {
             const priv = internal(this);
             const htmlElement = priv.HTMLElement;
             const htmlElementStyle = priv.HTMLElementStyle;
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const cStyle = getComputedStyle(this.HTMLElement);
             //#endregion Variables déclaration
-            if (Tools.isNumber(x) && Tools.isNumber(y) || this instanceof Core.classes.Control) {
-                if (cStyle.position === 'absolute') {
-                    priv.left = x;
-                    priv.top = y;
-                    if (Core.isHTMLRenderer && htmlElement && priv.inForm) {
-                        htmlElementStyle.left = `${x}${PX}`;
-                        htmlElementStyle.top = `${y}${PX}`;
-                    }
+            if ((core.tools.isNumber(x) && core.tools.isNumber(y) || this instanceof core.classes.Control)
+                && cStyle.position === 'absolute') {
+                priv.left = x;
+                priv.top = y;
+                if (core.isHTMLRenderer && htmlElement && priv.inForm) {
+                    htmlElementStyle.left = `${x}${PX}`;
+                    htmlElementStyle.top = `${y}${PX}`;
                 }
             }
         }
@@ -528,7 +476,7 @@ const Component = (() => {
             const priv = internal(this);
             const margin = this.margin;
             //#endregion Variables déclaration
-            if (Core.isHTMLRenderer) {
+            if (core.isHTMLRenderer) {
                 return priv.HTMLElement.getBoundingClientRect();
             } else {
                 const boundingClientRect = new Rect(priv.left + margin.left, priv.top + margin.top, 0, 0);
@@ -553,17 +501,9 @@ const Component = (() => {
             //#endregion Variables déclaration
             //this.destroying();
             this.destroyComponents();
-            if (htmlElement) {
-                htmlElement.parentNode.removeChild(htmlElement);
-            }
-            if (owner) {
-                if (!(owner instanceof Core.classes.Application)) {
-                    owner.remove(this);
-                }
-            }
-            if (owners) {
-                owners.destroy();
-            }
+            htmlElement ? htmlElement.parentNode.removeChild(htmlElement) : 1;
+            owner && !(owner instanceof core.classes.Application) ? owner.remove(this) : 1;
+            owners ? owners.destroy() : 1;
             this.unBindAndDestroyEvents();
             super.destroy();
         }
@@ -576,13 +516,9 @@ const Component = (() => {
             const form = priv.form;
             //#endregion Variables déclaration
             priv.loading = !1;
-            if (Core.isHTMLRenderer) {
-                if (htmlElement) {
-                    const properties = htmlElement.querySelector(`[id='${priv.internalId}'] > properties:first-child`);
-                    if (properties) {
-                        htmlElement.removeChild(properties);
-                    }
-                }
+            if (core.isHTMLRenderer && htmlElement) {
+                const properties = htmlElement.querySelector(`[id='${priv.internalId}'] > properties:first-child`);
+                properties ? htmlElement.removeChild(properties) : 1;
             }
             if (this.hasOwnProperty('action')) {
                 if (form[this.action]) {
@@ -593,21 +529,14 @@ const Component = (() => {
                     if (action.includes(".")) {
                         let data = action.split(".");
                         if (app[data.first]) {
-                            data = app[data.first][data.last];
-                            if (data) {
-                                this.action = data;
-                            }
+                            app[data.first][data.last] ? this.action = data : 1;
                         }
                     }
                 }
             }
             this.positioning();
             this.components.forEach(comp => {
-                if (comp.loaded) {
-                    if (comp.loading) {
-                        comp.loaded();
-                    }
-                }
+                comp.loaded && comp.loading ? comp.loaded() : 1;
             });
         }
         //#endregion loaded
@@ -616,13 +545,9 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.form !== this) {
-                if (Core.isHTMLRenderer && priv.HTMLElement) {
-                    const position = getComputedStyle(priv.HTMLElement).position;
-                    if (position === 'absolute') {
-                        this.moveTo(priv.left, priv.top);
-                    }
-                }
+            if (priv.form !== this && core.isHTMLRenderer && priv.HTMLElement) {
+                const position = getComputedStyle(priv.HTMLElement).position;
+                position === 'absolute' ? this.moveTo(priv.left, priv.top) : 1;
             }
         }
         //#endregion positioning
@@ -638,13 +563,9 @@ const Component = (() => {
                 components.push(component);
                 component.app = priv.app;
                 component.owner = this;
-                if (form !== component) {
-                    if (component.inForm && controls.indexOf(component) === -1) {
-                        controls.push(component);
-                        if (!form[component.name]) {
-                            form[component.name] = component;
-                        }
-                    }
+                if (form !== component && component.inForm && controls.indexOf(component) === -1) {
+                    controls.push(component);
+                    !form[component.name] ? form[component.name] = component : 1;
                 }
             }
         }
@@ -659,25 +580,19 @@ const Component = (() => {
             //#endregion Variables déclaration
             if (components.indexOf(component) > -1) {
                 let idx = components.indexOf(component);
-                if (idx > -1) {
-                    components.removeAt(idx);
-                }
+                idx > -1 ? components.removeAt(idx) : 1;
                 if (form[component.name]) {
                     form[component.name] = null;
                     delete form[component.name];
                 }
                 idx = controls.indexOf(component);
-                if (idx > -1) {
-                    controls.removeAt(idx);
-                }
+                idx > -1 ? controls.removeAt(idx) : 1;
             }
         }
         //#endregion remove
         //#region insertComponent
         insertComponent(component) {
-            if (component.owner !== component.app) {
-                component.owner.remove(component);
-            }
+            component.owner !== component.app ? component.owner.remove(component) : 1;
             this.insert(component);
         }
         //#endregion insertComponent
@@ -688,16 +603,14 @@ const Component = (() => {
             const components = priv.components;
             //#endregion Variables déclaration
             if (components.length === 0 || index >= components.length) {
-                throw Core.errMsg.LISTINDEXERROR.format(index);
+                throw core.errMsg.LISTINDEXERROR.format(index);
             }
             return components[index];
         }
         //#endregion getComponent
         //#region beforeDestruction
         beforeDestruction() {
-            if (!priv.destroying) {
-                this._destroying();
-            }
+            !priv.destroying ? this._destroying() : 1;
         }
         //#endregion beforeDestruction
         //#region destroyComponents
@@ -715,7 +628,7 @@ const Component = (() => {
                     instance = null;
                 }
             }
-            //Tools.Debugger.log(arguments, this, t);
+            //core.tools.Debugger.log(arguments, this, t);
         }
         //#endregion destroyComponents
         //#region _destroying
@@ -725,13 +638,12 @@ const Component = (() => {
             //#endregion Variables déclaration
             if (!priv.destroying) {
                 priv.destroying = !0;
-                if (components) {
-                    components.forEach(comp => {
+                components
+                    ? components.forEach(comp => {
                         comp._destroying();
-                    });
-                }
+                    }) : 1;
             }
-            //Tools.Debugger.log(arguments, this, t);
+            //core.tools.Debugger.log(arguments, this, t);
         }
         //#endregion _destroying
         //#region findComponent
@@ -740,13 +652,11 @@ const Component = (() => {
             const priv = internal(this);
             const components = priv.components;
             //#endregion Variables déclaration
-            if (!String.isNullOrEmpty(name)) {
-                if (components) {
-                    const ret = components.find(comp => {
-                        return comp.name === name;
-                    });
-                    return ret ? ret : null;
-                }
+            if (!String.isNullOrEmpty(name) && components) {
+                const ret = components.find(comp => {
+                    return comp.name === name;
+                });
+                return ret ? ret : null;
             }
             return null;
         }
@@ -773,11 +683,8 @@ const Component = (() => {
             const priv = internal(this);
             const owner = priv.owner;
             //#endregion Variables déclaration
-            if (priv.designing && owner) {
-                if (!(owner instanceof Core.classes.App)) {
-                    owner.validateRename(component, curName, newName);
-                }
-            }
+            priv.designing && owner && !(owner instanceof core.classes.App)
+                ? owner.validateRename(component, curName, newName) : 1;
         }
         //#endregion validateRename
         //#region setChildOrder
@@ -798,17 +705,11 @@ const Component = (() => {
             //#endregion Variables déclaration
             if (htmlElement) {
                 priv.HTMLElementStyle = htmlElement.style;
-                if (!htmlElement.jsObj) {
-                    htmlElement.jsObj = this;
-                }
+                !htmlElement.jsObj ? htmlElement.jsObj = this : 1;
                 const data = htmlElement.name;
-                if (data) {
-                    priv.name = data;
-                }
+                data ? priv.name = data : 1;
             }
-            if (!internalId || internalId !== id) {
-                priv.internalId = id;
-            }
+            !internalId || internalId !== id ? priv.internalId = id : 1;
         }
         //#endregion getHTMLElement
         //#region getChilds
@@ -831,7 +732,7 @@ const Component = (() => {
         //#region clientToDocument // TODO : changer en get
         clientToDocument() {
             //#region Variables déclaration
-            const result = new Core.classes.Point;
+            const result = new core.classes.Point;
             const bRect = this.getBoundingClientRect();
             //#endregion Variables déclaration
             result.setValues(bRect.left, bRect.top);
@@ -847,15 +748,14 @@ const Component = (() => {
             if (Array.isArray(eventsName)) {
                 eventsName.forEach(eventName => {
                     const eventValue = props[eventName];
-                    this[eventName] = new Core.classes.NotifyEvent(this);
+                    this[eventName] = new core.classes.NotifyEvent(this);
                     if (props.hasOwnProperty(eventName)) {
-                        if (Tools.isFunc(form[eventValue])) {
+                        if (core.tools.isFunc(form[eventValue])) {
                             this[eventName].addListener(form[eventValue]);
-                        } else if (Tools.isString(eventValue)) {
-                            if (!String.isNullOrEmpty(eventValue)) {
-                                this[eventName].addListener(new Function(eventValue));
-                            }
-                        } else if (Tools.isFunc(eventValue)) {
+                        } else if (core.tools.isString(eventValue)) {
+                            !String.isNullOrEmpty(eventValue)
+                                ? this[eventName].addListener(new Function(eventValue)) : 1;
+                        } else if (core.tools.isFunc(eventValue)) {
                             this[eventName].addListener(eventValue);
                         }
                     }
@@ -865,28 +765,20 @@ const Component = (() => {
         //#endregion createEventsAndBind
         //#region unBindAndDestroyEvents
         unBindAndDestroyEvents(eventsName) {
-            if (Array.isArray(eventsName)) {
-                eventsName.forEach(eventName => {
+            Array.isArray(eventsName)
+                ? eventsName.forEach(eventName => {
                     console.log(eventName);
                     this[eventName].destroy();
                     this[eventName] = null;
                     delete this[eventName];
-                });
-            }
+                }) : 1;
         }
         //#endregion unBindAndDestroyEvents
         //#endregion
     }
     return Component;
+    //#endregion Component
 })();
+core.classes.register(core.types.CATEGORIES.COMMON, Component);
 //#endregion Component
-//#region Component defineProperties
-Object.defineProperties(Component, {
-    'name': {
-        enumerable: !0
-    }
-});
-//#endregion Component defineProperties
-//#endregion
-Core.classes.register(Types.CATEGORIES.COMMON, Component);
 export { Component };

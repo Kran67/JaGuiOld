@@ -8,9 +8,7 @@ const CustomTextBoxBtn = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -32,41 +30,37 @@ const CustomTextBoxBtn = (() => {
                     ? props.autoHideButtons : !1;
                 //#endregion Private Properties
                 //#region Public Properties
-                classes.newCollection(this, this, priv.btnClass, 'btns');
-                Object.defineProperties(this, {
-                    'btnClass': {
-                        enumerable: !0,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).btnClass;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            core.tools.isNumber(newValue) && priv.btnClass !== newValue ? priv.btnClass = newValue : 1;
-                        }
-                    },
-                    'autoHideButtons': {
-                        enumerable: !0,
-                        configurable: !0,
-                        get: function () {
-                            return internal(this).autoHideButtons;
-                        },
-                        set: function (newValue) {
-                            //#region Variables déclaration
-                            const priv = internal(this);
-                            //#endregion Variables déclaration
-                            core.tools.isBool(newValue) && priv.autoHideButtons !== newValue ? priv.autoHideButtons = newValue : 1;
-                        }
-                    }
-                });
+                core.classes.newCollection(this, this, priv.btnClass, 'btns');
                 //#endregion Public Properties
                 //#endregion Properties
 
             }
         }
         //#endregion constructor
+        //#region Getters / Setters
+        //#region btnClass
+        get btnClass() {
+            return internal(this).btnClass;
+        }
+        set btnClass(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            core.tools.isNumber(newValue) && priv.btnClass !== newValue ? priv.btnClass = newValue : 1;
+        }
+        //#endregion btnClass
+        //#region autoHideButtons
+        get autoHideButtons() {
+            return internal(this).autoHideButtons;
+        }
+        set autoHideButtons(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            core.tools.isBool(newValue) && priv.autoHideButtons !== newValue ? priv.autoHideButtons = newValue : 1;
+        }
+        //#endregion autoHideButtons
+        //#endregion Getters / Setters
         //#region Methods
         //#region loaded
         loaded() {
@@ -89,7 +83,7 @@ const CustomTextBoxBtn = (() => {
                 btn.HTMLElement.classList.add('TextBoxBtnButton');
                 btn.name = `btn${i}`;
                 btn.canFocused = !1;
-                priv.btns.add(btn);
+                this.btns.add(btn);
             }
             this.update();
         }
@@ -106,9 +100,6 @@ const CustomTextBoxBtn = (() => {
             priv.btnClass = null;
             priv.numBtns = null;
             priv.autoHideButtons = null;
-            delete this.btnClass;
-            delete this.autoHideButtons;
-            delete this.btns;
             super.destroy();
         }
         //#endregion destroy
@@ -125,11 +116,10 @@ const CustomTextBoxBtn = (() => {
             const visible = priv.autoHideButtons && this.text.length > 0;
             //#endregion Variables déclaration
             super.update();
-            if (priv.autoHideButtons) {
-                this.btns.forEach(btn => {
+            priv.autoHideButtons
+                ? this.btns.forEach(btn => {
                     btn.visible = visible;
-                });
-            }
+                }) : 1;
         }
         //#endregion update
         //#endregion Methods

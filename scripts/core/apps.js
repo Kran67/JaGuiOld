@@ -1,5 +1,6 @@
 ﻿//#region Imports
 import '/scripts/core/types.js';
+import '/scripts/core/tools.js';
 import '/scripts/core/classes.js';
 import '/scripts/core/browser.js';
 import '/scripts/core/keyboard.js';
@@ -21,7 +22,6 @@ import '/scripts/components/control.js';
 import '/scripts/core/thememanifest.js';
 
 import '/scripts/core/baseclass.js';
-import '/scripts/core/tools.js';
 import { Css } from '/scripts/core/css.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion

@@ -116,7 +116,8 @@ if (!Date.prototype.addDays) {
      */
     Date.prototype.addDays = function (d) {
         if (core.tools.isNumber(d)) {
-            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
+            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), 
+                this.getMinutes(), this.getSeconds(), this.getMilliseconds());
             a.setDate(this.getDate() + d);
             return a;
         }
@@ -131,7 +132,8 @@ if (!Date.prototype.addMonths) {
      */
     Date.prototype.addMonths = function (m) {
         if (core.tools.isNumber(m)) {
-            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
+            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), 
+                this.getMinutes(), this.getSeconds(), this.getMilliseconds());
             if (a.getMonth() + m > 11) {
                 a.setMonth(0);
                 a.setFullYear(a.getFullYear() + 1);
@@ -151,7 +153,8 @@ if (!Date.prototype.addYears) {
      */
     Date.prototype.addYears = function (y) {
         if (core.tools.isNumber(y)) {
-            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
+            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), 
+                this.getMinutes(), this.getSeconds(), this.getMilliseconds());
             a.setFullYear(a.getFullYear() + y);
             return a;
         }
@@ -202,7 +205,8 @@ if (!Date.prototype.addMilliseconds) {
      */
     Date.prototype.addMilliseconds = function (m) {
         if (core.tools.isNumber(m)) {
-            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
+            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), 
+                this.getMinutes(), this.getSeconds(), this.getMilliseconds());
             a.setMilliseconds(a.getMilliseconds() + m);
             return a;
         }
@@ -339,7 +343,8 @@ if (!Date.prototype.HHMMSS) {
      */
     Date.prototype.HHMMSS = function (a) {
         !core.tools.isString(a) ? a = ':' : 1;
-        return String(this.hours).padStart(2, '0') + a + String(this.minutes).padStart(2, '0') + a + String(this.seconds).padStart(2, '0');
+        return String(this.hours).padStart(2, '0') + a + String(this.minutes).padStart(2, '0') + 
+            a + String(this.seconds).padStart(2, '0');
     };
 }
 Object.defineProperty(Date.prototype, 'firstDayOfMonth', {
@@ -366,7 +371,8 @@ if (!Date.prototype.clone) {
      * @returns     {Date}      the new date
      */
     Date.prototype.clone = function () {
-        return new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
+        return new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), 
+            this.getMinutes(), this.getSeconds(), this.getMilliseconds());
     };
 }
 
