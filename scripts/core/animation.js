@@ -837,12 +837,38 @@ const Animation = (() => {
          */
         destroy() {
             const priv = internal(this);
-            const startValue = priv.startValue;
-            const stopValue = priv.stopValue;
             this.onProcess.destroy();
+            this.onProcess=null;
+            delete this.onProcess;
             this.onFinish.destroy();
-            startValue && startValue.destroy ? startValue.destroy() : 1;
-            stopValue && stopValue.destroy ? stopValue.destroy() : 1;
+            this.onFinish = null;
+            delete this.onFinish;
+            priv.delayTime = null;
+            priv.time = null;
+            priv.initialValue = null;
+            priv.pause = null;
+            priv.animationType = null;
+            priv.autoReverse = null;
+            priv.enabled = null;
+            priv.delay = null;
+            priv.duration = null;
+            priv.interpolation = null;
+            priv.inverse = null;
+            priv.hideOnFinish = null;
+            priv.loop = null;
+            priv.trigger = null;
+            priv.triggerInverse = null;
+            priv.propertyName = null;
+            priv.control = null;
+            priv.startFromCurrent = null;
+            priv.startValue && core.tools.isFunc(priv.startValue.destroy) ? priv.startValue.destroy() : 1;
+            priv.startValue = null;
+            priv.stopValue && core.tools.isFunc(priv.stopValue.destroy) ? priv.stopValue.destroy() : 1;
+            priv.stopValue = null;
+            priv.autoStart = null;
+            priv.running = null;
+            priv.convertToCSS = null;
+            super.destroy();
         }
         //#endregion
     }

@@ -4,7 +4,6 @@ import { Colors } from '/scripts/core/color.js';
 import { Interpolation } from '/scripts/core/interpolations.js';
 //import { Position } from '/scripts/core/position.js';
 //import { Point } from '/scripts/core/geometry.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region GradientPoint
 const GradientPoint = (() => {
@@ -12,9 +11,7 @@ const GradientPoint = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -24,12 +21,8 @@ const GradientPoint = (() => {
         //#region constructor
         constructor(offset, color) {
             super(offset, color);
-            if (!Tools.isNumber(offset)) {
-                offset = 0;
-            }
-            if (!(color instanceof Core.classes.Color)) {
-                color = Colors.BLACK;
-            }
+            !core.tools.isNumber(offset) ? offset = 0 : 1;
+            !(color instanceof core.classes.Color) ? color = Colors.BLACK : 1;
             const priv = internal(this);
             priv.offset = offset;
             priv.color = color;
@@ -44,11 +37,7 @@ const GradientPoint = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.offset !== newValue) {
-                    priv.offset = newValue;
-                }
-            }
+            core.tools.isNumber(newValue) && priv.offset !== newValue ? priv.offset = newValue : 1;
         }
         //#endregion offset
         //#region color
@@ -60,18 +49,20 @@ const GradientPoint = (() => {
             const priv = internal(this);
             const color = priv.color;
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Color) {
-                if (color.equals(newValue)) {
-                    color.assign(newValue);
-                }
-            }
+            newValue instanceof core.classes.Color && color.equals(newValue) ? color.assign(newValue) : 1;
         }
         //#endregion color
         //#endregion Getter / Setter
         //#region Methods
         //#region destroy
         destroy() {
-            this.color.destroy();
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.color.destroy();
+            priv.offset = null;
+            priv.color = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion
@@ -79,17 +70,7 @@ const GradientPoint = (() => {
     return GradientPoint;
     //#endregion GradientPoint
 })();
-//#region GradientPoint defineProperties
-Object.defineProperties(GradientPoint, {
-    'offset': {
-        enumerable: !0
-    },
-    'color': {
-        enumerable: !0
-    }
-});
-//#endregion GradientPoint defineProperties
-//#endregion
+//#endregion GradientPoint
 //#region Gradient
 // TODO : support of databinding
 const Gradient = (() => {
@@ -97,9 +78,7 @@ const Gradient = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -110,14 +89,14 @@ const Gradient = (() => {
         constructor(owner) {
             super(owner);
             const priv = internal(this);
-            priv.startPosition = new Core.classes.Position(null, owner);
-            priv.stopPosition = new Core.classes.Position(new Core.classes.Point(0, 1), owner);
-            priv.style = Types.GRADIENTSTYLES.LINEAR;
+            priv.startPosition = new core.classes.Position(null, owner);
+            priv.stopPosition = new core.classes.Position(new core.classes.Point(0, 1), owner);
+            priv.style = core.types.GRADIENTSTYLES.LINEAR;
             if (owner) {
-                Core.classes.newCollection(this, owner, GradientPoint);
+                core.classes.newCollection(this, owner, GradientPoint);
                 const items = this.items;
-                items.push(new Core.classes.GradientPoint(0, Colors.BLACK));
-                items.push(new Core.classes.GradientPoint(1, Colors.WHITE));
+                items.push(new core.classes.GradientPoint(0, Colors.BLACK));
+                items.push(new core.classes.GradientPoint(1, Colors.WHITE));
             }
         }
         //#endregion constructor
@@ -131,14 +110,12 @@ const Gradient = (() => {
             const priv = internal(this);
             const owner = priv.owner;
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Position) {
-                if (!newValue.equals(priv.startPosition)) {
-                    priv.startPosition.assign(newValue);
-                    if (owner.allowUpdate) {
-                        owner.form.updateRects.push(owner.getClipParentRect());
-                        owner.update();
-                        owner.form.updateRects.push(owner.getClipParentRect());
-                    }
+            if (newValue instanceof core.classes.Position && !newValue.equals(priv.startPosition)) {
+                priv.startPosition.assign(newValue);
+                if (owner.allowUpdate) {
+                    owner.form.updateRects.push(owner.getClipParentRect());
+                    owner.update();
+                    owner.form.updateRects.push(owner.getClipParentRect());
                 }
             }
         }
@@ -153,14 +130,12 @@ const Gradient = (() => {
             const stopPosition = priv.stopPosition;
             const owner = priv.owner;
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Position) {
-                if (!newValue.equals(stopPosition)) {
-                    stopPosition.assign(newValue);
-                    if (owner.allowUpdate) {
-                        owner.form.updateRects.push(owner.getClipParentRect());
-                        owner.update();
-                        owner.form.updateRects.push(owner.getClipParentRect());
-                    }
+            if (newValue instanceof core.classes.Position && !newValue.equals(stopPosition)) {
+                stopPosition.assign(newValue);
+                if (owner.allowUpdate) {
+                    owner.form.updateRects.push(owner.getClipParentRect());
+                    owner.update();
+                    owner.form.updateRects.push(owner.getClipParentRect());
                 }
             }
         }
@@ -175,14 +150,12 @@ const Gradient = (() => {
             const style = priv.style;
             const owner = priv.owner;
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, Gradientstyles)) {
-                if (newValue !== style) {
-                    priv.style = newValue;
-                    if (owner.allowUpdate) {
-                        owner.form.updateRects.push(owner.getClipParentRect());
-                        owner.update();
-                        owner.form.updateRects.push(owner.getClipParentRect());
-                    }
+            if (core.tools.valueInSet(newValue, Gradientstyles) && newValue !== style) {
+                priv.style = newValue;
+                if (owner.allowUpdate) {
+                    owner.form.updateRects.push(owner.getClipParentRect());
+                    owner.update();
+                    owner.form.updateRects.push(owner.getClipParentRect());
                 }
             }
         }
@@ -195,13 +168,13 @@ const Gradient = (() => {
             const priv = internal(this);
             const items = this.items;
             //#endregion Variables déclaration
-            if (source instanceof Core.classes.Gradient) {
+            if (source instanceof core.classes.Gradient) {
                 priv.startPosition.assign(source.startPosition);
                 priv.stopPosition.assign(source.stopPosition);
                 priv.style = source.style;
                 items.length = 0;
                 source.items.forEach(item => {
-                    items.push(new Core.classes.GradientPoint(item.offset, item.color));
+                    items.push(new core.classes.GradientPoint(item.offset, item.color));
                 });
             }
         }
@@ -221,15 +194,10 @@ const Gradient = (() => {
             //#region Variables déclaration
             const items = this.items;
             //#endregion Variables déclaration
-            if (Tools.isNumber(offset)) {
+            if (core.tools.isNumber(offset)) {
                 const result = Colors.TRANSPARENT.clone();
                 if (items.length > 1) {
-                    if (offset < 0) {
-                        offset = 0;
-                    }
-                    if (offset > 1) {
-                        offset = 1;
-                    }
+                    offset = Math.max(Math.min(offset, 1), 0);
                     items.sort((a, b) => {
                         return a.offset > b.offset;
                     });
@@ -250,7 +218,8 @@ const Gradient = (() => {
                                 } else if ((i === items.length - 2) && offset > items.last.offset) {
                                     result.assign(items.last.color);
                                 } else {
-                                    result.assign(Interpolation.interpolateColor(item.color, nextItem.color, (offset - item.offset) / (nextItem.offset - item.offset)));
+                                    result.assign(Interpolation.interpolateColor(item.color, nextItem.color,
+                                        (offset - item.offset) / (nextItem.offset - item.offset)));
                                 }
                             }
                         }
@@ -262,9 +231,18 @@ const Gradient = (() => {
         //#endregion interpolateColor
         //#region destroy
         destroy() {
-            this.startPosition.destroy();
-            this.stopPosition.destroy();
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.startPosition.destroy();
+            priv.stopPosition.destroy();
             this.items.destroy();
+            this.items = null;
+            delete this.items;
+            priv.startPosition = null;
+            priv.stopPosition = null;
+            priv.style = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion
@@ -272,22 +250,6 @@ const Gradient = (() => {
     return Gradient;
     //#endregion Gradient
 })();
-//#region Gradient defineProperties
-Object.defineProperties(Gradient, {
-    'startPosition': {
-        enumerable: !0
-    },
-    'stopPosition': {
-        enumerable: !0
-    },
-    'style': {
-        enumerable: !0
-    },
-    'items': {
-        enumerable: !0
-    }
-});
-//#endregion Gradient defineProperties
-//#endregion
-Core.classes.register(Types.CATEGORIES.INTERNAL, GradientPoint, Gradient);
+core.classes.register(core.types.CATEGORIES.INTERNAL, GradientPoint, Gradient);
+//#endregion Gradient
 export { GradientPoint, Gradient };

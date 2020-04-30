@@ -860,6 +860,9 @@ const Color = (function () {
         }
         //#region destroy
         destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             priv.red = null;
             priv.green = null;
             priv.blue = null;
@@ -870,16 +873,6 @@ const Color = (function () {
             priv.lightness = null;
             priv.updating = null;
             priv.owner = null;
-            delete this.red;
-            delete this.green;
-            delete this.blue;
-            delete this.alpha;
-            delete this.hue;
-            delete this.saturation;
-            delete this.value;
-            delete this.lightness;
-            delete this.owner;
-            delete this.updating;
             super.destroy();
         }
         //#endregion destroy

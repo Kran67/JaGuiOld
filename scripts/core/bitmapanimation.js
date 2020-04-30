@@ -191,7 +191,6 @@ const BitmapAnimation = (() => {
                 current.ctx = null;
             }
             priv.current = null;
-            delete this.current;
             super.destroy();
         }
         //#endregion

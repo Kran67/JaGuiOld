@@ -170,6 +170,19 @@ const BaseEffect = (() => {
                 this.enabled = startValue;
             }
         }
+        //#region destroy
+        destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.enabled = null;
+            priv.trigger = null;
+            priv.prepareBeforePaint = null;
+            priv.applyOnChilds = null;
+            priv.disablePaint = null;
+            super.destroy();
+        }
+        //#endregion destroy
         //#endregion
     }
     return BaseEffect;

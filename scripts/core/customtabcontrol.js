@@ -61,7 +61,7 @@ const CustomTabControl = (() => {
                     component: this,
                     propName: 'tabPosition',
                     enum: TABPOSITIONS,
-                    setter: this.tabPosition,
+                    setter: this.tabPosition, // à voir
                     value: props.hasOwnProperty('tabPosition') ? props.tabPosition : TABPOSITIONS.TOP,
                     variable: priv
                 });
@@ -480,9 +480,21 @@ const CustomTabControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.tabs.destroy();
-            priv.tabs = null;
-            this.onChange.destroy();
+            this.tabs.destroy();
+            this.tabs = null;
+            delete this.tabs;
+            priv.firstVisibleTab = null;
+            priv.lastVisibleTab = null;
+            priv.tabClass = null;
+            priv.activeTab = null;
+            priv.images = null;
+            priv.canChange = null;
+            priv.showTabsCloseBtn = null;
+            this.tabStyle = null;
+            delete this.tabStyle;
+            this.tabPosition = null;
+            delete this.tabPosition;
+            this.unBindAndDestroyEvents(['onChange']);
             super.destroy();
         }
         //#endregion destroy

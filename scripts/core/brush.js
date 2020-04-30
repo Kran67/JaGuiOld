@@ -172,11 +172,14 @@ const Brush = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.gradient.destroy();
+            priv.gradient = null;
             priv.color.destroy();
+            priv.color = null;
             priv.gradient = null;
             priv.color = null;
             this.onChange.destroy();
             this.onChange = null;
+            delete this.onChange;
             super.destroy();
         }
         //#endregion Methods

@@ -1,7 +1,6 @@
 ﻿//#region Imports
 import { Control } from '/scripts/components/control.js';
-import { Color,  Colors } from '/scripts/core/color.js';
-import { Tools } from '/scripts/core/tools.js';
+import { Color, Colors } from '/scripts/core/color.js';
 //#endregion Imports
 //#region GraphicControl
 const GraphicControl = (function () {
@@ -9,9 +8,7 @@ const GraphicControl = (function () {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -42,11 +39,9 @@ const GraphicControl = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Color) {
-                if (!priv.fillColor.equals(newValue)) {
-                    priv.fillColor.assign(newValue);
-                    this.update();
-                }
+            if (newValue instanceof Color && !priv.fillColor.equals(newValue)) {
+                priv.fillColor.assign(newValue);
+                this.update();
             }
         }
         //#endregion fillColor
@@ -58,11 +53,9 @@ const GraphicControl = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Color) {
-                if (!priv.strokeColor.equals(newValue)) {
-                    priv.strokeColor.assign(newValue);
-                    this.update();
-                }
+            if (newValue instanceof Color && !priv.strokeColor.equals(newValue)) {
+                priv.strokeColor.assign(newValue);
+                this.update();
             }
         }
         //#endregion strokeColor
@@ -74,7 +67,7 @@ const GraphicControl = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
+            if (core.tools.isNumber(newValue)) {
                 newValue = Math.max(0, newValue);
                 if (priv.strokeWidth !== newValue) {
                     priv.strokeWidth = newValue;
@@ -91,11 +84,9 @@ const GraphicControl = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.strokeDash !== newValue) {
-                    priv.strokeDash = newValue;
-                    this.update();
-                }
+            if (core.tools.isString(newValue) && priv.strokeDash !== newValue) {
+                priv.strokeDash = newValue;
+                this.update();
             }
         }
         //#endregion strokeDash
@@ -107,11 +98,9 @@ const GraphicControl = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.strokeDashOffset !== newValue) {
-                    priv.strokeDashOffset = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.strokeDashOffset !== newValue) {
+                priv.strokeDashOffset = newValue;
+                this.update();
             }
         }
         //#endregion strokeDashOffset
@@ -123,9 +112,7 @@ const GraphicControl = (function () {
         //#region loaded
         loaded() {
             super.loaded();
-            if (Tools.isFunc(this.update)) {
-                this.update();
-            }
+            core.tools.isFunc(this.update) ? this.update() : 1;
         }
         //#endregion loaded
         //#region destroy
@@ -135,12 +122,13 @@ const GraphicControl = (function () {
             const fillColor = priv.fillColor;
             const strokeColor = priv.strokeColor;
             //#endregion Variables déclaration
-            if (fillColor) {
-                fillColor.destroy();
-            }
-            if (strokeColor) {
-                strokeColor.destroy();
-            }
+            fillColor ? fillColor.destroy() : 1;
+            strokeColor ? strokeColor.destroy() : 1;
+            priv.fillColor = null;
+            priv.strokeColor = null;
+            priv.strokeWidth = null;
+            priv.strokeDash = null;
+            priv.strokeDashOffset = null;
             super.destroy();
         }
         //#endregion destroy
@@ -149,25 +137,6 @@ const GraphicControl = (function () {
     return GraphicControl;
     //#endregion GraphicControl
 })();
-//#region GraphicControl defineProperties
-Object.defineProperties(GraphicControl, {
-    'fillColor': {
-        enumerable: !0
-    },
-    'strokeColor': {
-        enumerable: !0
-    },
-    'strokeWidth': {
-        enumerable: !0
-    },
-    'strokeDash': {
-        enumerable: !0
-    },
-    'strokeDashOffset': {
-        enumerable: !0
-    }
-});
-//#endregion GraphicControl defineProperties
-//#endregion
-Core.classes.register(Types.CATEGORIES.INTERNAL, GraphicControl);
+core.classes.register(core.types.CATEGORIES.INTERNAL, GraphicControl);
+//#endregion GraphicControl
 export { GraphicControl };

@@ -155,6 +155,20 @@ const AnimatedCursor = (() => {
             priv.HTMLElement.classList.remove(`${priv.className}${priv.curFrame}`);
         }
         //#endregion stopAnimation
+        //#region destroy
+        destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.HTMLElement = null;
+            priv.maxFrame = null;
+            priv.curFrame = null;
+            priv.className = null;
+            priv.iterationBetweenFrames = null;
+            priv.iteration = null;
+            super.destroy();
+        }
+        //#endregion destroy
         //#endregion Methods
     }
     return AnimatedCursor;
