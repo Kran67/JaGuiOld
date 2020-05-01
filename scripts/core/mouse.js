@@ -1,6 +1,5 @@
 ﻿//#region Imports
 import { BaseClass } from '/scripts/core/baseclass.js';
-import { Tools } from '/scripts/core/tools.js';
 import '/scripts/core/geometry.js';
 //#endregion Imports
 //#region MOUSEBUTTONS
@@ -73,9 +72,7 @@ const Mouse = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -86,11 +83,11 @@ const Mouse = (() => {
         constructor() {
             super();
             const priv = internal(this);
-            priv.target = new Core.classes.Point;
-            priv.screen = new Core.classes.Point;
+            priv.target = new core.classes.Point;
+            priv.screen = new core.classes.Point;
             priv.button = Mouse.MOUSEBUTTONS.NONE;
-            priv.document = new Core.classes.Point;
-            priv.window = new Core.classes.Point;
+            priv.document = new core.classes.Point;
+            priv.window = new core.classes.Point;
             priv.wheelDir = Mouse.MOUSEWHEELDIRS.NONE;
             priv.wheelDelta = 0;
             priv.eventType = String.EMPTY;
@@ -136,11 +133,8 @@ const Mouse = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, Mouse.MOUSEBUTTONS)) {
-                if (priv.button !== newValue) {
-                    priv.button = newValue;
-                }
-            }
+            core.tools.valueInSet(newValue, Mouse.MOUSEBUTTONS) && priv.button !== newValue
+                ? priv.button = newValue : 1;
         }
         //#endregion button
         //#region document
@@ -161,11 +155,8 @@ const Mouse = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, Mouse.MOUSEWHEELDIRS)) {
-                if (priv.wheelDir !== newValue) {
-                    priv.wheelDir = newValue;
-                }
-            }
+            core.tools.valueInSet(newValue, Mouse.MOUSEWHEELDIRS) && priv.wheelDir !== newValue
+                ? priv.wheelDir = newValue : 1;
         }
         //#endregion wheelDir
         //#region wheelDelta
@@ -176,11 +167,7 @@ const Mouse = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.wheelDelta !== newValue) {
-                    priv.wheelDelta = newValue;
-                }
-            }
+            core.tools.isNumber(newValue) && priv.wheelDelta !== newValue ? priv.wheelDelta = newValue : 1;
         }
         //#endregion wheelDelta
         //#region eventType
@@ -191,11 +178,7 @@ const Mouse = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.eventType !== newValue) {
-                    priv.eventType = newValue;
-                }
-            }
+            core.tools.isString(newValue) && priv.eventType !== newValue ? priv.eventType = newValue : 1;
         }
         //#endregion eventType
         //#region event
@@ -206,11 +189,7 @@ const Mouse = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof MouseEvent) {
-                if (priv.event !== newValue) {
-                    priv.event = newValue;
-                }
-            }
+            newValue instanceof MouseEvent && priv.event !== newValue ? priv.event = newValue : 1;
         }
         //#endregion event
         //#endregion
@@ -240,7 +219,7 @@ const Mouse = (() => {
             //    this.target.setValues(mouseEventArg.clientX-borderLeftWidth-rect.left,mouseEventArg.clientY-borderTopWidth-rect.top);
             //  }
             //}
-            //if (!Core.isMouseDown) {
+            //if (!core.isMouseDown) {
             //    this._button = Mouse.MOUSEBUTTONS.NONE;
             //} else {
             switch (mouseEventArg.which) {
@@ -257,40 +236,32 @@ const Mouse = (() => {
                     priv.button = MOUSEBUTTONS.RIGHT;
                     break;
             }
-            //this.button=(mouseEventArg.which===1)?$j.types.mouseButtons.LEFT:((mouseEventArg.which===2)?$j.types.mouseButtons.MIDDLE:$j.types.mouseButtons.RIGHT);
+            //this.button=(mouseEventArg.which===1)?$j.core.types.mouseButtons.LEFT:((mouseEventArg.which===2)?$j.core.types.mouseButtons.MIDDLE:$j.core.types.mouseButtons.RIGHT);
             //}
             if (mouseEventArg.type === MOUSEEVENTS.WHEEL.toLowerCase() || mouseEventArg.type === MOUSEEVENTS.DOMSCROLL) {
                 //wheel
                 let delta = 0;
                 if (mouseEventArg.wheelDelta) {
                     delta = mouseEventArg.wheelDelta * 0.0083;
-                    if (Core.browser.opera) {
-                        delta = -delta;
-                    }
+                    core.browser.opera ? delta = -delta : 1;
                 } else if (mouseEventArg.detail) delta = -mouseEventArg.detail * 0.3333;
                 if (delta !== 0) {
-                    if (delta < 0) {
-                        priv.wheelDir = MOUSEWHEELDIRS.DOWN;
-                    } else {
-                        priv.wheelDir = MOUSEWHEELDIRS.UP;
-                    }
+                    priv.wheelDir = delta < 0 ? MOUSEWHEELDIRS.DOWN : MOUSEWHEELDIRS.UP;
                     priv.wheelDelta = delta;
                 } else {
                     priv.wheelDir = MOUSEWHEELDIRS.NONE;
                     priv.wheelDelta = 0;
                 }
             }
-            if (Tools.isFunc(Core.onGetMouseInfos)) {
-                Core.onGetMouseInfos();
+            if (core.tools.isFunc(core.onGetMouseInfos)) {
+                core.onGetMouseInfos();
             }
         }
         //#endregion getMouseInfos
         //#region getWheelDetail
         getWheelDetail(mouseEventArg) {
             delta = mouseEventArg.wheelDelta ? mouseEventArg.wheelDelta * 0.0083 : mouseEventArg.detail * 0.3333;
-            if (!Core.browser.ff) {
-                delta = -delta;
-            }
+            !core.browser.ff ? delta = -delta : 1;
             return delta;
         }
         //#endregion getWheelDetail
@@ -312,11 +283,33 @@ const Mouse = (() => {
             //mouseEventArg.preventDefault();
         }
         //#endregion stopEvent
+        //#region destroy
+        destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.target.destroy();
+            priv.target = priv.target;
+            priv.screen.destroy();
+            priv.screen = priv.target;
+            priv.button.destroy();
+            priv.button = priv.target;
+            priv.document.destroy();
+            priv.document = priv.target;
+            priv.window.destroy();
+            priv.window = priv.target;
+            priv.wheelDir = priv.target;
+            priv.wheelDelta = priv.target;
+            priv.eventType = priv.target;
+            priv.event = null;
+            super.destroy();
+        }
+        //#endregion destroy
         //#endregion
     }
     return Mouse;
     //#endregion Mouse
 })();
-//#endregion
-Core.mouse = new Mouse;
+core.mouse = new Mouse;
+//#endregion Mouse
 export { Mouse };

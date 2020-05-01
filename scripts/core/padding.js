@@ -9,6 +9,6 @@ class Padding extends Bounds {
     }
     //#endregion constructor
 }
-//#endregion
 Core.classes.register(Types.CATEGORIES.INTERNAL, Padding);
+//#endregion Padding
 export { Padding };

@@ -19,7 +19,6 @@ const Looper = (() => {
             super();
             const priv = internal(this);
             priv.listeners = {};
-            //priv.functions = [];
             priv.fps = 60;
             priv.handle = null;
             priv.paused = !1;
@@ -46,13 +45,11 @@ const Looper = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue)) {
-                if (priv.fps !== newValue) {
-                    this.stop();
-                    priv.fps = newValue;
-                    //priv.rAF = window.requestAnimationFrameRate(priv.fps);
-                    this.start();
-                }
+            if (core.tools.isNumber(newValue) && priv.fps !== newValue) {
+                this.stop();
+                priv.fps = newValue;
+                //priv.rAF = window.requestAnimationFrameRate(priv.fps);
+                this.start();
             }
         }
         //#endregion fps
@@ -64,9 +61,7 @@ const Looper = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.handle !== newValue) {
-                priv.handle = newValue;
-            }
+            priv.handle !== newValue ? priv.handle = newValue : 1;
         }
         //#endregion handle
         //#region paused
@@ -77,11 +72,7 @@ const Looper = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (core.tools.isBool(newValue)) {
-                if (priv.paused !== newValue) {
-                    priv.paused = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.paused !== newValue ? priv.paused = newValue : 1;
         }
         //#endregion paused
         //#region rAF
@@ -92,9 +83,7 @@ const Looper = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.rAF !== newValue) {
-                priv.rAF = newValue;
-            }
+            priv.rAF !== newValue ? priv.rAF = newValue : 1;
         }
         //#endregion rAF
         //#region isBusy
@@ -105,11 +94,7 @@ const Looper = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (core.tools.isBool(newValue)) {
-                if (priv.isBusy !== newValue) {
-                    priv.isBusy = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.isBusy !== newValue ? priv.isBusy = newValue : 1;
         }
         //#endregion isBusy
         //#endregion Getter / Setter
@@ -128,9 +113,7 @@ const Looper = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.handle !== null) {
-                window.cancelAnimationFrameRate(priv.handle);
-            }
+            priv.handle !== null ? window.cancelAnimationFrameRate(priv.handle) : 1;
             priv.handle = null;
         }
         //#endregion stop
@@ -164,9 +147,7 @@ const Looper = (() => {
                 priv.listeners[obj.name].functions.push(func);
             } else {
                 const idx = priv.listeners[obj.name].functions.indexOf(func);
-                if (idx === -1) {
-                    priv.listeners[obj.name].functions.push(func);
-                }
+                idx === -1 ? priv.listeners[obj.name].functions.push(func) : 1;
             }
         }
         //#endregion addListener
@@ -178,9 +159,7 @@ const Looper = (() => {
             func = func || 'processTick';
             if (priv.listeners.hasOwnProperty(obj.name)) {
                 const idx = priv.listeners[obj.name].functions.indexOf(func);
-                if (idx > -1) {
-                    priv.listeners[obj.name].functions.removeAt(idx);
-                }
+                idx > -1 ? priv.listeners[obj.name].functions.removeAt(idx) : 1;
             }
         }
         //#endregion removeListener
@@ -197,11 +176,26 @@ const Looper = (() => {
             priv.listeners = {};
         }
         //#endregion removeAllListeners
+        //#region destroy
+        destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.listeners.length = 0;
+            priv.listeners = null;
+            priv.fps = null;
+            priv.handle = null;
+            priv.paused = null;
+            priv.rAF = null;
+            priv.isBusy = null;
+            super.destroy();
+        }
+        //#endregion destroy
         //#endregion Methods
     }
     return Looper;
     //#endregion Looper
 })();
-//#endregion
 core.looper = new Looper;
+//#endregion Looper
 export { Looper };

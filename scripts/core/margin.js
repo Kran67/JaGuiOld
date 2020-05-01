@@ -9,6 +9,6 @@ class Margin extends Bounds {
     }
     //#endregion constructor
 }
-//#endregion
 Core.classes.register(Types.CATEGORIES.INTERNAL, Margin);
+//#endregion Margin
 export { Margin };
