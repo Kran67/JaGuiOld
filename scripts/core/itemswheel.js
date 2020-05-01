@@ -1,7 +1,6 @@
 ﻿//#region Imports
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Point } from '/scripts/core/geometry.js';
-import { NotifyEvent } from '/scripts/core/events.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 //import { Animation } from '/scripts/core/animation.js';
@@ -13,9 +12,7 @@ const ItemsWheel = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -26,6 +23,9 @@ const ItemsWheel = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.hitTest = !0;
+                props.canFocused = !0;
+                props.stopEvent = !0;
                 super(owner, props);
                 const priv = internal(this);
                 priv.content = null;
@@ -41,12 +41,9 @@ const ItemsWheel = (() => {
                 priv.index = -1;
                 priv.mouseTracking = !0;
                 priv.animated = !0;
-                this.hitTest = !0;
-                Core.classes.newCollection(this, this, Types.CONSTANTS.STRING);
+                core.classes.newCollection(this, this, core.types.CONSTANTS.STRING);
                 this.createEventsAndBind(['onChange'], props);
-                this.canFocused = !0;
                 delete this.tabOrder;
-                this.stopEvent = !0;
             }
         }
         //#endregion constructor
@@ -59,13 +56,9 @@ const ItemsWheel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === typeof priv.value) {
-                if (newValue !== priv.value) {
-                    priv.value = newValue;
-                    if (!this.updating) {
-                        this.onChange.invoke();
-                    }
-                }
+            if (typeof newValue === typeof priv.value && newValue !== priv.value) {
+                priv.value = newValue;
+                !this.updating ? this.onChange.invoke() : 1;
             }
         }
         //#endregion value
@@ -78,16 +71,13 @@ const ItemsWheel = (() => {
             const items = this.items;
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
-                if (newValue < 0) newValue = 0;
-                if (newValue > items.length - 1) {
-                    newValue = items.length - 1;
-                }
+            if (core.tools.isNumber(newValue)) {
+                newValue = Math.max(Math.min(newValue, items.length - 1), 0);
                 if (priv.index !== newValue) {
                     priv.index = Math.intCeiling(newValue, 1);
                     if (priv.index !== -1) {
                         const offset = 15 * priv.index;
-                        priv.content.style.top = `${-offset}${Types.CSSUNITS.PX}`;
+                        priv.content.style.top = `${-offset}${core.types.CSSUNITS.PX}`;
                     }
                     priv.value = items[priv.index];
                     this.onChange.invoke();
@@ -103,11 +93,7 @@ const ItemsWheel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (newValue !== priv.mouseTracking) {
-                    priv.mouseTracking = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && newValue !== priv.mouseTracking ? priv.mouseTracking = newValue : 1;
         }
         //#endregion mouseTracking
         //#region animated
@@ -118,11 +104,7 @@ const ItemsWheel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (newValue !== priv.animated) {
-                    priv.animated = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && newValue !== priv.animated ? priv.animated = newValue : 1;
         }
         //#endregion animated
         //#endregion Getter / Setter
@@ -132,7 +114,7 @@ const ItemsWheel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const content = priv.content;
-            const name = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const name = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             //#endregion Variables déclaration
             if (content) {
                 content.innerHTML = String.EMPTY;
@@ -154,7 +136,7 @@ const ItemsWheel = (() => {
         //#region mouseWheel
         mouseWheel() {
             //#region Variables déclaration
-            const d = Core.mouse.wheelDelta;
+            const d = core.mouse.wheelDelta;
             //#endregion Variables déclaration
             super.mouseWheel();
             this.scrollBy(d < 0 ? 1 : -1);
@@ -166,9 +148,7 @@ const ItemsWheel = (() => {
             const priv = internal(this);
             const index = priv.index;
             //#endregion Variables déclaration
-            if (index + offset < 0 || index + offset > this.items.length - 1) {
-                offset = 0;
-            }
+            index + offset < 0 || index + offset > this.items.length - 1 ? offset = 0 : 1;
             if (offset === 0) {
                 return;
             }
@@ -180,7 +160,7 @@ const ItemsWheel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            const name = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const name = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             //#endregion Variables déclaration
             super.loaded();
             priv.topGradient = document.createElement(`${name}topgradient`);
@@ -206,10 +186,10 @@ const ItemsWheel = (() => {
             //const scrollAni = this.scrollAni;
             //#endregion Variables déclaration
             super.mouseDown();
-            if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && priv.mouseTracking) {
+            if (core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && priv.mouseTracking) {
                 priv.lastDelta.setValues(0, 0);
-                priv.downPos.assign(Core.mouse.screen);
-                priv.currentPos.assign(Core.mouse.screen);
+                priv.downPos.assign(core.mouse.screen);
+                priv.currentPos.assign(core.mouse.screen);
                 priv.down = !0;
                 //if (scrollAni && scrollAni.running) {
                 //    scrollAni.stopAtCurrent();
@@ -222,16 +202,16 @@ const ItemsWheel = (() => {
         mouseMove() {
             //#region Variables déclaration
             const priv = internal(this);
-            const offset = Core.mouse.screen.y - priv.currentPos.y;
+            const offset = core.mouse.screen.y - priv.currentPos.y;
             //#endregion Variables déclaration
             super.mouseMove();
             if (priv.down && priv.mouseTracking) {
-                priv.lastDelta.y = Core.mouse.screen.y - priv.downPos.y;
+                priv.lastDelta.y = core.mouse.screen.y - priv.downPos.y;
                 if (Math.abs(priv.lastDelta.y) < 10 && Math.abs(priv.lastDelta.y) > 3) {
                     this.scrollBy(offset > 0 ? -1 : 1);
-                    priv.downPos.y = Core.mouse.screen.y;
+                    priv.downPos.y = core.mouse.screen.y;
                 }
-                priv.currentPos.assign(Core.mouse.screen);
+                priv.currentPos.assign(core.mouse.screen);
             }
         }
         //#endregion mouseMove
@@ -242,7 +222,7 @@ const ItemsWheel = (() => {
             //const scrollAni = this.scrollAni;
             //#endregion Variables déclaration
             super.mouseUp();
-            //const offset = Core.mouse.screen.y - currentPos.y;
+            //const offset = core.mouse.screen.y - currentPos.y;
             if (priv.down && priv.mouseTracking) {
                 priv.down = !1;
                 if (priv.animated && priv.lastDelta.y !== 0) {
@@ -262,9 +242,9 @@ const ItemsWheel = (() => {
         //createScrollAni() {
         //    let scrollAni = this.scrollAni;
         //    if (!scrollAni) {
-        //        scrollAni = this.scrollAni = new Core.classes.FloatAnimation(this);
-        //        scrollAni.animationType = Animation.ANIMATIONTYPES.OUT;
-        //        scrollAni.interpolation = Interpolation.INTERPOLATIONTYPES.QUADRATIC;
+        //        scrollAni = this.scrollAni = new core.classes.FloatAnimation(this);
+        //        scrollAni.animationType = Animation.ANIMATIONcore.types.OUT;
+        //        scrollAni.interpolation = Interpolation.INTERPOLATIONcore.types.QUADRATIC;
         //        scrollAni.duration = 3;
         //        scrollAni.control = this;
         //        scrollAni.propertyName = "index";
@@ -282,8 +262,23 @@ const ItemsWheel = (() => {
             priv.lastDelta.destroy();
             priv.downPos.destroy();
             priv.currentPos.destroy();
+            priv.content = null;
+            priv.lastDelta = null;
+            priv.downPos = null;
+            priv.currentPos = null;
+            priv.down = null;
+            priv.scrollAni = null;
+            priv.sep = null;
+            priv.topGradient = null;
+            priv.bottomGradient = null;
+            priv.value = null;
+            priv.index = null;
+            priv.mouseTracking = null;
+            priv.animated = null;
             this.items.destroy();
-            this.onChange.destroy();
+            this.items = null;
+            delete this.items;
+            this.unBindAndDestroyEvents(['onChange']);
             super.destroy();
         }
         //#endregion destroy
@@ -293,7 +288,7 @@ const ItemsWheel = (() => {
             const VKEYSCODES = Keyboard.VKEYSCODES;
             //#endregion Variables déclaration
             super.keyDown();
-            switch (Core.keyboard.keyCode) {
+            switch (core.keyboard.keyCode) {
                 case VKEYSCODES.VK_LEFT:
                     break;
                 case VKEYSCODES.VK_UP:
@@ -324,28 +319,15 @@ const ItemsWheel = (() => {
     return ItemsWheel;
     //#endregion ItemsWheel
 })();
-//#region ItemsWheel defineProperties
-Object.defineProperties(ItemsWheel, {
-    'value': {
-        enumerable: !0
-    },
-    'mouseTracking': {
-        enumerable: !0
-    },
-    'animated': {
-        enumerable: !0
-    }
-});
-//#endregion ItemsWheel defineProperties
 Object.seal(ItemsWheel);
-Core.classes.register(Types.CATEGORIES.INTERNAL, ItemsWheel);
-//#endregion
+core.classes.register(core.types.CATEGORIES.INTERNAL, ItemsWheel);
+//#endregion ItemsWheel
 //#region Template
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const ItemsWheelTpl = ['<jagui-itemswheel id="{internalId}" data-class="ItemWheel" class="Control ',
         'ItemsWheel {theme}"><properties>{ "name": "{name}", "width": 20, "height": 40 }</properties>',
         '</jagui-itemswheel>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: ItemsWheel, template: ItemsWheelTpl }]);
+    core.classes.registerTemplates([{ Class: ItemsWheel, template: ItemsWheelTpl }]);
 }
 //#endregion
 export { ItemsWheel };

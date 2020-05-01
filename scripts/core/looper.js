@@ -1,6 +1,5 @@
 ﻿//#region Imports
 import { BaseClass } from '/scripts/core/baseclass.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region Looper
 const Looper = (() => {
@@ -8,9 +7,7 @@ const Looper = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -49,7 +46,7 @@ const Looper = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
+            if (core.tools.isNumber(newValue)) {
                 if (priv.fps !== newValue) {
                     this.stop();
                     priv.fps = newValue;
@@ -80,7 +77,7 @@ const Looper = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
+            if (core.tools.isBool(newValue)) {
                 if (priv.paused !== newValue) {
                     priv.paused = newValue;
                 }
@@ -108,7 +105,7 @@ const Looper = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
+            if (core.tools.isBool(newValue)) {
                 if (priv.isBusy !== newValue) {
                     priv.isBusy = newValue;
                 }
@@ -123,7 +120,7 @@ const Looper = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.rAF = window.requestAnimationFrameRate(priv.fps);
-            priv.handle = priv.rAF(Core.looper.loop);
+            priv.handle = priv.rAF(core.looper.loop);
         }
         //#endregion start
         //#region stop
@@ -142,17 +139,17 @@ const Looper = (() => {
         //#endregion pause
         //#region loop
         loop(elapsedTime) {
-            const keys = Object.keys(Core.looper.listeners);
-            if (!Core.looper.paused && !Core.looper.isBusy && Core.looper.handle) {
-                Core.looper.isBusy = !0;
+            const keys = Object.keys(core.looper.listeners);
+            if (!core.looper.paused && !core.looper.isBusy && core.looper.handle) {
+                core.looper.isBusy = !0;
                 keys.forEach(key => {
-                    const obj = Core.looper.listeners[key];
+                    const obj = core.looper.listeners[key];
                     obj.functions.forEach(func => {
                         obj.component[func](elapsedTime);
                     });
                 });
-                Core.looper.isBusy = !1;
-                Core.looper.rAF(Core.looper.loop);
+                core.looper.isBusy = !1;
+                core.looper.rAF(core.looper.loop);
             }
         }
         //#endregion loop
@@ -206,5 +203,5 @@ const Looper = (() => {
     //#endregion Looper
 })();
 //#endregion
-Core.looper = new Looper;
+core.looper = new Looper;
 export { Looper };

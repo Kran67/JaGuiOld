@@ -1,7 +1,6 @@
 ﻿//#region Imports
 import { Color, Colors } from '/scripts/core/color.js';
 import { Convert } from '/scripts/core/convert.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Animation } from '/scripts/core/animation.js';
 //#endregion
 //#region Interpolation 
@@ -36,10 +35,8 @@ class Interpolation {
      */
     //#region single
     static single(s, s1, t) {
-        if (Tools.isNumber(s) && Tools.isNumber(s1) && Tools.isNumber(t)) {
-            return s + (s1 - s) * t;
-        }
-        return s;
+        return core.tools.isNumber(s) && core.tools.isNumber(s1) && core.tools.isNumber(t)
+            ? s + (s1 - s) * t : s;
     }
     //#endregion single
     /**
@@ -51,10 +48,8 @@ class Interpolation {
      */
     //#region rotation
     static rotation(s, s1, t) {
-        if (Tools.isNumber(s) && Tools.isNumber(s1) && Tools.isNumber(t)) {
-            return Interpolation.interpolateSingle(s, s1, t);
-        }
-        return 0;
+        return core.tools.isNumber(s) && core.tools.isNumber(s1) && core.tools.isNumber(t)
+            ? Interpolation.interpolateSingle(s, s1, t) : 0;
     }
     //#endregion rotation
     /**
@@ -66,7 +61,7 @@ class Interpolation {
      */
     //#region color
     static color(c, c1, t) {
-        if (c instanceof Color && c1 instanceof Color && Tools.isNumber(t)) {
+        if (c instanceof Color && c1 instanceof Color && core.tools.isNumber(t)) {
             const result = new Color;
             result.beginUpdate();
             result.alpha = c.alpha + (c1.alpha - c.alpha) * t;
@@ -89,10 +84,8 @@ class Interpolation {
      */
     //#region linear
     static linear(t, b, c, d) {
-        if (Tools.isNumber(t) && Tools.isNumber(b) && Tools.isNumber(c) && Tools.isNumber(d)) {
-            return c * t / d + b;
-        }
-        return 0;
+        return core.tools.isNumber(t) && core.tools.isNumber(b) && core.tools.isNumber(c) && core.tools.isNumber(d)
+            ? c * t / d + b : 0;
     }
     //#endregion linear
     /**
@@ -110,10 +103,9 @@ class Interpolation {
         //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
         //#endregion Variables déclaration
-        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d)) {
-            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-                params.a = ANIMATIONTYPES.IN;
-            }
+        if (core.tools.isNumber(params.t) && core.tools.isNumber(params.b) && core.tools.isNumber(params.c)
+            && core.tools.isNumber(params.d)) {
+            !core.tools.valueInSet(params.a, ANIMATIONTYPES) ? params.a = ANIMATIONTYPES.IN : 1;
             if (params.a === ANIMATIONTYPES.IN) {
                 return -params.c * Math.cos(params.t / params.d * (Math.PI * 0.5)) + params.c + params.b;
             } else if (params.a === ANIMATIONTYPES.OUT) {
@@ -140,10 +132,9 @@ class Interpolation {
         //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
         //#endregion Variables déclaration
-        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d)) {
-            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-                params.a = ANIMATIONTYPES.IN;
-            }
+        if (core.tools.isNumber(params.t) && core.tools.isNumber(params.b) && core.tools.isNumber(params.c)
+            && core.tools.isNumber(params.d)) {
+            !core.tools.valueInSet(params.a, ANIMATIONTYPES) ? params.a = ANIMATIONTYPES.IN : 1;
             if (params.a === ANIMATIONTYPES.IN) {
                 params.t = params.t / params.d;
                 return params.c * params.t * params.t * params.t * params.t * params.t + params.b;
@@ -178,10 +169,9 @@ class Interpolation {
         //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
         //#endregion Variables déclaration
-        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d)) {
-            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-                params.a = ANIMATIONTYPES.IN;
-            }
+        if (core.tools.isNumber(params.t) && core.tools.isNumber(params.b) && core.tools.isNumber(params.c)
+            && core.tools.isNumber(params.d)) {
+            !core.tools.valueInSet(params.a, ANIMATIONTYPES) ? params.a = ANIMATIONTYPES.IN : 1;
             if (params.a === ANIMATIONTYPES.IN) {
                 params.t = params.t / params.d;
                 return params.c * params.t * params.t * params.t * params.t + params.b;
@@ -216,10 +206,9 @@ class Interpolation {
         //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
         //#endregion Variables déclaration
-        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d)) {
-            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-                params.a = ANIMATIONTYPES.IN;
-            }
+        if (core.tools.isNumber(params.t) && core.tools.isNumber(params.b) && core.tools.isNumber(params.c)
+            && core.tools.isNumber(params.d)) {
+            !core.tools.valueInSet(params.a, ANIMATIONTYPES) ? params.a = ANIMATIONTYPES.IN : 1;
             if (params.a === ANIMATIONTYPES.IN) {
                 params.t = params.t / params.d;
                 return params.c * params.t * params.t + params.b;
@@ -254,23 +243,14 @@ class Interpolation {
         //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
         //#endregion Variables déclaration
-        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d)) {
-            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-                params.a = ANIMATIONTYPES.IN;
-            }
+        if (core.tools.isNumber(params.t) && core.tools.isNumber(params.b) && core.tools.isNumber(params.c)
+            && core.tools.isNumber(params.d)) {
+            !core.tools.valueInSet(params.a, ANIMATIONTYPES) ? params.a = ANIMATIONTYPES.IN : 1;
             if (params.a === ANIMATIONTYPES.IN) {
-                if (params.t === 0) {
-                    return params.b;
-                }
-                else {
-                    return params.c * Math.pow(2, 10 * (params.t / params.d - 1)) + params.b;
-                }
+                return params.t === 0 ? params.b : params.c * Math.pow(2, 10 * (params.t / params.d - 1)) + params.b;
             } else if (params.a === ANIMATIONTYPES.OUT) {
-                if (params.t === params.d) {
-                    return params.b + params.c;
-                } else {
-                    return params.c * (-Math.pow(2, -10 * params.t / params.d) + 1) + params.b;
-                }
+                return params.t === params.d
+                    ? params.b + params.c : params.c * (-Math.pow(2, -10 * params.t / params.d) + 1) + params.b;
             } else if (params.a === ANIMATIONTYPES.INOUT) {
                 if (params.t === 0) {
                     return params.b;
@@ -308,11 +288,10 @@ class Interpolation {
         let s = null;
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
         //#endregion Variables déclaration
-        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d) && 
-            Tools.isNumber(params.a1) && Tools.isNumber(params.p)) {
-            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-                params.a = ANIMATIONTYPES.IN;
-            }
+        if (core.tools.isNumber(params.t) && core.tools.isNumber(params.b) && core.tools.isNumber(params.c)
+            && core.tools.isNumber(params.d) &&
+            core.tools.isNumber(params.a1) && core.tools.isNumber(params.p)) {
+            !core.tools.valueInSet(params.a, ANIMATIONTYPES) ? params.a = ANIMATIONTYPES.IN : 1;
             if (params.a === ANIMATIONTYPES.IN) {
                 if (params.t === 0) {
                     return params.b;
@@ -321,9 +300,7 @@ class Interpolation {
                 if (params.t === 1) {
                     return params.b + params.c;
                 }
-                if (params.p === 0) {
-                    params.p = params.d * 0.3;
-                }
+                params.p === 0 ? params.p = params.d * 0.3 : 1;
                 if (params.a1 === 0 || params.a1 < Math.abs(params.c)) {
                     params.a1 = params.c;
                     s = params.p * 0.25;
@@ -331,7 +308,8 @@ class Interpolation {
                     s = params.p / (2 * Math.PI) * Math.asin(params.c / params.a1);
                 }
                 params.t = params.t - 1;
-                return -(params.a1 * Math.pow(2, 10 * params.t) * Math.sin((params.t * params.d - s) * (2 * Math.PI) / params.p)) + params.b;
+                return -(params.a1 * Math.pow(2, 10 * params.t) * Math.sin((params.t * params.d - s)
+                    * (2 * Math.PI) / params.p)) + params.b;
             } else if (params.a === ANIMATIONTYPES.OUT) {
                 if (params.t === 0) {
                     return params.b;
@@ -340,16 +318,15 @@ class Interpolation {
                 if (params.t === 1) {
                     return params.b + params.c;
                 }
-                if (params.p === 0) {
-                    params.p = params.d * 0.3;
-                }
+                params.p === 0 ? params.p = params.d * 0.3 : 1;
                 if (params.a1 === 0 || params.a1 < Math.abs(params.c)) {
                     params.a1 = params.c;
                     s = params.p * 0.25;
                 } else {
                     s = params.p / (2 * Math.PI) * Math.asin(params.c / params.a1);
                 }
-                return params.a1 * Math.pow(2, -10 * params.t) * Math.sin((params.t * params.d - s) * (2 * Math.PI) / params.p) + params.c + params.b;
+                return params.a1 * Math.pow(2, -10 * params.t) * Math.sin((params.t * params.d - s)
+                    * (2 * Math.PI) / params.p) + params.c + params.b;
             } else if (params.a === ANIMATIONTYPES.INOUT) {
                 if (params.t === 0) {
                     return params.b;
@@ -368,10 +345,12 @@ class Interpolation {
                 }
                 if (params.t < 1) {
                     params.t = params.t - 1;
-                    return -0.5 * (params.a1 * Math.pow(2, 10 * params.t) * Math.sin((params.t * params.d - s) * (2 * Math.PI) / params.p)) + params.b;
+                    return -0.5 * (params.a1 * Math.pow(2, 10 * params.t) * Math.sin((params.t * params.d - s)
+                        * (2 * Math.PI) / params.p)) + params.b;
                 } else {
                     params.t = params.t - 1;
-                    return params.a1 * Math.pow(2, -10 * params.t) * Math.sin((params.t * params.d - s) * (2 * Math.PI) / params.p) * 0.5 + params.c + params.b;
+                    return params.a1 * Math.pow(2, -10 * params.t) * Math.sin((params.t * params.d - s)
+                        * (2 * Math.PI) / params.p) * 0.5 + params.c + params.b;
                 }
             }
         }
@@ -393,10 +372,9 @@ class Interpolation {
         //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
         //#endregion Variables déclaration
-        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d)) {
-            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-                params.a = ANIMATIONTYPES.IN;
-            }
+        if (core.tools.isNumber(params.t) && core.tools.isNumber(params.b) && core.tools.isNumber(params.c)
+            && core.tools.isNumber(params.d)) {
+            !core.tools.valueInSet(params.a, ANIMATIONTYPES) ? params.a = ANIMATIONTYPES.IN : 1;
             if (params.a === ANIMATIONTYPES.IN) {
                 params.t = params.t / params.d;
                 return params.c * params.t * params.t * params.t + params.b;
@@ -431,10 +409,9 @@ class Interpolation {
         //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
         //#endregion Variables déclaration
-        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d)) {
-            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-                params.a = ANIMATIONTYPES.IN;
-            }
+        if (core.tools.isNumber(params.t) && core.tools.isNumber(params.b) && core.tools.isNumber(params.c)
+            && core.tools.isNumber(params.d)) {
+            !core.tools.valueInSet(params.a, ANIMATIONTYPES) ? params.a = ANIMATIONTYPES.IN : 1;
             if (params.a === ANIMATIONTYPES.IN) {
                 params.t = params.t / params.d;
                 return -params.c * (Math.sqrt(1 - params.t * params.t) - 1) + params.b;
@@ -469,12 +446,11 @@ class Interpolation {
         //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
         //#endregion Variables déclaration
-        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d)) {
-            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-                params.a = ANIMATIONTYPES.IN;
-            }
+        if (core.tools.isNumber(params.t) && core.tools.isNumber(params.b) && core.tools.isNumber(params.c)
+            && core.tools.isNumber(params.d)) {
+            !core.tools.valueInSet(params.a, ANIMATIONTYPES) ? params.a = ANIMATIONTYPES.IN : 1;
             const easeOut = (t1, b1, c1, d1) => {
-                if (Tools.isNumber(t1) && Tools.isNumber(b1) && Tools.isNumber(c1) && Tools.isNumber(d1)) {
+                if (core.tools.isNumber(t1) && core.tools.isNumber(b1) && core.tools.isNumber(c1) && core.tools.isNumber(d1)) {
                     t1 = t1 / d1;
                     if (t1 < 0.3636363636363636) {
                         return c1 * (7.5625 * t1 * t1) + b1;
@@ -492,10 +468,8 @@ class Interpolation {
                 return 0;
             }
             const easeIn = (t1, b1, c1, d1) => {
-                if (Tools.isNumber(t1) && Tools.isNumber(b1) && Tools.isNumber(c1) && Tools.isNumber(d1)) {
-                    return c - easeOut(d1 - t1, 0, c1, d1) + b1;
-                }
-                return 0;
+                return core.tools.isNumber(t1) && core.tools.isNumber(b1) && core.tools.isNumber(c1) && core.tools.isNumber(d1)
+                    ? c - easeOut(d1 - t1, 0, c1, d1) + b1 : 0;
             }
             if (params.a === ANIMATIONTYPES.IN) {
                 return easeIn(params.t, params.b, params.c, params.d);
@@ -528,11 +502,10 @@ class Interpolation {
         //#region Variables déclaration
         const ANIMATIONTYPES = Animation.ANIMATIONTYPES;
         //#endregion Variables déclaration
-        if (Tools.isNumber(params.t) && Tools.isNumber(params.b) && Tools.isNumber(params.c) && Tools.isNumber(params.d) && 
-            Tools.isNumber(params.s)) {
-            if (!Tools.valueInSet(params.a, ANIMATIONTYPES)) {
-                params.a = ANIMATIONTYPES.IN;
-            }
+        if (core.tools.isNumber(params.t) && core.tools.isNumber(params.b) && core.tools.isNumber(params.c)
+            && core.tools.isNumber(params.d) &&
+            core.tools.isNumber(params.s)) {
+            !core.tools.valueInSet(params.a, ANIMATIONTYPES) ? params.a = ANIMATIONTYPES.IN : 1;
             if (params.a === ANIMATIONTYPES.IN) {
                 if (params.s === 0) params.s = 1.70158;
                 params.t = params.t / params.d;
@@ -606,10 +579,10 @@ class Interpolation {
                 i = 0;
             } else if (x > c - 1) {
                 i = c - 1;
-            } else i = Math.trunc(x);
-            if (i === c - 1) {
-                i--;
+            } else {
+                i = Math.trunc(x);
             }
+            i === c - 1 ? i-- : 1;
             return ((s[i][0] * x + s[i][1]) * x + s[i][2]) * x + s[i][3];
         } else {
             return 0;
