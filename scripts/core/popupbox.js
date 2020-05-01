@@ -40,7 +40,7 @@ const PopupBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Control) {
+            if (newValue instanceof core.classes.Control) {
                 if (priv.refControl !== newValue) {
                     priv.refControl = newValue;
                 }
@@ -53,12 +53,12 @@ const PopupBox = (() => {
         show(x, y) {
             //#region Variables déclaration
             const priv = internal(this);
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const htmlElement = this.HTMLElement;
             const refControl = priv.refControl;
             const htmlElementStyle = this.HTMLElementStyle;
             const cHtmlElement = refControl.HTMLElement;
-            const TAG = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const TAG = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             //#endregion Variables déclaration
             if (!this.form) {
                 this.form = refControl.form;
@@ -75,9 +75,9 @@ const PopupBox = (() => {
             }
             if (y + htmlElement.offsetHeight > document.body.offsetHeight) {
                 // for the PopupBox
-                if (this instanceof Core.classes.PopupBox) {
+                if (this instanceof core.classes.PopupBox) {
                     // _control is MenuItem
-                    if (Core.classes.MenuItem && refControl instanceof Core.classes.MenuItem) {
+                    if (core.classes.MenuItem && refControl instanceof core.classes.MenuItem) {
                         y = y - htmlElement.offsetHeight + cHtmlElement.offsetHeight;
                     }
                     // _control is WindowContent
@@ -93,15 +93,15 @@ const PopupBox = (() => {
                     y = 0;
                 }
             }
-            if (Core.mouse.button !== Mouse.MOUSEBUTTONS.RIGHT) {
-                if (Core.classes.PopupMenu && this instanceof Core.classes.PopupMenu) {
-                    if (Core.classes.MenuItem && refControl instanceof Core.classes.MenuItem && !(refControl.owner instanceof Core.classes.MainMenu)) {
+            if (core.mouse.button !== Mouse.MOUSEBUTTONS.RIGHT) {
+                if (core.classes.PopupMenu && this instanceof core.classes.PopupMenu) {
+                    if (core.classes.MenuItem && refControl instanceof core.classes.MenuItem && !(refControl.owner instanceof core.classes.MainMenu)) {
                         x += ~~parseFloat(getComputedStyle(htmlElement.firstElementChild).paddingLeft);
                         y -= ~~parseFloat(getComputedStyle(htmlElement.firstElementChild).paddingTop);
                     }
                 }
             }
-            if (!Core.isHTMLRenderer) {
+            if (!core.isHTMLRenderer) {
                 this.left = x;
                 this.top = y;
             } else {
@@ -140,12 +140,12 @@ const PopupBox = (() => {
     return PopupBox;
     //#endregion Class PopupBox
 })();
-Core.classes.register(Types.CATEGORIES.INTERNAL, PopupBox);
+core.classes.register(core.types.CATEGORIES.INTERNAL, PopupBox);
 //#endregion Class PopupBox
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const PopupBoxTpl = '<jagui-popupbox id="{internalId}" class="Control PopupBox csr_default {theme}" />';
-    Core.classes.registerTemplates([{ Class: PopupBox, template: PopupBoxTpl }]);
+    core.classes.registerTemplates([{ Class: PopupBox, template: PopupBoxTpl }]);
 }
 //#endregion Templates
 export { PopupBox };

@@ -1,20 +1,22 @@
-﻿import { Animation } from '/scripts/core/animation.js';
+﻿//#region imports
+import { Animation } from '/scripts/core/animation.js';
+//#endregion imports
 //#region PathSwitcher
-//#region PathAnimation
 /**
  * Class representing an PathSwitcher.
  * @extends {Animation}
  */
 const PathSwitcher = (() => {
+    //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
+    //#endregion Private
+    //#region Class PathSwitcher
     class PathSwitcher extends Animation {
         /**
          * Create a new instance of PathSwitcher.
@@ -22,84 +24,77 @@ const PathSwitcher = (() => {
          * @param   {Object}    props       Properties to initialize the PathSwitcher.
          * @param   {Boolean}   autoStart   Start the animation after creation.
          */
+        //#region constructor
         constructor(owner, props, autoStart) {
             props = !props ? {} : props;
             if (owner) {
+                props.duration = 0.001;
                 super(owner, props, autoStart);
                 const priv = internal(this);
-                priv.duration = 0.001;
-                priv.path!0 = null;
+                priv.pathTrue = null;
                 priv.pathFalse = null;
             }
         }
-        //#region Getter / Setter
-        get duration() {
-            return internal(this).duration;
+        //#endregion constructor
+        //#region Getters / Setters
+        //#region pathTrue
+        get pathTrue() {
+            return internal(this).pathTrue;
         }
-        set duration(newValue) {
+        set pathTrue(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.NUMBER) {
-                if (priv.duration !== newValue) {
-                    priv.duration = newValue;
-                }
-            }
+            //#endregion Variables déclaration
+            core.tools.isString(newValue) && priv.pathTrue !== newValue ? priv.pathTrue = newValue : 1;
         }
-        get path!0() {
-            return internal(this).path!0;
-        }
-        set path!0(newValue) {
-            const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.STRING) {
-                if (priv.path!0 !== newValue) {
-                    priv.path!0 = newValue;
-                }
-            }
-        }
+        //#endregion pathTrue
+        //#region pathFalse
         get pathFalse() {
             return internal(this).pathFalse;
         }
         set pathFalse(newValue) {
+            //#region Variables déclaration
             const priv = internal(this);
-            if (typeof newValue === Types.CONSTANTS.STRING) {
-                if (priv.pathFalse !== newValue) {
-                    priv.pathFalse = newValue;
-                }
-            }
+            //#endregion Variables déclaration
+            core.tools.isString(newValue) && priv.pathFalse !== newValue ? priv.pathFalse = newValue : 1;
         }
-        //#endregion
+        //#endregion pathFalse
+        //#endregion Getters / Setters
         //#region Methods
         /**
          * Assign properties from another animation
          * @param   {PathSwitcher}     source      The animation source
          */
+        //#region assign
         assign(source) {
-            if (source instanceof Core.classes.PathSwitcher) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            if (source instanceof core.classes.PathSwitcher) {
                 super.assign(source);
-                this.path!0 = source.path!0;
-                this.pathFalse = source.pathFalse;
+                priv.pathTrue = source.pathTrue;
+                priv.pathFalse = source.pathFalse;
             }
         }
+        //#endregion assign
         /**
          * Destroy the instance
          */
+        //#region destroy
         destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.pathTrue = null;
+            priv.pathFalse = null;
             super.destroy();
         }
-        //#endregion
+        //#endregion destroy
+        //#endregion Methods
     }
     return PathSwitcher;
+    //#region PathSwitcher
 })();
-Object.defineProperties(PathSwitcher, {
-    'duration': {
-        enumerable: !0
-    },
-    'path!0': {
-        enumerable: !0
-    },
-    'pathFalse': {
-        enumerable: !0
-    }
-});
-//#endregion
-Core.classes.register(Types.CATEGORIES.ANIMATIONS, PathSwitcher);
+core.classes.register(core.types.CATEGORIES.ANIMATIONS, PathSwitcher);
+//#region Class PathSwitcher
 export { PathSwitcher };
