@@ -8,7 +8,7 @@ const StringList = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key)?_private.set(key, {}):1;
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -24,7 +24,7 @@ const StringList = (() => {
             this.onChange = new NotifyEvent(this);
         }
         //#endregion constructor
-        //#region Getter / Setter
+        //#region Getters/ Setters
         //#region list
         get list() {
             return internal(this).list;
@@ -33,11 +33,7 @@ const StringList = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (core.tools.isString(newValue)) {
-                if (priv.list !== newValue) {
-                    priv.list = newValue;
-                }
-            }
+            core.tools.isString(newValue) && priv.list !== newValue ? priv.list = newValue : 1;
         }
         //#endregion list
         //#region owner
@@ -55,7 +51,7 @@ const StringList = (() => {
             return internal(this).list.length;
         }
         //#endregion length
-        //#endregion Getter / Setter
+        //#endregion Getters / Setters
         //#region Methods
         //#region assign
         assign(source) {
@@ -76,13 +72,9 @@ const StringList = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (core.tools.isString(str)) {
-                if (!fireEvent) {
-                    fireEvent = !0;
-                }
+                !fireEvent ? fireEvent = !0 : 1;
                 priv.list.addRange(str.split('\n'));
-                if (fireEvent) {
-                    this.onChange.invoke(priv.owner);
-                }
+                fireEvent ? this.onChange.invoke(priv.owner) : 1;
             }
         }
         //#endregion addText
@@ -124,13 +116,11 @@ const StringList = (() => {
             const priv = internal(this);
             const list = priv.list;
             //#endregion Variables déclaration
-            if (idx > -1 && idx1 > -1) {
-                if (idx <= list.length - 1 && idx1 <= list.length - 1) {
-                    const t = list[idx];
-                    list[idx] = list[idx1];
-                    list[idx1] = t;
-                    this.onChange.invoke(priv.owner);
-                }
+            if (idx > -1 && idx1 > -1 && idx <= list.length - 1 && idx1 <= list.length - 1) {
+                const t = list[idx];
+                list[idx] = list[idx1];
+                list[idx1] = t;
+                this.onChange.invoke(priv.owner);
             }
         }
         //#endregion exchange
@@ -143,10 +133,7 @@ const StringList = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (core.tools.isString(str)) {
-                return priv.list.indexOf(str);
-            }
-            return -1;
+            return core.tools.isString(str) ? priv.list.indexOf(str) : -1;
         }
         //#endregion indexOf
         //#region insert
@@ -155,11 +142,9 @@ const StringList = (() => {
             const priv = internal(this);
             const list = priv.list;
             //#endregion Variables déclaration
-            if (idx > -1 && idx <= list.length - 1) {
-                if (core.tools.isString(str)) {
-                    list.insert(idx, str);
-                    this.onChange.invoke(priv.owner);
-                }
+            if (idx > -1 && idx <= list.length - 1 && core.tools.isString(str)) {
+                list.insert(idx, str);
+                this.onChange.invoke(priv.owner);
             }
         }
         //#endregion insert
@@ -169,7 +154,12 @@ const StringList = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.list.clear();
+            priv.list = null;
+            priv.owner = null;
             this.onChange.destroy();
+            this.onChange = null;
+            delete this.onChange;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Metods
@@ -177,6 +167,6 @@ const StringList = (() => {
     return StringList;
     //#endregion StringList
 })();
-//#endregion
 core.classes.register(core.types.CATEGORIES.INTERNAL, StringList);
+//#endregion StringList
 export { StringList };
