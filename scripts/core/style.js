@@ -5,9 +5,7 @@ import { BaseClass } from '/scripts/core/baseclass.js';
 class Style extends BaseClass {
     //#region constructor
     constructor(parentClasses, props) {
-        if (!Array.isArray(parentClasses)) {
-            parentClasses = [];
-        }
+        !Array.isArray(parentClasses)?parentClasses = []:1;
         if (!parentClasses.isEmpty) {
             parentClasses.forEach(parentClasse => {
                 const keys = Object.keys(parentClasse);
@@ -25,6 +23,6 @@ class Style extends BaseClass {
     }
     //#endregion constructor
 }
-//#endregion
-Core.classes.register(Types.CATEGORIES.INTERNAL, Style);
+core.classes.register(core.types.CATEGORIES.INTERNAL, Style);
+//#endregion Style
 export { Style };
