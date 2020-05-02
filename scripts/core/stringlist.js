@@ -1,6 +1,5 @@
 ﻿//#region Imports
 import { BaseClass } from '/scripts/core/baseclass.js';
-import { Tools } from '/scripts/core/tools.js';
 import { NotifyEvent } from '/scripts/core/events.js';
 //#endregion Imports
 //#region StringList
@@ -9,9 +8,7 @@ const StringList = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key)?_private.set(key, {}):1;
         // Return private properties object
         return _private.get(key);
     };
@@ -36,7 +33,7 @@ const StringList = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
+            if (core.tools.isString(newValue)) {
                 if (priv.list !== newValue) {
                     priv.list = newValue;
                 }
@@ -78,7 +75,7 @@ const StringList = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(str)) {
+            if (core.tools.isString(str)) {
                 if (!fireEvent) {
                     fireEvent = !0;
                 }
@@ -94,7 +91,7 @@ const StringList = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(str)) {
+            if (core.tools.isString(str)) {
                 priv.list.push(str);
                 this.onChange.invoke(priv.owner);
             }
@@ -146,7 +143,7 @@ const StringList = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(str)) {
+            if (core.tools.isString(str)) {
                 return priv.list.indexOf(str);
             }
             return -1;
@@ -159,7 +156,7 @@ const StringList = (() => {
             const list = priv.list;
             //#endregion Variables déclaration
             if (idx > -1 && idx <= list.length - 1) {
-                if (Tools.isString(str)) {
+                if (core.tools.isString(str)) {
                     list.insert(idx, str);
                     this.onChange.invoke(priv.owner);
                 }
@@ -181,5 +178,5 @@ const StringList = (() => {
     //#endregion StringList
 })();
 //#endregion
-Core.classes.register(Types.CATEGORIES.INTERNAL, StringList);
+core.classes.register(core.types.CATEGORIES.INTERNAL, StringList);
 export { StringList };

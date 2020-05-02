@@ -2,7 +2,6 @@
 import { BaseClass } from '/scripts/core/baseclass.js';
 //import { NotifyEvent } from '/scripts/core/events.js';
 //import { Point } from '/scripts/core/geometry.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region Position
 // TODO : support of databinding
@@ -11,9 +10,7 @@ const Position = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -24,13 +21,11 @@ const Position = (() => {
         constructor(point, owner) {
             super(point, owner);
             const priv = internal(this);
-            if (!(point instanceof Core.classes.Point)) {
-                point = new Core.classes.Point;
-            }
+            !(point instanceof core.classes.Point) ? point = new core.classes.Point : 1;
             priv.x = point.x;
             priv.y = point.y;
             priv.owner = owner;
-            this.onChange = new Core.classes.NotifyEvent(owner);
+            this.onChange = new core.classes.NotifyEvent(owner);
         }
         //#endregion constructor
         //#region Getter/Setter
@@ -42,11 +37,9 @@ const Position = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.x) {
-                    priv.x = newValue;
-                    this.onChange.invoke();
-                }
+            if (core.tools.isNumber(newValue) && newValue !== priv.x) {
+                priv.x = newValue;
+                this.onChange.invoke();
             }
         }
         //#endregion x
@@ -58,11 +51,9 @@ const Position = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.y) {
-                    priv.y = newValue;
-                    this.onChange.invoke();
-                }
+            if (core.tools.isNumber(newValue) && newValue !== priv.y) {
+                priv.y = newValue;
+                this.onChange.invoke();
             }
         }
         //#endregion y
@@ -73,26 +64,20 @@ const Position = (() => {
         //#endregion isEmpty
         //#region point
         get point() {
-            return new Core.classes.Point(internal(this).x, internal(this).y);
+            return new core.classes.Point(internal(this).x, internal(this).y);
         }
         //#endregion point
         //#region properties
         get properties() {
-            return Tools.getPropertiesFromObject(this);
+            return core.tools.getPropertiesFromObject(this);
         }
         //#endregion properties
         //#endregion
         //#region Methods
         //#region setValues
         setValues(x, y) {
-            x = +x;
-            y = +y;
-            if (isNaN(x)) {
-                x = 0;
-            }
-            if (isNaN(y)) {
-                y = 0;
-            }
+            x = x | 0;
+            y = y | 0;
             this.x = x;
             this.y = y;
             this.onChange.invoke();
@@ -103,9 +88,8 @@ const Position = (() => {
         //#endregion reflect
         //#region assign
         assign(source) {
-            if (source instanceof Core.classes.Position || source instanceof Core.classes.Point) {
-                this.setValues(source.x, source.y);
-            }
+            source instanceof core.classes.Position || source instanceof core.classes.Point
+                ? this.setValues(source.x, source.y) : 1;
         }
         //#endregion assign
         //#region destroy
@@ -126,16 +110,6 @@ const Position = (() => {
     return Position;
     //#endregion Position
 })();
-//#region Position defineProperties
-Object.defineProperties(Position, {
-    'x': {
-        enumerable: !0
-    },
-    'y': {
-        enumerable: !0
-    }
-});
-//#endregion Position defineProperties
-//#endregion
-Core.classes.register(Types.CATEGORIES.INTERNAL, Position);
+core.classes.register(core.types.CATEGORIES.INTERNAL, Position);
+//#endregion Position
 export { Position };

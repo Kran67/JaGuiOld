@@ -5,10 +5,10 @@ import { Position } from '/scripts/core/position.js';
 class RotateCenter extends Position {
     //#region constructor
     constructor(owner) {
-        super(new Core.classes.Point(50, 50), owner);
+        super(new core.classes.Point(50, 50), owner);
     }
     //#endregion constructor
 }
-//#endregion
-Core.classes.register(Types.CATEGORIES.INTERNAL, RotateCenter);
+core.classes.register(core.types.CATEGORIES.INTERNAL, RotateCenter);
+//#endregion RotateCenter
 export { RotateCenter };

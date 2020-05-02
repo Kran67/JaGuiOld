@@ -8,9 +8,7 @@ const Spline = (function () {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -68,7 +66,7 @@ const Spline = (function () {
             const x = Interpolation.hermitInterpolate(priv.matX, t, len);
             const y = Interpolation.hermitInterpolate(priv.matY, t, len);
             //#endregion Variables déclaration
-            return new Core.classes.Point(x, y);
+            return new core.classes.Point(x, y);
         }
         //#endregion splineXY
         //#region destroy
@@ -80,6 +78,10 @@ const Spline = (function () {
             priv.y.destroy();
             priv.matX.destroy();
             priv.matY.destroy();
+            priv.x = null;
+            priv.y = null;
+            priv.matX = null;
+            priv.matY = null;
         }
         //#endregion destroy
         //#endregion Methods
@@ -87,6 +89,6 @@ const Spline = (function () {
     return Spline;
     //#endregion Spline
 })();
-//#endregion
-Core.classes.register(Types.CATEGORIES.INTERNAL, Spline);
+core.classes.register(core.types.CATEGORIES.INTERNAL, Spline);
+//#endregion Spline
 export { Spline };

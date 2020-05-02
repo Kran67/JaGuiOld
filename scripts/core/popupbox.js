@@ -8,9 +8,7 @@ const PopupBox = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -40,11 +38,7 @@ const PopupBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof core.classes.Control) {
-                if (priv.refControl !== newValue) {
-                    priv.refControl = newValue;
-                }
-            }
+            newValue instanceof core.classes.Control && priv.refControl !== newValue ? priv.refControl = newValue : 1;
         }
         //#endregion refControl
         //#endregion Getter / Setter
@@ -60,12 +54,8 @@ const PopupBox = (() => {
             const cHtmlElement = refControl.HTMLElement;
             const TAG = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             //#endregion Variables déclaration
-            if (!this.form) {
-                this.form = refControl.form;
-            }
-            if (!this.app) {
-                this.app = refControl.app;
-            }
+            !this.form ? this.form = refControl.form : 1;
+            !this.app ? this.app = refControl.app : 1;
             if (!htmlElement) {
                 const tpl = this.template;
                 const container = document.createElement(`${TAG}container`);
@@ -89,16 +79,13 @@ const PopupBox = (() => {
                         y = document.body.offsetHeight - htmlElement.offsetHeight;
                     }
                 }
-                if (y < 0) {
-                    y = 0;
-                }
+                y < 0 ? y = 0 : 1;
             }
             if (core.mouse.button !== Mouse.MOUSEBUTTONS.RIGHT) {
-                if (core.classes.PopupMenu && this instanceof core.classes.PopupMenu) {
-                    if (core.classes.MenuItem && refControl instanceof core.classes.MenuItem && !(refControl.owner instanceof core.classes.MainMenu)) {
-                        x += ~~parseFloat(getComputedStyle(htmlElement.firstElementChild).paddingLeft);
-                        y -= ~~parseFloat(getComputedStyle(htmlElement.firstElementChild).paddingTop);
-                    }
+                if (core.classes.PopupMenu && this instanceof core.classes.PopupMenu
+                    && core.classes.MenuItem && refControl instanceof core.classes.MenuItem && !(refControl.owner instanceof core.classes.MainMenu)) {
+                    x += ~~parseFloat(getComputedStyle(htmlElement.firstElementChild).paddingLeft);
+                    y -= ~~parseFloat(getComputedStyle(htmlElement.firstElementChild).paddingTop);
                 }
             }
             if (!core.isHTMLRenderer) {
@@ -112,9 +99,7 @@ const PopupBox = (() => {
             this.form.popups.push(this);
             if (refControl) {
                 cHtmlElement.classList.add('opened');
-                if (refControl.onOpenMenu) {
-                    refControl.onOpenMenu.invoke();
-                }
+                refControl.onOpenMenu ? refControl.onOpenMenu.invoke() : 1;
             }
         }
         //#endregion show
@@ -125,9 +110,7 @@ const PopupBox = (() => {
             //#endregion Variables déclaration
             if (priv.refControl) {
                 priv.refControl.HTMLElement.classList.remove('opened');
-                if (priv.refControl.onCloseMenu) {
-                    priv.refControl.onCloseMenu.invoke();
-                }
+                priv.refControl.onCloseMenu ? priv.refControl.onCloseMenu.invoke() : 1;
             }
             //priv.refControl.
             //priv.refControl.destroy();

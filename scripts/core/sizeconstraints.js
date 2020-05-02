@@ -1,8 +1,5 @@
 ﻿//#region Imports
 import { BaseClass } from '/scripts/core/baseclass.js';
-//import { NotifyEvent } from '/scripts/core/events.js';
-//import { Control } from '/scripts/components/control.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region SizeConstraints
 const SizeConstraints = (() => {
@@ -10,9 +7,7 @@ const SizeConstraints = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -21,7 +16,7 @@ const SizeConstraints = (() => {
     class SizeConstraints extends BaseClass {
         //#region constructor
         constructor(control) {
-            if (control instanceof Core.classes.Control) {
+            if (control instanceof core.classes.Control) {
                 super();
                 const priv = internal(this);
                 priv.control = control;
@@ -29,7 +24,7 @@ const SizeConstraints = (() => {
                 priv.maxWidth = 0;
                 priv.minHeight = 0;
                 priv.minWidth = 0;
-                this.onChange = new Core.classes.NotifyEvent(control);
+                this.onChange = new core.classes.NotifyEvent(control);
             }
         }
         //#endregion constructor
@@ -42,11 +37,9 @@ const SizeConstraints = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Control) {
-                if (newValue !== priv.control) {
-                    priv.control = newValue;
-                    this.onChange.invoke();
-                }
+            if (newValue instanceof core.classes.Control && newValue !== priv.control) {
+                priv.control = newValue;
+                this.onChange.invoke();
             }
         }
         //#endregion control
@@ -58,11 +51,9 @@ const SizeConstraints = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.maxHeight) {
-                    priv.maxHeight = newValue;
-                    this.onChange.invoke();
-                }
+            if (core.tools.isNumber(newValue) && newValue !== priv.maxHeight) {
+                priv.maxHeight = newValue;
+                this.onChange.invoke();
             }
         }
         //#endregion maxHeight
@@ -74,11 +65,9 @@ const SizeConstraints = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.maxWidth) {
-                    priv.maxWidth = newValue;
-                    this.onChange.invoke();
-                }
+            if (core.tools.isNumber(newValue) && newValue !== priv.maxWidth) {
+                priv.maxWidth = newValue;
+                this.onChange.invoke();
             }
         }
         //#endregion maxWidth
@@ -90,11 +79,9 @@ const SizeConstraints = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.minHeight) {
-                    priv.minHeight = newValue;
-                    this.onChange.invoke();
-                }
+            if (core.tools.isNumber(newValue) && newValue !== priv.minHeight) {
+                priv.minHeight = newValue;
+                this.onChange.invoke();
             }
         }
         //#endregion minHeight
@@ -106,11 +93,9 @@ const SizeConstraints = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.minWidth) {
-                    priv.minWidth = newValue;
-                    this.onChange.invoke();
-                }
+            if (core.tools.isNumber(newValue) && newValue !== priv.minWidth) {
+                priv.minWidth = newValue;
+                this.onChange.invoke();
             }
         }
         //#endregion minWidth
@@ -125,7 +110,7 @@ const SizeConstraints = (() => {
         //#region properties
         get properties() {
             //#region Variables déclaration
-            const props = Tools.getPropertiesFromObject(this);
+            const props = core.tools.getPropertiesFromObject(this);
             //#endregion Variables déclaration
             return props;
         }
@@ -140,41 +125,33 @@ const SizeConstraints = (() => {
             const minWidth = this.minWidth;
             const maxWidth = this.maxWidth;
             //#endregion Variables déclaration
-            if (Tools.isNumber(index) && Tools.isNumber(value)) {
+            if (core.tools.isNumber(index) && core.tools.isNumber(value)) {
                 switch (index) {
                     case 0:
                         if (value !== maxHeight) {
                             this.maxHeight = value;
-                            if (value > 0 && value < minHeight) {
-                                this.minHeight = value;
-                            }
+                            value > 0 && value < minHeight ? this.minHeight = value : 1;
                             this.change();
                         }
                         break;
                     case 1:
                         if (value !== maxWidth) {
                             this.maxWidth = value;
-                            if (value > 0 && value < minWidth) {
-                                this.minWidth = value;
-                            }
+                            value > 0 && value < minWidth ? this.minWidth = value : 1;
                             this.change();
                         }
                         break;
                     case 2:
                         if (value !== minHeight) {
                             this.minHeight = value;
-                            if (maxHeight > 0 && value > maxHeight) {
-                                this.maxHeight = value;
-                            }
+                            maxHeight > 0 && value > maxHeight ? this.maxHeight = value : 1;
                             this.change();
                         }
                         break;
                     case 3:
                         if (value !== minWidth) {
                             this.minWidth = value;
-                            if (maxWidth > 0 && value > maxWidth) {
-                                this.maxWidth = value;
-                            }
+                            maxWidth > 0 && value > maxWidth ? this.maxWidth = value : 1;
                             this.change();
                         }
                         break;
@@ -187,7 +164,8 @@ const SizeConstraints = (() => {
         //#endregion change
         //#region setValues
         setValues(minWidth, minHeight, maxWidth, maxHeight) {
-            if (typeof minWidth === NUMBER && typeof minHeight === NUMBER && typeof maxWidth === NUMBER && typeof maxHeight === NUMBER) {
+            if (typeof minWidth === NUMBER && typeof minHeight === NUMBER && typeof maxWidth === NUMBER
+                && typeof maxHeight === NUMBER) {
                 this.maxHeight = maxHeight;
                 this.maxWidth = maxWidth;
                 this.minHeight = minHeight;
@@ -200,7 +178,7 @@ const SizeConstraints = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (dest instanceof Core.classes.SizeConstraints) {
+            if (dest instanceof core.classes.SizeConstraints) {
                 dest.minHeight = priv.minHeight;
                 dest.maxHeight = priv.maxHeight;
                 dest.minWidth = priv.minWidth;
@@ -211,7 +189,15 @@ const SizeConstraints = (() => {
         //#endregion assignTo
         //#region destroy
         destroy() {
+            priv.control = null;
+            priv.maxHeight = null;
+            priv.maxWidth = null;
+            priv.minHeight = null;
+            priv.minWidth = null;
             this.onChange.destroy();
+            this.onChange = null;
+            delete this.onChange;
+            super.destroy();
         }
         //#endregion destroy
         //#region equals
@@ -228,22 +214,6 @@ const SizeConstraints = (() => {
     return SizeConstraints;
     //#endregion SizeConstraints
 })();
-//#region BaseWindow defineProperties
-Object.defineProperties(SizeConstraints, {
-    'maxHeight': {
-        enumerable: !0
-    },
-    'maxWidth': {
-        enumerable: !0
-    },
-    'minHeight': {
-        enumerable: !0
-    },
-    'minWidth': {
-        enumerable: !0
-    }
-});
-//#endregion BaseWindow defineProperties
-//#endregion
-Core.classes.register(Types.CATEGORIES.INTERNAL, SizeConstraints);
+core.classes.register(core.types.CATEGORIES.INTERNAL, SizeConstraints);
+//#endregion SizeConstraints
 export { SizeConstraints };
