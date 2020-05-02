@@ -1,24 +1,19 @@
 ﻿//#region Imports
 import { Convert } from '/scripts/core/convert.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region Text
 class Text {
     //#region Methods
     //#region wrapText
     static wrapText(text, withSpace) {
-        if (!Tools.isString(text)) {
+        if (!core.tools.isString(text)) {
             return [];
         }
         if (text === String.EMPTY) {
             return text.split();
         }
-        if (!Tools.isBool(withSpace)) {
-            withSpace = !1;
-        }
-        if (withSpace) {
-            text = text.replace(/ /g, ' [|]');
-        }
+        !core.tools.isBool(withSpace) ? withSpace = !1 : 1;
+        withSpace ? text = text.replace(/ /g, ' [|]') : 1;
         text = text.replace(/\\n/g, '[|]¤[|]');
         text = text.replace(/\n/g, '[|]¤[|]');
         text = text.replace(/<br \/>/g, '[|]¤[|]');
@@ -55,9 +50,7 @@ class Text {
     //#endregion wordWrapText
     //#region findWordBreak
     static findWordBreak(text, col, step) {
-        if (step < 0) {
-            col += step;
-        }
+        step < 0 ? col += step : 1;
         const d = isWordSeparator(text[col]);
         if (d && step > 0) {
             return col + step;
@@ -80,7 +73,7 @@ class Text {
         //#region Variables déclaration
         let i = 0;
         //#endregion Variables déclaration
-        if (Tools.isString(string)) {
+        if (core.tools.isString(string)) {
             let result = String.EMPTY;
             const len = string.length;
             if (position > len) {
@@ -104,8 +97,8 @@ class Text {
         //#region Variables déclaration
         let i = 0;
         //#endregion Variables déclaration
-        if (Tools.isString(string)) {
-            let result = String.EMPTY;
+        if (core.tools.isString(string)) {
+            let Result = String.EMPTY;
             const len = string.length;
             if (position > len) {
                 return null;
@@ -115,28 +108,28 @@ class Text {
             }
             for (i = position; i < len; i++) {
                 if (string.charAt(i) === 'e') {
-                    result += string.charAt(i);
+                    Result += string.charAt(i);
                     continue;
                 }
-                if (string.charAt(i) === '-' && len > 0 && result.charAt(result.length - 1) === 'e') {
-                    result += string.charAt(i);
+                if (string.charAt(i) === '-' && len > 0 && Result.charAt(Result.length - 1) === 'e') {
+                    Result += string.charAt(i);
                     continue;
                 }
                 if ('0123456789.'.indexOf(string.charAt(i)) === -1 && !((i === position) && string.charAt(i) === '-')) {
                     break;
                 }
-                result += string.charAt(i);
+                Result += string.charAt(i);
             }
             while (string.charAt(position) === String.SPACE) {
                 position++;
             }
-            return { Result: result, Pos: i };
+            return { Result, Pos: i };
         }
     }
     //#endregion getNum
     //#region getPoint
     static getPoint(string, position) {
-        if (Tools.isString(string)) {
+        if (core.tools.isString(string)) {
             const len = string.length;
             if (position > len) {
                 return null;
@@ -156,17 +149,17 @@ class Text {
             while (position <= len && [',', String.SPACE].indexOf(string.charAt(position)) !== -1) {
                 position++;
             }
-            return { Point: new Core.classes.Point(Convert.strToFloat(x), Convert.strToFloat(y)), Pos: position };
+            return { Point: new core.classes.Point(Convert.strToFloat(x), Convert.strToFloat(y)), Pos: position };
         }
     }
     //#endregion getPoint
     //#region getTextSizes
     static getTextSizes(text, _class, htmlObj) {
-        if (Tools.isString(text)) {
+        if (core.tools.isString(text)) {
             //if (font!==null) {
             //  if (!(font instanceof $j.classes.Font)) return;
             //}
-            const d = document.createElement(Types.HTMLELEMENTS.SPAN);
+            const d = document.createElement(core.types.HTMLELEMENTS.SPAN);
             if (_class) {
                 d.classList.add(_class);
             } else if (htmlObj) {
@@ -203,9 +196,7 @@ class Text {
         //#region Variables déclaration
         const includeCaption = element.querySelector('.includeCaption');
         //#endregion Variables déclaration
-        if (includeCaption) {
-            element = includeCaption;
-        }
+        includeCaption ? element = includeCaption : 1;
         const walker = document.createTreeWalker(
             element,
             NodeFilter.SHOW_TEXT,
@@ -219,9 +210,7 @@ class Text {
             element.appendChild(node);
         } else {
             while (node) {
-                if (node.parentNode === element) {
-                    node.nodeValue = text;
-                }
+                node.parentNode === element ? node.nodeValue = text : 1;
                 node = null;
             }
         }
@@ -232,7 +221,7 @@ class Text {
         //#region Variables déclaration
         const whitespace = String.SPACE.repeat(indentSize ? ~~indentSize : 4); // Default indenting 4 whitespaces
         let pos = 0;
-        const result = [];
+        let result = [];
         //#endregion Variables déclaration
         for (; pos <= code.length; pos++) {
             let nextSpace = String.EMPTY;
@@ -243,30 +232,22 @@ class Text {
             const nextChar = code.substr(pos + 1, 1);
             // If opening tag, add newline character and indention
             if (char === '<' && nextChar !== '/') {
-                if (result.length > 0) {
-                    result.push('\n');
-                }
-                result.push(whitespace.repeat(currentIndent));
+                result.length > 0 ? result = [...result, '\n'] : 1;
+                result = [...result, whitespace.repeat(currentIndent)];
                 currentIndent++;
                 currentCode = code.substr(pos, code.length);
                 nextSpace = currentCode.indexOf(String.SPACE);
-                if (nextSpace === -1) {
-                    nextSpace = currentCode.indexOf('>');
-                }
+                nextSpace === -1 ? nextSpace = currentCode.indexOf('>') : 1;
                 lastOpenedTag = code.substr(pos + 1, nextSpace - 1);
             }
             // if Closing tag, add newline and indention
             else if (char === '<' && nextChar === '/') {
                 // If there're more closing tags than opening
-                if (--currentIndent < 0) {
-                    currentIndent = 0;
-                }
+                --currentIndent < 0 ? currentIndent = 0 : 1;
                 currentCode = code.substr(pos + 1, code.length);
                 nextSpace = currentCode.indexOf('>');
                 const currentClosedTag = code.substr(pos + 2, nextSpace - 1);
-                if (lastOpenedTag !== currentClosedTag) {
-                    result.push(`\n${whitespace.repeat(currentIndent)}`);
-                }
+                lastOpenedTag !== currentClosedTag ? result = [...result, `\n${whitespace.repeat(currentIndent)}`] : 1;
                 lastOpenedTag = String.EMPTY;
             }
             // remove multiple whitespaces
@@ -275,11 +256,11 @@ class Text {
                 // remove empty lines
             } else if (stripEmptyLines && char === '\n') {
                 //debugger;
-                if (code.substr(pos, code.substr(pos).indexOf('<')).trim() === String.EMPTY) {
+                if (String.isNullOrEmpty(code.substr(pos, code.substr(pos).indexOf('<')).trim())) {
                     char = String.EMPTY;
                 }
             }
-            result.push(char);
+            result = [...result, char]
         }
         return result.join(String.EMPTY);
     }

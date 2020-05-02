@@ -1,5 +1,4 @@
 ﻿//#region Imports
-import { Tools } from '/scripts/core/tools.js';
 import { Color } from '/scripts/core/color.js';
 //#endregion Imports
 //#region TextDecoration
@@ -8,9 +7,7 @@ const TextDecoration = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -23,20 +20,17 @@ const TextDecoration = (() => {
             if (owner) {
                 const priv = internal(this);
                 priv.owner = owner;
-                priv.underline = Tools.isBool(props.underline) ? props.underline : !1;
-                priv.overline = Tools.isBool(props.overline) ? props.overline : !1;
-                priv.lineThrough = Tools.isBool(props.lineThrough) ? props.lineThrough : !1;
+                priv.underline = core.tools.isBool(props.underline) ? props.underline : !1;
+                priv.overline = core.tools.isBool(props.overline) ? props.overline : !1;
+                priv.lineThrough = core.tools.isBool(props.lineThrough) ? props.lineThrough : !1;
                 priv.color = owner.color;
-                if (props.color) {
-                    if (Tools.isString(props.color)) {
-                        priv.color = Color.parse(props.color);
-                    }
-                }
-                priv.style = props.style ? props.style : Types.TEXTDECORATIONSTYLES.SOLID;
+                props.color && core.tools.isString(props.color) ?
+                    priv.color = Color.parse(props.color) : 1;
+                priv.style = props.style ? props.style : core.types.TEXTDECORATIONSTYLES.SOLID;
             }
         }
         //#endregion constructor
-        //#region Getters/Setters
+        //#region Getters / Setters
         //#region underline
         get underline() {
             return internal(this).underline;
@@ -46,16 +40,12 @@ const TextDecoration = (() => {
             const priv = internal(this);
             const form = priv.owner.form;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.underline !== newValue) {
-                    priv.underline = newValue;
-                    if (priv.owner.loading || form.loading) {
-                        return null;
-                    }
-                    if (!Core.isHTMLRenderer && priv.owner.allowUpdate) {
-                        priv.owner.update();
-                    }
+            if (core.tools.isBool(newValue) && priv.underline !== newValue) {
+                priv.underline = newValue;
+                if (priv.owner.loading || form.loading) {
+                    return null;
                 }
+                !core.isHTMLRenderer && priv.owner.allowUpdate ? priv.owner.update() : 1;
             }
         }
         //#endregion underline
@@ -68,16 +58,12 @@ const TextDecoration = (() => {
             const priv = internal(this);
             const form = priv.owner.form;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.overline !== newValue) {
-                    priv.overline = newValue;
-                    if (priv.owner.loading || form.loading) {
-                        return null;
-                    }
-                    if (!Core.isHTMLRenderer && priv.owner.allowUpdate) {
-                        priv.owner.update();
-                    }
+            if (core.tools.isBool(newValue) && priv.overline !== newValue) {
+                priv.overline = newValue;
+                if (priv.owner.loading || form.loading) {
+                    return null;
                 }
+                !core.isHTMLRenderer && priv.owner.allowUpdate ? priv.owner.update() : 1;
             }
         }
         //#endregion overline
@@ -90,16 +76,12 @@ const TextDecoration = (() => {
             const priv = internal(this);
             const form = priv.owner.form;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.lineThrough !== newValue) {
-                    priv.lineThrough = newValue;
-                    if (priv.owner.loading || form.loading) {
-                        return null;
-                    }
-                    if (!Core.isHTMLRenderer && priv.owner.allowUpdate) {
-                        priv.owner.update();
-                    }
+            if (core.tools.isBool(newValue) && priv.lineThrough !== newValue) {
+                priv.lineThrough = newValue;
+                if (priv.owner.loading || form.loading) {
+                    return null;
                 }
+                !core.isHTMLRenderer && priv.owner.allowUpdate ? priv.owner.update() : 1;
             }
         }
         //#endregion lineThrough
@@ -111,21 +93,14 @@ const TextDecoration = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const form = priv.owner.form;
-            const CONSTANTS = Types.CONSTANTS;
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                newValue = Color.parse(newValue);
-            }
-            if (newValue instanceof Color) {
-                if (priv.color !== newValue) {
-                    priv.color = newValue;
-                    if (priv.owner.loading || form.loading) {
-                        return null;
-                    }
-                    if (Core.isHTMLRenderer && priv.owner.allowUpdate) {
-                        priv.owner.update();
-                    }
+            core.tools.isString(newValue) ? newValue = Color.parse(newValue) : 1;
+            if (newValue instanceof Color && priv.color !== newValue) {
+                priv.color = newValue;
+                if (priv.owner.loading || form.loading) {
+                    return null;
                 }
+                core.isHTMLRenderer && priv.owner.allowUpdate ? priv.owner.update() : 1;
             }
         }
         //#endregion color
@@ -137,45 +112,38 @@ const TextDecoration = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const form = this.form;
-            const TEXTDECORATIONSTYLES = Types.TEXTDECORATIONSTYLES;
+            const TEXTDECORATIONSTYLES = core.types.TEXTDECORATIONSTYLES;
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, TEXTDECORATIONSTYLES)) {
-                if (priv.style !== newValue) {
-                    priv.style = newValue;
-                    if (this.loading || form.loading) {
-                        return null;
-                    }
-                    if (Core.isHTMLRenderer && this.allowUpdate) {
-                        this.update();
-                    }
+            if (core.tools.valueInSet(newValue, TEXTDECORATIONSTYLES) && priv.style !== newValue) {
+                priv.style = newValue;
+                if (this.loading || form.loading) {
+                    return null;
                 }
+                core.isHTMLRenderer && this.allowUpdate ? this.update() : 1;
             }
         }
         //#endregion style
-        //#endregion Getters/Setters
+        //#endregion Getters / Setters
+        //#region Methods
+        //#region destroy
+        destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.owner = null;
+            priv.underline = null;
+            priv.overline = null;
+            priv.lineThrough = null;
+            priv.color.destroy();
+            priv.color = null;
+            priv.style = null;
+        }
+        //#endregion destroy
+        //#endregion Methods
     }
     return TextDecoration;
     //#endregion TextDecoration
 })();
-//#region TextDecoration defineProperties
-Object.defineProperties(TextDecoration, {
-    'underline': {
-        enumerable: !0
-    },
-    'overline': {
-        enumerable: !0
-    },
-    'lineThrough': {
-        enumerable: !0
-    },
-    'color': {
-        enumerable: !0
-    },
-    'style': {
-        enumerable: !0
-    }
-});
-//#endregion TextDecoration defineProperties
-//#endregion TextDecoration
 Object.seal(TextDecoration);
+//#endregion TextDecoration
 export { TextDecoration };

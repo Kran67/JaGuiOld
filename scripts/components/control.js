@@ -7,7 +7,6 @@ import '/scripts/core/margin.js';
 import '/scripts/core/scale.js';
 import '/scripts/core/rotatecenter.js';
 import '/scripts/core/hittest.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 import { Rect } from '/scripts/core/geometry.js';
@@ -18,9 +17,7 @@ const Control = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -35,78 +32,82 @@ const Control = (() => {
                 const self = this;
                 const priv = internal(this);
                 priv.allowUpdate = !0;
-                priv.autoTranslate = props.hasOwnProperty('autoTranslate') && Tools.isBool(props.autoTranslate) ? props.autoTranslate : !1;
+                priv.autoTranslate = props.hasOwnProperty('autoTranslate') && core.tools.isBool(props.autoTranslate)
+                    ? props.autoTranslate : !1;
                 priv.isMouseOver = !1;
                 priv.isFocused = !1;
                 priv.isPressed = !1;
-                priv.closePopups = props.hasOwnProperty('closePopups') && Tools.isBool(props.closePopups) ? props.closePopups : !0;
+                priv.closePopups = props.hasOwnProperty('closePopups') && core.tools.isBool(props.closePopups)
+                    ? props.closePopups : !0;
                 priv.wrapper = String.EMPTY;
-                priv.forceMouseWheel = props.hasOwnProperty('forceMouseWheel') && Tools.isBool(props.forceMouseWheel) ? props.forceMouseWheel : !1;
+                priv.forceMouseWheel = props.hasOwnProperty('forceMouseWheel') && core.tools.isBool(props.forceMouseWheel)
+                    ? props.forceMouseWheel : !1;
                 priv.hasResizeEvent = !1;
                 priv.resizeData = {
                     width: null,
                     height: null
                 };
                 priv.tabList = [];
-                priv.stopEvent = props.hasOwnProperty('stopEvent') && Tools.isBool(props.stopEvent) ? props.stopEvent : !1;
-                priv.constraints = new Core.classes.SizeConstraints(this);
-                priv.ownerShowToolTip = props.hasOwnProperty('ownerShowToolTip') && Tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : !0;
-                priv.autoCapture = props.hasOwnProperty('autoCapture') && Tools.isBool(props.autoCapture) ? props.autoCapture : !1;
-                priv.padding = new Core.classes.Padding(this);
+                priv.stopEvent = props.hasOwnProperty('stopEvent') && core.tools.isBool(props.stopEvent)
+                    ? props.stopEvent : !1;
+                priv.constraints = new core.classes.SizeConstraints(this);
+                priv.ownerShowToolTip = props.hasOwnProperty('ownerShowToolTip') && core.tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : !0;
+                priv.autoCapture = props.hasOwnProperty('autoCapture') && core.tools.isBool(props.autoCapture)
+                    ? props.autoCapture : !1;
+                priv.padding = new core.classes.Padding(this);
                 if (props.hasOwnProperty('padding')) {
                     const padding = props.padding;
-                    if (Tools.isNumber(padding)) {
-                        priv.padding.setValues(padding, padding, padding, padding);
-                    } else {
-                        priv.padding.setValues(padding.left, padding.top, padding.right, padding.bottom);
-                    }
+                    core.tools.isNumber(padding)
+                        ? priv.padding.setValues(padding, padding, padding, padding)
+                        : priv.padding.setValues(padding.left, padding.top, padding.right, padding.bottom);
                 }
-                priv.margin = new Core.classes.Margin(this);
+                priv.margin = new core.classes.Margin(this);
                 if (props.hasOwnProperty('margin')) {
                     const margin = props.margin;
-                    if (Tools.isNumber(margin)) {
-                        priv.padding.setValues(margin, margin, margin, margin);
-                    } else {
-                        priv.margin.setValues(margin.left, margin.top, margin.right, margin.bottom);
-                    }
+                    core.tools.isNumber(margin)
+                        ? priv.padding.setValues(margin, margin, margin, margin)
+                        : priv.margin.setValues(margin.left, margin.top, margin.right, margin.bottom);
                 }
                 priv.popupMenu = null;
-                priv.opacity = props.hasOwnProperty('opacity') && Tools.isNumber(props.opacity) ? props.opacity : 1;
-                priv.width = props.hasOwnProperty('width') && Tools.isNumber(props.width) ? props.width : 50;
-                priv.height = props.hasOwnProperty('height') && Tools.isNumber(props.height) ? props.height : 50;
-                priv.scale = new Core.classes.Scale(this);
-                priv.canFocused = props.hasOwnProperty('canFocused') && Tools.isBool(props.canFocused) ? props.canFocused : !1;
-                priv.showFocus = props.hasOwnProperty('showFocus') && Tools.isBool(props.showFocus) ? props.showFocus : !0;
-                priv.enabled = props.hasOwnProperty('enabled') && Tools.isBool(props.enabled) ? props.enabled : !0;
-                priv.rotateCenter = new Core.classes.RotateCenter(this);
+                priv.opacity = props.hasOwnProperty('opacity') && core.tools.isNumber(props.opacity) ? props.opacity : 1;
+                priv.width = props.hasOwnProperty('width') && core.tools.isNumber(props.width) ? props.width : 50;
+                priv.height = props.hasOwnProperty('height') && core.tools.isNumber(props.height) ? props.height : 50;
+                priv.scale = new core.classes.Scale(this);
+                priv.canFocused = props.hasOwnProperty('canFocused') && core.tools.isBool(props.canFocused)
+                    ? props.canFocused : !1;
+                priv.showFocus = props.hasOwnProperty('showFocus') && core.tools.isBool(props.showFocus)
+                    ? props.showFocus : !0;
+                priv.enabled = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
+                priv.rotateCenter = new core.classes.RotateCenter(this);
                 priv.toolTip = props.hasOwnProperty('toolTip') ? props.toolTip : String.EMPTY;
-                priv.showToolTip = props.hasOwnProperty('showToolTip') && Tools.isBool(props.showToolTip) ? props.showToolTip : !1;
-                priv.hitTest = new Core.classes.HitTest(props.hasOwnProperty('hitTest') ? props.hitTest: null);
-                priv.rotateAngle = props.hasOwnProperty('rotateAngle') && Tools.isNumber(props.rotateAngle) ? props.rotateAngle : 0;
+                priv.showToolTip = props.hasOwnProperty('showToolTip') && core.tools.isBool(props.showToolTip)
+                    ? props.showToolTip : !1;
+                priv.hitTest = new core.classes.HitTest(props.hasOwnProperty('hitTest') ? props.hitTest : null);
+                priv.rotateAngle = props.hasOwnProperty('rotateAngle') && core.tools.isNumber(props.rotateAngle)
+                    ? props.rotateAngle : 0;
                 priv.customStyle = null;
                 priv.cssClasses = props.hasOwnProperty('cssClasses') ? props.cssClasses : String.EMPTY;
-                priv.tabOrder = props.hasOwnProperty('tabOrder') && Tools.isNumber(props.tabOrder) ? props.tabOrder : 0;
-                priv.right = props.hasOwnProperty('right') && Tools.isNumber(props.right) ? props.right : null;
-                priv.bottom = props.hasOwnProperty('bottom') && Tools.isNumber(props.bottom) ? props.bottom : null;
+                priv.tabOrder = props.hasOwnProperty('tabOrder') && core.tools.isNumber(props.tabOrder) ? props.tabOrder : 0;
+                priv.right = props.hasOwnProperty('right') && core.tools.isNumber(props.right) ? props.right : null;
+                priv.bottom = props.hasOwnProperty('bottom') && core.tools.isNumber(props.bottom) ? props.bottom : null;
                 priv.doubleClick = !1;
                 priv.component = !1;
-                priv.forceDisplayVisibility = props.hasOwnProperty('forceDisplayVisibility') && Tools.isBool(props.forceDisplayVisibility) ? props.forceDisplayVisibility : !1;
-                priv.clipped = props.hasOwnProperty('clipped') && Tools.isBool(props.clipped) ? props.clipped : !0;
-                priv.reflected = props.hasOwnProperty('reflected') && Tools.isBool(props.reflected) ? props.reflected : !1;
-                priv.column = props.hasOwnProperty('column') && Tools.isNumber(props.column) ? props.column : 0;
-                priv.row = props.hasOwnProperty('row') && Tools.isNumber(props.row) ? props.row : 0;
-                priv.colSpan = props.hasOwnProperty('colSpan') && Tools.isNumber(props.colSpan) ? props.colSpan : 0;
-                priv.rowSpan = props.hasOwnProperty('rowSpan') && Tools.isNumber(props.rowSpan) ? props.rowSpan : 0;
+                priv.forceDisplayVisibility = props.hasOwnProperty('forceDisplayVisibility')
+                    && core.tools.isBool(props.forceDisplayVisibility)
+                    ? props.forceDisplayVisibility : !1;
+                priv.clipped = props.hasOwnProperty('clipped') && core.tools.isBool(props.clipped) ? props.clipped : !0;
+                priv.reflected = props.hasOwnProperty('reflected') && core.tools.isBool(props.reflected)
+                    ? props.reflected : !1;
+                priv.column = props.hasOwnProperty('column') && core.tools.isNumber(props.column) ? props.column : 0;
+                priv.row = props.hasOwnProperty('row') && core.tools.isNumber(props.row) ? props.row : 0;
+                priv.colSpan = props.hasOwnProperty('colSpan') && core.tools.isNumber(props.colSpan) ? props.colSpan : 0;
+                priv.rowSpan = props.hasOwnProperty('rowSpan') && core.tools.isNumber(props.rowSpan) ? props.rowSpan : 0;
                 priv.allowUpdateOnResize = !1;
                 priv.allowRealignChildsOnResize = !1;
                 priv.update = function () {
                     const obj = this.obj;
-                    if (obj.allowUpdateOnResize) {
-                        obj.update();
-                    }
-                    if (obj.allowRealignChildsOnResize) {
-                        obj.realignChilds();
-                    }
+                    obj.allowUpdateOnResize ? obj.update() : 1;
+                    obj.allowRealignChildsOnResize ? obj.realignChilds() : 1;
                     obj.onResize.invoke(obj);
                 };
                 priv.resizer = new ResizeObserver(priv.update);
@@ -116,8 +117,8 @@ const Control = (() => {
                     'onAfterPaint', 'onEnterFocus', 'onKillFocus', 'onKeyDown', 'onKeyUp', 'onKeyPress', 'onAfterResized',
                     'onDragStart', 'onDrag', 'onDragExit', 'onDragEnd', 'onDragEnter', 'onDragOver', 'onDragLeave',
                     'onDrop', 'onDestroy', 'onResize'], props);
-                let anchors = Types.ANCHORS;
-                Tools.addPropertyFromEnum({
+                let anchors = core.types.ANCHORS;
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'anchor',
                     enum: anchors,
@@ -131,11 +132,12 @@ const Control = (() => {
                         }
                     },
                     variable: priv,
-                    value: props.hasOwnProperty('anchor') && Array.isArray(props.anchor) ? props.anchor : [Types.ANCHORS.LEFT, Types.ANCHORS.TOP]
+                    value: props.hasOwnProperty('anchor') && Array.isArray(props.anchor)
+                        ? props.anchor : [core.types.ANCHORS.LEFT, core.types.ANCHORS.TOP]
                 });
                 anchors = null;
-                const aligns = Types.ALIGNS;
-                Tools.addPropertyFromEnum({
+                const aligns = core.types.ALIGNS;
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'align',
                     enum: aligns,
@@ -146,24 +148,18 @@ const Control = (() => {
                         const priv = internal(this);
                         let align = priv.align;
                         //#endregion Variables déclaration
-                        if (Tools.valueInSet(newValue, Types.ALIGNS)) {
-                            if (align !== newValue) {
-                                align = priv.align = newValue;
-                                if (!this.loading && !this.form.loading) {
-                                    if (align !== Types.ALIGNS.NONE) {
-                                        owner.realignChilds();
-                                        if (owner.hasResizeEvent) {
-                                            owner.resized();
-                                        }
-                                    }
-                                }
+                        if (core.tools.valueInSet(newValue, core.types.ALIGNS) && align !== newValue) {
+                            align = priv.align = newValue;
+                            if (!this.loading && !this.form.loading && align !== core.types.ALIGNS.NONE) {
+                                owner.realignChilds();
+                                owner.hasResizeEvent ? owner.resized() : 1;
                             }
                         }
                     },
-                    value: props.hasOwnProperty('align') ? props.align : Types.ALIGNS.NONE
+                    value: props.hasOwnProperty('align') ? props.align : core.types.ALIGNS.NONE
                 });
-                const customCursors = Types.CUSTOMCURSORS;
-                Tools.addPropertyFromEnum({
+                const customCursors = core.types.CUSTOMCURSORS;
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'cursor',
                     enum: customCursors,
@@ -174,31 +170,32 @@ const Control = (() => {
                         const priv = internal(this);
                         let cursor = priv.cursor;
                         //#endregion Variables déclaration
-                        if (Tools.valueInSet(newValue, Types.CUSTOMCURSORS)) {
-                            if (cursor !== newValue) {
-                                htmlElement.classList.remove(cursor);
-                                cursor = priv.cursor = newValue;
-                                htmlElement.classList.add(cursor);
-                            }
+                        if (core.tools.valueInSet(newValue, core.types.CUSTOMCURSORS) && cursor !== newValue) {
+                            htmlElement.classList.remove(cursor);
+                            cursor = priv.cursor = newValue;
+                            htmlElement.classList.add(cursor);
                         }
                     },
-                    value: props.hasOwnProperty('cursor') && Tools.isString(props.cursor) ? props.cursor : Types.CUSTOMCURSORS.DEFAULT
+                    value: props.hasOwnProperty('cursor') && core.tools.isString(props.cursor)
+                        ? props.cursor : core.types.CUSTOMCURSORS.DEFAULT
                 });
-                const dragKinds = Types.DRAGKINDS;
-                Tools.addPropertyFromEnum({
+                const dragKinds = core.types.DRAGKINDS;
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'dragKind',
                     enum: dragKinds,
                     variable: priv,
-                    value: props.hasOwnProperty('dragKind') && Tools.isString(props.dragKind) ? props.dragKind : Types.DRAGKINDS.DRAG
+                    value: props.hasOwnProperty('dragKind') && core.tools.isString(props.dragKind)
+                        ? props.dragKind : core.types.DRAGKINDS.DRAG
                 });
-                const dragModes = Types.DRAGMODES;
-                Tools.addPropertyFromEnum({
+                const dragModes = core.types.DRAGMODES;
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'dragMode',
                     enum: dragModes,
                     variable: priv,
-                    value: props.hasOwnProperty('dragMode') && Tools.isString(props.dragMode) ? props.dragMode : Types.DRAGMODES.MANUAL
+                    value: props.hasOwnProperty('dragMode') && core.tools.isString(props.dragMode)
+                        ? props.dragMode : core.types.DRAGMODES.MANUAL
                 });
                 priv.updateCell = function () {
                     const htmlElementStyle = self.HTMLElementStyle;
@@ -210,7 +207,7 @@ const Control = (() => {
             }
         }
         //#endregion Constructor
-        //#region Setters methods
+        //#region Getters / Setters
         //#region allowUpdateOnResize
         get allowUpdateOnResize() {
             return internal(this).allowUpdateOnResize;
@@ -219,11 +216,8 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.allowUpdateOnResize !== newValue) {
-                    priv.allowUpdateOnResize = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.allowUpdateOnResize !== newValue
+                ? priv.allowUpdateOnResize = newValue : 1;
         }
         //#endregion allowUpdateOnResize
         //#region allowRealignChildsOnResize
@@ -234,11 +228,8 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.allowRealignChildsOnResize !== newValue) {
-                    priv.allowRealignChildsOnResize = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.allowRealignChildsOnResize !== newValue
+                ? priv.allowRealignChildsOnResize = newValue : 1;
         }
         //#endregion allowRealignChildsOnResize
         //#region bounds
@@ -267,11 +258,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.clipped !== newValue) {
-                    priv.clipped = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.clipped !== newValue ? priv.clipped = newValue : 1;
         }
         //#endregion clipped
         //#region reflected
@@ -283,16 +270,12 @@ const Control = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.reflected !== newValue) {
-                    priv.reflected = newValue;
-                    if (Core.isHTMLRenderer) {
-                        if (newValue) {
-                            htmlElement.classList.add('reflected');
-                        } else {
-                            htmlElement.classList.remove('reflected');
-                        }
-                    }
+            if (core.tools.isBool(newValue) && priv.reflected !== newValue) {
+                priv.reflected = newValue;
+                if (core.isHTMLRenderer) {
+                    newValue
+                        ? htmlElement.classList.add('reflected')
+                        : htmlElement.classList.remove('reflected');
                 }
             }
         }
@@ -305,11 +288,8 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.forceDisplayVisibility !== newValue) {
-                    priv.forceDisplayVisibility = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.forceDisplayVisibility !== newValue
+                ? priv.forceDisplayVisibility = newValue : 1;
         }
         //#endregion forceDisplayVisibility
         //#region allowUpdate
@@ -320,11 +300,8 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.allowUpdate !== newValue) {
-                    priv.allowUpdate = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.allowUpdate !== newValue
+                ? priv.allowUpdate = newValue : 1;
         }
         //#endregion allowUpdate
         //#region autoTranslate
@@ -335,11 +312,8 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.autoTranslate !== newValue) {
-                    priv.autoTranslate = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.autoTranslate !== newValue
+                ? priv.autoTranslate = newValue : 1;
         }
         //#endregion autoTranslate
         //#region isMouseOver
@@ -350,14 +324,8 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.hitTest.mouseMove) {
-                    if (priv.isMouseOver !== newValue) {
-                        priv.isMouseOver = newValue;
-                        //this._applyAllStyles();
-                    }
-                }
-            }
+            core.tools.isBool(newValue) && priv.hitTest.mouseMove && priv.isMouseOver !== newValue
+                ? priv.isMouseOver = newValue : 1;
         }
         //#endregion isMouseOver
         //#region isFocused
@@ -370,37 +338,26 @@ const Control = (() => {
             const form = this.form;
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.isFocused !== newValue) {
-                    priv.isFocused = newValue;
-                    let lastFc;
-                    if (form.focusedControl && (Core.classes.CustomTextControl && form.focusedControl instanceof Core.classes.CustomTextControl)) {
-                        if (!newValue) {
-                            lastFc = form.focusedControl;
-                        }
-                    }
+            if (core.tools.isBool(newValue) && priv.isFocused !== newValue) {
+                priv.isFocused = newValue;
+                let lastFc;
+                form.focusedControl && (core.classes.CustomTextControl
+                    && form.focusedControl instanceof core.classes.CustomTextControl) && !newValue
+                    ? lastFc = form.focusedControl : 1;
 
-                    if (newValue) {
-                        form.focusedControl = this;
-                    } else if (form.focusedControl === this) {
-                        form.focusedControl = null;
-                    }
-                    if (htmlElement) {
-                        //this.HTMLElement.dataset.focused = internal(this).isFocused;
-                        htmlElement.classList.remove('focused');
-                        if (newValue && priv.showFocus) {
-                            htmlElement.classList.add('focused');
-                        }
-                    }
-                    if (!newValue) {
-                        this.killFocus();
-                    }
-                    if (lastFc) {
-                        if (lastFc.inputObj) {
-                            lastFc.inputObj.blur();
-                        }
-                    }
+                if (newValue) {
+                    form.focusedControl = this;
+                } else if (form.focusedControl === this) {
+                    form.focusedControl = null;
                 }
+                if (htmlElement) {
+                    //this.HTMLElement.dataset.focused = internal(this).isFocused;
+                    htmlElement.classList.remove('focused');
+                    newValue && priv.showFocus
+                        ? htmlElement.classList.add('focused') : 1;
+                }
+                !newValue ? this.killFocus() : 1;
+                lastFc && lastFc.inputObj ? lastFc.inputObj.blur() : 1;
             }
         }
         //#endregion isFocused
@@ -413,16 +370,10 @@ const Control = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.hitTest.mouseDown) {
-                    if (priv.isPressed !== newValue) {
-                        priv.isPressed = newValue;
-                        Core.isHTMLRenderer && htmlElement.classList.remove('pressed');
-                        if (newValue) {
-                            Core.isHTMLRenderer && htmlElement.classList.add('pressed');
-                        }
-                    }
-                }
+            if (core.tools.isBool(newValue) && priv.hitTest.mouseDown && priv.isPressed !== newValue) {
+                priv.isPressed = newValue;
+                core.isHTMLRenderer && htmlElement.classList.remove('pressed');
+                newValue ? core.isHTMLRenderer && htmlElement.classList.add('pressed') : 1;
             }
         }
         //#endregion isPressed
@@ -435,15 +386,11 @@ const Control = (() => {
             const priv = internal(this);
             const components = this.components;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.closePopups !== newValue) {
-                    priv.closePopups = newValue;
-                    components.forEach(comp => {
-                        if (comp instanceof Core.classes.Control) {
-                            comp.closePopups = newValue;
-                        }
-                    });
-                }
+            if (core.tools.isBool(newValue) && priv.closePopups !== newValue) {
+                priv.closePopups = newValue;
+                components.forEach(comp => {
+                    comp instanceof core.classes.Control ? comp.closePopups = newValue : 1;
+                });
             }
         }
         //#endregion closePopups
@@ -455,11 +402,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.wrapper !== newValue) {
-                    priv.wrapper = newValue;
-                }
-            }
+            core.tools.isString(newValue) && priv.wrapper !== newValue ? priv.wrapper = newValue : 1;
         }
         //#endregion wrapper
         //#region forceMouseWheel
@@ -470,11 +413,10 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.forceMouseWheel !== newValue) {
-                    priv.forceMouseWheel = newValue;
-                }
-            }
+            core.tools.isBool(newValue)
+                ? priv.forceMouseWheel !== newValue
+                    ? priv.forceMouseWheel = newValue : 1
+                : 1;
         }
         //#endregion forceMouseWheel
         //#region hasResizeEvent
@@ -485,11 +427,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.hasResizeEvent !== newValue) {
-                    priv.hasResizeEvent = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.hasResizeEvent !== newValue ? priv.hasResizeEvent = newValue : 1;
         }
         //#endregion hasResizeEvent
         //#region resizeData
@@ -510,11 +448,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.stopEvent !== newValue) {
-                    priv.stopEvent = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.stopEvent !== newValue ? priv.stopEvent = newValue : 1;
         }
         //#endregion stopEvent
         //#region constraints
@@ -525,11 +459,8 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Constraints) {
-                if (priv.constraints !== newValue) {
-                    priv.constraints.assign(newValue);
-                }
-            }
+            newValue instanceof core.classes.Constraints && priv.constraints !== newValue
+                ? priv.constraints.assign(newValue) : 1;
         }
         //#endregion constraints
         //#region ownerShowToolTip
@@ -540,11 +471,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.ownerShowToolTip !== newValue) {
-                    priv.ownerShowToolTip = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.ownerShowToolTip !== newValue ? priv.ownerShowToolTip = newValue : 1;
         }
         //#endregion ownerShowToolTip
         //#region autoCapture
@@ -555,11 +482,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.autoCapture !== newValue) {
-                    priv.autoCapture = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.autoCapture !== newValue ? priv.autoCapture = newValue : 1;
         }
         //#endregion autoCapture
         //#region padding
@@ -580,11 +503,8 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.PopupMenu) {
-                if (priv.popupMenu !== newValue) {
-                    priv.popupMenu = newValue;
-                }
-            }
+            inewValue instanceof core.classes.PopupMenu && priv.popupMenu !== newValue
+                ? priv.popupMenu = newValue : 1;
         }
         //#endregion popupMenu
         //#region opacity
@@ -595,19 +515,13 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue > 1) {
-                    newValue = 1;
-                }
-                if (newValue < 0) {
-                    newValue = 0;
-                }
+            if (core.tools.isNumber(newValue)) {
+                newValue = Math.max(Math.min(newValue, 0), 0);
                 if (priv.opacity !== newValue) {
                     priv.opacity = newValue;
-                    this.propertyChanged(Types.BINDABLEPROPERTIES.OPACITY);
-                    if (!this.loading && !this.form.loading) {
-                        this.HTMLElementStyle.opacity = newValue;
-                    }
+                    this.propertyChanged(core.types.BINDABLEPROPERTIES.OPACITY);
+                    !this.loading && !this.form.loading
+                        ? this.HTMLElementStyle.opacity = newValue : 1;
                 }
             }
         }
@@ -621,9 +535,8 @@ const Control = (() => {
             const margin = priv.margin;
             const padding = priv.padding;
             //#endregion Variables déclaration
-            if (Tools.isString(width) && width.endsWith('%')) {
-                width = owner.contentWidth * (parseFloat(width) / 100);
-            }
+            core.tools.isString(width) && width.endsWith('%')
+                ? width = owner.contentWidth * (parseFloat(width) / 100) : 1;
             width -= margin.left + margin.right + padding.left + padding.right;
             return width;
         }
@@ -634,7 +547,7 @@ const Control = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (!Core.isHTMLRenderer) {
+            if (!core.isHTMLRenderer) {
                 return priv.width;
             } else {
                 let width = htmlElement.offsetWidth > 0 ?
@@ -649,21 +562,17 @@ const Control = (() => {
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.width !== newValue) {
-                    if (!Core.isHTMLRenderer) {
-                        priv.width = newValue;
-                        this.realignChilds();
-                    } else if (!this.loading) {
-                        this.propertyChanged(Types.BINDABLEPROPERTIES.WIDTH);
-                        if (newValue < 0) {
-                            htmlElementStyle.width = 'auto';
-                        } else {
-                            htmlElementStyle.width = `${newValue}${Types.CSSUNITS.PX}`;
-                        }
-                        priv.width = newValue;
-                        //this._boundingClientRect.right=this._boundingClientRect.left+this.HTMLElement.offsetWidth;
-                    }
+            if (core.tools.isNumber(newValue) && priv.width !== newValue) {
+                if (!core.isHTMLRenderer) {
+                    priv.width = newValue;
+                    this.realignChilds();
+                } else if (!this.loading) {
+                    this.propertyChanged(core.types.BINDABLEPROPERTIES.WIDTH);
+                    newValue < 0
+                        ? htmlElementStyle.width = 'auto'
+                        : htmlElementStyle.width = `${newValue}${core.types.CSSUNITS.PX}`;
+                    priv.width = newValue;
+                    //this._boundingClientRect.right=this._boundingClientRect.left+this.HTMLElement.offsetWidth;
                 }
             }
         }
@@ -677,9 +586,8 @@ const Control = (() => {
             const margin = priv.margin;
             const padding = priv.padding;
             //#endregion Variables déclaration
-            if (Tools.isString(height) && height.endsWith('%')) {
-                height = owner.contentWidth * (parseFloat(height) / 100);
-            }
+            core.tools.isString(height) && height.endsWith('%')
+                ? height = owner.contentWidth * (parseFloat(height) / 100) : 1;
             height -= margin.top + margin.bottom + padding.top + padding.bottom;
             return height;
         }
@@ -690,7 +598,7 @@ const Control = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (!Core.isHTMLRenderer) {
+            if (!core.isHTMLRenderer) {
                 return priv.height;
             } else {
                 let height = htmlElement.offsetHeight > 0 ?
@@ -705,20 +613,16 @@ const Control = (() => {
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.height !== newValue) {
-                    if (!Core.isHTMLRenderer) {
-                        priv.height = newValue;
-                        this.realignChilds();
-                    } else if (!this.loading) {
-                        this.propertyChanged(Types.BINDABLEPROPERTIES.HEIGHT);
-                        if (newValue < 0) {
-                            htmlElementStyle.height = 'auto';
-                        } else {
-                            htmlElementStyle.height = `${newValue}${Types.CSSUNITS.PX}`;
-                        }
-                        priv.height = newValue;
-                    }
+            if (core.tools.isNumber(newValue) && priv.height !== newValue) {
+                if (!core.isHTMLRenderer) {
+                    priv.height = newValue;
+                    this.realignChilds();
+                } else if (!this.loading) {
+                    this.propertyChanged(core.types.BINDABLEPROPERTIES.HEIGHT);
+                    newValue < 0
+                        ? htmlElementStyle.height = 'auto'
+                        : htmlElementStyle.height = `${newValue}${core.types.CSSUNITS.PX}`;
+                    priv.height = newValue;
                 }
             }
         }
@@ -732,16 +636,10 @@ const Control = (() => {
             const priv = internal(this);
             const scale = priv.scale;
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Point) {
-                if (!scale.equals(newValue)) {
-                    scale.assign(newValue);
-                    if (!this.loading && !this.form.loading) {
-                        if (!Core.isHTMLRenderer) {
-                            this.update();
-                        } else {
-                            this.applyTransforms();
-                        }
-                    }
+            if (newValue instanceof core.classes.Point && !scale.equals(newValue)) {
+                scale.assign(newValue);
+                if (!this.loading && !this.form.loading) {
+                    !core.isHTMLRenderer ? this.update() : this.applyTransforms();
                 }
             }
         }
@@ -754,9 +652,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                priv.canFocused = newValue;
-            }
+            core.tools.isBool(newValue) ? priv.canFocused = newValue : 1;
         }
         //#endregion canFocused
         //#region showFocus
@@ -768,14 +664,12 @@ const Control = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.showFocus !== newValue) {
-                    priv.showFocus = newValue;
-                    if (!newValue) {
-                        htmlElement.classList.remove('focused');
-                    } else if (priv.isFocused) {
-                        htmlElement.classList.add('focused');
-                    }
+            if (core.tools.isBool(newValue) && priv.showFocus !== newValue) {
+                priv.showFocus = newValue;
+                if (!newValue) {
+                    htmlElement.classList.remove('focused');
+                } else if (priv.isFocused) {
+                    htmlElement.classList.add('focused');
                 }
             }
         }
@@ -789,21 +683,19 @@ const Control = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.enabled !== newValue) {
-                    priv.enabled = newValue;
-                    Core.isHTMLRenderer && htmlElement.classList.remove('disabled');
-                    if (!newValue) {
-                        Core.isHTMLRenderer && htmlElement.classList.add('disabled');
-                        priv.isPressed = !1;
-                    }
-                    const comps = this.components.filter(e => {
-                        return e instanceof Core.classes.Control;
-                    });
-                    comps.forEach(comp => {
-                        comp.enabled = newValue;
-                    });
+            if (core.tools.isBool(newValue) && priv.enabled !== newValue) {
+                priv.enabled = newValue;
+                core.isHTMLRenderer && htmlElement.classList.remove('disabled');
+                if (!newValue) {
+                    core.isHTMLRenderer && htmlElement.classList.add('disabled');
+                    priv.isPressed = !1;
                 }
+                const comps = this.components.filter(e => {
+                    return e instanceof core.classes.Control;
+                });
+                comps.forEach(comp => {
+                    comp.enabled = newValue;
+                });
             }
         }
         //#endregion enabled
@@ -813,17 +705,14 @@ const Control = (() => {
         }
         set rotateCenter(newValue) {
             //#region Variables déclaration
-            const PO = Types.CSSUNITS.PO;
+            const PO = core.types.CSSUNITS.PO;
             const priv = internal(this);
             const rotateCenter = priv.rotateCenter;
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Point) {
-                if (!rotateCenter.equals(newValue)) {
-                    rotateCenter.assign(newValue);
-                    if (!this.loading && !this.form.loading) {
-                        this.HTMLElementStyle.transformOrigin = `${newValue.x}${PO}${String.SPACE}${newValue.y}${PO}`;
-                    }
-                }
+            if (newValue instanceof core.classes.Point && !rotateCenter.equals(newValue)) {
+                rotateCenter.assign(newValue);
+                !this.loading && !this.form.loading
+                    ? this.HTMLElementStyle.transformOrigin = `${newValue.x}${PO}${String.SPACE}${newValue.y}${PO}` : 1;
             }
         }
         //#endregion rotateCenter
@@ -835,11 +724,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.toolTip !== newValue) {
-                    priv.toolTip = newValue;
-                }
-            }
+            core.tools.isString(newValue) && priv.toolTip !== newValue ? priv.toolTip = newValue : 1;
         }
         //#endregion toolTip
         //#region showToolTip
@@ -850,11 +735,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.showToolTip !== newValue) {
-                    priv.showToolTip = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.showToolTip !== newValue ? priv.showToolTip = newValue : 1;
         }
         //#endregion showToolTip
         //#region hitTest
@@ -904,7 +785,7 @@ const Control = (() => {
                         hitTest.dblClick = newValue.last;
                         break;
                 }
-            } else if (Tools.isBool(newValue)) {
+            } else if (core.tools.isBool(newValue)) {
                 hitTest.mouseDown = hitTest.mouseMove =
                     hitTest.mouseUp = hitTest.mouseWheel = hitTest.dblClick = newValue;
             }
@@ -918,14 +799,10 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.rotateAngle !== newValue) {
-                    priv.rotateAngle = newValue;
-                    this.propertyChanged(Types.BINDABLEPROPERTIES.ROTATEANGLE);
-                    if (!this.loading && !this.form.loading && Core.isHTMLRenderer) {
-                        this.applyTransforms();
-                    }
-                }
+            if (core.tools.isNumber(newValue) && priv.rotateAngle !== newValue) {
+                priv.rotateAngle = newValue;
+                this.propertyChanged(core.types.BINDABLEPROPERTIES.ROTATEANGLE);
+                !this.loading && !this.form.loading && core.isHTMLRenderer ? this.applyTransforms() : 1;
             }
         }
         //#endregion rotateAngle
@@ -937,9 +814,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.customStyle !== newValue) {
-                priv.customStyle = newValue;
-            }
+            priv.customStyle !== newValue ? priv.customStyle = newValue : 1;
         }
         //#endregion customStyle
         //#region cssClasses
@@ -950,11 +825,9 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.cssClasses !== newValue) {
-                    priv.cssClasses = newValue;
-                    this.HTMLElement.classList.add(priv.cssClasses);
-                }
+            if (core.tools.isString(newValue) && priv.cssClasses !== newValue) {
+                priv.cssClasses = newValue;
+                this.HTMLElement.classList.add(priv.cssClasses);
             }
         }
         //#endregion cssClasses
@@ -967,16 +840,11 @@ const Control = (() => {
             const priv = internal(this);
             const tabList = this.owner.tabList;
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
+            if (core.tools.isNumber(newValue)) {
                 const curIndex = tabList.indexOf(this);
                 if (curIndex >= 0) {
                     const count = tabList.length;
-                    if (newValue < 0) {
-                        newValue = 0;
-                    }
-                    if (newValue >= count) {
-                        newValue = count - 1;
-                    }
+                    newValue = Math.max(Math.min(newValue, 0), count - 1);
                     if (newValue !== curIndex) {
                         tabList.deleteAt(curIndex);
                         tabList.insert(newValue, this);
@@ -998,16 +866,12 @@ const Control = (() => {
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue) || newValue === null) {
-                if (priv.right !== newValue) {
-                    priv.right = newValue;
-                    this.propertyChanged(Types.BINDABLEPROPERTIES.RIGHT);
-                    if (Core.isHTMLRenderer) {
-                        if (!this.loading && !this.form.loading) {
-                            htmlElementStyle.right = `${newValue}${Types.CSSUNITS.PX}`;
-                            htmlElementStyle.width = String.EMPTY;
-                        }
-                    }
+            if (core.tools.isNumber(newValue) || newValue === null && priv.right !== newValue) {
+                priv.right = newValue;
+                this.propertyChanged(core.types.BINDABLEPROPERTIES.RIGHT);
+                if (core.isHTMLRenderer && !this.loading && !this.form.loading) {
+                    htmlElementStyle.right = `${newValue}${core.types.CSSUNITS.PX}`;
+                    htmlElementStyle.width = String.EMPTY;
                 }
             }
         }
@@ -1021,16 +885,12 @@ const Control = (() => {
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue) || newValue === null) {
-                if (priv.bottom !== newValue) {
-                    priv.bottom = newValue;
-                    this.propertyChanged(Types.BINDABLEPROPERTIES.BOTTOM);
-                    if (Core.isHTMLRenderer) {
-                        if (!this.loading && !this.form.loading) {
-                            htmlElementStyle.bottom = `${newValue}${Types.CSSUNITS.PX}`;
-                            htmlElementStyle.height = String.EMPTY;
-                        }
-                    }
+            if (core.tools.isNumber(newValue) || newValue === null && priv.bottom !== newValue) {
+                priv.bottom = newValue;
+                this.propertyChanged(core.types.BINDABLEPROPERTIES.BOTTOM);
+                if (core.isHTMLRenderer && !this.loading && !this.form.loading) {
+                    htmlElementStyle.bottom = `${newValue}${core.types.CSSUNITS.PX}`;
+                    htmlElementStyle.height = String.EMPTY;
                 }
             }
         }
@@ -1043,11 +903,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.doubleClick !== newValue) {
-                    priv.doubleClick = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.doubleClick !== newValue ? priv.doubleClick = newValue : 1;
         }
         //#endregion doubleClick
         //#region visible
@@ -1059,30 +915,24 @@ const Control = (() => {
             const htmlElement = this.HTMLElement;
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (super.visible !== newValue) {
-                    super.visible = newValue;
-                    this.propertyChanged(Types.BINDABLEPROPERTIES.VISIBLE);
-                    if (Core.isHTMLRenderer) {
-                        if (newValue) {
-                            //this._applyAllStyles();
-                            if (priv.forceDisplayVisibility) {
-                                htmlElement.classList.remove('noDisplay');
-                            } else {
-                                htmlElement.classList.remove('hidden');
-                            }
-                        } else {
-                            if (priv.forceDisplayVisibility) {
-                                htmlElement.classList.add('noDisplay');
-                            } else {
-                                htmlElement.classList.add('hidden');
-                            }
-                        }
+            if (core.tools.isBool(newValue) && super.visible !== newValue) {
+                super.visible = newValue;
+                this.propertyChanged(core.types.BINDABLEPROPERTIES.VISIBLE);
+                if (core.isHTMLRenderer) {
+                    if (newValue) {
+                        //this._applyAllStyles();
+                        priv.forceDisplayVisibility
+                            ? htmlElement.classList.remove('noDisplay')
+                            : htmlElement.classList.remove('hidden');
+                    } else {
+                        priv.forceDisplayVisibility
+                            ? htmlElement.classList.add('noDisplay')
+                            : htmlElement.classList.add('hidden');
                     }
-                    //if (owner && owner.update) {
-                    //    owner.update();
-                    //}
                 }
+                //if (owner && owner.update) {
+                //    owner.update();
+                //}
             }
         }
         //#endregion visible
@@ -1094,16 +944,8 @@ const Control = (() => {
             //#region Variables déclaration
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (Core.isHTMLRenderer) {
-                    if (htmlElementStyle.display !== newValue) {
-                        htmlElementStyle.display = newValue;
-                    }
-                    //if (owner && owner.update) {
-                    //    owner.update();
-                    //}
-                }
-            }
+            core.tools.isString(newValue) && core.isHTMLRenderer && htmlElementStyle.display !== newValue
+                ? htmlElementStyle.display = newValue : 1;
         }
         //#endregion display
         //#region isEnabled
@@ -1126,7 +968,7 @@ const Control = (() => {
             const priv = internal(this);
             const padding = priv.padding;
             //#endregion Variables déclaration
-            return new Core.classes.Rect(padding.left, padding.top, padding.right, padding.bottom);
+            return new core.classes.Rect(padding.left, padding.top, padding.right, padding.bottom);
         }
         //#endregion localRect
         //#region template
@@ -1141,7 +983,7 @@ const Control = (() => {
         //#endregion template
         //#region column
         get column() {
-            if (this.owner instanceof Core.classes.GridLayout) {
+            if (this.owner instanceof core.classes.GridLayout) {
                 return internal(this).column;
             }
             return null;
@@ -1150,76 +992,58 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (this.owner instanceof Core.classes.GridLayout) {
-                if (Tools.isNumber(newValue)) {
-                    if (priv.column !== newValue) {
-                        priv.column = newValue;
-                        priv.updateCell();
-                    }
-                }
+            if (this.owner instanceof core.classes.GridLayout && core.tools.isNumber(newValue) && priv.column !== newValue) {
+                priv.column = newValue;
+                priv.updateCell();
             }
         }
         //#endregion column
         //#region row
         get row() {
-            if (this.owner instanceof Core.classes.GridLayout) {
-                return internal(this).row;
-            }
-            return null;
+            return this.owner instanceof core.classes.GridLayout
+                ? internal(this).row : null;
         }
         set row(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (this.owner instanceof Core.classes.GridLayout) {
-                if (Tools.isNumber(newValue)) {
-                    if (priv.row !== newValue) {
-                        priv.row = newValue;
-                        priv.updateCell();
-                    }
+            if (this.owner instanceof core.classes.GridLayout && core.tools.isNumber(newValue)) {
+                if (priv.row !== newValue) {
+                    priv.row = newValue;
+                    priv.updateCell();
                 }
             }
         }
         //#endregion row
         //#region colSpan
         get colSpan() {
-            if (this.owner instanceof Core.classes.GridLayout) {
-                return internal(this).colSpan;
-            }
-            return null;
+            return this.owner instanceof core.classes.GridLayout
+                ? internal(this).colSpan : null;
         }
         set colSpan(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (this.owner instanceof Core.classes.GridLayout) {
-                if (Tools.isNumber(newValue)) {
-                    if (priv.colSpan !== newValue) {
-                        priv.colSpan = newValue;
-                        priv.updateCell();
-                    }
-                }
+            if (this.owner instanceof core.classes.GridLayout && core.tools.isNumber(newValue)
+                && priv.colSpan !== newValue) {
+                priv.colSpan = newValue;
+                priv.updateCell();
             }
         }
         //#endregion colSpan
         //#region rowSpan
         get rowSpan() {
-            if (this.owner instanceof Core.classes.GridLayout) {
-                return internal(this).rowSpan;
-            }
-            return null;
+            return this.owner instanceof core.classes.GridLayout
+                ? internal(this).rowSpan : null;
         }
         set rowSpan(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (this.owner instanceof Core.classes.GridLayout) {
-                if (Tools.isNumber(newValue)) {
-                    if (priv.rowSpan !== newValue) {
-                        priv.rowSpan = newValue;
-                        priv.updateCell();
-                    }
-                }
+            if (this.owner instanceof core.classes.GridLayout && core.tools.isNumber(newValue)
+                && priv.rowSpan !== newValue) {
+                priv.rowSpan = newValue;
+                priv.updateCell();
             }
         }
         //#endregion rowSpan
@@ -1236,12 +1060,12 @@ const Control = (() => {
         //#region setBounds
         setBounds(l, t, w, h) {
             //#region Variables déclaration
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const htmlElementStyle = this.HTMLElementStyle;
             const cStyle = getComputedStyle(this.HTMLElement);
             //#endregion Variables déclaration
-            if (Tools.isNumber(l) && Tools.isNumber(t) && Tools.isNumber(w) && Tools.isNumber(h)) {
-                if (!Core.isHTMLRenderer) {
+            if (core.tools.isNumber(l) && core.tools.isNumber(t) && core.tools.isNumber(w) && core.tools.isNumber(h)) {
+                if (!core.isHTMLRenderer) {
                     this.left = l;
                     this.top = t;
                     this.width = w;
@@ -1260,10 +1084,10 @@ const Control = (() => {
         //#region setDimension
         setDimension(width, height) {
             //#region Variables déclaration
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
-            if (Tools.isNumber(width) && Tools.isNumber(height)) {
+            if (core.tools.isNumber(width) && core.tools.isNumber(height)) {
                 htmlElementStyle.width = `${width}${PX}`;
                 htmlElementStyle.height = `${height}${PX}`;
             }
@@ -1275,19 +1099,9 @@ const Control = (() => {
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
-            if (htmlElementStyle) {
-                if (this.inForm) {
-                    if (priv.width < 0) {
-                        htmlElementStyle.width = 'auto';
-                    } else {
-                        htmlElementStyle.width = `${priv.width}${Types.CSSUNITS.PX}`;
-                    }
-                    if (priv.height < 0) {
-                        htmlElementStyle.height = 'auto';
-                    } else {
-                        htmlElementStyle.height = `${priv.height}${Types.CSSUNITS.PX}`;
-                    }
-                }
+            if (htmlElementStyle && this.inForm) {
+                htmlElementStyle.width = priv.width < 0 ? 'auto' : `${priv.width}${core.types.CSSUNITS.PX}`;
+                htmlElementStyle.height = priv.height < 0 ? 'auto' : `${priv.height}${core.types.CSSUNITS.PX}`;
             }
         }
         //#endregion resize
@@ -1296,23 +1110,22 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const right = priv.right;
             //#endregion Variables déclaration
-            if (Core.isHTMLRenderer) {
+            if (core.isHTMLRenderer) {
                 this.applyTransforms();
-                if (priv.column > 0 || priv.row > 0 || priv.colSpan > 1 || priv.rowSpan > 1 && this.owner instanceof Core.classes.GridLayout) {
+                if (priv.column > 0 || priv.row > 0 || priv.colSpan > 1 || priv.rowSpan > 1
+                    && this.owner instanceof core.classes.GridLayout) {
                     htmlElementStyle.gridColumn = `${priv.column} / ${priv.colSpan > 1 ? 'span ' + priv.colSpan : priv.column + 1}`;
                     htmlElementStyle.gridRow = `${priv.row} / ${priv.rowSpan > 1 ? 'span ' + priv.rowSpan : priv.row + 1}`;
                 }
-                if (!priv.margin.isEmpty) {
-                    htmlElementStyle.margin = `${priv.margin.top}${PX} ${priv.margin.right}${PX} ${priv.margin.bottom}${PX} ${priv.margin.left}${PX}`;
-                }
-                if (!priv.padding.isEmpty) {
-                    htmlElementStyle.padding = `${priv.padding.top}${PX} ${priv.padding.right}${PX} ${priv.padding.bottom}${PX} ${priv.padding.left}${PX}`;
-                }
+                !priv.margin.isEmpty
+                    ? htmlElementStyle.margin = `${priv.margin.top}${PX} ${priv.margin.right}${PX} ${priv.margin.bottom}${PX} ${priv.margin.left}${PX}` : 1;
+                !priv.padding.isEmpty
+                    ? htmlElementStyle.padding = `${priv.padding.top}${PX} ${priv.padding.right}${PX} ${priv.padding.bottom}${PX} ${priv.padding.left}${PX}` : 1;
             } else {
-                Core.canvas.needRedraw = !0;
+                core.canvas.needRedraw = !0;
             }
             if (this.form !== this) {
                 if (right !== null) {
@@ -1320,9 +1133,7 @@ const Control = (() => {
                     priv.right = null;
                     this.right = oldRight;
                 }
-                if (Core.isHTMLRenderer && this.inForm) {
-                    this.resize();
-                }
+                core.isHTMLRenderer && this.inForm ? this.resize() : 1;
             }
         }
         //#endregion sizing
@@ -1330,8 +1141,8 @@ const Control = (() => {
         realignChilds() {
             //#region Variables déclaration
             const priv = internal(this);
-            const PX = Types.CSSUNITS.PX;
-            const ALIGNS = Types.ALIGNS;
+            const PX = core.types.CSSUNITS.PX;
+            const ALIGNS = core.types.ALIGNS;
             const comps = this.components;
             const padding = priv.padding;
             const width = this.contentWidth;// - padding.left - padding.right;
@@ -1341,7 +1152,7 @@ const Control = (() => {
             let r = padding.right;
             let b = padding.bottom;
             const alignTop = (child) => {
-                if (Core.isHTMLRenderer) {
+                if (core.isHTMLRenderer) {
                     const htmlElementStyle = child.HTMLElementStyle;
                     const cStyle = getComputedStyle(child.HTMLElement);
                     if (cStyle.position === 'absolute') {
@@ -1350,9 +1161,8 @@ const Control = (() => {
                         htmlElementStyle.right = r > 0 ? `${r}${PX}` : '0';
                         htmlElementStyle.width = 'auto';
                         htmlElementStyle.bottom = 'auto';
-                        if (htmlElementStyle.height === 'auto') {
-                            htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}`;
-                        }
+                        htmlElementStyle.height === 'auto'
+                            ? htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}` : 1;
                         child.applyTransforms();
                         t += ~~parseFloat(cStyle.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(cStyle.marginBottom);
                     }
@@ -1366,7 +1176,7 @@ const Control = (() => {
                 child.realignChilds();
             };
             const alignBottom = (child) => {
-                if (Core.isHTMLRenderer) {
+                if (core.isHTMLRenderer) {
                     const htmlElementStyle = child.HTMLElementStyle;
                     const cStyle = getComputedStyle(child.HTMLElement);
                     if (cStyle.position === 'absolute') {
@@ -1375,9 +1185,8 @@ const Control = (() => {
                         htmlElementStyle.right = r > 0 ? `${r}${PX}` : '0';
                         htmlElementStyle.width = 'auto';
                         htmlElementStyle.top = 'auto';
-                        if (htmlElementStyle.height === 'auto') {
-                            htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}`;
-                        }
+                        htmlElementStyle.height === 'auto'
+                            ? htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}` : 1;
                         child.applyTransforms();
                         b += ~~parseFloat(cStyle.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(cStyle.marginBottom);
                     }
@@ -1385,7 +1194,7 @@ const Control = (() => {
                 child.realignChilds();
             };
             const alignLeft = (child) => {
-                if (Core.isHTMLRenderer) {
+                if (core.isHTMLRenderer) {
                     const htmlElementStyle = child.HTMLElementStyle;
                     const cStyle = getComputedStyle(child.HTMLElement);
                     if (cStyle.position === 'absolute') {
@@ -1394,9 +1203,8 @@ const Control = (() => {
                         htmlElementStyle.right = 'auto';
                         htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : '0';
                         htmlElementStyle.height = 'auto';
-                        if (htmlElementStyle.width === 'auto') {
-                            htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}`;
-                        }
+                        htmlElementStyle.width === 'auto'
+                            ? htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}` : 1;
                         child.applyTransforms();
                         l += ~~parseFloat(cStyle.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(cStyle.marginRight);
                     }
@@ -1404,7 +1212,7 @@ const Control = (() => {
                 child.realignChilds();
             };
             const alignRight = (child) => {
-                if (Core.isHTMLRenderer) {
+                if (core.isHTMLRenderer) {
                     const htmlElementStyle = child.HTMLElementStyle;
                     const cStyle = getComputedStyle(child.HTMLElement);
                     if (cStyle.position === 'absolute') {
@@ -1413,9 +1221,8 @@ const Control = (() => {
                         htmlElementStyle.right = r > 0 ? `${r}${PX}` : '0';
                         htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : '0';
                         htmlElementStyle.height = 'auto';
-                        if (htmlElementStyle.width === 'auto') {
-                            htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}`;
-                        }
+                        htmlElementStyle.width === 'auto'
+                            ? htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}` : 1;
                         child.applyTransforms();
                         r += ~~parseFloat(cStyle.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(cStyle.marginRight);
                     }
@@ -1495,7 +1302,7 @@ const Control = (() => {
                 return e.align === ALIGNS.CLIENT && e.visible;
             });
             childs.forEach(child => {
-                if (Core.isHTMLRenderer) {
+                if (core.isHTMLRenderer) {
                     const cStyle = getComputedStyle(child.HTMLElement);
                     const htmlElementStyle = child.HTMLElementStyle;
                     htmlElementStyle.height = 'auto';
@@ -1523,7 +1330,7 @@ const Control = (() => {
                 return e.align === ALIGNS.HORIZONTAL && e.visible;
             });
             childs.forEach(child => {
-                if (Core.isHTMLRenderer) {
+                if (core.isHTMLRenderer) {
                     const cStyle = getComputedStyle(child.HTMLElement);
                     const htmlElementStyle = child.HTMLElementStyle;
                     if (cStyle.position === 'absolute') {
@@ -1541,7 +1348,7 @@ const Control = (() => {
                 return e.align === ALIGNS.VERTICAL && e.visible;
             });
             childs.forEach(child => {
-                if (Core.isHTMLRenderer) {
+                if (core.isHTMLRenderer) {
                     const cStyle = getComputedStyle(child.HTMLElement);
                     const htmlElementStyle = child.HTMLElementStyle;
                     if (cStyle.position === 'absolute') {
@@ -1559,7 +1366,7 @@ const Control = (() => {
                 return e.align === ALIGNS.CONTENTS && e.visible;
             });
             childs.forEach(child => {
-                if (Core.isHTMLRenderer) {
+                if (core.isHTMLRenderer) {
                     const cStyle = getComputedStyle(child.HTMLElement);
                     const htmlElementStyle = child.HTMLElementStyle;
                     if (cStyle.position === 'absolute') {
@@ -1580,7 +1387,7 @@ const Control = (() => {
                 return e.align === ALIGNS.CENTER && e.visible;
             });
             childs.forEach(child => {
-                if (Core.isHTMLRenderer) {
+                if (core.isHTMLRenderer) {
                     const cStyle = getComputedStyle(child.HTMLElement);
                     const htmlElementStyle = child.HTMLElementStyle;
                     if (cStyle.position === 'absolute') {
@@ -1599,7 +1406,7 @@ const Control = (() => {
                 return e.align === ALIGNS.HORZCENTER && e.visible;
             });
             childs.forEach(child => {
-                if (Core.isHTMLRenderer) {
+                if (core.isHTMLRenderer) {
                     const cStyle = getComputedStyle(child.HTMLElement);
                     const htmlElementStyle = child.HTMLElementStyle;
                     if (cStyle.position === 'absolute') {
@@ -1618,7 +1425,7 @@ const Control = (() => {
                 return e.align === ALIGNS.VERTCENTER && e.visible;
             });
             childs.forEach(child => {
-                if (Core.isHTMLRenderer) {
+                if (core.isHTMLRenderer) {
                     const cStyle = getComputedStyle(child.HTMLElement);
                     const htmlElementStyle = child.HTMLElementStyle;
                     if (cStyle.position === 'absolute') {
@@ -1634,17 +1441,17 @@ const Control = (() => {
             //#endregion
             //#region topRight
             //childs=this._components.filter(function(e,i,a) {
-            //  return (e.align===Types.ALIGNS.TOPRIGHT)&&e.visible;
+            //  return (e.align===core.types.ALIGNS.TOPRIGHT)&&e.visible;
             //});
             //#endregion
             //#region bottomLeft
             //childs=this._components.filter(function(e,i,a) {
-            //  return (e.align===Types.ALIGNS.BOTTOMLEFT)&&e.visible;
+            //  return (e.align===core.types.ALIGNS.BOTTOMLEFT)&&e.visible;
             //});
             //#endregion
             //#region bottomRight
             //childs=this._components.filter(function(e,i,a) {
-            //  return (e.align===Types.ALIGNS.BOTTOMRIGHT)&&e.visible;
+            //  return (e.align===core.types.ALIGNS.BOTTOMRIGHT)&&e.visible;
             //});
             //#endregion
         }
@@ -1653,12 +1460,9 @@ const Control = (() => {
         insertTemplate(tpl) {
             //#region Variables déclaration
             const htmlElement = this.HTMLElement;
-            const priv = internal(this);
             //#endregion Variables déclaration
-            /*if (!priv.allowUpdate) {
-                priv.wrapper += tpl;
-            } else*/ if (htmlElement) {
-                const div = document.createElement(Types.HTMLELEMENTS.DIV);
+            if (htmlElement) {
+                const div = document.createElement(core.types.HTMLELEMENTS.DIV);
                 div.innerHTML = tpl;
                 htmlElement.appendChild(div.firstElementChild);
             }
@@ -1669,9 +1473,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.canFocused && this.visible && this.isEnabled) {
-                this.enterFocus();
-            }
+            priv.canFocused && this.visible && this.isEnabled ? this.enterFocus() : 1;
         }
         //#endregion setFocus
         //#region beginUpdate
@@ -1680,7 +1482,7 @@ const Control = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.allowUpdate = !1;
-            if (Core.isHTMLRenderer) {
+            if (core.isHTMLRenderer) {
                 //priv.wrapper = this.HTMLElement.innerHTML;
             }
         }
@@ -1693,11 +1495,11 @@ const Control = (() => {
             priv.allowUpdate = !0;
             this.realignChilds();
             //this.update();
-            //if (this._owner._allowUpdate&&Core.renderer!==Types.renderers.HTML) this.redraw(this.lastRect);
+            //if (this._owner._allowUpdate&&core.renderer!==core.types.renderers.HTML) this.redraw(this.lastRect);
             //this.HTMLElement.innerHTML = this._wrapper;
             //for (let i=0,l=this.wrapperClass.length;i<l;i++) {
             //  let id=this.wrapperClass[i].id,Class=this.wrapperClass[i].Class;
-            //  Tools.execFunc(createComponent",{Class:Class,owner:this,id:id});
+            //  core.tools.execFunc(createComponent",{Class:Class,owner:this,id:id});
             //}
             //this._wrapper = String.EMPTY;
             //this.wrapperClass.clear();
@@ -1709,16 +1511,14 @@ const Control = (() => {
             const comps = this.owner.components;
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (htmlElement) {
-                if (this.owner) {
-                    let parentNode = htmlElement.parentNode;
-                    if (parentNode.children.length > 1) {
-                        comps.remove(this);
-                        comps.add(this);
-                        parentNode = htmlElement.parentNode;
-                        parentNode.removeChild(htmlElement);
-                        parentNode.appendChild(htmlElement);
-                    }
+            if (htmlElement && this.owner) {
+                let parentNode = htmlElement.parentNode;
+                if (parentNode.children.length > 1) {
+                    comps.remove(this);
+                    comps.add(this);
+                    parentNode = htmlElement.parentNode;
+                    parentNode.removeChild(htmlElement);
+                    parentNode.appendChild(htmlElement);
                 }
             }
         }
@@ -1729,16 +1529,14 @@ const Control = (() => {
             const comps = this.owner.components;
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (htmlElement) {
-                if (this.owner) {
-                    let parentNode = htmlElement.parentNode;
-                    if (parentNode.children.length > 1) {
-                        comps.remove(this);
-                        comps.insert(0, this);
-                        parentNode = htmlElement.parentNode;
-                        parentNode.removeChild(htmlElement);
-                        parentNode.insertBefore(htmlElement, parentNode.firstElementChild);
-                    }
+            if (htmlElement && this.owner) {
+                let parentNode = htmlElement.parentNode;
+                if (parentNode.children.length > 1) {
+                    comps.remove(this);
+                    comps.insert(0, this);
+                    parentNode = htmlElement.parentNode;
+                    parentNode.removeChild(htmlElement);
+                    parentNode.insertBefore(htmlElement, parentNode.firstElementChild);
                 }
             }
         }
@@ -1758,24 +1556,14 @@ const Control = (() => {
                     if (lastIdx < arr.length - 1) {
                         const newIdx = lastIdx + 1;
                         comps.remove(this);
-                        if (newIdx >= comps.length) {
-                            comps.add(this);
-                        } else {
-                            comps.insert(newIdx, this);
-                        }
+                        newIdx >= comps.length ? comps.add(this) : comps.insert(newIdx, this);
                         parentNode = htmlElement.parentNode;
                         parentNode.removeChild(htmlElement);
                         let lastElement = null;
-                        if (lastIdx >= arr.length) {
-                            lastElement = null;
-                        } else {
-                            lastElement = arr[newIdx + 1];
-                        }
-                        if (newIdx >= arr.length) {
-                            parentNode.appendChild(htmlElement);
-                        } else {
-                            parentNode.insertBefore(htmlElement, lastElement);
-                        }
+                        lastElement = lastIdx >= arr.length ? null : arr[newIdx + 1];
+                        newIdx >= arr.length
+                            ? parentNode.appendChild(htmlElement)
+                            : parentNode.insertBefore(htmlElement, lastElement);
                     }
                 }
             }
@@ -1796,11 +1584,7 @@ const Control = (() => {
                     if (lastIdx < arr.length && lastIdx > 0) {
                         const newIdx = lastIdx - 1;
                         comps.remove(this);
-                        if (newIdx < 0) {
-                            comps.insert(0, this);
-                        } else {
-                            comps.insert(newIdx, this);
-                        }
+                        newIdx < 0 ? comps.insert(0, this) : comps.insert(newIdx, this);
                         const parentNode = htmlElement.parentNode;
                         parentNode.removeChild(htmlElement);
                         const lastElement = arr[newIdx];
@@ -1816,38 +1600,30 @@ const Control = (() => {
             const priv = internal(this);
             const form = this.form;
             //#endregion Variables déclaration
-            if (priv.enabled && (this instanceof Core.classes.Control)) {
-                if (this.hitTest.mouseDown) {
-                    if (form && form instanceof Core.classes.Window) {
-                        if (priv.closePopups) {
-                            if (form.mainMenu) {
-                                form.mainMenu.isActive = !1;
-                            }
-                            form.closePopups();
-                        }
-                        if (!priv.canFocused && this !== form.content) {
-                            const parentCanFocused = this.owner;
-                            if (parentCanFocused && parentCanFocused.canFocused && form.focusedControl !== parentCanFocused) {
-                                parentCanFocused.setFocus();
-                            }
-                        } else if (!priv.isFocused && form.focusedControl !== this) {
-                            this.setFocus();
-                        }
+            if (priv.enabled && (this instanceof core.classes.Control) && this.hitTest.mouseDown) {
+                if (form && form instanceof core.classes.Window) {
+                    if (priv.closePopups) {
+                        form.mainMenu ? form.mainMenu.isActive = !1 : 1;
+                        form.closePopups();
                     }
-                    if (Core.mouse.button === Mouse.MOUSEBUTTONS.RIGHT) {
-                        this.contextMenu();
-                        return;
-                    } else {
-                        if (this.autoCapture) {
-                            this.capture();
-                        }
-                        this.isPressed = !0;
-                        this.onMouseDown.invoke();
-                    }
-                    if (!Core.isHTMLRenderer) {
-                        Core.canvas.needRedraw = !0;
+                    if (!priv.canFocused && this !== form.content) {
+                        const parentCanFocused = this.owner;
+                        parentCanFocused && parentCanFocused.canFocused
+                            && form.focusedControl !== parentCanFocused
+                            ? parentCanFocused.setFocus() : 1;
+                    } else if (!priv.isFocused && form.focusedControl !== this) {
+                        this.setFocus();
                     }
                 }
+                if (core.mouse.button === Mouse.MOUSEBUTTONS.RIGHT) {
+                    this.contextMenu();
+                    return;
+                } else {
+                    this.autoCapture ? this.capture() : 1;
+                    this.isPressed = !0;
+                    this.onMouseDown.invoke();
+                }
+                !core.isHTMLRenderer ? core.canvas.needRedraw = !0 : 1;
             }
         }
         //#endregion mouseDown
@@ -1855,23 +1631,19 @@ const Control = (() => {
         mouseUp() {
             //#region Variables déclaration
             const priv = internal(this);
-            let target = Core.mouse.event.target;
+            let target = core.mouse.event.target;
             let clicked = !1;
             //#endregion Variables déclaration
-            if (!target.jsObj) {
-                target = target.parentNode;
-            }
-            if (this instanceof Core.classes.Control) {
+            !target.jsObj ? target = target.parentNode : 1;
+            if (this instanceof core.classes.Control) {
                 this.releaseCapture();
                 this.onMouseUp.invoke();
                 clicked = priv.isPressed && !priv.doubleClick;
                 this.isPressed = !1;
                 this.doubleClick = !1;
-                if (clicked && Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
+                if (clicked && core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
                     this.click();
-                    if (!Core.isHTMLRenderer) {
-                        Core.canvas.needRedraw = !0;
-                    }
+                    !core.isHTMLRenderer ? core.canvas.needRedraw = !0 : 1;
                 }
             }
         }
@@ -1881,7 +1653,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (this instanceof Core.classes.Control) {
+            if (this instanceof core.classes.Control) {
                 //if (this.scrollContainer!==null) this.scrollContainer.mouseWheel.apply(this.scrollContainer,arguments);
                 //else {
                 //  if (this.wheelTimer===null) {
@@ -1897,32 +1669,28 @@ const Control = (() => {
         //#endregion mouseWheel
         //#region mouseMove
         mouseMove() {
-            if (this instanceof Core.classes.Control) {
-                this.onMouseMove.invoke();
-            }
+            this instanceof core.classes.Control ? this.onMouseMove.invoke() : 1;
         }
         //#endregion mouseMove
         //#region mouseEnter
         mouseEnter() {
             //#region Variables déclaration
             const priv = internal(this);
-            const CUSTOMCURSORS = Types.CUSTOMCURSORS;
+            const CUSTOMCURSORS = core.types.CUSTOMCURSORS;
             const cursor = priv.cursor;
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (this instanceof Core.classes.Control) {
+            if (this instanceof core.classes.Control) {
                 this.isMouseOver = !0;
                 this.onMouseEnter.invoke();
-                if (cursor !== CUSTOMCURSORS.DEFAULT) {
-                    if ((cursor === CUSTOMCURSORS.WAIT || cursor === CUSTOMCURSORS.PROGRESS)) {
-                        Core.animatedCursor.initAnimation(Core.isHTMLRenderer ? htmlElement : Core.canvas, cursor);
-                    }
-                }
-                this.form.app.showToolTip(this, Core.mouse.document, !0);
-                if (priv.isPressed && Core.isHTMLRenderer) {
+                cursor !== CUSTOMCURSORS.DEFAULT
+                    && (cursor === CUSTOMCURSORS.WAIT || cursor === CUSTOMCURSORS.PROGRESS)
+                    ? core.animatedCursor.initAnimation(core.isHTMLRenderer ? htmlElement : core.canvas, cursor) : 1;
+                this.form.app.showToolTip(this, core.mouse.document, !0);
+                if (priv.isPressed && core.isHTMLRenderer) {
                     htmlElement.classList.add('pressed');
-                } else if (!Core.isHTMLRenderer) {
-                    Core.canvas.needRedraw = !0;
+                } else if (!core.isHTMLRenderer) {
+                    core.canvas.needRedraw = !0;
                 }
             }
         }
@@ -1932,21 +1700,19 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const cursor = priv.cursor;
-            const CUSTOMCURSORS = Types.CUSTOMCURSORS;
+            const CUSTOMCURSORS = core.types.CUSTOMCURSORS;
             //#endregion Variables déclaration
-            if (this instanceof Core.classes.Control) {
+            if (this instanceof core.classes.Control) {
                 this.isMouseOver = !1;
                 this.onMouseLeave.invoke();
-                if (cursor !== CUSTOMCURSORS.DEFAULT) {
-                    if ((cursor === CUSTOMCURSORS.WAIT || cursor === CUSTOMCURSORS.PROGRESS)) {
-                        Core.animatedCursor.stopAnimation();
-                    }
-                }
+                cursor !== CUSTOMCURSORS.DEFAULT
+                    && (cursor === CUSTOMCURSORS.WAIT || cursor === CUSTOMCURSORS.PROGRESS)
+                    ? core.animatedCursor.stopAnimation() : 1;
                 this.form.app.hideToolTip();
-                if (Core.isHTMLRenderer) {
+                if (core.isHTMLRenderer) {
                     this.HTMLElement.classList.remove('pressed');
-                } else if (!Core.isHTMLRenderer) {
-                    Core.canvas.needRedraw = !0;
+                } else if (!core.isHTMLRenderer) {
+                    core.canvas.needRedraw = !0;
                 }
             }
         }
@@ -1957,15 +1723,10 @@ const Control = (() => {
             const priv = internal(this);
             const focusedControl = this.form.focusedControl;
             //#endregion Variables déclaration
-            if (this instanceof Core.classes.Control && priv.canFocused) {
-                if (focusedControl) {
-                    if (focusedControl !== this) {
-                        focusedControl.killFocus();
-                    }
-                }
-                this.isFocused = !0;
-                this.onEnterFocus.invoke();
-            }
+            this instanceof core.classes.Control && priv.canFocused && focusedControl && focusedControl !== this
+                ? focusedControl.killFocus() : 1;
+            this.isFocused = !0;
+            this.onEnterFocus.invoke();
         }
         //#endregion enterFocus
         //#region killFocus
@@ -1973,7 +1734,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if ((this instanceof Core.classes.Control) && priv.canFocused) {
+            if ((this instanceof core.classes.Control) && priv.canFocused) {
                 this.isFocused = !1;
                 //this._applyTriggerEffect(this,'isFocused');
                 //this.startTriggerAnimation(this,'isFocused');
@@ -1988,9 +1749,9 @@ const Control = (() => {
             const htmlElement = this.HTMLElement;
             const dispatchEvent = this.dispatchEvent;
             const events = [MOUSEEVENTS.OVER, MOUSEEVENTS.OUT, MOUSEEVENTS.CLICK, MOUSEEVENTS.MOVE, MOUSEEVENTS.DOWN, MOUSEEVENTS.UP,
-                MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK, MOUSEEVENTS.DOMSCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG,
-                MOUSEEVENTS.DROP, MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
-                MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
+            MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK, MOUSEEVENTS.DOMSCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG,
+            MOUSEEVENTS.DROP, MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
+            MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
             ];
             //#endregion Variables déclaration
             events.forEach(event => {
@@ -2005,9 +1766,9 @@ const Control = (() => {
             const htmlElement = this.HTMLElement;
             const dispatchEvent = this.dispatchEvent;
             const events = [MOUSEEVENTS.OVER, MOUSEEVENTS.OUT, MOUSEEVENTS.CLICK, MOUSEEVENTS.MOVE, MOUSEEVENTS.DOWN, MOUSEEVENTS.UP,
-                MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK, MOUSEEVENTS.DOMSCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG,
-                MOUSEEVENTS.DROP, MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
-                MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
+            MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK, MOUSEEVENTS.DOMSCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG,
+            MOUSEEVENTS.DROP, MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
+            MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
             ];
             //#endregion Variables déclaration
             events.forEach(event => {
@@ -2022,11 +1783,11 @@ const Control = (() => {
             let jsObj = htmlObj.jsObj;
             let activeWin = null;
             let forceStopEvent = !1;
-            const AUTOMATIC = Types.DRAGMODES.AUTOMATIC;
-            const DOCK = Types.DRAGKINDS.DOCK;
+            const AUTOMATIC = core.types.DRAGMODES.AUTOMATIC;
+            const DOCK = core.types.DRAGKINDS.DOCK;
             const MOUSEEVENTS = Mouse.MOUSEEVENTS;
             //#endregion Variables déclaration
-            if (Core.isHTMLRenderer) {
+            if (core.isHTMLRenderer) {
                 while (!jsObj) {
                     htmlObj = htmlObj.parentNode;
                     if (htmlObj !== null) {
@@ -2044,59 +1805,46 @@ const Control = (() => {
                 return;
             }
             activeWin = jsObj.form.app.activeWindow;
-            Core.keyboard.getKeyboardInfos(event);
-            Core.mouse.getMouseInfos(event);
+            core.keyboard.getKeyboardInfos(event);
+            core.mouse.getMouseInfos(event);
             switch (event.type) {
                 case MOUSEEVENTS.MOVE:
-                    if (Core.resizeWindow) {
+                    if (core.resizeWindow) {
                         activeWin.mouseMove(event);
                     } else if (activeWin.capturedControl) {
-                        if (activeWin.capturedControl.mouseMove) {
-                            activeWin.capturedControl.mouseMove();
-                        }
-                    } else if (Tools.isFunc(jsObj.mouseMove)) {
+                        activeWin.capturedControl.mouseMove ? activeWin.capturedControl.mouseMove() : 1;
+                    } else if (core.tools.isFunc(jsObj.mouseMove)) {
                         jsObj.mouseMove();
                     }
                     break;
                 case MOUSEEVENTS.DOWN:
                     if (activeWin !== jsObj.form) {
-                        if (activeWin.mainMenu) {
-                            activeWin.mainMenu.isActive = !1;
-                        }
+                        activeWin.mainMenu ? activeWin.mainMenu.isActive = !1 : 1;
                         activeWin.app.closeAllPopups();
                     }
-                    if (jsObj.form && jsObj.form instanceof Core.classes.Window) {
+                    if (jsObj.form && jsObj.form instanceof core.classes.Window) {
                         jsObj.form.setActive();
                         activeWin = jsObj.form;
-                        if (jsObj.autoCapture) {
-                            activeWin.capturedControl = jsObj;
-                        }
+                        jsObj.autoCapture ? activeWin.capturedControl = jsObj : 1;
                         if (activeWin !== jsObj.form.app.mainWindow) {
-                            if (jsObj.form.app.mainWindow.mainMenu) {
-                                jsObj.form.app.mainWindow.mainMenu.isActive = !1;
-                            }
+                            jsObj.form.app.mainWindow.mainMenu
+                                ? jsObj.form.app.mainWindow.mainMenu.isActive = !1 : 1;
                             jsObj.form.app.mainWindow.closePopups();
                         }
                     }
-                    if (Tools.isFunc(jsObj.mouseDown)) {
-                        jsObj.mouseDown();
-                    }
-                    if (Core.classes.CustomTextControl && activeWin.focusedControl instanceof Core.classes.CustomTextControl) {
-                        activeWin.focusedControl.inputObj.focus();
-                    }
+                    core.tools.isFunc(jsObj.mouseDown) ? jsObj.mouseDown() : 1;
+                    core.classes.CustomTextControl
+                        && activeWin.focusedControl instanceof core.classes.CustomTextControl
+                        ? activeWin.focusedControl.inputObj.focus() : 1;
                     break;
                 case MOUSEEVENTS.UP:
                 case MOUSEEVENTS.CLICK:
-                    if (Core.resizeWindow) {
+                    if (core.resizeWindow) {
                         activeWin.mouseUp(event);
                     } else if (activeWin.capturedControl) {
-                        if (activeWin.capturedControl.mouseUp) {
-                            activeWin.capturedControl.mouseUp();
-                        }
-                        if (activeWin) {
-                            activeWin.capturedControl = null;
-                        }
-                    } else if (Tools.isFunc(jsObj.mouseUp)) {
+                        activeWin.capturedControl.mouseUp ? activeWin.capturedControl.mouseUp() : 1;
+                        activeWin ? activeWin.capturedControl = null : 1;
+                    } else if (core.tools.isFunc(jsObj.mouseUp)) {
                         jsObj.mouseUp();
                     }
                     break;
@@ -2105,78 +1853,55 @@ const Control = (() => {
                     if (activeWin.popups.length > 0 && !jsObj.forceMouseWheel) {
                         return;
                     }
-                    if (Tools.isFunc(jsObj.mouseWheel)) {
-                        jsObj.mouseWheel();
-                    }
+                    core.tools.isFunc(jsObj.mouseWheel) ? jsObj.mouseWheel() : 1;
                     forceStopEvent = !0;
                     jsObj.stopEvent ? event.preventDefault() : jsObj.form.mouseWheel();
                     break;
                 case MOUSEEVENTS.DBLCLICK:
                     if (activeWin.capturedControl) {
-                        if (activeWin.capturedControl.mouseUp) {
-                            activeWin.capturedControl.dblClick();
-                        }
-                    } else if (Tools.isFunc(jsObj.dblClick) && jsObj.dblClick) {
+                        activeWin.capturedControl.mouseUp ? activeWin.capturedControl.dblClick() : 1;
+                    } else if (core.tools.isFunc(jsObj.dblClick) && jsObj.dblClick) {
                         jsObj.dblClick();
                     }
                     break;
                 case MOUSEEVENTS.OUT:
                 case MOUSEEVENTS.LEAVE:
-                    if (Tools.isFunc(jsObj.mouseLeave)) {
-                        jsObj.mouseLeave();
-                    }
+                    core.tools.isFunc(jsObj.mouseLeave) ? jsObj.mouseLeave() : 1;
                     break;
                 case MOUSEEVENTS.OVER:
                 case MOUSEEVENTS.ENTER:
-                    if (Tools.isFunc(jsObj.mouseEnter)) {
-                        jsObj.mouseEnter();
-                    }
+                    core.tools.isFunc(jsObj.mouseEnter) ? jsObj.mouseEnter() : 1;
                     break;
                 case MOUSEEVENTS.DRAG:
-                    if (jsObj.dragMode !== AUTOMATIC)
-                        if (Tools.isFunc(jsObj.drag)) {
-                            jsObj.drag();
-                        }
+                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.drag) ? jsObj.drag() : 1;
                     break;
                 case MOUSEEVENTS.DROP:
                     if (jsObj.dragKind === DOCK) {
                         if (jsObj.dragMode === AUTOMATIC) {
                             event.preventDefault();
                             event.target.appendChild(document.getElementById(event.dataTransfer.getData('text')));
-                        } else if (Tools.isFunc(jsObj.drop)) {
+                        } else if (core.tools.isFunc(jsObj.drop)) {
                             jsObj.drop();
                         }
                     }
                     break;
                 case MOUSEEVENTS.DRAGEND:
-                    if (jsObj.dragMode !== AUTOMATIC)
-                        if (Tools.isFunc(jsObj.dragEnd)) {
-                            jsObj.dragEnd();
-                        }
+                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.dragEnd) ? jsObj.dragEnd() : 1;
                     break;
                 case MOUSEEVENTS.DRAGENTER:
-                    if (jsObj.dragMode !== AUTOMATIC)
-                        if (Tools.isFunc(jsObj.dragEnter)) {
-                            jsObj.dragEnter();
-                        }
+                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.dragEnter) ? jsObj.dragEnter() : 1;
                     break;
                 case MOUSEEVENTS.DRAGEXIT:
-                    if (jsObj.dragMode !== AUTOMATIC)
-                        if (Tools.isFunc(jsObj.dragExit)) {
-                            jsObj.dragExit();
-                        }
+                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.dragExit) ? jsObj.dragExit() : 1;
                     break;
                 case MOUSEEVENTS.DRAGLEAVE:
-                    if (jsObj.dragMode !== AUTOMATIC)
-                        if (Tools.isFunc(jsObj.dragLeave)) {
-                            jsObj.dragLeave();
-                        }
+                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.dragLeave) ? jsObj.dragLeave() : 1;
                     break;
                 case MOUSEEVENTS.DRAGOVER:
                     if (jsObj.dragKind === DOCK) {
                         if (jsObj.dragMode === AUTOMATIC) {
                             event.preventDefault();
-                        } else if (Tools.isFunc(jsObj.dragOver)) {
+                        } else if (core.tools.isFunc(jsObj.dragOver)) {
                             jsObj.dragOver();
                         }
                     }
@@ -2184,28 +1909,26 @@ const Control = (() => {
                 case MOUSEEVENTS.DRAGSTART:
                     if (jsObj.dragMode === AUTOMATIC) {
                         event.dataTransfer.setData('text', htmlObj.id);
-                    } else if (Tools.isFunc(jsObj.dragStart)) {
+                    } else if (core.tools.isFunc(jsObj.dragStart)) {
                         jsObj.dragStart();
                     }
                     break;
-                //case Types.mouseEvents.CLICK:
+                //case core.types.mouseEvents.CLICK:
                 //  //jsObj.click();
                 //  break;
-                //case Types.mouseEvents.EVENT:
+                //case core.types.mouseEvents.EVENT:
                 //  break;
-                //case Types.keybordEvents.DOWN:
-                //  if (typeof jsObj.keyDown===Types.CONSTANTS.FUNCTION) jsObj.keyDown();
+                //case core.types.keybordEvents.DOWN:
+                //  if (typeof jsObj.keyDown===core.types.CONSTANTS.FUNCTION) jsObj.keyDown();
                 //  break;
-                //case Types.keybordEvents.UP:
-                //  if (typeof jsObj.keyUp===Types.CONSTANTS.FUNCTION) jsObj.keyUp();
+                //case core.types.keybordEvents.UP:
+                //  if (typeof jsObj.keyUp===core.types.CONSTANTS.FUNCTION) jsObj.keyUp();
                 //  break;
-                //case Types.keybordEvents.PRESS:
-                //  if (typeof jsObj.keyPress===Types.CONSTANTS.FUNCTION) jsObj.keyPress();
+                //case core.types.keybordEvents.PRESS:
+                //  if (typeof jsObj.keyPress===core.types.CONSTANTS.FUNCTION) jsObj.keyPress();
                 //  break;
             }
-            if (jsObj.stopEvent || forceStopEvent) {
-                Core.mouse.stopEvent(event);
-            }
+            jsObj.stopEvent || forceStopEvent ? core.mouse.stopEvent(event) : 1;
         }
         //#endregion dispatchEvent
         //#region releaseCapture
@@ -2213,11 +1936,7 @@ const Control = (() => {
             //#region Variables déclaration
             const form = this.form;
             //#endregion Variables déclaration
-            if (form) {
-                if (form.capturedControl === this) {
-                    form.capturedControl = null;
-                }
-            }
+            form && form.capturedControl === this ? form.capturedControl = null : 1;
         }
         //#endregion releaseCapture
         //#region capture
@@ -2225,9 +1944,7 @@ const Control = (() => {
             //#region Variables déclaration
             const form = this.form;
             //#endregion Variables déclaration
-            if (form) {
-                form.capturedControl = this;
-            }
+            form ? form.capturedControl = this : 1;
         }
         //#endregion capture
         //#region click
@@ -2250,11 +1967,9 @@ const Control = (() => {
         //#region keyDown
         keyDown() {
             this.onKeyDown.invoke();
-            if (Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
-                if (!(this instanceof Core.classes.CustomTextControl)) {
-                    this.isPressed = !0;
-                }
-            }
+            core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE
+                && !(this instanceof core.classes.CustomTextControl)
+                ? this.isPressed = !0 : 1;
         }
         //#endregion keyDown
         //#region keyUp
@@ -2263,12 +1978,12 @@ const Control = (() => {
             const VKEYSCODES = Keyboard.VKEYSCODES;
             //#endregion Variables déclaration
             this.onKeyUp.invoke();
-            if (Core.keyboard.keyCode === VKEYSCODES.VK_SPACE || Core.keyboard.keyCode === VKEYSCODES.VK_RETURN) {
-                if (!(this instanceof Core.classes.CustomTextControl)) {
+            if (core.keyboard.keyCode === VKEYSCODES.VK_SPACE || core.keyboard.keyCode === VKEYSCODES.VK_RETURN) {
+                if (!(this instanceof core.classes.CustomTextControl)) {
                     this.click();
                     this.isPressed = !1;
                 }
-            } else if (Core.keyboard.keyCode === VKEYSCODES.VK_MENU) {
+            } else if (core.keyboard.keyCode === VKEYSCODES.VK_MENU) {
                 if (this.popupMenu) {
                     const pt = this.clientToDocument();
                     this.popupMenu.show(pt.x, pt.y);
@@ -2288,9 +2003,8 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.dragKind === Types.DRAGKINDS.DRAG && priv.dragMode === Types.DRAGMODES.MANUAL) {
-                this.onDrag.invoke(event);
-            }
+            priv.dragKind === core.types.DRAGKINDS.DRAG && priv.dragMode === core.types.DRAGMODES.MANUAL
+                ? this.onDrag.invoke(event) : 1;
         }
         //#endregion drag
         //#region drop
@@ -2298,11 +2012,9 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.dragKind !== Types.DRAGKINDS.DOCK) {
-                if (priv.dragMode !== Types.DRAGMODES.MANUAL) {
-                    this.onDrop.invoke(event);
-                }
-            }
+            priv.dragKind !== core.types.DRAGKINDS.DOCK
+                && priv.dragMode !== core.types.DRAGMODES.MANUAL
+                ? this.onDrop.invoke(event) : 1;
         }
         //#endregion drop
         //#region dragEnter
@@ -2310,11 +2022,9 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.dragKind === Types.DRAGKINDS.DOCK) {
-                if (priv.dragMode === Types.DRAGMODES.MANUAL) {
-                    this.onDragEnter.invoke(event);
-                }
-            }
+            priv.dragKind === core.types.DRAGKINDS.DOCK
+                && priv.dragMode === core.types.DRAGMODES.MANUAL
+                ? this.onDragEnter.invoke(event) : 1;
         }
         //#endregion dragEnter
         //#region dragStart
@@ -2322,9 +2032,9 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.dragKind === Types.DRAGKINDS.DRAG && priv.dragMode === Types.DRAGMODES.MANUAL) {
-                this.onDragStart.invoke(event);
-            }
+            priv.dragKind === core.types.DRAGKINDS.DRAG
+                && priv.dragMode === core.types.DRAGMODES.MANUAL
+                ? this.onDragStart.invoke(event) : 1;
         }
         //#endregion dragStart
         //#region dragLeave
@@ -2332,11 +2042,9 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.dragKind === Types.DRAGKINDS.DOCK) {
-                if (priv.dragMode === Types.DRAGMODES.MANUAL) {
-                    this.onDragLeave.invoke(event);
-                }
-            }
+            priv.dragKind === core.types.DRAGKINDS.DOCK
+                && priv.dragMode === core.types.DRAGMODES.MANUAL
+                ? this.onDragLeave.invoke(event) : 1;
         }
         //#endregion dragLeave
         //#region dragExit
@@ -2344,9 +2052,9 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.dragKind === Types.DRAGKINDS.DRAG && priv.dragMode === Types.DRAGMODES.MANUAL) {
-                this.onDragExit.invoke(event);
-            }
+            priv.dragKind === core.types.DRAGKINDS.DRAG
+                && priv.dragMode === core.types.DRAGMODES.MANUAL
+                ? this.onDragExit.invoke(event) : 1;
         }
         //#endregion dragExit
         //#region dragOver
@@ -2354,11 +2062,9 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.dragKind === Types.DRAGKINDS.DOCK) {
-                if (priv.dragMode === Types.DRAGMODES.MANUAL) {
-                    this.onDragOver.invoke(event);
-                }
-            }
+            priv.dragKind === core.types.DRAGKINDS.DOCK
+                && priv.dragMode === core.types.DRAGMODES.MANUAL
+                ? this.onDragOver.invoke(event) : 1;
         }
         //#endregion dragOver
         //#region dragEnd
@@ -2366,9 +2072,9 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.dragKind === Types.DRAGKINDS.DRAG && priv.dragMode === Types.DRAGMODES.MANUAL) {
-                this.onDragEnd.invoke(event);
-            }
+            priv.dragKind === core.types.DRAGKINDS.DRAG
+                && priv.dragMode === core.types.DRAGMODES.MANUAL
+                ? this.onDragEnd.invoke(event) : 1;
         }
         //#endregion dragEnd
         //dialogKey Control_dialogKey(key,shift){
@@ -2388,8 +2094,8 @@ const Control = (() => {
             const popupMenu = priv.popupMenu;
             //#endregion Variables déclaration
             if (popupMenu) {
-                const x = Core.mouse.window.x;
-                const y = Core.mouse.window.y;
+                const x = core.mouse.window.x;
+                const y = core.mouse.window.y;
                 //this.popup.staysOpen=!1;
                 popupMenu.control = this;
                 popupMenu.show(x, y);
@@ -2401,12 +2107,10 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            //if (Tools.Debugger.debug) console.log(`${ this.constructor.name } getHTMLElement`);
+            //if (core.tools.Debugger.debug) console.log(`${ this.constructor.name } getHTMLElement`);
             if (id !== String.EMPTY) {
                 super.getHTMLElement(id);
-                if (this.HTMLElement) {
-                    priv.resizer.observe(this.HTMLElement);
-                }
+                this.HTMLElement ? priv.resizer.observe(this.HTMLElement) : 1;
                 //this.initEvents();
                 //if (this.animations.length>0) {
                 //  for (let i=0,l=this.animations.length;i<l;i++) {
@@ -2414,7 +2118,7 @@ const Control = (() => {
                 //  }
                 //}
                 //this.updateFromHTML();
-                //Tools.Debugger.log(arguments, this, t);
+                //core.tools.Debugger.log(arguments, this, t);
             }
         }
         //#endregion getHTMLElement
@@ -2422,39 +2126,32 @@ const Control = (() => {
         getChilds(childs, owner) {
             //#region Variables déclaration
             let dataClass = null;
-            const XMLNODETYPES = Types.XMLNODETYPES;
-            const isHtmlRenderer = Core.isHTMLRenderer;
-            const classes = Core.classes;
+            const isHtmlRenderer = core.isHTMLRenderer;
+            const classes = core.classes;
+            const XMLNODETYPES = core.types.XMLNODETYPES;
             let props;
             //#endregion Variables déclaration
             if (childs) {
                 let nodes = null;
                 if (isHtmlRenderer) {
                     nodes = childs ? childs.childNodes : this.HTMLElement.childNodes;
-                } else if (Core.isCanvasRenderer) {
+                } else if (core.isCanvasRenderer) {
                     nodes = childs;
                 }
                 nodes.forEach(node => {
-                    if (node.nodeType === XMLNODETYPES.ELEMENT_NODE && isHtmlRenderer) {
-                        dataClass = node.dataset.class;
-                    } else {
-                        dataClass = node.className;
-                    }
+                    dataClass = node.nodeType === XMLNODETYPES.ELEMENT_NODE && isHtmlRenderer
+                        ? node.dataset.class : dataClass = node.className;
                     let properties = {};
                     if (isHtmlRenderer) {
                         if (node.nodeType === XMLNODETYPES.ELEMENT_NODE) {
                             props = node.querySelector(`[id='${node.id}']> properties:first-child`);
-                            if (props) {
-                                properties = JSON.parse(props.innerText);
-                            }
+                            props ? properties = JSON.parse(props.innerText) : 1;
                         }
                     } else {
                         properties = node.properties;
                     }
                     if (dataClass) {
-                        if (!owner) {
-                            owner = this;
-                        }
+                        !owner ? owner = this : 1;
                         classes.createComponent({
                             class: classes[dataClass],
                             owner: owner,
@@ -2471,9 +2168,9 @@ const Control = (() => {
         //#region clientOrigin
         //clientOrigin() {
         //    //#region Variables déclaration
-        //    const result = new Core.classes.Point;
+        //    const result = new core.classes.Point;
         //    const htmlElement = this.HTMLElement;
-        //    const htmlParentElement = Tools.HTMLParentElement;
+        //    const htmlParentElement = core.tools.HTMLParentElement;
         //    //#endregion Variables déclaration
         //    this.owners.forEach(owner => {
         //        const oHtmlElement = owner.HTMLElement;
@@ -2494,12 +2191,12 @@ const Control = (() => {
         //documentToClient(pt) {
         //    //#region Variables déclaration
         //    const origin = this.clientOrigin();
-        //    const result = new Core.classes.Point;
+        //    const result = new core.classes.Point;
         //    const width = this.width;
         //    const height = this.height;
         //    //#endregion Variables déclaration
         //    if (!pt) {
-        //        pt = Core.mouse.document;
+        //        pt = core.mouse.document;
         //    }
         //    result.x = pt.x - origin.x;
         //    result.y = pt.y - origin.y;
@@ -2528,21 +2225,18 @@ const Control = (() => {
             this.sizing();
             super.loaded();
             this.initEvents();
-            if (owner.tab) {
-                this.tab = owner.tab;
-            }
+            owner.tab ? this.tab = owner.tab : 1;
             !this.enabled ? htmlElement.classList.add('disabled') : null;
-            !this.visible ? priv.forceDisplayVisibility ? htmlElement.classList.add('noDisplay') : htmlElement.classList.add('hidden') : null;
-            if (!String.isNullOrEmpty(priv.cssClasses)) {
-                htmlElement.className += priv.cssClasses;
-            }
+            !this.visible ? priv.forceDisplayVisibility
+                ? htmlElement.classList.add('noDisplay') : htmlElement.classList.add('hidden') : null;
+            !String.isNullOrEmpty(priv.cssClasses) ? htmlElement.className += priv.cssClasses : 1;
             htmlElement.classList.add(this.cursor);
         }
         //#endregion loaded
         //#region resized
         resized() {
             //#region Variables déclaration
-            const ALIGNS = Types.ALIGNS;
+            const ALIGNS = core.types.ALIGNS;
             const resizeData = this.resizeData;
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
@@ -2553,14 +2247,9 @@ const Control = (() => {
             if (resizeData.width !== htmlElement.offsetWidth || resizeData.height !== htmlElement.offsetHeight) {
                 const childs = this.components.filter(e => {
                     return (e.align === ALIGNS.SCALE || e.align === ALIGNS.FIT) && e.visible;
-                }
-                );
+                });
                 childs.forEach(child => {
-                    if (child.align === ALIGNS.SCALE) {
-                        child.scaleFromParent();
-                    } else {
-                        child.fitToParent();
-                    }
+                    child.align === ALIGNS.SCALE ? child.scaleFromParent() : child.fitToParent();
                 });
                 resizeData.width = htmlElement.offsetWidth;
                 resizeData.height = htmlElement.offsetHeight;
@@ -2572,7 +2261,7 @@ const Control = (() => {
         scaleFromParent() {
             //#region Variables déclaration
             const p = getComputedStyle(this.HTMLElement);
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const htmlElementStyle = this.HTMLElementStyle;
             const owner = this.owner;
             const resizeData = owner.resizeData;
@@ -2595,16 +2284,16 @@ const Control = (() => {
             let newWidth = null;
             let newHeight = null;
             const p = getComputedStyle(this.HTMLElement);
-            const PX = Types.CSSUNITS.PX;
-            const ALIGNS = Types.ALIGNS;
+            const PX = core.types.CSSUNITS.PX;
+            const ALIGNS = core.types.ALIGNS;
             const oHtmlElement = this.owner.HTMLElement;
             const align = priv.align;
             const htmlElementStyle = this.HTMLElementStyle;
             const pP = getComputedStyle(oHtmlElement);
-            const mR = new Core.classes.Rect(~~parseFloat(pP.paddingLeft), ~~parseFloat(pP.paddingTop),
+            const mR = new core.classes.Rect(~~parseFloat(pP.paddingLeft), ~~parseFloat(pP.paddingTop),
                 oHtmlElement.offsetWidth - ~~parseFloat(pP.paddingRight),
                 oHtmlElement.offsetHeight - ~~parseFloat(pP.paddingBottom));
-            const cR = new Core.classes.Rect(~~parseFloat(p.left) - ~~parseFloat(p.paddingLeft),
+            const cR = new core.classes.Rect(~~parseFloat(p.left) - ~~parseFloat(p.paddingLeft),
                 ~~parseFloat(p.top) - ~~parseFloat(p.paddingTop),
                 ~~parseFloat(p.left) + ~~parseFloat(p.width) + ~~parseFloat(p.paddingRight),
                 ~~parseFloat(p.top) + ~~parseFloat(p.height) + ~~parseFloat(p.paddingBottom));
@@ -2616,23 +2305,15 @@ const Control = (() => {
                 cR.top = cR.top / fitScale.ratio;
                 cR.bottom = cR.bottom / fitScale.ratio;
                 cR.center(mR);
-                if (align === ALIGNS.FITLEFT) {
-                    cR.offset(mR.left - cR.left, 0);
-                }
-                if (align === ALIGNS.FITRIGHT) {
-                    cR.offset(mR.right - cR.right, 0);
-                }
+                align === ALIGNS.FITLEFT ? cR.offset(mR.left - cR.left, 0) : 1;
+                align === ALIGNS.FITRIGHT ? cR.offset(mR.right - cR.right, 0) : 1;
                 newLeft = cR.left;
                 newTop = cR.top;
                 newWidth = cR.right - cR.left;
                 newHeight = cR.bottom - cR.top;
             } else {
-                if (align === ALIGNS.FITLEFT) {
-                    cR.offset(mR.left - cR.left, 0);
-                }
-                if (align === ALIGNS.FITRIGHT) {
-                    cR.offset(mR.right - cR.right, 0);
-                }
+                align === ALIGNS.FITLEFT ? cR.offset(mR.left - cR.left, 0) : 1;
+                align === ALIGNS.FITRIGHT ? cR.offset(mR.right - cR.right, 0) : 1;
                 newLeft = fitScale.rect.left;
                 newTop = fitScale.rect.top;
                 newWidth = fitScale.rect.right - fitScale.rect.left;
@@ -2648,38 +2329,36 @@ const Control = (() => {
         applyTransforms(transform) {
             //#region Variables déclaration
             const priv = internal(this);
-            const t = [];
+            let t = [];
             const rotateAngle = priv.rotateAngle;
             const scale = priv.scale;
             //#endregion Variables déclaration
             if (this.HTMLElementStyle) {
                 this.resetTransform();
-                if (!transform) {
-                    transform = String.EMPTY;
-                }
+                transform = transform || String.EMPTY;
                 //Translation
                 //if (transform.includes("translate")) t.push(transform);
                 //Rotation
                 if (transform.includes('rotate')) {
-                    t.push(transform);
+                    t = [...t, transform];
                 } else if (rotateAngle !== 0) {
-                    t.push(`rotate(${rotateAngle}deg)`);
+                    t = [...t, `rotate(${rotateAngle}deg)`];
                 }
                 //if (this._rotateAngle!==0) {
                 //rad=_conv.deg2Rad(this._rotateAngle);
-                //t.push(["matrix(",Core.cos(rad),",",Core.sin(rad),",",-Core.sin(rad),",",Core.cos(rad),",0,0)"].join(String.EMPTY));
-                //this.HTMLElementStyle.transformOrigin=this._rotateCenter.x+Types.CSSUnits.PX+String.SPACE+this._rotateCenter.y+Types.CSSUnits.PX+String.SPACE+" 0px";
+                //t.push(["matrix(",core.cos(rad),",",core.sin(rad),",",-core.sin(rad),",",core.cos(rad),",0,0)"].join(String.EMPTY));
+                //this.HTMLElementStyle.transformOrigin=this._rotateCenter.x+core.types.CSSUnits.PX+String.SPACE+this._rotateCenter.y+core.types.CSSUnits.PX+String.SPACE+" 0px";
                 //this.HTMLElementStyle.transformOrigin="0px 0px 0px";
                 //}
                 //Scale
                 if (transform.includes('scale')) {
-                    t.push(transform);
+                    t = [...t, transform];
                 } else if (!scale.isEmpty && scale.x !== 1 && scale.y !== 1) {
-                    t.push(`scale(${scale.x}, ${scale.y})`);
+                    t = [...t, `scale(${scale.x}, ${scale.y})`];
                 } else if (scale.x > 0 && scale.y === 0) {
-                    t.push(`scaleX(${scale.x})`);
+                    t = [...t, `scaleX(${scale.x})`];
                 } else if (scale.y > 0 && scale.x === 0) {
-                    t.push(`scaleY(${scale.y})`);
+                    t = [...t, `scaleY(${scale.y})`];
                 }
                 this.HTMLElementStyle.transform = t.join(String.SPACE);
             }
@@ -2687,9 +2366,7 @@ const Control = (() => {
         //#endregion applyTransforms
         //#region resetTransform
         resetTransform() {
-            if (Core.isHTMLRenderer) {
-                this.HTMLElementStyle.transform = String.EMPTY;
-            }
+            core.isHTMLRenderer ? this.HTMLElementStyle.transform = String.EMPTY : 1;
         }
         //#endregion resetTransform
         //#region getTabOrderList
@@ -2698,20 +2375,14 @@ const Control = (() => {
             const priv = internal(this);
             const tabList = priv.tabList;
             //#endregion Variables déclaration
-            if (children) {
-                children = !0;
-            }
+            children ? children = !0 : 1;
             if (!list) {
                 return;
             }
             if (tabList) {
                 tabList.forEach(tab => {
-                    if (tab.isVisible) {
-                        list.push(tab);
-                    }
-                    if (children) {
-                        tab.getTabOrderList(list, children);
-                    }
+                    tab.isVisible ? list.push(tab) : 1;
+                    children ? tab.getTabOrderList(list, children) : 1;
                 });
             }
         }
@@ -2720,42 +2391,70 @@ const Control = (() => {
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
-            const tabList = priv.tabList;
-            const padding = priv.padding;
-            const margin = priv.margin;
             //#endregion Variables déclaration
             priv.resizer.disconnect();
-            priv.allowUpdateOnResize = !1;
-            if (this.hasResizeEvent) {
-                Core.looper.removeListener(this, 'resized');
-            }
-            this.resetEvent();
-            if (tabList) {
-                tabList.clear();
-            }
-            if (padding) {
-                padding.destroy();
-            }
-            if (margin) {
-                margin.destroy();
-            }
-            console.log(Object.keys(priv));
-            // à remplacer par une boucle - début
+            priv.allowUpdate = null;
+            priv.autoTranslate = null;
+            priv.isMouseOver = null;
+            priv.isFocused = null;
+            priv.isPressed = null;
+            priv.closePopups = null;
+            priv.wrapper = null;
+            priv.forceMouseWheel = null;
+            priv.hasResizeEvent = null;
+            priv.resizeData = null;
+            priv.tabList.destroy();
+            priv.tabList = null;
+            priv.stopEvent = null;
+            priv.constraints.destroy();
+            priv.constraints = null;
+            priv.ownerShowToolTip = null;
+            priv.autoCapture = null;
+            priv.padding.destroy();
+            priv.padding = null;
+            priv.margin.destroy();
+            priv.margin = null;
+            priv.popupMenu = null;
+            priv.opacity = null;
+            priv.width = null;
+            priv.height = null;
+            priv.scale.destroy();
+            priv.scale = null;
+            priv.canFocused = null;
+            priv.showFocus = null;
+            priv.enabled = null;
+            priv.rotateCenter.destroy();
+            priv.rotateCenter = null;
+            priv.toolTip = null;
+            priv.showToolTip = null;
+            priv.hitTest.destroy();
+            priv.hitTest = null;
+            priv.rotateAngle = null;
+            priv.customStyle = null;
+            priv.cssClasses = null;
+            priv.tabOrder = null;
+            priv.right = null;
+            priv.bottom = null;
+            priv.doubleClick = null;
+            priv.component = null;
+            priv.forceDisplayVisibility = null;
+            priv.clipped = null;
+            priv.reflected = null;
+            priv.column = null;
+            priv.row = null;
+            priv.colSpan = null;
+            priv.rowSpan = null;
+            priv.allowUpdateOnResize = null;
+            priv.allowRealignChildsOnResize = null;
+            priv.update = null;
+            priv.resizer.obj = null;
+            priv.resizer = null;
+            priv.updateCell = null;
             this.unBindAndDestroyEvents(['onMouseDown', 'onMouseMove', 'onMouseUp', 'onClick', 'onDblClick',
-                    'onMouseLeave', 'onMouseEnter', 'onMouseWheel', 'onMouseWheelEnd', 'onBeforePaint', 'onPaint',
-                    'onAfterPaint', 'onEnterFocus', 'onKillFocus', 'onKeyDown', 'onKeyUp', 'onKeyPress', 'onAfterResized',
-                    'onDragStart', 'onDrag', 'onDragExit', 'onDragEnd', 'onDragEnter', 'onDragOver', 'onDragLeave',
-                    'onDrop', 'onDestroy', 'onResize']);
-            if (this.scale) {
-                this.scale.destroy();
-            }
-            // à remplacer par une boucle - fin
-            //this.align = null;
-            if (this.rotateCenter) {
-                this.rotateCenter.destroy();
-            }
-            //if (this._boundingClientRect)) this._boundingClientRect.destroy();
-            //this._boundingClientRect=null;
+                'onMouseLeave', 'onMouseEnter', 'onMouseWheel', 'onMouseWheelEnd', 'onBeforePaint', 'onPaint',
+                'onAfterPaint', 'onEnterFocus', 'onKillFocus', 'onKeyDown', 'onKeyUp', 'onKeyPress', 'onAfterResized',
+                'onDragStart', 'onDrag', 'onDragExit', 'onDragEnd', 'onDragEnter', 'onDragOver', 'onDragLeave',
+                'onDrop', 'onDestroy', 'onResize']);
             super.destroy();
         }
         //#endregion destroy
@@ -2764,10 +2463,8 @@ const Control = (() => {
             //#region Variables déclaration
             const htmlElement = control.HTMLElement;
             //#endregion Variables déclaration
-            if (control instanceof Core.classes.Control) {
-                if (htmlElement) {
-                    htmlElement.remove();
-                }
+            if (control instanceof core.classes.Control) {
+                htmlElement ? htmlElement.remove() : 1;
                 this.insertComponent(control);
             }
         }
@@ -2775,15 +2472,9 @@ const Control = (() => {
         //#region getChildsControls
         getChildsControls(callback) {
             this.components.forEach(comp => {
-                if (comp instanceof Core.classes.Component) {
-                    if (callback) {
-                        if (Tools.isFunc(callback)) {
-                            callback(comp);
-                        }
-                    }
-                    if (comp instanceof Core.classes.Control) {
-                        comp.getChildsControls(callback);
-                    }
+                if (comp instanceof core.classes.Component) {
+                    callback && core.tools.isFunc(callback) ? callback(comp) : 1;
+                    comp instanceof core.classes.Control ? comp.getChildsControls(callback) : 1;
                 }
             });
         }
@@ -2793,10 +2484,7 @@ const Control = (() => {
             //#region Variables déclaration
             const owner = this.owner;
             //#endregion Variables déclaration
-            if (owner && this.HTMLElement) {
-                return owner.components.indexOf(this);
-            }
-            return -1;
+            return owner && this.HTMLElement ? owner.components.indexOf(this) : -1;
         }
         //#endregion getZOrder
         //#region render
@@ -2805,89 +2493,68 @@ const Control = (() => {
             const changingTheme = document.body.classList.contains('changingTheme');
             const themeName = changingTheme ? this.app.themeManifest.lastThemeName : this.themeName;
             const priv = internal(this);
-            const ctx = Core.ctx;
-            const classes = Core.classes;
-            const CONSTANTS = Types.CONSTANTS;
+            const ctx = core.ctx;
+            const classes = core.classes;
+            const CONSTANTS = core.types.CONSTANTS;
             let drawCaption = this instanceof classes.CaptionControl;
             let state = priv.isPressed ? 'pressed' : priv.isMouseOver ? 'hovered' : priv.isFocused ? 'focused' : 'normal';
             const params = [];
             //#endregion Variables déclaration
-            if (this instanceof classes.Window || this instanceof classes.WindowTitleBar) {
-                state = this.form.activeWindow ? 'active' : 'inactive';
-            }
+            this instanceof classes.Window || this instanceof classes.WindowTitleBar
+                ? (state = this.form.activeWindow ? 'active' : 'inactive') : 1;
 
             ctx.save();
             ctx.translate(this.contentLeft, this.contentTop);
             if (this instanceof classes.ThemedControl) {
                 let obj = this;
                 className = className ? className : this.__proto__.constructor.name;
-                let objTheme = Core.themes[themeName][className];
+                let objTheme = core.themes[themeName][className];
                 while (!objTheme && obj instanceof classes.ThemedControl) {
                     obj = Object.getPrototypeOf(obj);
                     className = obj.__proto__.constructor.name;
-                    objTheme = Core.themes[themeName][className];
+                    objTheme = core.themes[themeName][className];
                 }
                 ctx.save();
-                if (!priv.enabled) {
-                    ctx.globalAlpha = 0.5;
-                }
+                !priv.enabled ? ctx.globalAlpha = 0.5 : 1;
                 if (objTheme) {
-                    if (objTheme.hasOwnProperty('clipped') && objTheme.clipped) {
-                        ctx.clipRect(0, 0, this.contentWidth, this.contentHeight);
-                    }
-                    if (objTheme.defaultDrawing != undefined) {
-                        drawCaption = drawCaption && objTheme.defaultDrawing;
-                    }
+                    objTheme.hasOwnProperty('clipped') && objTheme.clipped
+                        ? ctx.clipRect(0, 0, this.contentWidth, this.contentHeight) : 1;
+                    objTheme.defaultDrawing != undefined
+                        ? drawCaption = drawCaption && objTheme.defaultDrawing : 1;
                     if (objTheme.shapes) {
                         objTheme.shapes.forEach(shape => {
                             let width = shape.width ? shape.width : priv.width;
                             let height = shape.height ? shape.height : priv.height;
-                            if (Tools.isString(height)) {
-                                height = eval(eval(height));
-                            }
-                            if (Tools.isString(width)) {
-                                width = eval(eval(width));
-                            }
+                            core.tools.isString(height) ? height = eval(eval(height)) : 1;
+                            core.tools.isString(width) ? width = eval(eval(width)) : 1;
                             const w2 = width / 2;
                             //const h2 = height / 2;
                             let left = shape.left ? shape.left : 0;
                             let top = shape.top ? shape.top : 0;
-                            if (Tools.isString(left)) {
-                                left = eval(eval(left));
-                            }
-                            if (Tools.isString(top)) {
-                                top = eval(eval(top));
-                            }
+                            core.tools.isString(left) ? left = eval(eval(left)) : 1;
+                            core.tools.isString(top) ? top = eval(eval(top)) : 1;
                             let offset = 0;
                             let canDraw = !0;
                             // Offset
-                            if (shape.offset != undefined) {
-                                offset = shape.offset;
-                            }
+                            shape.offset != undefined ? offset = shape.offset : 1;
                             // Shape
-                            const returnTrigger = Tools.checkTrigger(this, shape);
+                            const returnTrigger = core.tools.checkTrigger(this, shape);
                             if (returnTrigger.isOK) {
-                                if (shape.storedName) {
-                                    Tools.storeValue(Core.vars, shape.storedName, returnTrigger);
-                                }
+                                shape.storedName
+                                    ? core.tools.storeValue(core.vars, shape.storedName, returnTrigger) : 1;
                                 // Radius
                                 let radius = shape.radius;
                                 if (radius) {
-                                    if (Tools.isNumber(radius) && obj.borderRadius) {
-                                        radius = obj.borderRadius;
-                                    }
-                                    params.push(Tools.processRadius(this, Core.vars, radius));
+                                    core.tools.isNumber(radius) && obj.borderRadius
+                                        ? radius = obj.borderRadius : 1;
+                                    params.push(core.tools.processRadius(this, core.vars, radius));
                                 }
                                 // Fill / Stroke
                                 switch (shape.type) {
                                     case 'drawImg': {
-                                        let img = Core.themes[themeName].images[shape.image];
-                                        if (!img) {
-                                            img = Core.themes.images[shape.image];
-                                        }
-                                        if (img) {
-                                            ctx[shape.type](this, img, shape);
-                                        }
+                                        let img = core.themes[themeName].images[shape.image];
+                                        !img ? img = core.themes.images[shape.image] : 1;
+                                        img ? ctx[shape.type](this, img, shape) : 1;
                                         canDraw = !1;
                                         break;
                                     }
@@ -2910,75 +2577,54 @@ const Control = (() => {
                                         break;
                                     case 'rectWithBordersColor':
                                         params.insert(0, shape.borders);
-                                        if (shape.hasOwnProperty('bottom')) {
-                                            params.insert(0, height - top - shape.bottom);
-                                        } else {
-                                            params.insert(0, height); // height
-                                        }
-                                        if (shape.hasOwnProperty('right')) {
-                                            params.insert(0, width - left - shape.right);
-                                        } else {
-                                            params.insert(0, width); // width
-                                        }
+                                        shape.hasOwnProperty('bottom')
+                                            ? params.insert(0, height - top - shape.bottom)
+                                            : params.insert(0, height); // height
+                                        shape.hasOwnProperty('right')
+                                            ? params.insert(0, width - left - shape.right)
+                                            : params.insert(0, width); // width
                                         params.insert(0, top);          // top
                                         params.insert(0, left);          // left 
                                         break;
                                     default:
-                                        if (shape.hasOwnProperty('bottom')) {
-                                            params.insert(0, height - top - shape.bottom);
-                                        } else {
-                                            params.insert(0, height - (shape.strokeStyle ? 1 : 0)/*-offset*2-top*2*/); // height
-                                        }
-                                        if (shape.hasOwnProperty('right')) {
-                                            params.insert(0, width - left - shape.right);
-                                        } else {
-                                            params.insert(0, width - (shape.strokeStyle ? 1 : 0)/*-offset*2-left*2*/);  // width
-                                        }
-                                        params.insert(0, top + (shape.strokeStyle ? 0.5 : 0));          // top
-                                        params.insert(0, left + (shape.strokeStyle ? 0.5 : 0));          // left 
-                                        break;
+                                        shape.hasOwnProperty('bottom')
+                                            ? params.insert(0, height - top - shape.bottom)
+                                            : params.insert(0, height - (shape.strokeStyle ? 1 : 0)); // height
                                 }
-                                if (canDraw) {
-                                    if (shape.clipping) {
-                                        ctx.clipRegion(shape.clipping, left, top, width, height);
-                                    }
-                                    ctx.beginPath();
-                                    if (shape.borders && shape.type !== 'rectWithBordersColor') {
-                                        params.push(Tools.processBorders(this, shape.borders));
-                                        //params.push(shape.borders);
-                                    }
-                                    ctx[shape.type](...params);
-                                    if (!shape.borders) {
-                                        Tools.processStyle(this, shape, state);
-                                    }
-                                    if (shape.clipping) {
-                                        ctx.restore();
-                                    }
-                                }
+                                shape.hasOwnProperty('right')
+                                    ? params.insert(0, width - left - shape.right)
+                                    : params.insert(0, width - (shape.strokeStyle ? 1 : 0));  // width
+                                params.insert(0, top + (shape.strokeStyle ? 0.5 : 0));          // top
+                                params.insert(0, left + (shape.strokeStyle ? 0.5 : 0));          // left 
+                                break;
+                            }
+                            if (canDraw) {
+                                shape.clipping
+                                    ? ctx.clipRegion(shape.clipping, left, top, width, height) : 1;
+                                ctx.beginPath();
+                                shape.borders && shape.type !== 'rectWithBordersColor'
+                                    ? params.push(core.tools.processBorders(this, shape.borders)) : 1;
+                                ctx[shape.type](...params);
+                                !shape.borders ? core.tools.processStyle(this, shape, state) : 1;
+                                shape.clipping ? ctx.restore() : 1;
                             }
                             params.clear();
                         });
                     }
                 }
-                if (drawCaption) {
-                    Core.themes.CaptionControl.render(this);
-                }
+                drawCaption ? core.themes.CaptionControl.render(this) : 1;
                 ctx.restore();
             }
-            if (priv.clipped) {
-                ctx.clipRect(0, 0, this.contentWidth, this.contentHeight);
-            }
+            priv.clipped ? ctx.clipRect(0, 0, this.contentWidth, this.contentHeight) : 1;
             this.components.forEach(comp => {
-                if (comp.isVisible && comp instanceof classes.Control) {
-                    comp.render();
-                }
+                comp.isVisible && comp instanceof classes.Control ? comp.render() : 1;
             });
             ctx.restore();
         }
         //#endregion render
         //#endregion Methods
         /*static init() {*/
-        /*if (Core.isHTMLRenderer) {
+        /*if (core.isHTMLRenderer) {
             let ControlTpl = "<div id='{internalId}' data-name='{name}' data-class='{className}' class='Control {className}' style='width:100px;height:100px;'></div>",
                 ItemsWheelTpl = `< div id = '{internalId}' data - class='ItemsWheel' class='Control ItemsWheel {theme} {cssClasses}' >
                                         <div class='Control ItemsWheelTopGradient carbon'></div>
@@ -3016,112 +2662,12 @@ const Control = (() => {
     return Control;
     //#endregion Control
 })();
-//#region Control defineProperties
-Object.defineProperties(Control, {
-    'autoTranslate': {
-        enumerable: !0
-    },
-    'closePopups': {
-        enumerable: !0
-    },
-    'forceMouseWheel': {
-        enumerable: !0
-    },
-    'stopEvent': {
-        enumerable: !0
-    },
-    'constraints': {
-        enumerable: !0
-    },
-    'ownerShowToolTip': {
-        enumerable: !0
-    },
-    'autoCapture': {
-        enumerable: !0
-    },
-    'padding': {
-        enumerable: !0
-    },
-    'margin': {
-        enumerable: !0
-    },
-    'popupMenu': {
-        enumerable: !0
-    },
-    'opacity': {
-        enumerable: !0
-    },
-    'width': {
-        enumerable: !0
-    },
-    'height': {
-        enumerable: !0
-    },
-    'scale': {
-        enumerable: !0
-    },
-    'canFocused': {
-        enumerable: !0
-    },
-    'showFocus': {
-        enumerable: !0
-    },
-    'enabled': {
-        enumerable: !0
-    },
-    'rotateCenter': {
-        enumerable: !0
-    },
-    'toolTip': {
-        enumerable: !0
-    },
-    'showToolTip': {
-        enumerable: !0
-    },
-    'hitTest': {
-        enumerable: !0
-    },
-    'rotateAngle': {
-        enumerable: !0
-    },
-    'customStyle': {
-        enumerable: !0
-    },
-    'cssClasses': {
-        enumerable: !0
-    },
-    'tabOrder': {
-        enumerable: !0
-    },
-    'right': {
-        enumerable: !0
-    },
-    'bottom': {
-        enumerable: !0
-    },
-    'doubleClick': {
-        enumerable: !0
-    },
-    'visible': {
-        enumerable: !0
-    },
-    'display': {
-        enumerable: !0
-    },
-    'left': {
-        enumerable: !0
-    },
-    'top': {
-        enumerable: !0
-    }
-});
-//#endregion Control defineProperties
 //#endregion Control
 //#region Templates
 //const controlTpl = ['<div id='{internalId}' data-name='{name}' data-class='{className}' class='Control {className}' style='width:100px;height:100px;'></div>";
 //const ToolTipTpl = "<div class='Control ToolTip {theme}'>{text}</div>";
-Core.classes.register(Types.CATEGORIES.INTERNAL, Control);
-//Core.classes.registerTemplates([
+core.classes.register(core.types.CATEGORIES.INTERNAL, Control);
+//core.classes.registerTemplates([
 //    { Class: Control, template: controlTpl }
 //]);
 //#endregion

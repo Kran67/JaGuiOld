@@ -3,19 +3,13 @@
  */
 class Xml {
     //#region Methods
+    //#region Statics
+    //#region newDocument
     static newDocument(encoding, version, standalone, rootName) {
-        if (!encoding) {
-            encoding = 'ISO-8859-1';
-        }
-        if (!version) {
-            version = '1.0';
-        }
-        if (!standalone) {
-            standalone = '!1';
-        }
-        if (!rootName) {
-            rootName = 'root';
-        }
+        encoding = encoding || 'ISO-8859-1';
+        version = version || '1.0';
+        standalone = standalone || '!1';
+        rootName = rootName || 'root';
         const xmlDoc = `<?xml version='${version}' encoding='${encoding}' ?><${rootName}></${rootName}>`;
         if (window.ActiveXObject) { // IE
             const doc = new ActiveXObject('Microsoft.XMLDOM');
@@ -26,6 +20,8 @@ class Xml {
             return (new DOMParser()).parseFromString(xmlDoc, 'text/xml');
         }
     }
+    //#endregion newDocument
+    //#region findNodes
     static findNodes(xml, xpath) {
         const arr = [];
         if (window.ActiveXObject) {
@@ -43,14 +39,20 @@ class Xml {
         }
         return arr;
     }
+    //#endregion findNodes
+    //#region addNode
     static addNode(xml, parentNode, name) {
         const newNode = xml.createElement(name);
         parentNode.appendChild(newNode);
         return newNode;
     }
+    //#endregion addNode
+    //#region delNode
     static delNode(node) {
         node.parentNode.removeChild(node);
     }
+    //#endregion delNode
+    //#endregion Statics
     //#endregion Methods
 }
 export { Xml };

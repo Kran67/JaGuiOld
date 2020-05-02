@@ -5,7 +5,7 @@ import { BaseClass } from '/scripts/core/baseclass.js';
 class Style extends BaseClass {
     //#region constructor
     constructor(parentClasses, props) {
-        !Array.isArray(parentClasses)?parentClasses = []:1;
+        !Array.isArray(parentClasses) ? parentClasses = [] : 1;
         if (!parentClasses.isEmpty) {
             parentClasses.forEach(parentClasse => {
                 const keys = Object.keys(parentClasse);

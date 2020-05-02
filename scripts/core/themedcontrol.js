@@ -1,6 +1,5 @@
 ﻿//#region Imports
 import { Control } from '/scripts/components/control.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region ThemedControl
 const ThemedControl = (() => {
@@ -8,9 +7,7 @@ const ThemedControl = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -27,46 +24,38 @@ const ThemedControl = (() => {
             }
         }
         //#endregion constructor
-        //#region Getter / Setter
+        //#region Getters / Setters
         //#region themeName
         get themeName() {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            return priv.themeName !== String.EMPTY ? priv.themeName : this.form.app.themeManifest.themeName;
+            return !String.isNullOrEmpty(priv.themeName) ? priv.themeName : this.form.app.themeManifest.themeName;
         }
         set themeName(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.themeName !== newValue) {
-                    // on recherche s'il existe un theme
-                    let newThemeOk = !1;
-                    if (Core.isHTMLRenderer) {
-                        newThemeOk = Array.from(document.styleSheets).some(styleSheet => {
-                            if (styleSheet.href) {
-                                return styleSheet.href.includes(`${newValue}.css`);
-                            } else {
-                                return !1;
-                            }
-                        });
-                    } else {
-                        newThemeOk = Core.themes[newValue];
-                    }
-                    if (newThemeOk) {
-                        priv.themeName = newValue;
-                        //if (Core.isHTMLRenderer) {
-                        //    ctrls = this.HTMLElement.querySelectorAll("[data-theme]");
-                        //    ctrls.forEach(ctrl => {
-                        //        if (ctrl.jsObj) {
-                        //            if (jsObj === this) {
-                        //                //ctrls[j].dataset.theme = internal(this).themeName;
-                        //            }
-                        //        }
-                        //    });
-                        //}
-                    }
+            if (core.tools.isString(newValue) && priv.themeName !== newValue) {
+                // on recherche s'il existe un theme
+                let newThemeOk = !1;
+                newThemeOk = core.isHTMLRenderer
+                    ? Array.from(document.styleSheets).some(styleSheet => {
+                        return styleSheet.href ? styleSheet.href.includes(`${newValue}.css`) : !1;
+                    })
+                    : core.themes[newValue];
+                if (newThemeOk) {
+                    priv.themeName = newValue;
+                    //if (core.isHTMLRenderer) {
+                    //    ctrls = this.HTMLElement.querySelectorAll("[data-theme]");
+                    //    ctrls.forEach(ctrl => {
+                    //        if (ctrl.jsObj) {
+                    //            if (jsObj === this) {
+                    //                //ctrls[j].dataset.theme = internal(this).themeName;
+                    //            }
+                    //        }
+                    //    });
+                    //}
                 }
             }
         }
@@ -86,7 +75,7 @@ const ThemedControl = (() => {
             return html;
         }
         //#endregion template
-        //#endregion Getter / Setter
+        //#endregion Getters / Setters
         //#region Methods
         //#region changeTheme
         changeTheme() {
@@ -98,13 +87,6 @@ const ThemedControl = (() => {
     return ThemedControl;
     //#endregion ThemedControl
 })();
-//#region ThemedControl defineProperties
-Object.defineProperties(ThemedControl, {
-    'themeName': {
-        enumerable: !0
-    }
-});
-//#endregion ThemedControl defineProperties
+core.classes.register(core.types.CATEGORIES.INTERNAL, ThemedControl);
 //#endregion ThemedControl
-Core.classes.register(Types.CATEGORIES.INTERNAL, ThemedControl);
 export { ThemedControl };

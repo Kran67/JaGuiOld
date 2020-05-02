@@ -1,7 +1,4 @@
-﻿//#region Imports
-import { Tools } from '/scripts/core/tools.js';
-//#endregion Imports
-/**
+﻿/**
  *
  */
 //#region Uri
@@ -17,24 +14,17 @@ class Uri {
         //#region Variables déclaration
         const splited = path.split('/');
         //#endregion Variables déclaration
-        if (!returnLast) {
-            returnLast = !1;
-        }
-        if (returnLast) {
-            return splited[splited.length - 1];
-        } else {
-            return splited;
-        }
+        !returnLast ? returnLast = !1 : 1;
+        return returnLast ? splited[splited.length - 1] : splited;
     }
     //#endregion split
     //#region base
     static base() {
         //#region Variables déclaration
-        let uri = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : String.EMPTY) + '/';
+        let uri = `${location.protocol}//${location.hostname}${(location.port ? ':' + location.port : String.EMPTY)}/`;
         //#endregion Variables déclaration
-        if (location.href.toLowerCase().indexOf(Tools.getPath('base').toLowerCase()) > -1) {
-            uri += Tools.getPath('base') + '/';
-        }
+        location.href.toLowerCase().indexOf(core.tools.getPath('base').toLowerCase()) > -1
+            ? uri += `${core.tools.getPath('base')}/` : 1;
         return uri;
     }
     //#endregion base
@@ -45,7 +35,7 @@ class Uri {
     //#endregion extractFileName
     //#region extractFileExt
     static extractFileExt(url) {
-        return url.split(".").last;
+        return url.split('.').last;
     }
     //#endregion extractFileExt
     //#region getParamValue
@@ -61,13 +51,11 @@ class Uri {
     //#region convertToRealURI
     static convertToRealURI(uri) {
         //#region Variables déclaration
-        const props = Object.keys(Core.folders);
+        const props = Object.keys(core.folders);
         //#endregion Variables déclaration
         props.forEach(prop => {
             const newUri = uri.split(prop);
-            if (newUri.length > 1) {
-                uri = newUri.join(Core.folders[prop]);
-            }
+            newUri.length > 1 ? uri = newUri.join(core.folders[prop]) : 1;
         });
         return uri;
     }

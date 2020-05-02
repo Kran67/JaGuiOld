@@ -1,7 +1,6 @@
 ﻿//#region Imports
 import { BaseClass } from '/scripts/core/baseclass.js';
 import { Window } from '/scripts/components/containers/window.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region ThemeManifest
 const ThemeManifest = (() => {
@@ -9,9 +8,7 @@ const ThemeManifest = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -23,12 +20,12 @@ const ThemeManifest = (() => {
             super(owner);
             const priv = internal(this);
             priv.themes = [];
-            priv.lastThemeName = Core.defaultTheme;
+            priv.lastThemeName = core.defaultTheme;
             priv.owner = owner;
-            priv.themeName = Core.defaultTheme;
+            priv.themeName = core.defaultTheme;
         }
         //#endregion Constructor
-        //#region getters / setters
+        //#region Getters / Setters
         //#region themes
         get themes() {
             return internal(this).themes;
@@ -42,11 +39,8 @@ const ThemeManifest = (() => {
             //#region Variables declaration
             const priv = internal(this);
             //#endregion Variables declaration
-            if (Tools.isString(newValue)) {
-                if (priv.lastThemeName !== newValue) {
-                    priv.lastThemeName = newValue;
-                }
-            }
+            core.tools.isString(newValue) && priv.lastThemeName !== newValue
+                ? priv.lastThemeName = newValue : 1;
         }
         //#endregion lastThemeName
         //#region owner
@@ -62,17 +56,15 @@ const ThemeManifest = (() => {
             //#region Variables declaration
             const priv = internal(this);
             //#endregion Variables declaration
-            if (Tools.isString(newValue)) {
-                if (newValue !== priv.themeName) {
-                    document.body.classList.add('changingTheme');
-                    priv.lastThemeName = priv.themeName;
-                    priv.themeName = newValue.toLowerCase();
-                    setTimeout(this.changeTheme.bind(this), 1000);
-                }
+            if (core.tools.isString(newValue) && newValue !== priv.themeName) {
+                document.body.classList.add('changingTheme');
+                priv.lastThemeName = priv.themeName;
+                priv.themeName = newValue.toLowerCase();
+                setTimeout(this.changeTheme.bind(this), 1000);
             }
         }
         //#endregion themeName
-        //#endregion getters / setters
+        //#endregion Getters / Setters
         //#region Methods
         //#region changeTheme
         changeTheme() {
@@ -81,11 +73,11 @@ const ThemeManifest = (() => {
             const lastThemeName = this.lastThemeName;
             const themeName = this.themeName;
             const owner = this.owner;
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             //#endregion Variables declaration
             if (!isHtmlRenderer) {
-                Core.deleteImages(Core.themes[lastThemeName]);
-                Core.themes[lastThemeName].initialized = !1;
+                core.deleteImages(core.themes[lastThemeName]);
+                core.themes[lastThemeName].initialized = !1;
             }
             // Delete all image from previous theme
             wins.forEach(win => {
@@ -105,10 +97,10 @@ const ThemeManifest = (() => {
             //#region Variables declaration
             const lastThemeName = this.lastThemeName;
             const themeName = this.themeName;
-            const isHtmlRenderer = Core.isHTMLRenderer;
-            const wHTMLElement = window.HTMLElement=
-            //#endregion Variables declaration
-            window.themeName = themeName;
+            const isHtmlRenderer = core.isHTMLRenderer;
+            const wHTMLElement = window.HTMLElement =
+                //#endregion Variables declaration
+                window.themeName = themeName;
             if (isHtmlRenderer) {
                 wHTMLElement.classList.remove(lastThemeName);
                 wHTMLElement.classList.add(themeName);
@@ -118,39 +110,27 @@ const ThemeManifest = (() => {
                     ctrl.classList.add(themeName);
                     if (ctrl.jsObj) {
                         const jsObj = ctrl.jsObj;
-                        if (jsObj.themeName) {
-                            if (jsObj.themeName !== themeName) {
-                                jsObj.themeName = themeName;
-                            }
-                        }
+                        jsObj.themeName && jsObj.themeName !== themeName ? jsObj.themeName = themeName : 1;
                     }
                 });
             } else {
-                const theme = Core.themes[themeName];
+                const theme = core.themes[themeName];
                 let margin = null;
-                if (theme && theme.window && theme.window.layout && theme.window.layout.margin) {
-                    margin = theme.window.layout.margin;
-                } else {
-                    margin = Window.SIZEABLEBORDERSIZE;
-                }
+                margin = theme && theme.window && theme.window.layout && theme.window.layout.margin
+                    ? theme.window.layout.margin
+                    : Window.SIZEABLEBORDERSIZE;
                 window.layoutMargin(margin);
-                if (theme && theme.window && theme.window.titlebar && theme.window.titlebar.height) {
-                    window.setTitleBarProp({'height': theme.window.titlebar.height});
-                } else {
-                    window.setTitleBarProp({'height': Window.TITLEBARHEIGHT});
-                }
+                theme && theme.window && theme.window.titlebar && theme.window.titlebar.height
+                    ? window.setTitleBarProp({ 'height': theme.window.titlebar.height })
+                    : window.setTitleBarProp({ 'height': Window.TITLEBARHEIGHT });
                 if (window.isRolledUp || window.minimzed) {
-                    if (theme && theme.window && theme.window.minHeight) {
-                        window.height = theme.window.minHeight;
-                    } else {
-                        window.height = Window.MINHEIGHT;
-                    }
+                    theme && theme.window && theme.window.minHeight
+                        ? window.height = theme.window.minHeight
+                        : window.height = Window.MINHEIGHT;
                 }
                 window.alignButtons();
                 window.captionChanged();
-                if (theme.onThemeChanged) {
-                    theme.onThemeChanged.invoke(window);
-                }
+                theme.onThemeChanged ? theme.onThemeChanged.invoke(window) : 1;
             }
             window.onThemeChanged.invoke();
             window.realignChilds();
@@ -170,11 +150,7 @@ const ThemeManifest = (() => {
             //#region Variables declaration
             const themes = this.themes;
             //#endregion Variables declaration
-            if (Tools.isString(themeName)) {
-                if (themes.indexOf(themeName) === -1) {
-                    themes.push(themeName);
-                }
-            }
+            core.tools.isString(themeName) && themes.indexOf(themeName) === -1 ? themes.push(themeName) : 1;
         }
         //#endregion addTheme
         //#region destroy
@@ -183,6 +159,10 @@ const ThemeManifest = (() => {
             const priv = internal(this);
             //#endregion Variables declaration
             priv.themes.clear();
+            priv.themes = null;
+            priv.lastThemeName = null;
+            priv.owner = null;
+            priv.themeName = null;
             super.destroy();
         }
         //#endregion destroy
@@ -191,13 +171,6 @@ const ThemeManifest = (() => {
     return ThemeManifest;
     //#endregion Class ThemeManifest
 })();
-//#region ThemeManifest defineProperties
-Object.defineProperties(ThemeManifest, {
-    'themeName': {
-        enumerable: !0
-    }
-});
-//#endregion ThemeManifest defineProperties
+core.classes.register(core.types.CATEGORIES.INTERNAL, ThemeManifest);
 //#endregion ThemeManifest
-Core.classes.register(Types.CATEGORIES.INTERNAL, ThemeManifest);
 export { ThemeManifest };

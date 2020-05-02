@@ -7,9 +7,7 @@ const SVGGraphicControl = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -20,11 +18,11 @@ const SVGGraphicControl = (() => {
         constructor(owner, props) {
             props = props || {};
             if (owner) {
+                props.allowUpdateOnResize = !0;
                 super(owner, props);
                 const priv = internal(this);
                 priv.svg = null;
-                priv.svgShape = document.createElementNS(Types.SVG.XMLNS, props.shape);
-                this.allowUpdateOnResize = !0;
+                priv.svgShape = document.createElementNS(core.types.SVG.XMLNS, props.shape);
             }
         }
         //#endregion constructor
@@ -37,11 +35,7 @@ const SVGGraphicControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof HTMLElement) {
-                if (priv.svg !== newValue) {
-                    priv.svg = newValue;
-                }
-            }
+            newValue instanceof HTMLElement && priv.svg !== newValue ? priv.svg = newValue : 1;
         }
         //#endregion svg
         //#region svgShape
@@ -52,11 +46,7 @@ const SVGGraphicControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof HTMLElement) {
-                if (priv.svgShape !== newValue) {
-                    priv.svgShape = newValue;
-                }
-            }
+            newValue instanceof HTMLElement && priv.svgShape !== newValue ? priv.svgShape = newValue : 1;
         }
         //#endregion svgShape
         //#endregion Getter / Setter
@@ -66,8 +56,8 @@ const SVGGraphicControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            const SVG = Types.SVG.SVG;
-            const XMLNS = Types.SVG.XMLNS;
+            const SVG = core.types.SVG.SVG;
+            const XMLNS = core.types.SVG.XMLNS;
             //#endregion Variables déclaration
             if (!htmlElement.querySelector(SVG)) {
                 priv.svg = document.createElementNS(XMLNS, SVG);
@@ -88,25 +78,31 @@ const SVGGraphicControl = (() => {
             const strokeDash = this.strokeDash;
             //#endregion Variables déclaration
             if (!this.loading) {
-                if (fillColor) {
-                    priv.svgShape.setAttribute('fill', fillColor.toRGBAString());
-                }
+                fillColor ? priv.svgShape.setAttribute('fill', fillColor.toRGBAString()) : 1;
                 svgShape.setAttribute('stroke-width', this.strokeWidth);
-                if (strokeColor) {
-                    svgShape.setAttribute('stroke', strokeColor.toRGBAString());
-                }
-                if (strokeDash && strokeDash !== String.EMPTY) {
-                    svgShape.setAttribute('stroke-dasharray', JSON.parse(strokeDash).join(String.COMMA));
-                }
+                strokeColor?svgShape.setAttribute('stroke', strokeColor.toRGBAString()):1;
+                strokeDash && strokeDash !== String.EMPTY
+                    ? svgShape.setAttribute('stroke-dasharray', JSON.parse(strokeDash).join(String.COMMA))
+                    : 1;
                 svgShape.setAttribute('stroke-dashoffset', this.strokeDashOffset);
             }
         }
         //#endregion update
+        //#region destroy
+        destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.svg = null;
+            priv.svgShape = null;
+            super.destroy();
+        }
+        //#endregion destroy
         //#endregion Methods
     }
     return SVGGraphicControl;
     //#endregion SVGGraphicControl
 })();
-//#endregion
-Core.classes.register(Types.CATEGORIES.INTERNAL, SVGGraphicControl);
+core.classes.register(core.types.CATEGORIES.INTERNAL, SVGGraphicControl);
+//#endregion SVGGraphicControl
 export { SVGGraphicControl };

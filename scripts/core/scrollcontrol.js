@@ -26,7 +26,7 @@ const ScrollControl = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                props.hitTest.mouseWheel = !0;
+                props.hitTest = { mouseWheel: !0 };
                 props.mouseTracking = !0;
                 props.stopEvent = !1;
                 props.autoCapture = !0;
