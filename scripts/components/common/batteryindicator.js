@@ -1,8 +1,6 @@
 ﻿//#region Import
 import { Control } from '/scripts/components/control.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Convert } from '/scripts/core/convert.js';
-import { Text } from '/scripts/core/text.js';
 //#endregion Import
 
 //#region BatteryIndicator
@@ -11,9 +9,7 @@ const BatteryIndicator = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -45,11 +41,9 @@ const BatteryIndicator = (() => {
         }
         set showLegend(newValue) {
             const priv = internal(this);
-            if (Tools.isBool(newValue)) {
-                if (priv.showLegend !== newValue) {
-                    priv.showLegend = newValue;
-                    this.update();
-                }
+            if (core.tools.isBool(newValue) && priv.showLegend !== newValue) {
+                priv.showLegend = newValue;
+                this.update();
             }
         }
         //#endregion showLegend
@@ -59,11 +53,9 @@ const BatteryIndicator = (() => {
         }
         set showPercent(newValue) {
             const priv = internal(this);
-            if (Tools.isBool(newValue)) {
-                if (priv.showPercent !== newValue) {
-                    priv.showPercent = newValue;
-                    this.update();
-                }
+            if (core.tools.isBool(newValue) && priv.showPercent !== newValue) {
+                priv.showPercent = newValue;
+                this.update();
             }
         }
         //#endregion showPercent
@@ -74,9 +66,6 @@ const BatteryIndicator = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             let ctxt = this;
-            if (this.obj) {
-                ctxt = this.obj;
-            }
             const htmlElement = ctxt.HTMLElement;
             const htmlElementStyle = ctxt.HTMLElementStyle;
             const bib = priv.bib;
@@ -87,10 +76,11 @@ const BatteryIndicator = (() => {
             const PPoleBefore = priv.PPoleBefore;
             const PPoleAfter = priv.PPoleAfter;
             //#endregion Variables déclaration
+            this.obj ? ctxt = this.obj : 1;
             if (ctxt.battery) {
                 const battery = ctxt.battery;
                 const value = battery.level * 100;
-                const PX = Types.CSSUNITS.PX;
+                const PX = core.types.CSSUNITS.PX;
                 let text = String.EMPTY;
                 let ratioW = 1;
                 let ratioH = 1;
@@ -107,15 +97,14 @@ const BatteryIndicator = (() => {
                 if (battery.charging) {
                     htmlElement.dataset.legend1 = 'En charge'; // à traduire
                     if (battery.chargingTime > 0 && battery.chargingTime !== Infinity) {
-                        if (battery.charging) {
-                            htmlElement.dataset.legend2 = `Temp de charge : ${Convert.sec2hrs(battery.chargingTime)}`;
-                        }
+                        battery.charging
+                            ? htmlElement.dataset.legend2 = `Temp de charge : ${Convert.sec2hrs(battery.chargingTime)}` : 1;
                     }
                 } else if (battery.dischargingTime !== Infinity) {
                     htmlElement.dataset.legend1 = `${Convert.sec2hrs(battery.dischargingTime)} restants`;
                 }
                 if (ctxt.showPercent) {
-                    htmlElement.dataset.percentvalue = `${(text.length > 0 ? '\A' : String.EMPTY)}${value}${Types.CSSUNITS.PO}`;
+                    htmlElement.dataset.percentvalue = `${(text.length > 0 ? '\A' : String.EMPTY)}${value}${core.types.CSSUNITS.PO}`;
                 }
                 htmlElement.dataset.value = value;
                 NiMH.classList.remove('empty', 'warning', 'alarm');
@@ -185,25 +174,25 @@ const BatteryIndicator = (() => {
                 ctxt.update();
             });
             // Generate all childs
-            priv.bib = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}bib`);
+            priv.bib = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}bib`);
             priv.bib.classList.add('Control', 'BatteryIndicatorBefore');
             htmlElement.appendChild(priv.bib);
-            priv.bia = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}bia`);
+            priv.bia = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}bia`);
             priv.bia.classList.add('Control', 'BatteryIndicatorAfter');
             htmlElement.appendChild(priv.bia);
-            priv.NiMH = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}nimh`);
+            priv.NiMH = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}nimh`);
             priv.NiMH.classList.add('Control', 'NiMH');
             htmlElement.appendChild(priv.NiMH);
-            priv.NiMHBefore = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}nimhbefore`);
+            priv.NiMHBefore = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}nimhbefore`);
             priv.NiMHBefore.classList.add('Control', 'NiMHBefore');
             htmlElement.appendChild(priv.NiMHBefore);
-            priv.PPole = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}ppole`);
+            priv.PPole = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}ppole`);
             priv.PPole.classList.add('Control', 'PPole');
             htmlElement.appendChild(priv.PPole);
-            priv.PPoleBefore = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}ppolebefore`);
+            priv.PPoleBefore = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}ppolebefore`);
             priv.PPoleBefore.classList.add('Control', 'PPoleBefore');
             htmlElement.appendChild(priv.PPoleBefore);
-            priv.PPoleAfter = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}ppoleafter`);
+            priv.PPoleAfter = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}ppoleafter`);
             priv.PPoleAfter.classList.add('Control', 'PPoleAfter');
             htmlElement.appendChild(priv.PPoleAfter);
         }
@@ -213,18 +202,15 @@ const BatteryIndicator = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            this.onChargingChange.destroy();
-            this.onLevelChange.destroy();
-            this.onChargingTimeChange.destroy();
-            this.onDischargingTimeChange.destroy();
-            this.onChargingChange = null;
-            this.onLevelChange = null;
-            this.onChargingTimeChange = null;
-            this.onDischargingTimeChange = null;
+            this.unBindAndDestroyEvents(['onChargingChange', 'onLevelChange', 'onChargingTimeChange',
+                'onDischargingTimeChange']);
+            priv.baseWidth = 120;
+            priv.baseHeight = 230;
+            priv.baseFluidHeight = 190;
             priv.showLegend = null;
             priv.showPercent = null;
             priv.battery = null;
-            supper.destroy();
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -232,15 +218,15 @@ const BatteryIndicator = (() => {
     return BatteryIndicator;
     //#endregion BatteryIndicator
 })();
-//#endregion BatteryIndicator
 Object.seal(BatteryIndicator);
-Core.classes.register(Types.CATEGORIES.COMMON, BatteryIndicator);
-export { BatteryIndicator };
+core.classes.register(core.types.CATEGORIES.COMMON, BatteryIndicator);
+//#endregion BatteryIndicator
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const BatteryIndicatorTpl = ['<jagui-batteryindicator id="{internalId}" data-class="BatteryIndicator" class="Control BatteryIndicator csr_default">',
         '<properties>{ "name": "{name}", "height": 230, "width": 120, "showLegend": !1, "showPercent": !1 }',
         '</properties></jagui-batteryindicator>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: BatteryIndicator, template: BatteryIndicatorTpl }]);
+    core.classes.registerTemplates([{ Class: BatteryIndicator, template: BatteryIndicatorTpl }]);
 }
-//#endregion
+//#endregion Templates
+export { BatteryIndicator };

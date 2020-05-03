@@ -238,8 +238,7 @@ const ColorQuad = (() => {
             this.unBindAndDestroyEvents(['onChange']);
             priv.color.destroy();
             priv.color = null;
-            this.format = null;
-            delete this.format;
+            priv.format = null;
             priv.gradientEdit = null;
             super.destroy();
         }

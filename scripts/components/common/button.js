@@ -3,7 +3,6 @@ import { CaptionControl } from '/scripts/core/captioncontrol.js';
 import { Window } from '/scripts/components/containers/window.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 import { Mouse } from '/scripts/core/mouse.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region CustomButton
 const CustomButton = (() => {
@@ -11,9 +10,7 @@ const CustomButton = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -27,14 +24,16 @@ const CustomButton = (() => {
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
-                if (!Core.isHTMLRenderer) {
-                    if (!props.hasOwnProperty('width') && Tools.isNumber(props.width)) {
-                        props.width = 75;
-                    }
-                    if (!props.hasOwnProperty('height') && Tools.isNumber(props.height)) {
-                        props.height = 25;
-                    }
+                if (!core.isHTMLRenderer) {
+                    !props.hasOwnProperty('width') && core.tools.isNumber(props.width) ? props.width = 75 : 1;
+                    !props.hasOwnProperty('height') && core.tools.isNumber(props.height) ? props.height = 25 : 1;
                 }
+                props.hitTest = { all: !0 };
+                props.autoCapture = !0;
+                props.horizAlign = props.hasOwnProperty('horizAlign') ? props.horizAlign : core.types.TEXTALIGNS.CENTER;
+                props.vertAlign = props.hasOwnProperty('vertAlign') ? props.vertAlign : core.types.VERTTEXTALIGNS.MIDDLE;
+                props.autoSize = !1;
+                props.stopEvent = !1;
                 super(owner, props);
                 const priv = internal(this);
                 priv.pressing = !1;
@@ -42,20 +41,15 @@ const CustomButton = (() => {
                 priv.staysPressed = props.hasOwnProperty('staysPressed') ? props.staysPressed : !1;
                 priv.repeatClick = props.hasOwnProperty('repeatClick') ? props.repeatClick : !1;
                 priv.action = null;
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'modalResult',
                     enum: modalResult,
                     variable: priv,
                     value: props.hasOwnProperty('modalResult') ? props.modalResult : modalResult.NONE
                 });
-                this.hitTest.all = !0;
-                this.autoCapture = !0;
-                this.horizAlign = props.hasOwnProperty('horizAlign') ? props.horizAlign : Types.TEXTALIGNS.CENTER;
-                this.vertAlign = props.hasOwnProperty('vertAlign') ? props.vertAlign : Types.VERTTEXTALIGNS.MIDDLE;
-                this.autoSize = !1;
-                priv.borderRadius = props.hasOwnProperty('borderRadius') && Tools.isNumber(props.borderRadius) || Tools.isObject(props.borderRadius) ? props.borderRadius : null;
-                this.stopEvent = !1;
+                priv.borderRadius = props.hasOwnProperty('borderRadius') && core.tools.isNumber(props.borderRadius)
+                    || core.tools.isObject(props.borderRadius) ? props.borderRadius : null;
             }
         }
         //#endregion constructor
@@ -68,17 +62,15 @@ const CustomButton = (() => {
             const htmlElement = this.HTMLElement;
             const textObj = this.textObj;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (pressing !== newValue) {
-                    pressing = priv.pressing = newValue;
-                    this.isPressed = pressing;
-                    if (Core.isHTMLRenderer) {
-                        htmlElement.classList.remove('pressed');
-                        textObj.classList.remove('paddingDownText');
-                        if (pressing) {
-                            htmlElement.classList.add('pressed');
-                            textObj.classList.add('paddingDownText');
-                        }
+            if (core.tools.isBool(newValue) && pressing !== newValue) {
+                pressing = priv.pressing = newValue;
+                this.isPressed = pressing;
+                if (core.isHTMLRenderer) {
+                    htmlElement.classList.remove('pressed');
+                    textObj.classList.remove('paddingDownText');
+                    if (pressing) {
+                        htmlElement.classList.add('pressed');
+                        textObj.classList.add('paddingDownText');
                     }
                 }
             }
@@ -89,15 +81,11 @@ const CustomButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Action) {
-                if (priv.action !== newValue) {
-                    if (priv.action instanceof Core.classes.Action) {
-                        priv.action.unRegisterChanges(this);
-                    }
-                    priv.action = newValue;
-                    priv.action.registerChanges(this);
-                    priv.action.updateTarget(this);
-                }
+            if (newValue instanceof core.classes.Action && priv.action !== newValue) {
+                priv.action instanceof core.classes.Action ? priv.action.unRegisterChanges(this) : 1;
+                priv.action = newValue;
+                priv.action.registerChanges(this);
+                priv.action.updateTarget(this);
             }
         }
         //#endregion action
@@ -106,11 +94,9 @@ const CustomButton = (() => {
             return super.enabled;
         }
         set enabled(newValue) {
-            if (Tools.isBool(newValue)) {
-                if (newValue !== this.enabled) {
-                    this.resetTimer();
-                    super.enabled = newValue;
-                }
+            if (core.tools.isBool(newValue) && newValue !== this.enabled) {
+                this.resetTimer();
+                super.enabled = newValue;
             }
         }
         //#endregion
@@ -122,11 +108,9 @@ const CustomButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.borderRadius !== newValue) {
-                if (Tools.isNumber(newValue) || Tools.isObject(newValue)) {
-                    priv.borderRadius = newValue;
-                    this.update();
-                }
+            if (priv.borderRadius !== newValue && core.tools.isNumber(newValue) || core.tools.isObject(newValue)) {
+                priv.borderRadius = newValue;
+                this.update();
             }
         }
         //#endregion borderRadius
@@ -138,11 +122,7 @@ const CustomButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.repeatClick !== newValue) {
-                    priv.repeatClick = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.repeatClick !== newValue ? priv.repeatClick = newValue : 1;
         }
         //#endregion repeatClick
         //#region staysPressed
@@ -153,11 +133,9 @@ const CustomButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.staysPressed !== newValue) {
-                    priv.staysPressed = newValue;
-                    this.update();
-                }
+            if (core.tools.isBool(newValue) && priv.staysPressed !== newValue) {
+                priv.staysPressed = newValue;
+                this.update();
             }
         }
         //#endregion repeatClick
@@ -167,7 +145,7 @@ const CustomButton = (() => {
         update() {
             //#region Variables déclaration
             const priv = internal(this);
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const htmlElement = this.HTMLElement;
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
@@ -175,9 +153,7 @@ const CustomButton = (() => {
             if (htmlElement) {
                 htmlElementStyle.borderRadius = priv.borderRadius ? `${priv.borderRadius}${PX}` : null;
                 htmlElement.classList.remove('stayspressed');
-                if (priv.staysPressed) {
-                    htmlElement.classList.add('stayspressed');
-                }
+                priv.staysPressed ? htmlElement.classList.add('stayspressed') : 1;
             }
         }
         //#endregion update
@@ -198,26 +174,20 @@ const CustomButton = (() => {
         mouseDown() {
             if (this.enabled) {
                 super.mouseDown();
-                if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
-                    this._down();
-                }
+                core.mouse.button === Mouse.MOUSEBUTTONS.LEFT ? this._down() : 1;
             }
         }
         //#endregion mouseDown
         //#region keyDown
         keyDown() {
             super.keyDown();
-            if (Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
-                this._down();
-            }
+            core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE ? this._down() : 1;
         }
         //#endregion keyDown
         //#region keyUp
         keyUp() {
             super.keyUp();
-            if (Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
-                this._up();
-            }
+            core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE ? this._up() : 1;
         }
         //#endregion keyUp
         //#region _down
@@ -230,8 +200,8 @@ const CustomButton = (() => {
             } else if (priv.repeatClick && priv.repeatTimer === null) {
                 priv.repeatTimer = setInterval(this.onTimer.bind(this), 200);
             }
-            if (Core.isHTMLRenderer) {
-                if (this instanceof Core.classes.ButtonGlyph) {
+            if (core.isHTMLRenderer) {
+                if (this instanceof core.classes.ButtonGlyph) {
                     this.textObj.classList.add('paddingDownText');
                     this.glyph.classList.add('marginDownText');
                 } else {
@@ -243,9 +213,7 @@ const CustomButton = (() => {
         //#region mouseEnter
         mouseEnter() {
             super.mouseEnter();
-            if (this.isPressed) {
-                this._down();
-            }
+            this.isPressed ? this._down() : 1;
         }
         //#endregion mouseEnter
         //#region mouseLeave
@@ -279,15 +247,15 @@ const CustomButton = (() => {
             //#region Variables déclaration
             //#endregion Variables déclaration
             this.resetTimer();
-            if (Core.isHTMLRenderer) {
-                if (this instanceof Core.classes.ButtonGlyph) {
+            if (core.isHTMLRenderer) {
+                if (this instanceof core.classes.ButtonGlyph) {
                     this.textObj.classList.remove('paddingDownText');
                     this.glyph.classList.remove('marginDownText');
                 } else {
                     this.HTMLElement.classList.remove('buttonPaddingDownText');
                 }
             } else {
-                Core.canvas.needRedraw = !0;
+                core.canvas.needRedraw = !0;
             }
         }
         //#endregion _up
@@ -305,7 +273,7 @@ const CustomButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (source instanceof Core.classes.CustomButton) {
+            if (source instanceof core.classes.CustomButton) {
                 priv.staysPressed = source.staysPressed;
                 priv.isPressed = source.isPressed;
                 priv.modalResult = source.modalResult;
@@ -315,9 +283,7 @@ const CustomButton = (() => {
         //#endregion assign
         //#region onTimer
         onTimer() {
-            if (this.enabled) {
-                this.mouseDown();
-            }
+            this.enabled ? this.mouseDown() : 1;
         }
         //#endregion onTimer
         //#region destroy
@@ -325,16 +291,16 @@ const CustomButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.pressing = null;
             priv.repeatTimer = null;
             priv.modalResult = null;
             priv.staysPressed = null;
             priv.repeatClick = null;
-            if (priv.action) {
-                priv.action.removeTarget(this);
-            }
+            priv.action ? priv.action.removeTarget(this) : 1;
             priv.action = null;
+            priv.modalResult = null;
+            priv.borderRadius = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -349,9 +315,7 @@ const Button = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -364,11 +328,12 @@ const Button = (() => {
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
+                !props.hasOwnProperty('canFocused') ? props.canFocused = !0 : 1;
+                props.autoCapture = !0;
                 super(owner, props);
                 const priv = internal(this);
-                this.canFocused = props.hasOwnProperty('canFocused') && Tools.isBool(props.canFocused) ? props.canFocused : !0;
-                this.autoCapture = !0;
-                priv.isDefault = props.hasOwnProperty('isDefault') && Tools.isBool(props.isDefault) ? props.isDefault : !1;
+                priv.isDefault = props.hasOwnProperty('isDefault') && core.tools.isBool(props.isDefault)
+                    ? props.isDefault : !1;
             }
         }
         //#endregion
@@ -381,11 +346,7 @@ const Button = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.isDefault !== newValue) {
-                    priv.isDefault = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.isDefault !== newValue ? priv.isDefault = newValue : 1;
         }
         //#endregion isDefault
         //#region Methods
@@ -394,18 +355,19 @@ const Button = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (source instanceof Core.classes.Button) {
+            if (source instanceof core.classes.Button) {
                 priv.isDefault = source.isDefault;
                 priv.borderRadius = source.borderRadius;
             }
         }
         //#endregion assign
-        //#endregion
+
+        //#endregion Methods
     }
     return Button;
-    //#endregion
+    //#endregion Button
 })();
-//#endregion
+//#endregion Button
 //#region TextButton
 //const TextButton = (function () {
 //    //#region Class TextButton
@@ -423,13 +385,13 @@ const Button = (() => {
 //    //#endregion Class TextButton
 //})();
 //#endregion
-Core.classes.register(Types.CATEGORIES.COMMON, Button);
-Core.classes.register(Types.CATEGORIES.INTERNAL, CustomButton/*, TextButton*/);
-export { CustomButton, /*TextButton, */Button };
+core.classes.register(core.types.CATEGORIES.COMMON, Button);
+core.classes.register(core.types.CATEGORIES.INTERNAL, CustomButton/*, TextButton*/);
 //#region Template
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const ButtonTpl = ['<jagui-button id="{internalId}" data-class="Button" class="Control Button {theme} csr_default">',
         '<properties>{ "name": "{name}", "caption": "{caption}" }</properties></jagui-button>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: Button, template: ButtonTpl }]);
+    core.classes.registerTemplates([{ Class: Button, template: ButtonTpl }]);
 }
 //#endregion Template
+export { CustomButton, /*TextButton, */Button };

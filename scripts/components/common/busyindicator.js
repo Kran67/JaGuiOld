@@ -1,20 +1,18 @@
 ﻿//#region Import
 import { Bindable } from '/scripts/core/bindable.js';
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Css } from '/scripts/core/css.js';
 //#endregion Import
 //#region BUSYINDICATORSTYLES
 /**
  * @type    {Object}        BUSYINDICATORSTYLES
  */
-const BUSYINDICATORSTYLES = Object.freeze({
+const BUSYINDICATORSTYLES = Object.freeze(Object.seal({
     SPIN: 'spin',
     WIN8CIRCLE: 'win8Circle',
     BALL: 'ball',
     CIRCLE: 'circle'
-});
-Object.seal(BUSYINDICATORSTYLES);
+}));
 //#endregion BUSYINDICATORSTYLES
 //#region BusyIndicatorSpinOptions
 const BusyIndicatorSpinOptions = (() => {
@@ -22,9 +20,7 @@ const BusyIndicatorSpinOptions = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -42,7 +38,7 @@ const BusyIndicatorSpinOptions = (() => {
                 // The length of each line
                 priv.length = props.hasOwnProperty('length') ? props.length : 7;
                 // The line thickness
-                priv.lWidth = props.hasOwnProperty('lWidth') ? props.lWidth : 4;
+                priv.width = props.hasOwnProperty('width') ? props.width : 4;
                 // Roundness (0..1)
                 priv.corners = props.hasOwnProperty('corners') ? props.corners : 0;
                 // 1: clockwise, -1: counterclockwise
@@ -63,16 +59,12 @@ const BusyIndicatorSpinOptions = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue < 5 || newValue > 17) {
-                    newValue = 12;
-                }
+            if (core.tools.isNumber(newValue)) {
+                newValue < 5 || newValue > 17 ? newValue = 12 : 1;
                 if (priv.lines !== newValue) {
                     priv.lines = newValue;
                     this.propertyChanged('lines');
-                    if (Core.isHTMLRenderer) {
-                        this.owner.update();
-                    }
+                    core.isHTMLRenderer ? this.owner.update() : 1;
                 }
             }
         }
@@ -85,38 +77,30 @@ const BusyIndicatorSpinOptions = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue < 0 || newValue > 40) {
-                    newValue = 7;
-                }
+            if (core.tools.isNumber(newValue)) {
+                newValue < 0 || newValue > 40 ? newValue = 7 : 1;
                 if (priv.length !== newValue) {
                     priv.length = newValue;
                     this.propertyChanged('length');
-                    if (Core.isHTMLRenderer) {
-                        this.owner.update();
-                    }
+                    core.isHTMLRenderer ? this.owner.update() : 1;
                 }
             }
         }
         //#endregion length
         //#region width
-        get lWidth() {
-            return internal(this).lWidth;
+        get width() {
+            return internal(this).width;
         }
-        set lWidth(newValue) {
+        set width(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue < 2 || newValue > 30) {
-                    newValue = 4;
-                }
-                if (priv.lWidth !== newValue) {
-                    priv.lWidth = newValue;
+            if (core.tools.isNumber(newValue)) {
+                newValue < 2 || newValue > 30 ? newValue = 4 : 1;
+                if (priv.width !== newValue) {
+                    priv.width = newValue;
                     this.propertyChanged('width');
-                    if (Core.isHTMLRenderer) {
-                        this.owner.update();
-                    }
+                    core.isHTMLRenderer ? this.owner.update() : 1;
                 }
             }
         }
@@ -129,16 +113,12 @@ const BusyIndicatorSpinOptions = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue < 0 || newValue > 1) {
-                    newValue = 0;
-                }
+            if (core.tools.isNumber(newValue)) {
+                newValue < 0 || newValue > 1 ? newValue = 0 : 1;
                 if (priv.corners !== newValue) {
                     priv.corners = newValue;
                     this.propertyChanged('corners');
-                    if (Core.isHTMLRenderer) {
-                        this.owner.update();
-                    }
+                    core.isHTMLRenderer ? this.owner.update() : 1;
                 }
             }
         }
@@ -151,16 +131,12 @@ const BusyIndicatorSpinOptions = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue < -1 || newValue > 1) {
-                    newValue = 1;
-                }
+            if (core.tools.isNumber(newValue)) {
+                newValue < -1 || newValue > 1 ? newValue = 1 : 1;
                 if (priv.direction !== newValue) {
                     priv.direction = newValue;
                     this.propertyChanged('direction');
-                    if (Core.isHTMLRenderer) {
-                        this.owner.update();
-                    }
+                    core.isHTMLRenderer ? this.owner.update() : 1;
                 }
             }
         }
@@ -173,16 +149,12 @@ const BusyIndicatorSpinOptions = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue < 0.5 || newValue > 2.2) {
-                    newValue = 1;
-                }
+            if (core.tools.isNumber(newValue)) {
+                newValue < 0.5 || newValue > 2.2 ? newValue = 1 : 1;
                 if (priv.speed !== newValue) {
                     priv.speed = newValue;
                     this.propertyChanged('speed');
-                    if (Core.isHTMLRenderer) {
-                        this.owner.update();
-                    }
+                    core.isHTMLRenderer ? this.owner.update() : 1;
                 }
             }
         }
@@ -195,16 +167,12 @@ const BusyIndicatorSpinOptions = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue < 10 || newValue > 100) {
-                    newValue = 100;
-                }
+            if (core.tools.isNumber(newValue)) {
+                newValue < 10 || newValue > 100 ? newValue = 100 : 1;
                 if (this.trail !== newValue) {
                     priv.properties.trail = newValue;
                     priv.propertyChanged('trail');
-                    if (Core.isHTMLRenderer) {
-                        this.owner.update();
-                    }
+                    core.isHTMLRenderer ? this.owner.update() : 1;
                 }
             }
         }
@@ -228,17 +196,15 @@ const BusyIndicatorSpinOptions = (() => {
     return BusyIndicatorSpinOptions;
     //#endregion BusyIndicatorSpinOptions
 })();
-//#endregion BusyIndicatorSpinOptions
 Object.seal(BusyIndicatorSpinOptions);
+//#endregion BusyIndicatorSpinOptions
 //#region BusyIndicator
 const BusyIndicator = (() => {
     //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -249,9 +215,10 @@ const BusyIndicator = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.allowUpdateOnResize = !0;
                 super(owner, props);
                 const priv = internal(this);
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'indicatorStyle',
                     enum: BUSYINDICATORSTYLES,
@@ -260,7 +227,6 @@ const BusyIndicator = (() => {
                 });
                 priv.spinIndicatorOptions = new BusyIndicatorSpinOptions(this, props);
                 delete this.tabOrder;
-                this.allowUpdateOnResize = !0;
             }
         }
         //#endregion constructor
@@ -273,13 +239,9 @@ const BusyIndicator = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, BUSYINDICATORSTYLES)) {
-                if (priv.indicatorStyle !== newValue) {
-                    priv.indicatorStyle = newValue;
-                    if (core.isHTMLRenderer) {
-                        this.update();
-                    }
-                }
+            if (core.tools.valueInSet(newValue, BUSYINDICATORSTYLES) && priv.indicatorStyle !== newValue) {
+                priv.indicatorStyle = newValue;
+                core.isHTMLRenderer ? this.update() : 1;
             }
         }
         //#endregion indicatorStyle
@@ -297,7 +259,7 @@ const BusyIndicator = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             let cssProp;
-            const browser = Core.browser;
+            const browser = core.browser;
             const transform = browser.getVendorPrefix('transform');
             const atf = browser.getVendorPrefix('animation-timing-function');
             //#endregion Variables déclaration
@@ -347,7 +309,7 @@ const BusyIndicator = (() => {
                 case BUSYINDICATORSTYLES.SPIN:
                     break;
                 case BUSYINDICATORSTYLES.WIN8CIRCLE:
-                    Css.removeCSSRule(`#${this.internalId} .${this.themeName}.win8circle${Types.PSEUDOCSSCLASS.AFTER}`);
+                    Css.removeCSSRule(`#${this.internalId} .${this.themeName}.win8circle${core.types.PSEUDOCSSCLASS.AFTER}`);
                     Css.removeCSSRule(`#${this.internalId} .win8circle`);
                     break;
                 case BUSYINDICATORSTYLES.BALL:
@@ -362,9 +324,9 @@ const BusyIndicator = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            const PX = Types.CSSUNITS.PX;
-            const browser = Core.browser;
-            const TAG = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const PX = core.types.CSSUNITS.PX;
+            const browser = core.browser;
+            const TAG = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             let child = null;
             let child1 = null;
             let child2 = null;
@@ -385,7 +347,7 @@ const BusyIndicator = (() => {
                         child.classList.add('spinContainer');
                         for (; i < sio.lines; i++) {
                             child1 = document.createElement(`${TAG}spinc`);
-                            style = `top:${(1 + ~(sio.lWidth / 2))}${PX};opacity:0;`;
+                            style = `top:${(1 + ~(sio.width / 2))}${PX};opacity:0;`;
                             child1.setAttribute('id', `${this.internalId}_${(i + 1)}`);
                             start = 0.01 + i / sio.lines * 100;
                             z = Math.max(1 - 1 / sio.trail * (100 - start), 0);
@@ -403,12 +365,12 @@ const BusyIndicator = (() => {
                             child1.jsObj = this;
                             child1.classList.add('Control', 'spinC');
                             child2 = document.createElement(`${TAG}spinindic`);
-                            style = ['width:', (sio.length + sio.lWidth), PX, ';',
-                                'height:', sio.lWidth, PX, ';',
+                            style = ['width:', (sio.length + sio.width), PX, ';',
+                                'height:', sio.width, PX, ';',
                                 browser.getVendorPrefix('transform-origin'), 'transform-origin:left;',
                                 browser.getVendorPrefix('transform'), 'transform:rotate(', ~~(360 / sio.lines * i) + 'deg) ',
                                 browser.getVendorPrefix('translate'), 'translate(', sio.length, PX, ',0);',
-                                'border-radius:', (sio.corners * sio.lWidth >> 1), PX, ';'].join(String.EMPTY);
+                                'border-radius:', (sio.corners * sio.width >> 1), PX, ';'].join(String.EMPTY);
                             child2.setAttribute('style', style);
                             child2.classList.add('spinIndic', this.themeName);
                             child2.jsObj = this;
@@ -419,7 +381,7 @@ const BusyIndicator = (() => {
                         break;
                     case BUSYINDICATORSTYLES.WIN8CIRCLE:
                         // based on http://codepen.io/janrubio/pen/DusIE
-                        Css.removeCSSRule(`#${this.internalId} .win8circle${Types.PSEUDOCSSCLASS.AFTER}`);
+                        Css.removeCSSRule(`#${this.internalId} .win8circle${core.types.PSEUDOCSSCLASS.AFTER}`);
                         for (i = 0; i < 5; i++) {
                             child = document.createElement(`${TAG}win8circle`);
                             child.classList.add('win8circle');
@@ -489,10 +451,10 @@ const BusyIndicator = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.indicatorStyle = null;
             priv.spinIndicatorOptions.destroy();
             priv.spinIndicatorOptions = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -500,15 +462,15 @@ const BusyIndicator = (() => {
     return BusyIndicator;
     //#endregion BusyIndicator
 })();
-//#endregion BusyIndicator
 Object.seal(BusyIndicator);
-Core.classes.register(Types.CATEGORIES.INTERNAL, BusyIndicatorSpinOptions);
-Core.classes.register(Types.CATEGORIES.COMMON, BusyIndicator);
-export { BusyIndicator };
+core.classes.register(core.types.CATEGORIES.INTERNAL, BusyIndicatorSpinOptions);
+core.classes.register(core.types.CATEGORIES.COMMON, BusyIndicator);
+//#endregion BusyIndicator
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const BusyIndicatorTpl = ['<jagui-busyindicator id="{internalId}" data-class="BusyIndicator" class="Control BusyIndicator {theme}">',
         '<properties>{ "name": "{name}", "width": 45, "height": 45 }</properties></jagui-busyindicator>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: BusyIndicator, template: BusyIndicatorTpl }]);
+    core.classes.registerTemplates([{ Class: BusyIndicator, template: BusyIndicatorTpl }]);
 }
 //#endregion
+export { BusyIndicator };

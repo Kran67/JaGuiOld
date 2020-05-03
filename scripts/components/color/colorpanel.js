@@ -166,10 +166,8 @@ const ColorPanel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
+            this.unBindAndDestroyEvents(['onChange'], props);
             priv.colorBoxType = null;
-            this.onChange.destroy();
-            this.onChange = null;
             priv.colorQuad.destroy();
             priv.colorQuad = null;
             priv.alphaSlider.destroy();
@@ -180,6 +178,7 @@ const ColorPanel = (() => {
             priv.secondaryColorBox = null;
             priv.primaryColorBox.destroy();
             priv.primaryColorBox = null;
+            super.destroy();
         }
         loaded() {
             //#region Variables déclaration

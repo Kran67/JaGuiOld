@@ -490,10 +490,8 @@ const CustomTabControl = (() => {
             priv.images = null;
             priv.canChange = null;
             priv.showTabsCloseBtn = null;
-            this.tabStyle = null;
-            delete this.tabStyle;
-            this.tabPosition = null;
-            delete this.tabPosition;
+            priv.tabStyle = null;
+            priv.tabPosition = null;
             this.unBindAndDestroyEvents(['onChange']);
             super.destroy();
         }

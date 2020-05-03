@@ -333,6 +333,8 @@ const CustomTextControl = (function () {
             priv.autoTranslate = null;
             priv.required = null;
             priv.errorMsg = null;
+            priv.horizAlign = null;
+            priv.type = null;          
             super.destroy();
         }
         //#endregion destroy
