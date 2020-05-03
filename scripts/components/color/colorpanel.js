@@ -1,18 +1,16 @@
 ﻿//#region Import
 import { Control } from '/scripts/components/control.js';
-import { Tools } from '/scripts/core/tools.js';
-import { Color, Colors } from '/scripts/core/color.js';
+import { Colors } from '/scripts/core/color.js';
 import { ColorQuad } from '/scripts/components/color/colorquad.js';
 import { AlphaSlider } from '/scripts/components/color/alphaslider.js';
 import { HUESlider } from '/scripts/components/color/hueslider.js';
 import { ColorBox } from '/scripts/components/color/colorbox.js';
 //#endregion Import
 //#region COLORPANELBOXES
-const COLORPANELBOXES = Object.freeze({
+const COLORPANELBOXES = Object.freeze(Object.seal({
     PRIMARY: 'primary',
     SECONDARY: 'secondary'
-});
-Object.seal(COLORPANELBOXES);
+}));
 //#endregion COLORPANELBOXES
 //#region ColorPanel
 const ColorPanel = (() => {
@@ -20,9 +18,7 @@ const ColorPanel = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -33,52 +29,49 @@ const ColorPanel = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                if (!core.isHTMLRenderer) {
+                    props.width = 160;
+                    props.height = 160;
+                }
                 super(owner, props);
                 const priv = internal(this);
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'colorBoxType',
                     enum: COLORPANELBOXES,
                     //forceUpdate: true,
                     variable: priv,
-                    value: props.hasOwnProperty('colorBoxType')?props.colorBoxType:COLORPANELBOXES.PRIMARY,
-                    setter: function(newValue) {
+                    value: props.hasOwnProperty('colorBoxType') ? props.colorBoxType : COLORPANELBOXES.PRIMARY,
+                    setter: function (newValue) {
                         //#region Variables déclaration
                         const priv = internal(this);
-                        const c = new Color(Colors.TRANSPARENT);
+                        const c = Colors.TRANSPARENT;
                         //#endregion Variables déclaration
-                        if (Tools.valueInSet(newValue, COLORPANELBOXES)) {
-                            if (priv.colorBoxType !== newValue) {
-                                priv.colorBoxType = newValue;
-                                switch (priv.colorBoxType) {
-                                    case COLORPANELBOXES.PRIMARY:
-                                        c.assign(priv.primaryColorBox.fillColor);
-                                        priv.colorQuad.colorBox = priv.primaryColorBox;
-                                        priv.colorQuad.color.assign(c);
-                                        priv.colorQuad.hue = c.hue;
-                                        priv.hueSlider.firstValue = c.hue / 360;
-                                        priv.alphaSlider.firstValue = c.alpha;
-                                        priv.primaryColorBox.fillColor.assign(c);
-                                        break;
-                                    case COLORPANELBOXES.SECONDARY:
-                                        c.assign(priv.secondaryColorBox.fillColor);
-                                        priv.colorQuad.colorBox = priv.secondaryColorBox;
-                                        priv.colorQuad.color.assign(c);
-                                        priv.colorQuad.hue = c.hue;
-                                        priv.hueSlider.firstValue = c.hue / 360;
-                                        priv.alphaSlider.firstValue = c.alpha;
-                                        priv.secondaryColorBox.fillColor.assign(c);
-                                        break;
-                                }
+                        if (core.tools.valueInSet(newValue, COLORPANELBOXES) && priv.colorBoxType !== newValue) {
+                            priv.colorBoxType = newValue;
+                            switch (priv.colorBoxType) {
+                                case COLORPANELBOXES.PRIMARY:
+                                    c.assign(priv.primaryColorBox.fillColor);
+                                    priv.colorQuad.colorBox = priv.primaryColorBox;
+                                    priv.colorQuad.color.assign(c);
+                                    priv.colorQuad.hue = c.hue;
+                                    priv.hueSlider.firstValue = c.hue / 360;
+                                    priv.alphaSlider.firstValue = c.alpha;
+                                    priv.primaryColorBox.fillColor.assign(c);
+                                    break;
+                                case COLORPANELBOXES.SECONDARY:
+                                    c.assign(priv.secondaryColorBox.fillColor);
+                                    priv.colorQuad.colorBox = priv.secondaryColorBox;
+                                    priv.colorQuad.color.assign(c);
+                                    priv.colorQuad.hue = c.hue;
+                                    priv.hueSlider.firstValue = c.hue / 360;
+                                    priv.alphaSlider.firstValue = c.alpha;
+                                    priv.secondaryColorBox.fillColor.assign(c);
+                                    break;
                             }
                         }
                     }
                 });
-
-                if (!Core.isHTMLRenderer) {
-                    this.width = 160;
-                    this.height = 160;
-                }
                 this.createEventsAndBind(['onChange'], props);
             }
         }
@@ -123,9 +116,7 @@ const ColorPanel = (() => {
                     //colorPanel.secondaryColorBox.update();
                     break;
             }
-            if (!colorPanel.updating) {
-                colorPanel.onChange.invoke();
-            }
+            !colorPanel.updating ? colorPanel.onChange.invoke() : 1;
         }
         doAlphaChange() {
             //#region Variables déclaration
@@ -154,9 +145,7 @@ const ColorPanel = (() => {
                     priv.secondaryColorBox.update();
                     break;
             }
-            if (!this.updating) {
-                this.onChange.invoke();
-            }
+            !this.updating ? this.onChange.invoke() : 1;
         }
         changeColorBox() {
             //#region Variables déclaration
@@ -196,23 +185,54 @@ const ColorPanel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const json = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
-            const color = json.hasOwnProperty('color')?json.color:Colors.RED;
+            const color = json.hasOwnProperty('color') ? json.color : Colors.RED;
             //#endregion Variables déclaration
             super.loaded();
-            priv.colorQuad = Core.classes.createComponent({ class: ColorQuad, owner: this, props: { inForm: !1, format: 'hsl' }});
+            priv.colorQuad = core.classes.createComponent({
+                class: ColorQuad,
+                owner: this,
+                props: {
+                    inForm: !1,
+                    format: 'hsl'
+                }
+            });
             priv.colorQuad.onChange.addListener(this.doQuadChange);
-            priv.hueSlider = Core.classes.createComponent({ class: HUESlider, owner: this, props: {
-                inForm: !1,
-                orientation: Types.ORIENTATIONS.VERTICAL
-            }});
+            priv.hueSlider = core.classes.createComponent({
+                class: HUESlider,
+                owner: this,
+                props: {
+                    inForm: !1,
+                    orientation: core.types.ORIENTATIONS.VERTICAL
+                }
+            });
             priv.hueSlider.onChange.addListener(this.doHueChange);
-            priv.alphaSlider = Core.classes.createComponent({ class: AlphaSlider, owner: this, props: { inForm: !1, values: [1, 0] }});
+            priv.alphaSlider = core.classes.createComponent({
+                class: AlphaSlider,
+                owner: this,
+                props: {
+                    inForm: !1,
+                    values: [1, 0]
+                }
+            });
             priv.alphaSlider.onChange.addListener(this.doAlphaChange);
-            priv.secondaryColorBox = Core.classes.createComponent({ class: ColorBox, owner: this, props: { inForm: !1 }});
+            priv.secondaryColorBox = core.classes.createComponent({
+                class: ColorBox,
+                owner: this,
+                props: {
+                    inForm: !1
+                }
+            });
             priv.secondaryColorBox.onClick.addListener(this.changeColorBox);
             priv.secondaryColorBox.hitTest.mouseDown = !0;
             priv.secondaryColorBox.HTMLElement.classList.add('secondaryColorBox');
-            priv.primaryColorBox = Core.classes.createComponent({class: ColorBox, owner: this, props: { inForm: !1, color: color }, withTpl: !0 });
+            priv.primaryColorBox = core.classes.createComponent({
+                class: ColorBox,
+                owner: this,
+                props: {
+                    inForm: !1,
+                    color: color
+                }
+            });
             priv.primaryColorBox.onClick.addListener(this.changeColorBox);
             priv.primaryColorBox.hitTest.mouseDown = !0;
             priv.primaryColorBox.HTMLElement.classList.add('primaryColorBox');
@@ -237,13 +257,14 @@ const ColorPanel = (() => {
     //#endregion ColorPanel
 })();
 Object.seal(ColorPanel);
-Core.classes.register(Types.CATEGORIES.COLOR, ColorPanel);
+core.classes.register(core.types.CATEGORIES.COLOR, ColorPanel);
 //#endregion ColorPanel
 //#region Template
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const ColorPanelTpl = ['<jagui-colorpanel id="{internalId}" data-class="ColorPanel" class="Control ColorPanel">',
         '<properties>{ "name": "{name}", "width": 160, "height": 160, "color": "blue", "format": "hsl" }</properties>',
         '</jagui-colorpanel>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: ColorPanel, template: ColorPanelTpl }]);
+    core.classes.registerTemplates([{ Class: ColorPanel, template: ColorPanelTpl }]);
 }
 //#endregion
+export { ColorPanel };

@@ -9,9 +9,7 @@ const ColorButton = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -29,7 +27,6 @@ const ColorButton = (() => {
                 priv.color = color;
                 this.createEventsAndBind(['onChange'], props);
                 priv.colorDlg = null;
-                //priv.colorObj = null;
             }
         }
         //#endregion Constructor
@@ -50,18 +47,12 @@ const ColorButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Color) {
-                if (!priv.color.equals(newValue)) {
-                    priv.color.assign(newValue);
-                    this.caption = priv.color.toRGBAString();
-                    if (Core.isHTMLRenderer) {
-                        if (!this.loading && !this.form.loading) {
-                            this.update();
-                        }
-                        if (!this.updating) {
-                            this.onChange.invoke();
-                        }
-                    }
+            if (newValue instanceof Color && !priv.color.equals(newValue)) {
+                priv.color.assign(newValue);
+                this.caption = priv.color.toRGBAString();
+                if (core.isHTMLRenderer) {
+                    !this.loading && !this.form.loading ? this.update() : 1;
+                    !this.updating ? this.onChange.invoke() : 1;
                 }
             }
         }
@@ -74,11 +65,7 @@ const ColorButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof ColorDialog) {
-                if (priv.colorDlg !== newValue) {
-                    priv.colorDlg = newValue;
-                }
-            }
+            newValue instanceof ColorDialog && priv.colorDlg !== newValue ? priv.colorDlg = newValue : 1;
         }
         //#endregion colorDlg
         //#endregion Getters / Setters
@@ -88,19 +75,19 @@ const ColorButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (this.textObj) {
-                this.textObj.innerHTML = String.EMPTY;
-            }
-            if (priv.colorObj) {
-                priv.colorObj.style.backgroundColor = priv.color.toRGBAString();
-            }
+            this.textObj ? this.textObj.innerHTML = String.EMPTY : 1;
+            priv.colorObj ? priv.colorObj.style.backgroundColor = priv.color.toRGBAString() : 1;
         }
         //#endregion update
         //#region click
         click() {
             //#region Variables déclaration
             const priv = internal(this);
-            const colorDlg = Core.classes.createComponent(ColorDlg, activeApplication, null, { parentHTML: document.body });
+            const colorDlg = core.classes.createComponent({
+                class: ColorDlg,
+                owner: activeApplication,
+                props: { parentHTML: document.body }
+            });
             //#endregion Variables déclaration
             colorDlg.loaded();
             colorDlg.obj = this;
@@ -118,9 +105,7 @@ const ColorButton = (() => {
         //#endregion click
         //#region updateColor
         updateColor() {
-            if (this.modalResult === Window.MODALRESULTS.OK) {
-                this.obj.color = this.clrBoxNewColor.fillColor;
-            }
+            this.modalResult === Window.MODALRESULTS.OK ? this.obj.color = this.clrBoxNewColor.fillColor : 1;
             this.obj.colorDlg = null;
         }
         //#endregion updateColor
@@ -129,7 +114,7 @@ const ColorButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.colorObj = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}color`);
+            priv.colorObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}color`);
             priv.colorObj.classList.add('Control', 'ColorButtonColor', this.themeName);
             this.HTMLElement.appendChild(priv.colorObj);
             super.loaded();
@@ -140,13 +125,11 @@ const ColorButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.colorObj = null;
             priv.color.destroy();
             priv.color = null;
-            this.caption = null;
-            this.onChange.destroy();
-            this.onChange = null;
+            this.unBindAndDestroyEvents(['onChange']);
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -155,12 +138,12 @@ const ColorButton = (() => {
     //#endregion ColorButton
 })();
 //#endregion ColorButton
-Core.classes.register(Types.CATEGORIES.COLOR, ColorButton);
+core.classes.register(core.types.CATEGORIES.COLOR, ColorButton);
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const ColorButtonTpl = ['<jagui-colorbutton id="{internalId}" data-class="ColorButton" class="Control ColorButton {theme} csr_default">',
         '<properties>{ "name": "{name}", "color": "red" }</properties></jagui-colorbutton>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: ColorButton, template: ColorButtonTpl }]);
+    core.classes.registerTemplates([{ Class: ColorButton, template: ColorButtonTpl }]);
 }
 //#endregion
 export { ColorButton };

@@ -7,9 +7,7 @@ const AlphaSlider = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -34,11 +32,7 @@ const AlphaSlider = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.GradientEdit) {
-                if (priv.gradientEdit !== newValue) {
-                    priv.gradientEdit = newValue;
-                }
-            }
+            newValue instanceof core.classes.GradientEdit && priv.gradientEdit !== newValue ? priv.gradientEdit = newValue : 1;
         }
         //#endregion Getters / Setters
         //#region Methods
@@ -47,8 +41,8 @@ const AlphaSlider = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.gradientEdit = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -57,13 +51,13 @@ const AlphaSlider = (() => {
     //#endregion AlphaSlider
 })();
 Object.seal(AlphaSlider);
-Core.classes.register(Types.CATEGORIES.COLOR, AlphaSlider);
+core.classes.register(core.types.CATEGORIES.COLOR, AlphaSlider);
 //#endregion AlphaSlider
-export { AlphaSlider };
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const AlphaSliderTpl = ['<jagui-alphaslider id="{internalId}" data-class="AlphaSlider" class="Control Slider AlphaSlider {theme} csr_default">',
         '<properties>{ "name": "{name}", "values": [1,0], "width":  100, "height": 6 }</properties></jagui-alphaslider>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: AlphaSlider, template: AlphaSliderTpl }]);
+    core.classes.registerTemplates([{ Class: AlphaSlider, template: AlphaSliderTpl }]);
 }
 //#endregion
+export { AlphaSlider };

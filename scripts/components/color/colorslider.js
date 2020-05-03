@@ -27,6 +27,6 @@ class ColorSlider extends Slider {
     //#region Methods
     //#endregion Methods
 }
-Core.classes.register(Types.CATEGORIES.INTERNAL, ColorSlider);
+core.classes.register(core.types.CATEGORIES.INTERNAL, ColorSlider);
 //#endregion ColorSlider
 export { ColorSlider };

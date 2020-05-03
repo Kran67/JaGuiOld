@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { ListBox, ListBoxItem } from '/scripts/components/common/listbox.js';
 import { DropDownListBox } from '/scripts/components/common/dropdownlistbox.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 import { Colors } from '/scripts/core/color.js';
 //#endregion Import
@@ -11,9 +10,7 @@ const ListBoxItemColorPopup = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -27,9 +24,9 @@ const ListBoxItemColorPopup = (() => {
             props = !props ? {} : props;
             if (owner) {
                 props.closePopups = !1;
+                props.forceMouseWheel = !0;
                 super(owner, props);
                 const priv = internal(this);
-                this.forceMouseWheel = !0;
                 priv.color = props.hasOwnProperty('color') ? props.color : Colors.BLACK;
             }
         }
@@ -43,11 +40,9 @@ const ListBoxItemColorPopup = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Color) {
-                if (!priv.color.equals(newValue)) {
-                    priv.color.assign(newValue);
-                    this.owner.draw();
-                }
+            if (newValue instanceof core.classes.Color && !priv.color.equals(newValue)) {
+                priv.color.assign(newValue);
+                this.owner.draw();
             }
         }
         //#endregion color
@@ -66,9 +61,7 @@ const ListBoxItemColorPopup = (() => {
             const itemIndex = owner.itemIndex;
             //#endregion Variables déclaration
             if (itemIndex > -1) {
-                if (items[itemIndex].html) {
-                    items[itemIndex].html.classList.remove('selected');
-                }
+                items[itemIndex].html ? items[itemIndex].html.classList.remove('selected') : 1;
                 items[itemIndex].selected = !1;
                 owner.itemIndex = -1;
             }
@@ -80,7 +73,7 @@ const ListBoxItemColorPopup = (() => {
             const priv = internal(this);
             let colorDiv;
             let html;
-            const TAG = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const TAG = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             //#endregion Variables déclaration
             super.draw();
             html = this.html;
@@ -122,11 +115,9 @@ const ListBoxItemColorPopup = (() => {
             const html = this.html;
             //#endregion Variables déclaration
             super.update();
-            if (html) {
-                if (html.childElementCount > 1) {
-                    colorDiv = html.lastElementChild;
-                    colorDiv.style.backgroundColor = priv.color.toRGBAString();
-                }
+            if (html && html.childElementCount > 1) {
+                colorDiv = html.lastElementChild;
+                colorDiv.style.backgroundColor = priv.color.toRGBAString();
             }
         }
         //#endregion update
@@ -145,9 +136,9 @@ class ListBoxColorPopup extends ListBox {
         if (owner) {
             props.closePopups = !1;
             props.itemsClass = 'ListBoxItemColorPopup';
+            props.forceMouseWheel = !0;
+            props.canFocused = !1;
             super(owner, props);
-            this.forceMouseWheel = !0;
-            this.canFocused = !1;
         }
     }
     //#endregion constructor
@@ -171,9 +162,7 @@ class ListBoxColorPopup extends ListBox {
             dropDownListBoxColor.colorIndex = item.index;
             dropDownListBoxColor.itemIndex = item.index;
             dropDownListBoxColor.color.assign(item.color);
-            if (!dropDownListBoxColor.updating) {
-                dropDownListBoxColor.onChange.invoke();
-            }
+            !dropDownListBoxColor.updating ? dropDownListBoxColor.onChange.invoke() : 1;
             item.form.closePopups();
         }
     }
@@ -182,7 +171,7 @@ class ListBoxColorPopup extends ListBox {
     keyUp() {
         const VKEYSCODES = Keyboard.VKEYSCODES;
         super.keyUp();
-        switch (Core.keyboard.keyCode) {
+        switch (core.keyboard.keyCode) {
             case VKEYSCODES.VK_RETURN:
             case VKEYSCODES.VK_ENTER:
                 this._selectItem(this.items[this.itemIndex]);
@@ -200,9 +189,7 @@ const DropDownListBoxColor = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -242,7 +229,7 @@ const DropDownListBoxColor = (() => {
             const priv = internal(this);
             const feChild = this.HTMLElement.firstElementChild;
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue) && newValue >= 0 && newValue < priv.items.length) {
+            if (core.tools.isNumber(newValue) && newValue >= 0 && newValue < priv.items.length) {
                 const item = priv.items[newValue];
                 this.text = item.caption;
                 feChild.style.backgroundColor = item.color.toRGBAString();
@@ -297,15 +284,16 @@ const DropDownListBoxColor = (() => {
     //#endregion DropDownListBoxColor
 })();
 Object.seal(DropDownListBoxColor);
+core.classes.register(core.types.CATEGORIES.INTERNAL, ListBoxColorPopup, ListBoxItemColorPopup);
+core.classes.register(core.types.CATEGORIES.COMMON, DropDownListBoxColor);
 //#endregion DropDownListBoxColor
-Core.classes.register(Types.CATEGORIES.INTERNAL, ListBoxColorPopup, ListBoxItemColorPopup);
-Core.classes.register(Types.CATEGORIES.COMMON, DropDownListBoxColor);
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const DropDownListBoxColorTpl = '<jagui-dropdownlistboxcolor id="{internalId}" data-class="DropDownListBoxColor" class="Control DropDownListBoxColor {theme}"><properties>{ "name": "{name}", "editable": !1, "width": 100 }</properties></jagui-dropdownlistboxcolor>';
-    Core.classes.registerTemplates([
+    core.classes.registerTemplates([
         { Class: DropDownListBoxColor, template: DropDownListBoxColorTpl },
-        { Class: ListBoxColorPopup, template: Core.templates['ListBoxPopup'] }
+        { Class: ListBoxColorPopup, template: core.templates['ListBoxPopup'] }
     ]);
 }
 //#endregion Templates
+export { DropDownListBoxColor };
