@@ -11,7 +11,7 @@ const Bounds = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -25,7 +25,7 @@ const Bounds = (() => {
          */
         //#region constructor
         constructor(rect, owner) {
-            !(rect instanceof core.classes.Rect) ? rect = new core.classes.Rect : 1;
+            !(rect instanceof core.classes.Rect) && (rect = new core.classes.Rect);
             super(rect.left, rect.top, rect.right, rect.bottom);
             const priv = internal(this);
             priv.owner = owner;

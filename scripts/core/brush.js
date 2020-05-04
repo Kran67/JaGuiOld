@@ -13,7 +13,7 @@ const Brush = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -133,9 +133,9 @@ const Brush = (() => {
             //#endregion Variables déclaration
             if (source instanceof core.classes.Brush) {
                 priv.color.assign(source.color);
-                !String.isNullOrEmpty(source.bitmap.src) ? priv.bitmap.src = source.bitmap.src : 1;
+                !String.isNullOrEmpty(source.bitmap.src) && (priv.bitmap.src = source.bitmap.src);
                 priv.style = source.style;
-                priv.gradient && source.gradient ? priv.gradient.assign(source.gradient) : 1;
+                priv.gradient && source.gradient && (priv.gradient.assign(source.gradient));
             }
         }
         /**

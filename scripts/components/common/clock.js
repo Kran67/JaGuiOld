@@ -47,9 +47,7 @@ const Clock = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -62,33 +60,32 @@ const Clock = (() => {
             if (owner) {
                 props.height = -1;
                 props.width = -1;
+                props.hitTest = { mouseUp: !1 };
                 super(owner, props);
                 const priv = internal(this);
                 priv.startTime = null;
                 priv.handle = null;
                 priv.started = !1;
                 priv.paused = !1;
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'mode',
                     enum: CLOCKMODES,
                     forceUpdate: !0,
                     variable: priv,
                     value: props.hasOwnProperty('mode') ? props.mode : CLOCKMODES.SIMPLE,
-                    setter:function(newValue) {
+                    setter: function (newValue) {
                         //#region Variables déclaration
                         const priv = internal(this);
                         //#endregion Variables déclaration
-                        if (Tools.valueInSet(newValue, CLOCKMODES)) {
-                            if (priv.mode !== newValue) {
-                                priv.mode = newValue;
-                                this.prepareContent();
-                                this.update();
-                            }
+                        if (core.tools.valueInSet(newValue, CLOCKMODES) && priv.mode !== newValue) {
+                            priv.mode = newValue;
+                            this.prepareContent();
+                            this.update();
                         }
                     }
                 });
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'type',
                     enum: CLOCKTYPES,
@@ -99,25 +96,24 @@ const Clock = (() => {
                         //#region Variables déclaration
                         const priv = internal(this);
                         //#endregion Variables déclaration
-                        if (Tools.valueInSet(newValue, CLOCKTYPES)) {
-                            if (priv.type !== newValue) {
-                                this.reset();
-                                priv.type = newValue;
-                                this.update();
-                            }
+                        if (core.tools.valueInSet(newValue, CLOCKTYPES) && priv.type !== newValue) {
+                            this.reset();
+                            priv.type = newValue;
+                            this.update();
                         }
                     }
                 });
-                priv.showSeconds = props.hasOwnProperty('showSeconds') && Tools.isBool(props.showSeconds) ? props.showSeconds : !1;
-                priv.showDays = props.hasOwnProperty('showDays') && Tools.isBool(props.showDays) ? props.showDays : !1;
-                priv.showDate = props.hasOwnProperty('showDate') && Tools.isBool(props.showDate) ? props.showDate : !0;
-                priv.use24H = Tools.getLocale().date.pm === String.EMPTY;
-                priv.autoStart = props.hasOwnProperty('autoStart') && Tools.isBool(props.autoStart) ? props.autoStart : !0;
-                priv.alarm = props.hasOwnProperty('alarm') && Tools.isObject(props.alarm) ? props.alarm : null;
-                priv.countDown = props.hasOwnProperty('countDown') && Tools.isObject(props.countDown) ? props.countDown : { seconds: 0 };
-                if (priv.countDown.days && priv.countDown.days > 999) {
-                    priv.countDown.days = 999;
-                }
+                priv.showSeconds = props.hasOwnProperty('showSeconds') && core.tools.isBool(props.showSeconds)
+                    ? props.showSeconds : !1;
+                priv.showDays = props.hasOwnProperty('showDays') && core.tools.isBool(props.showDays) ? props.showDays : !1;
+                priv.showDate = props.hasOwnProperty('showDate') && core.tools.isBool(props.showDate) ? props.showDate : !0;
+                priv.use24H = core.tools.getLocale().date.pm === String.EMPTY;
+                priv.autoStart = props.hasOwnProperty('autoStart') && core.tools.isBool(props.autoStart)
+                    ? props.autoStart : !0;
+                priv.alarm = props.hasOwnProperty('alarm') && core.tools.isObject(props.alarm) ? props.alarm : null;
+                priv.countDown = props.hasOwnProperty('countDown') && core.tools.isObject(props.countDown)
+                    ? props.countDown : { seconds: 0 };
+                priv.countDown.days && priv.countDown.days > 999 && (priv.countDown.days = 999);
                 if (priv.countDown.hours && priv.countDown.hours > 23) {
                     priv.countDown.hours = !String.isNullOrEmpty(priv.use24H) ? 12 : 23;
                 }
@@ -133,7 +129,7 @@ const Clock = (() => {
                     }
                     priv.countDown.seconds = 59;
                 }
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'dotsType',
                     enum: DOTSTYPES,
@@ -145,7 +141,7 @@ const Clock = (() => {
                         const htmlElement = this.HTMLElement;
                         const elems = htmlElement.querySelectorAll(`.${priv.dotsType}`);
                         //#endregion Variables déclaration
-                        if (Tools.valueInSet(newValue, DOTSTYPES)) {
+                        if (core.tools.valueInSet(newValue, DOTSTYPES)) {
                             if (priv.dotsType !== newValue) {
                                 elems.forEach(elem => {
                                     elem.classList.remove(priv.dotsType);
@@ -165,7 +161,7 @@ const Clock = (() => {
                     },
                     value: props.hasOwnProperty('dotsType') ? props.dotsType : DOTSTYPES.SQUARE
                 });
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'dotsAnimationDirection',
                     enum: DOTSANIMATIONDIRECTION,
@@ -177,7 +173,7 @@ const Clock = (() => {
                         const htmlElement = this.HTMLElement;
                         const elems = htmlElement.querySelectorAll('.Clock_dot');
                         //#endregion Variables déclaration
-                        if (Tools.valueInSet(newValue, DOTSANIMATIONDIRECTION)) {
+                        if (core.tools.valueInSet(newValue, DOTSANIMATIONDIRECTION)) {
                             if (priv.dotsAnimationDirection !== newValue) {
                                 elems.forEach(elem => {
                                     elem.classList.remove(priv.dotsAnimationDirection);
@@ -193,10 +189,10 @@ const Clock = (() => {
                     },
                     value: props.hasOwnProperty('dotsAnimationDirection') ? props.dotsAnimationDirection : DOTSANIMATIONDIRECTION.TOLEFT
                 });
-                priv.dotsGap = props.hasOwnProperty('dotsGap') && Tools.isNumber(props.dotsGap) ? props.dotsGap : 1;
+                priv.dotsGap = props.hasOwnProperty('dotsGap') && core.tools.isNumber(props.dotsGap) ? props.dotsGap : 1;
                 priv.dotsFirstColor = props.hasOwnProperty('dotsFirstColor') ? Color.parse(props.dotsFirstColor) : Color.parse('#3559ff');
                 priv.dotsLastColor = props.hasOwnProperty('dotsLastColor') ? Color.parse(props.dotsLastColor) : Color.parse('#0a1854');
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'dotsAnimationType',
                     enum: DOTSANIMATIONTYPES,
@@ -208,7 +204,7 @@ const Clock = (() => {
                         const htmlElement = this.HTMLElement;
                         const elems = htmlElement.querySelectorAll('.Clock_dot');
                         //#endregion Variables déclaration
-                        if (Tools.valueInSet(newValue, DOTSANIMATIONTYPES)) {
+                        if (core.tools.valueInSet(newValue, DOTSANIMATIONTYPES)) {
                             if (priv.dotsAnimationType !== newValue) {
                                 elems.forEach(elem => {
                                     Object.keys(DOTSANIMATIONTYPES).forEach(dat => {
@@ -224,9 +220,6 @@ const Clock = (() => {
                     },
                     value: props.hasOwnProperty('dotsAnimationType') ? props.dotsAnimationType : DOTSANIMATIONTYPES.FADE
                 });
-                this.createEventsAndBind(['onAlarm', 'onCountdownEnd', 'onCountdownEnd'], props);
-                this.hitTest.all = !1;
-                this.hitTest.mouseDown = !0;
                 priv.dotsGap = priv.dotsGap > 2 ? 2 : priv.dotsGap;
                 priv.numbers = {
                     '0': 'zero',
@@ -334,6 +327,7 @@ const Clock = (() => {
                     ]
                 };
                 //#endregion dotMatrix
+                this.createEventsAndBind(['onAlarm', 'onCountdownEnd', 'onCountdownEnd'], props);
             }
         }
         //#endregion constructor
@@ -371,7 +365,7 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
+            if (core.tools.isBool(newValue)) {
                 if (priv.showSeconds !== newValue) {
                     priv.showSeconds = newValue;
                     this.update();
@@ -387,7 +381,7 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
+            if (core.tools.isBool(newValue)) {
                 if (priv.showDays !== newValue) {
                     priv.showDays = newValue;
                     this.update();
@@ -403,7 +397,7 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
+            if (core.tools.isBool(newValue)) {
                 if (priv.showMonths !== newValue) {
                     priv.showMonths = newValue;
                     this.update();
@@ -419,7 +413,7 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
+            if (core.tools.isBool(newValue)) {
                 if (priv.showYears !== newValue) {
                     priv.showYears = newValue;
                     this.update();
@@ -435,7 +429,7 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
+            if (core.tools.isBool(newValue)) {
                 if (priv.autoStart !== newValue) {
                     priv.autoStart = newValue;
                 }
@@ -450,7 +444,7 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isObject(newValue)) {
+            if (core.tools.isObject(newValue)) {
                 priv.alarm = newValue;
                 this.update();
             }
@@ -464,7 +458,7 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isObject(newValue) && (newValue.days || newValue.hours || newValue.minutes || newValue.seconds)) {
+            if (core.tools.isObject(newValue) && (newValue.days || newValue.hours || newValue.minutes || newValue.seconds)) {
                 this.stop();
                 if (newValue.days) {
                     priv.countDown.days = newValue.days;
@@ -491,9 +485,9 @@ const Clock = (() => {
         set dotsGap(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
+            if (core.tools.isNumber(newValue)) {
                 if (priv.dotsGap !== newValue) {
                     newValue = Math.max(0, Math.min(newValue, 2));
                     priv.dotsGap = newValue;
@@ -517,7 +511,7 @@ const Clock = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             const className = this.constructor.name;
-            const tag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const tag = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             let div, div1, svg;
             const numDigits = [];
             const weekdays = document.createElement(`${tag}-weekdays`);
@@ -526,7 +520,7 @@ const Clock = (() => {
             const isClock = priv.type === CLOCKTYPES.CLOCK;
             let num = 1;
             let isDot = !1;
-            const locale = Tools.getLocale();
+            const locale = core.tools.getLocale();
             const countDownClassNames = [];
             const date = new Date();
             const days = (~~priv.countDown.days).toString().padStart(3, '0');
@@ -539,9 +533,9 @@ const Clock = (() => {
             const seconds = (isClock ?
                 date.getSeconds() :
                 priv.countDown.seconds).toString().padStart(2, '0');
-            const PX = Types.CSSUNITS.PX;
-            const SVG = Types.SVG.SVG;
-            const XMLNS = Types.SVG.XMLNS;
+            const PX = core.types.CSSUNITS.PX;
+            const SVG = core.types.SVG.SVG;
+            const XMLNS = core.types.SVG.XMLNS;
             let value, max, h;
             const c = Math.PI * 40;
             //#endregion Variables déclaration
@@ -562,7 +556,7 @@ const Clock = (() => {
                     limit = 1;
                     if (~~days > 0) {
                         limit++;
-                        countDownLabels.push(Tools.getLocale().date.daysLabel);
+                        countDownLabels.push(core.tools.getLocale().date.daysLabel);
                         numDigits.push('days');
                         if (priv.mode !== CLOCKMODES.CIRCULAR) {
                             numDigits.push('days');
@@ -573,7 +567,7 @@ const Clock = (() => {
                     }
                     if (~~days + ~~hours > 0) {
                         limit++;
-                        countDownLabels.push(Tools.getLocale().date.hoursLabel);
+                        countDownLabels.push(core.tools.getLocale().date.hoursLabel);
                         numDigits.push('hours');
                         if (priv.mode !== CLOCKMODES.CIRCULAR) {
                             numDigits.push('hours');
@@ -583,7 +577,7 @@ const Clock = (() => {
                     }
                     if (~~days + ~~hours + ~~minutes > 0) {
                         limit++;
-                        countDownLabels.push(Tools.getLocale().date.minutesLabel);
+                        countDownLabels.push(core.tools.getLocale().date.minutesLabel);
                         numDigits.push('minutes');
                         if (priv.mode !== CLOCKMODES.CIRCULAR) {
                             numDigits.push('minutes');
@@ -591,7 +585,7 @@ const Clock = (() => {
                         }
                         countDownClassNames.push('minutes');
                     }
-                    countDownLabels.push(Tools.getLocale().date.secondsLabel);
+                    countDownLabels.push(core.tools.getLocale().date.secondsLabel);
                     numDigits.push('seconds');
                     if (priv.mode !== CLOCKMODES.CIRCULAR) {
                         numDigits.push('seconds');
@@ -618,7 +612,7 @@ const Clock = (() => {
                 for (let i = 0; i < limit; i++) {
                     div = document.createElement(`${tag}-day`);
                     div.innerHTML = isClock ?
-                        Tools.getLocale().date.abbreviatedDayNames[i].replace('.', String.EMPTY).toUpperCase() :
+                        core.tools.getLocale().date.abbreviatedDayNames[i].replace('.', String.EMPTY).toUpperCase() :
                         countDownLabels[i];
                     div.classList.add(`${className}_day`);
                     if (!isClock) {
@@ -628,7 +622,7 @@ const Clock = (() => {
                         if (date.getDay() === i) {
                             div.classList.add('active');
                         }
-                        if (Tools.getLocale().date.firstDayOfWeek > 0 && i === 0) {
+                        if (core.tools.getLocale().date.firstDayOfWeek > 0 && i === 0) {
                             div.style.order = 1;
                         }
                     } else {
@@ -642,7 +636,7 @@ const Clock = (() => {
             //#region DayMonthYear
             if (priv.showDate && isClock) {
                 currentDate.classList.add(`${className}_currentdate`);
-                currentDate.innerHTML = date.toString(Tools.getLocale().date.formatPatterns.longDate);
+                currentDate.innerHTML = date.toString(core.tools.getLocale().date.formatPatterns.longDate);
                 htmlElement.appendChild(currentDate);
             }
             //#endregion DayMonthYear
@@ -877,7 +871,7 @@ const Clock = (() => {
                 }
             }
             if (numDigits.length === 1) {
-                digits.style.justifyContent = Types.ALIGNS.CENTER;
+                digits.style.justifyContent = core.types.ALIGNS.CENTER;
             }
             if (!String.isNullOrEmpty(priv.use24H)) {
                 div = document.createElement(`${tag}-meridian`);
@@ -952,15 +946,15 @@ const Clock = (() => {
                     seconds = ~~seconds - 1;
                     if (seconds < 0) {
                         seconds = 59;
-                        if (Tools.isNumber(priv.countDown.minutes)) {
+                        if (core.tools.isNumber(priv.countDown.minutes)) {
                             minutes = ~~minutes - 1;
                             if (minutes < 0) {
                                 minutes = 59;
-                                if (Tools.isNumber(priv.countDown.hours)) {
+                                if (core.tools.isNumber(priv.countDown.hours)) {
                                     hours = ~~hours - 1;
                                     if (hours < 0) {
                                         hours = 23;
-                                        if (Tools.isNumber(priv.countDown.days)) {
+                                        if (core.tools.isNumber(priv.countDown.days)) {
                                             days = ~~days - 1;
                                         }
                                     }
@@ -1051,11 +1045,11 @@ const Clock = (() => {
             } else {
                 htmlElement.querySelector('.Clock_day.active').classList.remove('active');
                 Convert.nodeListToArray(htmlElement.querySelectorAll('.Clock_day')).forEach(day => {
-                    if (day.innerHTML === Tools.getLocale().date.abbreviatedDayNames[date.getDay()].replace('.', String.EMPTY).toUpperCase()) {
+                    if (day.innerHTML === core.tools.getLocale().date.abbreviatedDayNames[date.getDay()].replace('.', String.EMPTY).toUpperCase()) {
                         day.classList.add('active');
                     }
                 });
-                htmlElement.querySelector('.Clock_currentdate').innerHTML = date.toString(Tools.getLocale().date.formatPatterns.longDate);
+                htmlElement.querySelector('.Clock_currentdate').innerHTML = date.toString(core.tools.getLocale().date.formatPatterns.longDate);
                 priv.lastDate = date;
             }
         }
@@ -1087,7 +1081,7 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const className = this.constructor.name;
-            const tag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const tag = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             const isClock = priv.type === CLOCKTYPES.CLOCK;
             //#endregion Variables déclaration
             element.innerHTML = String.EMPTY;
@@ -1165,7 +1159,7 @@ const Clock = (() => {
         updateRotate(element, value, min, max) {
             const priv = internal(this);
             const isClock = priv.type === CLOCKTYPES.CLOCK;
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const h = parseFloat(getComputedStyle(element.parentNode).height);
             if (max === 3) {
                 value = -((element.children.length - 1) - ~~value) * h;
@@ -1180,9 +1174,9 @@ const Clock = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Core.mouse.event.toElement === priv.alarmElement && priv.alarmElement.classList.contains('on')) {
+            if (core.mouse.event.toElement === priv.alarmElement && priv.alarmElement.classList.contains('on')) {
                 this.stopAlarm();
-            } else if (Core.mouse.event.toElement === priv.snoozeElement && priv.snoozeElement.classList.contains('active')) {
+            } else if (core.mouse.event.toElement === priv.snoozeElement && priv.snoozeElement.classList.contains('active')) {
                 this.snoozeAlarm();
             }
         }
@@ -1286,13 +1280,13 @@ const Clock = (() => {
     //#endregion Clock
 })();
 Object.seal(Clock);
-Core.classes.register(Types.CATEGORIES.COMMON, Clock);
+core.classes.register(core.types.CATEGORIES.COMMON, Clock);
 //#endregion Clock
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const ClockTpl = ['<jagui-clock id="{internalId}" data-class="Clock" class="Control Clock {theme}">',
         '<properties>{ "name": "{name}", "mode": "simple", "showSeconds": true }</properties></jagui-clock>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: Clock, template: ClockTpl }]);
+    core.classes.registerTemplates([{ Class: Clock, template: ClockTpl }]);
 }
 //#endregion Templates
 export { Clock };

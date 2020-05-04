@@ -10,7 +10,7 @@ const BaseEffect = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -71,7 +71,7 @@ const BaseEffect = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             String.isNullOrEmpty(newValue) && priv.trigger !== newValue
-                ? priv.trigger = newValue : 1;
+                && (priv.trigger = newValue);
         }
         //#endregion trigger
         //#region prepareBeforePaint
@@ -89,7 +89,7 @@ const BaseEffect = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isBool(newValue) && priv.prepareBeforePaint !== newValue
-                ? priv.prepareBeforePaint = newValue : 1;
+                && (priv.prepareBeforePaint = newValue);
         }
         //#endregion prepareBeforePaint
         //#region applyOnChilds
@@ -107,7 +107,7 @@ const BaseEffect = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isBool(newValue) && priv.applyOnChilds !== newValue
-                ? priv.applyOnChilds = newValue : 1;
+                && (priv.applyOnChilds = newValue);
         }
         //#endregion applyOnChilds
         //#region disablePaint
@@ -127,7 +127,7 @@ const BaseEffect = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isBool(newValue) && priv.disablePaint !== newValue
-                ? priv.disablePaint = newValue : 1;
+                && (priv.disablePaint = newValue);
         }
         //#endregion disablePaint
         //#endregion Getters / Setters
@@ -164,7 +164,7 @@ const BaseEffect = (() => {
                     prop = setter[0].split("=")[0];
                     value = setter[0].split("=")[1];
                     instance.hasOwnProperty(prop)
-                        ? startValue = instance[prop].toString().toLowerCase() === value.toLowerCase() : 1;
+                        && (startValue = instance[prop].toString().toLowerCase() === value.toLowerCase());
                     setter.removeAt(0);
                 }
                 this.enabled = startValue;

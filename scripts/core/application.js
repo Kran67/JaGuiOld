@@ -1,6 +1,4 @@
 ﻿//#region Imports
-//import { Uri } from '/scripts/core/uri.js';
-//import { Xhr } from '/scripts/core/xhr.js';
 import { Text } from '/scripts/core/text.js';
 import { Convert } from '/scripts/core/convert.js';
 import { Events } from '/scripts/core/events.js';
@@ -17,7 +15,7 @@ const Application = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -64,7 +62,7 @@ const Application = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isNumber(newValue) && priv.toolTipTimerHandle !== newValue
-                ? priv.toolTipTimerHandle = newValue : 1;
+                && (priv.toolTipTimerHandle = newValue);
         }
         //#endregion toolTipTimerHandle
         //#region windows
@@ -101,7 +99,7 @@ const Application = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.core.tools.isNumber(newValue) && priv.loadedWindowsHTML !== newValue
-                ? priv.loadedWindowsHTML = newValue : 1;
+                && (priv.loadedWindowsHTML = newValue);
         }
         //#endregion loadedWindowsHTML
         //#region windowsClass
@@ -133,7 +131,7 @@ const Application = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             newValue instanceof core.classes.Window && priv.mainWindow !== newValue
-                ? priv.mainWindow = newValue : 1;
+                && (priv.mainWindow = newValue);
         }
         //#endregion mainWindow
         //#region activeWindow
@@ -146,7 +144,7 @@ const Application = (() => {
             //#endregion Variables déclaration
             if (newValue instanceof core.classes.Window && priv.activeWindow !== newValue) {
                 priv.activeWindow = newValue;
-                core.isCanvasRenderer ? core.canvas.needRedraw = !0 : 1;
+                core.isCanvasRenderer && (core.canvas.needRedraw = !0);
             }
         }
         //#endregion activeWindow
@@ -159,7 +157,7 @@ const Application = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isString(newValue) && priv.title !== newValue
-                ? priv.title = newValue : 1;
+                && (priv.title = newValue);
         }
         //#endregion title
         //#region locale
@@ -181,9 +179,9 @@ const Application = (() => {
                                 return e instanceof core.classes.Control && e.autoTranslate && e.visible;
                             });
                             comps.forEach(comp => {
-                                comp instanceof core.classes.CaptionControl
-                                    || comp instanceof core.classes.CustomTextControl
-                                    ? this.getLocalText(comp) : 1;
+                                (comp instanceof core.classes.CaptionControl
+                                    || comp instanceof core.classes.CustomTextControl)
+                                    && this.getLocalText(comp);
                             });
                         }
                     });
@@ -200,7 +198,7 @@ const Application = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             newValue instanceof core.Classes.ThemeManifest
-                ? priv.themeManifest = newValue : 1;
+                && (priv.themeManifest = newValue);
         }
         //#endregion themeManifest
         //#endregion Getters / Setters
@@ -251,7 +249,7 @@ const Application = (() => {
             if (this[`_${_class}s`]) {
                 const a = this[`_${_class}s`].names;
                 let idx = a.indexOf(object.name);
-                idx > -1 ? a[idx] = null : 1;
+                idx > -1 && (a[idx] = null);
             }
         }
         /**
@@ -266,7 +264,7 @@ const Application = (() => {
                 const idx = a.indexOf(object.name);
                 if (idx === -1) {
                     const tab = object.name.match(/\d+$/);
-                    tab ? a[~~tab.first] = object.name : 1;
+                    tab && (a[~~tab.first] = object.name);
                 }
             }
         }
@@ -282,12 +280,11 @@ const Application = (() => {
                 window.hide();
                 window.removeToHTML();
             });
-            core.apps.activeApplication === this
-                ? core.apps.activeApplication = null : 1;
+            core.apps.activeApplication === this && (core.apps.activeApplication = null);
             core.apps.applications[priv.name] = null;
             delete core.apps.applications[priv.name];
             const icon = Convert.nodeListToArray(document.getElementsByName(`ShortCutIcon_${priv.name}`)).first;
-            icon ? icon.classList.toggle('hidden') : 1;
+            icon && icon.classList.toggle('hidden');
             this.destroy();
         }
         /**
@@ -327,14 +324,15 @@ const Application = (() => {
                     wins.forEach(win => {
                         let props = {};
                         const properties = win.querySelector('properties');
-                        properties ? props = JSON.parse(properties.innerText) : 1;
+                        properties && (props = JSON.parse(properties.innerText));
                         form = this.createForm(win.id, win.dataset.class, props);
                         this.windows.push(form);
                         if (win.style.display !== 'none') {
-                            !priv.mainWindow
-                                ? form instanceof core.classes.Window
-                                    ? priv.mainWindow = priv.activeWindow = form : 1
-                                : form.show();
+                            if (!this.mainWindow) {
+                                form instanceof core.classes.Window && (this.mainWindow = this.activeWindow = form);
+                            } else {
+                                form.show();
+                            }
                         }
                     });
                     break;
@@ -344,7 +342,7 @@ const Application = (() => {
                     data = document.querySelector('object.mainWindow');
                     if (data) {
                         data = JSON.parse(data.innerHTML.replace(/{theme}/g, core.defaultTheme));
-                        data.themes ? priv.themeManifest.addThemes(data.themes) : 1;
+                        data.themes && priv.themeManifest.addThemes(data.themes);
                         wins = data.windows;
                         wins.forEach(win => {
                             form = this.createForm(win.childs, win.className, win.properties);
@@ -357,7 +355,7 @@ const Application = (() => {
                     break;
             }
             priv.mainWindow.show();
-            document.getElementById('loading_msg') ? document.body.removeChild(data) : 1;
+            document.getElementById('loading_msg') && document.body.removeChild(data);
             this.createToolTip();
             window.activeApp = this;
         }
@@ -379,9 +377,7 @@ const Application = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (!priv.locale) {
-                priv.locale = core.currentLocale;
-            }
+            !priv.locale && (priv.locale = core.currentLocale);
             //if (!createIcon) {
             //    createIcon = !1;
             //}
@@ -403,7 +399,9 @@ const Application = (() => {
             if (core.isHTMLRenderer) {
                 const wins = document.querySelectorAll('object.window');
                 wins.forEach(win => {
-                    const content = win.contentDocument ? win.contentDocument.body.innerHTML.trim() : win.firstChild.nodeValue.trim();
+                    const content = win.contentDocument
+                        ? win.contentDocument.body.innerHTML.trim()
+                        : win.firstChild.nodeValue.trim();
                     String.isNullOrEmpty(content)
                         ? win.addEventListener('load', () => {
                             core.apps.activeApplication.addWindow(wins.length);
@@ -417,8 +415,7 @@ const Application = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.loadedWindowsHTML++;
-            priv.loadedWindowsHTML === maxWins
-                ? this.loadWindowsHTML() : 1;
+            priv.loadedWindowsHTML === maxWins && this.loadWindowsHTML();
         }
         //newWindow (windowPath, show, callBack) {
         //    var Tools = require("tools");
@@ -479,12 +476,11 @@ const Application = (() => {
                 if (c) {
                     const key = `${obj.form.name}.${obj.name}`;
                     if (c[key]) {
-                        obj instanceof core.classes.CaptionControl
-                            ? obj.caption = c[key]
-                                ? obj instanceof core.classes.CustomTextControl
-                                    ? obj.placeHolder = c[key] : 1
-                                : 1
-                            : 1;
+                        if (obj instanceof core.classes.CaptionControl) {
+                            obj.caption = c[key];
+                        } else if (obj instanceof core.classes.CustomTextControl) {
+                            obj.placeHolder = c[key];
+                        }
                     }
                 } else {
                     obj.update();
@@ -524,29 +520,30 @@ const Application = (() => {
             let exit = !1;
             //#endregion Variables déclaration
             this.hideToolTip();
-            !obj.showToolTip && !obj.ownerShowToolTip ? exit = !0 : 1;
+            !obj.showToolTip && !obj.ownerShowToolTip && (exit = !0);
             if (core.classes.CustomTextControl && obj instanceof core.classes.CustomTextControl) {
-                !obj.hasError ? exit = !0 : 1;
+                !obj.hasError && (exit = !0);
             }
             if (!exit) {
-                text = !String.isNullOrEmpty(obj.toolTip)
-                    ? obj.toolTip
-                        ? obj.ownerShowToolTip
-                            ? !String.isNullOrEmpty(obj.owner.toolTip)
-                                ? obj.owner.toolTip : 1
-                            : 1
-                        : 1
-                    : 1;
-                core.classes.CustomTextControl && obj instanceof core.classes.CustomTextControl && obj.hasError
-                    ? text = obj.errorMsg : 1;
-                if (!text || !core.tools.isString(text)) {
+                if (!String.isNullOrEmpty(obj.toolTip)) {
+                    text = obj.toolTip;
+                } else if (obj.ownerShowToolTip) {
+                    !String.isNullOrEmpty(obj.owner.toolTip) && (text = obj.owner.toolTip);
+                }
+                if (core.classes.CustomTextControl && obj instanceof core.classes.CustomTextControl) {
+                    obj.hasError && (text = obj.errorMsg);
+                }
+                if (!text) {
                     return;
                 }
-                if (text !== String.EMPTY && priv.toolTip) {
+                if (typeof text !== core.types.CONSTANTS.STRING) {
+                    return;
+                }
+                if (!String.isNullOrEmpty(text) && priv.toolTip) {
                     priv.toolTip.innerHTML = text;
                     setTimeout(() => {
                         core.apps.activeApplication.toolTip
-                            ? core.apps.activeApplication.toolTip.classList.toggle('fade') : 1;
+                            && core.apps.activeApplication.toolTip.classList.toggle('fade');
                     }, 10);
                     this.placeToolTip(coord, useOffset);
                     this.closeToolTip();
@@ -564,10 +561,10 @@ const Application = (() => {
             let tx = coord.x;
             let ty = coord.y;
             //#endregion Variables déclaration
-            !useOffset ? useOffset = !0 : 1;
-            tx + tt.offsetWidth > document.body.offsetWidth ? tx = document.body.offsetWidth - tt.offsetWidth : 1;
-            useOffset ? ty += 20 : 1;
-            ty + tt.offsetHeight > document.body.offsetHeight ? ty = coord.y - tt.offsetHeight : 1;
+            !useOffset && (useOffset = !0);
+            tx + tt.offsetWidth > document.body.offsetWidth && (tx = document.body.offsetWidth - tt.offsetWidth);
+            useOffset && (ty += 20);
+            ty + tt.offsetHeight > document.body.offsetHeight && (ty = coord.y - tt.offsetHeight);
             tt.style.transform = `translate(${tx}${cssUnits.PX},${ty}${cssUnits.PX})`;
             tt.classList.add('fade');
             clearTimeout(priv.toolTipTimerHandle);
@@ -654,10 +651,10 @@ const Application = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.isCanvasRenderer && !core.themes[priv.themeManifest.themeName].initialized
-                ? core.themes[priv.themeManifest.themeName].initialize() : 1;
+                && core.themes[priv.themeManifest.themeName].initialize();
             const wins = priv.windows;
             wins.forEach(win => {
-                !win.creating && win.visible ? win.render() : 1;
+                !win.creating && win.visible && win.render();
             });
         }
         //#endregion

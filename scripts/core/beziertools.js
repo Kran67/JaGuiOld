@@ -60,15 +60,12 @@ class BezierTools {
         while (t < 1) {
             // get the 't' corresponding to the given dash value.
             t = BezierTools.tAtLength(params.points, dash);
-            t === 1
-                ? result = { l: dash - BezierTools.computeLength(params.points), i: i }
-                : 1;
+            t === 1 && (result = { l: dash - BezierTools.computeLength(params.points), i: i });
             // split bezier at t: left part is the "dash" curve, right part is the remaining bezier points
             const curves = BezierTools.splitBezierAtT(params.points, t);
             i % 2 !== 0
                 // only keep the "dash" curve
-                ? params.newPoints.push(curves[0])
-                : 1;
+                && params.newPoints.push(curves[0]);
             params.points = curves[1];
             ++i;
             dash = params.dashArray[i % params.dashArray.length] * params.lineWidth;
@@ -118,7 +115,7 @@ class BezierTools {
             t += 1.0 / (1 << splitCount);
         };
         //#endregion Variables déclaration
-        length ? _compute(points, 0.5) : 1;
+        length && _compute(points, 0.5);
         return t;
     }
     /**

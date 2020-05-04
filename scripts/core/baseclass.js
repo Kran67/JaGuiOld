@@ -6,7 +6,7 @@ const BaseClass = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -64,7 +64,7 @@ const BaseClass = (() => {
          */
         destroy() {
             this.tag != null && core.tools.isObject(this.tag) && core.tools.isFunc(this.tag.destroy)
-                ? this.tag.destroy() : 1;
+                && this.tag.destroy();
             this.tag = null;
             delete this.tag;
             delete this.propsEnums;

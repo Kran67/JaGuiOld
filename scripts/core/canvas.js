@@ -153,13 +153,13 @@ CanvasRenderingContext2D.prototype.drawImg = function (instance, img, params) {
         }
     }
     if (instance instanceof core.classes.WindowButton) {
-        String.isNullOrEmpty(left) ? left = -eval(eval(left)) : 1;
-        String.isNullOrEmpty(top) ? top = -eval(eval(top)) : 1
-        instance.isPressed && params.hasOwnProperty('pressedOffset')
-            ? left -= params.pressedOffset
-                ? instance.isMouseOver && params.hasOwnProperty('hoveredOffset')
-                : left -= params.hoveredOffset
-            : 1;
+        String.isNullOrEmpty(left) && (left = -eval(eval(left)));
+        String.isNullOrEmpty(top) && (top = -eval(eval(top)));
+        if (instance.isPressed && params.hasOwnProperty('pressedOffset')) {
+            left -= params.pressedOffset;
+        } else if (instance.isMouseOver && params.hasOwnProperty('hoveredOffset')) {
+            left -= params.hoveredOffset;
+        }
     }
     params && params.sx && params.sy && params.sWidth && params.sHeight
         ? this.drawImage(img, params.sx, params.sy, params.sWidth, params.sHeight, left, top, params.width, params.height)
@@ -344,8 +344,8 @@ CanvasRenderingContext2D.prototype.drawText = function (instance, shape, params,
     let caption = null;
     const TEXTALIGNS = core.types.TEXTALIGNS;
     //#endregion Variables déclaration
-    shape.ref != undefined ? caption = instance[shape.ref].caption : 1;
-    shape.font ? this.font = shape.font : 1;
+    shape.ref != undefined && (caption = instance[shape.ref].caption);
+    shape.font && (this.font = shape.font);
     const textM = this.measureText(caption);
     if (shape.textAlign) {
         this.textAlign = shape.textAlign;
@@ -362,10 +362,7 @@ CanvasRenderingContext2D.prototype.drawText = function (instance, shape, params,
                 if (params.hasOwnProperty('isDialog') && !params.isDialog) {
                     core.themes[instance.themeName].WindowButton.left != null
                         ? offsetX += (instance.visibleButtons * core.themes[instance.themeName].WindowButton.width)
-                            ? logoShape
-                                ? offsetX += logoShape.width : 1
-                            : 1
-                        : 1;
+                        : logoShape && (offsetX += logoShape.width);
                 }
                 break;
             case TEXTALIGNS.RIGHT:
@@ -373,7 +370,7 @@ CanvasRenderingContext2D.prototype.drawText = function (instance, shape, params,
                 break;
         }
     }
-    shape.textBaseline ? this.textBaseline = shape.textBaseline : 1;
+    shape.textBaseline && (this.textBaseline = shape.textBaseline);
     if (state) {
         this.translate(offsetX, 0);
         core.tools.processStyle(instance, shape, state, 'Text', [caption, shape.x, shape.y]);
@@ -483,19 +480,19 @@ CanvasRenderingContext2D.prototype.drawDigit = function (params) {
     this.fillStyle = params.fillColor.toRGBAString();
     this.strokeStyle = params.fillColor.toRGBAString();
     //Fill SegmentA
-    [0, 2, 3, 5, 6, 7, 8, 9].indexOf(params.value) > -1 ? this.drawPolygon(segmentA) : 1;
+    [0, 2, 3, 5, 6, 7, 8, 9].indexOf(params.value) > -1 && this.drawPolygon(segmentA);
     //Fill SegmentB
-    [0, 1, 2, 3, 4, 7, 8, 9].indexOf(params.value) > -1 ? this.drawPolygon(segmentB) : 1;
+    [0, 1, 2, 3, 4, 7, 8, 9].indexOf(params.value) > -1 && this.drawPolygon(segmentB);
     //Fill SegmentC
-    [0, 1, 3, 4, 5, 6, 7, 8, 9].indexOf(params.value) > -1 ? this.drawPolygon(segmentC) : 1;
+    [0, 1, 3, 4, 5, 6, 7, 8, 9].indexOf(params.value) > -1 && this.drawPolygon(segmentC);
     //Fill SegmentD
-    [0, 2, 3, 5, 6, 8, 9].indexOf(params.value) > -1 ? this.drawPolygon(segmentD) : 1;
+    [0, 2, 3, 5, 6, 8, 9].indexOf(params.value) > -1 && this.drawPolygon(segmentD);
     //Fill SegmentE
-    [0, 2, 6, 8].indexOf(params.value) > -1 ? this.drawPolygon(segmentE) : 1;
+    [0, 2, 6, 8].indexOf(params.value) > -1 && this.drawPolygon(segmentE);
     //Fill SegmentF
-    [0, 4, 5, 6, 7, 8, 9].indexOf(params.value) > -1 ? this.drawPolygon(segmentF) : 1;
+    [0, 4, 5, 6, 7, 8, 9].indexOf(params.value) > -1 && this.drawPolygon(segmentF);
     //Fill SegmentG
-    [2, 3, 4, 5, 6, 8, 9, -1].indexOf(params.value) > -1 ? this.drawPolygon(segmentG) : 1;
+    [2, 3, 4, 5, 6, 8, 9, -1].indexOf(params.value) > -1 && this.drawPolygon(segmentG);
 };
 /**
  * Draw a reflexion of an canvas on the canvas
@@ -528,7 +525,7 @@ CanvasRenderingContext2D.prototype.drawReflection = function (canvas, object) {
  * @param   {Matrix}        mat     then new transformation matrix
  */
 CanvasRenderingContext2D.prototype.setMatrix = function (mat) {
-    mat instanceof core.classes.Matrix ? this.setTransform(mat.m11, mat.m12, mat.m21, mat.m22, mat.m31, mat.m32) : 1;
+    mat instanceof core.classes.Matrix && this.setTransform(mat.m11, mat.m12, mat.m21, mat.m22, mat.m31, mat.m32);
 };
 /**
  * Flood fill from a x/y coordinate with a color
@@ -627,8 +624,8 @@ CanvasRenderingContext2D.prototype.floodFill = function (x, y, color) {
  * @param   {Boolean}       clip    clip the star or not
  */
 CanvasRenderingContext2D.prototype.drawStar = function (r, comp, clip) {
-    !comp.borderDash ? comp.borderDash = CANVAS.STROKEDASHS.SOLID : 1;
-    this.useNativeDash && comp.borderDash ? this.setDash(comp.borderDash) : 1;
+    !comp.borderDash && (comp.borderDash = CANVAS.STROKEDASHS.SOLID);
+    this.useNativeDash && comp.borderDash && (this.setDash(comp.borderDash));
     const w2 = r.width / 2;
     this.beginPath();
     this.moveTo(w2, 0);
@@ -657,8 +654,8 @@ CanvasRenderingContext2D.prototype.drawStar = function (r, comp, clip) {
  * @param   {Boolean}       clip    clip the trapezoid or not
  */
 CanvasRenderingContext2D.prototype.drawTrapezoid = function (r, comp, clip) {
-    !comp.borderDash ? comp.borderDash = CANVAS.STROKEDASHS.SOLID : 1;
-    this.useNativeDash && comp.borderDash ? this.setDash(comp.borderDash) : 1;
+    !comp.borderDash && (comp.borderDash = CANVAS.STROKEDASHS.SOLID);
+    this.useNativeDash && comp.borderDash && this.setDash(comp.borderDash);
     this.beginPath();
     this.moveTo(r.width * 0.2, r.top);
     this.lineTo(r.top, r.height);
@@ -680,8 +677,8 @@ CanvasRenderingContext2D.prototype.drawTrapezoid = function (r, comp, clip) {
  * @param   {Boolean}       clip    clip the parallelogram or not
  */
 CanvasRenderingContext2D.prototype.drawParallelogram = function (r, comp, clip) {
-    !comp.borderDash ? comp.borderDash = CANVAS.STROKEDASHS.SOLID : 1;
-    this.useNativeDash && comp.borderDash ? this.setDash(comp.borderDash) : 1;
+    !comp.borderDash && (comp.borderDash = CANVAS.STROKEDASHS.SOLID);
+    this.useNativeDash && comp.borderDash && this.setDash(comp.borderDash);
     this.beginPath();
     this.moveTo(r.width * 0.3, r.top);
     this.lineTo(r.left, r.height);
@@ -703,8 +700,8 @@ CanvasRenderingContext2D.prototype.drawParallelogram = function (r, comp, clip) 
  * @param   {Boolean}       clip    clip the ninja star or not
  */
 CanvasRenderingContext2D.prototype.drawNinjaStar = function (r, comp, clip) {
-    !comp.borderDash ? comp.borderDash = CANVAS.STROKEDASHS.SOLID : 1;
-    this.useNativeDash && comp.borderDash ? this.setDash(comp.borderDash) : 1;
+    !comp.borderDash && (comp.borderDash = CANVAS.STROKEDASHS.SOLID);
+    this.useNativeDash && comp.borderDash && this.setDash(comp.borderDash);
     this.beginPath();
     this.moveTo(r.width * 0.5, r.top);
     this.lineTo(r.width * 0.35, r.height * 0.35);
@@ -730,8 +727,8 @@ CanvasRenderingContext2D.prototype.drawNinjaStar = function (r, comp, clip) {
  * @param   {Boolean}       clip    clip the polygon or not
  */
 CanvasRenderingContext2D.prototype.drawRegularPolygon = function (r, comp, clip) {
-    !comp.borderDash ? comp.borderDash = CANVAS.STROKEDASHS.SOLID : 1;
-    this.useNativeDash && comp.borderDash ? this.setDash(comp.borderDash) : 1;
+    !comp.borderDash && (comp.borderDash = CANVAS.STROKEDASHS.SOLID);
+    this.useNativeDash && comp.borderDash && this.setDash(comp.borderDash);
     const w2 = r.width / 2;
     const h2 = r.height / 2;
     const size = (comp.width > comp.height ? comp.height : comp.width) / 2;
@@ -757,7 +754,7 @@ CanvasRenderingContext2D.prototype.drawSpark = function (data) {
     //#endregion Variables déclaration
     if (data && data.values.length > 0) {
         let type = data.type;
-        !type ? type = SPARKTYPES.LINE : 1;
+        !type && (type = SPARKTYPES.LINE);
         this.save();
         this.translate(0.5, 0.5);
         switch (type) {
@@ -793,11 +790,11 @@ CanvasRenderingContext2D.prototype.drawSparkLine = function (data) {
     let i = 0;
     const xValues = [];
     const yValues = [];
-    const path = [];
+    let path = [];
     //#endregion Variables déclaration
-    !color ? color = 'black' : 1;
-    !minColor ? minColor = 'black' : 1;
-    !maxColor ? maxColor = 'black' : 1;
+    !color && (color = 'black');
+    !minColor && (minColor = 'black');
+    !maxColor && (maxColor = 'black');
     let l = data.values.length;
     for (; i < l; i++) {
         xValues.push(i);
@@ -815,10 +812,10 @@ CanvasRenderingContext2D.prototype.drawSparkLine = function (data) {
         let y = yValues[i];
         const xPos = 2 + Math.round((x - minX) * (width / rangeX));
         y = Math.max(Math.min(y, maxY), minY);
-        path.length === 0 ? path.push({ x: xPos, y: height + 2 }) : 1;
-        path.push({ x: xPos, y: 2 + Math.round(height - (height * ((y - minY) / rangeY))) });
+        path.length === 0 && (path = [...path, { x: xPos, y: height + 2 }]);
+        path = [...path, { x: xPos, y: 2 + Math.round(height - (height * ((y - minY) / rangeY))) }];
     }
-    path.length > 2 ? path[0] = { x: path[0].x, y: path[1].y } : 1;
+    path.length > 2 && (path[0] = { x: path[0].x, y: path[1].y });
     l = path.length;
     if (filledColor) {
         this.fillStyle = filledColor;
@@ -898,7 +895,7 @@ CanvasRenderingContext2D.prototype.drawSparkPie = function (data) {
             for (x = 0; x < l; x++) {
                 let start = next;
                 let end = next;
-                total > 0 ? end = next + (circle * (data.values[x] / total)) : 1;
+                total > 0 && (end = next + (circle * (data.values[x] / total)));
                 if (x === i) {
                     this.fillStyle = colors[x % colors.length];
                     this.beginPath();
@@ -951,17 +948,17 @@ CanvasRenderingContext2D.prototype.drawSparkBoxPlot = function (data) {
         }
     };
     //#endregion Variables déclaration
-    !data.boxLineColor ? data.boxLineColor = '#000' : 1;
-    !data.boxFillColor ? data.boxFillColor = '#C0D0F0' : 1;
-    !data.whiskerColor ? data.whiskerColor = '#000' : 1;
-    !data.outlierLineColor ? data.outlierLineColor = '#303030' : 1;
-    !data.outlierFillColor ? data.outlierFillColor = '#F0F0F0' : 1;
-    !data.medianColor ? data.medianColor = 'red' : 1;
-    !data.targetColor ? data.targetColor = '#40A020' : 1;
-    !data.spotRadius ? data.spotRadius = 1.5 : 1;
-    !data.outlierIQR ? data.outlierIQR = 1.5 : 1;
-    !data.raw ? data.raw = !1 : 1;
-    !data.showOutliers ? data.showOutliers = !1 : 1;
+    !data.boxLineColor && (data.boxLineColor = '#000');
+    !data.boxFillColor && (data.boxFillColor = '#C0D0F0');
+    !data.whiskerColor && (data.whiskerColor = '#000');
+    !data.outlierLineColor && (data.outlierLineColor = '#303030');
+    !data.outlierFillColor && (data.outlierFillColor = '#F0F0F0');
+    !data.medianColor && (data.medianColor = 'red');
+    !data.targetColor && (data.targetColor = '#40A020');
+    !data.spotRadius && (data.spotRadius = 1.5);
+    !data.outlierIQR && (data.outlierIQR = 1.5);
+    !data.raw && (data.raw = !1);
+    !data.showOutliers && (data.showOutliers = !1);
     //l = data.values.length;
     if (data.raw) {
         if (data.showOutliers && data.values.length > 5) {
@@ -988,8 +985,8 @@ CanvasRenderingContext2D.prototype.drawSparkBoxPlot = function (data) {
         if (data.showOutliers) {
             lWhisker = rWhisker = null;
             data.values.forEach(val => {
-                !lWhisker && val > q1 - (iqr * data.outlierIQR) ? lWhisker = val : 1;
-                val < q3 + (iqr * data.outlierIQR) ? rWhisker = val : 1;
+                !lWhisker && val > q1 - (iqr * data.outlierIQR) && (lWhisker = val);
+                val < q3 + (iqr * data.outlierIQR) && (rWhisker = val);
             });
             lOutlier = data.values[0];
             rOutlier = data.values[l - 1];
@@ -1090,20 +1087,19 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
     //#endregion Variables déclaration
     radius = radius || 5;
     if (typeof radius === 'number') {
-        radius > ~~(height / 2) ? radius = ~~(height / 2) : 1;
+        radius > ~~(height / 2) && (radius = ~~(height / 2));
         radius = { tl: radius, tr: radius, br: radius, bl: radius };
     } else {
         const defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 };
         for (let side in defaultRadius) {
-            defaultRadius.hasOwnProperty(side) ? radius[side] = radius[side] || defaultRadius[side] : 1;
+            defaultRadius.hasOwnProperty(side) && (radius[side] = radius[side] || defaultRadius[side]);
         }
     }
     if (bordersColor) {
         this.save();
-        radius.tl + radius.tr + radius.br + radius.bl !== 0 ? this.translate(0.5, 0.5) : 1;
+        radius.tl + radius.tr + radius.br + radius.bl !== 0 && this.translate(0.5, 0.5);
         core.tools.isString(bordersColor)
-            ? bordersColor = { left: bordersColor, top: bordersColor, right: bordersColor, bottom: bordersColor }
-            : 1;
+            && (bordersColor = { left: bordersColor, top: bordersColor, right: bordersColor, bottom: bordersColor });
     }
     if (radius.tl + radius.tr + radius.bl + radius.br <= 0) {
         bordersColor
@@ -1151,7 +1147,7 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
             this.stroke();
         }
     }
-    bordersColor ? this.restore() : 1;
+    bordersColor && this.restore();
 };
 /**
  * Clip the canvas to a rectangle
@@ -1238,7 +1234,7 @@ CanvasRenderingContext2D.prototype.measureText = function (text) {
 
     // Copy the new metrics over, if and only if the CanvasRenderingContext2D API doesn't provide them
     for (let key in newMetrics) {
-        newMetrics.hasOwnProperty(key) && !(key in metrics) ? metrics[key] = newMetrics[key] : 1;
+        newMetrics.hasOwnProperty(key) && !(key in metrics) && (metrics[key] = newMetrics[key]);
     }
 
     return metrics;
@@ -1266,8 +1262,7 @@ CanvasRenderingContext2D.prototype.wavy = function (from, to, frequency, amplitu
 
 CanvasRenderingContext2D.prototype.rectWithBordersColor = function (x, y, width, height, bordersColor) {
     core.tools.isString(bordersColor)
-        ? bordersColor = { left: bordersColor, top: bordersColor, right: bordersColor, bottom: bordersColor }
-        : 1;
+        && (bordersColor = { left: bordersColor, top: bordersColor, right: bordersColor, bottom: bordersColor });
     this.beginPath();
     this.moveTo(x, y + 0.5);
     this.lineTo(x + width, y + 0.5);
@@ -1298,7 +1293,7 @@ CanvasRenderingContext2D.prototype.clipRegion = function (clippingData, left, to
     clippingData.hasOwnProperty('right') ? clip.push(width - left - clippingData.right) : clip.push(clippingData.width);
     clippingData.hasOwnProperty('bottom') ? clip.push(height - top - clippingData.bottom) : clip.push(clippingData.height);
     this.beginPath();
-    this[clippingData.shape] ? this[clippingData.shape](...clip) : 1;
+    this[clippingData.shape] && this[clippingData.shape](...clip);
     this.clip();
 }
 

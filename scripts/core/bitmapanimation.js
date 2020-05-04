@@ -13,7 +13,7 @@ const BitmapAnimation = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -54,7 +54,7 @@ const BitmapAnimation = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isObject(newValue) && newValue.canvas && priv.current !== newValue
-                ? priv.current = newValue: 1;
+                && (priv.current = newValue);
         }
         //#endregion Getters / Setters
         //#region Methods
@@ -80,7 +80,7 @@ const BitmapAnimation = (() => {
                 if (control[propertyName]) {
                     if (control[propertyName] instanceof Image) {
                         let r;
-                        control.allowUpdate ? r = control.screenRect() : 1;
+                        control.allowUpdate && (r = control.screenRect());
                         if (stopValue.width === 0 || stopValue.height === 0) {
                             return;
                         }
@@ -106,7 +106,7 @@ const BitmapAnimation = (() => {
                                 imgCanvasCtx.drawImage(current.canvas, 0, 0);
                             }
                         }
-                        control.allowUpdate ? control.update() : 1;
+                        control.allowUpdate && control.update();
                         !form.useRequestAnim ? control.redraw(r) : form.needRedraw = !0;
                     }
                 }

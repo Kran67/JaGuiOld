@@ -32,7 +32,7 @@ let Apps = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -67,7 +67,7 @@ let Apps = (() => {
         set activeApplication(newValue) {
             const priv = internal(this);
             (newValue instanceof core.classes.Application || newValue == null) && priv.activeApplication !== newValue
-                ? priv.activeApplication = newValue : 1;
+                && (priv.activeApplication = newValue);
         }
         /**
          * Get the capslock
@@ -80,7 +80,7 @@ let Apps = (() => {
          */
         set capslock(newValue) {
             const priv = internal(this);
-            core.tools.isString(newValue) ? priv.capslock = newValue : 1;
+            core.tools.isString(newValue) && (priv.capslock = newValue);
         }
         //#endregion Getters / Setters
         //#region Methods
@@ -131,10 +131,10 @@ let Apps = (() => {
             let dealEvent = true;
             let i = null;
             const vKeysCodes = Keyboard.VKEYSCODES;
-            core.apps.activeApplication ? form = core.apps.activeApplication.activeWindow : 1;
+            core.apps.activeApplication && (form = core.apps.activeApplication.activeWindow);
             core.keyboard.getKeyboardInfos(event);
             obj = event.target;
-            obj !== document.body && obj.jsObj ? dealEvent = obj.jsObj.stopEvent : 1;
+            obj !== document.body && obj.jsObj && (dealEvent = obj.jsObj.stopEvent);
             dealEvent = dealEvent || core.keyboard.keyCode === vKeysCodes.VK_ALT || core.keyboard.keyCode === vKeysCodes.VK_TAB || form.mainMenu && form.mainMenu.activeItem;
             if (dealEvent) {
                 switch (core.keyboard.keyCode) {
@@ -214,7 +214,7 @@ let Apps = (() => {
                                 break;
                             }
                             (core.keyboard.ctrl || core.keyboard.alt || core.keyboard.shift) && form.mainMenu
-                                ? form.mainMenu.keyDown() : 1;
+                                && form.mainMenu.keyDown();
                         }
                         if (!form.popups.isEmpty) {
                             if (core.classes.PopupMenu && form.popups.last instanceof core.classes.PopupMenu) {
@@ -245,7 +245,7 @@ let Apps = (() => {
                 switch (core.keyboard.keyCode) {
                     case vKeysCodes.VK_ALT:
                         form.mainMenu && (!core.keyboard.ctrl && !core.keyboard.shift && !core.keyboard.meta)
-                            ? form.mainMenu.keyUp() : 1;
+                            && form.mainMenu.keyUp();
                         core.keyboard.stopEvent();
                         break;
                     case vKeysCodes.VK_ESCAPE:
@@ -277,12 +277,11 @@ let Apps = (() => {
                     case vKeysCodes.VK_SPACE:
                     case vKeysCodes.VK_RETURN:
                         if (form) {
-                            !form.popups.isEmpty
-                                ? form.popups.last.keyUp()
-                                    ? form.focusedControl
-                                        ? form.focusedControl.keyUp() : 1
-                                    : 1
-                                : 1;
+                            if (!form.popups.isEmpty) {
+                                form.popups.last.keyUp();
+                            } else if (form.focusedControl) {
+                                form.focusedControl.keyUp();
+                            }
                         }
                         break;
                     case vKeysCodes.VK_TAB:
@@ -309,17 +308,15 @@ let Apps = (() => {
                 // test CapsLock
                 core.apps.capslock = 'OFF';
                 let shiftOn = false;
-                shiftOn = core.keyboard.shift
-                    ? core.keyboard.shift
-                        ? keyBoardEventArgs.modifiers
-                            ? !!(keyBoardEventArgs.modifiers & 4)
-                            : 1
-                        : 1
-                    : 1;
+                if (Core.keyboard.shift) {
+                    shiftOn = Core.keyboard.shift;
+                } else if (keyBoardEventArgs.modifiers) {
+                    shiftOn = !!(keyBoardEventArgs.modifiers & 4);
+                }
                 keyCode >= vKeysCodes.VK_NUMPAD1 && keyCode <= vKeysCodes.VK_F11 && shiftOn
                     || keyCode >= vKeysCodes.VK_A &&
                     keyCode <= vKeysCodes.VK_Z && !shiftOn
-                    ? core.apps.capslock = 'ON' : 1;
+                    && (core.apps.capslock = 'ON');
 
                 form.focusedControl ? form.focusedControl.keyPress() : form.keyPress();
             }

@@ -11,7 +11,7 @@ const AnimatedCursor = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -41,8 +41,7 @@ const AnimatedCursor = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            newValue instanceof HTMLElement && priv.HTMLElement !== newValue
-                ? priv.HTMLElement = newValue : 1;
+            newValue instanceof HTMLElement && priv.HTMLElement !== newValue && (priv.HTMLElement = newValue);
         }
         //#endregion HTMLElement
         //#region maxFrame
@@ -53,8 +52,7 @@ const AnimatedCursor = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) && priv.maxFrame !== newValue
-                ? priv.maxFrame = newValue : 1;
+            core.tools.isNumber(newValue) && priv.maxFrame !== newValue && (priv.maxFrame = newValue);
         }
         //#endregion maxFrame
         //#region curFrame
@@ -65,8 +63,7 @@ const AnimatedCursor = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) && priv.curFrame !== newValue
-                ? priv.curFrame = newValue : 1;
+            core.tools.isNumber(newValue) && priv.curFrame !== newValue && (priv.curFrame = newValue);
         }
         //#endregion curFrame
         //#region className
@@ -77,8 +74,7 @@ const AnimatedCursor = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isString(newValue) && priv.className !== newValue
-                ? priv.className = newValue : 1;
+            core.tools.isString(newValue) && priv.className !== newValue && (priv.className = newValue);
         }
         //#endregion className
         //#region iterationBetweenFrames
@@ -90,7 +86,7 @@ const AnimatedCursor = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isNumber(newValue) && priv.iterationBetweenFrames !== newValue
-                ? priv.iterationBetweenFrames = newValue : 1;
+                && (priv.iterationBetweenFrames = newValue);
         }
         //#endregion iterationBetweenFrames
         //#region iteration
@@ -101,8 +97,7 @@ const AnimatedCursor = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) && priv.iteration !== newValue
-                ? priv.iteration = newValue : 1;
+            core.tools.isNumber(newValue) && priv.iteration !== newValue && (priv.iteration = newValue);
         }
         //#endregion iteration
         //#endregion Getters / Setters
@@ -123,7 +118,7 @@ const AnimatedCursor = (() => {
             }
             htmlElement.classList.remove(`${className}${curFrame}`);
             curFrame++;
-            curFrame > priv.maxFrame ? curFrame = priv.curFrame = 0 : 1;
+            curFrame > priv.maxFrame && (curFrame = priv.curFrame = 0);
             htmlElement.classList.add(`${className}${curFrame}`);
             priv.iteration = 0;
             priv.curFrame = curFrame;

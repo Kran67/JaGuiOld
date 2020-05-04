@@ -11,7 +11,7 @@ const Bindable = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -37,17 +37,17 @@ const Bindable = (() => {
         //#region addDataBindings
         addDataBindings(dataBindings) {
             Array.isArray(dataBindings)
-                ? dataBindings.forEach(dataBinding => {
+                && dataBindings.forEach(dataBinding => {
                     this.addDataBinding(...dataBinding);
-                }) : 1;
+                });
         }
         //#endregion addDataBindings
         //#region removeDataBindings
         removeDataBindings(dataBindings) {
             Array.isArray(dataBindings)
-                ? dataBindings.forEach(dataBinding => {
+                && dataBindings.forEach(dataBinding => {
                     this.removeDataBinding(...dataBinding);
-                }) : 1;
+                });
         }
         //#endregion removeDataBindings
         //#region propertyChanged
@@ -58,13 +58,13 @@ const Bindable = (() => {
             const form = this.form;
             //#endregion Variables déclaration
             dataBindings.find(item => item.property === property)
-                ? dataBindings.filter(item => item.property === property)
+                && dataBindings.filter(item => item.property === property)
                     .forEach(dataBinding => {
                         const destination = dataBinding.destination;
                         if (form[destination.component]) {
                             form[destination.component][destination.property] = this[property];
                         }
-                    }) : 1;
+                    });
         }
         //#endregion propertyChanged
         //#region addDataBinding

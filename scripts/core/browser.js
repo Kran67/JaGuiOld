@@ -112,15 +112,14 @@ class Browser {
         });
         //#endregion Public Properties
         //#endregion Properties
-        _chrome ? _coreVersion = +_av.split('Chrome/')[1] : 1;
+        _chrome && (_coreVersion = +_av.split('Chrome/')[1]);
         if (_webkit && !_chrome) {
             _safari = _av.indexOf('Safari') !== -1;
-            _safari ? _coreVersion = +_av.split('Version/')[1] : 1;
+            _safari && (coreVersion = +_av.split('Version/')[1]);
         }
-        !_ie && !_opera && !_webkit && !_khtml && !_chrome && !_safari && !_iphone
-            ? _n.appCodeName === 'Mozilla'
-                ? _ff = !0 : 1
-            : 1;
+        if (!_ie && !_opera && !_webkit && !_khtml && !_chrome && !_safari && !_iphone) {
+            _n.appCodeName === 'Mozilla' && (_ff = !0);
+        }
         if (!_ie) {
             const match = _n.userAgent.match(/(?:MSIE |Trident\/.*; rv:)(\d+)/);
             if (match) {
@@ -183,7 +182,7 @@ class Browser {
         } else if ((this.chrome || this.safari || this.webkit) && this.webkitCSSPrefix.indexOf(cssProperty) > -1) {
             ret = !0;
         } else if (this.opera) {
-            this.coreVersion < 15 && this.operaCSSPrefix.indexOf(cssProperty) > -1 ? ret = !0 : 1;
+            this.coreVersion < 15 && this.operaCSSPrefix.indexOf(cssProperty) > -1 && (ret = !0);
         }
         return ret ? this.vendorPrefix : String.EMPTY;
     }

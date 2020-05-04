@@ -18,7 +18,7 @@ const Animation = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -119,7 +119,7 @@ const Animation = (() => {
         set animationType(newValue) {
             const priv = internal(this);
             core.tools.valueInSet(newValue, Animation.ANIMATIONTYPES) && newValue !== priv.animationType
-                ? priv.animationType = newValue : 1;
+                && (priv.animationType = newValue);
         }
         //#endregion animationType
         //#region autoReverse
@@ -129,7 +129,7 @@ const Animation = (() => {
         set autoReverse(newValue) {
             const priv = internal(this);
             core.tools.isBool(newValue) && newValue !== priv.autoReverse
-                ? priv.autoReverse = newValue : 1;
+                && (priv.autoReverse = newValue);
         }
         //#endregion autoReverse
         //#region enabled
@@ -152,7 +152,7 @@ const Animation = (() => {
         set delay(newValue) {
             const priv = internal(this);
             core.tools.isNumber(newValue) && newValue !== priv.delay
-                ? priv.delay = newValue : 1;
+                && (priv.delay = newValue);
         }
         //#endregion delay
         //#region duration
@@ -162,7 +162,7 @@ const Animation = (() => {
         set duration(newValue) {
             const priv = internal(this);
             core.tools.isNumber(newValue) && newValue !== priv.duration
-                ? priv.duration = newValue : 1;
+                && (priv.duration = newValue);
         }
         //#endregion duration
         //#region interpolation
@@ -172,7 +172,7 @@ const Animation = (() => {
         set interpolation(newValue) {
             const priv = internal(this);
             core.tools.valueInSet(newValue, Interpolation.INTERPOLATIONTYPES) && newValue !== priv.interpolation
-                ? priv.interpolation = newValue : 1;
+                && (priv.interpolation = newValue);
         }
         //#endregion interpolation
         //#region inverse
@@ -182,7 +182,7 @@ const Animation = (() => {
         set inverse(newValue) {
             const priv = internal(this);
             core.tools.isBool(newValue) && newValue !== priv.inverse
-                ? priv.inverse = newValue : 1;
+                && (priv.inverse = newValue);
         }
         //#endregion inverse
         //#region hideOnFinish
@@ -192,7 +192,7 @@ const Animation = (() => {
         set hideOnFinish(newValue) {
             const priv = internal(this);
             core.tools.isBool(newValue) && newValue !== priv.hideOnFinish
-                ? priv.hideOnFinish = newValue : 1;
+                && (priv.hideOnFinish = newValue);
         }
         //#endregion hideOnFinish
         //#region loop
@@ -202,7 +202,7 @@ const Animation = (() => {
         set loop(newValue) {
             const priv = internal(this);
             core.tools.isBool(newValue) && newValue !== priv.loop
-                ? priv.loop = newValue : 1;
+                && (priv.loop = newValue);
         }
         //#endregion loop
         //#region trigger
@@ -212,7 +212,7 @@ const Animation = (() => {
         set trigger(newValue) {
             const priv = internal(this);
             core.tools.isString(newValue) && newValue !== priv.trigger
-                ? priv.trigger = newValue : 1;
+                && (priv.trigger = newValue);
         }
         //#endregion trigger
         //#region triggerInverse
@@ -222,7 +222,7 @@ const Animation = (() => {
         set triggerInverse(newValue) {
             const priv = internal(this);
             core.tools.isBool(newValue) && newValue !== priv.triggerInverse
-                ? priv.triggerInverse = newValue : 1;
+                && (priv.triggerInverse = newValue);
         }
         //#endregion triggerInverse
         //#region propertyName
@@ -246,7 +246,7 @@ const Animation = (() => {
             if (newValue instanceof core.classes.Control && priv.control !== newValue) {
                 this.stop();
                 priv.control = newValue;
-                priv.autoStart ? this.start() : 1;
+                priv.autoStart && this.start();
             }
         }
         //#endregion control
@@ -257,7 +257,7 @@ const Animation = (() => {
         set startFromCurrent(newValue) {
             const priv = internal(this);
             core.tools.isBool(newValue) && newValue !== priv.startFromCurrent
-                ? priv.startFromCurrent = newValue : 1;
+                && (priv.startFromCurrent = newValue);
         }
         //#endregion startFromCurrent
         //#region startValue
@@ -267,7 +267,7 @@ const Animation = (() => {
         set startValue(newValue) {
             const priv = internal(this);
             typeof priv.startValue === typeof newValue && newValue !== priv.startValue
-                ? priv.startValue = newValue : 1;
+                && (priv.startValue = newValue);
         }
         //#endregion startValue
         //#region stopValue
@@ -277,7 +277,7 @@ const Animation = (() => {
         set stopValue(newValue) {
             const priv = internal(this);
             typeof priv.stopValue === typeof newValue && newValue !== priv.stopValue
-                ? priv.stopValue = newValue : 1;
+                && (priv.stopValue = newValue);
         }
         //#endregion stopValue
         //#region autoStart
@@ -287,7 +287,7 @@ const Animation = (() => {
         set autoStart(newValue) {
             const priv = internal(this);
             core.tools.isBool(newValue) && newValue !== priv.autoStart
-                ? priv.autoStart = newValue : 1;
+                && (priv.autoStart = newValue);
         }
         //#endregion autoStart
         //#region running
@@ -297,7 +297,7 @@ const Animation = (() => {
         set running(newValue) {
             const priv = internal(this);
             core.tools.isBool(newValue) && newValue !== priv.running
-                ? priv.running = newValue : 1;
+                && (priv.running = newValue);
         }
         //#endregion running
         //#region convertToCSS
@@ -307,7 +307,7 @@ const Animation = (() => {
         set convertToCSS(newValue) {
             const priv = internal(this);
             core.tools.isBool(newValue) && newValue !== priv.convertToCSS
-                ? priv.convertToCSS = newValue : 1;
+                && (priv.convertToCSS = newValue);
         }
         //#endregion convertToCSS
         //#region ANIMATIONTYPES
@@ -325,7 +325,7 @@ const Animation = (() => {
             const priv = internal(this);
             if (this.control) {
                 if (!this.convertToCSS /*|| this instanceof core.classes.PathAnimation*/ || this.owner.HTMLElement === core.types.HTMLELEMENTS.CANVAS) {
-                    core.disableAnimation ? priv.duration = 0.001 : 1;
+                    core.disableAnimation && (priv.duration = 0.001);
                     if (Math.abs(priv.duration) < 0.001) {
                         priv.delayTime = 0;
                         if (inverse) {
@@ -346,7 +346,7 @@ const Animation = (() => {
                         priv.delayTime = priv.delay;
                         priv.running = !0;
                         priv.time = inverse ? priv.duration : 0;
-                        priv.delay === 0 ? this.processAnimation() : 1;
+                        priv.delay === 0 && this.processAnimation();
                         priv.enabled = !0;
                     }
                     core.looper.addListener(this, 'animate');
@@ -371,10 +371,8 @@ const Animation = (() => {
             priv.enabled = !1;
             this.onFinish.invoke();
             !this.convertToCSS || htmlElement === htmlElements.CANVAS
-                ? core.looper.removeListener(this)
-                    ? !this.loading && !this.form.loading
-                    : core.isHTMLRenderer && Css.updateInlineCSS(this.control, core.types.JSCSSPROPERTIES.ANIMATION, String.EMPTY)
-                : 1;
+            core.looper.removeListener(this) && !this.loading && !this.form.loading && core.isHTMLRenderer
+                && Css.updateInlineCSS(this.control, core.types.JSCSSPROPERTIES.ANIMATION, String.EMPTY);
         }
         /**
          * When the class is loaded
@@ -382,11 +380,8 @@ const Animation = (() => {
          */
         loaded() {
             super.loaded();
-            !core.isHTMLRenderer || this.control && this.control.HTMLElement === core.types.HTMLELEMENTS.CANVAS
-                ? this.startFromCurrent
-                    ? this.initialValue = this.startValue : 1
-                : this.updateCSS();
-            //if(this._enabled&&!this._running&&this._autoStart) this.start();
+            !Core.isHTMLRenderer || this.control && this.control.HTMLElement === Types.HTMLELEMENTS.CANVAS
+                ? this.startFromCurrent && (this.initialValue = this.startValue) : this.updateCSS();
         }
         /**
          * Update css with properties
@@ -578,17 +573,19 @@ const Animation = (() => {
             elapsedTime /= 1000;
             if (running && priv.pause) {
                 if (owner) {
-                    if (!core.isHTMLRenderer) {
-                        !owner.isVisible
-                            ? this.stop()
-                                ? running : this.pause = !1
-                            : 1;
+                    if (!Core.isHTMLRenderer) {
+                        if (!owner.isVisible) {
+                            this.stop();
+                        } else if (running) {
+                            this.pause = !1;
+                        }
+                    } else {
+                        if (!owner.isVisible) {
+                            this.stop();
+                        } else if (running) {
+                            this.pause = !1;
+                        }
                     }
-                } else {
-                    !owner.isVisible
-                        ? this.stop()
-                            ? running : this.pause = !1
-                        : 1;
                 }
                 if (priv.delay > 0 && delayTime !== 0) {
                     if (delayTime > 0) {
@@ -602,35 +599,35 @@ const Animation = (() => {
                 }
                 priv.inverse ? priv.time -= elapsedTime : priv.time += elapsedTime;
                 if (priv.time >= duration) {
-                    priv.startFromCurrent ? priv.startValue = priv.initialValue : 1;
-                }
-                priv.time = duration;
-                if (loop) {
-                    if (autoReverse) {
-                        priv.inverse = !0;
-                        priv.time = duration;
+                    priv.startFromCurrent && (priv.startValue = priv.initialValue);
+                    priv.time = duration;
+                    if (loop) {
+                        if (autoReverse) {
+                            priv.inverse = !0;
+                            priv.time = duration;
+                        } else {
+                            priv.time = 0;
+                        }
                     } else {
-                        priv.time = 0;
+                        running = priv.running = !1;
                     }
-                } else {
-                    running = priv.running = !1;
-                }
-            } else if (priv.time <= 0) {
-                priv.time = 0;
-                if (loop) {
-                    if (autoReverse) {
-                        priv.inverse = !1;
-                        priv.time = 0;
+                } else if (priv.time <= 0) {
+                    priv.time = 0;
+                    if (loop) {
+                        if (autoReverse) {
+                            priv.inverse = !1;
+                            priv.time = 0;
+                        } else {
+                            priv.time = duration;
+                        }
                     } else {
-                        priv.time = duration;
+                        running = priv.running = !1;
                     }
-                } else {
-                    running = priv.running = !1;
                 }
+                this.processAnimation();
+                this.onProcess.invoke();
+                !running && this.stop();
             }
-            this.processAnimation();
-            this.onProcess.invoke();
-            !running ? this.stop() : 1;
         }
         /**
          * Convert animation properties to CSS
@@ -648,14 +645,14 @@ const Animation = (() => {
             if (!this.convertToCSS) {
                 return String.EMPTY;
             }
-            if (interpolation === INTERPOLATIONTYPES.BOUNCE || interpolation === INTERPOLATIONTYPES.ELASTIC) {
+            if (interpolation === interpolationTypes.BOUNCE || interpolation === interpolationTypes.ELASTIC) {
                 return ani;
             }
             // animation-name + animation-duration
             ani += (aniName ? aniName : priv.name) + String.SPACE + priv.duration + 's ';
             // animation-timing-function
             switch (interpolation) {
-                case INTERPOLATIONTYPES.BACK:
+                case interpolationTypes.BACK:
                     switch (animationType) {
                         case ANIMATIONTYPES.types.IN:
                             ani += 'cubic-bezier(0.6, -0.28, 0.735, 0.045)';
@@ -681,7 +678,7 @@ const Animation = (() => {
                 //      break;
                 //  }
                 //  break;
-                case INTERPOLATIONTYPES.CIRCULAR:
+                case interpolationTypes.CIRCULAR:
                     switch (animationType) {
                         case ANIMATIONTYPES.IN:
                             ani += 'cubic-bezier(0.6, 0.04, 0.98, 0.335)';
@@ -694,7 +691,7 @@ const Animation = (() => {
                             break;
                     }
                     break;
-                case INTERPOLATIONTYPES.CUBIC:
+                case interpolationTypes.CUBIC:
                     switch (animationType) {
                         case ANIMATIONTYPES.IN:
                             ani += 'cubic-bezier(0.55, 0.055, 0.675, 0.19)';
@@ -720,7 +717,7 @@ const Animation = (() => {
                 //      break;
                 //  }
                 //  break;
-                case INTERPOLATIONTYPES.EXPONENTIAL:
+                case interpolationTypes.EXPONENTIAL:
                     switch (animationType) {
                         case ANIMATIONTYPES.IN:
                             ani += 'cubic-bezier(0.95, 0.05, 0.795, 0.035)';
@@ -733,7 +730,7 @@ const Animation = (() => {
                             break;
                     }
                     break;
-                case INTERPOLATIONTYPES.LINEAR:
+                case interpolationTypes.LINEAR:
                     ani += 'linear ';
                     break;
                 case INTERPOLATIONTYPES.QUADRATIC:
@@ -749,7 +746,7 @@ const Animation = (() => {
                             break;
                     }
                     break;
-                case INTERPOLATIONTYPES.QUARTIC:
+                case interpolationTypes.QUARTIC:
                     switch (animationType) {
                         case ANIMATIONTYPES.IN:
                             ani += 'cubic-bezier(0.895, 0.03, 0.685, 0.22)';
@@ -762,7 +759,7 @@ const Animation = (() => {
                             break;
                     }
                     break;
-                case INTERPOLATIONTYPES.QUINTIC:
+                case interpolationTypes.QUINTIC:
                     switch (animationType) {
                         case ANIMATIONTYPES.IN:
                             ani += 'cubic-bezier(0.755, 0.05, 0.855, 0.06)';
@@ -775,7 +772,7 @@ const Animation = (() => {
                             break;
                     }
                     break;
-                case INTERPOLATIONTYPES.SINUSOIDAL:
+                case interpolationTypes.SINUSOIDAL:
                     switch (animationType) {
                         case ANIMATIONTYPES.IN:
                             ani += 'cubic-bezier(0.47, 0, 0.745, 0.715)';
@@ -838,7 +835,7 @@ const Animation = (() => {
         destroy() {
             const priv = internal(this);
             this.onProcess.destroy();
-            this.onProcess=null;
+            this.onProcess = null;
             delete this.onProcess;
             this.onFinish.destroy();
             this.onFinish = null;
