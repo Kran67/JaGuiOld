@@ -1,6 +1,5 @@
 ﻿//#region Imports
 import { CaptionControl } from '/scripts/core/captioncontrol.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Imports
@@ -8,12 +7,11 @@ import { Keyboard } from '/scripts/core/keyboard.js';
 /**
  * @type    {Object}        CHECKBOXSTATES
  */
-const CHECKBOXSTATES = Object.freeze({
+const CHECKBOXSTATES = Object.seal(Object.freeze({
     UNCHECKED: 'unchecked',
     GRAYED: 'grayed',
     CHECKED: 'checked'
-});
-Object.seal(CHECKBOXSTATES);
+}));
 //#endregion CHECKBOXSTATES
 //#region Checkbox
 const Checkbox = (() => {
@@ -21,9 +19,7 @@ const Checkbox = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -41,24 +37,25 @@ const Checkbox = (() => {
         //#region constructor
         constructor(owner, props) {
             //#region Variables déclaration
-            const htmlElements = Types.HTMLELEMENTS;
+            const htmlElements = core.types.HTMLELEMENTS;
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
+                props.autoCapture = !0;
+                props.canFocused = !0;
+                props.hitTest = { mouseDown: !0, mouseUp: !0 };
+                props.autoSize = !1;
+                props.clipped = !1;
+                if (!core.isHTMLRenderer) {
+                    props.width = 120;
+                    props.height = 19;
+                }
                 super(owner, props);
+                this.createEventsAndBind(['onChange'], props);
                 const priv = internal(this);
-                this.autoCapture = !0;
                 priv.isChecked = props.hasOwnProperty('isChecked') ? props.isChecked : !1;
                 priv.autoWidth = props.hasOwnProperty('autoWidth') ? props.autoWidth : !0;
-                this.createEventsAndBind(['onChange'], props);
-                if (!Core.isHTMLRenderer) {
-                    this.width = 120;
-                    this.height = 19;
-                }
-                this.canFocused = !0;
-                this.hitTest.mouseDown = !0;
-                this.hitTest.mouseUp = !0;
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'state',
                     enum: CHECKBOXSTATES,
@@ -67,9 +64,7 @@ const Checkbox = (() => {
                 });
                 priv.allowGrayed = props.hasOwnProperty('allowGrayed') ? props.allowGrayed : !1;
                 priv.action = null;
-                this.autoSize = !1;
-                this.clipped = !1;
-                priv.check = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}check`);
+                priv.check = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}check`);
                 priv.input = document.createElement(htmlElements.INPUT);
             }
         }
@@ -88,7 +83,7 @@ const Checkbox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
+            if (core.tools.isBool(newValue)) {
                 if (priv.allowGrayed) {
                     switch (priv.state) {
                         case CHECKBOXSTATES.UNCHECKED:
@@ -114,17 +109,13 @@ const Checkbox = (() => {
                 if (priv.isChecked !== newValue) {
                     priv.isChecked = newValue;
                     if (!this.loading && !this.form.loading) {
-                        if (!Core.isHTMLRenderer) {
-                            if (this.allowUpdate) {
-                                this.update();
-                            }
+                        if (!core.isHTMLRenderer) {
+                            this.allowUpdate ? this.update() : 1;
                             this.redraw();
                         } else {
                             this.update();
                         }
-                        if (!this.updating) {
-                            this.onChange.invoke();
-                        }
+                        !this.updating ? this.onChange.invoke() : 1;
                     }
                 }
             }
@@ -138,11 +129,8 @@ const Checkbox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.allowGrayed !== newValue) {
-                    priv.allowGrayed = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.allowGrayed !== newValue
+                ? priv.allowGrayed = newValue : 1;
         }
         //#endregion allowGrayed
         //#region action
@@ -153,15 +141,11 @@ const Checkbox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Action) {
-                if (priv.action !== newValue) {
-                    if (priv.action instanceof Action) {
-                        priv.action.unRegisterChanges(this);
-                    }
-                    priv.action = newValue;
-                    priv.action.registerChanges(this);
-                    priv.action.updateTarget(this);
-                }
+            if (newValue instanceof Action && priv.action !== newValue) {
+                priv.action instanceof Action ? priv.action.unRegisterChanges(this) : 1;
+                priv.action = newValue;
+                priv.action.registerChanges(this);
+                priv.action.updateTarget(this);
             }
         }
         //#endregion action
@@ -173,11 +157,9 @@ const Checkbox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.autoWidth !== newValue) {
-                    priv.autoWidth = newValue;
-                    this.update();
-                }
+            if (core.tools.isBool(newValue) && priv.autoWidth !== newValue) {
+                priv.autoWidth = newValue;
+                this.update();
             }
         }
         //#endregion autoWidth
@@ -186,7 +168,7 @@ const Checkbox = (() => {
         //#region mouseDown
         mouseDown() {
             super.mouseDown();
-            if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
+            if (core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
                 this.pressing = !0;
                 this.isPressed = !0;
             }
@@ -198,7 +180,7 @@ const Checkbox = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.mouseUp();
-            if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.pressing) {
+            if (core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.pressing) {
                 this.pressing = !1;
                 this.isPressed = !1;
                 this.isChecked = !priv.isChecked;
@@ -212,7 +194,8 @@ const Checkbox = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.keyUp();
-            if (Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_RETURN || Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
+            if (core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_RETURN
+                || core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
                 this.isChecked = !priv.isChecked;
                 this.update();
             }
@@ -238,20 +221,17 @@ const Checkbox = (() => {
                 }
                 if (priv.input) {
                     if (priv.state) {
-                        if (priv.state !== CHECKBOXSTATES.UNCHECKED) {
-                            priv.input.setAttribute('checked', 'checked');
-                        } else {
-                            priv.input.removeAttribute('checked');
-                        }
+                        priv.state !== CHECKBOXSTATES.UNCHECKED
+                            ? priv.input.setAttribute('checked', 'checked')
+                            : priv.input.removeAttribute('checked');
                     } else if (priv.isChecked) {
                         priv.input.setAttribute('checked', 'checked');
                     } else {
                         priv.input.removeAttribute('checked');
                     }
                 }
-                if (priv.autoWidth && this.HTMLElementStyle) {
-                    this.HTMLElementStyle.width = 'auto';
-                }
+                priv.autoWidth && this.HTMLElementStyle
+                    ? this.HTMLElementStyle.width = 'auto' : 1;
             }
         }
         //#endregion update
@@ -262,13 +242,10 @@ const Checkbox = (() => {
             //#endregion Variables déclaration
             priv.isChecked = null;
             priv.autoWidth = null;
-            this.onChange.destroy();
-            this.onChange = null;
+            this.unBindAndDestroyEvents(['onChange']);
             priv.state = null;
             priv.allowGrayed = null;
-            if (priv.action) {
-                priv.action.removeTarget(this);
-            }
+            priv.action ? priv.action.removeTarget(this) : 1;
             priv.action = null;
             priv.check = null;
             priv.input = null;
@@ -282,16 +259,12 @@ const Checkbox = (() => {
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (!htmlElement.querySelector('input')) {
-                priv.input.type = this instanceof Core.classes.RadioButton ? 'radio' : 'checkbox';
+                priv.input.type = this instanceof core.classes.RadioButton ? 'radio' : 'checkbox';
                 priv.input.classList.add('Control', `${this.constructor.name}Input`);
                 priv.input.checked = priv.isChecked;
                 priv.check.classList.add('Control', this.themeName, `${this.constructor.name}Check`);
-                if (priv.isChecked) {
-                    priv.check.classList.add('checked');
-                }
-                if (priv.allowGrayed) {
-                    priv.check.classList.add('grayed');
-                }
+                priv.isChecked ? priv.check.classList.add('checked') : 1;
+                priv.allowGrayed ? priv.check.classList.add('grayed') : 1;
                 htmlElement.appendChild(priv.input);
                 htmlElement.appendChild(priv.check);
             }
@@ -303,13 +276,13 @@ const Checkbox = (() => {
     return Checkbox;
     //#endregion Checkbox
 })();
+core.classes.register(core.types.CATEGORIES.COMMON, Checkbox);
 //#endregion Checkbox
-Core.classes.register(Types.CATEGORIES.COMMON, Checkbox);
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const CheckboxTpl = ['<jagui-checkbox id="{internalId}" data-class="Checkbox" class="Control Checkbox {theme}">',
         '<properties>{ "name": "{name}", "height": 15 }</properties>{caption}</jagui-checkbox>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: Checkbox, template: CheckboxTpl }]);
+    core.classes.registerTemplates([{ Class: Checkbox, template: CheckboxTpl }]);
 }
 //#endregion
 export { Checkbox };

@@ -1,6 +1,5 @@
 ﻿//#region Import
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Color } from '/scripts/core/color.js';
 import { Convert } from '/scripts/core/convert.js';
 //#endregion Import

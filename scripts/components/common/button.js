@@ -336,8 +336,8 @@ const Button = (() => {
                     ? props.isDefault : !1;
             }
         }
-        //#endregion
-        //#region getter / setter
+        //#endregion Constructor
+        //#region Getters / Setters
         //#region isDefault
         get isDefault() {
             return internal(this).isDefault;
@@ -349,6 +349,7 @@ const Button = (() => {
             core.tools.isBool(newValue) && priv.isDefault !== newValue ? priv.isDefault = newValue : 1;
         }
         //#endregion isDefault
+        //#endregion Getters / Setters
         //#region Methods
         //#region assign
         assign(source) {
@@ -361,7 +362,15 @@ const Button = (() => {
             }
         }
         //#endregion assign
-
+        //#region destroy
+        destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.isDefault = null;
+            super.destroy();
+        }
+        //#endregion destroy
         //#endregion Methods
     }
     return Button;

@@ -1,6 +1,5 @@
 ﻿//#region Import
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Events } from '/scripts/core/events.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
@@ -20,9 +19,7 @@ const Calendar = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) ? _private.set(key, {}) : 1;
         // Return private properties object
         return _private.get(key);
     };
@@ -33,7 +30,11 @@ const Calendar = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.hitTest = [!0, !1, !0];
+                props.canFocused = !0;
+                props.stopEvent = !1;
                 super(owner, props);
+                this.createEventsAndBind(['onChange'], props);
                 const priv = internal(this);
                 priv.prevMonth = null;
                 priv.thisDay = null
@@ -47,8 +48,9 @@ const Calendar = (() => {
                 priv.lastSelectedDay = null;
                 priv.autoTranslate = !0;
                 priv.curDate = props.hasOwnProperty('date') ? new Date(props.date) : new Date(Date.now());
-                priv.viewWeeksNum = props.hasOwnProperty('viewWeeksNum') && Tools.isBool(props.viewWeeksNum) ? props.viewWeeksNum : !1;
-                Tools.addPropertyFromEnum({
+                priv.viewWeeksNum = props.hasOwnProperty('viewWeeksNum') && core.tools.isBool(props.viewWeeksNum)
+                    ? props.viewWeeksNum : !1;
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'mode',
                     enum: CALENDARMODES,
@@ -56,7 +58,7 @@ const Calendar = (() => {
                         //#region Variables déclaration
                         const priv = internal(this);
                         //#endregion Variables déclaration
-                        if (Tools.valueInSet(newValue, CALENDARMODES) || newValue === null) {
+                        if (core.tools.valueInSet(newValue, CALENDARMODES) || newValue === null) {
                             if (priv.mode !== newValue) {
                                 priv.mode = newValue;
                                 priv.decades.classList.remove('zoomOut');
@@ -81,10 +83,6 @@ const Calendar = (() => {
                     value: props.hasOwnProperty('mode') ? props.mode : CALENDARMODES.DAYS,
                     forceUpdate: !0
                 });
-                this.hitTest = [!0, !1, !0];
-                this.canFocused = !0;
-                this.createEventsAndBind(['onChange'], props);
-                this.stopEvent = !1;
             }
         }
         //#endregion constructor
@@ -105,11 +103,9 @@ const Calendar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.viewWeeksNum !== newValue) {
-                    priv.viewWeeksNum = newValue;
-                    this.update();
-                }
+            if (core.tools.isBool(newValue) && priv.viewWeeksNum !== newValue) {
+                priv.viewWeeksNum = newValue;
+                this.update();
             }
         }
         //#endregion viewWeeksNum
@@ -169,9 +165,7 @@ const Calendar = (() => {
             //#region Variables déclaration
             let obj = this.jsObj;
             //#endregion Variables déclaration
-            if (!obj) {
-                obj = this;
-            }
+            !obj ? obj = this : 1;
             if (obj.isEnabled) {
                 obj.date = new Date(Date.now());
                 obj.mode = CALENDARMODES.DAYS;
@@ -215,14 +209,10 @@ const Calendar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (this.isEnabled) {
-                if (data) {
-                    priv.curDate.setDate(~~data);
-                    if (htmlObj) {
-                        priv.lastSelectedDay = htmlObj;
-                    }
-                    this.update();
-                }
+            if (this.isEnabled && ata) {
+                priv.curDate.setDate(~~data);
+                htmlObj ? priv.lastSelectedDay = htmlObj : 1;
+                this.update();
             }
         }
         //#endregion _selectDay
@@ -240,9 +230,7 @@ const Calendar = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (this.isEnabled) {
-                if (data) {
-                    priv.curDate.setMonth(~~data);
-                }
+                data ? priv.curDate.setMonth(~~data) : 1;
                 Events.bind(priv.months, 'AnimationEnd', this.animationEnd);
                 priv.months.dataset.view = !1;
                 this.mode = CALENDARMODES.DAYS;
@@ -263,9 +251,7 @@ const Calendar = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (this.isEnabled) {
-                if (data) {
-                    priv.curDate.setFullYear(data);
-                }
+                data ? priv.curDate.setFullYear(data) : 1;
                 Events.bind(priv.decades, 'AnimationEnd', this.animationEnd);
                 priv.decades.dataset.view = !1;
                 this.mode = CALENDARMODES.MONTHS;
@@ -286,9 +272,7 @@ const Calendar = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (this.isEnabled) {
-                if (data) {
-                    priv.curDate.setFullYear(data);
-                }
+                data ? priv.curDate.setFullYear(data) : 1;
                 Events.bind(priv.centuries, 'AnimationEnd', this.animationEnd);
                 priv.centuries.dataset.view = !1;
                 this.mode = CALENDARMODES.DECADES;
@@ -300,7 +284,7 @@ const Calendar = (() => {
             //#region Variables déclaration
             const data = this.dataset.view;
             //#endregion Variables déclaration
-            if (data === '!1') {
+            if (data === 'false') {
                 this.classList.remove('zoomOut');
                 Events.unBind(this, 'AnimationEnd', this.jsObj.animationEnd);
             }
@@ -311,9 +295,7 @@ const Calendar = (() => {
             //#region Variables déclaration
             const obj = this.jsObj;
             //#endregion Variables déclaration
-            if (obj.isEnabled) {
-                obj.mode = Tools.getNextValueFromEnum(CALENDARMODES, obj.mode);
-            }
+            obj.isEnabled ? obj.mode = core.tools.getNextValueFromEnum(CALENDARMODES, obj.mode) : 1;
         }
         //#endregion viewMYDC
         //#region update
@@ -341,13 +323,8 @@ const Calendar = (() => {
                         priv.thisMonth.innerHTML = priv.curDate.getFullYear();
                         for (let i = 0; i < 12; i++) {
                             div[d].classList.remove('CalendarThis', 'CalendarSelected');
-                            if (i === date.month - 1) {
-                                div[d].classList.add('CalendarThis');
-                            }
-                            if (i === priv.curDate.month - 1) {
-                                div[d].classList.add('CalendarSelected');
-                            }
-                            //div[d].dataset.month = i;
+                            i === date.month - 1 ? div[d].classList.add('CalendarThis') : 1;
+                            i === priv.curDate.month - 1 ? div[d].classList.add('CalendarSelected') : 1;
                             div[d].jsObj = this;
                             div[d].dataset.theme = this.themeName;
                             Events.unBind(div[d], Mouse.MOUSEEVENTS.CLICK, this.selectMonth);
@@ -362,15 +339,9 @@ const Calendar = (() => {
                         for (let i = l - 1; i < l + 11; i++) {
                             div[d].classList.remove('CalendarSelected', 'CalendarThis', 'CalendarOutMonth');
                             div[d].dataset.theme = this.themeName;
-                            if (i === priv.curDate.getFullYear()) {
-                                div[d].classList.add('CalendarSelected');
-                            }
-                            if (i === date.getFullYear()) {
-                                div[d].classList.add('CalendarThis');
-                            }
-                            if (i === l - 1 || i === l + 10) {
-                                div[d].classList.add('CalendarOutMonth');
-                            }
+                            i === priv.curDate.getFullYear() ? div[d].classList.add('CalendarSelected') : 1;
+                            i === date.getFullYear() ? div[d].classList.add('CalendarThis') : 1;
+                            i === l - 1 || i === l + 10 ? div[d].classList.add('CalendarOutMonth') : 1;
                             div[d].innerHTML = i;
                             div[d].dataset.year = i;
                             div[d].jsObj = this;
@@ -394,16 +365,13 @@ const Calendar = (() => {
                             div = priv.centuries.querySelectorAll('.CalendarCentury');
                             while (startCentury < endCentury) {
                                 div[d].classList.remove('CalendarOutMonth', 'CalendarThis', 'CalendarSelected');
-                                if (startCentury % thisCentury > 100) {
-                                    div[d].classList.add('CalendarOutMonth');
-                                }
+                                startCentury % thisCentury > 100 ? div[d].classList.add('CalendarOutMonth') : 1;
                                 div[d].dataset.theme = this.themeName;
-                                if (date.getFullYear() >= startCentury && date.getFullYear() <= startCentury + 9) {
-                                    div[d].classList.add('CalendarThis');
-                                }
-                                if (priv.curDate.getFullYear() >= startCentury && priv.curDate.getFullYear() <= startCentury + 9) {
-                                    div[d].classList.add('CalendarSelected');
-                                }
+                                date.getFullYear() >= startCentury && date.getFullYear() <= startCentury + 9
+                                    ? div[d].classList.add('CalendarThis') : 1;
+                                priv.curDate.getFullYear() >= startCentury
+                                    && priv.curDate.getFullYear() <= startCentury + 9
+                                    ? div[d].classList.add('CalendarSelected') : 1;
                                 div[d].innerHTML = `${startCentury}<br />${(startCentury + 9)}`;
                                 div[d].dataset.decade = `${startCentury + ~~(priv.curDate.getFullYear().toString().substr(3, 1))}`;
                                 div[d].jsObj = this;
@@ -416,10 +384,10 @@ const Calendar = (() => {
                         break;
                     default:
                         {
-                            priv.weekDays.querySelector('.CalendarWeekNum').innerHTML = Tools.getLocale().date.weekShortName;
+                            priv.weekDays.querySelector('.CalendarWeekNum').innerHTML = core.tools.getLocale().date.weekShortName;
                             let firstDay = priv.curDate.firstDayOfMonth;
                             const firstDayOfWeek = firstDay.day;
-                            const sdn = Tools.getLocale().date.shortestDayNames;
+                            const sdn = core.tools.getLocale().date.shortestDayNames;
                             w = 0;
                             firstDay = firstDay.firstDayOfWeek;
                             if (priv.viewWeeksNum) {
@@ -438,13 +406,11 @@ const Calendar = (() => {
                             while (w < 7) {
                                 div[w].innerHTML = sdn[d].firstCharUpper;
                                 d++;
-                                if (d === 7) {
-                                    d = 0;
-                                }
+                                d === 7 ? d = 0 : 1;
                                 w++;
                             }
                             // month
-                            priv.thisMonth.innerHTML = `${Tools.getLocale().date.monthNames[priv.curDate.month - 1].firstCharUpper} ${priv.curDate.year}`;
+                            priv.thisMonth.innerHTML = `${core.tools.getLocale().date.monthNames[priv.curDate.month - 1].firstCharUpper} ${priv.curDate.year}`;
                             // days
                             firstDay = priv.curDate.firstDayOfMonth.firstDayOfWeek;
                             div = htmlElement.querySelectorAll('.CalendarDay');
@@ -453,9 +419,8 @@ const Calendar = (() => {
                             for (w = 0; w < priv.weeks.length; w++) {
                                 for (d = 0; d < 7; d++) {
                                     div[i].classList.remove('CalendarOutMonth', 'CalendarNow', 'CalendarSelected');
-                                    if (firstDay.getMonth() !== priv.curDate.getMonth()) {
-                                        div[i].classList.add('CalendarOutMonth');
-                                    }
+                                    firstDay.getMonth() !== priv.curDate.getMonth()
+                                        ? div[i].classList.add('CalendarOutMonth') : 1;
                                     if (firstDay.getDate() === date.getDate() &&
                                         firstDay.month === date.month &&
                                         firstDay.year === date.year) {
@@ -487,7 +452,7 @@ const Calendar = (() => {
             priv = internal(this);
             //#endregion Variables déclaration
             super.keyDown();
-            switch (Core.keyboard.keyCode) {
+            switch (core.keyboard.keyCode) {
                 case Keyboard.VKEYSCODES.VK_LEFT:
                     switch (priv.mode) {
                         default:
@@ -531,7 +496,7 @@ const Calendar = (() => {
                         default:
                             priv.curDate = priv.curDate.addDays(1);
                             break;
-                        case $j.types.CalendarModes.MONTHS:
+                        case $j.core.types.CalendarModes.MONTHS:
                             priv.curDate = priv.curDate.addMonths(1);
                             priv.mode = CALENDARMODES.DAYS;
                             break;
@@ -621,9 +586,7 @@ const Calendar = (() => {
                     }
                     break;
             }
-            if (Core.keyboard.keyCode !== Keyboard.VKEYSCODES.VK_SPACE) {
-                this.update();
-            }
+            core.keyboard.keyCode !== Keyboard.VKEYSCODES.VK_SPACE ? this.update() : 1;
         }
         //#endregion keyDown
         //#region destroy
@@ -631,7 +594,6 @@ const Calendar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.prevMonth = null;
             priv.thisDay = null;
             priv.nextMonth = null;
@@ -646,6 +608,8 @@ const Calendar = (() => {
             priv.autoTranslate = null;
             priv.curDate = null;
             priv.viewWeeksNum = null;
+            priv.mode = null;
+            super.destroy();
         }
         //#endregion destroy
         //#region loaded
@@ -654,9 +618,9 @@ const Calendar = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             const self = this;
-            const tag = `${Core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}`;
+            const tag = `${core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}`;
             //#region generateContentHeaderAndWeeks
-            const generateContent = function() {
+            const generateContent = function () {
                 const content = document.createElement(`${tag}content`);
                 content.classList.add('Control', 'CalendarContent', self.themeName);
                 htmlElement.appendChild(content);
@@ -669,7 +633,7 @@ const Calendar = (() => {
             };
             //#endregion generateContentHeaderAndWeeks
             //#region generateHeader
-            const generateHeader = function(content) {
+            const generateHeader = function (content) {
                 const header = document.createElement(`${tag}header`);
                 header.classList.add('Control', 'CalendarHeader', self.themeName);
                 content.appendChild(header);
@@ -696,7 +660,7 @@ const Calendar = (() => {
             };
             //#endregion generateHeader
             //#region generateWeekDays
-            const generateWeekDays = function(content) {
+            const generateWeekDays = function (content) {
                 priv.weekDays = document.createElement(`${tag}weekdays`);
                 priv.weekDays.classList.add('Control', 'CalendarWeekdays', self.themeName);
                 content.appendChild(priv.weekDays);
@@ -704,28 +668,26 @@ const Calendar = (() => {
             };
             //#endregion generateWeekDays
             //#region generateWeekNumAndDay
-            const generateWeekNumAndDay = function(content, isWeekDay) {
+            const generateWeekNumAndDay = function (content, isWeekDay) {
                 const weekNum = document.createElement(`${tag}weeknum`);
                 weekNum.classList.add('Control', 'CalendarWeekNum', self.themeName);
                 content.appendChild(weekNum);
                 for (let i = 0; i < 7; i++) {
                     const weekDay = document.createElement(`${tag}weekday`);
-                    weekDay.classList.add('Control', `Calendar${isWeekDay?'Week':String.EMPTY}Day`, self.themeName);
+                    weekDay.classList.add('Control', `Calendar${isWeekDay ? 'Week' : String.EMPTY}Day`, self.themeName);
                     content.appendChild(weekDay);
                 }
             };
             //#endregion generateWeekNumAndDay
             //#region generateWeeks
-            const generateWeeks = function(content) {
+            const generateWeeks = function (content) {
                 const weeks = document.createElement(`${tag}weeks`);
                 weeks.classList.add('Control', 'CalendarWeeks', self.themeName);
                 content.appendChild(weeks);
                 ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].forEach((weekName, idx) => {
                     const week = document.createElement(`${tag}${weekName.toLowerCase()}week`);
                     week.classList.add('Control', 'CalendarWeek', `Calendar${weekName}Week`, self.themeName);
-                    if (idx % 2 === 0) {
-                        week.classList.add('alternate');
-                    }
+                    idx % 2 === 0 ? week.classList.add('alternate') : 1;
                     week.dataset.week = idx;
                     weeks.appendChild(week);
                     generateWeekNumAndDay(week);
@@ -733,14 +695,14 @@ const Calendar = (() => {
             };
             //#endregion generateWeeks
             //#region generateMonths
-            const generateMonths = function(content) {
+            const generateMonths = function (content) {
                 priv.months = document.createElement(`${tag}months`);
                 priv.months.classList.add("Control", "CalendarMonths", self.themeName);
                 priv.months.jsObj = self;
                 content.appendChild(priv.months);
-                for (let i=0; i<12; i++) {
+                for (let i = 0; i < 12; i++) {
                     const month = document.createElement(`${tag}month`);
-                    month.innerHTML = Tools.getLocale().date.abbreviatedMonthNames[i].firstCharUpper;
+                    month.innerHTML = core.tools.getLocale().date.abbreviatedMonthNames[i].firstCharUpper;
                     month.classList.add('Control', 'CalendarMDC', 'CalendarMonth', self.themeName);
                     month.dataset.month = i;
                     priv.months.appendChild(month);
@@ -748,13 +710,13 @@ const Calendar = (() => {
             };
             //#endregion generateMonths
             //#region generateDecades
-            const generateDecades = function(content) {
+            const generateDecades = function (content) {
                 priv.decades = document.createElement(`${tag}decades`);
                 priv.decades.classList.add('Control', 'CalendarDecades', self.themeName);
                 priv.decades.jsObj = self;
                 content.appendChild(priv.decades);
                 let currentYear = new Date().getFullYear() - 1;
-                for (let i=0;i<12;i++) {
+                for (let i = 0; i < 12; i++) {
                     const decade = document.createElement(`${tag}decade`);
                     decade.innerHTML = currentYear;
                     decade.classList.add('Control', 'CalendarMDC', 'CalendarDecade', self.themeName);
@@ -765,12 +727,12 @@ const Calendar = (() => {
             };
             //#endregion generateDecades
             //#region generateCenturies
-            const generateCenturies = function(content) {
+            const generateCenturies = function (content) {
                 priv.centuries = document.createElement(`${tag}centuries`);
                 priv.centuries.classList.add('Control', 'CalendarCenturies', self.themeName);
                 priv.centuries.jsObj = self;
                 content.appendChild(priv.centuries);
-                for (let i=0;i<11;i++) {
+                for (let i = 0; i < 11; i++) {
                     const century = document.createElement(`${tag}century`);
                     century.classList.add('Control', 'CalendarMDC', 'CalendarMDCx2', 'CalendarCentury', self.themeName);
                     century.dataset.century = i;
@@ -780,9 +742,7 @@ const Calendar = (() => {
             //#endregion generateCenturies
             //#endregion Variables déclaration
             super.loaded();
-            if (!htmlElement.querySelector('.CalendarContent')) {
-                generateContent();
-            }
+            !htmlElement.querySelector('.CalendarContent') ? generateContent() : 1;
             this.update();
         }
         //#region loaded
@@ -792,11 +752,11 @@ const Calendar = (() => {
     //#endregion Calendar
 })();
 Object.seal(Calendar);
-Core.classes.register(Types.CATEGORIES.COMMON, Calendar);
+core.classes.register(core.types.CATEGORIES.COMMON, Calendar);
 //#endregion Calendar
 //#region Templates
 const CalendarTpl = ['<jagui-calendar id="{internalId}" data-class="Calendar" class="Control Calendar {theme}">',
     '<properties>{ "name": "{name}" }</properties></jagui-calendar>'].join(String.EMPTY);
-Core.classes.registerTemplates([{ Class: Calendar, template: CalendarTpl }]);
+core.classes.registerTemplates([{ Class: Calendar, template: CalendarTpl }]);
 //#endregion
-export { Calendar}
+export { Calendar }
