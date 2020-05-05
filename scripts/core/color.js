@@ -12,7 +12,7 @@ const Color = (function () {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -43,8 +43,8 @@ const Color = (function () {
             if (arguments.length > 0) {
                 for (let i = 0, l = arguments.length; i < l; i++) {
                     const arg = arguments[i];
-                    arg instanceof Color ? this.assign(arg) : 1;
-                    arg instanceof core.classes.Control ? owner = arg : 1;
+                    arg instanceof Color && this.assign(arg);
+                    arg instanceof core.classes.Control && (owner = arg);
                 }
             }
             priv.owner = owner;
@@ -214,14 +214,14 @@ const Color = (function () {
             if (strColor == undefined) {
                 return strColor;
             }
-            !core.tools.isString(strColor) ? strColor = String.EMPTY : 1;
+            !core.tools.isString(strColor) && (strColor = String.EMPTY);
             if (strColor === String.EMPTY) {
                 return Colors.TRANSPARENT;
             }
             let result = new Color;
             result.beginUpdate();
             if (strColor.indexOf('#') === -1 && strColor.indexOf('rgb') === -1) {
-                Colors[strColor.toUpperCase()] ? result = Colors[strColor.toUpperCase()] : 1;
+                Colors[strColor.toUpperCase()] && (result = Colors[strColor.toUpperCase()]);
             } else {
                 strColor = strColor.replace('#', String.EMPTY);
                 // search through the definitions to find a match
@@ -233,7 +233,7 @@ const Color = (function () {
                     result.red = channels[0];
                     result.green = channels[1];
                     result.blue = channels[2];
-                    result.alpha = !isNaN(channels[3]) ? channels[3] : 1;
+                    result.alpha = !isNaN(channels[3]) && (channels[3]);
                 }
             }
             result.RGBtoHSL();
@@ -303,7 +303,7 @@ const Color = (function () {
                     this.RGBtoHSL();
                 }
                 this.propertyChanged('red');
-                owner && !owner.loading ? owner.update() : 1;
+                owner && !owner.loading && owner.update();
             }
         }
         //#endregion red
@@ -324,7 +324,7 @@ const Color = (function () {
                     this.RGBtoHSL();
                 }
                 this.propertyChanged('green');
-                owner && !owner.loading ? owner.update() : 1;
+                owner && !owner.loading && owner.update();
             }
         }
         //#endregion green
@@ -345,7 +345,7 @@ const Color = (function () {
                     this.RGBtoHSL();
                 }
                 this.propertyChanged('blue');
-                owner && !owner.loading ? owner.update() : 1;
+                owner && !owner.loading && owner.update();
             }
         }
         //#endregion blue
@@ -362,7 +362,7 @@ const Color = (function () {
                 newValue = Math.max(Math.min(newValue, 1), 0);
                 priv.alpha = newValue;
                 this.propertyChanged('alpha');
-                owner && !owner.loading ? owner.update() : 1;
+                owner && !owner.loading && owner.update();
             }
         }
         //#endregion alpha
@@ -378,9 +378,9 @@ const Color = (function () {
             if (core.tools.isNumber(newValue) && newValue !== priv.hue) {
                 newValue = Math.max(Math.min(newValue, 360), 0);
                 priv.hue = newValue;
-                !priv.updating ? this.HSVtoRGB() : 1;
+                !priv.updating && this.HSVtoRGB();
                 this.propertyChanged('hue');
-                owner && !owner.loading ? owner.update() : 1;
+                owner && !owner.loading && owner.update();
             }
         }
         //#endregion hue
@@ -396,9 +396,9 @@ const Color = (function () {
             if (core.tools.isNumber(newValue) && newValue !== priv.saturation) {
                 newValue = Math.max(Math.min(newValue, 100), 0);
                 priv.saturation = newValue;
-                !priv.updating ? this.HSVtoRGB() : 1;
+                !priv.updating && this.HSVtoRGB();
                 this.propertyChanged('saturation');
-                owner && !owner.loading ? owner.update() : 1;
+                owner && !owner.loading && owner.update();
             }
         }
         //#endregion saturation
@@ -414,9 +414,9 @@ const Color = (function () {
             if (core.tools.isNumber(newValue) && newValue !== priv.value) {
                 newValue = Math.max(Math.min(newValue, 100), 0);
                 priv.value = newValue;
-                !priv.updating ? this.HSVtoRGB() : 1;
+                !priv.updating && this.HSVtoRGB();
                 this.propertyChanged('value');
-                owner && !owner.loading ? owner.update() : 1;
+                owner && !owner.loading && owner.update();
             }
         }
         //#endregion value
@@ -432,9 +432,9 @@ const Color = (function () {
             if (core.tools.isNumber(newValue) && newValue !== priv.lightness) {
                 newValue = Math.max(Math.min(newValue, 100), 0);
                 priv.lightness = newValue;
-                !priv.updating ? this.HSLtoRGB() : 1;
+                !priv.updating && this.HSLtoRGB();
                 this.propertyChanged('lightness');
-                owner && !owner.loading ? owner.update() : 1;
+                owner && !owner.loading && owner.update();
             }
         }
         //#endregion lightness
@@ -470,8 +470,8 @@ const Color = (function () {
                 priv.hue = hue;
                 priv.saturation = saturation;
                 priv.value = value;
-                !this.updating ? this.HSVtoRGB() : 1;
-                owner && !owner.loading ? owner.update() : 1;
+                !this.updating && this.HSVtoRGB();
+                owner && !owner.loading && owner.update();
             }
         }
         /**
@@ -489,8 +489,8 @@ const Color = (function () {
                 priv.hue = hue;
                 priv.saturation = saturation;
                 priv.lightness = lightness;
-                !this.updating ? this.HSLtoRGB() : 1;
-                owner && !owner.loading ? owner.update() : 1;
+                !this.updating && this.HSLtoRGB();
+                owner && !owner.loading && owner.update();
             }
         }
         /**
@@ -663,12 +663,12 @@ const Color = (function () {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (core.tools.isNumber(opacity)) {
-                opacity < 1 ? priv.alpha = priv.alpha * 0xFF * opacity / 0xFF : 1;
-                priv.alpha > 1
-                    ? priv.alpha = 1
-                        ? priv.alpha < 0
-                        : priv.alpha = 0
-                    : 1;
+                opacity < 1 && (priv.alpha = priv.alpha * 0xFF * opacity / 0xFF);
+                if (priv.alpha > 1) {
+                    priv.alpha = 1;
+                } else if (priv.alpha < 0) {
+                    priv.alpha = 0;
+                }
                 return this;
             }
             return this;
@@ -709,7 +709,7 @@ const Color = (function () {
                 priv.saturation = source.saturation;
                 priv.value = source.value;
                 priv.lightness = source.lightness;
-                owner && !owner.loading ? owner.update() : 1;
+                owner && !owner.loading && owner.update();
             }
         }
         /**
@@ -810,13 +810,13 @@ const Color = (function () {
             let saturation = 0;
             //#endregion Variables déclaration
             if (delta) {
-                cMax === red ? hue = green - blue / delta : 1;
-                cMax === green ? hue = 2 + blue - red / delta : 1;
-                cMax === blue ? hue = 4 + red - green / delta : 1;
-                cMax ? saturation = delta / cMax : 1;
+                cMax === red && (hue = green - blue / delta);
+                cMax === green && (hue = 2 + blue - red / delta);
+                cMax === blue && (hue = 4 + red - green / delta);
+                cMax && (saturation = delta / cMax);
             }
             hue = priv.hue = 60 * hue | 0;
-            hue < 0 ? priv.hue += 360 : 1;
+            hue < 0 && (priv.hue += 360);
             priv.saturation = saturation * 100 | 0;
             priv.value = cMax * 100 | 0;
         }
@@ -838,13 +838,13 @@ const Color = (function () {
             const x = 1 - Math.abs(2 * lightness - 1);
             //#endregion Variables déclaration
             if (delta) {
-                cMax === red ? hue = green - blue / delta : 1;
-                cMax === green ? hue = 2 + blue - red / delta : 1;
-                cMax === blue ? hue = 4 + red - green / delta : 1;
-                cMax ? saturation = delta / x : 1;
+                cMax === red && (hue = green - blue / delta);
+                cMax === green && (hue = 2 + blue - red / delta);
+                cMax === blue && (hue = 4 + red - green / delta);
+                cMax && (saturation = delta / x);
             }
             hue = priv.hue = 60 * hue | 0;
-            hue < 0 ? priv.hue += 360 : 1;
+            hue < 0 && (priv.hue += 360);
             priv.saturation = saturation * 100 | 0;
             priv.lightness = lightness * 100 | 0;
         }

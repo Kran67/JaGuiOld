@@ -685,7 +685,7 @@ class Css {
     //        }
     //    },
     static isCSSRuleExist(selector, ruleType) {
-        !ruleType ? ruleType = core.types.CSSRULEcore.types.STYLE_RULE : 1;
+        !ruleType && (ruleType = core.types.CSSRULEcore.types.STYLE_RULE);
         for (let i = 0, l = core.rtStyle.sheet.cssRules.length; i < l; i++) {
             if (core.rtStyle.sheet.cssRules[i].type === ruleType) {
                 if (ruleType === core.types.CSSRULEcore.types.STYLE_RULE) {
@@ -714,16 +714,16 @@ class Css {
         const CSSRULETYPES = core.types.CSSRULETYPES;
         let i = 0;
         //#endregion Variables déclaration
-        !ruleType ? ruleType = CSSRULEcore.types.STYLE_RULE : 1;
+        !ruleType && (ruleType = CSSRULEcore.types.STYLE_RULE);
         const l = core.rtStyle.sheet.cssRules.length;
         for (; i < l; i++) {
             if (core.rtStyle.sheet.cssRules[i].type === ruleType) {
                 if (ruleType === CSSRULEcore.types.STYLE_RULE) {
                     core.rtStyle.sheet.cssRules[i].selectorText === selector
-                        ? rulesIndex = [...rulesIndex, i] : 1;
+                        && (rulesIndex = [...rulesIndex, i]);
                 } else if (ruleType === CSSRULEcore.types.KEYFRAMES_RULE) {
                     core.rtStyle.sheet.cssRules[i].cssText.includes(selector)
-                        ? rulesIndex = [...rulesIndex, i] : 1;
+                        && (rulesIndex = [...rulesIndex, i]);
                 }
             }
         }

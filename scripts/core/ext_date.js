@@ -59,7 +59,7 @@ Object.defineProperty(Date.prototype, 'shortMonthName', {
         const nMonth = this.getMonth();
         //#endregion Variables déclaration
         cMonth = core.tools.getLocale().date.monthNames[nMonth];
-        nMonth === 5 || nMonth === 6 ? cMonth.remove(2, 1) : 1;
+        nMonth === 5 || nMonth === 6 && cMonth.remove(2, 1);
         return cMonth.substr(0, 3);
     }
 });
@@ -319,9 +319,7 @@ if (!Date.prototype.addWeeks) {
      * @returns     {Date}          the new date
      */
     Date.prototype.addWeeks = function (a) {
-        return core.tools.isNumber(a)
-            ? this.addMilliseconds(a * 604800000)
-            : this;
+        return core.tools.isNumber(a) ? this.addMilliseconds(a * 604800000) : this;
     };
 }
 if (!Date.prototype.JJMMAAAA) {
@@ -331,7 +329,7 @@ if (!Date.prototype.JJMMAAAA) {
      * @returns     {String}        the string date
      */
     Date.prototype.JJMMAAAA = function (a) {
-        !core.tools.isString(a) ? a = '/' : 1;
+        !core.tools.isString(a) && (a = '/');
         return String(this.day).padStart(2, '0') + a + String(this.month).padStart(2, '0') + a + this.year;
     };
 }
@@ -342,7 +340,7 @@ if (!Date.prototype.HHMMSS) {
      * @returns     {String}        the string date
      */
     Date.prototype.HHMMSS = function (a) {
-        !core.tools.isString(a) ? a = ':' : 1;
+        !core.tools.isString(a) && (a = ':');
         return String(this.hours).padStart(2, '0') + a + String(this.minutes).padStart(2, '0') + 
             a + String(this.seconds).padStart(2, '0');
     };

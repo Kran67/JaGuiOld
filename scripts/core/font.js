@@ -9,7 +9,7 @@ const Font = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -24,7 +24,7 @@ const Font = (() => {
                     return 0;
                 }
                 const d = document.createElement('div');
-                font ? font.toCss(d) : 1;
+                font && font.toCss(d);
                 d.innerHTML = text;
                 document.documentElement.appendChild(d);
                 const h = d.offsetHeight - 1;
@@ -71,7 +71,7 @@ const Font = (() => {
             //#endregion Variables déclaration
             if (core.tools.isBool(newValue) && newValue !== priv.underline) {
                 priv.underline = newValue;
-                core.isHTMLRenderer ? this.stringify() : 1;
+                core.isHTMLRenderer && this.stringify();
                 this.onChange.invoke();
             }
         }
@@ -86,7 +86,7 @@ const Font = (() => {
             //#endregion Variables déclaration
             if (core.tools.isBool(newValue) && newValue !== priv.strikeout) {
                 priv.strikeout = newValue;
-                core.isHTMLRenderer ? this.stringify() : 1;
+                core.isHTMLRenderer && this.stringify();
             }
         }
         //#endregion strikeout
@@ -100,7 +100,7 @@ const Font = (() => {
             //#endregion Variables déclaration
             if (core.tools.isNumber(newValue) && newValue !== priv.size) {
                 priv.size = newValue;
-                core.isHTMLRenderer ? this.stringify() : 1;
+                core.isHTMLRenderer && this.stringify();
                 this.onChange.invoke();
             }
         }
@@ -129,7 +129,7 @@ const Font = (() => {
             //#endregion Variables déclaration
             if (core.tools.isString(newValue) && newValue !== priv.family) {
                 priv.family = newValue;
-                core.isHTMLRenderer ? this.stringify() : 1;
+                core.isHTMLRenderer && this.stringify();
                 this.onChange.invoke();
             }
         }
@@ -144,7 +144,7 @@ const Font = (() => {
             //#endregion Variables déclaration
             if (core.tools.valueInSet(newValue, core.types.BRUSHSTYLES) && newValue !== priv.style) {
                 priv.style = newValue;
-                core.isHTMLRenderer ? this.stringify() : 1;
+                core.isHTMLRenderer && this.stringify();
                 this.onChange.invoke();
                 if (priv.owner.allowUpdate) {
                     priv.owner.form.addControlToRedraw(priv.owner);
@@ -161,7 +161,7 @@ const Font = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isString(newValue) && priv.string !== newValue
-                ? priv.string = newValue : 1;
+                && (priv.string = newValue);
         }
         //#endregion string
         //#region height
@@ -173,7 +173,7 @@ const Font = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isNumber(newValue) && priv.height !== newValue
-                ? priv.height = newValue : 1;
+                && (priv.height = newValue);
         }
         //#endregion height
         //#region owner
@@ -212,8 +212,8 @@ const Font = (() => {
             const size = tihs.size;
             const family = this.family;
             //#endregion Variables déclaration
-            style === FONTSTYLES.BOLD ? str += ' bold' : 1;
-            style === FONTSTYLES.ITALIC ? str += ' italic' : 1;
+            style === FONTSTYLES.BOLD && (str += ' bold');
+            style === FONTSTYLES.ITALIC && (str += ' italic');
             str += String.SPACE + size + priv.sizeUnit + String.SPACE + family;
             str.trim();
             priv.height = Font.getTextHeight('°_', this);
@@ -223,7 +223,7 @@ const Font = (() => {
                 if (!Font.fontsInfos[family].sizes[size]) {
                     Font.fontsInfos[family].sizes[size] = {};
                     Font.fontsInfos[family].sizes[size].chars = {};
-                    !Font.fontsInfos[family].sizes[size].chars.A ? this.generateChars() : 1;
+                    !Font.fontsInfos[family].sizes[size].chars.A && this.generateChars();
                 }
             }
             priv.string = str;
@@ -243,11 +243,11 @@ const Font = (() => {
                 style.fontWeight = String.EMPTY;
                 style.fontStyle = String.EMPTY;
                 style.textDecoration = String.EMPTY;
-                _style === FONTSTYLES.BOLD ? style.fontWeight = 'bold' : 1;
-                _style === FONTSTYLES.ITALIC ? style.fontStyle = 'italic' : 1;
-                priv.underline ? style.textDecoration = 'underline' : 1;
+                _style === FONTSTYLES.BOLD && (style.fontWeight = 'bold');
+                _style === FONTSTYLES.ITALIC && (style.fontStyle = 'italic');
+                priv.underline && (style.textDecoration = 'underline');
                 if (priv.strikeout) {
-                    !String.isNullOrEmpty(style.textDecoration) ? style.textDecoration += ',' : 1;
+                    !String.isNullOrEmpty(style.textDecoration) && (style.textDecoration += ',');
                     style.textDecoration += 'line-through';
                 }
             }
@@ -263,10 +263,10 @@ const Font = (() => {
             //#endregion Variables déclaration
             str += priv.size + priv.sizeUnit;
             str += String.SPACE + '"' + priv._family + '"';
-            style === FONTSTYLES.BOLD ? str += String.SPACE + 'bold' : 1;
-            style === FONTSTYLES.ITALIC ? str += String.SPACE + 'italic' : 1;
-            priv.underline ? str += String.SPACE + 'underline' : 1;
-            priv.strikeout ? str += String.SPACE + 'line-through' : 1;
+            style === FONTSTYLES.BOLD && (str += String.SPACE + 'bold');
+            style === FONTSTYLES.ITALIC && (str += String.SPACE + 'italic');
+            priv.underline && (str += String.SPACE + 'underline');
+            priv.strikeout && (str += String.SPACE + 'line-through');
             str += ';';
             return str;
         }
@@ -305,7 +305,7 @@ const Font = (() => {
                         priv.family = s.replace(/"/g, String.EMPTY);
                     }
                 });
-                !core.isHTMLRenderer ? this.stringify() : 1;
+                !core.isHTMLRenderer && this.stringify();
             }
         }
         //#endregion fromString

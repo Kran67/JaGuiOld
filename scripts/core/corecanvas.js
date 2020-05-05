@@ -272,7 +272,7 @@ core.loadFonts = (path, fonts, callback) => {
             }
         } else {
             core.themes.fonts[font.alias] = { status: 'loaded' };
-            callback && core.tools.isFunc(callback) ? callback() : 1;
+            callback && core.tools.isFunc(callback) && callback();
         }
     });
 };
@@ -342,7 +342,7 @@ core.internalMouseEvent = function (mouseEventArg) {
     const activeApp = core.apps.activeApplication;
     let activeWin = activeApp.activeWindow;
     const mouseMove = core.types.HTMLEVENTS.MOUSEMOVE;
-    mouseEventArg ? core.mouse.getMouseInfos(mouseEventArg) : 1;
+    mouseEventArg && core.mouse.getMouseInfos(mouseEventArg);
     if (!activeWin) {
         if (core.mouse.button !== core.mouse.MOUSEBUTTONS.NONE) {
             activeApp.activeWindow = activeApp.lastActiveWindow.length ? activeApp.lastActiveWindow.last : activeApp.windows.first;
@@ -357,13 +357,13 @@ core.internalMouseEvent = function (mouseEventArg) {
         if (ctrls.length > 0) {
             const ctrl = ctrls.slice().reverse().first;
             if (core.mouse.event.type === mouseMove && core.previousHoveredControl !== ctrl) {
-                core.previousHoveredControl ? core.previousHoveredControl.mouseLeave() : 1;
+                core.previousHoveredControl && core.previousHoveredControl.mouseLeave();
                 ctrl.mouseEnter();
             }
             ctrl.dispatchEvent(mouseEventArg);
             core.previousHoveredControl = ctrl;
         } else if (activeWin.visible) {
-            core.previousHoveredControl ? core.previousHoveredControl.mouseLeave() : 1;
+            core.previousHoveredControl && core.previousHoveredControl.mouseLeave();
             activeWin.dispatchEvent(mouseEventArg);
             core.previousHoveredControl = activeWin;
         }

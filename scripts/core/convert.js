@@ -178,7 +178,7 @@ class Convert {
      * @returns     {Boolean}       the result
      */
     static intToBool(a) {
-        core.tools.isNumber(a) ? a = a | 0 : 1;
+        core.tools.isNumber(a) && (a = a | 0);
         a = Math.min(a, 1);
         return a === 1;
     }
@@ -339,9 +339,9 @@ class Convert {
      */
     static cssUnit(params/*value, from, to, base, dpi, decimals*/) {
         //1em == 16px == 0.17in == 12pt == 1pc == 4.2mm == 0.42cm
-        core.tools.isNumber(params.value) ? params.value = 1 : 1;
-        isNaN(params.params.base) ? params.base = 10 : 1;
-        isNaN(params.dpi) ? params.dpi = 72 : 1;
+        core.tools.isNumber(params.value) && (params.value = 1);
+        isNaN(params.params.base) && (params.base = 10);
+        isNaN(params.dpi) && (params.dpi = 72);
         params.decimals = params.decimals | 0;
         const units = `${params.from}-${params.to}`;
         const formulas = {
@@ -439,7 +439,7 @@ class Convert {
         //#region Variables déclaration
         let result = String.EMPTY;
         //#endregion Variables déclaration
-        !endValue ? endValue = !1 : 1;
+        !endValue && (endValue = !1);
         switch (animationObj.propertyName) {
             case 'width':
             case 'height':
@@ -526,11 +526,11 @@ class Convert {
                 cssGradient = Text.replace(cssGradient, ', rgb', '|rgb');
                 const gradValues = cssGradient.split('|');
                 gradient.startPosition.assign(new core.classes.Point());
-                gradValues[0].indexOf('top') !== -1
-                    ? gradient.stopPosition = new core.classes.Point(0, 1)
-                        ? gradValues[0].indexOf('left') !== -1
-                        : gradient.stopPosition.assign(new core.classes.Point(1, 0))
-                    : 1;
+                if (gradValues[0].indexOf('top') !== -1) {
+                    gradient.stopPosition = new core.classes.Point(0, 1);
+                } else if (gradValues[0].indexOf('left') !== -1) {
+                    gradient.stopPosition.assign(new core.classes.Point(1, 0));
+                }
                 gradient.items.clear();
                 gradValues.forEach(grad => {
                     const colorOffset = grad.replace(') ', ')|');

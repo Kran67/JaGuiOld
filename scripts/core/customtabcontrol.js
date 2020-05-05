@@ -25,7 +25,7 @@ const CustomTabControl = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -37,8 +37,8 @@ const CustomTabControl = (() => {
             props = !props ? {} : props;
             if (owner) {
                 props.autoCapture = !0;
-                !props.hasOwnProperty('width') ? props.width = 200 : 1;
-                !props.hasOwnProperty('height') ? props.height = 200 : 1;
+                !props.hasOwnProperty('width') && (props.width = 200);
+                !props.hasOwnProperty('height') && (props.height = 200);
                 super(owner, props);
                 //#region Properties
                 //#region Private Properties
@@ -95,7 +95,7 @@ const CustomTabControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            newValue instanceof Tab && priv.tabClass !== newValue ? priv.tabClass = newValue : 1;
+            newValue instanceof Tab && priv.tabClass !== newValue && (priv.tabClass = newValue);
         }
         //#endregion tabClass
         //#region firstVisibleTab
@@ -106,7 +106,7 @@ const CustomTabControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) && priv.firstVisibleTab !== newValue ? priv.firstVisibleTab = newValue : 1;
+            core.tools.isNumber(newValue) && priv.firstVisibleTab !== newValue && (priv.firstVisibleTab = newValue);
         }
         //#endregion firstVisibleTab
         //#region lastVisibleTab
@@ -117,7 +117,7 @@ const CustomTabControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) && priv.lastVisibleTab !== newValue ? priv.lastVisibleTab = newValue : 1;
+            core.tools.isNumber(newValue) && priv.lastVisibleTab !== newValue && (priv.lastVisibleTab = newValue);
         }
         //#endregion lastVisibleTab
         //#region activeTab
@@ -142,7 +142,7 @@ const CustomTabControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            newValue instanceof core.classes.ImageList && priv.images !== newValue ? priv.images = newValue : 1;
+            newValue instanceof core.classes.ImageList && priv.images !== newValue && (priv.images = newValue);
         }
         //#endregion images
         //#region canChange
@@ -153,7 +153,7 @@ const CustomTabControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.canChange !== newValue ? priv.canChange = newValue : 1;
+            core.tools.isBool(newValue) && priv.canChange !== newValue && (priv.canChange = newValue);
         }
         //#endregion canChange
         //#region showTabsCloseBtn
@@ -181,7 +181,7 @@ const CustomTabControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            index >= 0 && index <= priv.tabs.length - 1 ? priv.tabs[index].show() : 1;
+            index >= 0 && index <= priv.tabs.length - 1 && priv.tabs[index].show();
         }
         //#endregion activeTabIndex
         //#endregion Getters / Setters
@@ -207,7 +207,7 @@ const CustomTabControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            tab !== priv.activeTab ? tab.show() : 1;
+            tab !== priv.activeTab && tab.show();
             //if (this.tabsheets.indexOf(this.activeTab)<=this.firstVisibleTab) this.updateTabs(core.types.directions.LEFT);
             //if (this.tabsheets.indexOf(this.activeTab)>this.lastVisibleTab) this.updateTabs(core.types.directions.RIGHT);
         }
@@ -245,7 +245,7 @@ const CustomTabControl = (() => {
             const priv = internal(this);
             const tabs = this.tabs;
             //#endregion Variables déclaration
-            !caption ? caption = `tab${tabs.length + 1}` : 1;
+            !caption && (caption = `tab${tabs.length + 1}`);
             const tab = core.classes.createComponent({
                 class: core.classes.Tab,
                 owner: this,
@@ -315,17 +315,16 @@ const CustomTabControl = (() => {
             let result = null;
             //#endregion Variables déclaration
             if (tabs.length !== 0) {
-                startIndex === -1
-                    ? startIndex = goForward
-                        ? tabs.length - 1 : 0
-                    : 1;
+                if (startIndex === -1) {
+                    startIndex = goForward ? tabs.length - 1 : 0;
+                }
                 let i = startIndex;
                 do {
                     if (goForward) {
                         i++;
-                        i === tabs.length ? i = 0 : 1;
+                        i === tabs.length && (i = 0);
                     } else {
-                        i === 0 ? i = tabs.length : 1;
+                        i === 0 && (i = tabs.length);
                         i--;
                     }
                     result = tabs[i];
@@ -352,7 +351,7 @@ const CustomTabControl = (() => {
         //#endregion selectNextTab
         //#region change
         change() {
-            !this.updating ? this.onChange.invoke() : 1;
+            !this.updating && this.onChange.invoke();
         }
         //#endregion change
         //#region getChildsHTMLElement
@@ -384,7 +383,7 @@ const CustomTabControl = (() => {
                             });
                             node.jsObj = tab;
                             tabs.push(tab);
-                            tab.name === priv.activeTab ? priv.activeTab = tab : 1;
+                            tab.name === priv.activeTab && (priv.activeTab = tab);
                         }
                     }
                 });
@@ -446,12 +445,11 @@ const CustomTabControl = (() => {
             const tcw = tabsContainer.offsetWidth;
             const tcsl = tabsContainer.scrollLeft;
             //#endregion Variables déclaration
-            tl + tw - tcsl > tcw
-                ? tabsContainer.scrollLeft += tl + tw - tcw
-                    ? tl < tcsl
-                        ? tabsContainer.scrollLeft -= tcsl - tl : 1
-                    : 1
-                : 1;
+            if (tl + tw - tcsl > tcw) {
+                tabsContainer.scrollLeft += tl + tw - tcw;
+            } else if (tl < tcsl) {
+                tabsContainer.scrollLeft -= tcsl - tl;
+            }
             this.checkViewBtns();
         }
         //#endregion scrollToTab
@@ -472,7 +470,7 @@ const CustomTabControl = (() => {
                     break;
                 }
             }
-            priv.lastVisibleTab === -1 ? priv.lastVisibleTab = tabs.length - 1 : 1;
+            priv.lastVisibleTab === -1 && (priv.lastVisibleTab = tabs.length - 1);
         }
         //#endregion checkLastVisibleTab
         //#region destroy
@@ -512,14 +510,14 @@ const CustomTabControl = (() => {
                         return;
                     }
                     this.selectNextTab(!1, !0);
-                    tabs.indexOf(activeTab) < priv.firstVisibleTab ? this.updateTabs(DIRECTIONS.LEFT) : 1;
+                    tabs.indexOf(activeTab) < priv.firstVisibleTab && this.updateTabs(DIRECTIONS.LEFT);
                     break;
                 case VKEYSCODES.VK_RIGHT:
                     if (activeTab === tabs.last) {
                         return;
                     }
                     this.selectNextTab(!0, !0);
-                    tabs.indexOf(activeTab) > priv.lastVisibleTab ? this.updateTabs(DIRECTIONS.RIGHT) : 1;
+                    tabs.indexOf(activeTab) > priv.lastVisibleTab && this.updateTabs(DIRECTIONS.RIGHT);
                     break;
             }
         }
@@ -530,11 +528,11 @@ const CustomTabControl = (() => {
             const priv = internal(this);
             const tabList = priv.tabContent.tabList;
             //#endregion Variables déclaration
-            children ? children = !0 : 1;
+            children && (children = !0);
             if (list && tabList) {
                 tabList.forEach(control => {
                     list.push(control);
-                    children ? control.getTabOrderList(list, children) : 1;
+                    children && control.getTabOrderList(list, children);
                 });
             }
         }

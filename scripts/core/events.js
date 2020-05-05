@@ -4,13 +4,13 @@ class Events {
     //#region bind
     static bind(object, eventName, callBack) {
         core.tools.isFunc(callBack) && object && core.tools.isString(eventName)
-            ? object.addEventListener(eventName, callBack, !0) : 1;
+            && object.addEventListener(eventName, callBack, !0);
     }
     //#endregion bind
     //#region unBind
     static unBind(object, eventName, callBack) {
         core.tools.isFunc(callBack) && object && core.tools.isString(eventName)
-            ? object.removeEventListener(eventName, callBack, !0) : 1;
+            && object.removeEventListener(eventName, callBack, !0);
     }
     //#endregion unBind
     //#region stop
@@ -138,7 +138,7 @@ class NotifyEvent {
         if (notifyEvent && notifyEvent instanceof core.classes.NotifyEvent) {
             this.listeners.forEach(listener => {
                 core.tools.isFunc(this.listeners[i].func)
-                    ? notifyEvent.addListener(listener.func, listener.delay) : 1;
+                    && notifyEvent.addListener(listener.func, listener.delay);
             });
         }
     }

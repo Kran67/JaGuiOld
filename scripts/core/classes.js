@@ -11,7 +11,7 @@ class Classes {
         const category = arguments[0];
         //#endregion Variables déclaration
         if (core.tools.valueInSet(category, core.types.CATEGORIES) || core.tools.valueInSet(category, core.types.INTERNALCATEGORIES)) {
-            !core.classes[category] ? core.classes.nameSpace(category) : 1;
+            !core.classes[category] && core.classes.nameSpace(category);
             Array.from(arguments).forEach((arg, i) => {
                 if (i > 0) {
                     const className = core.tools.getFuncName(arg);
@@ -25,11 +25,11 @@ class Classes {
     //#region registerTemplates
     static registerTemplates(arrayOfTemplate) {
         Array.isArray(arrayOfTemplate)
-            ? arrayOfTemplate.forEach(tpl => {
+            && arrayOfTemplate.forEach(tpl => {
                 let className = tpl.Class;
                 className = !core.tools.isString(className) ? core.tools.getFuncName(className) : className;
                 core.templates[className] = tpl.template.replace(new RegExp('{className}', 'g'), className);
-            }) : 1;
+            });
     }
     //#endregion registerTemplates
     //#region registerPropertiesInCategory
@@ -52,8 +52,7 @@ class Classes {
         const keys = Object.keys(propertiesCategories);
         //#endregion Variables déclaration
         keys.forEach(key => {
-            propertiesCategories[key].indexOf(prop) > -1
-                ? cat = [...cat, propertiesCategories[key]] : 1;
+            propertiesCategories[key].indexOf(prop) > -1 && (cat = [...cat, propertiesCategories[key]]);
         });
         cat = [...cat, propertiesCategories.MISCELLANEOUS];
         return cat;
@@ -87,7 +86,7 @@ class Classes {
                 : params.props = { name: params.name };
             obj = new params.class(params.owner, params.props);
             if (obj instanceof core.classes.Component) {
-                !core.tools.isBool(params.withTpl) && !params.withTpl ? params.withTpl = !0 : 1;
+                !core.tools.isBool(params.withTpl) && !params.withTpl && (params.withTpl = !0);
                 params.props = params.props || {};
                 obj.internalId = !params.internalId ? String.uniqueId() : params.internalId;
                 if (params.withTpl && isHTMLRenderer) {
@@ -101,12 +100,12 @@ class Classes {
                     }
                 }
                 if (!(obj instanceof core.classes.Window)) {
-                    isHTMLRenderer ? obj.getHTMLElement(obj.internalId) : 1;
+                    isHTMLRenderer && obj.getHTMLElement(obj.internalId);
                     if (obj.HTMLElement) {
                         obj.getChilds(obj.HTMLElement);
                         //if (obj instanceof $j.classes.CaptionControl) obj.caption = obj.name;
                         //obj.updateFromHTML();
-                        !obj.form.loading ? obj.loaded() : 1;
+                        !obj.form.loading && obj.loaded();
                     }
                 } else {
                     obj.formCreated(obj.internalId);
@@ -141,19 +140,19 @@ class Classes {
     //#endregion getClassName
     //#region registerPropertyEditor
     static registerPropertyEditor(propertyType, editorPath) {
-        !core.classes.propertiesEditors ? core.classes.propertiesEditors = {} : 1;
+        !core.classes.propertiesEditors && (core.classes.propertiesEditors = {});
         core.classes.propertiesEditors[propertyType] = editorPath;
     }
     //#endregion registerPropertyEditor
     //#region registerCollectionEditor
     static registerCollectionEditor(collectionItemsClass, editorPath) {
-        !core.classes.collectionsEditors ? core.classes.collectionsEditors = {} : 1;
+        !core.classes.collectionsEditors && (core.classes.collectionsEditors = {});
         core.classes.collectionsEditors[this.getClassName(collectionItemsClass)] = editorPath;
     }
     //#endregion registerCollectionEditor
     //#region registerComponentEditor
     static registerComponentEditor(componentClass, editorPath) {
-        !core.classes.componentsEditors ? core.classes.componentsEditors = {} : 1;
+        !core.classes.componentsEditors && (core.classes.componentsEditors = {});
         core.classes.componentsEditors[this.getClassName(componentClass)] = editorPath;
     }
     //#endregion registerComponentEditor

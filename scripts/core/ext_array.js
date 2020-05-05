@@ -45,10 +45,10 @@ if (!Array.prototype.convertToCollection) {
             //#region Variables déclaration
             let canPush = !1;
             //#endregion Variables déclaration
-            typeof itemClass === typeof a || !canPush && a instanceof itemClass ? canPush = !0 : 1;
+            typeof itemClass === typeof a || !canPush && a instanceof itemClass && (canPush = !0);
             if (canPush) {
                 this._push(a);
-                !updating ? this.onChange.invoke(Types.OPERATIONS.INSERT, a) : 1;
+                !updating && this.onChange.invoke(Types.OPERATIONS.INSERT, a);
             }
         };
         this.onChange = new Core.classes.NotifyEvent(owner);
@@ -90,7 +90,7 @@ if (!Array.prototype.add) {
      * @Returns     {Number}            The length of the array
      */
     Array.prototype.add = function (a) {
-        a != undefined ? this.push(a) : 1;
+        a != undefined && this.push(a);
         //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
         return this.length;
     };
@@ -108,9 +108,9 @@ if (!Array.prototype.addRange) {
             const length = a.length;
             if (length !== 0) {
                 //for (var index=0;index<length;index++) this.push(a[index]);
-                this.isCollection ? this.beginUpdate() : 1;
+                this.isCollection && this.beginUpdate();
                 Array.prototype.push.apply(this, a);
-                this.isCollection ? this.endUpdate() : 1;
+                this.isCollection && this.endUpdate();
             }
             //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
         }
@@ -123,9 +123,9 @@ if (!Array.prototype.clear) {
      * Clear the Array/Collection
      */
     Array.prototype.clear = function () {
-        this.length > 0 ? this.splice(0, this.length) : 1;
+        this.length > 0 && this.splice(0, this.length);
         this.length = 0;
-        this.isCollection ? this.onChange.invoke(Types.OPERATIONS.REMOVE) : 1;
+        this.isCollection && this.onChange.invoke(Types.OPERATIONS.REMOVE);
         //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
     };
 }
@@ -164,7 +164,7 @@ if (!Array.prototype.queue) {
      * @param       {Any}       a       The value to append
      */
     Array.prototype.queue = function (a) {
-        a != undefined ? this.push(a) : 1;
+        a != undefined && this.push(a);
         //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
         //if (this.isCollection) this.onChange.invoke($j.types.operations.);
         return;
@@ -179,7 +179,7 @@ if (!Array.prototype.dequeue) {
     Array.prototype.dequeue = function () {
         //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
         const a = this.shift();
-        this.isCollection ? this.onChange.invoke(Types.OPERATIONS.REMOVE, a) : 1;
+        this.isCollection && this.onChange.invoke(core.types.OPERATIONS.REMOVE, a);
         return a;
     };
 }
@@ -193,10 +193,10 @@ if (!Array.prototype.insert) {
      * @param       {Any}           i       The new value to insert
      */
     Array.prototype.insert = function (a, i) {
-        if (i != undefined && core.ools.isNumber(a)) {
+        if (i != undefined && core.tools.isNumber(a)) {
             this.splice(a, 0, i);
             //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
-            this.isCollection ? this.onChange.invoke(Types.OPERATIONS.INSERT, i) : 1;
+            this.isCollection && this.onChange.invoke(core.types.OPERATIONS.INSERT, i);
         }
     };
 }
@@ -210,9 +210,9 @@ if (!Array.prototype.remove) {
     Array.prototype.remove = function (a) {
         if (a != undefined) {
             const index = this.indexOf(a);
-            index >= 0 ? this.splice(index, 1) : 1;
+            index >= 0 && this.splice(index, 1);
             //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
-            this.isCollection ? this.onChange.invoke(Types.OPERATIONS.REMOVE, a) : 1;
+            this.isCollection && this.onChange.invoke(core.types.OPERATIONS.REMOVE, a);
         }
     };
 }
@@ -227,7 +227,7 @@ if (!Array.prototype.removeAt) {
         if (core.tools.isNumber(a)) {
             a = this.splice(a, 1);
             //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
-            this.isCollection ? this.onChange.invoke(Types.OPERATIONS.REMOVE, a.first) : 1;
+            this.isCollection && this.onChange.invoke(Types.OPERATIONS.REMOVE, a.first);
         }
     };
 }
@@ -327,7 +327,7 @@ if (!Array.prototype.swap) {
         const b = this[x];
         this[x] = this[y];
         this[y] = b;
-        this.isCollection ? this.onChange.invoke() : 1;
+        this.isCollection && this.onChange.invoke();
         return this;
     };
 }

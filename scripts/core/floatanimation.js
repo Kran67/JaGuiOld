@@ -33,7 +33,7 @@ class FloatAnimation extends Animation {
         if (control) {
             !this.convertToCSS || control.HTMLElement === core.types.HTMLELEMENTS.CANVAS
                 && this.startFromCurrent && !isNaN(control[propertyName])
-                ? this.startValue = control[propertyName] : 1;
+                && (this.startValue = control[propertyName]);
             super.start();
         }
     }
@@ -43,7 +43,7 @@ class FloatAnimation extends Animation {
     stop() {
         super.stop();
         !this.convertToCSS || this.control.HTMLElement === core.types.HTMLELEMENTS.CANVAS
-            ? this.control = null : 1;
+            && (this.control = null);
     }
     /**
      * process animation on each tick
@@ -60,7 +60,7 @@ class FloatAnimation extends Animation {
                 super.processAnimation();
                 if (!isNaN(control[propertyName])) {
                     let r = null;
-                    icontrol.allowUpdate && !core.isHTMLRenderer ? r = control.screenRect() : 1;
+                    icontrol.allowUpdate && !core.isHTMLRenderer && (r = control.screenRect());
                     const oldValue = control[propertyName];
                     const newValue = Interpolation.single(this.startValue, this.stopValue, this.normalizedTime());
                     if (oldValue !== newValue) {
@@ -73,7 +73,7 @@ class FloatAnimation extends Animation {
                         if (!core.isHTMLRenderer) {
                             !form.useRequestAnim ? control.redraw(r) : form.needRedraw = true;
                         } else {
-                            core.tools.isFunc(control.update) ? control.update() : 1;
+                            core.tools.isFunc(control.update) && control.update();
                         }
                     }
                 }
