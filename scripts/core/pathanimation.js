@@ -16,7 +16,7 @@ const PathAnimation = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -52,7 +52,7 @@ const PathAnimation = (() => {
         }
         set path(newValue) {
             const priv = internal(this);
-            newValue instanceof core.classes.PathData && priv.path !== newValue ? priv.path = newValue : 1;
+            newValue instanceof core.classes.PathData && priv.path !== newValue && (priv.path = newValue);
         }
         //#endregion path
         //#region rotate
@@ -61,7 +61,7 @@ const PathAnimation = (() => {
         }
         set rotate(newValue) {
             const priv = internal(this);
-            core.tools.isBool(newValue) && priv.rotate !== newValue ? priv.rotate = newValue : 1;
+            core.tools.isBool(newValue) && priv.rotate !== newValue && (priv.rotate = newValue);
         }
         //#endregion rotate
         //#region startPt
@@ -75,7 +75,7 @@ const PathAnimation = (() => {
         }
         set obj(newValue) {
             const priv = internal(this);
-            newValue instanceof core.classes.Control && priv.obj !== newValue ? priv.obj = newValue : 1;
+            newValue instanceof core.classes.Control && priv.obj !== newValue && (priv.obj = newValue);
         }
         //#endregion obj
         //#region polygon
@@ -84,7 +84,7 @@ const PathAnimation = (() => {
         }
         set polygon(newValue) {
             const priv = internal(this);
-            Array.isArray(newValue) && priv.polygon !== newValue ? priv.polygon = newValue : 1;
+            Array.isArray(newValue) && priv.polygon !== newValue && (priv.polygon = newValue);
         }
         //#endregion polygon
         //#region spline
@@ -93,7 +93,7 @@ const PathAnimation = (() => {
         }
         set spline(newValue) {
             const priv = internal(this);
-            newValue instanceof core.classes.Spline && priv.spline !== newValue ? priv.spline = newValue : 1;
+            newValue instanceof core.classes.Spline && priv.spline !== newValue && (priv.spline = newValue);
         }
         //#endregion spline
         //#endregion Getters / Setters
@@ -109,13 +109,13 @@ const PathAnimation = (() => {
             const obj = this.obj;
             const htmlElement = obj.HTMLElement;
             if (control) {
-                spline ? spline = null : 1;
-                polygon ? polygon = null : 1;
+                spline && (spline = null);
+                polygon && (polygon = null);
                 const i = this.path.flattenToPolygon();
                 this.polygon = i.Polygon;
                 if (polygon.length > 1) {
                     polygon.forEach(poly => {
-                        poly.x === CLOSEPOLYGON.x && poly.y === CLOSEPOLYGON.y ? polygon[i] = polygon[i - 1] : 1;
+                        poly.x === CLOSEPOLYGON.x && poly.y === CLOSEPOLYGON.y && (polygon[i] = polygon[i - 1]);
                     });
                 }
                 this.spline = new core.classes.Spline(polygon);
@@ -152,7 +152,7 @@ const PathAnimation = (() => {
                     return null;
                 }
                 if (polygon.length > 0 && obj) {
-                    !core.isHTMLRenderer && control.allowUpdate)?r = control.screenRect(): 1;
+                    !core.isHTMLRenderer && control.allowUpdate && (r = control.screenRect());
                     const nt = this.normalizedTime();
                     const oldP = new core.classes.Point(htmlElement.offsetLeft, htmlElement.offsetTop);
                     const p1 = this.spline.splineXY(nt * polygon.length);
@@ -167,7 +167,7 @@ const PathAnimation = (() => {
                             a = c ? Convert.rad2Deg(Math.acos(v.angleCosine(new core.classes.Vector(0, 1)))) : -Convert.rad2Deg(Math.acos(v.angleCosine(new core.classes.Vector(0, 1))));
                         }
                     }
-                    a !== 0 ? obj.rotateAngle = a : 1;
+                    a !== 0 && (obj.rotateAngle = a);
                     if (!core.isHTMLRenderer) {
                         if (control.allowUpdate) {
                             control.update();
@@ -203,8 +203,8 @@ const PathAnimation = (() => {
         destroy() {
             priv.path.destroy();
             priv.startPt.destroy();
-            priv.polygon ? priv.polygon.destroy() : 1;
-            priv.spline ? priv.spline.destroy() : 1;
+            priv.polygon && (priv.polygon.destroy());
+            priv.spline && (priv.spline.destroy());
             priv.path = null;
             priv.rotate = null;
             priv.startPt = null;

@@ -146,7 +146,7 @@ const Keyboard = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -180,7 +180,7 @@ const Keyboard = (() => {
                     if (c.hasOwnProperty(b)) {
                         const d = c[b];
                         keyCodeTable[d.charCodeAt(0)] = ~~parseFloat(b);
-                        d.toUpperCase() !== d ? keyCodeTable[d.toUpperCase().charCodeAt(0)] = ~~parseFloat(b) : 1;
+                        d.toUpperCase() !== d && (keyCodeTable[d.toUpperCase().charCodeAt(0)] = ~~parseFloat(b));
                     }
                 }
             }
@@ -207,7 +207,7 @@ const Keyboard = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.ctrl !== newValue ? priv.ctrl = newValue : 1;
+            core.tools.isBool(newValue) && priv.ctrl !== newValue && (priv.ctrl = newValue);
         }
         //#endregion ctrl
         //#region alt
@@ -218,7 +218,7 @@ const Keyboard = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.alt !== newValue ? priv.alt = newValue : 1;
+            core.tools.isBool(newValue) && priv.alt !== newValue && (priv.alt = newValue);
         }
         //#endregion alt
         //#region shift
@@ -229,7 +229,7 @@ const Keyboard = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.shift !== newValue ? priv.shift = newValue : 1;
+            core.tools.isBool(newValue) && priv.shift !== newValue && (priv.shift = newValue);
         }
         //#endregion shift
         //#region meta
@@ -240,7 +240,7 @@ const Keyboard = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.meta !== newValue ? priv.meta = newValue : 1;
+            core.tools.isBool(newValue) && priv.meta !== newValue && (priv.meta = newValue);
         }
         //#endregion meta
         //#region keyCode
@@ -251,7 +251,7 @@ const Keyboard = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.valueInSet(newValue, Keyboard.VKEYSCODES) && priv.keyCode !== newValue ? priv.keyCode = newValue : 1;
+            core.tools.valueInSet(newValue, Keyboard.VKEYSCODES) && priv.keyCode !== newValue && (priv.keyCode = newValue);
         }
         //#endregion keyCode
         //#region keyEvent
@@ -262,7 +262,8 @@ const Keyboard = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.valueInSet(newValue, Keyboard.KEYBORDEVENTS) && priv.keyEvent !== newValue ? priv.keyEvent = newValue : 1;
+            core.tools.valueInSet(newValue, Keyboard.KEYBORDEVENTS) && priv.keyEvent !== newValue
+                && (priv.keyEvent = newValue);
         }
         //#endregion keyEvent
         //#region keyChar
@@ -273,7 +274,7 @@ const Keyboard = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isString(newValue) && priv.keyChar !== newValue ? priv.keyChar = newValue : 1;
+            core.tools.isString(newValue) && priv.keyChar !== newValue && (priv.keyChar = newValue);
         }
         //#endregion keyChar
         //#region keyCodeTable
@@ -289,7 +290,7 @@ const Keyboard = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            newValue instanceof KeyboardEvent && priv.event !== newValue ? priv.event = newValue : 1;
+            newValue instanceof KeyboardEvent && priv.event !== newValue && (priv.event = newValue);
         }
         //#endregion event
         //#region isNavigationKey
@@ -342,9 +343,9 @@ const Keyboard = (() => {
                 priv.keyChar = keyCode === VKEYSCODES.VK_SHIFT || keyCode === VKEYSCODES.VK_CONTROL || keyCode === VKEYSCODES.VK_ALT
                     ? String.EMPTY : String.fromCharCode(keyCode);
             }
-            !priv.shift ? priv.keyChar = this.keyChar.toLowerCase() : 1;
+            !priv.shift && (priv.keyChar = this.keyChar.toLowerCase());
             priv.keyEvent = !core.isKeyDown ? KEYBORDEVENTS.NONE : KEYBORDEVENTS.DOWN;
-            core.tools.isFunc(core.onGetMouseInfos) ? core.onGetMouseInfos() : 1;
+            core.tools.isFunc(core.onGetMouseInfos) && core.onGetMouseInfos();
         }
         //#endregion getKeyboardInfos
         //#region stopEvent

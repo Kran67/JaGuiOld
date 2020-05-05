@@ -64,7 +64,7 @@ class GradientAnimation extends Animation {
                                 }
                             });
                             if (!core.isHTMLRenderer) {
-                                control.allowUpdate ? control.update() : 1;
+                                control.allowUpdate && control.update();
                                 !form.useRequestAnim ? control.redraw() : form.needRedraw = true;
                             } else {
                                 control.paint();

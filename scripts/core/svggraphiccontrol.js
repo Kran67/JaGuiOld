@@ -7,7 +7,7 @@ const SVGGraphicControl = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -35,7 +35,7 @@ const SVGGraphicControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            newValue instanceof HTMLElement && priv.svg !== newValue ? priv.svg = newValue : 1;
+            newValue instanceof HTMLElement && priv.svg !== newValue && (priv.svg = newValue);
         }
         //#endregion svg
         //#region svgShape
@@ -46,7 +46,7 @@ const SVGGraphicControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            newValue instanceof HTMLElement && priv.svgShape !== newValue ? priv.svgShape = newValue : 1;
+            newValue instanceof HTMLElement && priv.svgShape !== newValue && (priv.svgShape = newValue);
         }
         //#endregion svgShape
         //#endregion Getter / Setter
@@ -78,12 +78,11 @@ const SVGGraphicControl = (() => {
             const strokeDash = this.strokeDash;
             //#endregion Variables déclaration
             if (!this.loading) {
-                fillColor ? priv.svgShape.setAttribute('fill', fillColor.toRGBAString()) : 1;
+                fillColor && priv.svgShape.setAttribute('fill', fillColor.toRGBAString());
                 svgShape.setAttribute('stroke-width', this.strokeWidth);
-                strokeColor?svgShape.setAttribute('stroke', strokeColor.toRGBAString()):1;
+                strokeColor && svgShape.setAttribute('stroke', strokeColor.toRGBAString());
                 strokeDash && strokeDash !== String.EMPTY
-                    ? svgShape.setAttribute('stroke-dasharray', JSON.parse(strokeDash).join(String.COMMA))
-                    : 1;
+                    && svgShape.setAttribute('stroke-dasharray', JSON.parse(strokeDash).join(String.COMMA));
                 svgShape.setAttribute('stroke-dashoffset', this.strokeDashOffset);
             }
         }

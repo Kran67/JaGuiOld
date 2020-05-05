@@ -12,8 +12,8 @@ class Text {
         if (text === String.EMPTY) {
             return text.split();
         }
-        !core.tools.isBool(withSpace) ? withSpace = !1 : 1;
-        withSpace ? text = text.replace(/ /g, ' [|]') : 1;
+        !core.tools.isBool(withSpace) && (withSpace = !1);
+        withSpace && (text = text.replace(/ /g, ' [|]'));
         text = text.replace(/\\n/g, '[|]¤[|]');
         text = text.replace(/\n/g, '[|]¤[|]');
         text = text.replace(/<br \/>/g, '[|]¤[|]');
@@ -50,7 +50,7 @@ class Text {
     //#endregion wordWrapText
     //#region findWordBreak
     static findWordBreak(text, col, step) {
-        step < 0 ? col += step : 1;
+        step < 0 && (col += step);
         const d = isWordSeparator(text[col]);
         if (d && step > 0) {
             return col + step;
@@ -196,7 +196,7 @@ class Text {
         //#region Variables déclaration
         const includeCaption = element.querySelector('.includeCaption');
         //#endregion Variables déclaration
-        includeCaption ? element = includeCaption : 1;
+        includeCaption && (element = includeCaption);
         const walker = document.createTreeWalker(
             element,
             NodeFilter.SHOW_TEXT,
@@ -210,7 +210,7 @@ class Text {
             element.appendChild(node);
         } else {
             while (node) {
-                node.parentNode === element ? node.nodeValue = text : 1;
+                node.parentNode === element && (node.nodeValue = text);
                 node = null;
             }
         }
@@ -232,22 +232,22 @@ class Text {
             const nextChar = code.substr(pos + 1, 1);
             // If opening tag, add newline character and indention
             if (char === '<' && nextChar !== '/') {
-                result.length > 0 ? result = [...result, '\n'] : 1;
+                result.length > 0 && ( result = [...result, '\n'] );
                 result = [...result, whitespace.repeat(currentIndent)];
                 currentIndent++;
                 currentCode = code.substr(pos, code.length);
                 nextSpace = currentCode.indexOf(String.SPACE);
-                nextSpace === -1 ? nextSpace = currentCode.indexOf('>') : 1;
+                nextSpace === -1 && (nextSpace = currentCode.indexOf('>'));
                 lastOpenedTag = code.substr(pos + 1, nextSpace - 1);
             }
             // if Closing tag, add newline and indention
             else if (char === '<' && nextChar === '/') {
                 // If there're more closing tags than opening
-                --currentIndent < 0 ? currentIndent = 0 : 1;
+                --currentIndent < 0 && (currentIndent = 0);
                 currentCode = code.substr(pos + 1, code.length);
                 nextSpace = currentCode.indexOf('>');
                 const currentClosedTag = code.substr(pos + 2, nextSpace - 1);
-                lastOpenedTag !== currentClosedTag ? result = [...result, `\n${whitespace.repeat(currentIndent)}`] : 1;
+                lastOpenedTag !== currentClosedTag && (result = [...result, `\n${whitespace.repeat(currentIndent)}`]);
                 lastOpenedTag = String.EMPTY;
             }
             // remove multiple whitespaces

@@ -8,7 +8,7 @@ const StringList = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -33,7 +33,7 @@ const StringList = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isString(newValue) && priv.list !== newValue ? priv.list = newValue : 1;
+            core.tools.isString(newValue) && priv.list !== newValue && (priv.list = newValue);
         }
         //#endregion list
         //#region owner
@@ -72,9 +72,9 @@ const StringList = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (core.tools.isString(str)) {
-                !fireEvent ? fireEvent = !0 : 1;
+                !fireEvent && (fireEvent = !0);
                 priv.list.addRange(str.split('\n'));
-                fireEvent ? this.onChange.invoke(priv.owner) : 1;
+                fireEvent && this.onChange.invoke(priv.owner);
             }
         }
         //#endregion addText

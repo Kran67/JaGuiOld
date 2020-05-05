@@ -45,7 +45,7 @@ class Tools {
     //#endregion isDate
     //#region include
     static include(object, property, value) {
-        !bitTest(object[property], value) ? object[property].push(value) : 1;
+        !bitTest(object[property], value) && object[property].push(value);
     }
     //#endregion include
     //#region bitTest
@@ -57,7 +57,7 @@ class Tools {
     static exclude(object, property, value) {
         if (bitTest(object[property], value)) {
             const idx = object[property].indexOf(value);
-            idx > -1 ? object[property].splice(idx, 1) : 1;
+            idx > -1 && object[property].splice(idx, 1);
         }
     }
     //#endregion exclude
@@ -70,7 +70,7 @@ class Tools {
         const alphaNumericDot = [...alphaNumeric, '.'];
         //#endregion Variables déclaration
         if (typeof ident === CONSTANTS.STRING) {
-            !core.tools.isBool(allowDots) ? allowDots = !1 : 1;
+            !core.tools.isBool(allowDots) && (allowDots = !1);
             if (ident.length === 0 || alpha.indexOf(ident[0]) === -1) {
                 return !1;
             }
@@ -112,7 +112,7 @@ class Tools {
     static loadFormRes(resName) {
         if (Core.isHTMLRenderer) {
             const fileText = document.getElementById('file_text');
-            fileText ? fileText.innerHTML = 'Creating window & objects\nPlease wait...' : 1;
+            fileText && (fileText.innerHTML = 'Creating window & objects\nPlease wait...');
         }
         core.apps.activeApplication.loadedWindowsHTML++;
     }
@@ -162,13 +162,13 @@ class Tools {
                     const c = Core.clone(object.constructor.prototype);
                     const names = Object.getOwnPropertyNames(object);
                     names.forEach(name => {
-                        object.hasOwnProperty(name) ? c[names[name]] = object[name] : 1;
+                        object.hasOwnProperty(name) && (c[names[name]] = object[name]);
                     });
                 } else {
                     const c = {};
                     const names = Object.getOwnPropertyNames(object);
                     names.forEach(name => {
-                        !c[name] ? c[name] = object[name] : 1;
+                        !c[name] && (c[name] = object[name]);
                     });
                 }
                 return c;
@@ -219,9 +219,9 @@ class Tools {
     //#region addPropertyFromEnum
     static addPropertyFromEnum(params) {
         params.component.addPropertyEnum(params.propName, params.enum);
-        params.hasOwnProperty('value') ? params.variable[params.propName] = params.value : 1;
-        params.forceUpdate === undefined ? params.forceUpdate = !1 : 1;
-        params.enumerable === undefined ? params.enumerable = !0 : 1;
+        params.hasOwnProperty('value') && (params.variable[params.propName] = params.value);
+        params.forceUpdate === undefined && (params.forceUpdate = !1);
+        params.enumerable === undefined && (params.enumerable = !0);
         const setter = params.setter ? params.setter : (newValue) => {
             if (!core.tools.valueInSet(newValue, params.enum)) {
                 return null;
@@ -230,7 +230,7 @@ class Tools {
                 params.variable[params.propName] = newValue;
                 params.forceUpdate && params.component.update && !params.component.loading &&
                     !params.component.form.creating && !params.component.form.loading
-                    ? params.component.update() : 1;
+                    && params.component.update();
             }
         };
         Object.defineProperty(params.component, params.propName, {
@@ -363,12 +363,11 @@ class Tools {
         //#endregion Variables déclaration
         if (obj.triggers) {
             obj.triggers.forEach((trig, i) => {
-                trig.ref !== undefined ? instance = instance[trig.ref] : 1;
-                instance[trig.prop] !== undefined
-                    ? trigger = i > 0
+                trig.ref !== undefined && (instance = instance[trig.ref]);
+                instance[trig.prop] !== undefined &&
+                    (trigger = i > 0
                         ? core.tools[trig.bExp](trigger, core.tools[trig.op](instance[trig.prop], trig.value))
-                        : core.tools[trig.op](instance[trig.prop], trig.value)
-                    : 1;
+                        : core.tools[trig.op](instance[trig.prop], trig.value));
             });
             value = trigger ? obj.trueValue : obj.falseValue ? obj.falseValue : value;
         }
@@ -403,7 +402,7 @@ class Tools {
                     if (trigger.isOK && trigger.value) {
                         params[key] = core.tools.isString(trigger.value) ? dic[trigger.value] : trigger.value;
                         radius[key].storedName && trigger.value
-                            ? core.tools.storeValue(dic, radius[key].storedName, trigger.value) : 1;
+                            && core.tools.storeValue(dic, radius[key].storedName, trigger.value);
                     }
                 } else if (core.tools.isString(radius[key])) {
                     params[key] = dic[radius[key]];
@@ -475,9 +474,9 @@ class Tools {
                         const shadow = core.tools.processShadow(instance, style.shadow, ctx);
                     }
                     // lineWidth
-                    style.lineWidth && style.lineWidth > 0 ? ctx.lineWidth = style.lineWidth : 1;
+                    style.lineWidth && style.lineWidth > 0 && (ctx.lineWidth = style.lineWidth);
                     // Clip
-                    style.clipped != undefined && style.clipped ? ctx.clip() : 1;
+                    style.clipped != undefined && style.clipped && ctx.clip();
                     let idx = 0;
                     for (; idx < to; idx++) {
                         ctx[`${prop}${suffixFunc}`](...params);

@@ -7,7 +7,7 @@ const HitTest = (function () {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -25,7 +25,7 @@ const HitTest = (function () {
             priv.mouseUp = props && (props.hasOwnProperty('mouseUp') || props.hasOwnProperty('all'))
                 ? props.mouseUp : !0;
             priv.mouseWheel = props && (props.hasOwnProperty('mouseWheel')
-                || props.hasOwnProperty('all'))? props.mouseWheel : !1;
+                || props.hasOwnProperty('all')) ? props.mouseWheel : !1;
             priv.dblClick = props && (props.hasOwnProperty('dblClick') || props.hasOwnProperty('all'))
                 ? props.dblClick : !1;
         }
@@ -44,7 +44,7 @@ const HitTest = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.mouseDown !== newValue ? priv.mouseDown = newValue : 1;
+            core.tools.isBool(newValue) && priv.mouseDown !== newValue && (priv.mouseDown = newValue);
         }
         //#endregion mouseDown
         //#region mouseMove
@@ -55,7 +55,7 @@ const HitTest = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.mouseMove !== newValue ? priv.mouseMove = newValue : 1;
+            core.tools.isBool(newValue) && priv.mouseMove !== newValue && (priv.mouseMove = newValue);
         }
         //#endregion mouseMove
         //#region mouseUp
@@ -66,7 +66,7 @@ const HitTest = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.mouseUp !== newValue ? priv.mouseUp = newValue : 1;
+            core.tools.isBool(newValue) && priv.mouseUp !== newValue && (priv.mouseUp = newValue);
         }
         //#endregion mouseUp
         //#region mouseWheel
@@ -77,7 +77,7 @@ const HitTest = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.mouseWheel !== newValue ? priv.mouseWheel = newValue : 1;
+            core.tools.isBool(newValue) && priv.mouseWheel !== newValue && (priv.mouseWheel = newValue);
         }
         //#endregion mouseWheel
         //#region dblClick
@@ -88,7 +88,7 @@ const HitTest = (function () {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.dblClick !== newValue ? priv.dblClick = newValue : 1;
+            core.tools.isBool(newValue) && priv.dblClick !== newValue && (priv.dblClick = newValue);
         }
         //#endregion dblClick
         //#region all

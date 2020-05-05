@@ -8,7 +8,7 @@ const GraphicControl = (function () {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -112,7 +112,7 @@ const GraphicControl = (function () {
         //#region loaded
         loaded() {
             super.loaded();
-            core.tools.isFunc(this.update) ? this.update() : 1;
+            core.tools.isFunc(this.update) && this.update();
         }
         //#endregion loaded
         //#region destroy
@@ -122,8 +122,8 @@ const GraphicControl = (function () {
             const fillColor = priv.fillColor;
             const strokeColor = priv.strokeColor;
             //#endregion Variables déclaration
-            fillColor ? fillColor.destroy() : 1;
-            strokeColor ? strokeColor.destroy() : 1;
+            fillColor && fillColor.destroy();
+            strokeColor && strokeColor.destroy();
             priv.fillColor = null;
             priv.strokeColor = null;
             priv.strokeWidth = null;

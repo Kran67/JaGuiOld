@@ -7,7 +7,7 @@ const SizeConstraints = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -130,28 +130,28 @@ const SizeConstraints = (() => {
                     case 0:
                         if (value !== maxHeight) {
                             this.maxHeight = value;
-                            value > 0 && value < minHeight ? this.minHeight = value : 1;
+                            value > 0 && value < minHeight && (this.minHeight = value);
                             this.change();
                         }
                         break;
                     case 1:
                         if (value !== maxWidth) {
                             this.maxWidth = value;
-                            value > 0 && value < minWidth ? this.minWidth = value : 1;
+                            value > 0 && value < minWidth && (this.minWidth = value);
                             this.change();
                         }
                         break;
                     case 2:
                         if (value !== minHeight) {
                             this.minHeight = value;
-                            maxHeight > 0 && value > maxHeight ? this.maxHeight = value : 1;
+                            maxHeight > 0 && value > maxHeight && (this.maxHeight = value);
                             this.change();
                         }
                         break;
                     case 3:
                         if (value !== minWidth) {
                             this.minWidth = value;
-                            maxWidth > 0 && value > maxWidth ? this.maxWidth = value : 1;
+                            maxWidth > 0 && value > maxWidth && (this.maxWidth = value);
                             this.change();
                         }
                         break;

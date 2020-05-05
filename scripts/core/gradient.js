@@ -11,7 +11,7 @@ const GradientPoint = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -21,8 +21,8 @@ const GradientPoint = (() => {
         //#region constructor
         constructor(offset, color) {
             super(offset, color);
-            !core.tools.isNumber(offset) ? offset = 0 : 1;
-            !(color instanceof core.classes.Color) ? color = Colors.BLACK : 1;
+            !core.tools.isNumber(offset) && (offset = 0);
+            !(color instanceof core.classes.Color) && (color = Colors.BLACK);
             const priv = internal(this);
             priv.offset = offset;
             priv.color = color;
@@ -37,7 +37,7 @@ const GradientPoint = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) && priv.offset !== newValue ? priv.offset = newValue : 1;
+            core.tools.isNumber(newValue) && priv.offset !== newValue && (priv.offset = newValue);
         }
         //#endregion offset
         //#region color
@@ -49,7 +49,7 @@ const GradientPoint = (() => {
             const priv = internal(this);
             const color = priv.color;
             //#endregion Variables déclaration
-            newValue instanceof core.classes.Color && color.equals(newValue) ? color.assign(newValue) : 1;
+            newValue instanceof core.classes.Color && color.equals(newValue) && (color.assign(newValue));
         }
         //#endregion color
         //#endregion Getter / Setter
@@ -78,7 +78,7 @@ const Gradient = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };

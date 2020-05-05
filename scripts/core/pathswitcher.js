@@ -11,7 +11,7 @@ const PathSwitcher = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -45,7 +45,7 @@ const PathSwitcher = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isString(newValue) && priv.pathTrue !== newValue ? priv.pathTrue = newValue : 1;
+            core.tools.isString(newValue) && priv.pathTrue !== newValue && (priv.pathTrue = newValue);
         }
         //#endregion pathTrue
         //#region pathFalse
@@ -56,7 +56,7 @@ const PathSwitcher = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isString(newValue) && priv.pathFalse !== newValue ? priv.pathFalse = newValue : 1;
+            core.tools.isString(newValue) && priv.pathFalse !== newValue && (priv.pathFalse = newValue);
         }
         //#endregion pathFalse
         //#endregion Getters / Setters

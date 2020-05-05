@@ -17,7 +17,7 @@ const Control = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -69,7 +69,7 @@ const Control = (() => {
                         : priv.margin.setValues(margin.left, margin.top, margin.right, margin.bottom);
                 }
                 priv.popupMenu = null;
-                priv.opacity = props.hasOwnProperty('opacity') && core.tools.isNumber(props.opacity) ? props.opacity : 1;
+                priv.opacity = props.hasOwnProperty('opacity') && core.tools.isNumber(props.opacity) && (props.opacity);
                 priv.width = props.hasOwnProperty('width') && core.tools.isNumber(props.width) ? props.width : 50;
                 priv.height = props.hasOwnProperty('height') && core.tools.isNumber(props.height) ? props.height : 50;
                 priv.scale = new core.classes.Scale(this);
@@ -106,8 +106,8 @@ const Control = (() => {
                 priv.allowRealignChildsOnResize = !1;
                 priv.update = function () {
                     const obj = this.obj;
-                    obj.allowUpdateOnResize ? obj.update() : 1;
-                    obj.allowRealignChildsOnResize ? obj.realignChilds() : 1;
+                    obj.allowUpdateOnResize && obj.update();
+                    obj.allowRealignChildsOnResize && obj.realignChilds();
                     obj.onResize.invoke(obj);
                 };
                 priv.resizer = new ResizeObserver(priv.update);
@@ -152,7 +152,7 @@ const Control = (() => {
                             align = priv.align = newValue;
                             if (!this.loading && !this.form.loading && align !== core.types.ALIGNS.NONE) {
                                 owner.realignChilds();
-                                owner.hasResizeEvent ? owner.resized() : 1;
+                                owner.hasResizeEvent && owner.resized();
                             }
                         }
                     },
@@ -217,7 +217,7 @@ const Control = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isBool(newValue) && priv.allowUpdateOnResize !== newValue
-                ? priv.allowUpdateOnResize = newValue : 1;
+                && (priv.allowUpdateOnResize = newValue);
         }
         //#endregion allowUpdateOnResize
         //#region allowRealignChildsOnResize
@@ -229,7 +229,7 @@ const Control = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isBool(newValue) && priv.allowRealignChildsOnResize !== newValue
-                ? priv.allowRealignChildsOnResize = newValue : 1;
+                && (priv.allowRealignChildsOnResize = newValue);
         }
         //#endregion allowRealignChildsOnResize
         //#region bounds
@@ -258,7 +258,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.clipped !== newValue ? priv.clipped = newValue : 1;
+            core.tools.isBool(newValue) && priv.clipped !== newValue && (priv.clipped = newValue);
         }
         //#endregion clipped
         //#region reflected
@@ -289,7 +289,7 @@ const Control = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isBool(newValue) && priv.forceDisplayVisibility !== newValue
-                ? priv.forceDisplayVisibility = newValue : 1;
+                && (priv.forceDisplayVisibility = newValue);
         }
         //#endregion forceDisplayVisibility
         //#region allowUpdate
@@ -301,7 +301,7 @@ const Control = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isBool(newValue) && priv.allowUpdate !== newValue
-                ? priv.allowUpdate = newValue : 1;
+                && (priv.allowUpdate = newValue);
         }
         //#endregion allowUpdate
         //#region autoTranslate
@@ -313,7 +313,7 @@ const Control = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isBool(newValue) && priv.autoTranslate !== newValue
-                ? priv.autoTranslate = newValue : 1;
+                && (priv.autoTranslate = newValue);
         }
         //#endregion autoTranslate
         //#region isMouseOver
@@ -325,7 +325,7 @@ const Control = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isBool(newValue) && priv.hitTest.mouseMove && priv.isMouseOver !== newValue
-                ? priv.isMouseOver = newValue : 1;
+                && (priv.isMouseOver = newValue);
         }
         //#endregion isMouseOver
         //#region isFocused
@@ -343,7 +343,7 @@ const Control = (() => {
                 let lastFc;
                 form.focusedControl && (core.classes.CustomTextControl
                     && form.focusedControl instanceof core.classes.CustomTextControl) && !newValue
-                    ? lastFc = form.focusedControl : 1;
+                    && (lastFc = form.focusedControl);
 
                 if (newValue) {
                     form.focusedControl = this;
@@ -354,10 +354,10 @@ const Control = (() => {
                     //this.HTMLElement.dataset.focused = internal(this).isFocused;
                     htmlElement.classList.remove('focused');
                     newValue && priv.showFocus
-                        ? htmlElement.classList.add('focused') : 1;
+                        && htmlElement.classList.add('focused');
                 }
-                !newValue ? this.killFocus() : 1;
-                lastFc && lastFc.inputObj ? lastFc.inputObj.blur() : 1;
+                !newValue && this.killFocus();
+                lastFc && lastFc.inputObj && lastFc.inputObj.blur();
             }
         }
         //#endregion isFocused
@@ -373,7 +373,7 @@ const Control = (() => {
             if (core.tools.isBool(newValue) && priv.hitTest.mouseDown && priv.isPressed !== newValue) {
                 priv.isPressed = newValue;
                 core.isHTMLRenderer && htmlElement.classList.remove('pressed');
-                newValue ? core.isHTMLRenderer && htmlElement.classList.add('pressed') : 1;
+                newValue && (core.isHTMLRenderer && htmlElement.classList.add('pressed'));
             }
         }
         //#endregion isPressed
@@ -389,7 +389,7 @@ const Control = (() => {
             if (core.tools.isBool(newValue) && priv.closePopups !== newValue) {
                 priv.closePopups = newValue;
                 components.forEach(comp => {
-                    comp instanceof core.classes.Control ? comp.closePopups = newValue : 1;
+                    comp instanceof core.classes.Control && (comp.closePopups = newValue);
                 });
             }
         }
@@ -402,7 +402,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isString(newValue) && priv.wrapper !== newValue ? priv.wrapper = newValue : 1;
+            core.tools.isString(newValue) && priv.wrapper !== newValue && (priv.wrapper = newValue);
         }
         //#endregion wrapper
         //#region forceMouseWheel
@@ -413,10 +413,8 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue)
-                ? priv.forceMouseWheel !== newValue
-                    ? priv.forceMouseWheel = newValue : 1
-                : 1;
+            core.tools.isBool(newValue) && priv.forceMouseWheel !== newValue
+                && (priv.forceMouseWheel = newValue);
         }
         //#endregion forceMouseWheel
         //#region hasResizeEvent
@@ -427,7 +425,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.hasResizeEvent !== newValue ? priv.hasResizeEvent = newValue : 1;
+            core.tools.isBool(newValue) && priv.hasResizeEvent !== newValue && (priv.hasResizeEvent = newValue);
         }
         //#endregion hasResizeEvent
         //#region resizeData
@@ -448,7 +446,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.stopEvent !== newValue ? priv.stopEvent = newValue : 1;
+            core.tools.isBool(newValue) && priv.stopEvent !== newValue && (priv.stopEvent = newValue);
         }
         //#endregion stopEvent
         //#region constraints
@@ -460,7 +458,7 @@ const Control = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             newValue instanceof core.classes.Constraints && priv.constraints !== newValue
-                ? priv.constraints.assign(newValue) : 1;
+                && priv.constraints.assign(newValue);
         }
         //#endregion constraints
         //#region ownerShowToolTip
@@ -471,7 +469,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.ownerShowToolTip !== newValue ? priv.ownerShowToolTip = newValue : 1;
+            core.tools.isBool(newValue) && priv.ownerShowToolTip !== newValue && (priv.ownerShowToolTip = newValue);
         }
         //#endregion ownerShowToolTip
         //#region autoCapture
@@ -482,7 +480,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.autoCapture !== newValue ? priv.autoCapture = newValue : 1;
+            core.tools.isBool(newValue) && priv.autoCapture !== newValue && (priv.autoCapture = newValue);
         }
         //#endregion autoCapture
         //#region padding
@@ -504,7 +502,7 @@ const Control = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             inewValue instanceof core.classes.PopupMenu && priv.popupMenu !== newValue
-                ? priv.popupMenu = newValue : 1;
+                && (priv.popupMenu = newValue);
         }
         //#endregion popupMenu
         //#region opacity
@@ -521,7 +519,7 @@ const Control = (() => {
                     priv.opacity = newValue;
                     this.propertyChanged(core.types.BINDABLEPROPERTIES.OPACITY);
                     !this.loading && !this.form.loading
-                        ? this.HTMLElementStyle.opacity = newValue : 1;
+                        && (this.HTMLElementStyle.opacity = newValue);
                 }
             }
         }
@@ -536,7 +534,7 @@ const Control = (() => {
             const padding = priv.padding;
             //#endregion Variables déclaration
             core.tools.isString(width) && width.endsWith('%')
-                ? width = owner.contentWidth * (parseFloat(width) / 100) : 1;
+                && (width = owner.contentWidth * (parseFloat(width) / 100));
             width -= margin.left + margin.right + padding.left + padding.right;
             return width;
         }
@@ -587,7 +585,7 @@ const Control = (() => {
             const padding = priv.padding;
             //#endregion Variables déclaration
             core.tools.isString(height) && height.endsWith('%')
-                ? height = owner.contentWidth * (parseFloat(height) / 100) : 1;
+                && (height = owner.contentWidth * (parseFloat(height) / 100));
             height -= margin.top + margin.bottom + padding.top + padding.bottom;
             return height;
         }
@@ -652,7 +650,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) ? priv.canFocused = newValue : 1;
+            core.tools.isBool(newValue) && (priv.canFocused = newValue);
         }
         //#endregion canFocused
         //#region showFocus
@@ -712,7 +710,7 @@ const Control = (() => {
             if (newValue instanceof core.classes.Point && !rotateCenter.equals(newValue)) {
                 rotateCenter.assign(newValue);
                 !this.loading && !this.form.loading
-                    ? this.HTMLElementStyle.transformOrigin = `${newValue.x}${PO}${String.SPACE}${newValue.y}${PO}` : 1;
+                    && (this.HTMLElementStyle.transformOrigin = `${newValue.x}${PO}${String.SPACE}${newValue.y}${PO}`);
             }
         }
         //#endregion rotateCenter
@@ -724,7 +722,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isString(newValue) && priv.toolTip !== newValue ? priv.toolTip = newValue : 1;
+            core.tools.isString(newValue) && priv.toolTip !== newValue && (priv.toolTip = newValue);
         }
         //#endregion toolTip
         //#region showToolTip
@@ -735,7 +733,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.showToolTip !== newValue ? priv.showToolTip = newValue : 1;
+            core.tools.isBool(newValue) && priv.showToolTip !== newValue && (priv.showToolTip = newValue);
         }
         //#endregion showToolTip
         //#region hitTest
@@ -802,7 +800,7 @@ const Control = (() => {
             if (core.tools.isNumber(newValue) && priv.rotateAngle !== newValue) {
                 priv.rotateAngle = newValue;
                 this.propertyChanged(core.types.BINDABLEPROPERTIES.ROTATEANGLE);
-                !this.loading && !this.form.loading && core.isHTMLRenderer ? this.applyTransforms() : 1;
+                !this.loading && !this.form.loading && core.isHTMLRenderer && this.applyTransforms();
             }
         }
         //#endregion rotateAngle
@@ -814,7 +812,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.customStyle !== newValue ? priv.customStyle = newValue : 1;
+            priv.customStyle !== newValue && (priv.customStyle = newValue);
         }
         //#endregion customStyle
         //#region cssClasses
@@ -903,7 +901,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.doubleClick !== newValue ? priv.doubleClick = newValue : 1;
+            core.tools.isBool(newValue) && priv.doubleClick !== newValue && (priv.doubleClick = newValue);
         }
         //#endregion doubleClick
         //#region visible
@@ -945,7 +943,7 @@ const Control = (() => {
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
             core.tools.isString(newValue) && core.isHTMLRenderer && htmlElementStyle.display !== newValue
-                ? htmlElementStyle.display = newValue : 1;
+                && (htmlElementStyle.display = newValue);
         }
         //#endregion display
         //#region isEnabled
@@ -1121,9 +1119,9 @@ const Control = (() => {
                     htmlElementStyle.gridRow = `${priv.row} / ${priv.rowSpan > 1 ? 'span ' + priv.rowSpan : priv.row + 1}`;
                 }
                 !priv.margin.isEmpty
-                    ? htmlElementStyle.margin = `${priv.margin.top}${PX} ${priv.margin.right}${PX} ${priv.margin.bottom}${PX} ${priv.margin.left}${PX}` : 1;
+                    && (htmlElementStyle.margin = `${priv.margin.top}${PX} ${priv.margin.right}${PX} ${priv.margin.bottom}${PX} ${priv.margin.left}${PX}`);
                 !priv.padding.isEmpty
-                    ? htmlElementStyle.padding = `${priv.padding.top}${PX} ${priv.padding.right}${PX} ${priv.padding.bottom}${PX} ${priv.padding.left}${PX}` : 1;
+                    && (htmlElementStyle.padding = `${priv.padding.top}${PX} ${priv.padding.right}${PX} ${priv.padding.bottom}${PX} ${priv.padding.left}${PX}`);
             } else {
                 core.canvas.needRedraw = !0;
             }
@@ -1133,7 +1131,7 @@ const Control = (() => {
                     priv.right = null;
                     this.right = oldRight;
                 }
-                core.isHTMLRenderer && this.inForm ? this.resize() : 1;
+                core.isHTMLRenderer && this.inForm && this.resize();
             }
         }
         //#endregion sizing
@@ -1162,7 +1160,7 @@ const Control = (() => {
                         htmlElementStyle.width = 'auto';
                         htmlElementStyle.bottom = 'auto';
                         htmlElementStyle.height === 'auto'
-                            ? htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}` : 1;
+                            && (htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}`);
                         child.applyTransforms();
                         t += ~~parseFloat(cStyle.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(cStyle.marginBottom);
                     }
@@ -1186,7 +1184,7 @@ const Control = (() => {
                         htmlElementStyle.width = 'auto';
                         htmlElementStyle.top = 'auto';
                         htmlElementStyle.height === 'auto'
-                            ? htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}` : 1;
+                            && (htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}`);
                         child.applyTransforms();
                         b += ~~parseFloat(cStyle.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(cStyle.marginBottom);
                     }
@@ -1204,7 +1202,7 @@ const Control = (() => {
                         htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : '0';
                         htmlElementStyle.height = 'auto';
                         htmlElementStyle.width === 'auto'
-                            ? htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}` : 1;
+                            && (htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}`);
                         child.applyTransforms();
                         l += ~~parseFloat(cStyle.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(cStyle.marginRight);
                     }
@@ -1222,7 +1220,7 @@ const Control = (() => {
                         htmlElementStyle.bottom = b > 0 ? `${b}${PX}` : '0';
                         htmlElementStyle.height = 'auto';
                         htmlElementStyle.width === 'auto'
-                            ? htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}` : 1;
+                            && (htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}`);
                         child.applyTransforms();
                         r += ~~parseFloat(cStyle.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(cStyle.marginRight);
                     }
@@ -1473,7 +1471,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.canFocused && this.visible && this.isEnabled ? this.enterFocus() : 1;
+            priv.canFocused && this.visible && this.isEnabled && this.enterFocus();
         }
         //#endregion setFocus
         //#region beginUpdate
@@ -1603,14 +1601,14 @@ const Control = (() => {
             if (priv.enabled && (this instanceof core.classes.Control) && this.hitTest.mouseDown) {
                 if (form && form instanceof core.classes.Window) {
                     if (priv.closePopups) {
-                        form.mainMenu ? form.mainMenu.isActive = !1 : 1;
+                        form.mainMenu && (form.mainMenu.isActive = !1);
                         form.closePopups();
                     }
                     if (!priv.canFocused && this !== form.content) {
                         const parentCanFocused = this.owner;
                         parentCanFocused && parentCanFocused.canFocused
                             && form.focusedControl !== parentCanFocused
-                            ? parentCanFocused.setFocus() : 1;
+                            && parentCanFocused.setFocus();
                     } else if (!priv.isFocused && form.focusedControl !== this) {
                         this.setFocus();
                     }
@@ -1619,11 +1617,11 @@ const Control = (() => {
                     this.contextMenu();
                     return;
                 } else {
-                    this.autoCapture ? this.capture() : 1;
+                    this.autoCapture && this.capture();
                     this.isPressed = !0;
                     this.onMouseDown.invoke();
                 }
-                !core.isHTMLRenderer ? core.canvas.needRedraw = !0 : 1;
+                !core.isHTMLRenderer && (core.canvas.needRedraw = !0);
             }
         }
         //#endregion mouseDown
@@ -1634,7 +1632,7 @@ const Control = (() => {
             let target = core.mouse.event.target;
             let clicked = !1;
             //#endregion Variables déclaration
-            !target.jsObj ? target = target.parentNode : 1;
+            !target.jsObj && (target = target.parentNode);
             if (this instanceof core.classes.Control) {
                 this.releaseCapture();
                 this.onMouseUp.invoke();
@@ -1643,7 +1641,7 @@ const Control = (() => {
                 this.doubleClick = !1;
                 if (clicked && core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
                     this.click();
-                    !core.isHTMLRenderer ? core.canvas.needRedraw = !0 : 1;
+                    !core.isHTMLRenderer && (core.canvas.needRedraw = !0);
                 }
             }
         }
@@ -1669,7 +1667,7 @@ const Control = (() => {
         //#endregion mouseWheel
         //#region mouseMove
         mouseMove() {
-            this instanceof core.classes.Control ? this.onMouseMove.invoke() : 1;
+            this instanceof core.classes.Control && this.onMouseMove.invoke();
         }
         //#endregion mouseMove
         //#region mouseEnter
@@ -1685,7 +1683,7 @@ const Control = (() => {
                 this.onMouseEnter.invoke();
                 cursor !== CUSTOMCURSORS.DEFAULT
                     && (cursor === CUSTOMCURSORS.WAIT || cursor === CUSTOMCURSORS.PROGRESS)
-                    ? core.animatedCursor.initAnimation(core.isHTMLRenderer ? htmlElement : core.canvas, cursor) : 1;
+                    && core.animatedCursor.initAnimation(core.isHTMLRenderer ? htmlElement : core.canvas, cursor);
                 this.form.app.showToolTip(this, core.mouse.document, !0);
                 if (priv.isPressed && core.isHTMLRenderer) {
                     htmlElement.classList.add('pressed');
@@ -1707,7 +1705,7 @@ const Control = (() => {
                 this.onMouseLeave.invoke();
                 cursor !== CUSTOMCURSORS.DEFAULT
                     && (cursor === CUSTOMCURSORS.WAIT || cursor === CUSTOMCURSORS.PROGRESS)
-                    ? core.animatedCursor.stopAnimation() : 1;
+                    && core.animatedCursor.stopAnimation();
                 this.form.app.hideToolTip();
                 if (core.isHTMLRenderer) {
                     this.HTMLElement.classList.remove('pressed');
@@ -1724,7 +1722,7 @@ const Control = (() => {
             const focusedControl = this.form.focusedControl;
             //#endregion Variables déclaration
             this instanceof core.classes.Control && priv.canFocused && focusedControl && focusedControl !== this
-                ? focusedControl.killFocus() : 1;
+                && focusedControl.killFocus();
             this.isFocused = !0;
             this.onEnterFocus.invoke();
         }
@@ -1812,38 +1810,38 @@ const Control = (() => {
                     if (core.resizeWindow) {
                         activeWin.mouseMove(event);
                     } else if (activeWin.capturedControl) {
-                        activeWin.capturedControl.mouseMove ? activeWin.capturedControl.mouseMove() : 1;
+                        activeWin.capturedControl.mouseMove && activeWin.capturedControl.mouseMove();
                     } else if (core.tools.isFunc(jsObj.mouseMove)) {
                         jsObj.mouseMove();
                     }
                     break;
                 case MOUSEEVENTS.DOWN:
                     if (activeWin !== jsObj.form) {
-                        activeWin.mainMenu ? activeWin.mainMenu.isActive = !1 : 1;
+                        activeWin.mainMenu && (activeWin.mainMenu.isActive = !1);
                         activeWin.app.closeAllPopups();
                     }
                     if (jsObj.form && jsObj.form instanceof core.classes.Window) {
                         jsObj.form.setActive();
                         activeWin = jsObj.form;
-                        jsObj.autoCapture ? activeWin.capturedControl = jsObj : 1;
+                        jsObj.autoCapture && (activeWin.capturedControl = jsObj);
                         if (activeWin !== jsObj.form.app.mainWindow) {
                             jsObj.form.app.mainWindow.mainMenu
-                                ? jsObj.form.app.mainWindow.mainMenu.isActive = !1 : 1;
+                                && (jsObj.form.app.mainWindow.mainMenu.isActive = !1);
                             jsObj.form.app.mainWindow.closePopups();
                         }
                     }
-                    core.tools.isFunc(jsObj.mouseDown) ? jsObj.mouseDown() : 1;
+                    core.tools.isFunc(jsObj.mouseDown) && jsObj.mouseDown() ;
                     core.classes.CustomTextControl
                         && activeWin.focusedControl instanceof core.classes.CustomTextControl
-                        ? activeWin.focusedControl.inputObj.focus() : 1;
+                        && activeWin.focusedControl.inputObj.focus();
                     break;
                 case MOUSEEVENTS.UP:
                 case MOUSEEVENTS.CLICK:
                     if (core.resizeWindow) {
                         activeWin.mouseUp(event);
                     } else if (activeWin.capturedControl) {
-                        activeWin.capturedControl.mouseUp ? activeWin.capturedControl.mouseUp() : 1;
-                        activeWin ? activeWin.capturedControl = null : 1;
+                        activeWin.capturedControl.mouseUp && activeWin.capturedControl.mouseUp();
+                        activeWin && (activeWin.capturedControl = null);
                     } else if (core.tools.isFunc(jsObj.mouseUp)) {
                         jsObj.mouseUp();
                     }
@@ -1853,27 +1851,27 @@ const Control = (() => {
                     if (activeWin.popups.length > 0 && !jsObj.forceMouseWheel) {
                         return;
                     }
-                    core.tools.isFunc(jsObj.mouseWheel) ? jsObj.mouseWheel() : 1;
+                    core.tools.isFunc(jsObj.mouseWheel) && jsObj.mouseWheel();
                     forceStopEvent = !0;
                     jsObj.stopEvent ? event.preventDefault() : jsObj.form.mouseWheel();
                     break;
                 case MOUSEEVENTS.DBLCLICK:
                     if (activeWin.capturedControl) {
-                        activeWin.capturedControl.mouseUp ? activeWin.capturedControl.dblClick() : 1;
+                        activeWin.capturedControl.mouseUp && activeWin.capturedControl.dblClick();
                     } else if (core.tools.isFunc(jsObj.dblClick) && jsObj.dblClick) {
                         jsObj.dblClick();
                     }
                     break;
                 case MOUSEEVENTS.OUT:
                 case MOUSEEVENTS.LEAVE:
-                    core.tools.isFunc(jsObj.mouseLeave) ? jsObj.mouseLeave() : 1;
+                    core.tools.isFunc(jsObj.mouseLeave) && jsObj.mouseLeave();
                     break;
                 case MOUSEEVENTS.OVER:
                 case MOUSEEVENTS.ENTER:
-                    core.tools.isFunc(jsObj.mouseEnter) ? jsObj.mouseEnter() : 1;
+                    core.tools.isFunc(jsObj.mouseEnter) && jsObj.mouseEnter();
                     break;
                 case MOUSEEVENTS.DRAG:
-                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.drag) ? jsObj.drag() : 1;
+                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.drag) && jsObj.drag();
                     break;
                 case MOUSEEVENTS.DROP:
                     if (jsObj.dragKind === DOCK) {
@@ -1886,16 +1884,16 @@ const Control = (() => {
                     }
                     break;
                 case MOUSEEVENTS.DRAGEND:
-                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.dragEnd) ? jsObj.dragEnd() : 1;
+                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.dragEnd) && jsObj.dragEnd();
                     break;
                 case MOUSEEVENTS.DRAGENTER:
-                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.dragEnter) ? jsObj.dragEnter() : 1;
+                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.dragEnter) && jsObj.dragEnter();
                     break;
                 case MOUSEEVENTS.DRAGEXIT:
-                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.dragExit) ? jsObj.dragExit() : 1;
+                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.dragExit) && jsObj.dragExit();
                     break;
                 case MOUSEEVENTS.DRAGLEAVE:
-                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.dragLeave) ? jsObj.dragLeave() : 1;
+                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.dragLeave) && jsObj.dragLeave();
                     break;
                 case MOUSEEVENTS.DRAGOVER:
                     if (jsObj.dragKind === DOCK) {
@@ -1928,7 +1926,7 @@ const Control = (() => {
                 //  if (typeof jsObj.keyPress===core.types.CONSTANTS.FUNCTION) jsObj.keyPress();
                 //  break;
             }
-            jsObj.stopEvent || forceStopEvent ? core.mouse.stopEvent(event) : 1;
+            jsObj.stopEvent || forceStopEvent && core.mouse.stopEvent(event);
         }
         //#endregion dispatchEvent
         //#region releaseCapture
@@ -1936,7 +1934,7 @@ const Control = (() => {
             //#region Variables déclaration
             const form = this.form;
             //#endregion Variables déclaration
-            form && form.capturedControl === this ? form.capturedControl = null : 1;
+            form && form.capturedControl === this && (form.capturedControl = null);
         }
         //#endregion releaseCapture
         //#region capture
@@ -1944,7 +1942,7 @@ const Control = (() => {
             //#region Variables déclaration
             const form = this.form;
             //#endregion Variables déclaration
-            form ? form.capturedControl = this : 1;
+            form && (form.capturedControl = this);
         }
         //#endregion capture
         //#region click
@@ -1969,7 +1967,7 @@ const Control = (() => {
             this.onKeyDown.invoke();
             core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE
                 && !(this instanceof core.classes.CustomTextControl)
-                ? this.isPressed = !0 : 1;
+                && (this.isPressed = !0);
         }
         //#endregion keyDown
         //#region keyUp
@@ -2004,7 +2002,7 @@ const Control = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.dragKind === core.types.DRAGKINDS.DRAG && priv.dragMode === core.types.DRAGMODES.MANUAL
-                ? this.onDrag.invoke(event) : 1;
+                && this.onDrag.invoke(event);
         }
         //#endregion drag
         //#region drop
@@ -2014,7 +2012,7 @@ const Control = (() => {
             //#endregion Variables déclaration
             priv.dragKind !== core.types.DRAGKINDS.DOCK
                 && priv.dragMode !== core.types.DRAGMODES.MANUAL
-                ? this.onDrop.invoke(event) : 1;
+                && this.onDrop.invoke(event);
         }
         //#endregion drop
         //#region dragEnter
@@ -2024,7 +2022,7 @@ const Control = (() => {
             //#endregion Variables déclaration
             priv.dragKind === core.types.DRAGKINDS.DOCK
                 && priv.dragMode === core.types.DRAGMODES.MANUAL
-                ? this.onDragEnter.invoke(event) : 1;
+                && this.onDragEnter.invoke(event);
         }
         //#endregion dragEnter
         //#region dragStart
@@ -2034,7 +2032,7 @@ const Control = (() => {
             //#endregion Variables déclaration
             priv.dragKind === core.types.DRAGKINDS.DRAG
                 && priv.dragMode === core.types.DRAGMODES.MANUAL
-                ? this.onDragStart.invoke(event) : 1;
+                && this.onDragStart.invoke(event);
         }
         //#endregion dragStart
         //#region dragLeave
@@ -2044,7 +2042,7 @@ const Control = (() => {
             //#endregion Variables déclaration
             priv.dragKind === core.types.DRAGKINDS.DOCK
                 && priv.dragMode === core.types.DRAGMODES.MANUAL
-                ? this.onDragLeave.invoke(event) : 1;
+                && this.onDragLeave.invoke(event);
         }
         //#endregion dragLeave
         //#region dragExit
@@ -2054,7 +2052,7 @@ const Control = (() => {
             //#endregion Variables déclaration
             priv.dragKind === core.types.DRAGKINDS.DRAG
                 && priv.dragMode === core.types.DRAGMODES.MANUAL
-                ? this.onDragExit.invoke(event) : 1;
+                && this.onDragExit.invoke(event);
         }
         //#endregion dragExit
         //#region dragOver
@@ -2064,7 +2062,7 @@ const Control = (() => {
             //#endregion Variables déclaration
             priv.dragKind === core.types.DRAGKINDS.DOCK
                 && priv.dragMode === core.types.DRAGMODES.MANUAL
-                ? this.onDragOver.invoke(event) : 1;
+                && this.onDragOver.invoke(event);
         }
         //#endregion dragOver
         //#region dragEnd
@@ -2074,7 +2072,7 @@ const Control = (() => {
             //#endregion Variables déclaration
             priv.dragKind === core.types.DRAGKINDS.DRAG
                 && priv.dragMode === core.types.DRAGMODES.MANUAL
-                ? this.onDragEnd.invoke(event) : 1;
+                && this.onDragEnd.invoke(event);
         }
         //#endregion dragEnd
         //dialogKey Control_dialogKey(key,shift){
@@ -2110,7 +2108,7 @@ const Control = (() => {
             //if (core.tools.Debugger.debug) console.log(`${ this.constructor.name } getHTMLElement`);
             if (id !== String.EMPTY) {
                 super.getHTMLElement(id);
-                this.HTMLElement ? priv.resizer.observe(this.HTMLElement) : 1;
+                this.HTMLElement && priv.resizer.observe(this.HTMLElement);
                 //this.initEvents();
                 //if (this.animations.length>0) {
                 //  for (let i=0,l=this.animations.length;i<l;i++) {
@@ -2145,13 +2143,13 @@ const Control = (() => {
                     if (isHtmlRenderer) {
                         if (node.nodeType === XMLNODETYPES.ELEMENT_NODE) {
                             props = node.querySelector(`[id='${node.id}']> properties:first-child`);
-                            props ? properties = JSON.parse(props.innerText) : 1;
+                            props && (properties = JSON.parse(props.innerText));
                         }
                     } else {
                         properties = node.properties;
                     }
                     if (dataClass) {
-                        !owner ? owner = this : 1;
+                        !owner && (owner = this);
                         classes.createComponent({
                             class: classes[dataClass],
                             owner: owner,
@@ -2225,11 +2223,14 @@ const Control = (() => {
             this.sizing();
             super.loaded();
             this.initEvents();
-            owner.tab ? this.tab = owner.tab : 1;
+            owner.tab && (this.tab = owner.tab);
             !this.enabled ? htmlElement.classList.add('disabled') : null;
-            !this.visible ? priv.forceDisplayVisibility
-                ? htmlElement.classList.add('noDisplay') : htmlElement.classList.add('hidden') : null;
-            !String.isNullOrEmpty(priv.cssClasses) ? htmlElement.className += priv.cssClasses : 1;
+            !this.visible && (
+                priv.forceDisplayVisibility
+                    ? htmlElement.classList.add('noDisplay')
+                    : htmlElement.classList.add('hidden')
+            );
+            !String.isNullOrEmpty(priv.cssClasses) && (htmlElement.className += priv.cssClasses);
             htmlElement.classList.add(this.cursor);
         }
         //#endregion loaded
@@ -2305,15 +2306,15 @@ const Control = (() => {
                 cR.top = cR.top / fitScale.ratio;
                 cR.bottom = cR.bottom / fitScale.ratio;
                 cR.center(mR);
-                align === ALIGNS.FITLEFT ? cR.offset(mR.left - cR.left, 0) : 1;
-                align === ALIGNS.FITRIGHT ? cR.offset(mR.right - cR.right, 0) : 1;
+                align === ALIGNS.FITLEFT && cR.offset(mR.left - cR.left, 0);
+                align === ALIGNS.FITRIGHT && cR.offset(mR.right - cR.right, 0);
                 newLeft = cR.left;
                 newTop = cR.top;
                 newWidth = cR.right - cR.left;
                 newHeight = cR.bottom - cR.top;
             } else {
-                align === ALIGNS.FITLEFT ? cR.offset(mR.left - cR.left, 0) : 1;
-                align === ALIGNS.FITRIGHT ? cR.offset(mR.right - cR.right, 0) : 1;
+                align === ALIGNS.FITLEFT && cR.offset(mR.left - cR.left, 0);
+                align === ALIGNS.FITRIGHT && cR.offset(mR.right - cR.right, 0);
                 newLeft = fitScale.rect.left;
                 newTop = fitScale.rect.top;
                 newWidth = fitScale.rect.right - fitScale.rect.left;
@@ -2366,7 +2367,7 @@ const Control = (() => {
         //#endregion applyTransforms
         //#region resetTransform
         resetTransform() {
-            core.isHTMLRenderer ? this.HTMLElementStyle.transform = String.EMPTY : 1;
+            core.isHTMLRenderer && (this.HTMLElementStyle.transform = String.EMPTY);
         }
         //#endregion resetTransform
         //#region getTabOrderList
@@ -2375,14 +2376,14 @@ const Control = (() => {
             const priv = internal(this);
             const tabList = priv.tabList;
             //#endregion Variables déclaration
-            children ? children = !0 : 1;
+            children && (children = !0);
             if (!list) {
                 return;
             }
             if (tabList) {
                 tabList.forEach(tab => {
-                    tab.isVisible ? list.push(tab) : 1;
-                    children ? tab.getTabOrderList(list, children) : 1;
+                    tab.isVisible && list.push(tab);
+                    children && tab.getTabOrderList(list, children);
                 });
             }
         }
@@ -2464,7 +2465,7 @@ const Control = (() => {
             const htmlElement = control.HTMLElement;
             //#endregion Variables déclaration
             if (control instanceof core.classes.Control) {
-                htmlElement ? htmlElement.remove() : 1;
+                htmlElement && htmlElement.remove();
                 this.insertComponent(control);
             }
         }
@@ -2473,8 +2474,8 @@ const Control = (() => {
         getChildsControls(callback) {
             this.components.forEach(comp => {
                 if (comp instanceof core.classes.Component) {
-                    callback && core.tools.isFunc(callback) ? callback(comp) : 1;
-                    comp instanceof core.classes.Control ? comp.getChildsControls(callback) : 1;
+                    callback && core.tools.isFunc(callback) && callback(comp);
+                    comp instanceof core.classes.Control && comp.getChildsControls(callback);
                 }
             });
         }
@@ -2501,7 +2502,7 @@ const Control = (() => {
             const params = [];
             //#endregion Variables déclaration
             this instanceof classes.Window || this instanceof classes.WindowTitleBar
-                ? (state = this.form.activeWindow ? 'active' : 'inactive') : 1;
+                && (state = this.form.activeWindow ? 'active' : 'inactive');
 
             ctx.save();
             ctx.translate(this.contentLeft, this.contentTop);
@@ -2515,46 +2516,46 @@ const Control = (() => {
                     objTheme = core.themes[themeName][className];
                 }
                 ctx.save();
-                !priv.enabled ? ctx.globalAlpha = 0.5 : 1;
+                !priv.enabled && (ctx.globalAlpha = 0.5);
                 if (objTheme) {
                     objTheme.hasOwnProperty('clipped') && objTheme.clipped
-                        ? ctx.clipRect(0, 0, this.contentWidth, this.contentHeight) : 1;
+                        && ctx.clipRect(0, 0, this.contentWidth, this.contentHeight);
                     objTheme.defaultDrawing != undefined
-                        ? drawCaption = drawCaption && objTheme.defaultDrawing : 1;
+                        && (drawCaption = drawCaption && objTheme.defaultDrawing);
                     if (objTheme.shapes) {
                         objTheme.shapes.forEach(shape => {
                             let width = shape.width ? shape.width : priv.width;
                             let height = shape.height ? shape.height : priv.height;
-                            core.tools.isString(height) ? height = eval(eval(height)) : 1;
-                            core.tools.isString(width) ? width = eval(eval(width)) : 1;
+                            core.tools.isString(height) && (height = eval(eval(height)));
+                            core.tools.isString(width) && (width = eval(eval(width)));
                             const w2 = width / 2;
                             //const h2 = height / 2;
                             let left = shape.left ? shape.left : 0;
                             let top = shape.top ? shape.top : 0;
-                            core.tools.isString(left) ? left = eval(eval(left)) : 1;
-                            core.tools.isString(top) ? top = eval(eval(top)) : 1;
+                            core.tools.isString(left) && (left = eval(eval(left)));
+                            core.tools.isString(top) && (top = eval(eval(top)));
                             let offset = 0;
                             let canDraw = !0;
                             // Offset
-                            shape.offset != undefined ? offset = shape.offset : 1;
+                            shape.offset != undefined && (offset = shape.offset);
                             // Shape
                             const returnTrigger = core.tools.checkTrigger(this, shape);
                             if (returnTrigger.isOK) {
                                 shape.storedName
-                                    ? core.tools.storeValue(core.vars, shape.storedName, returnTrigger) : 1;
+                                    && core.tools.storeValue(core.vars, shape.storedName, returnTrigger);
                                 // Radius
                                 let radius = shape.radius;
                                 if (radius) {
                                     core.tools.isNumber(radius) && obj.borderRadius
-                                        ? radius = obj.borderRadius : 1;
+                                        && (radius = obj.borderRadius);
                                     params.push(core.tools.processRadius(this, core.vars, radius));
                                 }
                                 // Fill / Stroke
                                 switch (shape.type) {
                                     case 'drawImg': {
                                         let img = core.themes[themeName].images[shape.image];
-                                        !img ? img = core.themes.images[shape.image] : 1;
-                                        img ? ctx[shape.type](this, img, shape) : 1;
+                                        !img && (img = core.themes.images[shape.image]);
+                                        img && ctx[shape.type](this, img, shape);
                                         canDraw = !1;
                                         break;
                                     }
@@ -2600,24 +2601,24 @@ const Control = (() => {
                             }
                             if (canDraw) {
                                 shape.clipping
-                                    ? ctx.clipRegion(shape.clipping, left, top, width, height) : 1;
+                                    && ctx.clipRegion(shape.clipping, left, top, width, height);
                                 ctx.beginPath();
                                 shape.borders && shape.type !== 'rectWithBordersColor'
-                                    ? params.push(core.tools.processBorders(this, shape.borders)) : 1;
+                                    && params.push(core.tools.processBorders(this, shape.borders));
                                 ctx[shape.type](...params);
-                                !shape.borders ? core.tools.processStyle(this, shape, state) : 1;
-                                shape.clipping ? ctx.restore() : 1;
+                                !shape.borders && core.tools.processStyle(this, shape, state);
+                                shape.clipping && ctx.restore();
                             }
                             params.clear();
                         });
                     }
                 }
-                drawCaption ? core.themes.CaptionControl.render(this) : 1;
+                drawCaption && core.themes.CaptionControl.render(this);
                 ctx.restore();
             }
-            priv.clipped ? ctx.clipRect(0, 0, this.contentWidth, this.contentHeight) : 1;
+            priv.clipped && ctx.clipRect(0, 0, this.contentWidth, this.contentHeight);
             this.components.forEach(comp => {
-                comp.isVisible && comp instanceof classes.Control ? comp.render() : 1;
+                comp.isVisible && comp instanceof classes.Control && comp.render();
             });
             ctx.restore();
         }

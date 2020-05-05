@@ -7,7 +7,7 @@ const LabeledControl = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -83,7 +83,7 @@ const LabeledControl = (() => {
                     hitTest: { mouseDown: !0 },
                     onMouseDown: function () {
                         const components = this.owner.components.filter(comp => { return comp.canFocused; });
-                        components.length > 0 ? components.first.setFocus() : 1;
+                        components.length > 0 && components.first.setFocus();
                     }
                 }
             });
@@ -94,7 +94,7 @@ const LabeledControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.label ? priv.label.HTMLElementStyle.lineHeight = `${this.height}${core.types.CSSUNITS.PX}` : 1;
+            priv.label && (priv.label.HTMLElementStyle.lineHeight = `${this.height}${core.types.CSSUNITS.PX}`);
         }
         //#endregion update
         //#endregion

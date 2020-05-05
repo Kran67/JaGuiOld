@@ -10,7 +10,7 @@ const Position = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -21,7 +21,7 @@ const Position = (() => {
         constructor(point, owner) {
             super(point, owner);
             const priv = internal(this);
-            !(point instanceof core.classes.Point) ? point = new core.classes.Point : 1;
+            !(point instanceof core.classes.Point) && (point = new core.classes.Point);
             priv.x = point.x;
             priv.y = point.y;
             priv.owner = owner;
@@ -89,7 +89,7 @@ const Position = (() => {
         //#region assign
         assign(source) {
             source instanceof core.classes.Position || source instanceof core.classes.Point
-                ? this.setValues(source.x, source.y) : 1;
+                && this.setValues(source.x, source.y);
         }
         //#endregion assign
         //#region destroy

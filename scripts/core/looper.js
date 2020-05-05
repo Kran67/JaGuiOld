@@ -7,7 +7,7 @@ const Looper = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -61,7 +61,7 @@ const Looper = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.handle !== newValue ? priv.handle = newValue : 1;
+            priv.handle !== newValue && (priv.handle = newValue);
         }
         //#endregion handle
         //#region paused
@@ -72,7 +72,7 @@ const Looper = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.paused !== newValue ? priv.paused = newValue : 1;
+            core.tools.isBool(newValue) && priv.paused !== newValue && (priv.paused = newValue);
         }
         //#endregion paused
         //#region rAF
@@ -83,7 +83,7 @@ const Looper = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.rAF !== newValue ? priv.rAF = newValue : 1;
+            priv.rAF !== newValue && (priv.rAF = newValue);
         }
         //#endregion rAF
         //#region isBusy
@@ -94,7 +94,7 @@ const Looper = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.isBusy !== newValue ? priv.isBusy = newValue : 1;
+            core.tools.isBool(newValue) && priv.isBusy !== newValue && (priv.isBusy = newValue);
         }
         //#endregion isBusy
         //#endregion Getter / Setter
@@ -113,7 +113,7 @@ const Looper = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.handle !== null ? window.cancelAnimationFrameRate(priv.handle) : 1;
+            priv.handle !== null && window.cancelAnimationFrameRate(priv.handle);
             priv.handle = null;
         }
         //#endregion stop
@@ -147,7 +147,7 @@ const Looper = (() => {
                 priv.listeners[obj.name].functions.push(func);
             } else {
                 const idx = priv.listeners[obj.name].functions.indexOf(func);
-                idx === -1 ? priv.listeners[obj.name].functions.push(func) : 1;
+                idx === -1 && priv.listeners[obj.name].functions.push(func);
             }
         }
         //#endregion addListener
@@ -159,7 +159,7 @@ const Looper = (() => {
             func = func || 'processTick';
             if (priv.listeners.hasOwnProperty(obj.name)) {
                 const idx = priv.listeners[obj.name].functions.indexOf(func);
-                idx > -1 ? priv.listeners[obj.name].functions.removeAt(idx) : 1;
+                idx > -1 && priv.listeners[obj.name].functions.removeAt(idx);
             }
         }
         //#endregion removeListener

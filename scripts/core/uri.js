@@ -14,7 +14,7 @@ class Uri {
         //#region Variables déclaration
         const splited = path.split('/');
         //#endregion Variables déclaration
-        !returnLast ? returnLast = !1 : 1;
+        !returnLast && (returnLast = !1);
         return returnLast ? splited[splited.length - 1] : splited;
     }
     //#endregion split
@@ -24,7 +24,7 @@ class Uri {
         let uri = `${location.protocol}//${location.hostname}${(location.port ? ':' + location.port : String.EMPTY)}/`;
         //#endregion Variables déclaration
         location.href.toLowerCase().indexOf(core.tools.getPath('base').toLowerCase()) > -1
-            ? uri += `${core.tools.getPath('base')}/` : 1;
+            && (uri += `${core.tools.getPath('base')}/`);
         return uri;
     }
     //#endregion base
@@ -55,7 +55,7 @@ class Uri {
         //#endregion Variables déclaration
         props.forEach(prop => {
             const newUri = uri.split(prop);
-            newUri.length > 1 ? uri = newUri.join(core.folders[prop]) : 1;
+            newUri.length > 1 && (uri = newUri.join(core.folders[prop]) ;
         });
         return uri;
     }

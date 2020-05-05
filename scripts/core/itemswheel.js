@@ -12,7 +12,7 @@ const ItemsWheel = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -58,7 +58,7 @@ const ItemsWheel = (() => {
             //#endregion Variables déclaration
             if (typeof newValue === typeof priv.value && newValue !== priv.value) {
                 priv.value = newValue;
-                !this.updating ? this.onChange.invoke() : 1;
+                !this.updating && this.onChange.invoke();
             }
         }
         //#endregion value
@@ -93,7 +93,7 @@ const ItemsWheel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && newValue !== priv.mouseTracking ? priv.mouseTracking = newValue : 1;
+            core.tools.isBool(newValue) && newValue !== priv.mouseTracking &&(priv.mouseTracking = newValue);
         }
         //#endregion mouseTracking
         //#region animated
@@ -104,7 +104,7 @@ const ItemsWheel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && newValue !== priv.animated ? priv.animated = newValue : 1;
+            core.tools.isBool(newValue) && newValue !== priv.animated &&(priv.animated = newValue);
         }
         //#endregion animated
         //#endregion Getter / Setter
@@ -148,7 +148,7 @@ const ItemsWheel = (() => {
             const priv = internal(this);
             const index = priv.index;
             //#endregion Variables déclaration
-            index + offset < 0 || index + offset > this.items.length - 1 ? offset = 0 : 1;
+            index + offset < 0 || index + offset > this.items.length - 1 &&(offset = 0);
             if (offset === 0) {
                 return;
             }

@@ -7,7 +7,7 @@ const RectAnimation = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -70,7 +70,7 @@ const RectAnimation = (() => {
                 this.current.assign(rect);
                 if (control[propertyName]) {
                     if (control[propertyName] instanceof Rect) {
-                        control.allowUpdate && !core.isHTMLRenderer ? control.update() : 1;
+                        control.allowUpdate && !core.isHTMLRenderer && control.update();
                         !core.isHTMLRenderer
                             ? core.canvas.needRedraw = !0
                             : Css.updateInlineCSS(control, core.types.JSCSSPROPERTIES.MARGIN);

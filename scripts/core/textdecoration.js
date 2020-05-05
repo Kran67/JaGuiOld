@@ -7,7 +7,7 @@ const TextDecoration = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -24,8 +24,7 @@ const TextDecoration = (() => {
                 priv.overline = core.tools.isBool(props.overline) ? props.overline : !1;
                 priv.lineThrough = core.tools.isBool(props.lineThrough) ? props.lineThrough : !1;
                 priv.color = owner.color;
-                props.color && core.tools.isString(props.color) ?
-                    priv.color = Color.parse(props.color) : 1;
+                props.color && core.tools.isString(props.color) && (priv.color = Color.parse(props.color));
                 priv.style = props.style ? props.style : core.types.TEXTDECORATIONSTYLES.SOLID;
             }
         }
@@ -45,7 +44,7 @@ const TextDecoration = (() => {
                 if (priv.owner.loading || form.loading) {
                     return null;
                 }
-                !core.isHTMLRenderer && priv.owner.allowUpdate ? priv.owner.update() : 1;
+                !core.isHTMLRenderer && priv.owner.allowUpdate && priv.owner.update();
             }
         }
         //#endregion underline
@@ -63,7 +62,7 @@ const TextDecoration = (() => {
                 if (priv.owner.loading || form.loading) {
                     return null;
                 }
-                !core.isHTMLRenderer && priv.owner.allowUpdate ? priv.owner.update() : 1;
+                !core.isHTMLRenderer && priv.owner.allowUpdate && priv.owner.update();
             }
         }
         //#endregion overline
@@ -81,7 +80,7 @@ const TextDecoration = (() => {
                 if (priv.owner.loading || form.loading) {
                     return null;
                 }
-                !core.isHTMLRenderer && priv.owner.allowUpdate ? priv.owner.update() : 1;
+                !core.isHTMLRenderer && priv.owner.allowUpdate && priv.owner.update();
             }
         }
         //#endregion lineThrough
@@ -94,13 +93,13 @@ const TextDecoration = (() => {
             const priv = internal(this);
             const form = priv.owner.form;
             //#endregion Variables déclaration
-            core.tools.isString(newValue) ? newValue = Color.parse(newValue) : 1;
+            core.tools.isString(newValue) && (newValue = Color.parse(newValue));
             if (newValue instanceof Color && priv.color !== newValue) {
                 priv.color = newValue;
                 if (priv.owner.loading || form.loading) {
                     return null;
                 }
-                core.isHTMLRenderer && priv.owner.allowUpdate ? priv.owner.update() : 1;
+                core.isHTMLRenderer && priv.owner.allowUpdate && priv.owner.update();
             }
         }
         //#endregion color
@@ -119,7 +118,7 @@ const TextDecoration = (() => {
                 if (this.loading || form.loading) {
                     return null;
                 }
-                core.isHTMLRenderer && this.allowUpdate ? this.update() : 1;
+                core.isHTMLRenderer && this.allowUpdate && this.update();
             }
         }
         //#endregion style

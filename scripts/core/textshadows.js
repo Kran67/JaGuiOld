@@ -9,7 +9,7 @@ class TextShadowsItem {
         props = !props ? {} : props;
         this.offset = new Point(props.offset.x ? props.offset.x : 0, props.offset.y ? props.offset.y : 0);
         this.color = owner.color;
-        props.color && core.tools.isString(props.color) ? this.color = Color.parse(props.color) : 1;
+        props.color && core.tools.isString(props.color) && (this.color = Color.parse(props.color));
         this.blur = props.blur ? props.blur : 0;
     }
     //#endregion Constructor

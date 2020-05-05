@@ -8,7 +8,7 @@ const ThemeManifest = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -40,7 +40,7 @@ const ThemeManifest = (() => {
             const priv = internal(this);
             //#endregion Variables declaration
             core.tools.isString(newValue) && priv.lastThemeName !== newValue
-                ? priv.lastThemeName = newValue : 1;
+                && (priv.lastThemeName = newValue);
         }
         //#endregion lastThemeName
         //#region owner
@@ -110,7 +110,7 @@ const ThemeManifest = (() => {
                     ctrl.classList.add(themeName);
                     if (ctrl.jsObj) {
                         const jsObj = ctrl.jsObj;
-                        jsObj.themeName && jsObj.themeName !== themeName ? jsObj.themeName = themeName : 1;
+                        jsObj.themeName && jsObj.themeName !== themeName && (jsObj.themeName = themeName);
                     }
                 });
             } else {
@@ -130,7 +130,7 @@ const ThemeManifest = (() => {
                 }
                 window.alignButtons();
                 window.captionChanged();
-                theme.onThemeChanged ? theme.onThemeChanged.invoke(window) : 1;
+                theme.onThemeChanged && theme.onThemeChanged.invoke(window);
             }
             window.onThemeChanged.invoke();
             window.realignChilds();
@@ -150,7 +150,7 @@ const ThemeManifest = (() => {
             //#region Variables declaration
             const themes = this.themes;
             //#endregion Variables declaration
-            core.tools.isString(themeName) && themes.indexOf(themeName) === -1 ? themes.push(themeName) : 1;
+            core.tools.isString(themeName) && themes.indexOf(themeName) === -1 && themes.push(themeName);
         }
         //#endregion addTheme
         //#region destroy

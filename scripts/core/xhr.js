@@ -15,9 +15,9 @@ class Xhr {
      */
     //#region load
     static load(params) {
-        !core.tools.isBool(params.async) ? params.async = !1 : 1;
-        !core.tools.isBool(params.xml) ? params.xml = !1 : 1;
-        !params.callback ? params.callback = null : 1;
+        !core.tools.isBool(params.async) && (params.async = !1);
+        !core.tools.isBool(params.xml) && (params.xml = !1);
+        !params.callback && (params.callback = null);
         const xmlHTTPR = window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest();
         xmlHTTPR.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200 && core.tools.isFunc(params.callback) && params.async) {

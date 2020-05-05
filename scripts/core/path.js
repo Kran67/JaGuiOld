@@ -18,7 +18,7 @@ const PathPoint = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -52,7 +52,7 @@ const PathPoint = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.valueInSet(newValue, PathPoint.KINDS) && priv.kind !== newValue ? priv.kind = newValue : 1;
+            core.tools.valueInSet(newValue, PathPoint.KINDS) && priv.kind !== newValue && (priv.kind = newValue);
         }
         //#endregion kind
         //#region point
@@ -63,7 +63,7 @@ const PathPoint = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            newValue instanceof core.classes.Point && priv.point !== newValue ? priv.point.assign(newValue) : 1;
+            newValue instanceof core.classes.Point && priv.point !== newValue && priv.point.assign(newValue);
         }
         //#endregion point
         //#region control point 1
@@ -74,7 +74,7 @@ const PathPoint = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            newValue instanceof core.classes.Point && priv.cp1 !== newValue ? priv.cp1.assign(newValue) : 1;
+            newValue instanceof core.classes.Point && priv.cp1 !== newValue && priv.cp1.assign(newValue);
         }
         //#endregion control point 1
         //#region control point 2
@@ -85,7 +85,7 @@ const PathPoint = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            newValue instanceof core.classes.Point && priv.cp2 !== newValue ? priv.cp2.assign(newValue) : 1;
+            newValue instanceof core.classes.Point && priv.cp2 !== newValue && priv.cp2.assign(newValue);
         }
         //#endregion control point 2
         //#endregion Getters / Setters
@@ -115,7 +115,7 @@ const PathData = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -167,7 +167,7 @@ const PathData = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isString(newValue) && priv.originalPathString !== newValue ? priv.originalPathString = newValue : 1;
+            core.tools.isString(newValue) && priv.originalPathString !== newValue && (priv.originalPathString = newValue);
         }
         //#endregion originalPathString
         //#region owner
@@ -235,7 +235,7 @@ const PathData = (() => {
                         tok = toks.charAt(0);
                         toks = toks.remove(0, 1);
                         try {
-                            ['z', 'Z'].indexOf(tok) > -1 ? this.closePath() : 1;
+                            ['z', 'Z'].indexOf(tok) > -1 && this.closePath();
                             if (tok === 'M') {
                                 o = Text.getPoint(s, pos);
                                 pos = o.Pos;
@@ -502,16 +502,16 @@ const PathData = (() => {
             if (data.length > 0) {
                 data.forEach(d => {
                     if (d.kind !== PathPoint.KINDS.CLOSE) {
-                        d.point.x < result.left ? result.left = d.point.x : 1;
-                        d.point.x > result.right ? result.right = d.point.x : 1;
-                        d.point.y < result.top ? result.top = d.point.y : 1;
-                        d.point.y > result.bottom ? result.bottom = d.point.y : 1;
+                        d.point.x < result.left && (result.left = d.point.x);
+                        d.point.x > result.right && (result.right = d.point.x);
+                        d.point.y < result.top && (result.top = d.point.y);
+                        d.point.y > result.bottom && (result.bottom = d.point.y);
                     }
                 });
             }
             //add small amount
-            result.width === 0 ? result.right = result.left + 0.001 : 1;
-            result.height === 0 ? result.bottom = result.top + 0.001 : 1;
+            result.width === 0 && (result.right = result.left + 0.001);
+            result.height === 0 && (result.bottom = result.top + 0.001);
             return result;
         }
         //#endregion bounds
@@ -624,8 +624,8 @@ const PathData = (() => {
                 const y2 = params.p2.y;
                 params.a = Convert.deg2Rad(params.a);
                 let mRadiiOk = !0;
-                rx < 0 ? rx = -rx : 1;
-                ry < 0 ? ry = -ry : 1;
+                rx < 0 && (rx = -rx);
+                ry < 0 && (ry = -ry);
                 //Calculate the middle point between
                 //the current and the final points
                 const dx2 = (x0 - x2) * 0.5;
@@ -648,10 +648,10 @@ const PathData = (() => {
                     ry = Math.sqrt(radiiCheck) * ry;
                     prx = rx * rx;
                     pry = ry * ry;
-                    radiiCheck > 10 ? mRadiiOk = !1 : 1;
+                    radiiCheck > 10 && (mRadiiOk = !1);
                 }
                 //Calculate (cx1,cy1)
-                params.l === params.f ? sign = -1 : 1;
+                params.l === params.f && (sign = -1);
                 const sq = (prx * pry - prx * py1 - pry * px1) / (prx * py1 + pry * px1);
                 coef = sq < 0 ? sign * Math.sqrt(0) : sign * Math.sqrt(sq);
                 const cx1 = coef * (rx * y1 / ry);
@@ -804,7 +804,9 @@ const PathData = (() => {
                 coord.forEach((c, i) => {
                     pts[i] = new core.classes.Point(cx + rx * (c.x * cc - c.y * ss), cy + ry * (c.x * ss + c.y * cc));
                 });
-                u ? p.data.length === 0 ? p.moveTo(pts[0]) : p.lineTo(pts[0]) : 1;
+                if (u) {
+                    p.data.length === 0 ? p.moveTo(pts[0]) : p.lineTo(pts[0]);
+                }
                 p.curveTo(pts[1], pts[2], pts[3]);
             }
         }
@@ -1140,8 +1142,8 @@ const PathData = (() => {
                 }
                 this.addArc(new core.classes.Point(r.left + cx, r.top + cy), new core.classes.Point(rx, ry), o.startAngle, o.endAngle - o.startAngle);
                 !(o instanceof core.classes.Chord) && !(o instanceof core.classes.Arc)
-                    ? this.lineTo(new core.classes.Point(r.left + cx, r.top + cy)) : 1;
-                !(o instanceof core.classes.Arc) ? this.closePath() : 1;
+                    && this.lineTo(new core.classes.Point(r.left + cx, r.top + cy));
+                !(o instanceof core.classes.Arc) && this.closePath();
             }
         }
         //#endregion addPie
@@ -1414,7 +1416,7 @@ const PathData = (() => {
             const KINDS = PathPoint.KINDS;
             const data = this.data;
             //#endregion Variables déclaration
-            !core.tools.isNumber(coef) ? coef = 0.25 : 1;
+            !core.tools.isNumber(coef) && (coef = 0.25);
             //scale
             if (data.length > 0) {
                 const bounds = this.bounds;
@@ -1476,7 +1478,7 @@ const PathData = (() => {
                 if (data.length > 0) {
                     data.forEach(d => {
                         d.kind === KINDS.MOVETO || d.kind === KINDS.LINETO || d.kind === KINDS.CURVETO
-                            ? d.point.setValues(d.point.x * x, d.point.y * y) : 1;
+                            && d.point.setValues(d.point.x * x, d.point.y * y);
                     });
                 }
             }
@@ -1491,7 +1493,7 @@ const PathData = (() => {
             if (data.length > 0) {
                 data.forEach(d => {
                     d.kind === KINDS.MOVETO || d.kind === KINDS.LINETO || d.kind === KINDS.CURVETO
-                        ? d.point.setValues(d.point.x + x, d.point.y + y) : 1;
+                        && d.point.setValues(d.point.x + x, d.point.y + y);
                 });
             }
         }
@@ -1524,7 +1526,7 @@ const PathData = (() => {
             const CONSTANTS = core.types.CONSTANTS;
             const data = this.data;
             //#endregion Variables déclaration
-            !core.tools.isNumber(f) ? f = 0.25 : 1;
+            !core.tools.isNumber(f) && (f = 0.25);
             if (data.length > 0) {
                 const r = new core.classes.Rect;
                 const bounds = this.bounds;
@@ -1604,8 +1606,8 @@ const PathData = (() => {
         //#endregion resizeToRect
         //#region reduce
         reduce(x, y) {
-            !core.tools.isNumber(x) ? x = 0 : 1;
-            !core.tools.isNumber(y) ? y = 0 : 1;
+            !core.tools.isNumber(x) && (x = 0);
+            !core.tools.isNumber(y) && (y = 0);
             if (!this.isEmpty) {
                 //b = this.bounds;
                 const pathData = this.data;
@@ -1618,8 +1620,8 @@ const PathData = (() => {
         //#endregion reduce
         //#region extend
         extend(x, y) {
-            !core.tools.isNumber(x) ? x = 0 : 1;
-            !core.tools.isNumber(y) ? y = 0 : 1;
+            !core.tools.isNumber(x) && (x = 0);
+            !core.tools.isNumber(y) && (y = 0);
             if (!this.isEmpty) {
                 const pathData = this.data;
                 pathData.forEach(path => {
@@ -1631,8 +1633,8 @@ const PathData = (() => {
         //#endregion extend
         //#region inflate
         inflate(x, y) {
-            !core.tools.isNumber(x) ? x = 0 : 1;
-            !core.tools.isNumber(y) ? y = 0 : 1;
+            !core.tools.isNumber(x) && (x = 0);
+            !core.tools.isNumber(y) && (y = 0);
             if (!this.isEmpty) {
                 const pathData = this.data;
                 pathData.forEach(path => {

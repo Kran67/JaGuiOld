@@ -15,7 +15,7 @@ const ScrollControl = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -53,7 +53,7 @@ const ScrollControl = (() => {
         }
         set scrollMode(newValue) {
             if (core.tools.valueInSet(newValue, SCROLLMODES)) {
-                priv.scrollMode !== newValue ? priv.scrollMode = newValue : null;
+                priv.scrollMode !== newValue && (priv.scrollMode = newValue);
             }
         }
         //#endregion scrollMode
