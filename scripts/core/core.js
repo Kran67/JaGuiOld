@@ -204,7 +204,7 @@ class _Core {
             });
             core.ready = !0;
             window.activeWindow = null;
-            core.onStart ? core.onStart() : 1;
+            core.onStart && core.onStart();
         }
     }
     //#endregion Methods

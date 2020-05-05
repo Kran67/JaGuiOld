@@ -55,7 +55,7 @@ const Point = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -65,8 +65,8 @@ const Point = (() => {
         //#region constructor
         constructor(x, y) {
             super();
-            !core.tools.isNumber(x) ? x = 0 : 1;
-            !core.tools.isNumber(y) ? y = 0 : 1;
+            !core.tools.isNumber(x) && (x = 0);
+            !core.tools.isNumber(y) && (y = 0);
 
             const priv = internal(this);
             priv.x = x;
@@ -82,7 +82,7 @@ const Point = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) ? priv.x = newValue : 1;
+            core.tools.isNumber(newValue) && (priv.x = newValue);
         }
         //#endregion x
         //#region y
@@ -93,7 +93,7 @@ const Point = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) ? priv.y = newValue : 1;
+            core.tools.isNumber(newValue) && (priv.y = newValue);
         }
         //#endregion y
         //#region isEmpty
@@ -150,8 +150,8 @@ const Point = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            !core.tools.isNumber(x) ? x = 0 : 1;
-            !core.tools.isNumber(y) ? y = 0 : 1;
+            !core.tools.isNumber(x) && (x = 0);
+            !core.tools.isNumber(y) && (y = 0);
             priv.x = x;
             priv.y = y;
         }
@@ -170,8 +170,8 @@ const Point = (() => {
         //#endregion min
         //#region scale
         scale(x, y) {
-            !core.tools.isNumber(x) ? x = 0 : 1;
-            !core.tools.isNumber(y) ? y = 0 : 1;
+            !core.tools.isNumber(x) && (x = 0);
+            !core.tools.isNumber(y) && (y = 0);
             this.x *= x;
             this.y *= y;
             return this;
@@ -186,8 +186,8 @@ const Point = (() => {
         //#endregion inRect
         //#region rotate
         rotate(a, c) {
-            !(c instanceof core.classes.Point) ? c = new core.classes.Point(priv.x, priv.y) : 1;
-            !core.tools.isNumber(a) ? a = 0 : 1;
+            !(c instanceof core.classes.Point) && c = new core.classes.Point(priv.x, priv.y);
+            !core.tools.isNumber(a) && (a = 0);
             a = a * 1;
             a = Convert.deg2Rad(a);
             const dx = priv.x - c.x;
@@ -211,7 +211,7 @@ const Point = (() => {
                     this.y *= v.y;
                 }
                 else {
-                    !core.tools.isNumber(v) ? v = 0 : 1;
+                    !core.tools.isNumber(v) && (v = 0);
                     this.x *= v;
                     this.y *= v;
                 }
@@ -226,7 +226,7 @@ const Point = (() => {
                     this.x /= v.x;
                     this.y /= v.y;
                 } else {
-                    !core.tools.isNumber(v) ? v = 0 : 1;
+                    !core.tools.isNumber(v) && (v = 0);
                     this.x /= v;
                     this.y /= v;
                 }
@@ -241,7 +241,7 @@ const Point = (() => {
                     this.x -= v.x;
                     this.y -= v.y;
                 } else {
-                    !core.tools.isNumber(v) ? v = 0 : 1;
+                    !core.tools.isNumber(v) && (v = 0);
                     this.x -= v;
                     this.y -= v;
                 }
@@ -256,7 +256,7 @@ const Point = (() => {
                     this.x += v.x;
                     this.y += v.y;
                 } else {
-                    !core.tools.isNumber(v) ? v = 0 : 1;
+                    !core.tools.isNumber(v) && (v = 0);
                     this.x += v;
                     this.y += v;
                 }
@@ -330,7 +330,7 @@ const Point = (() => {
                     j1 = i;
                 }
                 let inside = !1;
-                c !== 0 ? inside = !0 : 1;
+                c !== 0 && (inside = !0);
                 return inside;
             }
             return !1;
@@ -398,7 +398,7 @@ const Rect = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -408,10 +408,10 @@ const Rect = (() => {
         //#region constructor
         constructor(l, t, r, b) {
             super();
-            !core.tools.isNumber(l) ? l = 0 : 1;
-            !core.tools.isNumber(t) ? t = 0 : 1;
-            !core.tools.isNumber(r) ? r = 0 : 1;
-            !core.tools.isNumber(b) ? b = 0 : 1;
+            !core.tools.isNumber(l) && (l = 0);
+            !core.tools.isNumber(t) && (t = 0);
+            !core.tools.isNumber(r) && (r = 0);
+            !core.tools.isNumber(b) && (b = 0);
             const priv = internal(this);
             priv.left = l;
             priv.top = t;
@@ -428,7 +428,7 @@ const Rect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) ? priv.left = newValue : 1;
+            core.tools.isNumber(newValue) && (priv.left = newValue);
         }
         //#endregion
         //#region top
@@ -439,7 +439,7 @@ const Rect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) ? priv.top = newValue : 1;
+            core.tools.isNumber(newValue) && (priv.top = newValue);
         }
         //#endregion
         //#region right
@@ -450,7 +450,7 @@ const Rect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) ? priv.right = newValue : 1;
+            core.tools.isNumber(newValue) && (priv.right = newValue);
         }
         //#endregion
         //#region bottom
@@ -461,7 +461,7 @@ const Rect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) ? priv.bottom = newValue : 1;
+            core.tools.isNumber(newValue) && (priv.bottom = newValue);
         }
         //#endregion
         //#region isEmpty
@@ -567,10 +567,10 @@ const Rect = (() => {
         //#endregion setBottomRight
         //#region setValues
         setValues(l, t, r, b) {
-            !core.tools.isNumber(l) ? l = 0 : 1;
-            !core.tools.isNumber(t) ? t = 0 : 1;
-            !core.tools.isNumber(r) ? r = 0 : 1;
-            !core.tools.isNumber(b) ? b = 0 : 1;
+            !core.tools.isNumber(l) && (l = 0);
+            !core.tools.isNumber(t) && (t = 0);
+            !core.tools.isNumber(r) && (r = 0);
+            !core.tools.isNumber(b) && (b = 0);
             this.left = l;
             this.top = t;
             this.right = r;
@@ -584,10 +584,10 @@ const Rect = (() => {
                 const result = new core.classes.Rect(0xF000, 0xF000, -0xF000, -0xF000);
                 a.forEach(x => {
                     if (x instanceof core.classes.Point) {
-                        x.x < result.left ? result.left = x.x : 1;
-                        x.y < result.top ? result.top = x.y : 1;
-                        x.x > result.right ? result.right = x.x : 1;
-                        x.y > result.bottom ? result.bottom = x.y : 1;
+                        x.x < result.left && (result.left = x.x);
+                        x.y < result.top && (result.top = x.y);
+                        x.x > result.right && (result.right = x.x);
+                        x.y > result.bottom && (result.bottom = x.y);
                     }
                 });
                 return result;
@@ -610,8 +610,8 @@ const Rect = (() => {
         //#endregion normalize2
         //#region reduce
         reduce(x, y) {
-            !core.tools.isNumber(x) ? x = 0 : 1;
-            !core.tools.isNumber(y) ? y = 0 : 1;
+            !core.tools.isNumber(x) && (x = 0);
+            !core.tools.isNumber(y) && (y = 0);
             this.right -= x;
             this.bottom -= y;
             return this;
@@ -619,8 +619,8 @@ const Rect = (() => {
         //#endregion reduce
         //#region extend
         extend(x, y) {
-            !core.tools.isNumber(x) ? x = 0 : 1;
-            !core.tools.isNumber(y) ? y = 0 : 1;
+            !core.tools.isNumber(x) && (x = 0);
+            !core.tools.isNumber(y) && (y = 0);
             this.right += x;
             this.bottom += y;
             return this;
@@ -668,8 +668,8 @@ const Rect = (() => {
         //#endregion fit
         //#region offset
         offset(x, y) {
-            !core.tools.isNumber(x) ? x = 0 : 1;
-            !core.tools.isNumber(y) ? y = 0 : 1;
+            !core.tools.isNumber(x) && (x = 0);
+            !core.tools.isNumber(y) && (y = 0);
             this.left += x;
             this.right += x;
             this.top += y;
@@ -679,8 +679,8 @@ const Rect = (() => {
         //#endregion offset
         //#region multiply
         multiply(x, y) {
-            !core.tools.isNumber(x) ? x = 0 : 1;
-            !core.tools.isNumber(y) ? y = 0 : 1;
+            !core.tools.isNumber(x) && (x = 0);
+            !core.tools.isNumber(y) && (y = 0);
             this.left *= x;
             this.right *= x;
             this.top *= y;
@@ -690,8 +690,8 @@ const Rect = (() => {
         //#endregion multiply
         //#region inflate
         inflate(x, y) {
-            !core.tools.isNumber(x) ? x = 0 : 1;
-            !core.tools.isNumber(y) ? y = 0 : 1;
+            !core.tools.isNumber(x) && (x = 0);
+            !core.tools.isNumber(y) && (y = 0);
             this.left -= x;
             this.right += x;
             this.top -= y;
@@ -829,7 +829,7 @@ const Vector = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -839,9 +839,9 @@ const Vector = (() => {
         //#region constructor
         constructor(x, y, z) {
             super();
-            !core.tools.isNumber(x) ? x = 0 : 1;
-            !core.tools.isNumber(y) ? y = 0 : 1;
-            !core.tools.isNumber(z) ? z = 0 : 1;
+            !core.tools.isNumber(x) && (x = 0);
+            !core.tools.isNumber(y) && (y = 0);
+            !core.tools.isNumber(z) && (z = 0);
             const priv = internal(this);
             priv.x = x;
             priv.y = y;
@@ -857,7 +857,7 @@ const Vector = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) && priv.x !== newValue ? priv.x = newValue : 1;
+            core.tools.isNumber(newValue) && priv.x !== newValue && (priv.x = newValue);
         }
         //#endregion x
         //#region y
@@ -868,7 +868,7 @@ const Vector = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) && priv.y !== newValue ? priv.y = newValue : 1;
+            core.tools.isNumber(newValue) && priv.y !== newValue && (priv.y = newValue);
         }
         //#endregion y
         //#region z
@@ -879,7 +879,7 @@ const Vector = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) && priv.z !== newValue ? priv.z = newValue : 1;
+            core.tools.isNumber(newValue) && priv.z !== newValue && (priv.z = newValue);
         }
         //#endregion z
         //#region point
@@ -930,9 +930,9 @@ const Vector = (() => {
         //#region Methods
         //#region setValues
         setValues(x, y, z) {
-            !core.tools.isNumber(x) ? x = 0 : 1;
-            !core.tools.isNumber(y) ? y = 0 : 1;
-            !core.tools.isNumber(z) ? z = 0 : 1;
+            !core.tools.isNumber(x) && (x = 0);
+            !core.tools.isNumber(y) && (y = 0);
+            !core.tools.isNumber(z) && (z = 0);
             this.x = x;
             this.y = y;
             this.z = z;
@@ -979,7 +979,7 @@ const Vector = (() => {
         //#endregion subtract
         //#region scale
         scale(f) {
-            !core.tools.isNumber(f) ? f = 0 : 1;
+            !core.tools.isNumber(f) && (f = 0);
             this.x *= f;
             this.y *= f;
             this.z = 1;
@@ -1005,7 +1005,7 @@ const Vector = (() => {
             const dot = priv.x * v.x + priv.y * v.y + priv.z * v.z;
             let result = len1 * len2;
             //#endregion Variables déclaration
-            return Math.abs(result) > 1e-40 ? dot / result : 1;
+            return Math.abs(result) > 1e-40 && (dot / result);
         }
         //#endregion angleCosine
         //#region crossProductZ
@@ -1088,7 +1088,7 @@ const Matrix = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -1099,9 +1099,9 @@ const Matrix = (() => {
         constructor(v, v1, v2) {
             super();
             const priv = internal(this);
-            !(v instanceof core.classes.Vector) ? v = new core.classes.Vector : 1;
-            !(v1 instanceof core.classes.Vector) ? v1 = new core.classes.Vector : 1;
-            !(v2 instanceof core.classes.Vector) ? v2 = new core.classes.Vector : 1;
+            !(v instanceof core.classes.Vector) && v = new core.classes.Vector;
+            !(v1 instanceof core.classes.Vector) && v1 = new core.classes.Vector;
+            !(v2 instanceof core.classes.Vector) && v2 = new core.classes.Vector;
 
             priv.m11 = v.x;
             priv.m12 = v.y;
@@ -1123,7 +1123,7 @@ const Matrix = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) ? priv.m11 = newValue : 1;
+            core.tools.isNumber(newValue) && (priv.m11 = newValue);
         }
         //#endregion m11
         //#region m12
@@ -1134,7 +1134,7 @@ const Matrix = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) ? priv.m12 = newValue : 1;
+            core.tools.isNumber(newValue) && (priv.m12 = newValue);
         }
         //#endregion m12
         //#region m13
@@ -1145,7 +1145,7 @@ const Matrix = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) ? priv.m13 = newValue : 1;
+            core.tools.isNumber(newValue) && (priv.m13 = newValue);
         }
         //#endregion m13
         //#region m21
@@ -1156,7 +1156,7 @@ const Matrix = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) ? priv.m21 = newValue : 1;
+            core.tools.isNumber(newValue) && (priv.m21 = newValue);
         }
         //#endregion m21
         //#region m22
@@ -1167,7 +1167,7 @@ const Matrix = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) ? priv.m22 = newValue : 1;
+            core.tools.isNumber(newValue) && (priv.m22 = newValue);
         }
         //#endregion m22
         //#region m23
@@ -1178,7 +1178,7 @@ const Matrix = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) ? priv.m23 = newValue : 1;
+            core.tools.isNumber(newValue) && (priv.m23 = newValue);
         }
         //#endregion m23
         //#region m31
@@ -1189,7 +1189,7 @@ const Matrix = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) ? priv.m31 = newValue : 1;
+            core.tools.isNumber(newValue) && (priv.m31 = newValue);
         }
         //#endregion m31
         //#region m32
@@ -1200,7 +1200,7 @@ const Matrix = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) ? priv.m32 = newValue : 1;
+            core.tools.isNumber(newValue) && (priv.m32 = newValue);
         }
         //#endregion m32
         //#region m33
@@ -1211,7 +1211,7 @@ const Matrix = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) ? priv.m33 = newValue : 1;
+            core.tools.isNumber(newValue) && (priv.m33 = newValue);
         }
         //#endregion m33
         //#region clone
@@ -1316,15 +1316,15 @@ const Matrix = (() => {
             mat.m31 = +mat.m31;
             mat.m32 = +mat.m32;
             mat.m33 = +mat.m33;
-            isNaN(mat.m11) ? mat.m11 = 0 : 1;
-            isNaN(mat.m12) ? mat.m12 = 0 : 1;
-            isNaN(mat.m13) ? mat.m13 = 0 : 1;
-            isNaN(mat.m21) ? mat.m21 = 0 : 1;
-            isNaN(mat.m22) ? mat.m22 = 0 : 1;
-            isNaN(mat.m23) ? mat.m23 = 0 : 1;
-            isNaN(mat.m31) ? mat.m31 = 0 : 1;
-            isNaN(mat.m32) ? mat.m32 = 0 : 1;
-            isNaN(mat.m33) ? mat.m33 = 0 : 1;
+            isNaN(mat.m11) && (mat.m11 = 0);
+            isNaN(mat.m12) && (mat.m12 = 0);
+            isNaN(mat.m13) && (mat.m13 = 0);
+            isNaN(mat.m21) && (mat.m21 = 0);
+            isNaN(mat.m22) && (mat.m22 = 0);
+            isNaN(mat.m23) && (mat.m23 = 0);
+            isNaN(mat.m31) && (mat.m31 = 0);
+            isNaN(mat.m32) && (mat.m32 = 0);
+            isNaN(mat.m33) && (mat.m33 = 0);
             this.m11 = mat.m11;
             this.m12 = mat.m12;
             this.m13 = mat.m13;
@@ -1431,8 +1431,8 @@ const Matrix = (() => {
             const priv = internal(this);
             let result = String.EMPTY;
             //#endregion Variables déclaration
-            !sep ? sep = String.SPACE : 1;
-            !core.tools.isBool(withBracket) && !withBracket ? withBracket = !1 : 1;
+            !sep && (sep = String.SPACE);
+            !core.tools.isBool(withBracket) && !withBracket && (withBracket = !1);
             result += withBracket ? '[' : String.SPACE;
             result += priv.m11 + sep;
             result += priv.m12 + sep;

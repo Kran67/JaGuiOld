@@ -78,9 +78,7 @@ if (!Math.RSqrt) {
     Math.RSqrt = (value) => {
         if (core.tools.isNumber(value)) {
             const r = Math.abs2(value);
-            return r > 0
-                ? 1 / Math.sqrt(r)
-                : 1;
+            return r > 0 && (1 / Math.sqrt(r));
         }
         return value;
     };
@@ -115,9 +113,7 @@ if (!Math.mulDiv) {
 }
 if (!Math.isZero) {
     Math.isZero = (value, epsilon) => {
-        epsilon === undefined
-            ? epsilon = 1E-19 * 1000
-            : 1;
+        epsilon === undefined && (epsilon = 1E-19 * 1000);
         return Math.abs2(value) <= epsilon;
     };
 }

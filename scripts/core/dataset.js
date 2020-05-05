@@ -11,7 +11,7 @@ const DataSet = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -58,7 +58,7 @@ const DataSet = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            Array.isArray(newValue) && priv.data !== newValue ? priv.data = newValue : 1;
+            Array.isArray(newValue) && priv.data !== newValue && (priv.data = newValue);
         }
         //#endregion data
         //#region cursorIdx
@@ -69,7 +69,7 @@ const DataSet = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) && priv.cursorIdx !== newValue ? priv.cursorIdx = newValue : 1;
+            core.tools.isNumber(newValue) && priv.cursorIdx !== newValue && (priv.cursorIdx = newValue);
         }
         //#endregion cursorIdx
         //#region cursor
@@ -80,7 +80,7 @@ const DataSet = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.cursor !== newValue ? priv.cursor = newValue : 1;
+            priv.cursor !== newValue && (priv.cursor = newValue);
         }
         //#endregion cursor
         //#region numFields
@@ -91,7 +91,7 @@ const DataSet = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) && priv.numFields !== newValue ? priv.numFields = newValue : 1;
+            core.tools.isNumber(newValue) && priv.numFields !== newValue && (priv.numFields = newValue);
         }
         //#endregion numFields
         //#region numRecords
@@ -102,7 +102,7 @@ const DataSet = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) && priv.numRecords !== newValue ? priv.numRecords = newValue : 1;
+            core.tools.isNumber(newValue) && priv.numRecords !== newValue && (priv.numRecords = newValue);
         }
         //#endregion numRecords
         //#region keyValues
@@ -113,7 +113,7 @@ const DataSet = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isString(newValue) && priv.keyValues !== newValue ? priv.keyValues = newValue : 1;
+            core.tools.isString(newValue) && priv.keyValues !== newValue && (priv.keyValues = newValue);
         }
         //#endregion keyValues
         //#region dataSource
@@ -164,7 +164,7 @@ const DataSet = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.isOpen !== newValue ? priv.isOpen = newValue : 1;
+            core.tools.isBool(newValue) && priv.isOpen !== newValue && (priv.isOpen = newValue);
         }
         //#endregion isOpen
         /**
@@ -230,7 +230,7 @@ const DataSet = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.cursorIdx++;
-            priv.cursorIdx > priv.numRecords ? priv.cursorIdx = priv.numRecords - 1 : 1;
+            priv.cursorIdx > priv.numRecords && (priv.cursorIdx = priv.numRecords - 1);
             this.getKeyValues();
             priv.dataSource.refreshControls();
         }
@@ -302,7 +302,7 @@ const DataSet = (() => {
                 priv.keyValues = String.EMPTY;
                 keyFields.forEach((key, i) => {
                     if (cursor[key]) {
-                        i > 0 ? values += '|' : 1;
+                        i > 0 && (values += '|')
                         values += cursor[key];
                     }
                 });
@@ -325,7 +325,7 @@ const DataSet = (() => {
                 let ret = !1;
                 let keyValue = String.EMPTY;
                 keyFields.forEach((key, j) => {
-                    j > 0 ? keyValue += '|' : 1;
+                    j > 0 && (keyValue += '|');
                     keyValue += e[key];
                 });
                 if (keyValue === keyValues) {
@@ -354,9 +354,11 @@ const DataSet = (() => {
                 a = a[fieldsNames[col]];
                 fieldsNames = Object.keys(b);
                 b = b[fieldsNames[col]];
-                return order === core.types.SORTEDORDERS.ASC
-                    ? a === b ? 0 : a < b ? -1 : 1
-                    : a === b ? 0 : a < b ? 1 : -1;
+                if (order === core.types.SORTEDORDERS.ASC) {
+                    return a === b ? 0 : a < b ? -1 : 1;
+                } else {
+                    return a === b ? 0 : a < b ? 1 : -1;
+                }
             };
         }
         //#endregion sortByString
@@ -375,9 +377,11 @@ const DataSet = (() => {
                 a = a[fieldsNames[col]];
                 fieldsNames = Object.keys(b);
                 b = b[fieldsNames[col]];
-                return order === core.types.SORTEDORDERS.ASC
-                    ? a === b ? 0 : a < b ? -1 : 1
-                    : a === b ? 0 : a < b ? 1 : -1;
+                if (order === core.types.SORTEDORDERS.ASC) {
+                    return a === b ? 0 : a < b ? -1 : 1;
+                } else {
+                    return a === b ? 0 : a < b ? 1 : -1;
+                }
             };
         }
         //#endregion sortByDate
@@ -396,9 +400,11 @@ const DataSet = (() => {
                 a = ~~parseFloat(a[fieldsNames[col]]);
                 fieldsNames = Object.keys(b);
                 b = ~~parseFloat(b[fieldsNames[col]]);
-                return order === core.types.SORTEDORDERS.ASC
-                    ? a === b ? 0 : a < b ? -1 : 1
-                    : a === b ? 0 : a < b ? 1 : -1;
+                if (order === core.types.SORTEDORDERS.ASC) {
+                    return a === b ? 0 : a < b ? -1 : 1;
+                } else {
+                    return a === b ? 0 : a < b ? 1 : -1;
+                }
             };
         }
         //#endregion sortByNumber
@@ -412,14 +418,22 @@ const DataSet = (() => {
         sortByBoolean(col, order) {
             return (a, b) => {
                 let fieldsNames = Object.keys(a);
-                a = core.tools.isBool(a[fieldsNames[col]])
-                    ? a[fieldsNames[col]] : Convert.strToBool(a[fieldsNames[col]].toString());
+                if (core.tools.isBool(a[fieldsNames[col]])) {
+                    a = a[fieldsNames[col]];
+                } else {
+                    a = Convert.strToBool(a[fieldsNames[col]].toString());
+                }
                 fieldsNames = Object.keys(b);
-                b = core.tools.isBool(b[fieldsNames[col]])
-                    ? b[fieldsNames[col]] : Convert.strToBool(b[fieldsNames[col]].toString());
-                return order === core.types.SORTEDORDERS.ASC
-                    ? a === b ? 0 : a < b ? -1 : 1
-                    : a === b ? 0 : a < b ? 1 : -1;
+                if (core.tools.isBool(b[fieldsNames[col]])) {
+                    b = b[fieldsNames[col]];
+                } else {
+                    b = Convert.strToBool(b[fieldsNames[col]].toString());
+                }
+                if (order === core.types.SORTEDORDERS.ASC) {
+                    return a === b ? 0 : a < b ? -1 : 1;
+                } else {
+                    return a === b ? 0 : a < b ? 1 : -1;
+                }
             };
         }
         //#endregion sortByBoolean
@@ -442,7 +456,7 @@ const DataSet = (() => {
             priv.activeOnLoad = null;
             priv.isOpen = null;
             priv.keyField = null;
-            priv.data ? priv.data.destroy() : 1;
+            priv.data && priv.data.destroy();
             priv.data = null;
             super.destroy();
         }

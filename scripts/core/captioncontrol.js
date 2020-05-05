@@ -11,7 +11,7 @@ const CaptionControl = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -231,8 +231,7 @@ const CaptionControl = (() => {
             if (core.tools.isBool(newValue) && priv.wordWrap !== newValue) {
                 priv.wordWrap = newValue;
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate
-                    ? this.update() : 1;
+                !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate && this.update();
             }
         }
         //#endregion wordWrap
@@ -248,8 +247,7 @@ const CaptionControl = (() => {
             if (core.tools.valueInSet(newValue, core.types.TEXTALIGNS) && newValue !== priv.horizAlign) {
                 priv.horizAlign = newValue;
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate
-                    ? this.update() : 1;
+                !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate && this.update();
             }
         }
         //#endregion horizAlign
@@ -265,8 +263,7 @@ const CaptionControl = (() => {
             if (core.tools.valueInSet(newValue, core.types.VERTTEXTALIGNS) && newValue !== priv.vertAlign) {
                 priv.vertAlign = newValue;
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate
-                    ? this.update() : 1;
+                !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate && this.update();
             }
         }
         //#endregion vertAlign
@@ -279,12 +276,11 @@ const CaptionControl = (() => {
             const priv = internal(this);
             const form = this.form;
             //#endregion Variables déclaration
-            core.tools.isString(newValue) ? newValue = Color.parse(newValue) : 1;
+            core.tools.isString(newValue) && (newValue = Color.parse(newValue));
             if (newValue instanceof Color && !priv.color.equals(newValue)) {
                 priv.color.assign(newValue);
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
-                    ? this.update() : 1;
+                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
             }
         }
         //#endregion color
@@ -300,8 +296,7 @@ const CaptionControl = (() => {
             if (core.tools.isString(newValue) && priv.fontFamily !== newValue) {
                 priv.fontFamily = newValue;
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
-                    ? this.update() : 1;
+                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate &&  this.update();
             }
         }
         //#endregion fontFamily
@@ -317,8 +312,7 @@ const CaptionControl = (() => {
             if (core.tools.isNumber(newValue) && priv.fontSize !== newValue) {
                 priv.fontSize = newValue;
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
-                    ? this.update() : 1;
+                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate&& this.update();
             }
         }
         //#endregion fontSize
@@ -335,8 +329,7 @@ const CaptionControl = (() => {
             if (core.tools.valueInSet(newValue, CSSUNITS) && priv.fontSizeUnit !== newValue) {
                 priv.fontSizeUnit = newValue;
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
-                    ? this.update() : 1;
+                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate &&  this.update();
             }
         }
         //#endregion fontSizeUnit
@@ -352,8 +345,7 @@ const CaptionControl = (() => {
             if (core.tools.isBool(newValue) && priv.fontBold !== newValue) {
                 priv.fontBold = newValue;
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
-                    ? this.update() : 1;
+                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
             }
         }
         //#endregion fontBold
@@ -370,8 +362,7 @@ const CaptionControl = (() => {
             if (core.tools.valueInSet(newValue, FONTSTYLES) && priv.fontStyle !== newValue) {
                 priv.fontStyle = newValue;
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
-                    ? this.update() : 1;
+                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
             }
         }
         //#endregion fontStyle
@@ -388,8 +379,7 @@ const CaptionControl = (() => {
             if (core.tools.valueInSet(newValue, TEXTTRANSFORMS) && priv.textTransform !== newValue) {
                 priv.textTransform = newValue;
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
-                    ? this.update() : 1;
+                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
             }
         }
         //#endregion textTransform
@@ -406,8 +396,7 @@ const CaptionControl = (() => {
                 priv.textShadows.items.clear();
                 priv.textShadows.items.addRange(newValue.items);
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
-                    ? this.update() : 1;
+                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
             }
         }
         //#endregion textShadows
@@ -424,8 +413,7 @@ const CaptionControl = (() => {
                 priv.textDecoration.items.clear();
                 priv.textDecoration.items.addRange(newValue.items);
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
-                    ? this.update() : 1;
+                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
             }
         }
         //#endregion textDecoration
@@ -440,8 +428,7 @@ const CaptionControl = (() => {
             if (core.tools.isBool(newValue) && newValue !== priv.autoSize) {
                 priv.autoSize = newValue;
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !this.form.loading
-                    ? this.update() : 1;
+                !this.loading && !this.form.loading && this.update();
             }
         }
         //#endregion autoSize
@@ -458,8 +445,7 @@ const CaptionControl = (() => {
             if (core.tools.valueInSet(newValue, TEXTOVERFLOWS) && priv.textOverflow !== newValue) {
                 priv.textOverflow = newValue;
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
-                    ? this.update() : 1;
+                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
             }
         }
         //#endregion textOverflow
@@ -478,8 +464,7 @@ const CaptionControl = (() => {
             if (newValue instanceof Color && !priv.backColor.equals(newValue)) {
                 priv.backColor.assign(newValue);
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate
-                    ? this.update() : 1;
+                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
             }
         }
         //#endregion backColor
@@ -551,15 +536,14 @@ const CaptionControl = (() => {
             this.clipped
                 ? htmlElementStyle.overflow = CSSVALUES.HIDDEN
                 : htmlElementStyle.overflow = CSSVALUES.VISIBLE;
-            color ? this.HTMLElementStyle.color = color : 1
+            color && (this.HTMLElementStyle.color = color);
             !this.wordWrap
                 ? htmlElementStyle.whiteSpace = 'nowrap'
                 : htmlElementStyle.whiteSpace = 'normal';
             priv.fontFamily
                 ? htmlElementStyle.fontFamily = priv.fontFamily
                 : htmlElementStyle.fontFamily = 'inherit';
-            priv.fontSize
-                ? htmlElementStyle.fontSize = `${priv.fontSize}${priv.fontSizeUnit}` : 1;
+            priv.fontSize && (htmlElementStyle.fontSize = `${priv.fontSize}${priv.fontSizeUnit}`);
             htmlElementStyle.fontWeight = priv.fontBold ? FONTSTYLES.BOLD : FONTSTYLES.NORMAL;
             htmlElementStyle.fontStyle = priv.fontStyle;
             if (textDecoration) {
@@ -611,8 +595,7 @@ const CaptionControl = (() => {
                         break;
                 }
             }
-            priv.backColor.alpha !== 0
-                ? htmlElementStyle.backgroundColor = priv.backColor.toRGBAString() : 1;
+            priv.backColor.alpha !== 0 && (htmlElementStyle.backgroundColor = priv.backColor.toRGBAString());
         }
         //#endregion updateCssProperties
         //#region loaded

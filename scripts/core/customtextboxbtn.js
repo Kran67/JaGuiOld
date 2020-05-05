@@ -8,7 +8,7 @@ const CustomTextBoxBtn = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -46,7 +46,7 @@ const CustomTextBoxBtn = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) && priv.btnClass !== newValue ? priv.btnClass = newValue : 1;
+            core.tools.isNumber(newValue) && priv.btnClass !== newValue && (priv.btnClass = newValue);
         }
         //#endregion btnClass
         //#region autoHideButtons
@@ -57,7 +57,7 @@ const CustomTextBoxBtn = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.autoHideButtons !== newValue ? priv.autoHideButtons = newValue : 1;
+            core.tools.isBool(newValue) && priv.autoHideButtons !== newValue && (priv.autoHideButtons = newValue);
         }
         //#endregion autoHideButtons
         //#endregion Getters / Setters
@@ -116,10 +116,9 @@ const CustomTextBoxBtn = (() => {
             const visible = priv.autoHideButtons && this.text.length > 0;
             //#endregion Variables déclaration
             super.update();
-            priv.autoHideButtons
-                ? this.btns.forEach(btn => {
-                    btn.visible = visible;
-                }) : 1;
+            priv.autoHideButtons && this.btns.forEach(btn => {
+                btn.visible = visible;
+            });
         }
         //#endregion update
         //#endregion Methods

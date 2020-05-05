@@ -8,7 +8,7 @@ const Component = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -109,7 +109,7 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            newValue instanceof core.classes.Application && priv.app !== newValue ? priv.app = newValue : 1;
+            newValue instanceof core.classes.Application && priv.app !== newValue && (priv.app = newValue);
         }
         //#endregion app
         //#region form
@@ -120,7 +120,7 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            newValue instanceof core.classes.Window && priv.form !== newValue ? priv.form = newValue : 1;
+            newValue instanceof core.classes.Window && priv.form !== newValue && (priv.form = newValue);
         }
         //#endregion form
         //#region loading
@@ -131,7 +131,7 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.loading !== newValue ? priv.loading = newValue : 1;
+            priv.loading !== newValue && (priv.loading = newValue);
         }
         //#endregion loading
         //#region destroying
@@ -148,7 +148,7 @@ const Component = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             newValue instanceof HTMLElement && priv.HTMLElement !== newValue
-                ? priv.HTMLElement = newValue : 1;
+                && (priv.HTMLElement = newValue);
         }
         //#endregion HTMLElement
         //#region HTMLElementStyle
@@ -160,7 +160,7 @@ const Component = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             newValue instanceof CSSStyleDeclaration && priv.HTMLElementStyle !== newValue
-                ? priv.HTMLElementStyle = newValue : 1;
+                && (priv.HTMLElementStyle = newValue);
         }
         //#endregion HTMLElementStyle
         //#region designing
@@ -172,7 +172,7 @@ const Component = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isBool(newValue) && priv.designing !== newValue
-                ? priv.designing = newValue : 1;
+                && (priv.designing = newValue);
         }
         //#endregion designing
         //#region internalId
@@ -192,7 +192,7 @@ const Component = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isBool(newValue) && priv.updating !== newValue
-                ? priv.updating = newValue : 1;
+                && (priv.updating = newValue);
         }
         //#endregion updating
         //#region designInstance
@@ -204,7 +204,7 @@ const Component = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isBool(newValue) && priv.designInstance !== newValue
-                ? priv.designInstance = newValue : 1;
+                && (priv.designInstance = newValue);
         }
         //#endregion designInstance
         //#region name
@@ -218,12 +218,9 @@ const Component = (() => {
             let name = priv.name;
             //#endregion Variables déclaration
             if (String.isNullOrEmpty(newValue) && !String.isNullOrEmpty(newValue.trim()) && priv.name !== newValue) {
-                form !== this && form && form[name] ? delete form[name] : 1;
+                form !== this && form && form[name] && (delete form[name]);
                 name = priv.name = newValue;
-                form !== this && this !== form.layout && this !== form.content && form
-                    ? !form[name]
-                        ? form[name] = this : 1
-                    : 1;
+                form !== this && this !== form.layout && this !== form.content && form && !form[name] && (form[name] = this);
             }
         }
         //#endregion name
@@ -235,8 +232,7 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.component !== newValue
-                ? priv.component = newValue : 1;
+            core.tools.isBool(newValue) && priv.component !== newValue && (priv.component = newValue);
         }
         //#endregion component
         //#region inForm
@@ -247,8 +243,7 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.inForm !== newValue
-                ? priv.inForm = newValue : 1;
+            core.tools.isBool(newValue) && priv.inForm !== newValue && (priv.inForm = newValue);
         }
         //#endregion inForm
         //#region visible
@@ -259,8 +254,7 @@ const Component = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.visible !== newValue
-                ? priv.visible = newValue : 1;
+            core.tools.isBool(newValue) && priv.visible !== newValue && (priv.visible = newValue);
         }
         //#endregion visible
         //#region template
@@ -321,7 +315,7 @@ const Component = (() => {
             for (let prop in this) {
                 if (this.hasOwnProperty(prop)) {
                     props = prop.startsWith('on') && this[prop] instanceof core.classes.NotifyEvent
-                        ? [...props, { event: prop, value: this[prop] }] : 1;
+                        && ([...props, { event: prop, value: this[prop] }]);
                 }
             }
             return props;
@@ -347,12 +341,11 @@ const Component = (() => {
                 }
             } else if (core.isCanvasRenderer) {
                 left + priv.width < 0 || left > owner.width ||
-                    top + priv.height < 0 || top > owner.height ? visible = !1 : 1;
+                    top + priv.height < 0 || top > owner.height && (visible = !1);
             }
-            visible
-                ? owners.forEach(o => {
-                    visible = visible && o.visible;
-                }) : 1;
+            visible && owners.forEach(o => {
+                visible = visible && o.visible;
+            });
             return visible;
         }
         //#endregion isVisible
@@ -377,7 +370,7 @@ const Component = (() => {
             //#endregion Variables déclaration
             left += margin.left + padding.left;
             right != null
-                ? left = priv.owner.contentWidth - this.width - right - padding.right - margin.right : 1;
+                && (left = priv.owner.contentWidth - this.width - right - padding.right - margin.right);
             return left;
         }
         //#endregion contentLeft
@@ -391,7 +384,7 @@ const Component = (() => {
             const right = this.right;
             //#endregion Variables déclaration
             right != null
-                ? left = priv.owner.contentWidth - this.width - right - padding.right - margin.right : 1;
+                && (left = priv.owner.contentWidth - this.width - right - padding.right - margin.right);
             return left;
         }
         set left(newValue) {
@@ -429,7 +422,7 @@ const Component = (() => {
             const bottom = this.bottom;
             //#endregion Variables déclaration
             bottom != null
-                ? top = priv.owner.height - this.height - bottom - this.margin.bottom : 1;
+                && (top = priv.owner.height - this.height - bottom - this.margin.bottom);
             return top;
         }
         set top(newValue) {
@@ -501,9 +494,9 @@ const Component = (() => {
             //#endregion Variables déclaration
             //this.destroying();
             this.destroyComponents();
-            htmlElement ? htmlElement.parentNode.removeChild(htmlElement) : 1;
-            owner && !(owner instanceof core.classes.Application) ? owner.remove(this) : 1;
-            owners ? owners.destroy() : 1;
+            htmlElement && htmlElement.parentNode.removeChild(htmlElement);
+            owner && !(owner instanceof core.classes.Application) && owner.remove(this);
+            owners && owners.destroy();
             this.unBindAndDestroyEvents();
             super.destroy();
         }
@@ -518,7 +511,7 @@ const Component = (() => {
             priv.loading = !1;
             if (core.isHTMLRenderer && htmlElement) {
                 const properties = htmlElement.querySelector(`[id='${priv.internalId}'] > properties:first-child`);
-                properties ? htmlElement.removeChild(properties) : 1;
+                properties && htmlElement.removeChild(properties);
             }
             if (this.hasOwnProperty('action')) {
                 if (form[this.action]) {
@@ -529,14 +522,14 @@ const Component = (() => {
                     if (action.includes(".")) {
                         let data = action.split(".");
                         if (app[data.first]) {
-                            app[data.first][data.last] ? this.action = data : 1;
+                            app[data.first][data.last] && (this.action = data);
                         }
                     }
                 }
             }
             this.positioning();
             this.components.forEach(comp => {
-                comp.loaded && comp.loading ? comp.loaded() : 1;
+                comp.loaded && comp.loading && comp.loaded();
             });
         }
         //#endregion loaded
@@ -547,7 +540,7 @@ const Component = (() => {
             //#endregion Variables déclaration
             if (priv.form !== this && core.isHTMLRenderer && priv.HTMLElement) {
                 const position = getComputedStyle(priv.HTMLElement).position;
-                position === 'absolute' ? this.moveTo(priv.left, priv.top) : 1;
+                position === 'absolute' && this.moveTo(priv.left, priv.top);
             }
         }
         //#endregion positioning
@@ -565,7 +558,7 @@ const Component = (() => {
                 component.owner = this;
                 if (form !== component && component.inForm && controls.indexOf(component) === -1) {
                     controls.push(component);
-                    !form[component.name] ? form[component.name] = component : 1;
+                    !form[component.name] && (form[component.name] = component);
                 }
             }
         }
@@ -580,19 +573,19 @@ const Component = (() => {
             //#endregion Variables déclaration
             if (components.indexOf(component) > -1) {
                 let idx = components.indexOf(component);
-                idx > -1 ? components.removeAt(idx) : 1;
+                idx > -1 && components.removeAt(idx);
                 if (form[component.name]) {
                     form[component.name] = null;
                     delete form[component.name];
                 }
                 idx = controls.indexOf(component);
-                idx > -1 ? controls.removeAt(idx) : 1;
+                idx > -1 && controls.removeAt(idx);
             }
         }
         //#endregion remove
         //#region insertComponent
         insertComponent(component) {
-            component.owner !== component.app ? component.owner.remove(component) : 1;
+            component.owner !== component.app && component.owner.remove(component);
             this.insert(component);
         }
         //#endregion insertComponent
@@ -610,7 +603,7 @@ const Component = (() => {
         //#endregion getComponent
         //#region beforeDestruction
         beforeDestruction() {
-            !priv.destroying ? this._destroying() : 1;
+            !priv.destroying && this._destroying();
         }
         //#endregion beforeDestruction
         //#region destroyComponents
@@ -638,10 +631,9 @@ const Component = (() => {
             //#endregion Variables déclaration
             if (!priv.destroying) {
                 priv.destroying = !0;
-                components
-                    ? components.forEach(comp => {
-                        comp._destroying();
-                    }) : 1;
+                components && components.forEach(comp => {
+                    comp._destroying();
+                });
             }
             //core.tools.Debugger.log(arguments, this, t);
         }
@@ -684,7 +676,7 @@ const Component = (() => {
             const owner = priv.owner;
             //#endregion Variables déclaration
             priv.designing && owner && !(owner instanceof core.classes.App)
-                ? owner.validateRename(component, curName, newName) : 1;
+                && owner.validateRename(component, curName, newName);
         }
         //#endregion validateRename
         //#region setChildOrder
@@ -705,11 +697,11 @@ const Component = (() => {
             //#endregion Variables déclaration
             if (htmlElement) {
                 priv.HTMLElementStyle = htmlElement.style;
-                !htmlElement.jsObj ? htmlElement.jsObj = this : 1;
+                !htmlElement.jsObj && (htmlElement.jsObj = this);
                 const data = htmlElement.name;
-                data ? priv.name = data : 1;
+                data && (priv.name = data);
             }
-            !internalId || internalId !== id ? priv.internalId = id : 1;
+            !internalId || internalId !== id && (priv.internalId = id);
         }
         //#endregion getHTMLElement
         //#region getChilds
@@ -754,7 +746,7 @@ const Component = (() => {
                             this[eventName].addListener(form[eventValue]);
                         } else if (core.tools.isString(eventValue)) {
                             !String.isNullOrEmpty(eventValue)
-                                ? this[eventName].addListener(new Function(eventValue)) : 1;
+                                && this[eventName].addListener(new Function(eventValue));
                         } else if (core.tools.isFunc(eventValue)) {
                             this[eventName].addListener(eventValue);
                         }
@@ -766,12 +758,12 @@ const Component = (() => {
         //#region unBindAndDestroyEvents
         unBindAndDestroyEvents(eventsName) {
             Array.isArray(eventsName)
-                ? eventsName.forEach(eventName => {
+                && eventsName.forEach(eventName => {
                     console.log(eventName);
                     this[eventName].destroy();
                     this[eventName] = null;
                     delete this[eventName];
-                }) : 1;
+                });
         }
         //#endregion unBindAndDestroyEvents
         //#endregion

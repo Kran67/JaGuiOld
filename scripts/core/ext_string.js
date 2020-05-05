@@ -317,7 +317,7 @@ if (!String.prototype.format) {
                     s = obj.toString();
                     s = core.tools.pad(s, frmt.paddingFlag, frmt.minLength);
                 } else if (frmt.type === 'c') {//Character
-                    frmt.paddingFlag === '0' ? frmt.paddingFlag = String.SPACE : 1;//padding only spaces
+                    frmt.paddingFlag === '0' && (frmt.paddingFlag = String.SPACE);//padding only spaces
                     if (core.tools.isNumber(obj)) {//get the character code
                         s = String.fromCharCode(obj);
                         s = core.tools.pad(s, frmt.paddingFlag, frmt.minLength);
@@ -331,7 +331,7 @@ if (!String.prototype.format) {
                     } else {
                         throw 'Character or Byte required.';
                     }
-                } else if (Tools.isNumber(obj)) {
+                } else if (core.tools.isNumber(obj)) {
                     //get sign of the number
                     if (obj < 0) {
                         obj = -obj;
@@ -354,30 +354,30 @@ if (!String.prototype.format) {
                             break;
                         case 'b': //binary
                             s = obj.toString(2);
-                            s = Tools.pad(s, '0', frmt.percision);
+                            s = core.tools.pad(s, '0', frmt.percision);
                             break;
                         case 'o': //octal
                             s = obj.toString(8);
-                            s = Tools.pad(s, '0', frmt.percision);
+                            s = core.tools.pad(s, '0', frmt.percision);
                             break;
                         case 'x': //hexadecimal
                             s = obj.toString(16).toLowerCase();
-                            s = Tools.pad(s, '0', frmt.percision);
+                            s = core.tools.pad(s, '0', frmt.percision);
                             break;
                         case 'X': //hexadecimal
                             s = obj.toString(16).toUpperCase();
-                            s = Tools.pad(s, '0', frmt.percision);
+                            s = core.tools.pad(s, '0', frmt.percision);
                             break;
                         default: //integers
                             s = ~~obj;
                             s = s.toString();
-                            s = Tools.pad(s, '0', frmt.percision);
+                            s = core.tools.pad(s, '0', frmt.percision);
                             break;
                     }
                     //make sure that the length of the possible sign is not ignored
-                    frmt.paddingFlag === '0' ? s = Tools.pad(s, '0', frmt.minLength - sign.length) : 1;
+                    frmt.paddingFlag === '0' && s = core.tools.pad(s, '0', frmt.minLength - sign.length);
                     s = sign + s;//add sign
-                    s = Tools.pad(s, frmt.paddingFlag, frmt.minLength);//do padding and justifiing
+                    s = core.tools.pad(s, frmt.paddingFlag, frmt.minLength);//do padding and justifiing
                 } else {
                     throw 'Number required.';
                 }

@@ -35,7 +35,7 @@ class ColorAnimation extends Animation {
         //#endregion Variables déclaration
         if (control && control[this.propertyName] && core.isHTMLRenderer || control.HTMLElement === core.types.HTMLELEMENTS.CANVAS) {
             this.startFromCurrent && control[propertyName] instanceof core.classes.Color
-                ? this.startValue.assign(control[propertyName]) : 1;
+                && this.startValue.assign(control[propertyName]);
             super.start();
         }
     }
@@ -54,7 +54,7 @@ class ColorAnimation extends Animation {
             if (control[propertyName] && control[propertyName] instanceof core.classes.Color) {
                 const newColor = Interpolation.color(this.startValue, this.stopValue, this.normalizedTime());
                 control[propertyName].assign(newColor);
-                control.allowUpdate && core.tools.isFunc(control.update) ? control.update() : 1;
+                control.allowUpdate && core.tools.isFunc(control.update) && control.update();
             }
         }
     }
