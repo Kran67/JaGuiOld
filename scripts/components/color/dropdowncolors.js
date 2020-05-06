@@ -10,7 +10,7 @@ const ListBoxItemColorPopup = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -61,7 +61,7 @@ const ListBoxItemColorPopup = (() => {
             const itemIndex = owner.itemIndex;
             //#endregion Variables déclaration
             if (itemIndex > -1) {
-                items[itemIndex].html ? items[itemIndex].html.classList.remove('selected') : 1;
+                items[itemIndex].html && items[itemIndex].html.classList.remove('selected');
                 items[itemIndex].selected = !1;
                 owner.itemIndex = -1;
             }
@@ -162,7 +162,7 @@ class ListBoxColorPopup extends ListBox {
             dropDownListBoxColor.colorIndex = item.index;
             dropDownListBoxColor.itemIndex = item.index;
             dropDownListBoxColor.color.assign(item.color);
-            !dropDownListBoxColor.updating ? dropDownListBoxColor.onChange.invoke() : 1;
+            !dropDownListBoxColor.updating && dropDownListBoxColor.onChange.invoke();
             item.form.closePopups();
         }
     }
@@ -189,7 +189,7 @@ const DropDownListBoxColor = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };

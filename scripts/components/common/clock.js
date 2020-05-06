@@ -47,7 +47,7 @@ const Clock = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {}) ;
         // Return private properties object
         return _private.get(key);
     };
@@ -187,10 +187,12 @@ const Clock = (() => {
                             }
                         }
                     },
-                    value: props.hasOwnProperty('dotsAnimationDirection') ? props.dotsAnimationDirection : DOTSANIMATIONDIRECTION.TOLEFT
+                    value: props.hasOwnProperty('dotsAnimationDirection') 
+                        ? props.dotsAnimationDirection : DOTSANIMATIONDIRECTION.TOLEFT
                 });
                 priv.dotsGap = props.hasOwnProperty('dotsGap') && core.tools.isNumber(props.dotsGap) ? props.dotsGap : 1;
-                priv.dotsFirstColor = props.hasOwnProperty('dotsFirstColor') ? Color.parse(props.dotsFirstColor) : Color.parse('#3559ff');
+                priv.dotsFirstColor = props.hasOwnProperty('dotsFirstColor') 
+                    ? Color.parse(props.dotsFirstColor) : Color.parse('#3559ff');
                 priv.dotsLastColor = props.hasOwnProperty('dotsLastColor') ? Color.parse(props.dotsLastColor) : Color.parse('#0a1854');
                 core.tools.addPropertyFromEnum({
                     component: this,
@@ -978,7 +980,8 @@ const Clock = (() => {
                 }
                 if (hours1) {
                     if (lHours[0] !== hours[0] || isCircular && lHours !== hours) {
-                        this[func](hours1, !isCircular ? hours[0] : hours, 0, !isCircular ? (String.isNullOrEmpty(priv.use24H) ? 2 : 1) : 23);
+                        this[func](hours1, !isCircular ? hours[0] : hours, 0, !isCircular 
+                            ? (String.isNullOrEmpty(priv.use24H) ? 2 : 1) : 23);
                     }
                 }
                 if (hours2) {
@@ -1011,7 +1014,8 @@ const Clock = (() => {
                 let elem = htmlElement.querySelector(`.${className}_alarm`);
                 if (elem) {
                     elem.classList.add('active');
-                    const aHours = (priv.alarm.hours - (!String.isNullOrEmpty(priv.use24H) && priv.alarm.hours > 12 ? 12 : 0)).toString().padStart(2, '0');
+                    const aHours = (priv.alarm.hours - 
+                        (!String.isNullOrEmpty(priv.use24H) && priv.alarm.hours > 12 ? 12 : 0)).toString().padStart(2, '0');
                     const aMinutes = priv.alarm.minutes.toString().padStart(2, '0');
                     const aSeconds = priv.alarm.seconds.toString().padStart(2, '0');
                     if (aHours === hours && aMinutes === minutes && aSeconds === seconds) {
@@ -1045,11 +1049,13 @@ const Clock = (() => {
             } else {
                 htmlElement.querySelector('.Clock_day.active').classList.remove('active');
                 Convert.nodeListToArray(htmlElement.querySelectorAll('.Clock_day')).forEach(day => {
-                    if (day.innerHTML === core.tools.getLocale().date.abbreviatedDayNames[date.getDay()].replace('.', String.EMPTY).toUpperCase()) {
+                    if (day.innerHTML === 
+                        core.tools.getLocale().date.abbreviatedDayNames[date.getDay()].replace('.', String.EMPTY).toUpperCase()) {
                         day.classList.add('active');
                     }
                 });
-                htmlElement.querySelector('.Clock_currentdate').innerHTML = date.toString(core.tools.getLocale().date.formatPatterns.longDate);
+                htmlElement.querySelector('.Clock_currentdate').innerHTML = 
+                    date.toString(core.tools.getLocale().date.formatPatterns.longDate);
                 priv.lastDate = date;
             }
         }

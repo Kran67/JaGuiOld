@@ -20,7 +20,7 @@ const BusyIndicatorSpinOptions = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -60,11 +60,11 @@ const BusyIndicatorSpinOptions = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (core.tools.isNumber(newValue)) {
-                newValue < 5 || newValue > 17 ? newValue = 12 : 1;
+                newValue < 5 || newValue > 17 && (newValue = 12);
                 if (priv.lines !== newValue) {
                     priv.lines = newValue;
                     this.propertyChanged('lines');
-                    core.isHTMLRenderer ? this.owner.update() : 1;
+                    core.isHTMLRenderer && this.owner.update();
                 }
             }
         }
@@ -78,11 +78,11 @@ const BusyIndicatorSpinOptions = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (core.tools.isNumber(newValue)) {
-                newValue < 0 || newValue > 40 ? newValue = 7 : 1;
+                newValue < 0 || newValue > 40 && (newValue = 7);
                 if (priv.length !== newValue) {
                     priv.length = newValue;
                     this.propertyChanged('length');
-                    core.isHTMLRenderer ? this.owner.update() : 1;
+                    core.isHTMLRenderer && this.owner.update();
                 }
             }
         }
@@ -96,11 +96,11 @@ const BusyIndicatorSpinOptions = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (core.tools.isNumber(newValue)) {
-                newValue < 2 || newValue > 30 ? newValue = 4 : 1;
+                newValue < 2 || newValue > 30 && (newValue = 4);
                 if (priv.width !== newValue) {
                     priv.width = newValue;
                     this.propertyChanged('width');
-                    core.isHTMLRenderer ? this.owner.update() : 1;
+                    core.isHTMLRenderer && this.owner.update();
                 }
             }
         }
@@ -114,11 +114,11 @@ const BusyIndicatorSpinOptions = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (core.tools.isNumber(newValue)) {
-                newValue < 0 || newValue > 1 ? newValue = 0 : 1;
+                newValue < 0 || newValue > 1 && (newValue = 0);
                 if (priv.corners !== newValue) {
                     priv.corners = newValue;
                     this.propertyChanged('corners');
-                    core.isHTMLRenderer ? this.owner.update() : 1;
+                    core.isHTMLRenderer && this.owner.update();
                 }
             }
         }
@@ -132,11 +132,11 @@ const BusyIndicatorSpinOptions = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (core.tools.isNumber(newValue)) {
-                newValue < -1 || newValue > 1 ? newValue = 1 : 1;
+                newValue < -1 || newValue > 1 && (newValue = 1);
                 if (priv.direction !== newValue) {
                     priv.direction = newValue;
                     this.propertyChanged('direction');
-                    core.isHTMLRenderer ? this.owner.update() : 1;
+                    core.isHTMLRenderer && this.owner.update();
                 }
             }
         }
@@ -150,11 +150,11 @@ const BusyIndicatorSpinOptions = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (core.tools.isNumber(newValue)) {
-                newValue < 0.5 || newValue > 2.2 ? newValue = 1 : 1;
+                newValue < 0.5 || newValue > 2.2 && (newValue = 1);
                 if (priv.speed !== newValue) {
                     priv.speed = newValue;
                     this.propertyChanged('speed');
-                    core.isHTMLRenderer ? this.owner.update() : 1;
+                    core.isHTMLRenderer && this.owner.update();
                 }
             }
         }
@@ -168,11 +168,11 @@ const BusyIndicatorSpinOptions = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (core.tools.isNumber(newValue)) {
-                newValue < 10 || newValue > 100 ? newValue = 100 : 1;
+                newValue < 10 || newValue > 100 && (newValue = 100);
                 if (this.trail !== newValue) {
                     priv.properties.trail = newValue;
                     priv.propertyChanged('trail');
-                    core.isHTMLRenderer ? this.owner.update() : 1;
+                    core.isHTMLRenderer && this.owner.update();
                 }
             }
         }
@@ -204,7 +204,7 @@ const BusyIndicator = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -241,7 +241,7 @@ const BusyIndicator = (() => {
             //#endregion Variables déclaration
             if (core.tools.valueInSet(newValue, BUSYINDICATORSTYLES) && priv.indicatorStyle !== newValue) {
                 priv.indicatorStyle = newValue;
-                core.isHTMLRenderer ? this.update() : 1;
+                core.isHTMLRenderer && this.update();
             }
         }
         //#endregion indicatorStyle

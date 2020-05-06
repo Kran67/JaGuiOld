@@ -10,7 +10,7 @@ const CustomButton = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -25,8 +25,8 @@ const CustomButton = (() => {
             props = !props ? {} : props;
             if (owner) {
                 if (!core.isHTMLRenderer) {
-                    !props.hasOwnProperty('width') && core.tools.isNumber(props.width) ? props.width = 75 : 1;
-                    !props.hasOwnProperty('height') && core.tools.isNumber(props.height) ? props.height = 25 : 1;
+                    !props.hasOwnProperty('width') && core.tools.isNumber(props.width) && (props.width = 75);
+                    !props.hasOwnProperty('height') && core.tools.isNumber(props.height) && (props.height = 25);
                 }
                 props.hitTest = { all: !0 };
                 props.autoCapture = !0;
@@ -82,7 +82,7 @@ const CustomButton = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (newValue instanceof core.classes.Action && priv.action !== newValue) {
-                priv.action instanceof core.classes.Action ? priv.action.unRegisterChanges(this) : 1;
+                priv.action instanceof core.classes.Action && priv.action.unRegisterChanges(this);
                 priv.action = newValue;
                 priv.action.registerChanges(this);
                 priv.action.updateTarget(this);
@@ -122,7 +122,7 @@ const CustomButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.repeatClick !== newValue ? priv.repeatClick = newValue : 1;
+            core.tools.isBool(newValue) && priv.repeatClick !== newValue && (priv.repeatClick = newValue);
         }
         //#endregion repeatClick
         //#region staysPressed
@@ -153,7 +153,7 @@ const CustomButton = (() => {
             if (htmlElement) {
                 htmlElementStyle.borderRadius = priv.borderRadius ? `${priv.borderRadius}${PX}` : null;
                 htmlElement.classList.remove('stayspressed');
-                priv.staysPressed ? htmlElement.classList.add('stayspressed') : 1;
+                priv.staysPressed && htmlElement.classList.add('stayspressed');
             }
         }
         //#endregion update
@@ -174,20 +174,20 @@ const CustomButton = (() => {
         mouseDown() {
             if (this.enabled) {
                 super.mouseDown();
-                core.mouse.button === Mouse.MOUSEBUTTONS.LEFT ? this._down() : 1;
+                core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this._down();
             }
         }
         //#endregion mouseDown
         //#region keyDown
         keyDown() {
             super.keyDown();
-            core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE ? this._down() : 1;
+            core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE && this._down();
         }
         //#endregion keyDown
         //#region keyUp
         keyUp() {
             super.keyUp();
-            core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE ? this._up() : 1;
+            core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE && this._up();
         }
         //#endregion keyUp
         //#region _down
@@ -213,7 +213,7 @@ const CustomButton = (() => {
         //#region mouseEnter
         mouseEnter() {
             super.mouseEnter();
-            this.isPressed ? this._down() : 1;
+            this.isPressed && this._down();
         }
         //#endregion mouseEnter
         //#region mouseLeave
@@ -283,7 +283,7 @@ const CustomButton = (() => {
         //#endregion assign
         //#region onTimer
         onTimer() {
-            this.enabled ? this.mouseDown() : 1;
+            this.enabled && this.mouseDown();
         }
         //#endregion onTimer
         //#region destroy
@@ -296,7 +296,7 @@ const CustomButton = (() => {
             priv.modalResult = null;
             priv.staysPressed = null;
             priv.repeatClick = null;
-            priv.action ? priv.action.removeTarget(this) : 1;
+            priv.action && priv.action.removeTarget(this);
             priv.action = null;
             priv.modalResult = null;
             priv.borderRadius = null;
@@ -315,7 +315,7 @@ const Button = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -328,7 +328,7 @@ const Button = (() => {
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
-                !props.hasOwnProperty('canFocused') ? props.canFocused = !0 : 1;
+                !props.hasOwnProperty('canFocused') && (props.canFocused = !0);
                 props.autoCapture = !0;
                 super(owner, props);
                 const priv = internal(this);
@@ -346,7 +346,7 @@ const Button = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.isDefault !== newValue ? priv.isDefault = newValue : 1;
+            core.tools.isBool(newValue) && priv.isDefault !== newValue && (priv.isDefault = newValue);
         }
         //#endregion isDefault
         //#endregion Getters / Setters

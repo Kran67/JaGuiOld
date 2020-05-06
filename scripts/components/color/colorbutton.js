@@ -9,7 +9,7 @@ const ColorButton = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -51,8 +51,8 @@ const ColorButton = (() => {
                 priv.color.assign(newValue);
                 this.caption = priv.color.toRGBAString();
                 if (core.isHTMLRenderer) {
-                    !this.loading && !this.form.loading ? this.update() : 1;
-                    !this.updating ? this.onChange.invoke() : 1;
+                    !this.loading && !this.form.loading && this.update();
+                    !this.updating && this.onChange.invoke();
                 }
             }
         }
@@ -65,7 +65,7 @@ const ColorButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            newValue instanceof ColorDialog && priv.colorDlg !== newValue ? priv.colorDlg = newValue : 1;
+            newValue instanceof ColorDialog && priv.colorDlg !== newValue && (priv.colorDlg = newValue);
         }
         //#endregion colorDlg
         //#endregion Getters / Setters
@@ -75,8 +75,8 @@ const ColorButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            this.textObj ? this.textObj.innerHTML = String.EMPTY : 1;
-            priv.colorObj ? priv.colorObj.style.backgroundColor = priv.color.toRGBAString() : 1;
+            this.textObj && (this.textObj.innerHTML = String.EMPTY);
+            priv.colorObj && (priv.colorObj.style.backgroundColor = priv.color.toRGBAString());
         }
         //#endregion update
         //#region click
@@ -105,7 +105,7 @@ const ColorButton = (() => {
         //#endregion click
         //#region updateColor
         updateColor() {
-            this.modalResult === Window.MODALRESULTS.OK ? this.obj.color = this.clrBoxNewColor.fillColor : 1;
+            this.modalResult === Window.MODALRESULTS.OK && (this.obj.color = this.clrBoxNewColor.fillColor);
             this.obj.colorDlg = null;
         }
         //#endregion updateColor

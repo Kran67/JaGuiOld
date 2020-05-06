@@ -18,7 +18,7 @@ const ColorPanel = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -116,7 +116,7 @@ const ColorPanel = (() => {
                     //colorPanel.secondaryColorBox.update();
                     break;
             }
-            !colorPanel.updating ? colorPanel.onChange.invoke() : 1;
+            !colorPanel.updating && colorPanel.onChange.invoke();
         }
         doAlphaChange() {
             //#region Variables déclaration
@@ -145,7 +145,7 @@ const ColorPanel = (() => {
                     priv.secondaryColorBox.update();
                     break;
             }
-            !this.updating ? this.onChange.invoke() : 1;
+            !this.updating && this.onChange.invoke();
         }
         changeColorBox() {
             //#region Variables déclaration

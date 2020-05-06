@@ -7,7 +7,7 @@ const AlphaSlider = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -32,7 +32,7 @@ const AlphaSlider = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            newValue instanceof core.classes.GradientEdit && priv.gradientEdit !== newValue ? priv.gradientEdit = newValue : 1;
+            newValue instanceof core.classes.GradientEdit && priv.gradientEdit !== newValue && (priv.gradientEdit = newValue);
         }
         //#endregion Getters / Setters
         //#region Methods

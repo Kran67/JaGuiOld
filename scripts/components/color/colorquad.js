@@ -11,7 +11,7 @@ const ColorQuad = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -56,7 +56,7 @@ const ColorQuad = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            newValue instanceof core.classes.ColorBox && priv.colorBox !== newValue ? priv.colorBox = newValue : 1;
+            newValue instanceof core.classes.ColorBox && priv.colorBox !== newValue && (priv.colorBox = newValue);
         }
         //#endregion colorBox
         //#region color
@@ -102,9 +102,9 @@ const ColorQuad = (() => {
             if (core.tools.valueInSet(newValue, core.types.COLORFORMATS) && newValue !== priv.format) {
                 priv.format = newValue;
                 if (core.isHTMLRenderer) {
-                    this.HTMLElement ? this.update() : 1;
+                    this.HTMLElement && this.update();
                 } else {
-                    this.allowUpdate ? this.update() : 1;
+                    this.allowUpdate && this.update();
                     this.redraw();
                 }
             }
@@ -115,7 +115,7 @@ const ColorQuad = (() => {
             return super.width;
         }
         set width(newValue) {
-            this.HTMLElement.offsetWidth !== newValue ? super.width = newValue : 1;
+            this.HTMLElement.offsetWidth !== newValue && (super.width = newValue);
         }
         //#endregion width
         //#region height
@@ -123,7 +123,7 @@ const ColorQuad = (() => {
             return super.height;
         }
         set height(newValue) {
-            this.HTMLElement.offsetHeight !== newValue ? super.height = newValue : 1;
+            this.HTMLElement.offsetHeight !== newValue && (super.height = newValue);
         }
         //#endregion height
         //#endregion Getters / Setters
@@ -147,14 +147,14 @@ const ColorQuad = (() => {
             priv.handle.x = Math.max(Math.min(point.x, htmlElement.offsetWidth), 0);
             priv.handle.y = Math.max(Math.min(point.y, htmlElement.offsetHeight), 0);
             priv.handleObj
-                ? priv.handleObj.style.transform = `translate(${(priv.handle.x - COLORPICKSIZE / 2)}${PX},${(priv.handle.y - COLORPICKSIZE / 2)}${PX})` : 1;
+                && (priv.handleObj.style.transform = `translate(${(priv.handle.x - COLORPICKSIZE / 2)}${PX},${(priv.handle.y - COLORPICKSIZE / 2)}${PX})`);
             this._update();
         }
         //#endregion update
         //#region mouseDown
         mouseDown() {
             super.mouseDown();
-            core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.isPressed ? this.update(core.mouse.target) : 1;
+            core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.isPressed && this.update(core.mouse.target);
         }
         //#endregion mouseDown
         //#region mouseMove
@@ -194,7 +194,7 @@ const ColorQuad = (() => {
             });
             htmlElement.classList.add(priv.format);
             super.loaded();
-            priv.colorBox instanceof core.classes.ColorBox ? priv.colorBox.color = priv.color : 1;
+            priv.colorBox instanceof core.classes.ColorBox && (priv.colorBox.color = priv.color);
         }
         //#region loaded
         //#region _update
@@ -217,7 +217,7 @@ const ColorQuad = (() => {
                     ? priv.color.setHSV(this.fillColor.hue, saturation, value)
                     : priv.color.setHSL(this.fillColor.hue, saturation, value);
                 if (!this.updating) {
-                    priv.colorBox instanceof core.classes.ColorBox ? priv.colorBox.color = priv.color : 1;
+                    priv.colorBox instanceof core.classes.ColorBox && (priv.colorBox.color = priv.color);
                     //if (priv.gradientEdit instanceof core.classes.GradientEdit) {
                     //    priv.gradientEdit.changeCurrentPointColor(priv.color);
                     //}
@@ -254,7 +254,7 @@ const ColorQuad = (() => {
             const VKEYSCODES = Keyboard.VKEYSCODES;
             //#endregion Variables déclaration
             super.keyDown();
-            core.keyboard.shift ? offset *= 5 : 1;
+            core.keyboard.shift && (offset *= 5);
             switch (core.keyboard.keyCode) {
                 case VKEYSCODES.VK_LEFT:
                     pt.x -= offset;
@@ -277,7 +277,7 @@ const ColorQuad = (() => {
                     changeHandle = !0;
                     break;
             }
-            changeHandle ? this.update(pt) : 1;
+            changeHandle && this.update(pt);
         }
         //#endregion keyDown
         //#endregion Methods

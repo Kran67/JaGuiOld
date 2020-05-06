@@ -23,9 +23,9 @@ class ColorBox extends GraphicControl {
         if (newValue instanceof Color && !this.fillColor.equals(newValue)) {
             this.fillColor.assign(newValue);
             if (core.isHTMLRenderer) {
-                !this.loading && !this.form.loading ? this.update() : 1;
+                !this.loading && !this.form.loading && this.update();
             } else {
-                this.allowUpdate ? this.update() : 1;
+                this.allowUpdate && this.update();
                 this.redraw();
             }
         }
@@ -36,7 +36,7 @@ class ColorBox extends GraphicControl {
     //#region update
     update() {
         core.isHTMLRenderer && this.HTMLElement
-            ? this.HTMLElementStyle.boxShadow = `inset 0 0 0 1000px ${this.fillColor.toRGBAString()}` : 1;
+            && (this.HTMLElementStyle.boxShadow = `inset 0 0 0 1000px ${this.fillColor.toRGBAString()}`);
     }
     //#endregion update
     //#endregion Methods

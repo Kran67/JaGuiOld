@@ -19,7 +19,7 @@ const Checkbox = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -110,12 +110,12 @@ const Checkbox = (() => {
                     priv.isChecked = newValue;
                     if (!this.loading && !this.form.loading) {
                         if (!core.isHTMLRenderer) {
-                            this.allowUpdate ? this.update() : 1;
+                            this.allowUpdate && this.update();
                             this.redraw();
                         } else {
                             this.update();
                         }
-                        !this.updating ? this.onChange.invoke() : 1;
+                        !this.updating && this.onChange.invoke();
                     }
                 }
             }
@@ -130,7 +130,7 @@ const Checkbox = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             core.tools.isBool(newValue) && priv.allowGrayed !== newValue
-                ? priv.allowGrayed = newValue : 1;
+                && (priv.allowGrayed = newValue);
         }
         //#endregion allowGrayed
         //#region action
@@ -142,7 +142,7 @@ const Checkbox = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (newValue instanceof Action && priv.action !== newValue) {
-                priv.action instanceof Action ? priv.action.unRegisterChanges(this) : 1;
+                priv.action instanceof Action && priv.action.unRegisterChanges(this);
                 priv.action = newValue;
                 priv.action.registerChanges(this);
                 priv.action.updateTarget(this);
@@ -231,7 +231,7 @@ const Checkbox = (() => {
                     }
                 }
                 priv.autoWidth && this.HTMLElementStyle
-                    ? this.HTMLElementStyle.width = 'auto' : 1;
+                    && (this.HTMLElementStyle.width = 'auto');
             }
         }
         //#endregion update
@@ -245,7 +245,7 @@ const Checkbox = (() => {
             this.unBindAndDestroyEvents(['onChange']);
             priv.state = null;
             priv.allowGrayed = null;
-            priv.action ? priv.action.removeTarget(this) : 1;
+            priv.action && priv.action.removeTarget(this);
             priv.action = null;
             priv.check = null;
             priv.input = null;
@@ -263,8 +263,8 @@ const Checkbox = (() => {
                 priv.input.classList.add('Control', `${this.constructor.name}Input`);
                 priv.input.checked = priv.isChecked;
                 priv.check.classList.add('Control', this.themeName, `${this.constructor.name}Check`);
-                priv.isChecked ? priv.check.classList.add('checked') : 1;
-                priv.allowGrayed ? priv.check.classList.add('grayed') : 1;
+                priv.isChecked && priv.check.classList.add('checked');
+                priv.allowGrayed && priv.check.classList.add('grayed');
                 htmlElement.appendChild(priv.input);
                 htmlElement.appendChild(priv.check);
             }

@@ -22,7 +22,7 @@ const ButtonGlyph = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -60,7 +60,7 @@ const ButtonGlyph = (() => {
                         //#endregion Variables déclaration
                         if (core.tools.valueInSet(newValue, BUTTONLAYOUTGLYPHS) && priv.layout !== newValue) {
                             priv.layout = newValue;
-                            core.isHTMLRenderer && !this.loading && !this.form.loading ? this.update() : 1;
+                            core.isHTMLRenderer && !this.loading && !this.form.loading && this.update();
                         }
                     },
                     variable: priv,
@@ -80,7 +80,7 @@ const ButtonGlyph = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isString(newValue) && priv.glyphHTMLElement !== newValue ? priv.glyphHTMLElement = newValue : 1;
+            core.tools.isString(newValue) && priv.glyphHTMLElement !== newValue && (priv.glyphHTMLElement = newValue);
         }
         //#endregion glyphHTMLElement
         //#region glyph
@@ -103,7 +103,7 @@ const ButtonGlyph = (() => {
             //#endregion Variables déclaration
             if (core.tools.isNumber(newValue) && priv.glyphSize !== newValue) {
                 priv.glyphSize = newValue;
-                core.isHTMLRenderer && !this.loading && !this.form.loading ? this.update() : 1;
+                core.isHTMLRenderer && !this.loading && !this.form.loading && this.update();
             }
         }
         //#endregion glyphSize
@@ -117,7 +117,7 @@ const ButtonGlyph = (() => {
             //#endregion Variables déclaration
             if (core.tools.isNumber(newValue) && priv.glyphSpacing !== newValue) {
                 priv.glyphSpacing = newValue;
-                core.isHTMLRenderer && !this.loading && !this.form.loading ? this.update() : 1;
+                core.isHTMLRenderer && !this.loading && !this.form.loading && this.update();
             }
         }
         //#endregion glyphSpacing
@@ -131,7 +131,7 @@ const ButtonGlyph = (() => {
             //#endregion Variables déclaration
             if (core.tools.isNumber(newValue) && newValue instanceof Rect && priv.glyphMargin !== newValue) {
                 priv.glyphMargin = newValue;
-                core.isHTMLRenderer && !this.loading && !this.form.loading ? this.update() : 1;
+                core.isHTMLRenderer && !this.loading && !this.form.loading && this.update();
             }
         }
         //#endregion glyphMargin
@@ -141,7 +141,7 @@ const ButtonGlyph = (() => {
         }
         set width(newValue) {
             super.width = newValue;
-            core.isHTMLRenderer && !this.loading && !this.form.loading ? this.update() : 1;
+            core.isHTMLRenderer && !this.loading && !this.form.loading && this.update();
         }
         //#endregion width
         //#region height
@@ -150,7 +150,7 @@ const ButtonGlyph = (() => {
         }
         set height(newValue) {
             super.height = newValue;
-            core.isHTMLRenderer && !this.loading && !this.form.loading ? this.update() : 1;
+            core.isHTMLRenderer && !this.loading && !this.form.loading && this.update();
         }
         //#endregion height
         //#region showCaption
@@ -163,7 +163,7 @@ const ButtonGlyph = (() => {
             //#endregion Variables déclaration
             if (core.tools.isBool(newValue) && priv.showCaption !== newValue) {
                 priv.showCaption = newValue;
-                core.isHTMLRenderer && !this.loading && !this.form.loading ? this.update() : 1;
+                core.isHTMLRenderer && !this.loading && !this.form.loading && this.update();
             }
         }
         //#endregion showCaption
@@ -186,7 +186,7 @@ const ButtonGlyph = (() => {
                             ? glyph.classList.add('hidden')
                             : glyph.classList.remove('hidden');
                     }
-                    !this.loading && !this.form.loading ? this.update() : 1;
+                    !this.loading && !this.form.loading && this.update();
                 }
             }
         }
@@ -213,9 +213,9 @@ const ButtonGlyph = (() => {
                 priv.glyph.draggable = !1;
                 htmlElement.appendChild(priv.glyph);
             } else {
-                priv.src !== String.EMPTY ? priv.glyph = null : 1;
+                priv.src !== String.EMPTY && (priv.glyph = null);
             }
-            this.form.loaded && this.loaded ? this.update() : 1;
+            this.form.loaded && this.loaded && this.update();
         }
         //#endregion loaded
         //#region update
@@ -266,11 +266,11 @@ const ButtonGlyph = (() => {
                         this.paint();
                     }
                     if (glyph) {
-                        glyph.offsetWidth !== priv.glyphSize ? glyph.style.width = `${priv.glyphSize}${PX}` : 1;
-                        glyph.offsetHeight !== priv.glyphSize ? glyph.style.height = `${priv.glyphSize}${PX}` : 1;
+                        glyph.offsetWidth !== priv.glyphSize && (glyph.style.width = `${priv.glyphSize}${PX}`);
+                        glyph.offsetHeight !== priv.glyphSize && (glyph.style.height = `${priv.glyphSize}${PX}`);
                         if (glyph.offsetWidth > 0 && glyph.offsetHeight > 0) {
                             glyphMargin > 0
-                                ? (isHtmlRenderer ? glyph.style : glyph).margin = `${glyphMargin}${PX}` : 1;
+                                && ((isHtmlRenderer ? glyph.style : glyph).margin = `${glyphMargin}${PX}`);
                             if (glyphSpacing > 0 && showCaption) {
                                 (isHtmlRenderer ? textObj.style : textObj).margin = 0;
                                 switch (layout) {
@@ -309,7 +309,7 @@ const ButtonGlyph = (() => {
             priv.glyphSize = null;
             priv.glyphSpacing = null;
             priv.glyphMargin = null;
-            glyph && glyph instanceof Path ? glyph.destroy() : 1;
+            glyph && glyph instanceof Path && glyph.destroy();
             priv.glyph = null;
             priv.textObj = null;
             priv.src = null;

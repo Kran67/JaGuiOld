@@ -11,7 +11,7 @@ const ColorPicker = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -75,7 +75,7 @@ const ColorPicker = (() => {
             if (newValue instanceof core.classes.ColorQuad && priv.colorQuad !== newValue) {
                 priv.colorQuad = newValue;
                 priv.colorQuad instanceof core.classes.ColorQuad
-                    ? priv.colorQuad.color.assign(priv.color) : 1;
+                    && priv.colorQuad.color.assign(priv.color);
             }
         }
         //#endregion colorQuad
@@ -85,7 +85,7 @@ const ColorPicker = (() => {
         mouseDown() {
             super.mouseDown();
             core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.isPressed
-                ? this.update(core.mouse.target) : 1;
+                && this.update(core.mouse.target);
         }
         //#endregion mouseDown
         //#region mouseMove
@@ -144,9 +144,9 @@ const ColorPicker = (() => {
             }
             priv.handle.y = point.y > htmlElement.offsetHeight - 5 ? htmlElement.offsetHeight - 5 : point.y < -5 ? -5 : point.y;
             priv.handleObj
-                ? priv.handleObj.style.transform = `translate(-50%,${priv.handle.y}${core.types.CSSUNITS.PX})` : 1;
-            priv.colorQuad instanceof core.classes.ColorQuad ? priv.colorQuad.hue = priv.color.hue : 1;
-            !this.updating ? this.onChange.invoke() : 1;
+                && (priv.handleObj.style.transform = `translate(-50%,${priv.handle.y}${core.types.CSSUNITS.PX})`);
+            priv.colorQuad instanceof core.classes.ColorQuad && (priv.colorQuad.hue = priv.color.hue);
+            !this.updating && this.onChange.invoke();
         }
         //#endregion update
         //#region keyDown
@@ -160,7 +160,7 @@ const ColorPicker = (() => {
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             super.keyDown();
-            core.keyboard.shift ? offset *= 5 : 1;
+            core.keyboard.shift && (offset *= 5);
             switch (core.keyboard.keyCode) {
                 case VKEYSCODES.VK_UP:
                     pt.y -= offset - COLORPICKSIZE / 2;
@@ -173,7 +173,7 @@ const ColorPicker = (() => {
                     changeHandle = !0;
                     break;
             }
-            changeHandle ? this.update(pt) : 1;
+            changeHandle && this.update(pt);
         }
         //#endregion keyDown
         //#region loaded
@@ -189,7 +189,7 @@ const ColorPicker = (() => {
                 htmlElement.appendChild(priv.handleObj);
             }
             super.loaded();
-            priv.colorQuad instanceof core.classes.ColorQuad ? priv.colorQuad.hue = priv.color.hue : 1;
+            priv.colorQuad instanceof core.classes.ColorQuad && (priv.colorQuad.hue = priv.color.hue);
         }
         //#endregion loaded
         //#endregion Methods

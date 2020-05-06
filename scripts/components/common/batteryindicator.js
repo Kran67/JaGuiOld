@@ -9,7 +9,7 @@ const BatteryIndicator = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        !_private.has(key) ? _private.set(key, {}) : 1;
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -76,7 +76,7 @@ const BatteryIndicator = (() => {
             const PPoleBefore = priv.PPoleBefore;
             const PPoleAfter = priv.PPoleAfter;
             //#endregion Variables déclaration
-            this.obj ? ctxt = this.obj : 1;
+            this.obj && (ctxt = this.obj);
             if (ctxt.battery) {
                 const battery = ctxt.battery;
                 const value = battery.level * 100;
@@ -98,7 +98,7 @@ const BatteryIndicator = (() => {
                     htmlElement.dataset.legend1 = 'En charge'; // à traduire
                     if (battery.chargingTime > 0 && battery.chargingTime !== Infinity) {
                         battery.charging
-                            ? htmlElement.dataset.legend2 = `Temp de charge : ${Convert.sec2hrs(battery.chargingTime)}` : 1;
+                            && (htmlElement.dataset.legend2 = `Temp de charge : ${Convert.sec2hrs(battery.chargingTime)}`);
                     }
                 } else if (battery.dischargingTime !== Infinity) {
                     htmlElement.dataset.legend1 = `${Convert.sec2hrs(battery.dischargingTime)} restants`;
