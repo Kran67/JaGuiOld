@@ -3,7 +3,6 @@ import { ItemsWheel } from '/scripts/core/itemswheel.js';
 //import { Window } from '/scripts/components/containers/window.js';
 //import { Keyboard } from '/scripts/core/keyboard.js';
 //import { Mouse } from '/scripts/core/mouse.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region NumberWheel
 const NumberWheel = (() => {
@@ -11,9 +10,7 @@ const NumberWheel = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -26,9 +23,10 @@ const NumberWheel = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.min = props.hasOwnProperty('min') && Tools.isNumber(props.min) ? props.min : 0;
-                priv.max = props.hasOwnProperty('max') && Tools.isNumber(props.max) ? props.max : 100;
-                priv.numberDigits = props.hasOwnProperty('numberDigits') && Tools.isNumber(props.numberDigits) ? props.numberDigits : 2;
+                priv.min = props.hasOwnProperty('min') && core.tools.isNumber(props.min) ? props.min : 0;
+                priv.max = props.hasOwnProperty('max') && core.tools.isNumber(props.max) ? props.max : 100;
+                priv.numberDigits = props.hasOwnProperty('numberDigits') && core.tools.isNumber(props.numberDigits)
+                    ? props.numberDigits : 2;
             }
         }
         //#endregion constructor
@@ -41,11 +39,9 @@ const NumberWheel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.min !== newValue) {
-                    priv.min = newValue;
-                    this.recreateItems();
-                }
+            if (core.tools.isNumber(newValue) && priv.min !== newValue) {
+                priv.min = newValue;
+                this.recreateItems();
             }
         }
         //#endregion min
@@ -57,11 +53,9 @@ const NumberWheel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.max !== newValue) {
-                    priv.max = newValue;
-                    this.recreateItems();
-                }
+            if (core.tools.isNumber(newValue) && priv.max !== newValue) {
+                priv.max = newValue;
+                this.recreateItems();
             }
         }
         //#endregion max
@@ -70,11 +64,9 @@ const NumberWheel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.numberDigits !== newValue) {
-                    priv.numberDigits = newValue;
-                    this.recreateItems();
-                }
+            if (core.tools.isNumber(newValue) && priv.numberDigits !== newValue) {
+                priv.numberDigits = newValue;
+                this.recreateItems();
             }
         }
         //#endregion numberDigits
@@ -88,9 +80,7 @@ const NumberWheel = (() => {
             this.items.clear();
             for (let i = priv.min; i <= priv.max; i++) {
                 let str = i.toString();
-                if (str.length < priv.numberDigits) {
-                    str = String.dupeString('0', priv.numberDigits - str.length) + str;
-                }
+                str.length < priv.numberDigits && (str = String.dupeString('0', priv.numberDigits - str.length) + str);
                 this.items.push(str);
             }
             super.recreateItems();
@@ -114,13 +104,13 @@ const NumberWheel = (() => {
 })();
 //#endregion NumberWheel
 Object.seal(NumberWheel);
-Core.classes.register(Types.CATEGORIES.COMMON, NumberWheel);
+core.classes.register(core.types.CATEGORIES.COMMON, NumberWheel);
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const NumberWheelTpl = ['<jagui-numberwheel id="{internalId}" data-class="NumberWheel" class="Control ',
         'ItemsWheel NumberWheel {theme}"><properties>{ "name": "{name}", "width": 20, "height": 40 }</properties>',
         '</jagui-numberwheel>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: NumberWheel, template: NumberWheelTpl }]);
+    core.classes.registerTemplates([{ Class: NumberWheel, template: NumberWheelTpl }]);
 }
 //#endregion
 export { NumberWheel };

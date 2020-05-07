@@ -1,18 +1,17 @@
 ﻿//#region Import
 import { Control } from '/scripts/components/control.js';
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region IMAGEWRAPS
 /**
  * @type    {Object}        IMAGEWRAPS
  */
-const IMAGEWRAPS = Object.freeze({
+const IMAGEWRAPS = Object.freeze(Object.seal({
     ORIGINAL: 'original',
     FIT: 'fit',
     STRETCH: 'stretch',
     TILE: 'tile'
-});
+}));
 //#endregion
 //#region Image
 const Image = (() => {
@@ -20,9 +19,7 @@ const Image = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -35,8 +32,8 @@ const Image = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.src = props.hasOwnProperty('src') ? props.src : Types.CONSTANTS.PIX;
-                Tools.addPropertyFromEnum({
+                priv.src = props.hasOwnProperty('src') ? props.src : core.types.CONSTANTS.PIX;
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'wrapMode',
                     enum: IMAGEWRAPS,
@@ -65,12 +62,10 @@ const Image = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Image) {
-                if (priv.src !== newValue.src) {
-                    priv.src = newValue.src;
-                    this.backgroundImage.backgroundImage = `url(${newValue.src})`;
-                    this.update();
-                }
+            if (newValue instanceof Image && priv.src !== newValue.src) {
+                priv.src = newValue.src;
+                this.backgroundImage.backgroundImage = `url(${newValue.src})`;
+                this.update();
             }
         }
         //#endregion bitmap
@@ -82,19 +77,15 @@ const Image = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, IMAGEWRAPS)) {
-                if (priv.wrapMode !== newValue) {
-                    priv.wrapMode = newValue;
-                    if (!this.loading && !this.form.loading) {
-                        this.update();
-                    }
-                }
+            if (core.tools.valueInSet(newValue, IMAGEWRAPS) && priv.wrapMode !== newValue) {
+                priv.wrapMode = newValue;
+                !this.loading && !this.form.loading && this.update();
             }
         }
         //#endregion wrapMode
         //#region isEmpty
         get isEmpty() {
-            return this.HTMLElementStyle.backgroundImage === Types.CONSTANTS.PIX;
+            return this.HTMLElementStyle.backgroundImage === core.types.CONSTANTS.PIX;
         }
         //#endregion isEmpty
         //#endregion Getters / Setters
@@ -138,9 +129,7 @@ const Image = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.loaded();
-            if (priv.src) {
-                this.load(priv.src);
-            }
+            priv.src && this.load(priv.src);
         }
         //#endregion loaded
         //#region load
@@ -161,6 +150,7 @@ const Image = (() => {
             priv.src = null;
             priv.wrapMode = null;
             priv.bitmap = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -175,9 +165,7 @@ const Icon = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -204,16 +192,10 @@ const Icon = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (Tools.isString(cssClass)) {
-                if (!String.isNullOrEmpty(cssClass)) {
-                    if (priv.cssClass !== cssClass) {
-                        if (!String.isNullOrEmpty(priv.cssClass)) {
-                            htmlElement.classList.remove(priv.cssClass);
-                        }
-                        htmlElement.classList.add(cssClass);
-                        priv.cssClass = cssClass;
-                    }
-                }
+            if (core.tools.isString(cssClass) && !String.isNullOrEmpty(cssClass) && priv.cssClass !== cssClass) {
+                !String.isNullOrEmpty(priv.cssClass) && htmlElement.classList.remove(priv.cssClass);
+                htmlElement.classList.add(cssClass);
+                priv.cssClass = cssClass;
             }
         }
         //#endregion changeCSS
@@ -227,8 +209,8 @@ const Icon = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.cssClass = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -236,17 +218,17 @@ const Icon = (() => {
     return Icon;
     //#endregion Icon
 })();
+core.classes.register(core.types.CATEGORIES.COMMON, Image, Icon);
 //#endregion Icon
-Core.classes.register(Types.CATEGORIES.COMMON, Image, Icon);
-export { Image, Icon };
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const ImageTpl = ['<jagui-image id="{internalId}" data-class="Image" class="Control Image {theme} csr_default" draggable="false">',
         '<properties>{ "name": "{name}", "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==", ',
         '"width": 32, "height": 32 }</properties></jagui-image>'].join(String.EMPTY);
     const IconTpl = ['<jagui-icon id="{internalId}" data-class="Icon" class="Control Icon {theme} csr_default" draggable="false">',
         '<properties>{ "name": "{name}", "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==", ',
         '"width": 16, "height": 16 }</properties></jagui-image>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: Image, template: ImageTpl }, { Class: Icon, template: IconTpl }]);
+    core.classes.registerTemplates([{ Class: Image, template: ImageTpl }, { Class: Icon, template: IconTpl }]);
 }
 //#endregion Templates
+export { Image, Icon };

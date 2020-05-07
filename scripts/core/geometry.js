@@ -186,7 +186,7 @@ const Point = (() => {
         //#endregion inRect
         //#region rotate
         rotate(a, c) {
-            !(c instanceof core.classes.Point) && c = new core.classes.Point(priv.x, priv.y);
+            !(c instanceof core.classes.Point) && (c = new core.classes.Point(priv.x, priv.y));
             !core.tools.isNumber(a) && (a = 0);
             a = a * 1;
             a = Convert.deg2Rad(a);
@@ -1099,9 +1099,9 @@ const Matrix = (() => {
         constructor(v, v1, v2) {
             super();
             const priv = internal(this);
-            !(v instanceof core.classes.Vector) && v = new core.classes.Vector;
-            !(v1 instanceof core.classes.Vector) && v1 = new core.classes.Vector;
-            !(v2 instanceof core.classes.Vector) && v2 = new core.classes.Vector;
+            !(v instanceof core.classes.Vector) && (v = new core.classes.Vector);
+            !(v1 instanceof core.classes.Vector) && (v1 = new core.classes.Vector);
+            !(v2 instanceof core.classes.Vector) && (v2 = new core.classes.Vector);
 
             priv.m11 = v.x;
             priv.m12 = v.y;

@@ -2,7 +2,6 @@
 import { ListBox, ListBoxItem } from '/scripts/components/common/listbox.js';
 import { PopupBox } from '/scripts/core/popupbox.js';
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 //import { ImageList } from '/scripts/components/nonvisual/imagelist.js'
 import { Events } from '/scripts/core/events.js';
@@ -16,9 +15,9 @@ class ListBoxItemPopup extends ListBoxItem {
         //#endregion Variables déclaration
         props = !props ? {} : props;
         if (owner) {
+            props.forceMouseWheel = !0;
             props.closePopups = !1;
             super(owner, props);
-            this.forceMouseWheel = !0;
         }
     }
     //#endregion constructor
@@ -34,9 +33,7 @@ class ListBoxItemPopup extends ListBoxItem {
         const items = owner.items;
         const itemIndex = owner.itemIndex;
         if (itemIndex > -1) {
-            if (items[itemIndex].html) {
-                items[itemIndex].html.classList.remove('selected');
-            }
+            items[itemIndex].html && items[itemIndex].html.classList.remove('selected');
             items[itemIndex].selected = !1;
             owner.itemIndex = -1;
         }
@@ -61,9 +58,9 @@ class ListBoxPopup extends ListBox {
         if (owner) {
             props.closePopups = !1;
             props.itemsClass = 'ListBoxItemPopup';
+            props.forceMouseWheel = !0;
+            props.canFocused = !1;
             super(owner, props);
-            this.forceMouseWheel = !0;
-            this.canFocused = !1;
         }
     }
     //#endregion constructor
@@ -88,9 +85,7 @@ class ListBoxPopup extends ListBox {
         if (!item.isHeader && item.enabled) {
             dropDownListBox.itemIndex = item.index;
             dropDownListBox.text = item.caption;
-            if (!dropDownListBox.updating) {
-                dropDownListBox.onChange.invoke();
-            }
+            !dropDownListBox.updating && dropDownListBox.onChange.invoke();
             item.form.closePopups();
         }
     }
@@ -99,7 +94,7 @@ class ListBoxPopup extends ListBox {
     keyUp() {
         const VKEYSCODES = Keyboard.VKEYSCODES;
         super.keyUp();
-        switch (Core.keyboard.keyCode) {
+        switch (core.keyboard.keyCode) {
             case VKEYSCODES.VK_RETURN:
             case VKEYSCODES.VK_ENTER:
                 this._selectItem(this.items[this.itemIndex]);
@@ -117,9 +112,7 @@ const DropDownListBoxPopup = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -134,9 +127,8 @@ const DropDownListBoxPopup = (() => {
                 props.closePopups = !1;
                 super(owner, props);
                 const priv = internal(this);
-                priv.lbItemsSize = props.hasOwnProperty('itemsSize') && Tools.isNumber(props.itemsSize) ? props.itemsSize : 13;
+                priv.lbItemsSize = props.hasOwnProperty('itemsSize') && core.tools.isNumber(props.itemsSize) ? props.itemsSize : 13;
                 priv.items = props.hasOwnProperty('items') && Array.isArray(props.items) ? props.items : [];
-                //priv.dropDownListBox.onDrawItem.copyListenerTo(this._listBox.onDrawItem);
                 priv.listBoxPopupClass = props.hasOwnProperty('listBoxPopupClass') ? props.listBoxPopupClass : ListBoxPopup;
             }
         }
@@ -153,7 +145,7 @@ const DropDownListBoxPopup = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.loaded();
-            priv.listBox = Core.classes.createComponent({
+            priv.listBox = core.classes.createComponent({
                 class: priv.listBoxPopupClass,
                 owner: this,
                 props: {
@@ -173,29 +165,24 @@ const DropDownListBoxPopup = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.show(x, y);
-            if (!priv.dropDownPopup) {
-                priv.listBox.getHTMLElement(priv.listBox.internalId);
-            }
+            !priv.dropDownPopup && priv.listBox.getHTMLElement(priv.listBox.internalId);
             priv.listBox.itemIndex = this.owner.itemIndex;
-            if (priv.listBox.itemIndex > -1) {
-                priv.listBox.items[priv.listBox.itemIndex].selected = !0;
-            }
+            priv.listBox.itemIndex > -1 && (priv.listBox.items[priv.listBox.itemIndex].selected = !0);
         }
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (htmlElement) {
-                htmlElement.classList.remove('animated', 'fadeIn');
-            }
-            super.destroy();
-            priv.lbItemsHeight = null;
-            priv.dropDownListBox = null;
+            htmlElement && htmlElement.classList.remove('animated', 'fadeIn');
+            priv.lbItemsSize = null;
             priv.lbHeight = null;
             priv.lbWidth = null;
-            priv.lbItemsHeight = null;
             priv.listBox = null;
+            priv.items.destroy();
+            priv.items = null;
+            priv.listBoxPopupClass = null;
+            super.destroy();
         }
         keyUp() {
             //#region Variables déclaration
@@ -204,7 +191,7 @@ const DropDownListBoxPopup = (() => {
             const VKEYSCODES = Keyboard.VKEYSCODES;
             //#endregion Variables déclaration
             super.keyUp();
-            switch (Core.keyboard.keyCode) {
+            switch (core.keyboard.keyCode) {
                 case VKEYSCODES.VK_RETURN:
                 case VKEYSCODES.VK_ENTER:
                     listBox.selectItem = listBox.items[listBox.itemIndex];
@@ -224,9 +211,7 @@ const DropDownListBox = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -242,36 +227,35 @@ const DropDownListBox = (() => {
                 props.height = 20;
                 props.canFocused = !0;
                 props.autoCapture = !0;
+                props.stopEvent = !0;
+                props.canFocused = !0;
+                props.autoCapture = !0;
                 super(owner, props);
                 const priv = internal(this);
                 priv.content = null;
                 priv.dropDownPopup = null;
-                priv.opened = props.hasOwnProperty('opened') && Tools.isBool(props.opened) ? props.opened : !1;
+                priv.opened = props.hasOwnProperty('opened') && core.tools.isBool(props.opened) ? props.opened : !1;
                 priv.text = props.hasOwnProperty('text') ? props.text : String.EMPTY;
                 priv.input = null;
-                priv.dropDownCount = props.hasOwnProperty('dropDownCount') && Tools.isNumber(props.dropDownCount) ? props.dropDownCount : 8;
-                priv.editable = props.hasOwnProperty('editable') && Tools.isBool(props.editable) ? props.editable : !1;
-                this.hitTest.all = !0;
-                this.hitTest.mouseWheel = !1;
-                this.hitTest.dblClick = !1;
-                this.createEventsAndBind(['onChange', 'onDrawItem'], props);
-                this.stopEvent = !0;
-                //Core.classes.newCollection(this, this, ListBoxItem);
+                priv.dropDownCount = props.hasOwnProperty('dropDownCount') && core.tools.isNumber(props.dropDownCount)
+                    ? props.dropDownCount : 8;
+                priv.editable = props.hasOwnProperty('editable') && core.tools.isBool(props.editable) ? props.editable : !1;
+                //core.classes.newCollection(this, this, ListBoxItem);
                 //if (this._ClassName === "DropDownListBox") {
                 //    priv.editable = !1;
                 //    priv.autoComplete = !1;
                 //    priv.autoCompleteDelay = 500;
-                //    $j.tools.addPropertyFromSet(this, "charCase", $j.types.charCases, $j.types.charCases.NORMAL);
+                //    $j.core.tools.addPropertyFromSet(this, "charCase", $j.core.types.charCases, $j.core.types.charCases.NORMAL);
                 //    priv.maxLength = 0;
                 //}
                 priv.items = props.hasOwnProperty('items') && Array.isArray(props.items) ? props.items : [];
-                priv.itemIndex = props.hasOwnProperty('itemIndex') && Tools.isNumber(props.itemIndex) ? props.itemIndex : -1;
-                priv.itemsSize = props.hasOwnProperty('itemsSize') && Tools.isNumber(props.itemsSize) ? props.itemsSize : 13;
+                priv.itemIndex = props.hasOwnProperty('itemIndex') && core.tools.isNumber(props.itemIndex) ? props.itemIndex : -1;
+                priv.itemsSize = props.hasOwnProperty('itemsSize') && core.tools.isNumber(props.itemsSize) ? props.itemsSize : 13;
                 priv.images = null;
                 priv.listBoxPopupClass = props.hasOwnProperty('listBoxPopupClass') ? props.listBoxPopupClass : ListBoxPopup;
-                priv.dropDownWidth = props.hasOwnProperty('dropDownWidth') && Tools.isNumber(props.dropDownWidth) ? props.dropDownWidth : -1;
-                this.canFocused = !0;
-                this.autoCapture = !0;
+                priv.dropDownWidth = props.hasOwnProperty('dropDownWidth') && core.tools.isNumber(props.dropDownWidth)
+                    ? props.dropDownWidth : -1;
+                this.createEventsAndBind(['onChange', 'onDrawItem'], props);
             }
         }
         //#endregion constructor
@@ -284,11 +268,7 @@ const DropDownListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue.prototype instanceof ListBox) {
-                if (priv.listBoxPopupClass !== newValue) {
-                    priv.listBoxPopupClass = newValue;
-                }
-            }
+            newValue.prototype instanceof ListBox && priv.listBoxPopupClass !== newValue && (priv.listBoxPopupClass = newValue);
         }
         //#endregion listBoxPopupClass
         //#region dropDownPopup
@@ -305,19 +285,15 @@ const DropDownListBox = (() => {
             const priv = internal(this);
             const items = this.items;
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.text !== newValue) {
-                    priv.text = newValue;
-                    if (items && items.length > 0) {
-                        const item = items.filter(function (el) {
-                            return el.caption === newValue;
-                        });
-                        if (item.length > 0) {
-                            priv.itemIndex = items.indexOf(item.first);
-                        }
-                    }
-                    this.update();
+            if (core.tools.isString(newValue) && priv.text !== newValue) {
+                priv.text = newValue;
+                if (items && items.length > 0) {
+                    const item = items.filter(function (el) {
+                        return el.caption === newValue;
+                    });
+                    item.length > 0 && (priv.itemIndex = items.indexOf(item.first));
                 }
+                this.update();
             }
         }
         //#endregion text
@@ -329,16 +305,10 @@ const DropDownListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.opened !== newValue) {
-                    priv.opened = newValue;
-                    this.update();
-                    if (priv.opened) {
-                        this.showPopup();
-                    } else {
-                        this.form.closePopups();
-                    }
-                }
+            if (core.tools.isBool(newValue) && priv.opened !== newValue) {
+                priv.opened = newValue;
+                this.update();
+                priv.opened ? this.showPopup() : this.form.closePopups();
             }
         }
         //#endregion opened
@@ -366,11 +336,9 @@ const DropDownListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
+            if (core.tools.isNumber(newValue)) {
                 newValue = Math.max(newValue, 8);
-                if (priv.dropDownCount !== newValue) {
-                    priv.dropDownCount = newValue;
-                }
+                priv.dropDownCount !== newValue && (priv.dropDownCount = newValue);
             }
         }
         //#endregion dropDownCount
@@ -380,11 +348,7 @@ const DropDownListBox = (() => {
         }
         set dropDownWidth(newValue) {
             const priv = internal(this);
-            if (Tools.isNumber(newValue)) {
-                if (priv.dropDownWidth !== newValue) {
-                    priv.dropDownWidth = newValue;
-                }
-            }
+            core.tools.isNumber(newValue) && priv.dropDownWidth !== newValue && (priv.dropDownWidth = newValue);
         }
         //#endregion dropDownWidth
         //#region autoComplete
@@ -395,11 +359,7 @@ const DropDownListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.autoComplete !== newValue) {
-                    priv.autoComplete = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.autoComplete !== newValue && (priv.autoComplete = newValue);
         }
         //#endregion autoComplete
         //#region autoCompleteDelay
@@ -410,11 +370,7 @@ const DropDownListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.autoCompleteDelay !== newValue) {
-                    priv.autoCompleteDelay = newValue;
-                }
-            }
+            core.tools.isNumber(newValue) && priv.autoCompleteDelay !== newValue && (priv.autoCompleteDelay = newValue);
         }
         //#endregion autoCompleteDelay
         //#region charCase
@@ -425,11 +381,9 @@ const DropDownListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, Types.charCases)) {
-                if (priv.charCase !== newValue) {
-                    priv.charCase = newValue;
-                    this.update();
-                }
+            if (core.tools.valueInSet(newValue, core.types.charCases) && priv.charCase !== newValue) {
+                priv.charCase = newValue;
+                this.update();
             }
         }
         //#endregion charCase
@@ -441,18 +395,12 @@ const DropDownListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.itemIndex !== newValue) {
-                    newValue = Math.max(Math.min(newValue, priv.items.length - 1), 0);
-                    if (priv.itemIndex > -1) {
-                        priv.items[priv.itemIndex].selected = !1;
-                    }
-                    priv.itemIndex = newValue;
-                    if (newValue > -1) {
-                        this.text = priv.items[newValue].text;
-                    }
-                    priv.items[newValue].selected = !0;
-                }
+            if (core.tools.isNumber(newValue) && priv.itemIndex !== newValue) {
+                newValue = Math.max(Math.min(newValue, priv.items.length - 1), 0);
+                priv.itemIndex > -1 && (priv.items[priv.itemIndex].selected = !1);
+                priv.itemIndex = newValue;
+                newValue > -1 && (this.text = priv.items[newValue].text);
+                priv.items[newValue].selected = !0;
             }
         }
         //#endregion itemIndex
@@ -464,7 +412,7 @@ const DropDownListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
+            if (core.tools.isNumber(newValue)) {
                 newValue = Math.max(0, newValue);
                 if (priv.maxLength !== newValue) {
                     priv.maxLength = newValue;
@@ -481,11 +429,9 @@ const DropDownListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
+            if (core.tools.isNumber(newValue)) {
                 newValue = Math.max(newValue, 13);
-                if (priv.itemsSize !== newValue) {
-                    priv.itemsSize = newValue;
-                }
+                priv.itemsSize !== newValue && (priv.itemsSize = newValue);
             }
         }
         //#endregion itemsSize
@@ -518,9 +464,7 @@ const DropDownListBox = (() => {
             }
             if (priv.input) {
                 priv.input.value = priv.text;
-                if (priv.maxLength > 0) {
-                    priv.input.setAttribute('maxLength', priv.maxLength);
-                }
+                priv.maxLength > 0 && priv.input.setAttribute('maxLength', priv.maxLength);
             }
             this.onPaint.invoke();
         }
@@ -531,11 +475,7 @@ const DropDownListBox = (() => {
             const priv = internal(this);
             const lastOpened = priv.opened;
             //#endregion Variables déclaration
-            if (this === this.form.focusedControl) {
-                if (lastOpened) {
-                    this.closePopups = !1;
-                }
-            }
+            this === this.form.focusedControl && lastOpened && (this.closePopups = !1);
             super.mouseDown();
             this.closePopups = !0;
             this.opened = !this.opened;
@@ -548,7 +488,7 @@ const DropDownListBox = (() => {
             const pt = this.clientToDocument();
             //#endregion Variables déclaration
             if (!priv.dropDownPopup) {
-                priv.dropDownPopup = Core.classes.createComponent({
+                priv.dropDownPopup = core.classes.createComponent({
                     class: DropDownListBoxPopup,
                     owner: this,
                     props: {
@@ -584,12 +524,12 @@ const DropDownListBox = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.keyDown();
-            if (Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
+            if (core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
                 if (!priv.opened) {
                     this.opened = !0;
                 } else {
                     if (!priv.dropDownPopup.refControl.mode) {
-                        //this.text = priv.dropDownPopup.listbox.curDate.toString(Tools.getLocale().date.formatPatterns.shortDate);
+                        //this.text = priv.dropDownPopup.listbox.curDate.toString(core.tools.getLocale().date.formatPatterns.shortDate);
                         this.opened = !1;
                     } else if (priv.dropDownPopup) {
                         priv.dropDownPopup.refControl.keyDown();
@@ -604,7 +544,7 @@ const DropDownListBox = (() => {
         loaded() {
             //#region Variables déclaration
             const priv = internal(this);
-            const TAG = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const TAG = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             super.loaded();
@@ -614,7 +554,7 @@ const DropDownListBox = (() => {
             htmlElement.appendChild(priv.content);
             htmlElement.appendChild(document.createElement(`${TAG}arrow`));
             htmlElement.lastElementChild.classList.add('DropDownListBoxArrow');
-            priv.input = document.createElement(Types.HTMLELEMENTS.INPUT);
+            priv.input = document.createElement(core.types.HTMLELEMENTS.INPUT);
             priv.input.type = 'text';
             priv.input.classList.add('DropDownListBoxInput', this.themeName, 'csr_default');
             priv.input.jsObj = this;
@@ -629,9 +569,7 @@ const DropDownListBox = (() => {
         //#endregion loaded
         //#region _mouseDown
         _mouseDown(mouseEventArg) {
-            if (this.jsObj.editable) {
-                Core.mouse.stopEvent(mouseEventArg);
-            }
+            this.jsObj.editable && core.mouse.stopEvent(mouseEventArg);
         }
         //#endregion _mouseDown
         //#region destroy
@@ -639,24 +577,27 @@ const DropDownListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
+            this.clearItems();
             priv.content = null;
             priv.input = null;
             priv.opened = null;
             priv.text = null;
-            this.clearItems();
-            //this.items.clear();
-            //this.items.destroy();
+            this.items = null;
+            delete this.items;
             priv.items = null;
             priv.dropDownCount = null;
             priv.itemIndex = null;
             priv.itemsSize = null;
-            this.onChange.destroy();
-            this.onChange = null;
             priv.autoComplete = null;
             priv.autoCompleteDelay = null;
             priv.charCase = null;
             priv.maxLength = null;
             priv.editable = null;
+            priv.dropDownPopup = null;
+            priv.images = null;
+            priv.listBoxPopupClass = null;
+            priv.dropDownWidth = null;
+            this.unBindAndDestroyEvents(['onChange', 'onDrawItem']);
             super.destroy();
         }
         //#endregion destroy
@@ -666,9 +607,7 @@ const DropDownListBox = (() => {
             const priv = internal(this);
             const form = this.form;
             //#endregion Variables déclaration
-            if (form[priv.images]) {
-                priv.images = form[priv.images];
-            }
+            form[priv.images] && (priv.images = form[priv.images]);
         }
         //#endregion getImages
         //#region findItemFromText
@@ -676,11 +615,7 @@ const DropDownListBox = (() => {
             const items = priv.items.filter(function (e) {
                 return (e.caption === text);
             });
-            if (items.length > 0) {
-                return items.first.index;
-            } else {
-                return -1;
-            }
+            return items.length > 0 ? items.first.index : -1;
         }
         //#endregion findItemFromText
         //#region newItem
@@ -688,7 +623,7 @@ const DropDownListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            const item = Core.classes.createComponent({
+            const item = core.classes.createComponent({
                 class: ListBoxItem, // à voir ici
                 owner: this,
                 props
@@ -702,9 +637,7 @@ const DropDownListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (item && item instanceof ListBoxItem) {
-                priv.items.add(item);
-            }
+            item && item instanceof ListBoxItem && priv.items.add(item);
         }
         //#endregion addItem
         //#region removeItem
@@ -738,17 +671,17 @@ const DropDownListBox = (() => {
     //#endregion DropDownListBox
 })();
 Object.seal(DropDownListBox);
+core.classes.register(core.types.CATEGORIES.INTERNAL, DropDownListBoxPopup, ListBoxPopup, ListBoxItemPopup);
+core.classes.register(core.types.CATEGORIES.COMMON, DropDownListBox);
 //#endregion DropDownListBox
-Core.classes.register(Types.CATEGORIES.INTERNAL, DropDownListBoxPopup, ListBoxPopup, ListBoxItemPopup);
-Core.classes.register(Types.CATEGORIES.COMMON, DropDownListBox);
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const DropDownListBoxTpl = '<jagui-dropdownlistbox id="{internalId}" data-class="DropDownListBox" class="Control DropDownListBox {theme}"><properties>{ "name": "{name}", "editable": !1, "width": 100 }</properties></jagui-dropdownlistbox>';
-    const DropDownListBoxPopupTpl = Core.templates['PopupBox'].replace('PopupBox', 'PopupBox PopupListBox');
-    Core.classes.registerTemplates([
+    const DropDownListBoxPopupTpl = core.templates['PopupBox'].replace('PopupBox', 'PopupBox PopupListBox');
+    core.classes.registerTemplates([
         { Class: DropDownListBox, template: DropDownListBoxTpl },
         { Class: DropDownListBoxPopup, template: DropDownListBoxPopupTpl },
-        { Class: ListBoxPopup, template: Core.templates['ListBox'] }
+        { Class: ListBoxPopup, template: core.templates['ListBox'] }
     ]);
 }
 //#endregion Templates

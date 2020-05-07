@@ -2,7 +2,6 @@
 import { TimePanel } from '/scripts/components/common/timepanel.js';
 import { PopupBox } from '/scripts/core/popupbox.js';
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Import
 //#region Class TimePanelPopup
@@ -14,8 +13,8 @@ class TimePanelPopup extends TimePanel {
         props = !props ? {} : props;
         if (owner) {
             props.closePopups = !1;
+            props.forceMouseWheel = !0;
             super(owner, props);
-            this.forceMouseWheel = !0;
         }
     }
     //#endregion constructor
@@ -46,9 +45,7 @@ const DropDownTimePanelPopup = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -82,9 +79,7 @@ const DropDownTimePanelPopup = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.show(x, y);
-            if (!priv.timePanel.HTMLElement) {
-                priv.timePanel.getHTMLElement(priv.timePanel.internalId);
-            }
+            !priv.timePanel.HTMLElement && priv.timePanel.getHTMLElement(priv.timePanel.internalId);
             priv.timePanel.HTMLElement.classList.add('focused');
             priv.timePanel.time = this.owner.text;
         }
@@ -96,7 +91,7 @@ const DropDownTimePanelPopup = (() => {
             const owner = this.owner;
             //#endregion Variables déclaration
             super.loaded();
-            priv.timePanel = Core.classes.createComponent({
+            priv.timePanel = core.classes.createComponent({
                 class: TimePanelPopup,
                 owner: this,
                 props: {
@@ -111,11 +106,12 @@ const DropDownTimePanelPopup = (() => {
         //#region destroy
         destroy() {
             //#region Variables déclaration
+            const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (htmlElement) {
-                htmlElement.classList.remove('animated', 'fadeIn');
-            }
+            htmlElement && htmlElement.classList.remove('animated', 'fadeIn');
+            priv.use24H = null;
+            priv.viewSeconds = null;
             super.destroy();
         }
         //#endregion destroy
@@ -132,9 +128,7 @@ const DropDownTimePanel = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -148,19 +142,16 @@ const DropDownTimePanel = (() => {
                 props.height = 20;
                 props.canFocused = !0;
                 props.autoCapture = !0;
+                props.stopEvent = !0;
                 super(owner, props);
                 const priv = internal(this);
                 priv.content = null;
                 priv.dropDownPopup = null;
-                priv.opened = props.hasOwnProperty('opened') && Tools.isBool(props.opened) ? props.opened : !1;
+                priv.opened = props.hasOwnProperty('opened') && core.tools.isBool(props.opened) ? props.opened : !1;
                 priv.text = props.hasOwnProperty('text') ? props.text : String.EMPTY;
-                this.hitTest.all = !0;
-                this.hitTest.mouseWheel = !1;
-                this.hitTest.dblClick = !1;
+                priv.use24H = props.hasOwnProperty('use24H') && core.tools.isBool(props.use24H) ? props.use24H : !1;
+                priv.viewSeconds = props.hasOwnProperty('viewSeconds') && core.tools.isBool(props.viewSeconds) ? props.viewSeconds : !1;
                 this.createEventsAndBind(['onChange'], props);
-                this.stopEvent = !0;
-                priv.use24H = props.hasOwnProperty('use24H') && Tools.isBool(props.use24H) ? props.use24H : !1;
-                priv.viewSeconds = props.hasOwnProperty('viewSeconds') && Tools.isBool(props.viewSeconds) ? props.viewSeconds : !1;
             }
         }
         //#endregion constructor
@@ -178,11 +169,9 @@ const DropDownTimePanel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.text !== newValue) {
-                    priv.text = newValue;
-                    this.update();
-                }
+            if (core.tools.isString(newValue) && priv.text !== newValue) {
+                priv.text = newValue;
+                this.update();
             }
         }
         //#endregion text
@@ -194,16 +183,10 @@ const DropDownTimePanel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.opened !== newValue) {
-                    priv.opened = newValue;
-                    this.update();
-                    if (priv.opened) {
-                        this.showPopup();
-                    } else {
-                        this.form.closePopups();
-                    }
-                }
+            if (core.tools.isBool(newValue) && priv.opened !== newValue) {
+                priv.opened = newValue;
+                this.update();
+                priv.opened ? this.showPopup() : this.form.closePopups();
             }
         }
         //#endregion opened
@@ -227,9 +210,7 @@ const DropDownTimePanel = (() => {
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             priv.opened ? htmlElement.classList.add('opened') : htmlElement.classList.remove('opened');
-            if (priv.content) {
-                priv.content.innerHTML = priv.text;
-            }
+            priv.content && (priv.content.innerHTML = priv.text);
         }
         //#endregion update
         //#region mouseDown
@@ -238,11 +219,7 @@ const DropDownTimePanel = (() => {
             const priv = internal(this);
             const lastOpened = priv.opened;
             //#endregion Variables déclaration
-            if (this === this.form.focusedControl) {
-                if (lastOpened) {
-                    this.closePopups = false;
-                }
-            }
+            this === this.form.focusedControl && lastOpened && (this.closePopups = false);
             super.mouseDown();
             this.closePopups = true;
             this.opened = !this.opened;
@@ -255,7 +232,7 @@ const DropDownTimePanel = (() => {
             const pt = this.clientToDocument();
             //#endregion Variables déclaration
             if (!priv.dropDownPopup) {
-                priv.dropDownPopup = Core.classes.createComponent({
+                priv.dropDownPopup = core.classes.createComponent({
                     class: DropDownTimePanelPopup,
                     owner: this,
                     props: {
@@ -289,13 +266,11 @@ const DropDownTimePanel = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.keyDown();
-            if (Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
+            if (core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
                 if (!priv.opened) {
                     this.opened = !0;
-                } else {
-                    if (priv.dropDownPopup) {
-                        priv.dropDownPopup.timePanel.keyDown();
-                    }
+                } else if (priv.dropDownPopup) {
+                    priv.dropDownPopup.timePanel.keyDown();
                 }
             } else if (priv.dropDownPopup) {
                 priv.dropDownPopup.timePanel.keyDown();
@@ -306,7 +281,7 @@ const DropDownTimePanel = (() => {
         loaded() {
             //#region Variables déclaration
             const priv = internal(this);
-            const TAG = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const TAG = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             super.loaded();
@@ -327,6 +302,10 @@ const DropDownTimePanel = (() => {
             priv.content = null;
             priv.opened = null;
             priv.text = null;
+            priv.dropDownPopup = null;
+            priv.use24H = null;
+            priv.viewSeconds = null;
+            this.unBindAndDestroyEvents(['onChange']);
             super.destroy();
         }
         //#endregion destroy
@@ -336,17 +315,17 @@ const DropDownTimePanel = (() => {
     //#endregion DropDownTimePanel
 })();
 Object.seal(DropDownTimePanel);
+core.classes.register(core.types.CATEGORIES.INTERNAL, TimePanelPopup, DropDownTimePanelPopup);
+core.classes.register(core.types.CATEGORIES.COMMON, DropDownTimePanel);
 //#endregion DropDownTimePanel
-Core.classes.register(Types.CATEGORIES.INTERNAL, TimePanelPopup, DropDownTimePanelPopup);
-Core.classes.register(Types.CATEGORIES.COMMON, DropDownTimePanel);
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const DropDownTimePanelTpl = `<jagui-dropdowncalendar id="{internalId}" data-class="DropDownTimePanel" class="Control DropDownListBox DropDownTimePanel {theme}"><properties>{ "name": "{name}", "width": 80 }</properties></jagui-dropdowntimepanel>`;
-    const DropDownTimePanelPopupTpl = Core.templates['PopupBox'].replace('PopupBox', 'PopupBox PopupBoxTimePanel');
-    Core.classes.registerTemplates([
+    const DropDownTimePanelPopupTpl = core.templates['PopupBox'].replace('PopupBox', 'PopupBox PopupBoxTimePanel');
+    core.classes.registerTemplates([
         { Class: DropDownTimePanel, template: DropDownTimePanelTpl },
         { Class: DropDownTimePanelPopup, template: DropDownTimePanelPopupTpl },
-        { Class: TimePanelPopup, template: Core.templates['TimePanel'] }
+        { Class: TimePanelPopup, template: core.templates['TimePanel'] }
     ]);
 }
 //#endregion

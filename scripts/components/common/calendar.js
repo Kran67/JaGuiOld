@@ -323,7 +323,7 @@ const Calendar = (() => {
                         priv.thisMonth.innerHTML = priv.curDate.getFullYear();
                         for (let i = 0; i < 12; i++) {
                             div[d].classList.remove('CalendarThis', 'CalendarSelected');
-                            i === date.month - 1 ? div[d].classList.add('CalendarThis') ;
+                            i === date.month - 1 && div[d].classList.add('CalendarThis');
                             i === priv.curDate.month - 1 && div[d].classList.add('CalendarSelected');
                             div[d].jsObj = this;
                             div[d].dataset.theme = this.themeName;

@@ -375,7 +375,7 @@ if (!String.prototype.format) {
                             break;
                     }
                     //make sure that the length of the possible sign is not ignored
-                    frmt.paddingFlag === '0' && s = core.tools.pad(s, '0', frmt.minLength - sign.length);
+                    frmt.paddingFlag === '0' && (s = core.tools.pad(s, '0', frmt.minLength - sign.length));
                     s = sign + s;//add sign
                     s = core.tools.pad(s, frmt.paddingFlag, frmt.minLength);//do padding and justifiing
                 } else {

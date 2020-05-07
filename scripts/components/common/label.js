@@ -1,6 +1,5 @@
 ﻿//#region Import
 import { CaptionControl } from '/scripts/core/captioncontrol.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Colors, Color } from '/scripts/core/color.js';
 import './labeleffects.js';
 //#endregion Import
@@ -10,13 +9,12 @@ const Label = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
     //#endregion Private
+    //#region Label
     class Label extends CaptionControl {
         //#region Constructor
         constructor(owner, props) {
@@ -24,21 +22,21 @@ const Label = (() => {
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
+                props.clipped = !1;
                 super(owner, props);
                 //#region Private
                 const priv = internal(this);
                 priv.effect = null;
                 if (props.effect) {
-                    const effectClassName = Core.classes[`Label${props.effect.name.firstCharUpper}Effect`];
+                    const effectClassName = core.classes[`Label${props.effect.name.firstCharUpper}Effect`];
                     priv.effect = props.hasOwnProperty('effect') && effectClassName ? new effectClassName(this, props.effect.properties) : null;
                 }
                 //#endregion Private
                 delete this.tabOrder;
-                this.clipped = !1;
             }
         }
         //#endregion
-        //#region Setters
+        //#region Getters / Setters
         //#region effet
         get effect() {
             return internal(this).effect;
@@ -52,24 +50,20 @@ const Label = (() => {
                     htmlElement.classList.remove(this.effect.cssName);
                     this.effect.destroy();
                     this.effect = newValue;
-                    if (newValue) {
-                        htmlElement.classList.add(this.effect.cssName);
-                    }
+                    newValue && htmlElement.classList.add(this.effect.cssName);
                 }
             }
         }
         //#endregion effet
-        //#endregion
+        //#endregion Getters / Setters
         //#region Methods
         //#region loaded
         loaded() {
             //#region Variables déclaration
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             //#endregion Variables déclaration
             super.loaded();
-            if (isHtmlRenderer) {
-                this.update();
-            }
+            isHtmlRenderer && this.update();
         }
         //#endregion loaded
         //#region update
@@ -79,7 +73,7 @@ const Label = (() => {
             const htmlElementStyle = this.HTMLElementStyle;
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (Core.isHTMLRenderer) {
+            if (core.isHTMLRenderer) {
                 if (htmlElement) {
                     htmlElement.innerHTML = this.caption;
                     this.updateCssProperties();
@@ -104,25 +98,19 @@ const Label = (() => {
             super.destroy();
         }
         //#endregion destroy
-        //#endregion
+        //#endregion Methods
     }
     return Label;
+    //#endregion Label
 })();
-//#endregion Label
-//#region Label defineProperties
-Object.defineProperties(Label, {
-    'effet': {
-        enumerable: !0
-    }
-});
-//#endregion Label defineProperties
 Object.seal(Label);
-Core.classes.register(Types.CATEGORIES.COMMON, Label);
+core.classes.register(core.types.CATEGORIES.COMMON, Label);
+//#endregion Label
 //#region Template
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const LabelTpl = ['<jagui-label id="{internalId}" data-class="Label" class="Control csr_default Label {theme} csr_default">',
         '<properties>{ "name": "{name}", "caption": "{caption}" }</properties></jagui-label>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: Label, template: LabelTpl }]);
+    core.classes.registerTemplates([{ Class: Label, template: LabelTpl }]);
 }
 //#endregion Template
 export { Label };

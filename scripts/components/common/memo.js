@@ -3,7 +3,6 @@ import { CustomTextControl } from '/scripts/core/customtextcontrol.js';
 //import { Window } from '/scripts/components/containers/window.js';
 import { Events } from '/scripts/core/events.js';
 import { StringList } from '/scripts/core/stringlist.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region WHITESPACES
 const WHITESPACES = Object.freeze(Object.seal({
@@ -39,9 +38,7 @@ const Memo = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -52,16 +49,16 @@ const Memo = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.hitTest = { mouseWheel: !0 };
+                if (!core.isHTMLRenderer) {
+                    props.width = 185;
+                    props.height = 89;
+                }
                 super(owner, props);
                 const priv = internal(this);
                 priv.whiteSpace = props.hasOwnProperty('whiteSpace') ? props.whiteSpace : WHITESPACES.INHERIT;
                 priv.wordBreak = props.hasOwnProperty('wordBreak') ? props.wordBreak : WORDBREAKS.INHERIT;
                 priv.wordWraps = props.hasOwnProperty('wordWraps') ? props.wordWraps : WORDWRAPS.INHERIT;
-                if (!Core.isHTMLRenderer) {
-                    this.width = 185;
-                    this.height = 89;
-                }
-                this.hitTest.mouseWheel = !0;
                 priv.lines = new StringList(this);
                 priv.lines.onChange.addListener(this.update);
                 priv.text = props.hasOwnProperty('text') ? props.text : this.name;
@@ -77,11 +74,9 @@ const Memo = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, WHITESPACES)) {
-                if (priv.whiteSpace !== newValue) {
-                    priv.whiteSpace = newValue;
-                    this.update();
-                }
+            if (core.tools.valueInSet(newValue, WHITESPACES) && priv.whiteSpace !== newValue) {
+                priv.whiteSpace = newValue;
+                this.update();
             }
         }
         //#endregion whiteSpace
@@ -93,11 +88,9 @@ const Memo = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, WORDBREAKS)) {
-                if (priv.wordBreak !== newValue) {
-                    priv.wordBreak = newValue;
-                    this.update();
-                }
+            if (core.tools.valueInSet(newValue, WORDBREAKS) && priv.wordBreak !== newValue) {
+                priv.wordBreak = newValue;
+                this.update();
             }
         }
         //#endregion wordBreak
@@ -109,11 +102,9 @@ const Memo = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, WORDWRAPS)) {
-                if (priv.wordWraps !== newValue) {
-                    priv.wordWraps = newValue;
-                    this.update();
-                }
+            if (core.tools.valueInSet(newValue, WORDWRAPS) && priv.wordWraps !== newValue) {
+                priv.wordWraps = newValue;
+                this.update();
             }
         }
         //#endregion wordWrap
@@ -125,12 +116,10 @@ const Memo = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof StringList) {
-                if (priv.lines !== newValue) {
-                    priv.lines.clear();
-                    priv.lines.list.addRange(newValue);
-                    this.update();
-                }
+            if (newValue instanceof StringList && priv.lines !== newValue) {
+                priv.lines.clear();
+                priv.lines.list.addRange(newValue);
+                this.update();
             }
         }
         //#endregion lines
@@ -143,28 +132,19 @@ const Memo = (() => {
             //#region Variables déclaration
             let memo = this;
             //#endregion Variables déclaration
-            if (arg) {
-                memo = arg;
-            }
-            if (!memo.loading && !memo.form.loading) {
-                if (memo.inputObj) {
-                    const ta = memo.inputObj;
-                    const taStyle = ta.style;
-                    ta.value = memo.lines.text;
-                    taStyle.whiteSpace = memo.whiteSpace;
-                    taStyle.wordBreak = memo.wordBreak;
-                    taStyle.wordWrap = memo.wordWrap;
-                    if (memo.maxLength > 0) {
-                        ta.setAttribute('maxlength', memo.maxLength);
-                    }
-                    ta.setAttribute('placeholder', memo.placeHolder);
-                    if (memo.readOnly) {
-                        ta.setAttribute('readonly', null);
-                    }
-                    else {
-                        ta.removeAttribute('readonly');
-                    }
+            arg && (memo = arg);
+            if (!memo.loading && !memo.form.loading && memo.inputObj) {
+                const ta = memo.inputObj;
+                const taStyle = ta.style;
+                ta.value = memo.lines.text;
+                taStyle.whiteSpace = memo.whiteSpace;
+                taStyle.wordBreak = memo.wordBreak;
+                taStyle.wordWrap = memo.wordWrap;
+                if (memo.maxLength > 0) {
+                    ta.setAttribute('maxlength', memo.maxLength);
                 }
+                ta.setAttribute('placeholder', memo.placeHolder);
+                memo.readOnly ? ta.setAttribute('readonly', null) : ta.removeAttribute('readonly');
             }
         }
         HTMLFocus() {
@@ -176,15 +156,15 @@ const Memo = (() => {
         loaded() {
             //#region Variables déclaration
             const priv = internal(this);
-            const ta = document.createElement(Types.HTMLELEMENTS.TEXTAREA);
+            const ta = document.createElement(core.types.HTMLELEMENTS.TEXTAREA);
             //#endregion Variables déclaration
             super.loaded();
             ta.classList.add('Control', 'csr_text', 'MemoInput', this.themeName);
             ta.jsObj = this;
             this.inputObj = ta;
-            Events.bind(ta, Types.HTMLEVENTS.CHANGE, this.textChanged);
-            Events.bind(ta, Types.HTMLEVENTS.FOCUS, this.HTMLFocus);
-            Events.bind(ta, Types.HTMLEVENTS.BLUR, this.HTMLBlur);
+            Events.bind(ta, core.types.HTMLEVENTS.CHANGE, this.textChanged);
+            Events.bind(ta, core.types.HTMLEVENTS.FOCUS, this.HTMLFocus);
+            Events.bind(ta, core.types.HTMLEVENTS.BLUR, this.HTMLBlur);
             priv.lines.addText(priv.text, false);
         }
         //#endregion Methods
@@ -192,13 +172,13 @@ const Memo = (() => {
     return Memo;
     //#endregion Memo
 })();
-Core.classes.register(Types.CATEGORIES.COMMON, Memo);
+core.classes.register(core.types.CATEGORIES.COMMON, Memo);
 //#endregion Memo
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const MemoTpl = ['<jagui-memo id="{internalId}" data-class="Memo" class="Control Memo {theme}"><properties>{ "name": "{name}",',
         ' "width": 134, "height": 94 }</properties></jagui-memo>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: Memo, template: MemoTpl }]);
+    core.classes.registerTemplates([{ Class: Memo, template: MemoTpl }]);
 }
 //#endregion
 export { Memo };

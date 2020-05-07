@@ -5,7 +5,6 @@ import { HitTest } from '/scripts/core/hittest.js';
 import { Events } from '/scripts/core/events.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Point } from '/scripts/core/geometry.js';
 import { Checkbox } from '/scripts/components/common/checkbox.js';
 //#endregion Import
@@ -15,9 +14,7 @@ const ListBoxItem = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -38,19 +35,19 @@ const ListBoxItem = (() => {
                 priv.stopEvent = !0;
                 priv.caption = props.hasOwnProperty('caption') ? props.caption : String.EMPTY;
                 priv.size = props.hasOwnProperty('size') ? props.size : owner.itemsSize;
-                priv.isChecked = props.hasOwnProperty('isChecked') && Tools.isBool(props.isChecked) ? props.isChecked : !1;
-                priv.isHeader = props.hasOwnProperty('isHeader') && Tools.isBool(props.isHeader) ? props.isHeader : !1;
-                priv.enabled = props.hasOwnProperty('enabled') && Tools.isBool(props.enabled) ? props.enabled : !0;
+                priv.isChecked = props.hasOwnProperty('isChecked') && core.tools.isBool(props.isChecked) ? props.isChecked : !1;
+                priv.isHeader = props.hasOwnProperty('isHeader') && core.tools.isBool(props.isHeader) ? props.isHeader : !1;
+                priv.enabled = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
                 priv.form = owner.form;
-                priv.selected = props.hasOwnProperty('selected') && Tools.isBool(props.selected) ? props.selected : !1;
+                priv.selected = props.hasOwnProperty('selected') && core.tools.isBool(props.selected) ? props.selected : !1;
                 priv.hitTest = new HitTest;
                 priv.hitTest.all = !1;
                 priv.css = String.EMPTY;
-                priv.imageIndex = props.hasOwnProperty('imageIndex') && Tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
+                priv.imageIndex = props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
                 priv.image = props.hasOwnProperty('image') ? props.image : String.EMPTY;
                 priv.cssImage = props.hasOwnProperty('cssImage') ? props.cssImage : String.EMPTY;
-                priv.pos = props.hasOwnProperty('pos') && Tools.isNumber(props.pos) ? props.pos : 0;
-                Tools.addPropertyFromEnum({
+                priv.pos = props.hasOwnProperty('pos') && core.tools.isNumber(props.pos) ? props.pos : 0;
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'state',
                     enum: Checkbox.CHECKBOXSTATES,
@@ -58,12 +55,8 @@ const ListBoxItem = (() => {
                     variable: priv,
                     value: props.hasOwnProperty('state') ? props.state : Checkbox.CHECKBOXSTATES.UNCHECKED
                 });
-                priv.allowGrayed = props.hasOwnProperty('allowGrayed') && Tools.isBool(props.allowGrayed) ? props.allowGrayed : !1;
-                if (owner instanceof ListBox) {
-                    if (owner.allowUpdate) {
-                        owner.draw();
-                    }
-                }
+                priv.allowGrayed = props.hasOwnProperty('allowGrayed') && core.tools.isBool(props.allowGrayed) ? props.allowGrayed : !1;
+                owner instanceof ListBox && owner.allowUpdate && owner.draw();
             }
         }
         //#endregion constructor
@@ -76,9 +69,7 @@ const ListBoxItem = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                priv.pos = newValue;
-            }
+            core.tools.isNumber(newValue) && (priv.pos = newValue);
         }
         //#endregion pos
         //#region form
@@ -105,7 +96,7 @@ const ListBoxItem = (() => {
             const priv = internal(this);
             const checkboxStates = Checkbox.CHECKBOXSTATES;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
+            if (core.tools.isBool(newValue)) {
                 if (priv.allowGrayed) {
                     switch (priv.state) {
                         case checkboxStates.UNCHECKED:
@@ -131,10 +122,8 @@ const ListBoxItem = (() => {
                 if (priv.isChecked !== newValue) {
                     priv.isChecked = newValue;
                     if (!priv.owner.loading && !priv.owner.form.loading) {
-                        if (!Core.isHTMLRenderer) {
-                            if (priv.owner.allowUpdate) {
-                                priv.owner.update();
-                            }
+                        if (!core.isHTMLRenderer) {
+                            priv.owner.allowUpdate && priv.owner.update();
                             this.redraw();
                         } else {
                             this.update();
@@ -152,11 +141,9 @@ const ListBoxItem = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.isHeader !== newValue) {
-                    priv.isHeader = newValue;
-                    this.update();
-                }
+            if (core.tools.isBool(newValue) && priv.isHeader !== newValue) {
+                priv.isHeader = newValue;
+                this.update();
             }
         }
         //#endregion isHeader
@@ -168,11 +155,9 @@ const ListBoxItem = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.enabled !== newValue) {
-                    priv.enabled = newValue;
-                    this.update();
-                }
+            if (core.tools.isBool(newValue) && priv.enabled !== newValue) {
+                priv.enabled = newValue;
+                this.update();
             }
         }
         //#endregion enabled
@@ -184,11 +169,9 @@ const ListBoxItem = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.size !== newValue) {
-                    priv.size = newValue;
-                    priv.owner.refreshInnerSize();
-                }
+            if (core.tools.isNumber(newValue) && priv.size !== newValue) {
+                priv.size = newValue;
+                priv.owner.refreshInnerSize();
             }
         }
         //#endregion height
@@ -200,11 +183,9 @@ const ListBoxItem = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.caption !== newValue) {
-                    priv.caption = newValue;
-                    this.update();
-                }
+            if (core.tools.isString(newValue) && priv.caption !== newValue) {
+                priv.caption = newValue;
+                this.update();
             }
         }
         //#endregion caption
@@ -216,13 +197,9 @@ const ListBoxItem = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (!priv.isHeader && priv.enabled) {
-                    if (priv.selected !== newValue) {
-                        priv.selected = newValue;
-                        this.update();
-                    }
-                }
+            if (core.tools.isBool(newValue) && !priv.isHeader && priv.enabled && priv.selected !== newValue) {
+                priv.selected = newValue;
+                this.update();
             }
         }
         //#endregion selected
@@ -234,13 +211,9 @@ const ListBoxItem = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.imageIndex !== newValue) {
-                    priv.imageIndex = newValue;
-                    if (priv.owner.allowUpdate) {
-                        this.update();
-                    }
-                }
+            if (core.tools.isNumber(newValue) && priv.imageIndex !== newValue) {
+                priv.imageIndex = newValue;
+                priv.owner.allowUpdate && this.update();
             }
         }
         //#endregion imageIndex
@@ -252,13 +225,9 @@ const ListBoxItem = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.cssImage !== newValue) {
-                    priv.cssImage = newValue;
-                    if (priv.owner.allowUpdate) {
-                        this.update();
-                    }
-                }
+            if (core.tools.isString(newValue) && priv.cssImage !== newValue) {
+                priv.cssImage = newValue;
+                priv.owner.allowUpdate && this.update();
             }
         }
         //#endregion cssImage
@@ -270,13 +239,9 @@ const ListBoxItem = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.image !== newValue) {
-                    priv.image = newValue;
-                    if (priv.owner.allowUpdate) {
-                        this.update();
-                    }
-                }
+            if (core.tools.isString(newValue) && priv.image !== newValue) {
+                priv.image = newValue;
+                priv.owner.allowUpdate && this.update();
             }
         }
         //#endregion image
@@ -309,12 +274,12 @@ const ListBoxItem = (() => {
         update() {
             //#region Variables déclaration
             const priv = internal(this);
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             let prop;
             let propPos;
             //#endregion Variables déclaration
             if (priv.html) {
-                if (priv.owner.orientation === Types.ORIENTATIONS.VERTICAL) {
+                if (priv.owner.orientation === core.types.ORIENTATIONS.VERTICAL) {
                     prop = 'Height';
                     propPos = 'top';
                 } else {
@@ -331,29 +296,19 @@ const ListBoxItem = (() => {
                     priv.html.style.position = 'static';
                 }
                 priv.html.classList.remove('disabled', 'isheader', 'selected');
-                if (!priv.enabled) {
-                    priv.html.classList.add('disabled');
-                }
+                !priv.enabled && priv.html.classList.add('disabled');
                 if (priv.owner.viewCheckboxes) {
                     priv.check.classList.remove('grayed', 'checked');
-                    if (priv.check) {
-                        priv.check.classList.remove('checked');
-                    }
+                    priv.check && priv.check.classList.remove('checked');
                     if (priv.isChecked) {
                         priv.check.classList.add('checked');
-                    } else if (priv.allowGrayed && priv.state === Types.CHECKBOXSTATES.GRAYED) {
+                    } else if (priv.allowGrayed && priv.state === core.types.CHECKBOXSTATES.GRAYED) {
                         priv.check.classList.add('grayed');
                     }
                 }
-                if (priv.isHeader) {
-                    priv.html.classList.add('isheader');
-                }
-                if (priv.selected) {
-                    priv.html.classList.add('selected');
-                }
-                if (priv.owner.useAlternateColor && this.index % 2 === 0) {
-                    priv.html.classList.add('alternate');
-                }
+                priv.isHeader && priv.html.classList.add('isheader');
+                priv.selected && priv.html.classList.add('selected');
+                priv.owner.useAlternateColor && this.index % 2 === 0 && priv.html.classList.add('alternate');
                 if (priv.icon) {
                     priv.icon.classList.add('icon');
                     if (!String.isNullOrEmpty(priv.cssImage)) {
@@ -376,8 +331,8 @@ const ListBoxItem = (() => {
         draw() {
             //#region Variables déclaration
             const priv = internal(this);
-            const name = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
-            const ORIENTATIONS = Types.ORIENTATIONS;
+            const name = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const ORIENTATIONS = core.types.ORIENTATIONS;
             //#endregion Variables déclaration
             if (!priv.html) {
                 priv.html = document.createElement(`${name}`);
@@ -398,7 +353,8 @@ const ListBoxItem = (() => {
                 priv.html.appendChild(priv.text);
                 priv.html.jsObj = this;
                 priv.html.classList.add(this.constructor.name, priv.owner.themeName);
-                priv.owner.orientation === ORIENTATIONS.VERTICAL ? priv.html.classList.add('VListBoxItem') : priv.html.classList.add('HListBoxItem');
+                priv.owner.orientation === ORIENTATIONS.VERTICAL
+                    ? priv.html.classList.add('VListBoxItem') : priv.html.classList.add('HListBoxItem');
                 priv.owner.HTMLElement.appendChild(priv.html);
                 Events.bind(priv.html, Mouse.MOUSEEVENTS.DOWN, priv.owner.selectItem);
             }
@@ -425,9 +381,7 @@ const ListBoxItem = (() => {
             //#endregion Variables déclaration
             if (priv.html) {
                 Events.unBind(priv.html, Mouse.MOUSEEVENTS.DOWN, priv.owner.selectItem);
-                if (priv.icon) {
-                    this.html.removeChild(priv.icon);
-                }
+                priv.icon && this.html.removeChild(priv.icon);
                 priv.html.removeChild(priv.text);
                 priv.owner.HTMLElement.removeChild(priv.html);
                 priv.html = null;
@@ -463,6 +417,11 @@ const ListBoxItem = (() => {
             priv.cssImage = null;
             //this.onDraw.destroy();
             //this.onDraw = null;
+            priv.html = null;
+            priv.check = null;
+            priv.icon = null;
+            priv.stopEvent = null;
+            priv.pos = null;
             super.destroy();
         }
         //#endregion destroy
@@ -484,9 +443,7 @@ const ListBox = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -508,21 +465,23 @@ const ListBox = (() => {
                 priv.downPos = new Point;
                 priv.currentPos = new Point;
                 priv.keyDir = String.EMPTY;
-                priv.multiSelect = props.hasOwnProperty('multiSelect') && Tools.isBool(props.multiSelect) ? props.multiSelect : !1;
-                priv.sorted = props.hasOwnProperty('sorted') && Tools.isBool(props.sorted) ? props.sorted : !1;
-                priv.itemsSize = props.hasOwnProperty('itemsSize') && Tools.isNumber(props.itemsSize) ? props.itemsSize : 16;
-                priv.itemsClass = props.hasOwnProperty('itemsClass') ? Core.classes[props.itemsClass] : ListBoxItem;
-                Core.classes.newCollection(this, this, priv.itemsClass);
-                priv.useAlternateColor = props.hasOwnProperty('useAlternateColor') && Tools.isBool(props.useAlternateColor) ? props.useAlternateColor : !1;
-                priv.viewCheckboxes = props.hasOwnProperty('viewCheckboxes') && Tools.isBool(props.viewCheckboxes) ? props.viewCheckboxes : !1;
-                priv.itemIndex = props.hasOwnProperty('itemIndex') && Tools.isNumber(props.itemIndex) ? props.itemIndex : -1;
-                priv.columns = props.hasOwnProperty('columns') && Tools.isNumber(props.columns) ? props.columns : 1;
+                priv.multiSelect = props.hasOwnProperty('multiSelect') && core.tools.isBool(props.multiSelect) ? props.multiSelect : !1;
+                priv.sorted = props.hasOwnProperty('sorted') && core.tools.isBool(props.sorted) ? props.sorted : !1;
+                priv.itemsSize = props.hasOwnProperty('itemsSize') && core.tools.isNumber(props.itemsSize) ? props.itemsSize : 16;
+                priv.itemsClass = props.hasOwnProperty('itemsClass') ? core.classes[props.itemsClass] : ListBoxItem;
+                core.classes.newCollection(this, this, priv.itemsClass);
+                priv.useAlternateColor = props.hasOwnProperty('useAlternateColor') && core.tools.isBool(props.useAlternateColor)
+                    ? props.useAlternateColor : !1;
+                priv.viewCheckboxes = props.hasOwnProperty('viewCheckboxes') && core.tools.isBool(props.viewCheckboxes)
+                    ? props.viewCheckboxes : !1;
+                priv.itemIndex = props.hasOwnProperty('itemIndex') && core.tools.isNumber(props.itemIndex) ? props.itemIndex : -1;
+                priv.columns = props.hasOwnProperty('columns') && core.tools.isNumber(props.columns) ? props.columns : 1;
                 priv.images = props.hasOwnProperty('images') ? props.images : null;
                 this.createEventsAndBind(['onChange', 'onSelectItem', 'onDrawItem'], props);
                 this.canFocused = !0;
                 this.hitTest.all = !0;
                 //this.animated = !0;
-                priv.orientation = props.hasOwnProperty('orientation') ? props.orientation : Types.ORIENTATIONS.VERTICAL;
+                priv.orientation = props.hasOwnProperty('orientation') ? props.orientation : core.types.ORIENTATIONS.VERTICAL;
             }
         }
         //#endregion constructor
@@ -535,11 +494,7 @@ const ListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.multiSelect !== newValue) {
-                    priv.multiSelect = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.multiSelect !== newValue && (priv.multiSelect = newValue);
         }
         //#endregion multiSelect
         //#region sorted
@@ -550,13 +505,11 @@ const ListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.sorted !== newValue) {
-                    priv.sorted = newValue;
-                    if (priv.sorted) {
-                        this.items.sort();
-                        this.draw();
-                    }
+            if (core.tools.isBool(newValue) && priv.sorted !== newValue) {
+                priv.sorted = newValue;
+                if (priv.sorted) {
+                    this.items.sort();
+                    this.draw();
                 }
             }
         }
@@ -569,16 +522,12 @@ const ListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.itemsSize !== newValue) {
-                    this.items.forEach(item => {
-                        if (item.size === priv.itemsSize) {
-                            item.size = newValue;
-                        }
-                    });
-                    priv.itemsSize = newValue;
-                    this.draw();
-                }
+            if (core.tools.isNumber(newValue) && priv.itemsSize !== newValue) {
+                this.items.forEach(item => {
+                    item.size === priv.itemsSize && (item.size = newValue);
+                });
+                priv.itemsSize = newValue;
+                this.draw();
             }
         }
         //#endregion itemsSize
@@ -591,14 +540,10 @@ const ListBox = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.useAlternateColor !== newValue) {
-                    htmlElement.classList.remove('useAlternateColor');
-                    priv.useAlternateColor = newValue;
-                    if (newValue) {
-                        htmlElement.classList.add('useAlternateColor');
-                    }
-                }
+            if (core.tools.isBool(newValue) && priv.useAlternateColor !== newValue) {
+                htmlElement.classList.remove('useAlternateColor');
+                priv.useAlternateColor = newValue;
+                newValue && htmlElement.classList.add('useAlternateColor');
             }
         }
         //#endregion useAlternateColor
@@ -610,12 +555,10 @@ const ListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (!(this instanceof Core.classes.HorizontalListBox)) {
-                    if (priv.viewCheckboxes !== newValue) {
-                        priv.viewCheckboxes = newValue;
-                        this.draw();
-                    }
+            if (core.tools.isBool(newValue) && !(this instanceof core.classes.HorizontalListBox)) {
+                if (priv.viewCheckboxes !== newValue) {
+                    priv.viewCheckboxes = newValue;
+                    this.draw();
                 }
             }
         }
@@ -628,28 +571,20 @@ const ListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue < this.items.length && newValue >= 0) {
-                    if (priv.itemIndex !== newValue) {
-                        if (priv.itemIndex > -1) {
-                            this.deselectItemIndex();
-                        }
-                        let item = this.items[newValue];
-                        while ((item.isHeader || !item.enabled) && (newValue > -1 && newValue < this.items.length)) {
-                            if (priv.keyDir === Types.DIRECTIONS.LEFT) {
-                                newValue--;
-                            } else {
-                                newValue++;
-                            }
-                            item = this.items[newValue];
-                        }
-                        newValue = Math.min(Math.max(newValue, 0), this.items.length - 1);
-                        priv.itemIndex = newValue;
-                        item = this.items[priv.itemIndex];
-                        if (item) {
-                            item.selected = !0;
-                            this.scrollToItem();
-                        }
+            if (core.tools.isNumber(newValue) && newValue < this.items.length && newValue >= 0) {
+                if (priv.itemIndex !== newValue) {
+                    priv.itemIndex > -1 && this.deselectItemIndex();
+                    let item = this.items[newValue];
+                    while ((item.isHeader || !item.enabled) && (newValue > -1 && newValue < this.items.length)) {
+                        priv.keyDir === core.types.DIRECTIONS.LEFT ? newValue-- : newValue++;
+                        item = this.items[newValue];
+                    }
+                    newValue = Math.min(Math.max(newValue, 0), this.items.length - 1);
+                    priv.itemIndex = newValue;
+                    item = this.items[priv.itemIndex];
+                    if (item) {
+                        item.selected = !0;
+                        this.scrollToItem();
                     }
                 }
             }
@@ -664,13 +599,11 @@ const ListBox = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, Types.ORIENTATIONS)) {
-                if (priv.orientation !== newValue) {
-                    htmlElement.classList.remove(`orientation-${priv.orientation}`);
-                    priv.orientation = newValue;
-                    htmlElement.classList.remove(`orientation-${priv.orientation}`);
-                    this.draw();
-                }
+            if (core.tools.valueInSet(newValue, core.types.ORIENTATIONS) && priv.orientation !== newValue) {
+                htmlElement.classList.remove(`orientation-${priv.orientation}`);
+                priv.orientation = newValue;
+                htmlElement.classList.remove(`orientation-${priv.orientation}`);
+                this.draw();
             }
         }
         //#endregion orientation
@@ -682,11 +615,9 @@ const ListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.ImageList) {
-                if (priv.images !== newValue) {
-                    priv.images = newValue;
-                    this.draw();
-                }
+            if (newValue instanceof core.classes.ImageList && priv.images !== newValue) {
+                priv.images = newValue;
+                this.draw();
             }
         }
         //#endregion images
@@ -703,7 +634,7 @@ const ListBox = (() => {
             const priv = internal(this);
             const oldVisibleItems = priv.visibleItems;
             const items = this.items;
-            const vert = priv.orientation === Types.ORIENTATIONS.VERTICAL;
+            const vert = priv.orientation === core.types.ORIENTATIONS.VERTICAL;
             const scrollModeNormal = this.scrollMode === ScrollControl.SCROLLMODES.NORMAL;
             const htmlElement = this.HTMLElement;
             let itemVisible = !1;
@@ -711,37 +642,32 @@ const ListBox = (() => {
             const propSize = vert ? 'Height' : 'Width';
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
-                priv.scrollPos = Math.max(Math.min(htmlElement[`scroll${prop}`], priv.innerHeight - htmlElement[`offset${propSize}`]), 0);
+                priv.scrollPos =
+                    Math.max(Math.min(htmlElement[`scroll${prop}`], priv.innerHeight - htmlElement[`offset${propSize}`]), 0);
                 priv.visibleItems = [];
                 let topIndex = 0;
                 topIndex = Math.max(0, ~~(priv.scrollPos / priv.itemsSize));
-                let maxIndex = !oldVisibleItems.isEmpty ? topIndex + oldVisibleItems.length * 2 : ~~(htmlElement.offsetHeight / priv.itemsSize) + 1;
+                let maxIndex = !oldVisibleItems.isEmpty
+                    ? topIndex + oldVisibleItems.length * 2 : ~~(htmlElement.offsetHeight / priv.itemsSize) + 1;
                 maxIndex = Math.min(maxIndex, items.length);
-                if (!scrollModeNormal) {
-                    priv.scroller.style[propSize.toLowerCase()] = `${priv.innerHeight}${Types.CSSUNITS.PX}`;
-                }
+                !scrollModeNormal && (priv.scroller.style[propSize.toLowerCase()] = `${priv.innerHeight}${core.types.CSSUNITS.PX}`);
                 for (let i = topIndex; i < maxIndex; i++) {
                     const item = items[i];
                     if (scrollModeNormal) {
                         itemVisible = !0;
                     } else {
                         itemVisible = !1;
-                        if (((item.pos + item.size >= priv.scrollPos) && (item.pos < htmlElement[`offset${propSize}`] + priv.scrollPos))) {
-                            itemVisible = !0;
-                        }
+                        ((item.pos + item.size >= priv.scrollPos) && (item.pos < htmlElement[`offset${propSize}`] + priv.scrollPos))
+                            && (itemVisible = !0);
                     }
                     if (itemVisible) {
-                        if (this.dropDownPopup) {
-                            item.dropDownPopup = this.dropDownPopup;
-                        }
+                        this.dropDownPopup && (item.dropDownPopup = this.dropDownPopup);
                         item.draw();
                         priv.visibleItems.push(item);
                     }
                 }
                 oldVisibleItems.forEach(item => {
-                    if (priv.visibleItems.indexOf(item) === -1) {
-                        item.removeToHTML();
-                    }
+                    priv.visibleItems.indexOf(item) === -1 && item.removeToHTML();
                 });
             }
         }
@@ -757,17 +683,9 @@ const ListBox = (() => {
         //#region _selectItem
         _selectItem(item) {
             if (!item.isHeader && item.enabled && item.owner.enabled && item.owner.hitTest.mouseDown) {
-                if (item.owner.multiSelect && Core.keyboard.ctrl) {
-                    item.selected = !item.selected;
-                } else {
-                    item.owner.itemIndex = item.index;
-                }
-                if (item.owner.viewCheckboxes) {
-                    item.isChecked = !item.isChecked;
-                }
-                if (item.owner.onSelectItem.hasListener) {
-                    item.owner.onSelectItem.invoke();
-                }
+                item.owner.multiSelect && core.keyboard.ctrl ? item.selected = !item.selected : item.owner.itemIndex = item.index;
+                item.owner.viewCheckboxes && (item.isChecked = !item.isChecked);
+                item.owner.onSelectItem.hasListener && item.owner.onSelectItem.invoke();
             }
             item.owner.mouseDown();
         }
@@ -779,9 +697,7 @@ const ListBox = (() => {
             //#endregion Variables déclaration
             if (priv.itemIndex !== -1) {
                 const item = this.items[priv.itemIndex];
-                if (item) {
-                    item.selected = !1;
-                }
+                item && (item.selected = !1);
             }
         }
         //#endregion deselectItemIndex
@@ -795,9 +711,7 @@ const ListBox = (() => {
             items.forEach(item => {
                 priv.innerHeight += item.size;
             });
-            if (this.allowUpdate) {
-                this.draw();
-            }
+            this.allowUpdate && this.draw();
         }
         //#endregion refreshInnerHeight
         //#region addItem
@@ -814,16 +728,12 @@ const ListBox = (() => {
         //#endregion addItem
         //#region deleteItem
         deleteItem(item) {
-            if (item instanceof ListBoxItem && this.items.indexOf(item) !== -1) {
-                this.items.remove(item);
-            }
+            item instanceof ListBoxItem && this.items.indexOf(item) !== -1 && this.items.remove(item);
         }
         //#endregion deleteItem
         //#region deleteAt
         deleteAt(index) {
-            if (index >= 0 && index < this.items.length) {
-                this.items.removeAt(this.items[index]);
-            }
+            index >= 0 && index < this.items.length && this.items.removeAt(this.items[index]);
         }
         //#endregion deleteAt
         //#region moveItem
@@ -832,15 +742,11 @@ const ListBox = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (itemToMove instanceof ListBoxItem && itemBefore instanceof ListBoxItem) {
-                if (priv.visibleItems.indexOf(itemToMove) > -1) {
-                    this.items.beginUpdate();
-                }
+                priv.visibleItems.indexOf(itemToMove) > -1 && this.items.beginUpdate();
                 this.items.remove(itemToMove);
                 this.items.insert(itemBefore.index, itemToMove);
                 priv.itemIndex = itemToMove.index;
-                if (priv.visibleItems.indexOf(itemToMove) > -1) {
-                    this.items.endUpdate();
-                }
+                priv.visibleItems.indexOf(itemToMove) > -1 && this.items.endUpdate();
             }
         }
         //#endregion moveItem
@@ -927,12 +833,12 @@ const ListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const VKEYSCODES = Keyboard.VKEYSCODES;
-            const DIRECTIONS = Types.DIRECTIONS;
-            const ORIENTATIONS = Types.ORIENTATIONS;
+            const DIRECTIONS = core.types.DIRECTIONS;
+            const ORIENTATIONS = core.types.ORIENTATIONS;
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             super.keyDown();
-            switch (Core.keyboard.keyCode) {
+            switch (core.keyboard.keyCode) {
                 case VKEYSCODES.VK_LEFT:
                 case VKEYSCODES.VK_UP:
                     priv.keyDir = DIRECTIONS.LEFT;
@@ -950,25 +856,19 @@ const ListBox = (() => {
                     this.itemIndex = this.items.length - 1;
                     break;
                 case VKEYSCODES.VK_PRIOR:
-                    if (priv.orientation === ORIENTATIONS.VERTICAL) {
-                        this.itemIndex = priv.itemIndex - ~~(htmlElement.offsetHeight / priv.itemsSize);
-                    } else {
-                        this.itemIndex = priv.itemIndex - ~~(htmlElement.offsetWidth / priv.itemsSize);
-                    }
+                    this.itemIndex = priv.orientation === ORIENTATIONS.VERTICAL
+                        ? priv.itemIndex - ~~(htmlElement.offsetHeight / priv.itemsSize)
+                        : priv.itemIndex - ~~(htmlElement.offsetWidth / priv.itemsSize);
                     break;
                 case VKEYSCODES.VK_NEXT:
-                    if (priv.orientation === ORIENTATIONS.VERTICAL) {
-                        this.itemIndex = priv.itemIndex + ~~(htmlElement.offsetHeight / priv.itemsSize);
-                    } else {
-                        this.itemIndex = priv.itemIndex + ~~(htmlElement.offsetWidth / priv.itemsSize);
-                    }
+                    this.itemIndex = priv.orientation === ORIENTATIONS.VERTICAL
+                        ? priv.itemIndex + ~~(htmlElement.offsetHeight / priv.itemsSize)
+                        : priv.itemIndex + ~~(htmlElement.offsetWidth / priv.itemsSize);
                     break;
                 case VKEYSCODES.VK_SPACE:
                     {
                         const item = this.items[priv.itemIndex];
-                        if (priv.viewCheckboxes && item) {
-                            item.isChecked = !item.isChecked;
-                        }
+                        priv.viewCheckboxes && item && (item.isChecked = !item.isChecked);
                     }
                     break;
             }
@@ -978,9 +878,11 @@ const ListBox = (() => {
         scrollToItem() {
             //#region Variables déclaration
             const priv = internal(this);
-            const inVisibleItems = priv.visibleItems.indexOf(this.items[priv.itemIndex]) === -1 || priv.visibleItems.last === this.items[priv.itemIndex];
-            const isFirst = priv.visibleItems.first === this.items[priv.itemIndex] || priv.visibleItems.first === this.items[priv.itemIndex + 1];
-            const ORIENTATIONS = Types.ORIENTATIONS;
+            const inVisibleItems = priv.visibleItems.indexOf(this.items[priv.itemIndex]) === -1
+                || priv.visibleItems.last === this.items[priv.itemIndex];
+            const isFirst = priv.visibleItems.first === this.items[priv.itemIndex]
+                || priv.visibleItems.first === this.items[priv.itemIndex + 1];
+            const ORIENTATIONS = core.types.ORIENTATIONS;
             const htmlElement = this.HTMLElement;
             const prop = priv.orientation === ORIENTATIONS.VERTICAL ? 'Top' : 'Left';
             const propSize = priv.orientation === ORIENTATIONS.VERTICAL ? 'Height' : 'Width';
@@ -1011,7 +913,7 @@ const ListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            const name = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const name = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             let pos = 0;
             //#endregion Variables déclaration
             super.loaded();
@@ -1021,14 +923,14 @@ const ListBox = (() => {
             priv.scroller.classList.add('listBoxScroller');
             htmlElement.appendChild(priv.scroller);
             if (priv.items) {
-                if (Tools.isArray(priv.items)) {
+                if (core.tools.isArray(priv.items)) {
                     this.beginUpdate();
                     priv.items.forEach((item, idx) => {
                         const props = item;
                         props.inForm = !1;
                         props.selected = priv.itemIndex === idx;
-                        props.height = item.hasOwnProperty('height') && Tools.isNumber(item.size) ? item.size : priv.itemsSize;
-                        const _item = Core.classes.createComponent({
+                        props.height = item.hasOwnProperty('height') && core.tools.isNumber(item.size) ? item.size : priv.itemsSize;
+                        const _item = core.classes.createComponent({
                             class: priv.itemsClass,
                             owner: this,
                             props
@@ -1039,13 +941,10 @@ const ListBox = (() => {
                 }
                 priv.items = null;
             }
-            if (priv.useAlternateColor) {
-                htmlElement.classList.add('useAlternateColor');
-            }
+            priv.useAlternateColor && htmlElement.classList.add('useAlternateColor');
             htmlElement.classList.add(`orientation-${priv.orientation}`);
-            if (this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
-                htmlElement.addEventListener(Types.HTMLEVENTS.SCROLL, this.draw.bind(this));
-            }
+            this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL
+                && htmlElement.addEventListener(core.types.HTMLEVENTS.SCROLL, this.draw.bind(this));
             this.draw();
         }
         //#endregion loaded
@@ -1054,11 +953,7 @@ const ListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(priv.images)) {
-                if (this.form[priv.images]) {
-                    this.images = this.form[priv.images];
-                }
-            }
+            core.tools.isString(priv.images) && this.form[priv.images] && (this.images = this.form[priv.images]);
         }
         //#endregion getImages
         //#endregion Methods
@@ -1066,15 +961,15 @@ const ListBox = (() => {
     return ListBox;
     //#endregion ListBox
 })();
-//#endregion ListBox
 Object.seal(ListBox);
-Core.classes.register(Types.CATEGORIES.INTERNAL, ListBoxItem);
-Core.classes.register(Types.CATEGORIES.COMMON, ListBox);
+core.classes.register(core.types.CATEGORIES.INTERNAL, ListBoxItem);
+core.classes.register(core.types.CATEGORIES.COMMON, ListBox);
+//#endregion ListBox
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const ListBoxTpl = ['<jagui-listbox id="{internalId}" data-class="ListBox" class="Control scrollContent ListBox {theme}">',
         '</jagui-listbox>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: ListBox, template: ListBoxTpl }]);
+    core.classes.registerTemplates([{ Class: ListBox, template: ListBoxTpl }]);
 }
 //#endregion
 export { ListBoxItem, ListBox };
