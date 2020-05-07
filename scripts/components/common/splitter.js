@@ -2,7 +2,6 @@
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Point } from '/scripts/core/geometry.js';
 import { Mouse } from '/scripts/core/mouse.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region Splitter
 const Splitter = (() => {
@@ -10,9 +9,7 @@ const Splitter = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -23,29 +20,30 @@ const Splitter = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.hitTest = { mouseMove: !0 };
+                props.stopEvent = !0;
+                props.autoCapture = !0;
                 super(owner, props);
                 const priv = internal(this);
                 priv.down = !1;
                 priv.downPos = new Point;
-                priv.firstCtrl = props.hasOwnProperty('firstCtrl')?props.firstCtrl:null;
-                priv.lastCtrl = props.hasOwnProperty('lastCtrl')?props.lastCtrl:null;
+                priv.firstCtrl = props.hasOwnProperty('firstCtrl') ? props.firstCtrl : null;
+                priv.lastCtrl = props.hasOwnProperty('lastCtrl') ? props.lastCtrl : null;
                 priv.lastLeftTop = 0;
                 priv.isCollapsed = !1;
-                priv.minSize = props.hasOwnProperty('minSize')?props.minSize:10;
-                priv.maxSize = props.hasOwnProperty('maxSize')?props.maxSize:100;
-                priv.collapsible = props.hasOwnProperty('collapsible') && Tools.isBool(props.collapsible)?props.collapsible:!1;
-                this.autoCapture = !0;
-                Tools.addPropertyFromEnum({
+                priv.minSize = props.hasOwnProperty('minSize') ? props.minSize : 10;
+                priv.maxSize = props.hasOwnProperty('maxSize') ? props.maxSize : 100;
+                priv.collapsible = props.hasOwnProperty('collapsible') && core.tools.isBool(props.collapsible)
+                    ? props.collapsible : !1;
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'orientation',
-                    enum: Types.ORIENTATIONS,
+                    enum: core.types.ORIENTATIONS,
                     forceUpdate: !0,
                     variable: priv,
-                    value: props.hasOwnProperty('orientation')?props.orientation:Types.ORIENTATIONS.VERTICAL
+                    value: props.hasOwnProperty('orientation') ? props.orientation : core.types.ORIENTATIONS.VERTICAL
                 });
-                this.hitTest.mouseMove = !0;
                 delete this.tabOrder;
-                this.stopEvent = !0;
             }
         }
         //#endregion constructor
@@ -57,18 +55,12 @@ const Splitter = (() => {
         set orientation(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
-            const aligns = Types.ALIGNS;
+            const aligns = core.types.ALIGNS;
             //#endregion Variables déclaration
-            if (Tools.valueInset(newValue, Types.ORIENTATIONS)) {
-                if (priv.orientation !== newValue) {
-                    priv.orientation = newValue;
-                    if (priv.orientation === Types.ORIENTATIONS.VERTICAL) {
-                        this.align = aligns.LEFT;
-                    } else {
-                        this.align = aligns.TOP;
-                    }
-                    this.update();
-                }
+            if (core.tools.valueInset(newValue, core.types.ORIENTATIONS) && priv.orientation !== newValue) {
+                priv.orientation = newValue;
+                this.align = priv.orientation === core.types.ORIENTATIONS.VERTICAL ? aligns.LEFT : aligns.TOP;
+                this.update();
             }
         }
         //#endregion orientation
@@ -80,11 +72,7 @@ const Splitter = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.collapsible !== newValue) {
-                    priv.collapsible = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.collapsible !== newValue && (priv.collapsible = newValue);
         }
         //#endregion collapsible
         //#region minSize
@@ -95,11 +83,7 @@ const Splitter = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.minSize !== newValue) {
-                    priv.minSize = newValue;
-                }
-            }
+            core.tools.isNumber(newValue) && priv.minSize !== newValue && (priv.minSize = newValue);
         }
         //#endregion minSize
         //#region maxSize
@@ -110,11 +94,7 @@ const Splitter = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.maxSize !== newValue) {
-                    priv.maxSize = newValue;
-                }
-            }
+            core.tools.isNumber(newValue) && priv.maxSize !== newValue && (priv.maxSize = newValue);
         }
         //#endregion maxSize
         //#endregion Getters / Setters
@@ -131,8 +111,8 @@ const Splitter = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            Object.keys(Types.ORIENTATIONS).forEach(key => {
-                this.HTMLElement.classList.remove(Types.ORIENTATIONS[key]);
+            Object.keys(core.types.ORIENTATIONS).forEach(key => {
+                this.HTMLElement.classList.remove(core.types.ORIENTATIONS[key]);
             });
             this.HTMLElement.classList.add(priv.orientation);
         }
@@ -141,34 +121,33 @@ const Splitter = (() => {
         mouseDown() {
             //#region Variables déclaration
             const priv = internal(this);
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             super.mouseDown();
-            if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
-                if (!this.canCollapse()) {
-                    priv.downPos.assign(Core.mouse.document);
-                    priv.down = !0;
-                    console.log('mouseDown');
-                    const resizeLine = document.createElement(Types.HTMLELEMENTS.DIV);
-                    const style = resizeLine.style;
-                    if (priv.orientation === Types.ORIENTATIONS.VERTICAL) {
-                        style.transform = `translateX(${htmlElement.offsetLeft}${PX})`;
-                        style.top = 0;
-                        style.bottom = 0;
-                        style.width = '5px';
-                    } else {
-                        style.transform = `translateY(${htmlElement.offsetTop}${PX})`;
-                        style.left = 0;
-                        style.right = 0;
-                        style.height = '5px';
-                    }
-                    style.zIndex = 99999;
-                    resizeLine.classList.add('Control', 'ghostSplitter', this.themeName);
-                    resizeLine.jsObj = this;
-                    htmlElement.parentNode.appendChild(resizeLine);
-                    resizeLine.classList.add(priv.orientation===Types.ORIENTATIONS.VERTICAL?'csr_wResize':'csr_sResize');
+            if (core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && !this.canCollapse()) {
+                priv.downPos.assign(core.mouse.document);
+                priv.down = !0;
+                console.log('mouseDown');
+                const resizeLine = document.createElement(core.types.HTMLELEMENTS.DIV);
+                const style = resizeLine.style;
+                if (priv.orientation === core.types.ORIENTATIONS.VERTICAL) {
+                    style.transform = `translateX(${htmlElement.offsetLeft}${PX})`;
+                    style.top = 0;
+                    style.bottom = 0;
+                    style.width = '5px';
+                } else {
+                    style.transform = `translateY(${htmlElement.offsetTop}${PX})`;
+                    style.left = 0;
+                    style.right = 0;
+                    style.height = '5px';
                 }
+                style.zIndex = 99999;
+                resizeLine.classList.add('Control', 'ghostSplitter', this.themeName);
+                resizeLine.jsObj = this;
+                htmlElement.parentNode.appendChild(resizeLine);
+                resizeLine.classList.add(priv.orientation === core.types.ORIENTATIONS.VERTICAL
+                    ? 'csr_wResize' : 'csr_sResize');
             }
         }
         //#endregion mouseDown
@@ -177,46 +156,36 @@ const Splitter = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            const aligns = Types.ALIGNS;
-            const PX = Types.CSSUNITS.PX;
+            const aligns = core.types.ALIGNS;
+            const PX = core.types.CSSUNITS.PX;
             //#endregion Variables déclaration
             super.mouseMove();
-            if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
-                if (priv.down) {
-                    const resizeLine = htmlElement.parentNode.lastElementChild;
-                    if (this.orientation === Types.ORIENTATIONS.VERTICAL) {
-                        let x = htmlElement.offsetLeft + (Core.mouse.document.x - priv.downPos.x);
-                        if (x < priv.minSize) {
-                            x = priv.minSize;
-                        }
-                        if (htmlElement.parentNode.offsetWidth - x - htmlElement.offsetWidth < priv.minSize) {
-                            x = htmlElement.parentNode.offsetWidth - priv.minSize - htmlElement.offsetWidth;
-                        }
-                        if (this.align === aligns.LEFT && x > priv.maxSize) {
-                            x = priv.maxSize;
-                        } else if (this.align === aligns.RIGHT) {
-                            if (x < htmlElement.parentNode.offsetWidth - priv.maxSize - htmlElement.offsetWidth) {
-                                x = htmlElement.parentNode.offsetWidth - priv.maxSize - htmlElement.offsetWidth;
-                            }
-                        }
-                        resizeLine.style.transform = `translateX(${x}${PX})`;
-                    } else {
-                        let y = htmlElement.offsetTop + (Core.mouse.document.y - priv.downPos.y);
-                        if (y < priv.minSize) {
-                            y = priv.minSize;
-                        }
-                        if (htmlElement.parentNode.offsetHeight - y - htmlElement.offsetHeight < priv.minSize) {
-                            y = htmlElement.parentNode.offsetHeight - priv.minSize - htmlElement.offsetHeight;
-                        }
-                        if (this.align === aligns.TOP && y > priv.maxSize) {
-                            y = priv.maxSize;
-                        } else if (this.align === aligns.BOTTOM) {
-                            if (y < htmlElement.parentNode.offsetHeight - priv.maxSize - htmlElement.offsetHeight) {
-                                y = htmlElement.parentNode.offsetHeight - priv.maxSize - htmlElement.offsetHeight;
-                            }
-                        }
-                        resizeLine.style.transform = `translateY(${y}${PX})`;
+            if (core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && priv.down) {
+                const resizeLine = htmlElement.parentNode.lastElementChild;
+                if (this.orientation === core.types.ORIENTATIONS.VERTICAL) {
+                    let x = htmlElement.offsetLeft + (core.mouse.document.x - priv.downPos.x);
+                    x = Math.max(x, priv.minSize);
+                    htmlElement.parentNode.offsetWidth - x - htmlElement.offsetWidth < priv.minSize
+                        && (x = htmlElement.parentNode.offsetWidth - priv.minSize - htmlElement.offsetWidth);
+                    if (this.align === aligns.LEFT && x > priv.maxSize) {
+                        x = priv.maxSize;
+                    } else if (this.align === aligns.RIGHT) {
+                        x < htmlElement.parentNode.offsetWidth - priv.maxSize - htmlElement.offsetWidth
+                            && (x = htmlElement.parentNode.offsetWidth - priv.maxSize - htmlElement.offsetWidth);
                     }
+                    resizeLine.style.transform = `translateX(${x}${PX})`;
+                } else {
+                    let y = htmlElement.offsetTop + (core.mouse.document.y - priv.downPos.y);
+                    y = Math.max(y, priv.minSize);
+                    htmlElement.parentNode.offsetHeight - y - htmlElement.offsetHeight < priv.minSize
+                        && (y = htmlElement.parentNode.offsetHeight - priv.minSize - htmlElement.offsetHeight);
+                    if (this.align === aligns.TOP && y > priv.maxSize) {
+                        y = priv.maxSize;
+                    } else if (this.align === aligns.BOTTOM) {
+                        y < htmlElement.parentNode.offsetHeight - priv.maxSize - htmlElement.offsetHeight
+                            && (y = htmlElement.parentNode.offsetHeight - priv.maxSize - htmlElement.offsetHeight);
+                    }
+                    resizeLine.style.transform = `translateY(${y}${PX})`;
                 }
             }
         }
@@ -244,12 +213,7 @@ const Splitter = (() => {
             //#endregion Variables déclaration
             super.click();
             if (this.canCollapse()) {
-                if (priv.isCollapsed) {
-                    this.expand();
-                }
-                else {
-                    this.collapse();
-                }
+                priv.isCollapsed ? this.expand() : this.collapse();
             }
         }
         //#endregion click
@@ -259,12 +223,12 @@ const Splitter = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             const htmlElementStyle = this.HTMLElementStyle;
-            const aligns = Types.ALIGNS;
-            const PX = Types.CSSUNITS.PX;
+            const aligns = core.types.ALIGNS;
+            const PX = core.types.CSSUNITS.PX;
             const firstCtrl = priv.firstCtrl;
             const lastCtrl = priv.lastCtrl;
             //#endregion Variables déclaration
-            if (priv.orientation === Types.ORIENTATIONS.VERTICAL) {
+            if (priv.orientation === core.types.ORIENTATIONS.VERTICAL) {
                 priv.lastLeftTop = htmlElement.offsetLeft;
                 if (this.align === aligns.LEFT) {
                     firstCtrl.width = 0;
@@ -298,12 +262,12 @@ const Splitter = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             const htmlElementStyle = this.HTMLElementStyle;
-            const aligns = Types.ALIGNS;
-            const PX = Types.CSSUNITS.PX;
+            const aligns = core.types.ALIGNS;
+            const PX = core.types.CSSUNITS.PX;
             const firstCtrl = priv.firstCtrl;
             const lastCtrl = priv.lastCtrl;
             //#endregion Variables déclaration
-            if (this.orientation === Types.ORIENTATIONS.VERTICAL) {
+            if (this.orientation === core.types.ORIENTATIONS.VERTICAL) {
                 if (this.align === aligns.LEFT) {
                     this.left = priv.lastLeftTop;
                     firstCtrl.width = htmlElement.offsetLeft;
@@ -335,9 +299,9 @@ const Splitter = (() => {
             const priv = internal(this);
             let inCollapsibleArea = !1;
             const htmlElement = this.HTMLElement;
-            const target = Core.mouse.target;
+            const target = core.mouse.target;
             //#endregion Variables déclaration
-            if (priv.orientation === Types.ORIENTATIONS.VERTICAL) {
+            if (priv.orientation === core.types.ORIENTATIONS.VERTICAL) {
                 const y2 = ~~(htmlElement.offsetHeight / 2);
                 inCollapsibleArea = target.y > y2 - 15 && target.y < y2 + 15;
             } else {
@@ -360,59 +324,41 @@ const Splitter = (() => {
             const firstHtmlElement = firstCtrl.HTMLElement;
             const lastCtrl = priv.lastCtrl;
             const lastHtmlElement = lastCtrl.HTMLElement;
-            const aligns = Types.ALIGNS;
-            const PX = Types.CSSUNITS.PX;
+            const aligns = core.types.ALIGNS;
+            const PX = core.types.CSSUNITS.PX;
             //#endregion Variables déclaration
             mat = getComputedStyle(resizeLine).transform;
             mat = mat.match(/-?[\d\.]+/g);
-            if (priv.orientation === Types.ORIENTATIONS.VERTICAL) {
+            if (priv.orientation === core.types.ORIENTATIONS.VERTICAL) {
                 offset = ~~mat[4] - htmlElement.offsetLeft;
                 if (firstCtrl) {
-                    if (firstCtrl.align === aligns.CLIENT) {
-                        firstCtrl.right = htmlElement.parentNode.offsetWidth - ~~mat[4];
-                    }
-                    else {
-                        firstCtrl.width = firstHtmlElement.offsetWidth + offset;
-                    }
+                    irstCtrl.align === aligns.CLIENT
+                        ? firstCtrl.right = htmlElement.parentNode.offsetWidth - ~~mat[4]
+                        : firstCtrl.width = firstHtmlElement.offsetWidth + offset;
                 }
                 if (lastCtrl) {
-                    if (lastCtrl.align === aligns.CLIENT) {
-                        lastCtrl.left = lastHtmlElement.offsetLeft + offset;
-                    }
-                    else {
-                        priv.lastCtrl.width = htmlElement.parentNode.offsetWidth - resizeLine.offsetWidth - ~~mat[4];
-                    }
+                    lastCtrl.align === aligns.CLIENT
+                        ? lastCtrl.left = lastHtmlElement.offsetLeft + offset
+                        : priv.lastCtrl.width = htmlElement.parentNode.offsetWidth - resizeLine.offsetWidth - ~~mat[4];
                 }
-                if (this.align === aligns.LEFT) {
-                    this.left = htmlElement.offsetLeft + offset;
-                }
-                else {
-                    htmlElementStyle.right = `${htmlElement.parentNode.offsetWidth - lastHtmlElement.offsetLeft}${PX}`;
-                }
+                this.align === aligns.LEFT
+                    ? this.left = htmlElement.offsetLeft + offset
+                    : htmlElementStyle.right = `${htmlElement.parentNode.offsetWidth - lastHtmlElement.offsetLeft}${PX}`;
             } else {
                 offset = ~~mat[5] - htmlElement.offsetTop;
                 if (firstCtrl) {
-                    if (firstCtrl.align === aligns.CLIENT) {
-                        firstCtrl.bottom = htmlElement.parentNode.offsetHeight - ~~mat[5];
-                    }
-                    else {
-                        firstCtrl.height = firstHtmlElement.offsetHeight + offset;
-                    }
+                    firstCtrl.align === aligns.CLIENT
+                        ? firstCtrl.bottom = htmlElement.parentNode.offsetHeight - ~~mat[5]
+                        : firstCtrl.height = firstHtmlElement.offsetHeight + offset;
                 }
                 if (lastCtrl) {
-                    if (lastCtrl.align === aligns.CLIENT) {
-                        lastCtrl.top = lastHtmlElement.offsetTop + offset;
-                    }
-                    else {
-                        lastCtrl.height = htmlElement.parentNode.offsetHeight - resizeLine.offsetHeight - ~~mat[5];
-                    }
+                    lastCtrl.align === aligns.CLIENT
+                        ? lastCtrl.top = lastHtmlElement.offsetTop + offset
+                        : lastCtrl.height = htmlElement.parentNode.offsetHeight - resizeLine.offsetHeight - ~~mat[5];
                 }
-                if (this.align === aligns.TOP) {
-                    this.top = htmlElement.offsetTop + offset;
-                }
-                else {
-                    htmlElementStyle.bottom = `${htmlElement.parentNode.offsetHeight - lastHtmlElement.offsetTop}${PX}`;
-                }
+                this.align === aligns.TOP
+                    ? this.top = htmlElement.offsetTop + offset
+                    : htmlElementStyle.bottom = `${htmlElement.parentNode.offsetHeight - lastHtmlElement.offsetTop}${PX}`;
             }
         }
         //#endregion updateControls
@@ -423,65 +369,70 @@ const Splitter = (() => {
             let firstCtrl = priv.firstCtrl;
             let lastCtrl = priv.lastCtrl;
             const htmlElement = this.HTMLElement;
-            const aligns = Types.ALIGNS;
+            const aligns = core.types.ALIGNS;
             const components = this.owner.components;
             const self = this;
             let comps = [];
             //#endregion Variables déclaration
-            if (Tools.isString(firstCtrl)) {
-                priv.firstCtrl = firstCtrl = this.form[firstCtrl]?this.form[firstCtrl]:null;
+            if (core.tools.isString(firstCtrl)) {
+                priv.firstCtrl = firstCtrl = this.form[firstCtrl] ? this.form[firstCtrl] : null;
             } else if (!firstCtrl) {
                 switch (this.align) {
                     case aligns.LEFT:
                         comps = components.filter(e => {
-                            return (e.align === aligns.LEFT) && e.visible && e.HTMLElement.parentNode === htmlElement.parentNode;
+                            return (e.align === aligns.LEFT) && e.visible
+                                && e.HTMLElement.parentNode === htmlElement.parentNode;
                         });
                         break;
                     case aligns.TOP:
                         comps = components.filter(e => {
-                            return (e.align === aligns.TOP) && e.visible && e.HTMLElement.parentNode === htmlElement.parentNode;
+                            return (e.align === aligns.TOP) && e.visible
+                                && e.HTMLElement.parentNode === htmlElement.parentNode;
                         });
                         break;
                     case aligns.RIGHT:
                         comps = components.filter(e => {
-                            return (e.align === aligns.CLIENT) && e.visible && e.HTMLElement.parentNode === htmlElement.parentNode;
+                            return (e.align === aligns.CLIENT) && e.visible
+                                && e.HTMLElement.parentNode === htmlElement.parentNode;
                         });
                         break;
                     case aligns.BOTTOM:
                         comps = components.filter(e => {
-                            return (e.align === aligns.CLIENT) && e.visible && e.HTMLElement.parentNode === htmlElement.parentNode;
+                            return (e.align === aligns.CLIENT) && e.visible
+                                && e.HTMLElement.parentNode === htmlElement.parentNode;
                         });
                         break;
                 }
                 priv.firstCtrl = firstCtrl = comps.find(e => e !== self);
             }
-            if (Tools.isString(lastCtrl)) {
-                if (this.form[lastCtrl]) {
-                    priv.lastCtrl = lastCtrl = this.form[lastCtrl];
-                }
-                else {
-                    priv.lastCtrl = lastCtrl = null;
-                }
+            if (core.tools.isString(lastCtrl)) {
+                this.form[lastCtrl]
+                    ? priv.lastCtrl = lastCtrl = this.form[lastCtrl]
+                    : priv.lastCtrl = lastCtrl = null;
             } else if (!lastCtrl) {
                 switch (this.align) {
                     case aligns.RIGHT:
                         comps = components.filter(e => {
-                            return (e.align === aligns.RIGHT) && e.visible && e.HTMLElement.parentNode === htmlElement.parentNode;
+                            return (e.align === aligns.RIGHT) && e.visible
+                                && e.HTMLElement.parentNode === htmlElement.parentNode;
                         });
                         break;
                     case aligns.BOTTOM:
                         comps = components.filter(e => {
-                            return (e.align === aligns.BOTTOM) && e.visible && e.HTMLElement.parentNode === htmlElement.parentNode;
+                            return (e.align === aligns.BOTTOM) && e.visible
+                                && e.HTMLElement.parentNode === htmlElement.parentNode;
                         });
                         break;
                     case aligns.LEFT:
                         comps = components.filter(e => {
-                            return (e.align === aligns.CLIENT) && e.visible && e.HTMLElement.parentNode === htmlElement.parentNode;
+                            return (e.align === aligns.CLIENT) && e.visible
+                                && e.HTMLElement.parentNode === htmlElement.parentNode;
                         });
                         break;
                     case aligns.TOP:
                         comps = components.filter(e => {
-                            return (e.align === aligns.CLIENT) && e.visible && e.HTMLElement.parentNode === htmlElement.parentNode;
+                            return (e.align === aligns.CLIENT) && e.visible
+                                && e.HTMLElement.parentNode === htmlElement.parentNode;
                         });
                         break;
                 }
@@ -494,7 +445,6 @@ const Splitter = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.down = null;
             priv.downPos.destroy();
             priv.downPos = null;
@@ -505,6 +455,8 @@ const Splitter = (() => {
             priv.maxSize = null;
             priv.collapsible = null;
             priv.orientation = null;
+            priv.isCollapsed = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -513,14 +465,14 @@ const Splitter = (() => {
     //#endregion Splitter
 })();
 Object.seal(Splitter);
-Core.classes.register(Types.CATEGORIES.COMMON, Splitter);
+core.classes.register(core.types.CATEGORIES.COMMON, Splitter);
 //#endregion Splitter
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const SplitterTpl = ['<jagui-splitter id="{internalId}" data-class="Splitter" class="Control csr_wResize Splitter {theme}">',
         '<properties>{ "name": "{name}", "orientation": "vertical", "align": "left", "collapsible": !0 }</properties>',
         '</jagui-splitter>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: Splitter, template: SplitterTpl }]);
+    core.classes.registerTemplates([{ Class: Splitter, template: SplitterTpl }]);
 }
 //endregion
 export { Splitter };

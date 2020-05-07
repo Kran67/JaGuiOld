@@ -1,6 +1,5 @@
 ﻿//#region Import
 import { Control } from '/scripts/components/control.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region PaintBox
 const PaintBox = (() => {
@@ -8,9 +7,7 @@ const PaintBox = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -21,12 +18,12 @@ const PaintBox = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.allowUpdateOnResize = !0;
                 super(owner, props);
                 const priv = internal(this);
                 priv.ctx = null;
                 delete this.tabOrder;
                 this.createEventsAndBind(['onPaint'], props);
-                this.allowUpdateOnResize = !0;
             }
         }
         //#endregion constructor
@@ -41,15 +38,9 @@ const PaintBox = (() => {
             return super.width;
         }
         set width(newValue) {
-            if (Tools.isNumber(newValue)) {
-                if (this.width !== newValue) {
-                    super.width = newValue;
-                    if (Core.isHTMLRenderer) {
-                        if (!this.loading && !this.form.loading) {
-                            this.paint();
-                        }
-                    }
-                }
+            if (core.tools.isNumber(newValue) && this.width !== newValue) {
+                super.width = newValue;
+                core.isHTMLRenderer && !this.loading && !this.form.loading && this.paint();
             }
         }
         //#endregion width
@@ -58,15 +49,9 @@ const PaintBox = (() => {
             return super.height;
         }
         set height(newValue) {
-            if (Tools.isNumber(newValue)) {
-                if (this.height !== newValue) {
-                    super.height = newValue;
-                    if (Core.isHTMLRenderer) {
-                        if (!this.loading && !this.form.loading) {
-                            this.paint();
-                        }
-                    }
-                }
+            if (core.tools.isNumber(newValue) && this.height !== newValue) {
+                super.height = newValue;
+                core.isHTMLRenderer && !this.loading && !this.form.loading && his.paint();
             }
         }
         //#endregion height
@@ -79,9 +64,7 @@ const PaintBox = (() => {
             //#endregion Variables déclaration
             super.getHTMLElement(id);
             const htmlElement = this.HTMLElement;
-            if (htmlElement) {
-                priv.ctx = htmlElement.getContext('2d');
-            }
+            htmlElement && (priv.ctx = htmlElement.getContext('2d'));
         }
         //#endregion getHTMLElement
         //#region update
@@ -101,15 +84,10 @@ const PaintBox = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (htmlElement.offsetWidth !== 0 && htmlElement.offsetHeight !== 0) {
-                if (!this.form.loading && !this.form.creating) {
-                    if (this.isEnabled) {
-                        if (Core.isHTMLRenderer) {
-                            priv.ctx.clear();
-                            this.onPaint.invoke();
-                        }
-                    }
-                }
+            if (htmlElement.offsetWidth !== 0 && htmlElement.offsetHeight !== 0 && !this.form.loading
+                & !this.form.creating && this.isEnabled && core.isHTMLRenderer) {
+                priv.ctx.clear();
+                this.onPaint.invoke();
             }
         }
         //#endregion paint
@@ -124,8 +102,8 @@ const PaintBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.ctx = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -133,14 +111,14 @@ const PaintBox = (() => {
     return PaintBox;
     //#endregion PaintBox
 })();
-//#endregion CustomButton
 Object.seal(PaintBox);
-Core.classes.register(Types.CATEGORIES.COMMON, PaintBox);
-export { PaintBox };
+core.classes.register(core.types.CATEGORIES.COMMON, PaintBox);
+//#endregion CustomButton
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const PaintBoxTpl = ['<canvas id="{internalId}" data-class="PaintBox" class="Control PaintBox">',
         '<properties>{ "name": "{name}", "width": 105, "height": 105 }</properties></canvas>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: PaintBox, template: PaintBoxTpl }]);
+    core.classes.registerTemplates([{ Class: PaintBox, template: PaintBoxTpl }]);
 }
 //#endregion
+export { PaintBox };

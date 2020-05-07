@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Rect } from '/scripts/core/geometry.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region ProgressBar
 const ProgressBar = (() => {
@@ -9,9 +8,7 @@ const ProgressBar = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -21,22 +18,25 @@ const ProgressBar = (() => {
         //#region Constructor
         constructor(owner, props) {
             //#region Variables déclaration
-            const orientations = Types.ORIENTATIONS;
+            const orientations = core.types.ORIENTATIONS;
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
+                if (!core.isHTMLRenderer) {
+                    !props.hasOwnProperty('height') && (props.height = 20);
+                    !props.hasOwnProperty('width') && (props.width = 100);
+                }
+                props.hitTest = {
+                    mouseDown: !1, mouseUp: !1
+                };
+                props.allowUpdateOnResize = !0;
                 super(owner, props);
                 const priv = internal(this);
                 priv.progress = null;
-                if (!Core.isHTMLRenderer) {
-                    this.height = props.hasOwnProperty('height') ? props.height : 20;
-                    this.width = props.hasOwnProperty('width') ? props.width : 100;
-                }
                 priv.value = props.hasOwnProperty('value') ? props.value : 0;
                 priv.min = props.hasOwnProperty('min') ? props.min : 0;
                 priv.max = props.hasOwnProperty('max') ? props.max : 100;
-                this.hitTest = !1;
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'orientation',
                     enum: orientations,
@@ -44,21 +44,18 @@ const ProgressBar = (() => {
                     value: props.hasOwnProperty('orientation') ? props.orientation : orientations.NONE
                 });
                 delete this.tabOrder;
-                this.allowUpdateOnResize = !0;
             }
         }
         //#endregion Constructor
-        //#region Getter / Setter
+        //#region Getters / Setters
         //#region orientation
         set orientation(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, Types.ORIENTATIONS)) {
-                if (priv.orientation !== newValue) {
-                    priv.orientation = newValue;
-                    this.update();
-                }
+            if (core.tools.valueInSet(newValue, core.types.ORIENTATIONS) && priv.orientation !== newValue) {
+                priv.orientation = newValue;
+                this.update();
             }
         }
         //#endregion orientation
@@ -70,24 +67,15 @@ const ProgressBar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.value) {
-                    priv.value = newValue;
-                    if (priv.value > priv.max) {
-                        priv.value = priv.max;
-                    }
-                    if (priv.value < priv.min) {
-                        priv.value = priv.min;
-                    }
-                    if (!Core.isHTMLRenderer) {
-                        const lastRect = this.screenRect();
-                        if (this.allowUpdate) {
-                            this.update();
-                        }
-                        this.redraw(lastRect);
-                    } else {
-                        this.update();
-                    }
+            if (core.tools.isNumber(newValue) && newValue !== priv.value) {
+                priv.value = newValue;
+                priv.value = Math.max(Math.min(priv.value, priv.max), priv.min);
+                if (!core.isHTMLRenderer) {
+                    const lastRect = this.screenRect();
+                    this.allowUpdate && this.update();
+                    this.redraw(lastRect);
+                } else {
+                    this.update();
                 }
             }
         }
@@ -100,17 +88,13 @@ const ProgressBar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.min) {
-                    priv.min = newValue;
-                    if (!Core.isHTMLRenderer) {
-                        if (this.allowUpdate) {
-                            this.update();
-                        }
-                        this.redraw();
-                    } else {
-                        this.update();
-                    }
+            if (core.tools.isNumber(newValue) && newValue !== priv.min) {
+                priv.min = newValue;
+                if (!core.isHTMLRenderer) {
+                    this.allowUpdate && this.update();
+                    this.redraw();
+                } else {
+                    this.update();
                 }
             }
         }
@@ -123,17 +107,13 @@ const ProgressBar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.max) {
-                    priv.max = newValue;
-                    if (!Core.isHTMLRenderer) {
-                        if (this.allowUpdate) {
-                            this.update();
-                        }
-                        this.redraw();
-                    } else {
-                        this.update();
-                    }
+            if (core.tools.isNumber(newValue) && newValue !== priv.max) {
+                priv.max = newValue;
+                if (!core.isHTMLRenderer) {
+                    this.allowUpdate && this.update();
+                    this.redraw();
+                } else {
+                    this.update();
                 }
             }
         }
@@ -158,7 +138,7 @@ const ProgressBar = (() => {
             this.update();
         }
         //#endregion height
-        //#endregion Getter / Setter
+        //#endregion Getters / Setters
         //#region Methods
         //#region calculProgress
         calculProgress() {
@@ -168,12 +148,10 @@ const ProgressBar = (() => {
             let nv = 0;
             const margin = new Rect;
             const padding = this.padding;
-            let borderLeft = 0;
             let borderTop = 0;
-            let borderRight = 0;
             let borderBottom = 0;
             //#endregion Variables déclaration
-            if (!Core.isHTMLRenderer) {
+            if (!core.isHTMLRenderer) {
                 //
             } else {
                 if (htmlElement) {
@@ -189,11 +167,9 @@ const ProgressBar = (() => {
                     margin.bottom = parseInt(getComputedStyle(priv.progress).marginBottom, 10);
                 }
             }
-            if (priv.orientation === Types.ORIENTATIONS.HORIZONTAL) {
-                nv = htmlElement.offsetWidth - padding.left - padding.right - margin.left - margin.right;
-            } else {
-                nv = htmlElement.offsetHeight - padding.top - padding.bottom - margin.top - margin.bottom - borderTop - borderBottom;
-            }
+            nv = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL
+                ? htmlElement.offsetWidth - padding.left - padding.right - margin.left - margin.right
+                : htmlElement.offsetHeight - padding.top - padding.bottom - margin.top - margin.bottom - borderTop - borderBottom;
             nv = ~~(((priv.value - priv.min) / (priv.max - priv.min)) * nv);
             return nv;
         }
@@ -202,12 +178,12 @@ const ProgressBar = (() => {
         update() {
             //#region Variables déclaration
             const priv = internal(this);
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const progressStyle = this.HTMLElement.firstElementChild.style;
             //#endregion Variables déclaration
             if (priv.progress) {
                 const wh = this.calculProgress();
-                if (priv.orientation === Types.ORIENTATIONS.HORIZONTAL) {
+                if (priv.orientation === core.types.ORIENTATIONS.HORIZONTAL) {
                     if (priv.value === priv.max) {
                         progressStyle.right = 0;
                         progressStyle.width = String.EMPTY;
@@ -231,9 +207,9 @@ const ProgressBar = (() => {
         loaded() {
             //#region Variables déclaration
             const priv = internal(this);
-            const progressBarIndic = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}indicator`);
+            const progressBarIndic = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}indicator`);
             //#endregion Variables déclaration
-            priv.progress = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}progress`);
+            priv.progress = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}progress`);
             priv.progress.classList.add('Control', 'ProgressBarProgress', this.themeName, `orientation-${priv.orientation}`);
             priv.progress.jsObj = this;
             progressBarIndic.classList.add('Control', this.themeName, 'ProgressBarIndic', `orientation-${priv.orientation}`);
@@ -242,19 +218,32 @@ const ProgressBar = (() => {
             super.loaded();
         }
         //#endregion loaded
+        //#region destroy
+        destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.progress = null;
+            priv.value = null;
+            priv.min = null;
+            priv.max = null;
+            priv.orientation = null;
+            this.destroy();
+        }
+        //#endregion destroy
         //#endregion Methods
     };
     return ProgressBar;
     //#endregion Class ProgressBar
 })();
-//#endregion
-Core.classes.register(Types.CATEGORIES.COMMON, ProgressBar);
-export { ProgressBar };
+core.classes.register(core.types.CATEGORIES.COMMON, ProgressBar);
+//#endregion ProgressBar
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const ProgressBarTpl = ['<jagui-progressbar id="{internalId}" data-class="ProgressBar" class="Control ProgressBar {theme} orientation-horizontal">',
         '<properties>{ "name": "{name}", "value": 50, "orientation": "horizontal", "width": 100, "height": 17 }</properties>',
         '</jagui-progressbar>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: ProgressBar, template: ProgressBarTpl }]);
+    core.classes.registerTemplates([{ Class: ProgressBar, template: ProgressBarTpl }]);
 }
 //#endregion Templates
+export { ProgressBar };

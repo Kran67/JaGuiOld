@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { CustomTextBoxBtn } from '/scripts/core/customtextboxbtn.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region SPINBOXTYPES
 const SPINBOXTYPES = Object.freeze(Object.seal({
@@ -15,9 +14,7 @@ const SpinBox = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -31,26 +28,26 @@ const SpinBox = (() => {
             props.stopEvent = !0;
             if (owner) {
                 props.numBtns = 2;
+                if (!core.isHTMLRenderer) {
+                    props.width = 100;
+                    props.height = 21;
+                }
+                props.filterChars = '0123456789.,-';
+                props.stopEvent = !0;
                 super(owner, props);
                 const priv = internal(this);
-                if (!Core.isHTMLRenderer) {
-                    this.width = 100;
-                    this.height = 21;
-                }
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'valueType',
                     enum: SPINBOXTYPES,
                     variable: priv,
                     value: props.hasOwnProperty('valueType') ? props.valueType : SPINBOXTYPES.INTEGER
                 });
-                priv.value = props.hasOwnProperty('value') && Tools.isNumber(props.value)?props.value:0;
-                priv.increment = props.hasOwnProperty('increment') && Tools.isNumber(props.increment)?props.value:1;
-                priv.decimalDigits = props.hasOwnProperty('decimalDigits') && Tools.isNumber(props.decimalDigits)?props.value:2;
-                priv.min = props.hasOwnProperty('min') && Tools.isNumber(props.min)?props.min:0;
-                priv.max = props.hasOwnProperty('max') && Tools.isNumber(props.max)?props.max:100;
-                this.filterChars = '0123456789.,-';
-                this.stopEvent = !0;
+                priv.value = props.hasOwnProperty('value') && core.tools.isNumber(props.value) ? props.value : 0;
+                priv.increment = props.hasOwnProperty('increment') && core.tools.isNumber(props.increment) ? props.value : 1;
+                priv.decimalDigits = props.hasOwnProperty('decimalDigits') && core.tools.isNumber(props.decimalDigits) ? props.value : 2;
+                priv.min = props.hasOwnProperty('min') && core.tools.isNumber(props.min) ? props.min : 0;
+                priv.max = props.hasOwnProperty('max') && core.tools.isNumber(props.max) ? props.max : 100;
             }
         }
         //#endregion constructor
@@ -72,21 +69,14 @@ const SpinBox = (() => {
             const priv = internal(this);
             //const decimalSeparator = '.';
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.value !== newValue) {
-                    newValue = Math.min(Math.max(newValue, priv.min), priv.max);
-                    priv.value = newValue;
-                    if (priv.valueType === SPINBOXTYPES.FLOAT) {
-                        priv.value = parseFloat(priv.value.toFixed(priv.decimalDigits));
-                    }
-                    if ((Math.frac(priv.value) === 0) || (priv.valueType === SPINBOXTYPES.INTEGER)) {
-                        this.text = parseInt(priv.value, 10).toString();
-                    }
-                    else {
-                        this.text = priv.value.toString();
-                    }
-                    this.onChange.invoke();
-                }
+            if (core.tools.isNumber(newValue) && priv.value !== newValue) {
+                newValue = Math.min(Math.max(newValue, priv.min), priv.max);
+                priv.value = newValue;
+                priv.valueType === SPINBOXTYPES.FLOAT && (priv.value = parseFloat(priv.value.toFixed(priv.decimalDigits)));
+                this.text = (Math.frac(priv.value) === 0 || priv.valueType === SPINBOXTYPES.INTEGER)
+                    ? parseInt(priv.value, 10).toString()
+                    : this.text = priv.value.toString();
+                this.onChange.invoke();
             }
         }
         //#endregion value
@@ -98,11 +88,7 @@ const SpinBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.increment !== newValue) {
-                    priv.increment = newValue;
-                }
-            }
+            core.tools.isNumber(newValue) && priv.increment !== newValue && (priv.increment = newValue);
         }
         //#endregion increment
         //#region decimalDigits
@@ -113,11 +99,9 @@ const SpinBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.decimalDigits !== newValue) {
-                    priv.decimalDigits = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.decimalDigits !== newValue) {
+                priv.decimalDigits = newValue;
+                this.update();
             }
         }
         //#endregion decimalDigits
@@ -129,14 +113,10 @@ const SpinBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.min !== newValue) {
-                    priv.min = newValue;
-                    if (priv.value > priv.min) {
-                        priv.value = priv.min;
-                    }
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.min !== newValue) {
+                priv.min = newValue;
+                priv.value = Math.min(priv.value, priv.min);
+                this.update();
             }
         }
         //#endregion min
@@ -148,14 +128,10 @@ const SpinBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.max !== newValue) {
-                    priv.max = newValue;
-                    if (priv.value > priv.max) {
-                        priv.value = priv.max;
-                    }
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.max !== newValue) {
+                priv.max = newValue;
+                priv.value = Math.min(priv.value, priv.max);
+                this.update();
             }
         }
         //#endregion max
@@ -167,12 +143,10 @@ const SpinBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (this.enabled !== newValue) {
-                    super.enabled = newValue;
-                    priv.btnPlus.enabled = newValue;
-                    priv.btnMinus.enabled = newValue;
-                }
+            if (core.tools.isBool(newValue) && this.enabled !== newValue) {
+                super.enabled = newValue;
+                priv.btnPlus.enabled = newValue;
+                priv.btnMinus.enabled = newValue;
             }
         }
         //#endregion enabled
@@ -185,12 +159,10 @@ const SpinBox = (() => {
             //#endregion Variables déclaration
             super.update();
             if (!this.loading && !this.form.loading) {
-                if (this.inputObj) {
-                    if (this.text === String.EMPTY || !Tools.isNumber(this.inputObj.value)) {
-                        priv.value = 0;
-                        this.text = '0';
-                        this.inputObj.value = priv.value;
-                    }
+                if (this.inputObj && this.text === String.EMPTY || !core.tools.isNumber(this.inputObj.value)) {
+                    priv.value = 0;
+                    this.text = '0';
+                    this.inputObj.value = priv.value;
                 }
                 if (priv.btnMinus && priv.btnPlus) {
                     priv.btnMinus.enabled = !(priv.value === priv.min);
@@ -227,32 +199,24 @@ const SpinBox = (() => {
         //#region decValue
         decValue() {
             //#region Variables déclaration
-            const owner = this instanceof SpinBox?this:this.owner;
+            const owner = this instanceof SpinBox ? this : this.owner;
             let value = owner.value -= owner.increment;
             //#endregion Variables déclaration
-            if (this.isEnabled) {
-                if (this.hitTest.mouseDown) {
-                    if (value < owner.min) {
-                        value = owner.min;
-                    }
-                    owner.value = value;
-                }
+            if (this.isEnabled && this.hitTest.mouseDown) {
+                value = Math.max(value, owner.min);
+                owner.value = value;
             }
         }
         //#endregion decValue
         //#region incValue
         incValue() {
             //#region Variables déclaration
-            const owner = this instanceof SpinBox?this:this.owner;
+            const owner = this instanceof SpinBox ? this : this.owner;
             let value = owner.value += owner.increment;
             //#endregion Variables déclaration
-            if (this.isEnabled) {
-                if (this.hitTest.mouseDown) {
-                    if (value > owner.max) {
-                        value = owner.max;
-                    }
-                    owner.value = value;
-                }
+            if (this.isEnabled && this.hitTest.mouseDown) {
+                value = Math.min(value, owner.max);
+                owner.value = value;
             }
         }
         //#endregion incValue
@@ -262,10 +226,9 @@ const SpinBox = (() => {
             const VKeysCodes = Keyboard.VKEYSCODES;
             //#endregion Variables déclaration
             super.keyDown();
-            if (Core.keyboard.keyCode === VKeysCodes.VK_DOWN) {
+            if (core.keyboard.keyCode === VKeysCodes.VK_DOWN) {
                 this.decValue();
-            }
-            else if (Core.keyboard.keyCode === VKeysCodes.VK_UP) {
+            } else if (core.keyboard.keyCode === VKeysCodes.VK_UP) {
                 this.incValue();
             }
         }
@@ -279,15 +242,13 @@ const SpinBox = (() => {
         //#region mouseWheel
         mouseWheel() {
             //#region Variables déclaration
-            const wheelDelta = Core.mouse.wheelDelta;
+            const wheelDelta = core.mouse.wheelDelta;
             const multiplier = wheelDelta < 0 ? -1 : 1;
             //#endregion Variables déclaration
             super.mouseWheel();
             multiplier > 0 ? this.incValue() : this.decValue();
-            if (this.form.focusedControl !== this) {
-                this.setFocus();
-            }
-            //Core.mouse.preventDefault();
+            this.form.focusedControl !== this && this.setFocus();
+            //core.mouse.preventDefault();
         }
         //#endregion mouseWheel
         //#region destroy
@@ -295,7 +256,6 @@ const SpinBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.btnPlus = null;
             priv.btnMinus = null;
             priv.valueType = null;
@@ -304,6 +264,7 @@ const SpinBox = (() => {
             priv.decimalDigits = null;
             priv.min = null;
             priv.max = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -311,13 +272,13 @@ const SpinBox = (() => {
     return SpinBox;
     //#endregion SpinBox
 })();
-Core.classes.register(Types.CATEGORIES.COMMON, SpinBox);
 //#endregion SpinBox
+core.classes.register(core.types.CATEGORIES.COMMON, SpinBox);
 //#region Template
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const SpinBoxTpl = ['<jagui-spinbox id="{internalId}" data-class="SpinBox" class="Control TextBox SpinBox {theme}">',
         '<properties>{ "name": "{name}", "width": 81, "height": 20 }</properties></jagui-spinbox>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: SpinBox, template: SpinBoxTpl }]);
+    core.classes.registerTemplates([{ Class: SpinBox, template: SpinBoxTpl }]);
 }
 //#endregion
 export { SpinBox };

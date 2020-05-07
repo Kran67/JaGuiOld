@@ -2,7 +2,6 @@
 import { GraphicControl } from '/scripts/core/graphiccontrol.js';
 import { SVGGraphicControl } from '/scripts/core/svggraphiccontrol.js';
 import { Colors } from '/scripts/core/color.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region Direction of Line
 const LINEDIRECTIONS = Object.freeze(Object.seal({
@@ -43,9 +42,7 @@ const Line = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -59,8 +56,8 @@ const Line = (() => {
                 props.shape = SHAPES.LINE;
                 super(owner, props);
                 const priv = internal(this);
-                this.strokeColor.assign(props.hasOwnProperty('color') ? color.parse(props.color) : Colors.WHITE);
-                priv.lineDirection = props.hasOwnProperty('lineDirection') ? props.lineDirection : LINEDIRECTIONS.TOPLEFT_BOTTOMRIGHT;
+                priv.lineDirection = props.hasOwnProperty('lineDirection')
+                    ? props.lineDirection : LINEDIRECTIONS.TOPLEFT_BOTTOMRIGHT;
             }
         }
         //#endregion constructor
@@ -86,11 +83,9 @@ const Line = (() => {
             return internal(this).lineDirection;
         }
         set lineDirection(newValue) {
-            if (tools.valueInSet(newValue, LINEDIRECTIONS)) {
-                if (priv.lineDirection !== newValue) {
-                    priv.lineDirection = newValue;
-                    this.update();
-                }
+            if (core.tools.valueInSet(newValue, LINEDIRECTIONS) && priv.lineDirection !== newValue) {
+                priv.lineDirection = newValue;
+                this.update();
             }
         }
         //#endregion lineDirection
@@ -101,65 +96,72 @@ const Line = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (!this.loading && !this.form.loading) {
-                if (this.svgShape) {
-                    super.update();
-                    switch (priv.lineDirection) {
-                        case LINEDIRECTIONS.TOPLEFT_BOTTOMRIGHT:
-                            this.svgShape.setAttribute('x1', 0);
-                            this.svgShape.setAttribute('y1', 0);
-                            this.svgShape.setAttribute('x2', '100%');
-                            this.svgShape.setAttribute('y2', '100%');
-                            break;
-                        case LINEDIRECTIONS.TOPRIGHT_BOTTOMLEFT:
-                            this.svgShape.setAttribute('x1', 0);
-                            this.svgShape.setAttribute('y1', '100%');
-                            this.svgShape.setAttribute('x2', '100%');
-                            this.svgShape.setAttribute('y2', 0);
-                            break;
-                        case LINEDIRECTIONS.TOPLEFT_TOPRIGHT:
-                            this.svgShape.setAttribute('x1', 0);
-                            this.svgShape.setAttribute('y1', 0);
-                            this.svgShape.setAttribute('x2', '100%');
-                            this.svgShape.setAttribute('y2', 0);
-                            break;
-                        case LINEDIRECTIONS.BOTTOMLEFT_BOTTOMRIGHT:
-                            this.svgShape.setAttribute('x1', 0);
-                            this.svgShape.setAttribute('y1', '100%');
-                            this.svgShape.setAttribute('x2', '100%');
-                            this.svgShape.setAttribute('y2', '100%');
-                            break;
-                        case LINEDIRECTIONS.TOPLEFT_BOTTOMLEFT:
-                            this.svgShape.setAttribute('x1', 0);
-                            this.svgShape.setAttribute('y1', 0);
-                            this.svgShape.setAttribute('x2', 0);
-                            this.svgShape.setAttribute('y2', '100%');
-                            break;
-                        case LINEDIRECTIONS.TOPRIGHT_BOTTOMRIGHT:
-                            this.svgShape.setAttribute('x1', '100%');
-                            this.svgShape.setAttribute('y1', 0);
-                            this.svgShape.setAttribute('x2', '100%');
-                            this.svgShape.setAttribute('y2', '100%');
-                            break;
-                        case LINEDIRECTIONS.MIDDLETOP_MIDDLEBOTTOM:
-                            this.svgShape.setAttribute('x1', '50%');
-                            this.svgShape.setAttribute('y1', 0);
-                            this.svgShape.setAttribute('x2', '50%');
-                            this.svgShape.setAttribute('y2', '100%');
-                            break;
-                        case LINEDIRECTIONS.MIDDLELEFT_MIDDLERIGHT:
-                            this.svgShape.setAttribute('x1', 0);
-                            this.svgShape.setAttribute('y1', '50%');
-                            this.svgShape.setAttribute('x2', '100%');
-                            this.svgShape.setAttribute('y2', '50%');
-                            break;
-                    }
-                    this.svgShape.setAttribute('stroke', this.strokeColor.toRGBAString());
-                    this.svgShape.setAttribute('stroke-width', this.strokeWidth);
+            if (!this.loading && !this.form.loading && this.svgShape) {
+                super.update();
+                switch (priv.lineDirection) {
+                    case LINEDIRECTIONS.TOPLEFT_BOTTOMRIGHT:
+                        this.svgShape.setAttribute('x1', 0);
+                        this.svgShape.setAttribute('y1', 0);
+                        this.svgShape.setAttribute('x2', '100%');
+                        this.svgShape.setAttribute('y2', '100%');
+                        break;
+                    case LINEDIRECTIONS.TOPRIGHT_BOTTOMLEFT:
+                        this.svgShape.setAttribute('x1', 0);
+                        this.svgShape.setAttribute('y1', '100%');
+                        this.svgShape.setAttribute('x2', '100%');
+                        this.svgShape.setAttribute('y2', 0);
+                        break;
+                    case LINEDIRECTIONS.TOPLEFT_TOPRIGHT:
+                        this.svgShape.setAttribute('x1', 0);
+                        this.svgShape.setAttribute('y1', 0);
+                        this.svgShape.setAttribute('x2', '100%');
+                        this.svgShape.setAttribute('y2', 0);
+                        break;
+                    case LINEDIRECTIONS.BOTTOMLEFT_BOTTOMRIGHT:
+                        this.svgShape.setAttribute('x1', 0);
+                        this.svgShape.setAttribute('y1', '100%');
+                        this.svgShape.setAttribute('x2', '100%');
+                        this.svgShape.setAttribute('y2', '100%');
+                        break;
+                    case LINEDIRECTIONS.TOPLEFT_BOTTOMLEFT:
+                        this.svgShape.setAttribute('x1', 0);
+                        this.svgShape.setAttribute('y1', 0);
+                        this.svgShape.setAttribute('x2', 0);
+                        this.svgShape.setAttribute('y2', '100%');
+                        break;
+                    case LINEDIRECTIONS.TOPRIGHT_BOTTOMRIGHT:
+                        this.svgShape.setAttribute('x1', '100%');
+                        this.svgShape.setAttribute('y1', 0);
+                        this.svgShape.setAttribute('x2', '100%');
+                        this.svgShape.setAttribute('y2', '100%');
+                        break;
+                    case LINEDIRECTIONS.MIDDLETOP_MIDDLEBOTTOM:
+                        this.svgShape.setAttribute('x1', '50%');
+                        this.svgShape.setAttribute('y1', 0);
+                        this.svgShape.setAttribute('x2', '50%');
+                        this.svgShape.setAttribute('y2', '100%');
+                        break;
+                    case LINEDIRECTIONS.MIDDLELEFT_MIDDLERIGHT:
+                        this.svgShape.setAttribute('x1', 0);
+                        this.svgShape.setAttribute('y1', '50%');
+                        this.svgShape.setAttribute('x2', '100%');
+                        this.svgShape.setAttribute('y2', '50%');
+                        break;
                 }
+                this.svgShape.setAttribute('stroke', this.strokeColor.toRGBAString());
+                this.svgShape.setAttribute('stroke-width', this.strokeWidth);
             }
         }
         //#endregion update
+        //#region destroy
+        destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.lineDirection = null;
+            super.destroy();
+        }
+        //#endregion destroy
         //#endregion Methods
     }
     return Line;
@@ -169,36 +171,19 @@ Object.seal(Object.freeze(Line));
 //#endregion Line
 //#region Rectangle
 class Rectangle extends GraphicControl {
-    //#region constructor
-    constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
-        props = !props ? {} : props;
-        if (owner) {
-            super(owner, props);
-        }
-    }
-    //#endregion constructor
     //#region Methods
     //#region update
     update() {
         //#region Variables déclaration
         const fillColor = this.fillColor;
         const strokeColor = this.strokeColor;
-        const strokeDash = this.strokeDash;
         const strokeWidth = this.strokeWidth;
         const htmlElementStyle = this.HTMLElementStyle;
         //#endregion Variables déclaration
         if (!this.loading) {
-            if (fillColor) {
-                htmlElementStyle.backgroundColor = fillColor.toRGBAString();
-            }
-            if (strokeColor && strokeWidth > 0) {
-
-                htmlElementStyle.border = `${strokeWidth}${Types.CSSUNITS.PX} solid ${strokeColor.toRGBAString()}`;
-            }
-            if (strokeDash && strokeDash !== String.EMPTY) {
-            }
+            fillColor && (htmlElementStyle.backgroundColor = fillColor.toRGBAString());
+            strokeColor && strokeWidth > 0
+                && (htmlElementStyle.border = `${strokeWidth}${core.types.CSSUNITS.PX} solid ${strokeColor.toRGBAString()}`);
         }
     }
     //#endregion update
@@ -212,9 +197,7 @@ const RoundRect = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -243,11 +226,9 @@ const RoundRect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.topLeftRadius !== newValue) {
-                    priv.topLeftRadius = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.topLeftRadius !== newValue) {
+                priv.topLeftRadius = newValue;
+                this.update();
             }
         }
         //#endregion topLeftRadius
@@ -259,11 +240,9 @@ const RoundRect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.topRightRadius !== newValue) {
-                    priv.topRightRadius = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.topRightRadius !== newValue) {
+                priv.topRightRadius = newValue;
+                this.update();
             }
         }
         //#endregion topRightRadius
@@ -275,11 +254,9 @@ const RoundRect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.bottomLeftRadius !== newValue) {
-                    priv.bottomLeftRadius = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.bottomLeftRadius !== newValue) {
+                priv.bottomLeftRadius = newValue;
+                this.update();
             }
         }
         //#endregion bottomLeftRadius
@@ -291,11 +268,9 @@ const RoundRect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.bottomRightRadius !== newValue) {
-                    priv.bottomRightRadius = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.bottomRightRadius !== newValue) {
+                priv.bottomRightRadius = newValue;
+                this.update();
             }
         }
         //#endregion bottomRightRadius
@@ -303,7 +278,7 @@ const RoundRect = (() => {
         //#region Methods
         //#region assign
         assign(source) {
-            if (source instanceof Core.classes.RoundRect) {
+            if (source instanceof core.classes.RoundRect) {
                 super.assign(source);
                 priv.topLeftRadius = source.topLeftRadius;
                 priv.topRightRadius = source.topLeftRadius;
@@ -317,12 +292,11 @@ const RoundRect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             //#endregion Variables déclaration
             super.update();
-            if (!this.loading && !this.form.loading) {
-                htmlElementStyle.borderRadius = `${priv.topLeftRadius}${PX} ${priv.topRightRadius}${PX} ${priv.bottomRightRadius}${PX} ${priv.bottomLeftRadius}${PX}`;
-            }
+            !this.loading && !this.form.loading
+                && (htmlElementStyle.borderRadius = `${priv.topLeftRadius}${PX} ${priv.topRightRadius}${PX} ${priv.bottomRightRadius}${PX} ${priv.bottomLeftRadius}${PX}`);
         }
         //#endregion update
         //#region destroy
@@ -330,11 +304,11 @@ const RoundRect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.topLeftRadius = null;
             priv.topRightRadius = null;
             priv.bottomLeftRadius = null;
             priv.bottomRightRadius = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -346,16 +320,6 @@ Object.seal(Object.freeze(RoundRect));
 //#endregion RoundRect
 //#region Class Ellipse
 class Ellipse extends GraphicControl {
-    //#region constructor
-    constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
-        props = !props ? {} : props;
-        if (owner) {
-            super(owner, props);
-        }
-    }
-    //#endregion constructor
     //#region Getters / Setters
     //#endregion Getters / Setters
     //#region Methods
@@ -370,16 +334,9 @@ class Ellipse extends GraphicControl {
         //#endregion Variables déclaration
         if (!this.loading && !this.form.loading) {
             htmlElementStyle.borderRadius = '50%';
-            if (fillColor) {
-                htmlElementStyle.backgroundColor = fillColor.toRGBAString();
-            }
-            if (strokeColor && strokeWidth > 0) {
-
-                htmlElementStyle.border = `${strokeWidth}${Types.CSSUNITS.PX} solid ${strokeColor.toRGBAString()}`;
-            }
-            if (strokeDash && strokeDash !== String.EMPTY) {
-                //
-            }
+            fillColor && (htmlElementStyle.backgroundColor = fillColor.toRGBAString());
+            strokeColor && strokeWidth > 0
+                && (htmlElementStyle.border = `${strokeWidth}${core.types.CSSUNITS.PX} solid ${strokeColor.toRGBAString()}`);
         }
     }
     //#endregion update
@@ -415,20 +372,12 @@ class Circle extends SVGGraphicControl {
         const currentHeight = this.height;
         const currentWidth = this.width;
         //#endregion Variables déclaration
-        if (Tools.isNumber(newValue)) {
-            if (currentWidth !== newValue) {
-                if (Core.isHTMLRenderer && !this.loading) {
-                    this.propertyChanged(Types.BINDABLEPROPERTIES.WIDTH);
-                    if (newValue === 0) {
-                        htmlElementStyle.width = String.EMPTY;
-                    } else {
-                        htmlElementStyle.width = `${newValue}${Types.CSSUNITS.PX}`;
-                    }
-                    if (currentHeight !== newValue) {
-                        htmlElementStyle.height = htmlElementStyle.width;
-                    }
-                }
-            }
+        if (core.tools.isNumber(newValue) && currentWidth !== newValue && core.isHTMLRenderer && !this.loading) {
+            this.propertyChanged(core.types.BINDABLEPROPERTIES.WIDTH);
+            htmlElementStyle.width = newValue === 0
+                ? String.EMPTY
+                : `${newValue}${core.types.CSSUNITS.PX}`;
+            currentHeight !== newValue && (htmlElementStyle.height = htmlElementStyle.width);
         }
     }
     //#endregion width
@@ -442,20 +391,10 @@ class Circle extends SVGGraphicControl {
         const currentHeight = this.height;
         //const currentWidth = this.width;
         //#endregion Variables déclaration
-        if (Tools.isNumber(newValue)) {
-            if (currentHeight !== newValue) {
-                if (Core.isHTMLRenderer && !this.loading) {
-                    this.propertyChanged(Types.BINDABLEPROPERTIES.WIDTH);
-                    if (newValue === 0) {
-                        htmlElementStyle.height = String.EMPTY;
-                    } else {
-                        htmlElementStyle.height = `${newValue}${Types.CSSUNITS.PX}`;
-                    }
-                    if (currentHeight !== newValue) {
-                        htmlElementStyle.width = htmlElementStyle.height;
-                    }
-                }
-            }
+        if (core.tools.isNumber(newValue) && currentHeight !== newValue && core.isHTMLRenderer && !this.loading) {
+            this.propertyChanged(core.types.BINDABLEPROPERTIES.WIDTH);
+            htmlElementStyle.height = newValue === 0 ? String.EMPTY : `${newValue}${core.types.CSSUNITS.PX}`;
+            currentHeight !== newValue && (htmlElementStyle.width = htmlElementStyle.height);
         }
     }
     //#endregion height
@@ -482,9 +421,7 @@ const Path = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -498,12 +435,10 @@ const Path = (() => {
                 props.shape = SHAPES.PATH;
                 super(owner, props);
                 const priv = internal(this);
-                if (this instanceof Core.classes.Path) {
+                if (this instanceof core.classes.Path) {
                     this.svgShape.setAttribute('vector-effect', 'non-scaling-stroke');
-                    priv.path = new Core.classes.PathData(this);
-                    if (props.hasOwnProperty('path')) {
-                        priv.path.pathString = props.path;
-                    }
+                    priv.path = new core.classes.PathData(this);
+                    props.hasOwnProperty('path') && (priv.path.pathString = props.path);
                 }
             }
         }
@@ -517,13 +452,9 @@ const Path = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (this instanceof Core.classes.Path) {
-                if (newValue instanceof Core.classes.Path) {
-                    if (priv.path !== newValue) {
-                        priv.path.assign(newValue);
-                        this.update();
-                    }
-                }
+            if (this instanceof core.classes.Path && newValue instanceof core.classes.Path && priv.path !== newValue) {
+                priv.path.assign(newValue);
+                this.update();
             }
         }
         //#endregion path
@@ -535,14 +466,11 @@ const Path = (() => {
             //#region Variables déclaration
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (htmlElement.offsetWidth !== newValue) {
-                    super.width = newValue;
-                    if (htmlElement.offsetWidth > htmlElement.offsetHeight) {
-                        htmlElement.offsetHeight = htmlElement.offsetWidth;
-                    }
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && htmlElement.offsetWidth !== newValue) {
+                super.width = newValue;
+                htmlElement.offsetWidth > htmlElement.offsetHeight
+                    && (htmlElement.offsetHeight = htmlElement.offsetWidth);
+                this.update();
             }
         }
         //#endregion width
@@ -554,11 +482,10 @@ const Path = (() => {
             //#region Variables déclaration
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
+            if (core.tools.isNumber(newValue)) {
                 super.height = newValue;
-                if (htmlElement.offsetHeight > htmlElement.offsetWidth) {
-                    htmlElement.offsetWidth = htmlElement.offsetHeight;
-                }
+                htmlElement.offsetHeight > htmlElement.offsetWidth
+                    && (htmlElement.offsetWidth = htmlElement.offsetHeight);
                 this.update();
             }
         }
@@ -571,14 +498,8 @@ const Path = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (this instanceof Core.classes.Path) {
-                if (Tools.isString(newValue)) {
-                    if (priv.path.pathString !== newValue) {
-                        priv.path.pathString = newValue;
-                        //this.update();
-                    }
-                }
-            }
+            this instanceof core.classes.Path && core.tools.isString(newValue) && priv.path.pathString !== newValue
+                && (priv.path.pathString = newValue);
         }
         //#endregion pathString
         //#endregion Getters / Setters
@@ -594,9 +515,9 @@ const Path = (() => {
                 const strokeWidth = parseFloat(sStyle.strokeWidth);
                 if (!this.loading && !this.form.loading && this.svgShape) {
                     super.update();
-                    const path = new Core.classes.PathData();
+                    const path = new core.classes.PathData();
                     path.assign(priv.path);
-                    path.resizeToRect(new Core.classes.Rect(strokeWidth, strokeWidth, htmlElement.offsetWidth - strokeWidth, htmlElement.offsetHeight - strokeWidth));
+                    path.resizeToRect(new core.classes.Rect(strokeWidth, strokeWidth, htmlElement.offsetWidth - strokeWidth, htmlElement.offsetHeight - strokeWidth));
                     this.svgShape.setAttribute('d', path.pathString);
                     path.destroy();
                 }
@@ -609,9 +530,7 @@ const Path = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.destroy();
-            if (this instanceof Core.classe.Path) {
-                priv.path.destroy();
-            }
+            this instanceof core.classe.Path && priv.path.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -627,9 +546,7 @@ const Pie = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -645,10 +562,7 @@ const Pie = (() => {
                 const priv = internal(this);
                 priv.startAngle = props.hasOwnProperty('startAngle') ? props.startAngle : 0;
                 priv.endAngle = props.hasOwnProperty('endAngle') ? props.endAngle : 270;
-                if (this instanceof Core.classes.Arc) {
-                    this.fillColor = Colors.TRANSPARENT;
-
-                }
+                this instanceof core.classes.Arc && (this.fillColor = Colors.TRANSPARENT);
             }
         }
         //#endregion constructor
@@ -661,11 +575,9 @@ const Pie = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.startAngle !== newValue) {
-                    priv.startAngle = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.startAngle !== newValue) {
+                priv.startAngle = newValue;
+                this.update();
             }
         }
         //#endregion startAngle
@@ -677,11 +589,9 @@ const Pie = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.endAngle !== newValue) {
-                    priv.endAngle = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.endAngle !== newValue) {
+                priv.endAngle = newValue;
+                this.update();
             }
         }
         //#endregion endAngle
@@ -689,7 +599,7 @@ const Pie = (() => {
         //#region Methods
         //#region assign
         assign(source) {
-            if (source instanceof Core.classe.Pie) {
+            if (source instanceof core.classe.Pie) {
                 super.assign(source);
                 priv.startAngle = source.startAngle;
                 priv.endAngle = source.endAngle;
@@ -706,8 +616,8 @@ const Pie = (() => {
                 const strokeWidth = parseFloat(sStyle.strokeWidth);
                 if (this.svgShape) {
                     super.update();
-                    const path = new Core.classes.PathData(this);
-                    path.addPie(new Core.classes.Rect(strokeWidth, strokeWidth, htmlElement.offsetWidth - strokeWidth, htmlElement.offsetHeight - strokeWidth), this);
+                    const path = new core.classes.PathData(this);
+                    path.addPie(new core.classes.Rect(strokeWidth, strokeWidth, htmlElement.offsetWidth - strokeWidth, htmlElement.offsetHeight - strokeWidth), this);
                     this.svgShape.setAttribute('d', path.pathString);
                     path.destroy();
                 }
@@ -716,9 +626,12 @@ const Pie = (() => {
         //#endregion update
         //#region destroy
         destroy() {
-            super.destroy();
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             priv.startAngle = null;
             priv.endAngle = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -742,9 +655,7 @@ const Star = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -771,14 +682,10 @@ const Star = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.spikes !== newValue) {
-                    if (newValue < 4) {
-                        newValue = 4;
-                    }
-                    priv.spikes = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.spikes !== newValue) {
+                newValue < 4 && (newValue = 4);
+                priv.spikes = newValue;
+                this.update();
             }
         }
         //#endregion spikes
@@ -786,6 +693,7 @@ const Star = (() => {
         //#region Methods
         //#region update
         update() {
+            //#region Variables déclaration
             const priv = internal(this);
             const sStyle = getComputedStyle(this.HTMLElement);
             let rot = Math.PI / 2 * 3;
@@ -795,23 +703,22 @@ const Star = (() => {
             const outerRadius = cx > cy ? cy : cx;
             const innerRadius = (cx > cy ? cy : cx) / 2;
             const pts = [];
-            if (!this.loading && !this.form.loading) {
-                if (this.svgShape) {
-                    super.update();
-                    pts.push(`M${cx},${Math.round(cy - outerRadius)}`);
-                    for (let i = 0; i < priv.spikes; i++) {
-                        let x = Math.round(cx + Math.cos(rot) * outerRadius);
-                        let y = Math.round(cy + Math.sin(rot) * outerRadius);
-                        pts.push(` L${x},${y}`);
-                        rot += step;
-                        x = Math.round(cx + Math.cos(rot) * innerRadius);
-                        y = Math.round(cy + Math.sin(rot) * innerRadius);
-                        pts.push(` L${x},${y}`);
-                        rot += step;
-                    }
-                    pts.push(' Z');
-                    this.svgShape.setAttribute('d', pts.join(String.EMPTY));
+            //#endregion Variables déclaration
+            if (!this.loading && !this.form.loading && this.svgShape) {
+                super.update();
+                pts.push(`M${cx},${Math.round(cy - outerRadius)}`);
+                for (let i = 0; i < priv.spikes; i++) {
+                    let x = Math.round(cx + Math.cos(rot) * outerRadius);
+                    let y = Math.round(cy + Math.sin(rot) * outerRadius);
+                    pts.push(` L${x},${y}`);
+                    rot += step;
+                    x = Math.round(cx + Math.cos(rot) * innerRadius);
+                    y = Math.round(cy + Math.sin(rot) * innerRadius);
+                    pts.push(` L${x},${y}`);
+                    rot += step;
                 }
+                pts.push(' Z');
+                this.svgShape.setAttribute('d', pts.join(String.EMPTY));
             }
         }
         //#endregion update
@@ -820,8 +727,8 @@ const Star = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.spikes = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -895,9 +802,7 @@ const Polygon = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -934,19 +839,17 @@ const Polygon = (() => {
             const sStyle = getComputedStyle(this.HTMLElement);
             //const strokeWidth = parseFloat(sStyle.strokeWidth);
             //#endregion Variables déclaration
-            if (!this.loading && !this.form.loading) {
-                if (this.svgShape) {
-                    super.update();
-                    const cx = ~~(parseFloat(sStyle.width) / 2);
-                    const cy = ~~(parseFloat(sStyle.height) / 2);
-                    const s = cx > cy ? cy : cx;
-                    pts.push(`M${Math.round(cx + s * Math.cos(0))},${Math.round(cy + s * Math.sin(0))}`);
-                    for (let i = 1; i <= priv.sides - 1; i++) {
-                        pts.push(` L${Math.round(cx + s * Math.cos(i * 2 * Math.PI / priv.sides))},${Math.round(cy + s * Math.sin(i * 2 * Math.PI / priv.sides))}`);
-                    }
-                    pts.push(' Z');
-                    this.svgShape.setAttribute('d', pts.join(String.EMPTY));
+            if (!this.loading && !this.form.loading && this.svgShape) {
+                super.update();
+                const cx = ~~(parseFloat(sStyle.width) / 2);
+                const cy = ~~(parseFloat(sStyle.height) / 2);
+                const s = cx > cy ? cy : cx;
+                pts.push(`M${Math.round(cx + s * Math.cos(0))},${Math.round(cy + s * Math.sin(0))}`);
+                for (let i = 1; i <= priv.sides - 1; i++) {
+                    pts.push(` L${Math.round(cx + s * Math.cos(i * 2 * Math.PI / priv.sides))},${Math.round(cy + s * Math.sin(i * 2 * Math.PI / priv.sides))}`);
                 }
+                pts.push(' Z');
+                this.svgShape.setAttribute('d', pts.join(String.EMPTY));
             }
         }
         //#endregion update
@@ -955,8 +858,8 @@ const Polygon = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.sides = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -966,9 +869,9 @@ const Polygon = (() => {
 })();
 Object.seal(Object.freeze(Polygon));
 //#endregion Polygon
-Core.classes.register(Types.CATEGORIES.SHAPES, Line, Rectangle, RoundRect, Ellipse, Circle, Pie, Chord, Arc, Path, Star, Polygon);
+core.classes.register(core.types.CATEGORIES.SHAPES, Line, Rectangle, RoundRect, Ellipse, Circle, Pie, Chord, Arc, Path, Star, Polygon);
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const LineTpl = '<jagui-line id="{internalId}" data-class="Line" class="Control Line"><properties>{ "name": "{name}", "lineDirection": "topleft-topright" }</properties></jagui-line>';
     const RectangleTpl = '<jagui-rectangle id="{internalId}" data-class="Rectangle" class="Control Rectangle"><properties>{ "name": "{name}" }</properties></jagui-rectangle>';
     const RoundRectTpl = '<jagui-roundrect id="{internalId}" data-class="RoundRect" class="Control RoundRect"><properties>{ "name": "{name}" }</properties></jagui-roundrect>';
@@ -980,8 +883,9 @@ if (Core.isHTMLRenderer) {
     const PathTpl = '<jagui-path id="{internalId}" data-class="Path" class="Control Path"><properties>{ "name": "{name}", "path": "M0.0429,0.60451c2.56769,0 4.65071,2.10669 4.65071,4.70101c0,2.59433 -2.08302,4.69899 -4.65071,4.69899c-2.56767,0 -4.65071,2.10668 -4.65071,4.70102c0,2.59431 2.08305,4.69897 4.65071,4.69897c5.13536,0 9.30346,-4.21134 9.30346,-9.39999c0,-5.18864 -4.1681,-9.4 -9.30346,-9.4zm0,3.23195c-0.80281,0 -1.45397,0.65792 -1.45397,1.46906c0,0.81114 0.65116,1.46907 1.45397,1.46907c0.80281,0 1.45398,-0.65793 1.45398,-1.46907c0,-0.81114 -0.65117,-1.46906 -1.45398,-1.46906zm0,9.40001c0.8024,0 1.45398,0.65834 1.45398,1.46907c0,0.81071 -0.65158,1.46906 -1.45398,1.46906c-0.80239,0 -1.45397,-0.65835 -1.45397,-1.46906c0,-0.81073 0.65158,-1.46907 1.45397,-1.46907zm9.09477,-3.22597c0,5.1848 -4.15991,9.3879 -9.29145,9.3879c-5.13153,0 -9.29146,-4.2031 -9.29146,-9.3879c0,-5.18479 4.15993,-9.3879 9.29146,-9.3879c5.13153,0 9.29145,4.2031 9.29145,9.3879z" }</properties></jagui-path>';
     const StarTpl = '<jagui-star id="{internalId}" data-class="Star" class="Control Star"><properties>{ "name": "{name}" }</properties></jagui-star>';
     const PolygonTpl = '<jagui-polygon id="{internalId}" data-class="Polygon" class="Control Polygon"><properties>{ "name": "{name}", "path": "M20,10 L5,19 L5,1 Z" }</properties></jagui-polygon>';
-    Core.classes.registerTemplates([{ Class: Line, template: LineTpl }, { Class: Rectangle, template: RectangleTpl }, { Class: RoundRect, template: RoundRectTpl }, { Class: Ellipse, template: EllipseTpl },
+    core.classes.registerTemplates([{ Class: Line, template: LineTpl }, { Class: Rectangle, template: RectangleTpl }, { Class: RoundRect, template: RoundRectTpl }, { Class: Ellipse, template: EllipseTpl },
     { Class: Circle, template: CircleTpl }, { Class: Pie, template: PieTpl }, { Class: Chord, template: ChordTpl }, { Class: Arc, template: ArcTpl }, { Class: Path, template: PathTpl },
     { Class: Star, template: StarTpl }, { Class: Polygon, template: PolygonTpl }]);
 }
 //#endregion Templates
+export { Line, Rectangle, RoundRect, Ellipse, Circle, Pie, Chord, Arc, Path, Star, Polygon };

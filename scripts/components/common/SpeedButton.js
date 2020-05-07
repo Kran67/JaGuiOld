@@ -7,13 +7,13 @@ class SpeedButton extends ButtonGlyph {
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
+            props.canFocused = !1;
+            props.glyphSpacing = 0;
             super(owner, props);
-            this.canFocused = !1;
-            this.glyphSpacing = 0;
         }
     }
     //#endregion Constructor
 }
-//#endregion
-Core.classes.register(Types.CATEGORIES.COMMON, SpeedButton);
+core.classes.register(core.types.CATEGORIES.COMMON, SpeedButton);
+//#endregion SpeedButton
 export { SpeedButton };

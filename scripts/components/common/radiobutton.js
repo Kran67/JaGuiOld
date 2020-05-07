@@ -1,6 +1,5 @@
 ﻿//#region Imports
 import { Checkbox } from '/scripts/components/common/checkbox.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region RadioButton
 const RadioButton = (() => {
@@ -8,9 +7,7 @@ const RadioButton = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -29,7 +26,7 @@ const RadioButton = (() => {
             }
         }
         //#endregion Constructor
-        //#region Getter / Setter
+        //#region Getters / Setters
         //#region allowGrayed
         get groupName() {
             return internal(this).groupName;
@@ -38,11 +35,7 @@ const RadioButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.groupName !== newValue) {
-                    priv.groupName = newValue;
-                }
-            }
+            core.tools.isString(newValue) && priv.groupName !== newValue && (priv.groupName = newValue);
         }
         //#endregion allowGrayed
         //#region allowGrayed
@@ -61,56 +54,48 @@ const RadioButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (this.isChecked !== newValue) {
-                    if (newValue) {
-                        super.isChecked = newValue;
-                    }
-                    // group
-                    let c = 0;
-                    let cc = 0;
-                    if (this.form) {
-                        const list = this.owner.components;
-                        list.forEach(comp => {
-                            if (comp instanceof Core.classes.RadioButton && comp !== this && comp.groupName === priv.groupName) {
-                                if (comp.isChecked) cc++;
-                                if (newValue) {
-                                    comp.isChecked = !1;
-                                }
-                                c++;
-                            }
-                        });
-                    }
-                    // check
-                    if (!newValue && c === 0 || !newValue && cc === 0) {
-                        return;
-                    }
-                    super.isChecked = newValue;
-                    if (!Core.isHTMLRenderer) {
-                        if (this.allowUpdate) {
-                            this.update();
+            if (core.tools.isBool(newValue) && this.isChecked !== newValue) {
+                newValue && (super.isChecked = newValue);
+                // group
+                let c = 0;
+                let cc = 0;
+                if (this.form) {
+                    const list = this.owner.components;
+                    list.forEach(comp => {
+                        if (comp instanceof core.classes.RadioButton && comp !== this && comp.groupName === priv.groupName) {
+                            comp.isChecked && cc++;
+                            newValue && (comp.isChecked = !1);
+                            c++;
                         }
-                        this.redraw();
-                    } else {
-                        this.update();
-                    }
-                    // event
-                    if (!this.updating) {
-                        this.onChange.invoke();
-                    }
+                    });
                 }
+                // check
+                if (!newValue && c === 0 || !newValue && cc === 0) {
+                    return;
+                }
+                super.isChecked = newValue;
+                if (!core.isHTMLRenderer) {
+                    this.allowUpdate && this.update();
+                    this.redraw();
+                } else {
+                    this.update();
+                }
+                // event
+                !this.updating && this.onChange.invoke();
             }
         }
         //#endregion isChecked
-        //#endregion Getter / Setter
+        //#endregion Getters / Setters
         //#region Methods
         //#region destroy
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.groupName = null;
+            priv.checkChar = null;
+            priv.grayedChar = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -118,13 +103,13 @@ const RadioButton = (() => {
     return RadioButton;
     //#endregion RadioButton
 })();
+core.classes.register(core.types.CATEGORIES.COMMON, RadioButton);
 //#endregion RadioButton
-Core.classes.register(Types.CATEGORIES.COMMON, RadioButton);
 //#region Template
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const RadioButtonTpl = ['<jagui-radiobutton id="{internalId}" data-class="RadioButton" class="Control RadioButton {theme}">',
         '<properties>{ "name": "{name}", "height": 16 }</properties>{caption}</jagui-radiobutton>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: RadioButton, template: RadioButtonTpl }]);
+    core.classes.registerTemplates([{ Class: RadioButton, template: RadioButtonTpl }]);
 }
 //#endregion
 export { RadioButton };

@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { CustomTextBoxBtn } from '/scripts/core/customtextboxbtn.js';
 import { Mouse } from '/scripts/core/mouse.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region PasswordTextBox
 const PasswordTextBox = (() => {
@@ -9,9 +8,7 @@ const PasswordTextBox = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -20,18 +17,18 @@ const PasswordTextBox = (() => {
     class PasswordTextBox extends CustomTextBoxBtn {
         //#region constructor
         constructor(owner, props) {
-            const HTMLInputTypes = Types.HTMLINPUTTYPES;
             props = !props ? {} : props;
             if (owner) {
-                props.type = HTMLInputTypes.PASSWORD;
+                props.type = core.types.HTMLINPUTTYPES.PASSWORD;
                 props.autoHideButtons = !0;
-                super(owner, props);
-                if (!Core.isHTMLRenderer) {
-                    this.width = 121;
-                    this.height = 21;
+                if (!core.isHTMLRenderer) {
+                    props.width = 121;
+                    props.height = 21;
                 }
+                super(owner, props);
                 const priv = internal(this);
-                priv.showComplexityIndicator = props.hasOwnProperty('showComplexityIndicator') && Tools.isBool(props.showComplexityIndicator) ? props.showComplexityIndicator : !1;
+                priv.showComplexityIndicator = props.hasOwnProperty('showComplexityIndicator')
+                    && core.tools.isBool(props.showComplexityIndicator) ? props.showComplexityIndicator : !1;
                 priv.checkPassword = function (complexityIndicator) {
                     //#region Variables déclaration
                     let score = 0;
@@ -82,11 +79,9 @@ const PasswordTextBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.showComplexityIndicator !== newValue) {
-                    priv.showComplexityIndicator = newValue;
-                    this.update();
-                }
+            if (core.tools.isBool(newValue) && priv.showComplexityIndicator !== newValue) {
+                priv.showComplexityIndicator = newValue;
+                this.update();
             }
         }
         //#endregion enabled
@@ -98,15 +93,11 @@ const PasswordTextBox = (() => {
             //#region Variables déclaration
             const btnHtmlElment = this.btns.first.HTMLElement;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (this.enabled !== newValue) {
-                    super.enabled = newValue;
-                    if (this.enabled) {
-                        btnHtmlElment.removeAttribute('disabled');
-                    } else {
-                        btnHtmlElment.setAttribute('disabled', 'disabled');
-                    }
-                }
+            if (core.tools.isBool(newValue) && this.enabled !== newValue) {
+                super.enabled = newValue;
+                this.enabled
+                    ? btnHtmlElment.removeAttribute('disabled')
+                    : btnHtmlElment.setAttribute('disabled', 'disabled');
             }
         }
         //#endregion enabled
@@ -115,17 +106,14 @@ const PasswordTextBox = (() => {
         //#region revealPassword
         revealPassword() {
             //#region Variables déclaration
-            const HTMLInputTypes = Types.HTMLINPUTTYPES;
             const inputObj = this.owner.inputObj;
             //#endregion Variables déclaration
-            if (this.isEnabled) {
-                if (Core.isHTMLRenderer) {
-                    if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && Core.mouse.eventType === Mouse.MOUSEEVENTS.DOWN) {
-                        inputObj.setAttribute('type', HTMLInputTypes.TEXT);
-                    } else {
-                        inputObj.setAttribute('type', HTMLInputTypes.PASSWORD);
-                        inputObj.focus();
-                    }
+            if (this.isEnabled && core.isHTMLRenderer) {
+                if (core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && core.mouse.eventType === Mouse.MOUSEEVENTS.DOWN) {
+                    inputObj.setAttribute('type', HTMLInputcore.types.TEXT);
+                } else {
+                    inputObj.setAttribute('type', HTMLInputcore.types.PASSWORD);
+                    inputObj.focus();
                 }
             }
         }
@@ -135,7 +123,8 @@ const PasswordTextBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.type = null;
+            priv.showComplexityIndicator = null;
+            priv.checkPassword = null;
             super.destroy();
         }
         //#ndregion destroy
@@ -145,7 +134,7 @@ const PasswordTextBox = (() => {
             const priv = internal(this);
             let btnHtmlElment;
             let button;
-            const TAG = `${Core.name.toLowerCase()}-`;
+            const TAG = `${core.name.toLowerCase()}-`;
             //#endregion Variables déclaration
             priv.complexityIndicator = document.createElement(`${TAG}complexityindicator`);
             priv.complexityIndicator.classList.add('Control', 'ComplexityIndicator');
@@ -194,13 +183,14 @@ const PasswordTextBox = (() => {
     return PasswordTextBox;
     //#endregion PasswordTextBox
 })();
-Core.classes.register(Types.CATEGORIES.COMMON, PasswordTextBox);
+core.classes.register(core.types.CATEGORIES.COMMON, PasswordTextBox);
 //#endregion PasswordTextBox
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const PasswordTextBoxTpl = ['<jagui-passwordtextbox id="{internalId}" data-class="PasswordTextBox" ',
         'class="Control TextBox PasswordTextBox {theme}"><properties>{ "name": "{name}", "width": 135, "height": 20 }',
         '</properties></jagui-passwordtextbox>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: PasswordTextBox, template: PasswordTextBoxTpl }]);
+    core.classes.registerTemplates([{ Class: PasswordTextBox, template: PasswordTextBoxTpl }]);
 }
 //#endregion
+export { PasswordTextBox };
