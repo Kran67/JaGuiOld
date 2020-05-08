@@ -1,6 +1,5 @@
 //#region Import
 import { Window } from '/scripts/components/containers/window.js';
-import { Tools } from '/scripts/core/tools.js';
 import '/scripts/components/containers/flexlayout.js';
 import '/scripts/components/containers/gridlayout.js';
 //#endregion Import
@@ -45,9 +44,7 @@ const MessageDlg = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -63,12 +60,8 @@ const MessageDlg = (() => {
                 priv.dlgType = MESSAGETYPES.CUSTOM;
                 priv.dlgButtons = [MESSAGEBUTTONS.OK];
                 priv.dlgIcon = String.EMPTY;
-                if (props.dlgType) {
-                    priv.dlgType = props.dlgType;
-                }
-                if (props.dlgButtons) {
-                    priv.dlgButtons = props.dlgButtons;
-                }
+                props.dlgType && (priv.dlgType = props.dlgType);
+                props.dlgButtons && (priv.dlgButtons = props.dlgButtons);
                 if (!String.isNullOrEmpty(props.dlgIcon)) {
                     priv.dlgIcon = props.dlgIcon
                 } else if (priv.dlgType !== MESSAGETYPES.CUSTOM) {
@@ -159,11 +152,9 @@ const MessageDlg = (() => {
             if (!String.isNullOrEmpty(priv.dlgIcon)) {
                 nH += (msgH < 32 ? 32 : msgH);
                 msgIcon.visible = !0;
-                if (priv.dlgType == MESSAGETYPES.CUSTOM) {
-                    msgIcon.load(priv.dlgIcon);
-                } else {
-                    msgIcon.changeCSS(priv.dlgIcon);
-                }
+                priv.dlgType == MESSAGETYPES.CUSTOM
+                    ? msgIcon.load(priv.dlgIcon)
+                    : msgIcon.changeCSS(priv.dlgIcon);
             } else {
                 nH += msgH;
             }
@@ -177,24 +168,16 @@ const MessageDlg = (() => {
                             button.margin.right = 10;
                             button.sizing();
                         }
-                        const translatedCaption = Core.locales.translateConstant(this.app, `msgDlg${btn.toUpperCase()}`);
-                        if (translatedCaption) {
-                            button.caption = translatedCaption;
-                        }
+                        const translatedCaption = core.locales.translateConstant(this.app, `msgDlg${btn.toUpperCase()}`);
+                        translatedCaption && (button.caption = translatedCaption);
                         btnsWidth += button.width + button.margin.right;
                     }
                 }
             });
-            if (!String.isNullOrEmpty(priv.dlgIcon)) {
-                nW += 44;
-            }
+            !String.isNullOrEmpty(priv.dlgIcon) && (nW += 44);
             nW += (btnsWidth < msgW ? msgW : btnsWidth);
-            if (nW > document.body.offsetWidth) {
-                nW = document.body.offsetWidth - 20;
-            }
-            if (nH > document.body.offsetHeight) {
-                nH = document.body.offsetHeight - 20;
-            }
+            nW > document.body.offsetWidth && (nW = document.body.offsetWidth - 20);
+            nH > document.body.offsetHeight && (nH = document.body.offsetHeight - 20);
             this.width = nW;
             this.height = nH;
         }
@@ -248,12 +231,8 @@ class InputDlg extends Window {
         this.btnOk.margin.right = 10;
         this.btnOk.sizing();
         nW += (btnsWidth < msgW ? msgW : btnsWidth);
-        if (nW > document.body.offsetWidth) {
-            nW = document.body.offsetWidth - 20;
-        }
-        if (nH > document.body.offsetHeight) {
-            nH = document.body.offsetHeight - 20;
-        }
+        nW > document.body.offsetWidth && (nW = document.body.offsetWidth - 20);
+        nH > document.body.offsetHeight && (nH = document.body.offsetHeight - 20);
         this.width = nW;
         this.height = nH;
     }
@@ -265,14 +244,10 @@ class InputDlg extends Window {
         //#endregion Variables déclaration
         super.loaded();
         this.borderStyle = Window.BORDERSTYLES.DIALOG;
-        translatedCaption = Core.locales.translateConstant(this.app, `msgDlgOK`);
-        if (translatedCaption) {
-            this.btnOk.caption = translatedCaption;
-        }
-        translatedCaption = Core.locales.translateConstant(this.app, `msgDlgCANCEL`);
-        if (translatedCaption) {
-            this.btnCancel.caption = translatedCaption;
-        }
+        translatedCaption = core.locales.translateConstant(this.app, `msgDlgOK`);
+        translatedCaption && (this.btnOk.caption = translatedCaption);
+        translatedCaption = core.locales.translateConstant(this.app, `msgDlgCANCEL`);
+        translatedCaption && (this.btnCancel.caption = translatedCaption);
         this.resizeByContent();
         this.TextBox.setFocus();
         this.TextBox.selectAll();
@@ -303,9 +278,9 @@ class Dialogs {
     //#region Methods
     //#region messageDlgPos
     static messageDlgPos(msg, dlgType, buttons, icon, x, y, defaultButton) {
-        const dlg = Core.classes.createComponent({
+        const dlg = core.classes.createComponent({
             class: MessageDlg,
-            owner: Core.apps.activeApplication,
+            owner: core.apps.activeApplication,
             props: {
                 parentHTML: document.body,
                 dlgType: dlgType,
@@ -314,14 +289,11 @@ class Dialogs {
             }
         });
         dlg.Msg.caption = msg;
-        dlg.caption = Core.apps.activeApplication.name;
+        dlg.caption = core.apps.activeApplication.name;
         dlg.showModal();
-        if (!Tools.isNumber(x) && !Tools.isNumber(y)) {
-            dlg.center();
-        }
-        else {
-            dlg.moveTo(x, y);
-        }
+        !core.tools.isNumber(x) && !core.tools.isNumber(y)
+            ? dlg.center()
+            : dlg.moveTo(x, y);
         return dlg;
     }
     //#endregion messageDlgPos
@@ -377,9 +349,9 @@ class Dialogs {
     //#endregion confirm
     //#region prompt
     static prompt(caption, prompt, value) {
-        const inputDlg = Core.classes.createComponent({
-            class: Core.classes.InputDlg,
-            owner: Core.apps.activeApplication,
+        const inputDlg = core.classes.createComponent({
+            class: core.classes.InputDlg,
+            owner: core.apps.activeApplication,
             props: {
                 parentHTML: document.body
             }
@@ -400,10 +372,10 @@ class Dialogs {
     //#endregion Methods
 }
 window.dialogs = Dialogs;
-Core.classes.register(Types.INTERNALCATEGORIES.INTERNAL, MessageDlg, InputDlg);
+core.classes.register(core.types.INTERNALCATEGORIES.INTERNAL, MessageDlg, InputDlg);
 //#endregion dialogs
 //#region Templates
-const WindowTpl = Core.classes.getTemplate(Core.classes.Window.name);
+const WindowTpl = core.classes.getTemplate(core.classes.Window.name);
 const MessageDlgContentTpl = [
     '<jagui-gridlayout id="{internalId_gridlayout}" data-class="GridLayout" class="GridLayout"><properties>{ "name": "Msg_gridlayout", "height": -1, "width": -1 }</properties>',
     '<jagui-icon id="{internalId_img}" data-class="Icon" class="Control Icon {theme}"><properties>{ "name": "Msg_icon", "visible": false, "column": 2, "row": 2 }</properties></jagui-icon>',
@@ -428,7 +400,7 @@ const InputDlgTpl = ['<jagui-gridlayout id="{internalId_gridlayout}" data-class=
     '<jagui-button id="{internalId_btnOk}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnOk", "height":  22, "width": 71, "modalResult": "ok", "caption": "Ok" }</properties></jagui-button>',
     '<jagui-button id="{internalId_btnCancel}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnCancel", "height": 22, "width": 71, "modalResult": "cancel", "caption": "Cancel" }</properties></jagui-button>',
     '</jagui-flexlayout></jagui-gridlayout>'].join(String.EMPTY);
-Core.classes.registerTemplates([{ Class: MessageDlg, template: WindowTpl.replace('{content}', MessageDlgContentTpl) },
+core.classes.registerTemplates([{ Class: MessageDlg, template: WindowTpl.replace('{content}', MessageDlgContentTpl) },
 { Class: InputDlg, template: WindowTpl.replace('{content}', InputDlgTpl) }]);
 //#endregion Templates
 export { Dialogs };

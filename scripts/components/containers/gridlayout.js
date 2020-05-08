@@ -1,6 +1,5 @@
 ﻿//#region Import
 import { Layout } from '/scripts/components/containers/layout.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region GridLayout
 const GridLayout = (() => {
@@ -8,9 +7,7 @@ const GridLayout = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -41,11 +38,9 @@ const GridLayout = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.columnGap !== newValue) {
-                    priv.columnGap = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.columnGap !== newValue) {
+                priv.columnGap = newValue;
+                this.update();
             }
         }
         //#endregion columnGap
@@ -57,11 +52,9 @@ const GridLayout = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.rowGap !== newValue) {
-                    priv.rowGap = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.rowGap !== newValue) {
+                priv.rowGap = newValue;
+                this.update();
             }
         }
         //#endregion rowGap
@@ -73,11 +66,9 @@ const GridLayout = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.columns !== newValue) {
-                    priv.columns = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.columns !== newValue) {
+                priv.columns = newValue;
+                this.update();
             }
         }
         //#endregion columns
@@ -89,11 +80,9 @@ const GridLayout = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.rows !== newValue) {
-                    priv.rows = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.rows !== newValue) {
+                priv.rows = newValue;
+                this.update();
             }
         }
         //#endregion rows
@@ -104,13 +93,9 @@ const GridLayout = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.templateColumns !== newValue) {
-                    priv.templateColumns = newValue;
-                    if (Core.isHTMLRenderer) {
-                        this.update();
-                    }
-                }
+            if (core.tools.isString(newValue) && priv.templateColumns !== newValue) {
+                priv.templateColumns = newValue;
+                core.isHTMLRenderer && this.update();
             }
         }
         get templateRows() {
@@ -120,13 +105,9 @@ const GridLayout = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.templateRows !== newValue) {
-                    priv.templateRows = newValue;
-                    if (Core.isHTMLRenderer) {
-                        this.update();
-                    }
-                }
+            if (core.tools.isString(newValue) && priv.templateRows !== newValue) {
+                priv.templateRows = newValue;
+                core.isHTMLRenderer && this.update();
             }
         }
         //#endregion Getters / Setters
@@ -134,7 +115,7 @@ const GridLayout = (() => {
         update() {
             //#region Variables déclaration
             const priv = internal(this);
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
             //super.update();
@@ -146,9 +127,7 @@ const GridLayout = (() => {
                 comps.HTMLElement.classList.remove('Control');
                 comps.HTMLElementStyle.width = 'auto';
                 comps.HTMLElementStyle.height = 'auto';
-                if (Tools.isFunc(comps.update)) {
-                    comps.update();
-                }
+                core.tools.isFunc(comps.update) && comps.update();
             });
         }
         //#region destroy
@@ -156,11 +135,13 @@ const GridLayout = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
+            priv.columnGap = null;
+            priv.rowGap = null;
+            priv.columns = null;
+            priv.rows = null;
+            priv.templateColumns = null;
+            priv.templateRows = null;
             super.destroy();
-            priv.itemWidth = null;
-            priv.itemHeight = null;
-            priv.hGap = null;
-            priv.vGap = null;
         }
         //#endregion destroy
         //#region loaded
@@ -175,13 +156,13 @@ const GridLayout = (() => {
     //#endregion GridLayout
 })();
 Object.seal(GridLayout);
+core.classes.register(core.types.CATEGORIES.CONTAINERS, GridLayout);
 //#endregion GridLayout
-Core.classes.register(Types.CATEGORIES.CONTAINERS, GridLayout);
-export { GridLayout };
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const GridLayoutTpl = ['<jagui-gridlayout id="{internalId}" data-class="GridLayout" class="Control GridLayout"><properties>',
         '{ "name": "{name}" }</properties></jagui-gridlayout>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: GridLayout, template: GridLayoutTpl }]);
+    core.classes.registerTemplates([{ Class: GridLayout, template: GridLayoutTpl }]);
 }
 //#endregion
+export { GridLayout };

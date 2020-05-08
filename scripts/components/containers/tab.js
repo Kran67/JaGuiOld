@@ -9,9 +9,7 @@ const Tab = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -25,15 +23,11 @@ const Tab = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 priv.imageIndex = -1;
-                priv.showCaption = props.hasOwnProperty('showCaption')?props.showCaption:!0;
+                priv.showCaption = props.hasOwnProperty('showCaption') ? props.showCaption : !0;
                 priv.tabControl = owner;
                 let num = 1;
-                if (owner instanceof CustomTabControl) {
-                    num = owner.tabs.length + 1;
-                }
-                priv.caption = props.hasOwnProperty('caption')?props.caption : `${this.constructor.name}${num}`;
-                this.hitTest.mouseDown = !0;
-                this.hitTest.mouseUp = !0;
+                owner instanceof CustomTabControl && (num = owner.tabs.length + 1);
+                priv.caption = props.hasOwnProperty('caption') ? props.caption : `${this.constructor.name}${num}`;
                 this.createEventsAndBind(['onClose'], props);
             }
         }
@@ -53,13 +47,11 @@ const Tab = (() => {
             const priv = internal(this);
             const tabControl = priv.tabControl;
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue < -1) newValue = -1;
-                if (tabControl.images) {
-                    if (newValue < tabControl.images.length) {
-                        priv.imageIndex = newValue;
-                        this.update();
-                    }
+            if (core.tools.isNumber(newValue)) {
+                newValue = Math.max(newValue, -1);
+                if (tabControl.images && newValue < tabControl.images.length) {
+                    priv.imageIndex = newValue;
+                    this.update();
                 }
             }
         }
@@ -72,11 +64,9 @@ const Tab = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.showCaption !== newValue) {
-                    priv.showCaption = newValue;
-                    this.update();
-                }
+            if (core.tools.isBool(newValue) && priv.showCaption !== newValue) {
+                priv.showCaption = newValue;
+                this.update();
             }
         }
         //#endregion showCaption
@@ -88,9 +78,7 @@ const Tab = (() => {
             const tabControl = this.tabControl;
             //#endregion Variables déclaration
             if (tabControl.activeTab !== this) {
-                if (tabControl.activeTab) {
-                    tabControl.activeTab.hide();
-                }
+                tabControl.activeTab && tabControl.activeTab.hide();
                 if (this.enabled) {
                     tabControl.activeTab = this;
                     this.HTMLElement.classList.add('selected');
@@ -112,13 +100,9 @@ const Tab = (() => {
             const owner = this.owner;
             //#endregion Variables déclaration
             super.mouseUp();
-            if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
+            if (core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
                 if (owner.showTabsCloseBtn) {
-                    if (Core.mouse.target.x < this.HTMLElement.offsetWidth - 20) {
-                        this.show();
-                    } else {
-                        owner.closeTab(this);
-                    }
+                    core.mouse.target.x < this.HTMLElement.offsetWidth - 20 ? this.show() : owner.closeTab(this);
                 } else {
                     this.show();
                 }
@@ -133,31 +117,34 @@ const Tab = (() => {
             }
         }
         //#endregion update
+        //#region destroy
+        destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.imageIndex = null;
+            priv.showCaption = null;
+            priv.tabControl = null;
+            priv.caption = null;
+            this.unBindAndDestroyEvents(['onClose']);
+            super.destroy();
+        }
+        //#endregion destroy
         //#endregion Methods
     }
     return Tab;
     //#endregion Class Tab
 })();
-//#region defineProperties
-Object.defineProperties(Tab, {
-    'imageIndex': {
-        enumerable: !0
-    },
-    'showCaption': {
-        enumerable: !0
-    }
-});
-//#endregion defineProperties
 Object.seal(Tab);
-Core.classes.register(Types.CATEGORIES.CONTAINERS, Tab);
+core.classes.register(core.types.CATEGORIES.CONTAINERS, Tab);
+//#endregion Tab
 //#region Template
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const TabTpl = ['<jagui-tab id="{internalId}" data-class="TabSheet" data-name="{name}" class="Control Tab csr_default {theme}">',
         '{caption}</jagui-tab>'].join(String.EMPTY);
-    Core.classes.registerTemplates([
+    core.classes.registerTemplates([
         { Class: Tab, template: TabTpl }
     ]);
 }
 //#endregion
-//#endregion Class Tab
 export { Tab };

@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { Button } from '/scripts/components/common/button.js';
 import { Window } from '/scripts/components/containers/window.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Import
 //#region WindowButton
@@ -13,28 +12,24 @@ const WindowButton = (() => {
             props = !props ? {} : props;
             if (owner) {
                 props.caption = String.EMPTY;
+                props.canFocused = !1;
+                props.forceDisplayVisibility = !0;
+                props.fontFamily = core.types.CONSTANTS.BTNGLYPHFONTFACE;
+                props.fontSizeUnit = core.types.CSSUNITS.PT;
                 super(owner, props);
-                this.canFocused = !1;
-                this.forceDisplayVisibility = !0;
-                this.fontFamily = Types.CONSTANTS.BTNGLYPHFONTFACE;
-                this.fontSizeUnit = Types.CSSUNITS.PT;
             }
         }
         //#endregion Constructor
-        //#region getters / setters
+        //#region Getters / Setters
         //#region visible
         get visible() {
             return super.visible;
         }
         set visible(newValue) {
-            if (Tools.isBool(newValue)) {
-                if (this.visible !== newValue) {
-                    super.visible = newValue;
-                    if (!Core.isHTMLRenderer) {
-                        this.form.alignButtons();
-                    }
-                    this.owner.calcVisibleBtns();
-                }
+            if (core.tools.isBool(newValue) && this.visible !== newValue) {
+                super.visible = newValue;
+                !core.isHTMLRenderer && this.form.alignButtons();
+                this.owner.calcVisibleBtns();
             }
         }
         //#endregion visible
@@ -46,12 +41,12 @@ const WindowButton = (() => {
             return;
         }
         //#endregion caption
-        //#endregion getters / setters
+        //#endregion Getters / Setters
     }
     return WindowButton;
     //#endregion Class WindowButton
 })();
-//#endregion
+//#endregion WindowButton
 //#region WindowCloseButton
 const WindowCloseButton = (() => {
     //#region Class WindowCloseButton
@@ -60,14 +55,14 @@ const WindowCloseButton = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.modalResult = Window.MODALRESULTS.CANCEL;
+                props.toolTip = 'Fermer'; // � voir pour mettre en locale
+                props.showToolTip = !0;
                 super(owner, props);
-                this.modalResult = Window.MODALRESULTS.CANCEL;
-                this.toolTip = 'Fermer'; // � voir pour mettre en locale
-                this.showToolTip = !0;
             }
         }
         //#endregion Constructor
-        //#region getters / setters
+        //#region Getters / Setters
         //#region visible
         get visible() {
             return super.visible;
@@ -76,12 +71,12 @@ const WindowCloseButton = (() => {
             return;
         }
         //#endregion visible
-        //#endregion getters / setters
+        //#endregion Getters / Setters
     }
     return WindowCloseButton;
     //#endregion Class WindowCloseButton
 })();
-//#endregion
+//#endregion WindowCloseButton
 //#region WindowMinimizeButton
 const WindowMinimizeButton = (() => {
     //#region Class WindowMinimizeButton
@@ -90,9 +85,9 @@ const WindowMinimizeButton = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.toolTip = 'Réduire'; // à voir pour mettre en locale
+                props.showToolTip = !0;
                 super(owner, props);
-                this.toolTip = 'Réduire'; // à voir pour mettre en locale
-                this.showToolTip = !0;
             }
         }
         //#endregion Constructor
@@ -107,9 +102,7 @@ const WindowMinimizeButton = (() => {
             //#region Variables declaration
             const form = this.form;
             //#endregion Variables declaration
-            if (!form.isBorderDialog) {
-                super.render(className);
-            }
+            !form.isBorderDialog && super.render(className);
         }
         //#endregion render
         //#endregion Methods
@@ -117,7 +110,7 @@ const WindowMinimizeButton = (() => {
     return WindowMinimizeButton;
     //#endregion Class WindowMinimizeButton
 })();
-//#endregion
+//#endregion WindowMinimizeButton
 //#region WindowMaximizeButton
 const WindowMaxRestoreButton = (() => {
     //#region Class WindowMaxRestoreButton
@@ -126,9 +119,9 @@ const WindowMaxRestoreButton = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.toolTip = 'Agrandir'; // à voir pour mettre en locale
+                props.showToolTip = !0;
                 super(owner, props);
-                this.toolTip = 'Agrandir'; // à voir pour mettre en locale
-                this.showToolTip = !0;
             }
         }
         //#endregion Constructor
@@ -143,9 +136,7 @@ const WindowMaxRestoreButton = (() => {
             //#region Variables déclaration
             const form = this.form;
             //#endregion Variables déclaration
-            if (!form.isBorderDialog) {
-                super.render(className);
-            }
+            !form.isBorderDialog && super.render(className);
         }
         //#endregion render
         //#endregion Methods
@@ -153,7 +144,7 @@ const WindowMaxRestoreButton = (() => {
     return WindowMaxRestoreButton;
     //#endregion Class WindowMaxRestoreButton
 })();
-//#endregion
+//#endregion WindowMaxRestoreButton
 //#region WindowHelpButton
 const WindowHelpButton = (() => {
     //#region Class WindowHelpButton
@@ -162,9 +153,9 @@ const WindowHelpButton = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.toolTip = 'Aide'; // à voir pour mettre en locale
+                props.showToolTip = !0;
                 super(owner, props);
-                this.toolTip = 'Aide'; // à voir pour mettre en locale
-                this.showToolTip = !0;
                 this.onClick.addListener(this.form.showHelp);
             }
         }
@@ -173,16 +164,14 @@ const WindowHelpButton = (() => {
     return WindowHelpButton;
     //#endregion Class WindowHelpButton
 })();
-//#endregion
+//#endregion WindowHelpButton
 //#region WindowRollUpButton
 const WindowRollUpDownButton = (() => {
     //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -193,13 +182,11 @@ const WindowRollUpDownButton = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                //#region Variables déclaration
-                //#endregion Variables déclaration
+                props.toolTip = 'Taille minimale'; // à voir pour mettre en locale
+                props.showToolTip = !0;
                 super(owner, props);
                 const priv = internal(this);
                 priv.isRolledUp = !1;
-                this.toolTip = 'Taille minimale'; // à voir pour mettre en locale
-                this.showToolTip = !0;
             }
         }
         //#endregion Constructor
@@ -213,25 +200,19 @@ const WindowRollUpDownButton = (() => {
             const priv = internal(this);
             const isRolledUp = priv.isRolledUp;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (isRolledUp !== newValue) {
-                    priv.isRolledUp = newValue;
-                }
-                if (newValue) {
-                    this.toolTip = 'Taille précédente'; // à voir pour mettre en locale
-                } else {
-                    this.toolTip = 'Taille minimale'; // à voir pour mettre en locale
-                }
+            if (core.tools.isBool(newValue)) {
+                isRolledUp !== newValue && (priv.isRolledUp = newValue);
+                this.toolTip = newValue
+                    ? 'Taille précédente' // à voir pour mettre en locale
+                    : 'Taille minimale'; // à voir pour mettre en locale
             }
         }
         //#endregion isRolledUp
-        //#endregion getters / setters
+        //#endregion Getters / Setters
         //#region Methods
         //#region click
         click() {
-            if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
-                this.form.toogleRollUpDown();
-            }
+            core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.form.toogleRollUpDown();
         }
         //#endregion click
         //#region destroy
@@ -248,9 +229,7 @@ const WindowRollUpDownButton = (() => {
             //#region Variables déclaration
             const form = this.form;
             //#endregion Variables déclaration
-            if (!form.isBorderDialog) {
-                super.render(className);
-            }
+            !form.isBorderDialog && super.render(className);
         }
         //#endregion render
         //#endregion Methods
@@ -258,16 +237,14 @@ const WindowRollUpDownButton = (() => {
     return WindowRollUpDownButton;
     //#endregion Class WindowRollUpDownButton
 })();
-//#endregion
+//#endregion WindowRollUpDownButton
 //#region WindowStayOnButton
 const WindowStayOnOffButton = (() => {
     //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -278,17 +255,15 @@ const WindowStayOnOffButton = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                //#region Variables déclaration
-                //#endregion Variables déclaration
+                props.toolTip = 'Epingler au dessus'; // à voir pour mettre en locale
+                props.showToolTip = !0;
                 super(owner, props);
                 const priv = internal(this);
                 priv.isStayOn = !1;
-                this.toolTip = 'Epingler au dessus'; // à voir pour mettre en locale
-                this.showToolTip = !0;
             }
         }
         //#endregion Constructor
-        //#region getters / setters
+        //#region Getters / Setters
         //#region isStayOn
         get isStayOn() {
             return internal(this).isStayOn;
@@ -298,25 +273,19 @@ const WindowStayOnOffButton = (() => {
             const priv = internal(this);
             const isStayOn = priv.isStayOn;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (isStayOn !== newValue) {
-                    priv.isStayOn = newValue;
-                }
-                if (newValue) {
-                    this.toolTip = 'Ne pas épingler'; // à voir pour mettre en locale
-                } else {
-                    this.toolTip = 'Epingler au dessus'; // à voir pour mettre en locale
-                }
+            if (core.tools.isBool(newValue)) {
+                isStayOn !== newValue && (priv.isStayOn = newValue);
+                this.toolTip = newValue
+                    ? 'Ne pas épingler' // à voir pour mettre en locale
+                    : 'Epingler au dessus'; // à voir pour mettre en locale
             }
         }
         //#endregion isStayOn
-        //#endregion getters / setters
+        //#endregion Getters / Setters
         //#region Methods
         //#region click
         click() {
-            if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
-                this.form.toggleStay();
-            }
+            core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.form.toggleStay();
         }
         //#endregion click
         //#region destroy
@@ -324,8 +293,8 @@ const WindowStayOnOffButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.isStayOn = null;
+            super.destroy();
         }
         //#endregion destroy
         //#region render
@@ -333,9 +302,7 @@ const WindowStayOnOffButton = (() => {
             //#region Variables déclaration
             const form = this.form;
             //#endregion Variables déclaration
-            if (!form.isBorderDialog) {
-                super.render(className);
-            }
+            !form.isBorderDialog && super.render(className);
         }
         //#endregion render
         //#endregion Methods
@@ -343,7 +310,7 @@ const WindowStayOnOffButton = (() => {
     return WindowStayOnOffButton;
     //#endregion Class WindowStayOnOffButton
 })();
-//#endregion
-Core.classes.register(Types.CATEGORIES.INTERNAL, WindowButton, WindowCloseButton, WindowMinimizeButton,
+//#endregion WindowStayOnOffButton
+core.classes.register(core.types.CATEGORIES.INTERNAL, WindowButton, WindowCloseButton, WindowMinimizeButton,
     WindowMaxRestoreButton, WindowHelpButton, WindowRollUpDownButton, WindowStayOnOffButton);
 export { WindowButton, WindowCloseButton, WindowMinimizeButton, WindowMaxRestoreButton, WindowHelpButton, WindowRollUpDownButton, WindowStayOnOffButton };

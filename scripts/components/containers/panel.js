@@ -7,19 +7,19 @@ class Panel extends ThemedControl {
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
+            props.allowRealignChildsOnResize = !0;
             super(owner, props);
-            this.allowRealignChildsOnResize = !0;
         }
     }
     //#endregion Constructor
 }
+core.classes.register(core.types.CATEGORIES.CONTAINERS, Panel);
 //#endregion Panel
-Core.classes.register(Types.CATEGORIES.CONTAINERS, Panel);
-export { Panel };
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const PanelTpl = ['<jagui-panel id="{internalId}" data-class="Panel" class="Control Panel {theme}"><properties>',
         '{ "name": "{name}", "width": 100, "height": 100 }</properties></jagui-panel>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: Panel, template: PanelTpl }]);
+    core.classes.registerTemplates([{ Class: Panel, template: PanelTpl }]);
 }
 //#endregion
+export { Panel };

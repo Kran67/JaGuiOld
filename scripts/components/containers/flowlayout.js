@@ -1,8 +1,5 @@
 ﻿//#region Import
 import { Layout } from '/scripts/components/containers/layout.js';
-import { Keyboard } from '/scripts/core/keyboard.js';
-import { Mouse } from '/scripts/core/mouse.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region FLOWLAYOUTS
 /**
@@ -19,9 +16,7 @@ const FlowLayout = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -42,7 +37,7 @@ const FlowLayout = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'layout',
                     enum: FLOWLAYOUTS,
@@ -63,13 +58,9 @@ const FlowLayout = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.hGap !== newValue) {
-                    priv.hGap = newValue;
-                    if (Core.isHTMLRenderer) {
-                        this.update();
-                    }
-                }
+            if (core.tools.isNumber(newValue) && priv.hGap !== newValue) {
+                priv.hGap = newValue;
+                icore.isHTMLRenderer && this.update();
             }
         }
         //#endregion hGap
@@ -81,13 +72,9 @@ const FlowLayout = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.vGap !== newValue) {
-                    priv.vGap = newValue;
-                    if (Core.isHTMLRenderer) {
-                        this.update();
-                    }
-                }
+            if (core.tools.isNumber(newValue) && priv.vGap !== newValue) {
+                priv.vGap = newValue;
+                core.isHTMLRenderer && this.update();
             }
         }
         //#endregion vGap
@@ -110,9 +97,7 @@ const FlowLayout = (() => {
                         obj.beginUpdate();
                         if (priv.layout === FLOWLAYOUTS.HORIZONTAL) {
                             if (x + oHtmlElement.offsetWidth > htmlElement.offsetWidth) {
-                                if (maxTop < y + oHtmlElement.offsetHeight) {
-                                    maxTop = y + oHtmlElement.offsetHeight;
-                                }
+                                maxTop < y + oHtmlElement.offsetHeight && (maxTop = y + oHtmlElement.offsetHeight);
                                 y = maxTop + priv.vGap;
                                 x = priv.hGap;
                                 maxTop = y;
@@ -120,14 +105,10 @@ const FlowLayout = (() => {
                             obj.top = y;
                             obj.left = x;
                             x += oHtmlElement.offsetWidth + priv.hGap;
-                            if (maxTop < y + oHtmlElement.offsetHeight) {
-                                maxTop = y + oHtmlElement.offsetHeight;
-                            }
+                            maxTop < y + oHtmlElement.offsetHeight && (maxTop = y + oHtmlElement.offsetHeight);
                         } else {
                             if (y + oHtmlElement.offsetHeight > htmlElement.offsetHeight) {
-                                if (maxLeft < x + oHtmlElement.offsetWidth) {
-                                    maxLeft = x + oHtmlElement.offsetWidth;
-                                }
+                                maxLeft < x + oHtmlElement.offsetWidth && (maxLeft = x + oHtmlElement.offsetWidth);
                                 x = maxLeft + priv.hGap;
                                 y = priv.vGap;
                                 maxLeft = x;
@@ -135,9 +116,7 @@ const FlowLayout = (() => {
                             obj.top = y;
                             obj.left = x;
                             y += oHtmlElement.offsetHeight + priv.vGap;
-                            if (maxLeft < x + oHtmlElement.offsetWidth) {
-                                maxLeft = x + oHtmlElement.offsetWidth;
-                            }
+                            maxLeft < x + oHtmlElement.offsetWidth && (maxLeft = x + oHtmlElement.offsetWidth);
                         }
                         obj.endUpdate();
                     }
@@ -150,10 +129,10 @@ const FlowLayout = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.layout = null;
             priv.hGap = null;
             priv.vGap = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -161,14 +140,14 @@ const FlowLayout = (() => {
     return FlowLayout;
     //#endregion FlowLayout
 })();
-//#endregion CustomButton
 Object.seal(FlowLayout);
-Core.classes.register(Types.CATEGORIES.CONTAINERS, FlowLayout);
-export { FlowLayout };
+core.classes.register(core.types.CATEGORIES.CONTAINERS, FlowLayout);
+//#endregion FlowLayout
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const FlowLayoutTpl = ['<jagui-flowlayout id="{internalId}" data-class="FlowLayout" class="Control FlowLayout">',
         '<properties>{ "name": "{name}" }</properties>'].join();
-    Core.classes.registerTemplates([{ Class: FlowLayout, template: FlowLayoutTpl }]);
+    core.classes.registerTemplates([{ Class: FlowLayout, template: FlowLayoutTpl }]);
 }
 //#endregion
+export { FlowLayout };

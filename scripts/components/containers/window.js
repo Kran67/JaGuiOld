@@ -1,13 +1,12 @@
 //#region Import
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
-import { Tools } from '/scripts/core/tools.js';
 import '/scripts/components/containers/layout.js';
 import '/scripts/core/captioncontrol.js';
 import '/scripts/components/common/windowbuttons.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Events } from '/scripts/core/events.js';
-import { RectAnimation } from '/scripts/core/rectanimation.js';
+//import { RectAnimation } from '/scripts/core/rectanimation.js';
 import { Point } from '/scripts/core/geometry.js';
 import { Convert } from '/scripts/core/convert.js';
 //#endregion Import
@@ -17,9 +16,7 @@ const WindowTitleBar = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -29,10 +26,13 @@ const WindowTitleBar = (() => {
         //#region Constructor
         constructor(owner, props) {
             //#region Variables déclaration
-            const textAligns = Types.TEXTALIGNS;
+            const textAligns = core.types.TEXTALIGNS;
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
+                props.autoCapture = !0;
+                props.stopEvent = !0;
+                props.hitTest = { mouseMove: !0, mouseWheel: !0, dblClick: !0 };
                 super(owner, props);
                 //#region Private
                 const priv = internal(this);
@@ -43,9 +43,9 @@ const WindowTitleBar = (() => {
                 priv.helpBtn = null;
                 priv.rollUpDownBtn = null;
                 priv.stayOnOffBtn = null;
-                priv.startDragOff = new Core.classes.Point;
+                priv.startDragOff = new core.classes.Point;
                 priv.visibleBtns = 0;
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'horizAlign',
                     enum: textAligns,
@@ -55,17 +55,12 @@ const WindowTitleBar = (() => {
                 });
                 //#endregion
                 //#region Public
-                this.autoCapture = !0;
-                const hitTest = this.hitTest;
-                hitTest.all = !0;
-                hitTest.mouseWheel = !1;
                 //#endregion Public
                 this.createEventsAndBind(['onCaptionChanged'], props);
-                this.stopEvent = !0;
             }
         }
         //#endregion Constructor
-        //#region getters / setters
+        //#region Getters / Setters
         //#region visibleButtons
         get visibleButtons() {
             return this.form.isBorderDialog ? 2 : internal(this).visibleBtns;
@@ -79,7 +74,7 @@ const WindowTitleBar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof newValue !== Types.CONSTANTS.STRING) {
+            if (typeof newValue !== core.types.CONSTANTS.STRING) {
                 return;
             }
             if (priv.title !== newValue) {
@@ -95,7 +90,7 @@ const WindowTitleBar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (!(newValue instanceof Core.classes.Component)) {
+            if (!(newValue instanceof core.classes.Component)) {
                 return;
             }
             if (priv.closeBtn !== newValue) {
@@ -111,7 +106,7 @@ const WindowTitleBar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (!(newValue instanceof Core.classes.Component)) {
+            if (!(newValue instanceof core.classes.Component)) {
                 return;
             }
             if (priv.minimizeBtn !== newValue) {
@@ -127,7 +122,7 @@ const WindowTitleBar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (!(newValue instanceof Core.classes.Component)) {
+            if (!(newValue instanceof core.classes.Component)) {
                 return;
             }
             if (priv.maxRestoreBtn !== newValue) {
@@ -143,7 +138,7 @@ const WindowTitleBar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (!(newValue instanceof Core.classes.Component)) {
+            if (!(newValue instanceof core.classes.Component)) {
                 return;
             }
             if (priv.helpBtn !== newValue) {
@@ -159,7 +154,7 @@ const WindowTitleBar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (!(newValue instanceof Core.classes.Component)) {
+            if (!(newValue instanceof core.classes.Component)) {
                 return;
             }
             if (priv.rollUpDownBtn !== newValue) {
@@ -173,7 +168,7 @@ const WindowTitleBar = (() => {
         }
         /*set stayOnOffBtn(newValue) {
             const priv = internal(this);
-            if (!(newValue instanceof Core.classes.Component)) {
+            if (!(newValue instanceof core.classes.Component)) {
                 return;
             }
             if (priv.stayOnOffBtn !== newValue) {
@@ -194,13 +189,13 @@ const WindowTitleBar = (() => {
             return [priv.closeBtn, priv.maxRestoreBtn, priv.minimizeBtn, priv.helpBtn, priv.rollUpDownBtn, priv.stayOnOffBtn];
         }
         //#endregion allControls
-        //#endregion
+        //#endregion Getters / Setters
         //#region Methods
         //#region getCaptionButton
         getCaptionButton(btn) {
             //#region Variables déclaration
-            const classes = Core.classes;
-            const CONSTANTS = Types.CONSTANTS;
+            const classes = core.classes;
+            const CONSTANTS = core.types.CONSTANTS;
             const form = btn.form;
             //#endregion Variables déclaration
             if (btn instanceof classes.WindowCloseButton) {
@@ -221,13 +216,13 @@ const WindowTitleBar = (() => {
         //#region mouseDown
         mouseDown() {
             //#region Variables déclaration
-            const mouse = Core.mouse;
+            const mouse = core.mouse;
             const priv = internal(this);
             const startDragOff = priv.startDragOff;
-            const p = new Core.classes.Point(mouse.document.x, mouse.document.y);
+            const p = new core.classes.Point(mouse.document.x, mouse.document.y);
             const form = this.form;
             const savedSizePosState = form.savedSizePosState;
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             const htmlElement = form.HTMLElement;
             //#endregion Variables déclaration
             if (mouse.button !== Mouse.MOUSEBUTTONS.LEFT) {
@@ -243,14 +238,14 @@ const WindowTitleBar = (() => {
             startDragOff.x = p.x;
             startDragOff.y = p.y;
             this.isPressed = !0;
-            Core.dragWindow = this;
+            core.dragWindow = this;
             Events.bind(document, Mouse.MOUSEEVENTS.MOVE.toLowerCase(), this.mouseMove);
         }
         //#endregion mouseDown
         //#region mouseUp
         mouseUp() {
             //#region Variables déclaration
-            const mouse = Core.mouse;
+            const mouse = core.mouse;
             const mDocument = mouse.document;
             const form = this.form;
             const bcr = this.getBoundingClientRect();
@@ -263,7 +258,7 @@ const WindowTitleBar = (() => {
                     let leftSysMenu = null;
                     leftSysMenu = bcr.left;
                     let offsetX = 0;
-                    if (Core.isHTMLRenderer) {
+                    if (core.isHTMLRenderer) {
                         let paddingLeft = null;
                         paddingLeft = parseFloat(getComputedStyle(htmlElement).paddingLeft);
                         let paddingRight = null;
@@ -276,25 +271,20 @@ const WindowTitleBar = (() => {
                         }
                     } else {
                         offsetX = 20;
-                        if (Core.themes[themeName].sysMenuPosition &&
-                            Core.themes[themeName].sysMenuPosition === 'right') {
-                            leftSysMenu = bcr.right - offsetX;
-                        }
+                        core.themes[themeName].sysMenuPosition &&
+                            core.themes[themeName].sysMenuPosition === 'right'
+                            && (leftSysMenu = bcr.right - offsetX);
                     }
-                    if ((mDocument.x > leftSysMenu) && (mDocument.x < leftSysMenu + offsetX)) {
-                        form.showSystemMenu();
-                    }
+                    (mDocument.x > leftSysMenu) && (mDocument.x < leftSysMenu + offsetX)
+                        && form.showSystemMenu();
                 }
             } else if (mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
                 super.mouseUp();
                 this.isPressed = !1;
-                Core.dragWindow = null;
+                core.dragWindow = null;
                 Events.unBind(document, Mouse.MOUSEEVENTS.MOVE, this.mouseMove);
-                if (form.bordersType === Window.BORDERSTYPES.SNAP && form.windowState !== Window.WINDOWSTATES.SNAPED) {
-                    if (form.snapArea !== Window.SNAPAREAS.NONE && snapElement) {
-                        form.applySnap();
-                    }
-                }
+                form.bordersType === Window.BORDERSTYPES.SNAP && form.windowState !== Window.WINDOWSTATES.SNAPED
+                    && form.snapArea !== Window.SNAPAREAS.NONE && snapElement && form.applySnap();
                 form.enabledShadow = !0;
             }
         }
@@ -305,17 +295,15 @@ const WindowTitleBar = (() => {
             const decOff = new Point;
             const BORDERSTYPES = Window.BORDERSTYPES;
             const SNAPAREAS = Window.SNAPAREAS;
-            const mouse = Core.mouse;
+            const mouse = core.mouse;
             const mDocument = mouse.document;
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             //#endregion Variables déclaration
             super.mouseMove();
-            if (mouseEventArg) {
-                mouse.getMouseInfos(mouseEventArg);
-            }
-            if (Core.dragWindow) {
+            mouseEventArg && mouse.getMouseInfos(mouseEventArg);
+            if (core.dragWindow) {
                 if (mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
-                    const titlebar = Core.dragWindow;
+                    const titlebar = core.dragWindow;
                     const form = titlebar.form;
                     const snapArea = form.snapArea;
                     form.enabledShadow = !1;
@@ -328,38 +316,22 @@ const WindowTitleBar = (() => {
                         const winTop = isHtmlRenderer ? fHtmlElement.offsetTop : form.top;
                         const winWidth = isHtmlRenderer ? fHtmlElement.offsetWidth : form.width;
                         const winHeight = isHtmlRenderer ? fHtmlElement.offsetHeight : form.height;
-                        const parent = isHtmlRenderer ? fHtmlElement.parentNode : Core.canvas.parentNode;
-                        const p = new Core.classes.Point(mDocument.x, mDocument.y);
+                        const parent = isHtmlRenderer ? fHtmlElement.parentNode : core.canvas.parentNode;
+                        const p = new core.classes.Point(mDocument.x, mDocument.y);
                         decOff.x = Math.abs(startDragOff.x - p.x);
                         decOff.y = Math.abs(startDragOff.y - p.y);
                         if ((decOff.x !== 0 || decOff.y !== 0) && titlebar.isPressed) {
-                            if (p.x < 0) {
-                                p.x = 0;
-                            }
-                            if (p.y < 0) {
-                                p.y = 0;
-                            }
-                            if (p.x > window.innerWidth) {
-                                p.x = window.innerWidth;
-                            }
-                            if (p.y > window.innerHeight) {
-                                p.y = window.innerHeight;
-                            }
+                            p.x = Math.max(Math.min(p.x, window.innerWidth), 0);
+                            p.y = Math.max(Math.min(p.y, window.innerHeight), 0);
                             let newLeft = (winLeft + (p.x - startDragOff.x));
                             let newTop = (winTop + (p.y - startDragOff.y));
                             if (bordersType === BORDERSTYPES.MAGNETIC) {
-                                if (newLeft < Window.MAGNETICSIZE) {
-                                    newLeft = 0;
-                                }
-                                if (newTop < Window.MAGNETICSIZE) {
-                                    newTop = 0;
-                                }
-                                if (newLeft + winWidth > parent.offsetWidth - Window.MAGNETICSIZE) {
-                                    newLeft = parent.offsetWidth - winWidth;
-                                }
-                                if (newTop + winHeight > parent.offsetHeight - Window.MAGNETICSIZE) {
-                                    newTop = parent.offsetHeight - winHeight;
-                                }
+                                newLeft < Window.MAGNETICSIZE && (newLeft = 0);
+                                newTop < Window.MAGNETICSIZE && (newTop = 0);
+                                newLeft + winWidth > parent.offsetWidth - Window.MAGNETICSIZE
+                                    && (newLeft = parent.offsetWidth - winWidth);
+                                newTop + winHeight > parent.offsetHeight - Window.MAGNETICSIZE
+                                    && (newTop = parent.offsetHeight - winHeight);
                             } else if (bordersType === BORDERSTYPES.SNAP) {
                                 if (form.windowState !== Window.WINDOWSTATES.SNAPED) {
                                     if (snapArea === SNAPAREAS.NONE) {
@@ -382,13 +354,10 @@ const WindowTitleBar = (() => {
                                         newLeft = p.x - ~~(savedSizePosState.width / 2);
                                     } else if (snapArea === SNAPAREAS.LEFT) {
                                         newLeft = 0;
-                                        if (p.x > newLeft + savedSizePosState.width) {
-                                            newLeft = p.x - ~~(savedSizePosState.width / 2);
-                                        }
+                                        p.x > newLeft + savedSizePosState.width
+                                            && (newLeft = p.x - ~~(savedSizePosState.width / 2));
                                     } else if (snapArea === SNAPAREAS.RIGHT) {
-                                        if (p.x > newLeft + savedSizePosState.width) {
-                                            newLeft = p.x - ~~(savedSizePosState.width / 2);
-                                        }
+                                        p.x > newLeft + savedSizePosState.width
                                     }
                                     form.restoreWindow();
                                 }
@@ -398,9 +367,7 @@ const WindowTitleBar = (() => {
                             startDragOff.y = p.y;
                         }
                     }
-                    if (!Core.isHTMLRenderer) {
-                        Core.canvas.needRedraw = !0;
-                    }
+                    !core.isHTMLRenderer && (core.canvas.needRedraw = !0);
                 }
             }
         }
@@ -416,47 +383,35 @@ const WindowTitleBar = (() => {
             let dataClass = null;
             let obj = null;
             let nodes = null;
-            const XMLNODETYPES = Types.XMLNODETYPES;
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const XMLNODETYPES = core.types.XMLNODETYPES;
+            const isHtmlRenderer = core.isHTMLRenderer;
             const priv = internal(this);
             //#endregion Variables déclaration
             if (isHtmlRenderer) {
                 nodes = childs ? childs.childNodes : this.HTMLElement.childNodes;
-            } else if (Core.isCanvasRenderer) {
+            } else if (core.isCanvasRenderer) {
                 nodes = childs;
             }
             nodes.forEach(node => {
-                if (node.nodeType === XMLNODETYPES.ELEMENT_NODE && isHtmlRenderer) {
-                    dataClass = node.dataset.class;
-                } else {
-                    dataClass = node.className;
-                }
+                dataClass = node.nodeType === XMLNODETYPES.ELEMENT_NODE && isHtmlRenderer
+                    ? node.dataset.class
+                    : node.className;
                 let dataName = node.name;
-                if (!dataName || !dataName) {
-                    dataName = String.EMPTY;
-                }
+                !dataName || !dataName && (dataName = String.EMPTY);
                 let properties = {};
                 if (isHtmlRenderer) {
                     if (node.nodeType === XMLNODETYPES.ELEMENT_NODE) {
                         const props = node.querySelector(`[id='${node.id}']> properties:first-child`);
-                        if (props) {
-                            properties = JSON.parse(props.innerText);
-                        }
+                        props && (properties = JSON.parse(props.innerText));
                     }
                 } else {
                     properties = node.properties;
                 }
-                if (properties) {
-                    properties.inForm = !1;
-                } else {
-                    properties = {
-                        inForm: !1
-                    };
-                }
+                properties ? properties.inForm = !1 : properties = { inForm: !1 };
                 if (dataClass) {
                     if (dataClass !== 'WindowTitle') {
-                        obj = Core.classes.createComponent({
-                            class: Core.classes[dataClass],
+                        obj = core.classes.createComponent({
+                            class: core.classes[dataClass],
                             owner: this,
                             name: dataName,
                             props: properties,
@@ -466,7 +421,7 @@ const WindowTitleBar = (() => {
                     }
                     switch (dataClass) {
                         case 'WindowTitle':
-                            priv.title = Core.isHTMLRenderer ? node : properties.caption;
+                            priv.title = core.isHTMLRenderer ? node : properties.caption;
                             /*title.mouseDown = function () {
                                 this.owner.mouseDown();
                             };
@@ -506,8 +461,22 @@ const WindowTitleBar = (() => {
         //#endregion getChilds
         //#region destroy
         destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.startDragOff.destroy();
+            priv.startDragOff = null;
+            priv.title = null;
+            priv.closeBtn = null;
+            priv.minimizeBtn = null;
+            priv.maxRestoreBtn = null;
+            priv.helpBtn = null;
+            priv.rollUpDownBtn = null;
+            priv.stayOnOffBtn = null;
+            priv.visibleBtns = null;
+            priv.horizAlign = null;
+            this.unBindAndDestroyEvents(['onCaptionChanged']);
             super.destroy();
-            internal(this).startDragOff.destroy();
         }
         //#endregion destroy
         //#region dblClick
@@ -515,17 +484,12 @@ const WindowTitleBar = (() => {
             //#region Variables déclaration
             const form = this.form;
             const bcr = this.getBoundingClientRect();
-            const mouse = Core.mouse;
+            const mouse = core.mouse;
             const document = mouse.document;
             //#endregion Variables déclaration
-            if (mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
-                if (form.isBorderSingle || form.isBorderSizeable) {
-                    if ((document.x > bcr.left) && (document.x < bcr.left + 20)) {
-                        form.close();
-                    } else {
-                        form.toogleMaxRestore();
-                    }
-                }
+            if (mouse.button === Mouse.MOUSEBUTTONS.LEFT && form.isBorderSingle || form.isBorderSizeable) {
+                (document.x > bcr.left) && (document.x < bcr.left + 20)
+                    ? form.close() : form.toogleMaxRestore();
             }
         }
         //#endregion dblClick
@@ -538,13 +502,9 @@ const WindowTitleBar = (() => {
             //#endregion Variables déclaration
             buttons.forEach(btn => {
                 btn = priv[`${btn}Btn`];
-                if (btn.visible) {
-                    visbleBtns++;
-                }
+                btn.visible && (visbleBtns++);
             });
-            if (Core.isHTMLRenderer) {
-                this.form.HTMLElement.dataset.buttons = visbleBtns;
-            }
+            core.isHTMLRenderer && (this.form.HTMLElement.dataset.buttons = visbleBtns);
             priv.visibleBtns = visbleBtns;
         }
         //#endregion calcVisibleBtns
@@ -559,7 +519,7 @@ const WindowTitleBar = (() => {
     return WindowTitleBar;
     //#endregion Class WindowTitleBar
 })();
-//#endregion
+//#endregion WindowTitleBar
 //#region Class WindowContent
 class WindowContent extends ThemedControl {
     //#region constructor
@@ -567,30 +527,20 @@ class WindowContent extends ThemedControl {
         props = !props ? {} : props;
         if (owner) {
             props.stopEvent = !1;
-            props.hitTest = {};
-            props.hitTest.mouseDown = !0;
-            props.hitTest.mouseWheel = !0;
+            props.hitTest = { mouseWheel: !0 };
             super(owner, props);
-            //#region Public
-            //this.hitTest.mouseDown = !0;
-            //this.hitTest.mouseWheel = !0;
-            //#endregion Public
         }
     }
     //#endregion
-    //#region getters / setters
-    //#endregion Getters / Setters
 }
-//#endregion
+//#endregion WindowContent
 //#region BaseWindow
 const BaseWindow = (() => {
     //#region Private
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -608,6 +558,7 @@ const BaseWindow = (() => {
             const SHOWINGMODES = Window.SHOWINGMODES;
             //#endregion Variables déclaration
             if (owner) {
+                props.hitTest = { mouseMove: !0 };
                 super(owner, props);
                 //#region Private
                 const priv = internal(this);
@@ -637,7 +588,8 @@ const BaseWindow = (() => {
                 priv.snapArea = props.hasOwnProperty('snapArea') ? props.snapArea : Window.SNAPAREAS.NONE;
                 priv.destroyOnHide = !1;
                 priv.controls = [];
-                priv.isChildWindow = props.hasOwnProperty('parentHTML') ? (props.parentHTML !== document.body ? !0 : !1) : !1;
+                priv.isChildWindow = props.hasOwnProperty('parentHTML')
+                    ? (props.parentHTML !== document.body ? !0 : !1) : !1;
                 priv.parentHTML = props.hasOwnProperty('parentHTML') ? props.parentHTML : null;
                 priv.lastZIndex = -1;
                 priv.animated = !0;
@@ -652,14 +604,14 @@ const BaseWindow = (() => {
                 //priv.minimizeAnimation = new RectAnimation(this, { inForm: !1 });
                 priv.position = props.hasOwnProperty('position') ? props.position : FORMPOSITIONS.DEFAULT;
                 priv.buttons = props.hasOwnProperty('buttons') ? props.buttons : null;
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'position',
                     enum: FORMPOSITIONS,
                     variable: priv,
                     value: props.hasOwnProperty('formPosition') ? props.formPosition : FORMPOSITIONS.DESIGNED
                 });
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'windowState',
                     enum: WINDOWSTATES,
@@ -669,45 +621,43 @@ const BaseWindow = (() => {
                         const WINDOWSTATES = Window.WINDOWSTATES;
                         const windowState = priv.windowState;
                         //#endregion Variables déclaration
-                        if (Tools.valueInSet(newValue, WINDOWSTATES)) {
-                            if (windowState !== newValue) {
-                                const lastWindowState = windowState;
-                                switch (newValue) {
-                                    case WINDOWSTATES.NORMAL:
-                                        switch (lastWindowState) {
-                                            case WINDOWSTATES.MINIMIZED:
-                                            case WINDOWSTATES.MAXIMIZED:
-                                                this.restore();
-                                                break;
-                                            case WINDOWSTATES.ROLLEDUP:
-                                                this.rollDown();
-                                                break;
-                                            case WINDOWSTATES.SNAPED:
-                                                this.restoreWindow();
-                                                break;
-                                        }
-                                        break;
-                                    case WINDOWSTATES.MINIMIZED:
-                                        this.minimize();
-                                        break;
-                                    case WINDOWSTATES.MAXIMIZED:
-                                        this.maximize();
-                                        break;
-                                    case WINDOWSTATES.ROLLEDUP:
-                                        this.rollUp();
-                                        break;
-                                    case WINDOWSTATES.SNAPED:
-                                        this.applySnap();
-                                        break;
-                                }
-                                this.windowState = newValue;
+                        if (core.tools.valueInSet(newValue, WINDOWSTATES) && windowState !== newValue) {
+                            const lastWindowState = windowState;
+                            switch (newValue) {
+                                case WINDOWSTATES.NORMAL:
+                                    switch (lastWindowState) {
+                                        case WINDOWSTATES.MINIMIZED:
+                                        case WINDOWSTATES.MAXIMIZED:
+                                            this.restore();
+                                            break;
+                                        case WINDOWSTATES.ROLLEDUP:
+                                            this.rollDown();
+                                            break;
+                                        case WINDOWSTATES.SNAPED:
+                                            this.restoreWindow();
+                                            break;
+                                    }
+                                    break;
+                                case WINDOWSTATES.MINIMIZED:
+                                    this.minimize();
+                                    break;
+                                case WINDOWSTATES.MAXIMIZED:
+                                    this.maximize();
+                                    break;
+                                case WINDOWSTATES.ROLLEDUP:
+                                    this.rollUp();
+                                    break;
+                                case WINDOWSTATES.SNAPED:
+                                    this.applySnap();
+                                    break;
                             }
+                            this.windowState = newValue;
                         }
                     },
                     variable: priv,
                     value: props.hasOwnProperty('windowState') ? props.windowState : WINDOWSTATES.NORMAL
                 });
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'borderStyle',
                     enum: BORDERSTYLES,
@@ -716,61 +666,56 @@ const BaseWindow = (() => {
                         const priv = internal(this);
                         const htmlElement = this.HTMLElement;
                         let borderStyle = priv.borderStyle;
-                        const isHtmlRenderer = Core.isHTMLRenderer;
+                        const isHtmlRenderer = core.isHTMLRenderer;
                         const themeName = this.app.themeManifest.themeName;
-                        const theme = Core.themes[themeName];
+                        const theme = core.themes[themeName];
                         const layout = priv.layout;
                         const BORDERSTYLES = Window.BORDERSTYLES;
                         //#endregion Variables déclaration
-                        if (Tools.valueInSet(newValue, BORDERSTYLES)) {
-                            if (borderStyle !== newValue) {
-                                if (isHtmlRenderer) {
-                                    htmlElement.classList.remove(borderStyle);
-                                }
-                                borderStyle = priv.borderStyle = newValue;
-                                if (isHtmlRenderer) {
-                                    htmlElement.classList.add(borderStyle);
+                        if (core.tools.valueInSet(newValue, BORDERSTYLES) && borderStyle !== newValue) {
+                            isHtmlRenderer && htmlElement.classList.remove(borderStyle);
+                            borderStyle = priv.borderStyle = newValue;
+                            if (isHtmlRenderer) {
+                                htmlElement.classList.add(borderStyle);
+                            } else {
+                                this.alignButtons();
+                                if (this.isBorderNone) {
+                                    layout.margin.empty();
                                 } else {
-                                    this.alignButtons();
-                                    if (this.isBorderNone) {
-                                        layout.margin.empty();
-                                    } else {
-                                        let layoutMargin = null;
-                                        if (theme.Window && theme.Window.WindowLayout && theme.Window.WindowLayout.margin) {
-                                            layoutMargin = theme.Window.WindowLayout.margin;
-                                        } else {
-                                            layoutMargin = Window.SIZEABLEBORDERSIZE;
-                                        }
-                                        if (Tools.isObject(layoutMargin)) {
-                                            layout.margin.setValues(layoutMargin.left, layoutMargin.top, layoutMargin.right, layoutMargin.bottom);
-                                        } else if (Tools.isObject(layoutMargin)) {
-                                            layout.margin.setValues(layoutMargin, layoutMargin, layoutMargin, layoutMargin);
-                                        }
+                                    let layoutMargin = null;
+                                    layoutMargin = theme.Window && theme.Window.WindowLayout
+                                        && theme.Window.WindowLayout.margin
+                                        ? theme.Window.WindowLayout.margin
+                                        : Window.SIZEABLEBORDERSIZE;
+                                    if (core.tools.isObject(layoutMargin)) {
+                                        layout.margin.setValues(layoutMargin.left, layoutMargin.top, layoutMargin.right, layoutMargin.bottom);
+                                    } else if (core.tools.isObject(layoutMargin)) {
+                                        layout.margin.setValues(layoutMargin, layoutMargin, layoutMargin, layoutMargin);
                                     }
-                                    this.realignChilds();
-                                    Core.canvas.needRedraw = !0;
                                 }
+                                this.realignChilds();
+                                core.canvas.needRedraw = !0;
                             }
                         }
                     },
                     variable: priv,
                     value: props.hasOwnProperty('borderStyle') ? props.borderStyle : BORDERSTYLES.SIZEABLE
                 });
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'bordersType',
                     enum: BORDERSTYPES,
                     variable: priv,
                     value: props.hasOwnProperty('bordersType') ? props.bordersType : BORDERSTYPES.NONE
                 });
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'modalResult',
                     enum: MODALRESULTS,
                     variable: priv,
                     value: MODALRESULTS.NONE
                 });
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'showingMode',
                     enum: SHOWINGMODES,
@@ -779,17 +724,13 @@ const BaseWindow = (() => {
                 });
                 //#endregion Private
                 //#region Public
-                const hitTest = this.hitTest;
-                hitTest.mouseMove = !0;
-                hitTest.mouseDown = !0;
-                hitTest.mouseUp = !0;
                 //this.visible = !1;
                 this.app[this.constructor.name.toLowerCase()] = this;
                 //#endregion Public
                 //#region Events
                 this.createEventsAndBind(['onActivate', 'onDeactivate', 'onHide', 'onShow', 'onCreate', 'onClose', 'onCloseQuery', 'onThemeChanged'], props);
                 //#endregion Events
-                //if (!Core.isHTMLRenderer) {
+                //if (!core.isHTMLRenderer) {
                 //    priv.minimizeAnimation.hideOnFinish = !0;
                 //    priv.minimizeAnimation.control = this;
                 //    priv.minimizeAnimation.propertyName = "bounds";
@@ -799,9 +740,11 @@ const BaseWindow = (() => {
             }
         }
         //#endregion constructor
-        //#region getters / setters
+        //#region Getters / Setters
         get titleBarSize() {
+            //#region Variables déclaration
             const priv = internal(this);
+            //#endregion Variables déclaration
             return {
                 width: priv.titleBar.HTMLElement.offsetWidth,
                 height: priv.titleBar.HTMLElement.offsetHeight
@@ -827,9 +770,7 @@ const BaseWindow = (() => {
             return internal(this).stayOn;
         }
         set stayOn(newValue) {
-            if (Tools.isBool(newValue)) {
-                internal(this).stayOn = newValue;
-            }
+            core.tools.isBool(newValue) && (internal(this).stayOn = newValue);
         }
         //#endregion stayOn
         //#region creating
@@ -846,14 +787,8 @@ const BaseWindow = (() => {
             const priv = internal(this);
             let focusedControl = priv.focusedControl;
             //#endregion Variables déclaration
-            if (newValue) {
-                if (!(newValue instanceof Core.classes.Component)) {
-                    return;
-                }
-            }
-            if (focusedControl !== newValue) {
-                focusedControl = priv.focusedControl = newValue;
-            }
+            newValue && newValue instanceof core.classes.Component && focusedControl !== newValue
+                && (focusedControl = priv.focusedControl = newValue);
         }
         //#endregion focusedControl
         //#region hoveredControl
@@ -864,14 +799,8 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (object) {
-                if (!(object instanceof Core.classes.Control)) {
-                    return;
-                }
-            }
-            if (priv.hoveredControl !== object) {
-                priv.hoveredControl = object;
-            }
+            object && object instanceof core.classes.Control && priv.hoveredControl !== object
+                && (priv.hoveredControl = object);
         }
         //#endregion hoveredControl
         //#region capturedControl
@@ -882,17 +811,10 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue) {
-                if (!(newValue instanceof Core.classes.Component)) {
-                    return;
-                }
-            }
-            if (priv.capturedControl !== newValue) {
+            if (newValue && newValue instanceof core.classes.Component && priv.capturedControl !== newValue) {
                 //this.releaseCapture();
                 priv.capturedControl = newValue;
-                if (newValue) {
-                    this.app.activeWindow = newValue.form;
-                }
+                newValue && (this.app.activeWindow = newValue.form);
             }
         }
         //#endregion capturedControl
@@ -924,11 +846,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.isResizing !== newValue) {
-                    priv.isResizing = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.isResizing !== newValue && (priv.isResizing = newValue);
         }
         //#endregion isResizing
         //#region snapArea
@@ -939,11 +857,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.snapArea !== newValue) {
-                    priv.snapArea = newValue;
-                }
-            }
+            core.tools.isString(newValue) && priv.snapArea !== newValue && (priv.snapArea = newValue);
         }
         //#endregion snapArea
         //#region destroyOnHide
@@ -954,11 +868,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.destroyOnHide !== newValue) {
-                    priv.destroyOnHide = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.destroyOnHide !== newValue && (priv.destroyOnHide = newValue);
         }
         //#endregion destroyOnHide
         //#region controls
@@ -984,11 +894,9 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (newValue !== priv.keyPreview) {
-                    priv.keyPreview = newValue;
-                    this.propertyChanged('keyPreview');
-                }
+            if (core.tools.isBool(newValue) && newValue !== priv.keyPreview) {
+                priv.keyPreview = newValue;
+                this.propertyChanged('keyPreview');
             }
         }
         //#endregion keyPreview
@@ -1002,15 +910,13 @@ const BaseWindow = (() => {
             let icon = internal(this).icon;
             const htmlElement = priv.titleBar;
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (icon !== newValue) {
-                    htmlElement.classList.remove(icon);
-                    icon = priv.icon = newValue;
-                    if (newValue.contains('base64')) {
+            if (core.tools.isString(newValue) && icon !== newValue) {
+                htmlElement.classList.remove(icon);
+                icon = priv.icon = newValue;
+                if (newValue.contains('base64')) {
 
-                    } else {
-                        htmlElement.classList.add(icon);
-                    }
+                } else {
+                    htmlElement.classList.add(icon);
                 }
             }
         }
@@ -1023,11 +929,9 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Core.classes.MainMenu && newValue instanceof Core.classes.MainMenu) {
-                if (newValue !== priv.mainMenu) {
-                    priv.mainMenu = newValue;
-                    this.redraw();
-                }
+            if (core.classes.MainMenu && newValue instanceof core.classes.MainMenu && newValue !== priv.mainMenu) {
+                priv.mainMenu = newValue;
+                this.redraw();
             }
         }
         //#endregion mainMenu
@@ -1045,10 +949,8 @@ const BaseWindow = (() => {
             const priv = internal(this);
             let canClose = priv.canClose;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (canClose !== newValue) {
-                    canClose = priv.canClose = newValue;
-                }
+            if (core.tools.isBool(newValue)) {
+                canClose !== newValue && (canClose = priv.canClose = newValue);
                 if (canClose) {
                     priv.destroyOnHide = canClose;
                     this._close();
@@ -1144,11 +1046,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.animated !== newValue) {
-                    priv.animated = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.animated !== newValue && (priv.animated = newValue);
         }
         //#endregion animated
         //#region caption
@@ -1158,17 +1056,13 @@ const BaseWindow = (() => {
         set caption(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
-            let title = Core.isHTMLRenderer ? priv.titleBar.title.innerText : priv.titleBar.title;
+            let title = core.isHTMLRenderer ? priv.titleBar.title.innerText : priv.titleBar.title;
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (title !== newValue) {
-                    //priv.titleBar.title.innerText = newValue;
-                    this.captionChanged();
-                    //this.onCaptionChanged.invoke(priv.titleBar);
-                    if (Core.isHTMLRenderer) {
-                        priv.titleBar.title.innerText = newValue;
-                    }
-                }
+            if (core.tools.isString(newValue) && title !== newValue) {
+                //priv.titleBar.title.innerText = newValue;
+                this.captionChanged();
+                //this.onCaptionChanged.invoke(priv.titleBar);
+                core.isHTMLRenderer && (priv.titleBar.title.innerText = newValue);
             }
         }
         //#endregion caption
@@ -1177,9 +1071,7 @@ const BaseWindow = (() => {
             return super.left;
         }
         set left(newValue) {
-            if (!this.isMaximized && !this.isMinimized) {
-                super.left = newValue;
-            }
+            !this.isMaximized && !this.isMinimized && (super.left = newValue);
         }
         //#endregion left
         //#region top
@@ -1187,9 +1079,7 @@ const BaseWindow = (() => {
             return super.top;
         }
         set top(newValue) {
-            if (!this.isMaximized && !this.isMinimized) {
-                super.top = newValue;
-            }
+            !this.isMaximized && !this.isMinimized && (super.top = newValue);
         }
         //#endregion top
         //#region template
@@ -1231,16 +1121,14 @@ const BaseWindow = (() => {
             return super.visible;
         }
         set visible(newValue) {
-            if (Tools.isBool(newValue)) {
-                if (super.visible !== newValue) {
-                    super.visible = newValue;
-                    // à revoir
-                    //if (!priv.visible) {
-                    //    //priv.visible = !1;
-                    //    //Css.removeClass(this.HTMLElement,"isactive");
-                    //    //this.HTMLElement.dataset.isactive = !1;
-                    //}
-                }
+            if (core.tools.isBool(newValue) && super.visible !== newValue) {
+                super.visible = newValue;
+                // à revoir
+                //if (!priv.visible) {
+                //    //priv.visible = !1;
+                //    //Css.removeClass(this.HTMLElement,"isactive");
+                //    //this.HTMLElement.dataset.isactive = !1;
+                //}
             }
         }
         //#endregion visible
@@ -1250,11 +1138,7 @@ const BaseWindow = (() => {
         }
         set enabledShadow(newValue) {
             const priv = internal(this);
-            if (Tools.isBool(newValue)) {
-                if (priv.enabledShadow !== newValue) {
-                    priv.enabledShadow = newValue;
-                }
-            }
+            core.tools.isBool(newValue) && priv.enabledShadow !== newValue && (priv.enabledShadow = newValue);
         }
         //#endregion enabledShadow
         //#region setActive
@@ -1263,34 +1147,24 @@ const BaseWindow = (() => {
             const priv = internal(this);
             let activeWindow = this.app.activeWindow;
             const app = this.app;
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             const lastActiveWindow = app.lastActiveWindow;
             let htmlElement;
             //#endregion Variables déclaration
-            if (activeWindow !== this) {
+            if (activeWindow !== this && activeWindow) {
+                htmlElement = activeWindow.HTMLElement;
+                activeWindow.releaseCapture();
+                activeWindow.focusedControl && activeWindow.focusedControl.killFocus();
+                activeWindow.onDeactivate.invoke();
+                isHtmlRenderer && htmlElement.classList.add('inactive');
                 if (activeWindow) {
-                    htmlElement = activeWindow.HTMLElement;
-                    activeWindow.releaseCapture();
-                    if (activeWindow.focusedControl) {
-                        activeWindow.focusedControl.killFocus();
-                    }
-                    activeWindow.onDeactivate.invoke();
-                    if (isHtmlRenderer) {
-                        htmlElement.classList.add('inactive');
-                    }
-                    if (activeWindow) {
-                        if (!priv.isChildWindow && this !== app.mainWindow) {
-                            lastActiveWindow.push(this.app.activeWindow);
-                        } else {
-                            lastActiveWindow.clear();
-                        }
-                    }
+                    !priv.isChildWindow && this !== app.mainWindow
+                        ? lastActiveWindow.push(this.app.activeWindow)
+                        : lastActiveWindow.clear();
                 }
             }
             window.activeWindow = activeWindow = app.activeWindow = this;
-            if (isHtmlRenderer && htmlElement) {
-                htmlElement.classList.remove('inactive');
-            }
+            isHtmlRenderer && htmlElement && htmlElement.classList.remove('inactive');
             this.onActivate.invoke();
         }
         //#endregion setActive
@@ -1300,19 +1174,10 @@ const BaseWindow = (() => {
             const priv = internal(this);
             let focusedControl = priv.focusedControl;
             //#endregion Variables déclaration
-            if (value) {
-                if (!(value instanceof Core.classes.Control)) {
-                    return;
-                }
-            }
-            if (focusedControl !== value) {
-                if (focusedControl) {
-                    focusedControl.killFocus();
-                }
+            if (value && value instanceof core.classes.Control && focusedControl !== value) {
+                focusedControl && focusedControl.killFocus();
                 focusedControl = priv.focusedControl = value;
-                if (focusedControl) {
-                    focusedControl.enterFocus();
-                }
+                focusedControl && focusedControl.enterFocus();
             }
         }
         //#endregion setFocused
@@ -1326,7 +1191,7 @@ const BaseWindow = (() => {
             //this._titleBarObj.hitTest.mouseMove=!1;
             //this._titleBarObj.hitTest.mouseUp=!1;
             //this._titleBarObj.hitTest.mouseWheel=!1;
-            //if (this._titleBarObj._startDragOff===null) this._titleBarObj._startDragOff=new Core.classes.Point();
+            //if (this._titleBarObj._startDragOff===null) this._titleBarObj._startDragOff=new core.classes.Point();
         }
         //#endregion setTitleBar
         //#region setTitleBtn
@@ -1337,9 +1202,7 @@ const BaseWindow = (() => {
             const TITLEBUTTONS = Window.TITLEBUTTONS;
             const allBtns = [TITLEBUTTONS.MINIMIZE, TITLEBUTTONS.MAXRESTORE, TITLEBUTTONS.HELP, TITLEBUTTONS.ROLLUPDOWN, TITLEBUTTONS.STAYONOFF];
             //#endregion Variables déclaration
-            if (!tab || tab.length === 0) {
-                tab = [TITLEBUTTONS.MINIMIZE, TITLEBUTTONS.MAXRESTORE];
-            }
+            !tab || tab.length === 0 && (tab = [TITLEBUTTONS.MINIMIZE, TITLEBUTTONS.MAXRESTORE]);
             allBtns.forEach(t => {
                 titleBar[`${t}Btn`].visible = !1;
             });
@@ -1357,7 +1220,7 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             if (Array.isArray(newValue) && newValue.length === 3) {
                 layout.margin.setValues(newValue[0], newValue[1], newValue[2], newValue[3]);
-            } else if (Tools.isNumber(newValue)) {
+            } else if (core.tools.isNumber(newValue)) {
                 layout.margin.setValues(newValue, newValue, newValue, newValue);
             }
         }
@@ -1398,7 +1261,7 @@ const BaseWindow = (() => {
             return [priv.titleBar, ...priv.titleBar.allControls, priv.content, ...priv.controls];
         }
         //#endregion allControls
-        //#endregion
+        //#endregion Getters / Setters
         //#region Methods
         //#region captionChanged
         captionChanged() {
@@ -1420,7 +1283,7 @@ const BaseWindow = (() => {
             const priv = internal(this);
             const titleBar = priv.titleBar;
             const buttons = ['close', 'maxRestore', 'minimize', 'help', 'rollUpDown', 'stayOnOff'];
-            const btns = Core.themes[this.themeName].WindowButton;
+            const btns = core.themes[this.themeName].WindowButton;
             let invisbleBtns = 0;
             //#endregion Variables déclaration
             buttons.forEach((btn, i) => {
@@ -1429,26 +1292,18 @@ const BaseWindow = (() => {
                 const button = titleBar[`${btn}Btn`];
                 if (btns[btn]) {
                     data = btns[btn];
-                    if (data.offset !== undefined) {
-                        offset = data.offset;
-                    }
-                    if (data.hasOwnProperty('visible')) {
-                        button.visible = data.visible;
-                    }
+                    data.offset !== undefined && (offset = data.offset);
+                    data.hasOwnProperty('visible') && (button.visible = data.visible);
                 }
-                if (!button.visible) {
-                    invisbleBtns++;
-                }
+                !button.visible && (invisbleBtns++);
                 button.width = data.width ? data.width : btns.width;
                 button.height = data.height ? data.height : btns.height;
                 button.left = data.left ? data.left : btns.left;
                 button.right = data.right ? data.right : btns.right;
                 if (i > 0) {
-                    if (data.left === null) {
-                        button.right += (i - invisbleBtns) * offset;
-                    } else {
-                        button.left += (i - invisbleBtns) * offset;
-                    }
+                    data.left === null
+                        ? button.right += (i - invisbleBtns) * offset
+                        : button.left += (i - invisbleBtns) * offset;
                 }
                 button.top = data.top ? data.top : btns.top;
             });
@@ -1489,10 +1344,9 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (!priv.canClose) {
-                return;
+            if (priv.canClose) {
+                this.hide();
             }
-            this.hide();
         }
         //#endregion _close
         //#region hide
@@ -1502,7 +1356,7 @@ const BaseWindow = (() => {
             const app = this.app;
             const lastActiveWindow = app.lastActiveWindow;
             const priv = internal(this);
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             let glass;
             //#endregion Variables déclaration
             this.onHide.invoke();
@@ -1512,15 +1366,12 @@ const BaseWindow = (() => {
             }
             this.stopResize();
             if (isHtmlRenderer) {
-                if (htmlElement.classList.contains('animated')) {
-                    Events.bind(htmlElement, Events.whichAnimationEvent(), this.anitmationEndOnHide);
-                }
-                else {
-                    this.visible = !1;
-                }
+                htmlElement.classList.contains('animated')
+                    ? Events.bind(htmlElement, Events.whichAnimationEvent(), this.anitmationEndOnHide)
+                    : this.visible = !1;
             } else {
                 this.visible = !1;
-                Core.canvas.needRedraw = !0;
+                core.canvas.needRedraw = !0;
             }
             if (lastActiveWindow.length > 0) {
                 app.activeWindow = null;
@@ -1530,13 +1381,9 @@ const BaseWindow = (() => {
             if (priv.isModal && isHtmlRenderer) {
                 glass = activeWindow.HTMLElement.querySelector('.glass')
                 if (!activeWindow.isChildWindow) {
-                    if (isHtmlRenderer) {
-                        activeWindow.HTMLElement.removeChild(glass);
-                    }
+                    isHtmlRenderer && activeWindow.HTMLElement.removeChild(glass);
                 } else {
-                    if (isHtmlRenderer) {
-                        app.mainWindow.HTMLElement.removeChild(glass);
-                    }
+                    isHtmlRenderer && app.mainWindow.HTMLElement.removeChild(glass);
                     activeWindow = app.mainWindow;
                 }
             }
@@ -1550,14 +1397,13 @@ const BaseWindow = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             const htmlElementStyle = this.HTMLElementStyle;
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const titleBar = priv.titleBar;
             const WINDOWSTATES = Window.WINDOWSTATES;
             const savedSizePosState = priv.savedSizePosState;
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             const themeName = this.app.themeManifest.themeName;
             let minWinHeight = Window.MINHEIGHT;
-            let minWinWidth = Window.MINWIDTH;
             //#endregion Variables déclaration
             if (!this.isRolledUp) {
                 if (!this.isMaximized) {
@@ -1578,14 +1424,10 @@ const BaseWindow = (() => {
                     htmlElementStyle.height = `${minWinHeight}${PX}`;
                     priv.windowState = WINDOWSTATES.MINIMIZED;
                 } else {
-                    const theme = Core.themes[themeName];
+                    const theme = core.themes[themeName];
                     if (theme && theme.Window) {
-                        if (theme.Window.minHeight) {
-                            minWinHeight = theme.Window.minHeight;
-                        }
-                        if (theme.Window.minWidth) {
-                            minWinWidth = theme.Window.MINWIDTH;
-                        }
+                        theme.Window.minHeight && (minWinHeight = theme.Window.minHeight);
+                        theme.Window.minWidth && (minWinWidth = theme.Window.MINWIDTH);
                     }
                     priv.windowState = WINDOWSTATES.NONE;
                     //const minimizeAnimation = priv.minimizeAnimation;
@@ -1620,7 +1462,7 @@ const BaseWindow = (() => {
             form.width = ~~rect.width;
             form.height = ~~rect.height;
             form.endUpdate();
-            Core.canvas.needRedraw = !0;
+            core.canvas.needRedraw = !0;
             //console.log(Convert.rect2Str(rect));
         }
         //#endregion _onMinimizeProcess
@@ -1632,20 +1474,18 @@ const BaseWindow = (() => {
             const priv = internal(form);
             //#endregion Variables déclaration
             priv.windowState = form.savedSizePosState.state;
-            if (this.isMaximized) {
-                if (form.control) {
-                    form.startValue.setValues(form.left, form.top, form.left + form.width, form.top + form.height);
-                    form.startValue.setValues(savedSizePosState.left, savedSizePosState.top, savedSizePosState.left + savedSizePosState.width,
-                        savedSizePosState.top + savedSizePosState.height);
-                }
+            if (this.isMaximized && form.control) {
+                form.startValue.setValues(form.left, form.top, form.left + form.width, form.top + form.height);
+                form.startValue.setValues(savedSizePosState.left, savedSizePosState.top, savedSizePosState.left + savedSizePosState.width,
+                    savedSizePosState.top + savedSizePosState.height);
             }
-            if (Core.isHTMLRenderer) {
+            if (core.isHTMLRenderer) {
                 const htmlElementStyle = form.HTMLElementStyle;
                 htmlElementStyle.transitionProperty = String.EMPTY;
                 htmlElementStyle.transitionDuration = String.EMPTY;
                 Events.unBind(form.HTMLElement, 'transitionend', form._onMinimizeFinish);
             } else {
-                Core.canvas.needRedraw = !0;
+                core.canvas.needRedraw = !0;
             }
         }
         //#endregion _onMinimizeFinish
@@ -1654,7 +1494,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const minimizeBtn = priv.titleBar.minimizeBtn;
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             //#endregion Variables déclaration
             if (!this.isMinimized) {
                 minimizeBtn.toolTip = 'Rétablir précédent'; // à voir pour mettre en locale
@@ -1680,8 +1520,8 @@ const BaseWindow = (() => {
             const htmlElementStyle = this.HTMLElementStyle;
             const titleBar = priv.titleBar;
             const savedSizePosState = priv.savedSizePosState;
-            const isHtmlRenderer = Core.isHTMLRenderer;
-            const PX = Types.CSSUNITS.PX;
+            const isHtmlRenderer = core.isHTMLRenderer;
+            const PX = core.types.CSSUNITS.PX;
             //#endregion Variables déclaration
             if (!this.isRolledUp) {
                 if (!this.isMinimized && priv.snapArea === Window.SNAPAREAS.NONE) {
@@ -1691,7 +1531,7 @@ const BaseWindow = (() => {
                     savedSizePosState.height = isHtmlRenderer ? htmlElement.offsetHeight : this.height;
                 }
                 savedSizePosState.state = WINDOWSTATES.MAXIMIZED;
-                if (Core.isHTMLRenderer) {
+                if (core.isHTMLRenderer) {
                     htmlElement.classList.add(WINDOWSTATES.MAXIMIZED);
                     htmlElement.classList.remove(WINDOWSTATES.MINIMIZED);
                     htmlElementStyle.left = `0`;
@@ -1727,25 +1567,19 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const maxRestoreBtn = priv.titleBar.maxRestoreBtn;
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             const WINDOWSTATES = Window.WINDOWSTATES;
             //#endregion Variables déclaration
             if (!this.isMaximized) {
                 maxRestoreBtn.toolTip = 'Rétablir précédent'; // à voir pour mettre en locale
-                if (priv.windowState === WINDOWSTATES.SNAPED && priv.snapArea === Window.SNAPAREAS.TOP) {
-                    this.restoreWindow();
-                } else {
-                    this.maximize();
-                }
-                if (isHtmlRenderer) {
-                    maxRestoreBtn.HTMLElement.classList.add('isrestore');
-                }
+                priv.windowState === WINDOWSTATES.SNAPED && priv.snapArea === Window.SNAPAREAS.TOP
+                    ? this.restoreWindow()
+                    : this.maximize();
+                isHtmlRenderer && maxRestoreBtn.HTMLElement.classList.add('isrestore');
             } else {
                 maxRestoreBtn.toolTip = 'Agrandir'; // à voir pour mettre en locale
                 this.restore();
-                if (isHtmlRenderer) {
-                    maxRestoreBtn.HTMLElement.classList.remove('isrestore');
-                }
+                isHtmlRenderer && maxRestoreBtn.HTMLElement.classList.remove('isrestore');
             }
         }
         //#endregion toogleMaxRestore
@@ -1756,14 +1590,14 @@ const BaseWindow = (() => {
             const titleBar = priv.titleBar;
             const savedSizePosState = priv.savedSizePosState;
             const WINDOWSTATES = Window.WINDOWSTATES;
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             if (savedSizePosState.oldState && savedSizePosState.oldState === WINDOWSTATES.MAXIMIZED) {
                 delete priv.savedSizePosState.oldState;
                 this.toogleMaxRestore();
                 return;
             }
             //#endregion Variables déclaration
-            if (Core.isHTMLRenderer) {
+            if (core.isHTMLRenderer) {
                 const htmlElementStyle = this.HTMLElementStyle;
                 htmlElementStyle.transitionProperty = 'left, width, top, height';
                 htmlElementStyle.transitionDuration = '0.2s';
@@ -1799,11 +1633,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const form = this.form;
             //#endregion Variables déclaration
-            if (form.isMaximized) {
-                form.restore(this);
-            } else {
-                form.maximize(this);
-            }
+            form.isMaximized ? form.restore(this) : form.maximize(this);
         }
         //#endregion maximizeRestore
         //#region showHelp
@@ -1813,11 +1643,7 @@ const BaseWindow = (() => {
         //#endregion showHelp
         //#region toogleRollUpDown
         toogleRollUpDown() {
-            if (!this.isRolledUp) {
-                this.rollUp();
-            } else {
-                this.rollDown();
-            }
+            !this.isRolledUp ? this.rollUp() : this.rollDown();
         }
         //#endregion toogleRollUpDown
         //#region rollUp
@@ -1828,10 +1654,10 @@ const BaseWindow = (() => {
             const maxRestoreBtn = titleBar.maxRestoreBtn;
             const minimizeBtn = titleBar.minimizeBtn;
             const rollUpDownBtn = titleBar.rollUpDownBtn;
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             const savedSizePosState = priv.savedSizePosState;
             let minWinHeight = Window.MINHEIGHT;
-            const theme = Core.themes[this.app.themeManifest.themeName];
+            const theme = core.themes[this.app.themeManifest.themeName];
             //#endregion Variables déclaration
             if (this.isBorderSizeable || this.isBorderSingle || titleBar.rollUpDownBtn.visible) {
                 if (isHtmlRenderer) {
@@ -1839,25 +1665,17 @@ const BaseWindow = (() => {
                     this.HTMLElement.classList.add('rolledUp');
                 } else {
                     savedSizePosState.height = this.height;
-                    if (theme && theme.Window && theme.Window.minHeight) {
-                        minWinHeight = theme.Window.minHeight;
-                    }
+                    theme && theme.Window && theme.Window.minHeight && (minWinHeight = theme.Window.minHeight);
                     this.height = minWinHeight;
                 }
-                if (maxRestoreBtn.visible) {
-                    maxRestoreBtn.enabled = !1;
-                }
-                if (minimizeBtn.visible) {
-                    minimizeBtn.enabled = !1;
-                }
+                maxRestoreBtn.visible && (maxRestoreBtn.enabled = !1);
+                minimizeBtn.visible && (minimizeBtn.enabled = !1);
                 priv.content.visible = !1;
                 priv.windowState = Window.WINDOWSTATES.ROLLEDUP;
                 rollUpDownBtn.isRolledUp = !0;
-                if (isHtmlRenderer) {
-                    rollUpDownBtn.HTMLElement.classList.add('isup');
-                } else {
-                    Core.canvas.needRedraw = !0;
-                }
+                isHtmlRenderer
+                    ? rollUpDownBtn.HTMLElement.classList.add('isup')
+                    : core.canvas.needRedraw = !0;
                 this.stopResize();
             }
         }
@@ -1870,29 +1688,23 @@ const BaseWindow = (() => {
             const maxRestoreBtn = titleBar.maxRestoreBtn;
             const minimizeBtn = titleBar.minimizeBtn;
             const rollUpDownBtn = titleBar.rollUpDownBtn;
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             const savedSizePosState = priv.savedSizePosState;
             //#endregion Variables déclaration
             if (this.isRolledUp) {
-                if (isHtmlRenderer) {
-                    this.HTMLElement.classList.remove('rolledUp');
-                } else {
-                    this.height = savedSizePosState.height;
-                }
+                isHtmlRenderer
+                    ? this.HTMLElement.classList.remove('rolledUp')
+                    : this.height = savedSizePosState.height;
                 priv.windowState = Window.WINDOWSTATES.NORMAL;
-                if (maxRestoreBtn.visible) {
-                    maxRestoreBtn.enabled = !0;
-                }
-                if (minimizeBtn.visible) {
-                    minimizeBtn.enabled = !0;
-                }
+                maxRestoreBtn.visible && (maxRestoreBtn.enabled = !0);
+                minimizeBtn.visible && (minimizeBtn.enabled = !0);
                 priv.content.visible = !0;
                 rollUpDownBtn.isRolledUp = !1;
                 if (isHtmlRenderer) {
                     rollUpDownBtn.HTMLElement.classList.remove('isup');
                 } else {
                     this.realignChilds();
-                    Core.canvas.needRedraw = !0;
+                    core.canvas.needRedraw = !0;
                 }
             }
         }
@@ -1902,11 +1714,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (!priv.stayOn) {
-                this.stayOnTop();
-            } else {
-                this.stayNormal();
-            }
+            !priv.stayOn ? this.stayOnTop() : this.stayNormal();
         }
         //#endregion toggleStay
         //#region stayOnTop
@@ -1917,12 +1725,8 @@ const BaseWindow = (() => {
             const stayOnOffBtn = titleBar.stayOnOffBtn;
             //#endregion Variables déclaration
             if (this.isBorderSizeable || this.isBorderSingle || titleBar.stayOnOffBtn.visible) {
-                if (Core.isHTMLRenderer) {
-                    this.HTMLElementStyle.zIndex = Window.STAYONTOP;
-                }
-                if (Core.isHTMLRenderer) {
-                    stayOnOffBtn.HTMLElement.classList.add('isstayon');
-                }
+                core.isHTMLRenderer && (this.HTMLElementStyle.zIndex = Window.STAYONTOP);
+                core.isHTMLRenderer && stayOnOffBtn.HTMLElement.classList.add('isstayon');
                 stayOnOffBtn.isStayOn = priv.stayOn = !0;
                 this.stopResize();
             }
@@ -1938,12 +1742,8 @@ const BaseWindow = (() => {
             if (this.isBorderSizeable || this.isBorderSingle || titleBar.stayOnOffBtn.visible) {
                 stayOnOffBtn.isStayOn = priv.stayOn = !1;
                 stayOnOffBtn.toolTip = 'Epingler au dessus'; // à voir pour mettre en locale
-                if (Core.isHTMLRenderer) {
-                    stayOnOffBtn.HTMLElement.classList.remove('isstayon');
-                }
-                if (Core.isHTMLRenderer) {
-                    this.HTMLElementStyle.zIndex = priv.lastZIndex;
-                }
+                core.isHTMLRenderer && stayOnOffBtn.HTMLElement.classList.remove('isstayon');
+                core.isHTMLRenderer && (this.HTMLElementStyle.zIndex = priv.lastZIndex);
             }
         }
         //#endregion stayNormal
@@ -1958,7 +1758,7 @@ const BaseWindow = (() => {
         beforeShow() {
             //#region Variables declaration
             const priv = internal(this);
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             //#endregion Variables declaration
             //this.checkBorderStyle();
             if (priv.firstShow) {
@@ -1975,10 +1775,8 @@ const BaseWindow = (() => {
                 case Window.FORMPOSITIONS.SCREENCENTER:
                     this.center();
             }
-            if (isHtmlRenderer) {
-                this.HTMLElementStyle.zIndex = Core.windowZIndex;
-            }
-            priv.lastZIndex = Core.windowZIndex;
+            isHtmlRenderer && (this.HTMLElementStyle.zIndex = core.windowZIndex);
+            priv.lastZIndex = core.windowZIndex;
             this.loaded();
         }
         //#endregion beforeShow
@@ -1991,17 +1789,15 @@ const BaseWindow = (() => {
             this.beforeShow();
             this.visible = !0;
             this.setActive();
-            if (priv.animated && Core.isHTMLRenderer) {
+            if (priv.animated && core.isHTMLRenderer) {
                 htmlElement.classList.add('animated', 'bounceIn');
                 Events.bind(htmlElement, Events.whichAnimationEvent(), this.anitmationEndOnShow);
                 const defaultBtn = htmlElement.querySelector('.isDefault');
-                if (defaultBtn && !priv.focusedControl) {
-                    defaultBtn.jsObj.setFocus();
-                }
+                defaultBtn && !priv.focusedControl && defaultBtn.jsObj.setFocus();
             }
             this.onShow.invoke();
-            if (!Core.isHTMLRenderer) {
-                Core.canvas.needRedraw = !0;
+            if (!core.isHTMLRenderer) {
+                core.canvas.needRedraw = !0;
             }
         }
         //#endregion show
@@ -2009,7 +1805,7 @@ const BaseWindow = (() => {
         anitmationEndOnShow() {
             Events.unBind(this, Events.whichAnimationEvent(), this.jsObj.anitmationEndOnShow);
             setTimeout(() => {
-                Core.apps.activeApplication.activeWindow.HTMLElement.classList.remove('bounceIn', 'hidden');
+                core.apps.activeApplication.activeWindow.HTMLElement.classList.remove('bounceIn', 'hidden');
             }, 0);
         }
         //#endregion anitmationEndOnShow
@@ -2018,19 +1814,15 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const jsObj = this.jsObj;
             //#endregion Variables déclaration
-            if (Core.isHTMLRenderer) {
+            if (core.isHTMLRenderer) {
                 Events.unBind(this, Events.whichAnimationEvent(), jsObj.anitmationEndOnHide);
                 this.classList.remove('bounceOut', 'animated', 'inactive');
             }
             jsObj.visible = !1;
             //this.dataset.isactive = !1;
             jsObj.onClose.invoke();
-            if (jsObj.app.lastActiveWindow.length === 0) {
-                internal(jsObj).destroyOnHide = !0;
-            }
-            if (jsObj.destroyOnHide) {
-                jsObj.destroy();
-            }
+            jsObj.app.lastActiveWindow.length === 0 && (internal(jsObj).destroyOnHide = !0);
+            jsObj.destroyOnHide && jsObj.destroy();
             //let nodes=document.querySelectorAll(".Window.isactive");
             //Css.removeClass(nodes.last(),"isactive");
             //nodes[nodes.length-1].jsObj.removeToHTML();
@@ -2044,23 +1836,19 @@ const BaseWindow = (() => {
             const app = this.app;
             let activeWindow = app.activeWindow;
             const priv = internal(this);
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             //#endregion Variables déclaration
             if (isHtmlRenderer) {
-                glass = document.createElement(Types.HTMLELEMENTS.DIV);
+                glass = document.createElement(core.types.HTMLELEMENTS.DIV);
                 glass.classList.add('Control', 'glass');
                 glass.jsObj = this;
             }
             priv.isModal = !0;
             priv.modalResult = Window.MODALRESULTS.NONE;
             if (!activeWindow.isChildWindow) {
-                if (isHtmlRenderer) {
-                    activeWindow.HTMLElement.appendChild(glass);
-                }
+                isHtmlRenderer && activeWindow.HTMLElement.appendChild(glass);
             } else {
-                if (isHtmlRenderer) {
-                    app.mainWindow.HTMLElement.appendChild(glass);
-                }
+                isHtmlRenderer && app.mainWindow.HTMLElement.appendChild(glass);
                 activeWindow = app.mainWindow;
             }
             this.show();
@@ -2071,40 +1859,29 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const capturedControl = internal(this).capturedControl;
             //#endregion Variables déclaration
-            if (capturedControl !== this) {
-                if (capturedControl) {
-                    if (capturedControl instanceof Core.classes.Control) {
-                        capturedControl.releaseCapture();
-                    }
-                }
-            }
+            capturedControl !== this && capturedControl && capturedControl instanceof core.classes.Control
+                && capturedControl.releaseCapture();
         }
         //#endregion releaseCapture
         //#region HTMLResize
         HTMLResize() {
             //#region Variables déclaration
             const priv = internal(this);
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const htmlElementStyle = this.HTMLElementStyle;
             const width = this.width;
             const height = this.height;
             //#endregion Variables déclaration
-            if (!this.loading && !priv.creating) {
-                priv.firstShow = !1;
-            }
-            Object.keys(Core.looper.listeners).forEach(key => {
-                if (Core.looper.listeners[key].component.hasResizeEvent) {
-                    Core.looper.listeners[key].component.resized();
+            !this.loading && !priv.creating && (priv.firstShow = !1);
+            Object.keys(core.looper.listeners).forEach(key => {
+                if (core.looper.listeners[key].component.hasResizeEvent) {
+                    core.looper.listeners[key].component.resized();
                 }
             });
             htmlElementStyle.width = `${width}${PX}`;
             htmlElementStyle.height = `${height}${PX}`;
-            if (width < Window.MINWIDTH) {
-                htmlElementStyle.width = `${Window.MINWIDTH}${PX}`;
-            }
-            if (height < Window.MINHEIGHT) {
-                htmlElementStyle.height = `${Window.MINHEIGHT}${PX}`;
-            }
+            width < Window.MINWIDTH && (htmlElementStyle.width = `${Window.MINWIDTH}${PX}`);
+            height < Window.MINHEIGHT && (htmlElementStyle.height = `${Window.MINHEIGHT}${PX}`);
             this.moveTo(this.left, this.top);
         }
         //#endregion HTMLResize
@@ -2113,18 +1890,18 @@ const BaseWindow = (() => {
             //if (touchEventArg.touches.length > 1) return;
             //let touch=touchEventArg.changedTouches[0],type="",simulatedEvent;
             //switch (touchEventArg.type) {
-            //  case Core.types.toucheEvents.START:
-            //    type=Core.types.mouseEvents.DOWN.toLowerCase();
+            //  case core.types.toucheEvents.START:
+            //    type=core.types.mouseEvents.DOWN.toLowerCase();
             //    break;
-            //  case Core.types.toucheEvents.MOVE:
-            //    type=Core.types.mouseEvents.MOVE.toLowerCase();
+            //  case core.types.toucheEvents.MOVE:
+            //    type=core.types.mouseEvents.MOVE.toLowerCase();
             //    break;
-            //  case Core.types.toucheEvents.END:
-            //    type=Core.types.mouseEvents.UP.toLowerCase();
+            //  case core.types.toucheEvents.END:
+            //    type=core.types.mouseEvents.UP.toLowerCase();
             //    break;
             //}
             //touch.preventDefault();
-            //simulatedEvent=document.createEvent(Core.types.mouseEvents.EVENT);
+            //simulatedEvent=document.createEvent(core.types.mouseEvents.EVENT);
             //simulatedEvent.initMouseEvent(type,!0,!0,this.canvas,1,touch.screenX,touch.screenY,touch.clientX,touch.clientY,!1,!1,!1,!1,0,null);
             //touch.target.dispatchEvent(simulatedEvent);
         }
@@ -2133,21 +1910,21 @@ const BaseWindow = (() => {
         dblClick() {
             //let obj,p,frm=this.form;
             //if (!frm.hasHitTest()) return;
-            //Core.mouse.getMouseInfos(mouseEventArg);
-            //p=Core.classes.Point.create(Core.mouse.target.x,Core.mouse.target.y);
-            //if (Core.renderer===Core.types.renderers.HTML){
-            //  if (e.target.jsObj) e.target.jsObj.mouseDown(Core.mouse.button,p);
+            //core.mouse.getMouseInfos(mouseEventArg);
+            //p=core.classes.Point.create(core.mouse.target.x,core.mouse.target.y);
+            //if (core.renderer===core.types.renderers.HTML){
+            //  if (e.target.jsObj) e.target.jsObj.mouseDown(core.mouse.button,p);
             //  return;
             //}
-            //obj=frm.objectByPoint(p,Core.types.mouseEvents.DBLCLICK);
+            //obj=frm.objectByPoint(p,core.types.mouseEvents.DBLCLICK);
             //if (obj===frm) obj=null;
             //if(obj!==null){
             //  if(obj.enabled){
             //    p=obj.screenToClient(p);
-            //    obj.dblClick(Core.mouse.button,p);
+            //    obj.dblClick(core.mouse.button,p);
             //  }
             //}
-            //Core.mouse.stopEvent(mouseEventArg);
+            //core.mouse.stopEvent(mouseEventArg);
             //obj=p=null;
         }
         //#endregion dblClick
@@ -2160,37 +1937,31 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             priv.isResizing = resizeMode.rightEdge || resizeMode.bottomEdge || resizeMode.topEdge || resizeMode.leftEdge;
             if (priv.isResizing && !this.isMaximized && !this.isMinimized) {
-                if (mouseEventArg) {
-                    Core.mouse.getMouseInfos(mouseEventArg);
-                }
-                const documentCoord = Core.mouse.document;
+                mouseEventArg && core.mouse.getMouseInfos(mouseEventArg);
+                const documentCoord = core.mouse.document;
                 savedSizePosState.x = documentCoord.x;
                 savedSizePosState.y = documentCoord.y;
-                Core.resizeWindow = this;
+                core.resizeWindow = this;
                 Events.bind(document, Mouse.MOUSEEVENTS.MOVE.toLowerCase(), this.docMouseMove);
                 Events.bind(document, Mouse.MOUSEEVENTS.UP.toLowerCase(), this.docMouseUp);
-                Core.looper.addListener(this, 'resize');
+                core.looper.addListener(this, 'resize');
             }
         }
         //#endregion mouseDown
         //#region mouseUp
         mouseUp(mouseEventArg) {
             //#region Variables déclaration
-            const resizeWindow = Core.resizeWindow;
+            const resizeWindow = core.resizeWindow;
             //#endregion Variables déclaration
-            if (resizeWindow) {
-                resizeWindow.stopResize(mouseEventArg);
-            }
+            resizeWindow && resizeWindow.stopResize(mouseEventArg);
         }
         //#endregion mouseUp
         //#region docMouseUp
         docMouseUp(mouseEventArg) {
             //#region Variables déclaration
-            const resizeWindow = Core.resizeWindow;
+            const resizeWindow = core.resizeWindow;
             //#endregion Variables déclaration
-            if (resizeWindow) {
-                resizeWindow.stopResize(mouseEventArg);
-            }
+            resizeWindow && resizeWindow.stopResize(mouseEventArg);
         }
         //#endregion docMouseUp
         //#region stopResize
@@ -2201,13 +1972,11 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             resizeMode.rightEdge = resizeMode.bottomEdge = resizeMode.topEdge = resizeMode.leftEdge = !1;
             priv.isResizing = !1;
-            Core.looper.removeListener(this, 'resize');
-            Core.resizeWindow = null;
+            core.looper.removeListener(this, 'resize');
+            core.resizeWindow = null;
             Events.unBind(document, Mouse.MOUSEEVENTS.UP.toLowerCase(), this.docMouseUp);
             Events.unBind(document, Mouse.MOUSEEVENTS.MOVE.toLowerCase(), this.docMouseMove);
-            if (!Core.isHTMLRenderer) {
-                Core.canvas.needRedraw = !0;
-            }
+            !core.isHTMLRenderer && (core.canvas.needRedraw = !0);
         }
         //#endregion stopResize
         //#region mouseMove
@@ -2217,19 +1986,17 @@ const BaseWindow = (() => {
             const layoutRect = {};
             let cs = null;
             let csrDefault = !0;
-            const CUSTOMCURSORS = Types.CUSTOMCURSORS;
-            const isHtmlRenderer = Core.isHTMLRenderer;
-            const htmlElement = isHtmlRenderer ? this.HTMLElement : Core.canvas;
+            const CUSTOMCURSORS = core.types.CUSTOMCURSORS;
+            const isHtmlRenderer = core.isHTMLRenderer;
+            const htmlElement = isHtmlRenderer ? this.HTMLElement : core.canvas;
             const resizeMode = priv.resizeMode;
             const layout = priv.layout;
             const lHtmlElement = layout.HTMLElement;
-            const mouse = Core.mouse;
+            const mouse = core.mouse;
             const mDocument = mouse.document;
             //#endregion Variables déclaration
             super.mouseMove();
-            if (mouseEventArg) {
-                mouse.getMouseInfos(mouseEventArg);
-            }
+            mouseEventArg && mouse.getMouseInfos(mouseEventArg);
             this.removeCursors();
             if (this.isBorderSizeable && !this.isMaximized && !this.isMinimized && !priv.isResizing && !this.isRolledUp && priv.snapArea !== Window.SNAPAREAS.TOP) {
                 if (mouse.event.srcElement === htmlElement || isHtmlRenderer) {
@@ -2256,12 +2023,12 @@ const BaseWindow = (() => {
                     resizeMode.leftEdge = x < layoutRect.t;
                     resizeMode.rightEdge = x >= cs.width - layoutRect.r;
                     resizeMode.bottomEdge = y >= cs.height - layoutRect.b;
-                    if (resizeMode.rightEdge || resizeMode.bottomEdge || resizeMode.topEdge || resizeMode.leftEdge) {
-                        csrDefault = !1;
-                    }
+                    resizeMode.rightEdge || resizeMode.bottomEdge || resizeMode.topEdge || resizeMode.leftEdge
+                        && (csrDefault = !1);
                     if (resizeMode.rightEdge && resizeMode.bottomEdge || resizeMode.leftEdge && resizeMode.topEdge) {
                         htmlElement.classList.add(CUSTOMCURSORS.NWRESIZE);
-                    } else if (resizeMode.rightEdge && resizeMode.topEdge || resizeMode.leftEdge && resizeMode.bottomEdge) {
+                    } else if (resizeMode.rightEdge && resizeMode.topEdge
+                        || resizeMode.leftEdge && resizeMode.bottomEdge) {
                         htmlElement.classList.add(CUSTOMCURSORS.NERESIZE);
                     } else if (resizeMode.rightEdge || resizeMode.leftEdge) {
                         htmlElement.classList.add(CUSTOMCURSORS.ERESIZE);
@@ -2270,43 +2037,31 @@ const BaseWindow = (() => {
                     }
                 }
             }
-            if (csrDefault) {
-                htmlElement.classList.add(CUSTOMCURSORS.DEFAULT);
-            }
-            if (priv.isResizing) {
-                this.docMouseMove(mouseEventArg);
-            }
+            csrDefault && htmlElement.classList.add(CUSTOMCURSORS.DEFAULT);
+            priv.isResizing && this.docMouseMove(mouseEventArg);
         }
         //#endregion mouseMove
         //#region docMouseMove
         docMouseMove(mouseEventArg) {
             //#region Variables déclaration
-            const mouse = Core.mouse;
+            const mouse = core.mouse;
             const mDocument = mouse.document;
-            const p = new Core.classes.Point(mDocument.x, mDocument.y);
+            const p = new core.classes.Point(mDocument.x, mDocument.y);
             const decOff = {};
             //#endregion Variables déclaration
-            if (mouseEventArg) {
-                mouse.getMouseInfos(mouseEventArg);
-            }
-            const resizeWindow = Core.resizeWindow;
+            mouseEventArg && mouse.getMouseInfos(mouseEventArg);
+            const resizeWindow = core.resizeWindow;
             const savedSizePosState = internal(resizeWindow).savedSizePosState;
             if (resizeWindow && resizeWindow.isResizing) {
                 decOff.x = Math.abs(savedSizePosState.x - p.x);
                 decOff.y = Math.abs(savedSizePosState.y - p.y);
                 if (decOff.x !== 0 || decOff.y !== 0) {
-                    if (p.x < 0) {
-                        p.x = 0;
-                    }
-                    if (p.y < 0) {
-                        p.y = 0;
-                    }
+                    p.x = Math.max(p.x, 0);
+                    p.y = Math.max(p.y, 0);
                     savedSizePosState.x = p.x;
                     savedSizePosState.y = p.y;
                 }
-                if (!Core.isHTMLRenderer) {
-                    Core.canvas.needRedraw = !0;
-                }
+                !core.isHTMLRenderer && (core.canvas.needRedraw = !0);
             }
         }
         //#endregion docMouseMove
@@ -2316,47 +2071,43 @@ const BaseWindow = (() => {
             priv.content.mouseWheel();
             //let p,obj,frm=this.form;
             //if (!frm.hasHitTest()) return;
-            //Core.mouse.getMouseInfos(mouseEventArg);
-            //p=Core.classes.Point.create(Core.mouse.target.x,Core.mouse.target.y);
-            //obj=frm.objectByPoint(p,Core.types.mouseEvents.WHEEL);
+            //core.mouse.getMouseInfos(mouseEventArg);
+            //p=core.classes.Point.create(core.mouse.target.x,core.mouse.target.y);
+            //obj=frm.objectByPoint(p,core.types.mouseEvents.WHEEL);
             //if (obj===frm) obj=null;
             //if(obj!==null){
             //  if(obj.enabled){
             //    p=obj.screenToClient(p);
-            //    obj.mouseWheel(Core.mouse.wheelDir,Core.mouse.wheelDelta,Core.mouse.button,p);
+            //    obj.mouseWheel(core.mouse.wheelDir,core.mouse.wheelDelta,core.mouse.button,p);
             //  }
             //}
-            //Core.mouse.stopEvent(mouseEventArg);
+            //core.mouse.stopEvent(mouseEventArg);
             //obj=p=null;
         }
         //#endregion mouseWheel
         //#region mouseLeave
         mouseLeave(mouseEventArg) {
             this.removeCursors();
-            (Core.isHTMLRenderer ? this.HTMLElement : Core.canvas).classList.add(Types.CUSTOMCURSORS.DEFAULT);
+            (core.isHTMLRenderer ? this.HTMLElement : core.canvas).classList.add(core.types.CUSTOMCURSORS.DEFAULT);
         }
         //#endregion mouseLeave
         //#region removeCursors
         removeCursors() {
             //#region Variables déclaration
-            const CUSTOMCURSORS = Types.CUSTOMCURSORS;
-            const htmlElement = Core.isHTMLRenderer ? this.HTMLElement : Core.canvas;
+            const CUSTOMCURSORS = core.types.CUSTOMCURSORS;
+            const htmlElement = core.isHTMLRenderer ? this.HTMLElement : core.canvas;
             //#endregion Variables déclaration
             htmlElement.classList.remove(CUSTOMCURSORS.DEFAULT, CUSTOMCURSORS.NRESIZE, CUSTOMCURSORS.ERESIZE, CUSTOMCURSORS.NWRESIZE, CUSTOMCURSORS.NERESIZE);
         }
         //#endregion removeCursors
         //#region keyDown
         keyDown() {
-            switch (Core.keyboard.keyCode) {
+            switch (core.keyboard.keyCode) {
                 case Keyboard.VKEYSCODES.VK_TAB:
-                    if (Core.keyboard.shift) {
-                        this.prevFocusedCtrl();
-                    } else {
-                        this.nextFocusedCtrl();
-                    }
+                    core.keyboard.shift ? this.prevFocusedCtrl() : this.nextFocusedCtrl();
                     break;
                 default:
-                    Core.keyboard.stopEvent();
+                    core.keyboard.stopEvent();
                     break;
             }
         }
@@ -2367,8 +2118,8 @@ const BaseWindow = (() => {
         //#endregion keyPress
         //#region keyUp
         keyUp() {
-            //let form=Core.apps.activeApplication.activeWindow;
-            //Core.keyboard.getKeyboardInfos(keyboardEventArg);
+            //let form=core.apps.activeApplication.activeWindow;
+            //core.keyboard.getKeyboardInfos(keyboardEventArg);
             //if (form._focusedControl!==null) form._focusedControl.keyUp(keyboardEventArg);
         }
         //#endregion keyUp
@@ -2382,14 +2133,14 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const pos = {};
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const htmlElement = this.HTMLElement;
             const savedSizePosState = priv.savedSizePosState;
             const resizeMode = priv.resizeMode;
             const htmlElementStyle = this.HTMLElementStyle;
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             const themeName = this.app.themeName;
-            const windowTheme = Core.themes && Core.themes[themeName] ? Core.themes[themeName].Window : null;
+            const windowTheme = core.themes && core.themes[themeName] ? core.themes[themeName].Window : null;
             const minWidth = windowTheme && windowTheme.minWidth ? windowTheme.minWidth : Window.MINWIDTH;
             const minHeight = windowTheme && windowTheme.minHeight ? windowTheme.minHeight : Window.MINHEIGHT;
             //#endregion Variables déclaration
@@ -2400,24 +2151,20 @@ const BaseWindow = (() => {
                 const x = Math.min(window.innerWidth, savedSizePosState.x) - b.left;
                 const y = Math.min(window.innerHeight, savedSizePosState.y) - b.top;
                 if (resizeMode.rightEdge && x >= minWidth) {
-                    if (isHtmlRenderer) {
-                        htmlElementStyle.width = `${x}${PX}`;
-                    } else {
-                        this.width = x;
-                    }
+                    isHtmlRenderer
+                        ? htmlElementStyle.width = `${x}${PX}`
+                        : this.width = x;
                 }
                 if (resizeMode.bottomEdge && y >= minHeight) {
-                    if (isHtmlRenderer) {
-                        htmlElementStyle.height = `${y}${PX}`;
-                    } else {
-                        this.height = y;
-                    }
+                    isHtmlRenderer
+                        ? htmlElementStyle.height = `${y}${PX}`
+                        : this.height = y;
                 }
 
                 if (resizeMode.leftEdge) {
-                    const newWidth = (Core.isHTMLRenderer ? htmlElement.offsetWidth : this.width) - x;
+                    const newWidth = (core.isHTMLRenderer ? htmlElement.offsetWidth : this.width) - x;
                     if (newWidth > minWidth && savedSizePosState.x > 0) {
-                        if (Core.isHTMLRenderer) {
+                        if (core.isHTMLRenderer) {
                             htmlElementStyle.width = `${newWidth}${PX}`;
                             htmlElementStyle.left = `${savedSizePosState.x}${PX}`;
                         } else {
@@ -2427,9 +2174,9 @@ const BaseWindow = (() => {
                     }
                 }
                 if (resizeMode.topEdge) {
-                    const newHeight = (Core.isHTMLRenderer ? htmlElement.offsetHeight : this.height) - y;
+                    const newHeight = (core.isHTMLRenderer ? htmlElement.offsetHeight : this.height) - y;
                     if (newHeight > minHeight && savedSizePosState.y > 0) {
-                        if (Core.isHTMLRenderer) {
+                        if (core.isHTMLRenderer) {
                             htmlElementStyle.height = `${newHeight}${PX}`;
                             htmlElementStyle.top = `${savedSizePosState.y}${PX}`;
                         } else {
@@ -2438,9 +2185,7 @@ const BaseWindow = (() => {
                         }
                     }
                 }
-                if (!isHtmlRenderer) {
-                    this.realignChilds();
-                }
+                !isHtmlRenderer && this.realignChilds();
             }
         }
         //#endregion resize
@@ -2461,17 +2206,17 @@ const BaseWindow = (() => {
             let dataName = null;
             let dataClass = null;
             const priv = internal(this);
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             const themeName = this.app.themeManifest.themeName;
-            const theme = Core.themes[themeName];
-            const classes = Core.classes;
+            const theme = core.themes[themeName];
+            const classes = core.classes;
             //#endregion Variables déclaration
             priv.layout = classes.createComponent({
                 class: classes.Layout,
                 owner: this,
                 props: {
                     inForm: !1,
-                    align: Types.ALIGNS.CLIENT
+                    align: core.types.ALIGNS.CLIENT
                 },
                 withTpl: !1
             });
@@ -2484,7 +2229,7 @@ const BaseWindow = (() => {
                 nodes = childs;
             }
             nodes.forEach(node => {
-                if (node.nodeType === Types.XMLNODETYPES.ELEMENT_NODE && isHtmlRenderer) {
+                if (node.nodeType === core.types.XMLNODETYPES.ELEMENT_NODE && isHtmlRenderer) {
                     dataClass = node.dataset.class;
                     dataName = node.dataset.name;
                 } else {
@@ -2494,19 +2239,17 @@ const BaseWindow = (() => {
                 if (dataClass) {
                     props = {};
                     if (isHtmlRenderer) {
-                        if (node.nodeType === Types.XMLNODETYPES.ELEMENT_NODE) {
+                        if (node.nodeType === core.types.XMLNODETYPES.ELEMENT_NODE) {
                             const properties = node.querySelector(`[id='${node.id}']> properties:first-child`);
-                            if (properties) {
-                                props = JSON.parse(properties.innerText);
-                            }
+                            properties && (props = JSON.parse(properties.innerText));
                         }
                     } else {
                         props = node.properties;
                     }
                     if ((classes[dataClass] === WindowTitleBar) ||
                         (classes[dataClass] === WindowContent) ||
-                        (Core.classes.StatusBar && classes[dataClass] === Core.classes.StatusBar) ||
-                        (Core.classes.ToolBar && classes[dataClass] === Core.classes.ToolBar)) {
+                        (core.classes.StatusBar && classes[dataClass] === core.classes.StatusBar) ||
+                        (core.classes.ToolBar && classes[dataClass] === core.classes.ToolBar)) {
                         props.inForm = !1;
                     }
                     const obj = classes.createComponent({
@@ -2522,18 +2265,16 @@ const BaseWindow = (() => {
                             priv.titleBar = obj;
                             const titleBar = priv.titleBar;
                             if (this.isBorderNone) {
-                                if (isHtmlRenderer) {
-                                    titleBar.display = Types.DISPLAYS.NONE;
-                                } else {
-                                    titleBar.visible = !1;
-                                }
+                                isHtmlRenderer
+                                    ? titleBar.display = core.types.DISPLAYS.NONE
+                                    : titleBar.visible = !1;
                                 titleBar.inForm = !1;
                             } else if (!isHtmlRenderer && theme.WindowTitleBar && theme.WindowTitleBar.height) {
                                 titleBar.height = theme.WindowTitleBar.height;
                             } else {
                                 titleBar.height = Window.TITLEBARHEIGHT;
                             }
-                            titleBar.align = Types.ALIGNS.TOP;
+                            titleBar.align = core.types.ALIGNS.TOP;
                             break;
                         }
                         case 'WindowContent': {
@@ -2542,7 +2283,7 @@ const BaseWindow = (() => {
                             content.inForm = !1;
                             content.hitTest.all = !1;
                             content.hitTest.mouseDown = !0;
-                            content.align = Types.ALIGNS.CLIENT;
+                            content.align = core.types.ALIGNS.CLIENT;
                             break;
                         }
                         case 'MainMenu':
@@ -2556,9 +2297,7 @@ const BaseWindow = (() => {
                             priv.statusBars.push(obj);
                             break;
                     }
-                    if (!isHtmlRenderer) {
-                        obj.getChilds(node.childs);
-                    }
+                    !isHtmlRenderer && obj.getChilds(node.childs);
                 }
             });
         }
@@ -2568,12 +2307,10 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Core.isHTMLRenderer) {
+            if (core.isHTMLRenderer) {
                 this.getHTMLElement(id);
                 this.getChilds();
-                if (this.addListeners) {
-                    this.addListeners();
-                }
+                this.addListeners && this.addListeners();
                 if (priv.isChildWindow) {
                     priv.parentHTML.appendChild(this.HTMLElement);
                     this.maximize();
@@ -2590,8 +2327,8 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const themeName = this.app.themeManifest.themeName;
-            const theme = Core.themes[themeName];
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const theme = core.themes[themeName];
+            const isHtmlRenderer = core.isHTMLRenderer;
             const layoutMargin = priv.layout.margin;
             const contentMargin = priv.content.margin;
             const TITLEBUTTONS = Window.TITLEBUTTONS;
@@ -2602,58 +2339,44 @@ const BaseWindow = (() => {
                 if (theme.WindowLayout) {
                     if (theme.WindowLayout.margin) {
                         const layoutTheme = theme.WindowLayout;
-                        if (Tools.isNumber(layoutTheme.margin)) {
+                        if (core.tools.isNumber(layoutTheme.margin)) {
                             margin = layoutTheme.margin;
                             layoutMargin.setValues(margin, margin, margin, margin);
-                        } else if (Tools.isObject(layoutTheme.margin)) {
+                        } else if (core.tools.isObject(layoutTheme.margin)) {
                             margin = layoutTheme.margin;
                             layoutMargin.setValues(margin.left, margin.top, margin.right, margin.bottom);
                         }
                     }
-                    if (theme.WindowLayout.hasOwnProperty('clipped')) {
-                        priv.layout.clipped = theme.WindowLayout.clipped;
-                    }
+                    theme.WindowLayout.hasOwnProperty('clipped') && (priv.layout.clipped = theme.WindowLayout.clipped);
                 }
                 if (theme.WindowContent) {
                     if (theme.WindowContent.margin) {
                         let contentTheme = theme.WindowContent;
-                        if (Tools.isNumber(contentTheme.margin)) {
+                        if (core.tools.isNumber(contentTheme.margin)) {
                             margin = contentTheme.margin;
                             contentMargin.setValues(margin, margin, margin, margin);
-                        } else if (Tools.isObject(contentTheme.margin)) {
+                        } else if (core.tools.isObject(contentTheme.margin)) {
                             margin = contentTheme.margin;
                             contentMargin.setValues(margin.left, margin.top, margin.right, margin.bottom);
                         }
                     }
-                    if (theme.WindowContent.hasOwnProperty('clipped')) {
-                        priv.content.clipped = theme.WindowContent.clipped;
-                    }
+                    theme.WindowContent.hasOwnProperty('clipped') && (priv.content.clipped = theme.WindowContent.clipped);
                 }
-                if (theme.Window.hasOwnProperty('clipped')) {
-                    this.clipped = theme.Window.clipped;
-                }
-                if (theme.WindowTitleBar) {
-                    if (theme.WindowTitleBar.hasOwnProperty('clipped')) {
-                        priv.titleBar.clipped = theme.WindowTitleBar.clipped;
-                    }
-                }
+                theme.Window.hasOwnProperty('clipped') && (this.clipped = theme.Window.clipped);
+                theme.WindowTitleBar && theme.WindowTitleBar.hasOwnProperty('clipped')
+                    && (priv.titleBar.clipped = theme.WindowTitleBar.clipped);
             }
             this.realignChilds();
             super.loaded();
             priv.creating = !1;
             const comp = priv.content.components.find(component => {
-                if (component instanceof Core.classes.Control) {
-                    if (component.visible && component.canFocused && component.isEnabled) {
-                        return component;
-                    }
+                if (component instanceof core.classes.Control && component.visible && component.canFocused
+                    && component.isEnabled) {
+                    return component;
                 }
             });
-            if (comp) {
-                comp.setFocus();
-            }
-            if (!isHtmlRenderer) {
-                this.alignButtons();
-            }
+            comp && comp.setFocus();
+            !isHtmlRenderer && this.alignButtons();
             if (this.isBorderDialog) {
 
             }
@@ -2666,7 +2389,7 @@ const BaseWindow = (() => {
             const priv = internal(this);
             const popups = priv.popups;
             const mainMenu = priv.mainMenu;
-            const classes = Core.classes;
+            const classes = core.classes;
             //#endregion Variables déclaration
             if (popups) {
                 if (popups.length > 0) {
@@ -2681,9 +2404,7 @@ const BaseWindow = (() => {
                             }
                         }
                         if (popup) {
-                            if (classes.PopupMenu && popup.owner instanceof classes.PopupMenu) {
-                                popup.owner.close();
-                            }
+                            classes.PopupMenu && popup.owner instanceof classes.PopupMenu && popup.owner.close();
                             popups[i] = null;
                         }
                     });
@@ -2710,20 +2431,16 @@ const BaseWindow = (() => {
             const htmlElement = this.HTMLElement;
             const htmlElementStyle = this.HTMLElementStyle;
             const body = document.body;
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             const width = isHtmlRenderer ? htmlElement.offsetWidth : this.width;
             const height = isHtmlRenderer ? htmlElement.offsetHeight : this.height;
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             //#endregion Variables déclaration
-            if (Tools.isNumber(x) && Tools.isNumber(y)) {
-                if (x + width < 0) x = 0;
-                if (y + height < 0) y = 0;
-                if (x > body.offsetWidth) {
-                    x = body.offsetWidth - width;
-                }
-                if (y > body.offsetHeight) {
-                    y = body.offsetHeight - height - 10;
-                }
+            if (core.tools.isNumber(x) && core.tools.isNumber(y)) {
+                x + width < 0 && (x = 0);
+                y + height < 0 && (y = 0);
+                x > body.offsetWidth && (x = body.offsetWidth - width);
+                y > body.offsetHeight && (y = body.offsetHeight - height - 10);
                 this.left = x;
                 this.top = y;
                 if (isHtmlRenderer) {
@@ -2738,12 +2455,12 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             let l = null;
             let t = null;
-            const htmlParentElement = Tools.HTMLParentElement;
+            const htmlParentElement = core.tools.HTMLParentElement;
             const htmlElement = this.HTMLElement;
             const body = document.body;
             const htmlElementStyle = this.HTMLElementStyle;
-            const PX = Types.CSSUNITS.PX;
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const PX = core.types.CSSUNITS.PX;
+            const isHtmlRenderer = core.isHTMLRenderer;
             //#endregion Variables déclaration
             if (htmlParentElement) {
                 l = ~~((htmlParentElement.offsetWidth - (isHtmlRenderer ? htmlElement.offsetWidth : this.width)) / 2);
@@ -2776,7 +2493,7 @@ const BaseWindow = (() => {
                 snapArea.className = String.EMPTY;
             }
             const snapAreaStyle = snapArea.style;
-            snapAreaStyle.zIndex = Core.isHTMLRenderer ? ~~this.HTMLElementStyle.zIndex - 1 : 0;
+            snapAreaStyle.zIndex = core.isHTMLRenderer ? ~~this.HTMLElementStyle.zIndex - 1 : 0;
             priv.snapArea = _snapArea;
             switch (_snapArea) {
                 case SNAPAREAS.TOP:
@@ -2798,7 +2515,7 @@ const BaseWindow = (() => {
                 //#region Variables déclaration
                 const sa = document.getElementById('snapArea');
                 //#endregion Variables déclaration
-                sa.classList.add(Core.apps.activeApplication.activeWindow.snapArea);
+                sa.classList.add(core.apps.activeApplication.activeWindow.snapArea);
             }, 0);
         }
         //#endregion createSnapArea
@@ -2807,21 +2524,19 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const snapArea = document.getElementById('snapArea');
             //#endregion Variables déclaration
-            if (snapArea) {
-                document.body.removeChild(snapArea);
-            }
+            snapArea && document.body.removeChild(snapArea);
         }
         //#endregion destroySnapArea
         //#region restoreWindow
         restoreWindow() {
             //#region Variables déclaration
             const priv = internal(this);
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const WINDOWSTATES = Window.WINDOWSTATES;
             const savedSizePosState = priv.savedSizePosState;
             const htmlElement = this.HTMLElement;
             const htmlElementStyle = this.HTMLElementStyle;
-            const isHtmlRenderer = Core.isHTMLRenderer;
+            const isHtmlRenderer = core.isHTMLRenderer;
             const SNAPED = WINDOWSTATES.SNAPED;
             const SNAPAREAS = Window.SNAPAREAS;
             const titleBar = priv.titleBar;
@@ -2867,19 +2582,14 @@ const BaseWindow = (() => {
             const windows = app.windows;
             const scripts = Convert.nodeListToArray(head.getElementsByTagName('script'));
             //#endregion Variables déclaration
-            if (priv.isModal && isHtmlRenderer) {
-                priv.parentHTML.removeChild(this.HTMLElement);
-            }
+            this.closePopups();
+            priv.isModal && isHtmlRenderer && priv.parentHTML.removeChild(this.HTMLElement);
             scripts.forEach(script => {
-                if (script.src.indexOf(className.toLowerCase()) > -1) {
-                    head.removeChild(script);
-                }
+                script.src.indexOf(className.toLowerCase()) > -1 && head.removeChild(script);
             });
             const styles = Convert.nodeListToArray(head.getElementsByTagName('link'));
             styles.forEach(style => {
-                if (style.href.indexOf(className.toLowerCase()) > -1) {
-                    head.removeChild(style);
-                }
+                style.href.indexOf(className.toLowerCase()) > -1 && head.removeChild(style);
             });
             if (windows.last === this && windows.length === 1) {
                 app.terminate();
@@ -2889,15 +2599,60 @@ const BaseWindow = (() => {
             priv.popups.destroy();
             priv.toolBars.destroy();
             priv.statusBars.destroy();
-            this.onActivate.destroy();
-            this.onDeactivate.destroy();
-            this.onHide.destroy();
-            this.onShow.destroy();
-            this.onCreate.destroy();
-            this.onClose.destroy();
-            this.onCloseQuery.destroy();
-            this.onThemeChanged.destroy();
+            priv.resizeMode = null;
+            priv.savedSizePosState = null;
+            priv.isModal = null;
+            priv.creating = null;
+            priv.layout = null;
+            priv.titleBar = null;
+            priv.content = null;
+            priv.titleBarObj = null;
+            priv.firstShow = null;
+            priv.controlsToResize.clear();
+            priv.controlsToResize.destroy();
+            priv.controlsToResize = null;
+            priv.focusedControl = null;
+            priv.hoveredControl = null;
+            priv.capturedControl = null;
+            priv.lastSelectedMenuItem = null;
+            priv.popups.clear();
+            priv.popups = null;
+            priv.toolBars.clear();
+            priv.toolBars.destroy();
+            priv.toolBars = null;
+            priv.statusBars.clear();
+            priv.statusBars.destroy();
+            priv.statusBars = null;
+            priv.isResizing = null;
+            priv.snapArea = null;
+            priv.destroyOnHide = null;
+            priv.controls.clear();
+            priv.controls.destroy();
+            priv.controls = null;
+            priv.isChildWindow = null;
+            priv.parentHTML = null;
+            priv.lastZIndex = null;
+            priv.animated = null;
+            priv.keyPreview = null;
+            priv.icon = null;
+            priv.mainMenu = null;
+            priv.activeControl = null;
+            priv.canClose = null;
+            priv.moveable = null;
+            priv.stayOn = null;
+            priv.enabledShadow = null;
+            //priv.minimizeAnimation = new RectAnimation(this, { inForm: !1 });
+            priv.position = null;
+            priv.buttons = null;
+            priv.position = null;
+            priv.windowState = null;
+            priv.borderStyle = null;
+            priv.bordersType = null;
+            priv.modalResult = null;
+            priv.showingMode = null;
+
             //priv.minimizeAnimation.destroy();
+            this.unBindAndDestroyEvents(['onActivate', 'onDeactivate', 'onHide', 'onShow', 'onCreate', 'onClose', 'onCloseQuery', 'onThemeChanged']);
             super.destroy();
         }
         //#endregion destroy
@@ -2909,9 +2664,7 @@ const BaseWindow = (() => {
             priv.content.hitTest = !1;
             priv.layout.hitTest = !1;
             priv.titleBar.hitTest = !1;
-            if (Core.isHTMLRenderer) {
-                this.HTMLElement.classList.add('inactive');
-            }
+            core.isHTMLRenderer && this.HTMLElement.classList.add('inactive');
             //this.HTMLElement.dataset.isactive = !1;
         }
         //#endregion desactiveHitTest
@@ -2924,10 +2677,10 @@ const BaseWindow = (() => {
             const savedSizePosState = priv.savedSizePosState;
             const htmlElement = this.HTMLElement;
             const htmlElementStyle = this.HTMLElementStyle;
-            const isHtmlRenderer = Core.isHTMLRenderer;
-            const cw = !isHtmlRenderer ? Core.canvas.offsetWidth : 0;
-            const cw2 = !isHtmlRenderer ? ~~(Core.canvas.offsetWidth / 2) : 0;
-            const ch = !isHtmlRenderer ? Core.canvas.offsetHeight : 0;
+            const isHtmlRenderer = core.isHTMLRenderer;
+            const cw = !isHtmlRenderer ? core.canvas.offsetWidth : 0;
+            const cw2 = !isHtmlRenderer ? ~~(core.canvas.offsetWidth / 2) : 0;
+            const ch = !isHtmlRenderer ? core.canvas.offsetHeight : 0;
             const titleBar = priv.titleBar;
             const rollUpDownBtn = titleBar.rollUpDownBtn;
             const stayOnOffBtn = titleBar.stayOnOffBtn;
@@ -2936,9 +2689,7 @@ const BaseWindow = (() => {
             const snapArea = priv.snapArea;
             //#endregion Variables déclaration
             priv.windowState = SNAPED;
-            if (!isHtmlRenderer) {
-                this.beginUpdate();
-            }
+            !isHtmlRenderer && this.beginUpdate();
             if (snapArea !== SNAPAREAS.NONE) {
                 // change maxRestore button to restore
                 priv.enabledShadow = !1;
@@ -2995,9 +2746,7 @@ const BaseWindow = (() => {
                     }
                     break;
             }
-            if (!isHtmlRenderer) {
-                this.endUpdate();
-            }
+            !isHtmlRenderer && this.endUpdate();
             this.destroySnapArea();
         }
         //#endregion applySnap
@@ -3011,46 +2760,6 @@ const BaseWindow = (() => {
     return BaseWindow;
     //#endregion Class BaseWindow
 })();
-//#region BaseWindow defineProperties
-Object.defineProperties(BaseWindow, {
-    toolBars: {
-        enumerable: !0
-    },
-    statusBars: {
-        enumerable: !0
-    },
-    //themeManifest: {
-    //    enumerable: !0
-    //},
-    snapArea: {
-        enumerable: !0
-    },
-    destroyOnHide: {
-        enumerable: !0
-    },
-    animated: {
-        enumerable: !0
-    },
-    keyPreview: {
-        enumerable: !0
-    },
-    icon: {
-        enumerable: !0
-    },
-    mainMenu: {
-        enumerable: !0
-    },
-    activeControl: {
-        enumerable: !0
-    },
-    canClose: {
-        enumerable: !0
-    },
-    moveable: {
-        enumerable: !0
-    }
-});
-//#endregion BaseWindow defineProperties
 //#endregion BaseWindow
 //#region Window constants
 //#region HELPTYPES
@@ -3317,20 +3026,11 @@ class Window extends BaseWindow {
     }
     //#endregion
     //#endregion Static
-    //#region constructor
-    constructor(owner, props) {
-        props = !props ? {} : props;
-        if (owner) {
-            super(owner, props);
-        }
-    }
-    //#endregion constructor
-    //#region getters / setters
-    //#endregion getters / setters
 }
 //#endregion
-Core.classes.register(Types.CATEGORIES.CONTAINERS, Window);
-Core.classes.register(Types.INTERNALCATEGORIES.INTERNAL, WindowTitleBar, WindowContent, BaseWindow);
+core.classes.register(core.types.CATEGORIES.CONTAINERS, Window);
+core.classes.register(core.types.INTERNALCATEGORIES.INTERNAL, WindowTitleBar, WindowContent, BaseWindow);
+//#region Templates
 const WindowTitleBarTpl = ['<jagui-windowtitlebar id="{internalId_TitleBar}" data-class="WindowTitleBar" class="Control WindowTitleBar {theme}">',
     '<jagui-windowtitle id="_oNun98l0" data-class="WindowTitle" class="WindowTitle {theme}">{title}</jagui-windowtitle>',
     '<jagui-windowstayonoffbutton id="{internalId_StayOnOffButton}" data-class="WindowStayOnOffButton" class="Control Button WindowTitleButton WindowStayOnOffButton {theme}"></jagui-windowstayonoffbutton>',
@@ -3343,5 +3043,6 @@ const WindowTitleBarTpl = ['<jagui-windowtitlebar id="{internalId_TitleBar}" dat
 const WindowTpl = ['<jagui-window id="{internalId}" data-class="Window" class="Control Window {theme} {appName}"><jagui-windowlayout id="{internalId_Layout}" data-class="Layout" ',
     `class="Control Layout WindowLayout {theme}">${WindowTitleBarTpl}<jagui-windowcontent id="{internalId_content}" data-class="WindowContent" class="Control WindowContent {theme}">{content}</jagui-windowcontent>`,
     '</jagui-windowlayout></jagui-window>'].join(String.EMPTY);
-Core.classes.registerTemplates([{ Class: Window, template: WindowTpl }, { Class: WindowTitleBar, template: WindowTitleBarTpl }]);
+core.classes.registerTemplates([{ Class: Window, template: WindowTpl }, { Class: WindowTitleBar, template: WindowTitleBarTpl }]);
+//#endregion Templates
 export { Window };

@@ -2,7 +2,6 @@
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { NumberWheel } from '/scripts/components/common/numberwheel.js';
 import { ItemsWheel } from '/scripts/core/itemswheel.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Import
 //#region TimePanel
@@ -11,9 +10,7 @@ const TimePanel = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -25,15 +22,17 @@ const TimePanel = (() => {
             props = !props ? {} : props;
             if (owner) {
                 props.width = -1;
+                props.heigth = 43;
+                props.canFocused = props.hasOwnProperty('canFocused') && core.tools.isBool(props.canFocused)
+                    ? props.canFocused : !0;
                 super(owner, props);
-                this.heigth = 43;
                 const priv = internal(this);
                 priv.currentItemWheel = null;
                 priv.time = props.hasOwnProperty('time') ? props.time : String.EMPTY;
-                priv.use24H = props.hasOwnProperty('use24H') && Tools.isBool(props.use24H) ? props.use24H : !0;
-                priv.viewSeconds = props.hasOwnProperty('viewSeconds') && Tools.isBool(props.viewSeconds) ? props.viewSeconds : !1;
+                priv.use24H = props.hasOwnProperty('use24H') && core.tools.isBool(props.use24H) ? props.use24H : !0;
+                priv.viewSeconds = props.hasOwnProperty('viewSeconds') && core.tools.isBool(props.viewSeconds)
+                    ? props.viewSeconds : !1;
                 this.createEventsAndBind(['onChange'], props);
-                this.canFocused = props.hasOwnProperty('canFocused') && Tools.isBool(props.canFocused) ? props.canFocused : !0;
             }
         }
         //#endregion constructor
@@ -50,20 +49,14 @@ const TimePanel = (() => {
             const seconds = priv.seconds;
             const meridiem = priv.meridiem;
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.time !== newValue) {
-                    priv.time = newValue;
-                    const timeParts = priv.time.split(String.SPACE);
-                    timeParts[0] = timeParts[0].split(':');
-                    hours.index = hours.items.indexOf(timeParts[0].first);
-                    minutes.index = minutes.items.indexOf(timeParts[0][1]);
-                    if (timeParts[0].length > 2) {
-                        seconds.index = seconds.items.indexOf(timeParts[0].last);
-                    }
-                    if (timeParts.length > 1) {
-                        meridiem.index = meridiem.items.indexOf(timeParts.last);
-                    }
-                }
+            if (core.tools.isString(newValue) && priv.time !== newValue) {
+                priv.time = newValue;
+                const timeParts = priv.time.split(String.SPACE);
+                timeParts[0] = timeParts[0].split(':');
+                hours.index = hours.items.indexOf(timeParts[0].first);
+                minutes.index = minutes.items.indexOf(timeParts[0][1]);
+                timeParts[0].length > 2 && (seconds.index = seconds.items.indexOf(timeParts[0].last));
+                timeParts.length > 1 && (meridiem.index = meridiem.items.indexOf(timeParts.last));
             }
         }
         //#endregion time
@@ -77,16 +70,12 @@ const TimePanel = (() => {
             let max = 23;
             const hours = this.hours;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.use24H !== newValue) {
-                    priv.use24H = newValue;
-                    if (!priv.use24H) {
-                        max = 11;
-                    }
-                    hours.items.clear();
-                    hours.max = max;
-                    //this.update();
-                }
+            if (core.tools.isBool(newValue) && priv.use24H !== newValue) {
+                priv.use24H = newValue;
+                !priv.use24H && (max = 11);
+                hours.items.clear();
+                hours.max = max;
+                //this.update();
             }
         }
         //#endregion use24H
@@ -98,11 +87,9 @@ const TimePanel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.viewSeconds !== newValue) {
-                    priv.viewSeconds = newValue;
-                    priv.seconds.visible = priv.viewSeconds;
-                }
+            if (core.tools.isBool(newValue) && priv.viewSeconds !== newValue) {
+                priv.viewSeconds = newValue;
+                priv.seconds.visible = priv.viewSeconds;
             }
         }
         //#endregion viewSeconds
@@ -148,7 +135,7 @@ const TimePanel = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.killFocus();
-            priv.currentItemWheel ? priv.currentItemWheel.HTMLElement.classList.remove('focused') : null;
+            priv.currentItemWheel && priv.currentItemWheel.HTMLElement.classList.remove('focused');
         }
         update() {
             //#region Variables déclaration
@@ -166,18 +153,10 @@ const TimePanel = (() => {
             const me = owner.meridiem.value;
             let val = `${hr}:${mi}`;
             //#endregion Variables déclaration
-            if (owner.viewSeconds) {
-                val += `:${se}`;
-            }
-            if (!owner.use24H) {
-                if (me !== String.EMPTY) {
-                    val += ` ${me}`;
-                }
-            }
+            owner.viewSeconds && (val += `:${se}`);
+            !owner.use24H && me !== String.EMPTY && (val += ` ${me}`);
             owner.time = val;
-            if (!owner.updating) {
-                owner.onChange.invoke();
-            }
+            !owner.updating && owner.onChange.invoke();
         }
         loaded() {
             //#region Variables déclaration
@@ -185,51 +164,47 @@ const TimePanel = (() => {
             const oldVal = priv.time;
             //#endregion Variables déclaration
             super.loaded();
-            priv.hours = Core.classes.createComponent({
+            priv.hours = core.classes.createComponent({
                 class: NumberWheel,
                 owner: this,
                 props: {
                     inForm: !1,
-                    max: priv.use24H?23:11
-                },
-                withTpl: !0
+                    max: priv.use24H ? 23 : 11
+                }
             });
             priv.hours.HTMLElement.classList.add('TimePanel_Hours');
             priv.hours.canFocused = !1;
             priv.hours.onChange.addListener(this.change);
-            priv.minutes = Core.classes.createComponent({
+            priv.minutes = core.classes.createComponent({
                 class: NumberWheel,
                 owner: this,
                 props: {
                     inForm: !1,
                     max: 59
-                },
-                withTpl: !0
+                }
             });
             priv.minutes.HTMLElement.classList.add('TimePanel_Minutes');
             priv.minutes.canFocused = !1;
             priv.minutes.onChange.addListener(this.change);
-            priv.seconds = Core.classes.createComponent({
+            priv.seconds = core.classes.createComponent({
                 class: NumberWheel,
                 owner: this,
                 props: {
                     inForm: !1,
                     max: 59,
                     forceDisplayVisibility: !0
-                },
-                withTpl: !0
+                }
             });
             priv.seconds.HTMLElement.classList.add('TimePanel_Seconds');
             priv.seconds.canFocused = !1;
             priv.seconds.onChange.addListener(this.change);
-            priv.meridiem = Core.classes.createComponent({
+            priv.meridiem = core.classes.createComponent({
                 class: ItemsWheel,
                 owner: this,
                 props: {
                     inForm: !1,
                     forceDisplayVisibility: !0
-                },
-                withTpl: !0
+                }
             });
             priv.meridiem.HTMLElement.classList.add('TimePanel_Meridiem');
             priv.meridiem.beginUpdate();
@@ -260,9 +235,8 @@ const TimePanel = (() => {
             priv.time = null;
             priv.use24H = null;
             priv.viewSeconds = null;
-            this.onChange.destroy();
-            this.onChange = null;
             priv.currentItemWheel = null;
+            this.createEventsAndBind(['onChange']);
         }
         keyDown() {
             //#region Variables déclaration
@@ -276,23 +250,17 @@ const TimePanel = (() => {
             let cHtmlElement;
             //#endregion Variables déclaration
             super.keyDown();
-            if (currentItemWheel) {
-                currentItemWheel.keyDown();
-            }
+            currentItemWheel && currentItemWheel.keyDown();
             cHtmlElement = currentItemWheel.HTMLElement;
             cHtmlElement.classList.remove('focused');
-            switch (Core.keyboard.keyCode) {
+            switch (core.keyboard.keyCode) {
                 case VKeysCodes.VK_LEFT:
                     if (currentItemWheel === minutes) {
                         currentItemWheel = hours;
                     } else if (currentItemWheel === seconds) {
                         currentItemWheel = minutes;
                     } else if (currentItemWheel === meridiem) {
-                        if (priv.viewSeconds) {
-                            currentItemWheel = seconds;
-                        } else {
-                            currentItemWheel = minutes;
-                        }
+                        currentItemWheel = priv.viewSeconds ? seconds : minutes;
                     }
                     break;
                 case VKeysCodes.VK_RIGHT:
@@ -305,9 +273,7 @@ const TimePanel = (() => {
                             currentItemWheel = meridiem;
                         }
                     } else if (currentItemWheel === seconds) {
-                        if (!priv.use24H) {
-                            currentItemWheel = meridiem;
-                        }
+                        !priv.use24H && (currentItemWheel = meridiem);
                     }
                     break;
             }
@@ -321,14 +287,14 @@ const TimePanel = (() => {
     //#endregion TimePanel
 })();
 Object.seal(TimePanel);
-Core.classes.register(Types.CATEGORIES.COMMON, TimePanel);
+core.classes.register(core.types.CATEGORIES.COMMON, TimePanel);
 //#endregion TimePanel
 //#endregion
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const TimePanelTpl = ['<jagui-timepanel id="{internalId}" data-class="TimePanel" class="Control TimePanel {theme}">',
         '<properties>{ "name": "{name}" }</properties></jagui-timepanel>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: TimePanel, template: TimePanelTpl }]);
+    core.classes.registerTemplates([{ Class: TimePanel, template: TimePanelTpl }]);
 }
 //#endregion
 export { TimePanel };

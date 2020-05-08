@@ -7,22 +7,22 @@ class TextBox extends CustomTextControl {
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
-            super(owner, props);
-            if (!Core.isHTMLRenderer) {
-                this.width = 121;
-                this.height = 21;
+            if (!core.isHTMLRenderer) {
+                props.width = 121;
+                props.height = 21;
             }
+            super(owner, props);
         }
     }
     //#endregion constructor
 }
-Core.classes.register(Types.CATEGORIES.COMMON, TextBox);
+core.classes.register(core.types.CATEGORIES.COMMON, TextBox);
 //#endregion Class TextBox
-export { TextBox };
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const TextBoxTpl = ['<jagui-textbox id="{internalId}" data-class="TextBox" class="Control TextBox {theme}">',
         '<properties>{ "name": "{name}", "width": 135, "height": 20 }</properties></jagui-textbox>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: TextBox, template: TextBoxTpl }]);
+    core.classes.registerTemplates([{ Class: TextBox, template: TextBoxTpl }]);
 }
 //#endregion
+export { TextBox };

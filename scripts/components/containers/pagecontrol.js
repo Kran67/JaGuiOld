@@ -9,9 +9,7 @@ const TabSheet = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -39,11 +37,7 @@ const TabSheet = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof PageContent) {
-                if (priv.HTMLPage !== newValue) {
-                    priv.HTMLPage = newValue;
-                }
-            }
+            newValue instanceof PageContent&&priv.HTMLPage !== newValue && (priv.HTMLPage = newValue);
         }
         //#endregion HTMLPage
         //#endregion Getters / Setters
@@ -71,13 +65,13 @@ const TabSheet = (() => {
         //#region loaded
         loaded() {
             super.loaded();
-            this.display = Types.CSSVALUES.INLINEBLOCK;
+            this.display = core.types.CSSVALUES.INLINEBLOCK;
         }
         //#endregion
         //#region destroy
         destroy() {
-            super.destroy();
             priv.HTMLPage = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -86,7 +80,7 @@ const TabSheet = (() => {
     //#endregion TabSheet
 })();
 Object.seal(TabSheet);
-Core.classes.register(Types.CATEGORIES.INTERNAL, TabSheet);
+core.classes.register(core.types.CATEGORIES.INTERNAL, TabSheet);
 //#endregion TabSheet
 //#region PageContent
 const PageContent = (() => {
@@ -94,9 +88,7 @@ const PageContent = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key)&&_private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -124,7 +116,7 @@ const PageContent = (() => {
     //#endregion PageContent
 })();
 Object.seal(PageContent);
-Core.classes.register(Types.CATEGORIES.INTERNAL, PageContent);
+core.classes.register(core.types.CATEGORIES.INTERNAL, PageContent);
 //#endregion PageContent
 //#region Class PageControl
 class PageControl extends CustomTabControl {
@@ -152,22 +144,19 @@ class PageControl extends CustomTabControl {
     //#endregion deleteTab
     //#region newTab
     newTab(caption) {
-        //var tpl, a, div = document.createElement(Types.HTMLELEMENTS.DIV);
-        if (!caption) {
-            caption = `tab${(this.tabSheets.length + 1)}`;
-        }
-        const tab = Core.classes.createComponent({
+        //var tpl, a, div = document.createElement(core.types.HTMLELEMENTS.DIV);
+        !caption && (caption = `tab${(this.tabSheets.length + 1)}`);
+        const tab = core.classes.createComponent({
             class: TabSheet,
             owner: this,
             caption: caption.firstCharUpper,
             props: {
                 parentHTML: this.tabSheetsContainer,
                 caption: caption
-            },
-            withTpl: !0
+            }
         });
         this.tabSheets.push(tab);
-        //let tpl = Core.templates['Page'];
+        //let tpl = core.templates['Page'];
         //a = tpl.split('{theme}');
         //tpl = a.join(this.themeName);
         //a = tpl.split('{name}');
@@ -197,10 +186,10 @@ class PageControl extends CustomTabControl {
     //#endregion Methods
 }
 Object.seal(PageControl);
-Core.classes.register(Types.CATEGORIES.CONTAINERS, PageControl);
+core.classes.register(core.types.CATEGORIES.CONTAINERS, PageControl);
 //#endregion PageControl
 //#region Template
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const PageControlTpl = ['<jagui-pagecontrol id="{internalId}" data-class="PageControl" ',
         'class="Control TabControl PageControl csr_default {theme}">',
         '<jagui-tabcontrolheader class="Control TabControlHeader {theme}">',
@@ -209,8 +198,8 @@ if (Core.isHTMLRenderer) {
         '</jagui-tabcontrolheader>',
         '</jagui-pagecontrol>'].join(String.EMPTY);
     const PageContentTpl = '<jagui-pagecontent data-class="PageContent" class="Control PageContent {theme}"></jagui-pagecontent>';
-    Core.classes.registerTemplates([
-        { Class: TabSheet, template: Core.templates['Tab'] },
+    core.classes.registerTemplates([
+        { Class: TabSheet, template: core.templates['Tab'] },
         { Class: PageControl, template: PageControlTpl }, { Class: "PageContent", template: PageContentTpl }
     ]);
 }

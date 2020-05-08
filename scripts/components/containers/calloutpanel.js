@@ -1,6 +1,5 @@
 ﻿//#region Import
 import { Panel } from '/scripts/components/containers/panel.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Css } from '/scripts/core/css.js';
 //#endregion Import
 //#region CALLOUTPOSITIONS
@@ -17,9 +16,7 @@ const CalloutPanel = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -30,13 +27,15 @@ const CalloutPanel = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.allowUpdateOnResize = !0;
+                props.allowRealignChildsOnResize = !0;
+                props.clipChilds = !1;
                 super(owner, props);
                 const priv = internal(this);
                 priv.calloutOffset = props.hasOwnProperty('calloutOffset') ? props.calloutOffset : 0;
                 priv.calloutLength = props.hasOwnProperty('calloutLength') ? props.calloutLength : 11;
                 priv.calloutWidth = props.hasOwnProperty('calloutWidth') ? props.calloutWidth : 23;
-                priv.clipChilds = !1;
-                Tools.addPropertyFromEnum({
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'calloutPosition',
                     enum: CALLOUTPOSITIONS,
@@ -46,12 +45,10 @@ const CalloutPanel = (() => {
                 });
                 priv.content = null;
                 priv.arrow = null;
-                this.allowUpdateOnResize = !0;
-                this.allowRealignChildsOnResize = !0;
             }
         }
         //#endregion
-        //#region Getter / Setter
+        //#region Getters / Setters
         static get CALLOUTPOSITIONS() {
             return CALLOUTPOSITIONS;
         }
@@ -63,19 +60,13 @@ const CalloutPanel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, CALLOUTPOSITIONS)) {
-                if (priv.calloutPosition !== newValue) {
-                    priv.calloutPosition = newValue;
-                    if (Core.isHTMLRenderer) {
-                        if (!this.loading && !this.form.loading) {
-                            this.update();
-                        }
-                    } else {
-                        if (this.allowUpdate) {
-                            this.update();
-                        }
-                        this.redraw();
-                    }
+            if (core.tools.valueInSet(newValue, CALLOUTPOSITIONS) && priv.calloutPosition !== newValue) {
+                priv.calloutPosition = newValue;
+                if (core.isHTMLRenderer) {
+                    !this.loading && !this.form.loading && this.update();
+                } else {
+                    this.allowUpdate && this.update();
+                    this.redraw();
                 }
             }
         }
@@ -88,19 +79,13 @@ const CalloutPanel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.calloutOffset !== newValue) {
-                    priv.calloutOffset = newValue;
-                    if (Core.isHTMLRenderer) {
-                        if (!this.loading && !this.form.loading) {
-                            this.update();
-                        }
-                    } else {
-                        if (this.allowUpdate) {
-                            this.update();
-                        }
-                        this.redraw();
-                    }
+            if (core.tools.isNumber(newValue) && priv.calloutOffset !== newValue) {
+                priv.calloutOffset = newValue;
+                if (core.isHTMLRenderer) {
+                    !this.loading && !this.form.loading && this.update();
+                } else {
+                    this.allowUpdate && this.update();
+                    this.redraw();
                 }
             }
         }
@@ -113,20 +98,14 @@ const CalloutPanel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue < 0) {
-                    newValue = 0;
-                }
+            if (core.tools.isNumber(newValue)) {
+                newValue = Math.max(newValue, 0);
                 if (priv.calloutLength !== newValue) {
                     priv.calloutLength = newValue;
-                    if (Core.isHTMLRenderer) {
-                        if (!this.loading && !this.form.loading) {
-                            this.update();
-                        }
+                    if (core.isHTMLRenderer) {
+                        !this.loading && !this.form.loading && this.update();
                     } else {
-                        if (this.allowUpdate) {
-                            this.update();
-                        }
+                        this.allowUpdate && this.update();
                         this.redraw();
                     }
                 }
@@ -141,27 +120,21 @@ const CalloutPanel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue < 0) {
-                    newValue = 0;
-                }
+            if (core.tools.isNumber(newValue)) {
+                newValue = Math.max(newValue, 0);
                 if (priv.calloutWidth !== newValue) {
                     priv.calloutWidth = newValue;
-                    if (Core.isHTMLRenderer) {
-                        if (!this.loading && !this.form.loading) {
-                            this.update();
-                        }
+                    if (core.isHTMLRenderer) {
+                        !this.loading && !this.form.loading && this.update();
                     } else {
-                        if (this.allowUpdate) {
-                            this.update();
-                        }
+                        this.allowUpdate && this.update();
                         this.redraw();
                     }
                 }
             }
         }
         //#endregion calloutWidth
-        //#endregion Getter / Setter
+        //#endregion Getters / Setters
         //#region Methods
         //#region update
         update() {
@@ -170,7 +143,7 @@ const CalloutPanel = (() => {
             const cw = ~~(priv.calloutWidth / 2);
             let pos = 0;
             const htmlElement = this.HTMLElement;
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             let top;
             let left;
             let right;
@@ -180,7 +153,7 @@ const CalloutPanel = (() => {
             let borderRightWidth;
             let borderBottomWidth;
             let path = String.EMPTY;
-            const pseudoCssClass = Types.PSEUDOCSSCLASS;
+            const pseudoCssClass = core.types.PSEUDOCSSCLASS;
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
                 Object.entries(CALLOUTPOSITIONS).forEach(entry => {
@@ -191,11 +164,7 @@ const CalloutPanel = (() => {
                 switch (priv.calloutPosition) {
                     case CALLOUTPOSITIONS.TOP:
                         pos = ~~((htmlElement.offsetWidth - priv.calloutWidth) / 2) - priv.calloutOffset;
-                        if (pos < 0) {
-                            pos = 0;
-                        } else if (pos >= htmlElement.offsetWidth - priv.calloutWidth) {
-                            pos = htmlElement.offsetWidth - priv.calloutWidth;
-                        }
+                        pos = Math.max(Math.min(pos, htmlElement.offsetWidth - priv.calloutWidth), 0);
                         top = `${-priv.calloutLength}${PX}`;
                         left = `${pos}${PX}`;
                         borderTopWidth = 0;
@@ -208,11 +177,7 @@ const CalloutPanel = (() => {
                         break;
                     case CALLOUTPOSITIONS.RIGHT:
                         pos = ~~((htmlElement.offsetHeight - priv.calloutWidth) / 2) - priv.calloutOffset;
-                        if (pos < 0) {
-                            pos = 0;
-                        } else if (pos >= htmlElement.offsetHeight - priv.calloutWidth) {
-                            pos = htmlElement.offsetHeight - priv.calloutWidth;
-                        }
+                        pos = Math.max(Math.min(pos, htmlElement.offsetHeight - priv.calloutWidth), 0);
                         right = `${-priv.calloutLength}${PX}`;
                         top = `${pos}${PX}`;
                         borderRightWidth = 0;
@@ -225,11 +190,7 @@ const CalloutPanel = (() => {
                         break;
                     case CALLOUTPOSITIONS.BOTTOM:
                         pos = ~~((htmlElement.offsetWidth - priv.calloutWidth) / 2) - priv.calloutOffset;
-                        if (pos < 0) {
-                            pos = 0;
-                        } else if (pos >= htmlElement.offsetWidth - priv.calloutWidth) {
-                            pos = htmlElement.offsetWidth - priv.calloutWidth;
-                        }
+                        pos = Math.max(Math.min(pos, htmlElement.offsetWidth - priv.calloutWidth), 0);
                         bottom = `${-priv.calloutLength}${PX}`;
                         left = `${pos}${PX}`;
                         top = 'auto';
@@ -242,11 +203,7 @@ const CalloutPanel = (() => {
                         break;
                     case CALLOUTPOSITIONS.LEFT:
                         pos = ~~((htmlElement.offsetHeight - priv.calloutWidth) / 2) - priv.calloutOffset;
-                        if (pos < 0) {
-                            pos = 0;
-                        } else if (pos >= htmlElement.offsetHeight - priv.calloutWidth) {
-                            pos = htmlElement.offsetHeight - priv.calloutWidth;
-                        }
+                        pos = Math.max(Math.min(pos, htmlElement.offsetHeight - priv.calloutWidth), 0);
                         left = `${-priv.calloutLength}${PX}`;
                         top = `${pos}${PX}`;
                         borderLeftWidth = 0;
@@ -271,8 +228,8 @@ const CalloutPanel = (() => {
         //#endregion update
         //#region removeCssRules
         removeCssRules() {
-            const styleRule = Types.CSSRULETYPES.STYLE_RULE;
-            const pseudoCssClass = Types.PSEUDOCSSCLASS;
+            const styleRule = core.types.CSSRULETYPES.STYLE_RULE;
+            const pseudoCssClass = core.types.PSEUDOCSSCLASS;
             Object.entries(CALLOUTPOSITIONS).forEach(entry => {
                 Css.removeCSSRule(`#${this.internalId}.calloutposition-${CALLOUTPOSITIONS[entry.first]}${pseudoCssClass.BEFORE}`, styleRule);
             });
@@ -283,12 +240,14 @@ const CalloutPanel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
+            this.removeCssRules();
             priv.calloutPosition = null;
             priv.calloutOffset = null;
             priv.calloutLength = null;
             priv.calloutWidth = null;
-            removeCssRules();
+            priv.content = null;
+            priv.arrow = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -296,13 +255,13 @@ const CalloutPanel = (() => {
     return CalloutPanel;
     //#endregion CalloutPanel
 })();
-//#endregion
-Core.classes.register(Types.CATEGORIES.CONTAINERS, CalloutPanel);
-export { CalloutPanel };
+core.classes.register(core.types.CATEGORIES.CONTAINERS, CalloutPanel);
+//#endregion CalloutPanel
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const CalloutPanelTpl = ['<jagui-calloutpanel id="{internalId}" data-class="CalloutPanel" class="Control CalloutPanel {theme} csr_default',
         ' calloutposition-top"><properties>{ "name": "{name}", "calloutPosition": "top" }</properties></jagui-calloutpanel>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: CalloutPanel, template: CalloutPanelTpl }]);
+    core.classes.registerTemplates([{ Class: CalloutPanel, template: CalloutPanelTpl }]);
 }
 //#endregion
+export { CalloutPanel };
