@@ -29,7 +29,8 @@ const Label = (() => {
                 priv.effect = null;
                 if (props.effect) {
                     const effectClassName = core.classes[`Label${props.effect.name.firstCharUpper}Effect`];
-                    priv.effect = props.hasOwnProperty('effect') && effectClassName ? new effectClassName(this, props.effect.properties) : null;
+                    priv.effect = props.hasOwnProperty('effect') && effectClassName 
+                        ? new effectClassName(this, props.effect.properties) : null;
                 }
                 //#endregion Private
                 delete this.tabOrder;

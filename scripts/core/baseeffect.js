@@ -70,7 +70,7 @@ const BaseEffect = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            String.isNullOrEmpty(newValue) && priv.trigger !== newValue
+            !String.isNullOrEmpty(newValue) && priv.trigger !== newValue
                 && (priv.trigger = newValue);
         }
         //#endregion trigger

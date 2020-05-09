@@ -122,7 +122,7 @@ class Window1 extends Window {
             //this.Gauge2.createArrow=this.createArrowBlue;
             //this.Gauge3.createArrow=this.createArrowBlack;
         }
-        this.initStars();
+        //this.initStars();
         //Core.looper.addListener(this, "paint");
     }
     formShow() {

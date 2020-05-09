@@ -392,5 +392,5 @@ String.uniqueId = function (size) {
     return `_${Math.random().toString(36).split(".")[1].substring(0, size)}`;
 };
 String.isNullOrEmpty = function (str) {
-    return !core.tools.isString(str) ? !0 : String.EMPTY || str == undefined;
+    return !str || !core.tools.isString(str);
 };

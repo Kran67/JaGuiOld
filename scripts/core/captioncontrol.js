@@ -296,7 +296,7 @@ const CaptionControl = (() => {
             if (core.tools.isString(newValue) && priv.fontFamily !== newValue) {
                 priv.fontFamily = newValue;
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate &&  this.update();
+                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
             }
         }
         //#endregion fontFamily
@@ -312,7 +312,7 @@ const CaptionControl = (() => {
             if (core.tools.isNumber(newValue) && priv.fontSize !== newValue) {
                 priv.fontSize = newValue;
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate&& this.update();
+                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
             }
         }
         //#endregion fontSize
@@ -329,7 +329,7 @@ const CaptionControl = (() => {
             if (core.tools.valueInSet(newValue, CSSUNITS) && priv.fontSizeUnit !== newValue) {
                 priv.fontSizeUnit = newValue;
                 this.propertyChanged(core.tools.getPropertyName());
-                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate &&  this.update();
+                !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
             }
         }
         //#endregion fontSizeUnit
@@ -458,9 +458,7 @@ const CaptionControl = (() => {
             const priv = internal(this);
             const form = this.form;
             //#endregion Variables déclaration
-            if (core.tools.isString(newValue)) {
-                newValue = Color.parse(newValue);
-            }
+            core.tools.isString(newValue) && (newValue = Color.parse(newValue));
             if (newValue instanceof Color && !priv.backColor.equals(newValue)) {
                 priv.backColor.assign(newValue);
                 this.propertyChanged(core.tools.getPropertyName());
@@ -487,13 +485,9 @@ const CaptionControl = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (core.isHTMLRenderer) {
-                if (htmlElement) {
-                    Text.setTextNode(htmlElement, priv.caption);
-                    this.updateCssProperties();
-                }
-            } else {
-                //
+            if (core.isHTMLRenderer && htmlElement) {
+                Text.setTextNode(htmlElement, priv.caption);
+                this.updateCssProperties();
             }
         }
         //#endregion update

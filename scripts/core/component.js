@@ -217,7 +217,7 @@ const Component = (() => {
             const form = priv.form;
             let name = priv.name;
             //#endregion Variables déclaration
-            if (String.isNullOrEmpty(newValue) && !String.isNullOrEmpty(newValue.trim()) && priv.name !== newValue) {
+            if (!String.isNullOrEmpty(newValue) && !String.isNullOrEmpty(newValue.trim()) && priv.name !== newValue) {
                 form !== this && form && form[name] && (delete form[name]);
                 name = priv.name = newValue;
                 form !== this && this !== form.layout && this !== form.content && form && !form[name] && (form[name] = this);
