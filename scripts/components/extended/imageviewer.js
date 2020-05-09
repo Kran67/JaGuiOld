@@ -2,7 +2,6 @@
 import { ScrollBox } from '/scripts/components/containers/scrollbox.js';
 import { Rect } from '/scripts/core/geometry.js';
 import { Events } from '/scripts/core/events.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region ImageViewer
 const ImageViewer = (() => {
@@ -10,9 +9,7 @@ const ImageViewer = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -22,20 +19,20 @@ const ImageViewer = (() => {
         //#region constructor
         constructor(owner, props) {
             //#region Variables déclaration
-            const HTMLEvents = Types.HTMLEVENTS;
+            const HTMLEvents = core.types.HTMLEVENTS;
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
+                props.hitTest = { mouseMove: !0, mouseWheel: !0, dblClick: !0 };
+                props.canFocused = !0;
                 super(owner, props);
                 const priv = internal(this);
-                priv.bitmap = document.createElement(Types.HTMLELEMENTS.IMG);
+                priv.bitmap = document.createElement(core.types.HTMLELEMENTS.IMG);
                 priv.bitmap.jsObj = this;
                 priv.bitmap.setAttribute('draggable', 'false');
                 Events.bind(priv.bitmap, HTMLEvents.LOAD, this.doBitmapLoaded);
                 Events.bind(priv.bitmap, HTMLEvents.ERROR, this.doBitmapNotLoaded);
                 priv.scale = 1;
-                this.hitTest.all = !0;
-                this.canFocused = !0;
             }
         }
         //#endregion constructor
@@ -47,14 +44,10 @@ const ImageViewer = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.bitmap.src !== newValue) {
-                    this.load(newValue);
-                }
-            }
+            core.tools.isString(newValue) && priv.bitmap.src !== newValue && this.load(newValue);
         }
         isEmpty() {
-            return priv.bitmap.src === Types.CONSTANS.PIX;
+            return priv.bitmap.src === core.types.CONSTANS.PIX;
         }
         //#endregion Getters / Setters
         //#region Methods
@@ -62,15 +55,11 @@ const ImageViewer = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Core.keyboard.ctrl) {
-                priv.scale += Core.mouse.wheelDelta * 0.02;
-                if (priv.scale > 10) {
-                    priv.scale = 10;
-                } else if (priv.scale < 0.01) {
-                    priv.scale = 0.01;
-                }
-                Core.mouse.stopEvent(Core.mouse.event);
-                Core.mouse.event.preventDefault();
+            if (core.keyboard.ctrl) {
+                priv.scale += core.mouse.wheelDelta * 0.02;
+                priv.scale = Math.max(Math.min(priv.scale, 10), 0.01);
+                core.mouse.stopEvent(core.mouse.event);
+                core.mouse.event.preventDefault();
                 this.update();
             }
         }
@@ -87,7 +76,7 @@ const ImageViewer = (() => {
         update() {
             //#region Variables déclaration
             const priv = internal(this);
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const htmlElement = this.HTMLElement;
             const newW = ~~(priv.bitmap.naturalWidth * priv.scale);
             const newH = ~~(priv.bitmap.naturalHeight * priv.scale);
@@ -118,21 +107,19 @@ const ImageViewer = (() => {
             const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
             //#endregion Variables déclaration
             super.loaded();
-            if (props.hasOwnProperty('src')) {
-                this.load(props.src);
-            }
+            props.hasOwnProperty('src') && this.load(props.src);
             this.HTMLElement.appendChild(priv.bitmap);
         }
         destroy() {
             //#region Variables déclaration
-            const HTMLEvents = Types.HTMLEVENTS;
+            const HTMLEvents = core.types.HTMLEVENTS;
             //#endregion Variables déclaration
-            super.destroy();
             Events.unBind(priv.bitmap, HTMLEvents.LOAD, this.doBitmapLoaded);
             Events.unBind(priv.bitmap, HTMLEvents.ERROR, this.doBitmapNotLoaded);
             priv.bitmap.jsObj = null;
             priv.bitmap = null;
             priv.scale = null;
+            super.destroy();
         }
         //#endregion Methods
     }
@@ -140,13 +127,14 @@ const ImageViewer = (() => {
     //#endregion ImageViewer
 })();
 Object.seal(ImageViewer);
-Core.classes.register(Types.CATEGORIES.EXTENDED, ImageViewer);
-//#endregion CustomButton
+core.classes.register(core.types.CATEGORIES.EXTENDED, ImageViewer);
+//#endregion ImageViewer
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const ImageViewerTpl = ['<jagui-imageviewer id="{internalId}" data-class="ImageViewer" class="Control scrollContent',
         ' ImageViewer {theme}"><properties>{ "name": "{name}", "width": 160, "height": 160 }',
         '</properties></jagui-imageviewer>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: ImageViewer, template: ImageViewerTpl }]);
+    core.classes.registerTemplates([{ Class: ImageViewer, template: ImageViewerTpl }]);
 }
 //#endregion
+export { ImageViewer };

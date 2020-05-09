@@ -7,12 +7,11 @@ class RoundTextBox extends CustomTextControl {
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
-            super(owner, props);
-            //const priv = internal(this);
-            if (!Core.isHTMLRenderer) {
-                this.width = 121;
-                this.height = 21;
+            if (!core.isHTMLRenderer) {
+                props.width = 121;
+                props.height = 21;
             }
+            super(owner, props);
         }
     }
     //#endregion constructor
@@ -39,12 +38,9 @@ class RoundTextBox extends CustomTextControl {
     get radius() {
         const htmlElement = this.HTMLElement;
         let radius;
-        if (htmlElement.offsetHeight < htmlElement.offsetWidth) {
-            radius = Math.ceil(htmlElement.offsetHeight * 0.5);
-        }
-        else {
-            radius = Math.ceil(htmlElement.offsetWidth * 0.5);
-        }
+        radius = htmlElement.offsetHeight < htmlElement.offsetWidth
+            ? Math.ceil(htmlElement.offsetHeight * 0.5)
+            : Math.ceil(htmlElement.offsetWidth * 0.5);
         return radius;
     }
     //#endregion radius
@@ -52,20 +48,18 @@ class RoundTextBox extends CustomTextControl {
     //#region Methods
     //#region updateRadius
     updateRadius() {
-        if (this.HTMLElement) {
-            this.HTMLElementStyle.borderRadius = `${this.radius}${Types.CSSUNITS.PX}`;
-        }
+        this.HTMLElement && (this.HTMLElementStyle.borderRadius = `${this.radius}${core.types.CSSUNITS.PX}`);
     }
     //#endregion updateRadius
     //#endregion Methods
 }
-Core.classes.register(Types.CATEGORIES.EXTENDED, RoundTextBox);
-export { RoundTextBox };
+core.classes.register(core.types.CATEGORIES.EXTENDED, RoundTextBox);
 //#endregion RoundTextBox
 //#region Template
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const RoundTextBoxTpl = ['<jagui-roundtextbox id="{internalId}" data-class="RoundTextBox" class="Control TextBox RoundTextBox {theme}">',
         '<properties>{ "name": "{name}" }</properties></jagui-roundtextbox>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: RoundTextBox, template: RoundTextBoxTpl }]);
+    core.classes.registerTemplates([{ Class: RoundTextBox, template: RoundTextBoxTpl }]);
 }
 //#endregion
+export { RoundTextBox };

@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { GroupBox } from '/scripts/components/containers/groupbox.js';
 import { Rect } from '/scripts/core/geometry.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region RadioGroup
 const RadioGroup = (() => {
@@ -9,9 +8,7 @@ const RadioGroup = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -22,13 +19,12 @@ const RadioGroup = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.allowUpdateOnResize = !0;
                 super(owner, props);
                 const priv = internal(this);
-                Core.classes.newCollection(this, this, Core.classes.RadioButton);
+                core.classes.newCollection(this, this, core.classes.RadioButton);
                 priv.itemIndex = -1;
                 priv.columns = 1;
-                //priv.legendObj = null;
-                this.allowUpdateOnResize = !0;
             }
         }
         //#endregion constructor
@@ -41,17 +37,11 @@ const RadioGroup = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.itemIndex !== newValue) {
-                    priv.itemIndex = newValue;
-                    this.items.forEach((item, i) => {
-                        if (i === priv.itemIndex) {
-                            item.isChecked = !0;
-                        } else {
-                            item.isChecked = !1;
-                        }
-                    });
-                }
+            if (core.tools.isNumber(newValue) && priv.itemIndex !== newValue) {
+                priv.itemIndex = newValue;
+                this.items.forEach((item, i) => {
+                    item.isChecked = i === priv.itemIndex ? !0 : !1;
+                });
             }
         }
         //#endregion itemIndex
@@ -70,19 +60,17 @@ const RadioGroup = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (!this.loading && !this.form.loading && this.items.length >= 0) {
-                if (htmlElement) {
-                    const buttonsPerCol = ~~((this.items.length + priv.columns - 1) / priv.columns);
-                    const buttonWidth = ~~((this.width - 10) / priv.columns);
-                    const h = this.height - this.legend.offsetHeight - 10;
-                    const buttonHeight = ~~(h / buttonsPerCol);
-                    const topMargin = 16 + ~~(h % buttonsPerCol) / 2;
-                    this.items.forEach((item, i) => {
-                        const l = ~~(~~(i / buttonsPerCol) * buttonWidth + 8);
-                        const t = ~~(i % buttonsPerCol * buttonHeight + topMargin);
-                        item.bounds = new Rect(l, t, l + buttonWidth, t + buttonHeight);
-                    });
-                }
+            if (!this.loading && !this.form.loading && this.items.length >= 0 && htmlElement) {
+                const buttonsPerCol = ~~((this.items.length + priv.columns - 1) / priv.columns);
+                const buttonWidth = ~~((this.width - 10) / priv.columns);
+                const h = this.height - this.legend.offsetHeight - 10;
+                const buttonHeight = ~~(h / buttonsPerCol);
+                const topMargin = 16 + ~~(h % buttonsPerCol) / 2;
+                this.items.forEach((item, i) => {
+                    const l = ~~(~~(i / buttonsPerCol) * buttonWidth + 8);
+                    const t = ~~(i % buttonsPerCol * buttonHeight + topMargin);
+                    item.bounds = new Rect(l, t, l + buttonWidth, t + buttonHeight);
+                });
             }
         }
         //#endregion arrangeButtons
@@ -120,18 +108,20 @@ const RadioGroup = (() => {
             //#endregion Variables déclaration
             const htmlElement = this.HTMLElement;
             const properties = htmlElement.querySelector('properties');
-            if (properties) {
-                radios = JSON.parse(properties.innerText).items;
-            }
+            properties && (radios = JSON.parse(properties.innerText).items);
             if (radios) {
                 this.beginUpdate();
                 radios.forEach((obj, i) => {
-                    const item = Core.classes.createComponent({ class:this.items.itemClass, owner: this, props: {
-                        caption: obj.caption,
-                        enabled: obj.enabled,
-                        checked: priv.itemIndex === i || obj.isChecked,
-                        autoWidth: !1
-                    }});
+                    const item = core.classes.createComponent({
+                        class: this.items.itemClass, 
+                        owner: this, 
+                        props: {
+                            caption: obj.caption,
+                            enabled: obj.enabled,
+                            checked: priv.itemIndex === i || obj.isChecked,
+                            autoWidth: !1
+                        }
+                    });
                     item.onClick.addListener(this.changeItemIndex);
                     this.items.push(item);
                 });
@@ -147,14 +137,14 @@ const RadioGroup = (() => {
     return RadioGroup;
     //#endregion RadioGroup
 })();
-//#endregion RadioGroup
 Object.seal(RadioGroup);
-Core.classes.register(Types.CATEGORIES.EXTENDED, RadioGroup);
+core.classes.register(core.types.CATEGORIES.EXTENDED, RadioGroup);
+//#endregion RadioGroup
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const RadioGroupTpl = ['<fieldset id="{internalId}" data-class="RadioGroup" class=Control RadioGroup {theme}">',
         '<properties>{ "name": "{name}", "width": 185, "height": 105 }</properties></fieldset>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: RadioGroup, template: RadioGroupTpl }]);
+    core.classes.registerTemplates([{ Class: RadioGroup, template: RadioGroupTpl }]);
 }
 //#endregion
 export { RadioGroup };

@@ -1,6 +1,5 @@
 ﻿//#region Import
 import { SplitButton } from '/scripts/components/extended/splitbutton.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region SplitToolButton
 const SplitToolButton = (() => {
@@ -8,9 +7,7 @@ const SplitToolButton = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -21,12 +18,12 @@ const SplitToolButton = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.allowUpdateOnResize = !0;
                 super(owner, props);
                 const priv = internal(this);
-                this.createEventsAndBind(['onCloseMenu', 'onOpenMenu'], props);
                 priv.imageIndex = -1;
                 priv.popupMenu = props.hasOwnProperty('popupMenu') && this.form[props.popupMenu] ? this.form[props.popupMenu] : null;
-                this.allowUpdateOnResize = !0;
+                this.createEventsAndBind(['onCloseMenu', 'onOpenMenu'], props);
             }
         }
         //#endregion constructor
@@ -47,11 +44,8 @@ const SplitToolButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Core.classes.Menu && newValue instanceof Core.classes.Menu) {
-                if (priv.popupMenu !== newValue) {
-                    priv.popupMenu = newValue;
-                }
-            }
+            core.classes.Menu && newValue instanceof core.classes.Menu && priv.popupMenu !== newValue
+                && (priv.popupMenu = newValue);
         }
         //#endregion popupMenu
         //#region imageIndex
@@ -62,11 +56,9 @@ const SplitToolButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.imageIndex !== newValue) {
-                    priv.imageIndex = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.imageIndex !== newValue) {
+                priv.imageIndex = newValue;
+                this.update();
             }
         }
         //#endregion imageIndex
@@ -78,16 +70,10 @@ const SplitToolButton = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.loaded();
-            if (Core.classes.PopupMenu && this.popupMenu instanceof Core.classes.PopupMenu) {
-                this.popupBtn.popupMenu = priv.popupMenu;
-            }
-            if (priv.imageIndex > -1) {
-                if (this.owner.images) {
-                    if (this.owner.images.images[priv.imageIndex]) {
-                        this.btn.src = this.owner.images.images[priv.imageIndex];
-                    }
-                }
-            }
+            core.classes.PopupMenu && this.popupMenu instanceof core.classes.PopupMenu
+                && (this.popupBtn.popupMenu = priv.popupMenu);
+            priv.imageIndex > -1 && this.owner.images && this.owner.images.images[priv.imageIndex]
+                && (this.btn.src = this.owner.images.images[priv.imageIndex]);
         }
         //#endregion loaded
         //#region clickPopup
@@ -95,12 +81,10 @@ const SplitToolButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (priv.popupMenu) {
-                if (priv.popupMenu instanceof Core.classes.PopupMenu) {
-                    const pt = this.owner.clientToDocument();
-                    priv.popupMenu.control = this.owner;
-                    priv.popupMenu.show(pt.x, pt.y + this.owner.HTMLElement.offsetHeight);
-                }
+            if (priv.popupMenu && priv.popupMenu instanceof core.classes.PopupMenu) {
+                const pt = this.owner.clientToDocument();
+                priv.popupMenu.control = this.owner;
+                priv.popupMenu.show(pt.x, pt.y + this.owner.HTMLElement.offsetHeight);
             }
         }
         //#endregion clickPopup
@@ -112,11 +96,9 @@ const SplitToolButton = (() => {
         //#endregion update
         //#region destroy
         destroy() {
-            this.onCloseMenu.destroy();
-            this.onCloseMenu = null;
-            this.onOpenMenu.destroy();
-            this.onOpenMenu = null;
             priv.imageIndex = null;
+            priv.popupMenu = null;
+            this.unBindAndDestroyEvents(['onCloseMenu', 'onOpenMenu']);
             super.destroy();
         }
         //#endregion destroy
@@ -126,13 +108,13 @@ const SplitToolButton = (() => {
     //#endregion SplitToolButton
 })();
 Object.seal(SplitToolButton);
-Core.classes.register(Types.CATEGORIES.INTERNAL, SplitToolButton);
+core.classes.register(core.types.CATEGORIES.INTERNAL, SplitToolButton);
 //#endregion SplitToolButton
-export { SplitToolButton };
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const SplitToolButtonTpl = ['<jagui-splittoolbutton id="{internalId}" data-class="SplitToolButton" class="Control SplitToolButton ',
         '{theme} csr_default"><properties>{ "name": "{name}" }</properties></jagui-splittoolbutton>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: SplitToolButton, template: SplitToolButtonTpl }]);
+    core.classes.registerTemplates([{ Class: SplitToolButton, template: SplitToolButtonTpl }]);
 }
 //#endregion
+export { SplitToolButton };

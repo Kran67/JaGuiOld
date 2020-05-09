@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { CustomTextBoxBtn } from '/scripts/core/customtextboxbtn.js';
 import { Mouse } from '/scripts/core/mouse.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 class TextBoxClearBtn extends CustomTextBoxBtn {
     //#region constructor
@@ -22,15 +21,11 @@ class TextBoxClearBtn extends CustomTextBoxBtn {
         //#region Variables déclaration
         const bHtmlElement = this.btns.first.HTMLElement;
         //#endregion Variables déclaration
-        if (Tools.isBool(newValue)) {
-            if (this.enabled !== newValue) {
-                super.enabled(newValue);
-                if (newValue) {
-                    bHtmlElement.removeAttribute("disabled");
-                } else {
-                    bHtmlElement.setAttribute("disabled", "disabled");
-                }
-            }
+        if (core.tools.isBool(newValue) && this.enabled !== newValue) {
+            super.enabled(newValue);
+            newValue
+                ? bHtmlElement.removeAttribute("disabled")
+                : bHtmlElement.setAttribute("disabled", "disabled");
         }
     }
     //#endregion enabled
@@ -39,11 +34,7 @@ class TextBoxClearBtn extends CustomTextBoxBtn {
     //#region clearInput
     clearInput() {
         const owner = this.owner;
-        if (Core.isHTMLRenderer) {
-            if (Core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
-                owner.inputObj.value = owner.text = String.EMPTY;
-            }
-        }
+        core.isHTMLRenderer && core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && (owner.inputObj.value = owner.text = String.EMPTY);
         owner.update();
         owner.inputObj.focus();
     }
@@ -67,14 +58,14 @@ class TextBoxClearBtn extends CustomTextBoxBtn {
     //#endregion Methods
 }
 Object.freeze(Object.seal(TextBoxClearBtn));
-Core.classes.register(Types.CATEGORIES.EXTENDED, TextBoxClearBtn);
+core.classes.register(core.types.CATEGORIES.EXTENDED, TextBoxClearBtn);
 //#endregion TextBoxClearBtn
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const TextBoxClearBtnTpl = ['<jagui-textboxclearbtn id="{internalId}" data-class="TextBoxClearBtn" ',
         'class="Control TextBox TextBoxClearBtn {theme}"><properties>{ "name": "{name}", "width": 135, "height": 20 }',
         '</properties></jagui-textboxclearbtn>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: TextBoxClearBtn, template: TextBoxClearBtnTpl }]);
+    core.classes.registerTemplates([{ Class: TextBoxClearBtn, template: TextBoxClearBtnTpl }]);
 }
 //#endregion
 export { TextBoxClearBtn };

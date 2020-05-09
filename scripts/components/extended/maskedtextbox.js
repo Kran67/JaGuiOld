@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { CustomTextControl } from '/scripts/core/customtextcontrol.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region MaskedTextBox
 const MaskedTextBox = (() => {
@@ -9,9 +8,7 @@ const MaskedTextBox = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -22,13 +19,13 @@ const MaskedTextBox = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                if (!Core.isHTMLRenderer) {
-                    if (!props.hasOwnProperty('width') && Tools.isNumber(props.width)) {
-                        props.width = 75;
-                    }
-                    if (!props.hasOwnProperty('height') && Tools.isNumber(props.height)) {
-                        props.height = 25;
-                    }
+                if (!core.isHTMLRenderer) {
+                    !props.hasOwnProperty('width') && core.tools.isNumber(props.width) && (props.width = 75);
+                    !props.hasOwnProperty('height') && core.tools.isNumber(props.height) && (props.height = 25);
+                }
+                if (!core.isHTMLRenderer) {
+                    props.width = 121;
+                    props.height = 21;
                 }
                 super(owner, props);
                 const priv = internal(this);
@@ -36,13 +33,9 @@ const MaskedTextBox = (() => {
                 priv.firstNonMaskPos = null;
                 priv.partialPosition = 0;
                 priv.buffer = [];
-                if (!Core.isHTMLRenderer) {
-                    this.width = 121;
-                    this.height = 21;
-                }
-                priv.mask = props.hasOwnProperty('mask')?props.mask: String.EMPTY;
+                priv.mask = props.hasOwnProperty('mask') ? props.mask : String.EMPTY;
                 priv.maskDefinitions = { '9': '[0-9]', 'a': '[A-Za-z]', '*': '"[A-Za-z0-9]' };
-                priv.blankSpace = props.hasOwnProperty('blankSpace')?props.blankSpace: String.SPACE;
+                priv.blankSpace = props.hasOwnProperty('blankSpace') ? props.blankSpace : String.SPACE;
             }
         }
         //#endregion constructor
@@ -55,11 +48,9 @@ const MaskedTextBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.mask !== newValue) {
-                    priv.mask = newValue;
-                    this.makeMask();
-                }
+            if (core.tools.isString(newValue) && priv.mask !== newValue) {
+                priv.mask = newValue;
+                this.makeMask();
             }
         }
         //#endregion mask
@@ -83,19 +74,14 @@ const MaskedTextBox = (() => {
                 priv.partialPosition = priv.mask.length;
                 for (let i = 0, l = maskArray.length; i < l; i++) {
                     if (maskArray[i] === '?') {
-                        //len--;
                         priv.partialPosition = i;
                     } else if (priv.maskDefinitions[maskArray[i]]) {
                         priv.tests.push(new RegExp(priv.maskDefinitions[maskArray[i]]));
-                        if (!priv.firstNonMaskPos) {
-                            priv.firstNonMaskPos = priv.tests.length - 1;
-                        }
+                        !priv.firstNonMaskPos && (priv.firstNonMaskPos = priv.tests.length - 1);
                     } else {
                         priv.tests.push(null);
                     }
-                    if (maskArray[i] !== '?') {
-                        priv.buffer[i] = priv.maskDefinitions[maskArray[i]] ? priv.blankSpace : maskArray[i];
-                    }
+                    maskArray[i] !== '?' && (priv.buffer[i] = priv.maskDefinitions[maskArray[i]] ? priv.blankSpace : maskArray[i]);
                 }
                 this.checkVal();
                 this.inputObj.placeholder = priv.mask;
@@ -120,8 +106,8 @@ const MaskedTextBox = (() => {
             const inputObj = this.inputObj;
             let range;
             //#endregion Variables déclaration
-            if (Tools.isNumber(begin)) {
-                end = Tools.isNumber(end) ? end : begin;
+            if (core.tools.isNumber(begin)) {
+                end = core.tools.isNumber(end) ? end : begin;
                 if (inputObj.setSelectionRange) {
                     inputObj.setSelectionRange(begin, end);
                 } else if (inputObj.createTextRange) {
@@ -140,7 +126,7 @@ const MaskedTextBox = (() => {
                     begin = 0 - range.duplicate().moveStart('character', -100000);
                     end = begin + range.text.length;
                 }
-                return { begin: begin, end: end };
+                return { begin, end };
             }
         }
         //#endregion caret
@@ -168,7 +154,7 @@ const MaskedTextBox = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (begin >= 0) {
-                for (let i = begin, j = this.seekNext(end) ; i < priv.mask.length; i++) {
+                for (let i = begin, j = this.seekNext(end); i < priv.mask.length; i++) {
                     if (priv.tests[i]) {
                         if (j < priv.mask.length && priv.tests[i].test(priv.buffer[j])) {
                             priv.buffer[i] = priv.buffer[j];
@@ -207,12 +193,12 @@ const MaskedTextBox = (() => {
         //#region keyDown
         keyDown() {
             //#region Variables déclaration
-            const k = Core.keyboard.keyCode;
+            const k = core.keyboard.keyCode;
             const VKeysCodes = Keyboard.VKEYSCODES;
             //#endregion Variables déclaration
             super.keyDown();
             //backspace, delete, and escape get special treatment
-            if (k === VKeysCodes.VK_BACKSPACE || k === VKeysCodes.VK_DELETE || (Core.browser.iphone && k === VKeysCodes.VK_ESCAPE)) {
+            if (k === VKeysCodes.VK_BACKSPACE || k === VKeysCodes.VK_DELETE || (core.browser.iphone && k === VKeysCodes.VK_ESCAPE)) {
                 const pos = this.caret();
                 let begin = pos.begin;
                 let end = pos.end;
@@ -224,10 +210,10 @@ const MaskedTextBox = (() => {
                 this.clearBuffer(begin, end);
                 this.shiftL(begin, end - 1);
 
-                Core.keyboard.event.preventDefault();
+                core.keyboard.event.preventDefault();
             } else if (k === VKeysCodes.VK_ESCAPE) {//escape
                 this.caret(0, this.checkVal());
-                Core.keyboard.event.preventDefault();
+                core.keyboard.event.preventDefault();
             }
         }
         //#endregion keyDown
@@ -235,19 +221,19 @@ const MaskedTextBox = (() => {
         keyPress() {
             //#region Variables déclaration
             const priv = internal(this);
-            const k = Core.keyboard.keyCode;
+            const k = core.keyboard.keyCode;
             const pos = this.caret();
             //#endregion Variables déclaration
             super.keyPress();
-            if (!Core.keyboard.ctrl && !Core.keyboard.alt && !Core.keyboard.meta && 
-                !Core.keyboard.event.which < Keyboard.VKEYSCODES.VK_SPACE && k) {
+            if (!core.keyboard.ctrl && !core.keyboard.alt && !core.keyboard.meta &&
+                !core.keyboard.event.which < Keyboard.VKEYSCODES.VK_SPACE && k) {
                 if (pos.end - pos.begin !== 0) {
                     this.clearBuffer(pos.begin, pos.end);
                     this.shiftL(pos.begin, pos.end - 1);
                 }
                 const p = this.seekNext(pos.begin - 1);
                 if (p < priv.mask.length) {
-                    const c = Core.keyboard.keyChar;
+                    const c = core.keyboard.keyChar;
                     if (priv.tests[p].test(c)) {
                         this.shiftR(p);
                         priv.buffer[p] = c;
@@ -255,7 +241,7 @@ const MaskedTextBox = (() => {
                         this.caret(this.seekNext(p));
                     }
                 }
-                Core.keyboard.event.preventDefault();
+                core.keyboard.event.preventDefault();
             }
         }
         //#endregion keyPress
@@ -265,9 +251,7 @@ const MaskedTextBox = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             for (let i = start; i < end && i < priv.mask.length; i++) {
-                if (priv.tests[i]) {
-                    priv.buffer[i] = priv.blankSpace;
-                }
+                priv.tests[i] && (priv.buffer[i] = priv.blankSpace);
             }
         }
         //#endregion clearBuffer
@@ -276,9 +260,7 @@ const MaskedTextBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (this.inputObj) {
-                this.inputObj.value = this.text = priv.buffer.join(String.EMPTY);
-            }
+            this.inputObj && (this.inputObj.value = this.text = priv.buffer.join(String.EMPTY));
         }
         //#endregion writeBuffer
         //#region checkVal
@@ -315,9 +297,7 @@ const MaskedTextBox = (() => {
                 this.clearBuffer(0, mask.length);
             } else if (allow || lastMatch + 1 >= priv.partialPosition) {
                 this.writeBuffer();
-                if (this.inputObj && !allow) {
-                    this.inputObj.value = this.text = this.text.substring(0, lastMatch + 1);
-                }
+                this.inputObj && !allow && (this.inputObj.value = this.text = this.text.substring(0, lastMatch + 1));
             }
             return (priv.partialPosition ? i : priv.firstNonMaskPos);
         }
@@ -326,12 +306,9 @@ const MaskedTextBox = (() => {
         HTMLFocus() {
             const pos = this.jsObj.checkVal();
             this.jsObj.writeBuffer();
-            if (pos === this.jsObj.mask.length) {
-                this.jsObj.caret(0, pos);
-            }
-            else {
-                this.jsObj.caret(pos);
-            }
+            pos === this.jsObj.mask.length
+                ? this.jsObj.caret(0, pos)
+                : this.jsObj.caret(pos);
             this.jsObj.enterFocus();
         }
         //#endregion HTMLFocus
@@ -346,7 +323,6 @@ const MaskedTextBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.tests.destroy();
             priv.tests = null;
             priv.firstNonMaskPos = null;
@@ -356,6 +332,7 @@ const MaskedTextBox = (() => {
             priv.mask = null;
             priv.maskDefinitions = null;
             priv.blankSpace = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -363,12 +340,13 @@ const MaskedTextBox = (() => {
     return MaskedTextBox;
     //#endregion MaskedTextBox
 })();
-Core.classes.register(Types.CATEGORIES.EXTENDED, MaskedTextBox);
+core.classes.register(core.types.CATEGORIES.EXTENDED, MaskedTextBox);
 //#endregion MaskedTextBox
 //#region Template
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const MaskedTextBoxTpl = ['<jaguimaskedtextbox id="{internalId}" data-class="MaskedTextBox" class="Control TextBox MaskedTextBox {theme}">',
         '<properties>{ "name": "{name}", "width": 80, "height": 20 }</properties></jaguimaskedtextbox>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: MaskedTextBox, template: MaskedTextBoxTpl }]);
+    core.classes.registerTemplates([{ Class: MaskedTextBox, template: MaskedTextBoxTpl }]);
 }
 //#endregion
+export { MaskedTextBox };

@@ -1,6 +1,5 @@
 ﻿//#region Import
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region CircularProgressBar
 const CircularProgressBar = (() => {
@@ -8,9 +7,7 @@ const CircularProgressBar = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -21,15 +18,15 @@ const CircularProgressBar = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.hitTest = { mouseDown: !1, mouseUp: !1 };
+                props.allowUpdateOnResize = !0;
                 super(owner, props);
                 const priv = internal(this);
                 priv.value = props.hasOwnProperty('value') ? props.value : 0;
-                this.hitTest.all = !1;
                 priv.svg = null;
                 priv.backCircle = null;
                 priv.progress = null;
                 delete this.tabOrder;
-                this.allowUpdateOnResize = !0;
             }
         }
         //#endregion constructor
@@ -42,24 +39,14 @@ const CircularProgressBar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (newValue !== priv.value) {
-                    priv.value = newValue;
-                    if (priv.value > 100) {
-                        priv.value = 100;
-                    }
-                    if (priv.value < 0) {
-                        priv.value = 0;
-                    }
-                    if (!Core.isHTMLRenderer) {
-                        const lastRect = this.screenRect();
-                        if (this.allowUpdate) {
-                            this.update();
-                        }
-                        this.redraw(lastRect);
-                    } else {
-                        this.update();
-                    }
+            if (core.tools.isNumber(newValue) && newValue !== priv.value) {
+                priv.value = Math.max(Math.min(newValue, 100), 0);
+                if (!core.isHTMLRenderer) {
+                    const lastRect = this.screenRect();
+                    this.allowUpdate && this.update();
+                    this.redraw(lastRect);
+                } else {
+                    this.update();
                 }
             }
         }
@@ -73,15 +60,9 @@ const CircularProgressBar = (() => {
             const currentHeight = this.height;
             const currentWidth = this.width;
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (currentWidth !== newValue) {
-                    if (Core.isHTMLRenderer && !this.loading) {
-                        super.width = newValue;
-                        if (currentHeight !== newValue) {
-                            this.height = newValue;
-                        }
-                    }
-                }
+            if (core.tools.isNumber(newValue) && currentWidth !== newValue && core.isHTMLRenderer && !this.loading) {
+                super.width = newValue;
+                currentHeight !== newValue && (this.height = newValue);
             }
         }
         //#endregion width
@@ -94,15 +75,9 @@ const CircularProgressBar = (() => {
             const currentHeight = this.height;
             const currentWidth = this.width;
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (currentHeight !== newValue) {
-                    if (Core.isHTMLRenderer && !this.loading) {
-                        super.height = newValue;
-                        if (currentWidth !== newValue) {
-                            this.width = newValue;
-                        }
-                    }
-                }
+            if (core.tools.isNumber(newValue) && currentHeight !== newValue && core.isHTMLRenderer && !this.loading) {
+                super.height = newValue;
+                currentWidth !== newValue && (this.width = newValue);
             }
         }
         //#endregion height
@@ -142,6 +117,7 @@ const CircularProgressBar = (() => {
             priv.svg = null;
             priv.backCircle = null;
             priv.progress = null;
+            priv.value = null;
             super.destroy();
         }
         //#endregion destroy
@@ -150,8 +126,8 @@ const CircularProgressBar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            const SVG = Types.SVG.SVG;
-            const XMLNS = Types.SVG.XMLNS;
+            const SVG = core.types.SVG.SVG;
+            const XMLNS = core.types.SVG.XMLNS;
             //#endregion Variables déclaration
             super.loaded();
             if (!htmlElement.querySelector(SVG)) {
@@ -181,15 +157,15 @@ const CircularProgressBar = (() => {
     return CircularProgressBar;
     //#endregion CircularProgressBar
 })();
-//#endregion CircularProgressBar
 Object.seal(CircularProgressBar);
-Core.classes.register(Types.CATEGORIES.EXTENDED, CircularProgressBar);
-export { CircularProgressBar };
+core.classes.register(core.types.CATEGORIES.EXTENDED, CircularProgressBar);
+//#endregion CircularProgressBar
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const CircularProgressBarTpl = ['<jagui-circularprogressbar id="{internalId}" data-class="CircularProgressBar" ',
         'class="Control CircularProgressBar {theme} csr_default"><properties>{ "name": "{name}" }</properties>',
         '</jagui-circularprogressbar>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: CircularProgressBar, template: CircularProgressBarTpl }]);
+    core.classes.registerTemplates([{ Class: CircularProgressBar, template: CircularProgressBarTpl }]);
 }
 //#endregion
+export { CircularProgressBar };

@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { LabeledControl } from '/scripts/core/labeledcontrol.js';
 import { ImageControl } from '/scripts/components/extended/imagecontrol.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region LabeledImage
 const LabeledImage = (() => {
@@ -9,9 +8,7 @@ const LabeledImage = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -24,7 +21,7 @@ const LabeledImage = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.src = props.hasOwnProperty('src')?props.src:Types.CONSTANTS.PIX;
+                priv.src = props.hasOwnProperty('src') ? props.src : core.types.CONSTANTS.PIX;
             }
         }
         //#endregion constructor
@@ -34,11 +31,9 @@ const LabeledImage = (() => {
             return priv.src;
         }
         set src(newValue) {
-            if (Tools.isString(newValue)) {
-                if (priv.src !== newValue) {
-                    priv.src = newValue;
-                    priv.imgCtrl.load(priv.src);
-                }
+            if (core.tools.isString(newValue) && priv.src !== newValue) {
+                priv.src = newValue;
+                priv.imgCtrl.load(priv.src);
             }
         }
         //#endregion src
@@ -50,10 +45,12 @@ const LabeledImage = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.loaded();
-            priv.imgCtrl = Core.classes.createComponent({
+            priv.imgCtrl = core.classes.createComponent({
                 class: ImageControl,
                 owner: this,
-                props: { inForm: !1 }
+                props: {
+                    inForm: !1
+                }
             });
             priv.imgCtrl.load(priv.src);
         }
@@ -63,9 +60,9 @@ const LabeledImage = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.imgCtrl.destroy();
             priv.imgCtrl = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -74,15 +71,15 @@ const LabeledImage = (() => {
     //#endregion LabeledImage
 })();
 Object.seal(LabeledImage);
-Core.classes.register(Types.CATEGORIES.EXTENDED, LabeledImage);
+core.classes.register(core.types.CATEGORIES.EXTENDED, LabeledImage);
 //#endregion LabeledImage
 //#region Template
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const LabeledImageTpl = "<div id='{internalId}' data-name='{name}' data-class='LabeledImage' class='Control LabeledImage' style='width:205px;height:60px;'>\
                          {label}\
                          {imageControl}\
                          </div>";
-    Core.classes.registerTemplates([{ Class: LabeledImage, template: LabeledImageTpl }]);
+    core.classes.registerTemplates([{ Class: LabeledImage, template: LabeledImageTpl }]);
 }
 //#endregion
 export { LabeledImage };

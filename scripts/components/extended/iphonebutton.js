@@ -7,9 +7,7 @@ const IPhoneButton = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -46,8 +44,8 @@ const IPhoneButton = (() => {
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             super.loaded();
-            if (Core.isHTMLRenderer) {
-                priv.halo = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}halo`);
+            if (core.isHTMLRenderer) {
+                priv.halo = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}halo`);
                 priv.halo.classList.add('Control', 'IPhoneButtonHalo');
                 htmlElement.appendChild(priv.halo);
             }
@@ -58,12 +56,13 @@ const IPhoneButton = (() => {
     //#endregion IPhoneButton
 })();
 Object.seal(IPhoneButton);
-Core.classes.register(Types.CATEGORIES.EXTENDED, IPhoneButton);
+core.classes.register(core.types.CATEGORIES.EXTENDED, IPhoneButton);
 //#endregion IPhoneButton
 //#region template
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const IPhoneButtonTpl = ['<jagui-iphonebutton id="{internalId}" data-class="IPhoneButton" class="Control IPhoneButton {theme} csr_default">',
         '<properties>{ "name": "{name}", "height": 50, "width": 50 }</properties></jagui-iphonebutton>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: IPhoneButton, template: IPhoneButtonTpl }]);
+    core.classes.registerTemplates([{ Class: IPhoneButton, template: IPhoneButtonTpl }]);
 }
 //#endregion template
+export { IPhoneButton };

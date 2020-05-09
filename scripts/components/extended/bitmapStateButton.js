@@ -8,9 +8,7 @@ const BitmapStateButton = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -20,28 +18,28 @@ const BitmapStateButton = (() => {
         //#region Constructor
         constructor(owner, props) {
             //#region Variables déclaration
-            const htmlEvents = Types.HTMLEVENTS;
+            const htmlEvents = core.types.HTMLEVENTS;
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
+                props.auotSize = !0;
                 super(owner, props);
                 const priv = internal(this);
                 priv.bitmapState = new Image;
                 priv.bitmapState.obj = this;
-                priv.bitmapState.src = props.hasOwnProperty('bitmap')?props.bitmap:Types.CONSTANTS.PIX;
+                priv.bitmapState.src = props.hasOwnProperty('bitmap') ? props.bitmap : core.types.CONSTANTS.PIX;
                 Events.bind(priv.bitmapState, htmlEvents.LOAD, this.doBitmapLoaded);
                 Events.bind(priv.bitmapState, htmlEvents.ERROR, this.doBitmapNotLoaded);
-                this.auotSize = !0;
             }
         }
         //#endregion
-        //#region getter / setter
+        //#region Getters / Setters
         //#region bitmap
         set bitmap(bmpSrc) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (typeof bmpSrc === Types.CONSTANTS.STRING) {
+            if (typeof bmpSrc === core.types.CONSTANTS.STRING) {
                 priv.bitmapState.src = bmpSrc;
                 this.update();
             }
@@ -60,9 +58,7 @@ const BitmapStateButton = (() => {
             return this.HTMLElement.offsetWidth;
         }
         set width(newValue) {
-            if (!this.autoSize) {
-                super.width = newValue;
-            }
+            !this.autoSize && (super.width = newValue);
         }
         //#endregion width
         //#region height
@@ -70,12 +66,10 @@ const BitmapStateButton = (() => {
             return this.HTMLElement.offsetHeight;
         }
         set height(newValue) {
-            if (!this.autoSize) {
-                super.height = newValue;
-            }
+            !this.autoSize && (super.height = newValue);
         }
         //#endregion height
-        //#endregion getter / setter
+        //#endregion Getters / Setters
         //#region Methods
         doBitmapLoaded() {
             this.obj.update();
@@ -104,7 +98,7 @@ const BitmapStateButton = (() => {
             const priv = internal(this);
             const htmlElementStyle = this.HTMLElementStyle;
             const imagePartSize = priv.bitmapState.naturalHeight / 3;
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             const isPressed = this.isPressed;
             const isMouseOver = this.isMouseOver;
             //#endregion Variables déclaration
@@ -125,19 +119,19 @@ const BitmapStateButton = (() => {
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
-            const htmlEvents = Types.HTMLEVENTS;
+            const htmlEvents = core.types.HTMLEVENTS;
             //#endregion Variables déclaration
-            super.destroy();
             Events.unBind(priv.bitmapState, htmlEvents.LOAD, this.doBitmapLoaded);
             Events.unBind(priv.bitmapState, htmlEvents.ERROR, this.doBitmapNotLoaded);
             priv.bitmapState.obj = null;
             priv.bitmapState = null;
+            super.destroy();
         }
         //#region Methods
     }
     return BitmapStateButton;
-    //#endregion
+    //#endregion BitmapStateButton
 })();
-//#endregion
-Core.classes.register(Types.CATEGORIES.EXTENDED, BitmapStateButton);
+core.classes.register(core.types.CATEGORIES.EXTENDED, BitmapStateButton);
+//#endregion BitmapStateButton
 export { BitmapStateButton };

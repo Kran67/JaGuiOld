@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Events } from '/scripts/core/events.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Rect } from '/scripts/core/geometry.js';
 //#endregion Import
 //#region ImageControl
@@ -10,9 +9,7 @@ const ImageControl = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -36,11 +33,9 @@ const ImageControl = (() => {
             return super.width;
         }
         set width(newValue) {
-            if (Tools.isNumber(newValue)) {
-                if (this.HTMLElement.offsetWidth !== newValue) {
-                    super.width = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && this.HTMLElement.offsetWidth !== newValue) {
+                super.width = newValue;
+                this.update();
             }
         }
         //#endregion width
@@ -49,11 +44,9 @@ const ImageControl = (() => {
             return super.height;
         }
         set height(newValue) {
-            if (Tools.isNumber(newValue)) {
-                if (this.HTMLElement.offsetHeight !== newValue) {
-                    super.height = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && this.HTMLElement.offsetHeight !== newValue) {
+                super.height = newValue;
+                this.update();
             }
         }
         //#endregion height
@@ -62,7 +55,7 @@ const ImageControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            return priv.bitmap.src === Types.CONSTANTS.PIX;
+            return priv.bitmap.src === core.types.CONSTANTS.PIX;
         }
         //#endregion empty
         //#endregion Getters / Setters
@@ -90,7 +83,7 @@ const ImageControl = (() => {
             const iw = priv.bitmap.naturalWidth;
             const ih = priv.bitmap.naturalHeight;
             const htmlElement = this.HTMLElement;
-            const PX = Types.CSSUNITS.PX;
+            const PX = core.types.CSSUNITS.PX;
             //#endregion Variables déclaration
             //center the image
             if (iw > htmlElement.offsetWidth || ih > htmlElement.offsetHeight) {
@@ -114,14 +107,14 @@ const ImageControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
-            const htmlEvents = Types.HTMLEVENTS;
+            const htmlEvents = core.types.HTMLEVENTS;
             //#endregion Variables déclaration
             super.loaded();
-            priv.bitmap = document.createElement(Types.HTMLELEMENTS.IMG);
+            priv.bitmap = document.createElement(core.types.HTMLELEMENTS.IMG);
             this.HTMLElement.appendChild(priv.bitmap);
             priv.bitmapStyle = priv.bitmap.style;
             priv.bitmap.jsObj = this;
-            priv.bitmap.src = props.hasOwnProperty('src') ? props.src : Types.CONSTANTS.PIX;
+            priv.bitmap.src = props.hasOwnProperty('src') ? props.src : core.types.CONSTANTS.PIX;
             Events.bind(priv.bitmap, htmlEvents.LOAD, this.doBitmapLoaded);
             Events.bind(priv.bitmap, htmlEvents.ERROR, this.doBitmapNotLoaded);
         }
@@ -131,9 +124,9 @@ const ImageControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.bitmapStyle = null;
             priv.bitmap = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -142,13 +135,13 @@ const ImageControl = (() => {
     //#endregion ImageControl
 })();
 Object.seal(ImageControl);
-Core.classes.register(Types.CATEGORIES.EXTENDED, ImageControl);
+core.classes.register(core.types.CATEGORIES.EXTENDED, ImageControl);
 //#endregion ImageControl
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const ImageControlTpl = ['<jagui-imagecontrol id="{internalId}" data-class="ImageControl" class="Control ImageControl {theme}">',
         '<properties>{ "name": "{name}", "width": 100, "height": 60 }</properties></jagui-imagecontrol>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: ImageControl, template: ImageControlTpl }]);
+    core.classes.registerTemplates([{ Class: ImageControl, template: ImageControlTpl }]);
 }
 //#endregion
 export { ImageControl };

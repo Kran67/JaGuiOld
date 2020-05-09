@@ -2,7 +2,6 @@
 import { Slider } from '/scripts/components/common/slider.js';
 import { PopupBox } from '/scripts/core/popupbox.js';
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Import
 //#region Class SliderPopup
@@ -13,9 +12,9 @@ class SliderPopup extends Slider {
         if (owner) {
             props.closePopups = !1;
             props.canFocused = !1;
+            props.forceMouseWheel = !0;
+            props.margin = { left: 10, top: 0, right: 10, bottom: 0 };
             super(owner, props);
-            this.forceMouseWheel = !0;
-            this.margin.setValues(10, 0, 10, 0);
         }
     }
     //#endregion constructor
@@ -38,9 +37,7 @@ const DropDownSliderPopup = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -71,9 +68,7 @@ const DropDownSliderPopup = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.show(x, y);
-            if (!priv.slider.HTMLElement) {
-                priv.slider.getHTMLElement(priv.slider.internalId);
-            }
+            !priv.slider.HTMLElement && priv.slider.getHTMLElement(priv.slider.internalId);
         }
         //#endregion show
         //#region loaded
@@ -82,7 +77,7 @@ const DropDownSliderPopup = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.loaded();
-            priv.slider = Core.classes.createComponent({
+            priv.slider = core.classes.createComponent({
                 class: SliderPopup,
                 owner: this,
                 props: {
@@ -99,9 +94,9 @@ const DropDownSliderPopup = (() => {
             //#region Variables déclaration
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (htmlElement) {
-                htmlElement.classList.remove('animated', 'fadeIn');
-            }
+            htmlElement && htmlElement.classList.remove('animated', 'fadeIn');
+            priv.slider.destroy();
+            priv.slider = null;
             super.destroy();
         }
         //#endregion destroy
@@ -118,9 +113,7 @@ const DropDownSlider = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -134,19 +127,17 @@ const DropDownSlider = (() => {
                 props.height = 20;
                 props.canFocused = !0;
                 props.autoCapture = !0;
+                props.hitTest = { mouseMove: !0 };
+                props.stopEvent = !0;
                 super(owner, props);
                 const priv = internal(this);
                 priv.content = null;
                 priv.dropDownPopup = null;
-                priv.opened = props.hasOwnProperty('opened') && Tools.isBool(props.opened) ? props.opened : !1;
-                priv.value = props.hasOwnProperty('value') && Tools.isNumber(props.value) ? props.value : 0;
+                priv.opened = props.hasOwnProperty('opened') && core.tools.isBool(props.opened) ? props.opened : !1;
+                priv.value = props.hasOwnProperty('value') && core.tools.isNumber(props.value) ? props.value : 0;
                 priv.min = 0;
                 priv.max = 100;
-                this.hitTest.all = !0;
-                this.hitTest.mouseWheel = !1;
-                this.hitTest.dblClick = !1;
                 this.createEventsAndBind(['onChange'], props);
-                this.stopEvent = !0;
             }
         }
         //#endregion constructor
@@ -164,16 +155,10 @@ const DropDownSlider = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.opened !== newValue) {
-                    priv.opened = newValue;
-                    this.update();
-                    if (priv.opened) {
-                        this.showPopup();
-                    } else {
-                        this.form.closePopups();
-                    }
-                }
+            if (core.tools.isBool(newValue) && priv.opened !== newValue) {
+                priv.opened = newValue;
+                this.update();
+                priv.opened ? this.showPopup() : this.form.closePopups();
             }
         }
         //#endregion opened
@@ -185,11 +170,9 @@ const DropDownSlider = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.value !== newValue) {
-                    priv.value = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.value !== newValue) {
+                priv.value = newValue;
+                this.update();
             }
         }
         //#endregion value
@@ -201,11 +184,7 @@ const DropDownSlider = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.min !== newValue) {
-                    priv.min = newValue;
-                }
-            }
+            core.tools.isNumber(newValue) && priv.min !== newValue && (priv.min = newValue);
         }
         //#endregion min
         //#region max
@@ -216,11 +195,7 @@ const DropDownSlider = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (this.max !== newValue) {
-                    this.max = newValue;
-                }
-            }
+            core.tools.isNumber(newValue) && this.max !== newValue && (this.max = newValue);
         }
         //#endregion max
         //#region template
@@ -243,9 +218,7 @@ const DropDownSlider = (() => {
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             priv.opened ? htmlElement.classList.add('opened') : htmlElement.classList.remove('opened');
-            if (priv.content) {
-                priv.content.innerHTML = priv.value;
-            }
+            priv.content && (priv.content.innerHTML = priv.value);
         }
         //#endregion update
         //#region mouseDown
@@ -254,11 +227,7 @@ const DropDownSlider = (() => {
             const priv = internal(this);
             const lastOpened = priv.opened;
             //#endregion Variables déclaration
-            if (this === this.form.focusedControl) {
-                if (lastOpened) {
-                    this.closePopups = !1;
-                }
-            }
+            this === this.form.focusedControl && lastOpened && (this.closePopups = !1);
             super.mouseDown();
             this.closePopups = !0;
             this.opened = !this.opened;
@@ -271,7 +240,7 @@ const DropDownSlider = (() => {
             const pt = this.clientToDocument();
             //#endregion Variables déclaration
             if (!priv.dropDownPopup) {
-                priv.dropDownPopup = Core.classes.createComponent({
+                priv.dropDownPopup = core.classes.createComponent({
                     class: DropDownSliderPopup,
                     owner: this,
                     props: {
@@ -302,13 +271,11 @@ const DropDownSlider = (() => {
         //#region keyDown
         keyDown() {
             super.keyDown();
-            if (Core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
+            if (core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
                 if (!priv.opened) {
                     this.opened = !0;
                 } else {
-                    if (priv.dropDownPopup) {
-                        priv.dropDownPopup.slider.keyDown();
-                    }
+                    priv.dropDownPopup && priv.dropDownPopup.slider.keyDown();
                 }
             } else if (priv.dropDownPopup) {
                 priv.dropDownPopup.slider.keyDown();
@@ -319,7 +286,7 @@ const DropDownSlider = (() => {
         loaded() {
             //#region Variables déclaration
             const priv = internal(this);
-            const TAG = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const TAG = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             super.loaded();
@@ -342,6 +309,7 @@ const DropDownSlider = (() => {
             priv.min = null;
             priv.max = null;
             priv.value = null;
+            this.unBindAndDestroyEvents(['onChange']);
             super.destroy();
         }
         //#endregion destroy
@@ -351,17 +319,17 @@ const DropDownSlider = (() => {
     //#endregion DropDownSlider
 })();
 Object.seal(DropDownSlider);
+core.classes.register(core.types.CATEGORIES.INTERNAL, SliderPopup, DropDownSliderPopup);
+core.classes.register(core.types.CATEGORIES.COMMON, DropDownSlider);
 //#endregion DropDownSlider
-Core.classes.register(Types.CATEGORIES.INTERNAL, SliderPopup, DropDownSliderPopup);
-Core.classes.register(Types.CATEGORIES.COMMON, DropDownSlider);
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const DropDownSliderTpl = `<jagui-dropdownslider id="{internalId}" data-class="DropDownSlider" class="Control DropDownListBox DropDownSlider {theme}"><properties>{ "name": "{name}", "width": 50 }</properties></jagui-dropdownslider>`;
-    const DropDownSliderPopupTpl = Core.templates['PopupBox'].replace('PopupBox', 'PopupBox PopupBoxSlider');
-    Core.classes.registerTemplates([
+    const DropDownSliderPopupTpl = core.templates['PopupBox'].replace('PopupBox', 'PopupBox PopupBoxSlider');
+    core.classes.registerTemplates([
         { Class: DropDownSlider, template: DropDownSliderTpl },
         { Class: DropDownSliderPopup, template: DropDownSliderPopupTpl },
-        { Class: SliderPopup, template: Core.templates['Slider'] }
+        { Class: SliderPopup, template: core.templates['Slider'] }
     ]);
 }
 //#endregion

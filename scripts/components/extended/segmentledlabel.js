@@ -1,6 +1,5 @@
 ﻿//#region Import
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Color, Colors } from '/scripts/core/color.js';
 import { Convert } from '/scripts/core/convert.js';
 import { Css } from '/scripts/core/css.js';
@@ -51,9 +50,7 @@ const SegmentLedLabel = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -67,15 +64,16 @@ const SegmentLedLabel = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 delete this.tabOrder;
-                priv.maxLength = props.hasOwnProperty('maxLength') && Tools.isNumber(props.maxLength) ? props.maxLength : 10;
-                priv.autoScroll = props.hasOwnProperty('autoScroll') && Tools.isBool(props.autoScroll) ? props.autoScroll : !1;
-                priv.scrollSpeed = props.hasOwnProperty('scrollSpeed') && Tools.isNumber(props.scrollSpeed) ? props.scrollSpeed : 1;
+                priv.maxLength = props.hasOwnProperty('maxLength') && core.tools.isNumber(props.maxLength) ? props.maxLength : 10;
+                priv.autoScroll = props.hasOwnProperty('autoScroll') && core.tools.isBool(props.autoScroll) ? props.autoScroll : !1;
+                priv.scrollSpeed = props.hasOwnProperty('scrollSpeed') && core.tools.isNumber(props.scrollSpeed)
+                    ? props.scrollSpeed : 1;
                 priv.color = props.hasOwnProperty('color') ? Color.parse(props.color) : Colors.LIME;
-                priv.segmentSize = props.hasOwnProperty('segmentSize') && Tools.valueInSet(props.segmentSize, SEGMENTSIZES) ?
-                    props.segmentSize : SEGMENTSIZES.NORMAL;
-                priv.segmentType = props.hasOwnProperty('segmentType') && Tools.valueInSet(props.segmentType, SEGMENTTYPES) ?
-                    props.segmentType : SEGMENTTYPES.SEVEN;
-                priv.caption = props.hasOwnProperty('caption') && Tools.isString(props.caption) ? props.caption : this.name;
+                priv.segmentSize = props.hasOwnProperty('segmentSize') && core.tools.valueInSet(props.segmentSize, SEGMENTSIZES)
+                    ? props.segmentSize : SEGMENTSIZES.NORMAL;
+                priv.segmentType = props.hasOwnProperty('segmentType') && core.tools.valueInSet(props.segmentType, SEGMENTTYPES)
+                    ? props.segmentType : SEGMENTcore.types.SEVEN;
+                priv.caption = props.hasOwnProperty('caption') && core.tools.isString(props.caption) ? props.caption : this.name;
                 //#region segmentChars
                 priv.segmentChars = [];
                 //#region !
@@ -740,13 +738,13 @@ const SegmentLedLabel = (() => {
                 priv.conts = [];
                 priv.lastTime = new Date().getTime();
                 priv.startIndex = 0;
-                priv.scrollType = props.hasOwnProperty('scrollType') && Tools.valueInSet(props.scrollType, SEGMENTSCROLLTYPES) ?
-                    props.scrollType : SEGMENTSCROLLTYPES.CYCLE;
-                priv.scrollDir = props.hasOwnProperty('scrollDir') && Tools.valueInSet(props.scrollDir, SEGMENTSCROLLDIRECTIONS) ?
-                    props.scrollDir : SEGMENTSCROLLDIRECTIONS.LEFT2RIGHT;
+                priv.scrollType = props.hasOwnProperty('scrollType') && core.tools.valueInSet(props.scrollType, SEGMENTSCROLLTYPES)
+                    ? props.scrollType : SEGMENTSCROLLcore.types.CYCLE;
+                priv.scrollDir = props.hasOwnProperty('scrollDir') && core.tools.valueInSet(props.scrollDir, SEGMENTSCROLLDIRECTIONS)
+                    ? props.scrollDir : SEGMENTSCROLLDIRECTIONS.LEFT2RIGHT;
                 priv.text = priv.caption;
                 priv.autoAdjustTextLengthWithSpace = props.hasOwnProperty('autoAdjustTextLengthWithSpace') &&
-                    Tools.isBool(props.autoAdjustTextLengthWithSpace) ? props.autoAdjustTextLengthWithSpace : !0;
+                    core.tools.isBool(props.autoAdjustTextLengthWithSpace) ? props.autoAdjustTextLengthWithSpace : !0;
                 this.normalizeCaption();
             }
         }
@@ -792,11 +790,9 @@ const SegmentLedLabel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.maxLength !== newValue) {
-                    priv.maxLength = newValue;
-                    this.changeSegmentSize();
-                }
+            if (core.tools.isNumber(newValue) && priv.maxLength !== newValue) {
+                priv.maxLength = newValue;
+                this.changeSegmentSize();
             }
         }
         //#endregion maxLength
@@ -808,11 +804,9 @@ const SegmentLedLabel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.autoScroll !== newValue) {
-                    priv.autoScroll = newValue;
-                    this.update();
-                }
+            if (core.tools.isBool(newValue) && priv.autoScroll !== newValue) {
+                priv.autoScroll = newValue;
+                this.update();
             }
         }
         //#endregion autoScroll
@@ -824,13 +818,11 @@ const SegmentLedLabel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.caption !== newValue) {
-                    priv.caption = newValue;
-                    priv.text = priv.caption;
-                    this.normalizeCaption();
-                    this.update();
-                }
+            if (core.tools.isString(newValue) && priv.caption !== newValue) {
+                priv.caption = newValue;
+                priv.text = priv.caption;
+                this.normalizeCaption();
+                this.update();
             }
         }
         //#endregion caption
@@ -842,11 +834,9 @@ const SegmentLedLabel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof Core.classes.Color) {
-                if (!priv.color.equals(newValue)) {
-                    priv.color.assign(newValue);
-                    this.update();
-                }
+            if (newValue instanceof core.classes.Color && !priv.color.equals(newValue)) {
+                priv.color.assign(newValue);
+                this.update();
             }
         }
         //#endregion color
@@ -858,11 +848,9 @@ const SegmentLedLabel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, SEGMENTSIZES)) {
-                if (priv.segmentSize !== newValue) {
-                    priv.segmentSize = newValue;
-                    this.changeSegmentSize();
-                }
+            if (core.tools.valueInSet(newValue, SEGMENTSIZES) && priv.segmentSize !== newValue) {
+                priv.segmentSize = newValue;
+                this.changeSegmentSize();
             }
         }
         //#endregion segmentSize
@@ -875,23 +863,21 @@ const SegmentLedLabel = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, SEGMENTTYPES)) {
-                if (priv.segmentType !== newValue) {
-                    priv.segmentType = newValue;
-                    htmlElement.classList.remove('seven', 'fourteen', 'sixteen');
-                    switch (priv.segmentType) {
-                        case SEGMENTTYPES.SEVEN:
-                            htmlElement.classList.add('seven');
-                            break;
-                        case SEGMENTTYPES.FOURTEEN:
-                            htmlElement.classList.add('fourteen');
-                            break;
-                        case SEGMENTTYPES.SIXTEEN:
-                            htmlElement.classList.add('sixteen');
-                            break;
-                    }
-                    this.createSegments();
+            if (core.tools.valueInSet(newValue, SEGMENTTYPES) && priv.segmentType !== newValue) {
+                priv.segmentType = newValue;
+                htmlElement.classList.remove('seven', 'fourteen', 'sixteen');
+                switch (priv.segmentType) {
+                    case SEGMENTcore.types.SEVEN:
+                        htmlElement.classList.add('seven');
+                        break;
+                    case SEGMENTcore.types.FOURTEEN:
+                        htmlElement.classList.add('fourteen');
+                        break;
+                    case SEGMENTcore.types.SIXTEEN:
+                        htmlElement.classList.add('sixteen');
+                        break;
                 }
+                this.createSegments();
             }
         }
         //#endregion segmentType
@@ -903,11 +889,9 @@ const SegmentLedLabel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.caption !== newValue) {
-                    priv.caption = newValue;
-                    this.update();
-                }
+            if (core.tools.isString(newValue) && priv.caption !== newValue) {
+                priv.caption = newValue;
+                this.update();
             }
         }
         //#endregion caption
@@ -919,11 +903,9 @@ const SegmentLedLabel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.scrollSpeed !== newValue) {
-                    priv.scrollSpeed = newValue;
-                    this.update();
-                }
+            if (core.tools.isNumber(newValue) && priv.scrollSpeed !== newValue) {
+                priv.scrollSpeed = newValue;
+                this.update();
             }
         }
         //#endregion scrollSpeed
@@ -935,11 +917,7 @@ const SegmentLedLabel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, SEGMENTSCROLLTYPES)) {
-                if (priv.scrollType !== newValue) {
-                    priv.scrollType = newValue;
-                }
-            }
+            core.tools.valueInSet(newValue, SEGMENTSCROLLTYPES) && priv.scrollType !== newValue && (priv.scrollType = newValue);
         }
         //#endregion scrollType
         //#region scrollDirection
@@ -950,11 +928,7 @@ const SegmentLedLabel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.valueInSet(newValue, SEGMENTSCROLLDIRECTIONS)) {
-                if (priv.scrollDir !== newValue) {
-                    priv.scrollDir = newValue;
-                }
-            }
+            core.tools.valueInSet(newValue, SEGMENTSCROLLDIRECTIONS) && priv.scrollDir !== newValue && (priv.scrollDir = newValue);
         }
         //#endregion scrollDirection
         //#endregion Getters / Setters
@@ -971,7 +945,7 @@ const SegmentLedLabel = (() => {
                     const ratio = Math.round(priv.text.length / priv.maxLength);
                     priv.text = priv.text.padEnd(ratio * priv.maxLength + (priv.text.length - priv.maxLength), String.SPACE);
                 }
-            } else if (priv.text.length < priv.maxLength && priv.scrollType !== SEGMENTSCROLLTYPES.RESTART && priv.autoScroll) {
+            } else if (priv.text.length < priv.maxLength && priv.scrollType !== SEGMENTSCROLLcore.types.RESTART && priv.autoScroll) {
                 priv.text = priv.text.padEnd(priv.maxLength, String.SPACE);
             }
         }
@@ -982,8 +956,8 @@ const SegmentLedLabel = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             const htmlElementStyle = this.HTMLElementStyle;
-            const pseudoCssClass = Types.PSEUDOCSSCLASS;
-            const tag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            const pseudoCssClass = core.types.PSEUDOCSSCLASS;
+            const tag = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             //#endregion Variables déclaration
             priv.conts.clear();
             htmlElement.innerHTML = String.EMPTY;
@@ -1002,15 +976,17 @@ const SegmentLedLabel = (() => {
             htmlElementStyle.setProperty(`--${this.internalId}-unaligth-color`, priv.color.toRGBAString());
             // add alight for before/after
             Css.addCSSRule(`#${this.internalId} .segment.alight`, `background-color: var(--${this.internalId}-aligth-color)`);
-            Css.addCSSRule(`#${this.internalId} .segment.alight${pseudoCssClass.BEFORE}`, `border-bottom-color: var(--${this.internalId}-aligth-color)`);
-            Css.addCSSRule(`#${this.internalId} .segment.alight${pseudoCssClass.AFTER}`, `border-top-color: var(--${this.internalId}-aligth-color)`);
+            Css.addCSSRule(`#${this.internalId} .segment.alight${pseudoCssClass.BEFORE}`,
+                `border-bottom-color: var(--${this.internalId}-aligth-color)`);
+            Css.addCSSRule(`#${this.internalId} .segment.alight${pseudoCssClass.AFTER}`,
+                `border-top-color: var(--${this.internalId}-aligth-color)`);
         }
         //#endregion createSegments
         //#region update
         update() {
             //#region Variables déclaration
             const priv = internal(this);
-            const segmentsTag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}segment`;
+            const segmentsTag = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}segment`;
             //#endregion Variables déclaration
             if (this.HTMLElement) {
                 // on allume les segments
@@ -1025,12 +1001,9 @@ const SegmentLedLabel = (() => {
                             segements = segements.split(String.EMPTY);
                             const segs = priv.conts[i].querySelectorAll(segmentsTag);
                             for (let j = 0, m = segements.length; j < m; j++) {
-                                if (['A', 'B', 'C', 'D', 'E', 'F'].indexOf(segements[j]) > -1) {
-                                    charNum = segements[j].charCodeAt(0) - 55;
-                                }
-                                else {
-                                    charNum = ~~segements[j];
-                                }
+                                charNum = ['A', 'B', 'C', 'D', 'E', 'F'].indexOf(segements[j]) > -1
+                                    ? segements[j].charCodeAt(0) - 55
+                                    : charNum = ~~segements[j];
                                 segs[charNum].classList.add('alight');
                             }
                         }
@@ -1052,7 +1025,7 @@ const SegmentLedLabel = (() => {
         //#region clearSegment
         clearSegment(segCont) {
             //#region Variables déclaration
-            const segmentsTag = `${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}segment`;
+            const segmentsTag = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}segment`;
             const segs = Convert.nodeListToArray(segCont.querySelectorAll(segmentsTag));
             //#endregion Variables déclaration
             segs.forEach(seg => {
@@ -1073,7 +1046,7 @@ const SegmentLedLabel = (() => {
         loaded() {
             this.createSegments();
             super.loaded();
-            Core.looper.addListener(this);
+            core.looper.addListener(this);
         }
         //#endregion loaded
         //#region processTick
@@ -1083,31 +1056,25 @@ const SegmentLedLabel = (() => {
             const now = new Date().getTime();
             //#endregion Variables déclaration
             if (priv.autoScroll) {
-                if (priv.text.length <= priv.maxLength && priv.scrollType !== SEGMENTSCROLLTYPES.CYCLE) {
+                if (priv.text.length <= priv.maxLength && priv.scrollType !== SEGMENTSCROLLcore.types.CYCLE) {
                     return;
                 }
                 if (now - priv.lastTime >= priv.scrollSpeed * 1000) {
                     if (priv.scrollDir === SEGMENTSCROLLDIRECTIONS.RIGHT2LEFT) {
-                        if (priv.scrollType === SEGMENTSCROLLTYPES.CYCLE) {
-                            priv.text = `${priv.text.substring(1)}${priv.text.substring(0, 1)}`;
-                        }
-                        else {
-                            priv.startIndex++;
-                        }
+                        priv.scrollType === SEGMENTSCROLLcore.types.CYCLE
+                            ? priv.text = `${priv.text.substring(1)}${priv.text.substring(0, 1)}`
+                            : priv.startIndex++;
                     } else {
-                        if (priv.scrollType === SEGMENTSCROLLTYPES.CYCLE) {
-                            priv.text = `${priv.text.substring(priv.maxLength - 1, priv.maxLength)}${priv.text.substring(0, priv.maxLength - 1)}`;
-                        }
-                        else {
-                            priv.startIndex--;
-                        }
+                        priv.scrollType === SEGMENTSCROLLcore.types.CYCLE
+                            ? priv.text = `${priv.text.substring(priv.maxLength - 1, priv.maxLength)}${priv.text.substring(0, priv.maxLength - 1)}`
+                            : priv.startIndex--;
                     }
                     if (priv.startIndex > priv.text.length - priv.maxLength) {
                         switch (priv.scrollType) {
-                            case SEGMENTSCROLLTYPES.RESTART:
+                            case SEGMENTSCROLLcore.types.RESTART:
                                 priv.startIndex = 0;
                                 break;
-                            case SEGMENTSCROLLTYPES.REVERSE:
+                            case SEGMENTSCROLLcore.types.REVERSE:
                                 if (priv.scrollDir === SEGMENTSCROLLDIRECTIONS.RIGHT2LEFT) {
                                     priv.scrollDir = SEGMENTSCROLLDIRECTIONS.LEFT2RIGHT;
                                     priv.startIndex -= 2;
@@ -1117,15 +1084,13 @@ const SegmentLedLabel = (() => {
                     }
                     if (priv.startIndex < 0) {
                         switch (priv.scrollType) {
-                            case SEGMENTSCROLLTYPES.RESTART:
-                                if (priv.scrollDir === SEGMENTSCROLLDIRECTIONS.RIGHT2LEFT) {
-                                    priv.startIndex = 0;
-                                }
-                                else {
-                                    priv.startIndex = 0;
-                                }
+                            case SEGMENTSCROLLcore.types.RESTART:
+                                priv.scrollDir === SEGMENTSCROLLDIRECTIONS.RIGHT2LEFT && (priv.startIndex = 0);
+                                //else {
+                                //    priv.startIndex = 0;
+                                //}
                                 break;
-                            case SEGMENTSCROLLTYPES.REVERSE:
+                            case SEGMENTSCROLLcore.types.REVERSE:
                                 if (priv.scrollDir === SEGMENTSCROLLDIRECTIONS.LEFT2RIGHT) {
                                     priv.scrollDir = SEGMENTSCROLLDIRECTIONS.RIGHT2LEFT;
                                     priv._startIndex += 2;
@@ -1143,8 +1108,8 @@ const SegmentLedLabel = (() => {
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
-            const styleRule = Types.CSSRULETYPES.STYLE_RULE;
-            const pseudoCssClass = Types.PSEUDOCSSCLASS;
+            const styleRule = core.types.CSSRULEcore.types.STYLE_RULE;
+            const pseudoCssClass = core.types.PSEUDOCSSCLASS;
             //#endregion Variables déclaration
             priv.color.destroy();
             priv.color = null;
@@ -1152,6 +1117,21 @@ const SegmentLedLabel = (() => {
             Css.removeCSSRule(`#${this.internalId} .segment.alight`, styleRule);
             Css.removeCSSRule(`#${this.internalId} .segment.alight${pseudoCssClass.BEFORE}`, styleRule);
             Css.removeCSSRule(`#${this.internalId} .segment.alight${pseudoCssClass.AFTER}`, styleRule);
+            priv.maxLength = null;
+            priv.autoScroll = null;
+            priv.scrollSpeed = null;
+            priv.segmentSize = null;
+            priv.caption = null;
+            priv.segmentChars.clear();
+            priv.segmentChars.destroy();
+            priv.segmentChars = null;
+            priv.conts = null;
+            priv.lastTime = null;
+            priv.startIndex = null;
+            priv.scrollType = null;
+            priv.scrollDir = null;
+            priv.text = null;
+            priv.autoAdjustTextLengthWithSpace = null;
             super.destroy();
         }
         //#endregion destroy
@@ -1161,12 +1141,13 @@ const SegmentLedLabel = (() => {
     //#endregion SegmentLedLabel
 })();
 Object.seal(SegmentLedLabel);
-Core.classes.register(Types.CATEGORIES.EXTENDED, SegmentLedLabel);
+core.classes.register(core.types.CATEGORIES.EXTENDED, SegmentLedLabel);
 //#endregion SegmentLedLabel
 //#region Templates
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const SegmentLedLabelTpl = ['<jagiu-segmentledlabel id="{internalId}" data-class="SegmentLedLabel" class="Control SegmentLedLabel csr_default ',
         'sixteen "><properties>{ "name": "{name}", "caption": "{name}" }</properties></jagiu-segmentledlabel>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: SegmentLedLabel, template: SegmentLedLabelTpl }]);
+    core.classes.registerTemplates([{ Class: SegmentLedLabel, template: SegmentLedLabelTpl }]);
 }
 //#endregion
+export { SegmentLedLabel };

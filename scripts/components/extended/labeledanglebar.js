@@ -9,9 +9,7 @@ const LabeledAngleBar = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -36,16 +34,24 @@ const LabeledAngleBar = (() => {
             const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
             //#endregion Variables déclaration
             super.loaded();
-            priv.angleButton = Core.classes.createComponent({
+            priv.angleButton = core.classes.createComponent({
                 class: AngleButton,
                 owner: this,
-                props: { inForm: !1, height: this.height, showValue: !1, value: props.hasOwnProperty('value')?props.value:0 }
+                props: {
+                    inForm: !1,
+                    height: this.height,
+                    showValue: !1,
+                    value: props.hasOwnProperty('value') ? props.value : 0
+                }
             });
             priv.angleButton.onChanged.addListener(this.valueChanged);
-            priv.valueLabel = Core.classes.createComponent({
+            priv.valueLabel = core.classes.createComponent({
                 class: ValueLabel,
                 owner: this,
-                props: { inForm: !1, caption: `${priv.angleButton.value}°` }
+                props: {
+                    inForm: !1,
+                    caption: `${priv.angleButton.value}°`
+                }
             });
             priv.angleButton.valueLabel = priv.valueLabel;
         }
@@ -58,13 +64,12 @@ const LabeledAngleBar = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.angleButton.destroy();
             priv.angleButton = null;
             priv.valueLabel.destroy();
             priv.valueLabel = null;
-            this.onChanged.destroy();
-            this.onChanged = null;
+            this.unBindAndDestroyEvents(['onChanged']);
+            super.destroy();
         }
         //#endregion Methods
     }
@@ -72,14 +77,14 @@ const LabeledAngleBar = (() => {
     //#endregion LabeledAngleBar
 })();
 Object.seal(LabeledAngleBar);
-Core.classes.register(Types.CATEGORIES.EXTENDED, LabeledAngleBar);
+core.classes.register(core.types.CATEGORIES.EXTENDED, LabeledAngleBar);
 //#endregion LabeledAngleBar
 //#region Template
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const LabeledAngleBarTpl = ['<jagui-labeledanglebar id="{internalId}" data-class="LabeledAngleBar" class="Control ',
         'LabeledAngleBar"><properties>{ "name": "{name}", "width": 205, "height": 20, "value": 0, "caption": ',
         '"{caption}" }</properties></jagui-labeledanglebar>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: LabeledAngleBar, template: LabeledAngleBarTpl }]);
+    core.classes.registerTemplates([{ Class: LabeledAngleBar, template: LabeledAngleBarTpl }]);
 }
 //#endregion
 export { LabeledAngleBar };

@@ -1,41 +1,30 @@
 ﻿//#region Import
 import { Label } from '/scripts/components/common/label.js';
 import { Text } from '/scripts/core/text.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Import
 //#region ValueLabel
 class ValueLabel extends Label {
-    //#region constructor
-    constructor(owner, props) {
-        props = !props ? {} : props;
-        if (owner) {
-            super(owner, props);
-        }
-    }
-    //#endregion constructor
     //#region Getters / Setters
     //#region caption
     get caption() {
         return super.caption;
     }
     set caption(newValue) {
-        if (Tools.isString(newValue)) {
-            if (this.caption !== newValue) {
-                super.caption = Text.replace(newValue, '<br>', String.SPACE);
-                this.update();
-            }
+        if (core.tools.isString(newValue) && this.caption !== newValue) {
+            super.caption = Text.replace(newValue, '<br>', String.SPACE);
+            this.update();
         }
     }
     //#endregion caption
     //#endregion Getters / Setters
 }
 //#endregion
-Core.classes.register(Types.CATEGORIES.CONTAINERS, ValueLabel);
-export { ValueLabel };
+core.classes.register(core.types.CATEGORIES.CONTAINERS, ValueLabel);
 //#region Template
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const ValueLabelTpl = ['<jagui-valuelabel id="{internalId}" data-class="ValueLabel" class="Control csr_default ValueLabel {theme}">',
         '<properties>{ "name": "{name}", "caption": "{caption}" }</properties></jagui-valuelabel>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: ValueLabel, template: ValueLabelTpl }]);
+    core.classes.registerTemplates([{ Class: ValueLabel, template: ValueLabelTpl }]);
 }
 //#endregion
+export { ValueLabel };

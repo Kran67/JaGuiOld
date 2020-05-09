@@ -1,6 +1,5 @@
 ﻿//#region Imports
 import { Checkbox } from '/scripts/components/common/checkbox.js';
-import { Tools } from '/scripts/core/tools.js';
 //#endregion Imports
 //#region PathCheckbox
 const PathCheckbox = (() => {
@@ -8,9 +7,7 @@ const PathCheckbox = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -21,15 +18,16 @@ const PathCheckbox = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                if (!core.isHTMLRenderer) {
+                    props.height = 17;
+                    props.width = 100;
+                }
+                props.canFocused = !1;
                 super(owner, props);
                 const priv = internal(this);
-                if (!Core.isHTMLRenderer) {
-                    this.height = 17;
-                    this.width = 100;
-                }
-                priv.checkSvg = props.hasOwnProperty('checkSvg') ? atob(props.checkSvg) : 'm49.568024,19.824736l-31.863983,29.73797l-17.705017,-16.521305l0,-19.824999l17.705017,16.469412l31.863983,-29.686078l0,19.825z';
+                priv.checkSvg = props.hasOwnProperty('checkSvg')
+                    ? atob(props.checkSvg) : 'm49.568024,19.824736l-31.863983,29.73797l-17.705017,-16.521305l0,-19.824999l17.705017,16.469412l31.863983,-29.686078l0,19.825z';
                 priv.svgViewBox = props.hasOwnProperty('svgViewBox') ? props.svgViewBox : '0 0 50 50';
-                this.canFocused = !1;
                 delete this.tabOrder;
             }
         }
@@ -40,11 +38,9 @@ const PathCheckbox = (() => {
             return internal(this).svgViewBox;
         }
         set svgViewBox(newValue) {
-            if (Tools.isString(newValue)) {
-                if (priv.svgViewBox !== newValue) {
-                    priv.svgViewBox = newValue;
-                    this.updateCSSProperties();
-                }
+            if (core.tools.isString(newValue) && priv.svgViewBox !== newValue) {
+                priv.svgViewBox = newValue;
+                this.updateCSSProperties();
             }
         }
         //#endregion svgViewBox
@@ -56,13 +52,9 @@ const PathCheckbox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (newValue !== priv.checkSvg) {
-                    priv.checkSvg = newValue;
-                    if (Core.isHTMLRenderer) {
-                        this.addCheckedRule();
-                    }
-                }
+            if (core.tools.isString(newValue) && newValue !== priv.checkSvg) {
+                priv.checkSvg = newValue;
+                core.isHTMLRenderer && this.addCheckedRule();
             }
         }
         //#endregion checkSvg
@@ -83,12 +75,11 @@ const PathCheckbox = (() => {
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
                 super.update();
-                this.check.innerHTML = [`<svg width="100%" height="100%" viewBox="${priv.svgViewBox}" xmlns="http://www.w3.org/2000/svg">`,
+                this.check.innerHTML = [`<svg width="100%" height="100%" viewBox="${priv.svgViewBox}"`, 
+                    ' xmlns="http://www.w3.org/2000/svg">',
                     `<path d="${priv.checkSvg}" /></svg>`].join(String.EMPTY);
                 this.check.style.opacity = 0.2;
-                if (this.isChecked) {
-                    this.check.style.opacity = 1;
-                }
+                this.isChecked && (this.check.style.opacity = 1);
             }
         }
         //#endregion updateCSSProperties
@@ -97,9 +88,9 @@ const PathCheckbox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.checkSvg = null;
             priv.svgViewBox = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
@@ -107,13 +98,13 @@ const PathCheckbox = (() => {
     return PathCheckbox;
     //#endregion
 })();
+core.classes.register(core.types.CATEGORIES.EXTENDED, PathCheckbox);
 //#endregion PathCheckbox
-Core.classes.register(Types.CATEGORIES.EXTENDED, PathCheckbox);
-export { PathCheckbox };
 //#region Template
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const PathCheckboxTpl = ['<jagui-pathcheckbox id="{internalId}" data-class="PathCheckbox" class="Control PathCheckbox {theme}"><properties>',
         '{ "name": "{name}", "caption": "{caption}" }</properties></jagui-pathcheckbox>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: PathCheckbox, template: PathCheckboxTpl }]);
+    core.classes.registerTemplates([{ Class: PathCheckbox, template: PathCheckboxTpl }]);
 }
 //#endregion
+export { PathCheckbox };

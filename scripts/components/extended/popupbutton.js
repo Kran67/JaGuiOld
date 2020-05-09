@@ -1,6 +1,5 @@
 ﻿//#region Import
 import { Button } from '/scripts/components/common/button.js';
-import { Tools } from '/scripts/core/tools.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Import
 //#region PopupButton
@@ -9,9 +8,7 @@ const PopupButton = (() => {
     const _private = new WeakMap();
     const internal = (key) => {
         // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
+        !_private.has(key) && _private.set(key, {});
         // Return private properties object
         return _private.get(key);
     };
@@ -22,9 +19,9 @@ const PopupButton = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.textObj = null;
                 super(owner, props);
                 const priv = internal(this);
-                this.textObj = null;
                 priv.popupMenu = props.hasOwnProperty('popupMenu') ? this.form[priv.popupMenu] : null;
             }
         }
@@ -38,11 +35,9 @@ const PopupButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.caption !== newValue) {
-                    priv.caption = Text.replace(newValue, Types.CONSTANTS.HOTKEYPREFIX, String.EMPTY);
-                    this.update();
-                }
+            if (core.tools.isString(newValue) && priv.caption !== newValue) {
+                priv.caption = Text.replace(newValue, core.types.CONSTANTS.HOTKEYPREFIX, String.EMPTY);
+                this.update();
             }
         }
         //#endregion caption
@@ -54,12 +49,10 @@ const PopupButton = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             this.onClick.invoke();
-            if (priv.popupMenu) {
-                if (priv.popupMenu instanceof Core.classes.PopupMenu) {
-                    const pt = this.clientToDocument();
-                    priv.popupMenu.control = this;
-                    priv.popupMenu.show(pt.x, pt.y + this.HTMLElement.offsetHeight);
-                }
+            if (priv.popupMenu && priv.popupMenu instanceof core.classes.PopupMenu) {
+                const pt = this.clientToDocument();
+                priv.popupMenu.control = this;
+                priv.popupMenu.show(pt.x, pt.y + this.HTMLElement.offsetHeight);
             }
         }
         //#endregion click
@@ -67,17 +60,15 @@ const PopupButton = (() => {
         keyDown() {
             const form = this.form;
             super.keyDown();
-            switch (Core.keyboard.keyCode) {
+            switch (core.keyboard.keyCode) {
                 case Keyboard.VKEYSCODES.VK_LEFT:
                 case Keyboard.VKEYSCODES.VK_UP:
                 case Keyboard.VKEYSCODES.VK_RIGHT:
                 case Keyboard.VKEYSCODES.VK_DOWN:
                 case Keyboard.VKEYSCODES.VK_RETURN:
                 case Keyboard.VKEYSCODES.VK_ENTER:
-                    if (!form.popups.isEmpty) {
-                        form.popups.last.keyDown();
-                    }
-                    Core.keyboard.stopEvent();
+                    !form.popups.isEmpty && form.popups.last.keyDown();
+                    core.keyboard.stopEvent();
                     break;
                 case Keyboard.VKEYSCODES.VK_ESCAPE:
                     break;
@@ -86,10 +77,10 @@ const PopupButton = (() => {
         //#endregion keyDown
         //#region keyUp
         keyUp() {
-            switch (Core.keyboard.keyCode) {
+            switch (core.keyboard.keyCode) {
                 case Keyboard.VKEYSCODES.VK_RETURN:
                 case Keyboard.VKEYSCODES.VK_ENTER:
-                    Core.keyboard.stopEvent();
+                    core.keyboard.stopEvent();
                     break;
             }
             super.keyUp();
@@ -110,7 +101,7 @@ const PopupButton = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             super.loaded();
-            priv.arrow = document.createElement(`${Core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}arrow`);
+            priv.arrow = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}arrow`);
             priv.arrow.classList.add('Control', 'PopupButtonArrow');
             priv.arrow.innerHTML = '8';
             this.HTMLElement.appendChild(priv.arrow);
@@ -122,13 +113,13 @@ const PopupButton = (() => {
     //#endregion PopupButton
 })();
 Object.seal(PopupButton);
-Core.classes.register(Types.CATEGORIES.EXTENDED, PopupButton);
+core.classes.register(core.types.CATEGORIES.EXTENDED, PopupButton);
 //#endregion PopupButton
 //#region Template
-if (Core.isHTMLRenderer) {
+if (core.isHTMLRenderer) {
     const PopupButtonTpl = ['<jagui-popupbutton id="{internalId}" data-class="PopupButton" class="Control PopupButton {theme} csr_default">',
         '<properties>{ "name": "{name}", "caption": "{name}" }</properties></jagui-popupbutton>'].join(String.EMPTY);
-    Core.classes.registerTemplates([{ Class: PopupButton, template: PopupButtonTpl }]);
+    core.classes.registerTemplates([{ Class: PopupButton, template: PopupButtonTpl }]);
 }
 //#endregion
 export { PopupButton };

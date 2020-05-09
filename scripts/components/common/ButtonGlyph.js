@@ -66,7 +66,8 @@ const ButtonGlyph = (() => {
                     variable: priv,
                     value: props.hasOwnProperty('layout') ? props.layout : BUTTONLAYOUTGLYPHS.LEFT
                 });
-                priv.glyphHTMLElement = core.types.HTMLELEMENTS.IMG;
+                priv.glyphHTMLElement = props.hasOwnProperty('glyphHTMLElement') 
+                    ? props.glyphHTMLElement : core.types.HTMLELEMENTS.IMG;
                 priv.src = props.src ? props.src : String.EMPTY;
             }
         }
