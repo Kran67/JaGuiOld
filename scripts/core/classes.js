@@ -81,9 +81,8 @@ class Classes {
         //#endregion Variables déclaration
         if (this.checkClassAndOwnerClass(params.class, params.owner)) {
             params.name = params.name || String.EMPTY;
-            !String.isNullOrEmpty(params.name) && params.props
-                ? params.props.name = params.name
-                : params.props = { name: params.name };
+            !params.props && (params.props = {});
+            params.props.name = params.name;
             obj = new params.class(params.owner, params.props);
             if (obj instanceof core.classes.Component) {
                 !core.tools.isBool(params.withTpl) && !params.withTpl && (params.withTpl = !0);

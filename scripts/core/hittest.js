@@ -18,16 +18,18 @@ const HitTest = (function () {
         constructor(props) {
             super();
             const priv = internal(this);
-            priv.mouseDown = props && (props.hasOwnProperty('mouseDown') || props.hasOwnProperty('all'))
+            priv.mouseDown = props && props.hasOwnProperty('mouseDown') && core.tools.isBool(props.mouseDown)
                 ? props.mouseDown : !0;
-            priv.mouseMove = props && (props.hasOwnProperty('mouseMove') || props.hasOwnProperty('all'))
+            priv.mouseMove = props && props.hasOwnProperty('mouseMove') && core.tools.isBool(props.mouseMove)
                 ? props.mouseMove : !1;
-            priv.mouseUp = props && (props.hasOwnProperty('mouseUp') || props.hasOwnProperty('all'))
+            priv.mouseUp = props && props.hasOwnProperty('mouseUp') && core.tools.isBool(props.mouseUp)
                 ? props.mouseUp : !0;
-            priv.mouseWheel = props && (props.hasOwnProperty('mouseWheel')
-                || props.hasOwnProperty('all')) ? props.mouseWheel : !1;
-            priv.dblClick = props && (props.hasOwnProperty('dblClick') || props.hasOwnProperty('all'))
+            priv.mouseWheel = props && props.hasOwnProperty('mouseWheel') && core.tools.isBool(props.mouseWheel)
+                ? props.mouseWheel : !1;
+            priv.dblClick = props && props.hasOwnProperty('dblClick') && core.tools.isBool(props.dblClick)
                 ? props.dblClick : !1;
+            props && props.hasOwnProperty('all') && core.tools.isBool(props.all)
+                && (priv.mouseDown = priv.mouseMove = priv.mouseUp = priv.mouseWheel = priv.dblClick = props.all);
         }
         //#endregion constructor
         //#region Getter / Setters

@@ -467,7 +467,7 @@ const Animation = (() => {
                         setter.removeAt(0);
                     }
                     if (startValue) {
-                        !String.isNullOrEmpty(triggerInverse) ? priv.inverse = !1 : 1;
+                        !String.isNullOrEmpty(triggerInverse) && (priv.inverse = !1);
                         this.start();
                     }
                 }

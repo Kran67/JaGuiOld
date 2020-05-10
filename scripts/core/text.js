@@ -232,7 +232,7 @@ class Text {
             const nextChar = code.substr(pos + 1, 1);
             // If opening tag, add newline character and indention
             if (char === '<' && nextChar !== '/') {
-                result.length > 0 && ( result = [...result, '\n'] );
+                result.length > 0 && (result = [...result, '\n']);
                 result = [...result, whitespace.repeat(currentIndent)];
                 currentIndent++;
                 currentCode = code.substr(pos, code.length);
@@ -256,9 +256,7 @@ class Text {
                 // remove empty lines
             } else if (stripEmptyLines && char === '\n') {
                 //debugger;
-                if (String.isNullOrEmpty(code.substr(pos, code.substr(pos).indexOf('<')).trim())) {
-                    char = String.EMPTY;
-                }
+                String.isNullOrEmpty(code.substr(pos, code.substr(pos).indexOf('<')).trim()) && (char = String.EMPTY);
             }
             result = [...result, char]
         }

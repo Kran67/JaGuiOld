@@ -220,7 +220,8 @@ const Component = (() => {
             if (!String.isNullOrEmpty(newValue) && !String.isNullOrEmpty(newValue.trim()) && priv.name !== newValue) {
                 form !== this && form && form[name] && (delete form[name]);
                 name = priv.name = newValue;
-                form !== this && this !== form.layout && this !== form.content && form && !form[name] && (form[name] = this);
+                form !== this && this !== form.layout && this !== form.content && form && !form[name]
+                    && (form[name] = this);
             }
         }
         //#endregion name

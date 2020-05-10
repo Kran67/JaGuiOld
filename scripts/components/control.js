@@ -2230,7 +2230,7 @@ const Control = (() => {
                     ? htmlElement.classList.add('noDisplay')
                     : htmlElement.classList.add('hidden')
             );
-            !String.isNullOrEmpty(priv.cssClasses) && (htmlElement.className += priv.cssClasses);
+            //!String.isNullOrEmpty(priv.cssClasses) && htmlElement.classList.add(priv.cssClasses);
             htmlElement.classList.add(this.cursor);
         }
         //#endregion loaded
