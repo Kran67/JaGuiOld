@@ -189,6 +189,9 @@ const SizeConstraints = (() => {
         //#endregion assignTo
         //#region destroy
         destroy() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             priv.control = null;
             priv.maxHeight = null;
             priv.maxWidth = null;

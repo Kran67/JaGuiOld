@@ -19,6 +19,7 @@ const IPhoneButton = (() => {
             props = !props ? {} : props;
             if (owner) {
                 props.caption = String.EMPTY;
+                props.canFocused = !1;
                 super(owner, props);
                 const priv = internal(this);
                 priv.halo = null;

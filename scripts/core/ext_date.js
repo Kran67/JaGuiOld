@@ -116,7 +116,7 @@ if (!Date.prototype.addDays) {
      */
     Date.prototype.addDays = function (d) {
         if (core.tools.isNumber(d)) {
-            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), 
+            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(),
                 this.getMinutes(), this.getSeconds(), this.getMilliseconds());
             a.setDate(this.getDate() + d);
             return a;
@@ -132,7 +132,7 @@ if (!Date.prototype.addMonths) {
      */
     Date.prototype.addMonths = function (m) {
         if (core.tools.isNumber(m)) {
-            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), 
+            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(),
                 this.getMinutes(), this.getSeconds(), this.getMilliseconds());
             if (a.getMonth() + m > 11) {
                 a.setMonth(0);
@@ -153,7 +153,7 @@ if (!Date.prototype.addYears) {
      */
     Date.prototype.addYears = function (y) {
         if (core.tools.isNumber(y)) {
-            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), 
+            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(),
                 this.getMinutes(), this.getSeconds(), this.getMilliseconds());
             a.setFullYear(a.getFullYear() + y);
             return a;
@@ -205,7 +205,7 @@ if (!Date.prototype.addMilliseconds) {
      */
     Date.prototype.addMilliseconds = function (m) {
         if (core.tools.isNumber(m)) {
-            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), 
+            const a = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(),
                 this.getMinutes(), this.getSeconds(), this.getMilliseconds());
             a.setMilliseconds(a.getMilliseconds() + m);
             return a;
@@ -341,7 +341,7 @@ if (!Date.prototype.HHMMSS) {
      */
     Date.prototype.HHMMSS = function (a) {
         !core.tools.isString(a) && (a = ':');
-        return String(this.hours).padStart(2, '0') + a + String(this.minutes).padStart(2, '0') + 
+        return String(this.hours).padStart(2, '0') + a + String(this.minutes).padStart(2, '0') +
             a + String(this.seconds).padStart(2, '0');
     };
 }
@@ -369,7 +369,7 @@ if (!Date.prototype.clone) {
      * @returns     {Date}      the new date
      */
     Date.prototype.clone = function () {
-        return new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), 
+        return new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(),
             this.getMinutes(), this.getSeconds(), this.getMilliseconds());
     };
 }
@@ -434,70 +434,73 @@ Object.defineProperty(Date.prototype, 'firstDayOfWeek', {
  * @return {String}  A string representation of the current Date object.
  */
 Date.prototype.toString = function (local, format) {
-    format = format || {
-        hour12: true,
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-    };
-    return new Intl.DateTimeFormat(local).format(this);
-    //format = format || String.EMPTY;
-    ////#region Variables déclaration
-    //const p = (s) => {
-    //    return s.toString().length === 1 ? '0' + s : s;
-    //};
-    //const self = this;
-    ////#endregion Variables déclaration
-    //return format ? format.replace(/dd?d?d?|MM?M?M?|yy?y?y?|hh?|HH?|mm?|ss?|tt?|zz?z?/g,
-    //    (f) => {
-    //        if (f === 'hh') {
-    //            return p(self.hours < 13 ? self.hours : self.hours - 12);
-    //        } else if (f === 'h') {
-    //            return self.hours < 13 ? self.hours : self.hours - 12;
-    //        } else if (f === 'HH') {
-    //            return p(self.hours);
-    //        } else if (f === 'H') {
-    //            return self.hours;
-    //        } else if (f === 'mm') {
-    //            return p(self.minutes);
-    //        } else if (f === 'm') {
-    //            return self.minutes;
-    //        } else if (f === 'ss') {
-    //            return p(self.seconds);
-    //        } else if (f === 's') {
-    //            return self.seconds;
-    //        } else if (f === 'yyyy') {
-    //            return self.year;
-    //        } else if (f === 'yy') {
-    //            return self.year.toString().substring(2, 4);
-    //        } else if (f === 'dddd') {
-    //            return self.dayName;
-    //        } else if (f === 'ddd') {
-    //            return self.shortDayName;
-    //        } else if (f === 'dd') {
-    //            return p(self.day);
-    //        } else if (f === 'd') {
-    //            return self.day.toString();
-    //        } else if (f === 'MMMM') {
-    //            return self.monthName;
-    //        } else if (f === 'MMM') {
-    //            return self.shortMonthName;
-    //        } else if (f === 'MM') {
-    //            return p(self.month + 1);
-    //        } else if (f === 'M') {
-    //            return self.month + 1;
-    //        } else if (f === 't') {
-    //            return self.hours < 12 ? Core.currentLocale.am.substring(0, 1) : Core.currentLocale.pm.substring(0, 1);
-    //        } else if (f === 'tt') {
-    //            return self.hours < 12 ? Core.currentLocale.am : Core.currentLocale.pm;
-    //        } else if (f === 'zzz' || f === 'zz' || f === 'z') {
-    //            return String.EMPTY;
-    //        }
-    //    }
-    //) : this._toString();
+    if (!local) {
+        format = format || String.EMPTY;
+        //#region Variables déclaration
+        const p = (s) => {
+            return s.toString().length === 1 ? '0' + s : s;
+        };
+        const self = this;
+        //#endregion Variables déclaration
+        return format ? format.replace(/dd?d?d?|MM?M?M?|yy?y?y?|hh?|HH?|mm?|ss?|tt?|zz?z?/g,
+            (f) => {
+                if (f === 'hh') {
+                    return p(self.hours < 13 ? self.hours : self.hours - 12);
+                } else if (f === 'h') {
+                    return self.hours < 13 ? self.hours : self.hours - 12;
+                } else if (f === 'HH') {
+                    return p(self.hours);
+                } else if (f === 'H') {
+                    return self.hours;
+                } else if (f === 'mm') {
+                    return p(self.minutes);
+                } else if (f === 'm') {
+                    return self.minutes;
+                } else if (f === 'ss') {
+                    return p(self.seconds);
+                } else if (f === 's') {
+                    return self.seconds;
+                } else if (f === 'yyyy') {
+                    return self.year;
+                } else if (f === 'yy') {
+                    return self.year.toString().substring(2, 4);
+                } else if (f === 'dddd') {
+                    return self.dayName;
+                } else if (f === 'ddd') {
+                    return self.shortDayName;
+                } else if (f === 'dd') {
+                    return p(self.day);
+                } else if (f === 'd') {
+                    return self.day.toString();
+                } else if (f === 'MMMM') {
+                    return self.monthName;
+                } else if (f === 'MMM') {
+                    return self.shortMonthName;
+                } else if (f === 'MM') {
+                    return p(self.month + 1);
+                } else if (f === 'M') {
+                    return self.month + 1;
+                } else if (f === 't') {
+                    return self.hours < 12 ? Core.currentLocale.am.substring(0, 1) : Core.currentLocale.pm.substring(0, 1);
+                } else if (f === 'tt') {
+                    return self.hours < 12 ? Core.currentLocale.am : Core.currentLocale.pm;
+                } else if (f === 'zzz' || f === 'zz' || f === 'z') {
+                    return String.EMPTY;
+                }
+            }
+        ) : this._toString();
+    } else {
+        format = format || {
+            hour12: true,
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        };
+        return new Intl.DateTimeFormat(local, format).format(this);
+    }
 };
 
 Object.defineProperty(Date.prototype, 'yearDay', {

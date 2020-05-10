@@ -1926,7 +1926,7 @@ const Control = (() => {
                 //  if (typeof jsObj.keyPress===core.types.CONSTANTS.FUNCTION) jsObj.keyPress();
                 //  break;
             }
-            jsObj.stopEvent || forceStopEvent && core.mouse.stopEvent(event);
+            (jsObj.stopEvent || forceStopEvent) && core.mouse.stopEvent(event);
         }
         //#endregion dispatchEvent
         //#region releaseCapture
@@ -2230,7 +2230,7 @@ const Control = (() => {
                     ? htmlElement.classList.add('noDisplay')
                     : htmlElement.classList.add('hidden')
             );
-            //!String.isNullOrEmpty(priv.cssClasses) && htmlElement.classList.add(priv.cssClasses);
+            !String.isNullOrEmpty(priv.cssClasses) && htmlElement.classList.add(priv.cssClasses.split(String.SPACE));
             htmlElement.classList.add(this.cursor);
         }
         //#endregion loaded

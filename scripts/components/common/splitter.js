@@ -125,10 +125,9 @@ const Splitter = (() => {
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             super.mouseDown();
-            if (core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && !this.canCollapse()) {
+            if (core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && !this.canCollapse() && !priv.down) {
                 priv.downPos.assign(core.mouse.document);
                 priv.down = !0;
-                console.log('mouseDown');
                 const resizeLine = document.createElement(core.types.HTMLELEMENTS.DIV);
                 const style = resizeLine.style;
                 if (priv.orientation === core.types.ORIENTATIONS.VERTICAL) {

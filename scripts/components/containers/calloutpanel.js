@@ -250,6 +250,12 @@ const CalloutPanel = (() => {
             super.destroy();
         }
         //#endregion destroy
+        //#region loaded
+        loaded() {
+            super.loaded();
+            this.update();
+        }
+        //#endregion loaded
         //#endregion Methods
     }
     return CalloutPanel;

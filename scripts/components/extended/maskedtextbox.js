@@ -34,7 +34,7 @@ const MaskedTextBox = (() => {
                 priv.partialPosition = 0;
                 priv.buffer = [];
                 priv.mask = props.hasOwnProperty('mask') ? props.mask : String.EMPTY;
-                priv.maskDefinitions = { '9': '[0-9]', 'a': '[A-Za-z]', '*': '"[A-Za-z0-9]' };
+                priv.maskDefinitions = { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' };
                 priv.blankSpace = props.hasOwnProperty('blankSpace') ? props.blankSpace : String.SPACE;
             }
         }

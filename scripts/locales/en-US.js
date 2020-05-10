@@ -15,11 +15,35 @@
         minutesLabel: 'Minutes',
         secondsLabel: 'Seconds',
         formatPatterns: {
-            shortDate: 'M/d/yyyy',
-            longDate: 'dddd, MMMM dd, yyyy',
-            shortTime: 'h:mm tt',
-            longTime: 'h:mm:ss tt',
-            fullDateTime: 'dddd, MMMM dd, yyyy h:mm:ss tt',
+            shortDate: { // dd/MM/yyyy
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            },
+            longDate: { // dddd d MMMM yyyy
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: '2-digit'
+            },
+            shortTime: { // HH:mm
+                hour: '2-digit',
+                minute: '2-digit'
+            },
+            longTime: { //HH:mm:ss
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            },
+            fullDateTime: { // dddd d MMMM yyyy HH:mm:ss
+                weekday: 'long',
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            },
             sortableDateTime: 'yyyy-MM-ddTHH:mm:ss',
             universalSortableDateTime: 'yyyy-MM-dd HH:mm:ssZ',
             rfc1123: 'ddd, dd MMM yyyy HH:mm:ss GMT',

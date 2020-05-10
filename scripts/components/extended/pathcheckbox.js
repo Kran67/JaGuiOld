@@ -98,6 +98,7 @@ const PathCheckbox = (() => {
     return PathCheckbox;
     //#endregion
 })();
+Object.seal(PathCheckbox);
 core.classes.register(core.types.CATEGORIES.EXTENDED, PathCheckbox);
 //#endregion PathCheckbox
 //#region Template

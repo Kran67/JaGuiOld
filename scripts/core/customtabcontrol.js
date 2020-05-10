@@ -231,7 +231,6 @@ const CustomTabControl = (() => {
         //#region getTab
         getTab(index) {
             //#region Variables déclaration
-            const priv = internal(this);
             const tabs = this.tabs;
             //#endregion Variables déclaration
             if (index >= 0 || index <= tabs.length - 1) {
@@ -375,9 +374,9 @@ const CustomTabControl = (() => {
                                 owner: this,
                                 props: {
                                     inForm: !0,
-                                    name: node.dataset.name,
                                     caption: node.innerHTML
                                 },
+                                name: node.dataset.name,
                                 withTpl: !1,
                                 internalId: node.id
                             });
@@ -561,7 +560,7 @@ const CustomTabControl = (() => {
                 props: {
                     inForm: !1,
                     parentHTML: priv.tabsHeader,
-                    cssClasses: ' TabControlLeftBtn',
+                    cssClasses: 'TabControlLeftBtn',
                     canFocused: !1,
                     caption: String.EMPTY
                 },
@@ -576,7 +575,7 @@ const CustomTabControl = (() => {
                 props: {
                     inForm: !1,
                     parentHTML: priv.tabsHeader,
-                    cssClasses: ' TabControlRightBtn',
+                    cssClasses: 'TabControlRightBtn',
                     canFocused: !1,
                     caption: String.EMPTY
                 },

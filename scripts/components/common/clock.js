@@ -607,7 +607,7 @@ const Clock = (() => {
             //#region DayMonthYear
             if (priv.showDate && isClock) {
                 currentDate.classList.add(`${className}_currentdate`);
-                currentDate.innerHTML = date.toString(core.tools.getLocale().date.formatPatterns.longDate);
+                currentDate.innerHTML = date.toString(core.currentLocale, core.tools.getLocale().date.formatPatterns.longDate);
                 htmlElement.appendChild(currentDate);
             }
             //#endregion DayMonthYear
@@ -973,7 +973,7 @@ const Clock = (() => {
                     }
                 });
                 htmlElement.querySelector('.Clock_currentdate').innerHTML =
-                    date.toString(core.tools.getLocale().date.formatPatterns.longDate);
+                    date.toString(core.currentLocale, core.tools.getLocale().date.formatPatterns.longDate);
                 priv.lastDate = date;
             }
         }

@@ -57,17 +57,17 @@ const CornerButton = (() => {
                 const priv = internal(this);
                 const topLeftCorner = props.hasOwnProperty('topLeftCorner') ? props.topLeftCorner : null;
                 priv.topLeftCorner = topLeftCorner ? new Point(topLeftCorner.x, topLeftCorner.y) : new Point;
-                priv.topLeftCornerType = topLeftCorner.hasOwnProperty('type') ? topLeftCorner.type : CORNERScore.types.ROUND;
+                priv.topLeftCornerType = topLeftCorner.hasOwnProperty('type') ? topLeftCorner.type : CORNERSTYPES.ROUND;
                 const topRightCorner = props.hasOwnProperty('topRightCorner') ? props.topRightCorner : null;
                 priv.topRightCorner = topRightCorner ? new Point(topRightCorner.x, topRightCorner.y) : new Point;
-                priv.topRightCornerType = topRightCorner.hasOwnProperty('type') ? topRightCorner.type : CORNERScore.types.ROUND;
+                priv.topRightCornerType = topRightCorner.hasOwnProperty('type') ? topRightCorner.type : CORNERSTYPES.ROUND;
                 const bottomRightCorner = props.hasOwnProperty('bottomRightCorner') ? props.bottomRightCorner : null;
                 priv.bottomRightCorner = bottomRightCorner ? new Point(bottomRightCorner.x, bottomRightCorner.y) : new Point;
                 priv.bottomRightCornerType = bottomRightCorner.hasOwnProperty('type')
-                    ? bottomRightCorner.type : CORNERScore.types.ROUND;
+                    ? bottomRightCorner.type : CORNERSTYPES.ROUND;
                 const bottomLeftCorner = props.hasOwnProperty('bottomLeftCorner') ? props.bottomLeftCorner : null;
                 priv.bottomLeftCorner = bottomLeftCorner ? new Point(bottomLeftCorner.x, bottomLeftCorner.y) : new Point;
-                priv.bottomLeftCornerType = bottomLeftCorner.hasOwnProperty('type') ? bottomLeftCorner.type : CORNERScore.types.ROUND;
+                priv.bottomLeftCornerType = bottomLeftCorner.hasOwnProperty('type') ? bottomLeftCorner.type : CORNERSTYPES.ROUND;
             }
         }
         //#endregion constructor
@@ -245,7 +245,7 @@ const CornerButton = (() => {
         //#endregion generateSVGPath
         //#region drawCorner
         drawCorner(corner, r, d) {
-            if (r.type === CORNERScore.types.NOTCH) {
+            if (r.type === CORNERSTYPES.NOTCH) {
                 switch (corner) {
                     case CORNERS.TOPRIGHT:
                         d.push('v', r.y, 'h', r.x);
@@ -260,7 +260,7 @@ const CornerButton = (() => {
                         d.push('h', r.x, 'v', -r.y);
                         break;
                 }
-            } else if (r.type === CORNERScore.types.SHARP) {
+            } else if (r.type === CORNERSTYPES.SHARP) {
                 const y2 = r.y * 0.5;
                 const x2 = r.x * 0.5;
                 switch (corner) {
@@ -278,10 +278,10 @@ const CornerButton = (() => {
                         break;
                 }
             } else {
-                if (r.type === CORNERScore.types.ROUND || r.type === CORNERScore.types.SCOOP) {
-                    const sweep = +(r.type === CORNERScore.types.ROUND);
+                if (r.type === CORNERSTYPES.ROUND || r.type === CORNERSTYPES.SCOOP) {
+                    const sweep = +(r.type === CORNERSTYPES.ROUND);
                     d.push('a', r.x, r.y, 0, 0, sweep);
-                } else if (r.type === CORNERScore.types.BEVEL) {
+                } else if (r.type === CORNERSTYPES.BEVEL) {
                     d.push('l');
                 }
                 d.push(corner === CORNERS.BOTTOMRIGHT || corner === CORNERS.BOTTOMLEFT ? -r.x : r.x);

@@ -41,14 +41,15 @@ const Checkbox = (() => {
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
-                props.autoCapture = !0;
-                props.canFocused = !0;
+                props.autoCapture = props.hasOwnProperty('autoCapture') && core.tools.isBool(props.autoCapture) 
+                    ? props.autoCapture : !0;
+                props.canFocused = props.hasOwnProperty('canFocused') && core.tools.isBool(props.canFocused) ? props.canFocused : !0;
                 props.hitTest = { mouseDown: !0, mouseUp: !0 };
-                props.autoSize = !1;
-                props.clipped = !1;
+                props.autoSize = props.hasOwnProperty('autoSize') && core.tools.isBool(props.autoSize) ? props.autoSize : !1;
+                props.clipped = props.hasOwnProperty('clipped') && core.tools.isBool(props.clipped) ? props.clipped : !1;
                 if (!core.isHTMLRenderer) {
-                    props.width = 120;
-                    props.height = 19;
+                    props.width = props.hasOwnProperty('width') && core.tools.isNumber(props.width) ? props.width : 120;
+                    props.height = props.hasOwnProperty('height') && core.tools.isNumber(props.height) ? props.height : 19;
                 }
                 super(owner, props);
                 this.createEventsAndBind(['onChange'], props);
@@ -63,7 +64,7 @@ const Checkbox = (() => {
                     value: props.hasOwnProperty('state') ? props.state : CHECKBOXSTATES.UNCHECKED
                 });
                 priv.allowGrayed = props.hasOwnProperty('allowGrayed') ? props.allowGrayed : !1;
-                priv.action = null;
+                priv.action = props.hasOwnProperty('action') ? props.action : null; // à voir
                 priv.check = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}check`);
                 priv.input = document.createElement(htmlElements.INPUT);
             }

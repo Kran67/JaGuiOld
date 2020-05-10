@@ -155,9 +155,7 @@ const ProgressBar = (() => {
                 //
             } else {
                 if (htmlElement) {
-                    borderLeft = parseInt(getComputedStyle(htmlElement).borderLeftWidth, 10);
                     borderTop = parseInt(getComputedStyle(htmlElement).borderTopWidth, 10);
-                    borderRight = parseInt(getComputedStyle(htmlElement).borderRightWidth, 10);
                     borderBottom = parseInt(getComputedStyle(htmlElement).borderBottomWidth, 10);
                 }
                 if (priv.progress) {
@@ -216,6 +214,7 @@ const ProgressBar = (() => {
             priv.progress.appendChild(progressBarIndic);
             this.HTMLElement.appendChild(priv.progress);
             super.loaded();
+            this.update();
         }
         //#endregion loaded
         //#region destroy

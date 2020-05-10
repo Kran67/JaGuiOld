@@ -37,12 +37,11 @@ const Rating = (() => {
             props = !props ? {} : props;
             if (owner) {
                 if (!core.isHTMLRenderer) {
-                    props.height = 16;
-                    props.width = 90;
+                    props.height = props.hasOwnProperty('height') && core.tools.isNumber(props.height) ? props.height : 16;
+                    props.width = props.hasOwnProperty('width') && core.tools.isNumber(props.width) ? props.width :90;
                 }
-                props.autoCapture = !0;
                 props.hitTest = { mouseMove: !0 };
-                props.canFocused = !0;
+                props.canFocused = !1;
                 props.allowUpdateOnResize = !0;
                 super(owner, props);
                 const priv = internal(this);
