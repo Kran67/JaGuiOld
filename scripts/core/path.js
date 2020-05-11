@@ -179,24 +179,24 @@ const PathData = (() => {
         get pathString() {
             //#region Variables déclaration
             let i = 0;
-            const result = [];
+            let result = [];
             const KINDS = PathPoint.KINDS;
             const data = internal(this).data;
             //#endregion Variables déclaration
             while (i < data.length) {
                 if (data[i].kind === KINDS.MOVETO) {
-                    result.push(`M ${data[i].point.x},${data[i].point.y}${String.SPACE}`);
+                    result = [...result, `M ${data[i].point.x},${data[i].point.y}${String.SPACE}`];
                 }
                 else if (data[i].kind === KINDS.LINETO) {
-                    result.push(`L ${data[i].point.x},${data[i].point.y}${String.SPACE}`);
+                    result = [...result, `L ${data[i].point.x},${data[i].point.y}${String.SPACE}`];
                 }
                 else if (data[i].kind === KINDS.CURVETO) {
-                    result.push(`C ${data[i].point.x},${data[i].point.y}${String.SPACE}
+                    result = [...result, `C ${data[i].point.x},${data[i].point.y}${String.SPACE}
                         ${data[i + 1].point.x},${data[i + 1].point.y}${String.SPACE}
-                        ${data[i + 2].point.x},${data[i + 2].point.y}${String.SPACE}`);
+                        ${data[i + 2].point.x},${data[i + 2].point.y}${String.SPACE}`];
                     i += 2;
                 } else if (data[i].kind === KINDS.CLOSE) {
-                    result.push('Z ');
+                    result = [...result, 'Z '];
                 }
                 i++;
             }
@@ -219,9 +219,7 @@ const PathData = (() => {
             if (core.tools.isString(value)) {
                 if (value.length > 0) {
                     value.split("").forEach((val, i) => {
-                        if (['\t', '\r', '\n', '"', '\''].indexOf(val) === -1) {
-                            s += val;
-                        }
+                        ['\t', '\r', '\n', '"', '\''].indexOf(val) === -1 && (s += val);
                     });
                 }
                 data.length = 0;
@@ -804,9 +802,7 @@ const PathData = (() => {
                 coord.forEach((c, i) => {
                     pts[i] = new core.classes.Point(cx + rx * (c.x * cc - c.y * ss), cy + ry * (c.x * ss + c.y * cc));
                 });
-                if (u) {
-                    p.data.length === 0 ? p.moveTo(pts[0]) : p.lineTo(pts[0]);
-                }
+                u && (p.data.length === 0 ? p.moveTo(pts[0]) : p.lineTo(pts[0]));
                 p.curveTo(pts[1], pts[2], pts[3]);
             }
         }
@@ -1095,7 +1091,8 @@ const PathData = (() => {
                     if (urr > 0) {
                         this.lineTo(new core.classes.Point(x2, y));
                         radii = CURVE2KAPPA * urr;
-                        this.curveTo(new core.classes.Point(x2 + radii, y), new core.classes.Point(xw, y1 - radii), new core.classes.Point(xw, y1));
+                        this.curveTo(new core.classes.Point(x2 + radii, y), new core.classes.Point(xw, y1 - radii),
+                            new core.classes.Point(xw, y1));
                         this.lineTo(new core.classes.Point(xw, y2));
                     } else {
                         this.lineTo(new core.classes.Point(xw, y));
@@ -1103,21 +1100,24 @@ const PathData = (() => {
                     }
                     if (lrr > 0) {
                         radii = CURVE2KAPPA * lrr;
-                        this.curveTo(new core.classes.Point(xw, y2 + radii), new core.classes.Point(x3 + radii, yh), new core.classes.Point(x3, yh));
+                        this.curveTo(new core.classes.Point(xw, y2 + radii), new core.classes.Point(x3 + radii, yh),
+                            new core.classes.Point(x3, yh));
                         this.lineTo(new core.classes.Point(x4, yh));
                     } else {
                         this.lineTo(new core.classes.Point(x, yh));
                     } /// ici
                     if (llr > 0) {
                         radii = CURVE2KAPPA * llr;
-                        this.curveTo(new core.classes.Point(x4 - radii, yh), new core.classes.Point(x, y3 + radii), new core.classes.Point(x, y3));
+                        this.curveTo(new core.classes.Point(x4 - radii, yh), new core.classes.Point(x, y3 + radii),
+                            new core.classes.Point(x, y3));
                         this.lineTo(new core.classes.Point(x, y4));
                     } else {
                         this.lineTo(new core.classes.Point(x, yh));
                     }
                     if (ulr > 0) {
                         radii = CURVE2KAPPA * ulr;
-                        this.curveTo(new core.classes.Point(x, y4 - radii), new core.classes.Point(x1 - radii, y), new core.classes.Point(x1, y));
+                        this.curveTo(new core.classes.Point(x, y4 - radii), new core.classes.Point(x1 - radii, y),
+                            new core.classes.Point(x1, y));
                     } else {
                         this.lineTo(new core.classes.Point(x, y));
                     }
@@ -1137,10 +1137,10 @@ const PathData = (() => {
                 const rx = r.width * 0.5;
                 const cy = r.height * 0.5;
                 const ry = r.height * 0.5;
-                if (!(o instanceof core.classes.Chord) && !(o instanceof core.classes.Arc)) {
-                    this.moveTo(new core.classes.Point(r.left + cx, r.top + cy));
-                }
-                this.addArc(new core.classes.Point(r.left + cx, r.top + cy), new core.classes.Point(rx, ry), o.startAngle, o.endAngle - o.startAngle);
+                !(o instanceof core.classes.Chord) && !(o instanceof core.classes.Arc)
+                    && this.moveTo(new core.classes.Point(r.left + cx, r.top + cy));
+                this.addArc(new core.classes.Point(r.left + cx, r.top + cy),
+                    new core.classes.Point(rx, ry), o.startAngle, o.endAngle - o.startAngle);
                 !(o instanceof core.classes.Chord) && !(o instanceof core.classes.Arc)
                     && this.lineTo(new core.classes.Point(r.left + cx, r.top + cy));
                 !(o instanceof core.classes.Arc) && this.closePath();
@@ -1422,15 +1422,11 @@ const PathData = (() => {
                 const bounds = this.bounds;
                 const s = Math.min(bounds.width * 0.01, bounds.height * 0.01);
                 let f = coef * s;
-                if (f < 0.05) {
-                    f = 0.05;
-                }
-                //copy data
-                if (data.length > 0) {
-                    data.forEach(d => {
+                f = Math.max(f, 0.05);
+                data.length > 0
+                    && data.forEach(d => {
                         oldPathData.push(d);
                     });
-                }
                 data.length = 0;
                 let i = 0;
                 oldPathData.forEach(opd => {
@@ -1454,11 +1450,10 @@ const PathData = (() => {
                         let segCount = Math.round(len / f);
                         segCount = Math.max(segCount, 2);
                         const bpts = this.createBezier(b, segCount);
-                        if (bpts.length > 0) {
-                            bpts.forEach(bpt => {
+                        bpts.length > 0
+                            && bpts.forEach(bpt => {
                                 this.lineTo(bpt);
                             });
-                        }
                         curPoint.assign(opd.point);
                     } else if (opd.kind === KINDS.CLOSE) {
                         this.closePath();
@@ -1474,14 +1469,11 @@ const PathData = (() => {
             const KINDS = PathPoint.KINDS;
             const data = this.data;
             //#endregion Variables déclaration
-            if (core.tools.isNumber(x) && core.tools.isNumber(y)) {
-                if (data.length > 0) {
-                    data.forEach(d => {
-                        d.kind === KINDS.MOVETO || d.kind === KINDS.LINETO || d.kind === KINDS.CURVETO
-                            && d.point.setValues(d.point.x * x, d.point.y * y);
-                    });
-                }
-            }
+            core.tools.isNumber(x) && core.tools.isNumber(y) && data.length > 0
+                && data.forEach(d => {
+                    d.kind === KINDS.MOVETO || d.kind === KINDS.LINETO || d.kind === KINDS.CURVETO
+                        && d.point.setValues(d.point.x * x, d.point.y * y);
+                });
         }
         //#endregion scale
         //#region offset
@@ -1490,12 +1482,11 @@ const PathData = (() => {
             const KINDS = PathPoint.KINDS;
             const data = this.data;
             //#endregion Variables déclaration
-            if (data.length > 0) {
-                data.forEach(d => {
+            data.length > 0
+                && data.forEach(d => {
                     d.kind === KINDS.MOVETO || d.kind === KINDS.LINETO || d.kind === KINDS.CURVETO
                         && d.point.setValues(d.point.x + x, d.point.y + y);
                 });
-            }
         }
         //#endregion offset
         //#region applyMatrix
@@ -1505,15 +1496,14 @@ const PathData = (() => {
             const KINDS = PathPoint.KINDS;
             const data = this.data;
             //#endregion Variables déclaration
-            if (m instanceof core.classes.Matrix && data.length > 0) {
-                data.forEach(d => {
+            m instanceof core.classes.Matrix && data.length > 0
+                && data.forEach(d => {
                     if (d.kind === KINDS.MOVETO || d.kind === KINDS.LINETO || d.kind === KINDS.CURVETO) {
                         const v = new core.classes.Vector(d.point);
                         v.transform(m);
                         d.point.setValues(v.x, v.y);
                     }
                 });
-            }
         }
         //#endregion applyMatrix
         //#region flattenToPolygon
@@ -1533,11 +1523,7 @@ const PathData = (() => {
                 r.assign(bounds);
                 r.fit(new core.classes.Rect(0, 0, 100, 100));//.rect;
                 const s = Math.min(bounds.width * 0.01, bounds.height * 0.01);
-                f = f * s;
-                if (f < 0.05) {
-                    f = 0.05;
-                }
-                let i = 0;
+                f = Math.max(f * s, 0.05);
                 data.forEach(d => {
                     let sp = 0;
                     if (d.kind === KINDS.MOVETO) {
@@ -1559,9 +1545,7 @@ const PathData = (() => {
                         v.subtract(new core.classes.Vector(b[3].x, b[3].y, 1));
                         const len = v.length;
                         let segCount = Math.round(len / f);
-                        if (segCount < 2) {
-                            segCount = 2;
-                        }
+                        segCount < 2 && (segCount = 2);
                         const bPts = this.createBezier(b, segCount);
                         bPts.forEach(bpt => {
                             polygon.push(bpt);
@@ -1664,9 +1648,7 @@ const PathData = (() => {
         //#endregion destroy
         //#region updateOwner
         updateOwner() {
-            if (this.owner) {
-                this.owner.update();
-            }
+            this.owner && this.owner.update();
         }
         //#endregion updateOwner
         //#endregion
