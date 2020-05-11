@@ -49,7 +49,7 @@ const Control = (() => {
                 };
                 priv.tabList = [];
                 priv.stopEvent = props.hasOwnProperty('stopEvent') && core.tools.isBool(props.stopEvent)
-                    ? props.stopEvent : !1;
+                    ? props.stopEvent : !0;
                 priv.constraints = new core.classes.SizeConstraints(this);
                 priv.ownerShowToolTip = props.hasOwnProperty('ownerShowToolTip') && core.tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : !0;
                 priv.autoCapture = props.hasOwnProperty('autoCapture') && core.tools.isBool(props.autoCapture)
@@ -1746,10 +1746,11 @@ const Control = (() => {
             const MOUSEEVENTS = Mouse.MOUSEEVENTS;
             const htmlElement = this.HTMLElement;
             const dispatchEvent = this.dispatchEvent;
-            const events = [MOUSEEVENTS.OVER, MOUSEEVENTS.OUT, MOUSEEVENTS.CLICK, MOUSEEVENTS.MOVE, MOUSEEVENTS.DOWN, MOUSEEVENTS.UP,
-            MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK, MOUSEEVENTS.DOMSCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG,
-            MOUSEEVENTS.DROP, MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
-            MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
+            const events = [MOUSEEVENTS.OVER, MOUSEEVENTS.OUT, MOUSEEVENTS.CLICK, MOUSEEVENTS.MOVE,
+                MOUSEEVENTS.DOWN, MOUSEEVENTS.UP, MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK,
+                MOUSEEVENTS.DOMSCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG, MOUSEEVENTS.DROP,
+                MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
+                MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
             ];
             //#endregion Variables déclaration
             events.forEach(event => {
@@ -1763,10 +1764,11 @@ const Control = (() => {
             const MOUSEEVENTS = Mouse.MOUSEEVENTS;
             const htmlElement = this.HTMLElement;
             const dispatchEvent = this.dispatchEvent;
-            const events = [MOUSEEVENTS.OVER, MOUSEEVENTS.OUT, MOUSEEVENTS.CLICK, MOUSEEVENTS.MOVE, MOUSEEVENTS.DOWN, MOUSEEVENTS.UP,
-            MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK, MOUSEEVENTS.DOMSCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG,
-            MOUSEEVENTS.DROP, MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
-            MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
+            const events = [MOUSEEVENTS.OVER, MOUSEEVENTS.OUT, MOUSEEVENTS.CLICK, MOUSEEVENTS.MOVE,
+                MOUSEEVENTS.DOWN, MOUSEEVENTS.UP, MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK,
+                MOUSEEVENTS.DOMSCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG, MOUSEEVENTS.DROP,
+                MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
+                MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
             ];
             //#endregion Variables déclaration
             events.forEach(event => {
@@ -1816,6 +1818,7 @@ const Control = (() => {
                     }
                     break;
                 case MOUSEEVENTS.DOWN:
+                    console.log(jsObj.constructor.name, event.target);
                     if (activeWin !== jsObj.form) {
                         activeWin.mainMenu && (activeWin.mainMenu.isActive = !1);
                         activeWin.app.closeAllPopups();
@@ -1861,8 +1864,6 @@ const Control = (() => {
                         return;
                     }
                     core.tools.isFunc(jsObj.mouseWheel) && jsObj.mouseWheel();
-                    forceStopEvent = !0;
-                    jsObj.stopEvent ? event.preventDefault() : jsObj.form.mouseWheel();
                     break;
                 case MOUSEEVENTS.DBLCLICK:
                     if (activeWin.capturedControl) {
@@ -1935,8 +1936,7 @@ const Control = (() => {
                 //  if (typeof jsObj.keyPress===core.types.CONSTANTS.FUNCTION) jsObj.keyPress();
                 //  break;
             }
-            //(jsObj.stopEvent || forceStopEvent) && 
-                core.mouse.stopEvent(event);
+            (jsObj.stopEvent || forceStopEvent) && core.mouse.stopEvent(event);
         }
         //#endregion dispatchEvent
         //#region releaseCapture

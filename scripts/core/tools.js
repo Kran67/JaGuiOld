@@ -276,7 +276,7 @@ class Tools {
     //#region getNextValueFromEnum
     static getNextValueFromEnum(_enum, currentValue) {
         //#region Variables déclaration
-        const values = [];
+        let values = [];
         //#endregion Variables déclaration
         if (!_enum) {
             return currentValue;

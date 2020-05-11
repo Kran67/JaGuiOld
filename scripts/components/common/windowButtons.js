@@ -94,7 +94,7 @@ const WindowMinimizeButton = (() => {
         //#region Methods
         //#region click
         click() {
-            this.form.toogleMinRestore();
+            this.form.toggleMinRestore();
         }
         //#endregion click
         //#region render
@@ -128,7 +128,7 @@ const WindowMaxRestoreButton = (() => {
         //#region Methods
         //#region click
         click() {
-            this.form.toogleMaxRestore();
+            this.form.toggleMaxRestore();
         }
         //#endregion click
         //#region render
@@ -212,7 +212,7 @@ const WindowRollUpDownButton = (() => {
         //#region Methods
         //#region click
         click() {
-            core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.form.toogleRollUpDown();
+            core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.form.toggleRollUpDown();
         }
         //#endregion click
         //#region destroy

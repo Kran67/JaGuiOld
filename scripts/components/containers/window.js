@@ -489,7 +489,7 @@ const WindowTitleBar = (() => {
             //#endregion Variables déclaration
             if (mouse.button === Mouse.MOUSEBUTTONS.LEFT && form.isBorderSingle || form.isBorderSizeable) {
                 (document.x > bcr.left) && (document.x < bcr.left + 20)
-                    ? form.close() : form.toogleMaxRestore();
+                    ? form.close() : form.toggleMaxRestore();
             }
         }
         //#endregion dblClick
@@ -526,7 +526,6 @@ class WindowContent extends ThemedControl {
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
-            props.stopEvent = !1;
             props.hitTest = { mouseWheel: !0 };
             super(owner, props);
         }
@@ -1489,8 +1488,8 @@ const BaseWindow = (() => {
             }
         }
         //#endregion _onMinimizeFinish
-        //#region toogleMinRestore
-        toogleMinRestore() {
+        //#region toggleMinRestore
+        toggleMinRestore() {
             //#region Variables déclaration
             const priv = internal(this);
             const minimizeBtn = priv.titleBar.minimizeBtn;
@@ -1510,7 +1509,7 @@ const BaseWindow = (() => {
                 }
             }
         }
-        //#endregion toogleMinRestore
+        //#endregion toggleMinRestore
         //#region maximize
         maximize() {
             //#region Variables déclaration
@@ -1562,8 +1561,8 @@ const BaseWindow = (() => {
             }
         }
         //#endregion maximize
-        //#region toogleMaxRestore
-        toogleMaxRestore() {
+        //#region toggleMaxRestore
+        toggleMaxRestore() {
             //#region Variables déclaration
             const priv = internal(this);
             const maxRestoreBtn = priv.titleBar.maxRestoreBtn;
@@ -1582,7 +1581,7 @@ const BaseWindow = (() => {
                 isHtmlRenderer && maxRestoreBtn.HTMLElement.classList.remove('isrestore');
             }
         }
-        //#endregion toogleMaxRestore
+        //#endregion toggleMaxRestore
         //#region restore
         restore() {
             //#region Variables déclaration
@@ -1593,7 +1592,7 @@ const BaseWindow = (() => {
             const PX = core.types.CSSUNITS.PX;
             if (savedSizePosState.oldState && savedSizePosState.oldState === WINDOWSTATES.MAXIMIZED) {
                 delete priv.savedSizePosState.oldState;
-                this.toogleMaxRestore();
+                this.toggleMaxRestore();
                 return;
             }
             //#endregion Variables déclaration
@@ -1641,11 +1640,11 @@ const BaseWindow = (() => {
             //let form=this.form;
         }
         //#endregion showHelp
-        //#region toogleRollUpDown
-        toogleRollUpDown() {
+        //#region toggleRollUpDown
+        toggleRollUpDown() {
             !this.isRolledUp ? this.rollUp() : this.rollDown();
         }
-        //#endregion toogleRollUpDown
+        //#endregion toggleRollUpDown
         //#region rollUp
         rollUp() {
             //#region Variables déclaration
@@ -1768,7 +1767,7 @@ const BaseWindow = (() => {
                 priv.firstShow = !1;
                 if (this.isMaximized) {
                     priv.windowState = Window.WINDOWSTATES.NORMAL;
-                    this.toogleMaxRestore();
+                    this.toggleMaxRestore();
                 }
             }
             switch (priv.position) {

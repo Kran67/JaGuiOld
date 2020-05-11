@@ -30,11 +30,8 @@ const Calendar = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                props.hitTest = [!0, !1, !0]; // à voir
                 props.canFocused = !0;
-                props.stopEvent = !1;
                 super(owner, props);
-                this.createEventsAndBind(['onChange'], props);
                 const priv = internal(this);
                 priv.prevMonth = null;
                 priv.thisDay = null
@@ -83,6 +80,7 @@ const Calendar = (() => {
                     value: props.hasOwnProperty('mode') ? props.mode : CALENDARMODES.DAYS,
                     forceUpdate: !0
                 });
+                this.createEventsAndBind(['onChange'], props);
             }
         }
         //#endregion constructor
@@ -138,147 +136,113 @@ const Calendar = (() => {
         //#region Methods
         //#region decDate
         decDate() {
-            //#region Variables déclaration
-            const obj = this.jsObj;
-            //#endregion Variables déclaration
-            if (obj.isEnabled) {
-                switch (obj.mode) {
+            if (this.isEnabled) {
+                switch (this.mode) {
                     case CALENDARMODES.MONTHS:
-                        obj.date = obj.date.addYears(-1);
+                        this.date = this.date.addYears(-1);
                         break;
                     case CALENDARMODES.DECADES:
-                        obj.date = obj.date.addYears(-10);
+                        this.date = this.date.addYears(-10);
                         break;
                     case CALENDARMODES.CENTURIES:
-                        obj.date = obj.date.addYears(-100);
+                        this.date = this.date.addYears(-100);
                         break;
                     default:
-                        obj.date = obj.date.addMonths(-1);
+                        this.date = this.date.addMonths(-1);
                         break;
                 }
-                obj.update();
+                this.update();
             }
         }
         //#endregion decDate
         //#region goToThisDay
         goToThisDay() {
-            //#region Variables déclaration
-            let obj = this.jsObj;
-            //#endregion Variables déclaration
-            !obj && (obj = this);
-            if (obj.isEnabled) {
-                obj.date = new Date(Date.now());
-                obj.mode = CALENDARMODES.DAYS;
+            if (this.isEnabled) {
+                this.date = new Date(Date.now());
+                this.mode = CALENDARMODES.DAYS;
             }
         }
         //#endregion goToThisDay
         //#region incDate
         incDate() {
-            //#region Variables déclaration
-            const obj = this.jsObj;
-            //#endregion Variables déclaration
-            if (obj.isEnabled) {
-                switch (obj.mode) {
+            if (this.isEnabled) {
+                switch (this.mode) {
                     case CALENDARMODES.MONTHS:
-                        obj.date = obj.date.addYears(1);
+                        this.date = this.date.addYears(1);
                         break;
                     case CALENDARMODES.DECADES:
-                        obj.date = obj.date.addYears(10);
+                        this.date = this.date.addYears(10);
                         break;
                     case CALENDARMODES.CENTURIES:
-                        obj.date = obj.date.addYears(100);
+                        this.date = this.date.addYears(100);
                         break;
                     default:
-                        obj.date = obj.date.addMonths(1);
+                        this.date = this.date.addMonths(1);
                         break;
                 }
-                obj.update();
+                this.update();
             }
         }
         //#endregion incDate
         //#region selectDay
         selectDay() {
             //#region Variables déclaration
-            const obj = this.jsObj;
-            //#endregion Variables déclaration
-            obj._selectDay(this.dataset.day, this);
-        }
-        //#endregion selectDay
-        //#region _selectDay
-        _selectDay(data, htmlObj) {
-            //#region Variables déclaration
             const priv = internal(this);
+            const htmlObj = core.mouse.event.target;
+            const day = htmlObj.dataset.day;
             //#endregion Variables déclaration
-            if (this.isEnabled && ata) {
-                priv.curDate.setDate(~~data);
+            if (this.isEnabled && day) {
+                priv.curDate.setDate(~~day);
                 htmlObj && (priv.lastSelectedDay = htmlObj);
                 this.update();
             }
         }
-        //#endregion _selectDay
+        //#endregion selectDay
         //#region selectMonth
         selectMonth() {
             //#region Variables déclaration
-            const obj = this.jsObj;
-            //#endregion Variables déclaration
-            obj._selectMonth(this.dataset.month);
-        }
-        //#endregion selectMonth
-        //#region _selectMonth
-        _selectMonth(data) {
-            //#region Variables déclaration
             const priv = internal(this);
+            const htmlObj = core.mouse.event.target;
+            const month = htmlObj.dataset.month;
             //#endregion Variables déclaration
             if (this.isEnabled) {
-                data && priv.curDate.setMonth(~~data);
+                month && priv.curDate.setMonth(~~month);
                 Events.bind(priv.months, 'AnimationEnd', this.animationEnd);
                 priv.months.dataset.view = !1;
                 this.mode = CALENDARMODES.DAYS;
             }
         }
-        //#endregion _selectMonth
+        //#endregion selectMonth
         //#region selectYear
         selectYear() {
             //#region Variables déclaration
-            const obj = this.jsObj;
-            //#endregion Variables déclaration
-            obj._selectYear(this.dataset.year);
-        }
-        //#endregion selectYear
-        //#region _selectYear
-        _selectYear(data) {
-            //#region Variables déclaration
             const priv = internal(this);
+            const htmlObj = core.mouse.event.target;
+            const year = htmlObj.dataset.year;
             //#endregion Variables déclaration
             if (this.isEnabled) {
-                data && priv.curDate.setFullYear(data);
+                year && priv.curDate.setFullYear(~~year);
                 Events.bind(priv.decades, 'AnimationEnd', this.animationEnd);
                 priv.decades.dataset.view = !1;
                 this.mode = CALENDARMODES.MONTHS;
             }
         }
-        //#endregion _selectYear
+        //#endregion selectYear
         //#region selectDecades
         selectDecades() {
             //#region Variables déclaration
-            const obj = this.jsObj;
-            //#endregion Variables déclaration
-            obj._selectDecades(this.dataset.decade);
-        }
-        //#endregion selectDecades
-        //#region _selectDecades
-        _selectDecades(data) {
-            //#region Variables déclaration
             const priv = internal(this);
+            const htmlObj = core.mouse.event.target;
+            const decade = htmlObj.dataset.decade;
             //#endregion Variables déclaration
             if (this.isEnabled) {
-                data && priv.curDate.setFullYear(data);
+                decade && priv.curDate.setFullYear(~~decade);
                 Events.bind(priv.centuries, 'AnimationEnd', this.animationEnd);
                 priv.centuries.dataset.view = !1;
                 this.mode = CALENDARMODES.DECADES;
             }
         }
-        //#endregion _selectDecades
+        //#endregion selectDecades
         //#region animationEnd
         animationEnd() {
             //#region Variables déclaration
@@ -292,10 +256,7 @@ const Calendar = (() => {
         //#endregion animationEnd
         //#region viewMYDC
         viewMYDC() {
-            //#region Variables déclaration
-            const obj = this.jsObj;
-            //#endregion Variables déclaration
-            obj.isEnabled && (obj.mode = core.tools.getNextValueFromEnum(CALENDARMODES, obj.mode));
+            this.isEnabled && (this.mode = core.tools.getNextValueFromEnum(CALENDARMODES, this.mode));
         }
         //#endregion viewMYDC
         //#region update
@@ -327,8 +288,6 @@ const Calendar = (() => {
                             i === priv.curDate.month - 1 && div[d].classList.add('CalendarSelected');
                             div[d].jsObj = this;
                             div[d].dataset.theme = this.themeName;
-                            Events.unBind(div[d], Mouse.MOUSEEVENTS.CLICK, this.selectMonth);
-                            Events.bind(div[d], Mouse.MOUSEEVENTS.CLICK, this.selectMonth);
                             d++;
                         }
                         break;
@@ -345,8 +304,6 @@ const Calendar = (() => {
                             div[d].innerHTML = i;
                             div[d].dataset.year = i;
                             div[d].jsObj = this;
-                            Events.unBind(div[d], Mouse.MOUSEEVENTS.CLICK, this.selectYear);
-                            Events.bind(div[d], Mouse.MOUSEEVENTS.CLICK, this.selectYear);
                             d++;
                         }
                         priv.thisMonth.innerHTML = `${l}-${(l + 9)}`;
@@ -375,8 +332,6 @@ const Calendar = (() => {
                                 div[d].innerHTML = `${startCentury}<br />${(startCentury + 9)}`;
                                 div[d].dataset.decade = `${startCentury + ~~(priv.curDate.getFullYear().toString().substr(3, 1))}`;
                                 div[d].jsObj = this;
-                                Events.unBind(div[d], Mouse.MOUSEEVENTS.CLICK, this.selectDecades);
-                                Events.bind(div[d], Mouse.MOUSEEVENTS.CLICK, this.selectDecades);
                                 startCentury += 10;
                                 d++;
                             }
@@ -434,8 +389,6 @@ const Calendar = (() => {
                                     div[i].innerHTML = firstDay.getDate();
                                     div[i].dataset.day = firstDay.getDate();
                                     div[i].jsObj = this;
-                                    Events.unBind(div[i], Mouse.MOUSEEVENTS.CLICK, this.selectDay);
-                                    Events.bind(div[i], Mouse.MOUSEEVENTS.CLICK, this.selectDay);
                                     firstDay = firstDay.addDays(1);
                                     i++;
                                 }
@@ -449,7 +402,7 @@ const Calendar = (() => {
         //#region keyDown
         keyDown() {
             //#region Variables déclaration
-            priv = internal(this);
+            const priv = internal(this);
             //#endregion Variables déclaration
             super.keyDown();
             switch (core.keyboard.keyCode) {
@@ -640,22 +593,18 @@ const Calendar = (() => {
                 priv.prevMonth = document.createElement(`${tag}prevmonth`);
                 priv.prevMonth.classList.add('Control', 'CalendarPrevMonth', self.themeName);
                 priv.prevMonth.jsObj = self;
-                Events.bind(priv.prevMonth, Mouse.MOUSEEVENTS.CLICK, self.decDate);
                 header.appendChild(priv.prevMonth);
                 priv.thisDay = document.createElement(`${tag}thisday`);
                 priv.thisDay.classList.add('Control', 'CalendarThisDay', self.themeName);
                 priv.thisDay.jsObj = self;
-                Events.bind(priv.thisDay, Mouse.MOUSEEVENTS.CLICK, self.goToThisDay);
                 header.appendChild(priv.thisDay);
                 priv.nextMonth = document.createElement(`${tag}nextmonth`);
                 priv.nextMonth.classList.add('Control', 'CalendarNextMonth', self.themeName);
                 priv.nextMonth.jsObj = self;
-                Events.bind(priv.nextMonth, Mouse.MOUSEEVENTS.CLICK, self.incDate);
                 header.appendChild(priv.nextMonth);
                 priv.thisMonth = document.createElement(`${tag}thismonth`);
                 priv.thisMonth.classList.add('Control', 'CalendarThisMonth', self.themeName);
                 priv.thisMonth.jsObj = self;
-                Events.bind(priv.thisMonth, Mouse.MOUSEEVENTS.CLICK, self.viewMYDC);
                 header.appendChild(priv.thisMonth);
             };
             //#endregion generateHeader
@@ -745,7 +694,42 @@ const Calendar = (() => {
             !htmlElement.querySelector('.CalendarContent') && generateContent();
             this.update();
         }
-        //#region loaded
+        //#endregion loaded
+        //#region mouseDown
+        mouseDown() {
+            //#region Variables déclaration
+            const tag = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+            //#endregion Variables déclaration
+            super.mouseDown();
+            console.log(core.mouse.event.target.tagName.toLowerCase());
+            switch (core.mouse.event.target.tagName.toLowerCase()) {
+                case `${tag}weekday`:
+                    this.selectDay();
+                    break;
+                case `${tag}thismonth`:
+                    this.viewMYDC();
+                    break;
+                case `${tag}nextmonth`:
+                    this.incDate();
+                    break;
+                case `${tag}thisday`:
+                    this.goToThisDay();
+                    break;
+                case `${tag}prevmonth`:
+                    this.decDate();
+                    break;
+                case `${tag}month`:
+                    this.selectMonth();
+                    break;
+                case `${tag}decade`:
+                    this.selectYear();
+                    break;
+                case `${tag}century`:
+                    this.selectDecades();
+                    break;
+            }
+        }
+        //#endregion mouseDown
         //#endregion Methods
     }
     return Calendar;

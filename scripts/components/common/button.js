@@ -33,7 +33,6 @@ const CustomButton = (() => {
                 props.horizAlign = props.hasOwnProperty('horizAlign') ? props.horizAlign : core.types.TEXTALIGNS.CENTER;
                 props.vertAlign = props.hasOwnProperty('vertAlign') ? props.vertAlign : core.types.VERTTEXTALIGNS.MIDDLE;
                 props.autoSize = !1;
-                props.stopEvent = !1;
                 super(owner, props);
                 const priv = internal(this);
                 priv.pressing = !1;
