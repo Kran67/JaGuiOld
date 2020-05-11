@@ -563,8 +563,7 @@ const CustomTabControl = (() => {
                     cssClasses: 'TabControlLeftBtn',
                     canFocused: !1,
                     caption: String.EMPTY
-                },
-                withTpl: !0
+                }
             });
             priv.btnLeft.tag = DIRECTIONS.LEFT;
             priv.btnLeft.tabsContainer = priv.tabsContainer;
@@ -578,8 +577,7 @@ const CustomTabControl = (() => {
                     cssClasses: 'TabControlRightBtn',
                     canFocused: !1,
                     caption: String.EMPTY
-                },
-                withTpl: !0
+                }
             });
             priv.btnRight.tag = DIRECTIONS.RIGHT;
             priv.btnRight.tabsContainer = priv.tabsContainer;

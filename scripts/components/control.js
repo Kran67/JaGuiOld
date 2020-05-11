@@ -1639,10 +1639,10 @@ const Control = (() => {
                 clicked = priv.isPressed && !priv.doubleClick;
                 this.isPressed = !1;
                 this.doubleClick = !1;
-                if (clicked && core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
-                    this.click();
-                    !core.isHTMLRenderer && (core.canvas.needRedraw = !0);
-                }
+                //if (clicked && core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
+                //    this.click();
+                //    !core.isHTMLRenderer && (core.canvas.needRedraw = !0);
+                //}
             }
         }
         //#endregion mouseUp
@@ -1836,7 +1836,6 @@ const Control = (() => {
                         && activeWin.focusedControl.inputObj.focus();
                     break;
                 case MOUSEEVENTS.UP:
-                case MOUSEEVENTS.CLICK:
                     if (core.resizeWindow) {
                         activeWin.mouseUp(event);
                     } else if (activeWin.capturedControl) {
@@ -1844,6 +1843,16 @@ const Control = (() => {
                         activeWin && (activeWin.capturedControl = null);
                     } else if (core.tools.isFunc(jsObj.mouseUp)) {
                         jsObj.mouseUp();
+                    }
+                    break;
+                case MOUSEEVENTS.CLICK:
+                    if (core.resizeWindow) {
+                        activeWin.click(event);
+                    } else if (activeWin.capturedControl) {
+                        activeWin.capturedControl.click && activeWin.capturedControl.click();
+                        activeWin && (activeWin.capturedControl = null);
+                    } else if (core.tools.isFunc(jsObj.click)) {
+                        jsObj.click();
                     }
                     break;
                 case MOUSEEVENTS.WHEEL:
@@ -1926,7 +1935,8 @@ const Control = (() => {
                 //  if (typeof jsObj.keyPress===core.types.CONSTANTS.FUNCTION) jsObj.keyPress();
                 //  break;
             }
-            (jsObj.stopEvent || forceStopEvent) && core.mouse.stopEvent(event);
+            //(jsObj.stopEvent || forceStopEvent) && 
+                core.mouse.stopEvent(event);
         }
         //#endregion dispatchEvent
         //#region releaseCapture
