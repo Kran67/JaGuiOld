@@ -40,7 +40,6 @@ const Slider = (() => {
                 !props.hasOwnProperty('canFocused') && (props.canFocused = !0);
                 props.hitTest = { mouseMove: !0, mouseWheel: !0, dblClick: !0 };
                 props.allowUpdateOnResize = !0;
-                props.stopEvent = !0;
                 super(owner, props);
                 const priv = internal(this);
                 core.tools.addPropertyFromEnum({
@@ -512,6 +511,7 @@ const Slider = (() => {
             core.keyboard.shift && priv.mode === SLIDERMODES.RANGE
                 ? this.scrollBy(0, -priv.frequency * multiplier)
                 : this.scrollBy(-priv.frequency * multiplier, 0);
+            core.mouse.event.preventDefault();
             super.mouseWheel();
             this.form.focusedControl !== this && this.setFocus();
         }

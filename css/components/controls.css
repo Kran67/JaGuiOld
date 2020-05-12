@@ -222,6 +222,10 @@ input.Control {
     scrollbar-width: thin;
 }
 
+    .scrollContent:hover:not(orientation-vertical):not(orientation-horizontal) {
+        overflow: auto;
+    }
+
     .scrollContent.orientation-vertical:hover {
         overflow-y: auto;
     }

@@ -280,7 +280,7 @@ const Mouse = (() => {
             priv.wheelDelta = 0;
             mouseEventArg.stopPropagation();
             mouseEventArg.stopImmediatePropagation();
-            //mouseEventArg.preventDefault();
+            mouseEventArg.preventDefault();
         }
         //#endregion stopEvent
         //#region destroy

@@ -19,13 +19,29 @@ const BaseClass = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
+            props = !props ? {} : props;
             this.tag = null;
+            priv.stopEvent = props.hasOwnProperty('stopEvent') && core.tools.isBool(props.stopEvent)
+                ? props.stopEvent : !0;
             priv.propsEnums = {};
         }
         //#region Getter / Setter
+        //#region propsEnums
         get propsEnums() {
             return internal(this).propsEnums;
         }
+        //#endregion propsEnums
+        //#region stopEvent
+        get stopEvent() {
+            return internal(this).stopEvent;
+        }
+        set stopEvent(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            core.tools.isBool(newValue) && priv.stopEvent !== newValue && (priv.stopEvent = newValue);
+        }
+        //#endregion stopEvent
         //#endregion Getter / Setter
         //#region Methods
         /**

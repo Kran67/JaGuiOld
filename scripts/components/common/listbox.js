@@ -2,8 +2,6 @@
 import { ScrollControl } from '/scripts/core/scrollcontrol.js';
 import { BaseClass } from '/scripts/core/baseclass.js';
 import { HitTest } from '/scripts/core/hittest.js';
-import { Events } from '/scripts/core/events.js';
-import { Mouse } from '/scripts/core/mouse.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 import { Point } from '/scripts/core/geometry.js';
 import { Checkbox } from '/scripts/components/common/checkbox.js';
@@ -25,6 +23,7 @@ const ListBoxItem = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
+                props.stopEvent = !1;
                 super(owner, props);
                 const priv = internal(this);
                 priv.owner = owner;
@@ -32,7 +31,6 @@ const ListBoxItem = (() => {
                 priv.check = null;
                 priv.icon = null;
                 priv.text = null;
-                priv.stopEvent = !0;
                 priv.caption = props.hasOwnProperty('caption') ? props.caption : String.EMPTY;
                 priv.size = props.hasOwnProperty('size') ? props.size : owner.itemsSize;
                 priv.isChecked = props.hasOwnProperty('isChecked') && core.tools.isBool(props.isChecked) ? props.isChecked : !1;
@@ -40,8 +38,8 @@ const ListBoxItem = (() => {
                 priv.enabled = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
                 priv.form = owner.form;
                 priv.selected = props.hasOwnProperty('selected') && core.tools.isBool(props.selected) ? props.selected : !1;
-                priv.hitTest = new HitTest;
-                priv.hitTest.all = !1;
+                this.hitTest = new HitTest;
+                this.hitTest.all = !1;
                 priv.css = String.EMPTY;
                 priv.imageIndex = props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
                 priv.image = props.hasOwnProperty('image') ? props.image : String.EMPTY;
@@ -266,9 +264,9 @@ const ListBoxItem = (() => {
         //#endregion Getters / Setters
         //#region Methods
         //#region mouseUp
-        mouseUp() {
-            internal(this).owner.mouseUp();
-        }
+        //mouseUp() {
+        //    internal(this).owner.mouseUp();
+        //}
         //#endregion mouseUp
         //#region update
         update() {
@@ -356,7 +354,7 @@ const ListBoxItem = (() => {
                 priv.owner.orientation === ORIENTATIONS.VERTICAL
                     ? priv.html.classList.add('VListBoxItem') : priv.html.classList.add('HListBoxItem');
                 priv.owner.HTMLElement.appendChild(priv.html);
-                Events.bind(priv.html, Mouse.MOUSEEVENTS.DOWN, priv.owner.selectItem);
+                //Events.bind(priv.html, Mouse.MOUSEEVENTS.DOWN, priv.owner.selectItem);
             }
             this.update();
             //if (priv.owner.orientation === ORIENTATIONS.VERTICAL) {
@@ -380,7 +378,7 @@ const ListBoxItem = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (priv.html) {
-                Events.unBind(priv.html, Mouse.MOUSEEVENTS.DOWN, priv.owner.selectItem);
+                //Events.unBind(priv.html, Mouse.MOUSEEVENTS.DOWN, priv.owner.selectItem);
                 priv.icon && this.html.removeChild(priv.icon);
                 priv.html.removeChild(priv.text);
                 priv.owner.HTMLElement.removeChild(priv.html);
@@ -430,6 +428,19 @@ const ListBoxItem = (() => {
             return Object.create(this);
         }
         //#endregion clone
+        //#region mouseDown
+        mouseDown() {
+            core.mouse.stopEvent();
+            this.owner.selectItem(this);
+        }
+        //#endregion mouseDown
+        //#region mouseWheel
+        mouseWheel() {
+            console.log(core.mouse.event);
+            //this.owner.draw();
+            //core.mouse.stopEvent();
+        }
+        //#endregion mouseWheel
         //#endregion Methods
     }
     return ListBoxItem;
@@ -455,6 +466,8 @@ const ListBox = (() => {
             props = !props ? {} : props;
             if (owner) {
                 !props.hasOwnProperty('scrollMode') ? props.scrollMode = ScrollControl.SCROLLMODES.VIRTUAL : null;
+                props.canFocused = !0;
+                props.hitTest = { /*mouseMove : !0,*/ mouseWheel: !0/*, dblClick : !0*/ };
                 super(owner, props);
                 const priv = internal(this);
                 priv.visibleItems = [];
@@ -477,11 +490,9 @@ const ListBox = (() => {
                 priv.itemIndex = props.hasOwnProperty('itemIndex') && core.tools.isNumber(props.itemIndex) ? props.itemIndex : -1;
                 priv.columns = props.hasOwnProperty('columns') && core.tools.isNumber(props.columns) ? props.columns : 1;
                 priv.images = props.hasOwnProperty('images') ? props.images : null;
-                this.createEventsAndBind(['onChange', 'onSelectItem', 'onDrawItem'], props);
-                this.canFocused = !0;
-                this.hitTest.all = !0;
                 //this.animated = !0;
                 priv.orientation = props.hasOwnProperty('orientation') ? props.orientation : core.types.ORIENTATIONS.VERTICAL;
+                this.createEventsAndBind(['onChange', 'onSelectItem', 'onDrawItem'], props);
             }
         }
         //#endregion constructor
@@ -672,16 +683,8 @@ const ListBox = (() => {
             }
         }
         //#endregion draw
-        //#region selectItem
-        selectItem() {
-            //#region Variables déclaration
-            const item = this.jsObj;
-            //#endregion Variables déclaration
-            item.owner._selectItem(item);
-        }
-        //#endregion selectItem
         //#region _selectItem
-        _selectItem(item) {
+        selectItem(item) {
             if (!item.isHeader && item.enabled && item.owner.enabled && item.owner.hitTest.mouseDown) {
                 item.owner.multiSelect && core.keyboard.ctrl ? item.selected = !item.selected : item.owner.itemIndex = item.index;
                 item.owner.viewCheckboxes && (item.isChecked = !item.isChecked);
@@ -914,7 +917,6 @@ const ListBox = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             const name = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
-            let pos = 0;
             //#endregion Variables déclaration
             super.loaded();
             this.getImages();

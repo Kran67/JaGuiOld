@@ -48,8 +48,6 @@ const Control = (() => {
                     height: null
                 };
                 priv.tabList = [];
-                priv.stopEvent = props.hasOwnProperty('stopEvent') && core.tools.isBool(props.stopEvent)
-                    ? props.stopEvent : !0;
                 priv.constraints = new core.classes.SizeConstraints(this);
                 priv.ownerShowToolTip = props.hasOwnProperty('ownerShowToolTip') && core.tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : !0;
                 priv.autoCapture = props.hasOwnProperty('autoCapture') && core.tools.isBool(props.autoCapture)
@@ -438,17 +436,6 @@ const Control = (() => {
             return internal(this).tabList;
         }
         //#endregion tabList
-        //#region stopEvent
-        get stopEvent() {
-            return internal(this).stopEvent;
-        }
-        set stopEvent(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.stopEvent !== newValue && (priv.stopEvent = newValue);
-        }
-        //#endregion stopEvent
         //#region constraints
         get constraints() {
             return internal(this).constraints;
@@ -1747,10 +1734,10 @@ const Control = (() => {
             const htmlElement = this.HTMLElement;
             const dispatchEvent = this.dispatchEvent;
             const events = [MOUSEEVENTS.OVER, MOUSEEVENTS.OUT, MOUSEEVENTS.CLICK, MOUSEEVENTS.MOVE,
-                MOUSEEVENTS.DOWN, MOUSEEVENTS.UP, MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK,
-                MOUSEEVENTS.DOMSCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG, MOUSEEVENTS.DROP,
-                MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
-                MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
+            MOUSEEVENTS.DOWN, MOUSEEVENTS.UP, MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK,
+            MOUSEEVENTS.DOMSCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG, MOUSEEVENTS.DROP,
+            MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
+            MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
             ];
             //#endregion Variables déclaration
             events.forEach(event => {
@@ -1765,10 +1752,10 @@ const Control = (() => {
             const htmlElement = this.HTMLElement;
             const dispatchEvent = this.dispatchEvent;
             const events = [MOUSEEVENTS.OVER, MOUSEEVENTS.OUT, MOUSEEVENTS.CLICK, MOUSEEVENTS.MOVE,
-                MOUSEEVENTS.DOWN, MOUSEEVENTS.UP, MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK,
-                MOUSEEVENTS.DOMSCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG, MOUSEEVENTS.DROP,
-                MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
-                MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
+            MOUSEEVENTS.DOWN, MOUSEEVENTS.UP, MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK,
+            MOUSEEVENTS.DOMSCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG, MOUSEEVENTS.DROP,
+            MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
+            MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
             ];
             //#endregion Variables déclaration
             events.forEach(event => {
@@ -1801,7 +1788,7 @@ const Control = (() => {
             }
             if (!jsObj || jsObj.form.destroying ||
                 (!jsObj.isEnabled && event.type !== MOUSEEVENTS.WHEEL && event.type !== MOUSEEVENTS.DOMSCROLL &&
-                    event.type !== MOUSEEVENTS.MOVE)) {
+                    event.type !== MOUSEEVENTS.MOVE) || !jsObj.hitTest.has(event.type)) {
                 return;
             }
             activeWin = jsObj.form.app.activeWindow;
@@ -1833,7 +1820,7 @@ const Control = (() => {
                             jsObj.form.app.mainWindow.closePopups();
                         }
                     }
-                    core.tools.isFunc(jsObj.mouseDown) && jsObj.mouseDown() ;
+                    core.tools.isFunc(jsObj.mouseDown) && jsObj.mouseDown();
                     core.classes.CustomTextControl
                         && activeWin.focusedControl instanceof core.classes.CustomTextControl
                         && activeWin.focusedControl.inputObj.focus();
@@ -1851,15 +1838,13 @@ const Control = (() => {
                 case MOUSEEVENTS.CLICK:
                     if (core.resizeWindow) {
                         activeWin.click(event);
-                    } else if (activeWin.capturedControl) {
-                        activeWin.capturedControl.click && activeWin.capturedControl.click();
-                        activeWin && (activeWin.capturedControl = null);
                     } else if (core.tools.isFunc(jsObj.click)) {
                         jsObj.click();
                     }
                     break;
                 case MOUSEEVENTS.WHEEL:
                 case MOUSEEVENTS.DOMSCROLL:
+                    console.log(jsObj.constructor.name, event.target);
                     if (activeWin.popups.length > 0 && !jsObj.forceMouseWheel) {
                         return;
                     }

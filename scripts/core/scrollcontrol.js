@@ -28,7 +28,6 @@ const ScrollControl = (() => {
             if (owner) {
                 props.hitTest = { mouseWheel: !0 };
                 props.mouseTracking = !0;
-                props.stopEvent = !1;
                 props.autoCapture = !0;
                 props.allowRealignChildsOnResize = !0;
                 super(owner, props);
@@ -52,9 +51,7 @@ const ScrollControl = (() => {
             return internal(this).scrollMode;
         }
         set scrollMode(newValue) {
-            if (core.tools.valueInSet(newValue, SCROLLMODES)) {
-                priv.scrollMode !== newValue && (priv.scrollMode = newValue);
-            }
+            core.tools.valueInSet(newValue, SCROLLMODES) && (priv.scrollMode !== newValue && (priv.scrollMode = newValue));
         }
         //#endregion scrollMode
         //#region mouseDown

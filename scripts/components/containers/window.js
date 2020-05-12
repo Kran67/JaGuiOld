@@ -810,7 +810,7 @@ const BaseWindow = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue && newValue instanceof core.classes.Component && priv.capturedControl !== newValue) {
+            if ((newValue instanceof core.classes.Component && priv.capturedControl !== newValue) || newValue == null) {
                 //this.releaseCapture();
                 priv.capturedControl = newValue;
                 newValue && (this.app.activeWindow = newValue.form);

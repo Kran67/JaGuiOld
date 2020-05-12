@@ -701,7 +701,6 @@ const Calendar = (() => {
             const tag = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             //#endregion Variables déclaration
             super.mouseDown();
-            console.log(core.mouse.event.target.tagName.toLowerCase());
             switch (core.mouse.event.target.tagName.toLowerCase()) {
                 case `${tag}weekday`:
                     this.selectDay();

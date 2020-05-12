@@ -216,7 +216,7 @@ const Expander = (() => {
             if (this.enabled) {
                 super.mouseDown();
                 if (core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && target.y < priv.headerHeight) {
-                    itarget.x >= priv.checkPos.left && target.x <= priv.checkPos.left + priv.checkPos.width
+                    target.x >= priv.checkPos.left && target.x <= priv.checkPos.left + priv.checkPos.width
                         && priv.viewCheck ? this.check() : this.expandCollapse();
                 }
             }
