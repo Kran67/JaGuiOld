@@ -54,6 +54,27 @@ const ScrollControl = (() => {
             core.tools.valueInSet(newValue, SCROLLMODES) && (priv.scrollMode !== newValue && (priv.scrollMode = newValue));
         }
         //#endregion scrollMode
+        //#region hasHorizScrollBar
+        get hasHorizScrollBar() {
+            //#region Variables déclaration
+            const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
+            return htmlElement.offsetWidth < htmlElement.scrollWidth;
+        }
+        //#endregion hasHorizScrollBar
+        //#region hasVertScrollBar
+        get hasVertScrollBar() {
+            //#region Variables déclaration
+            const htmlElement = this.HTMLElement;
+            //#endregion Variables déclaration
+            return htmlElement.offsetHeight < htmlElement.scrollHeight;
+        }
+        //#endregion hasVertScrollBar
+        //#region hasBothScrollBars
+        get hasBothScrollBars() {
+            return this.hasHorizScrollBar() && this.hasVertScrollBar;
+        }
+        //#endregion hasBothScrollBars
         //#region mouseDown
         mouseDown() {
             //#region Variables déclaration
@@ -75,17 +96,17 @@ const ScrollControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            const hasHorizScrollBar = htmlElement.offsetWidth < htmlElement.scrollWidth;
-            const hasVertScrollBar = htmlElement.offsetHeight < htmlElement.scrollHeight;
-            const hasBothScrollBars = hasHorizScrollBar & hasVertScrollBar;
+            //const hasHorizScrollBar = htmlElement.offsetWidth < htmlElement.scrollWidth;
+            //const hasVertScrollBar = htmlElement.offsetHeight < htmlElement.scrollHeight;
+            //const hasBothScrollBars = hasHorizScrollBar & hasVertScrollBar;
             //#endregion Variables déclaration
             super.mouseMove();
             if (priv.down && this.mouseTracking) {
-                if (hasVertScrollBar || hasBothScrollBars) {
+                if (this.hasVertScrollBar || this.hasBothScrollBars) {
                     htmlElement.scrollTop -= core.mouse.screen.y - priv.currentPos.y;
                     priv.lastDelta.y = core.mouse.screen.y - priv.currentPos.y;
                 }
-                if (hasHorizScrollBar || hasBothScrollBars) {
+                if (this.hasHorizScrollBar || this.hasBothScrollBars) {
                     htmlElement.scrollLeft -= core.mouse.screen.x - priv.currentPos.x;
                     priv.lastDelta.x = core.mouse.screen.x - priv.currentPos.x;
                 }
@@ -119,6 +140,7 @@ const ScrollControl = (() => {
             }
         }
         //#endregion mouseUp
+        //#region destroy
         destroy() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -131,6 +153,11 @@ const ScrollControl = (() => {
             priv.currentPos.destroy();
             priv.currentPos = null;
             priv.down = null;
+        }
+        //#endregion destroy
+        mouseWheel() {
+            super.mouseWheel();
+            core.mouse.stopEvent();
         }
         //#endregion Methods
     }

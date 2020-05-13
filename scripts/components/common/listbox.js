@@ -38,8 +38,7 @@ const ListBoxItem = (() => {
                 priv.enabled = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
                 priv.form = owner.form;
                 priv.selected = props.hasOwnProperty('selected') && core.tools.isBool(props.selected) ? props.selected : !1;
-                this.hitTest = new HitTest;
-                this.hitTest.all = !1;
+                this.hitTest = new HitTest({ mouseWheel: !0 });
                 priv.css = String.EMPTY;
                 priv.imageIndex = props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
                 priv.image = props.hasOwnProperty('image') ? props.image : String.EMPTY;
@@ -434,13 +433,6 @@ const ListBoxItem = (() => {
             this.owner.selectItem(this);
         }
         //#endregion mouseDown
-        //#region mouseWheel
-        mouseWheel() {
-            console.log(core.mouse.event);
-            //this.owner.draw();
-            //core.mouse.stopEvent();
-        }
-        //#endregion mouseWheel
         //#endregion Methods
     }
     return ListBoxItem;
@@ -467,7 +459,7 @@ const ListBox = (() => {
             if (owner) {
                 !props.hasOwnProperty('scrollMode') ? props.scrollMode = ScrollControl.SCROLLMODES.VIRTUAL : null;
                 props.canFocused = !0;
-                props.hitTest = { /*mouseMove : !0,*/ mouseWheel: !0/*, dblClick : !0*/ };
+                //props.hitTest = { /*mouseMove : !0,*/ mouseWheel: !0/*, dblClick : !0*/ };
                 super(owner, props);
                 const priv = internal(this);
                 priv.visibleItems = [];

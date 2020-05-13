@@ -48,9 +48,9 @@ const MOUSEEVENTS = Object.freeze(Object.seal({
     DOWN: 'mousedown',
     UP: 'mouseup',
     CANCEL: 'mousecancel',
-    WHEEL: 'mousewheel',
+    WHEEL: 'wheel',
     DBLCLICK: 'dblclick',
-    DOMSCROLL: 'DOMMouseScroll',
+    SCROLL: 'scroll',
     OUT: 'mouseout',
     OVER: 'mouseover',
     ENTER: 'mouseenter',
@@ -260,7 +260,11 @@ const Mouse = (() => {
         //#endregion getMouseInfos
         //#region getWheelDetail
         getWheelDetail(mouseEventArg) {
-            delta = mouseEventArg.wheelDelta ? mouseEventArg.wheelDelta * 0.0083 : mouseEventArg.detail * 0.3333;
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            mouseEventArg = mouseEventArg || priv.event;
+            let delta = mouseEventArg.wheelDelta ? mouseEventArg.wheelDelta * 0.0083 : mouseEventArg.detail * 0.3333;
             !core.browser.ff && (delta = -delta);
             return delta;
         }
@@ -270,7 +274,7 @@ const Mouse = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            mouseEventArg = mouseEventArg ? mouseEventArg : priv.event;
+            mouseEventArg = mouseEventArg || priv.event;
             priv.target.setValues(0, 0);
             priv.screen.setValues(0, 0);
             priv.button = Mouse.MOUSEBUTTONS.NONE;

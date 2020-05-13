@@ -38,7 +38,7 @@ const Slider = (() => {
                     props.height = 14;
                 }
                 !props.hasOwnProperty('canFocused') && (props.canFocused = !0);
-                props.hitTest = { mouseMove: !0, mouseWheel: !0, dblClick: !0 };
+                //props.hitTest = { mouseMove: !0, dblClick: !0 };
                 props.allowUpdateOnResize = !0;
                 super(owner, props);
                 const priv = internal(this);

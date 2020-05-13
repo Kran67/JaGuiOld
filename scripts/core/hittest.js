@@ -24,8 +24,6 @@ const HitTest = (function () {
                 ? props.mouseMove : !1;
             priv.mouseUp = props && props.hasOwnProperty('mouseUp') && core.tools.isBool(props.mouseUp)
                 ? props.mouseUp : !0;
-            priv.mouseWheel = props && props.hasOwnProperty('mouseWheel') && core.tools.isBool(props.mouseWheel)
-                ? props.mouseWheel : !1;
             priv.click = props && props.hasOwnProperty('click') && core.tools.isBool(props.click)
                 ? props.click : !0;
             priv.click = props && props.hasOwnProperty('dblClick') && core.tools.isBool(props.dblClick)
@@ -36,9 +34,9 @@ const HitTest = (function () {
         //#endregion constructor
         //#region Getter / Setters
         //#region owner
-        get owner() {
-            return internal(this).owner;
-        }
+        //get owner() {
+        //    return internal(this).owner;
+        //}
         //#endregion owner
         //#region mouseDown
         get mouseDown() {
@@ -73,17 +71,6 @@ const HitTest = (function () {
             core.tools.isBool(newValue) && priv.mouseUp !== newValue && (priv.mouseUp = newValue);
         }
         //#endregion mouseUp
-        //#region mouseWheel
-        get mouseWheel() {
-            return internal(this).mouseWheel;
-        }
-        set mouseWheel(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.mouseWheel !== newValue && (priv.mouseWheel = newValue);
-        }
-        //#endregion mouseWheel
         //#region click
         get click() {
             return internal(this).click;
@@ -112,8 +99,7 @@ const HitTest = (function () {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (core.tools.isBool(newValue)) {
-                priv.mouseDown = priv.mouseMove = priv.mouseUp =
-                    priv.mouseWheel = priv.dblClick = newValue;
+                priv.mouseDown = priv.mouseMove = priv.mouseUp = priv.dblClick = newValue;
             }
         }
         //#endregion all
@@ -135,7 +121,6 @@ const HitTest = (function () {
             return priv.mouseDown === obj.mouseDown &&
                 priv.mouseMove === obj.mouseMove &&
                 priv.mouseUp === obj.mouseUp &&
-                priv.mouseWheel === obj.mouseWheel &&
                 priv.click === obj.click &&
                 priv.dblClick === obj.dblClick;
         }
@@ -157,7 +142,6 @@ const HitTest = (function () {
             priv.mouseDown = null;
             priv.mouseMove = null;
             priv.mouseUp = null;
-            priv.mouseWheel = null;
             priv.click = null;
             priv.dblClick = null;
             super.destroy();

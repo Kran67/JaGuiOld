@@ -1842,14 +1842,14 @@ const Control = (() => {
                         jsObj.click();
                     }
                     break;
-                case MOUSEEVENTS.WHEEL:
-                case MOUSEEVENTS.DOMSCROLL:
-                    console.log(jsObj.constructor.name, event.target);
-                    if (activeWin.popups.length > 0 && !jsObj.forceMouseWheel) {
-                        return;
-                    }
-                    core.tools.isFunc(jsObj.mouseWheel) && jsObj.mouseWheel();
-                    break;
+                //case MOUSEEVENTS.WHEEL:
+                //case MOUSEEVENTS.DOMSCROLL:
+                //    console.log(jsObj.constructor.name, event.target);
+                //    if (activeWin.popups.length > 0 && !jsObj.forceMouseWheel) {
+                //        return;
+                //    }
+                //    core.tools.isFunc(jsObj.mouseWheel) && jsObj.mouseWheel();
+                //    break;
                 case MOUSEEVENTS.DBLCLICK:
                     if (activeWin.capturedControl) {
                         activeWin.capturedControl.mouseUp && activeWin.capturedControl.dblClick();

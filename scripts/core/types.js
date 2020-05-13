@@ -437,6 +437,7 @@ const Types = Object.seal(Object.freeze({
         KEYUP: 'keyup',
         CLICK: 'click',
         SCROLL: 'scroll',
+        WHEEL: 'wheel',
         INPUT: 'input',
         MOUSEMOVE:'mousemove',
         MOUSEDOWN:'mousedown',
