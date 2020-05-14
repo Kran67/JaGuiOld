@@ -269,12 +269,15 @@ const Mouse = (() => {
             return delta;
         }
         //#endregion getWheelDetail
-        //#region stopEvent
-        stopEvent(mouseEventArg) {
+        //#region stopAllEvent
+        stopAllEvent(mouseEventArg) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             mouseEventArg = mouseEventArg || priv.event;
+            mouseEventArg.stopPropagation();
+            mouseEventArg.stopImmediatePropagation();
+            mouseEventArg.preventDefault();
             priv.target.setValues(0, 0);
             priv.screen.setValues(0, 0);
             priv.button = Mouse.MOUSEBUTTONS.NONE;
@@ -282,11 +285,8 @@ const Mouse = (() => {
             priv.window.setValues(0, 0);
             priv.wheelDir = Mouse.MOUSEWHEELDIRS.NONE;
             priv.wheelDelta = 0;
-            mouseEventArg.stopPropagation();
-            mouseEventArg.stopImmediatePropagation();
-            mouseEventArg.preventDefault();
         }
-        //#endregion stopEvent
+        //#endregion stopAllEvent
         //#region destroy
         destroy() {
             //#region Variables déclaration

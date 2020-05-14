@@ -38,7 +38,7 @@ const Slider = (() => {
                     props.height = 14;
                 }
                 !props.hasOwnProperty('canFocused') && (props.canFocused = !0);
-                //props.hitTest = { mouseMove: !0, dblClick: !0 };
+                props.stopEvent = !1;
                 props.allowUpdateOnResize = !0;
                 super(owner, props);
                 const priv = internal(this);
@@ -223,8 +223,12 @@ const Slider = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (Array.isArray(newValue)) {
-                priv.leftInput.value !== newValue.first && (priv.leftInput.value = newValue.first);
-                priv.rightInput && priv.rightInput.value !== newValue.last && (priv.rightInput.value = newValue.last);
+                let leftValue = newValue.first;
+                let rightValue = newValue.last;
+                leftValue > priv.rightInput.valueAsNumber && (leftValue = priv.rightInput.valueAsNumber - 1);
+                rightValue < priv.leftInput.valueAsNumber && (rightValue = priv.leftInput.valueAsNumber + 1);
+                priv.leftInput.value !== leftValue && (priv.leftInput.value = leftValue);
+                priv.rightInput && priv.rightInput.value !== rightValue && (priv.rightInput.value = rightValue);
                 this.change();
             }
         }
@@ -398,6 +402,7 @@ const Slider = (() => {
             priv.rightTooltip.classList.add('Control', this.themeName, 'SliderTooltip', 'csr_default', `orientation-${priv.orientation}`, priv.toolTipsPosition);
             htmlElement.appendChild(priv.rightTooltip);
             //#endregion Create ToolTips
+            htmlElement.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { this.wheel(event); });
             super.loaded();
             this.update();
         }
@@ -502,17 +507,17 @@ const Slider = (() => {
         }
         //#endregion update
         //#region mouseWheel
-        mouseWheel() {
+        wheel(event) {
             //#region Variables déclaration
             const priv = internal(this);
-            const wheelDelta = core.mouse.wheelDelta;
-            const multiplier = wheelDelta < 0 ? -2 : 2;
+            const wheelDelta = core.mouse.getWheelDetail(event);
+            const multiplier = wheelDelta < 0 ? 2 : -2;
             //#endregion Variables déclaration
+            core.keyboard.getKeyboardInfos(event);
             core.keyboard.shift && priv.mode === SLIDERMODES.RANGE
                 ? this.scrollBy(0, -priv.frequency * multiplier)
                 : this.scrollBy(-priv.frequency * multiplier, 0);
-            core.mouse.event.preventDefault();
-            super.mouseWheel();
+            core.mouse.stopEvent(event);
             this.form.focusedControl !== this && this.setFocus();
         }
         //#endregion mouseWheel
@@ -645,6 +650,9 @@ const Slider = (() => {
             }
         }
         //#endregion moveRange
+        mouseDown() {
+            core.mouse.stopPropagation();
+        }
         //#endregion Methods
     }
     return Slider;

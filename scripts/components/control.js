@@ -40,8 +40,8 @@ const Control = (() => {
                 priv.closePopups = props.hasOwnProperty('closePopups') && core.tools.isBool(props.closePopups)
                     ? props.closePopups : !0;
                 priv.wrapper = String.EMPTY;
-                priv.forceMouseWheel = props.hasOwnProperty('forceMouseWheel') && core.tools.isBool(props.forceMouseWheel)
-                    ? props.forceMouseWheel : !1;
+                //priv.forceMouseWheel = props.hasOwnProperty('forceMouseWheel') && core.tools.isBool(props.forceMouseWheel)
+                //    ? props.forceMouseWheel : !1;
                 priv.hasResizeEvent = !1;
                 priv.resizeData = {
                     width: null,
@@ -111,7 +111,7 @@ const Control = (() => {
                 priv.resizer = new ResizeObserver(priv.update);
                 priv.resizer.obj = this;
                 this.createEventsAndBind(['onMouseDown', 'onMouseMove', 'onMouseUp', 'onClick', 'onDblClick',
-                    'onMouseLeave', 'onMouseEnter', 'onMouseWheel', 'onMouseWheelEnd', 'onBeforePaint', 'onPaint',
+                    'onMouseLeave', 'onMouseEnter', 'onWheel', 'onScroll', 'onBeforePaint', 'onPaint',
                     'onAfterPaint', 'onEnterFocus', 'onKillFocus', 'onKeyDown', 'onKeyUp', 'onKeyPress', 'onAfterResized',
                     'onDragStart', 'onDrag', 'onDragExit', 'onDragEnd', 'onDragEnter', 'onDragOver', 'onDragLeave',
                     'onDrop', 'onDestroy', 'onResize'], props);
@@ -404,16 +404,16 @@ const Control = (() => {
         }
         //#endregion wrapper
         //#region forceMouseWheel
-        get forceMouseWheel() {
-            return internal(this).forceMouseWheel;
-        }
-        set forceMouseWheel(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.forceMouseWheel !== newValue
-                && (priv.forceMouseWheel = newValue);
-        }
+        //get forceMouseWheel() {
+        //    return internal(this).forceMouseWheel;
+        //}
+        //set forceMouseWheel(newValue) {
+        //    //#region Variables déclaration
+        //    const priv = internal(this);
+        //    //#endregion Variables déclaration
+        //    core.tools.isBool(newValue) && priv.forceMouseWheel !== newValue
+        //        && (priv.forceMouseWheel = newValue);
+        //}
         //#endregion forceMouseWheel
         //#region hasResizeEvent
         get hasResizeEvent() {
@@ -738,41 +738,41 @@ const Control = (() => {
                         hitTest.mouseDown = newValue.first;
                         hitTest.mouseMove = !1;
                         hitTest.mouseUp = !1;
-                        hitTest.mouseWheel = !1;
+                        //hitTest.mouseWheel = !1;
                         hitTest.dblClick = !1;
                         break;
                     case 2:
                         hitTest.mouseDown = newValue.first;
                         hitTest.mouseMove = newValue.last;
                         hitTest.mouseUp = !1;
-                        hitTest.mouseWheel = !1;
+                        //hitTest.mouseWheel = !1;
                         hitTest.dblClick = !1;
                         break;
                     case 3:
                         hitTest.mouseDown = newValue.first;
                         hitTest.mouseMove = newValue[1];
                         hitTest.mouseUp = newValue.last;
-                        hitTest.mouseWheel = !1;
+                        //hitTest.mouseWheel = !1;
                         hitTest.dblClick = !1;
                         break;
                     case 4:
                         hitTest.mouseDown = newValue.first;
                         hitTest.mouseMove = newValue[1];
                         hitTest.mouseUp = newValue[2];
-                        hitTest.mouseWheel = newValue.last;
+                        //hitTest.mouseWheel = newValue.last;
                         hitTest.dblClick = !1;
                         break;
                     case 5:
                         hitTest.mouseDown = newValue.first;
                         hitTest.mouseMove = newValue[1];
                         hitTest.mouseUp = newValue[2];
-                        hitTest.mouseWheel = newValue[3];
+                        //hitTest.mouseWheel = newValue[3];
                         hitTest.dblClick = newValue.last;
                         break;
                 }
             } else if (core.tools.isBool(newValue)) {
                 hitTest.mouseDown = hitTest.mouseMove =
-                    hitTest.mouseUp = hitTest.mouseWheel = hitTest.dblClick = newValue;
+                    hitTest.mouseUp = /*hitTest.mouseWheel = */hitTest.dblClick = newValue;
             }
         }
         //#endregion hitTest
@@ -1634,23 +1634,23 @@ const Control = (() => {
         }
         //#endregion mouseUp
         //#region mouseWheel
-        mouseWheel() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (this instanceof core.classes.Control) {
-                //if (this.scrollContainer!==null) this.scrollContainer.mouseWheel.apply(this.scrollContainer,arguments);
-                //else {
-                //  if (this.wheelTimer===null) {
-                //    this.onMouseWheelStart.invoke();
-                //  } else clearTimeout(this.wheelTimer);
-                //  this.onMouseWheel.invoke(arguments);
-                //}
-                //if (!priv.hitTest.mouseWheel) {
-                //    this.owner.mouseWheel();
-                //}
-            }
-        }
+        //mouseWheel() {
+        //    //#region Variables déclaration
+        //    const priv = internal(this);
+        //    //#endregion Variables déclaration
+        //    if (this instanceof core.classes.Control) {
+        //        //if (this.scrollContainer!==null) this.scrollContainer.mouseWheel.apply(this.scrollContainer,arguments);
+        //        //else {
+        //        //  if (this.wheelTimer===null) {
+        //        //    this.onMouseWheelStart.invoke();
+        //        //  } else clearTimeout(this.wheelTimer);
+        //        //  this.onMouseWheel.invoke(arguments);
+        //        //}
+        //        //if (!priv.hitTest.mouseWheel) {
+        //        //    this.owner.mouseWheel();
+        //        //}
+        //    }
+        //}
         //#endregion mouseWheel
         //#region mouseMove
         mouseMove() {
@@ -2396,7 +2396,7 @@ const Control = (() => {
             priv.isPressed = null;
             priv.closePopups = null;
             priv.wrapper = null;
-            priv.forceMouseWheel = null;
+            //priv.forceMouseWheel = null;
             priv.hasResizeEvent = null;
             priv.resizeData = null;
             priv.tabList.destroy();
@@ -2447,7 +2447,7 @@ const Control = (() => {
             priv.resizer = null;
             priv.updateCell = null;
             this.unBindAndDestroyEvents(['onMouseDown', 'onMouseMove', 'onMouseUp', 'onClick', 'onDblClick',
-                'onMouseLeave', 'onMouseEnter', 'onMouseWheel', 'onMouseWheelEnd', 'onBeforePaint', 'onPaint',
+                'onMouseLeave', 'onMouseEnter', 'onWheel', 'onScroll', 'onBeforePaint', 'onPaint',
                 'onAfterPaint', 'onEnterFocus', 'onKillFocus', 'onKeyDown', 'onKeyUp', 'onKeyPress', 'onAfterResized',
                 'onDragStart', 'onDrag', 'onDragExit', 'onDragEnd', 'onDragEnter', 'onDragOver', 'onDragLeave',
                 'onDrop', 'onDestroy', 'onResize']);
