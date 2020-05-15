@@ -28,7 +28,7 @@ const AngleButton = (() => {
                 props.autoCapture = !0;
                 props.caption = String.EMPTY;
                 props.canFocused = !0;
-                props.stopEvent = !0;
+                props.mouseEvents = { mousemove: !0, wheel: !0 };
                 super(owner, props);
                 const priv = internal(this);
                 priv.internalValue = 0;
@@ -217,11 +217,11 @@ const AngleButton = (() => {
             priv.setInternalValue(-v1.angle(v));
         }
         //#endregion valueFromPoint
-        //#region mouseWheel
-        mouseWheel() {
+        //#region wheel
+        wheel(event) {
             //#region Variables déclaration
             const priv = internal(this);
-            let newVal = priv.internalValue + ~~(core.mouse.wheelDelta * 10);
+            let newVal = priv.internalValue + ~~(core.mouse.getWheelDetail(event) * 10);
             //#endregion Variables déclaration
             if (newVal < -360) {
                 newVal = 360 + newVal;
@@ -229,8 +229,9 @@ const AngleButton = (() => {
                 newVal = 360 - newVal;
             }
             priv.setInternalValue(newVal);
+            core.mouse.preventDefault(event);
         }
-        //#endregion mouseWheel
+        //#endregion wheel
         //#region destroy
         destroy() {
             //#region Variables déclaration
@@ -297,6 +298,7 @@ const AngleButton = (() => {
                 htmlElement.appendChild(priv.knob);
                 priv.textObj.style.visibility = priv.showValue ? cssValues.NORMAL : cssValues.HIDDEN;
             }
+            htmlElement.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { console.log('ok'); this.wheel(event); });
             super.loaded();
             this.update();
         }

@@ -26,7 +26,6 @@ const ScrollControl = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                props.hitTest = { mouseWheel: !0 };
                 props.mouseTracking = !0;
                 props.autoCapture = !0;
                 props.allowRealignChildsOnResize = !0;
@@ -96,9 +95,6 @@ const ScrollControl = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
-            //const hasHorizScrollBar = htmlElement.offsetWidth < htmlElement.scrollWidth;
-            //const hasVertScrollBar = htmlElement.offsetHeight < htmlElement.scrollHeight;
-            //const hasBothScrollBars = hasHorizScrollBar & hasVertScrollBar;
             //#endregion Variables déclaration
             super.mouseMove();
             if (priv.down && this.mouseTracking) {
@@ -155,10 +151,6 @@ const ScrollControl = (() => {
             priv.down = null;
         }
         //#endregion destroy
-        mouseWheel() {
-            super.mouseWheel();
-            core.mouse.stopEvent();
-        }
         //#endregion Methods
     }
     return ScrollControl;

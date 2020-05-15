@@ -238,13 +238,14 @@ const Mouse = (() => {
             }
             //this.button=(mouseEventArg.which===1)?$j.core.types.mouseButtons.LEFT:((mouseEventArg.which===2)?$j.core.types.mouseButtons.MIDDLE:$j.core.types.mouseButtons.RIGHT);
             //}
-            if (mouseEventArg.type === MOUSEEVENTS.WHEEL.toLowerCase() || mouseEventArg.type === MOUSEEVENTS.DOMSCROLL) {
+            if (mouseEventArg.type === MOUSEEVENTS.WHEEL.toLowerCase() || mouseEventArg.type === MOUSEEVENTS.SCROLL) {
                 //wheel
                 let delta = 0;
-                if (mouseEventArg.wheelDelta) {
-                    delta = mouseEventArg.wheelDelta * 0.0083;
-                    core.browser.opera && (delta = -delta);
-                } else if (mouseEventArg.detail) delta = -mouseEventArg.detail * 0.3333;
+                //if (mouseEventArg.wheelDelta) {
+                //    delta = mouseEventArg.wheelDelta * 0.0083;
+                //    core.browser.opera && (delta = -delta);
+                //} else if (mouseEventArg.detail) delta = -mouseEventArg.detail * 0.3333;
+                delta = this.getWheelDetail(mouseEventArg);
                 if (delta !== 0) {
                     priv.wheelDir = delta < 0 ? MOUSEWHEELDIRS.DOWN : MOUSEWHEELDIRS.UP;
                     priv.wheelDelta = delta;
@@ -287,6 +288,27 @@ const Mouse = (() => {
             priv.wheelDelta = 0;
         }
         //#endregion stopAllEvent
+        stopPropagation(mouseEventArg) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            mouseEventArg = mouseEventArg || priv.event;
+            mouseEventArg.stopPropagation();
+        }
+        stopImmediatePropagation(mouseEventArg) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            mouseEventArg = mouseEventArg || priv.event;
+            mouseEventArg.stopImmediatePropagation();
+        }
+        preventDefault(mouseEventArg) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            mouseEventArg = mouseEventArg || priv.event;
+            mouseEventArg.preventDefault();
+        }
         //#region destroy
         destroy() {
             //#region Variables déclaration

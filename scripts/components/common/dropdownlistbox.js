@@ -569,7 +569,7 @@ const DropDownListBox = (() => {
         //#endregion loaded
         //#region _mouseDown
         _mouseDown(mouseEventArg) {
-            this.jsObj.editable && core.mouse.stopEvent(mouseEventArg);
+            this.jsObj.editable && core.mouse.stopAllEvent(mouseEventArg);
         }
         //#endregion _mouseDown
         //#region destroy

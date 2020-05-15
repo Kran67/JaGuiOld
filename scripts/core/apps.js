@@ -226,7 +226,7 @@ let Apps = (() => {
                         //$j.keyboard.stopEvent();
                         break;
                 }
-                core.keyboard.stopEvent();
+                //core.keyboard.stopEvent();
             } else if (form.focusedControl) {
                 form.focusedControl.keyDown();
             }

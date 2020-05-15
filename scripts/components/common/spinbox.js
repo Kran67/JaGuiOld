@@ -1,6 +1,7 @@
 ﻿//#region Import
 import { CustomTextBoxBtn } from '/scripts/core/customtextboxbtn.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
+import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Import
 //#region SPINBOXTYPES
 const SPINBOXTYPES = Object.freeze(Object.seal({
@@ -24,7 +25,7 @@ const SpinBox = (() => {
         //#region constructor
         constructor(owner, props) {
             props = !props ? {} : props;
-            props.hitTest = { mouseWheel: !0 };
+            props.mouseEvents = { wheel: !0 };
             props.stopEvent = !0;
             if (owner) {
                 props.numBtns = 2;
@@ -176,6 +177,7 @@ const SpinBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const btns = this.btns;
+            const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             super.loaded();
             priv.btnPlus = btns.last;
@@ -194,15 +196,26 @@ const SpinBox = (() => {
             priv.btnPlus.HTMLElement.classList.remove('TextBoxBtnButton');
             priv.btnMinus.onMouseDown.addListener(this.decValue);
             priv.btnPlus.onMouseDown.addListener(this.incValue);
+            htmlElement.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { this.wheel(event); });
         }
         //#endregion loaded
+        //#region wheel
+        wheel(event) {
+            core.mouse.getMouseInfos(event);
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            core.mouse.preventDefault(event);
+            core.mouse.wheelDir === Mouse.MOUSEWHEELDIRS.DOWN ? this.incValue() : this.decValue();
+        }
+        //#endregion wheel
         //#region decValue
         decValue() {
             //#region Variables déclaration
             const owner = this instanceof SpinBox ? this : this.owner;
             let value = owner.value -= owner.increment;
             //#endregion Variables déclaration
-            if (this.isEnabled && this.hitTest.mouseDown) {
+            if (this.isEnabled && this.mouseEvents.mousedown) {
                 value = Math.max(value, owner.min);
                 owner.value = value;
             }
@@ -214,7 +227,7 @@ const SpinBox = (() => {
             const owner = this instanceof SpinBox ? this : this.owner;
             let value = owner.value += owner.increment;
             //#endregion Variables déclaration
-            if (this.isEnabled && this.hitTest.mouseDown) {
+            if (this.isEnabled && this.mouseEvents.mousedown) {
                 value = Math.min(value, owner.max);
                 owner.value = value;
             }

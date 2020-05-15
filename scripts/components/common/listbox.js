@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { ScrollControl } from '/scripts/core/scrollcontrol.js';
 import { BaseClass } from '/scripts/core/baseclass.js';
-import { HitTest } from '/scripts/core/hittest.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 import { Point } from '/scripts/core/geometry.js';
 import { Checkbox } from '/scripts/components/common/checkbox.js';
@@ -38,7 +37,7 @@ const ListBoxItem = (() => {
                 priv.enabled = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
                 priv.form = owner.form;
                 priv.selected = props.hasOwnProperty('selected') && core.tools.isBool(props.selected) ? props.selected : !1;
-                this.hitTest = new HitTest({ mouseWheel: !0 });
+                this.mouseEvents = new core.classes.MouseEvents({ wheel: !0 });
                 priv.css = String.EMPTY;
                 priv.imageIndex = props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
                 priv.image = props.hasOwnProperty('image') ? props.image : String.EMPTY;
@@ -262,11 +261,6 @@ const ListBoxItem = (() => {
         //#endregion owner
         //#endregion Getters / Setters
         //#region Methods
-        //#region mouseUp
-        //mouseUp() {
-        //    internal(this).owner.mouseUp();
-        //}
-        //#endregion mouseUp
         //#region update
         update() {
             //#region Variables déclaration
@@ -403,8 +397,9 @@ const ListBoxItem = (() => {
             priv.enabled = null;
             priv.form = null;
             priv.selected = null;
-            priv.hitTest.destroy();
-            priv.hitTest = null;
+            this.mouseEvents.destroy();
+            this.mouseEvents = null;
+            delete this.mouseEvents;
             priv.css = null;
             priv.isAlternate = null;
             priv.state = null;
@@ -429,7 +424,7 @@ const ListBoxItem = (() => {
         //#endregion clone
         //#region mouseDown
         mouseDown() {
-            core.mouse.stopEvent();
+            core.mouse.stopPropagation();
             this.owner.selectItem(this);
         }
         //#endregion mouseDown
@@ -675,16 +670,17 @@ const ListBox = (() => {
             }
         }
         //#endregion draw
-        //#region _selectItem
+        //#region selectItem
         selectItem(item) {
-            if (!item.isHeader && item.enabled && item.owner.enabled && item.owner.hitTest.mouseDown) {
-                item.owner.multiSelect && core.keyboard.ctrl ? item.selected = !item.selected : item.owner.itemIndex = item.index;
-                item.owner.viewCheckboxes && (item.isChecked = !item.isChecked);
-                item.owner.onSelectItem.hasListener && item.owner.onSelectItem.invoke();
+            if (!item.isHeader && item.enabled && this.enabled && this.mouseEvents.mousedown) {
+                this.multiSelect && !core.keyboard.ctrl && item.owner.clearSelection();
+                this.multiSelect && core.keyboard.ctrl ? item.selected = !item.selected : this.itemIndex = item.index;
+                this.viewCheckboxes && (item.isChecked = !item.isChecked);
+                this.onSelectItem.hasListener && this.onSelectItem.invoke();
             }
-            item.owner.mouseDown();
+            this.mouseDown();
         }
-        //#endregion _selectItem
+        //#endregion selectItem
         //#region deselectItemIndex
         deselectItemIndex() {
             //#region Variables déclaration
@@ -938,7 +934,9 @@ const ListBox = (() => {
             priv.useAlternateColor && htmlElement.classList.add('useAlternateColor');
             htmlElement.classList.add(`orientation-${priv.orientation}`);
             this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL
-                && htmlElement.addEventListener(core.types.HTMLEVENTS.SCROLL, this.draw.bind(this));
+                && htmlElement.addEventListener(core.types.HTMLEVENTS.SCROLL, event => {
+                    event.preventDefault(); this.setFocus(); this.draw()
+                });
             this.draw();
         }
         //#endregion loaded

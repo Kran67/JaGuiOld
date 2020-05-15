@@ -23,7 +23,7 @@ const ColorPicker = (() => {
             props = !props ? {} : props;
             if (owner) {
                 props.autoCapture = !0;
-                props.hitTest = { all: !0 };
+                props.mouseEvents = { mousemove: !0 };
                 props.clipChilds = !1;
                 props.canFocused = !0;
                 props.allowUpdateOnResize = !0;

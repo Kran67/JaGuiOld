@@ -225,8 +225,10 @@ const Slider = (() => {
             if (Array.isArray(newValue)) {
                 let leftValue = newValue.first;
                 let rightValue = newValue.last;
-                leftValue > priv.rightInput.valueAsNumber && (leftValue = priv.rightInput.valueAsNumber - 1);
-                rightValue < priv.leftInput.valueAsNumber && (rightValue = priv.leftInput.valueAsNumber + 1);
+                if (priv.mode === SLIDERMODES.RANGE) {
+                    leftValue > priv.rightInput.valueAsNumber && (leftValue = priv.rightInput.valueAsNumber - 1);
+                    rightValue < priv.leftInput.valueAsNumber && (rightValue = priv.leftInput.valueAsNumber + 1);
+                }
                 priv.leftInput.value !== leftValue && (priv.leftInput.value = leftValue);
                 priv.rightInput && priv.rightInput.value !== rightValue && (priv.rightInput.value = rightValue);
                 this.change();
@@ -506,7 +508,7 @@ const Slider = (() => {
             }
         }
         //#endregion update
-        //#region mouseWheel
+        //#region wheel
         wheel(event) {
             //#region Variables déclaration
             const priv = internal(this);
@@ -517,10 +519,10 @@ const Slider = (() => {
             core.keyboard.shift && priv.mode === SLIDERMODES.RANGE
                 ? this.scrollBy(0, -priv.frequency * multiplier)
                 : this.scrollBy(-priv.frequency * multiplier, 0);
-            core.mouse.stopEvent(event);
+            core.mouse.preventDefault(event);
             this.form.focusedControl !== this && this.setFocus();
         }
-        //#endregion mouseWheel
+        //#endregion wheel
         //#region keyDown
         keyDown() {
             //#region Variables déclaration
@@ -652,6 +654,7 @@ const Slider = (() => {
         //#endregion moveRange
         mouseDown() {
             core.mouse.stopPropagation();
+            super.mouseDown();
         }
         //#endregion Methods
     }

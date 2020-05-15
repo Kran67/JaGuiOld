@@ -32,7 +32,7 @@ const WindowTitleBar = (() => {
             if (owner) {
                 props.autoCapture = !0;
                 props.stopEvent = !0;
-                props.hitTest = { mouseMove: !0, mouseWheel: !0, dblClick: !0 };
+                props.mouseEvents = { mousemove: !0, wheel: !0, dblclick: !0 };
                 super(owner, props);
                 //#region Private
                 const priv = internal(this);
@@ -526,7 +526,7 @@ class WindowContent extends ThemedControl {
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
-            props.hitTest = { mouseWheel: !0 };
+            //props.mouseEvents = { wheel: !0 };
             super(owner, props);
         }
     }
@@ -557,7 +557,7 @@ const BaseWindow = (() => {
             const SHOWINGMODES = Window.SHOWINGMODES;
             //#endregion Variables déclaration
             if (owner) {
-                props.hitTest = { mouseMove: !0 };
+                props.mouseEvents = { mousemove: !0 };
                 super(owner, props);
                 //#region Private
                 const priv = internal(this);
@@ -2064,26 +2064,6 @@ const BaseWindow = (() => {
             }
         }
         //#endregion docMouseMove
-        //#region mouseWheel
-        mouseWheel() {
-            const priv = internal(this);
-            priv.content.mouseWheel();
-            //let p,obj,frm=this.form;
-            //if (!frm.hasHitTest()) return;
-            //core.mouse.getMouseInfos(mouseEventArg);
-            //p=core.classes.Point.create(core.mouse.target.x,core.mouse.target.y);
-            //obj=frm.objectByPoint(p,core.types.mouseEvents.WHEEL);
-            //if (obj===frm) obj=null;
-            //if(obj!==null){
-            //  if(obj.enabled){
-            //    p=obj.screenToClient(p);
-            //    obj.mouseWheel(core.mouse.wheelDir,core.mouse.wheelDelta,core.mouse.button,p);
-            //  }
-            //}
-            //core.mouse.stopEvent(mouseEventArg);
-            //obj=p=null;
-        }
-        //#endregion mouseWheel
         //#region mouseLeave
         mouseLeave(mouseEventArg) {
             this.removeCursors();
@@ -2220,7 +2200,7 @@ const BaseWindow = (() => {
                 withTpl: !1
             });
             const layout = priv.layout;
-            layout.hitTest.all = !1;
+            layout.mouseEvents.all = !1;
             if (isHtmlRenderer) {
                 layout.getHTMLElement(this.HTMLElement.querySelector('[data-class="Layout"]').id);
                 nodes = layout.HTMLElement.childNodes;
@@ -2280,8 +2260,8 @@ const BaseWindow = (() => {
                             priv.content = obj;
                             const content = priv.content;
                             content.inForm = !1;
-                            content.hitTest.all = !1;
-                            content.hitTest.mouseDown = !0;
+                            content.mouseEvents.all = !1;
+                            content.mouseEvents.mousedown = !0;
                             content.align = core.types.ALIGNS.CLIENT;
                             break;
                         }
@@ -2660,9 +2640,9 @@ const BaseWindow = (() => {
             //#region Variables declaration
             const priv = internal(this);
             //#endregion Variables declaration
-            priv.content.hitTest = !1;
-            priv.layout.hitTest = !1;
-            priv.titleBar.hitTest = !1;
+            priv.content.mouseEvents.all = !1;
+            priv.layout.mouseEvents.all = !1;
+            priv.titleBar.mouseEvents.all = !1;
             core.isHTMLRenderer && this.HTMLElement.classList.add('inactive');
             //this.HTMLElement.dataset.isactive = !1;
         }

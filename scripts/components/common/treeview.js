@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { ScrollControl } from '/scripts/core/scrollcontrol.js';
 import { BaseClass } from '/scripts/core/baseclass.js';
-import { HitTest } from '/scripts/core/hittest.js';
 import { Events, NotifyEvent } from '/scripts/core/events.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Keyboard } from '/scripts/core/keyboard.js';

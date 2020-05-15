@@ -40,7 +40,7 @@ const Rating = (() => {
                     props.height = props.hasOwnProperty('height') && core.tools.isNumber(props.height) ? props.height : 16;
                     props.width = props.hasOwnProperty('width') && core.tools.isNumber(props.width) ? props.width :90;
                 }
-                props.hitTest = { mouseMove: !0 };
+                props.mouseEvents = { mousemove: !0, mouseenter: !0, mouseout: !0 };
                 props.canFocused = !1;
                 props.allowUpdateOnResize = !0;
                 super(owner, props);
@@ -238,7 +238,6 @@ const Rating = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.mouseEnter();
             priv.hoveredImg instanceof Image
                 && priv.ratingObj.style.backgroundImage !== `url('${priv.hoveredImg.src}')`
                 && (priv.ratingObj.style.backgroundImage = `url('${priv.hoveredImg.src}')`);
@@ -249,7 +248,6 @@ const Rating = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.mouseLeave();
             this.update();
             priv.selectedImg instanceof Image
                 && priv.ratingObj.style.backgroundImage !== `url('${priv.selectedImg.src}')`
@@ -258,19 +256,16 @@ const Rating = (() => {
         //#endregion mouseLeave
         //#region mouseMove
         mouseMove() {
-            super.mouseMove();
             this.updateRatingProgress();
         }
         //#endregion mouseMove
         //#region mouseUp
         mouseUp() {
-            super.mouseUp();
             this.updateRatingProgress();
         }
         //#endregion mouseUp
         //#region mouseDown
         mouseDown() {
-            super.mouseUp();
             this.updateRatingProgress();
         }
         //#endregion mouseDown

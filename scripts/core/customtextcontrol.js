@@ -285,7 +285,7 @@ const CustomTextControl = (function () {
             //#region Variables déclaration
             const jsObj = this.jsObj;
             //#endregion Variables déclaration
-            jsObj.canFocused && jsObj.enterFocus();
+            jsObj.canFocused && jsObj.setFocus();
         }
         //#endregion HTMLFocus
         //#region HTMLBlur
@@ -294,7 +294,7 @@ const CustomTextControl = (function () {
             const jsObj = this.jsObj;
             //#endregion Variables déclaration
             if (jsObj.form.focusedControl === jsObj) {
-                jsObj.app.activeWindow === jsObj.form ? this.focus() : this.blur();
+                /*jsObj.app.activeWindow === jsObj.form ? this.focus() : */this.blur();
             }
         }
         //#endregion HTMLBlur

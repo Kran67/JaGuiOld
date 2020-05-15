@@ -6,7 +6,7 @@ import '/scripts/core/padding.js';
 import '/scripts/core/margin.js';
 import '/scripts/core/scale.js';
 import '/scripts/core/rotatecenter.js';
-import '/scripts/core/hittest.js';
+import '/scripts/core/mouseevents.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 import { Rect } from '/scripts/core/geometry.js';
@@ -80,7 +80,8 @@ const Control = (() => {
                 priv.toolTip = props.hasOwnProperty('toolTip') ? props.toolTip : String.EMPTY;
                 priv.showToolTip = props.hasOwnProperty('showToolTip') && core.tools.isBool(props.showToolTip)
                     ? props.showToolTip : !1;
-                priv.hitTest = new core.classes.HitTest(props.hasOwnProperty('hitTest') ? props.hitTest : null);
+                priv.mouseEvents = new core.classes.MouseEvents(props.hasOwnProperty('mouseEvents')
+                    ? props.mouseEvents : null);
                 priv.rotateAngle = props.hasOwnProperty('rotateAngle') && core.tools.isNumber(props.rotateAngle)
                     ? props.rotateAngle : 0;
                 priv.customStyle = null;
@@ -322,7 +323,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.hitTest.mouseMove && priv.isMouseOver !== newValue
+            core.tools.isBool(newValue) && priv.mouseEvents.mousemove && priv.isMouseOver !== newValue
                 && (priv.isMouseOver = newValue);
         }
         //#endregion isMouseOver
@@ -368,7 +369,7 @@ const Control = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            if (core.tools.isBool(newValue) && priv.hitTest.mouseDown && priv.isPressed !== newValue) {
+            if (core.tools.isBool(newValue) && priv.mouseEvents.mousedown && priv.isPressed !== newValue) {
                 priv.isPressed = newValue;
                 core.isHTMLRenderer && htmlElement.classList.remove('pressed');
                 newValue && (core.isHTMLRenderer && htmlElement.classList.add('pressed'));
@@ -723,59 +724,21 @@ const Control = (() => {
             core.tools.isBool(newValue) && priv.showToolTip !== newValue && (priv.showToolTip = newValue);
         }
         //#endregion showToolTip
-        //#region hitTest
-        get hitTest() {
-            return internal(this).hitTest;
+        //#region mouseEvents
+        get mouseEvents() {
+            return internal(this).mouseEvents;
         }
-        set hitTest(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const hitTest = priv.hitTest;
-            //#endregion Variables déclaration
-            if (Array.isArray(newValue)) {
-                switch (newValue.length) {
-                    case 1:
-                        hitTest.mouseDown = newValue.first;
-                        hitTest.mouseMove = !1;
-                        hitTest.mouseUp = !1;
-                        //hitTest.mouseWheel = !1;
-                        hitTest.dblClick = !1;
-                        break;
-                    case 2:
-                        hitTest.mouseDown = newValue.first;
-                        hitTest.mouseMove = newValue.last;
-                        hitTest.mouseUp = !1;
-                        //hitTest.mouseWheel = !1;
-                        hitTest.dblClick = !1;
-                        break;
-                    case 3:
-                        hitTest.mouseDown = newValue.first;
-                        hitTest.mouseMove = newValue[1];
-                        hitTest.mouseUp = newValue.last;
-                        //hitTest.mouseWheel = !1;
-                        hitTest.dblClick = !1;
-                        break;
-                    case 4:
-                        hitTest.mouseDown = newValue.first;
-                        hitTest.mouseMove = newValue[1];
-                        hitTest.mouseUp = newValue[2];
-                        //hitTest.mouseWheel = newValue.last;
-                        hitTest.dblClick = !1;
-                        break;
-                    case 5:
-                        hitTest.mouseDown = newValue.first;
-                        hitTest.mouseMove = newValue[1];
-                        hitTest.mouseUp = newValue[2];
-                        //hitTest.mouseWheel = newValue[3];
-                        hitTest.dblClick = newValue.last;
-                        break;
-                }
-            } else if (core.tools.isBool(newValue)) {
-                hitTest.mouseDown = hitTest.mouseMove =
-                    hitTest.mouseUp = /*hitTest.mouseWheel = */hitTest.dblClick = newValue;
-            }
-        }
-        //#endregion hitTest
+        //set mouseEvents(newValue) {
+        //    //#region Variables déclaration
+        //    const priv = internal(this);
+        //    const mouseEvents = priv.mouseEvents;
+        //    //#endregion Variables déclaration
+        //    if (core.tools.isBool(newValue)) {
+        //        hitTest.mouseDown = hitTest.mouseMove =
+        //            hitTest.mouseUp = /*hitTest.mouseWheel = */hitTest.dblClick = newValue;
+        //    }
+        //}
+        //#endregion mouseEvents
         //#region rotateAngle
         get rotateAngle() {
             return internal(this).rotateAngle;
@@ -1585,7 +1548,7 @@ const Control = (() => {
             const priv = internal(this);
             const form = this.form;
             //#endregion Variables déclaration
-            if (priv.enabled && (this instanceof core.classes.Control) && this.hitTest.mouseDown) {
+            if (priv.enabled && (this instanceof core.classes.Control) && this.mouseEvents.mousedown) {
                 if (form && form instanceof core.classes.Window) {
                     if (priv.closePopups) {
                         form.mainMenu && (form.mainMenu.isActive = !1);
@@ -1735,7 +1698,7 @@ const Control = (() => {
             const dispatchEvent = this.dispatchEvent;
             const events = [MOUSEEVENTS.OVER, MOUSEEVENTS.OUT, MOUSEEVENTS.CLICK, MOUSEEVENTS.MOVE,
             MOUSEEVENTS.DOWN, MOUSEEVENTS.UP, MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK,
-            MOUSEEVENTS.DOMSCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG, MOUSEEVENTS.DROP,
+            MOUSEEVENTS.SCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG, MOUSEEVENTS.DROP,
             MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
             MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
             ];
@@ -1753,7 +1716,7 @@ const Control = (() => {
             const dispatchEvent = this.dispatchEvent;
             const events = [MOUSEEVENTS.OVER, MOUSEEVENTS.OUT, MOUSEEVENTS.CLICK, MOUSEEVENTS.MOVE,
             MOUSEEVENTS.DOWN, MOUSEEVENTS.UP, MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK,
-            MOUSEEVENTS.DOMSCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG, MOUSEEVENTS.DROP,
+            MOUSEEVENTS.SCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG, MOUSEEVENTS.DROP,
             MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
             MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
             ];
@@ -1767,7 +1730,7 @@ const Control = (() => {
         dispatchEvent(event) {
             //#region Variables déclaration
             let htmlObj = event.target;
-            let jsObj = htmlObj.jsObj;
+            let control = htmlObj.jsObj;
             let activeWin = null;
             let forceStopEvent = !1;
             const AUTOMATIC = core.types.DRAGMODES.AUTOMATIC;
@@ -1775,52 +1738,50 @@ const Control = (() => {
             const MOUSEEVENTS = Mouse.MOUSEEVENTS;
             //#endregion Variables déclaration
             if (core.isHTMLRenderer) {
-                while (!jsObj) {
+                while (!control) {
                     htmlObj = htmlObj.parentNode;
                     if (htmlObj !== null) {
-                        jsObj = htmlObj.jsObj;
+                        control = htmlObj.jsObj;
                     } else {
                         break;
                     }
                 }
             } else {
-                jsObj = this;
+                control = this;
             }
-            if (!jsObj || jsObj.form.destroying ||
-                (!jsObj.isEnabled && event.type !== MOUSEEVENTS.WHEEL && event.type !== MOUSEEVENTS.DOMSCROLL &&
-                    event.type !== MOUSEEVENTS.MOVE) || !jsObj.hitTest.has(event.type)) {
+            activeWin = control.form.app.activeWindow;
+            activeWin.capturedControl && (control = activeWin.capturedControl);
+            if (!control || control.form.destroying || (!control.isEnabled && event.type !== MOUSEEVENTS.MOVE)
+                || !control.mouseEvents.has(event.type)) {
                 return;
             }
-            activeWin = jsObj.form.app.activeWindow;
             core.keyboard.getKeyboardInfos(event);
             core.mouse.getMouseInfos(event);
             switch (event.type) {
                 case MOUSEEVENTS.MOVE:
                     if (core.resizeWindow) {
                         activeWin.mouseMove(event);
-                    } else if (activeWin.capturedControl) {
-                        activeWin.capturedControl.mouseMove && activeWin.capturedControl.mouseMove();
-                    } else if (core.tools.isFunc(jsObj.mouseMove)) {
-                        jsObj.mouseMove();
+                    } else if (core.tools.isFunc(control.mouseMove)) {
+                        control.mouseMove();
                     }
                     break;
                 case MOUSEEVENTS.DOWN:
-                    console.log(jsObj.constructor.name, event.target);
-                    if (activeWin !== jsObj.form) {
+                    console.log(control.constructor.name, event.target);
+                    if (activeWin !== control.form) {
                         activeWin.mainMenu && (activeWin.mainMenu.isActive = !1);
                         activeWin.app.closeAllPopups();
                     }
-                    if (jsObj.form && jsObj.form instanceof core.classes.Window) {
-                        jsObj.form.setActive();
-                        activeWin = jsObj.form;
-                        jsObj.autoCapture && (activeWin.capturedControl = jsObj);
-                        if (activeWin !== jsObj.form.app.mainWindow) {
-                            jsObj.form.app.mainWindow.mainMenu
-                                && (jsObj.form.app.mainWindow.mainMenu.isActive = !1);
-                            jsObj.form.app.mainWindow.closePopups();
+                    if (control.form && control.form instanceof core.classes.Window) {
+                        control.form.setActive();
+                        activeWin = control.form;
+                        control.autoCapture && (activeWin.capturedControl = control);
+                        if (activeWin !== control.form.app.mainWindow) {
+                            control.form.app.mainWindow.mainMenu
+                                && (control.form.app.mainWindow.mainMenu.isActive = !1);
+                            control.form.app.mainWindow.closePopups();
                         }
                     }
-                    core.tools.isFunc(jsObj.mouseDown) && jsObj.mouseDown();
+                    core.tools.isFunc(control.mouseDown) && control.mouseDown();
                     core.classes.CustomTextControl
                         && activeWin.focusedControl instanceof core.classes.CustomTextControl
                         && activeWin.focusedControl.inputObj.focus();
@@ -1828,100 +1789,73 @@ const Control = (() => {
                 case MOUSEEVENTS.UP:
                     if (core.resizeWindow) {
                         activeWin.mouseUp(event);
-                    } else if (activeWin.capturedControl) {
-                        activeWin.capturedControl.mouseUp && activeWin.capturedControl.mouseUp();
-                        activeWin && (activeWin.capturedControl = null);
-                    } else if (core.tools.isFunc(jsObj.mouseUp)) {
-                        jsObj.mouseUp();
+                    } else if (core.tools.isFunc(control.mouseUp)) {
+                        control.mouseUp();
                     }
+                    activeWin && (activeWin.capturedControl = null);
                     break;
                 case MOUSEEVENTS.CLICK:
                     if (core.resizeWindow) {
                         activeWin.click(event);
-                    } else if (core.tools.isFunc(jsObj.click)) {
-                        jsObj.click();
+                    } else if (core.tools.isFunc(control.click)) {
+                        control.click();
                     }
                     break;
-                //case MOUSEEVENTS.WHEEL:
-                //case MOUSEEVENTS.DOMSCROLL:
-                //    console.log(jsObj.constructor.name, event.target);
-                //    if (activeWin.popups.length > 0 && !jsObj.forceMouseWheel) {
-                //        return;
-                //    }
-                //    core.tools.isFunc(jsObj.mouseWheel) && jsObj.mouseWheel();
-                //    break;
                 case MOUSEEVENTS.DBLCLICK:
-                    if (activeWin.capturedControl) {
-                        activeWin.capturedControl.mouseUp && activeWin.capturedControl.dblClick();
-                    } else if (core.tools.isFunc(jsObj.dblClick) && jsObj.dblClick) {
-                        jsObj.dblClick();
-                    }
+                    core.tools.isFunc(control.dblClick) && control.dblClick();
                     break;
                 case MOUSEEVENTS.OUT:
                 case MOUSEEVENTS.LEAVE:
-                    core.tools.isFunc(jsObj.mouseLeave) && jsObj.mouseLeave();
+                    core.tools.isFunc(control.mouseLeave) && control.mouseLeave();
                     break;
                 case MOUSEEVENTS.OVER:
                 case MOUSEEVENTS.ENTER:
-                    core.tools.isFunc(jsObj.mouseEnter) && jsObj.mouseEnter();
+                    core.tools.isFunc(control.mouseEnter) && control.mouseEnter();
                     break;
                 case MOUSEEVENTS.DRAG:
-                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.drag) && jsObj.drag();
+                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(control.drag) && control.drag();
                     break;
                 case MOUSEEVENTS.DROP:
-                    if (jsObj.dragKind === DOCK) {
-                        if (jsObj.dragMode === AUTOMATIC) {
+                    if (control.dragKind === DOCK) {
+                        if (control.dragMode === AUTOMATIC) {
                             event.preventDefault();
                             event.target.appendChild(document.getElementById(event.dataTransfer.getData('text')));
-                        } else if (core.tools.isFunc(jsObj.drop)) {
-                            jsObj.drop();
+                        } else if (core.tools.isFunc(control.drop)) {
+                            control.drop();
                         }
                     }
                     break;
                 case MOUSEEVENTS.DRAGEND:
-                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.dragEnd) && jsObj.dragEnd();
+                    control.dragMode !== AUTOMATIC && core.tools.isFunc(control.dragEnd) && control.dragEnd();
                     break;
                 case MOUSEEVENTS.DRAGENTER:
-                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.dragEnter) && jsObj.dragEnter();
+                    control.dragMode !== AUTOMATIC && core.tools.isFunc(control.dragEnter) && control.dragEnter();
                     break;
                 case MOUSEEVENTS.DRAGEXIT:
-                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.dragExit) && jsObj.dragExit();
+                    control.dragMode !== AUTOMATIC && core.tools.isFunc(control.dragExit) && control.dragExit();
                     break;
                 case MOUSEEVENTS.DRAGLEAVE:
-                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(jsObj.dragLeave) && jsObj.dragLeave();
+                    control.dragMode !== AUTOMATIC && core.tools.isFunc(control.dragLeave) && control.dragLeave();
                     break;
                 case MOUSEEVENTS.DRAGOVER:
-                    if (jsObj.dragKind === DOCK) {
-                        if (jsObj.dragMode === AUTOMATIC) {
+                    if (control.dragKind === DOCK) {
+                        if (control.dragMode === AUTOMATIC) {
                             event.preventDefault();
-                        } else if (core.tools.isFunc(jsObj.dragOver)) {
-                            jsObj.dragOver();
+                        } else if (core.tools.isFunc(control.dragOver)) {
+                            control.dragOver();
                         }
                     }
                     break;
                 case MOUSEEVENTS.DRAGSTART:
-                    if (jsObj.dragMode === AUTOMATIC) {
+                    if (control.dragMode === AUTOMATIC) {
                         event.dataTransfer.setData('text', htmlObj.id);
-                    } else if (core.tools.isFunc(jsObj.dragStart)) {
-                        jsObj.dragStart();
+                    } else if (core.tools.isFunc(control.dragStart)) {
+                        control.dragStart();
                     }
                     break;
-                //case core.types.mouseEvents.CLICK:
-                //  //jsObj.click();
-                //  break;
-                //case core.types.mouseEvents.EVENT:
-                //  break;
-                //case core.types.keybordEvents.DOWN:
-                //  if (typeof jsObj.keyDown===core.types.CONSTANTS.FUNCTION) jsObj.keyDown();
-                //  break;
-                //case core.types.keybordEvents.UP:
-                //  if (typeof jsObj.keyUp===core.types.CONSTANTS.FUNCTION) jsObj.keyUp();
-                //  break;
-                //case core.types.keybordEvents.PRESS:
-                //  if (typeof jsObj.keyPress===core.types.CONSTANTS.FUNCTION) jsObj.keyPress();
-                //  break;
             }
-            (jsObj.stopEvent || forceStopEvent) && core.mouse.stopEvent(event);
+            event.type !== MOUSEEVENTS.WHEEL && (control.stopEvent || forceStopEvent)
+                && core.mouse.stopAllEvent(event);
         }
         //#endregion dispatchEvent
         //#region releaseCapture
@@ -2423,8 +2357,8 @@ const Control = (() => {
             priv.rotateCenter = null;
             priv.toolTip = null;
             priv.showToolTip = null;
-            priv.hitTest.destroy();
-            priv.hitTest = null;
+            priv.mouseEvents.destroy();
+            priv.mouseEvents = null;
             priv.rotateAngle = null;
             priv.customStyle = null;
             priv.cssClasses = null;
