@@ -2,6 +2,7 @@
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Events } from '/scripts/core/events.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
+import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Imports
 //#region CustomTextControl
 const CustomTextControl = (function () {
@@ -293,9 +294,7 @@ const CustomTextControl = (function () {
             //#region Variables déclaration
             const jsObj = this.jsObj;
             //#endregion Variables déclaration
-            if (jsObj.form.focusedControl === jsObj) {
-                /*jsObj.app.activeWindow === jsObj.form ? this.focus() : */this.blur();
-            }
+            jsObj.form.focusedControl === jsObj && this.blur();
         }
         //#endregion HTMLBlur
         //#region setFocus
@@ -341,14 +340,10 @@ const CustomTextControl = (function () {
             const priv = internal(this);
             const inputObj = priv.inputObj;
             const htmlEvents = core.types.HTMLEVENTS;
-            const KEYBORDEVENTS = Keyboard.KEYBORDEVENTS;
             //#endregion Variables déclaration
             Events.bind(inputObj, htmlEvents.CHANGE, this.textChanged);
             Events.bind(inputObj, htmlEvents.FOCUS, this.HTMLFocus);
             Events.bind(inputObj, htmlEvents.KILLFOCUS, this.HTMLBlur);
-            Events.bind(inputObj, KEYBORDEVENTS.DOWN, this.dispatchEvent);
-            Events.bind(inputObj, KEYBORDEVENTS.UP, this.dispatchEvent);
-            Events.bind(inputObj, KEYBORDEVENTS.PRESS, this.dispatchEvent);
         }
         //#endregion bindEventToHTMLInput
         //#region unbindEventToHTMLInput
@@ -357,16 +352,24 @@ const CustomTextControl = (function () {
             const priv = internal(this);
             const inputObj = priv.inputObj;
             const htmlEvents = core.types.HTMLEVENTS;
-            const KEYBORDEVENTS = Keyboard.KEYBORDEVENTS;
             //#endregion Variables déclaration
             Events.unBind(inputObj, htmlEvents.CHANGE, this.textChanged);
             Events.unBind(inputObj, htmlEvents.FOCUS, this.HTMLFocus);
             Events.unBind(inputObj, htmlEvents.KILLFOCUS, this.HTMLBlur);
-            Events.unBind(inputObj, KEYBORDEVENTS.DOWN, this.dispatchEvent);
-            Events.unBind(inputObj, KEYBORDEVENTS.UP, this.dispatchEvent);
-            Events.unBind(inputObj, KEYBORDEVENTS.PRESS, this.dispatchEvent);
         }
         //#endregion unbindEventToHTMLInput
+        //#region mouseDown
+        mouseDown() {
+            super.mouseDown();
+            core.mouse.stopPropagation();
+        }
+        //#endregion mouseDown
+        //#region mouseUp
+        mouseUp() {
+            super.mouseUp();
+            core.mouse.stopPropagation();
+        }
+        //#endregion mouseUp
         //#endregion Methods
     }
     return CustomTextControl;

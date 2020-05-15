@@ -298,7 +298,7 @@ const AngleButton = (() => {
                 htmlElement.appendChild(priv.knob);
                 priv.textObj.style.visibility = priv.showValue ? cssValues.NORMAL : cssValues.HIDDEN;
             }
-            htmlElement.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { console.log('ok'); this.wheel(event); });
+            htmlElement.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { this.wheel(event); });
             super.loaded();
             this.update();
         }

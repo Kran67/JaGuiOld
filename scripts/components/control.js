@@ -1589,32 +1589,9 @@ const Control = (() => {
                 clicked = priv.isPressed && !priv.doubleClick;
                 this.isPressed = !1;
                 this.doubleClick = !1;
-                //if (clicked && core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
-                //    this.click();
-                //    !core.isHTMLRenderer && (core.canvas.needRedraw = !0);
-                //}
             }
         }
         //#endregion mouseUp
-        //#region mouseWheel
-        //mouseWheel() {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    //#endregion Variables déclaration
-        //    if (this instanceof core.classes.Control) {
-        //        //if (this.scrollContainer!==null) this.scrollContainer.mouseWheel.apply(this.scrollContainer,arguments);
-        //        //else {
-        //        //  if (this.wheelTimer===null) {
-        //        //    this.onMouseWheelStart.invoke();
-        //        //  } else clearTimeout(this.wheelTimer);
-        //        //  this.onMouseWheel.invoke(arguments);
-        //        //}
-        //        //if (!priv.hitTest.mouseWheel) {
-        //        //    this.owner.mouseWheel();
-        //        //}
-        //    }
-        //}
-        //#endregion mouseWheel
         //#region mouseMove
         mouseMove() {
             this instanceof core.classes.Control && this.onMouseMove.invoke();
@@ -1698,7 +1675,7 @@ const Control = (() => {
             const dispatchEvent = this.dispatchEvent;
             const events = [MOUSEEVENTS.OVER, MOUSEEVENTS.OUT, MOUSEEVENTS.CLICK, MOUSEEVENTS.MOVE,
             MOUSEEVENTS.DOWN, MOUSEEVENTS.UP, MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK,
-            MOUSEEVENTS.SCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG, MOUSEEVENTS.DROP,
+            MOUSEEVENTS.SCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.LEAVE, MOUSEEVENTS.DRAG, MOUSEEVENTS.DROP,
             MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
             MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
             ];
@@ -1716,7 +1693,7 @@ const Control = (() => {
             const dispatchEvent = this.dispatchEvent;
             const events = [MOUSEEVENTS.OVER, MOUSEEVENTS.OUT, MOUSEEVENTS.CLICK, MOUSEEVENTS.MOVE,
             MOUSEEVENTS.DOWN, MOUSEEVENTS.UP, MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK,
-            MOUSEEVENTS.SCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.DRAG, MOUSEEVENTS.DROP,
+            MOUSEEVENTS.SCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.LEAVE, MOUSEEVENTS.DRAG, MOUSEEVENTS.DROP,
             MOUSEEVENTS.DRAGEND, MOUSEEVENTS.DRAGENTER, MOUSEEVENTS.DRAGEXIT, MOUSEEVENTS.DRAGLEAVE,
             MOUSEEVENTS.DRAGOVER, MOUSEEVENTS.DRAGSTART
             ];
@@ -1732,7 +1709,6 @@ const Control = (() => {
             let htmlObj = event.target;
             let control = htmlObj.jsObj;
             let activeWin = null;
-            let forceStopEvent = !1;
             const AUTOMATIC = core.types.DRAGMODES.AUTOMATIC;
             const DOCK = core.types.DRAGKINDS.DOCK;
             const MOUSEEVENTS = Mouse.MOUSEEVENTS;
@@ -1749,6 +1725,7 @@ const Control = (() => {
             } else {
                 control = this;
             }
+            //console.log(event.type, event.target);
             activeWin = control.form.app.activeWindow;
             activeWin.capturedControl && (control = activeWin.capturedControl);
             if (!control || control.form.destroying || (!control.isEnabled && event.type !== MOUSEEVENTS.MOVE)
@@ -1854,7 +1831,7 @@ const Control = (() => {
                     }
                     break;
             }
-            event.type !== MOUSEEVENTS.WHEEL && (control.stopEvent || forceStopEvent)
+            event.type !== MOUSEEVENTS.WHEEL && !(control instanceof core.classes.CustomTextControl) 
                 && core.mouse.stopAllEvent(event);
         }
         //#endregion dispatchEvent
@@ -2161,6 +2138,7 @@ const Control = (() => {
             );
             !String.isNullOrEmpty(priv.cssClasses) && htmlElement.classList.add(priv.cssClasses.split(String.SPACE));
             htmlElement.classList.add(this.cursor);
+            (priv.ownerShowToolTip || priv.showToolTip) && (priv.mouseEvents.mouseenter = priv.mouseEvents.mouseout = !0);
         }
         //#endregion loaded
         //#region resized

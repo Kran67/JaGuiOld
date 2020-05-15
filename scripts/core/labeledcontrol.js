@@ -18,14 +18,14 @@ const LabeledControl = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                props.width = 200;
-                props.height = 20;
+                props.width = props.hasOwnProperty('width') && core.tools.isNumber(props.width) ? props.width : 200;
+                props.height = props.hasOwnProperty('height') && core.tools.isNumber(props.height) ? props.height : 20;
                 super(owner, props);
                 this.createEventsAndBind(['onChange'], props);
             }
         }
         //#endregion constructor
-        //#region Getter / Setter
+        //#region Getters / Setters
         //#region caption
         get caption() {
             return internal(this).label.caption;
@@ -54,7 +54,7 @@ const LabeledControl = (() => {
             }
         }
         //#endregion height
-        //#endregion Getter / Setter
+        //#endregion Getters / Setters
         //#region Methods
         //#region destroy
         destroy() {

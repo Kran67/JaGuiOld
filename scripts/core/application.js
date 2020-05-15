@@ -541,10 +541,6 @@ const Application = (() => {
                 }
                 if (!String.isNullOrEmpty(text) && priv.toolTip) {
                     priv.toolTip.innerHTML = text;
-                    setTimeout(() => {
-                        core.apps.activeApplication.toolTip
-                            && core.apps.activeApplication.toolTip.classList.toggle('fade');
-                    }, 10);
                     this.placeToolTip(coord, useOffset);
                     this.closeToolTip();
                 }

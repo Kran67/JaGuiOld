@@ -222,7 +222,7 @@ const ColorPanel = (() => {
                 }
             });
             priv.secondaryColorBox.onClick.addListener(this.changeColorBox);
-            priv.secondaryColorBox.hitTest.mouseDown = !0;
+            priv.secondaryColorBox.mouseEvents.mousedown = !0;
             priv.secondaryColorBox.HTMLElement.classList.add('secondaryColorBox');
             priv.primaryColorBox = core.classes.createComponent({
                 class: ColorBox,
@@ -233,7 +233,7 @@ const ColorPanel = (() => {
                 }
             });
             priv.primaryColorBox.onClick.addListener(this.changeColorBox);
-            priv.primaryColorBox.hitTest.mouseDown = !0;
+            priv.primaryColorBox.mouseEvents.mousedown = !0;
             priv.primaryColorBox.HTMLElement.classList.add('primaryColorBox');
             priv.colorQuad.colorBox = priv.primaryColorBox;
             priv.colorQuad.color = priv.primaryColorBox.color;

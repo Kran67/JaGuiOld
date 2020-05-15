@@ -67,7 +67,7 @@ const ColorQuad = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (newValue instanceof core.classes.Color && priv.color.equals(newValue)) {
+            if (newValue instanceof core.classes.Color && !priv.color.equals(newValue)) {
                 priv.color.assign(newValue);
                 this.fillColor.assign(newValue);
                 this.update();
