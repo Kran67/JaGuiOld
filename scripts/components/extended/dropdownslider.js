@@ -12,7 +12,6 @@ class SliderPopup extends Slider {
         if (owner) {
             props.closePopups = !1;
             props.canFocused = !1;
-            props.forceMouseWheel = !0;
             props.margin = { left: 10, top: 0, right: 10, bottom: 0 };
             super(owner, props);
         }

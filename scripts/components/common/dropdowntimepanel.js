@@ -13,7 +13,6 @@ class TimePanelPopup extends TimePanel {
         props = !props ? {} : props;
         if (owner) {
             props.closePopups = !1;
-            props.forceMouseWheel = !0;
             super(owner, props);
         }
     }
@@ -29,7 +28,6 @@ class TimePanelPopup extends TimePanel {
     loaded() {
         super.loaded();
         const hours = this.hours;
-        hours.forceMouseWheel = this.minutes.forceMouseWheel = this.seconds.forceMouseWheel = this.meridiem.forceMouseWheel = !0;
         hours.closePopups = this.minutes.closePopups = this.seconds.closePopups = this.meridiem.closePopups = !1;
         hours.canFocused = this.minutes.canFocused = this.seconds.canFocused = this.meridiem.canFocused = !1;
         hours.HTMLElement.classList.add('focused');

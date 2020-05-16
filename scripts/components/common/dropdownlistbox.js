@@ -15,7 +15,7 @@ class ListBoxItemPopup extends ListBoxItem {
         //#endregion Variables déclaration
         props = !props ? {} : props;
         if (owner) {
-            props.forceMouseWheel = !0;
+            //props.forceMouseWheel = !0;
             props.closePopups = !1;
             super(owner, props);
         }
@@ -58,7 +58,6 @@ class ListBoxPopup extends ListBox {
         if (owner) {
             props.closePopups = !1;
             props.itemsClass = 'ListBoxItemPopup';
-            props.forceMouseWheel = !0;
             props.canFocused = !1;
             super(owner, props);
         }
@@ -79,8 +78,8 @@ class ListBoxPopup extends ListBox {
         }
     }
     //#endregion refreshInnerHeight
-    //#region _selectItem
-    _selectItem(item) {
+    //#region selectItem
+    selectItem(item) {
         const dropDownListBox = item.owner.dropDownListBox;
         if (!item.isHeader && item.enabled) {
             dropDownListBox.itemIndex = item.index;
@@ -89,7 +88,7 @@ class ListBoxPopup extends ListBox {
             item.form.closePopups();
         }
     }
-    //#endregion _selectItem
+    //#endregion selectItem
     //#region keyUp
     keyUp() {
         const VKEYSCODES = Keyboard.VKEYSCODES;
@@ -97,7 +96,7 @@ class ListBoxPopup extends ListBox {
         switch (core.keyboard.keyCode) {
             case VKEYSCODES.VK_RETURN:
             case VKEYSCODES.VK_ENTER:
-                this._selectItem(this.items[this.itemIndex]);
+                this.selectItem(this.items[this.itemIndex]);
                 break;
         }
     }
@@ -194,7 +193,7 @@ const DropDownListBoxPopup = (() => {
             switch (core.keyboard.keyCode) {
                 case VKEYSCODES.VK_RETURN:
                 case VKEYSCODES.VK_ENTER:
-                    listBox.selectItem = listBox.items[listBox.itemIndex];
+                    listBox.selectItem = listBox.items[listBox.itemIndex]; // à voir
                     break;
             }
         }

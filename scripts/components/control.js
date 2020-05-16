@@ -40,8 +40,6 @@ const Control = (() => {
                 priv.closePopups = props.hasOwnProperty('closePopups') && core.tools.isBool(props.closePopups)
                     ? props.closePopups : !0;
                 priv.wrapper = String.EMPTY;
-                //priv.forceMouseWheel = props.hasOwnProperty('forceMouseWheel') && core.tools.isBool(props.forceMouseWheel)
-                //    ? props.forceMouseWheel : !1;
                 priv.hasResizeEvent = !1;
                 priv.resizeData = {
                     width: null,
@@ -404,18 +402,6 @@ const Control = (() => {
             core.tools.isString(newValue) && priv.wrapper !== newValue && (priv.wrapper = newValue);
         }
         //#endregion wrapper
-        //#region forceMouseWheel
-        //get forceMouseWheel() {
-        //    return internal(this).forceMouseWheel;
-        //}
-        //set forceMouseWheel(newValue) {
-        //    //#region Variables déclaration
-        //    const priv = internal(this);
-        //    //#endregion Variables déclaration
-        //    core.tools.isBool(newValue) && priv.forceMouseWheel !== newValue
-        //        && (priv.forceMouseWheel = newValue);
-        //}
-        //#endregion forceMouseWheel
         //#region hasResizeEvent
         get hasResizeEvent() {
             return internal(this).hasResizeEvent;
@@ -2308,7 +2294,6 @@ const Control = (() => {
             priv.isPressed = null;
             priv.closePopups = null;
             priv.wrapper = null;
-            //priv.forceMouseWheel = null;
             priv.hasResizeEvent = null;
             priv.resizeData = null;
             priv.tabList.destroy();
