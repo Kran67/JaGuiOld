@@ -126,9 +126,11 @@ const DropDownListBoxPopup = (() => {
                 props.closePopups = !1;
                 super(owner, props);
                 const priv = internal(this);
-                priv.lbItemsSize = props.hasOwnProperty('itemsSize') && core.tools.isNumber(props.itemsSize) ? props.itemsSize : 13;
+                priv.lbItemsSize = props.hasOwnProperty('itemsSize') && core.tools.isNumber(props.itemsSize)
+                    ? props.itemsSize : 13;
                 priv.items = props.hasOwnProperty('items') && Array.isArray(props.items) ? props.items : [];
-                priv.listBoxPopupClass = props.hasOwnProperty('listBoxPopupClass') ? props.listBoxPopupClass : ListBoxPopup;
+                priv.listBoxPopupClass = props.hasOwnProperty('listBoxPopupClass')
+                    ? props.listBoxPopupClass : ListBoxPopup;
             }
         }
         //#endregion constructor
@@ -151,7 +153,9 @@ const DropDownListBoxPopup = (() => {
                     width: -1,
                     height: -1,
                     itemsSize: priv.lbItemsSize,
-                    items: priv.items
+                    items: priv.items/*,
+                    canFocused: !1,
+                    mouseTracking: !1*/
                 }
             });
             priv.listBox.dropDownListBox = this.owner;
@@ -233,12 +237,15 @@ const DropDownListBox = (() => {
                 const priv = internal(this);
                 priv.content = null;
                 priv.dropDownPopup = null;
-                priv.opened = props.hasOwnProperty('opened') && core.tools.isBool(props.opened) ? props.opened : !1;
+                priv.opened = props.hasOwnProperty('opened') && core.tools.isBool(props.opened)
+                    ? props.opened : !1;
                 priv.text = props.hasOwnProperty('text') ? props.text : String.EMPTY;
                 priv.input = null;
-                priv.dropDownCount = props.hasOwnProperty('dropDownCount') && core.tools.isNumber(props.dropDownCount)
+                priv.dropDownCount = props.hasOwnProperty('dropDownCount')
+                    && core.tools.isNumber(props.dropDownCount)
                     ? props.dropDownCount : 8;
-                priv.editable = props.hasOwnProperty('editable') && core.tools.isBool(props.editable) ? props.editable : !1;
+                priv.editable = props.hasOwnProperty('editable') && core.tools.isBool(props.editable)
+                    ? props.editable : !1;
                 //core.classes.newCollection(this, this, ListBoxItem);
                 //if (this._ClassName === "DropDownListBox") {
                 //    priv.editable = !1;
@@ -248,11 +255,15 @@ const DropDownListBox = (() => {
                 //    priv.maxLength = 0;
                 //}
                 priv.items = props.hasOwnProperty('items') && Array.isArray(props.items) ? props.items : [];
-                priv.itemIndex = props.hasOwnProperty('itemIndex') && core.tools.isNumber(props.itemIndex) ? props.itemIndex : -1;
-                priv.itemsSize = props.hasOwnProperty('itemsSize') && core.tools.isNumber(props.itemsSize) ? props.itemsSize : 13;
+                priv.itemIndex = props.hasOwnProperty('itemIndex') && core.tools.isNumber(props.itemIndex)
+                    ? props.itemIndex : -1;
+                priv.itemsSize = props.hasOwnProperty('itemsSize') && core.tools.isNumber(props.itemsSize)
+                    ? props.itemsSize : 13;
                 priv.images = null;
-                priv.listBoxPopupClass = props.hasOwnProperty('listBoxPopupClass') ? props.listBoxPopupClass : ListBoxPopup;
-                priv.dropDownWidth = props.hasOwnProperty('dropDownWidth') && core.tools.isNumber(props.dropDownWidth)
+                priv.listBoxPopupClass = props.hasOwnProperty('listBoxPopupClass')
+                    ? props.listBoxPopupClass : ListBoxPopup;
+                priv.dropDownWidth = props.hasOwnProperty('dropDownWidth')
+                    && core.tools.isNumber(props.dropDownWidth)
                     ? props.dropDownWidth : -1;
                 this.createEventsAndBind(['onChange', 'onDrawItem'], props);
             }
@@ -496,7 +507,7 @@ const DropDownListBox = (() => {
                         width: priv.dropDownWidth > -1 ? priv.dropDownWidth : this.HTMLElement.offsetWidth,
                         height: priv.dropDownCount * priv.itemsSize,
                         itemsSize: priv.itemsSize,
-                        items: priv.items,
+                        items: [...priv.items],
                         listBoxPopupClass: priv.listBoxPopupClass,
                     }
                 });

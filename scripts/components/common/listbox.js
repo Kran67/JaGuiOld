@@ -32,14 +32,19 @@ const ListBoxItem = (() => {
                 priv.text = null;
                 priv.caption = props.hasOwnProperty('caption') ? props.caption : String.EMPTY;
                 priv.size = props.hasOwnProperty('size') ? props.size : owner.itemsSize;
-                priv.isChecked = props.hasOwnProperty('isChecked') && core.tools.isBool(props.isChecked) ? props.isChecked : !1;
-                priv.isHeader = props.hasOwnProperty('isHeader') && core.tools.isBool(props.isHeader) ? props.isHeader : !1;
-                priv.enabled = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
+                priv.isChecked = props.hasOwnProperty('isChecked') && core.tools.isBool(props.isChecked)
+                    ? props.isChecked : !1;
+                priv.isHeader = props.hasOwnProperty('isHeader') && core.tools.isBool(props.isHeader)
+                    ? props.isHeader : !1;
+                priv.enabled = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled)
+                    ? props.enabled : !0;
                 priv.form = owner.form;
-                priv.selected = props.hasOwnProperty('selected') && core.tools.isBool(props.selected) ? props.selected : !1;
+                priv.selected = props.hasOwnProperty('selected') && core.tools.isBool(props.selected)
+                    ? props.selected : !1;
                 this.mouseEvents = new core.classes.MouseEvents({ wheel: !0 });
                 priv.css = String.EMPTY;
-                priv.imageIndex = props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
+                priv.imageIndex = props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex)
+                    ? props.imageIndex : -1;
                 priv.image = props.hasOwnProperty('image') ? props.image : String.EMPTY;
                 priv.cssImage = props.hasOwnProperty('cssImage') ? props.cssImage : String.EMPTY;
                 priv.pos = props.hasOwnProperty('pos') && core.tools.isNumber(props.pos) ? props.pos : 0;
@@ -51,7 +56,8 @@ const ListBoxItem = (() => {
                     variable: priv,
                     value: props.hasOwnProperty('state') ? props.state : Checkbox.CHECKBOXSTATES.UNCHECKED
                 });
-                priv.allowGrayed = props.hasOwnProperty('allowGrayed') && core.tools.isBool(props.allowGrayed) ? props.allowGrayed : !1;
+                priv.allowGrayed = props.hasOwnProperty('allowGrayed') && core.tools.isBool(props.allowGrayed)
+                    ? props.allowGrayed : !1;
                 owner instanceof ListBox && owner.allowUpdate && owner.draw();
             }
         }
@@ -311,7 +317,8 @@ const ListBoxItem = (() => {
                     } else if (priv.owner.images) {
                         if (priv.imageIndex < priv.owner.images.images.length && priv.imageIndex > -1) {
                             priv.icon.style.backgroundImage = `url(${priv.owner.images.images[priv.imageIndex]})`;
-                            priv.icon.style.backgroundSize = `${priv.owner.images.imageWidth}${PX} ${priv.owner.images.imageHeight}${PX}`;
+                            priv.icon.style.backgroundSize
+                                = `${priv.owner.images.imageWidth}${PX} ${priv.owner.images.imageHeight}${PX}`;
                         }
                     }
                 }
@@ -333,7 +340,8 @@ const ListBoxItem = (() => {
                     priv.check.classList.add('CheckboxCheck', priv.owner.themeName);
                     priv.html.appendChild(priv.check);
                 }
-                if (priv.owner.images || !String.isNullOrEmpty(priv.image) || !String.isNullOrEmpty(priv.cssImage)) {
+                if (priv.owner.images || !String.isNullOrEmpty(priv.image)
+                    || !String.isNullOrEmpty(priv.cssImage)) {
                     priv.icon = document.createElement(`${name}-icon`);
                     priv.icon.jsObj = this;
                     priv.html.appendChild(priv.icon);
@@ -465,20 +473,29 @@ const ListBox = (() => {
                 priv.downPos = new Point;
                 priv.currentPos = new Point;
                 priv.keyDir = String.EMPTY;
-                priv.multiSelect = props.hasOwnProperty('multiSelect') && core.tools.isBool(props.multiSelect) ? props.multiSelect : !1;
-                priv.sorted = props.hasOwnProperty('sorted') && core.tools.isBool(props.sorted) ? props.sorted : !1;
-                priv.itemsSize = props.hasOwnProperty('itemsSize') && core.tools.isNumber(props.itemsSize) ? props.itemsSize : 16;
-                priv.itemsClass = props.hasOwnProperty('itemsClass') ? core.classes[props.itemsClass] : ListBoxItem;
+                priv.multiSelect = props.hasOwnProperty('multiSelect') && core.tools.isBool(props.multiSelect)
+                    ? props.multiSelect : !1;
+                priv.sorted = props.hasOwnProperty('sorted') && core.tools.isBool(props.sorted)
+                    ? props.sorted : !1;
+                priv.itemsSize = props.hasOwnProperty('itemsSize') && core.tools.isNumber(props.itemsSize)
+                    ? props.itemsSize : 16;
+                priv.itemsClass = props.hasOwnProperty('itemsClass')
+                    ? core.classes[props.itemsClass] : ListBoxItem;
                 core.classes.newCollection(this, this, priv.itemsClass);
-                priv.useAlternateColor = props.hasOwnProperty('useAlternateColor') && core.tools.isBool(props.useAlternateColor)
+                priv.useAlternateColor = props.hasOwnProperty('useAlternateColor')
+                    && core.tools.isBool(props.useAlternateColor)
                     ? props.useAlternateColor : !1;
-                priv.viewCheckboxes = props.hasOwnProperty('viewCheckboxes') && core.tools.isBool(props.viewCheckboxes)
+                priv.viewCheckboxes = props.hasOwnProperty('viewCheckboxes')
+                    && core.tools.isBool(props.viewCheckboxes)
                     ? props.viewCheckboxes : !1;
-                priv.itemIndex = props.hasOwnProperty('itemIndex') && core.tools.isNumber(props.itemIndex) ? props.itemIndex : -1;
-                priv.columns = props.hasOwnProperty('columns') && core.tools.isNumber(props.columns) ? props.columns : 1;
+                priv.itemIndex = props.hasOwnProperty('itemIndex') && core.tools.isNumber(props.itemIndex)
+                    ? props.itemIndex : -1;
+                priv.columns = props.hasOwnProperty('columns') && core.tools.isNumber(props.columns)
+                    ? props.columns : 1;
                 priv.images = props.hasOwnProperty('images') ? props.images : null;
                 //this.animated = !0;
-                priv.orientation = props.hasOwnProperty('orientation') ? props.orientation : core.types.ORIENTATIONS.VERTICAL;
+                priv.orientation = props.hasOwnProperty('orientation')
+                    ? props.orientation : core.types.ORIENTATIONS.VERTICAL;
                 this.createEventsAndBind(['onChange', 'onSelectItem', 'onDrawItem'], props);
             }
         }
@@ -641,21 +658,24 @@ const ListBox = (() => {
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading) {
                 priv.scrollPos =
-                    Math.max(Math.min(htmlElement[`scroll${prop}`], priv.innerHeight - htmlElement[`offset${propSize}`]), 0);
+                    Math.max(Math.min(htmlElement[`scroll${prop}`], priv.innerHeight
+                        - htmlElement[`offset${propSize}`]), 0);
                 priv.visibleItems = [];
                 let topIndex = 0;
                 topIndex = Math.max(0, int(priv.scrollPos / priv.itemsSize));
                 let maxIndex = !oldVisibleItems.isEmpty
                     ? topIndex + oldVisibleItems.length * 2 : int(htmlElement.offsetHeight / priv.itemsSize) + 1;
                 maxIndex = Math.min(maxIndex, items.length);
-                !scrollModeNormal && (priv.scroller.style[propSize.toLowerCase()] = `${priv.innerHeight}${core.types.CSSUNITS.PX}`);
+                !scrollModeNormal && (priv.scroller.style[propSize.toLowerCase()]
+                    = `${priv.innerHeight}${core.types.CSSUNITS.PX}`);
                 for (let i = topIndex; i < maxIndex; i++) {
                     const item = items[i];
                     if (scrollModeNormal) {
                         itemVisible = !0;
                     } else {
                         itemVisible = !1;
-                        ((item.pos + item.size >= priv.scrollPos) && (item.pos < htmlElement[`offset${propSize}`] + priv.scrollPos))
+                        ((item.pos + item.size >= priv.scrollPos)
+                            && (item.pos < htmlElement[`offset${propSize}`] + priv.scrollPos))
                             && (itemVisible = !0);
                     }
                     if (itemVisible) {
@@ -674,7 +694,8 @@ const ListBox = (() => {
         selectItem(item) {
             if (!item.isHeader && item.enabled && this.enabled && this.mouseEvents.mousedown) {
                 this.multiSelect && !core.keyboard.ctrl && item.owner.clearSelection();
-                this.multiSelect && core.keyboard.ctrl ? item.selected = !item.selected : this.itemIndex = item.index;
+                this.multiSelect && core.keyboard.ctrl
+                    ? item.selected = !item.selected : this.itemIndex = item.index;
                 this.viewCheckboxes && (item.isChecked = !item.isChecked);
                 this.onSelectItem.hasListener && this.onSelectItem.invoke();
             }
@@ -881,18 +902,21 @@ const ListBox = (() => {
             if (this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
                 if (inVisibleItems && !isFirst) {
                     let nbrVisibleItems;
-                    let base;
+                    //let base;
                     nbrVisibleItems = int(htmlElement[`offset${propSize}`] / priv.itemsSize);
-                    base = ((nbrVisibleItems * priv.itemsSize) - htmlElement[`offset${propSize}`]) + priv.itemsSize;
-                    htmlElement[`scroll${prop}`] = base + ((priv.itemIndex - nbrVisibleItems) * priv.itemsSize);
+                    //base = ((nbrVisibleItems * priv.itemsSize) - htmlElement[`offset${propSize}`])
+                    //    + priv.itemsSize;
+                    htmlElement[`scroll${prop}`] = ((priv.itemIndex - nbrVisibleItems) * priv.itemsSize);
                 } else if (isFirst) {
                     htmlElement[`scroll${prop}`] = priv.itemIndex * priv.itemsSize;
                 }
             } else {
-                if (this.items[priv.itemIndex].html[`offset${prop}`] + this.items[priv.itemIndex].html[`offset${propSize}`] >
+                if (this.items[priv.itemIndex].html[`offset${prop}`]
+                    + this.items[priv.itemIndex].html[`offset${propSize}`] >
                     htmlElement[`offset${propSize}`] + htmlElement[`scroll${prop}`]) {
                     htmlElement[`scroll${prop}`] = this.items[priv.itemIndex].html[`offset${propSize}`] +
-                        this.items[priv.itemIndex].html[`offset${propSize}`] + 2 - htmlElement[`offset${propSize}`];
+                        this.items[priv.itemIndex].html[`offset${propSize}`] + 2
+                        - htmlElement[`offset${propSize}`];
                 } else if (htmlElement[`scroll${prop}`] > this.items[priv.itemIndex].html[`offset${prop}`]) {
                     htmlElement[`scroll${prop}`] = this.items[priv.itemIndex].html[`offset${prop}`] - 1;
                 }
@@ -919,7 +943,8 @@ const ListBox = (() => {
                         const props = item;
                         props.inForm = !1;
                         props.selected = priv.itemIndex === idx;
-                        props.height = item.hasOwnProperty('height') && core.tools.isNumber(item.size) ? item.size : priv.itemsSize;
+                        props.height = item.hasOwnProperty('height') && core.tools.isNumber(item.size)
+                            ? item.size : priv.itemsSize;
                         const _item = core.classes.createComponent({
                             class: priv.itemsClass,
                             owner: this,
