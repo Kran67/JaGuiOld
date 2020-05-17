@@ -95,8 +95,8 @@ const ImageControl = (() => {
                 priv.bitmapStyle.left = `${destRect.left}${PX}`;
                 priv.bitmapStyle.top = `${destRect.top}${PX}`;
             } else {
-                priv.bitmapStyle.left = `${~~((htmlElement.offsetWidth - iw) / 2)}${PX}`;
-                priv.bitmapStyle.top = `${~~((htmlElement.offsetHeight - ih) / 2)}${PX}`;
+                priv.bitmapStyle.left = `${int((htmlElement.offsetWidth - iw) / 2)}${PX}`;
+                priv.bitmapStyle.top = `${int((htmlElement.offsetHeight - ih) / 2)}${PX}`;
                 priv.bitmapStyle.width = `${iw}${PX}`;
                 priv.bitmapStyle.height = `${ih}${PX}`;
             }

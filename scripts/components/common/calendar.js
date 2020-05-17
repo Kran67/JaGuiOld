@@ -192,7 +192,7 @@ const Calendar = (() => {
             const day = htmlObj.dataset.day;
             //#endregion Variables déclaration
             if (this.isEnabled && day) {
-                priv.curDate.setDate(~~day);
+                priv.curDate.setDate(int(day));
                 htmlObj && (priv.lastSelectedDay = htmlObj);
                 this.update();
             }
@@ -206,7 +206,7 @@ const Calendar = (() => {
             const month = htmlObj.dataset.month;
             //#endregion Variables déclaration
             if (this.isEnabled) {
-                month && priv.curDate.setMonth(~~month);
+                month && priv.curDate.setMonth(int(month));
                 Events.bind(priv.months, 'AnimationEnd', this.animationEnd);
                 priv.months.dataset.view = !1;
                 this.mode = CALENDARMODES.DAYS;
@@ -221,7 +221,7 @@ const Calendar = (() => {
             const year = htmlObj.dataset.year;
             //#endregion Variables déclaration
             if (this.isEnabled) {
-                year && priv.curDate.setFullYear(~~year);
+                year && priv.curDate.setFullYear(int(year));
                 Events.bind(priv.decades, 'AnimationEnd', this.animationEnd);
                 priv.decades.dataset.view = !1;
                 this.mode = CALENDARMODES.MONTHS;
@@ -236,7 +236,7 @@ const Calendar = (() => {
             const decade = htmlObj.dataset.decade;
             //#endregion Variables déclaration
             if (this.isEnabled) {
-                decade && priv.curDate.setFullYear(~~decade);
+                decade && priv.curDate.setFullYear(int(decade));
                 Events.bind(priv.centuries, 'AnimationEnd', this.animationEnd);
                 priv.centuries.dataset.view = !1;
                 this.mode = CALENDARMODES.DECADES;
@@ -294,7 +294,7 @@ const Calendar = (() => {
                     case CALENDARMODES.DECADES:
                         div = priv.decades.querySelectorAll('.CalendarDecade');
                         d = 0;
-                        l = priv.curDate.getFullYear() - ~~(priv.curDate.getFullYear().toString().substr(3, 1));
+                        l = priv.curDate.getFullYear() - int(priv.curDate.getFullYear().toString().substr(3, 1));
                         for (let i = l - 1; i < l + 11; i++) {
                             div[d].classList.remove('CalendarSelected', 'CalendarThis', 'CalendarOutMonth');
                             div[d].dataset.theme = this.themeName;
@@ -312,7 +312,7 @@ const Calendar = (() => {
                         break;
                     case CALENDARMODES.CENTURIES:
                         {
-                            const thisCentury = ~~(priv.curDate.getFullYear().toString().substr(0, 2) + '00');
+                            const thisCentury = int(priv.curDate.getFullYear().toString().substr(0, 2) + '00');
                             let startCentury = thisCentury - 10;
                             const endCentury = thisCentury + 100;
                             priv.thisMonth.innerHTML = `${thisCentury}-${(endCentury - 1)}`;
@@ -330,7 +330,7 @@ const Calendar = (() => {
                                     && priv.curDate.getFullYear() <= startCentury + 9
                                     && div[d].classList.add('CalendarSelected');
                                 div[d].innerHTML = `${startCentury}<br />${(startCentury + 9)}`;
-                                div[d].dataset.decade = `${startCentury + ~~(priv.curDate.getFullYear().toString().substr(3, 1))}`;
+                                div[d].dataset.decade = `${startCentury + int(priv.curDate.getFullYear().toString().substr(3, 1))}`;
                                 div[d].jsObj = this;
                                 startCentury += 10;
                                 d++;

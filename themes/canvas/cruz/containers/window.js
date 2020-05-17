@@ -135,7 +135,7 @@ Core.themes.cruz.WindowTitleBar = {
         const offsetW = 241 - (6 - visibleButtons) * 21;
         const width = obj.contentWidth;
         const height = obj.contentHeight;
-        const w2 = ~~((width - offsetW) / 2);
+        const w2 = int((width - offsetW) / 2);
         let metrics
         const btnsSpace = visibleButtons * buttonsTheme.offset;
         //#endregion Variables déclaration

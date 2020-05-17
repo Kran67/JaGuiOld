@@ -90,8 +90,8 @@ const CircularProgressBar = (() => {
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (priv.svg) {
-                priv.backCircle.setAttribute('r', ~~(htmlElement.offsetWidth / 2) - 5);
-                priv.progress.setAttribute('r', ~~(htmlElement.offsetWidth / 2) - 5);
+                priv.backCircle.setAttribute('r', int(htmlElement.offsetWidth / 2) - 5);
+                priv.progress.setAttribute('r', int(htmlElement.offsetWidth / 2) - 5);
                 this.calcProgress();
             }
         }
@@ -100,7 +100,7 @@ const CircularProgressBar = (() => {
         calcProgress() {
             //#region Variables déclaration
             const priv = internal(this);
-            const r = ~~priv.progress.getAttribute('r');
+            const r = int(priv.progress.getAttribute('r'));
             const c = Math.PI * (r * 2);
             const pct = (100 - priv.value) / 100 * c;
             //#endregion Variables déclaration

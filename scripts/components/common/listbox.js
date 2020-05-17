@@ -644,9 +644,9 @@ const ListBox = (() => {
                     Math.max(Math.min(htmlElement[`scroll${prop}`], priv.innerHeight - htmlElement[`offset${propSize}`]), 0);
                 priv.visibleItems = [];
                 let topIndex = 0;
-                topIndex = Math.max(0, ~~(priv.scrollPos / priv.itemsSize));
+                topIndex = Math.max(0, int(priv.scrollPos / priv.itemsSize));
                 let maxIndex = !oldVisibleItems.isEmpty
-                    ? topIndex + oldVisibleItems.length * 2 : ~~(htmlElement.offsetHeight / priv.itemsSize) + 1;
+                    ? topIndex + oldVisibleItems.length * 2 : int(htmlElement.offsetHeight / priv.itemsSize) + 1;
                 maxIndex = Math.min(maxIndex, items.length);
                 !scrollModeNormal && (priv.scroller.style[propSize.toLowerCase()] = `${priv.innerHeight}${core.types.CSSUNITS.PX}`);
                 for (let i = topIndex; i < maxIndex; i++) {
@@ -848,13 +848,13 @@ const ListBox = (() => {
                     break;
                 case VKEYSCODES.VK_PRIOR:
                     this.itemIndex = priv.orientation === ORIENTATIONS.VERTICAL
-                        ? priv.itemIndex - ~~(htmlElement.offsetHeight / priv.itemsSize)
-                        : priv.itemIndex - ~~(htmlElement.offsetWidth / priv.itemsSize);
+                        ? priv.itemIndex - int(htmlElement.offsetHeight / priv.itemsSize)
+                        : priv.itemIndex - int(htmlElement.offsetWidth / priv.itemsSize);
                     break;
                 case VKEYSCODES.VK_NEXT:
                     this.itemIndex = priv.orientation === ORIENTATIONS.VERTICAL
-                        ? priv.itemIndex + ~~(htmlElement.offsetHeight / priv.itemsSize)
-                        : priv.itemIndex + ~~(htmlElement.offsetWidth / priv.itemsSize);
+                        ? priv.itemIndex + int(htmlElement.offsetHeight / priv.itemsSize)
+                        : priv.itemIndex + int(htmlElement.offsetWidth / priv.itemsSize);
                     break;
                 case VKEYSCODES.VK_SPACE:
                     {
@@ -882,7 +882,7 @@ const ListBox = (() => {
                 if (inVisibleItems && !isFirst) {
                     let nbrVisibleItems;
                     let base;
-                    nbrVisibleItems = ~~(htmlElement[`offset${propSize}`] / priv.itemsSize);
+                    nbrVisibleItems = int(htmlElement[`offset${propSize}`] / priv.itemsSize);
                     base = ((nbrVisibleItems * priv.itemsSize) - htmlElement[`offset${propSize}`]) + priv.itemsSize;
                     htmlElement[`scroll${prop}`] = base + ((priv.itemIndex - nbrVisibleItems) * priv.itemsSize);
                 } else if (isFirst) {

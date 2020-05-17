@@ -214,7 +214,7 @@ Core.themes.CaptionControl = {
         //#region Variables déclaration
         const ctx = Core.ctx;
         const txtColor = textDecoration.color?textDecoration.color:Colors.BLACK;
-        const textH2 = ~~(textM.height - (textM.fontBoundingBoxAscent?textM.fontBoundingBoxAscent:textM._actualBoundingBoxAscent) * 0.5);
+        const textH2 = int(textM.height - (textM.fontBoundingBoxAscent?textM.fontBoundingBoxAscent:textM._actualBoundingBoxAscent) * 0.5);
         let tops = [];
         const TEXTDECORATIONSTYLES = Types.TEXTDECORATIONSTYLES;
         const style = textDecoration.style;
@@ -230,9 +230,9 @@ Core.themes.CaptionControl = {
             }
         }
         if (textDecoration.overline) {
-            tops.push(~~(lineWidth / 2) - (style === TEXTDECORATIONSTYLES.WAVY?lineWidth+2:0));
+            tops.push(int(lineWidth / 2) - (style === TEXTDECORATIONSTYLES.WAVY?lineWidth+2:0));
             if (style === TEXTDECORATIONSTYLES.DOUBLE) {
-                tops.push(-~~(lineWidth / 2) - 1);
+                tops.push(-int(lineWidth / 2) - 1);
             }
         }
         if (textDecoration.lineThrough) {

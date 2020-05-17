@@ -84,8 +84,8 @@ const PopupBox = (() => {
             if (core.mouse.button !== Mouse.MOUSEBUTTONS.RIGHT) {
                 if (core.classes.PopupMenu && this instanceof core.classes.PopupMenu
                     && core.classes.MenuItem && refControl instanceof core.classes.MenuItem && !(refControl.owner instanceof core.classes.MainMenu)) {
-                    x += ~~parseFloat(getComputedStyle(htmlElement.firstElementChild).paddingLeft);
-                    y -= ~~parseFloat(getComputedStyle(htmlElement.firstElementChild).paddingTop);
+                    x += int(getComputedStyle(htmlElement.firstElementChild).paddingLeft);
+                    y -= int(getComputedStyle(htmlElement.firstElementChild).paddingTop);
                 }
             }
             if (!core.isHTMLRenderer) {

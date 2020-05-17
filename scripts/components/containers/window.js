@@ -351,11 +351,11 @@ const WindowTitleBar = (() => {
                                     }
                                 } else {
                                     if (snapArea === SNAPAREAS.TOP) {
-                                        newLeft = p.x - ~~(savedSizePosState.width / 2);
+                                        newLeft = p.x - int(savedSizePosState.width / 2);
                                     } else if (snapArea === SNAPAREAS.LEFT) {
                                         newLeft = 0;
                                         p.x > newLeft + savedSizePosState.width
-                                            && (newLeft = p.x - ~~(savedSizePosState.width / 2));
+                                            && (newLeft = p.x - int(savedSizePosState.width / 2));
                                     } else if (snapArea === SNAPAREAS.RIGHT) {
                                         p.x > newLeft + savedSizePosState.width
                                     }
@@ -1456,10 +1456,10 @@ const BaseWindow = (() => {
             const rect = this.current;
             //#endregion Variables déclaration
             form.beginUpdate();
-            form.left = ~~rect.left;
-            form.top = ~~rect.top;
-            form.width = ~~rect.width;
-            form.height = ~~rect.height;
+            form.left = int(rect.left);
+            form.top = int(rect.top);
+            form.width = int(rect.width);
+            form.height = int(rect.height);
             form.endUpdate();
             core.canvas.needRedraw = !0;
             //console.log(Convert.rect2Str(rect));
@@ -2011,10 +2011,10 @@ const BaseWindow = (() => {
                             marginBottom: margin.bottom
                         };
                     }
-                    layoutRect.l = ~~parseFloat(cs.marginLeft);
-                    layoutRect.t = ~~parseFloat(cs.marginTop);
-                    layoutRect.r = ~~parseFloat(cs.marginRight);
-                    layoutRect.b = ~~parseFloat(cs.marginBottom);
+                    layoutRect.l = int(cs.marginLeft);
+                    layoutRect.t = int(cs.marginTop);
+                    layoutRect.r = int(cs.marginRight);
+                    layoutRect.b = int(cs.marginBottom);
                     cs = isHtmlRenderer ? htmlElement.getBoundingClientRect() : this.getBoundingClientRect();
                     const x = mDocument.x - cs.left;
                     const y = mDocument.y - cs.top;
@@ -2442,11 +2442,11 @@ const BaseWindow = (() => {
             const isHtmlRenderer = core.isHTMLRenderer;
             //#endregion Variables déclaration
             if (htmlParentElement) {
-                l = ~~((htmlParentElement.offsetWidth - (isHtmlRenderer ? htmlElement.offsetWidth : this.width)) / 2);
-                t = ~~((htmlParentElement.offsetHeight - (isHtmlRenderer ? htmlElement.offsetHeight : this.height)) / 2);
+                l = int((htmlParentElement.offsetWidth - (isHtmlRenderer ? htmlElement.offsetWidth : this.width)) / 2);
+                t = int((htmlParentElement.offsetHeight - (isHtmlRenderer ? htmlElement.offsetHeight : this.height)) / 2);
             } else {
-                l = ~~((body.offsetWidth - (isHtmlRenderer ? htmlElement.offsetWidth : this.width)) / 2);
-                t = ~~((body.offsetHeight - (isHtmlRenderer ? htmlElement.offsetHeight : this.height)) / 2);
+                l = int((body.offsetWidth - (isHtmlRenderer ? htmlElement.offsetWidth : this.width)) / 2);
+                t = int((body.offsetHeight - (isHtmlRenderer ? htmlElement.offsetHeight : this.height)) / 2);
             }
             if (isHtmlRenderer) {
                 htmlElementStyle.left = `${l}${PX}`;
@@ -2472,7 +2472,7 @@ const BaseWindow = (() => {
                 snapArea.className = String.EMPTY;
             }
             const snapAreaStyle = snapArea.style;
-            snapAreaStyle.zIndex = core.isHTMLRenderer ? ~~this.HTMLElementStyle.zIndex - 1 : 0;
+            snapAreaStyle.zIndex = core.isHTMLRenderer ? int(this.HTMLElementStyle.zIndex) - 1 : 0;
             priv.snapArea = _snapArea;
             switch (_snapArea) {
                 case SNAPAREAS.TOP:
@@ -2658,7 +2658,7 @@ const BaseWindow = (() => {
             const htmlElementStyle = this.HTMLElementStyle;
             const isHtmlRenderer = core.isHTMLRenderer;
             const cw = !isHtmlRenderer ? core.canvas.offsetWidth : 0;
-            const cw2 = !isHtmlRenderer ? ~~(core.canvas.offsetWidth / 2) : 0;
+            const cw2 = !isHtmlRenderer ? int(core.canvas.offsetWidth / 2) : 0;
             const ch = !isHtmlRenderer ? core.canvas.offsetHeight : 0;
             const titleBar = priv.titleBar;
             const rollUpDownBtn = titleBar.rollUpDownBtn;

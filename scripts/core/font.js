@@ -287,7 +287,7 @@ const Font = (() => {
                 priv.strikeout = !1;
                 str = str.split(String.SPACE);
                 str.forEach(s => {
-                    if (!isNaN(~~parseFloat(s))) {
+                    if (!isNaN(int(s))) {
                         if (s.endsWith(CSSUNITS.PO)) {
                             priv.sizeUnit = CSSUNITS.PO;
                         } else if (s.endsWith(CSSUnits.REM)) {
@@ -295,7 +295,7 @@ const Font = (() => {
                         } else {
                             priv.sizeUnit = s.substr(s.length - 2, 2).toLowerCase();
                         }
-                        priv.size = ~~parseFloat(s);
+                        priv.size = int(s);
                     }
                     else if (s.includes('bold')) {
                         core.tools.include(this, 'style', FONTSTYLES.BOLD);

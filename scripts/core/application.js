@@ -264,7 +264,7 @@ const Application = (() => {
                 const idx = a.indexOf(object.name);
                 if (idx === -1) {
                     const tab = object.name.match(/\d+$/);
-                    tab && (a[~~tab.first] = object.name);
+                    tab && (a[int(tab.first)] = object.name);
                 }
             }
         }

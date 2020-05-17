@@ -397,9 +397,9 @@ const DataSet = (() => {
         sortByNumber(col, order) {
             return (a, b) => {
                 let fieldsNames = Object.keys(a);
-                a = ~~parseFloat(a[fieldsNames[col]]);
+                a = int(a[fieldsNames[col]]);
                 fieldsNames = Object.keys(b);
-                b = ~~parseFloat(b[fieldsNames[col]]);
+                b = int(b[fieldsNames[col]]);
                 if (order === core.types.SORTEDORDERS.ASC) {
                     return a === b ? 0 : a < b ? -1 : 1;
                 } else {

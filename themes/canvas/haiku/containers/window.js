@@ -20,7 +20,7 @@ Core.themes.haiku.Window.render = function (obj) {
     const PT = Types.CSSUNITS.PT;
     //#endregion Variables déclaration
     ctx.font = `${titleBarTheme.FONTSTYLE} ${titleBarTheme.FONTSIZE}${PT} ${titleBarTheme.FONTFACE}`;
-    textW = 72 + ~~ctx.measureText(obj.caption).width;
+    textW = 72 + int(ctx.measureText(obj.caption).width);
     ctx.save();
     ctx.clipRect(0, 0, width, height);
     if (borderStyle !== BORDERSTYLES.NONE) {

@@ -301,10 +301,10 @@ const Splitter = (() => {
             const target = core.mouse.target;
             //#endregion Variables déclaration
             if (priv.orientation === core.types.ORIENTATIONS.VERTICAL) {
-                const y2 = ~~(htmlElement.offsetHeight / 2);
+                const y2 = int(htmlElement.offsetHeight / 2);
                 inCollapsibleArea = target.y > y2 - 15 && target.y < y2 + 15;
             } else {
-                const w2 = ~~(htmlElement.offsetWidth / 2);
+                const w2 = int(htmlElement.offsetWidth / 2);
                 inCollapsibleArea = target.x > w2 - 15 && target.x < w2 + 15;
             }
             return priv.collapsible & inCollapsibleArea;
@@ -329,31 +329,31 @@ const Splitter = (() => {
             mat = getComputedStyle(resizeLine).transform;
             mat = mat.match(/-?[\d\.]+/g);
             if (priv.orientation === core.types.ORIENTATIONS.VERTICAL) {
-                offset = ~~mat[4] - htmlElement.offsetLeft;
+                offset = int(mat[4]) - htmlElement.offsetLeft;
                 if (firstCtrl) {
                     irstCtrl.align === aligns.CLIENT
-                        ? firstCtrl.right = htmlElement.parentNode.offsetWidth - ~~mat[4]
+                        ? firstCtrl.right = htmlElement.parentNode.offsetWidth - int(mat[4])
                         : firstCtrl.width = firstHtmlElement.offsetWidth + offset;
                 }
                 if (lastCtrl) {
                     lastCtrl.align === aligns.CLIENT
                         ? lastCtrl.left = lastHtmlElement.offsetLeft + offset
-                        : priv.lastCtrl.width = htmlElement.parentNode.offsetWidth - resizeLine.offsetWidth - ~~mat[4];
+                        : priv.lastCtrl.width = htmlElement.parentNode.offsetWidth - resizeLine.offsetWidth - int(mat[4]);
                 }
                 this.align === aligns.LEFT
                     ? this.left = htmlElement.offsetLeft + offset
                     : htmlElementStyle.right = `${htmlElement.parentNode.offsetWidth - lastHtmlElement.offsetLeft}${PX}`;
             } else {
-                offset = ~~mat[5] - htmlElement.offsetTop;
+                offset = int(mat[5]) - htmlElement.offsetTop;
                 if (firstCtrl) {
                     firstCtrl.align === aligns.CLIENT
-                        ? firstCtrl.bottom = htmlElement.parentNode.offsetHeight - ~~mat[5]
+                        ? firstCtrl.bottom = htmlElement.parentNode.offsetHeight - int(mat[5])
                         : firstCtrl.height = firstHtmlElement.offsetHeight + offset;
                 }
                 if (lastCtrl) {
                     lastCtrl.align === aligns.CLIENT
                         ? lastCtrl.top = lastHtmlElement.offsetTop + offset
-                        : lastCtrl.height = htmlElement.parentNode.offsetHeight - resizeLine.offsetHeight - ~~mat[5];
+                        : lastCtrl.height = htmlElement.parentNode.offsetHeight - resizeLine.offsetHeight - int(mat[5]);
                 }
                 this.align === aligns.TOP
                     ? this.top = htmlElement.offsetTop + offset

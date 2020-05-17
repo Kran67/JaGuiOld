@@ -1098,7 +1098,7 @@ const Control = (() => {
                         htmlElementStyle.height === 'auto'
                             && (htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}`);
                         child.applyTransforms();
-                        t += ~~parseFloat(cStyle.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(cStyle.marginBottom);
+                        t += int(cStyle.marginTop) + child.HTMLElement.offsetHeight + int(cStyle.marginBottom);
                     }
                 } else {
                     child.top = t;
@@ -1122,7 +1122,7 @@ const Control = (() => {
                         htmlElementStyle.height === 'auto'
                             && (htmlElementStyle.height = `${child.owner.HTMLElement.offsetHeight - t - b}${PX}`);
                         child.applyTransforms();
-                        b += ~~parseFloat(cStyle.marginTop) + child.HTMLElement.offsetHeight + ~~parseFloat(cStyle.marginBottom);
+                        b += int(cStyle.marginTop) + child.HTMLElement.offsetHeight + int(cStyle.marginBottom);
                     }
                 }
                 child.realignChilds();
@@ -1140,7 +1140,7 @@ const Control = (() => {
                         htmlElementStyle.width === 'auto'
                             && (htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}`);
                         child.applyTransforms();
-                        l += ~~parseFloat(cStyle.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(cStyle.marginRight);
+                        l += int(cStyle.marginLeft) + child.HTMLElement.offsetWidth + int(cStyle.marginRight);
                     }
                 }
                 child.realignChilds();
@@ -1158,7 +1158,7 @@ const Control = (() => {
                         htmlElementStyle.width === 'auto'
                             && (htmlElementStyle.width = `${child.owner.HTMLElement.offsetWidth - l - r}${PX}`);
                         child.applyTransforms();
-                        r += ~~parseFloat(cStyle.marginLeft) + child.HTMLElement.offsetWidth + ~~parseFloat(cStyle.marginRight);
+                        r += int(cStyle.marginLeft) + child.HTMLElement.offsetWidth + int(cStyle.marginRight);
                     }
                 }
                 child.realignChilds();
@@ -2162,10 +2162,10 @@ const Control = (() => {
             const oHtmlElement = owner.HTMLElement;
             //#endregion Variables déclaration
             if (resizeData.width > 0 && resizeData.height > 0 && oHtmlElement.offsetWidth > 0 && oHtmlElement.offsetHeight > 0) {
-                htmlElementStyle.left = `${~~parseFloat(p.left) * (oHtmlElement.offsetWidth / resizeData.width)} ${PX} `;
-                htmlElementStyle.top = `${~~parseFloat(p.top) * (oHtmlElement.offsetHeight / resizeData.height)} ${PX} `;
-                htmlElementStyle.width = `${~~parseFloat(p.width) * (oHtmlElement.offsetWidth / resizeData.width)} ${PX} `;
-                htmlElementStyle.height = `${~~parseFloat(p.height) * (oHtmlElement.offsetHeight / resizeData.height)} ${PX} `;
+                htmlElementStyle.left = `${int(p.left) * (oHtmlElement.offsetWidth / resizeData.width)} ${PX} `;
+                htmlElementStyle.top = `${int(p.top) * (oHtmlElement.offsetHeight / resizeData.height)} ${PX} `;
+                htmlElementStyle.width = `${int(p.width) * (oHtmlElement.offsetWidth / resizeData.width)} ${PX} `;
+                htmlElementStyle.height = `${int(p.height) * (oHtmlElement.offsetHeight / resizeData.height)} ${PX} `;
             }
         }
         //#endregion scaleFromParent
@@ -2184,13 +2184,13 @@ const Control = (() => {
             const align = priv.align;
             const htmlElementStyle = this.HTMLElementStyle;
             const pP = getComputedStyle(oHtmlElement);
-            const mR = new core.classes.Rect(~~parseFloat(pP.paddingLeft), ~~parseFloat(pP.paddingTop),
-                oHtmlElement.offsetWidth - ~~parseFloat(pP.paddingRight),
-                oHtmlElement.offsetHeight - ~~parseFloat(pP.paddingBottom));
-            const cR = new core.classes.Rect(~~parseFloat(p.left) - ~~parseFloat(p.paddingLeft),
-                ~~parseFloat(p.top) - ~~parseFloat(p.paddingTop),
-                ~~parseFloat(p.left) + ~~parseFloat(p.width) + ~~parseFloat(p.paddingRight),
-                ~~parseFloat(p.top) + ~~parseFloat(p.height) + ~~parseFloat(p.paddingBottom));
+            const mR = new core.classes.Rect(int(pP.paddingLeft), int(pP.paddingTop),
+                oHtmlElement.offsetWidth - int(pP.paddingRight),
+                oHtmlElement.offsetHeight - int(pP.paddingBottom));
+            const cR = new core.classes.Rect(int(p.left) - int(p.paddingLeft),
+                int(p.top) - int(p.paddingTop),
+                int(p.left) + int(p.width) + int(p.paddingRight),
+                int(p.top) + int(p.height) + int(p.paddingBottom));
             const fitScale = cR.fit(mR);
             //#endregion Variables déclaration
             if (fitScale.ratio < 1) {
@@ -2213,10 +2213,10 @@ const Control = (() => {
                 newWidth = fitScale.rect.right - fitScale.rect.left;
                 newHeight = fitScale.rect.bottom - fitScale.rect.top;
             }
-            htmlElementStyle.left = `${newLeft + ~~parseFloat(p.paddingLeft)} ${PX} `;
-            htmlElementStyle.top = `${newTop + ~~parseFloat(p.paddingTop)} ${PX} `;
-            htmlElementStyle.width = `${newWidth - ~~parseFloat(p.paddingLeft) - ~~parseFloat(p.paddingRight)} ${PX} `;
-            htmlElementStyle.height = `${newHeight - ~~parseFloat(p.paddingTop) - ~~parseFloat(p.paddingBottom)} ${PX} `;
+            htmlElementStyle.left = `${newLeft + int(p.paddingLeft)} ${PX} `;
+            htmlElementStyle.top = `${newTop + int(p.paddingTop)} ${PX} `;
+            htmlElementStyle.width = `${newWidth - int(p.paddingLeft) - int(p.paddingRight)} ${PX} `;
+            htmlElementStyle.height = `${newHeight - int(p.paddingTop) - int(p.paddingBottom)} ${PX} `;
         }
         //#endregion fitToParent
         //#region applyTransforms

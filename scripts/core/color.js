@@ -233,7 +233,7 @@ const Color = (function () {
                     result.red = channels[0];
                     result.green = channels[1];
                     result.blue = channels[2];
-                    result.alpha = channels[3] ? ~~channels[3] : 1;
+                    result.alpha = channels[3] ? int(channels[3]) : 1;
                 }
             }
             result.RGBtoHSL();

@@ -111,7 +111,7 @@ class Convert {
      * @returns     {String}        the result
      */
     static intToStr(a) {
-        return core.tools.isNumber(a) ? String(~~a) : String.EMPTY;
+        return core.tools.isNumber(a) ? String(int(a)) : String.EMPTY;
     }
     /**
      * Convert a float number to a string
@@ -127,7 +127,7 @@ class Convert {
      * @returns     {Integer}        the result
      */
     static floatToInt(a) {
-        return core.tools.isNumber(a) ? ~~a : 0;
+        return core.tools.isNumber(a) ? int(a) : 0;
     }
     /**
      * Convert a boolean to a string
@@ -147,7 +147,7 @@ class Convert {
      * @returns     {Integer}       the result
      */
     static strToInt(a) {
-        return ~~a;
+        return int(a);
     }
     /**
      * Convert a string to a float
@@ -204,7 +204,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static dec2Bin(a) {
-        return ~~a.toString(2);
+        return int(a).toString(2);
     }
     /**
      * Convert a decimal to an hexadecimal
@@ -212,7 +212,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static dec2Hex(a) {
-        return ~~a.toString(16);
+        return int(a).toString(16);
     }
     /**
      * Convert a decimal to an octal
@@ -220,7 +220,7 @@ class Convert {
      * @returns     {Number}        the result
      */
     static dec2Oct(a) {
-        return ~~a.toString(8);
+        return int(a).toString(8);
     }
     /**
      * Convert a binary to an hexadecimal
@@ -549,7 +549,7 @@ class Convert {
      */
     static sec2min(seconds) {
         //#region Variables déclaration
-        const mins = ~~(seconds % 3600 / 60);
+        const mins = int(seconds % 3600 / 60);
         const secs = seconds % 60;
         //#endregion Variables déclaration
         return `${mins} minute(s) ${secs} seconde(s)`;
@@ -561,8 +561,8 @@ class Convert {
      */
     static sec2hrs(seconds) {
         //#region Variables déclaration
-        const hrs = ~~(seconds / 3600);
-        const mins = ~~(seconds % 3600 / 60);
+        const hrs = int(seconds / 3600);
+        const mins = int(seconds % 3600 / 60);
         //#endregion Variables déclaration
         const secs = seconds % 60;
         return `${hrs} heure(s) ${mins} minute(s) ${secs} seconde(s)`;

@@ -136,8 +136,8 @@ const AnimatedCursor = (() => {
             const curFrame = priv.curFrame;
             htmlElement.classList.remove(className);
             htmlElement.classList.add(`${className}${curFrame}`);
-            priv.maxFrame = ~~getComputedStyle(htmlElement).animationIterationCount;
-            priv.iterationBetweenFrames = ~~getComputedStyle(htmlElement).animationDuration;
+            priv.maxFrame = int(getComputedStyle(htmlElement).animationIterationCount);
+            priv.iterationBetweenFrames = int(getComputedStyle(htmlElement).animationDuration);
             core.looper.addListener(this, 'animate');
         }
         //#endregion initAnimation

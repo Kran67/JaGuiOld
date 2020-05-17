@@ -27,7 +27,7 @@ Core.themes.deanachm.Button.render = function (obj) {
     ctx.roundRect(0, 0, width, height, buttonTheme.borderRadius);
     ctx.shadowOffsetX = SHADOWBACK.offset.x;
     ctx.shadowOffsetY = SHADOWBACK.offset.y;
-    ctx.shadowBlur = ~~(SHADOWBACK.blur/(obj instanceof Core.classes.SpeedButton && !obj.isPressed?3:1));
+    ctx.shadowBlur = int(SHADOWBACK.blur/(obj instanceof Core.classes.SpeedButton && !obj.isPressed?3:1));
     ctx.shadowColor = SHADOWBACK.color;
     if (obj.isFocused) {
         BORDERCOLOR = buttonTheme[`PRESSEDBORDERCOLOR`];

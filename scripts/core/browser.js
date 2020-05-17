@@ -20,7 +20,7 @@ class Browser {
         let _khtml = _av.indexOf('Konqueror') !== -1;
         let _iphone = navigator.platform.indexOf('iPhone') !== -1 || navigator.platform.indexOf('iPod') !== -1;
         let _webkit = _av.indexOf('WebKit') !== -1;
-        let _coreVersion = ~~parseFloat(_av);
+        let _coreVersion = float(_av);
         let _vendorPrefix = null;
         //#endregion Private Properties
         //#region Public Properties
@@ -124,7 +124,7 @@ class Browser {
             const match = _n.userAgent.match(/(?:MSIE |Trident\/.*; rv:)(\d+)/);
             if (match) {
                 _ie = match.length > 0;
-                _coreVersion = match ? ~~match[1] : 0;
+                _coreVersion = match ? int(match[1]) : 0;
             }
         }
         if (_ie) {

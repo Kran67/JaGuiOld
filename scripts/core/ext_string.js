@@ -369,7 +369,7 @@ if (!String.prototype.format) {
                             s = core.tools.pad(s, '0', frmt.percision);
                             break;
                         default: //integers
-                            s = ~~obj;
+                            s = int(obj);
                             s = s.toString();
                             s = core.tools.pad(s, '0', frmt.percision);
                             break;

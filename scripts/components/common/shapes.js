@@ -405,7 +405,7 @@ class Circle extends SVGGraphicControl {
         const sStyle = getComputedStyle(this.HTMLElement);
         const w = parseFloat(sStyle.width) - parseFloat(sStyle.strokeWidth) * 2;
         const h = parseFloat(sStyle.height) - parseFloat(sStyle.strokeWidth) * 2;
-        let r = w > h ? ~~(h / 2) : ~~(w / 2);
+        let r = w > h ? int(h / 2) : int(w / 2);
         super.update();
         r = r < 0 ? 1 : r;
         this.svgShape.setAttribute('r', r);
@@ -697,8 +697,8 @@ const Star = (() => {
             const priv = internal(this);
             const sStyle = getComputedStyle(this.HTMLElement);
             let rot = Math.PI / 2 * 3;
-            const cx = ~~(parseFloat(sStyle.width) / 2);
-            const cy = ~~(parseFloat(sStyle.height) / 2);
+            const cx = int(parseFloat(sStyle.width) / 2);
+            const cy = int(parseFloat(sStyle.height) / 2);
             const step = Math.PI / priv.spikes;
             const outerRadius = cx > cy ? cy : cx;
             const innerRadius = (cx > cy ? cy : cx) / 2;
@@ -841,8 +841,8 @@ const Polygon = (() => {
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading && this.svgShape) {
                 super.update();
-                const cx = ~~(parseFloat(sStyle.width) / 2);
-                const cy = ~~(parseFloat(sStyle.height) / 2);
+                const cx = int(parseFloat(sStyle.width) / 2);
+                const cy = int(parseFloat(sStyle.height) / 2);
                 const s = cx > cy ? cy : cx;
                 pts.push(`M${Math.round(cx + s * Math.cos(0))},${Math.round(cy + s * Math.sin(0))}`);
                 for (let i = 1; i <= priv.sides - 1; i++) {

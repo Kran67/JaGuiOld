@@ -208,7 +208,7 @@ const Rating = (() => {
                 case RATINGPRECISIONS.HALFANITEM:
                     {
                         const f = Math.frac(priv.value);
-                        this.value = f > 0 && f <= 0.5 ? ~~priv.value + 0.5 : ~~priv.value;
+                        this.value = f > 0 && f <= 0.5 ? int(priv.value) + 0.5 : int(priv.value);
                     }
                     break;
             }
@@ -287,10 +287,10 @@ const Rating = (() => {
             switch (priv.precision) {
                 case RATINGPRECISIONS.WHOLEITEM:
                     offset = Math.ceil(offset / imgSize) * imgSize;
-                    !isMouseMove && (priv.value = ~~(offset / imgSize));
+                    !isMouseMove && (priv.value = int(offset / imgSize));
                     break;
                 case RATINGPRECISIONS.HALFANITEM:
-                    offset = ~~(offset / (imgSize / 2) + 1) * ~~(imgSize / 2);
+                    offset = int(offset / (imgSize / 2) + 1) * int(imgSize / 2);
                     !isMouseMove && (priv.value = offset / imgSize);
                     break;
                 case RATINGPRECISIONS.EXACTPRECISION:

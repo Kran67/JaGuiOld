@@ -480,10 +480,10 @@ const Slider = (() => {
         update() {
             //#region Variables déclaration
             const priv = internal(this);
-            const lValue = 100 / (~~priv.max - ~~priv.min) * priv.leftInput.valueAsNumber - 100 /
-                (~~priv.max - ~~priv.min) * ~~priv.min;
-            const rValue = 100 / (~~priv.max - ~~priv.min) * priv.rightInput.valueAsNumber - 100 /
-                (~~priv.max - ~~priv.min) * ~~priv.min;
+            const lValue = 100 / (int(priv.max - priv.min)) * priv.leftInput.valueAsNumber - 100 /
+                (int(priv.max - priv.min)) * int(priv.min);
+            const rValue = 100 / (int(priv.max - priv.min)) * priv.rightInput.valueAsNumber - 100 /
+                (int(priv.max - priv.min)) * int(priv.min);
             const PX = core.types.CSSUNITS.PX;
             const width = `${this.width + priv.leftThumb.offsetWidth}${PX}`;
             const height = `${this.height + priv.leftThumb.offsetHeight}${PX}`;

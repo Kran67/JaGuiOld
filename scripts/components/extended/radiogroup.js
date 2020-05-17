@@ -61,14 +61,14 @@ const RadioGroup = (() => {
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading && this.items.length >= 0 && htmlElement) {
-                const buttonsPerCol = ~~((this.items.length + priv.columns - 1) / priv.columns);
-                const buttonWidth = ~~((this.width - 10) / priv.columns);
+                const buttonsPerCol = int((this.items.length + priv.columns - 1) / priv.columns);
+                const buttonWidth = int((this.width - 10) / priv.columns);
                 const h = this.height - this.legend.offsetHeight - 10;
-                const buttonHeight = ~~(h / buttonsPerCol);
-                const topMargin = 16 + ~~(h % buttonsPerCol) / 2;
+                const buttonHeight = int(h / buttonsPerCol);
+                const topMargin = 16 + int(h % buttonsPerCol) / 2;
                 this.items.forEach((item, i) => {
-                    const l = ~~(~~(i / buttonsPerCol) * buttonWidth + 8);
-                    const t = ~~(i % buttonsPerCol * buttonHeight + topMargin);
+                    const l = int(int(i / buttonsPerCol) * buttonWidth + 8);
+                    const t = int(i % buttonsPerCol * buttonHeight + topMargin);
                     item.bounds = new Rect(l, t, l + buttonWidth, t + buttonHeight);
                 });
             }

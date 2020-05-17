@@ -500,13 +500,13 @@ const Clock = (() => {
             const locale = core.tools.getLocale();
             const countDownClassNames = [];
             const date = new Date();
-            const days = (~~priv.countDown.days).toString().padStart(3, '0');
+            const days = (int(priv.countDown.days)).toString().padStart(3, '0');
             const hours = (isClock ?
                 date.getHours() - (!String.isNullOrEmpty(priv.use24H) && date.getHours() > 12 ? 12 : 0) :
-                priv.countDown.hours ? (~~priv.countDown.hours) : 0).toString().padStart(2, '0');
+                priv.countDown.hours ? (int(priv.countDown.hours)) : 0).toString().padStart(2, '0');
             const minutes = (isClock ?
                 date.getMinutes() :
-                priv.countDown.minutes ? (~~priv.countDown.minutes) : 0).toString().padStart(2, '0');
+                priv.countDown.minutes ? (int(priv.countDown.minutes)) : 0).toString().padStart(2, '0');
             const seconds = (isClock ?
                 date.getSeconds() :
                 priv.countDown.seconds).toString().padStart(2, '0');
@@ -531,7 +531,7 @@ const Clock = (() => {
                 let limit = 7;
                 if (!isClock) {
                     limit = 1;
-                    if (~~days > 0) {
+                    if (int(days) > 0) {
                         limit++;
                         countDownLabels.push(core.tools.getLocale().date.daysLabel);
                         numDigits.push('days');
@@ -542,7 +542,7 @@ const Clock = (() => {
                         }
                         countDownClassNames.push('days');
                     }
-                    if (~~days + ~~hours > 0) {
+                    if (int(days + hours) > 0) {
                         limit++;
                         countDownLabels.push(core.tools.getLocale().date.hoursLabel);
                         numDigits.push('hours');
@@ -552,7 +552,7 @@ const Clock = (() => {
                         }
                         countDownClassNames.push('hours');
                     }
-                    if (~~days + ~~hours + ~~minutes > 0) {
+                    if (int(days + hours + minutes) > 0) {
                         limit++;
                         countDownLabels.push(core.tools.getLocale().date.minutesLabel);
                         numDigits.push('minutes');
@@ -664,7 +664,7 @@ const Clock = (() => {
                         switch (numDigits[i]) {
                             case 'days':
                                 div.dataset.value = value = days;
-                                max = ~~priv.countDown.days;
+                                max = int(priv.countDown.days);
                                 break;
                             case 'hours':
                                 div.dataset.value = value = hours;
@@ -693,7 +693,7 @@ const Clock = (() => {
                         div1.setAttribute('r', '20');
                         div1.setAttribute('stroke-dasharray', c);
                         div1.setAttribute('stroke-linecap', 'round');
-                        div1.style.strokeDashoffset = c - ((c * ~~value) / max);
+                        div1.style.strokeDashoffset = c - ((c * int(value)) / max);
                         svg.appendChild(div1);
                         div.appendChild(svg);
                         break;
@@ -734,19 +734,19 @@ const Clock = (() => {
                             value = 0;
                             switch (numDigits[i]) {
                                 case 'days':
-                                    value = ~~days[num - 1];
+                                    value = int(days[num - 1]);
                                     max = 9;
                                     break;
                                 case 'hours':
-                                    value = ~~hours[num - 1];
+                                    value = int(hours[num - 1]);
                                     max = num === 1 ? 2 : 9;
                                     break;
                                 case 'minutes':
-                                    value = ~~minutes[num - 1];
+                                    value = int(minutes[num - 1]);
                                     max = num === 1 ? 5 : 9;
                                     break;
                                 case 'seconds':
-                                    value = ~~seconds[num - 1];
+                                    value = int(seconds[num - 1]);
                                     max = num === 1 ? 5 : 9;
                                     break;
                             }
@@ -866,7 +866,7 @@ const Clock = (() => {
             let days = (priv.countDown.days ? priv.countDown.days : 0).toString().padStart(3, '0');
             let hours = (isClock ?
                 date.getHours() - (!String.isNullOrEmpty(priv.use24H) && date.getHours() > 12 ? 12 : 0) :
-                priv.countDown.hours ? ~~priv.countDown.hours : 0).toString().padStart(2, '0');
+                priv.countDown.hours ? int(priv.countDown.hours) : 0).toString().padStart(2, '0');
             let minutes = (isClock ?
                 date.getMinutes() :
                 priv.countDown.minutes ? priv.countDown.minutes : 0).toString().padStart(2, '0');
@@ -876,7 +876,7 @@ const Clock = (() => {
             const lDays = (priv.countDown.days ? priv.countDown.days : 0).toString().padStart(3, '0');
             const lHours = (isClock ?
                 priv.lastDate.getHours() - (!String.isNullOrEmpty(priv.use24H) && priv.lastDate.getHours() > 12 ? 12 : 0) :
-                priv.countDown.hours ? ~~priv.countDown.hours : 0).toString().padStart(2, '0');
+                priv.countDown.hours ? int(priv.countDown.hours) : 0).toString().padStart(2, '0');
             const lMinutes = (isClock ?
                 priv.lastDate.getMinutes() :
                 priv.countDown.minutes ? priv.countDown.minutes : 0).toString().padStart(2, '0');
@@ -898,18 +898,18 @@ const Clock = (() => {
             //#endregion Variables déclaration
             if (!priv.paused && !this.loading && !this.form.loading && this[func]) {
                 if (!isClock) {
-                    seconds = ~~seconds - 1;
+                    seconds = int(seconds) - 1;
                     if (seconds < 0) {
                         seconds = 59;
                         if (core.tools.isNumber(priv.countDown.minutes)) {
-                            minutes = ~~minutes - 1;
+                            minutes = int(minutes) - 1;
                             if (minutes < 0) {
                                 minutes = 59;
                                 if (core.tools.isNumber(priv.countDown.hours)) {
-                                    hours = ~~hours - 1;
+                                    hours = int(hours) - 1;
                                     if (hours < 0) {
                                         hours = 23;
-                                        core.tools.isNumber(priv.countDown.days) && (days = ~~days - 1);
+                                        core.tools.isNumber(priv.countDown.days) && (days = int(days) - 1);
                                     }
                                 }
                             }
@@ -955,13 +955,13 @@ const Clock = (() => {
                 }
             }
             if (!isClock) {
-                if (~~days + ~~hours + ~~minutes + ~~seconds === 0) {
+                if (int(days + hours + minutes + seconds) === 0) {
                     this.stop();
                     this.onCountdownEnd.invoke(this);
                 } else {
-                    priv.countDown.days && (priv.countDown.days = ~~days);
-                    priv.countDown.hours && (priv.countDown.hours = ~~hours);
-                    priv.countDown.minutes && (priv.countDown.minutes = ~~minutes);
+                    priv.countDown.days && (priv.countDown.days = int(days));
+                    priv.countDown.hours && (priv.countDown.hours = int(hours));
+                    priv.countDown.minutes && (priv.countDown.minutes = int(minutes));
                     priv.countDown.seconds = seconds;
                 }
             } else {
@@ -1058,9 +1058,9 @@ const Clock = (() => {
         updateCircular(element, value, min, max) {
             //#region Variables déclaration
             const circle = element.querySelectorAll('circle')[1];
-            const r = ~~circle.getAttribute('r');
+            const r = int(circle.getAttribute('r'));
             const c = Math.PI * (r * 2);
-            const pct = c - ((c * ~~value) / max);
+            const pct = c - ((c * int(value)) / max);
             //#endregion Variables déclaration
             circle.setAttribute('stroke-dasharray', c);
             circle.style.strokeDashoffset = pct;
@@ -1074,8 +1074,8 @@ const Clock = (() => {
             const PX = core.types.CSSUNITS.PX;
             const h = parseFloat(getComputedStyle(element.parentNode).height);
             value = max === 3
-                ? -((element.children.length - 1) - ~~value) * h
-                : isClock ? -(max * h) + (h * ~~value) : -((max * h) - (~~value * h));
+                ? -((element.children.length - 1) - int(value)) * h
+                : isClock ? -(max * h) + (h * int(value)) : -((max * h) - (int(value) * h));
             element.style.transform = `translateY(${value}${PX})`;
         }
         //#endregion updateRotate

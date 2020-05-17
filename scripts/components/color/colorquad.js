@@ -141,8 +141,8 @@ const ColorQuad = (() => {
                 let value;
                 value = priv.format === core.types.COLORFORMATS.HSV
                     ? priv.color.value : priv.color.lightness;
-                point.x = ~~(priv.color.saturation * htmlElement.offsetWidth / 100);
-                point.y = ~~(htmlElement.offsetHeight - value * htmlElement.offsetHeight / 100);
+                point.x = int(priv.color.saturation * htmlElement.offsetWidth / 100);
+                point.y = int(htmlElement.offsetHeight - value * htmlElement.offsetHeight / 100);
             }
             priv.handle.x = Math.max(Math.min(point.x, htmlElement.offsetWidth), 0);
             priv.handle.y = Math.max(Math.min(point.y, htmlElement.offsetHeight), 0);
@@ -211,8 +211,8 @@ const ColorQuad = (() => {
                 this.fillColor.lightness = 50;
                 priv.format === COLORFORMATS.HSV ? this.fillColor.HSVtoRGB() : this.fillColor.HSLtoRGB();
                 this.HTMLElementStyle.backgroundColor = this.fillColor.toRGBAString();
-                const value = 100 - ~~(priv.handle.y * 100 / htmlElement.offsetHeight);
-                const saturation = ~~(priv.handle.x * 100 / htmlElement.offsetWidth);
+                const value = 100 - int(priv.handle.y * 100 / htmlElement.offsetHeight);
+                const saturation = int(priv.handle.x * 100 / htmlElement.offsetWidth);
                 priv.format === COLORFORMATS.HSV
                     ? priv.color.setHSV(this.fillColor.hue, saturation, value)
                     : priv.color.setHSL(this.fillColor.hue, saturation, value);

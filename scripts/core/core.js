@@ -103,6 +103,14 @@ class _Core {
         this.HTMLParentElement = null;
         this.previousHoveredControl = null;
         this.canvas = null;
+        window.int = v => {
+            v = parseInt(v, 10);
+            return isNaN(v) ? 0 : v;
+        };
+        window.float = v => {
+            v = parseFloat(v);
+            return isNaN(v) ? 0.0 : v;
+        };
     }
     //#endregion constructor
     //#region Getters / Setters

@@ -65,7 +65,7 @@ if (!Math.frac) {
      */
     Math.frac = (value) => {
         return core.tools.isNumber(value)
-            ? +value - ~~value
+            ? +value - int(value)
             : value;
     };
 }
@@ -108,7 +108,7 @@ if (!Math.sinCos) {
 }
 if (!Math.mulDiv) {
     Math.mulDiv = (number, numerator, denominator) => {
-        return ~~(number * numerator / denominator);
+        return int(number * numerator / denominator);
     };
 }
 if (!Math.isZero) {
@@ -124,7 +124,7 @@ if (!Math.isUndefined) {
 }
 if (!Math.decimalPart) {
     Math.decimalPart = (value) => {
-        return ~~value - value;
+        return int(value) - value;
     };
 }
 if (!Math.isNumber) {

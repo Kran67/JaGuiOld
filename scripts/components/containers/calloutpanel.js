@@ -140,7 +140,7 @@ const CalloutPanel = (() => {
         update() {
             //#region Variables déclaration
             const priv = internal(this);
-            const cw = ~~(priv.calloutWidth / 2);
+            const cw = int(priv.calloutWidth / 2);
             let pos = 0;
             const htmlElement = this.HTMLElement;
             const PX = core.types.CSSUNITS.PX;
@@ -163,7 +163,7 @@ const CalloutPanel = (() => {
                 this.removeCssRules();
                 switch (priv.calloutPosition) {
                     case CALLOUTPOSITIONS.TOP:
-                        pos = ~~((htmlElement.offsetWidth - priv.calloutWidth) / 2) - priv.calloutOffset;
+                        pos = int((htmlElement.offsetWidth - priv.calloutWidth) / 2) - priv.calloutOffset;
                         pos = Math.max(Math.min(pos, htmlElement.offsetWidth - priv.calloutWidth), 0);
                         top = `${-priv.calloutLength}${PX}`;
                         left = `${pos}${PX}`;
@@ -176,7 +176,7 @@ const CalloutPanel = (() => {
                         path = `0 0, ${left} 0, ${pos + cw}${PX} ${top}, ${pos + cw + 1}${PX} ${top}, ${pos + 1 + cw * 2}${PX} 0, 100% 0, 100% 100%, 0 100%`;
                         break;
                     case CALLOUTPOSITIONS.RIGHT:
-                        pos = ~~((htmlElement.offsetHeight - priv.calloutWidth) / 2) - priv.calloutOffset;
+                        pos = int((htmlElement.offsetHeight - priv.calloutWidth) / 2) - priv.calloutOffset;
                         pos = Math.max(Math.min(pos, htmlElement.offsetHeight - priv.calloutWidth), 0);
                         right = `${-priv.calloutLength}${PX}`;
                         top = `${pos}${PX}`;
@@ -189,7 +189,7 @@ const CalloutPanel = (() => {
                         path = `0 0, 100% 0, 100% ${top}, ${htmlElement.offsetWidth + priv.calloutLength} ${pos + cw}${PX}, ${htmlElement.offsetWidth + priv.calloutLength} ${pos + cw + 1}${PX}, 100% ${pos + 1 + cw * 2}${PX}, 100% 100%, 0 100%`;
                         break;
                     case CALLOUTPOSITIONS.BOTTOM:
-                        pos = ~~((htmlElement.offsetWidth - priv.calloutWidth) / 2) - priv.calloutOffset;
+                        pos = int((htmlElement.offsetWidth - priv.calloutWidth) / 2) - priv.calloutOffset;
                         pos = Math.max(Math.min(pos, htmlElement.offsetWidth - priv.calloutWidth), 0);
                         bottom = `${-priv.calloutLength}${PX}`;
                         left = `${pos}${PX}`;
@@ -202,7 +202,7 @@ const CalloutPanel = (() => {
                         path = `0 0, 100% 0, 100% 100%, ${pos + 1 + cw * 2}${PX} 100%, ${pos + cw + 1}${PX} ${htmlElement.offsetHeight + priv.calloutLength}, ${pos + cw}${PX} ${htmlElement.offsetHeight + priv.calloutLength}, ${left} 100%, 0 100%`;
                         break;
                     case CALLOUTPOSITIONS.LEFT:
-                        pos = ~~((htmlElement.offsetHeight - priv.calloutWidth) / 2) - priv.calloutOffset;
+                        pos = int((htmlElement.offsetHeight - priv.calloutWidth) / 2) - priv.calloutOffset;
                         pos = Math.max(Math.min(pos, htmlElement.offsetHeight - priv.calloutWidth), 0);
                         left = `${-priv.calloutLength}${PX}`;
                         top = `${pos}${PX}`;

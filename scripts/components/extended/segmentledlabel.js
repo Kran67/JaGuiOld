@@ -1003,7 +1003,7 @@ const SegmentLedLabel = (() => {
                             for (let j = 0, m = segements.length; j < m; j++) {
                                 charNum = ['A', 'B', 'C', 'D', 'E', 'F'].indexOf(segements[j]) > -1
                                     ? segements[j].charCodeAt(0) - 55
-                                    : charNum = ~~segements[j];
+                                    : charNum = int(segements[j]);
                                 segs[charNum].classList.add('alight');
                             }
                         }

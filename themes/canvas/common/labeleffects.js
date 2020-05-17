@@ -19,10 +19,10 @@ Core.themes.LabelNeonEffect = {
         const a = shadows.reverse();
         //#endregion Variables déclaration
         ctx.save();
-        if (~~obj.effect.currentTick >= 0 && ~~obj.effect.currentTick <= 285 || 
-            ~~obj.effect.currentTick >= 315 && ~~obj.effect.currentTick <= 345 ||
-            ~~obj.effect.currentTick >= 375 && ~~obj.effect.currentTick <= 810 ||
-            ~~obj.effect.currentTick >= 840 && ~~obj.effect.currentTick <= 1500) {
+        if (int(obj.effect.currentTick) >= 0 && int(obj.effect.currentTick) <= 285 || 
+            int(obj.effect.currentTick) >= 315 && int(obj.effect.currentTick) <= 345 ||
+            int(obj.effect.currentTick) >= 375 && int(obj.effect.currentTick) <= 810 ||
+            int(obj.effect.currentTick) >= 840 && int(obj.effect.currentTick) <= 1500) {
             a.forEach(shadow => {
                 ctx.shadowOffsetX = shadow.x;
                 ctx.shadowOffsetY = shadow.y;

@@ -268,8 +268,8 @@ class Tools {
         //#endregion Variables déclaration
         mat = mat.match(/-?[\d\.]+/g);
         return {
-            left: ~~mat[4],
-            top: ~~mat[5]
+            left: int(mat[4]),
+            top: int(mat[5])
         };
     }
     //#endregion getLeftTopFromTranslation

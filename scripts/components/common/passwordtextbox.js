@@ -54,7 +54,7 @@ const PasswordTextBox = (() => {
                     for (let check in variations) {
                         variationCount += (variations[check]) ? 1 : 0;
                     }
-                    score += ~~((variationCount - 1) * 10);
+                    score += int((variationCount - 1) * 10);
                     complexityIndicator.style.backgroundSize = `${score <= 0 ? 100 : score}% 100%`;
                     if (score > 90 || score <= 0) {
                         idx = score <= 0 ? 0 : 4;

@@ -1235,7 +1235,7 @@ export { TreeViewItem, TreeView };
                     queue.insert(i, top.items[i]);
                 }
             }
-            this._VScrollBar.smallChange = ~~(this._VScrollBar.viewportSize / 5);
+            this._VScrollBar.smallChange = int(this._VScrollBar.viewportSize / 5);
             if (this._innerHeight < this._VScrollBar.max) this._innerHeight = this._VScrollBar.max;
             this.endUpdate();
         },
@@ -1245,9 +1245,9 @@ export { TreeViewItem, TreeView };
             data = this._HTMLElement.dataset.viewcheckboxes;
             if (data) this.viewCheckboxes = _conv.strToBool(data);
             data = this._HTMLElement.dataset.itemsheight;
-            if (data) this.itemsHeight = ~~data;
+            if (data) this.itemsHeight = int(data);
             data = this._HTMLElement.dataset.itemindex;
-            if (data) this.setItemIndex(~~data);
+            if (data) this.setItemIndex(int(data));
             data = this._HTMLElement.dataset.fullitemwidthexpand;
             if (data) this.fullItemWidthExpand = _conv.strToBool(data);
             data = this._HTMLElement.dataset.sorted;
@@ -1270,7 +1270,7 @@ export { TreeViewItem, TreeView };
             });
             this._scrollTop = $j.max($j.min(this._scrollTop, this._innerHeight - this._content.offsetHeight), 0);
             this._visibleItems = [];
-            topIndex = ~~(this._scrollTop / this.itemsHeight);
+            topIndex = int(this._scrollTop / this.itemsHeight);
             if (topIndex < 0) topIndex = 0;
             top = items[topIndex]._top;
             this._innerWidth = 0;
@@ -1600,10 +1600,10 @@ export { TreeViewItem, TreeView };
                     this.setItemIndex(this.items.length - 1);
                     break;
                 case $j.types.VKeysCodes.VK_PRIOR:
-                    this.setItemIndex(this.itemIndex - ~~(this._content.offsetHeight / this.itemsHeight));
+                    this.setItemIndex(this.itemIndex - int(this._content.offsetHeight / this.itemsHeight));
                     break;
                 case $j.types.VKeysCodes.VK_NEXT:
-                    this.setItemIndex(this.itemIndex + ~~(this._content.offsetHeight / this.itemsHeight));
+                    this.setItemIndex(this.itemIndex + int(this._content.offsetHeight / this.itemsHeight));
                     break;
                 case $j.types.VKeysCodes.VK_SPACE:
                     var item = this.items[this.itemIndex];
@@ -1618,7 +1618,7 @@ export { TreeViewItem, TreeView };
             inVisibleItems = this._visibleItems.indexOf(this.items[this.itemIndex]) === -1 || this._visibleItems.last() === this.items[this.itemIndex];
             isFirst = this._visibleItems.first() === this.items[this.itemIndex] || this._visibleItems.first() === this.items[this.itemIndex + 1];
             if (inVisibleItems && !isFirst) {
-                nbrVisibleItems = ~~(this._content.offsetHeight / this.itemsHeight);
+                nbrVisibleItems = int(this._content.offsetHeight / this.itemsHeight);
                 base = ((nbrVisibleItems * this.itemsHeight) - this._content.offsetHeight) + this.itemsHeight;
                 this._VScrollBar.setValue(base + ((this.itemIndex - nbrVisibleItems) * this.itemsHeight));
             } else if (isFirst) this._VScrollBar.setValue((this.itemIndex * this.itemsHeight));

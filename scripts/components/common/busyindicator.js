@@ -368,7 +368,7 @@ const BusyIndicator = (() => {
                             style = ['width:', (sio.length + sio.width), PX, ';',
                                 'height:', sio.width, PX, ';',
                                 browser.getVendorPrefix('transform-origin'), 'transform-origin:left;',
-                                browser.getVendorPrefix('transform'), 'transform:rotate(', ~~(360 / sio.lines * i) + 'deg) ',
+                                browser.getVendorPrefix('transform'), 'transform:rotate(', int(360 / sio.lines * i) + 'deg) ',
                                 browser.getVendorPrefix('translate'), 'translate(', sio.length, PX, ',0);',
                                 'border-radius:', (sio.corners * sio.width >> 1), PX, ';'].join(String.EMPTY);
                             child2.setAttribute('style', style);

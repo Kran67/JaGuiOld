@@ -147,7 +147,7 @@ Core.themes.rainbow.WindowTitleBar = {
         ctx.strokeStyle = "#4E2A3B";
         ctx.roundRect(width-left, 2.5, w - 1, 8, 4);
         ctx.stroke();
-        ctx.clipRect(width-~~left, 10, w - 1, 12);
+        ctx.clipRect(width-int(left), 10, w - 1, 12);
         ctx.beginPath();
         ctx.strokeStyle = "#F0D6E3";
         ctx.roundRect(width-left, 2.5, w - 1, 8, 4);

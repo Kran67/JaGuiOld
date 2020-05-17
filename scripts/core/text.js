@@ -164,7 +164,7 @@ class Text {
                 d.classList.add(_class);
             } else if (htmlObj) {
                 d.style.fontFamily = getComputedStyle(htmlObj).fontFamily;
-                d.style.fontSize = ~~parseFloat(getComputedStyle(htmlObj).fontsize);
+                d.style.fontSize = int(getComputedStyle(htmlObj).fontsize);
                 d.style.fontStretch = getComputedStyle(htmlObj).fontStretch;
                 d.style.fontStyle = getComputedStyle(htmlObj).fontStyle;
                 d.style.fontWeight = getComputedStyle(htmlObj).fontWeight;
@@ -219,7 +219,7 @@ class Text {
     //#region formatHTML
     static formatHTML(code, stripWhiteSpaces, stripEmptyLines, indentSize) {
         //#region Variables déclaration
-        const whitespace = String.SPACE.repeat(indentSize ? ~~indentSize : 4); // Default indenting 4 whitespaces
+        const whitespace = String.SPACE.repeat(indentSize ? int(indentSize) : 4); // Default indenting 4 whitespaces
         let pos = 0;
         let result = [];
         //#endregion Variables déclaration

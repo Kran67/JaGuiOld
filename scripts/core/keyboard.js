@@ -179,8 +179,8 @@ const Keyboard = (() => {
                 for (let b in c) {
                     if (c.hasOwnProperty(b)) {
                         const d = c[b];
-                        keyCodeTable[d.charCodeAt(0)] = ~~parseFloat(b);
-                        d.toUpperCase() !== d && (keyCodeTable[d.toUpperCase().charCodeAt(0)] = ~~parseFloat(b));
+                        keyCodeTable[d.charCodeAt(0)] = int(b);
+                        d.toUpperCase() !== d && (keyCodeTable[d.toUpperCase().charCodeAt(0)] = int(b));
                     }
                 }
             }

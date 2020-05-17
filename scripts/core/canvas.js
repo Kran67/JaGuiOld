@@ -567,10 +567,10 @@ CanvasRenderingContext2D.prototype.floodFill = function (x, y, color) {
         color = this.canvas.style.color.match(/^rgba?\((.*)\);?$/)[1].split(",");
         this.canvas.style.color = colorTemp;
         color = {
-            r: ~~parseFloat(color[0]),
-            g: ~~parseFloat(color[1]),
-            b: ~~parseFloat(color[2]),
-            a: ~~parseFloat(color[3] || 255)
+            r: int(color[0]),
+            g: int(color[1]),
+            b: int(color[2]),
+            a: int(color[3] || 255)
         };
         // if pixel and color the same do nothing
         if (comparePixel(color)) {
@@ -798,7 +798,7 @@ CanvasRenderingContext2D.prototype.drawSparkLine = function (data) {
     let l = data.values.length;
     for (; i < l; i++) {
         xValues.push(i);
-        yValues.push(~~data.values[i]);
+        yValues.push(int(data.values[i]));
     }
     const maxY = Math.max.apply(Math, yValues);
     const minY = Math.min.apply(Math, yValues);
@@ -849,19 +849,19 @@ CanvasRenderingContext2D.prototype.drawSparkBar = function (data) {
     const max = Math.max.apply(Math, data.values);
     const min = Math.min.apply(Math, data.values);
     let yOrg = null;
-    const barWidth = ~~((width - l) / l);
+    const barWidth = int((width - l) / l);
     const minColor = data.minColor;
     const maxColor = data.maxColor;
-    const offset = ~~((width - (barWidth * l) - (l - 1)) / 2);
+    const offset = int((width - (barWidth * l) - (l - 1)) / 2);
     const rangeHeight = height / (max - min);
     //#endregion Variables déclaration
-    yOrg = min < 0 ? ~~(max * rangeHeight) : height;
+    yOrg = min < 0 ? int(max * rangeHeight) : height;
     let i = 0;
     let x = 0;
     this.translate(offset, 0);
     for (; i < l; i++) {
         this.fillStyle = data.values[i] >= 0 ? maxColor : minColor;
-        y = ~~(data.values[i] * rangeHeight);
+        y = int(data.values[i] * rangeHeight);
         yOrg < height
             ? data.values[i] < 0
                 ? this.fillRect(x, yOrg, barWidth, Math.abs(y))
@@ -888,7 +888,7 @@ CanvasRenderingContext2D.prototype.drawSparkPie = function (data) {
     for (; i < l; i++) {
         total += data.values[i];
     }
-    this.translate(~~((width - radius) / 2), 0);
+    this.translate(int((width - radius) / 2), 0);
     for (i = l; i--;) {
         let next = 0;
         if (data.values[i] !== 0) {
@@ -1026,42 +1026,42 @@ CanvasRenderingContext2D.prototype.drawSparkBoxPlot = function (data) {
     // left whisker
     this.strokeStyle = data.lineColor;
     this.beginPath();
-    this.moveTo(~~((lWhisker - minValue) * unitSize + left), ~~(height / 2));
-    this.lineTo(~~((q1 - minValue) * unitSize + left), ~~(height / 2));
+    this.moveTo(int((lWhisker - minValue) * unitSize + left), int(height / 2));
+    this.lineTo(int((q1 - minValue) * unitSize + left), int(height / 2));
     this.stroke();
     this.strokeStyle = data.whiskerColor;
     this.beginPath();
-    this.moveTo(~~((lWhisker - minValue) * unitSize + left), ~~(height / 4));
-    this.lineTo(~~((lWhisker - minValue) * unitSize + left), ~~(height - height / 4));
+    this.moveTo(int((lWhisker - minValue) * unitSize + left), int(height / 4));
+    this.lineTo(int((lWhisker - minValue) * unitSize + left), int(height - height / 4));
     this.stroke();
     // right whisker
     this.strokeStyle = data.lineColor;
     this.beginPath();
-    this.moveTo(~~((rWhisker - minValue) * unitSize + left), ~~(height / 2));
-    this.lineTo(~~((q3 - minValue) * unitSize + left), ~~(height / 2));
+    this.moveTo(int((rWhisker - minValue) * unitSize + left), int(height / 2));
+    this.lineTo(int((q3 - minValue) * unitSize + left), int(height / 2));
     this.stroke();
     this.strokeStyle = data.whiskerColor;
     this.beginPath();
-    this.moveTo(~~((rWhisker - minValue) * unitSize + left), ~~(height / 4));
-    this.lineTo(~~((rWhisker - minValue) * unitSize + left), ~~(height - height / 4));
+    this.moveTo(int((rWhisker - minValue) * unitSize + left), int(height / 4));
+    this.lineTo(int((rWhisker - minValue) * unitSize + left), int(height - height / 4));
     this.stroke();
     // median line
     this.strokeStyle = data.medianColor;
     this.beginPath();
-    this.moveTo(~~((q2 - minValue) * unitSize + left), ~~(height * 0.1));
-    this.lineTo(~~((q2 - minValue) * unitSize + left), ~~(height * 0.9));
+    this.moveTo(int((q2 - minValue) * unitSize + left), int(height * 0.1));
+    this.lineTo(int((q2 - minValue) * unitSize + left), int(height * 0.9));
     this.stroke();
     if (data.target) {
         size = Math.ceil(data.spotRadius);
         this.strokeStyle = data.targetColor;
         this.beginPath();
-        this.moveTo(~~((data.target - minValue) * unitSize + left), ~~((height / 2) - size));
-        this.lineTo(~~((data.target - minValue) * unitSize + left), ~~((height / 2) + size));
+        this.moveTo(int((data.target - minValue) * unitSize + left), int((height / 2) - size));
+        this.lineTo(int((data.target - minValue) * unitSize + left), int((height / 2) + size));
         this.stroke();
         this.strokeStyle = data.targetColor;
         this.beginPath();
-        this.moveTo(~~((data.target - minValue) * unitSize + left - size), ~~(height / 2));
-        this.lineTo(~~((data.target - minValue) * unitSize + left + size), ~~(height / 2));
+        this.moveTo(int((data.target - minValue) * unitSize + left - size), int(height / 2));
+        this.lineTo(int((data.target - minValue) * unitSize + left + size), int(height / 2));
         this.stroke();
     }
 };
@@ -1087,7 +1087,7 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
     //#endregion Variables déclaration
     radius = radius || 5;
     if (typeof radius === 'number') {
-        radius > ~~(height / 2) && (radius = ~~(height / 2));
+        radius > int(height / 2) && (radius = int(height / 2));
         radius = { tl: radius, tr: radius, br: radius, bl: radius };
     } else {
         const defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 };

@@ -57,7 +57,7 @@ const ColorPicker = (() => {
             //#endregion Variables déclaration
             if (newValue instanceof Color && !priv.color.equals(newValue)) {
                 priv.color.assign(newValue);
-                let pos = ~~(priv.color.hue * htmlElement.offsetHeight / 360);
+                let pos = int(priv.color.hue * htmlElement.offsetHeight / 360);
                 pos -= COLORPICKSIZE / 2;
                 priv.handle.y = (pos > htmlElement.offsetHeight - 5 ? htmlElement.offsetHeight - 5 : (pos < -5) ? -5 : pos);
                 this.update();
@@ -135,7 +135,7 @@ const ColorPicker = (() => {
                 point.x = 0;
                 point.y = 0;
             }
-            priv.color.hue = ~~((point.y * 360) / htmlElement.offsetHeight);
+            priv.color.hue = int((point.y * 360) / htmlElement.offsetHeight);
             if (!core.isHTMLRenderer) {
                 point.x -= COLORPICKSIZE * 2;
                 point.y -= COLORPICKSIZE * 2;

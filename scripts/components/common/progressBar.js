@@ -168,7 +168,7 @@ const ProgressBar = (() => {
             nv = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL
                 ? htmlElement.offsetWidth - padding.left - padding.right - margin.left - margin.right
                 : htmlElement.offsetHeight - padding.top - padding.bottom - margin.top - margin.bottom - borderTop - borderBottom;
-            nv = ~~(((priv.value - priv.min) / (priv.max - priv.min)) * nv);
+            nv = int(((priv.value - priv.min) / (priv.max - priv.min)) * nv);
             return nv;
         }
         //#endregion calculProgress

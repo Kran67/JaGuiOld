@@ -78,8 +78,8 @@ const ImageViewer = (() => {
             const priv = internal(this);
             const PX = core.types.CSSUNITS.PX;
             const htmlElement = this.HTMLElement;
-            const newW = ~~(priv.bitmap.naturalWidth * priv.scale);
-            const newH = ~~(priv.bitmap.naturalHeight * priv.scale);
+            const newW = int(priv.bitmap.naturalWidth * priv.scale);
+            const newH = int(priv.bitmap.naturalHeight * priv.scale);
             const rectD = new Rect(0, 0, htmlElement.offsetWidth, htmlElement.offsetHeight);
             const rectS = new Rect(0, 0, newW, newH);
             //#endregion Variables déclaration

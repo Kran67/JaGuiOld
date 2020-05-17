@@ -89,7 +89,7 @@ Core.themes.haiku = {
             let minimizeBtn = this.minimizeBtn;
             let textW;
             ctx.save();
-            textW = ~~ctx.measureText(this.caption).width;
+            textW = int(ctx.measureText(this.caption).width);
             textW += 62;
             ctx.restore();
             maxRestoreBtn.left = textW + 1;

@@ -170,9 +170,9 @@ class Window1 extends Window {
     paint(elapsedTime) {
         //this.PaintBox1.onPaint.invoke();
         if ((new Date().getTime() - lastTime) > 3000) {
-            this.CircularProgressBar1.value = ~~(Math.random() * 101);
-            this.ProgressBar1.value = ~~(Math.random() * 101);
-            this.ProgressBar2.value = ~~(Math.random() * 101);
+            this.CircularProgressBar1.value = int(Math.random() * 101);
+            this.ProgressBar1.value = int(Math.random() * 101);
+            this.ProgressBar2.value = int(Math.random() * 101);
             lastTime = new Date().getTime();
         }
     }
@@ -213,7 +213,7 @@ class Window1 extends Window {
 
                     if (px >= 0 && px <= 500 && py >= 0 && py <= 400) {
                         const size = (1 - star.z / 32.0) * 5;
-                        const shade = ~~((1 - star.z / 32.0) * 255);
+                        const shade = int((1 - star.z / 32.0) * 255);
                         this._ctx.fillStyle = "rgb(" + shade + "," + shade + "," + shade + ")";
                         this._ctx.fillRect(px, py, size, size);
                     }
@@ -241,7 +241,7 @@ class Window1 extends Window {
                 }
                 break;
             case 2: {
-                const total = ~~(this.HTMLElement.offsetWidth * 0.5);
+                const total = int(this.HTMLElement.offsetWidth * 0.5);
                 this._ctx.globalCompositeOperation = Canvas.GLOBALCOMPOSITEOPERATIONS.SOURCEOVER;
                 for (let i = 0; i < stars.length; ++i) {
                     stars[i].update(this._ctx);

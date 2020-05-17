@@ -249,7 +249,7 @@ const SpinBox = (() => {
         //#region keyUp
         keyUp() {
             super.keyUp();
-            this.value = this.valueType === SPINBOXTYPES.INTEGER ? ~~this.inputObj.value : parseFloat(this.inputObj.value);
+            this.value = this.valueType === SPINBOXTYPES.INTEGER ? int(this.inputObj.value) : parseFloat(this.inputObj.value);
         }
         //#endregion keyUp
         //#region mouseWheel
