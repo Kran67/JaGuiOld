@@ -890,26 +890,13 @@ const ListBox = (() => {
         scrollToItem() {
             //#region Variables déclaration
             const priv = internal(this);
-            const inVisibleItems = priv.visibleItems.indexOf(this.items[priv.itemIndex]) === -1
-                || priv.visibleItems.last === this.items[priv.itemIndex];
-            const isFirst = priv.visibleItems.first === this.items[priv.itemIndex]
-                || priv.visibleItems.first === this.items[priv.itemIndex + 1];
             const ORIENTATIONS = core.types.ORIENTATIONS;
             const htmlElement = this.HTMLElement;
             const prop = priv.orientation === ORIENTATIONS.VERTICAL ? 'Top' : 'Left';
             const propSize = priv.orientation === ORIENTATIONS.VERTICAL ? 'Height' : 'Width';
             //#endregion Variables déclaration
             if (this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
-                if (inVisibleItems && !isFirst) {
-                    let nbrVisibleItems;
-                    //let base;
-                    nbrVisibleItems = int(htmlElement[`offset${propSize}`] / priv.itemsSize);
-                    //base = ((nbrVisibleItems * priv.itemsSize) - htmlElement[`offset${propSize}`])
-                    //    + priv.itemsSize;
-                    htmlElement[`scroll${prop}`] = ((priv.itemIndex - nbrVisibleItems) * priv.itemsSize);
-                } else if (isFirst) {
-                    htmlElement[`scroll${prop}`] = priv.itemIndex * priv.itemsSize;
-                }
+                htmlElement[`scroll${prop}`] = priv.itemIndex * priv.itemsSize;
             } else {
                 if (this.items[priv.itemIndex].html[`offset${prop}`]
                     + this.items[priv.itemIndex].html[`offset${propSize}`] >
