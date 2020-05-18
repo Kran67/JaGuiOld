@@ -128,7 +128,7 @@ const DropDownListBoxPopup = (() => {
                 const priv = internal(this);
                 priv.lbItemsSize = props.hasOwnProperty('itemsSize') && core.tools.isNumber(props.itemsSize)
                     ? props.itemsSize : 13;
-                priv.items = props.hasOwnProperty('items') && Array.isArray(props.items) ? props.items : [];
+                priv.items = props.hasOwnProperty('items') && Array.isArray(props.items) ? [...props.items] : [];
                 priv.listBoxPopupClass = props.hasOwnProperty('listBoxPopupClass')
                     ? props.listBoxPopupClass : ListBoxPopup;
             }

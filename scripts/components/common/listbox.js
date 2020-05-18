@@ -830,14 +830,11 @@ const ListBox = (() => {
             priv.itemIndex = null;
             priv.columns = null;
             priv.images = null;
-            this.onChange.destroy();
-            this.onChange = null;
             this.canFocused = null;
             priv.mouseTracking = null;
             //priv.animated = null;
             priv.orientation = null;
-            this.onSelectItem.destroy();
-            this.onSelectItem = null;
+            this.unBindAndDestroyEvents(['onChange', 'onSelectItem', 'onDrawItem'], props);
         }
         //#endregion destroy
         //#region keyDown

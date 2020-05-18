@@ -155,8 +155,8 @@ class ListBoxColorPopup extends ListBox {
         }
     }
     //#endregion refreshInnerHeight
-    //#region _selectItem
-    _selectItem(item) {
+    //#region selectItem
+    selectItem(item) {
         const dropDownListBoxColor = item.owner.dropDownListBox;
         if (item.enabled) {
             dropDownListBoxColor.colorIndex = item.index;
@@ -166,7 +166,7 @@ class ListBoxColorPopup extends ListBox {
             item.form.closePopups();
         }
     }
-    //#endregion _selectItem
+    //#endregion selectItem
     //#region keyUp
     keyUp() {
         const VKEYSCODES = Keyboard.VKEYSCODES;
@@ -174,7 +174,7 @@ class ListBoxColorPopup extends ListBox {
         switch (core.keyboard.keyCode) {
             case VKEYSCODES.VK_RETURN:
             case VKEYSCODES.VK_ENTER:
-                this._selectItem(this.items[this.itemIndex]);
+                this.selectItem(this.items[this.itemIndex]);
                 break;
         }
     }
@@ -209,7 +209,7 @@ const DropDownListBoxColor = (() => {
                         caption: color.firstCharUpper,
                         color: Colors[color]
                     };
-                    props.items.push(item);
+                    props.items = [...props.items, item];
                 });
                 super(owner, props);
                 const priv = internal(this);
