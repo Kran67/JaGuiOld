@@ -20,10 +20,9 @@ class CalendarPopup extends Calendar {
     //#region Methods
     //#region selectDay
     selectDay() {
-        const obj = this.jsObj;
         super.selectDay();
-        obj.dropDownCalendar.date = obj.date;
-        obj.form.closePopups();
+        this.dropDownCalendar.date = this.date;
+        this.form.closePopups();
     }
     //#endregion selectDay
     //#endregion Methods
@@ -124,8 +123,6 @@ const DropDownCalendar = (() => {
                 props.canFocused = !0;
                 props.autoCapture = !0;
                 //priv.editable=!1;
-                props.hitTest = { mouseMove: !0 };
-                props.stopEvent = !0;
                 super(owner, props);
                 const priv = internal(this);
                 priv.content = null;
@@ -182,7 +179,7 @@ const DropDownCalendar = (() => {
             //#endregion Variables déclaration
             if ((newValue instanceof Date) && !priv.date.equals(newValue)) {
                 priv.date = new Date(newValue);
-                priv.text = priv.date.toString(core.tools.getLocale().date.formatPatterns.shortDate);
+                priv.text = priv.date.toString(core.currentLocale, core.tools.getLocale().date.formatPatterns.shortDate);
                 this.update();
                 this.onChange.invoke();
             }
@@ -195,7 +192,7 @@ const DropDownCalendar = (() => {
             let html = super.template();
             let a = html.split('{date}');
             //#endregion Variables déclaration
-            html = a.join(priv.date.toString());
+            html = a.join(priv.date.toString(core.currentLocale, core.tools.getLocale().date.formatPatterns.shortDate));
             return html;
         }
         //#endregion template
@@ -264,7 +261,7 @@ const DropDownCalendar = (() => {
                     this.opened = !0;
                 } else {
                     if (!priv.dropDownPopup.calendar.mode) {
-                        this.text = priv.dropDownPopup.calendar.curDate.toString(core.tools.getLocale().date.formatPatterns.shortDate);
+                        this.text = priv.dropDownPopup.calendar.curDate.toString(core.currentLocale, core.tools.getLocale().date.formatPatterns.shortDate);
                         this.opened = !1;
                     } else if (priv.dropDownPopup) {
                         priv.dropDownPopup.calendar.keyDown();
@@ -289,7 +286,7 @@ const DropDownCalendar = (() => {
             htmlElement.appendChild(priv.content);
             htmlElement.appendChild(document.createElement(`${TAG}arrow`));
             htmlElement.lastElementChild.classList.add('DropDownListBoxArrow');
-            priv.text = priv.date.toString(core.tools.getLocale().date.formatPatterns.shortDate);
+            priv.text = priv.date.toString(core.currentLocale, core.tools.getLocale().date.formatPatterns.shortDate);
             priv.content.innerHTML = priv.text;
         }
         //#endregion loaded
