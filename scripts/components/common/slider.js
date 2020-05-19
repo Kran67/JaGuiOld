@@ -38,7 +38,6 @@ const Slider = (() => {
                     props.height = 14;
                 }
                 !props.hasOwnProperty('canFocused') && (props.canFocused = !0);
-                props.stopEvent = !1;
                 props.allowUpdateOnResize = !0;
                 super(owner, props);
                 const priv = internal(this);
@@ -616,6 +615,8 @@ const Slider = (() => {
             priv.leftInput = null;
             priv.rightInput = null;
             priv.range = null;
+            priv.leftThumb = null;
+            priv.rightThumb = null;
             priv.leftToolTip = null;
             priv.rightToolTip = null;
             priv.orientation = null;
@@ -652,10 +653,10 @@ const Slider = (() => {
             }
         }
         //#endregion moveRange
-        mouseDown() {
-            core.mouse.stopPropagation();
-            super.mouseDown();
-        }
+        //mouseDown() {
+        //    //core.mouse.stopPropagation();
+        //    super.mouseDown();
+        //}
         //#endregion Methods
     }
     return Slider;

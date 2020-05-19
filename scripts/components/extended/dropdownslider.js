@@ -91,6 +91,7 @@ const DropDownSliderPopup = (() => {
         //#region destroy
         destroy() {
             //#region Variables déclaration
+            const priv = internal(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             htmlElement && htmlElement.classList.remove('animated', 'fadeIn');
@@ -126,8 +127,6 @@ const DropDownSlider = (() => {
                 props.height = 20;
                 props.canFocused = !0;
                 props.autoCapture = !0;
-                props.hitTest = { mouseMove: !0 };
-                props.stopEvent = !0;
                 super(owner, props);
                 const priv = internal(this);
                 priv.content = null;
@@ -194,7 +193,7 @@ const DropDownSlider = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isNumber(newValue) && this.max !== newValue && (this.max = newValue);
+            core.tools.isNumber(newValue) && priv.max !== newValue && (priv.max = newValue);
         }
         //#endregion max
         //#region template
@@ -261,7 +260,6 @@ const DropDownSlider = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            priv.dropDownPopup.slider.destroy();
             priv.dropDownPopup.destroy();
             priv.dropDownPopup = null;
             priv.opened = !1;
@@ -269,13 +267,12 @@ const DropDownSlider = (() => {
         //#endregion destroyPopup
         //#region keyDown
         keyDown() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             super.keyDown();
             if (core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
-                if (!priv.opened) {
-                    this.opened = !0;
-                } else {
-                    priv.dropDownPopup && priv.dropDownPopup.slider.keyDown();
-                }
+                !priv.opened ? this.opened = !0 : priv.dropDownPopup && priv.dropDownPopup.slider.keyDown();
             } else if (priv.dropDownPopup) {
                 priv.dropDownPopup.slider.keyDown();
             }
