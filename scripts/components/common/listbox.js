@@ -780,9 +780,12 @@ const ListBox = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            this.items.forEach(item => {
-                item.destroy();
-            });
+            while (this.items.length > 0) {
+                this.items.pop().destroy();
+            }
+            //this.items.forEach(item => {
+            //    item.destroy();
+            //});
             priv.visibleItems.clear();
             this.items.clear();
         }
@@ -834,7 +837,7 @@ const ListBox = (() => {
             priv.mouseTracking = null;
             //priv.animated = null;
             priv.orientation = null;
-            this.unBindAndDestroyEvents(['onChange', 'onSelectItem', 'onDrawItem'], props);
+            this.unBindAndDestroyEvents(['onChange', 'onSelectItem', 'onDrawItem']);
         }
         //#endregion destroy
         //#region keyDown

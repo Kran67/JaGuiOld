@@ -203,19 +203,10 @@ const DropDownListBoxColor = (() => {
                 props.listBoxPopupClass = ListBoxColorPopup;
                 props.items = [];
                 props.dropDownWidth = 130;
-                const colors = Object.keys(Colors);
-                colors.forEach(color => {
-                    const item = {
-                        caption: color.firstCharUpper,
-                        color: Colors[color]
-                    };
-                    props.items = [...props.items, item];
-                });
                 super(owner, props);
                 const priv = internal(this);
                 priv.color = Colors.BLACK;
                 priv.colorIndex = -1;
-                priv.items = props.items;
             }
         }
         //#endregion constructor
@@ -227,13 +218,13 @@ const DropDownListBoxColor = (() => {
         set colorIndex(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
-            const feChild = this.HTMLElement.firstElementChild;
+            const fElChild = this.HTMLElement.firstElementChild;
             //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && newValue >= 0 && newValue < priv.items.length) {
-                const item = priv.items[newValue];
+            if (core.tools.isNumber(newValue) && newValue >= 0 && newValue < this.items.length) {
+                const item = this.items[newValue];
                 this.text = item.caption;
-                feChild.style.backgroundColor = item.color.toRGBAString();
-                feChild.firstElementChild.style.color = item.color.getForeColorHex();
+                fElChild.style.backgroundColor = item.color.toRGBAString();
+                fElChild.firstElementChild.style.color = item.color.getForeColorHex();
                 priv.color.assign(item.color);
             }
         }
@@ -247,7 +238,7 @@ const DropDownListBoxColor = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (newValue instanceof Color) {
-                const item = priv.items.filter(item => item.color.equals(newValue));
+                const item = this.items.filter(item => item.color.equals(newValue));
                 if (item.length > 0) {
                     this.text = item.first.caption;
                     priv.color.assign(newValue);
@@ -266,6 +257,25 @@ const DropDownListBoxColor = (() => {
             priv.colorIndex = priv.itemIndex;
         }
         //#endregion loaded
+        //#region showPopup
+        showPopup() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const colors = Object.keys(Colors);
+            let items = [];
+            //#endregion Variables déclaration
+            this.items && this.items.destroy() && this.items.clear();
+            colors.forEach(color => {
+                const item = {
+                    caption: color.firstCharUpper,
+                    color: Colors[color]
+                };
+                items = [...items, item];
+            });
+            this.items.addRange(items);
+            super.showPopup();
+        }
+        //#endregion showPopup
         //#region destroy
         destroy() {
             //#region Variables déclaration

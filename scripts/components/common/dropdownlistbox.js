@@ -460,6 +460,11 @@ const DropDownListBox = (() => {
             //}
         }
         //#endregion images
+        //#region items
+        get items() {
+            return internal(this).items;
+        }
+        //#endregion items
         //#endregion Getters / Setters
         //#region Methods
         //#region update
