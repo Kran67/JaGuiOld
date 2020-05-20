@@ -8,6 +8,7 @@ class Layout extends Control {
         props = !props ? {} : props;
         if (owner) {
             props.allowRealignChildsOnResize = !0;
+            props.mouseEvents = { mousedown: !1, mouseup: !1, click: !1 };
             super(owner, props);
             delete this.tabOrder;
         }

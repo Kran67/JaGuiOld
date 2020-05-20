@@ -24,7 +24,8 @@ const GridLayout = (() => {
                 priv.rowGap = props.hasOwnProperty('rowGap') ? props.rowGap : 5;
                 priv.columns = props.hasOwnProperty('columns') ? props.columns : 5;
                 priv.rows = props.hasOwnProperty('rows') ? props.rows : 5;
-                priv.templateColumns = props.hasOwnProperty('templateColumns') ? props.templateColumns : String.EMPTY;
+                priv.templateColumns = props.hasOwnProperty('templateColumns')
+                    ? props.templateColumns : String.EMPTY;
                 priv.templateRows = props.hasOwnProperty('templateRows') ? props.templateRows : String.EMPTY;
             }
         }
@@ -119,8 +120,10 @@ const GridLayout = (() => {
             const htmlElementStyle = this.HTMLElementStyle;
             //#endregion Variables déclaration
             //super.update();
-            htmlElementStyle.gridTemplateColumns = !String.isNullOrEmpty(priv.templateColumns) ? priv.templateColumns : `repeat(${priv.columns}, 1fr [col-start])`;
-            htmlElementStyle.gridTemplateRows = !String.isNullOrEmpty(priv.templateRows) ? priv.templateRows : `repeat(${priv.rows}, 1fr [row-start])`;
+            htmlElementStyle.gridTemplateColumns = !String.isNullOrEmpty(priv.templateColumns)
+                ? priv.templateColumns : `repeat(${priv.columns}, 1fr [col-start])`;
+            htmlElementStyle.gridTemplateRows = !String.isNullOrEmpty(priv.templateRows)
+                ? priv.templateRows : `repeat(${priv.rows}, 1fr [row-start])`;
             htmlElementStyle.columnGap = `${priv.columnGap}${PX}`;
             htmlElementStyle.rowGap = `${priv.rowGap}${PX}`;
             this.components.forEach(comps => {
