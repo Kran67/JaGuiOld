@@ -31,7 +31,6 @@ const WindowTitleBar = (() => {
             props = !props ? {} : props;
             if (owner) {
                 props.autoCapture = !0;
-                props.stopEvent = !0;
                 props.mouseEvents = { mousemove: !0, wheel: !0, dblclick: !0 };
                 super(owner, props);
                 //#region Private
@@ -290,7 +289,7 @@ const WindowTitleBar = (() => {
         }
         //#endregion mouseUp
         //#region mouseMove
-        mouseMove(mouseEventArg) {
+        mouseMove() {
             //#region Variables déclaration
             const decOff = new Point;
             const BORDERSTYPES = Window.BORDERSTYPES;
@@ -300,7 +299,6 @@ const WindowTitleBar = (() => {
             const isHtmlRenderer = core.isHTMLRenderer;
             //#endregion Variables déclaration
             super.mouseMove();
-            mouseEventArg && mouse.getMouseInfos(mouseEventArg);
             if (core.dragWindow) {
                 if (mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
                     const titlebar = core.dragWindow;
@@ -526,7 +524,7 @@ class WindowContent extends ThemedControl {
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
-            //props.mouseEvents = { wheel: !0 };
+            //props.mouseEvents = { mousedown: !0 };
             super(owner, props);
         }
     }
@@ -1928,7 +1926,7 @@ const BaseWindow = (() => {
         }
         //#endregion dblClick
         //#region mouseDown
-        mouseDown(mouseEventArg) {
+        mouseDown() {
             //#region Variables déclaration
             const priv = internal(this);
             const resizeMode = priv.resizeMode;
@@ -1936,7 +1934,6 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             priv.isResizing = resizeMode.rightEdge || resizeMode.bottomEdge || resizeMode.topEdge || resizeMode.leftEdge;
             if (priv.isResizing && !this.isMaximized && !this.isMinimized) {
-                mouseEventArg && core.mouse.getMouseInfos(mouseEventArg);
                 const documentCoord = core.mouse.document;
                 savedSizePosState.x = documentCoord.x;
                 savedSizePosState.y = documentCoord.y;
@@ -1948,23 +1945,23 @@ const BaseWindow = (() => {
         }
         //#endregion mouseDown
         //#region mouseUp
-        mouseUp(mouseEventArg) {
+        mouseUp() {
             //#region Variables déclaration
             const resizeWindow = core.resizeWindow;
             //#endregion Variables déclaration
-            resizeWindow && resizeWindow.stopResize(mouseEventArg);
+            resizeWindow && resizeWindow.stopResize();
         }
         //#endregion mouseUp
         //#region docMouseUp
-        docMouseUp(mouseEventArg) {
+        docMouseUp() {
             //#region Variables déclaration
             const resizeWindow = core.resizeWindow;
             //#endregion Variables déclaration
-            resizeWindow && resizeWindow.stopResize(mouseEventArg);
+            resizeWindow && resizeWindow.stopResize();
         }
         //#endregion docMouseUp
         //#region stopResize
-        stopResize(mouseEventArg) {
+        stopResize() {
             //#region Variables déclaration
             const priv = internal(this);
             const resizeMode = priv.resizeMode;
@@ -1979,7 +1976,7 @@ const BaseWindow = (() => {
         }
         //#endregion stopResize
         //#region mouseMove
-        mouseMove(mouseEventArg) {
+        mouseMove() {
             //#region Variables déclaration
             const priv = internal(this);
             const layoutRect = {};
@@ -1995,7 +1992,6 @@ const BaseWindow = (() => {
             const mDocument = mouse.document;
             //#endregion Variables déclaration
             super.mouseMove();
-            mouseEventArg && mouse.getMouseInfos(mouseEventArg);
             this.removeCursors();
             if (this.isBorderSizeable && !this.isMaximized && !this.isMinimized && !priv.isResizing && !this.isRolledUp && priv.snapArea !== Window.SNAPAREAS.TOP) {
                 if (mouse.event.srcElement === htmlElement || isHtmlRenderer) {
@@ -2037,18 +2033,17 @@ const BaseWindow = (() => {
                 }
             }
             csrDefault && htmlElement.classList.add(CUSTOMCURSORS.DEFAULT);
-            priv.isResizing && this.docMouseMove(mouseEventArg);
+            priv.isResizing && this.docMouseMove();
         }
         //#endregion mouseMove
         //#region docMouseMove
-        docMouseMove(mouseEventArg) {
+        docMouseMove() {
             //#region Variables déclaration
             const mouse = core.mouse;
             const mDocument = mouse.document;
             const p = new core.classes.Point(mDocument.x, mDocument.y);
             const decOff = {};
             //#endregion Variables déclaration
-            mouseEventArg && mouse.getMouseInfos(mouseEventArg);
             const resizeWindow = core.resizeWindow;
             const savedSizePosState = internal(resizeWindow).savedSizePosState;
             if (resizeWindow && resizeWindow.isResizing) {
@@ -2065,7 +2060,7 @@ const BaseWindow = (() => {
         }
         //#endregion docMouseMove
         //#region mouseLeave
-        mouseLeave(mouseEventArg) {
+        mouseLeave() {
             this.removeCursors();
             (core.isHTMLRenderer ? this.HTMLElement : core.canvas).classList.add(core.types.CUSTOMCURSORS.DEFAULT);
         }

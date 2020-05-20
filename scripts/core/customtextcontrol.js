@@ -1,7 +1,6 @@
 ﻿//#region Imports
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Events } from '/scripts/core/events.js';
-import { Keyboard } from '/scripts/core/keyboard.js';
 import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Imports
 //#region CustomTextControl
@@ -22,6 +21,7 @@ const CustomTextControl = (function () {
             props = !props ? {} : props;
             if (owner) {
                 props.canFocused = !0;
+                props.mouseEvents = { mousedown: !1, mouseup: !1, click: !1 };
                 super(owner, props);
                 //#region Properties
                 //#region Private Properties
@@ -340,10 +340,14 @@ const CustomTextControl = (function () {
             const priv = internal(this);
             const inputObj = priv.inputObj;
             const htmlEvents = core.types.HTMLEVENTS;
+            const MOUSEEVENTS = Mouse.MOUSEEVENTS;
             //#endregion Variables déclaration
             Events.bind(inputObj, htmlEvents.CHANGE, this.textChanged);
             Events.bind(inputObj, htmlEvents.FOCUS, this.HTMLFocus);
             Events.bind(inputObj, htmlEvents.KILLFOCUS, this.HTMLBlur);
+            //Events.bind(inputObj, MOUSEEVENTS.DOWN, () => { core.mouse.stopAllEvent(); });
+            //Events.bind(inputObj, MOUSEEVENTS.MOVE, () => { core.mouse.stopAllEvent(); });
+            //Events.bind(inputObj, MOUSEEVENTS.UP, () => { core.mouse.stopAllEvent(); });
         }
         //#endregion bindEventToHTMLInput
         //#region unbindEventToHTMLInput
@@ -358,18 +362,6 @@ const CustomTextControl = (function () {
             Events.unBind(inputObj, htmlEvents.KILLFOCUS, this.HTMLBlur);
         }
         //#endregion unbindEventToHTMLInput
-        //#region mouseDown
-        mouseDown() {
-            super.mouseDown();
-            core.mouse.stopPropagation();
-        }
-        //#endregion mouseDown
-        //#region mouseUp
-        mouseUp() {
-            super.mouseUp();
-            core.mouse.stopPropagation();
-        }
-        //#endregion mouseUp
         //#endregion Methods
     }
     return CustomTextControl;

@@ -28,7 +28,7 @@ const AngleButton = (() => {
                 props.autoCapture = !0;
                 props.caption = String.EMPTY;
                 props.canFocused = !0;
-                props.mouseEvents = { mousemove: !0, wheel: !0 };
+                props.mouseEvents = { mousemove: !0 };
                 super(owner, props);
                 const priv = internal(this);
                 priv.internalValue = 0;

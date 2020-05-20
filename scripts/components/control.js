@@ -1551,7 +1551,7 @@ const Control = (() => {
                 }
                 if (core.mouse.button === Mouse.MOUSEBUTTONS.RIGHT) {
                     this.contextMenu();
-                    return;
+                    return !0;
                 } else {
                     this.autoCapture && this.capture();
                     this.isPressed = !0;
@@ -1658,7 +1658,6 @@ const Control = (() => {
             //#region Variables déclaration
             const MOUSEEVENTS = Mouse.MOUSEEVENTS;
             const htmlElement = this.HTMLElement;
-            const dispatchEvent = this.dispatchEvent;
             const events = [MOUSEEVENTS.OVER, MOUSEEVENTS.OUT, MOUSEEVENTS.CLICK, MOUSEEVENTS.MOVE,
             MOUSEEVENTS.DOWN, MOUSEEVENTS.UP, MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK,
             MOUSEEVENTS.SCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.LEAVE, MOUSEEVENTS.DRAG, MOUSEEVENTS.DROP,
@@ -1667,7 +1666,7 @@ const Control = (() => {
             ];
             //#endregion Variables déclaration
             events.forEach(event => {
-                Events.bind(htmlElement, event, dispatchEvent);
+                Events.bind(htmlElement, event, this.dispatchEvent, !1);
             });
         }
         //#endregion initEvents
@@ -1676,7 +1675,6 @@ const Control = (() => {
             //#region Variables déclaration
             const MOUSEEVENTS = Mouse.MOUSEEVENTS;
             const htmlElement = this.HTMLElement;
-            const dispatchEvent = this.dispatchEvent;
             const events = [MOUSEEVENTS.OVER, MOUSEEVENTS.OUT, MOUSEEVENTS.CLICK, MOUSEEVENTS.MOVE,
             MOUSEEVENTS.DOWN, MOUSEEVENTS.UP, MOUSEEVENTS.WHEEL, MOUSEEVENTS.DBLCLICK,
             MOUSEEVENTS.SCROLL, MOUSEEVENTS.ENTER, MOUSEEVENTS.LEAVE, MOUSEEVENTS.DRAG, MOUSEEVENTS.DROP,
@@ -1685,7 +1683,7 @@ const Control = (() => {
             ];
             //#endregion Variables déclaration
             events.forEach(event => {
-                Events.unBind(htmlElement, event, dispatchEvent);
+                Events.unBind(htmlElement, event, this.dispatchEvent, !1);
             });
         }
         //#endregion resetEvent
@@ -1723,7 +1721,7 @@ const Control = (() => {
             switch (event.type) {
                 case MOUSEEVENTS.MOVE:
                     if (core.resizeWindow) {
-                        activeWin.mouseMove(event);
+                        activeWin.mouseMove();
                     } else if (core.tools.isFunc(control.mouseMove)) {
                         control.mouseMove();
                     }
@@ -1751,7 +1749,7 @@ const Control = (() => {
                     break;
                 case MOUSEEVENTS.UP:
                     if (core.resizeWindow) {
-                        activeWin.mouseUp(event);
+                        activeWin.mouseUp();
                     } else if (core.tools.isFunc(control.mouseUp)) {
                         control.mouseUp();
                     }
@@ -1759,7 +1757,7 @@ const Control = (() => {
                     break;
                 case MOUSEEVENTS.CLICK:
                     if (core.resizeWindow) {
-                        activeWin.click(event);
+                        activeWin.click();
                     } else if (core.tools.isFunc(control.click)) {
                         control.click();
                     }
@@ -1781,7 +1779,7 @@ const Control = (() => {
                 case MOUSEEVENTS.DROP:
                     if (control.dragKind === DOCK) {
                         if (control.dragMode === AUTOMATIC) {
-                            event.preventDefault();
+                            //event.preventDefault();
                             event.target.appendChild(document.getElementById(event.dataTransfer.getData('text')));
                         } else if (core.tools.isFunc(control.drop)) {
                             control.drop();
@@ -1817,8 +1815,7 @@ const Control = (() => {
                     }
                     break;
             }
-            event.type !== MOUSEEVENTS.WHEEL && !(control instanceof core.classes.CustomTextControl) 
-                && core.mouse.stopAllEvent(event);
+            core.mouse.stopAllEvent(event);
         }
         //#endregion dispatchEvent
         //#region releaseCapture

@@ -7,7 +7,7 @@
         window.requestAnimationFrameRate = function (fps) {
             let starter;
             if (typeof fps !== 'number') {
-                fps = 30;
+                fps = 60;
             }
             const period = 1000 / fps;
             const jitter = period * 0.1;
@@ -38,7 +38,7 @@
         window.cancelAnimationFrameRate = function (handle) {
             handle();
         };
-        const rAF = requestAnimationFrameRate(6);
+        const rAF = requestAnimationFrameRate();
         let handle = null, img;
         const imgA = new Image();
         const imgB = new Image();
@@ -113,7 +113,7 @@
                 ctx.drawImage(buffer,0, img.height - frame, img.width, size, 0, img.height - frame, img.width, size);
             }
             //shade(ctx, orientH?frame-(offset < 0?size:0):0, !orientH?frame-(offset < 0?size:0):0, !orientH?img.width:0, orientH?img.height:0, 0, 0, orientH?size:0, !orientH?size:0);
-            shade(ctx, 0, img.height - frame, null, null, 0, 0, 0, size);
+            //shade(ctx, 0, img.height - frame, null, null, 0, 0, 0, size);
             ctx.save();
             ctx.beginPath();
             if (offset<0) {

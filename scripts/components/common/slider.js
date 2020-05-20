@@ -2,6 +2,7 @@
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Events } from '/scripts/core/events.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
+import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Import
 //#region SLIDERMODES
 const SLIDERMODES = Object.freeze(Object.seal({
@@ -39,6 +40,7 @@ const Slider = (() => {
                 }
                 !props.hasOwnProperty('canFocused') && (props.canFocused = !0);
                 props.allowUpdateOnResize = !0;
+                props.mouseEvents = { mousedown: !1, mouseup: !1, click: !1 };
                 super(owner, props);
                 const priv = internal(this);
                 core.tools.addPropertyFromEnum({
@@ -427,21 +429,22 @@ const Slider = (() => {
         //#region change
         change() {
             //#region Variables déclaration
-            const obj = this.jsObj ? this.jsObj : this;
-            const inputs = obj.HTMLElement.querySelectorAll(core.types.HTMLELEMENTS.INPUT);
+            const slider = this.jsObj ? this.jsObj : this;
+            const inputs = slider.HTMLElement.querySelectorAll(core.types.HTMLELEMENTS.INPUT);
             const leftInput = inputs[0];
             const rightInput = inputs[1];
             //#endregion Variables déclaration
-            obj.propertyChanged('firstValue');
-            if (obj.mode === SLIDERMODES.RANGE) {
-                this === leftInput && (this.value = Math.min(this.valueAsNumber, obj.lastValue - 1));
-                if (this === rightInput) {
-                    this.value = Math.max(this.valueAsNumber, obj.firstValue + 1);
-                    obj.propertyChanged('lastValue');
+            slider.propertyChanged('firstValue');
+            if (slider.mode === SLIDERMODES.RANGE) {
+                slider === leftInput && (slider.value = Math.min(slider.valueAsNumber, slider.lastValue - 1));
+                if (slider === rightInput) {
+                    slider.value = Math.max(slider.valueAsNumber, control.firstValue + 1);
+                    control.propertyChanged('lastValue');
                 }
             }
-            obj.update();
-            obj.onChange.invoke();
+            slider.update();
+            slider.onChange.invoke();
+            slider.setFocus();
         }
         //#endregion change
         //#region drawTickmarks
@@ -653,10 +656,12 @@ const Slider = (() => {
             }
         }
         //#endregion moveRange
+        //#region mouseDown
         //mouseDown() {
-        //    //core.mouse.stopPropagation();
         //    super.mouseDown();
+        //    return !1;
         //}
+        //#endregion mouseDown
         //#endregion Methods
     }
     return Slider;

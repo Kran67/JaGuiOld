@@ -26,7 +26,6 @@ const SpinBox = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             props.mouseEvents = { wheel: !0 };
-            props.stopEvent = !0;
             if (owner) {
                 props.numBtns = 2;
                 if (!core.isHTMLRenderer) {
