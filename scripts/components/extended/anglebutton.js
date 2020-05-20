@@ -221,7 +221,7 @@ const AngleButton = (() => {
         wheel(event) {
             //#region Variables déclaration
             const priv = internal(this);
-            let newVal = priv.internalValue + int(core.mouse.getWheelDetail(event) * 10);
+            let newVal = priv.internalValue + int(core.mouse.wheelDelta * 10);
             //#endregion Variables déclaration
             if (newVal < -360) {
                 newVal = 360 + newVal;
@@ -229,7 +229,7 @@ const AngleButton = (() => {
                 newVal = 360 - newVal;
             }
             priv.setInternalValue(newVal);
-            core.mouse.preventDefault(event);
+            core.mouse.stopAllEvent(event);
         }
         //#endregion wheel
         //#region destroy

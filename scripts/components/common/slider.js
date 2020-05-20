@@ -514,14 +514,12 @@ const Slider = (() => {
         wheel(event) {
             //#region Variables déclaration
             const priv = internal(this);
-            const wheelDelta = core.mouse.getWheelDetail(event);
-            const multiplier = wheelDelta < 0 ? 2 : -2;
+            const multiplier = core.mouse.wheelDelta < 0 ? 2 : -2;
             //#endregion Variables déclaration
-            core.keyboard.getKeyboardInfos(event);
             core.keyboard.shift && priv.mode === SLIDERMODES.RANGE
                 ? this.scrollBy(0, -priv.frequency * multiplier)
                 : this.scrollBy(-priv.frequency * multiplier, 0);
-            core.mouse.preventDefault(event);
+            core.mouse.stopAllEvent(event);
             this.form.focusedControl !== this && this.setFocus();
         }
         //#endregion wheel

@@ -1712,12 +1712,12 @@ const Control = (() => {
             //console.log(event.type, event.target);
             activeWin = control.form.app.activeWindow;
             activeWin.capturedControl && (control = activeWin.capturedControl);
+            core.keyboard.getKeyboardInfos(event);
+            core.mouse.getMouseInfos(event);
             if (!control || control.form.destroying || (!control.isEnabled && event.type !== MOUSEEVENTS.MOVE)
                 || !control.mouseEvents.has(event.type)) {
                 return;
             }
-            core.keyboard.getKeyboardInfos(event);
-            core.mouse.getMouseInfos(event);
             switch (event.type) {
                 case MOUSEEVENTS.MOVE:
                     if (core.resizeWindow) {

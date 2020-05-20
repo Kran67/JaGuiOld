@@ -135,7 +135,7 @@ const ItemsWheel = (() => {
         //#region wheel
         wheel(event) {
             //#region Variables déclaration
-            const d = core.mouse.getWheelDetail(event);
+            const d = core.mouse.wheelDelta;
             //#endregion Variables déclaration
             this.canFocused ? this.setFocus() : this.owner.canFocused && this.owner.setFocus();
             this.scrollBy(d < 0 ? -1 : 1);

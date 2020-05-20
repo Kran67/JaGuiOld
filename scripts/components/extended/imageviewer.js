@@ -23,7 +23,7 @@ const ImageViewer = (() => {
             //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
-                props.hitTest = { mouseMove: !0, mouseWheel: !0, dblClick: !0 };
+                props.mouseEvents = { mouseMove: !0, dblClick: !0 };
                 props.canFocused = !0;
                 super(owner, props);
                 const priv = internal(this);
@@ -51,7 +51,7 @@ const ImageViewer = (() => {
         }
         //#endregion Getters / Setters
         //#region Methods
-        mouseWheel() {
+        wheel(event) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
@@ -59,7 +59,6 @@ const ImageViewer = (() => {
                 priv.scale += core.mouse.wheelDelta * 0.02;
                 priv.scale = Math.max(Math.min(priv.scale, 10), 0.01);
                 core.mouse.stopAllEvent();
-                //core.mouse.event.preventDefault();
                 this.update();
             }
         }
@@ -104,11 +103,14 @@ const ImageViewer = (() => {
         loaded() {
             //#region Variables déclaration
             const priv = internal(this);
-            const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
+            const htmlElement = this.HTMLElement;
+            const props = JSON.parse(htmlElement.querySelector('properties').innerText);
+
             //#endregion Variables déclaration
             super.loaded();
             props.hasOwnProperty('src') && this.load(props.src);
-            this.HTMLElement.appendChild(priv.bitmap);
+            htmlElement.appendChild(priv.bitmap);
+            htmlElement.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { this.wheel(event); });
         }
         destroy() {
             //#region Variables déclaration
