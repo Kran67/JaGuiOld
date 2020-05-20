@@ -23,6 +23,31 @@ class Browser {
         let _coreVersion = float(_av);
         let _vendorPrefix = null;
         //#endregion Private Properties
+        //#endregion Properties
+        _chrome && (_coreVersion = +_av.split('Chrome/')[1]);
+        if (_webkit && !_chrome) {
+            _safari = _av.indexOf('Safari') !== -1;
+            _safari && (coreVersion = +_av.split('Version/')[1]);
+        }
+        if (!_ie && !_opera && !_webkit && !_khtml && !_chrome && !_safari && !_iphone) {
+            _n.appCodeName === 'Mozilla' && (_ff = !0);
+        }
+        if (!_ie) {
+            const match = _n.userAgent.match(/(?:MSIE |Trident\/.*; rv:)(\d+)/);
+            if (match) {
+                _ie = match.length > 0;
+                _coreVersion = match ? int(match[1]) : 0;
+            }
+        }
+        if (_ie) {
+            _vendorPrefix = '-ms-';
+        } else if (_ff) {
+            _vendorPrefix = '-moz-';
+        } else if (_opera && _coreVersion < 15) {
+            _vendorPrefix = '-o-';
+        } else if (_safari || _chrome || _khtml) {
+            _vendorPrefix = '-webkit-';
+        }
         //#region Public Properties
         Object.defineProperties(this, {
             'ie': {
@@ -111,31 +136,6 @@ class Browser {
             }
         });
         //#endregion Public Properties
-        //#endregion Properties
-        _chrome && (_coreVersion = +_av.split('Chrome/')[1]);
-        if (_webkit && !_chrome) {
-            _safari = _av.indexOf('Safari') !== -1;
-            _safari && (coreVersion = +_av.split('Version/')[1]);
-        }
-        if (!_ie && !_opera && !_webkit && !_khtml && !_chrome && !_safari && !_iphone) {
-            _n.appCodeName === 'Mozilla' && (_ff = !0);
-        }
-        if (!_ie) {
-            const match = _n.userAgent.match(/(?:MSIE |Trident\/.*; rv:)(\d+)/);
-            if (match) {
-                _ie = match.length > 0;
-                _coreVersion = match ? int(match[1]) : 0;
-            }
-        }
-        if (_ie) {
-            _vendorPrefix = '-ms-';
-        } else if (_ff) {
-            _vendorPrefix = '-moz-';
-        } else if (_opera && _coreVersion < 15) {
-            _vendorPrefix = '-o-';
-        } else if (_safari || _chrome || _khtml) {
-            _vendorPrefix = '-webkit-';
-        }
     }
     //#region Methods
     /**
