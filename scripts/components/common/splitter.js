@@ -20,8 +20,7 @@ const Splitter = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                props.hitTest = { mouseMove: !0 };
-                props.stopEvent = !0;
+                props.mouseEvents = { mousemove: !0 };
                 props.autoCapture = !0;
                 super(owner, props);
                 const priv = internal(this);
@@ -331,7 +330,7 @@ const Splitter = (() => {
             if (priv.orientation === core.types.ORIENTATIONS.VERTICAL) {
                 offset = int(mat[4]) - htmlElement.offsetLeft;
                 if (firstCtrl) {
-                    irstCtrl.align === aligns.CLIENT
+                    firstCtrl.align === aligns.CLIENT
                         ? firstCtrl.right = htmlElement.parentNode.offsetWidth - int(mat[4])
                         : firstCtrl.width = firstHtmlElement.offsetWidth + offset;
                 }

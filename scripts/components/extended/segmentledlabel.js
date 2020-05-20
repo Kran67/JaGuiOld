@@ -64,16 +64,22 @@ const SegmentLedLabel = (() => {
                 super(owner, props);
                 const priv = internal(this);
                 delete this.tabOrder;
-                priv.maxLength = props.hasOwnProperty('maxLength') && core.tools.isNumber(props.maxLength) ? props.maxLength : 10;
-                priv.autoScroll = props.hasOwnProperty('autoScroll') && core.tools.isBool(props.autoScroll) ? props.autoScroll : !1;
-                priv.scrollSpeed = props.hasOwnProperty('scrollSpeed') && core.tools.isNumber(props.scrollSpeed)
+                priv.maxLength = props.hasOwnProperty('maxLength') && core.tools.isNumber(props.maxLength)
+                    ? props.maxLength : 10;
+                priv.autoScroll = props.hasOwnProperty('autoScroll') && core.tools.isBool(props.autoScroll)
+                    ? props.autoScroll : !1;
+                priv.scrollSpeed = props.hasOwnProperty('scrollSpeed')
+                    && core.tools.isNumber(props.scrollSpeed)
                     ? props.scrollSpeed : 1;
                 priv.color = props.hasOwnProperty('color') ? Color.parse(props.color) : Colors.LIME;
-                priv.segmentSize = props.hasOwnProperty('segmentSize') && core.tools.valueInSet(props.segmentSize, SEGMENTSIZES)
+                priv.segmentSize = props.hasOwnProperty('segmentSize')
+                    && core.tools.valueInSet(props.segmentSize, SEGMENTSIZES)
                     ? props.segmentSize : SEGMENTSIZES.NORMAL;
-                priv.segmentType = props.hasOwnProperty('segmentType') && core.tools.valueInSet(props.segmentType, SEGMENTTYPES)
-                    ? props.segmentType : SEGMENTcore.types.SEVEN;
-                priv.caption = props.hasOwnProperty('caption') && core.tools.isString(props.caption) ? props.caption : this.name;
+                priv.segmentType = props.hasOwnProperty('segmentType')
+                    && core.tools.valueInSet(props.segmentType, SEGMENTTYPES)
+                    ? props.segmentType : SEGMENTTYPES.SEVEN;
+                priv.caption = props.hasOwnProperty('caption') && core.tools.isString(props.caption)
+                    ? props.caption : this.name;
                 //#region segmentChars
                 priv.segmentChars = [];
                 //#region !
@@ -738,13 +744,16 @@ const SegmentLedLabel = (() => {
                 priv.conts = [];
                 priv.lastTime = new Date().getTime();
                 priv.startIndex = 0;
-                priv.scrollType = props.hasOwnProperty('scrollType') && core.tools.valueInSet(props.scrollType, SEGMENTSCROLLTYPES)
-                    ? props.scrollType : SEGMENTSCROLLcore.types.CYCLE;
-                priv.scrollDir = props.hasOwnProperty('scrollDir') && core.tools.valueInSet(props.scrollDir, SEGMENTSCROLLDIRECTIONS)
+                priv.scrollType = props.hasOwnProperty('scrollType')
+                    && core.tools.valueInSet(props.scrollType, SEGMENTSCROLLTYPES)
+                    ? props.scrollType : SEGMENTSCROLLTYPES.CYCLE;
+                priv.scrollDir = props.hasOwnProperty('scrollDir')
+                    && core.tools.valueInSet(props.scrollDir, SEGMENTSCROLLDIRECTIONS)
                     ? props.scrollDir : SEGMENTSCROLLDIRECTIONS.LEFT2RIGHT;
                 priv.text = priv.caption;
-                priv.autoAdjustTextLengthWithSpace = props.hasOwnProperty('autoAdjustTextLengthWithSpace') &&
-                    core.tools.isBool(props.autoAdjustTextLengthWithSpace) ? props.autoAdjustTextLengthWithSpace : !0;
+                priv.autoAdjustTextLengthWithSpace = props.hasOwnProperty('autoAdjustTextLengthWithSpace')
+                    && core.tools.isBool(props.autoAdjustTextLengthWithSpace)
+                    ? props.autoAdjustTextLengthWithSpace : !0;
                 this.normalizeCaption();
             }
         }
@@ -867,13 +876,13 @@ const SegmentLedLabel = (() => {
                 priv.segmentType = newValue;
                 htmlElement.classList.remove('seven', 'fourteen', 'sixteen');
                 switch (priv.segmentType) {
-                    case SEGMENTcore.types.SEVEN:
+                    case SEGMENTTYPES.SEVEN:
                         htmlElement.classList.add('seven');
                         break;
-                    case SEGMENTcore.types.FOURTEEN:
+                    case SEGMENTTYPES.FOURTEEN:
                         htmlElement.classList.add('fourteen');
                         break;
-                    case SEGMENTcore.types.SIXTEEN:
+                    case SEGMENTTYPES.SIXTEEN:
                         htmlElement.classList.add('sixteen');
                         break;
                 }
@@ -928,7 +937,8 @@ const SegmentLedLabel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.valueInSet(newValue, SEGMENTSCROLLDIRECTIONS) && priv.scrollDir !== newValue && (priv.scrollDir = newValue);
+            core.tools.valueInSet(newValue, SEGMENTSCROLLDIRECTIONS) && priv.scrollDir !== newValue
+                && (priv.scrollDir = newValue);
         }
         //#endregion scrollDirection
         //#endregion Getters / Setters
@@ -943,9 +953,11 @@ const SegmentLedLabel = (() => {
                     priv.text = priv.text.padEnd(priv.maxLength, String.SPACE);
                 } else {
                     const ratio = Math.round(priv.text.length / priv.maxLength);
-                    priv.text = priv.text.padEnd(ratio * priv.maxLength + (priv.text.length - priv.maxLength), String.SPACE);
+                    priv.text = priv.text.padEnd(ratio * priv.maxLength +
+                        (priv.text.length - priv.maxLength), String.SPACE);
                 }
-            } else if (priv.text.length < priv.maxLength && priv.scrollType !== SEGMENTSCROLLcore.types.RESTART && priv.autoScroll) {
+            } else if (priv.text.length < priv.maxLength && priv.scrollType !== SEGMENTSCROLLTYPES.RESTART
+                && priv.autoScroll) {
                 priv.text = priv.text.padEnd(priv.maxLength, String.SPACE);
             }
         }
@@ -990,14 +1002,16 @@ const SegmentLedLabel = (() => {
             //#endregion Variables déclaration
             if (this.HTMLElement) {
                 // on allume les segments
-                this.HTMLElementStyle.setProperty(`--${this.internalId}-aligth-color`, priv.color.toRGBAString());
+                this.HTMLElementStyle.setProperty(`--${this.internalId}-aligth-color`,
+                    priv.color.toRGBAString());
                 if (!priv.conts.isEmpty) {
                     this.clearAllSegments();
                     const txt = priv.text.substr(priv.startIndex, priv.maxLength);
                     for (let i = 0, l = txt.length; i < l; i++) {
                         if (priv.segmentChars[txt[i].charCodeAt(0)]) {
                             let charNum;
-                            let segements = priv.segmentChars[txt[i].charCodeAt(0)][Convert.intToStr(priv.segmentType)];
+                            let segements =
+                                priv.segmentChars[txt[i].charCodeAt(0)][Convert.intToStr(priv.segmentType)];
                             segements = segements.split(String.EMPTY);
                             const segs = priv.conts[i].querySelectorAll(segmentsTag);
                             for (let j = 0, m = segements.length; j < m; j++) {
@@ -1056,25 +1070,25 @@ const SegmentLedLabel = (() => {
             const now = new Date().getTime();
             //#endregion Variables déclaration
             if (priv.autoScroll) {
-                if (priv.text.length <= priv.maxLength && priv.scrollType !== SEGMENTSCROLLcore.types.CYCLE) {
+                if (priv.text.length <= priv.maxLength && priv.scrollType !== SEGMENTSCROLLTYPES.CYCLE) {
                     return;
                 }
                 if (now - priv.lastTime >= priv.scrollSpeed * 1000) {
                     if (priv.scrollDir === SEGMENTSCROLLDIRECTIONS.RIGHT2LEFT) {
-                        priv.scrollType === SEGMENTSCROLLcore.types.CYCLE
+                        priv.scrollType === SEGMENTSCROLLTYPES.CYCLE
                             ? priv.text = `${priv.text.substring(1)}${priv.text.substring(0, 1)}`
                             : priv.startIndex++;
                     } else {
-                        priv.scrollType === SEGMENTSCROLLcore.types.CYCLE
+                        priv.scrollType === SEGMENTSCROLLTYPES.CYCLE
                             ? priv.text = `${priv.text.substring(priv.maxLength - 1, priv.maxLength)}${priv.text.substring(0, priv.maxLength - 1)}`
                             : priv.startIndex--;
                     }
                     if (priv.startIndex > priv.text.length - priv.maxLength) {
                         switch (priv.scrollType) {
-                            case SEGMENTSCROLLcore.types.RESTART:
+                            case SEGMENTSCROLLTYPES.RESTART:
                                 priv.startIndex = 0;
                                 break;
-                            case SEGMENTSCROLLcore.types.REVERSE:
+                            case SEGMENTSCROLLTYPES.REVERSE:
                                 if (priv.scrollDir === SEGMENTSCROLLDIRECTIONS.RIGHT2LEFT) {
                                     priv.scrollDir = SEGMENTSCROLLDIRECTIONS.LEFT2RIGHT;
                                     priv.startIndex -= 2;
@@ -1084,13 +1098,13 @@ const SegmentLedLabel = (() => {
                     }
                     if (priv.startIndex < 0) {
                         switch (priv.scrollType) {
-                            case SEGMENTSCROLLcore.types.RESTART:
+                            case SEGMENTSCROLLTYPES.RESTART:
                                 priv.scrollDir === SEGMENTSCROLLDIRECTIONS.RIGHT2LEFT && (priv.startIndex = 0);
                                 //else {
                                 //    priv.startIndex = 0;
                                 //}
                                 break;
-                            case SEGMENTSCROLLcore.types.REVERSE:
+                            case SEGMENTSCROLLTYPES.REVERSE:
                                 if (priv.scrollDir === SEGMENTSCROLLDIRECTIONS.LEFT2RIGHT) {
                                     priv.scrollDir = SEGMENTSCROLLDIRECTIONS.RIGHT2LEFT;
                                     priv._startIndex += 2;

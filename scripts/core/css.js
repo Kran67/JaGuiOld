@@ -710,7 +710,7 @@ class Css {
     }
     static removeCSSRule(selector, ruleType) {
         //#region Variables déclaration
-        const rulesIndex = [];
+        let rulesIndex = [];
         const CSSRULETYPES = core.types.CSSRULETYPES;
         let i = 0;
         //#endregion Variables déclaration
