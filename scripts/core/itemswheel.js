@@ -23,9 +23,8 @@ const ItemsWheel = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                props.hitTest = !0;
+                props.mouseEvents = { mousemove: !0 };
                 props.canFocused = !0;
-                props.stopEvent = !0;
                 super(owner, props);
                 const priv = internal(this);
                 priv.content = null;
@@ -133,15 +132,16 @@ const ItemsWheel = (() => {
             this.recreateItems();
         }
         //#endregion endUpdate
-        //#region mouseWheel
-        mouseWheel() {
+        //#region wheel
+        wheel(event) {
             //#region Variables déclaration
-            const d = core.mouse.wheelDelta;
+            const d = core.mouse.getWheelDetail(event);
             //#endregion Variables déclaration
-            super.mouseWheel();
-            this.scrollBy(d < 0 ? 1 : -1);
+            this.canFocused ? this.setFocus() : this.owner.canFocused && this.owner.setFocus();
+            this.scrollBy(d < 0 ? -1 : 1);
+            core.mouse.stopAllEvent(event);
         }
-        //#endregion mouseWheel
+        //#endregion wheel
         //#region scrollBy
         scrollBy(offset) {
             //#region Variables déclaration
@@ -176,6 +176,7 @@ const ItemsWheel = (() => {
             priv.bottomGradient = document.createElement(`${name}bottomgradient`);
             priv.bottomGradient.classList.add('Control', 'ItemsWheelBottomGradient');
             htmlElement.appendChild(priv.bottomGradient);
+            htmlElement.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { this.wheel(event); });
             this.recreateItems();
         }
         //#endregion loaded
@@ -276,7 +277,7 @@ const ItemsWheel = (() => {
             priv.mouseTracking = null;
             priv.animated = null;
             this.items.destroy();
-            this.items = null;
+            this.items.clear();
             delete this.items;
             this.unBindAndDestroyEvents(['onChange']);
             super.destroy();

@@ -126,6 +126,7 @@ class Classes {
     static newCollection(obj, owner, itemsClass, propName) {
         propName = propName || 'items';
         Object.defineProperty(obj, propName, {
+            configurable: !0,
             value: []
         });
         obj[propName].convertToCollection(owner, itemsClass);

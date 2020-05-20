@@ -45,10 +45,10 @@ if (!Array.prototype.convertToCollection) {
             //#region Variables déclaration
             let canPush = !1;
             //#endregion Variables déclaration
-            typeof itemClass === typeof a || !canPush && a instanceof itemClass && (canPush = !0);
+            (typeof itemClass === typeof a || !canPush && a instanceof itemClass) && (canPush = !0);
             if (canPush) {
                 this._push(a);
-                !updating && this.onChange.invoke(Types.OPERATIONS.INSERT, a);
+                !updating && this.onChange && this.onChange.invoke(Types.OPERATIONS.INSERT, a);
             }
         };
         this.onChange = new Core.classes.NotifyEvent(owner);
@@ -125,7 +125,7 @@ if (!Array.prototype.clear) {
     Array.prototype.clear = function () {
         this.length > 0 && this.splice(0, this.length);
         this.length = 0;
-        this.isCollection && this.onChange.invoke(Types.OPERATIONS.REMOVE);
+        this.isCollection && this.onChange && this.onChange.invoke(Types.OPERATIONS.REMOVE);
         //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
     };
 }
@@ -179,7 +179,7 @@ if (!Array.prototype.dequeue) {
     Array.prototype.dequeue = function () {
         //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
         const a = this.shift();
-        this.isCollection && this.onChange.invoke(core.types.OPERATIONS.REMOVE, a);
+        this.isCollection && this.onChange && this.onChange.invoke(core.types.OPERATIONS.REMOVE, a);
         return a;
     };
 }
@@ -196,7 +196,7 @@ if (!Array.prototype.insert) {
         if (i != undefined && core.tools.isNumber(a)) {
             this.splice(a, 0, i);
             //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
-            this.isCollection && this.onChange.invoke(core.types.OPERATIONS.INSERT, i);
+            this.isCollection && this.onChange && this.onChange.invoke(core.types.OPERATIONS.INSERT, i);
         }
     };
 }
@@ -212,7 +212,7 @@ if (!Array.prototype.remove) {
             const index = this.indexOf(a);
             index >= 0 && this.splice(index, 1);
             //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
-            this.isCollection && this.onChange.invoke(core.types.OPERATIONS.REMOVE, a);
+            this.isCollection && this.onChange && this.onChange.invoke(core.types.OPERATIONS.REMOVE, a);
         }
     };
 }
@@ -227,7 +227,7 @@ if (!Array.prototype.removeAt) {
         if (core.tools.isNumber(a)) {
             a = this.splice(a, 1);
             //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
-            this.isCollection && this.onChange.invoke(Types.OPERATIONS.REMOVE, a.first);
+            this.isCollection && this.onChange && this.onChange.invoke(Types.OPERATIONS.REMOVE, a.first);
         }
     };
 }
@@ -327,7 +327,7 @@ if (!Array.prototype.swap) {
         const b = this[x];
         this[x] = this[y];
         this[y] = b;
-        this.isCollection && this.onChange.invoke();
+        this.isCollection && this.onChange && this.onChange.invoke();
         return this;
     };
 }

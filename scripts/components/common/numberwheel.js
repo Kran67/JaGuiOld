@@ -91,10 +91,10 @@ const NumberWheel = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            super.destroy();
             priv.min = null;
             priv.max = null;
             priv.numberDigits = null;
+            super.destroy();
         }
         //#endregion destroy
         //#endregion Methods

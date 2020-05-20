@@ -236,7 +236,7 @@ const TimePanel = (() => {
             priv.use24H = null;
             priv.viewSeconds = null;
             priv.currentItemWheel = null;
-            this.createEventsAndBind(['onChange']);
+            this.unBindAndDestroyEvents(['onChange']);
         }
         keyDown() {
             //#region Variables déclaration
