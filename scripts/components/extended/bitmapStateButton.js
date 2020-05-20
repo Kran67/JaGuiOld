@@ -23,6 +23,7 @@ const BitmapStateButton = (() => {
             props = !props ? {} : props;
             if (owner) {
                 props.auotSize = !0;
+                props.mouseEvent = { mouseenter: !0, mouseleave: !0 };
                 super(owner, props);
                 const priv = internal(this);
                 priv.bitmapState = new Image;

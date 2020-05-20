@@ -321,7 +321,7 @@ const Control = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.mouseEvents.mousemove && priv.isMouseOver !== newValue
+            core.tools.isBool(newValue) && priv.mouseEvents.mouseenter && priv.isMouseOver !== newValue
                 && (priv.isMouseOver = newValue);
         }
         //#endregion isMouseOver
