@@ -58,7 +58,7 @@ const ImageViewer = (() => {
             if (core.keyboard.ctrl) {
                 priv.scale += core.mouse.wheelDelta * 0.02;
                 priv.scale = Math.max(Math.min(priv.scale, 10), 0.01);
-                core.mouse.stopAllEvent();
+                core.mouse.stopAllEvents();
                 this.update();
             }
         }

@@ -270,8 +270,8 @@ const Mouse = (() => {
             return delta;
         }
         //#endregion getWheelDetail
-        //#region stopAllEvent
-        stopAllEvent(mouseEventArg) {
+        //#region stopAllEvents
+        stopAllEvents(mouseEventArg) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
@@ -287,7 +287,7 @@ const Mouse = (() => {
             priv.wheelDir = Mouse.MOUSEWHEELDIRS.NONE;
             priv.wheelDelta = 0;
         }
-        //#endregion stopAllEvent
+        //#endregion stopAllEvents
         stopPropagation(mouseEventArg) {
             //#region Variables déclaration
             const priv = internal(this);

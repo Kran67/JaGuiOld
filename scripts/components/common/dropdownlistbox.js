@@ -59,6 +59,7 @@ class ListBoxPopup extends ListBox {
             props.closePopups = !1;
             props.itemsClass = 'ListBoxItemPopup';
             props.canFocused = !1;
+            props.scrollToItemMode = 'first';
             super(owner, props);
         }
     }
@@ -584,7 +585,7 @@ const DropDownListBox = (() => {
         //#endregion loaded
         //#region _mouseDown
         _mouseDown(mouseEventArg) {
-            this.jsObj.editable && core.mouse.stopAllEvent(mouseEventArg);
+            this.jsObj.editable && core.mouse.stopAllEvents(mouseEventArg);
         }
         //#endregion _mouseDown
         //#region destroy

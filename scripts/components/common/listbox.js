@@ -3,6 +3,7 @@ import { ScrollControl } from '/scripts/core/scrollcontrol.js';
 import { BaseClass } from '/scripts/core/baseclass.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 import { Point } from '/scripts/core/geometry.js';
+import { Events } from '/scripts/core/events.js';
 import { Checkbox } from '/scripts/components/common/checkbox.js';
 //#endregion Import
 //#region ListBoxItem
@@ -22,7 +23,6 @@ const ListBoxItem = (() => {
         constructor(owner, props) {
             props = !props ? {} : props;
             if (owner) {
-                props.stopEvent = !1;
                 super(owner, props);
                 const priv = internal(this);
                 priv.owner = owner;
@@ -41,7 +41,7 @@ const ListBoxItem = (() => {
                 priv.form = owner.form;
                 priv.selected = props.hasOwnProperty('selected') && core.tools.isBool(props.selected)
                     ? props.selected : !1;
-                this.mouseEvents = new core.classes.MouseEvents({ wheel: !0 });
+                this.mouseEvents = new core.classes.MouseEvents();
                 priv.css = String.EMPTY;
                 priv.imageIndex = props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex)
                     ? props.imageIndex : -1;
@@ -432,7 +432,7 @@ const ListBoxItem = (() => {
         //#endregion clone
         //#region mouseDown
         mouseDown() {
-            core.mouse.stopPropagation();
+            core.mouse.stopAllEvents();
             this.owner.selectItem(this);
         }
         //#endregion mouseDown
@@ -496,6 +496,8 @@ const ListBox = (() => {
                 //this.animated = !0;
                 priv.orientation = props.hasOwnProperty('orientation')
                     ? props.orientation : core.types.ORIENTATIONS.VERTICAL;
+                priv.scrollToItemMode = props.hasOwnProperty('scrollToItemMode')
+                    ? props.scrollToItemMode : 'last';
                 this.createEventsAndBind(['onChange', 'onSelectItem', 'onDrawItem'], props);
             }
         }
@@ -896,7 +898,11 @@ const ListBox = (() => {
             const propSize = priv.orientation === ORIENTATIONS.VERTICAL ? 'Height' : 'Width';
             //#endregion Variables déclaration
             if (this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
-                htmlElement[`scroll${prop}`] = priv.itemIndex * priv.itemsSize;
+                const nbrVisibleItems = int(htmlElement[`offset${propSize}`] / priv.itemsSize);
+                const base = ((nbrVisibleItems * priv.itemsSize) - htmlElement[`offset${propSize}`]) + priv.itemsSize;
+                htmlElement[`scroll${prop}`] = priv.scrollToItemMode === 'last'
+                    ? base + ((priv.itemIndex - nbrVisibleItems) * priv.itemsSize) + 2
+                    : priv.itemIndex * priv.itemsSize;
             } else {
                 if (this.items[priv.itemIndex].html[`offset${prop}`]
                     + this.items[priv.itemIndex].html[`offset${propSize}`] >
@@ -946,8 +952,8 @@ const ListBox = (() => {
             priv.useAlternateColor && htmlElement.classList.add('useAlternateColor');
             htmlElement.classList.add(`orientation-${priv.orientation}`);
             this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL
-                && htmlElement.addEventListener(core.types.HTMLEVENTS.SCROLL, event => {
-                    event.preventDefault(); this.setFocus(); this.draw()
+                && Events.bind(htmlElement, core.types.HTMLEVENTS.SCROLL, () => {
+                    core.mouse.stopAllEvents(); this.setFocus(); this.draw();
                 });
             this.draw();
         }

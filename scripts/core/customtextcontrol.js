@@ -345,9 +345,6 @@ const CustomTextControl = (function () {
             Events.bind(inputObj, htmlEvents.CHANGE, this.textChanged);
             Events.bind(inputObj, htmlEvents.FOCUS, this.HTMLFocus);
             Events.bind(inputObj, htmlEvents.KILLFOCUS, this.HTMLBlur);
-            //Events.bind(inputObj, MOUSEEVENTS.DOWN, () => { core.mouse.stopAllEvent(); });
-            //Events.bind(inputObj, MOUSEEVENTS.MOVE, () => { core.mouse.stopAllEvent(); });
-            //Events.bind(inputObj, MOUSEEVENTS.UP, () => { core.mouse.stopAllEvent(); });
         }
         //#endregion bindEventToHTMLInput
         //#region unbindEventToHTMLInput

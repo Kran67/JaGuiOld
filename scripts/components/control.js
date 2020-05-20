@@ -1815,7 +1815,7 @@ const Control = (() => {
                     }
                     break;
             }
-            core.mouse.stopAllEvent(event);
+            core.mouse.stopAllEvents(event);
         }
         //#endregion dispatchEvent
         //#region releaseCapture

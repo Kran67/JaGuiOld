@@ -229,7 +229,7 @@ const AngleButton = (() => {
                 newVal = 360 - newVal;
             }
             priv.setInternalValue(newVal);
-            core.mouse.stopAllEvent(event);
+            core.mouse.stopAllEvents(event);
         }
         //#endregion wheel
         //#region destroy

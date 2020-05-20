@@ -519,7 +519,7 @@ const Slider = (() => {
             core.keyboard.shift && priv.mode === SLIDERMODES.RANGE
                 ? this.scrollBy(0, -priv.frequency * multiplier)
                 : this.scrollBy(-priv.frequency * multiplier, 0);
-            core.mouse.stopAllEvent(event);
+            core.mouse.stopAllEvents(event);
             this.form.focusedControl !== this && this.setFocus();
         }
         //#endregion wheel

@@ -139,7 +139,7 @@ const ItemsWheel = (() => {
             //#endregion Variables déclaration
             this.canFocused ? this.setFocus() : this.owner.canFocused && this.owner.setFocus();
             this.scrollBy(d < 0 ? -1 : 1);
-            core.mouse.stopAllEvent(event);
+            core.mouse.stopAllEvents(event);
         }
         //#endregion wheel
         //#region scrollBy
