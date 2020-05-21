@@ -33,7 +33,6 @@ const Component = (() => {
             priv.updating = !1;
             priv.designInstance = !1;
             priv.component = !0;
-            priv.name = props.hasOwnProperty('name') ? props.name : String.EMPTY;
             priv.cssBorder = new Rect;
             if (this instanceof core.classes.BaseWindow) {
                 priv.inForm = !1;
@@ -207,24 +206,6 @@ const Component = (() => {
                 && (priv.designInstance = newValue);
         }
         //#endregion designInstance
-        //#region name
-        get name() {
-            return internal(this).name;
-        }
-        set name(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const form = priv.form;
-            let name = priv.name;
-            //#endregion Variables déclaration
-            if (!String.isNullOrEmpty(newValue) && !String.isNullOrEmpty(newValue.trim()) && priv.name !== newValue) {
-                form !== this && form && form[name] && (delete form[name]);
-                name = priv.name = newValue;
-                form !== this && this !== form.layout && this !== form.content && form && !form[name]
-                    && (form[name] = this);
-            }
-        }
-        //#endregion name
         //#region component
         get component() {
             return internal(this).component;

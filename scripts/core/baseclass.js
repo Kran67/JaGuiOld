@@ -15,7 +15,7 @@ const BaseClass = (() => {
         /**
          * Create a new instance of BaseClass.
          */
-        constructor(owner, props) {
+        constructor(props) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
@@ -24,8 +24,28 @@ const BaseClass = (() => {
             priv.stopEvent = props.hasOwnProperty('stopEvent') && core.tools.isBool(props.stopEvent)
                 ? props.stopEvent : !0;
             priv.propsEnums = {};
+            priv.name = props.hasOwnProperty('name') ? props.name : String.EMPTY;
         }
         //#region Getter / Setter
+        //#region name
+        get name() {
+            return internal(this).name;
+        }
+        set name(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const form = this.form;
+            let name = priv.name;
+            //#endregion Variables déclaration
+            if (!String.isNullOrEmpty(newValue) && !String.isNullOrEmpty(newValue.trim())
+                && priv.name !== newValue) {
+                form !== this && form && form[name] && (delete form[name]);
+                name = priv.name = newValue;
+                form !== this && this !== form.layout && this !== form.content && form && !form[name]
+                    && (form[name] = this);
+            }
+        }
+        //#endregion name
         //#region propsEnums
         get propsEnums() {
             return internal(this).propsEnums;
