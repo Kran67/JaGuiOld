@@ -389,7 +389,6 @@ class Circle extends SVGGraphicControl {
         //#region Variables déclaration
         const htmlElementStyle = this.HTMLElementStyle;
         const currentHeight = this.height;
-        //const currentWidth = this.width;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && currentHeight !== newValue && core.isHTMLRenderer && !this.loading) {
             this.propertyChanged(core.types.BINDABLEPROPERTIES.WIDTH);
@@ -402,10 +401,12 @@ class Circle extends SVGGraphicControl {
     //#region Methods
     //#region update
     update() {
+        //#region Variables déclaration
         const sStyle = getComputedStyle(this.HTMLElement);
         const w = parseFloat(sStyle.width) - parseFloat(sStyle.strokeWidth) * 2;
         const h = parseFloat(sStyle.height) - parseFloat(sStyle.strokeWidth) * 2;
         let r = w > h ? int(h / 2) : int(w / 2);
+        //#endregion Variables déclaration
         super.update();
         r = r < 0 ? 1 : r;
         this.svgShape.setAttribute('r', r);
@@ -837,7 +838,6 @@ const Polygon = (() => {
             const priv = internal(this);
             const pts = [];
             const sStyle = getComputedStyle(this.HTMLElement);
-            //const strokeWidth = parseFloat(sStyle.strokeWidth);
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading && this.svgShape) {
                 super.update();

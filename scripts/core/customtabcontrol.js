@@ -1,5 +1,6 @@
 ﻿//#region Imports
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
+import { Keyboard } from '/scripts/core/keyboard.js';
 import { Tab } from '/scripts/components/containers/tab.js';
 //#endregion Imports
 //#region CustomTabControl constants
@@ -9,7 +10,7 @@ const TABSTYLES = Object.freeze(Object.seal({
     BUTTONS: 'buttons',
     FLATBUTTONS: 'flatButtons'
 }));
-//#ENDregion TABSTYLES
+//#endregion TABSTYLES
 //#region TABPOSITIONS
 const TABPOSITIONS = Object.freeze(Object.seal({
     TOP: 'top',
@@ -37,6 +38,7 @@ const CustomTabControl = (() => {
             props = !props ? {} : props;
             if (owner) {
                 props.autoCapture = !0;
+                props.canFocused = !0;
                 !props.hasOwnProperty('width') && (props.width = 200);
                 !props.hasOwnProperty('height') && (props.height = 200);
                 super(owner, props);
@@ -175,13 +177,10 @@ const CustomTabControl = (() => {
         //#endregion showTabsCloseBtn
         //#region activeTabIndex
         get activeTabIndex() {
-            return internal(this).tabs.indexOf(internal(this).activeTab);
+            return this.tabs.indexOf(internal(this).activeTab);
         }
         set activeTabIndex(index) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            index >= 0 && index <= priv.tabs.length - 1 && priv.tabs[index].show();
+            index >= 0 && index <= this.tabs.length - 1 && this.tabs[index].show();
         }
         //#endregion activeTabIndex
         //#endregion Getters / Setters
@@ -196,7 +195,7 @@ const CustomTabControl = (() => {
                 if (priv.tabPosition !== newValue) {
                     priv.tabPosition = newValue;
                     priv.tabPosition === TABPOSITIONS.BOTTOM
-                        ? htmlElement.classList.add(`${tabs}${priv.tabPosition.capitalise()}`)
+                        ? htmlElement.classList.add(`tabs${priv.tabPosition.capitalise()}`)
                         : htmlElement.classList.remove('tabsBottom');
                 }
             }
@@ -308,9 +307,8 @@ const CustomTabControl = (() => {
         //#region findNextTab
         findNextTab(goForward, checkTabVisible) {
             //#region Variables déclaration
-            const priv = internal(this);
             const tabs = this.tabs;
-            let startIndex = priv.activeTabIndex;
+            let startIndex = this.activeTabIndex;
             let result = null;
             //#endregion Variables déclaration
             if (tabs.length !== 0) {
@@ -478,6 +476,7 @@ const CustomTabControl = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             this.tabs.destroy();
+            this.tabs.clear();
             this.tabs = null;
             delete this.tabs;
             priv.firstVisibleTab = null;
@@ -500,7 +499,7 @@ const CustomTabControl = (() => {
             const DIRECTIONS = core.types.DIRECTIONS;
             const VKEYSCODES = Keyboard.VKEYSCODES;
             const activeTab = priv.activeTab;
-            const tabs = priv.tabs;
+            const tabs = this.tabs;
             //#endregion Variables déclaration
             super.keyDown();
             switch (core.keyboard.keyCode) {

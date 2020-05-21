@@ -5,6 +5,7 @@
 }
 
 
-.Control.ToolBar > * {
-    position: relative;
-}
+    .Control.ToolBar > * {
+        position: relative;
+        height: auto !important;
+    }
