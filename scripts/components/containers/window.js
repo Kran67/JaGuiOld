@@ -583,7 +583,8 @@ const BaseWindow = (() => {
                 priv.statusBars = [];
                 priv.isResizing = !1;
                 priv.snapArea = props.hasOwnProperty('snapArea') ? props.snapArea : Window.SNAPAREAS.NONE;
-                priv.destroyOnHide = !1;
+                priv.destroyOnHide = props.hasOwnProperty('destroyOnHide')
+                    && core.tools.isBool(props.destroyOnHide) ? props.destroyOnHide : !1;
                 priv.controls = [];
                 priv.isChildWindow = props.hasOwnProperty('parentHTML')
                     ? (props.parentHTML !== document.body ? !0 : !1) : !1;
