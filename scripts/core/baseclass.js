@@ -24,7 +24,7 @@ const BaseClass = (() => {
             priv.stopEvent = props.hasOwnProperty('stopEvent') && core.tools.isBool(props.stopEvent)
                 ? props.stopEvent : !0;
             priv.propsEnums = {};
-            priv.name = props.hasOwnProperty('name') ? props.name : String.EMPTY;
+            priv.name = props.hasOwnProperty('name') ? props.name : this.constructor.name;
         }
         //#region Getter / Setter
         //#region name
