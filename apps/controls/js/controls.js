@@ -22,7 +22,6 @@ class Controls extends Application {
         //#endregion
         this.windowsClass.Window1 = Window1;
         this.initialize();
-        //this.run();
     }
 }
 export { Controls };

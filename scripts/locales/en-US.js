@@ -1,4 +1,4 @@
-﻿Core.locales[Types.LANGUAGES.EN_US] = {
+﻿core.locales[core.types.LANGUAGES.EN_US] = {
     date: {
         dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
         abbreviatedDayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],

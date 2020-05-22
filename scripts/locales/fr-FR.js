@@ -1,4 +1,4 @@
-﻿Core.locales[Types.LANGUAGES.FR_FR] = {
+﻿core.locales[core.types.LANGUAGES.FR_FR] = {
     date: {
         dayNames: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
         abbreviatedDayNames: ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'],

@@ -63,7 +63,7 @@ const MessageDlg = (() => {
                 props.dlgType && (priv.dlgType = props.dlgType);
                 props.dlgButtons && (priv.dlgButtons = props.dlgButtons);
                 if (!String.isNullOrEmpty(props.dlgIcon)) {
-                    priv.dlgIcon = props.dlgIcon
+                    priv.dlgIcon = props.dlgIcon;
                 } else if (priv.dlgType !== MESSAGETYPES.CUSTOM) {
                     priv.dlgIcon = priv.dlgType;
                 }
@@ -375,32 +375,36 @@ window.dialogs = Dialogs;
 core.classes.register(core.types.INTERNALCATEGORIES.INTERNAL, MessageDlg, InputDlg);
 //#endregion dialogs
 //#region Templates
-const WindowTpl = core.classes.getTemplate(core.classes.Window.name);
-const MessageDlgContentTpl = [
-    '<jagui-gridlayout id="{internalId_gridlayout}" data-class="GridLayout" class="GridLayout"><properties>{ "name": "Msg_gridlayout", "height": -1, "width": -1 }</properties>',
-    '<jagui-icon id="{internalId_img}" data-class="Icon" class="Control Icon {theme}"><properties>{ "name": "Msg_icon", "visible": false, "column": 2, "row": 2 }</properties></jagui-icon>',
-    '<jagui-label id="{internalId_msg}" data-class="Label" class="Label {theme}"><properties>{ "name": "Msg", "column": 4, "row": 2 }</properties></jagui-label>',
-    '<jagui-flexlayout id="{internalId_btnCont}" data-class="FlexLayout" class="FlexLayout"><properties>{ "name": "Msg_btnsLayout", "column": 2, "row": 4, "justifyContent": "center" }</properties>',
-    '<jagui-button id="{internalId_btnYes}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnYes", "height": 22, "width": 71, "caption": "Yes", "visible": false, "forceDisplayVisibility": true, "modalResult": "yes" }</properties></jagui-button>',
-    '<jagui-button id="{internalId_btnNo}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnNo", "height":  22, "width": 71, "modalResult": "no", "visible": false, "forceDisplayVisibility": true, "caption": "No" }</properties></jagui-button>',
-    '<jagui-button id="{internalId_btnOk}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnOk", "height":  22, "width": 71, "modalResult": "ok", "visible": false, "forceDisplayVisibility": true, "caption": "Ok" }</properties></jagui-button>',
-    '<jagui-button id="{internalId_btnCancel}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnCancel", "height": 22, "width": 71, "modalResult": "cancel", "visible": false, "forceDisplayVisibility": true, "caption": "Cancel" }</properties></jagui-button>',
-    '<jagui-button id="{internalId_btnAbort}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnAbort", "height": 22, "width": 71, "modalResult": "abort", "visible": false, "forceDisplayVisibility": true, "caption": "Abort" }</properties></jagui-button>',
-    '<jagui-button id="{internalId_btnRetry}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnRetry", "height": 22, "width": 71, "modalResult": "retry", "visible": false, "forceDisplayVisibility": true, "caption": "Retry" }</properties></jagui-button>',
-    '<jagui-button id="{internalId_btnIgnore}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnIgnore", "height": 22, "width": 71, "modalResult": "ignore", "visible": false, "forceDisplayVisibility": true, "caption": "Ignore" }</properties></jagui-button>',
-    '<jagui-button id="{internalId_btnAll}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnAll", "height": 22, "width": 71, "modalResult": "all", "visible": false, "forceDisplayVisibility": true, "caption": "All" }</properties></jagui-button>',
-    '<jagui-button id="{internalId_btnNoToAll}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnNoToAll", "height": 22, "width": 71, "modalResult": "noToAll", "visible": false, "forceDisplayVisibility": true, "caption": "No to All" }</properties></jagui-button>',
-    '<jagui-button id="{internalId_btnYesToAll}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnYesToAll", "height": 22, "width": 71, "modalResult": "yesToAll", "visible": false, "forceDisplayVisibility": true, "caption": "Yes to All" }</properties></jagui-button>',
-    '<jagui-button id="{internalId_btnHelp}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnHelp", "height": 22, "width": 71, "modalResult": "help", "visible": false, "forceDisplayVisibility": true, "caption": "Help" }</properties></jagui-button>',
-    '</jagui-flexlayout></jagui-gridlayout>'].join(String.EMPTY);
-const InputDlgTpl = ['<jagui-gridlayout id="{internalId_gridlayout}" data-class="GridLayout" class="GridLayout"><properties>{ "name": "Msg_gridlayout", "height": -1, "width": -1, "templateColumns": "12px 1fr 12px", "templateRows": "12px 1fr 5px 20px 5px 22px 5px", "columnGap": 0, "rowGap": 0 }</properties>',
-    '<jagui-label id="{internalId_msg}" data-class="Label" class="Label {theme}"><properties>{ "name": "Msg", "column": 2, "row": 2 }</properties></jagui-label>',
-    '<jagui-textbox id="{internalId_input}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "TextBox", "column": 2, "row": 4 }</properties></jagui-textbox>',
-    '<jagui-flexlayout id="{internalId_btnCont}" data-class="FlexLayout" class="FlexLayout"><properties>{ "name": "Msg_btnsLayout", "column": 2, "row": 6, "justifyContent": "center" }</properties>',
-    '<jagui-button id="{internalId_btnOk}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnOk", "height":  22, "width": 71, "modalResult": "ok", "caption": "Ok" }</properties></jagui-button>',
-    '<jagui-button id="{internalId_btnCancel}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnCancel", "height": 22, "width": 71, "modalResult": "cancel", "caption": "Cancel" }</properties></jagui-button>',
-    '</jagui-flexlayout></jagui-gridlayout>'].join(String.EMPTY);
-core.classes.registerTemplates([{ Class: MessageDlg, template: WindowTpl.replace('{content}', MessageDlgContentTpl) },
-{ Class: InputDlg, template: WindowTpl.replace('{content}', InputDlgTpl) }]);
+if (core.isHTMLRenderer) {
+    const WindowTpl = core.classes.getTemplate(core.classes.Window.name);
+    const MessageDlgContentTpl = [
+        '<jagui-gridlayout id="{internalId_gridlayout}" data-class="GridLayout" class="GridLayout"><properties>{ "name": "Msg_gridlayout", "height": -1, "width": -1 }</properties>',
+        '<jagui-icon id="{internalId_img}" data-class="Icon" class="Control Icon {theme}"><properties>{ "name": "Msg_icon", "visible": false, "column": 2, "row": 2 }</properties></jagui-icon>',
+        '<jagui-label id="{internalId_msg}" data-class="Label" class="Label {theme}"><properties>{ "name": "Msg", "column": 4, "row": 2 }</properties></jagui-label>',
+        '<jagui-flexlayout id="{internalId_btnCont}" data-class="FlexLayout" class="FlexLayout"><properties>{ "name": "Msg_btnsLayout", "column": 2, "row": 4, "justifyContent": "center" }</properties>',
+        '<jagui-button id="{internalId_btnYes}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnYes", "height": 22, "width": 71, "caption": "Yes", "visible": false, "forceDisplayVisibility": true, "modalResult": "yes" }</properties></jagui-button>',
+        '<jagui-button id="{internalId_btnNo}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnNo", "height":  22, "width": 71, "modalResult": "no", "visible": false, "forceDisplayVisibility": true, "caption": "No" }</properties></jagui-button>',
+        '<jagui-button id="{internalId_btnOk}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnOk", "height":  22, "width": 71, "modalResult": "ok", "visible": false, "forceDisplayVisibility": true, "caption": "Ok" }</properties></jagui-button>',
+        '<jagui-button id="{internalId_btnCancel}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnCancel", "height": 22, "width": 71, "modalResult": "cancel", "visible": false, "forceDisplayVisibility": true, "caption": "Cancel" }</properties></jagui-button>',
+        '<jagui-button id="{internalId_btnAbort}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnAbort", "height": 22, "width": 71, "modalResult": "abort", "visible": false, "forceDisplayVisibility": true, "caption": "Abort" }</properties></jagui-button>',
+        '<jagui-button id="{internalId_btnRetry}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnRetry", "height": 22, "width": 71, "modalResult": "retry", "visible": false, "forceDisplayVisibility": true, "caption": "Retry" }</properties></jagui-button>',
+        '<jagui-button id="{internalId_btnIgnore}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnIgnore", "height": 22, "width": 71, "modalResult": "ignore", "visible": false, "forceDisplayVisibility": true, "caption": "Ignore" }</properties></jagui-button>',
+        '<jagui-button id="{internalId_btnAll}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnAll", "height": 22, "width": 71, "modalResult": "all", "visible": false, "forceDisplayVisibility": true, "caption": "All" }</properties></jagui-button>',
+        '<jagui-button id="{internalId_btnNoToAll}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnNoToAll", "height": 22, "width": 71, "modalResult": "noToAll", "visible": false, "forceDisplayVisibility": true, "caption": "No to All" }</properties></jagui-button>',
+        '<jagui-button id="{internalId_btnYesToAll}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnYesToAll", "height": 22, "width": 71, "modalResult": "yesToAll", "visible": false, "forceDisplayVisibility": true, "caption": "Yes to All" }</properties></jagui-button>',
+        '<jagui-button id="{internalId_btnHelp}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnHelp", "height": 22, "width": 71, "modalResult": "help", "visible": false, "forceDisplayVisibility": true, "caption": "Help" }</properties></jagui-button>',
+        '</jagui-flexlayout></jagui-gridlayout>'].join(String.EMPTY);
+    const InputDlgTpl = ['<jagui-gridlayout id="{internalId_gridlayout}" data-class="GridLayout" class="GridLayout"><properties>{ "name": "Msg_gridlayout", "height": -1, "width": -1, "templateColumns": "12px 1fr 12px", "templateRows": "12px 1fr 5px 20px 5px 22px 5px", "columnGap": 0, "rowGap": 0 }</properties>',
+        '<jagui-label id="{internalId_msg}" data-class="Label" class="Label {theme}"><properties>{ "name": "Msg", "column": 2, "row": 2 }</properties></jagui-label>',
+        '<jagui-textbox id="{internalId_input}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "TextBox", "column": 2, "row": 4 }</properties></jagui-textbox>',
+        '<jagui-flexlayout id="{internalId_btnCont}" data-class="FlexLayout" class="FlexLayout"><properties>{ "name": "Msg_btnsLayout", "column": 2, "row": 6, "justifyContent": "center" }</properties>',
+        '<jagui-button id="{internalId_btnOk}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnOk", "height":  22, "width": 71, "modalResult": "ok", "caption": "Ok" }</properties></jagui-button>',
+        '<jagui-button id="{internalId_btnCancel}" data-class="Button" class="Button {theme}"><properties>{ "name": "btnCancel", "height": 22, "width": 71, "modalResult": "cancel", "caption": "Cancel" }</properties></jagui-button>',
+        '</jagui-flexlayout></jagui-gridlayout>'].join(String.EMPTY);
+    core.classes.registerTemplates([
+        { Class: MessageDlg, template: WindowTpl.replace('{content}', MessageDlgContentTpl) },
+        { Class: InputDlg, template: WindowTpl.replace('{content}', InputDlgTpl) }
+    ]);
+}
 //#endregion Templates
 export { Dialogs };

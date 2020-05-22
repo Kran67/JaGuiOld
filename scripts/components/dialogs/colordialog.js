@@ -17,20 +17,26 @@ const ColorDlg = (() => {
     class ColorDlg extends Window {
         //#region constructor
         constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
             props = !props ? {} : props;
             if (owner) {
+                props.width = 572;
+                props.height = 295;
+                props.borderStyle = Window.BORDERSTYLES.DIALOG;
+                props.formPosition = Window.FORMPOSITIONS.MAINFORMCENTER;
+                props.name = 'colorDlg';
                 props.destroyOnHide = !0;
                 super(owner, props);
                 const priv = internal(this);
-                priv.control = null;
+                priv.control = props.hasOwnProperty('control') ? props.control : null;
             }
         }
         //#endregion constructor
         //#region Getters / Setters
         //#region color
         set color(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             if (newValue instanceof core.classes.Color && !priv.clrBoxCurColor.fillColor.equals(newValue)) {
                 priv.clrBoxCurColor.color = newValue;
                 priv.clrPicker.color = newValue;
@@ -42,7 +48,20 @@ const ColorDlg = (() => {
         //#region Methods
         //#region loaded
         loaded() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             super.loaded();
+            //priv.layout = core.classes.createComponent({
+            //    class: core.classes.GridLayout,
+            //    owner: this,
+            //    name: 'gridLayout',
+            //    props: {
+            //        margin: 15,
+            //        templateColumns: '1fr 35px 135px 133px',
+            //        templateRows: '19px 24px 1fr 28px 29px'
+            //    }
+            //});
         }
         //#endregion loaded
         //#endregion Methods
@@ -51,7 +70,93 @@ const ColorDlg = (() => {
     //#endregion ColorDlg
 })();
 //#endregion ColorDlg
-export { ColorDlg };
+//#region ColorDialog
+const ColorDialog = (() => {
+    //#region Private
+    const _private = new WeakMap();
+    const internal = (key) => {
+        // Initialize if not created
+        !_private.has(key) && _private.set(key, {});
+        // Return private properties object
+        return _private.get(key);
+    };
+    //#endregion Private
+    //#region class ColorDialog
+    class ColorDialog extends CommonDialog {
+        //#region constructor
+        constructor(owner, props) {
+            props = !props ? {} : props;
+            if (owner) {
+                super(owner, props);
+                const priv = internal(this);
+                priv.control = null;
+            }
+        }
+        //#endregion constructor
+        //#region Methods
+        //#region loaded
+        execute(control, callback) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            let dlg;
+            //#endregion Variables déclaration
+            priv.control = control;
+            dlg = core.classes.createComponent({
+                class: ColorDlg,
+                owner: activeApp,
+                props: {
+                    parentHTML: document.body,
+                    control
+                }
+            });
+            dlg.dialog = this;
+            dlg.onClose.addListener(callback);
+
+            super.execute();
+        }
+        //#endregion loaded
+        //#endregion Methods
+    }
+    return ColorDialog;
+    //#endregion class ColorDialog
+})();
+//#endregion ColorDialog
+core.classes.register(core.types.CATEGORIES.INTERNAL, ColorDlg);
+core.classes.register(core.types.CATEGORIES.DIALOGS, ColorDialog);
+//#region I18n
+core.locales[core.types.LANGUAGES.FR_FR] = core.locales[core.types.LANGUAGES.FR_FR] ? core.locales[core.types.LANGUAGES.FR_FR] : {};
+core.locales[core.types.LANGUAGES.EN_EN] = core.locales[core.types.LANGUAGES.EN_EN] ? core.locales[core.types.LANGUAGES.EN_EN] : {};
+core.locales[core.types.LANGUAGES.FR_FR]['colorDlg.caption'] = 'Choix de la couleur';
+core.locales[core.types.LANGUAGES.FR_FR]['colorDlg.LblActualColor.caption'] = 'Couleur actuelle :';
+core.locales[core.types.LANGUAGES.FR_FR]['colorDlg.LblNewColor.caption'] = 'Nouvelle couleur :';
+core.locales[core.types.LANGUAGES.FR_FR]['colorDlg.LblRed.caption'] = 'Rouge : ';
+core.locales[core.types.LANGUAGES.FR_FR]['colorDlg.LblGreen.caption'] = 'Vert : ';
+core.locales[core.types.LANGUAGES.FR_FR]['colorDlg.LblBlue.caption'] = 'Bleu : ';
+core.locales[core.types.LANGUAGES.FR_FR]['colorDlg.LblHue.caption'] = 'Hue: ';
+core.locales[core.types.LANGUAGES.FR_FR]['colorDlg.LblSaturate.caption'] = 'Saturation : ';
+core.locales[core.types.LANGUAGES.FR_FR]['colorDlg.LblLight.caption'] = 'Luminosité : ';
+core.locales[core.types.LANGUAGES.FR_FR]['colorDlg.LblValue.caption'] = 'Valeur : ';
+core.locales[core.types.LANGUAGES.EN_EN]['colorDlg.caption'] = 'Color choice';
+core.locales[core.types.LANGUAGES.EN_EN]['colorDlg.LblActualColor.caption'] = 'Current color :';
+core.locales[core.types.LANGUAGES.EN_EN]['colorDlg.LblNewColor.caption'] = 'New color :';
+core.locales[core.types.LANGUAGES.EN_EN]['colorDlg.LblRed.caption'] = 'Red : ';
+core.locales[core.types.LANGUAGES.EN_EN]['colorDlg.LblGreen.caption'] = 'Green : ';
+core.locales[core.types.LANGUAGES.EN_EN]['colorDlg.LblBlue.caption'] = 'Blue : ';
+core.locales[core.types.LANGUAGES.EN_EN]['colorDlg.LblHue.caption'] = 'Hue: ';
+core.locales[core.types.LANGUAGES.EN_EN]['colorDlg.LblSaturate.caption'] = 'Saturate : ';
+core.locales[core.types.LANGUAGES.EN_EN]['colorDlg.LblLight.caption'] = 'Light : ';
+core.locales[core.types.LANGUAGES.EN_EN]['colorDlg.LblValue.caption'] = 'Value : ';
+//#endregion I18n
+//#region Template
+if (core.isHTMLRenderer) {
+    const WindowTpl = core.classes.getTemplate(core.classes.Window.name);
+    const ColorDlgTpl = '';
+    core.classes.registerTemplates([
+        { Class: ColorDlg, template: WindowTpl.replace('{content}', ColorDlgTpl) }
+    ]);
+}
+//#endregion Template
+export { ColorDialog };
 /*(function () {
     //#region ColorDlg
     var ColorDlg = $j.classes.Window.extend("ColorDlg", {

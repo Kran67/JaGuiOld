@@ -26,7 +26,7 @@ const ColorButton = (() => {
                 const priv = internal(this);
                 priv.color = color;
                 this.createEventsAndBind(['onChange'], props);
-                priv.colorDlg = null;
+                //priv.colorDlg = null;
             }
         }
         //#endregion Constructor
@@ -58,15 +58,15 @@ const ColorButton = (() => {
         }
         //#endregion color
         //#region colorDlg
-        get colorDlg() {
-            return internal(this).colorDlg;
-        }
-        set colorDlg(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            newValue instanceof ColorDialog && priv.colorDlg !== newValue && (priv.colorDlg = newValue);
-        }
+        //get colorDlg() {
+        //    return internal(this).colorDlg;
+        //}
+        //set colorDlg(newValue) {
+        //    //#region Variables déclaration
+        //    const priv = internal(this);
+        //    //#endregion Variables déclaration
+        //    newValue instanceof ColorDialog && priv.colorDlg !== newValue && (priv.colorDlg = newValue);
+        //}
         //#endregion colorDlg
         //#endregion Getters / Setters
         //#region Methods
@@ -84,21 +84,21 @@ const ColorButton = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const colorDlg = core.classes.createComponent({
-                class: ColorDlg,
-                owner: activeApplication,
+                class: core.classes.ColorDlg,
+                owner: activeApp,
                 props: { parentHTML: document.body }
             });
             //#endregion Variables déclaration
-            colorDlg.loaded();
+            //colorDlg.loaded();
             colorDlg.obj = this;
             colorDlg.caption = 'Couleurs'; // à traduire
-            colorDlg.color = priv.color;
-            colorDlg.lblOpacity.visible = !1;
-            colorDlg.slrOpacity.visible = !1;
-            colorDlg.txtbOpacity.visible = !1;
-            colorDlg.lblOpacityPer.visible = !1;
+            //colorDlg.color = priv.color;
+            //colorDlg.lblOpacity.visible = !1;
+            //colorDlg.slrOpacity.visible = !1;
+            //colorDlg.txtbOpacity.visible = !1;
+            //colorDlg.lblOpacityPer.visible = !1;
             colorDlg.onClose.addListener(this.updateColor);
-            colorDlg.center();
+            //colorDlg.center();
             colorDlg.showModal();
             super.click();
         }
