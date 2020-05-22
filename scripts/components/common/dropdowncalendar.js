@@ -255,6 +255,9 @@ const DropDownCalendar = (() => {
         //#endregion destroyPopup
         //#region keyDown
         keyDown() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
             super.keyDown();
             if (core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
                 if (!priv.opened) {
