@@ -9,7 +9,6 @@
 @import url('color/colorpanel.css');
 @import url('color/colorpicker.css');
 @import url('color/colorquad.css');
-@import url('color/dropdowncolors.css');
 @import url('color/dropdownlistboxcolor.css');
 @import url('color/gradientedit.css');
 @import url('color/hueslider.css');
@@ -38,7 +37,6 @@
 @import url('common/progressbar.css');
 @import url('common/radiobutton.css');
 @import url('common/rating.css');
-@import url('common/scrollbar.css');
 @import url('common/shapes.css');
 @import url('common/slider.css');
 @import url('common/spinbox.css');

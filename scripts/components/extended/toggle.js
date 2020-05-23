@@ -30,10 +30,10 @@ const Toggle = (() => {
                 const priv = internal(this);
                 priv.uncheckedLabel = props.hasOwnProperty('uncheckedLabel')
                     ? props.uncheckedLabel
-                    : core.locales.translateConstant(this.app, 'no').toUpperCase();
+                    : core.locales.translateConstant(this.app.locale, 'no').toUpperCase();
                 priv.checkedLabel = props.hasOwnProperty('checkedLabel')
                     ? props.checkedLabel
-                    : core.locales.translateConstant(this.app, 'yes').toUpperCase();
+                    : core.locales.translateConstant(this.app.locale, 'yes').toUpperCase();
             }
         }
         //#endregion constructor

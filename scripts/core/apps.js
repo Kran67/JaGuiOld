@@ -104,9 +104,16 @@ let Apps = (() => {
             //        }
             //    }
             //}
+            const LANGUAGES = core.types.LANGUAGES;
             core.start();
-            const currentLocale = `/scripts/locales/${core.currentLocale}.js`;
-            await import(currentLocale);
+            const en_USLocale = `/scripts/locales/${LANGUAGES.EN_US}.js`;
+            let locale = await import(en_USLocale);
+            core.locales[LANGUAGES.EN_US] = { ...core.locales[LANGUAGES.EN_US], ...locale.default };
+            if (core.currentLocale !== LANGUAGES.EN_US) {
+                const currentLocale = `/scripts/locales/${core.currentLocale}.js`;
+                locale = await import(currentLocale);
+                core.locales[core.currentLocale] = { ...core.locales[core.currentLocale], ...locale.default };
+            }
             this.activeApplication = new appClass;
             document.body.classList.add(this.activeApplication.themeManifest.themeName);
         }
@@ -308,8 +315,8 @@ let Apps = (() => {
                 // test CapsLock
                 core.apps.capslock = 'OFF';
                 let shiftOn = false;
-                if (Core.keyboard.shift) {
-                    shiftOn = Core.keyboard.shift;
+                if (core.keyboard.shift) {
+                    shiftOn = core.keyboard.shift;
                 } else if (keyBoardEventArgs.modifiers) {
                     shiftOn = !!(keyBoardEventArgs.modifiers & 4);
                 }

@@ -471,19 +471,15 @@ const Application = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            if (obj instanceof core.classes.CaptionControl) {
-                const c = priv.locales[priv.locale];
-                if (c) {
-                    const key = `${obj.form.name}.${obj.name}`;
-                    if (c[key]) {
-                        if (obj instanceof core.classes.CaptionControl) {
-                            obj.caption = c[key];
-                        } else if (obj instanceof core.classes.CustomTextControl) {
-                            obj.placeHolder = c[key];
-                        }
+            const c = priv.locales[priv.locale];
+            if (c) {
+                const key = `${obj.form.name}.${obj.name}`;
+                if (c[key]) {
+                    if (obj instanceof core.classes.CaptionControl) {
+                        obj.caption = c[key];
+                    } else if (obj instanceof core.classes.CustomTextControl) {
+                        obj.placeHolder = c[key];
                     }
-                } else {
-                    obj.update();
                 }
             } else {
                 obj.update();

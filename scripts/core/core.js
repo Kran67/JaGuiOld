@@ -49,7 +49,7 @@ window.cancelAnimationFrameRate = (handle) => {
 /**
  * The core of JaGui
  */
-class _Core {
+class Core {
     //#region constructor
     constructor() {
         this.name = 'JaGui';
@@ -88,11 +88,15 @@ class _Core {
         this.disableAnimation = !1;
         this.isMouseDown = !1;
         this.windowZIndex = 0;
-        this.currentLocale = null;
+        this.currentLocale = 'en_US';
         this.locales = {
-            translateConstant: (app, key) => {
-                const c = core.locales[app.locale];
+            translateConstant: (locale, key) => {
+                const c = core.locales[locale];
                 return c && c.constantMessages[key] ? c.constantMessages[key] : null;
+            },
+            addLocale: (locale, key, value) => {
+                const c = core.locales[locale];
+                c[key] = value;
             }
         };
         this.version = '0.8b';
@@ -118,7 +122,8 @@ class _Core {
      * Return the current renderer
      * @returns     {String}        The name of the current renderer
      */
-    get renderer() { return document.documentElement.dataset.renderer !== undefined ? document.documentElement.dataset.renderer : "html"; }
+    get renderer() { return document.documentElement.dataset.renderer !== undefined 
+        ? document.documentElement.dataset.renderer : 'html'; }
     /**
      * Check if the current renderer is the HTML renderer
      * @returns     {Boolean}       true if the current renderer is HTML or false
@@ -148,16 +153,20 @@ class _Core {
      */
     registerPropertiesInCategory() {
         this.classes.registerPropertiesInCategory('ACTION', ['action', 'caption', 'enabled', 'helpContext', 'toolTip', 'visible']);
-        this.classes.registerPropertiesInCategory('HELPHINTS', ['helpContext', 'helpFile', 'helpKeyWord', 'helpType', 'toolTip', 'showToolTip', 'ownerShowToolTip']);
-        this.classes.registerPropertiesInCategory('LAYOUT', ['align', 'anchors', 'autosize', 'constraints', 'height', 'left', 'margins', 'padding', 'top', 'width', 'tabOrder']);
+        this.classes.registerPropertiesInCategory('HELPHINTS', 
+            ['helpContext', 'helpFile', 'helpKeyWord', 'helpType', 'toolTip', 'showToolTip', 'ownerShowToolTip']);
+        this.classes.registerPropertiesInCategory('LAYOUT', 
+            ['align', 'anchors', 'autosize', 'constraints', 'height', 'left', 'margins', 'padding', 'top', 'width', 'tabOrder']);
         this.classes.registerPropertiesInCategory('MISCELLANEOUS', []);
         this.classes.registerPropertiesInCategory('INPUT', ['enabled']);
         this.classes.registerPropertiesInCategory('DRAGDROPDOCKING', []);
         this.classes.registerPropertiesInCategory('LEGACY', []);
         this.classes.registerPropertiesInCategory('LINKAGE', ['action', 'popupMenu']);
         this.classes.registerPropertiesInCategory('LOCALE', []);
-        this.classes.registerPropertiesInCategory('LOCALIZABLE', ['caption', 'constraints', 'font', 'height', 'toolTip', 'icon', 'left', 'top', 'width']);
-        this.classes.registerPropertiesInCategory('VISUAL', ['align', 'cursor', 'enabled', 'caption', 'visible', 'width', 'top', 'left', 'height']);
+        this.classes.registerPropertiesInCategory('LOCALIZABLE', 
+            ['caption', 'constraints', 'font', 'height', 'toolTip', 'icon', 'left', 'top', 'width']);
+        this.classes.registerPropertiesInCategory('VISUAL', 
+            ['align', 'cursor', 'enabled', 'caption', 'visible', 'width', 'top', 'left', 'height']);
         this.classes.registerPropertiesInCategory('DATABASE', []);
     }
     /**
@@ -173,26 +182,26 @@ class _Core {
             core.isHTMLRenderer ? core.looper.fps = 25 : 1;
             core.looper.start();
             document.oncontextmenu = () => { return !1; };
-            document.addEventListener('keydown', Core.apps.keyDown, !0);
-            document.addEventListener('keyup', Core.apps.keyUp, !0);
-            document.addEventListener('keypress', Core.apps.keyPress, !0);
+            document.addEventListener('keydown', core.apps.keyDown, !0);
+            document.addEventListener('keyup', core.apps.keyUp, !0);
+            document.addEventListener('keypress', core.apps.keyPress, !0);
             if (core.isHTMLRenderer) {
                 core.clipboard = document.createElement('textarea');
                 core.clipboard.id = 'jaguiClipboard';
                 core.clipboard.value = '.';
-                document.body.appendChild(Core.clipboard);
+                document.body.appendChild(core.clipboard);
                 // création de l'emplacement des css en runtime
                 core.rtStyle = document.createElement('style');
                 core.rtStyle.setAttribute('id', 'rtStyle');
                 core.rtStyle.setAttribute('type', 'text/css');
                 core.rtStyle.setAttribute('media', 'screen');
-                document.getElementsByTagName('head')[0].appendChild(Core.rtStyle);
-                //let styleSheet = Core.rtStyle.sheet;
+                document.getElementsByTagName('head')[0].appendChild(core.rtStyle);
+                //let styleSheet = core.rtStyle.sheet;
                 //styleSheet.insertRule('.hidden {display:none !important;}', styleSheet.cssRules.length);
                 //return;
             }
             core.registerPropertiesInCategory();
-            core.animatedCursor = new Core.classes.AnimatedCursor();
+            core.animatedCursor = new core.classes.AnimatedCursor();
             document.addEventListener('DOMContentLoaded', () => {
                 const logo = document.createElement('span');
                 logo.className = 'logo JAGUI';
@@ -217,5 +226,5 @@ class _Core {
     }
     //#endregion Methods
 };
-window.core = window.Core = new _Core;
+window.core = new Core;
 //#endregion Core

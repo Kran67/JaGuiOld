@@ -1,4 +1,4 @@
-﻿.Control.Expander {
+﻿.Expander {
     transition-property: height;
     transition-duration: 0.2s;
     transition-timing-function: linear;

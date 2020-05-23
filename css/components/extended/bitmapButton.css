@@ -1,4 +1,4 @@
-﻿button.BitmapButton {
+﻿.BitmapButton {
     overflow: hidden;
     white-space: nowrap;
 }

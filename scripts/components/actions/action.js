@@ -363,5 +363,5 @@ Object.defineProperties(Action, {
 });
 //#endregion Action defineProperties
 //#endregion Action
-Core.classes.register(Types.CATEGORIES.ACTIONS, Action);
+core.classes.register(core.types.CATEGORIES.ACTIONS, Action);
 export { Action };

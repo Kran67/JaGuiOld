@@ -107,12 +107,13 @@ const PasswordTextBox = (() => {
         revealPassword() {
             //#region Variables déclaration
             const inputObj = this.owner.inputObj;
+            const HTMLINPUTTYPES = core.types.HTMLINPUTTYPES;
             //#endregion Variables déclaration
             if (this.isEnabled && core.isHTMLRenderer) {
                 if (core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && core.mouse.eventType === Mouse.MOUSEEVENTS.DOWN) {
-                    inputObj.setAttribute('type', HTMLInputcore.types.TEXT);
+                    inputObj.setAttribute('type', HTMLINPUTTYPES.TEXT);
                 } else {
-                    inputObj.setAttribute('type', HTMLInputcore.types.PASSWORD);
+                    inputObj.setAttribute('type', HTMLINPUTTYPES.PASSWORD);
                     inputObj.focus();
                 }
             }

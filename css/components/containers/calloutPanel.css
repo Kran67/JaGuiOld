@@ -1,8 +1,8 @@
-﻿.Control.CalloutPanel {
+﻿.CalloutPanel {
     overflow: visible;
 }
 
-.Control.CalloutPanel:before {
+.CalloutPanel:before {
     content: "";
     position: absolute;
 }

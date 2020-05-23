@@ -1,4 +1,4 @@
-﻿.Control.Tab {
+﻿.Tab {
     text-align: center;
     height: 17px;
     display: inline-block;
@@ -8,14 +8,14 @@
     margin-top: 3px;
 }
 
-.Control.TabControl {
+.TabControl {
     white-space: nowrap;
     overflow: hidden;
     display: flex;
     flex-direction: column;
 }
 
-.Control.TabControlHeader {
+.TabControlHeader {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -25,7 +25,7 @@
     margin-left: 2px;
 }
 
-.Control.TabsContainer {
+.TabsContainer {
     position: static;
     overflow: hidden;
     margin: 0;
@@ -34,24 +34,24 @@
     flex: 1;
 }
 
-.Control.TabsContent {
+.TabsContent {
     position: relative;
     flex: 1;
 }
 
-.Control.TabControl.tabsBottom .Control.TabControlHeader {
+.TabControl.tabsBottom .TabControlHeader {
     order: 2;
 }
 
-.Control.TabControl.tabsBottom .Control.TabControlLeftBtn,
-.Control.TabControl.tabsBottom .Control.TabControlRightBtn {
+.TabControl.tabsBottom .TabControlLeftBtn,
+.TabControl.tabsBottom .TabControlRightBtn {
 }
 
-div.Control.TabControl.showTabsCloseBtn .Control.TabsContainer .Control.Tab {
+div.TabControl.showTabsCloseBtn .TabsContainer .Tab {
     padding-right: 30px;
 }
 
-.Control.TabControl.showTabsCloseBtn .Control.TabsContainer .Control.Tab:before {
+.TabControl.showTabsCloseBtn .TabsContainer .Tab:before {
     position: absolute;
     content: "C";
     top: 50%;
@@ -60,8 +60,8 @@ div.Control.TabControl.showTabsCloseBtn .Control.TabsContainer .Control.Tab {
     transform: translate(0,-50%);
 }
 
-.Control.TabControlLeftBtn,
-.Control.TabControlRightBtn {
+.TabControlLeftBtn,
+.TabControlRightBtn {
     height: 19px;
     font-family: Jagui;
     font-size: 4pt;
@@ -73,6 +73,6 @@ div.Control.TabControl.showTabsCloseBtn .Control.TabsContainer .Control.Tab {
     justify-content: center;
 }
 
-    .Control.TabControlLeftBtn:before,
-    .Control.TabControlRightBtn:before {
+    .TabControlLeftBtn:before,
+    .TabControlRightBtn:before {
     }

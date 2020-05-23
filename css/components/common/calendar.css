@@ -1,30 +1,26 @@
-﻿.Control.Calendar {
+﻿.Calendar {
     max-height: 148px;
     max-width: 187px;
     min-height: 148px;
     min-width: 187px;
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -o-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
     transform-style: preserve-3d;
 }
 
-.Control.CalendarContent {
+.CalendarContent {
     top: 5px;
     left: 5px;
     right: 5px;
     bottom: 5px;
 }
 
-.Control.CalendarHeader {
+.CalendarHeader {
     height: 21px;
     top: 0;
     left: 0;
     right: 0;
 }
 
-.Control.CalendarPrevMonth {
+.CalendarPrevMonth {
     left: 0;
     top: 0;
     bottom: 0;
@@ -35,11 +31,11 @@
     justify-content: center;
 }
 
-.Control.CalendarPrevMonth:before {
+.CalendarPrevMonth:before {
     content: "*";
 }
 
-.Control.CalendarThisDay {
+.CalendarThisDay {
     left: 22px;
     top: 0;
     font-family: jagui;
@@ -53,11 +49,11 @@
     background-position: center center;
 }
 
-.Control.CalendarThisDay:before {
+.CalendarThisDay:before {
     content: "3";
 }
 
-.Control.CalendarNextMonth {
+.CalendarNextMonth {
     left: 43px;
     top: 0;
     bottom: 0;
@@ -68,11 +64,11 @@
     justify-content: center;
 }
 
-.Control.CalendarNextMonth:before {
+.CalendarNextMonth:before {
     content: ")";
 }
 
-.Control.CalendarThisMonth {
+.CalendarThisMonth {
     right: 0;
     top: 0;
     bottom: 0;
@@ -82,15 +78,15 @@
     width: 105px;
 }
 
-.Control.CalendarWeekdays {
+.CalendarWeekdays {
     left: 6px;
     right: 6px;
     height: 15px;
     top: 22px;
 }
 
-.Control.CalendarWeekNum,
-.Control.CalendarWeekDay {
+.CalendarWeekNum,
+.CalendarWeekDay {
     position: relative;
     float: left;
     width: 23px;
@@ -100,22 +96,22 @@
     font-size: 8pt;
 }
 
-.Control.CalendarWeekNum {
+.CalendarWeekNum {
     display: none;
 }
 
-.Control.Calendar.viewweeknum .Control.CalendarWeekNum {
+.Calendar.viewweeknum .CalendarWeekNum {
     width: 18px;
     display: block;
     opacity: 0.5;
 }
 
-.Control.Calendar.viewweeknum .Control.CalendarWeekDay,
-.Control.Calendar.viewweeknum .Control.CalendarDay {
+.Calendar.viewweeknum .CalendarWeekDay,
+.Calendar.viewweeknum .CalendarDay {
     width: 22px;
 }
 
-.Control.CalendarWeeks {
+.CalendarWeeks {
     left: 6px;
     right: 6px;
     top: 38px;
@@ -123,43 +119,43 @@
     height: auto;
 }
 
-.Control.Calendar.viewweeknum .Control.CalendarWeeks,
-.Control.Calendar.viewweeknum .Control.CalendarWeekdays {
+.Calendar.viewweeknum .CalendarWeeks,
+.Calendar.viewweeknum .CalendarWeekdays {
     left: 0;
     right: 0;
 }
 
-.Control.CalendarWeek {
+.CalendarWeek {
     left: 0;
     right: 0;
     height: 16px;
 }
 
-.Control.CalendarFirstWeek {
+.CalendarFirstWeek {
     top: 0;
 }
 
-.Control.CalendarSecondWeek {
+.CalendarSecondWeek {
     top: 16px;
 }
 
-.Control.CalendarThirdWeek {
+.CalendarThirdWeek {
     top: 32px;
 }
 
-.Control.CalendarFourthWeek {
+.CalendarFourthWeek {
     top: 48px;
 }
 
-.Control.CalendarFifthWeek {
+.CalendarFifthWeek {
     top: 64px;
 }
 
-.Control.CalendarSixthWeek {
+.CalendarSixthWeek {
     top: 80px;
 }
 
-.Control.CalendarDay {
+.CalendarDay {
     position: relative;
     float: left;
     width: 23px;
@@ -171,9 +167,9 @@
     background-position: center center;
 }
 
-.Control.CalendarMonths,
-.Control.CalendarDecades,
-.Control.CalendarCenturies {
+.CalendarMonths,
+.CalendarDecades,
+.CalendarCenturies {
     top: 21px;
     left: 0;
     right: 0;
@@ -188,13 +184,13 @@
     grid-template-rows: repeat(3, 1fr [row-start]);
 }
 
-.Control.zoomOut {
+.zoomOut {
     transform: scale(1);
     opacity: 1;
     z-index: 1;
 }
 
-.Control.CalendarMDC {
+.CalendarMDC {
     position: relative;
     display: flex;
     align-items: center;
@@ -203,18 +199,6 @@
     background-position: center center;
 }
 
-.Control.CalendarMDCx2 {
+.CalendarMDCx2 {
     line-height: 19px;
 }
-
-/*div.CalendarMonth,
-div.CalendarDecades,
-div.CalendarCenturies {
-}
-
-div.CalendarDecade {
-}
-
-div.CalendarCentury {
-}
-*/

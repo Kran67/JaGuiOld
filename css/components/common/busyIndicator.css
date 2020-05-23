@@ -1,5 +1,5 @@
-﻿.Control.BusyIndicator,
-.Control.spinC {
+﻿.BusyIndicator,
+.spinC {
     overflow: visible;
 }
 
@@ -13,11 +13,11 @@
     top: 50%;
 }
 
-.Control.win8loader {
+.win8loader {
     text-align: left;
 }
 
-.Control.win8loader .win8circle {
+.win8loader .win8circle {
     position: absolute;
     left: 5px;
     top: 5px;
@@ -30,7 +30,7 @@
     animation-duration: 5.5s;
 }
 
-.Control.win8loader .win8circle:after {
+.win8loader .win8circle:after {
     content: '';
     position: absolute;
     width: 5px;
@@ -39,23 +39,23 @@
     background: #fff;
 }
 
-.Control.win8loader .win8circle:nth-child(2) {
+.win8loader .win8circle:nth-child(2) {
     animation-delay: 240ms;
 }
 
-.Control.win8loader .win8circle:nth-child(3) {
+.win8loader .win8circle:nth-child(3) {
     animation-delay: 480ms;
 }
 
-.Control.win8loader .win8circle:nth-child(4) {
+.win8loader .win8circle:nth-child(4) {
     animation-delay: 720ms;
 }
 
-.Control.win8loader .win8circle:nth-child(5) {
+.win8loader .win8circle:nth-child(5) {
     animation-delay: 960ms;
 }
 
-.Control.ballIndic {
+.ballIndic {
     opacity: 0.9;
     border-top: 5px solid rgba(0,0,0,0);
     border-left: 5px solid rgba(0,0,0,0);

@@ -1,7 +1,7 @@
-﻿.Control.ImageViewer:hover {
+﻿.ImageViewer:hover {
     overflow: auto;
 }
 
-.Control.ImageViewer img {
+.ImageViewer img {
     position: absolute;
 }

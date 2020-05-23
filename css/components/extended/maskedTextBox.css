@@ -1,8 +1,8 @@
-﻿.Control.MaskedTextBox {
+﻿.MaskedTextBox {
     min-height: 20px;
 }
 
-.Control.MaskedTextBoxInput {
+.TextBoxInput.MaskedTextBoxInput {
     margin: 0;
     padding: 0 2px;
     border: none;
@@ -12,7 +12,7 @@
     position: static;
 }
 
-.Control.MaskedTextBox.required:before {
+.MaskedTextBox.required:before {
     position: absolute;
     content: "*";
     color: red;
@@ -21,11 +21,11 @@
     top: 0;
 }
 
-.Control.MaskedTextBox.haserror {
+.MaskedTextBox.haserror {
     box-shadow: 0 0 0 1px red;
 }
 
-.Control.MaskedTextBox.haserror:after {
+.MaskedTextBox.haserror:after {
     position: absolute;
     content: "";
     right: 0;

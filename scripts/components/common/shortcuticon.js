@@ -13,14 +13,14 @@ class ShortCutIcon extends ThemedControl {
     //#region Getters / Setters
 }
 Object.seal(ShortCutIcon);
-Core.classes.register(Types.CATEGORIES.COMMON, ShortCutIcon);
+core.classes.register(core.types.CATEGORIES.COMMON, ShortCutIcon);
 //#endregion ShortCutIcon
 //#region Templates
 const ShortCutIconTpl = ['<jagui-icon id="{internalId}"  class="Control {className} {theme}" title="{title}" name="{name}">',
             '<div class="{className}Img themes_Icon"></div>', 
             '<div class="{className}Caption">{caption}</div>', 
         '</jagui-icon>'].join(String.EMPTY);
-Core.classes.registerTemplates([
+core.classes.registerTemplates([
     { Class: ShortCutIcon, template: ShortCutIconTpl }
 ]);
 //#endregion

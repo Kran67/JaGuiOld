@@ -223,7 +223,7 @@ const CustomTextControl = (function () {
             if (!htmlElement.querySelector('input')) {
                 priv.inputObj = document.createElement(core.types.HTMLELEMENTS.INPUT);
                 priv.inputObj.type = priv.type;
-                priv.inputObj.classList.add('Control', 'csr_text', 'TextBoxInput', `${this.constructor.name}Input`, this.themeName);
+                priv.inputObj.classList.add('csr_text', 'TextBoxInput', `${this.constructor.name}Input`, this.themeName);
                 priv.inputObj.jsObj = this;
                 htmlElement.appendChild(priv.inputObj);
                 this.bindEventToHTMLInput();

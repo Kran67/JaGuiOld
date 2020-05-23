@@ -1,10 +1,10 @@
-﻿.Control.Toggle {
+﻿.Toggle {
     overflow: hidden;
     white-space: nowrap;
 }
 
-    .Control.Toggle:before,
-    .Control.Toggle:after {
+    .Toggle:before,
+    .Toggle:after {
         content: attr(data-checked);
         position: absolute;
         left: 0;
@@ -19,12 +19,12 @@
         overflow: hidden;
     }
 
-    .Control.Toggle:after {
+    .Toggle:after {
         content: attr(data-unchecked);
         left: 50%;
     }
 
-.Control.ToggleCheck {
+.ToggleCheck {
     width: 52%;
     position: absolute;
     top: 0;
@@ -37,15 +37,15 @@
     z-index: 1;
 }
 
-    .Control.ToggleCheck.checked {
+    .ToggleCheck.checked {
         left: 49%;
     }
 
-        .Control.ToggleCheck.checked:before,
-        .Control.ToggleCheck.grayed:before {
+        .ToggleCheck.checked:before,
+        .ToggleCheck.grayed:before {
             content: "";
         }
 
-input.ToggleInput {
+.ToggleInput {
     display: none;
 }

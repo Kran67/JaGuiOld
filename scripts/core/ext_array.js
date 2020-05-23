@@ -48,10 +48,10 @@ if (!Array.prototype.convertToCollection) {
             (typeof itemClass === typeof a || !canPush && a instanceof itemClass) && (canPush = !0);
             if (canPush) {
                 this._push(a);
-                !updating && this.onChange && this.onChange.invoke(Types.OPERATIONS.INSERT, a);
+                !updating && this.onChange && this.onChange.invoke(core.types.OPERATIONS.INSERT, a);
             }
         };
-        this.onChange = new Core.classes.NotifyEvent(owner);
+        this.onChange = new core.classes.NotifyEvent(owner);
         this.beginUpdate = () => {
             updating = !0;
         };
@@ -60,7 +60,7 @@ if (!Array.prototype.convertToCollection) {
             this.onChange.invoke();
         };
         this.sort = function (callback) {
-            this.onChange.invoke(Types.OPERATIONS.SORT);
+            this.onChange.invoke(core.types.OPERATIONS.SORT);
             return this._sort(callback);
         };
     };
@@ -125,7 +125,7 @@ if (!Array.prototype.clear) {
     Array.prototype.clear = function () {
         this.length > 0 && this.splice(0, this.length);
         this.length = 0;
-        this.isCollection && this.onChange && this.onChange.invoke(Types.OPERATIONS.REMOVE);
+        this.isCollection && this.onChange && this.onChange.invoke(core.types.OPERATIONS.REMOVE);
         //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
     };
 }
@@ -227,7 +227,7 @@ if (!Array.prototype.removeAt) {
         if (core.tools.isNumber(a)) {
             a = this.splice(a, 1);
             //if (typeof this.onChanged===_const.FUNCTION) this.onChanged(this);
-            this.isCollection && this.onChange && this.onChange.invoke(Types.OPERATIONS.REMOVE, a.first);
+            this.isCollection && this.onChange && this.onChange.invoke(core.types.OPERATIONS.REMOVE, a.first);
         }
     };
 }

@@ -1,4 +1,4 @@
-﻿.Control.Checkbox {
+﻿.Checkbox {
     box-shadow: none;
     padding-left: 20px;
     overflow: visible;
@@ -6,7 +6,7 @@
     align-items: center;
 }
 
-input.CheckboxInput {
+.CheckboxInput {
     display: none;
 }
 

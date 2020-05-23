@@ -1,7 +1,7 @@
-﻿.Control.Button.AngleButton {
+﻿.Button.AngleButton {
     overflow: hidden;
     white-space: nowrap;
-    border-radius: 50%;
+    border-radius: 50% !important;
 }
 
 .AngleButtonCaption {
@@ -22,5 +22,4 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    /*transition: transform linear 0.2s;*/
 }

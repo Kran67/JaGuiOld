@@ -13,7 +13,7 @@ import { Window1 } from './window1.js';
 //import { BorderToolWindow } from "./bordertoolwindow.js";
 class Controls extends Application {
     constructor() {
-        const LANGUAGES = Types.LANGUAGES;
+        const LANGUAGES = core.types.LANGUAGES;
         super('controls');
         //#region Locales
         this.locales[LANGUAGES.FR_FR] = fr_FR;

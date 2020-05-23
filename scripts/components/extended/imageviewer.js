@@ -56,7 +56,7 @@ const ImageViewer = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             if (core.keyboard.ctrl) {
-                priv.scale += core.mouse.wheelDelta * 0.02;
+                priv.scale -= core.mouse.getWheelDetail(event) * 0.02;
                 priv.scale = Math.max(Math.min(priv.scale, 10), 0.01);
                 core.mouse.stopAllEvents();
                 this.update();

@@ -1,4 +1,4 @@
-﻿.Control.TreeView {
+﻿.TreeView {
     display: flex;
     flex-direction: column;
 }

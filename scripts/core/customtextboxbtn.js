@@ -81,6 +81,7 @@ const CustomTextBoxBtn = (() => {
                     withTpl: !0
                 });
                 btn.HTMLElement.classList.add('TextBoxBtnButton');
+                btn.HTMLElement.classList.remove('Control');
                 btn.name = `btn${i}`;
                 btn.canFocused = !1;
                 this.btns.add(btn);

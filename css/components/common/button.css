@@ -1,5 +1,5 @@
-﻿.Control.Button.buttonPaddingDownText,
-.Control.BitmapStateButton.buttonPaddingDownText {
+﻿.Button.buttonPaddingDownText,
+.BitmapStateButton.buttonPaddingDownText {
     padding: 1px 0 0 1px;
 }
 

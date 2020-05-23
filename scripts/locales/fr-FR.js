@@ -1,4 +1,4 @@
-﻿core.locales[core.types.LANGUAGES.FR_FR] = {
+﻿export default {
     date: {
         dayNames: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
         abbreviatedDayNames: ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'],

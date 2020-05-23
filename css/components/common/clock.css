@@ -1,15 +1,15 @@
-﻿.Control.Clock {
+﻿.Clock {
     display: flex;
     border-radius: 6px;
     flex-direction: column;
     z-index: 0;
 }
 
-    .Control.Clock.countdown {
+    .Clock.countdown {
         padding: 5px 5px 0 5px;
     }
 
-    .Control.Clock.simple .Clock_digit {
+    .Clock.simple .Clock_digit {
         justify-content: center;
         align-items: center;
         display: flex;
@@ -34,22 +34,22 @@
     order: 2;
 }
 
-.Control.Clock.countdown .Clock_weekdays {
+.Clock.countdown .Clock_weekdays {
     order: 1;
 }
 
-    .Control.Clock.countdown .Clock_weekdays .days {
+    .Clock.countdown .Clock_weekdays .days {
         width: 108px;
         margin-right: 13px;
     }
 
-    .Control.Clock.countdown .Clock_weekdays .hours,
-    .Control.Clock.countdown .Clock_weekdays .minutes {
+    .Clock.countdown .Clock_weekdays .hours,
+    .Clock.countdown .Clock_weekdays .minutes {
         width: 72px;
         margin-right: 13px;
     }
 
-    .Control.Clock.countdown .Clock_weekdays .seconds {
+    .Clock.countdown .Clock_weekdays .seconds {
         width: 72px;
     }
 
@@ -77,9 +77,9 @@
     margin: 5px;
 }
 
-.Control.Clock.led .Clock_meridian,
-.Control.Clock.led .Clock_alarm,
-.Control.Clock.led .Clock_weekdays {
+.Clock.led .Clock_meridian,
+.Clock.led .Clock_alarm,
+.Clock.led .Clock_weekdays {
     filter: blur(0.75px);
 }
 
@@ -246,8 +246,8 @@
     grid-area: 2 / 1 / 3 / 2;
 }
 
-.Control.Clock.led .Clock_dots:before,
-.Control.Clock.led .Clock_dots:after {
+.Clock.led .Clock_dots:before,
+.Clock.led .Clock_dots:after {
     width: 7px;
     border-radius: 50%;
     filter: blur(0.75px);
@@ -257,8 +257,8 @@
     grid-area: 3 / 1 / 4 / 2;
 }
 
-.Control.Clock.rotate .Clock_dots:before,
-.Control.Clock.rotate .Clock_dots:after {
+.Clock.rotate .Clock_dots:before,
+.Clock.rotate .Clock_dots:after {
     border-radius: 50%;
 }
 
@@ -313,112 +313,112 @@
     top: 27px;
 }
 
-.Control.Clock.digital .Clock_digit_d1 {
+.Clock.digital .Clock_digit_d1 {
     clip-path: polygon(0 0, 26px 0, 21px 5px, 5px 5px);
 }
 
-.Control.Clock.digital .Clock_digit_d2 {
+.Clock.digital .Clock_digit_d2 {
     clip-path: polygon(5px 0, 21px 0, 26px 2px, 21px 5px, 5px 5px, 0 2px);
 }
 
-.Control.Clock.digital .Clock_digit_d3 {
+.Clock.digital .Clock_digit_d3 {
     clip-path: polygon(0 5px, 5px 0, 21px 0, 26px 5px);
 }
 
-.Control.Clock.digital .Clock_digit_d4,
-.Control.Clock.digital .Clock_digit_d6 {
+.Clock.digital .Clock_digit_d4,
+.Clock.digital .Clock_digit_d6 {
     clip-path: polygon(0 0, 5px 5px, 5px 19px, 0 24px);
 }
 
-.Control.Clock.digital .Clock_digit_d5,
-.Control.Clock.digital .Clock_digit_d7 {
+.Clock.digital .Clock_digit_d5,
+.Clock.digital .Clock_digit_d7 {
     clip-path: polygon(5px 0, 0 5px, 0 19px, 5px 24px);
 }
 
-.Control.Clock.led .Clock_digit * {
+.Clock.led .Clock_digit * {
     border-radius: 50%;
     filter: blur(0.75px);
     opacity: 0.15;
     transform: scale(1);
 }
 
-.Control.Clock.led .Clock_digit_d1,
-.Control.Clock.led .Clock_digit_d2,
-.Control.Clock.led .Clock_digit_d3 {
+.Clock.led .Clock_digit_d1,
+.Clock.led .Clock_digit_d2,
+.Clock.led .Clock_digit_d3 {
     width: 20px;
     left: 4px;
 }
 
-.Control.Clock.led .Clock_digit_d4,
-.Control.Clock.led .Clock_digit_d5,
-.Control.Clock.led .Clock_digit_d6,
-.Control.Clock.led .Clock_digit_d7 {
+.Clock.led .Clock_digit_d4,
+.Clock.led .Clock_digit_d5,
+.Clock.led .Clock_digit_d6,
+.Clock.led .Clock_digit_d7 {
     height: 20px;
     top: 4px;
 }
 
-.Control.Clock.led .Clock_digit_d6,
-.Control.Clock.led .Clock_digit_d7 {
+.Clock.led .Clock_digit_d6,
+.Clock.led .Clock_digit_d7 {
     top: 28px;
 }
 
-.Control.Clock .Clock_zero .Clock_digit_d1,
-.Control.Clock .Clock_zero .Clock_digit_d3,
-.Control.Clock .Clock_zero .Clock_digit_d4,
-.Control.Clock .Clock_zero .Clock_digit_d5,
-.Control.Clock .Clock_zero .Clock_digit_d6,
-.Control.Clock .Clock_zero .Clock_digit_d7,
-.Control.Clock .Clock_one .Clock_digit_d5,
-.Control.Clock .Clock_one .Clock_digit_d7,
-.Control.Clock .Clock_two .Clock_digit_d1,
-.Control.Clock .Clock_two .Clock_digit_d2,
-.Control.Clock .Clock_two .Clock_digit_d3,
-.Control.Clock .Clock_two .Clock_digit_d5,
-.Control.Clock .Clock_two .Clock_digit_d6,
-.Control.Clock .Clock_three .Clock_digit_d1,
-.Control.Clock .Clock_three .Clock_digit_d2,
-.Control.Clock .Clock_three .Clock_digit_d3,
-.Control.Clock .Clock_three .Clock_digit_d5,
-.Control.Clock .Clock_three .Clock_digit_d7,
-.Control.Clock .Clock_four .Clock_digit_d4,
-.Control.Clock .Clock_four .Clock_digit_d5,
-.Control.Clock .Clock_four .Clock_digit_d2,
-.Control.Clock .Clock_four .Clock_digit_d7,
-.Control.Clock .Clock_five .Clock_digit_d1,
-.Control.Clock .Clock_five .Clock_digit_d2,
-.Control.Clock .Clock_five .Clock_digit_d3,
-.Control.Clock .Clock_five .Clock_digit_d4,
-.Control.Clock .Clock_five .Clock_digit_d7,
-.Control.Clock .Clock_six .Clock_digit_d1,
-.Control.Clock .Clock_six .Clock_digit_d2,
-.Control.Clock .Clock_six .Clock_digit_d3,
-.Control.Clock .Clock_six .Clock_digit_d4,
-.Control.Clock .Clock_six .Clock_digit_d6,
-.Control.Clock .Clock_six .Clock_digit_d7,
-.Control.Clock .Clock_seven .Clock_digit_d1,
-.Control.Clock .Clock_seven .Clock_digit_d5,
-.Control.Clock .Clock_seven .Clock_digit_d7,
-.Control.Clock .Clock_eight .Clock_digit_d1,
-.Control.Clock .Clock_eight .Clock_digit_d2,
-.Control.Clock .Clock_eight .Clock_digit_d3,
-.Control.Clock .Clock_eight .Clock_digit_d4,
-.Control.Clock .Clock_eight .Clock_digit_d5,
-.Control.Clock .Clock_eight .Clock_digit_d6,
-.Control.Clock .Clock_eight .Clock_digit_d7,
-.Control.Clock .Clock_nine .Clock_digit_d1,
-.Control.Clock .Clock_nine .Clock_digit_d2,
-.Control.Clock .Clock_nine .Clock_digit_d3,
-.Control.Clock .Clock_nine .Clock_digit_d4,
-.Control.Clock .Clock_nine .Clock_digit_d5,
-.Control.Clock .Clock_nine .Clock_digit_d7 {
+.Clock .Clock_zero .Clock_digit_d1,
+.Clock .Clock_zero .Clock_digit_d3,
+.Clock .Clock_zero .Clock_digit_d4,
+.Clock .Clock_zero .Clock_digit_d5,
+.Clock .Clock_zero .Clock_digit_d6,
+.Clock .Clock_zero .Clock_digit_d7,
+.Clock .Clock_one .Clock_digit_d5,
+.Clock .Clock_one .Clock_digit_d7,
+.Clock .Clock_two .Clock_digit_d1,
+.Clock .Clock_two .Clock_digit_d2,
+.Clock .Clock_two .Clock_digit_d3,
+.Clock .Clock_two .Clock_digit_d5,
+.Clock .Clock_two .Clock_digit_d6,
+.Clock .Clock_three .Clock_digit_d1,
+.Clock .Clock_three .Clock_digit_d2,
+.Clock .Clock_three .Clock_digit_d3,
+.Clock .Clock_three .Clock_digit_d5,
+.Clock .Clock_three .Clock_digit_d7,
+.Clock .Clock_four .Clock_digit_d4,
+.Clock .Clock_four .Clock_digit_d5,
+.Clock .Clock_four .Clock_digit_d2,
+.Clock .Clock_four .Clock_digit_d7,
+.Clock .Clock_five .Clock_digit_d1,
+.Clock .Clock_five .Clock_digit_d2,
+.Clock .Clock_five .Clock_digit_d3,
+.Clock .Clock_five .Clock_digit_d4,
+.Clock .Clock_five .Clock_digit_d7,
+.Clock .Clock_six .Clock_digit_d1,
+.Clock .Clock_six .Clock_digit_d2,
+.Clock .Clock_six .Clock_digit_d3,
+.Clock .Clock_six .Clock_digit_d4,
+.Clock .Clock_six .Clock_digit_d6,
+.Clock .Clock_six .Clock_digit_d7,
+.Clock .Clock_seven .Clock_digit_d1,
+.Clock .Clock_seven .Clock_digit_d5,
+.Clock .Clock_seven .Clock_digit_d7,
+.Clock .Clock_eight .Clock_digit_d1,
+.Clock .Clock_eight .Clock_digit_d2,
+.Clock .Clock_eight .Clock_digit_d3,
+.Clock .Clock_eight .Clock_digit_d4,
+.Clock .Clock_eight .Clock_digit_d5,
+.Clock .Clock_eight .Clock_digit_d6,
+.Clock .Clock_eight .Clock_digit_d7,
+.Clock .Clock_nine .Clock_digit_d1,
+.Clock .Clock_nine .Clock_digit_d2,
+.Clock .Clock_nine .Clock_digit_d3,
+.Clock .Clock_nine .Clock_digit_d4,
+.Clock .Clock_nine .Clock_digit_d5,
+.Clock .Clock_nine .Clock_digit_d7 {
     opacity: 1;
 }
 
-.Control.Clock.digital .Clock_digits * {
+.Clock.digital .Clock_digits * {
     transform: scale(1);
 }
 
-.Control.Clock.flip .Clock_digit {
+.Clock.flip .Clock_digit {
     border-radius: 3px;
 }
 
@@ -441,8 +441,8 @@
     z-index: 2;
 }
 
-.Control.Clock_digit_flip_up,
-.Control.Clock_digit_flip_down {
+.Clock_digit_flip_up,
+.Clock_digit_flip_down {
     z-index: 1;
     left: 0;
     right: 0;
@@ -450,12 +450,12 @@
     overflow: hidden;
 }
 
-.Control.Clock_digit_flip_up {
+.Clock_digit_flip_up {
     transform-origin: 50% 100%;
     top: 0;
 }
 
-    .Control.Clock_digit_flip_up:after {
+    .Clock_digit_flip_up:after {
         content: '';
         position: absolute;
         bottom: 0;
@@ -465,12 +465,12 @@
         height: 1px;
     }
 
-.Control.Clock_digit_flip_down {
+.Clock_digit_flip_down {
     transform-origin: 50% 0%;
     bottom: 0;
 }
 
-.Control.Clock_digit_flip_inn {
+.Clock_digit_flip_inn {
     left: 0;
     z-index: 1;
     right: 0;
@@ -480,16 +480,16 @@
     font-size: 29pt;
 }
 
-.Control.Clock_digit_flip_up * {
+.Clock_digit_flip_up * {
     top: 0;
 }
 
-.Control.Clock_digit_flip_down * {
+.Clock_digit_flip_down * {
     bottom: 0;
 }
 
-.Control.Clock_digit_flip_up:before,
-.Control.Clock_digit_flip_down:after {
+.Clock_digit_flip_up:before,
+.Clock_digit_flip_down:after {
     content: '';
     position: absolute;
     left: 0;
@@ -499,8 +499,8 @@
     z-index: 2;
 }
 
-.Control.Clock.flip .Clock_dots:before,
-.Control.Clock.flip .Clock_dots:after {
+.Clock.flip .Clock_dots:before,
+.Clock.flip .Clock_dots:after {
     display: none;
 }
 
@@ -509,7 +509,7 @@
     z-index: 3;
 }
 
-    .Clock_digit_flip.before .Control.Clock_digit_flip_up {
+    .Clock_digit_flip.before .Clock_digit_flip_up {
         z-index: 2;
         animation: turn2 .5s linear both;
     }
@@ -519,28 +519,28 @@
     z-index: 2;
 }
 
-    .Clock_digit_flip.active .Control.Clock_digit_flip_down {
+    .Clock_digit_flip.active .Clock_digit_flip_down {
         z-index: 2;
         animation: turn .5s .5s linear both;
     }
 
 
-.Clock_digit_flip.before .Control.Clock_digit_flip_up:before {
+.Clock_digit_flip.before .Clock_digit_flip_up:before {
     background: linear-gradient(to bottom, rgba(0, 0, 0, .1) 0, rgba(0, 0, 0, 1) 100%);
     animation: show .5s linear both;
 }
 
-.Clock_digit_flip.active .Control.Clock_digit_flip_up:before {
+.Clock_digit_flip.active .Clock_digit_flip_up:before {
     background: linear-gradient(to bottom, rgba(0, 0, 0, .1) 0, rgba(0, 0, 0, 1) 100%);
     animation: hide .5s .3s linear both;
 }
 
-.Clock_digit_flip.before .Control.Clock_digit_flip_down:after {
+.Clock_digit_flip.before .Clock_digit_flip_down:after {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0, rgba(0, 0, 0, .1) 100%);
     animation: show .5s linear both;
 }
 
-.Clock_digit_flip.active .Control.Clock_digit_flip_down:after {
+.Clock_digit_flip.active .Clock_digit_flip_down:after {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0, rgba(0, 0, 0, .1) 100%);
     animation: hide .5s .3s linear both;
 }
@@ -688,11 +688,11 @@
         height: 100%;
     }
 
-.Control.Clock.circular .Clock_digit {
+.Clock.circular .Clock_digit {
     border-radius: 50%;
 }
 
-    .Control.Clock.circular .Clock_digit:after {
+    .Clock.circular .Clock_digit:after {
         position: absolute;
         top: 8px;
         right: 8px;

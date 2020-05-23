@@ -1,4 +1,4 @@
-﻿const en_US = Object.freeze({
+﻿export const en_US = {
     'Window1.Label1': 'Hello',
     'Window1.PasswordTextBox1': 'type your password here',
     'Window1.Tab1': 'tab1',
@@ -7,5 +7,4 @@
     'Window1.Tab4': 'tab4',
     'Window1.Tab5': 'tab5',
     'Window1.CornerButton1': 'blabla'
-});
-export { en_US };
+};

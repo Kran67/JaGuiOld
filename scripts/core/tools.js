@@ -3,44 +3,44 @@ class Tools {
     //#region Methods
     //#region isUndefined
     static isUndefined(value) {
-        return typeof value === Types.CONSTANTS.UNDEFINED;
+        return typeof value === core.types.CONSTANTS.UNDEFINED;
     }
     //#endregion isUndefined
     //#region isNumber
     static isNumber(value) {
         const reg = /^-?\d+\.?\d*$/;
         const regEx = new RegExp(reg);
-        return typeof value === Types.CONSTANTS.NUMBER || regEx.test(value);
+        return typeof value === core.types.CONSTANTS.NUMBER || regEx.test(value);
     }
     //#endregion isNumber
     //#region isString
     static isString(value) {
-        return typeof value === Types.CONSTANTS.STRING;
+        return typeof value === core.types.CONSTANTS.STRING;
     }
     //#endregion isString
     //#region isBool
     static isBool(value) {
-        return typeof value === Types.CONSTANTS.BOOLEAN;
+        return typeof value === core.types.CONSTANTS.BOOLEAN;
     }
     //#endregion isBool
     //#region isObject
     static isObject(value) {
-        return typeof value === Types.CONSTANTS.OBJECT;
+        return typeof value === core.types.CONSTANTS.OBJECT;
     }
     //#endregion isObject
     //#region isFunc
     static isFunc(value) {
-        return typeof value === Types.CONSTANTS.FUNCTION;
+        return typeof value === core.types.CONSTANTS.FUNCTION;
     }
     //#endregion isFunc
     //#region isArray
     static isArray(value) {
-        return value.constructor.name.toLowerCase() === Types.CONSTANTS.ARRAY;
+        return value.constructor.name.toLowerCase() === core.types.CONSTANTS.ARRAY;
     }
     //#endregion isArray
     //#region isDate
     static isDate(value) {
-        return typeof value === Types.CONSTANTS.DATE;
+        return typeof value === core.types.CONSTANTS.DATE;
     }
     //#endregion isDate
     //#region include
@@ -64,7 +64,7 @@ class Tools {
     //#region isValidIdent
     static isValidIdent(ident, allowDots) {
         //#region Variables déclaration
-        const CONSTANTS = Types.CONSTANTS;
+        const CONSTANTS = core.types.CONSTANTS;
         const alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_'.split(String.EMPTY);
         const alphaNumeric = [...alpha, '0123456789'.split(String.EMPTY)];
         const alphaNumericDot = [...alphaNumeric, '.'];
@@ -110,7 +110,7 @@ class Tools {
     //#endregion emptyFunc
     //#region loadFormRes
     static loadFormRes(resName) {
-        if (Core.isHTMLRenderer) {
+        if (core.isHTMLRenderer) {
             const fileText = document.getElementById('file_text');
             fileText && (fileText.innerHTML = 'Creating window & objects\nPlease wait...');
         }
@@ -159,7 +159,7 @@ class Tools {
             } else {
                 if (object instanceof object.constructor &&
                     object.constructor !== Object) {
-                    const c = Core.clone(object.constructor.prototype);
+                    const c = core.clone(object.constructor.prototype);
                     const names = Object.getOwnPropertyNames(object);
                     names.forEach(name => {
                         object.hasOwnProperty(name) && (c[names[name]] = object[name]);
@@ -179,7 +179,7 @@ class Tools {
     //#endregion copy
     //#region getLocale
     static getLocale() {
-        if (core.apps.activeApplication.locale) {
+        if (core.apps.activeApplication && core.apps.activeApplication.locale) {
             return core.locales[core.apps.activeApplication.locale]
                 ? core.locales[core.apps.activeApplication.locale]
                 : core.locales[core.currentLocale];
@@ -195,7 +195,7 @@ class Tools {
     //#endregion getDefaultLocale
     //#region localeExist
     static localeExist(locale) {
-        return core.locales[core.currentLocale];
+        return core.locales[locale];
     }
     //#endregion localeExist
     //#region getFuncName
@@ -438,7 +438,7 @@ class Tools {
     //#region processStyle
     static processStyle(instance, shape, state, suffixFunc, params) {
         //#region Variables déclaration
-        const ctx = Core.ctx;
+        const ctx = core.ctx;
         const GRADDIRS = core.types.GRADIENTDIRECTIONS;
         const changingTheme = document.body.classList.contains('changingTheme');
         const themeName = changingTheme ? instance.app.themeManifest.lastThemeName : instance.themeName;

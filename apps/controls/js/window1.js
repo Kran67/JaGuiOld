@@ -39,7 +39,7 @@ import '/scripts/components/common/rating.js';
 //import { gradientEdit } from '/scripts/components/color/gradientEdit.js';
 import '/scripts/components/color/colorpanel.js';
 import '/scripts/components/common/shapes.js';
-import '/scripts/components/common/treeview.js';
+//import '/scripts/components/common/treeview.js';
 import '/scripts/components/containers/pagecontrol.js';
 import '/scripts/components/common/paintbox.js';
 import '/scripts/components/common/plotgrid.js';
@@ -118,15 +118,15 @@ class Window1 extends Window {
     }
     formCreated(id) {
         super.formCreated(id);
-        if (Core.isCanvasRenderer) {
+        if (core.isCanvasRenderer) {
             //this.Gauge2.createArrow=this.createArrowBlue;
             //this.Gauge3.createArrow=this.createArrowBlack;
         }
         //this.initStars();
-        //Core.looper.addListener(this, "paint");
+        //core.looper.addListener(this, "paint");
     }
     formShow() {
-        if (!Core.browser.chrome) {
+        if (!core.browser.chrome) {
             Dialogs.alert('Best experience with Chrome Browser');
         }
         lastTime = new Date().getTime();
@@ -285,7 +285,7 @@ class Window1 extends Window {
                         y = x * x;
                         break;
                 }
-                p[i] = new Core.classes.Point(htmlElement.offsetWidth / 2 + x * frequency, htmlElement.offsetHeight / 2 - y * frequency);
+                p[i] = new core.classes.Point(htmlElement.offsetWidth / 2 + x * frequency, htmlElement.offsetHeight / 2 - y * frequency);
             }
         }
         ctx.save();
@@ -322,7 +322,7 @@ class Window1 extends Window {
     closeQuery() {
         const dlg = dialogs.confirmation('Are you sure you want to quit?');
         dlg.onClose.addListener(function () {
-            Core.apps.activeApplication.activeWindow.canClose = this.modalResult === Window.MODALRESULTS.OK;
+            core.apps.activeApplication.activeWindow.canClose = this.modalResult === Window.MODALRESULTS.OK;
         });
     }
     showBorderDialogWindow() {

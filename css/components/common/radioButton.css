@@ -1,4 +1,4 @@
-﻿.Control.RadioButton {
+﻿.RadioButton {
     box-shadow: none;
     padding-left: 20px;
     overflow: visible;
@@ -6,7 +6,7 @@
     align-items: center;
 }
 
-input.RadioButtonInput {
+.RadioButtonInput {
     display: none;
 }
 

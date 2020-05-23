@@ -481,9 +481,9 @@ Date.prototype.toString = function (local, format) {
                 } else if (f === 'M') {
                     return self.month + 1;
                 } else if (f === 't') {
-                    return self.hours < 12 ? Core.currentLocale.am.substring(0, 1) : Core.currentLocale.pm.substring(0, 1);
+                    return self.hours < 12 ? core.currentLocale.am.substring(0, 1) : core.currentLocale.pm.substring(0, 1);
                 } else if (f === 'tt') {
-                    return self.hours < 12 ? Core.currentLocale.am : Core.currentLocale.pm;
+                    return self.hours < 12 ? core.currentLocale.am : core.currentLocale.pm;
                 } else if (f === 'zzz' || f === 'zz' || f === 'z') {
                     return String.EMPTY;
                 }

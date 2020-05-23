@@ -380,7 +380,7 @@ const Animation = (() => {
          */
         loaded() {
             super.loaded();
-            !Core.isHTMLRenderer || this.control && this.control.HTMLElement === Types.HTMLELEMENTS.CANVAS
+            !core.isHTMLRenderer || this.control && this.control.HTMLElement === core.types.HTMLELEMENTS.CANVAS
                 ? this.startFromCurrent && (this.initialValue = this.startValue) : this.updateCSS();
         }
         /**
@@ -573,7 +573,7 @@ const Animation = (() => {
             elapsedTime /= 1000;
             if (running && priv.pause) {
                 if (owner) {
-                    if (!Core.isHTMLRenderer) {
+                    if (!core.isHTMLRenderer) {
                         if (!owner.isVisible) {
                             this.stop();
                         } else if (running) {

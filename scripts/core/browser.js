@@ -196,6 +196,6 @@ class Browser {
     }
     //#endregion browser
 }
-Core.browser = new Browser;
+core.browser = new Browser;
 //#endregion browser
 export { Browser };

@@ -1,17 +1,17 @@
-﻿.Control.Rating,
-.Control.Rating:before {
+﻿.Rating,
+.Rating:before {
     background-size: auto auto;
     background-position: left top;
 }
 
-    .Control.Rating.orientation-horizontal {
+    .Rating.orientation-horizontal {
         width: 90px;
         height: 16px;
     }
 
-        .Control.Rating.orientation-horizontal,
+        .Rating.orientation-horizontal,
         .RatingProgress.orientation-horizontal,
-        .Control.Rating.orientation-horizontal.disabled {
+        .Rating.orientation-horizontal.disabled {
             background-repeat: repeat-x;
         }
 
@@ -24,19 +24,19 @@
     left: 0;
 }
 
-    .Control.Rating.orientation-vertical {
+    .Rating.orientation-vertical {
         width: 90px;
         height: 16px;
     }
 
-        .Control.Rating.orientation-vertical,
+        .Rating.orientation-vertical,
         .RatingProgress.orientation-vertical,
-        .Control.Rating.orientation-vertical.disabled {
+        .Rating.orientation-vertical.disabled {
             background-repeat: repeat-y;
         }
 
 
-.Control.Rating {
+.Rating {
     background-image: var(--emptyImg);
 }
 
