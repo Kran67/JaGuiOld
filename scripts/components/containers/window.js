@@ -720,6 +720,7 @@ const BaseWindow = (() => {
                     variable: priv,
                     value: props.hasOwnProperty('showingMode') ? props.showingMode : SHOWINGMODES.NORMAL
                 });
+                priv.props = props;
                 //#endregion Private
                 //#region Public
                 //this.visible = !1;
@@ -739,6 +740,7 @@ const BaseWindow = (() => {
         }
         //#endregion constructor
         //#region Getters / Setters
+        //#region titleBarSize
         get titleBarSize() {
             //#region Variables déclaration
             const priv = internal(this);
@@ -748,6 +750,7 @@ const BaseWindow = (() => {
                 height: priv.titleBar.HTMLElement.offsetHeight
             };
         }
+        //#endregion titleBarSize
         //#region savedSizePosState
         get savedSizePosState() {
             return internal(this).savedSizePosState;
@@ -1083,6 +1086,7 @@ const BaseWindow = (() => {
         //#region template
         get template() {
             //#region Variables déclaration
+            const priv = internal(this);
             let html = super.template;
             let a = html.split('{appName}');
             //#endregion Variables déclaration
@@ -1109,6 +1113,8 @@ const BaseWindow = (() => {
             html = a.join(String.uniqueId());
             a = html.split('{internalId_StayOnOffButton}');
             html = a.join(String.uniqueId());
+            a = html.split('{title}');
+            html = a.join(priv.props && priv.props.caption ? priv.props.caption : this.constructor.name);
             a = html.split('{content}');
             html = a.join(String.EMPTY);
             return html;
@@ -1757,6 +1763,7 @@ const BaseWindow = (() => {
             //#region Variables declaration
             const priv = internal(this);
             const isHtmlRenderer = core.isHTMLRenderer;
+            const htmlElement = this.HTMLElement;
             //#endregion Variables declaration
             //this.checkBorderStyle();
             if (priv.firstShow) {
@@ -1764,6 +1771,7 @@ const BaseWindow = (() => {
                 //    this.HTMLResize();
                 //}
                 priv.firstShow = !1;
+                htmlElement.classList.add(priv.borderStyle);
                 if (this.isMaximized) {
                     priv.windowState = Window.WINDOWSTATES.NORMAL;
                     this.toggleMaxRestore();
@@ -1771,6 +1779,7 @@ const BaseWindow = (() => {
             }
             switch (priv.position) {
                 case Window.FORMPOSITIONS.SCREENCENTER:
+                case Window.FORMPOSITIONS.MAINFORMCENTER:
                     this.center();
             }
             isHtmlRenderer && (this.HTMLElementStyle.zIndex = core.windowZIndex);
@@ -2356,6 +2365,7 @@ const BaseWindow = (() => {
 
             }
             this.setTitleBtn(priv.buttons ? priv.buttons : [TITLEBUTTONS.MINIMIZE, TITLEBUTTONS.MAXRESTORE]);
+            delete priv.props;
         }
         //#endregion loaded
         //#region closePopups

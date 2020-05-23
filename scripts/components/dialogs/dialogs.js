@@ -168,7 +168,7 @@ const MessageDlg = (() => {
                             button.margin.right = 10;
                             button.sizing();
                         }
-                        const translatedCaption = core.locales.translateConstant(this.app, `msgDlg${btn.toUpperCase()}`);
+                        const translatedCaption = core.locales.translateConstant(this.app.locale, `msgDlg${btn.toUpperCase()}`);
                         translatedCaption && (button.caption = translatedCaption);
                         btnsWidth += button.width + button.margin.right;
                     }
@@ -244,9 +244,9 @@ class InputDlg extends Window {
         //#endregion Variables déclaration
         super.loaded();
         this.borderStyle = Window.BORDERSTYLES.DIALOG;
-        translatedCaption = core.locales.translateConstant(this.app, `msgDlgOK`);
+        translatedCaption = core.locales.translateConstant(this.app.locale, 'msgDlgOK');
         translatedCaption && (this.btnOk.caption = translatedCaption);
-        translatedCaption = core.locales.translateConstant(this.app, `msgDlgCANCEL`);
+        translatedCaption = core.locales.translateConstant(this.app.locale, 'msgDlgCANCEL');
         translatedCaption && (this.btnCancel.caption = translatedCaption);
         this.resizeByContent();
         this.TextBox.setFocus();
@@ -285,11 +285,11 @@ class Dialogs {
                 parentHTML: document.body,
                 dlgType: dlgType,
                 dlgButtons: buttons,
-                dlgIcon: icon
+                dlgIcon: icon,
+                caption: core.apps.activeApplication.name
             }
         });
         dlg.Msg.caption = msg;
-        dlg.caption = core.apps.activeApplication.name;
         dlg.showModal();
         !core.tools.isNumber(x) && !core.tools.isNumber(y)
             ? dlg.center()
@@ -353,12 +353,12 @@ class Dialogs {
             class: core.classes.InputDlg,
             owner: core.apps.activeApplication,
             props: {
-                parentHTML: document.body
+                parentHTML: document.body,
+                caption
             }
         });
         inputDlg.Msg.caption = prompt;
         inputDlg.TextBox.text = value;
-        inputDlg.caption = caption;
         inputDlg.showModal();
         inputDlg.center();
         return inputDlg;

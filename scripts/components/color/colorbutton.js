@@ -91,7 +91,7 @@ const ColorButton = (() => {
             //#endregion Variables déclaration
             //colorDlg.loaded();
             colorDlg.obj = this;
-            colorDlg.caption = 'Couleurs'; // à traduire
+            //colorDlg.caption = 'Couleurs'; // à traduire
             //colorDlg.color = priv.color;
             //colorDlg.lblOpacity.visible = !1;
             //colorDlg.slrOpacity.visible = !1;
