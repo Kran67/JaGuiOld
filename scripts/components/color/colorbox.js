@@ -9,7 +9,7 @@ class ColorBox extends GraphicControl {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            props.hasOwnProperty('color') ? this.fillColor.assign(Color.parse(props.color)) : 1;
+            props.hasOwnProperty('color') && this.fillColor.assign(Color.parse(props.color));
             delete this.tabOrder;
         }
     }

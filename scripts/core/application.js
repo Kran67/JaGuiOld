@@ -470,15 +470,26 @@ const Application = (() => {
         getLocalText(obj) {
             //#region Variables déclaration
             const priv = internal(this);
+            const c = { ...priv.locales[priv.locale], ...core.tools.getDefaultLocale() };
             //#endregion Variables déclaration
-            const c = priv.locales[priv.locale];
             if (c) {
-                const key = `${obj.form.name}.${obj.name}`;
-                if (c[key]) {
+                let key = `${obj.form.name}.${obj.name}`;
+                if (!String.isNullOrEmpty(obj.translationKey)) {
+                    if (obj.translationKey.includes('.')) {
+                        const keys = obj.translationKey.split('.');
+                        keys.forEach((k, i) => {
+                            c[k] && i === 0 && (key = c[k]);
+                            key[k] && i > 0 && (key = key[k]);
+                        });
+                    }
+                } else {
+                    key = c[key];
+                }
+                if (key) {
                     if (obj instanceof core.classes.CaptionControl) {
-                        obj.caption = c[key];
+                        obj.caption = key;
                     } else if (obj instanceof core.classes.CustomTextControl) {
-                        obj.placeHolder = c[key];
+                        obj.placeHolder = key;
                     }
                 }
             } else {
@@ -529,10 +540,7 @@ const Application = (() => {
                 if (core.classes.CustomTextControl && obj instanceof core.classes.CustomTextControl) {
                     obj.hasError && (text = obj.errorMsg);
                 }
-                if (!text) {
-                    return;
-                }
-                if (typeof text !== core.types.CONSTANTS.STRING) {
+                if (!text || typeof text !== core.types.CONSTANTS.STRING) {
                     return;
                 }
                 if (!String.isNullOrEmpty(text) && priv.toolTip) {

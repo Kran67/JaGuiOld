@@ -87,7 +87,10 @@ const ColorButton = (() => {
             const colorDlg = core.classes.createComponent({
                 class: core.classes.ColorDlg,
                 owner: activeApp,
-                props: { parentHTML: document.body }
+                props: {
+                    parentHTML: document.body,
+                    control: this
+                }
             });
             //#endregion Variables déclaration
             colorDlg.obj = this;

@@ -21,8 +21,8 @@ const GraphicControl = (function () {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.fillColor = props.hasOwnProperty('fillColor') ? Color.parse(props.fillColor) : new Color(Colors.WHITE);
-                priv.strokeColor = props.hasOwnProperty('strokeColor') ? Color.parse(props.strokeColor) : new Color(Colors.BLACK);
+                priv.fillColor = props.hasOwnProperty('fillColor') ? Color.parse(props.fillColor) : new Color(this, Colors.WHITE);
+                priv.strokeColor = props.hasOwnProperty('strokeColor') ? Color.parse(props.strokeColor) : new Color(this, Colors.BLACK);
                 priv.strokeWidth = props.hasOwnProperty('strokeWidth') ? props.strokeWidth : 1;
                 priv.strokeDash = props.hasOwnProperty('strokeDash') ? props.strokeDash : '[]';
                 priv.strokeDashOffset = props.hasOwnProperty('strokeDashOffset') ? props.strokeDashOffset : 0;

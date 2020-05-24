@@ -63,9 +63,18 @@ const Bindable = (() => {
                     .forEach(dataBinding => {
                         const destination = dataBinding.destination;
                         if (form[destination.component]) {
+                            const sourceProperty = this[property];
+                            const destControl = form[destination.component];
+                            const destProperty = destControl[destination.property];
                             let value = this[property];
-                            destination.convertor && (value = Convert[destination.convertor](value)); 
-                            form[destination.component][destination.property] = value;
+                            //destination.method && (value = core.tools[destination.expression](value));
+                            //destination.expression && (value = core.tools[destination.expression](value));
+                            destination.convertor && (value = Convert[destination.convertor](value));
+                            //destination.format && (value = value[format]());
+                            core.tools.isObject(sourceProperty) && core.tools.isObject(destProperty) 
+                                && core.tools.isFunc(destProperty.assign) 
+                                ? destProperty.assign(value)
+                                : destControl[destination.property] = value;
                         }
                     });
         }

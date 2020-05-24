@@ -527,16 +527,16 @@ class Tools {
         return left >= right;
     }
     //#endregion greaterThanOrEqual
-    //#region is!1
+    //#region isTrue
     static isTrue(value) {
-        return core.tools.isBool(value) && !value;
-    }
-    //#endregion is!1
-    //#region is!0
-    static isFalse(value) {
         return core.tools.isBool(value) && value;
     }
-    //#endregion is!0
+    //#endregion isTrue
+    //#region isFalse
+    static isFalse(value) {
+        return core.tools.isBool(value) && !value;
+    }
+    //#endregion isFalse
     //#region or
     static or(left, right) {
         return left || right;
@@ -552,6 +552,31 @@ class Tools {
         return right.indexOf(left) > -1;
     }
     //#endregion indexOf
+    //#region IfAll
+    static IfAll(...args) {
+        return !args.isEmpty && args.every(e => core.tools.isBool(e) && e);
+    }
+    //#endregion IfAll
+    //#region IfAny
+    static IfAny(...args) {
+        return !args.isEmpty && args.some(e => core.tools.isBool(e) && e);
+    }
+    //#endregion IfAny
+    //#region IfThen
+    static IfThen(...params) {
+        return params.cond ? params.trueValue : params.falseValue;
+    }
+    //#endregion IfThen
+    //#region not
+    static not(value) {
+        return !value;
+    }
+    //#endregion not
+    //#region changeRed
+    static changeRed(...params) {
+        params.destination.color.red = params.value;
+    }
+    //#endregion IfThen
     //#region
     static getPropertyName() {
         return new Error('dummy')

@@ -1,6 +1,6 @@
 ﻿//#region Imports
-import { GraphicControl } from '/scripts/core/graphiccontrol.js';
-import { Color } from '/scripts/core/color.js';
+import { Control } from '/scripts/components/control.js';
+import { Color, Colors } from '/scripts/core/color.js';
 import { Point } from '/scripts/core/geometry.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
@@ -17,7 +17,7 @@ const ColorQuad = (() => {
     };
     //#endregion Private
     //#region ColorQuad
-    class ColorQuad extends GraphicControl {
+    class ColorQuad extends Control {
         //#region Constructor
         constructor(owner, props) {
             props = !props ? {} : props;
@@ -33,7 +33,7 @@ const ColorQuad = (() => {
                 priv.handleObj = null;
                 priv.handle = new Point;
                 priv.colorBox = props.hasOwnProperty('colorBox') ? this.form[props.colorBox] : null;
-                priv.color = props.hasOwnProperty('color') ? Color.parse(props.color) : new Color(this.fillColor);
+                priv.color = props.hasOwnProperty('color') ? Color.parse(props.color) : Colors.BLUE;
                 core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'format',
@@ -70,7 +70,6 @@ const ColorQuad = (() => {
             //#endregion Variables déclaration
             if (newValue instanceof core.classes.Color && !priv.color.equals(newValue)) {
                 priv.color.assign(newValue);
-                this.fillColor.assign(newValue);
                 this.update();
             }
         }
@@ -85,7 +84,7 @@ const ColorQuad = (() => {
             //#endregion Variables déclaration
             if (core.tools.isNumber(newValue)) {
                 newValue = Math.min(Math.max(newValue, 0), 359);
-                if (this.fillColor.hue !== newValue) {
+                if (priv.color.hue !== newValue) {
                     priv.color.hue = newValue;
                     this.update();
                 }
@@ -102,12 +101,10 @@ const ColorQuad = (() => {
             //#endregion Variables déclaration
             if (core.tools.valueInSet(newValue, core.types.COLORFORMATS) && newValue !== priv.format) {
                 priv.format = newValue;
-                if (core.isHTMLRenderer) {
-                    this.HTMLElement && this.update();
-                } else {
-                    this.allowUpdate && this.update();
+                if (!core.isHTMLRenderer) {
                     this.redraw();
                 }
+                this.HTMLElement && this.update();
             }
         }
         //#endregion format
@@ -210,19 +207,20 @@ const ColorQuad = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             const COLORFORMATS = core.types.COLORFORMATS;
+            const color = Colors.BLACK;
             //#endregion Variables déclaration
             if (!this.loading && !this.form.loading && htmlElement) {
-                this.fillColor.hue = priv.color.hue;
-                this.fillColor.saturation = 100;
-                this.fillColor.value = 100;
-                this.fillColor.lightness = 50;
-                priv.format === COLORFORMATS.HSV ? this.fillColor.HSVtoRGB() : this.fillColor.HSLtoRGB();
-                this.HTMLElementStyle.backgroundColor = this.fillColor.toRGBAString();
+                color.hue = priv.color.hue;
+                color.saturation = 100;
+                color.value = 100;
+                color.lightness = 50;
+                priv.format === COLORFORMATS.HSV ? color.HSVtoRGB() : color.HSLtoRGB();
+                this.HTMLElementStyle.backgroundColor = color.toRGBAString();
                 const value = 100 - int(priv.handle.y * 100 / htmlElement.offsetHeight);
                 const saturation = int(priv.handle.x * 100 / htmlElement.offsetWidth);
                 priv.format === COLORFORMATS.HSV
-                    ? priv.color.setHSV(this.fillColor.hue, saturation, value)
-                    : priv.color.setHSL(this.fillColor.hue, saturation, value);
+                    ? priv.color.setHSV(color.hue, saturation, value)
+                    : priv.color.setHSL(color.hue, saturation, value);
                 if (!this.updating) {
                     priv.colorBox instanceof core.classes.ColorBox && (priv.colorBox.color = priv.color);
                     //priv.gradientEdit instanceof core.classes.GradientEdit

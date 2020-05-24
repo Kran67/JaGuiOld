@@ -1,5 +1,5 @@
 ﻿//#region Imports
-import { GraphicControl } from '/scripts/core/graphiccontrol.js';
+import { Control } from '/scripts/components/control.js';
 import { Point } from '/scripts/core/geometry.js';
 import { Color, Colors } from '/scripts/core/color.js';
 import { Mouse } from '/scripts/core/mouse.js';
@@ -17,7 +17,7 @@ const ColorPicker = (() => {
     };
     //#endregion Private
     //#region Class ColorPicker
-    class ColorPicker extends GraphicControl {
+    class ColorPicker extends Control {
         //#region constructor
         constructor(owner, props) {
             props = !props ? {} : props;
@@ -34,12 +34,6 @@ const ColorPicker = (() => {
                 priv.color = props.hasOwnProperty('color') ? Color.parse(props.color) : Colors.RED;
                 priv.colorQuad = props.hasOwnProperty('colorQuad') ? this.form[props.colorQuad] : null;
                 this.createEventsAndBind(['onChange'], props);
-                delete this.fillColor;
-                delete this.strokeColor;
-                delete this.strokeWidth;
-                delete this.setStrokeWidth;
-                delete this.setFillColor;
-                delete this.setStrokeColor;
                 delete this.tabOrder;
             }
         }

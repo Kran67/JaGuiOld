@@ -34,6 +34,7 @@ const Control = (() => {
                 priv.allowUpdate = !0;
                 priv.autoTranslate = props.hasOwnProperty('autoTranslate') && core.tools.isBool(props.autoTranslate)
                     ? props.autoTranslate : !1;
+                priv.translationKey = props.hasOwnProperty('translationKey') ? props.translationKey : String.EMPTY;
                 priv.isMouseOver = !1;
                 priv.isFocused = !1;
                 priv.isPressed = !1;
@@ -207,6 +208,11 @@ const Control = (() => {
         }
         //#endregion Constructor
         //#region Getters / Setters
+        //#region translationKey
+        get translationKey() {
+            return internal(this).translationKey;
+        }
+        //#endregion translationKey
         //#region allowUpdateOnResize
         get allowUpdateOnResize() {
             return internal(this).allowUpdateOnResize;
@@ -2111,8 +2117,8 @@ const Control = (() => {
             const owner = this.owner;
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
-            this.sizing();
             super.loaded();
+            this.sizing();
             this.initEvents();
             owner.tab && (this.tab = owner.tab);
             !this.enabled ? htmlElement.classList.add('disabled') : null;
