@@ -67,6 +67,8 @@ const CustomTabControl = (() => {
                     value: props.hasOwnProperty('tabPosition') ? props.tabPosition : TABPOSITIONS.TOP,
                     variable: priv
                 });
+                priv.centerTabs = props.hasOwnProperty('centerTabs') && core.tools.isBool(props.centerTabs)
+                    ? props.centerTabs : !1;
                 //#endregion Private Properties
                 //#region Public Properties
                 core.classes.newCollection(this, this, Tab, "tabs");
@@ -89,6 +91,19 @@ const CustomTabControl = (() => {
         //#endregion TABPOSITIONS
         //#endregion Statics
         //#region Getters / Setters
+        //#region centerTabs
+        get centerTabs() {
+            return internal(this).centerTabs;
+        }
+        set centerTabs(newValue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.tabsContainer.classList.remove('center');
+            core.tools.isBool(newValue) && priv.centerTabs !== newValue && (priv.centerTabs = newValue);
+            this.checkTabsPosition();
+        }
+        //#endregion centerTabs
         //#region tabClass
         get tabClass() {
             return internal(this).tabClass;
@@ -185,6 +200,15 @@ const CustomTabControl = (() => {
         //#endregion activeTabIndex
         //#endregion Getters / Setters
         //#region Methods
+        //#region checkTabsPosition
+        checkTabsPosition() {
+            //#region Variables déclaration
+            const priv = internal(this);
+            //#endregion Variables déclaration
+            priv.centerTabs && !priv.btnLeft.visible && !priv.btnRight.visible
+                && priv.tabsContainer.classList.add('center');
+        }
+        //#endregion checkTabsPosition
         //#region tabPosition
         tabPosition(newValue) {
             //#region Variables déclaration
@@ -583,6 +607,7 @@ const CustomTabControl = (() => {
             priv.btnRight.onClick.addListener(this.moveTabs);
             this.checkViewBtns();
             this.checkLastVisibleTab();
+            this.checkTabsPosition();
         }
         //#endregion loaded
         //#endregion Methods

@@ -34,7 +34,13 @@
     flex: 1;
 }
 
-.TabsContent {
+    .TabsContainer.center {
+        display: flex;
+        justify-content: center;
+        margin-left: 20px;
+    }
+
+    .TabsContent {
     position: relative;
     flex: 1;
 }

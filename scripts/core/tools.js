@@ -561,6 +561,26 @@ class Tools {
             .last;
     }
     //#endregion
+
+    static loadStyle(url) {
+        return new Promise((resolve, reject) => {
+            let link = document.createElement('link');
+            link.type = 'text/css';
+            link.rel = 'stylesheet';
+            link.onload = () => { resolve(); console.log('style has loaded'); };
+            link.onerror = () => { resolve(); console.log('style has not loaded'); };
+            link.href = url;
+
+            let head = document.querySelector('head');
+            try {
+                head.appendChild(link);
+            }
+            catch (e) {
+                console.log(e);
+            }
+        });
+    }
+
     //#endregion Methods
 }
 Object.seal(Object.freeze(Tools));

@@ -44,6 +44,7 @@ const ColorQuad = (() => {
                 priv.gradientEdit = props.hasOwnProperty('gradientEdit') ? this.form[props.gradientEdit] : null;
                 this.createEventsAndBind(['onChange'], props);
                 delete this.tabOrder;
+                priv.props = props;
             }
         }
         //#endregion Constructor
@@ -194,7 +195,13 @@ const ColorQuad = (() => {
             });
             htmlElement.classList.add(priv.format);
             super.loaded();
+            priv.props.hasOwnProperty('colorBox') && !priv.colorBox
+                && (priv.colorBox = this.form[priv.props.colorBox]);
+            priv.props.hasOwnProperty('gradientEdit') && !priv.gradientEdit
+                && (priv.gradientEdit = this.form[priv.props.gradientEdit]);
             priv.colorBox instanceof core.classes.ColorBox && (priv.colorBox.color = priv.color);
+            //priv.gradientEdit instanceof core.classes.GradientEdit && (priv.gradientEdit.color = priv.color);
+            delete priv.props;
         }
         //#region loaded
         //#region _update
@@ -218,9 +225,8 @@ const ColorQuad = (() => {
                     : priv.color.setHSL(this.fillColor.hue, saturation, value);
                 if (!this.updating) {
                     priv.colorBox instanceof core.classes.ColorBox && (priv.colorBox.color = priv.color);
-                    //if (priv.gradientEdit instanceof core.classes.GradientEdit) {
-                    //    priv.gradientEdit.changeCurrentPointColor(priv.color);
-                    //}
+                    //priv.gradientEdit instanceof core.classes.GradientEdit
+                    //    && (priv.gradientEdit.changeCurrentPointColor(priv.color));
                     this.onChange.invoke();
                 }
             }

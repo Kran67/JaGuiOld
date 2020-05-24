@@ -152,6 +152,7 @@ const ColorPicker = (() => {
         //#region keyDown
         keyDown() {
             //#region Variables déclaration
+            const priv = internal(this);
             const pt = new Point(priv.handle.x, priv.handle.y);
             let changeHandle = !1;
             let offset = 1;

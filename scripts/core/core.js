@@ -34,7 +34,7 @@ window.requestAnimationFrameRate = function (fps) {
                 window.cancelAnimationFrame(handle);
             };
         })();
-    }
+    };
     //return requestAnimationFrameAtFps;
 };
 /**
@@ -91,7 +91,7 @@ class Core {
         this.currentLocale = 'en_US';
         this.locales = {
             translateConstant: (locale, key) => {
-                const c = core.locales[locale];
+                const c = locale ? core.locales[locale] : core.tools.getDefaultLocale();
                 return c && c.constantMessages[key] ? c.constantMessages[key] : null;
             },
             addLocale: (locale, key, value) => {
@@ -122,8 +122,10 @@ class Core {
      * Return the current renderer
      * @returns     {String}        The name of the current renderer
      */
-    get renderer() { return document.documentElement.dataset.renderer !== undefined 
-        ? document.documentElement.dataset.renderer : 'html'; }
+    get renderer() {
+        return document.documentElement.dataset.renderer !== undefined
+            ? document.documentElement.dataset.renderer : 'html';
+    }
     /**
      * Check if the current renderer is the HTML renderer
      * @returns     {Boolean}       true if the current renderer is HTML or false
@@ -153,9 +155,9 @@ class Core {
      */
     registerPropertiesInCategory() {
         this.classes.registerPropertiesInCategory('ACTION', ['action', 'caption', 'enabled', 'helpContext', 'toolTip', 'visible']);
-        this.classes.registerPropertiesInCategory('HELPHINTS', 
+        this.classes.registerPropertiesInCategory('HELPHINTS',
             ['helpContext', 'helpFile', 'helpKeyWord', 'helpType', 'toolTip', 'showToolTip', 'ownerShowToolTip']);
-        this.classes.registerPropertiesInCategory('LAYOUT', 
+        this.classes.registerPropertiesInCategory('LAYOUT',
             ['align', 'anchors', 'autosize', 'constraints', 'height', 'left', 'margins', 'padding', 'top', 'width', 'tabOrder']);
         this.classes.registerPropertiesInCategory('MISCELLANEOUS', []);
         this.classes.registerPropertiesInCategory('INPUT', ['enabled']);
@@ -163,9 +165,9 @@ class Core {
         this.classes.registerPropertiesInCategory('LEGACY', []);
         this.classes.registerPropertiesInCategory('LINKAGE', ['action', 'popupMenu']);
         this.classes.registerPropertiesInCategory('LOCALE', []);
-        this.classes.registerPropertiesInCategory('LOCALIZABLE', 
+        this.classes.registerPropertiesInCategory('LOCALIZABLE',
             ['caption', 'constraints', 'font', 'height', 'toolTip', 'icon', 'left', 'top', 'width']);
-        this.classes.registerPropertiesInCategory('VISUAL', 
+        this.classes.registerPropertiesInCategory('VISUAL',
             ['align', 'cursor', 'enabled', 'caption', 'visible', 'width', 'top', 'left', 'height']);
         this.classes.registerPropertiesInCategory('DATABASE', []);
     }

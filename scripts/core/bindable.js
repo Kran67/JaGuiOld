@@ -1,5 +1,6 @@
 ﻿//#region Imports
 import { BaseClass } from '/scripts/core/baseclass.js';
+import { Convert } from '/scripts/core/convert.js';
 //#endregion
 //#region Bindable
 /**
@@ -62,7 +63,9 @@ const Bindable = (() => {
                     .forEach(dataBinding => {
                         const destination = dataBinding.destination;
                         if (form[destination.component]) {
-                            form[destination.component][destination.property] = this[property];
+                            let value = this[property];
+                            destination.convertor && (value = Convert[destination.convertor](value)); 
+                            form[destination.component][destination.property] = value;
                         }
                     });
         }

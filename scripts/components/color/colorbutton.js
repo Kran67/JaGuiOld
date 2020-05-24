@@ -76,7 +76,8 @@ const ColorButton = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             this.textObj && (this.textObj.innerHTML = String.EMPTY);
-            priv.colorObj && (priv.colorObj.style.backgroundColor = priv.color.toRGBAString());
+            priv.colorObj
+                && (priv.colorObj.style.boxShadow = `${priv.color.toRGBAString()} 0px 0px 0px 1000px inset`);
         }
         //#endregion update
         //#region click
@@ -89,7 +90,6 @@ const ColorButton = (() => {
                 props: { parentHTML: document.body }
             });
             //#endregion Variables déclaration
-            //colorDlg.loaded();
             colorDlg.obj = this;
             //colorDlg.caption = 'Couleurs'; // à traduire
             //colorDlg.color = priv.color;
@@ -98,7 +98,6 @@ const ColorButton = (() => {
             //colorDlg.txtbOpacity.visible = !1;
             //colorDlg.lblOpacityPer.visible = !1;
             colorDlg.onClose.addListener(this.updateColor);
-            //colorDlg.center();
             colorDlg.showModal();
             super.click();
         }
