@@ -572,11 +572,16 @@ class Tools {
         return !value;
     }
     //#endregion not
-    //#region changeRed
-    static changeRed(...params) {
-        params.destination.color.red = params.value;
+    //#region changeAlpha
+    static changeAlpha(params) {
+        params.destProperty.alpha = params.value;
     }
-    //#endregion IfThen
+    //#endregion changeAlpha
+    //#region changeRed
+    static changeRed(params) {
+        params.destProperty.red = params.value;
+    }
+    //#endregion changeRed
     //#region
     static getPropertyName() {
         return new Error('dummy')

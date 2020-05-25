@@ -64,17 +64,33 @@ const Bindable = (() => {
                         const destination = dataBinding.destination;
                         if (form[destination.component]) {
                             const sourceProperty = this[property];
-                            const destControl = form[destination.component];
-                            const destProperty = destControl[destination.property];
+                            let destControl = form[destination.component];
+                            let destProperty = destination.property;
                             let value = this[property];
+                            if (destination.property.includes('.')) {
+                                destination.property.split('.').forEach(prop => {
+                                    core.tools.isObject(destControl[prop]) && (destControl = destControl[prop]);
+                                    destProperty = prop;
+                                });
+                            }
                             //destination.method && (value = core.tools[destination.expression](value));
-                            //destination.expression && (value = core.tools[destination.expression](value));
-                            destination.convertor && (value = Convert[destination.convertor](value));
+                            if (destination.expressions) {
+                                destination.expressions.forEach(exp => {
+                                    if (exp.script) {
+                                        const func = new Function('args', exp.script);
+                                        const ret = func({
+                                            obj: this, value, destControl, destProperty: destControl[destProperty], params: exp.params
+                                        });
+                                        exp.needReturn && core.tools.isBool(exp.needReturn) && (value = ret);
+                                    }
+                                });
+                            }
+                            destination.converter && (value = Convert[destination.converter](value));
                             //destination.format && (value = value[format]());
-                            core.tools.isObject(sourceProperty) && core.tools.isObject(destProperty) 
-                                && core.tools.isFunc(destProperty.assign) 
+                            core.tools.isObject(sourceProperty) && core.tools.isObject(destControl[destProperty])
+                                && core.tools.isFunc(destControl[destProperty].assign)
                                 ? destProperty.assign(value)
-                                : destControl[destination.property] = value;
+                                : destControl[destProperty] = value;
                         }
                     });
         }
@@ -90,7 +106,7 @@ const Bindable = (() => {
                     component,
                     property: propertyComponent
                 }
-            }
+            };
             //#endregion Variables déclaration
             if (!core.tools.isUndefined(this[property]) && form && form[component]) {
                 if (!core.tools.isUndefined(form[component][propertyComponent]) &&

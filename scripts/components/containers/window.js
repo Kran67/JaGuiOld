@@ -1785,8 +1785,19 @@ const BaseWindow = (() => {
             isHtmlRenderer && (this.HTMLElementStyle.zIndex = core.windowZIndex);
             priv.lastZIndex = core.windowZIndex;
             this.loaded();
+            this.initDataBindings();
         }
         //#endregion beforeShow
+        //#region initDataBindings
+        initDataBindings() {
+            const controlsWithDataBindings = this.controls.filter(c => { return !c.dataBindings.isEmpty; });
+            controlsWithDataBindings.forEach(control => {
+                control.dataBindings.forEach(db => {
+                    control.propertyChanged(db.property);
+                });
+            });
+        }
+        //#endregion initDataBindings
         //#region show
         show() {
             //#region Variables déclaration
@@ -2361,9 +2372,6 @@ const BaseWindow = (() => {
             });
             comp && comp.setFocus();
             !isHtmlRenderer && this.alignButtons();
-            if (this.isBorderDialog) {
-
-            }
             this.setTitleBtn(priv.buttons ? priv.buttons : [TITLEBUTTONS.MINIMIZE, TITLEBUTTONS.MAXRESTORE]);
             delete priv.props;
         }

@@ -456,6 +456,46 @@ const Color = (function () {
         //#endregion updating
         //#endregion Getters / Setters
         /**
+         * Set the RGB of the color
+         * @param   {Number}   red              the new red value
+         * @param   {Number}   green            the new green value
+         * @param   {Number}   blue             the new blue value
+         */
+        setRGB(red, green, blue) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const owner = this.owner;
+            //#endregion Variables déclaration
+            if (core.tools.isNumber(red) && core.tools.isNumber(green) && core.tools.isNumber(blue)) {
+                priv.red = red;
+                priv.green = green;
+                priv.blue = blue;
+                !this.updating && this.RGBtoHSL() && this.RGBtoHSV();
+                owner && !owner.loading && owner.update();
+            }
+        }
+        /**
+         * Set the RGBA of the color
+         * @param   {Number}   red              the new red value
+         * @param   {Number}   green            the new green value
+         * @param   {Number}   blue             the new blue value
+         * @param   {Number}   alpha            the new alpha value
+         */
+        setRGBA(red, green, blue, alpha) {
+            //#region Variables déclaration
+            const priv = internal(this);
+            const owner = this.owner;
+            //#endregion Variables déclaration
+            if (core.tools.isNumber(red) && core.tools.isNumber(green) && core.tools.isNumber(blue)  && core.tools.isNumber(alpha)) {
+                priv.red = red;
+                priv.green = green;
+                priv.blue = blue;
+                priv.alpha = alpha;
+                !this.updating && this.RGBtoHSL() && this.RGBtoHSV();
+                owner && !owner.loading && owner.update();
+            }
+        }
+        /**
          * Set the HSV of the color
          * @param   {Number}   hue              the new hue value
          * @param   {Number}   saturation       the new saturation value
