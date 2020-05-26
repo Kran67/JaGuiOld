@@ -60,7 +60,12 @@ class Classes {
     //#endregion getPropertyCategories
     //#region getTemplate
     static getTemplate(className) {
-        return core.templates[className] ? core.templates[className] : String.EMPTY;
+        let template = core.templates[className] ? core.templates[className] : String.EMPTY;
+        while (template.includes('{internalId}')) {
+            template = template.replace('{internalId}', String.uniqueId());
+        }
+        return template;
+        //return core.templates[className] ? core.templates[className] : String.EMPTY;
     }
     //#endregion getTemplate
     //#region createComponent
@@ -92,9 +97,11 @@ class Classes {
                     const tpl = obj.template;
                     if (!params.props.parentHTML) {
                         params.owner.insertTemplate(tpl);
+                        obj.internalId = params.owner.HTMLElement.lastElementChild.id;
                     } else {
                         const container = document.createElement(core.types.HTMLELEMENTS.DIV);
                         container.innerHTML = tpl;
+                        obj.internalId = container.firstElementChild.id;
                         params.props.parentHTML.appendChild(container.firstElementChild);
                     }
                 }

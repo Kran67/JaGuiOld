@@ -415,15 +415,13 @@ const Slider = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const thumbWidth = priv.leftThumb.offsetWidth / 2;
-            const PO = core.types.CSSUNITS.PO;
+            const htmlElement = this.HTMLElement;
             const PX = core.types.CSSUNITS.PX;
-            const oldProp = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'top' : 'left';
-            const prop = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'left' : 'top';
+            const size = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? htmlElement.offsetWidth : htmlElement.offsetHeight;
+            const prop = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'translateX(' : 'translateY(';
             //#endregion Variables déclaration
-            priv.leftThumb.style[oldProp] = String.EMPTY;
-            priv.rightThumb.style[oldProp] = String.EMPTY;
-            priv.leftThumb.style[prop] = `calc(${lValue}${PO} - ${thumbWidth}${PX})`;
-            priv.rightThumb.style[prop] = `calc(${rValue}${PO} - ${thumbWidth}${PX})`;
+            priv.leftThumb.style.transform = `${prop}${(size * (lValue / 100)) - thumbWidth}${PX})`;
+            priv.rightThumb.style.transform = `${prop}${(size * (lValue / 100)) - thumbWidth}${PX})`;
         }
         //#endregion moveThumbs
         //#region change
@@ -444,7 +442,7 @@ const Slider = (() => {
             }
             slider.update();
             slider.onChange.invoke();
-            slider.setFocus();
+            !this.focused && slider.setFocus();
         }
         //#endregion change
         //#region drawTickmarks
@@ -580,18 +578,22 @@ const Slider = (() => {
         moveToolTips(lValue, rValue) {
             //#region Variables déclaration
             const priv = internal(this);
-            const PO = core.types.CSSUNITS.PO;
-            const oldProp = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'top' : 'left';
-            const prop = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'left' : 'top';
+            const htmlElement = this.HTMLElement;
+            //const oldProp = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'top' : 'left';
+            //const prop = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'left' : 'top';
+            const size = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? htmlElement.offsetWidth : htmlElement.offsetHeight;
+            const prop = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'translateX(' : 'translateY(';
             //#endregion Variables déclaration
-            if (priv.showTooltips) {
-                priv.leftTooltip.style[oldProp] = "";
-                priv.rightTooltip.style[oldProp] = "";
-                priv.leftTooltip.style[prop] = `${lValue}${PO}`;
-                priv.leftTooltip.innerHTML = priv.leftInput.valueAsNumber.toFixed(priv.decimalPrecision);
-                priv.rightTooltip.style[prop] = `${rValue}${PO}`;
-                priv.rightTooltip.innerHTML = priv.rightInput.valueAsNumber.toFixed(priv.decimalPrecision);
-            }
+            //if (priv.showTooltips) {
+            //    //priv.leftTooltip.style[oldProp] = "";
+            //    //priv.rightTooltip.style[oldProp] = "";
+            //    //priv.leftTooltip.style[prop] = `${lValue}${PO}`;
+            //    priv.leftTooltip.innerHTML = priv.leftInput.valueAsNumber.toFixed(priv.decimalPrecision);
+            //    //priv.rightTooltip.style[prop] = `${rValue}${PO}`;
+            //    priv.rightTooltip.innerHTML = priv.rightInput.valueAsNumber.toFixed(priv.decimalPrecision);
+            //    priv.leftThumb.style.transform = `${prop}${(size * (lValue / 100)) - thumbWidth}${PX})`;
+            //    priv.rightThumb.style.transform = `${prop}${(size * (lValue / 100)) - thumbWidth}${PX})`;
+            //}
         }
         //#endregion moveToolTips
         //#region destroyToolTips
@@ -654,12 +656,6 @@ const Slider = (() => {
             }
         }
         //#endregion moveRange
-        //#region mouseDown
-        //mouseDown() {
-        //    super.mouseDown();
-        //    return !1;
-        //}
-        //#endregion mouseDown
         //#endregion Methods
     }
     return Slider;

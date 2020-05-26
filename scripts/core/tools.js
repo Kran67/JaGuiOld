@@ -223,14 +223,13 @@ class Tools {
         params.forceUpdate === undefined && (params.forceUpdate = !1);
         params.enumerable === undefined && (params.enumerable = !0);
         const setter = params.setter ? params.setter : (newValue) => {
-            if (!core.tools.valueInSet(newValue, params.enum)) {
-                return null;
-            }
-            if (params.variable[params.propName] !== newValue) {
-                params.variable[params.propName] = newValue;
-                params.forceUpdate && params.component.update && !params.component.loading &&
-                    !params.component.form.creating && !params.component.form.loading
-                    && params.component.update();
+            if (core.tools.valueInSet(newValue, params.enum)) {
+                if (params.variable[params.propName] !== newValue) {
+                    params.variable[params.propName] = newValue;
+                    params.forceUpdate && params.component.update && !params.component.loading &&
+                        !params.component.form.creating && !params.component.form.loading
+                        && params.component.update();
+                }
             }
         };
         Object.defineProperty(params.component, params.propName, {
@@ -572,16 +571,6 @@ class Tools {
         return !value;
     }
     //#endregion not
-    //#region changeAlpha
-    static changeAlpha(params) {
-        params.destProperty.alpha = params.value;
-    }
-    //#endregion changeAlpha
-    //#region changeRed
-    static changeRed(params) {
-        params.destProperty.red = params.value;
-    }
-    //#endregion changeRed
     //#region
     static getPropertyName() {
         return new Error('dummy')

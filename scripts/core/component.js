@@ -246,9 +246,7 @@ const Component = (() => {
             let html = core.classes.getTemplate(this.constructor.name);
             let a = html.split('{name}');
             //#endregion Variables déclaration
-            html = a.join(priv.name);
-            a = html.split('{internalId}');
-            html = a.join(priv.internalId);
+            html = a.join(priv.name ? priv.name : String.EMPTY);
             return html;
         }
         //#endregion template
@@ -635,14 +633,14 @@ const Component = (() => {
             return null;
         }
         //#endregion findComponent
-        //#region _updating
+        //#region updating
         _updating() {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
             priv.updating = !0;
         }
-        //#endregion _updating
+        //#endregion updating
         //#region updated
         updated() {
             //#region Variables déclaration

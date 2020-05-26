@@ -444,7 +444,7 @@ const CustomTabControl = (() => {
             //#endregion Variables déclaration
             owner.checkLastVisibleTab();
             const firstVisibleTabWidth = owner.tabs[owner.firstVisibleTab].HTMLElement.offsetWidth;
-            switch (this.tag) {
+            switch (this.direction) {
                 case DIRECTIONS.LEFT:
                     tabsContainer.scrollLeft -= firstVisibleTabWidth;
                     owner.firstVisibleTab--;
@@ -590,7 +590,7 @@ const CustomTabControl = (() => {
                     caption: String.EMPTY
                 }
             });
-            priv.btnLeft.tag = DIRECTIONS.LEFT;
+            priv.btnLeft.direction = DIRECTIONS.LEFT;
             priv.btnLeft.tabsContainer = priv.tabsContainer;
             priv.btnLeft.onClick.addListener(this.moveTabs);
             priv.btnRight = core.classes.createComponent({
@@ -604,7 +604,7 @@ const CustomTabControl = (() => {
                     caption: String.EMPTY
                 }
             });
-            priv.btnRight.tag = DIRECTIONS.RIGHT;
+            priv.btnRight.direction = DIRECTIONS.RIGHT;
             priv.btnRight.tabsContainer = priv.tabsContainer;
             priv.btnRight.onClick.addListener(this.moveTabs);
             this.checkViewBtns();

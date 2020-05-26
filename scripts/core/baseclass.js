@@ -20,7 +20,6 @@ const BaseClass = (() => {
             const priv = internal(this);
             //#endregion Variables déclaration
             props = !props ? {} : props;
-            this.tag = props.hasOwnProperty('tag') ? props.tag : null;
             //priv.stopEvent = props.hasOwnProperty('stopEvent') && core.tools.isBool(props.stopEvent)
             //    ? props.stopEvent : !0;
             priv.propsEnums = {};
@@ -99,10 +98,6 @@ const BaseClass = (() => {
          * @override
          */
         destroy() {
-            this.tag != null && core.tools.isObject(this.tag) && core.tools.isFunc(this.tag.destroy)
-                && this.tag.destroy();
-            this.tag = null;
-            delete this.tag;
             delete this.propsEnums;
         }
         addPropertyEnum(propName, _enum) {

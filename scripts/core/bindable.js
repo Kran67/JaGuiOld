@@ -58,46 +58,42 @@ const Bindable = (() => {
             const dataBindings = priv.dataBindings;
             const form = this.form;
             //#endregion Variables déclaration
-            dataBindings.find(item => item.property === property)
-                && dataBindings.filter(item => item.property === property)
-                    .forEach(dataBinding => {
-                        const destination = dataBinding.destination;
-                        if (form[destination.component]) {
-                            const sourceProperty = this[property];
-                            let destControl = form[destination.component];
-                            let destProperty = destination.property;
-                            let value = this[property];
-                            if (destination.property.includes('.')) {
-                                destination.property.split('.').forEach(prop => {
-                                    core.tools.isObject(destControl[prop]) && (destControl = destControl[prop]);
-                                    destProperty = prop;
-                                });
-                            }
-                            //destination.method && (value = core.tools[destination.expression](value));
-                            if (destination.expressions) {
-                                destination.expressions.forEach(exp => {
-                                    const needReturn = exp.needReturn || true; 
-                                    if (exp.script) {
-                                        const func = new Function('args', exp.script);
-                                        const ret = func({
-                                            obj: this,
-                                            value,
-                                            destControl,
-                                            destProperty: destControl[destProperty],
-                                            params: exp.params
-                                        });
-                                        needReturn && core.tools.isBool(needReturn) && (value = ret);
-                                    }
-                                });
-                            }
-                            destination.converter && (value = Convert[destination.converter](value));
-                            //destination.format && (value = value[format]());
-                            core.tools.isObject(sourceProperty) && core.tools.isObject(destControl[destProperty])
-                                && core.tools.isFunc(destControl[destProperty].assign)
-                                ? destProperty.assign(value)
-                                : destControl[destProperty] = value;
-                        }
-                    });
+            dataBindings.filter(item => item.property === property)
+                .forEach(dataBinding => {
+                    const destination = dataBinding.destination;
+                    if (form[destination.component]) {
+                        const sourceProperty = this[property];
+                        let destControl = form[destination.component];
+                        let destProperty = destination.property;
+                        let value = this[property];
+                        destination.property.includes('.') &&
+                            destination.property.split('.').forEach(prop => {
+                                core.tools.isObject(destControl[prop]) && (destControl = destControl[prop]);
+                                destProperty = prop;
+                            });
+                        destination.expressions &&
+                            destination.expressions.forEach(exp => {
+                                const needReturn = exp.needReturn || !0;
+                                if (exp.script) {
+                                    const func = new Function('args', exp.script);
+                                    const ret = func({
+                                        obj: this,
+                                        value,
+                                        destControl,
+                                        destProperty: destControl[destProperty],
+                                        params: exp.params
+                                    });
+                                    needReturn && core.tools.isBool(needReturn) && (value = ret);
+                                }
+                            });
+                        destination.converter && (value = Convert[destination.converter](value));
+                        //destination.format && (value = value[format]());
+                        core.tools.isObject(sourceProperty) && core.tools.isObject(destControl[destProperty])
+                            && core.tools.isFunc(destControl[destProperty].assign)
+                            ? destProperty.assign(value)
+                            : destControl[destProperty] = value;
+                    }
+                });
         }
         //#endregion propertyChanged
         //#region addDataBinding

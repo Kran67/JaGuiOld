@@ -1160,12 +1160,6 @@ const Types = Object.seal(Object.freeze({
     //    BASE: 'base'
     //})),
     //#endregion
-    //#region BINDABLEPROPERTIES
-    /**
-     * @type    {Object}        BINDABLEPROPERTIES
-     */
-    BINDABLEPROPERTIES: {},
-    //Object.freeze(BINDABLEPROPERTIES);
     //#endregion
     //#region DRAGKINDS
     /**

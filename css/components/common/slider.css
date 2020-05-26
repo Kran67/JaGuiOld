@@ -32,71 +32,81 @@
     pointer-events: none;
 }
 
-    .SliderInput::-ms-track {
-        pointer-events: none;
-        -webkit-appearance: none;
-        background: transparent;
-        border: transparent;
-    }
+.SliderInput::-ms-track {
+    pointer-events: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: transparent;
+}
 
-    .SliderInput::-moz-range-track {
-        pointer-events: none;
-        -moz-appearance: none;
-        background: transparent;
-        border: transparent;
-    }
+.SliderInput::-moz-range-track {
+    pointer-events: none;
+    -moz-appearance: none;
+    background: transparent;
+    border: transparent;
+}
 
-    .SliderInput:focus::-webkit-slider-runnable-track {
-        pointer-events: none;
-        background: transparent;
-        border: transparent;
-        -webkit-appearance: none;
-    }
+.SliderInput:focus::-webkit-slider-runnable-track {
+    pointer-events: none;
+    background: transparent;
+    border: transparent;
+    -webkit-appearance: none;
+}
 
-    .SliderInput:focus {
-        outline: none;
-    }
+.SliderInput:focus {
+    outline: none;
+}
 
-    .SliderInput::-ms-thumb {
-        pointer-events: all;
-        border-radius: 0;
-        border: 0 none;
-        background: red;
-    }
+.SliderInput::-ms-thumb {
+    pointer-events: all;
+    border-radius: 0;
+    border: 0 none;
+    background: red;
+}
 
-    .SliderInput::-moz-range-thumb {
-        pointer-events: all;
-        border-radius: 0;
-        border: 0 none;
-        background: red;
-    }
+.SliderInput::-moz-range-thumb {
+    pointer-events: all;
+    border-radius: 0;
+    border: 0 none;
+    background: red;
+}
 
-    .SliderInput::-webkit-slider-thumb {
-        pointer-events: all;
-        border-radius: 0;
-        border: 0 none;
-        background: red;
-        -webkit-appearance: none;
-    }
+.SliderInput::-webkit-slider-thumb {
+    pointer-events: all;
+    border-radius: 0;
+    border: 0 none;
+    background: red;
+    -webkit-appearance: none;
+}
 
-    .SliderInput::-ms-fill-lower,
-    .SliderInput::-ms-fill-upper {
-        background: transparent;
-        border: 0 none;
-    }
+.SliderInput::-ms-fill-lower,
+.SliderInput::-ms-fill-upper {
+    background: transparent;
+    border: 0 none;
+}
 
-    .SliderInput::-ms-tooltip {
-        display: none;
-    }
+.SliderInput::-ms-tooltip {
+    display: none;
+}
 
-    .SliderInput.orientation-vertical {
-        transform: rotate(90deg);
-        height: calc(100% + 14px);
-        width: 100%;
-    }
+.SliderInput.orientation-vertical {
+    transform: rotate(90deg);
+    height: calc(100% + 14px);
+    width: 100%;
+}
 
 .SliderThumb {
+    left: 0;
+    top: 0;
     z-index: 2;
+}
+
+.Slider.orientation-horizontal .SliderThumb {
+    top: 4px;
+}
+
+.Slider.orientation-vertical .SliderThumb {
+    left: 4px;
 }
 
 .SliderTooltip {

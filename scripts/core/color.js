@@ -850,9 +850,9 @@ const Color = (function () {
             let saturation = 0;
             //#endregion Variables déclaration
             if (delta) {
-                cMax === red && (hue = green - blue / delta);
-                cMax === green && (hue = 2 + blue - red / delta);
-                cMax === blue && (hue = 4 + red - green / delta);
+                cMax === red && (hue = (green - blue) / delta);
+                cMax === green && (hue = 2 + (blue - red) / delta);
+                cMax === blue && (hue = 4 + (red - green) / delta);
                 cMax && (saturation = delta / cMax);
             }
             hue = priv.hue = 60 * hue | 0;

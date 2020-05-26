@@ -355,7 +355,7 @@ const WindowTitleBar = (() => {
                                         p.x > newLeft + savedSizePosState.width
                                             && (newLeft = p.x - int(savedSizePosState.width / 2));
                                     } else if (snapArea === SNAPAREAS.RIGHT) {
-                                        p.x > newLeft + savedSizePosState.width
+                                        p.x > newLeft + savedSizePosState.width;
                                     }
                                     form.restoreWindow();
                                 }
@@ -1091,28 +1091,6 @@ const BaseWindow = (() => {
             let a = html.split('{appName}');
             //#endregion Variables déclaration
             html = a.join(this.app.name);
-            a = html.split('{internalId_Layout}');
-            html = a.join(String.uniqueId());
-            a = html.split('{internalId_content}');
-            html = a.join(String.uniqueId());
-            a = html.split('{internalId_TitleBar}');
-            html = a.join(String.uniqueId());
-            //a=html.split('{internalId_Icon}');
-            //html=a.join(String.uniqueId());
-            a = html.split('{internalId_Title}');
-            html = a.join(String.uniqueId());
-            a = html.split('{internalId_CloseButton}');
-            html = a.join(String.uniqueId());
-            a = html.split('{internalId_MaxRestoreButton}');
-            html = a.join(String.uniqueId());
-            a = html.split('{internalId_MinimizeButton}');
-            html = a.join(String.uniqueId());
-            a = html.split('{internalId_HelpButton}');
-            html = a.join(String.uniqueId());
-            a = html.split('{internalId_RollUpDownButton}');
-            html = a.join(String.uniqueId());
-            a = html.split('{internalId_StayOnOffButton}');
-            html = a.join(String.uniqueId());
             a = html.split('{title}');
             html = a.join(priv.props && priv.props.caption ? priv.props.caption : this.constructor.name);
             a = html.split('{content}');
@@ -1383,7 +1361,7 @@ const BaseWindow = (() => {
                 lastActiveWindow.pop();
             }
             if (priv.isModal && isHtmlRenderer) {
-                glass = activeWindow.HTMLElement.querySelector('.glass')
+                glass = activeWindow.HTMLElement.querySelector('.glass');
                 if (!activeWindow.isChildWindow) {
                     isHtmlRenderer && activeWindow.HTMLElement.removeChild(glass);
                 } else {
@@ -3024,17 +3002,17 @@ class Window extends BaseWindow {
 core.classes.register(core.types.CATEGORIES.CONTAINERS, Window);
 core.classes.register(core.types.INTERNALCATEGORIES.INTERNAL, WindowTitleBar, WindowContent, BaseWindow);
 //#region Templates
-const WindowTitleBarTpl = ['<jagui-windowtitlebar id="{internalId_TitleBar}" data-class="WindowTitleBar" class="Control WindowTitleBar {theme}">',
-    '<jagui-windowtitle id="_oNun98l0" data-class="WindowTitle" class="WindowTitle {theme}">{title}</jagui-windowtitle>',
-    '<jagui-windowstayonoffbutton id="{internalId_StayOnOffButton}" data-class="WindowStayOnOffButton" class="Control Button WindowTitleButton WindowStayOnOffButton {theme}"></jagui-windowstayonoffbutton>',
-    '<jagui-windowrollupdownbutton id="{internalId_RollUpDownButton}"" data-class="WindowRollUpDownButton" class="Control Button WindowTitleButton WindowRollUpDownButton {theme}"></jagui-windowrollupdownbutton>',
-    '<jagui-windowhelpbutton id="{internalId_HelpButton}" data-class="WindowHelpButton" class="Control Button WindowTitleButton WindowHelpButton {theme}"></jagui-windowhelpbutton>',
-    '<jagui-windowminimizebutton id="{internalId_MinimizeButton}" data-class="WindowMinimizeButton" class="Control Button WindowTitleButton WindowMinimizeButton {theme}"></jagui-windowminimizebutton>',
-    '<jagui-windowmaxrestorebutton id="{internalId_MaxRestoreButton}"" data-class="WindowMaxRestoreButton" class="Control Button WindowTitleButton WindowMaxRestoreButton {theme}"></jagui-windowmaxrestorebutton>',
-    '<jagui-windowclosebutton id="{internalId_CloseButton}" data-class="WindowCloseButton" class="Control Button WindowTitleButton WindowCloseButton {theme}"></jagui-windowclosebutton>',
+const WindowTitleBarTpl = ['<jagui-windowtitlebar id="{internalId}" data-class="WindowTitleBar" class="Control WindowTitleBar {theme}">',
+    '<jagui-windowtitle id="{internalId}" data-class="WindowTitle" class="WindowTitle {theme}">{title}</jagui-windowtitle>',
+    '<jagui-windowstayonoffbutton id="{internalId}" data-class="WindowStayOnOffButton" class="Control Button WindowTitleButton WindowStayOnOffButton {theme}"></jagui-windowstayonoffbutton>',
+    '<jagui-windowrollupdownbutton id="{internalId}"" data-class="WindowRollUpDownButton" class="Control Button WindowTitleButton WindowRollUpDownButton {theme}"></jagui-windowrollupdownbutton>',
+    '<jagui-windowhelpbutton id="{internalId}" data-class="WindowHelpButton" class="Control Button WindowTitleButton WindowHelpButton {theme}"></jagui-windowhelpbutton>',
+    '<jagui-windowminimizebutton id="{internalId}" data-class="WindowMinimizeButton" class="Control Button WindowTitleButton WindowMinimizeButton {theme}"></jagui-windowminimizebutton>',
+    '<jagui-windowmaxrestorebutton id="{internalId}"" data-class="WindowMaxRestoreButton" class="Control Button WindowTitleButton WindowMaxRestoreButton {theme}"></jagui-windowmaxrestorebutton>',
+    '<jagui-windowclosebutton id="{internalId}" data-class="WindowCloseButton" class="Control Button WindowTitleButton WindowCloseButton {theme}"></jagui-windowclosebutton>',
     '</jagui-windowtitlebar>'].join(String.EMPTY);
-const WindowTpl = ['<jagui-window id="{internalId}" data-class="Window" class="Control Window {theme} {appName}"><jagui-windowlayout id="{internalId_Layout}" data-class="Layout" ',
-    `class="Control Layout WindowLayout {theme}">${WindowTitleBarTpl}<jagui-windowcontent id="{internalId_content}" data-class="WindowContent" class="Control WindowContent {theme}">{content}</jagui-windowcontent>`,
+const WindowTpl = ['<jagui-window id="{internalId}" data-class="Window" class="Control Window {theme} {appName}"><jagui-windowlayout id="{internalId}" data-class="Layout" ',
+    `class="Control Layout WindowLayout {theme}">${WindowTitleBarTpl}<jagui-windowcontent id="{internalId}" data-class="WindowContent" class="Control WindowContent {theme}">{content}</jagui-windowcontent>`,
     '</jagui-windowlayout></jagui-window>'].join(String.EMPTY);
 core.classes.registerTemplates([{ Class: Window, template: WindowTpl }, { Class: WindowTitleBar, template: WindowTitleBarTpl }]);
 //#endregion Templates

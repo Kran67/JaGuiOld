@@ -39,7 +39,8 @@ const ColorQuad = (() => {
                     propName: 'format',
                     enum: core.types.COLORFORMATS,
                     variable: priv,
-                    value: props.hasOwnProperty('format') ? props.format : core.types.COLORFORMATS.HSL
+                    value: props.hasOwnProperty('format') ? props.format : core.types.COLORFORMATS.HSL,
+                    forceUpdate: !0
                 });
                 priv.gradientEdit = props.hasOwnProperty('gradientEdit') ? this.form[props.gradientEdit] : null;
                 priv.preserveColorAlpha = props.hasOwnProperty('preserveColorAlpha') && core.tools.isBool(props.preserveColorAlpha)
@@ -157,7 +158,7 @@ const ColorQuad = (() => {
                 priv.handle.x = Math.max(Math.min(point.x, htmlElement.offsetWidth), 0);
                 priv.handle.y = Math.max(Math.min(point.y, htmlElement.offsetHeight), 0);
                 priv.handleObj
-                    && (priv.handleObj.style.transform = `translate(${(priv.handle.x - COLORPICKSIZE / 2)}${PX},${(priv.handle.y - COLORPICKSIZE / 2)}${PX})`);
+                    && (priv.handleObj.style.transform = `translate(${(priv.handle.x - (COLORPICKSIZE / 2))}${PX},${(priv.handle.y - (COLORPICKSIZE / 2))}${PX})`);
             }
             this._update();
         }
@@ -215,10 +216,10 @@ const ColorQuad = (() => {
                 priv.handleObj.jsObj = this;
                 htmlElement.appendChild(priv.handleObj);
             }
-            Object.keys(core.types.COLORFORMATS).forEach(format => {
-                htmlElement.classList.remove(format);
-            });
-            htmlElement.classList.add(priv.format);
+            //Object.keys(core.types.COLORFORMATS).forEach(format => {
+            //    htmlElement.classList.remove(format);
+            //});
+            //htmlElement.classList.add(priv.format);
             super.loaded();
             priv.props.hasOwnProperty('colorBox') && !priv.colorBox
                 && (priv.colorBox = this.form[priv.props.colorBox]);
@@ -250,8 +251,8 @@ const ColorQuad = (() => {
                 color.lightness = 50;
                 priv.format === COLORFORMATS.HSV ? color.HSVtoRGB() : color.HSLtoRGB();
                 this.HTMLElementStyle.backgroundColor = color.toRGBAString();
-                const value = 100 - int(priv.handle.y * 100 / htmlElement.offsetHeight);
-                const saturation = int(priv.handle.x * 100 / htmlElement.offsetWidth);
+                const value = 100 - (priv.handle.y * 100 / htmlElement.offsetHeight)|0;
+                const saturation = (priv.handle.x * 100 / htmlElement.offsetWidth)|0;
                 priv.format === COLORFORMATS.HSV
                     ? priv.color.setHSV(color.hue, saturation, value)
                     : priv.color.setHSL(color.hue, saturation, value);
@@ -267,6 +268,10 @@ const ColorQuad = (() => {
                     this.propertyChanged('color');
                     this.onChange.invoke();
                 }
+                Object.keys(COLORFORMATS).forEach(format => {
+                    htmlElement.classList.remove(format.toLowerCase());
+                });
+                htmlElement.classList.add(priv.format);
             }
         }
         //#endregion _update
