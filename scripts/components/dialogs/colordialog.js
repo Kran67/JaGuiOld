@@ -2,6 +2,7 @@
 import { Window } from '/scripts/components/containers/window.js';
 import { CommonDialog } from '/scripts/components/dialogs/commondialog.js';
 import { Colors } from '/scripts/core/color.js';
+import { Mouse } from '/scripts/core/mouse.js';
 import '/scripts/components/common/button.js';
 import '/scripts/components/common/label.js';
 import '/scripts/components/common/slider.js';
@@ -189,13 +190,40 @@ const ColorDlg = (() => {
             if (priv.control) {
                 this.clrBoxCurColor.color.assign(color);
                 this.clrPicker.color.assign(color);
+                this.clrQuad.onChange.addListener(this.clrQuad_change);
+                //this.txtbHex.btns.first.onClick.addListener(this.txtbHexBtn_click);
                 this.updateControls(color);
             }
         }
         //#endregion loaded
+        //#region clrQuad_change
+        clrQuad_change() {
+            let func;
+            switch (this.form.txtbHex.tag) {
+                case 'rgb':
+                    func = 'toRGBHexString';
+                    break;
+                case 'rgba':
+                    func = 'toRGBAHexString';
+                    break;
+            }
+            this.form.txtbHex.text = this.color[func]();
+        }
+        //#endregion clrQuad_change
+        //#region txtbHex_click
+        txtbHexBtn_click(event) {
+            let newTag;
+            switch (this.owner.tag) {
+                case 'rgb':
+                    newTag = 'rgba';
+                    break;
+            }
+            this.owner.tag = newTag;
+            this.form.clrQuad.onChange.invoke();
+        }
+        //#endregion txtbHex_click
         //#region updateControls
         updateControls(color) {
-
         }
         //#endregion updateControls
         //#endregion Methods
@@ -310,22 +338,22 @@ core.locales[core.types.LANGUAGES.EN_US] = {
 if (core.isHTMLRenderer) {
     const WindowTpl = core.classes.getTemplate(core.classes.Window.name);
     const ColorDlgTpl = ['<jagui-gridlayout id="{internalId_grdLayout}" data-class="GridLayout" class="Control GridLayout">',
-            '<properties>{ "name": "grdLayout", "align": "client", "margin": 15, "templateColumns": "234px 35px 135px 103px 30px", ',
-            '"templateRows": "20px 24px 38px 25px 26px 44px 28px 29px", "columnGap": 0, "rowGap": 0 }</properties>',
+        '<properties>{ "name": "grdLayout", "align": "client", "margin": 15, "templateColumns": "234px 35px 135px 103px 30px", ',
+        '"templateRows": "20px 24px 38px 25px 26px 44px 28px 29px", "columnGap": 0, "rowGap": 0 }</properties>',
         '<jagui-colorquad id="{internalId_clrQuad}" data-class="ColorQuad" class="Control ColorQuad hsl">',
-            '<properties>{ "name": "clrQuad", "color": "blue", "format": "hsl", "rowSpan": 8, ',
-            '"column": 1, "row": 1, "width": 234, "height": 234, "colorBox": "clrBoxNewColor", "preserveColorAlpha": true }</properties></jagui-colorquad>',
+        '<properties>{ "name": "clrQuad", "color": "blue", "format": "hsl", "rowSpan": 8, ',
+        '"column": 1, "row": 1, "width": 234, "height": 234, "colorBox": "clrBoxNewColor", "preserveColorAlpha": true }</properties></jagui-colorquad>',
         '<jagui-colorpicker id="{internalId_clrPicker}" data-class="ColorPicker" class="Control ColorPicker">',
-            '<properties>{ "name": "clrPicker", "colorQuad": "clrQuad", "color": "blue", "column": 2, "row": 1, "rowSpan": 8, "margin": { "left": 8, "right": 8 } }',
-            '</properties></jagui-colorpicker>',
+        '<properties>{ "name": "clrPicker", "colorQuad": "clrQuad", "color": "blue", "column": 2, "row": 1, "rowSpan": 8, "margin": { "left": 8, "right": 8 } }',
+        '</properties></jagui-colorpicker>',
         '<jagui-label id="{internalId_lblCurColor}" data-class="Label" class="Control Label {theme}">',
-            '<properties>{ "name": "lblCurColor", "column": 3, "row": 1, "horizAlign": "center", "vertAlign": "bottom" }</properties></jagui-label>',
+        '<properties>{ "name": "lblCurColor", "column": 3, "row": 1, "horizAlign": "center", "vertAlign": "bottom" }</properties></jagui-label>',
         '<jagui-label id="{internalId_lblNewColor}" data-class="Label" class="Control Label {theme}">',
-            '<properties>{ "name": "lblNewColor", "column": 4, "row": 1, "horizAlign": "center", "vertAlign": "bottom", "colSpan": 2 }</properties></jagui-label>',
+        '<properties>{ "name": "lblNewColor", "column": 4, "row": 1, "horizAlign": "center", "vertAlign": "bottom", "colSpan": 2 }</properties></jagui-label>',
         '<jagui-colorbox id="{internalId_clrBoxCurColor}" data-class="ColorBox" class="Control ColorBox"><properties>{ "name": "clrBoxCurColor", "column": 3, "row": 2, "margin": { "left": 5, "right": 5 } }</properties></jagui-colorbox>',
         '<jagui-colorbox id="{internalId_clrBoxNewColor}" data-class="ColorBox" class="Control ColorBox"><properties>{ "name": "clrBoxNewColor", "column": 4, "row": 2, "colSpan": 2, "margin": { "left": 5, "right": 5 } }</properties></jagui-colorbox>',
         '<jagui-pagecontrol id="{internalId_pgeCtrl}" data-class="PageControl" class="Control TabControl PageControl {theme}">',
-            '<properties>{ "name": "pgeCtrl", "activeTab": "tabRGB", "column": 3, "row": 3, "colSpan": 3, "margin": 7, "centerTabs": true, "rowSpan": 4 }</properties>',
+        '<properties>{ "name": "pgeCtrl", "activeTab": "tabRGB", "column": 3, "row": 3, "colSpan": 3, "margin": 7, "centerTabs": true, "rowSpan": 4, "dataBindings": [{ "property": "activeTab", "destination": { "component": "lblDeg", "property": "visible", "expressions": [{ "script": "return args.obj.activeTabIndex > 0;" }] } },{ "property": "activeTab", "destination": { "component": "lblSatPer", "property": "visible", "expressions": [{ "script": "return args.obj.activeTabIndex > 0;" }] } },{ "property": "activeTab", "destination": { "component": "lblLVPer", "property": "visible", "expressions": [{ "script": "return args.obj.activeTabIndex > 0;" }] } }] }</properties>',
         '<jagui-tabcontrolheader class="Control TabControlHeader {theme}">',
         '<jagui-tabscontainer class="Control TabsContainer {theme}">',
         '<jagui-tabsheet id="{internalId_tabRGB}" data-class="TabSheet" data-name="tabRGB" class="Control Tab TabSheet selected {theme}">RGB</jagui-tabsheet>',
@@ -333,85 +361,86 @@ if (core.isHTMLRenderer) {
         '<jagui-tabsheet id="{internalId_tabHSV}" data-class="TabSheet" data-name="tabHSV" class="Control Tab TabSheet {theme}">HSV</jagui-tabsheet>',
         '</jagui-tabscontainer></jagui-tabcontrolheader>',
         '<jagui-tabscontent id="{internalId_tabsContent}" data-class="Layout" class="Control TabsContent PagesContent {theme}">',
-            '<properties>{ "name": "TabContent", "inForm": false, "margin": { "top": -8 } }</properties>',
+        '<properties>{ "name": "TabContent", "inForm": false, "margin": { "top": -8 } }</properties>',
         '<jagui-pagecontent id="{internalId_pgeRGB}" data-class="PageContent" class="Control PageContent {theme}">',
-            '<properties>{ "name": "pgeRGB", "inForm": false, "tab": "tabRGB", "align": "client" }</properties>',
+        '<properties>{ "name": "pgeRGB", "inForm": false, "tab": "tabRGB", "align": "client" }</properties>',
         '<jagui-gridlayout id="{internalId_grdLayout_pgeRGB}" data-class="GridLayout" class="Control GridLayout">',
-            '<properties>{ "name": "grdLayout_pgeRGB", "align": "client", "margin": { "left": 12, "top": 14, "right": 22, "bottom": 14 }, "templateColumns": "68px 120px 30px", ',
-            '"templateRows": "23px 23px 23px", "columnGap": 0, "rowGap": 3 }</properties>',
+        '<properties>{ "name": "grdLayout_pgeRGB", "align": "client", "margin": { "left": 12, "top": 14, "right": 22, "bottom": 14 }, "templateColumns": "68px 120px 30px", ',
+        '"templateRows": "23px 23px 23px", "columnGap": 0, "rowGap": 3 }</properties>',
         '<jagui-label id="{internalId_lblRed}" data-class="Label" class="Control Label {theme}">',
-            '<properties>{ "name": "lblRed", "vertAlign": "middle" }</properties></jagui-label>',
-        '<jagui-slider id="{internalId_slrRed}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrRed", "values": [0,0], "max": 255, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbRed", "property": "text", "converter": "intToStr" } }, { "property": "firstValue", "destination": { "component": "clrBoxNewColor", "property": "color.red" } }] }</properties></jagui-slider>',
+        '<properties>{ "name": "lblRed", "vertAlign": "middle" }</properties></jagui-label>',
+        '<jagui-slider id="{internalId_slrRed}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrRed", "values": [0,0], "max": 255, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbRed", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId_txtbRed}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbRed", "readOnly": true, "text": "0" }</properties></jagui-textbox>',
         '<jagui-label id="{internalId_lblGreen}" data-class="Label" class="Control Label {theme}">',
-            '<properties>{ "name": "lblGreen", "vertAlign": "middle" }</properties></jagui-label>',
+        '<properties>{ "name": "lblGreen", "vertAlign": "middle" }</properties></jagui-label>',
         '<jagui-slider id="{internalId_slrGreen}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrGreen", "values": [0,0], "max": 255, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbGreen", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId_txtbGreen}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbGreen", "readOnly": true, "text": "0" }</properties></jagui-textbox>',
         '<jagui-label id="{internalId_lblBlue}" data-class="Label" class="Control Label {theme}">',
-            '<properties>{ "name": "lblBlue", "vertAlign": "middle" }</properties></jagui-label>',
+        '<properties>{ "name": "lblBlue", "vertAlign": "middle" }</properties></jagui-label>',
         '<jagui-slider id="{internalId_slrBlue}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrBlue", "values": [0,0], "max": 255, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbBlue", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId_txtbBlue}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbBlue", "readOnly": true, "text": "0" }</properties></jagui-textbox>',
         '</jagui-gridlayout>',
         '</jagui-pagecontent>',
         '<jagui-pagecontent id="{internalId_pgeHSL}" data-class="PageContent" class="Control PageContent {theme}">',
-            '<properties>{ "name": "pgeHSL", "inForm": false, "tab": "tabHSL", "align": "client" }</properties>',
+        '<properties>{ "name": "pgeHSL", "inForm": false, "tab": "tabHSL", "align": "client" }</properties>',
         '<jagui-gridlayout id="{internalId_grdLayout_pgeHSL}" data-class="GridLayout" class="Control GridLayout">',
-            '<properties>{ "name": "grdLayout_pgeHSL", "align": "client", "margin": { "left": 12, "top": 14, "right": 12, "bottom": 14 }, "templateColumns": "68px 120px 30px 10px", ',
-            '"templateRows": "23px 23px 23px", "columnGap": 0, "rowGap": 3 }</properties>',
+        '<properties>{ "name": "grdLayout_pgeHSL", "align": "client", "margin": { "left": 12, "top": 14, "right": 12, "bottom": 14 }, "templateColumns": "68px 120px 30px 10px", ',
+        '"templateRows": "23px 23px 23px", "columnGap": 0, "rowGap": 3 }</properties>',
         '<jagui-label id="{internalId_lblHue}" data-class="Label" class="Control Label {theme}">',
-            '<properties>{ "name": "lblHue", "vertAlign": "middle" }</properties></jagui-label>',
+        '<properties>{ "name": "lblHue", "vertAlign": "middle" }</properties></jagui-label>',
         '<jagui-slider id="{internalId_slrHue}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrHue", "values": [0,0], "max": 359, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbHue", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId_txtbHue}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbHue", "readOnly": true }</properties></jagui-textbox>',
         '<jagui-label id="{internalId_lblSat}" data-class="Label" class="Control Label {theme}">',
-            '<properties>{ "name": "lblSat", "vertAlign": "middle", "column": 1, "row": 2 }</properties></jagui-label>',
+        '<properties>{ "name": "lblSat", "vertAlign": "middle", "column": 1, "row": 2 }</properties></jagui-label>',
         '<jagui-slider id="{internalId_slrSat}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrSat", "values": [0,0], "max": 100, "column": 2, "row": 2, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbSat", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId_txtbSat}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbSat", "readOnly": true, "column": 3, "row": 2 }</properties></jagui-textbox>',
         '<jagui-label id="{internalId_lblLight}" data-class="Label" class="Control Label {theme}">',
-            '<properties>{ "name": "lblLight", "vertAlign": "middle", "column": 1, "row": 3 }</properties></jagui-label>',
+        '<properties>{ "name": "lblLight", "vertAlign": "middle", "column": 1, "row": 3 }</properties></jagui-label>',
         '<jagui-slider id="{internalId_slrLight}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrLight", "values": [0,0], "column": 2, "row": 3, "max": 100, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbLight", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId_txtbLight}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbLight", "readOnly": true, "column": 3, "row": 3 }</properties></jagui-textbox>',
         '</jagui-gridlayout>',
         '</jagui-pagecontent>',
         '<jagui-pagecontent id="{internalId_pgeHSV}" data-class="PageContent" class="Control PageContent {theme}">',
-            '<properties>{ "name": "pgeHSV", "inForm": false, "tab": "tabHSV", "align": "client" }</properties>',
+        '<properties>{ "name": "pgeHSV", "inForm": false, "tab": "tabHSV", "align": "client" }</properties>',
         '<jagui-gridlayout id="{internalId_grdLayout_pgeHSV}" data-class="GridLayout" class="Control GridLayout">',
-            '<properties>{ "name": "grdLayout_pgeHSV", "align": "client", "margin": { "left": 12, "top": 14, "right": 12, "bottom": 14 }, "templateColumns": "68px 120px 30px 10px", ',
-            '"templateRows": "23px 23px 23px", "columnGap": 0, "rowGap": 3 }</properties>',
+        '<properties>{ "name": "grdLayout_pgeHSV", "align": "client", "margin": { "left": 12, "top": 14, "right": 12, "bottom": 14 }, "templateColumns": "68px 120px 30px 10px", ',
+        '"templateRows": "23px 23px 23px", "columnGap": 0, "rowGap": 3 }</properties>',
         '<jagui-label id="{internalId_lblHSVHue}" data-class="Label" class="Control Label {theme}">',
-            '<properties>{ "name": "lblHSVHue", "vertAlign": "middle" }</properties></jagui-label>',
+        '<properties>{ "name": "lblHSVHue", "vertAlign": "middle" }</properties></jagui-label>',
         '<jagui-slider id="{internalId_slrHSVHue}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrHSVHue", "values": [0,0], "max": 359, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbHSVHue", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId_txtbHSVHue}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbHSVHue", "readOnly": true }</properties></jagui-textbox>',
         '<jagui-label id="{internalId_lblHSVSat}" data-class="Label" class="Control Label {theme}">',
-            '<properties>{ "name": "lblHSVSat", "vertAlign": "middle", "column": 1, "row": 2 }</properties></jagui-label>',
+        '<properties>{ "name": "lblHSVSat", "vertAlign": "middle", "column": 1, "row": 2 }</properties></jagui-label>',
         '<jagui-slider id="{internalId_slrHSVSat}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrHSVSat", "values": [0,0], "max": 100, "margin": { "left": 15, "right": 15 }, "column": 2, "row": 2, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbHSVSat", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId_txtbHSVSat}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbHSVSat", "readOnly": true, "column": 3, "row": 2 }</properties></jagui-textbox>',
         '<jagui-label id="{internalId_lblValue}" data-class="Label" class="Control Label {theme}">',
-            '<properties>{ "name": "lblValue", "vertAlign": "middle", "column": 1, "row": 3 }</properties></jagui-label>',
+        '<properties>{ "name": "lblValue", "vertAlign": "middle", "column": 1, "row": 3 }</properties></jagui-label>',
         '<jagui-slider id="{internalId_slrValue}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrValue", "values": [0,0], "max": 100, "column": 2, "row": 3, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbValue", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId_txtbValue}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbValue", "readOnly": true, "column": 3, "row": 3 }</properties></jagui-textbox>',
         '</jagui-gridlayout>',
         '</jagui-pagecontent>',
         '</jagui-tabscontent></jagui-pagecontrol>',
         '<jagui-label id="{internalId_lblDeg}" data-class="Label" class="Control Label {theme}">',
-            '<properties>{ "name": "lblDeg", "caption": "°", "column": 5, "row": 4, "margin": { "left": 3 } }</properties></jagui-label>',
+        '<properties>{ "name": "lblDeg", "caption": "°", "column": 5, "row": 4, "margin": { "left": 3 } }</properties></jagui-label>',
         '<jagui-label id="{internalId_lblSatPer}" data-class="Label" class="Control Label {theme}">',
-            '<properties>{ "name": "lblSatPer", "caption": "%", "column": 5, "row": 5, "margin": { "left": 3 } }</properties></jagui-label>',
+        '<properties>{ "name": "lblSatPer", "caption": "%", "column": 5, "row": 5, "margin": { "left": 3 } }</properties></jagui-label>',
         '<jagui-label id="{internalId_lblLVPer}" data-class="Label" class="Control Label {theme}">',
-            '<properties>{ "name": "lblLVPer", "caption": "%", "column": 5, "row": 6, "margin": { "left": 3 } }</properties></jagui-label>',
+        '<properties>{ "name": "lblLVPer", "caption": "%", "column": 5, "row": 6, "margin": { "left": 3 } }</properties></jagui-label>',
         '<jagui-gridlayout id="{internalId_grdLayout_opacity}" data-class="GridLayout" class="Control GridLayout">',
-            '<properties>{ "name": "grdLayout_opacity", "margin": { "left": 20, "top": 3, "right": 20, "bottom": 2 }, "templateColumns": "68px 120px 30px 10px", ',
-            '"templateRows": "23px", "columnGap": 0, "rowGap": 0, "column": 3, "row": 7, "colSpan": 3 }</properties>',
+        '<properties>{ "name": "grdLayout_opacity", "margin": { "left": 20, "top": 3, "right": 20, "bottom": 2 }, "templateColumns": "68px 120px 30px 10px", ',
+        '"templateRows": "23px", "columnGap": 0, "rowGap": 0, "column": 3, "row": 7, "colSpan": 3 }</properties>',
         '<jagui-label id="{internalId_lblOpacity}" data-class="Label" class="Control Label {theme}">',
-            '<properties>{ "name": "lblOpacity", "vertAlign": "middle" }</properties></jagui-label>',
-        '<jagui-alphaslider id="{internalId_slrOpacity}" data-class="AlphaSlider" class="Control Slider AlphaSlider {theme}"><properties>{"name": "slrOpacity", "values": [1,0], "margin": { "left": 15, "right": 15 }, "column": 2, "row": 1, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbOpacity", "property": "text", "expressions": [{ "script": "return int(args.value * 100).toString()", "params": "value", "needReturn": true }] } }, { "property": "firstValue", "destination": { "component": "clrBoxNewColor", "property": "color", "expressions": [{ "script": "core.tools.changeAlpha(args)" }] } }] }</properties></jagui-alphaslider>',
+        '<properties>{ "name": "lblOpacity", "vertAlign": "middle" }</properties></jagui-label>',
+        '<jagui-alphaslider id="{internalId_slrOpacity}" data-class="AlphaSlider" class="Control Slider AlphaSlider {theme}"><properties>{"name": "slrOpacity", "values": [1,0], "margin": { "left": 15, "right": 15 }, "column": 2, "row": 1, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbOpacity", "property": "text", "expressions": [{ "script": "return int(args.value * 100).toString()", "params": "value" }] } }, { "property": "firstValue", "destination": { "component": "clrBoxNewColor", "property": "color", "expressions": [{ "script": "core.tools.changeAlpha(args)", "needReturn": false }] } }] }</properties></jagui-alphaslider>',
         '<jagui-textbox id="{internalId_txtbOpacity}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbOpacity", "readOnly": true, "column": 3, "row": 1 }</properties></jagui-textbox>',
         '<jagui-label id="{internalId_lblOpacityPer}" data-class="Label" class="Control Label {theme}">',
-            '<properties>{ "name": "lblOpacityPer", "column": 4, "row": 1, "caption": "%", "margin": { "left": 3 }, "padding": { "top": 3} }</properties></jagui-label>',
+        '<properties>{ "name": "lblOpacityPer", "column": 4, "row": 1, "caption": "%", "margin": { "left": 3 }, "padding": { "top": 3} }</properties></jagui-label>',
         '</jagui-gridlayout>',
         '<jagui-gridlayout id="{internalId_grdLayout_footer}" data-class="GridLayout" class="Control GridLayout">',
-            '<properties>{ "name": "grdLayout_footer", "templateColumns": "98px 18px 71px 10px 71px", ',
-            '"templateRows": "29px", "columnGap": 0, "rowGap": 0, "column": 3, "row": 8, "colSpan": 3 }</properties>',
-        '<jagui-textbox id="{txtbHex}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbHex", "margin": { "left": 7, "top": 3, "right": 42, "bottom": 2 } }</properties></jagui-textbox>',
+        '<properties>{ "name": "grdLayout_footer", "templateColumns": "98px 18px 71px 10px 71px", ',
+        '"templateRows": "29px", "columnGap": 0, "rowGap": 0, "column": 3, "row": 8, "colSpan": 3 }</properties>',
+        '<jagui-textbox id="{internalId_txtbHex}" data-class="TextBoxBtn" class="Control TextBox TextBoxBtn {theme}"><properties>{ "name": "txtbHex", "margin": { "top": 3, "bottom": 2 }, "toolTip": "Click to change ", "showToolTip": true, "tag": "rgb" }</properties></jagui-textbox>',
+        '',
         '<jagui-button id="{internalId_btnOk}" data-class="Button" class="Control Button {theme}"><properties>{ "name": "btnOk", "modalResult": "ok", "column": 3, "margin": { "top": 4, "bottom": 4 }, "translationKey": "constantMessages.okButton" }</properties></jagui-button>',
         '<jagui-button id="{internalId_btnCancel}" data-class="Button" class="Control Button {theme}"><properties>{ "name": "btnCancel", "modalResult": "cancel", "column": 5, "margin": { "top": 4, "bottom": 4 }, "translationKey": "constantMessages.cancelButton" }</properties></jagui-button>',
         '</jagui-gridlayout>',

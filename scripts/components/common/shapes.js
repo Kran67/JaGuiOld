@@ -373,7 +373,7 @@ class Circle extends SVGGraphicControl {
         const currentWidth = this.width;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && currentWidth !== newValue && core.isHTMLRenderer && !this.loading) {
-            this.propertyChanged(core.types.BINDABLEPROPERTIES.WIDTH);
+            this.propertyChanged(core.tools.getPropertyName());
             htmlElementStyle.width = newValue === 0
                 ? String.EMPTY
                 : `${newValue}${core.types.CSSUNITS.PX}`;
@@ -391,7 +391,7 @@ class Circle extends SVGGraphicControl {
         const currentHeight = this.height;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && currentHeight !== newValue && core.isHTMLRenderer && !this.loading) {
-            this.propertyChanged(core.types.BINDABLEPROPERTIES.WIDTH);
+            this.propertyChanged(core.tools.getPropertyName());
             htmlElementStyle.height = newValue === 0 ? String.EMPTY : `${newValue}${core.types.CSSUNITS.PX}`;
             currentHeight !== newValue && (htmlElementStyle.width = htmlElementStyle.height);
         }

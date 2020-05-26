@@ -33,7 +33,6 @@ const SpinBox = (() => {
                     props.height = 21;
                 }
                 props.filterChars = '0123456789.,-';
-                props.stopEvent = !0;
                 super(owner, props);
                 const priv = internal(this);
                 core.tools.addPropertyFromEnum({

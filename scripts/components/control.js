@@ -499,7 +499,7 @@ const Control = (() => {
                 newValue = Math.max(Math.min(newValue, 0), 0);
                 if (priv.opacity !== newValue) {
                     priv.opacity = newValue;
-                    this.propertyChanged(core.types.BINDABLEPROPERTIES.OPACITY);
+                    this.propertyChanged(core.tools.getPropertyName());
                     !this.loading && !this.form.loading
                         && (this.HTMLElementStyle.opacity = newValue);
                 }
@@ -547,7 +547,7 @@ const Control = (() => {
                     priv.width = newValue;
                     this.realignChilds();
                 } else if (!this.loading) {
-                    this.propertyChanged(core.types.BINDABLEPROPERTIES.WIDTH);
+                    this.propertyChanged(core.tools.getPropertyName());
                     newValue < 0
                         ? htmlElementStyle.width = 'auto'
                         : htmlElementStyle.width = `${newValue}${core.types.CSSUNITS.PX}`;
@@ -598,7 +598,7 @@ const Control = (() => {
                     priv.height = newValue;
                     this.realignChilds();
                 } else if (!this.loading) {
-                    this.propertyChanged(core.types.BINDABLEPROPERTIES.HEIGHT);
+                    this.propertyChanged(core.tools.getPropertyName());
                     newValue < 0
                         ? htmlElementStyle.height = 'auto'
                         : htmlElementStyle.height = `${newValue}${core.types.CSSUNITS.PX}`;
@@ -743,7 +743,7 @@ const Control = (() => {
             //#endregion Variables déclaration
             if (core.tools.isNumber(newValue) && priv.rotateAngle !== newValue) {
                 priv.rotateAngle = newValue;
-                this.propertyChanged(core.types.BINDABLEPROPERTIES.ROTATEANGLE);
+                this.propertyChanged(core.tools.getPropertyName());
                 !this.loading && !this.form.loading && core.isHTMLRenderer && this.applyTransforms();
             }
         }
@@ -810,7 +810,7 @@ const Control = (() => {
             //#endregion Variables déclaration
             if (core.tools.isNumber(newValue) || newValue === null && priv.right !== newValue) {
                 priv.right = newValue;
-                this.propertyChanged(core.types.BINDABLEPROPERTIES.RIGHT);
+                this.propertyChanged(core.tools.getPropertyName());
                 if (core.isHTMLRenderer && !this.loading && !this.form.loading) {
                     htmlElementStyle.right = `${newValue}${core.types.CSSUNITS.PX}`;
                     htmlElementStyle.width = String.EMPTY;
@@ -829,7 +829,7 @@ const Control = (() => {
             //#endregion Variables déclaration
             if (core.tools.isNumber(newValue) || newValue === null && priv.bottom !== newValue) {
                 priv.bottom = newValue;
-                this.propertyChanged(core.types.BINDABLEPROPERTIES.BOTTOM);
+                this.propertyChanged(core.tools.getPropertyName());
                 if (core.isHTMLRenderer && !this.loading && !this.form.loading) {
                     htmlElementStyle.bottom = `${newValue}${core.types.CSSUNITS.PX}`;
                     htmlElementStyle.height = String.EMPTY;
@@ -859,7 +859,7 @@ const Control = (() => {
             //#endregion Variables déclaration
             if (core.tools.isBool(newValue) && super.visible !== newValue) {
                 super.visible = newValue;
-                this.propertyChanged(core.types.BINDABLEPROPERTIES.VISIBLE);
+                this.propertyChanged(core.tools.getPropertyName());
                 if (core.isHTMLRenderer) {
                     if (newValue) {
                         //this._applyAllStyles();
@@ -2303,7 +2303,6 @@ const Control = (() => {
             priv.resizeData = null;
             priv.tabList.destroy();
             priv.tabList = null;
-            priv.stopEvent = null;
             priv.constraints.destroy();
             priv.constraints = null;
             priv.ownerShowToolTip = null;

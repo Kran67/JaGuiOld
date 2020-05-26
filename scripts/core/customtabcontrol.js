@@ -148,6 +148,7 @@ const CustomTabControl = (() => {
             if (newValue instanceof Tab && priv.activeTab !== newValue) {
                 priv.activeTab = newValue;
                 priv.activeTab.show();
+                this.propertyChanged(core.tools.getPropertyName());
             }
         }
         //#endregion activeTab
@@ -196,6 +197,7 @@ const CustomTabControl = (() => {
         }
         set activeTabIndex(index) {
             index >= 0 && index <= this.tabs.length - 1 && this.tabs[index].show();
+            this.propertyChanged(core.tools.getPropertyName());
         }
         //#endregion activeTabIndex
         //#endregion Getters / Setters

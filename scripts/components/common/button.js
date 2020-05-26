@@ -28,7 +28,6 @@ const CustomButton = (() => {
                     !props.hasOwnProperty('width') && core.tools.isNumber(props.width) && (props.width = 75);
                     !props.hasOwnProperty('height') && core.tools.isNumber(props.height) && (props.height = 25);
                 }
-                props.hitTest = { all: !0 };
                 props.autoCapture = !0;
                 props.horizAlign = props.hasOwnProperty('horizAlign') ? props.horizAlign : core.types.TEXTALIGNS.CENTER;
                 props.vertAlign = props.hasOwnProperty('vertAlign') ? props.vertAlign : core.types.VERTTEXTALIGNS.MIDDLE;

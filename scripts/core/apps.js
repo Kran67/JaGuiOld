@@ -141,7 +141,7 @@ let Apps = (() => {
             core.apps.activeApplication && (form = core.apps.activeApplication.activeWindow);
             core.keyboard.getKeyboardInfos(event);
             obj = event.target;
-            obj !== document.body && obj.jsObj && (dealEvent = obj.jsObj.stopEvent);
+            obj !== document.body && obj.jsObj;// && (dealEvent = obj.jsObj.stopEvent);
             dealEvent = dealEvent || core.keyboard.keyCode === vKeysCodes.VK_ALT || core.keyboard.keyCode === vKeysCodes.VK_TAB || form.mainMenu && form.mainMenu.activeItem;
             if (dealEvent) {
                 switch (core.keyboard.keyCode) {

@@ -140,7 +140,6 @@ const DropDownTimePanel = (() => {
                 props.height = 20;
                 props.canFocused = !0;
                 props.autoCapture = !0;
-                props.stopEvent = !0;
                 super(owner, props);
                 const priv = internal(this);
                 priv.content = null;

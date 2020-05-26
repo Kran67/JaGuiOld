@@ -420,7 +420,6 @@ const ListBoxItem = (() => {
             priv.html = null;
             priv.check = null;
             priv.icon = null;
-            priv.stopEvent = null;
             priv.pos = null;
             super.destroy();
         }

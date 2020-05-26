@@ -302,7 +302,7 @@ const Color = (function () {
                     this.RGBtoHSV();
                     this.RGBtoHSL();
                 }
-                this.propertyChanged('red');
+                this.propertyChanged(core.tools.getPropertyName());
                 owner && !owner.loading && owner.update();
             }
         }
@@ -323,7 +323,7 @@ const Color = (function () {
                     this.RGBtoHSV();
                     this.RGBtoHSL();
                 }
-                this.propertyChanged('green');
+                this.propertyChanged(core.tools.getPropertyName());
                 owner && !owner.loading && owner.update();
             }
         }
@@ -344,7 +344,7 @@ const Color = (function () {
                     this.RGBtoHSV();
                     this.RGBtoHSL();
                 }
-                this.propertyChanged('blue');
+                this.propertyChanged(core.tools.getPropertyName());
                 owner && !owner.loading && owner.update();
             }
         }
@@ -361,7 +361,7 @@ const Color = (function () {
             if (core.tools.isNumber(newValue) && newValue !== priv.alpha) {
                 newValue = Math.max(Math.min(newValue, 1), 0);
                 priv.alpha = newValue;
-                this.propertyChanged('alpha');
+                this.propertyChanged(core.tools.getPropertyName());
                 owner && !owner.loading && owner.update();
             }
         }
@@ -379,7 +379,7 @@ const Color = (function () {
                 newValue = Math.max(Math.min(newValue, 360), 0);
                 priv.hue = newValue;
                 !priv.updating && this.HSVtoRGB();
-                this.propertyChanged('hue');
+                this.propertyChanged(core.tools.getPropertyName());
                 owner && !owner.loading && owner.update();
             }
         }
@@ -397,7 +397,7 @@ const Color = (function () {
                 newValue = Math.max(Math.min(newValue, 100), 0);
                 priv.saturation = newValue;
                 !priv.updating && this.HSVtoRGB();
-                this.propertyChanged('saturation');
+                this.propertyChanged(core.tools.getPropertyName());
                 owner && !owner.loading && owner.update();
             }
         }
@@ -415,7 +415,7 @@ const Color = (function () {
                 newValue = Math.max(Math.min(newValue, 100), 0);
                 priv.value = newValue;
                 !priv.updating && this.HSVtoRGB();
-                this.propertyChanged('value');
+                this.propertyChanged(core.tools.getPropertyName());
                 owner && !owner.loading && owner.update();
             }
         }
@@ -433,7 +433,7 @@ const Color = (function () {
                 newValue = Math.max(Math.min(newValue, 100), 0);
                 priv.lightness = newValue;
                 !priv.updating && this.HSLtoRGB();
-                this.propertyChanged('lightness');
+                this.propertyChanged(core.tools.getPropertyName());
                 owner && !owner.loading && owner.update();
             }
         }

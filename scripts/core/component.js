@@ -377,7 +377,7 @@ const Component = (() => {
             if (core.tools.isNumber(newValue) && cStyle.position === 'absolute') {
                 const lastLeft = core.isHTMLRenderer ? priv.HTMLElement.offsetLeft : priv.left;
                 if (lastLeft !== newValue && !priv.loading) {
-                    this.propertyChanged(core.types.BINDABLEPROPERTIES.LEFT);
+                    this.propertyChanged(core.tools.getPropertyName());
                     core.isHTMLRenderer
                         ? priv.HTMLElementStyle.left = `${newValue}${core.types.CSSUNITS.PX}`
                         : priv.left = newValue;
@@ -415,7 +415,7 @@ const Component = (() => {
             if (core.tools.isNumber(newValue) && cStyle.position === 'absolute') {
                 const lastTop = (core.isHTMLRenderer ? priv.HTMLElement.offsetTop : priv.top);
                 if (lastTop !== newValue && !priv.loading) {
-                    this.propertyChanged(core.types.BINDABLEPROPERTIES.TOP);
+                    this.propertyChanged(core.tools.getPropertyName());
                     core.isHTMLRenderer
                         ? priv.HTMLElementStyle.top = `${newValue}${core.types.CSSUNITS.PX}`
                         : priv.top = newValue;

@@ -528,9 +528,9 @@ const Application = (() => {
             //#endregion Variables déclaration
             this.hideToolTip();
             !obj.showToolTip && !obj.ownerShowToolTip && (exit = !0);
-            if (core.classes.CustomTextControl && obj instanceof core.classes.CustomTextControl) {
-                !obj.hasError && (exit = !0);
-            }
+            //if (core.classes.CustomTextControl && obj instanceof core.classes.CustomTextControl) {
+            //    !obj.hasError && (exit = !0);
+            //}
             if (!exit) {
                 if (!String.isNullOrEmpty(obj.toolTip)) {
                     text = obj.toolTip;

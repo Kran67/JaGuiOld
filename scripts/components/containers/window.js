@@ -897,7 +897,7 @@ const BaseWindow = (() => {
             //#endregion Variables déclaration
             if (core.tools.isBool(newValue) && newValue !== priv.keyPreview) {
                 priv.keyPreview = newValue;
-                this.propertyChanged('keyPreview');
+                this.propertyChanged(core.tools.getPropertyName());
             }
         }
         //#endregion keyPreview

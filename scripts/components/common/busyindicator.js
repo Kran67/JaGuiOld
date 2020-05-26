@@ -63,7 +63,7 @@ const BusyIndicatorSpinOptions = (() => {
                 newValue < 5 || newValue > 17 && (newValue = 12);
                 if (priv.lines !== newValue) {
                     priv.lines = newValue;
-                    this.propertyChanged('lines');
+                    this.propertyChanged(core.tools.getPropertyName());
                     core.isHTMLRenderer && this.owner.update();
                 }
             }
@@ -81,7 +81,7 @@ const BusyIndicatorSpinOptions = (() => {
                 newValue < 0 || newValue > 40 && (newValue = 7);
                 if (priv.length !== newValue) {
                     priv.length = newValue;
-                    this.propertyChanged('length');
+                    this.propertyChanged(core.tools.getPropertyName());
                     core.isHTMLRenderer && this.owner.update();
                 }
             }
@@ -99,7 +99,7 @@ const BusyIndicatorSpinOptions = (() => {
                 newValue < 2 || newValue > 30 && (newValue = 4);
                 if (priv.width !== newValue) {
                     priv.width = newValue;
-                    this.propertyChanged('width');
+                    this.propertyChanged(core.tools.getPropertyName());
                     core.isHTMLRenderer && this.owner.update();
                 }
             }
@@ -117,7 +117,7 @@ const BusyIndicatorSpinOptions = (() => {
                 newValue < 0 || newValue > 1 && (newValue = 0);
                 if (priv.corners !== newValue) {
                     priv.corners = newValue;
-                    this.propertyChanged('corners');
+                    this.propertyChanged(core.tools.getPropertyName());
                     core.isHTMLRenderer && this.owner.update();
                 }
             }
@@ -135,7 +135,7 @@ const BusyIndicatorSpinOptions = (() => {
                 newValue < -1 || newValue > 1 && (newValue = 1);
                 if (priv.direction !== newValue) {
                     priv.direction = newValue;
-                    this.propertyChanged('direction');
+                    this.propertyChanged(core.tools.getPropertyName());
                     core.isHTMLRenderer && this.owner.update();
                 }
             }
@@ -153,7 +153,7 @@ const BusyIndicatorSpinOptions = (() => {
                 newValue < 0.5 || newValue > 2.2 && (newValue = 1);
                 if (priv.speed !== newValue) {
                     priv.speed = newValue;
-                    this.propertyChanged('speed');
+                    this.propertyChanged(core.tools.getPropertyName());
                     core.isHTMLRenderer && this.owner.update();
                 }
             }
@@ -171,7 +171,7 @@ const BusyIndicatorSpinOptions = (() => {
                 newValue < 10 || newValue > 100 && (newValue = 100);
                 if (this.trail !== newValue) {
                     priv.properties.trail = newValue;
-                    priv.propertyChanged('trail');
+                    priv.propertyChanged(core.tools.getPropertyName());
                     core.isHTMLRenderer && this.owner.update();
                 }
             }

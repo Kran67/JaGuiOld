@@ -76,12 +76,17 @@ const Bindable = (() => {
                             //destination.method && (value = core.tools[destination.expression](value));
                             if (destination.expressions) {
                                 destination.expressions.forEach(exp => {
+                                    const needReturn = exp.needReturn || true; 
                                     if (exp.script) {
                                         const func = new Function('args', exp.script);
                                         const ret = func({
-                                            obj: this, value, destControl, destProperty: destControl[destProperty], params: exp.params
+                                            obj: this,
+                                            value,
+                                            destControl,
+                                            destProperty: destControl[destProperty],
+                                            params: exp.params
                                         });
-                                        exp.needReturn && core.tools.isBool(exp.needReturn) && (value = ret);
+                                        needReturn && core.tools.isBool(needReturn) && (value = ret);
                                     }
                                 });
                             }
