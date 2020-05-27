@@ -74,10 +74,29 @@ const ColorDlg = (() => {
                 this.txtbHex.btns.first.onClick.addListener(this.txtbHexBtn_click);
                 this.txtbHex.btns.first.mode = 'rgbh';
                 this.pgeCtrl.onChange.addListener(this.pgeCtrl_change);
+                this.slrRed.onChange.addListener(this.slider_change);
+                this.slrGreen.onChange.addListener(this.slider_change);
+                this.slrBlue.onChange.addListener(this.slider_change);
                 this.updateControls(color);
             }
         }
         //#endregion loaded
+        //#region slider_change
+        slider_change() {
+            //#region Variables déclaration
+            const form = this.form;
+            const c = new core.classes.Color(form.clrBoxNewColor.fillColor);
+            //#endregion Variables déclaration
+            this === form.slrRed && (c.red = this.firstValue);
+            this === form.slrGreen && (c.green = this.firstValue);
+            this === form.slrBlue && (c.blue = this.firstValue);
+            (this === form.slrHue || this === form.slrHSVHue) && (c.hue = this.firstValue);
+            (this === form.slrSat || this === form.slrHSVSat) && (c.saturation = this.firstValue);
+            this === form.slrLight && (c.lightness = this.firstValue);
+            this === form.slrValue && (c.value = this.firstValue);
+            form.updateControls(c);
+        }
+        //#endregion slider_change
         //#region pgeCtrl_change
         pgeCtrl_change() {
             //#region Variables déclaration
@@ -87,68 +106,51 @@ const ColorDlg = (() => {
             const c = new core.classes.Color(form.clrBoxNewColor.fillColor);
             //#endregion Variables déclaration
             clrQuad.format = this.activeTabIndex > 1 ? COLORFORMATS.HSV : COLORFORMATS.HSL;
-            this.activeTabIndex > 1 ? c.RGBtoHSV() : c.RGBtoHSL();
+            this.activeTabIndex === 1 && c.RGBtoHSL();
+            this.activeTabIndex === 2 && c.RGBtoHSV();
             form.updateControls(c);
         }
         //#endregion pgeCtrl_change
         //#region clrQuad_change
         clrQuad_change() {
+            //#region Variables déclaration
             const form = this.form;
-            let func;
-            switch (form.txtbHex.btns.first.mode) {
-                case 'argbh':
-                    func = 'toARGBHexString';
-                    break;
-                case 'rgb':
-                    func = 'toRGBString';
-                    break;
-                case 'rgba':
-                    func = 'toRGBAString';
-                    break;
-                case 'hsl':
-                    func = 'toHSLString';
-                    break;
-                case 'hsv':
-                    func = 'toHSVString';
-                    break;
-                default:
-                    func = 'toRGBHexString';
-                    break;
-            }
+            const funcs = {
+                'argbh': 'toARGBHexString',
+                'rgb': 'toRGBString',
+                'rgba': 'toRGBAString',
+                'hsl': 'toHSLString',
+                'hsl': 'toHSLString',
+                'hsv': 'toHSVString'
+            };
+            const func = funcs[form.txtbHex.btns.first.mode] ? funcs[form.txtbHex.btns.first.mode] : 'toRGBHexString';
+            //#endregion Variables déclaration
             form.txtbHex.text = form.clrBoxNewColor.color[func]();
-            form.updateSliders(form.clrBoxNewColor.color);
+            form.updateControls(this.color);
         }
         //#endregion clrQuad_change
         //#region txtbHex_click
         txtbHexBtn_click() {
-            let newMode;
-            switch (this.mode) {
-                case 'rgbh':
-                    newMode = 'argbh';
-                    break;
-                case 'argbh':
-                    newMode = 'rgb';
-                    break;
-                case 'rgb':
-                    newMode = 'rgba';
-                    break;
-                case 'rgba':
-                    newMode = 'hsl';
-                    break;
-                case 'hsl':
-                    newMode = 'hsv';
-                    break;
-                case 'hsv':
-                    newMode = 'rgbh';
-                    break;
-            }
-            this.mode = newMode;
+            //#region Variables déclaration
+            const modes = {
+                'rgbh': 'argbh',
+                'argbh': 'rgb',
+                'rgb': 'rgba',
+                'rgba': 'hsl',
+                'hsl': 'hsv',
+                'hsv': 'rgbh'
+            };
+            //#endregion Variables déclaration
+            this.mode = modes[this.mode];
             this.form.clrQuad.onChange.invoke();
         }
         //#endregion txtbHex_click
         //#region updateControls
         updateControls(color) {
             this.clrBoxNewColor.color = color;
+            this.clrPicker._updating();
+            this.clrPicker.color = color;
+            this.clrPicker.updated();
             this.clrQuad._updating();
             this.clrQuad.color = color;
             this.clrQuad.updated();
@@ -157,36 +159,33 @@ const ColorDlg = (() => {
         //#endregion updateControls
         //#region updateSliders
         updateSliders(color) {
+            //#region Variables déclaration
             const pageIdx = this.pgeCtrl.activeTabIndex;
             const tabs = ['RGB', 'HSL', 'HSV'];
+            //#endregion Variables déclaration
             this[`update${tabs[pageIdx]}Tab`](color);
             this.txtbHex.setFocus();
         }
         //#endregion updateSliders
         //#region updateRGBTab
         updateRGBTab(color) {
-            this.slrRed._updating();
-            this.slrRed.values = [color.red, 0];
-            this.slrRed.updated();
-            this.slrGreen._updating();
-            this.slrGreen.values = [color.green, 0];
-            this.slrGreen.updated();
-            this.slrBlue._updating();
-            this.slrBlue.values = [color.blue, 0];
-            this.slrBlue.updated();
+            ['Red', 'Green', 'Blue'].forEach(item => {
+                const silderName = `slr${item}`;
+                this[silderName]._updating();
+                this[silderName].values = [color[item.toLowerCase()], 0];
+                this[silderName].updated();
+            });
         }
         //#endregion updateRGBTab
         //#region updateHSLTab
         updateHSLTab(color) {
-            this.slrHue._updating();
-            this.slrHue.values = [color.hue, 0];
-            this.slrHue.updated();
-            this.slrSat._updating();
-            this.slrSat.values = [color.saturation, 0];
-            this.slrSat.updated();
-            this.slrLight._updating();
-            this.slrLight.values = [color.lightness, 0];
-            this.slrLight.updated();
+            const cor = ['hue', 'saturation', 'lightness'];
+            ['Hue', 'Sat', 'Light'].forEach((item, idx) => {
+                const silderName = `slr${item}`;
+                this[silderName]._updating();
+                this[silderName].values = [color[cor[idx]], 0];
+                this[silderName].updated();
+            });
         }
         //#endregion updateHSLTab
         //#region updateHSVTab

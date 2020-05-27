@@ -442,7 +442,7 @@ const Slider = (() => {
                 }
             }
             slider.update();
-            slider.onChange.invoke();
+            !this.updating && slider.onChange.invoke();
             !this.focused && slider.setFocus();
         }
         //#endregion change
