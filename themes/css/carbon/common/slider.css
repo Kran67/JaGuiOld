@@ -70,12 +70,6 @@
         bottom: 100%;
         top: auto;
     }
-
-    .carbon.SliderTooltip.orientation-vertical {
-        margin-top: -10px;
-        left: 160%;
-    }
-
         .carbon.SliderTooltip.orientation-vertical.bottom {
             left: auto;
             right: 110%;

@@ -579,21 +579,24 @@ const Slider = (() => {
             //#region Variables déclaration
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
+            const PX = core.types.CSSUNITS.PX;
             //const oldProp = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'top' : 'left';
             //const prop = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'left' : 'top';
             const size = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? htmlElement.offsetWidth : htmlElement.offsetHeight;
             const prop = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'translateX(' : 'translateY(';
+            const toolTipSize = int((priv.orientation === core.types.ORIENTATIONS.HORIZONTAL
+                ? priv.leftTooltip.offsetWidth : 0) / 2);
             //#endregion Variables déclaration
-            //if (priv.showTooltips) {
-            //    //priv.leftTooltip.style[oldProp] = "";
-            //    //priv.rightTooltip.style[oldProp] = "";
-            //    //priv.leftTooltip.style[prop] = `${lValue}${PO}`;
-            //    priv.leftTooltip.innerHTML = priv.leftInput.valueAsNumber.toFixed(priv.decimalPrecision);
-            //    //priv.rightTooltip.style[prop] = `${rValue}${PO}`;
-            //    priv.rightTooltip.innerHTML = priv.rightInput.valueAsNumber.toFixed(priv.decimalPrecision);
-            //    priv.leftThumb.style.transform = `${prop}${(size * (lValue / 100)) - thumbWidth}${PX})`;
-            //    priv.rightThumb.style.transform = `${prop}${(size * (lValue / 100)) - thumbWidth}${PX})`;
-            //}
+            if (priv.showTooltips) {
+                //    //priv.leftTooltip.style[oldProp] = "";
+                //    //priv.rightTooltip.style[oldProp] = "";
+                //    //priv.leftTooltip.style[prop] = `${lValue}${PO}`;
+                priv.leftTooltip.innerHTML = priv.leftInput.valueAsNumber.toFixed(priv.decimalPrecision);
+                //    //priv.rightTooltip.style[prop] = `${rValue}${PO}`;
+                priv.rightTooltip.innerHTML = priv.rightInput.valueAsNumber.toFixed(priv.decimalPrecision);
+                priv.leftTooltip.style.transform = `${prop}${(size * (lValue / 100)) - toolTipSize}${PX})`;
+                //    priv.rightThumb.style.transform = `${prop}${(size * (lValue / 100)) - thumbWidth}${PX})`;
+            }
         }
         //#endregion moveToolTips
         //#region destroyToolTips

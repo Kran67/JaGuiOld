@@ -118,10 +118,19 @@
     align-items: center;
     padding: 3px;
     overflow: visible;
-    transform: translateX(-50%);
 }
 
-    .SliderTooltip.bottom {
+    .SliderTooltip.orientation-horizontal {
+        left: 0;
+    }
+
+    .SliderTooltip.orientation-vertical {
+        top: 0;
+        margin-top: -10px;
+        left: 110%;
+    }
+
+    .SliderTooltip.orientation-horizontal.bottom {
         top: 25px;
     }
 
