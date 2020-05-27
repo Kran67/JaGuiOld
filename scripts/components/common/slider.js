@@ -417,15 +417,16 @@ const Slider = (() => {
             const thumbWidth = priv.leftThumb.offsetWidth / 2;
             const htmlElement = this.HTMLElement;
             const PX = core.types.CSSUNITS.PX;
-            const size = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? htmlElement.offsetWidth : htmlElement.offsetHeight;
-            const prop = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'translateX(' : 'translateY(';
+            const isVertical = priv.orientation === core.types.ORIENTATIONS.VERTICAL;
+            const size = !isVertical ? htmlElement.offsetWidth : htmlElement.offsetHeight;
+            const prop = !isVertical ? 'translateX(' : 'translateY(';
             //#endregion Variables déclaration
             priv.leftThumb.style.transform = `${prop}${(size * (lValue / 100)) - thumbWidth}${PX})`;
-            priv.rightThumb.style.transform = `${prop}${(size * (lValue / 100)) - thumbWidth}${PX})`;
+            priv.rightThumb.style.transform = `${prop}${(size * (rValue / 100)) - thumbWidth}${PX})`;
         }
         //#endregion moveThumbs
         //#region change
-        change() {
+        change(event) {
             //#region Variables déclaration
             const slider = this.jsObj ? this.jsObj : this;
             const inputs = slider.HTMLElement.querySelectorAll(core.types.HTMLELEMENTS.INPUT);
@@ -434,10 +435,10 @@ const Slider = (() => {
             //#endregion Variables déclaration
             slider.propertyChanged('firstValue');
             if (slider.mode === SLIDERMODES.RANGE) {
-                slider === leftInput && (slider.value = Math.min(slider.valueAsNumber, slider.lastValue - 1));
-                if (slider === rightInput) {
-                    slider.value = Math.max(slider.valueAsNumber, control.firstValue + 1);
-                    control.propertyChanged('lastValue');
+                event.target === leftInput && (slider.value = Math.min(slider.valueAsNumber, slider.lastValue - 1));
+                if (event.target === rightInput) {
+                    slider.value = Math.max(slider.valueAsNumber, slider.firstValue + 1);
+                    slider.propertyChanged('lastValue');
                 }
             }
             slider.update();
@@ -580,22 +581,17 @@ const Slider = (() => {
             const priv = internal(this);
             const htmlElement = this.HTMLElement;
             const PX = core.types.CSSUNITS.PX;
-            //const oldProp = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'top' : 'left';
-            //const prop = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'left' : 'top';
-            const size = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? htmlElement.offsetWidth : htmlElement.offsetHeight;
-            const prop = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'translateX(' : 'translateY(';
-            const toolTipSize = int((priv.orientation === core.types.ORIENTATIONS.HORIZONTAL
-                ? priv.leftTooltip.offsetWidth : 0) / 2);
+            const isVertical = priv.orientation === core.types.ORIENTATIONS.VERTICAL;
+            const size = !isVertical ? htmlElement.offsetWidth : htmlElement.offsetHeight;
+            const prop = !isVertical ? 'translateX(' : 'translateY(';
+            let leftPos = (size * (lValue / 100));
+            let rightPos = (size * (rValue / 100));
             //#endregion Variables déclaration
             if (priv.showTooltips) {
-                //    //priv.leftTooltip.style[oldProp] = "";
-                //    //priv.rightTooltip.style[oldProp] = "";
-                //    //priv.leftTooltip.style[prop] = `${lValue}${PO}`;
                 priv.leftTooltip.innerHTML = priv.leftInput.valueAsNumber.toFixed(priv.decimalPrecision);
-                //    //priv.rightTooltip.style[prop] = `${rValue}${PO}`;
                 priv.rightTooltip.innerHTML = priv.rightInput.valueAsNumber.toFixed(priv.decimalPrecision);
-                priv.leftTooltip.style.transform = `${prop}${(size * (lValue / 100)) - toolTipSize}${PX})`;
-                //    priv.rightThumb.style.transform = `${prop}${(size * (lValue / 100)) - thumbWidth}${PX})`;
+                priv.leftTooltip.style.transform = `${prop}calc(${leftPos}${PX} - 50%))`;
+                priv.rightTooltip.style.transform = `${prop}calc(${rightPos}${PX} - 50%))`;
             }
         }
         //#endregion moveToolTips
@@ -645,17 +641,17 @@ const Slider = (() => {
         moveRange(lValue, rValue) {
             //#region Variables déclaration
             const priv = internal(this);
-            const PO = core.types.CSSUNITS.PO;
-            const oldProp = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'top' : 'left';
-            const oldProp2 = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'bottom' : 'right';
-            const prop = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'left' : 'top';
-            const prop2 = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL ? 'right' : 'bottom';
+            const htmlElement = this.HTMLElement;
+            const PX = core.types.CSSUNITS.PX;
+            const isVertical = priv.orientation === core.types.ORIENTATIONS.VERTICAL;
+            const size = !isVertical ? htmlElement.offsetWidth : htmlElement.offsetHeight;
+            const leftPos = !isVertical ? `${(size * (lValue / 100))}${PX}` : 0;
+            const rightPos = !isVertical ? `${(htmlElement.offsetWidth - (size * (rValue / 100)))}${PX}` : 0;
+            const topPos = isVertical ? `${(size * (lValue / 100))}${PX}` : 0;
+            const bottomPos = isVertical ? `${(htmlElement.offsetHeight - (size * (rValue / 100)))}${PX}` : 0;
             //#endregion Variables déclaration
             if (priv.mode === SLIDERMODES.RANGE) {
-                priv.range.style[oldProp] = '';
-                priv.range.style[oldProp2] = '';
-                priv.range.style[prop] = `${lValue}${PO}`;
-                priv.range.style[prop2] = `${100 - rValue}${PO}`;
+                priv.range.style.clipPath = `inset(${topPos} ${rightPos} ${bottomPos} ${leftPos})`;
             }
         }
         //#endregion moveRange

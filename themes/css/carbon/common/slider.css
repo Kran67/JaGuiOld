@@ -25,14 +25,16 @@
 .carbon.SliderRange {
     top: 9px;
     bottom: 9px;
-    background-image: linear-gradient(to bottom,#F4BB40 0,#674704 100%);
     left: 0;
+    right: 0;
+    background-image: linear-gradient(to bottom,#F4BB40 0,#674704 100%);
 }
 
     .carbon.SliderRange.orientation-vertical {
         left: 9px;
         right: 9px;
         top: 0;
+        bottom: 0;
         background-image: linear-gradient(to right,#F4BB40 0,#674704 100%);
     }
 
