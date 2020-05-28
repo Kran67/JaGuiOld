@@ -10,25 +10,28 @@ class BaseClass {
     constructor(props) {
         props = !props ? {} : props;
         this.internalKey = String.uniqueId();
-        core.setPrivate(this, 'propsEnums', {});
-        core.setPrivate(this, 'name', props.hasOwnProperty('name') ? props.name : this.constructor.name);
+        core.private(this, {
+            propsEnums: {},
+            name: props.hasOwnProperty('name') ? props.name : this.constructor.name
+        });
     }
     //#region Getter / Setter
     //#region name
     get name() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set name(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         const form = this.form;
-        let name = core.getPrivate(this, propName);
+        let name = priv[propName];
         //#endregion Variables déclaration
         if (!String.isNullOrEmpty(newValue) && !String.isNullOrEmpty(newValue.trim())
             && name !== newValue) {
             form !== this && form && form[name] && (delete form[name]);
             name = newValue;
-            core.setPrivate(this, propName, name);
+            core.private(this, { name: newValue });
             form !== this && this !== form.layout && this !== form.content && form && !form[name]
                 && (form[name] = this);
         }
@@ -36,7 +39,7 @@ class BaseClass {
     //#endregion name
     //#region propsEnums
     get propsEnums() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     //#endregion propsEnums
     //#endregion Getter / Setter

@@ -54,25 +54,20 @@ const Core = (() => {
     class Core {
         //#region constructor
         constructor() {
-            this.setPrivate = (obj, property, value) => {
-                let properties;
-                if (Array.isArray(property)) {
-                    properties = [...property];
+            this.private = (obj, properties) => {
+                if (core.tools.isUndefined(properties)) {
+                    return _private[obj.internalKey];
                 } else {
-                    properties = [property];
+                    !_private[obj.internalKey] && (_private[obj.internalKey] = {});
+                    Object.keys(properties).forEach(property => {
+                        _private[obj.internalKey][property] = properties[property];
+                    });
                 }
-                !_private[obj.internalKey] && (_private[obj.internalKey] = {});
-                properties.forEach(prop => {
-                    _private[obj.internalKey][prop] = value;
-                });
-            };
-            this.getPrivate = (obj, property) => {
-                return _private[obj.internalKey][property];
             };
             this.destroyPrivate = (obj) => {
                 _private[obj.internalKey] = null;
             };
-            this.private = (objName) => {
+            this.privateFromComponent = (objName) => {
                 return Object.fromEntries(Object.entries(_private).filter(function (item) {
                     return item.length > 0 && item[1] && item[1].name === objName;
                 }));

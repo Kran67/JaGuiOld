@@ -12,87 +12,100 @@ class AnimatedCursor extends BaseClass {
     constructor() {
         super();
         //#region Private properties
-        core.setPrivate(this, 'HTMLElement', null);
-        core.setPrivate(this, 'maxFrame', null);
-        core.setPrivate(this, 'curFrame', null);
-        core.setPrivate(this, 'className', null);
-        core.setPrivate(this, 'iterationBetweenFrames', 0);
-        core.setPrivate(this, 'iteration', 0);
+        core.private(this, {
+            HTMLElement: null,
+            maxFrame: 0,
+            curFrame: 0,
+            className: null,
+            iterationBetweenFrames: 0,
+            iteration: 0
+        });
         //#endregion
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region HTMLElement
     get HTMLElement() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set HTMLElement(newValue) {
         //#region Variables déclaration
-        const propName=  core.tools.getPropertyName();
-        const htmlElement = core.getPrivate(this, propName);
+        const priv = core.private(this);
+        const propName = core.tools.getPropertyName();
+        const htmlElement = priv[propName];
         //#endregion Variables déclaration
-        newValue instanceof HTMLElement && htmlElement !== newValue && core.setPrivate(this, propName, newValue);
+        newValue instanceof HTMLElement && htmlElement !== newValue
+            && core.private(this, { [propName]: newValue });
     }
     //#endregion HTMLElement
     //#region maxFrame
     get maxFrame() {
-        return core.getPrivate(this, maxFrame);
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set maxFrame(newValue) {
         //#region Variables déclaration
-        const propName =  core.tools.getPropertyName();
-        const maxFrame = core.getPrivate(this, propName);
+        const priv = core.private(this);
+        const propName = core.tools.getPropertyName();
+        const maxFrame = priv[propName];
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && maxFrame !== newValue && core.setPrivate(this, propName, newValue);
+        core.tools.isNumber(newValue) && maxFrame !== newValue
+            && core.private(this, { [propName]: newValue });
     }
     //#endregion maxFrame
     //#region curFrame
     get curFrame() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set curFrame(newValue) {
         //#region Variables déclaration
-        const propName =  core.tools.getPropertyName();
-        const curFrame = core.getPrivate(this, propName);
+        const priv = core.private(this);
+        const propName = core.tools.getPropertyName();
+        const curFrame = priv[propName];
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && curFrame !== newValue && core.setPrivate(this, propName, newValue);
+        core.tools.isNumber(newValue) && curFrame !== newValue
+            && core.private(this, { [propName]: newValue });
     }
     //#endregion curFrame
     //#region className
     get className() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set className(newValue) {
         //#region Variables déclaration
-        const propName =  core.tools.getPropertyName();
-        const className = core.getPrivate(this, propName);
+        const priv = core.private(this);
+        const propName = core.tools.getPropertyName();
+        const className = priv[propName];
         //#endregion Variables déclaration
-        core.tools.isString(newValue) && className !== newValue && core.setPrivate(this, propName, newValue);
+        core.tools.isString(newValue) && className !== newValue
+            && core.private(this, { [propName]: newValue });
     }
     //#endregion className
     //#region iterationBetweenFrames
     get iterationBetweenFrames() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set iterationBetweenFrames(newValue) {
         //#region Variables déclaration
-        const propName =  core.tools.getPropertyName();
-        const iterationBetweenFrames = core.getPrivate(this, propName);
+        const priv = core.private(this);
+        const propName = core.tools.getPropertyName();
+        const iterationBetweenFrames = priv[propName];
         //#endregion Variables déclaration
         core.tools.isNumber(newValue) && iterationBetweenFrames !== newValue
-            && core.setPrivate(this, propName, newValue);
+            && core.private(this, { [propName]: newValue });
     }
     //#endregion iterationBetweenFrames
     //#region iteration
     get iteration() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set iteration(newValue) {
         //#region Variables déclaration
-        const propName =  core.tools.getPropertyName();
-        const iteration = core.getPrivate(this, propName);
+        const priv = core.private(this);
+        const propName = core.tools.getPropertyName();
+        const iteration = priv[propName];
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && iteration !== newValue && core.setPrivate(this, propName, newValue);
+        core.tools.isNumber(newValue) && iteration !== newValue
+            && core.private(this, { [propName]: newValue });
     }
     //#endregion iteration
     //#endregion Getters / Setters
@@ -100,22 +113,22 @@ class AnimatedCursor extends BaseClass {
     //#region animate
     animate(elapsedTime) {
         //#region Variables déclaration
-        const htmlElement = core.getPrivate(this, 'HTMLElement');
-        let curFrame = core.getPrivate(this, 'curFrame');
-        let iteration = core.getPrivate(this, 'iteration');
-        const className = core.getPrivate(this, 'className');
-        const iterationBetweenFrames = core.getPrivate(this, 'iterationBetweenFrames');
+        const priv = core.private(this);
+        const htmlElement = priv.HTMLElement;
+        let curFrame = priv.curFrame;
+        let iteration = priv.iteration;
+        const className = priv.className;
+        const iterationBetweenFrames = priv.iterationBetweenFrames;
         //#endregion Variables déclaration
         if (iterationBetweenFrames > 0 && iteration < iterationBetweenFrames) {
-            iteration = core.getPrivate(this, 'iteration')++;
+            iteration = priv.iteration++;
             return;
         }
         htmlElement.classList.remove(`${className}${curFrame}`);
         curFrame++;
-        curFrame > core.getPrivate(this, 'maxFrame') && (curFrame = 0);
+        curFrame > priv.maxFrame && (curFrame = 0);
         htmlElement.classList.add(`${className}${curFrame}`);
-        core.setPrivate(this, 'iteration', 0);
-        core.setPrivate(this, 'curFrame', curFrame);
+        core.private(this, { 'iteration': 0, curFrame });
     }
     //#endregion animate
     //#region initAnimation
@@ -124,35 +137,30 @@ class AnimatedCursor extends BaseClass {
         let htmlElement;
         //#endregion Variables déclaration
         htmlElement = htmlObj;
-        core.setPrivate(this, 'HTMLElement', htmlElement);
-        core.setPrivate(this, 'className', className);
-        core.setPrivate(this, 'curFrame', 0);
-        const curFrame = core.getPrivate(this, 'curFrame');
+        core.private(this, {
+            HTMLElement: htmlElement,
+            className,
+            curFrame: 0
+        });
+        const curFrame = 0;
         htmlElement.classList.remove(className);
         htmlElement.classList.add(`${className}${curFrame}`);
-        core.setPrivate(this, 'maxFrame', int(getComputedStyle(htmlElement).animationIterationCount));
-        core.setPrivate(this, 'iterationBetweenFrames', int(getComputedStyle(htmlElement).animationDuration));
+        core.private(this, {
+            maxFrame: int(getComputedStyle(htmlElement).animationIterationCount),
+            iterationBetweenFrames: int(getComputedStyle(htmlElement).animationDuration)
+        });
         core.looper.addListener(this, 'animate');
     }
     //#endregion initAnimation
     //#region stopAnimation
     stopAnimation() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
         core.looper.removeListener(this);
-        core.getPrivate(this, 'HTMLElement').classList
-            .remove(`${core.getPrivate(this, 'className')}${core.getPrivate(this, 'curFrame')}`);
+        priv.HTMLElement.classList.remove(`${priv.className}${priv.curFrame}`);
     }
     //#endregion stopAnimation
-    //#region destroy
-    destroy() {
-        core.setPrivate(this, 'HTMLElement', null);
-        core.setPrivate(this, 'maxFrame', null);
-        core.setPrivate(this, 'curFrame', null);
-        core.setPrivate(this, 'className', null);
-        core.setPrivate(this, 'iterationBetweenFrames', null);
-        core.setPrivate(this, 'iteration', null);
-        super.destroy();
-    }
-    //#endregion destroy
     //#endregion Methods
 }
 core.classes.register(core.types.CATEGORIES.INTERNAL, AnimatedCursor);

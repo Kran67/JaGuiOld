@@ -42,6 +42,7 @@ class Bindable extends BaseClass {
     //#endregion removeDataBindings
     //#region propertyChanged
     propertyChanged(property) {
+        //#region Variables déclaration
         const dataBindings = core.getPrivate(this, 'dataBindings');
         const form = this.form;
         //#endregion Variables déclaration

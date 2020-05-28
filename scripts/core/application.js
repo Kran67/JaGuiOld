@@ -17,24 +17,26 @@ class Application extends BaseClass {
      * @param {String}      appName     Name of the Application.
      */
     constructor(appName) {
-        super({ name: appName});
-        core.setPrivate(this, 'toolTipTimerHandle', null);
-        core.setPrivate(this, 'windows', []);
-        core.setPrivate(this, 'globalComponentName', []);
-        core.setPrivate(this, 'aceWrappers', []);
-        core.setPrivate(this, 'lastActiveWindow', []);
-        core.setPrivate(this, 'locales', {});
-        core.setPrivate(this, 'loadedWindowsHTML', 0);
-        core.setPrivate(this, 'windowsClass', {});
-        core.setPrivate(this, 'toolTip', null);
-        core.setPrivate(this, 'showMainWindow', !0);
-        //core.setPrivate(this, 'name', appName);
-        core.setPrivate(this, 'mainWindow', null);
-        core.setPrivate(this, 'activeWindow', null);
-        core.setPrivate(this, 'title', String.EMPTY);
-        core.setPrivate(this, 'locale', null);
-        core.setPrivate(this, 'themeManifest', new core.classes.ThemeManifest(this));
-        core.getPrivate(this, 'themeManifest').lastThemeName = core.defaultTheme;
+        super({ name: appName });
+        const themeManifest = new core.classes.ThemeManifest(this);
+        themeManifest.lastThemeName = core.defaultTheme;
+        core.private(this, {
+            toolTipTimerHandle: null,
+            windows: [],
+            globalComponentName: [],
+            aceWrappers: [],
+            lastActiveWindow: [],
+            locales: {},
+            loadedWindowsHTML: 0,
+            windowsClass: {},
+            toolTip: null,
+            showMainWindow: !0,
+            mainWindow: null,
+            activeWindow: null,
+            title: String.EMPTY,
+            locale: null,
+            themeManifest
+        });
         //core.tools.scripts.push(core.tools.getPath(core.types.INTERNALCATEGORIES.COMPONENTS) + "controls");
         core.apps.applications[appName] = this;
         core.apps.activeApplication = this;
@@ -42,29 +44,30 @@ class Application extends BaseClass {
     //#region getters/Setters
     //#region themeName
     get themeName() {
-        return core.getPrivate(this, 'themeManifest').themeName;
+        return core.private(this).themeManifest.themeName;
     }
     //#endregion themeName
     //#region toolTipTimerHandle
     get toolTipTimerHandle() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set toolTipTimerHandle(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && core.getPrivate(this, propName) !== newValue
-            && core.setPrivate(this, propName, newValue);
+        core.tools.isNumber(newValue) && priv[propName] !== newValue
+            && core.private(this, { [propName]: newValue });
     }
     //#endregion toolTipTimerHandle
     //#region windows
     get windows() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     //#endregion windows
     //#region globalComponentName
     get globalComponentName() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     //#endregion globalComponentName
     //#region aceWrappers
@@ -74,12 +77,12 @@ class Application extends BaseClass {
     //#endregion aceWrappers
     //#region lastActiveWindow
     get lastActiveWindow() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     //#endregion lastActiveWindow
     //#region locales
     get locales() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     //#endregion locales
     //#region loadedWindowsHTML
@@ -88,25 +91,26 @@ class Application extends BaseClass {
     }
     set loadedWindowsHTML(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.core.tools.isNumber(newValue) && core.getPrivate(this, propName) !== newValue
-            && core.setPrivate(this, propName, newValue);
+        core.core.tools.isNumber(newValue) && priv[propName] !== newValue
+            && core.private(this, { [propName]: newValue });
     }
     //#endregion loadedWindowsHTML
     //#region windowsClass
     get windowsClass() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     //#endregion windowsClass
     //#region toolTip
     get toolTip() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     //#endregion toolTip
     //#region showMainWindow
     get showMainWindow() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     //#endregion showMainWindow
     //#region name
@@ -116,58 +120,62 @@ class Application extends BaseClass {
     //#endregion name
     //#region mainWindow
     get mainWindow() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set mainWindow(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        newValue instanceof core.classes.Window && core.getPrivate(this, propName) !== newValue
-            && core.setPrivate(this, propName, newValue);
+        newValue instanceof core.classes.Window && priv[propName] !== newValue
+            && core.private(this, { [propName]: newValue });
     }
     //#endregion mainWindow
     //#region activeWindow
     get activeWindow() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set activeWindow(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        if (newValue instanceof core.classes.Window && core.getPrivate(this, propName) !== newValue) {
-            core.setPrivate(this, propName, newValue);
+        if (newValue instanceof core.classes.Window && priv[propName] !== newValue) {
+            core.private(this, { [propName]: newValue });
             core.isCanvasRenderer && (core.canvas.needRedraw = !0);
         }
     }
     //#endregion activeWindow
     //#region title
     get title() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set title(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isString(newValue) && core.getPrivate(this, propName) !== newValue
-            && core.setPrivate(this, propName, newValue);
+        core.tools.isString(newValue) && priv[propName] !== newValue
+            && core.private(this, { [propName]: newValue });
     }
     //#endregion title
     //#region locale
     get locale() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set locale(locale) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         let comps = null;
-        const windows = core.getPrivate(this, 'windows');
+        const windows = priv.windows;
         //#endregion Variables déclaration
-        if (core.getPrivate(this, 'locales')[locale]) {
-            if (core.getPrivate(this, propName) !== locale) {
-                core.setPrivate(this, propName, locale);
+        if (priv.locales[locale]) {
+            if (priv[propName] !== locale) {
+                core.private(this, { [propName]: locale });
                 windows.forEach(win => {
                     if (win.visible) {
-                        comps = core.getPrivate(this, 'activeWindow').controls.filter(e => {
+                        comps = priv.activeWindow.controls.filter(e => {
                             return e instanceof core.classes.Control && e.autoTranslate && e.visible;
                         });
                         comps.forEach(comp => {
@@ -183,11 +191,11 @@ class Application extends BaseClass {
     //#endregion locale
     //#region themeManifest
     get themeManifest() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set themeManifest(newValue) {
         newValue instanceof core.Classes.ThemeManifest
-            && core.setPrivate(this, core.tools.getPropertyName(), newValue);
+            && core.private(this, { [core.tools.getPropertyName()]: newValue });
     }
     //#endregion themeManifest
     //#endregion Getters / Setters
@@ -197,7 +205,7 @@ class Application extends BaseClass {
      * @return  {Object}    return a window
      */
     getWindow(windowName) {
-        const windows = core.getPrivate(this, 'windows').filter((e) => {
+        const windows = core.private(this).windows.filter((e) => {
             return e.name === windowName;
         });
         return !windows.isEmpty ? windows.first : null;
@@ -206,7 +214,7 @@ class Application extends BaseClass {
      * Check if the new component name is unique
      */
     isUniqueGlobalComponentName(name) {
-        return core.getPrivate(this, 'globalComponentName').indexOf(name) === -1;
+        return core.private(this).globalComponentName.indexOf(name) === -1;
     }
     /**
      * Generate a new unique name
@@ -263,7 +271,7 @@ class Application extends BaseClass {
     terminate() {
         //#region Variables déclaration
         const windows = this.windows.reverse();
-        const name = core.getPrivate(this, 'name');
+        const name = core.private(this).name;
         //#endregion Variables déclaration
         windows.forEach((window) => {
             window.destroyOnHide = !0;
@@ -309,7 +317,7 @@ class Application extends BaseClass {
         //#endregion Variables déclaration
         switch (core.renderer) {
             case core.types.RENDERERS.HTML:
-                wins = document.querySelectorAll(`jagui-window.${core.getPrivate(this, 'name')}`);
+                wins = document.querySelectorAll(`jagui-window.${core.private(this).name}`);
                 wins.forEach(win => {
                     let props = {};
                     const properties = win.querySelector('properties');
@@ -331,19 +339,19 @@ class Application extends BaseClass {
                 data = document.querySelector('object.mainWindow');
                 if (data) {
                     data = JSON.parse(data.innerHTML.replace(/{theme}/g, core.defaultTheme));
-                    data.themes && core.getPrivate(this, 'themeManifest').addThemes(data.themes);
+                    data.themes && core.private(this).themeManifest.addThemes(data.themes);
                     wins = data.windows;
                     wins.forEach(win => {
                         form = this.createForm(win.childs, win.className, win.properties);
-                        core.getPrivate(this, 'windows').push(form);
+                        core.private(this).windows.push(form);
                         form.name === data.mainForm
-                            ? core.setPrivate(this, ['mainWindow', 'activeWindow'], form)
+                            ? core.private(this, { mainWindow: form, activeWindow: form })
                             : form.show();
                     });
                 }
                 break;
         }
-        core.getPrivate(this, 'mainWindow').show();
+        core.private(this).mainWindow.show();
         document.getElementById('loading_msg') && document.body.removeChild(data);
         this.createToolTip();
         window.activeApp = this;
@@ -363,7 +371,7 @@ class Application extends BaseClass {
      * Initialize the application
      */
     initialize(/*createIcon*/) {
-        !core.getPrivate(this, 'locale') && core.setPrivate(this, 'locale', core.currentLocale);
+        !core.private(this).locale && core.private(this, { locale: core.currentLocale });
         //if (!createIcon) {
         //    createIcon = !1;
         //}
@@ -397,8 +405,8 @@ class Application extends BaseClass {
         }
     }
     addWindow(maxWins) {
-        let loadedWindowsHTML = core.getPrivate(this, 'loadedWindowsHTML');
-        core.setPrivate(this, 'loadedWindowsHTML', loadedWindowsHTML++);
+        let loadedWindowsHTML = core.private(this).loadedWindowsHTML;
+        core.private(this, { loadedWindowsHTML: loadedWindowsHTML++ });
         loadedWindowsHTML === maxWins && this.loadWindowsHTML();
     }
     //newWindow (windowPath, show, callBack) {
@@ -453,7 +461,8 @@ class Application extends BaseClass {
      */
     getLocalText(obj) {
         //#region Variables déclaration
-        const c = { ...core.getPrivate(this, 'locales')[core.getPrivate(this, 'locale')], ...core.tools.getDefaultLocale() };
+        const priv = core.private(this);
+        const c = { ...priv.locales[priv.locale], ...core.tools.getDefaultLocale() };
         //#endregion Variables déclaration
         if (c) {
             let key = `${obj.form.name}.${obj.name}`;
@@ -488,7 +497,7 @@ class Application extends BaseClass {
         let tpl = core.templates.ToolTip;
         let a = tpl.split('{theme}');
         //#endregion Variables déclaration
-        tpl = a.join(core.getPrivate(this, 'mainWindow').themeName);
+        tpl = a.join(core.private(this).mainWindow.themeName);
         a = tpl.split('{text}');
         tpl = a.join(String.EMPTY);
         wrapper.innerHTML = tpl;
@@ -497,7 +506,7 @@ class Application extends BaseClass {
         Events.bind(document.body.lastElementChild, Mouse.MOUSEEVENTS.MOVE, () => {
             core.apps.activeApplication.hideToolTip();
         });
-        core.setPrivate(this, 'toolTip', document.body.lastElementChild);
+        core.private(this, { toolTip: document.body.lastElementChild });
     }
     /**
      * Show the tooltip of a component
@@ -506,6 +515,7 @@ class Application extends BaseClass {
         //#region Variables déclaration
         let text = String.EMPTY;
         let exit = !1;
+        const priv = core.private(this);
         //#endregion Variables déclaration
         this.hideToolTip();
         !obj.showToolTip && !obj.ownerShowToolTip && (exit = !0);
@@ -524,8 +534,8 @@ class Application extends BaseClass {
             if (!text || typeof text !== core.types.CONSTANTS.STRING) {
                 return;
             }
-            if (!String.isNullOrEmpty(text) && core.getPrivate(this, 'toolTip')) {
-                core.getPrivate(this, 'toolTip').innerHTML = text;
+            if (!String.isNullOrEmpty(text) && priv.toolTip) {
+                priv.toolTip.innerHTML = text;
                 this.placeToolTip(coord, useOffset);
                 this.closeToolTip();
             }
@@ -536,8 +546,9 @@ class Application extends BaseClass {
      */
     placeToolTip(coord, useOffset) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const cssUnits = core.types.CSSUNITS;
-        const tt = core.getPrivate(this, 'toolTip');
+        const tt = priv.toolTip;
         let tx = coord.x;
         let ty = coord.y;
         //#endregion Variables déclaration
@@ -547,24 +558,29 @@ class Application extends BaseClass {
         ty + tt.offsetHeight > document.body.offsetHeight && (ty = coord.y - tt.offsetHeight);
         tt.style.transform = `translate(${tx}${cssUnits.PX},${ty}${cssUnits.PX})`;
         tt.classList.add('fade');
-        clearTimeout(core.getPrivate(this, 'toolTipTimerHandle'));
+        clearTimeout(priv.toolTipTimerHandle);
     }
     /**
      * Prepare hiding the tooltip
      */
     closeToolTip() {
-        clearTimeout(core.getPrivate(this, 'toolTipTimerHandle'));
-        core.setPrivate(this, 'toolTipTimerHandle', setTimeout(() => {
-            core.apps.activeApplication.hideToolTip();
-        }, 4000));
+        clearTimeout(core.private(this).toolTipTimerHandle);
+        core.private(this, {
+            toolTipTimerHandle: setTimeout(() => {
+                core.apps.activeApplication.hideToolTip();
+            }, 4000)
+        });
     }
     /**
      * Hide the tooltip
      */
     hideToolTip() {
-        if (core.getPrivate(this, 'toolTip')) {
-            core.getPrivate(this, 'toolTip').classList.remove('fade');
-            clearTimeout(core.getPrivate(this, 'toolTipTimerHandle'));
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (privtoolTip) {
+            privtoolTip.classList.remove('fade');
+            clearTimeout(priv.toolTipTimerHandle);
         }
     }
     /**
@@ -572,20 +588,21 @@ class Application extends BaseClass {
      */
     destroyToolTip() {
         //#region Variables déclaration
-        const toolTip = core.getPrivate(this, 'toolTip');
+        const priv = core.private(this);
+        const toolTip = priv.toolTip;
         //#endregion Variables déclaration
         if (toolTip) {
-            clearTimeout(core.getPrivate(this, 'toolTipTimerHandle'));
-            Events.unBind(toolTip, Mouse.MOUSEEVENTS.MOVE, core.getPrivate(this, 'hideToolTip'));
+            clearTimeout(priv.toolTipTimerHandle);
+            Events.unBind(toolTip, Mouse.MOUSEEVENTS.MOVE, priv.hideToolTip);
             document.body.removeChild(toolTip);
-            core.setPrivate(this, 'toolTip', null);
+            core.private(this, { toolTip: null });
         }
     }
     /**
      * Close all popups
      */
     closeAllPopups() {
-        core.getPrivate(this, 'windows').forEach(win => {
+        core.private(this).windows.forEach(win => {
             win.closePopups();
         });
     }
@@ -595,12 +612,13 @@ class Application extends BaseClass {
      */
     destroy() {
         //#region Variables déclaration
+        const priv = core.private(this);
         //#endregion Variables déclaration
         //this._toolTipTimerHandle = null;
-        core.getPrivate(this, 'windows').destroy();
+        priv.windows.destroy();
         //this._windows = null;
         //this._windowsClass = null;
-        core.getPrivate(this, 'globalComponentName').destroy();
+        priv.globalComponentName.destroy();
         //this._globalComponentName = null;
         //this._lastThemeName = null;
         //this._themeName = null;
@@ -610,16 +628,19 @@ class Application extends BaseClass {
         //this._mainWindow = null;
         //this._activeWindow = null;
         //this._title = String.null;
-        core.getPrivate(this, 'lastActiveWindow').destroy();
+        priv.lastActiveWindow.destroy();
         //this._lastActiveWindow = null;
         //this._locale = null;
         //this._locales = null;
     }
     render() {
-        const themeManifest = core.getPrivate(this, 'themeManifest');
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        const themeManifest = priv.themeManifest;
         core.isCanvasRenderer && !core.themes[themeManifest.themeName].initialized
             && core.themes[themeManifest.themeName].initialize();
-        const wins = core.getPrivate(this, 'windows');
+        const wins = priv.windows;
         wins.forEach(win => {
             !win.creating && win.visible && win.render();
         });

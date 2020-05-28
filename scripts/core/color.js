@@ -7,920 +7,890 @@ import { Convert } from '/scripts/core/convert.js';
  * Class representing a Color.
  * @extends {Bindable}
  */
-const Color = (function () {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Color
-    class Color extends Bindable {
-        //#region Constructor
-        /**
-         * Create a new instance of Color.
-         */
-        constructor() {
-            //#region Variables déclaration
-            let owner = null;
-            //#endregion Variables déclaration
-            super();
-            //#region Properties
-            //#region Private Properties
-            const priv = internal(this);
-            priv.red = 0;
-            priv.green = 0;
-            priv.blue = 0;
-            priv.alpha = 0;
-            priv.hue = 0;
-            priv.saturation = 0;
-            priv.value = 0;
-            priv.lightness = 0;
-            priv.updating = !1;
-            if (arguments.length > 0) {
-                for (let i = 0, l = arguments.length; i < l; i++) {
-                    const arg = arguments[i];
-                    arg instanceof Color && this.assign(arg);
-                    arg instanceof core.classes.Control && (owner = arg);
+//#region Color
+class Color extends Bindable {
+    //#region Constructor
+    /**
+     * Create a new instance of Color.
+     */
+    constructor() {
+        //#region Variables déclaration
+        let owner = null;
+        //#endregion Variables déclaration
+        super();
+        //#region Properties
+        //#region Private Properties
+        core.setPrivate(this, 'red', 0);
+        core.setPrivate(this, 'green', 0);
+        core.setPrivate(this, 'blue', 0);
+        core.setPrivate(this, 'alpha', 0);
+        core.setPrivate(this, 'hue', 0);
+        core.setPrivate(this, 'saturation', 0);
+        core.setPrivate(this, 'value', 0);
+        core.setPrivate(this, 'lightness', 0);
+        core.setPrivate(this, 'updating', !1);
+        if (arguments.length > 0) {
+            for (let i = 0, l = arguments.length; i < l; i++) {
+                const arg = arguments[i];
+                arg instanceof Color && this.assign(arg);
+                arg instanceof core.classes.Control && (owner = arg);
+            }
+        }
+        core.setPrivate(this, 'owner', owner);
+        //#endregion Private Properties
+        //#endregion Properties
+    }
+    //#endregion Constructor
+    //#region Statics
+    /**
+     * Create a new color from RGBA values
+     * @param   {Number}        red         then red value
+     * @param   {Number}        green       then green value
+     * @param   {Number}        blue        then blue value
+     * @param   {Number}        alpha       then alpha value
+     * @returns     {Color}     the new color instance
+     */
+    static createFromRGBA(red, green, blue, alpha) {
+        //#region Variables déclaration
+        const c = new Color;
+        //#endregion Variables déclaration
+        red = red | 0;
+        green = green | 0;
+        blue = blue | 0;
+        alpha = alpha | 0;
+        c.beginUpdate();
+        red = red & 0xFF;
+        green = green & 0xFF;
+        blue = blue & 0xFF;
+        alpha = alpha > 1 ? 1 : alpha;
+        c.red = red;
+        c.green = green;
+        c.blue = blue;
+        c.alpha = alpha;
+        c.RGBtoHSL();
+        c.RGBtoHSV();
+        c.endUpdate();
+        return c;
+    }
+    /**
+     * Create a new color from HSL values
+     * @param   {Number}        hue             then hue value
+     * @param   {Number}        saturation      then saturation value
+     * @param   {Number}        lightness       then lightness value
+     * @returns     {Color}     the new color instance
+     */
+    static createFromHSL(hue, saturation, lightness) {
+        //#region Variables déclaration
+        const c = new Color;
+        //#endregion Variables déclaration
+        hue = hue | 0;
+        saturation = saturation | 0;
+        lightness = lightness | 0;
+        hue %= 360;
+        saturation %= 100;
+        lightness %= 100;
+        c.beginUpdate();
+        c.hue = hue;
+        c.sat = saturation;
+        c.light = lightness;
+        c.HSLtoRGB();
+        c.endUpdate();
+        return c;
+    }
+    /**
+     * Create a new color from HSV values
+     * @param   {Number}        hue             then hue value
+     * @param   {Number}        saturation      then saturation value
+     * @param   {Number}        value           then value value
+     * @returns     {Color}     the new color instance
+     */
+    static createFromHSV(hue, saturation, value) {
+        //#region Variables déclaration
+        const c = new Color;
+        //#endregion Variables déclaration
+        hue = hue | 0;
+        saturation = saturation | 0;
+        value = value | 0;
+        hue %= 360;
+        saturation %= 100;
+        value %= 100;
+        c.beginUpdate();
+        c.hue = hue;
+        c.sat = saturation;
+        c.value = value;
+        c.HSVtoRGB();
+        c.endUpdate();
+        return c;
+    }
+    /**
+     * Create a new color instance
+     * @param   {Number}        red         then red value
+     * @param   {Number}        green       then green value
+     * @param   {Number}        blue        then blue value
+     * @param   {Number}        alpha       then alpha value
+     * @returns     {Color}     the new color instance
+     */
+    static newColor(red, green, blue, alpha) {
+        return new Color(red, green, blue, alpha);
+    }
+    /**
+     * Parse a string that represent a color (rgb, rgba, hex format)
+     * @param   {String}        strColor        the color string
+     * @returns     {Color}     the new color instance
+     */
+    static parse(strColor) {
+        //#region Variables déclaration
+        const colorDefs = [
+            {
+                re: /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/,
+                example: ['rgb(123,234,45)', 'rgb(255,234,245)'],
+                process: (b) => {
+                    return [
+                        b[1] | 0,
+                        b[2] | 0,
+                        b[3] | 0
+                    ];
+                }
+            },
+            {
+                re: /^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(0|1|0?\.\d+)\)$/,
+                example: ['rgba(123,234,45,0.5)', 'rgba(255,234,245,0.5)'],
+                process: (b) => {
+                    return [
+                        b[1] | 0,
+                        b[2] | 0,
+                        b[3] | 0,
+                        +b[4]
+                    ];
+                }
+            },
+            {
+                re: /^(\w{2})(\w{2})(\w{2})$/,
+                example: ['#00ff00', '#336699'],
+                process: (b) => {
+                    return [
+                        parseInt(b[1], 16),
+                        parseInt(b[2], 16),
+                        parseInt(b[3], 16)
+                    ];
+                }
+            },
+            {
+                re: /^(\w{2})(\w{2})(\w{2})(\w{2})$/,
+                example: ['#0000ff00', '#00336699'],
+                process: (b) => {
+                    return [
+                        parseInt(b[2], 16),
+                        parseInt(b[3], 16),
+                        parseInt(b[4], 16),
+                        parseInt(b[1], 16) / 0xFF
+                    ];
+                }
+            },
+            {
+                re: /^(\w{1})(\w{1})(\w{1})$/,
+                example: ['#fb0', '#f0f'],
+                process: (b) => {
+                    return [
+                        parseInt(b[1] + b[1], 16),
+                        parseInt(b[2] + b[2], 16),
+                        parseInt(b[3] + b[3], 16)
+                    ];
                 }
             }
-            priv.owner = owner;
-            //#endregion Private Properties
-            //#endregion Properties
+        ];
+        //#endregion Variables déclaration
+        if (strColor == undefined) {
+            return strColor;
         }
-        //#endregion Constructor
-        //#region Statics
-        /**
-         * Create a new color from RGBA values
-         * @param   {Number}        red         then red value
-         * @param   {Number}        green       then green value
-         * @param   {Number}        blue        then blue value
-         * @param   {Number}        alpha       then alpha value
-         * @returns     {Color}     the new color instance
-         */
-        static createFromRGBA(red, green, blue, alpha) {
-            //#region Variables déclaration
-            const c = new Color;
-            //#endregion Variables déclaration
-            red = red | 0;
-            green = green | 0;
-            blue = blue | 0;
-            alpha = alpha | 0;
-            c.beginUpdate();
-            red = red & 0xFF;
-            green = green & 0xFF;
-            blue = blue & 0xFF;
-            alpha = alpha > 1 ? 1 : alpha;
-            c.red = red;
-            c.green = green;
-            c.blue = blue;
-            c.alpha = alpha;
-            c.RGBtoHSL();
-            c.RGBtoHSV();
-            c.endUpdate();
-            return c;
+        !core.tools.isString(strColor) && (strColor = String.EMPTY);
+        if (strColor === String.EMPTY) {
+            return Colors.TRANSPARENT;
         }
-        /**
-         * Create a new color from HSL values
-         * @param   {Number}        hue             then hue value
-         * @param   {Number}        saturation      then saturation value
-         * @param   {Number}        lightness       then lightness value
-         * @returns     {Color}     the new color instance
-         */
-        static createFromHSL(hue, saturation, lightness) {
-            //#region Variables déclaration
-            const c = new Color;
-            //#endregion Variables déclaration
-            hue = hue | 0;
-            saturation = saturation | 0;
-            lightness = lightness | 0;
-            hue %= 360;
-            saturation %= 100;
-            lightness %= 100;
-            c.beginUpdate();
-            c.hue = hue;
-            c.sat = saturation;
-            c.light = lightness;
-            c.HSLtoRGB();
-            c.endUpdate();
-            return c;
-        }
-        /**
-         * Create a new color from HSV values
-         * @param   {Number}        hue             then hue value
-         * @param   {Number}        saturation      then saturation value
-         * @param   {Number}        value           then value value
-         * @returns     {Color}     the new color instance
-         */
-        static createFromHSV(hue, saturation, value) {
-            //#region Variables déclaration
-            const c = new Color;
-            //#endregion Variables déclaration
-            hue = hue | 0;
-            saturation = saturation | 0;
-            value = value | 0;
-            hue %= 360;
-            saturation %= 100;
-            value %= 100;
-            c.beginUpdate();
-            c.hue = hue;
-            c.sat = saturation;
-            c.value = value;
-            c.HSVtoRGB();
-            c.endUpdate();
-            return c;
-        }
-        /**
-         * Create a new color instance
-         * @param   {Number}        red         then red value
-         * @param   {Number}        green       then green value
-         * @param   {Number}        blue        then blue value
-         * @param   {Number}        alpha       then alpha value
-         * @returns     {Color}     the new color instance
-         */
-        static newColor(red, green, blue, alpha) {
-            return new Color(red, green, blue, alpha);
-        }
-        /**
-         * Parse a string that represent a color (rgb, rgba, hex format)
-         * @param   {String}        strColor        the color string
-         * @returns     {Color}     the new color instance
-         */
-        static parse(strColor) {
-            //#region Variables déclaration
-            const colorDefs = [
-                {
-                    re: /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/,
-                    example: ['rgb(123,234,45)', 'rgb(255,234,245)'],
-                    process: (b) => {
-                        return [
-                            b[1] | 0,
-                            b[2] | 0,
-                            b[3] | 0
-                        ];
-                    }
-                },
-                {
-                    re: /^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(0|1|0?\.\d+)\)$/,
-                    example: ['rgba(123,234,45,0.5)', 'rgba(255,234,245,0.5)'],
-                    process: (b) => {
-                        return [
-                            b[1] | 0,
-                            b[2] | 0,
-                            b[3] | 0,
-                            +b[4]
-                        ];
-                    }
-                },
-                {
-                    re: /^(\w{2})(\w{2})(\w{2})$/,
-                    example: ['#00ff00', '#336699'],
-                    process: (b) => {
-                        return [
-                            parseInt(b[1], 16),
-                            parseInt(b[2], 16),
-                            parseInt(b[3], 16)
-                        ];
-                    }
-                },
-                {
-                    re: /^(\w{2})(\w{2})(\w{2})(\w{2})$/,
-                    example: ['#0000ff00', '#00336699'],
-                    process: (b) => {
-                        return [
-                            parseInt(b[2], 16),
-                            parseInt(b[3], 16),
-                            parseInt(b[4], 16),
-                            parseInt(b[1], 16) / 0xFF
-                        ];
-                    }
-                },
-                {
-                    re: /^(\w{1})(\w{1})(\w{1})$/,
-                    example: ['#fb0', '#f0f'],
-                    process: (b) => {
-                        return [
-                            parseInt(b[1] + b[1], 16),
-                            parseInt(b[2] + b[2], 16),
-                            parseInt(b[3] + b[3], 16)
-                        ];
-                    }
-                }
-            ];
-            //#endregion Variables déclaration
-            if (strColor == undefined) {
-                return strColor;
+        let result = new Color;
+        result.beginUpdate();
+        if (strColor.indexOf('#') === -1 && strColor.indexOf('rgb') === -1) {
+            Colors[strColor.toUpperCase()] && (result = Colors[strColor.toUpperCase()]);
+        } else {
+            strColor = strColor.replace('#', String.EMPTY);
+            // search through the definitions to find a match
+            const def = colorDefs.find(color => {
+                return color.re.exec(strColor) !== null ? color : null;
+            });
+            if (def) {
+                const channels = def.process(def.re.exec(strColor));
+                result.red = channels[0];
+                result.green = channels[1];
+                result.blue = channels[2];
+                result.alpha = channels[3] ? int(channels[3]) : 1;
             }
-            !core.tools.isString(strColor) && (strColor = String.EMPTY);
-            if (strColor === String.EMPTY) {
-                return Colors.TRANSPARENT;
-            }
-            let result = new Color;
+        }
+        result.RGBtoHSL();
+        result.RGBtoHSV();
+        result.endUpdate();
+        return result;
+    }
+    /**
+     * Change the HSL values of a color and return a new color instance
+     * @param       {Color}         c       the color string
+     * @param       {Number}        h       the hue value
+     * @param       {Number}        s       the saturation value
+     * @param       {Number}        l       the lightness value
+     * @returns     {Color}     the new color instance
+     */
+    static changeHSL(c, h, s, l) {
+        //#region Variables déclaration
+        const a = c.alpha;
+        const hsl = c.RGB2HSL();
+        const result = new Color;
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(h) && core.tools.isNumber(s) && core.tools.isNumber(l)) {
+            hsl.h = hsl.h + h;
+            hsl.h = Math.max(Math.min(hsl.h, 1), 0);
+            hsl.s = hsl.s + s;
+            hsl.s = Math.max(Math.min(hsl.s, 1), 0);
+            hsl.l = hsl.l + l;
+            hsl.l = Math.max(Math.min(hsl.l, 1), 0);
             result.beginUpdate();
-            if (strColor.indexOf('#') === -1 && strColor.indexOf('rgb') === -1) {
-                Colors[strColor.toUpperCase()] && (result = Colors[strColor.toUpperCase()]);
-            } else {
-                strColor = strColor.replace('#', String.EMPTY);
-                // search through the definitions to find a match
-                const def = colorDefs.find(color => {
-                    return color.re.exec(strColor) !== null ? color : null;
-                });
-                if (def) {
-                    const channels = def.process(def.re.exec(strColor));
-                    result.red = channels[0];
-                    result.green = channels[1];
-                    result.blue = channels[2];
-                    result.alpha = channels[3] ? int(channels[3]) : 1;
-                }
-            }
-            result.RGBtoHSL();
-            result.RGBtoHSV();
+            result.HSLRGB(hsl.h, hsl.s, hsl.l);
+            result.alpha = a;
             result.endUpdate();
             return result;
         }
-        /**
-         * Change the HSL values of a color and return a new color instance
-         * @param       {Color}         c       the color string
-         * @param       {Number}        h       the hue value
-         * @param       {Number}        s       the saturation value
-         * @param       {Number}        l       the lightness value
-         * @returns     {Color}     the new color instance
-         */
-        static changeHSL(c, h, s, l) {
-            //#region Variables déclaration
-            const a = c.alpha;
-            const hsl = c.RGB2HSL();
-            const result = new Color;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(h) && core.tools.isNumber(s) && core.tools.isNumber(l)) {
-                hsl.h = hsl.h + h;
-                hsl.h = Math.max(Math.min(hsl.h, 1), 0);
-                hsl.s = hsl.s + s;
-                hsl.s = Math.max(Math.min(hsl.s, 1), 0);
-                hsl.l = hsl.l + l;
-                hsl.l = Math.max(Math.min(hsl.l, 1), 0);
-                result.beginUpdate();
-                result.HSLRGB(hsl.h, hsl.s, hsl.l);
-                result.alpha = a;
-                result.endUpdate();
-                return result;
+        return null;
+    }
+    /**
+     * Return the color name of a color
+     * @param       {Color}     color       a color instance
+     * @returns     {String}                the name of the color
+     */
+    static getColorName(color) {
+        //#region Variables déclaration
+        const colors = Object.keys(this);
+        const name = colors.find(c => {
+            if (this[c] instanceof Color && this[c].equals(color)) {
+                return c.firstCharUpper();
             }
-            return null;
-        }
-        /**
-         * Return the color name of a color
-         * @param       {Color}     color       a color instance
-         * @returns     {String}                the name of the color
-         */
-        static getColorName(color) {
-            const colors = Object.keys(this);
-            const name = colors.find(c => {
-                if (this[c] instanceof Color && this[c].equals(color)) {
-                    return c.firstCharUpper();
-                }
-            });
-            return name ? name : color.toRGBHexString();
-        }
-        //#endregion
-        //#region Getters / Setters
-        //#region red
-        get red() {
-            return internal(this).red;
-        }
-        set red(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = priv.owner;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && newValue !== priv.red) {
-                newValue = newValue & 0xFF;
-                priv.red = newValue;
-                if (!priv.updating) {
-                    this.RGBtoHSV();
-                    this.RGBtoHSL();
-                }
-                this.propertyChanged(core.tools.getPropertyName());
-                owner && !owner.loading && owner.update();
-            }
-        }
-        //#endregion red
-        //#region green
-        get green() {
-            return internal(this).green;
-        }
-        set green(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = priv.owner;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && newValue !== priv.green) {
-                newValue = newValue & 0xFF;
-                priv.green = newValue;
-                if (!priv.updating) {
-                    this.RGBtoHSV();
-                    this.RGBtoHSL();
-                }
-                this.propertyChanged(core.tools.getPropertyName());
-                owner && !owner.loading && owner.update();
-            }
-        }
-        //#endregion green
-        //#region blue
-        get blue() {
-            return internal(this).blue;
-        }
-        set blue(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = priv.owner;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && newValue !== priv.blue) {
-                newValue = newValue & 0xFF;
-                priv.blue = newValue;
-                if (!priv.updating) {
-                    this.RGBtoHSV();
-                    this.RGBtoHSL();
-                }
-                this.propertyChanged(core.tools.getPropertyName());
-                owner && !owner.loading && owner.update();
-            }
-        }
-        //#endregion blue
-        //#region alpha
-        get alpha() {
-            return internal(this).alpha;
-        }
-        set alpha(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = priv.owner;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && newValue !== priv.alpha) {
-                newValue = Math.max(Math.min(newValue, 1), 0);
-                priv.alpha = newValue;
-                this.propertyChanged(core.tools.getPropertyName());
-                owner && !owner.loading && owner.update();
-            }
-        }
-        //#endregion alpha
-        //#region hue
-        get hue() {
-            return internal(this).hue;
-        }
-        set hue(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = priv.owner;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && newValue !== priv.hue) {
-                newValue = Math.max(Math.min(newValue, 360), 0);
-                priv.hue = newValue;
-                !priv.updating && this.HSVtoRGB();
-                this.propertyChanged(core.tools.getPropertyName());
-                owner && !owner.loading && owner.update();
-            }
-        }
-        //#endregion hue
-        //#region saturation
-        get saturation() {
-            return internal(this).saturation;
-        }
-        set saturation(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = priv.owner;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && newValue !== priv.saturation) {
-                newValue = Math.max(Math.min(newValue, 100), 0);
-                priv.saturation = newValue;
-                !priv.updating && this.HSVtoRGB();
-                this.propertyChanged(core.tools.getPropertyName());
-                owner && !owner.loading && owner.update();
-            }
-        }
-        //#endregion saturation
-        //#region value
-        get value() {
-            return internal(this).value;
-        }
-        set value(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = this.owner;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && newValue !== priv.value) {
-                newValue = Math.max(Math.min(newValue, 100), 0);
-                priv.value = newValue;
-                !priv.updating && this.HSVtoRGB();
-                this.propertyChanged(core.tools.getPropertyName());
-                owner && !owner.loading && owner.update();
-            }
-        }
-        //#endregion value
-        //#region lightness
-        get lightness() {
-            return internal(this).lightness;
-        }
-        set lightness(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = this.owner;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && newValue !== priv.lightness) {
-                newValue = Math.max(Math.min(newValue, 100), 0);
-                priv.lightness = newValue;
-                !priv.updating && this.HSLtoRGB();
-                this.propertyChanged(core.tools.getPropertyName());
-                owner && !owner.loading && owner.update();
-            }
-        }
-        //#endregion lightness
-        //#region owner
-        get owner() {
-            return internal(this).owner;
-        }
-        set owner(newValue) {
-            internal(this).owner = newValue;
-        }
-        //#endregion owner
-        //#region updating
-        get updating() {
-            return internal(this).updating;
-        }
-        set updating(newValue) {
-            internal(this).updating = newValue;
-        }
-        //#endregion updating
-        //#endregion Getters / Setters
-        /**
-         * Set the RGB of the color
-         * @param   {Number}   red              the new red value
-         * @param   {Number}   green            the new green value
-         * @param   {Number}   blue             the new blue value
-         */
-        setRGB(red, green, blue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = this.owner;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(red) && core.tools.isNumber(green) && core.tools.isNumber(blue)) {
-                priv.red = red;
-                priv.green = green;
-                priv.blue = blue;
-                !this.updating && this.RGBtoHSL() && this.RGBtoHSV();
-                owner && !owner.loading && owner.update();
-            }
-        }
-        /**
-         * Set the RGBA of the color
-         * @param   {Number}   red              the new red value
-         * @param   {Number}   green            the new green value
-         * @param   {Number}   blue             the new blue value
-         * @param   {Number}   alpha            the new alpha value
-         */
-        setRGBA(red, green, blue, alpha) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = this.owner;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(red) && core.tools.isNumber(green) && core.tools.isNumber(blue)  && core.tools.isNumber(alpha)) {
-                priv.red = red;
-                priv.green = green;
-                priv.blue = blue;
-                priv.alpha = alpha;
-                !this.updating && this.RGBtoHSL() && this.RGBtoHSV();
-                owner && !owner.loading && owner.update();
-            }
-        }
-        /**
-         * Set the HSV of the color
-         * @param   {Number}   hue              the new hue value
-         * @param   {Number}   saturation       the new saturation value
-         * @param   {Number}   value            the new value
-         */
-        setHSV(hue, saturation, value) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = this.owner;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(hue) && core.tools.isNumber(saturation) && core.tools.isNumber(value)) {
-                priv.hue = hue;
-                priv.saturation = saturation;
-                priv.value = value;
-                !this.updating && this.HSVtoRGB();
-                owner && !owner.loading && owner.update();
-            }
-        }
-        /**
-         * Set the HLS of the color
-         * @param   {Number}   hue              the new hue value
-         * @param   {Number}   saturation       the new saturation value
-         * @param   {Number}   lightness        the new lightness value
-         */
-        setHSL(hue, saturation, lightness) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const owner = this.owner;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(hue) && core.tools.isNumber(saturation) && core.tools.isNumber(lightness)) {
-                priv.hue = hue;
-                priv.saturation = saturation;
-                priv.lightness = lightness;
-                !this.updating && this.HSLtoRGB();
-                owner && !owner.loading && owner.update();
-            }
-        }
-        /**
-         * Clone a color
-         * @returns     {Color}     the cloned color
-         */
-        clone() {
-            return new Color(this);
-        }
-        /**
-         * Return the RGB hexa string format of the color instance
-         * @returns     {String}        the string
-         */
-        toRGBHexString() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            return `#${Convert.dec2Hex(priv.red).padStart(2, '0')}${Convert.dec2Hex(priv.green).padStart(2, '0')}${Convert.dec2Hex(priv.blue).padStart(2, '0')}`.toUpperCase();
-        }
-        /**
-         * Return the ARGB hexa string format of the color instance
-         * @returns     {String}        the string
-         */
-        toARGBHexString() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            return `#${Convert.dec2Hex(priv.alpha * 0xFF).padStart(2, '0')}${Convert.dec2Hex(priv.red).padStart(2, '0')}${Convert.dec2Hex(priv.green).padStart(2, '0')}${Convert.dec2Hex(priv.blue).padStart(2, '0')}`.toUpperCase();
-        }
-        /**
-         * Return the rgb string format of the color instance
-         * @returns     {String}        the string
-         */
-        toRGBString() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            return `rgb(${priv.red},${priv.green},${priv.blue})`;
-        }
-        /**
-         * Return the rgba string format of the color instance
-         * @returns     {String}        the string
-         */
-        toRGBAString() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            return `rgba(${priv.red},${priv.green},${priv.blue},${priv.alpha})`;
-        }
-        /**
-         * Return the hsl string format of the color instance
-         * @returns     {String}        the string
-         */
-        toHSLString() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            return `hsl(${priv.hue},${priv.saturation},${priv.lightness})`;
-        }
-        /**
-         * Return the hsv string format of the color instance
-         * @returns     {String}        the string
-         */
-        toHSVString() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            return `hsv(${priv.hue},${priv.saturation},${priv.value})`;
-        }
-        /**
-         * Return the bgr string format of the color instance
-         * @returns     {String}        the string
-         */
-        toBGRString() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            return (Convert.dec2Hex(priv.blue).padStart(2, '0') + Convert.dec2Hex(priv.green).padStart(2, '0') + Convert.dec2Hex(priv.red).padStart(2, '0')).toUpperCase();
-        }
-        /**
-         * Return the int string format of the color instance
-         * @returns     {String}        the string
-         */
-        toInt() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            return `0x${priv.toBGRString()}`;
-        }
-        /**
-         * Blend a color with the current color
-         * @param       {Color}     color       the color to blend with
-         * @param       {Number}    alpha       the alpha value
-         * @return      {Color}             the new color
-         */
-        blend(color, alpha) {
-            if (color instanceof Color) {
-                color = color.toRGB();
-                alpha = Math.min(Math.max(alpha, 0), 1);
-                const rgb = new Color();
-                rgb.red = rgb.red * (1 - alpha) + (color.red * alpha);
-                rgb.green = rgb.green * (1 - alpha) + (color.green * alpha);
-                rgb.blue = rgb.blue * (1 - alpha) + (color.blue * alpha);
-                rgb.alpha = rgb.alpha * (1 - alpha) + (color.alpha * alpha);
-
-                return rgb;
-            }
-            return color;
-        }
-        /**
-         * Rotate RGB chanels to BGR chanels
-         * @returns     {Color}             this color instance
-         */
-        RGBtoBGR() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.red = priv.blue;
-            priv.blue = priv.red;
-            this.RGBtoHSL();
-            this.RGBtoHSV();
-            return this;
-        }
-        /**
-         * Premulty alpha chanel
-         * @returns     {Color}             this color instance
-         */
-        premultyAlpha() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (alpha === 0) {
-                priv.red = 0;
-                priv.green = 0;
-                priv.blue = 0;
-            }
-            else if (alpha !== 1) {
-                priv.red = Math.trunc(priv.red * priv.alpha) & 0xFF;
-                priv.green = Math.trunc(priv.green * priv.alpha) & 0xFF;
-                priv.blue = Math.trunc(priv.blue * priv.alpha) & 0xFF;
-            }
-            return this;
-        }
-        /**
-         * Unpremulty alpha chanel
-         * @returns     {Color}             this color instance
-         */
-        unPremultyAlpha() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (alpha === 0) {
-                priv.red = 0;
-                priv.green = 0;
-                priv.blue = 0;
-            } else {
-                priv.red = Math.trunc(priv.red / priv.alpha);
-                priv.green = Math.trunc(priv.green / priv.alpha);
-                priv.blue = Math.trunc(priv.blue / priv.alpha);
-            }
-            return this;
-        }
-        /**
-         * Change the opaticy of the color
-         * @param       {Number}        opacity     the new opcity value
-         * @returns     {Color}                     this color instance
-         */
-        opacity(opacity) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(opacity)) {
-                opacity < 1 && (priv.alpha = priv.alpha * 0xFF * opacity / 0xFF);
-                if (priv.alpha > 1) {
-                    priv.alpha = 1;
-                } else if (priv.alpha < 0) {
-                    priv.alpha = 0;
-                }
-                return this;
-            }
-            return this;
-        }
-        /**
-         * Check if a color is equal to the current color
-         * @param       {Color}        color     the color value
-         * @return      {Boolean}       return the current color instance
-         */
-        equals(color) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            return priv.red === color.red &&
-                priv.green === color.green &&
-                priv.blue === color.blue &&
-                priv.alpha === color.alpha &&
-                priv.hue === color.hue &&
-                priv.saturation === color.saturation &&
-                priv.value === color.value &&
-                priv.lightness === color.lightness;
-        }
-        /**
-         * Assign properties from source to the current color instance
-         * @param       {Color}        source     the color source
-         */
-        assign(source) {
-            //#region Variables déclaration
-            const owner = this.owner;
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (source instanceof Color) {
-                priv.alpha = source.alpha;
-                priv.red = source.red;
-                priv.green = source.green;
-                priv.blue = source.blue;
-                priv.hue = source.hue;
-                priv.saturation = source.saturation;
-                priv.value = source.value;
-                priv.lightness = source.lightness;
-                owner && !owner.loading && owner.update();
-            }
-        }
-        /**
-         * Inverse the color chanels
-         */
-        inverse() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.red = 255 - priv.red;
-            priv.blue = 255 - priv.blue;
-            priv.green = 255 - priv.green;
-            if (!this.updating) {
+        });
+        //#endregion Variables déclaration
+        return name ? name : color.toRGBHexString();
+    }
+    //#endregion
+    //#region Getters / Setters
+    //#region red
+    get red() {
+        return core.getPrivate(this, core.tools.getPropertyName());
+    }
+    set red(newValue) {
+        //#region Variables déclaration
+        const propName = core.tools.getPropertyName();
+        const owner = core.getPrivate(this, 'owner');
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && newValue !== core.getPrivate(this, propName)) {
+            newValue = newValue & 0xFF;
+            core.setPrivate(this, propName, newValue);
+            if (!priv.updating) {
                 this.RGBtoHSV();
                 this.RGBtoHSL();
             }
+            this.propertyChanged(propName);
+            owner && !owner.loading && owner.update();
         }
-        /**
-         * Prevent repaints until the operation is complete
-         */
-        beginUpdate() {
-            this.updating = !0;
-        }
-        /**
-         * Enables repaints when the operation is complete
-         */
-        endUpdate() {
-            this.updating = !1;
-        }
-        /**
-         * Convert HSV to RGB
-         */
-        HSVtoRGB() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const sat = priv.saturation / 100;
-            const value = priv.value / 100;
-            let c = sat * value;
-            const h = priv.hue / 60;
-            let x = c * (1 - Math.abs(h % 2 - 1));
-            let m = value - c;
-            const precision = 255;
-            //#endregion Variables déclaration
-            c = (c + m) * precision | 0;
-            x = (x + m) * precision | 0;
-            m = m * precision | 0;
-            if (h >= 0 && h < 1) { priv.red = c; priv.green = x; priv.blue = m; return; }
-            if (h >= 1 && h < 2) { priv.red = x; priv.green = c; priv.blue = m; return; }
-            if (h >= 2 && h < 3) { priv.red = m; priv.green = c; priv.blue = x; return; }
-            if (h >= 3 && h < 4) { priv.red = m; priv.green = x; priv.blue = c; return; }
-            if (h >= 4 && h < 5) { priv.red = x; priv.green = m; priv.blue = c; return; }
-            if (h >= 5 && h < 6) { priv.red = c; priv.green = m; priv.blue = x; return; }
-        }
-        /**
-         * Convert HSL to RGB
-         */
-        HSLtoRGB() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const sat = priv.saturation / 100;
-            const light = priv.lightness / 100;
-            let c = sat * (1 - Math.abs(2 * light - 1));
-            const h = priv.hue / 60;
-            let x = c * (1 - Math.abs(h % 2 - 1));
-            let m = light - c / 2;
-            const precision = 255;
-            //#endregion Variables déclaration
-            c = (c + m) * precision | 0;
-            x = (x + m) * precision | 0;
-            m = m * precision | 0;
-            if (h >= 0 && h < 1) {
-                priv.red = c; priv.green = x; priv.blue = m;
-            } else if (h >= 1 && h < 2) {
-                priv.red = x; priv.green = c; priv.blue = m;
-            } else if (h >= 2 && h < 3) {
-                priv.red = m; priv.green = c; priv.blue = x;
-            } else if (h >= 3 && h < 4) {
-                priv.red = m; priv.green = x; priv.blue = c;
-            } else if (h >= 4 && h < 5) {
-                priv.red = x; priv.green = m; priv.blue = c;
-            } else if (h >= 5 && h < 6) {
-                priv.red = c; priv.green = m; priv.blue = x;
-            }
-        }
-        /**
-         * Convert RGB to HSV
-         */
-        RGBtoHSV() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const red = priv.red / 255,
-                green = priv.green / 255,
-                blue = priv.blue / 255,
-                cMax = Math.max(red, green, blue),
-                cMin = Math.min(red, green, blue),
-                delta = cMax - cMin;
-            let hue = 0;
-            let saturation = 0;
-            //#endregion Variables déclaration
-            if (delta) {
-                cMax === red && (hue = (green - blue) / delta);
-                cMax === green && (hue = 2 + (blue - red) / delta);
-                cMax === blue && (hue = 4 + (red - green) / delta);
-                cMax && (saturation = delta / cMax);
-            }
-            hue = priv.hue = 60 * hue | 0;
-            hue < 0 && (priv.hue += 360);
-            priv.saturation = saturation * 100 | 0;
-            priv.value = cMax * 100 | 0;
-        }
-        /**
-         * Convert RGB to HSL
-         */
-        RGBtoHSL() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const red = priv.red / 255;
-            const green = priv.green / 255;
-            const blue = priv.blue / 255;
-            const cMax = Math.max(red, green, blue);
-            const cMin = Math.min(red, green, blue);
-            const delta = cMax - cMin;
-            let hue = 0;
-            let saturation = 0;
-            const lightness = (cMax + cMin) / 2;
-            const x = 1 - Math.abs(2 * lightness - 1);
-            //#endregion Variables déclaration
-            if (delta) {
-                cMax === red && (hue = green - blue / delta);
-                cMax === green && (hue = 2 + blue - red / delta);
-                cMax === blue && (hue = 4 + red - green / delta);
-                cMax && (saturation = delta / x);
-            }
-            hue = priv.hue = 60 * hue | 0;
-            hue < 0 && (priv.hue += 360);
-            priv.saturation = saturation * 100 | 0;
-            priv.lightness = lightness * 100 | 0;
-        }
-        /**
-         * Return black or white color for the best viewing fore color
-         * @return  {String}        retrun black or white color
-         */
-        getForeColorHex() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            return 0.3 * priv.red + 0.59 * priv.green + 0.11 * priv.blue <= 128 ? '#FFF' : '#000';
-        }
-        //#region destroy
-        destroy() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.red = null;
-            priv.green = null;
-            priv.blue = null;
-            priv.alpha = null;
-            priv.hue = null;
-            priv.saturation = null;
-            priv.value = null;
-            priv.lightness = null;
-            priv.updating = null;
-            priv.owner = null;
-            super.destroy();
-        }
-        //#endregion destroy
-        //#endregion
     }
-    return Color;
-    //#region Color
-})();
+    //#endregion red
+    //#region green
+    get green() {
+        return core.getPrivate(this, core.tools.getPropertyName());
+    }
+    set green(newValue) {
+        //#region Variables déclaration
+        const propName = core.tools.getPropertyName();
+        const owner = core.getPrivate(this, 'owner');
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && newValue !== core.getPrivate(this, propName)) {
+            newValue = newValue & 0xFF;
+            core.setPrivate(this, propName, newValue);
+            if (!priv.updating) {
+                this.RGBtoHSV();
+                this.RGBtoHSL();
+            }
+            this.propertyChanged(propName);
+            owner && !owner.loading && owner.update();
+        }
+    }
+    //#endregion green
+    //#region blue
+    get blue() {
+        return core.getPrivate(this, core.tools.getPropertyName());
+    }
+    set blue(newValue) {
+        //#region Variables déclaration
+        const propName = core.tools.getPropertyName();
+        const owner = core.getPrivate(this, 'owner');
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && newValue !== core.getPrivate(this, propName)) {
+            newValue = newValue & 0xFF;
+            core.setPrivate(this, propName, newValue);
+            if (!priv.updating) {
+                this.RGBtoHSV();
+                this.RGBtoHSL();
+            }
+            this.propertyChanged(propName);
+            owner && !owner.loading && owner.update();
+        }
+    }
+    //#endregion blue
+    //#region alpha
+    get alpha() {
+        return core.getPrivate(this, core.tools.getPropertyName());
+    }
+    set alpha(newValue) {
+        //#region Variables déclaration
+        const propName = core.tools.getPropertyName();
+        const owner = core.getPrivate(this, 'owner');
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && newValue !== core.getPrivate(this, propName)) {
+            newValue = Math.max(Math.min(newValue, 1), 0);
+            core.setPrivate(this, propName, newValue);
+            this.propertyChanged(propName);
+            owner && !owner.loading && owner.update();
+        }
+    }
+    //#endregion alpha
+    //#region hue
+    get hue() {
+        return core.getPrivate(this, core.tools.getPropertyName());
+    }
+    set hue(newValue) {
+        //#region Variables déclaration
+        const propName = core.tools.getPropertyName();
+        const owner = core.getPrivate(this, 'owner');
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && newValue !== core.getPrivate(this, propName)) {
+            newValue = Math.max(Math.min(newValue, 360), 0);
+            core.setPrivate(this, propName, newValue);
+            this.propertyChanged(propName);
+            !core.getPrivate(this, 'updating') && this.HSVtoRGB();
+            owner && !owner.loading && owner.update();
+        }
+    }
+    //#endregion hue
+    //#region saturation
+    get saturation() {
+        return core.getPrivate(this, core.tools.getPropertyName());
+    }
+    set saturation(newValue) {
+        //#region Variables déclaration
+        const priv = internal(this);
+        const owner = priv.owner;
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && newValue !== priv.saturation) {
+            newValue = Math.max(Math.min(newValue, 100), 0);
+            priv.saturation = newValue;
+            !priv.updating && this.HSVtoRGB();
+            this.propertyChanged(core.tools.getPropertyName());
+            owner && !owner.loading && owner.update();
+        }
+    }
+    //#endregion saturation
+    //#region value
+    get value() {
+        return core.getPrivate(this, core.tools.getPropertyName());
+    }
+    set value(newValue) {
+        //#region Variables déclaration
+        const priv = internal(this);
+        const owner = this.owner;
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && newValue !== priv.value) {
+            newValue = Math.max(Math.min(newValue, 100), 0);
+            priv.value = newValue;
+            !priv.updating && this.HSVtoRGB();
+            this.propertyChanged(core.tools.getPropertyName());
+            owner && !owner.loading && owner.update();
+        }
+    }
+    //#endregion value
+    //#region lightness
+    get lightness() {
+        return core.getPrivate(this, core.tools.getPropertyName());
+    }
+    set lightness(newValue) {
+        //#region Variables déclaration
+        const priv = internal(this);
+        const owner = this.owner;
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && newValue !== priv.lightness) {
+            newValue = Math.max(Math.min(newValue, 100), 0);
+            priv.lightness = newValue;
+            !priv.updating && this.HSLtoRGB();
+            this.propertyChanged(core.tools.getPropertyName());
+            owner && !owner.loading && owner.update();
+        }
+    }
+    //#endregion lightness
+    //#region owner
+    get owner() {
+        return core.getPrivate(this, core.tools.getPropertyName());
+    }
+    set owner(newValue) {
+        internal(this).owner = newValue;
+    }
+    //#endregion owner
+    //#region updating
+    get updating() {
+        return core.getPrivate(this, core.tools.getPropertyName());
+    }
+    set updating(newValue) {
+        internal(this).updating = newValue;
+    }
+    //#endregion updating
+    //#endregion Getters / Setters
+    /**
+     * Set the RGB of the color
+     * @param   {Number}   red              the new red value
+     * @param   {Number}   green            the new green value
+     * @param   {Number}   blue             the new blue value
+     */
+    setRGB(red, green, blue) {
+        //#region Variables déclaration
+        const priv = internal(this);
+        const owner = this.owner;
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(red) && core.tools.isNumber(green) && core.tools.isNumber(blue)) {
+            priv.red = red;
+            priv.green = green;
+            priv.blue = blue;
+            !this.updating && this.RGBtoHSL() && this.RGBtoHSV();
+            owner && !owner.loading && owner.update();
+        }
+    }
+    /**
+     * Set the RGBA of the color
+     * @param   {Number}   red              the new red value
+     * @param   {Number}   green            the new green value
+     * @param   {Number}   blue             the new blue value
+     * @param   {Number}   alpha            the new alpha value
+     */
+    setRGBA(red, green, blue, alpha) {
+        //#region Variables déclaration
+        const priv = internal(this);
+        const owner = this.owner;
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(red) && core.tools.isNumber(green) && core.tools.isNumber(blue) && core.tools.isNumber(alpha)) {
+            priv.red = red;
+            priv.green = green;
+            priv.blue = blue;
+            priv.alpha = alpha;
+            !this.updating && this.RGBtoHSL() && this.RGBtoHSV();
+            owner && !owner.loading && owner.update();
+        }
+    }
+    /**
+     * Set the HSV of the color
+     * @param   {Number}   hue              the new hue value
+     * @param   {Number}   saturation       the new saturation value
+     * @param   {Number}   value            the new value
+     */
+    setHSV(hue, saturation, value) {
+        //#region Variables déclaration
+        const priv = internal(this);
+        const owner = this.owner;
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(hue) && core.tools.isNumber(saturation) && core.tools.isNumber(value)) {
+            priv.hue = hue;
+            priv.saturation = saturation;
+            priv.value = value;
+            !this.updating && this.HSVtoRGB();
+            owner && !owner.loading && owner.update();
+        }
+    }
+    /**
+     * Set the HLS of the color
+     * @param   {Number}   hue              the new hue value
+     * @param   {Number}   saturation       the new saturation value
+     * @param   {Number}   lightness        the new lightness value
+     */
+    setHSL(hue, saturation, lightness) {
+        //#region Variables déclaration
+        const priv = internal(this);
+        const owner = this.owner;
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(hue) && core.tools.isNumber(saturation) && core.tools.isNumber(lightness)) {
+            priv.hue = hue;
+            priv.saturation = saturation;
+            priv.lightness = lightness;
+            !this.updating && this.HSLtoRGB();
+            owner && !owner.loading && owner.update();
+        }
+    }
+    /**
+     * Clone a color
+     * @returns     {Color}     the cloned color
+     */
+    clone() {
+        return new Color(this);
+    }
+    /**
+     * Return the RGB hexa string format of the color instance
+     * @returns     {String}        the string
+     */
+    toRGBHexString() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        //#endregion Variables déclaration
+        return `#${Convert.dec2Hex(priv.red).padStart(2, '0')}${Convert.dec2Hex(priv.green).padStart(2, '0')}${Convert.dec2Hex(priv.blue).padStart(2, '0')}`.toUpperCase();
+    }
+    /**
+     * Return the ARGB hexa string format of the color instance
+     * @returns     {String}        the string
+     */
+    toARGBHexString() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        //#endregion Variables déclaration
+        return `#${Convert.dec2Hex(priv.alpha * 0xFF).padStart(2, '0')}${Convert.dec2Hex(priv.red).padStart(2, '0')}${Convert.dec2Hex(priv.green).padStart(2, '0')}${Convert.dec2Hex(priv.blue).padStart(2, '0')}`.toUpperCase();
+    }
+    /**
+     * Return the rgb string format of the color instance
+     * @returns     {String}        the string
+     */
+    toRGBString() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        //#endregion Variables déclaration
+        return `rgb(${priv.red},${priv.green},${priv.blue})`;
+    }
+    /**
+     * Return the rgba string format of the color instance
+     * @returns     {String}        the string
+     */
+    toRGBAString() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        //#endregion Variables déclaration
+        return `rgba(${priv.red},${priv.green},${priv.blue},${priv.alpha})`;
+    }
+    /**
+     * Return the hsl string format of the color instance
+     * @returns     {String}        the string
+     */
+    toHSLString() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        //#endregion Variables déclaration
+        return `hsl(${priv.hue},${priv.saturation},${priv.lightness})`;
+    }
+    /**
+     * Return the hsv string format of the color instance
+     * @returns     {String}        the string
+     */
+    toHSVString() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        //#endregion Variables déclaration
+        return `hsv(${priv.hue},${priv.saturation},${priv.value})`;
+    }
+    /**
+     * Return the bgr string format of the color instance
+     * @returns     {String}        the string
+     */
+    toBGRString() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        //#endregion Variables déclaration
+        return (Convert.dec2Hex(priv.blue).padStart(2, '0') + Convert.dec2Hex(priv.green).padStart(2, '0') + Convert.dec2Hex(priv.red).padStart(2, '0')).toUpperCase();
+    }
+    /**
+     * Return the int string format of the color instance
+     * @returns     {String}        the string
+     */
+    toInt() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        //#endregion Variables déclaration
+        return `0x${priv.toBGRString()}`;
+    }
+    /**
+     * Blend a color with the current color
+     * @param       {Color}     color       the color to blend with
+     * @param       {Number}    alpha       the alpha value
+     * @return      {Color}             the new color
+     */
+    blend(color, alpha) {
+        if (color instanceof Color) {
+            color = color.toRGB();
+            alpha = Math.min(Math.max(alpha, 0), 1);
+            const rgb = new Color();
+            rgb.red = rgb.red * (1 - alpha) + (color.red * alpha);
+            rgb.green = rgb.green * (1 - alpha) + (color.green * alpha);
+            rgb.blue = rgb.blue * (1 - alpha) + (color.blue * alpha);
+            rgb.alpha = rgb.alpha * (1 - alpha) + (color.alpha * alpha);
+
+            return rgb;
+        }
+        return color;
+    }
+    /**
+     * Rotate RGB chanels to BGR chanels
+     * @returns     {Color}             this color instance
+     */
+    RGBtoBGR() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        //#endregion Variables déclaration
+        priv.red = priv.blue;
+        priv.blue = priv.red;
+        this.RGBtoHSL();
+        this.RGBtoHSV();
+        return this;
+    }
+    /**
+     * Premulty alpha chanel
+     * @returns     {Color}             this color instance
+     */
+    premultyAlpha() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        //#endregion Variables déclaration
+        if (alpha === 0) {
+            priv.red = 0;
+            priv.green = 0;
+            priv.blue = 0;
+        }
+        else if (alpha !== 1) {
+            priv.red = Math.trunc(priv.red * priv.alpha) & 0xFF;
+            priv.green = Math.trunc(priv.green * priv.alpha) & 0xFF;
+            priv.blue = Math.trunc(priv.blue * priv.alpha) & 0xFF;
+        }
+        return this;
+    }
+    /**
+     * Unpremulty alpha chanel
+     * @returns     {Color}             this color instance
+     */
+    unPremultyAlpha() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        //#endregion Variables déclaration
+        if (alpha === 0) {
+            priv.red = 0;
+            priv.green = 0;
+            priv.blue = 0;
+        } else {
+            priv.red = Math.trunc(priv.red / priv.alpha);
+            priv.green = Math.trunc(priv.green / priv.alpha);
+            priv.blue = Math.trunc(priv.blue / priv.alpha);
+        }
+        return this;
+    }
+    /**
+     * Change the opaticy of the color
+     * @param       {Number}        opacity     the new opcity value
+     * @returns     {Color}                     this color instance
+     */
+    opacity(opacity) {
+        //#region Variables déclaration
+        const priv = internal(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(opacity)) {
+            opacity < 1 && (priv.alpha = priv.alpha * 0xFF * opacity / 0xFF);
+            if (priv.alpha > 1) {
+                priv.alpha = 1;
+            } else if (priv.alpha < 0) {
+                priv.alpha = 0;
+            }
+            return this;
+        }
+        return this;
+    }
+    /**
+     * Check if a color is equal to the current color
+     * @param       {Color}        color     the color value
+     * @return      {Boolean}       return the current color instance
+     */
+    equals(color) {
+        //#region Variables déclaration
+        const priv = internal(this);
+        //#endregion Variables déclaration
+        return priv.red === color.red &&
+            priv.green === color.green &&
+            priv.blue === color.blue &&
+            priv.alpha === color.alpha &&
+            priv.hue === color.hue &&
+            priv.saturation === color.saturation &&
+            priv.value === color.value &&
+            priv.lightness === color.lightness;
+    }
+    /**
+     * Assign properties from source to the current color instance
+     * @param       {Color}        source     the color source
+     */
+    assign(source) {
+        //#region Variables déclaration
+        const owner = this.owner;
+        const priv = internal(this);
+        //#endregion Variables déclaration
+        if (source instanceof Color) {
+            priv.alpha = source.alpha;
+            priv.red = source.red;
+            priv.green = source.green;
+            priv.blue = source.blue;
+            priv.hue = source.hue;
+            priv.saturation = source.saturation;
+            priv.value = source.value;
+            priv.lightness = source.lightness;
+            owner && !owner.loading && owner.update();
+        }
+    }
+    /**
+     * Inverse the color chanels
+     */
+    inverse() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        //#endregion Variables déclaration
+        priv.red = 255 - priv.red;
+        priv.blue = 255 - priv.blue;
+        priv.green = 255 - priv.green;
+        if (!this.updating) {
+            this.RGBtoHSV();
+            this.RGBtoHSL();
+        }
+    }
+    /**
+     * Prevent repaints until the operation is complete
+     */
+    beginUpdate() {
+        this.updating = !0;
+    }
+    /**
+     * Enables repaints when the operation is complete
+     */
+    endUpdate() {
+        this.updating = !1;
+    }
+    /**
+     * Convert HSV to RGB
+     */
+    HSVtoRGB() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        const sat = priv.saturation / 100;
+        const value = priv.value / 100;
+        let c = sat * value;
+        const h = priv.hue / 60;
+        let x = c * (1 - Math.abs(h % 2 - 1));
+        let m = value - c;
+        const precision = 255;
+        //#endregion Variables déclaration
+        c = (c + m) * precision | 0;
+        x = (x + m) * precision | 0;
+        m = m * precision | 0;
+        if (h >= 0 && h < 1) { priv.red = c; priv.green = x; priv.blue = m; return; }
+        if (h >= 1 && h < 2) { priv.red = x; priv.green = c; priv.blue = m; return; }
+        if (h >= 2 && h < 3) { priv.red = m; priv.green = c; priv.blue = x; return; }
+        if (h >= 3 && h < 4) { priv.red = m; priv.green = x; priv.blue = c; return; }
+        if (h >= 4 && h < 5) { priv.red = x; priv.green = m; priv.blue = c; return; }
+        if (h >= 5 && h < 6) { priv.red = c; priv.green = m; priv.blue = x; return; }
+    }
+    /**
+     * Convert HSL to RGB
+     */
+    HSLtoRGB() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        const sat = priv.saturation / 100;
+        const light = priv.lightness / 100;
+        let c = sat * (1 - Math.abs(2 * light - 1));
+        const h = priv.hue / 60;
+        let x = c * (1 - Math.abs(h % 2 - 1));
+        let m = light - c / 2;
+        const precision = 255;
+        //#endregion Variables déclaration
+        c = (c + m) * precision | 0;
+        x = (x + m) * precision | 0;
+        m = m * precision | 0;
+        if (h >= 0 && h < 1) {
+            priv.red = c; priv.green = x; priv.blue = m;
+        } else if (h >= 1 && h < 2) {
+            priv.red = x; priv.green = c; priv.blue = m;
+        } else if (h >= 2 && h < 3) {
+            priv.red = m; priv.green = c; priv.blue = x;
+        } else if (h >= 3 && h < 4) {
+            priv.red = m; priv.green = x; priv.blue = c;
+        } else if (h >= 4 && h < 5) {
+            priv.red = x; priv.green = m; priv.blue = c;
+        } else if (h >= 5 && h < 6) {
+            priv.red = c; priv.green = m; priv.blue = x;
+        }
+    }
+    /**
+     * Convert RGB to HSV
+     */
+    RGBtoHSV() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        const red = priv.red / 255,
+            green = priv.green / 255,
+            blue = priv.blue / 255,
+            cMax = Math.max(red, green, blue),
+            cMin = Math.min(red, green, blue),
+            delta = cMax - cMin;
+        let hue = 0;
+        let saturation = 0;
+        //#endregion Variables déclaration
+        if (delta) {
+            cMax === red && (hue = (green - blue) / delta);
+            cMax === green && (hue = 2 + (blue - red) / delta);
+            cMax === blue && (hue = 4 + (red - green) / delta);
+            cMax && (saturation = delta / cMax);
+        }
+        hue = priv.hue = 60 * hue | 0;
+        hue < 0 && (priv.hue += 360);
+        priv.saturation = saturation * 100 | 0;
+        priv.value = cMax * 100 | 0;
+    }
+    /**
+     * Convert RGB to HSL
+     */
+    RGBtoHSL() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        const red = priv.red / 255;
+        const green = priv.green / 255;
+        const blue = priv.blue / 255;
+        const cMax = Math.max(red, green, blue);
+        const cMin = Math.min(red, green, blue);
+        const delta = cMax - cMin;
+        let hue = 0;
+        let saturation = 0;
+        const lightness = (cMax + cMin) / 2;
+        const x = 1 - Math.abs(2 * lightness - 1);
+        //#endregion Variables déclaration
+        if (delta) {
+            cMax === red && (hue = green - blue / delta);
+            cMax === green && (hue = 2 + blue - red / delta);
+            cMax === blue && (hue = 4 + red - green / delta);
+            cMax && (saturation = delta / x);
+        }
+        hue = priv.hue = 60 * hue | 0;
+        hue < 0 && (priv.hue += 360);
+        priv.saturation = saturation * 100 | 0;
+        priv.lightness = lightness * 100 | 0;
+    }
+    /**
+     * Return black or white color for the best viewing fore color
+     * @return  {String}        retrun black or white color
+     */
+    getForeColorHex() {
+        //#region Variables déclaration
+        const priv = internal(this);
+        //#endregion Variables déclaration
+        return 0.3 * priv.red + 0.59 * priv.green + 0.11 * priv.blue <= 128 ? '#FFF' : '#000';
+    }
+    //#endregion
+}
 core.classes.register(core.types.CATEGORIES.COLOR, Color);
 //#region Color
 //#region Colors
