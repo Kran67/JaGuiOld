@@ -55,8 +55,16 @@ const Core = (() => {
         //#region constructor
         constructor() {
             this.setPrivate = (obj, property, value) => {
+                let properties;
+                if (Array.isArray(property)) {
+                    properties = [...property];
+                } else {
+                    properties = [property];
+                }
                 !_private[obj.internalKey] && (_private[obj.internalKey] = {});
-                _private[obj.internalKey][property] = value;
+                properties.forEach(prop => {
+                    _private[obj.internalKey][prop] = value;
+                });
             };
             this.getPrivate = (obj, property) => {
                 return _private[obj.internalKey][property];

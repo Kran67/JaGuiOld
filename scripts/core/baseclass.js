@@ -16,18 +16,19 @@ class BaseClass {
     //#region Getter / Setter
     //#region name
     get name() {
-        return core.getPrivate(this, 'name');
+        return core.getPrivate(this, core.tools.getPropertyName());
     }
     set name(newValue) {
         //#region Variables déclaration
+        const propName = core.tools.getPropertyName();
         const form = this.form;
-        let name = core.getPrivate(this, 'name');
+        let name = core.getPrivate(this, propName);
         //#endregion Variables déclaration
         if (!String.isNullOrEmpty(newValue) && !String.isNullOrEmpty(newValue.trim())
             && name !== newValue) {
             form !== this && form && form[name] && (delete form[name]);
             name = newValue;
-            core.setPrivate(this, 'name', name);
+            core.setPrivate(this, propName, name);
             form !== this && this !== form.layout && this !== form.content && form && !form[name]
                 && (form[name] = this);
         }
@@ -35,7 +36,7 @@ class BaseClass {
     //#endregion name
     //#region propsEnums
     get propsEnums() {
-        return core.getPrivate(this, 'propsEnums');
+        return core.getPrivate(this, core.tools.getPropertyName());
     }
     //#endregion propsEnums
     //#endregion Getter / Setter
