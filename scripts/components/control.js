@@ -2493,7 +2493,6 @@ const Control = (() => {
                                     : params.insert(0, width - (shape.strokeStyle ? 1 : 0));  // width
                                 params.insert(0, top + (shape.strokeStyle ? 0.5 : 0));          // top
                                 params.insert(0, left + (shape.strokeStyle ? 0.5 : 0));          // left 
-                                break;
                             }
                             if (canDraw) {
                                 shape.clipping

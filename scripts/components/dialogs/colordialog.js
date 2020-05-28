@@ -317,7 +317,7 @@ if (core.isHTMLRenderer) {
         '"templateRows": "20px 24px 38px 25px 26px 44px 28px 29px", "columnGap": 0, "rowGap": 0 }</properties>',
         '<jagui-colorquad id="{internalId}" data-class="ColorQuad" class="Control ColorQuad">',
         '<properties>{ "name": "clrQuad", "color": "blue", "format": "hsl", "rowSpan": 8, ',
-        '"column": 1, "row": 1, "width": 234, "height": 234, "colorBox": "clrBoxNewColor", "preserveColorAlpha": true }</properties></jagui-colorquad>',
+        '"column": 1, "row": 1, "width": 234, "height": 234 }</properties></jagui-colorquad>',
         '<jagui-colorpicker id="{internalId}" data-class="ColorPicker" class="Control ColorPicker">',
         '<properties>{ "name": "clrPicker", "colorQuad": "clrQuad", "color": "blue", "column": 2, "row": 1, "rowSpan": 8, "margin": { "left": 8, "right": 8 } }',
         '</properties></jagui-colorpicker>',

@@ -3,12 +3,12 @@ import '/scripts/core/types.js';
 import '/scripts/core/tools.js';
 import '/scripts/core/classes.js';
 import '/scripts/core/browser.js';
-import '/scripts/core/keyboard.js';
-import '/scripts/core/mouse.js';
 import '/scripts/core/ext_array.js';
 import '/scripts/core/ext_string.js';
 import '/scripts/core/ext_math.js';
 import '/scripts/core/ext_date.js';
+import '/scripts/core/keyboard.js';
+import '/scripts/core/mouse.js';
 import '/scripts/core/animatedcursor.js';
 
 import '/scripts/core/looper.js';
