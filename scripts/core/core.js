@@ -55,14 +55,13 @@ const Core = (() => {
         //#region constructor
         constructor() {
             this.private = (obj, properties) => {
-                if (core.tools.isUndefined(properties)) {
-                    return _private[obj.internalKey];
-                } else {
-                    !_private[obj.internalKey] && (_private[obj.internalKey] = {});
+                !_private[obj.internalKey] && (_private[obj.internalKey] = {});
+                if (!core.tools.isUndefined(properties)) {
                     Object.keys(properties).forEach(property => {
                         _private[obj.internalKey][property] = properties[property];
                     });
                 }
+                return _private[obj.internalKey];
             };
             this.destroyPrivate = (obj) => {
                 _private[obj.internalKey] = null;
