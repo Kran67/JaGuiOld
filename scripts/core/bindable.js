@@ -14,12 +14,12 @@ class Bindable extends BaseClass {
      */
     constructor(props) {
         super(props);
-        core.setPrivate(this, 'dataBindings', props && props.hasOwnProperty('dataBindings') ? props.dataBindings : []);
+        core.private(this, { dataBindings: props && props.hasOwnProperty('dataBindings') ? props.dataBindings : [] });
     }
     //#region Getters / Setters
     //#region dataBindings
     get dataBindings() {
-        return core.getPrivate(this, 'dataBindings');
+        return core.private(this)[core.tools.getPropertyName()];
     }
     //#endregion dataBindings
     //#endregion Getters / Setters
@@ -43,7 +43,7 @@ class Bindable extends BaseClass {
     //#region propertyChanged
     propertyChanged(property) {
         //#region Variables déclaration
-        const dataBindings = core.getPrivate(this, 'dataBindings');
+        const dataBindings = core.private(this).dataBindings;
         const form = this.form;
         //#endregion Variables déclaration
         dataBindings.filter(item => item.property === property)
@@ -100,7 +100,7 @@ class Bindable extends BaseClass {
             if (!core.tools.isUndefined(form[component][propertyComponent]) &&
                 typeof this[property] === typeof form[component][propertyComponent]) {
                 //priv.dataBindings.push(dataBinding);
-                core.getPrivate(this, 'dataBindings').push(dataBinding);
+                core.private(this).dataBindings.push(dataBinding);
             } else {
                 console.log('');
             }
@@ -110,16 +110,16 @@ class Bindable extends BaseClass {
     //#region removeDataBinding
     removeDataBinding(property, component) {
         //#region Variables déclaration
-        const dataBindings = core.getPrivate(this, 'dataBindings');
+        const dataBindings = core.private(this).dataBindings;
         const dataBindingsFromOtherProperty = dataBindings.filter(item => { return item.property !== property; });
         const dataBindingsFromProperty = dataBindings.filter(item => { return item.property === property && item.destination.component !== component; });
         //#endregion Variables déclaration
-        core.setPrivate(this, 'dataBindings', [...dataBindingsFromOtherProperty, ...dataBindingsFromProperty]);
+        core.private(this, { dataBindings: [...dataBindingsFromOtherProperty, ...dataBindingsFromProperty] });
     }
     //#endregion removeDataBinding
     //#region clear
     clear() {
-        core.getPrivate(this, 'dataBindings').length = 0;
+        core.private(this).dataBindings.length = 0;
     }
     //#endregion clear
     //#region destroy

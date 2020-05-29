@@ -702,11 +702,10 @@ class Css {
         return false;
     }
     static addCSSRule(selector, style) {
-        if (selector !== '#') {
+        selector !== '#' && (
             String.isNullOrEmpty(style)
                 ? core.rtStyle.sheet.insertRule([selector, '{}'].join(String.EMPTY), 0)
-                : core.rtStyle.sheet.insertRule([selector, ' {', style, '}'].join(String.EMPTY), 0);
-        }
+                : core.rtStyle.sheet.insertRule([selector, ' {', style, '}'].join(String.EMPTY), 0));
     }
     static removeCSSRule(selector, ruleType) {
         //#region Variables déclaration

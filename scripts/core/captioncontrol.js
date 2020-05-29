@@ -30,7 +30,7 @@ class CaptionControl extends ThemedControl {
             } else {
                 theme = {};
                 captionControlTheme = {};
-                core.setPrivate(this, 'caption', props.hasOwnProperty('caption') ? props.caption : this.constructor.name);
+                core.private(this, { caption: props.hasOwnProperty('caption') ? props.caption : this.constructor.name });
             }
             //#region wordWrap
             if (captionControlTheme.hasOwnProperty('wordWrap')) {
@@ -40,7 +40,7 @@ class CaptionControl extends ThemedControl {
             } else {
                 value = !1;
             }
-            core.setPrivate(this, 'wordWrap', value);
+            core.private(this, { wordWrap: value });
             //#endregion wordWrap
             //#region horizAlign
             if (props.hasOwnProperty('horizAlign')) {
@@ -52,7 +52,7 @@ class CaptionControl extends ThemedControl {
             } else {
                 value = core.types.TEXTALIGNS.LEFT;
             }
-            core.setPrivate(this, 'horizAlign', value);
+            core.private(this, { horizAlign: value });
             //#endregion horizAlign
             //#region color
             if (Color.parse(captionControlTheme.hasOwnProperty('color'))) {
@@ -64,7 +64,7 @@ class CaptionControl extends ThemedControl {
                     value = Color.parse(props.color);
                 }
             }
-            core.setPrivate(this, 'color', value);
+            core.private(this, { color: value });
             //#endregion color
             //#region fontFamily
             if (props.hasOwnProperty('fontFamily')) {
@@ -74,7 +74,7 @@ class CaptionControl extends ThemedControl {
             } else if (props.hasOwnProperty('fontFamily')) {
                 value = props.fontFamily;
             }
-            core.setPrivate(this, 'fontFamily', value);
+            core.private(this, { fontFamily: value });
             //#endregion fontFamily
             //#region fontSize
             if (props.hasOwnProperty('fontSize')) {
@@ -86,7 +86,7 @@ class CaptionControl extends ThemedControl {
             } else {
                 value = 8;
             }
-            core.setPrivate(this, 'fontSize', value);
+            core.private(this, { fontSize: value });
             //#endregion fontSize
             //#region fontSizeUnit
             if (props.hasOwnProperty('fontSizeUnit')) {
@@ -94,7 +94,7 @@ class CaptionControl extends ThemedControl {
             } else {
                 value = core.types.CSSUNITS.PT;
             }
-            core.setPrivate(this, 'fontSizeUnit', value);
+            core.private(this, { fontSizeUnit: value });
             //#endregion fontSizeUnit
             //#region fontBold
             if (props.hasOwnProperty('fontBold') && core.tools.isBool(props.fontBold)) {
@@ -104,7 +104,7 @@ class CaptionControl extends ThemedControl {
             } else if (props.hasOwnProperty('fontBold')) {
                 value = props.fontBold;
             }
-            core.setPrivate(this, 'fontBold', value);
+            core.private(this, { fontBold: value });
             //#endregion fontBold
             //#region fontStyle
             if (props.hasOwnProperty('fontStyle')) {
@@ -116,7 +116,7 @@ class CaptionControl extends ThemedControl {
             } else {
                 value = core.types.FONTSTYLES.NORMAL;
             }
-            core.setPrivate(this, 'fontStyle', value);
+            core.private(this, { fontStyle: value });
             //#endregion fontStyle
             //#region textDecoration
             if (props.hasOwnProperty('textDecoration')) {
@@ -126,7 +126,7 @@ class CaptionControl extends ThemedControl {
             } else if (props.hasOwnProperty('textDecoration')) {
                 params = props.textDecoration;
             }
-            core.setPrivate(this, 'textDecoration', new TextDecoration(this, params));
+            core.private(this, { textDecoration: new TextDecoration(this, params) });
             //#endregion textDecoration
             //#region textShadow
             if (props.hasOwnProperty('textShadow')) {
@@ -136,7 +136,7 @@ class CaptionControl extends ThemedControl {
             } else if (props.hasOwnProperty('textShadow')) {
                 params = props.textShadow;
             }
-            core.setPrivate(this, 'textShadows', new TextShadows(this, params));
+            core.private(this, { textShadows: new TextShadows(this, params) });
             //#endregion textShadow
             //#region textTransform
             if (props.hasOwnProperty('textTransform')) {
@@ -148,7 +148,7 @@ class CaptionControl extends ThemedControl {
             } else {
                 value = core.types.TEXTTRANSFORMS.NONE;
             }
-            core.setPrivate(this, 'textTransform', value);
+            core.private(this, { textTransform: value });
             //#endregion textTransform
             //#region vertAlign
             if (props.hasOwnProperty('vertAlign')) {
@@ -160,7 +160,7 @@ class CaptionControl extends ThemedControl {
             } else {
                 value = VERTTEXTALIGNS.TOP;
             }
-            core.setPrivate(this, 'vertAlign', value);
+            core.private(this, { vertAlign: value });
             //#endregion vertAlign
             //#region backColor
             if (captionControlTheme.hasOwnProperty('backColor')) {
@@ -174,7 +174,7 @@ class CaptionControl extends ThemedControl {
             } else {
                 value = Colors.TRANSPARENT;//.toRGBAString();
             }
-            core.setPrivate(this, 'backColor', value);
+            core.private(this, { backColor: value });
             //#endregion backColor
             //#region autoSize
             if (props.hasOwnProperty('autoSize')) {
@@ -186,7 +186,7 @@ class CaptionControl extends ThemedControl {
             } else {
                 value = !0;
             }
-            core.setPrivate(this, 'autoSize', value);
+            core.private(this, { autoSize: value });
             //#endregion autoSize
             //#region textOverflow
             if (props.hasOwnProperty('textOverflow')) {
@@ -198,7 +198,7 @@ class CaptionControl extends ThemedControl {
             } else {
                 value = core.types.TEXTOVERFLOWS.CLIP;
             }
-            core.setPrivate(this, 'textOverflow', value);
+            core.private(this, { textOverflow: value });
             //#endregion textOverflow
             //#endregion Properties
             //#endregion Private Properties
@@ -208,31 +208,32 @@ class CaptionControl extends ThemedControl {
     //#region Getters / Setters
     //#region caption
     get caption() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set caption(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && core.getPrivate(this, propName) !== newValue) {
-            core.setPrivate(this, propName,
-                Text.replace(newValue, core.types.CONSTANTS.HOTKEYPREFIX, String.EMPTY));
-            this.propertyChanged(core.tools.getPropertyName());
+        if (core.tools.isString(newValue) && priv[propName] !== newValue) {
+            core.private(this, { [propName]: Text.replace(newValue, core.types.CONSTANTS.HOTKEYPREFIX, String.EMPTY) });
+            this.propertyChanged(propName);
             this.update();
         }
     }
     //#endregion caption
     //#region wordWrap
     get wordWrap() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set wordWrap(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         const form = this.form;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && core.getPrivate(this, propName) !== newValue) {
-            core.setPrivate(this, propName, newValue);
+        if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
+            core.private(this, { [propName]: newValue });
             this.propertyChanged(propName);
             !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate && this.update();
         }
@@ -240,16 +241,17 @@ class CaptionControl extends ThemedControl {
     //#endregion wordWrap
     //#region horizAlign
     get horizAlign() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set horizAlign(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         const form = this.form;
         //#endregion Variables déclaration
         if (core.tools.valueInSet(newValue, core.types.TEXTALIGNS)
-            && newValue !== core.getPrivate(this, propName)) {
-            core.setPrivate(this, propName, newValue);
+            && newValue !== priv[propName]) {
+            core.private(this, { [propName]: newValue });
             this.propertyChanged(propName);
             !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate && this.update();
         }
@@ -257,16 +259,17 @@ class CaptionControl extends ThemedControl {
     //#endregion horizAlign
     //#region vertAlign
     get vertAlign() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set vertAlign(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         const form = this.form;
         //#endregion Variables déclaration
         if (core.tools.valueInSet(newValue, core.types.VERTTEXTALIGNS)
-            && newValue !== core.getPrivate(this, propName)) {
-            core.setPrivate(this, propName, newValue);
+            && newValue !== priv[propName]) {
+            core.private(this, { [propName]: newValue });
             this.propertyChanged(propName);
             !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate && this.update();
         }
@@ -274,16 +277,17 @@ class CaptionControl extends ThemedControl {
     //#endregion vertAlign
     //#region color
     get color() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set color(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         const form = this.form;
         //#endregion Variables déclaration
         core.tools.isString(newValue) && (newValue = Color.parse(newValue));
-        if (newValue instanceof Color && !core.getPrivate(this, propName).equals(newValue)) {
-            core.setPrivate(this, propName, newValue);
+        if (newValue instanceof Color && !priv[propName].equals(newValue)) {
+            core.private(this, { [propName]: newValue });
             this.propertyChanged(propName);
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
@@ -291,15 +295,16 @@ class CaptionControl extends ThemedControl {
     //#endregion color
     //#region fontFamily
     get fontFamily() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set fontFamily(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         const form = this.form;
         //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && core.getPrivate(this, propName) !== newValue) {
-            core.setPrivate(this, propName, newValue);
+        if (core.tools.isString(newValue) && priv[propName] !== newValue) {
+            core.private(this, { [propName]: newValue });
             this.propertyChanged(propName);
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
@@ -307,15 +312,16 @@ class CaptionControl extends ThemedControl {
     //#endregion fontFamily
     //#region fontSize
     get fontSize() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set fontSize(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         const form = this.form;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && core.getPrivate(this, propName) !== newValue) {
-            core.setPrivate(this, propName, newValue);
+        if (core.tools.isNumber(newValue) && priv[propName] !== newValue) {
+            core.private(this, { [propName]: newValue });
             this.propertyChanged(propName);
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
@@ -323,16 +329,17 @@ class CaptionControl extends ThemedControl {
     //#endregion fontSize
     //#region fontSizeUnit
     get fontSizeUnit() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set fontSizeUnit(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         const form = this.form;
         const CSSUNITS = core.types.CSSUNITS;
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, CSSUNITS) && core.getPrivate(this, propName) !== newValue) {
-            core.setPrivate(this, propName, newValue);
+        if (core.tools.valueInSet(newValue, CSSUNITS) && priv[propName] !== newValue) {
+            core.private(this, { [propName]: newValue });
             this.propertyChanged(propName);
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
@@ -340,15 +347,16 @@ class CaptionControl extends ThemedControl {
     //#endregion fontSizeUnit
     //#region fontBold
     get fontBold() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set fontBold(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         const form = this.form;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && core.getPrivate(this, propName) !== newValue) {
-            core.setPrivate(this, propName, newValue);
+        if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
+            core.private(this, { [propName]: newValue });
             this.propertyChanged(propName);
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
@@ -356,16 +364,17 @@ class CaptionControl extends ThemedControl {
     //#endregion fontBold
     //#region fontStyle
     get fontStyle() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set fontStyle(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         const form = this.form;
         const FONTSTYLES = core.types.FONTSTYLES;
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, FONTSTYLES) && core.getPrivate(this, propName) !== newValue) {
-            core.setPrivate(this, propName, newValue);
+        if (core.tools.valueInSet(newValue, FONTSTYLES) && priv[propName] !== newValue) {
+            core.private(this, { [propName]: newValue });
             this.propertyChanged(propName);
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
@@ -373,16 +382,17 @@ class CaptionControl extends ThemedControl {
     //#endregion fontStyle
     //#region textTransform
     get textTransform() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set textTransform(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         const form = this.form;
         const TEXTTRANSFORMS = core.types.TEXTTRANSFORMS;
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, TEXTTRANSFORMS) && core.getPrivate(this, propName) !== newValue) {
-            core.setPrivate(this, propName, newValue);
+        if (core.tools.valueInSet(newValue, TEXTTRANSFORMS) && priv[propName] !== newValue) {
+            core.private(this, { [propName]: newValue });
             this.propertyChanged(propName);
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
@@ -390,16 +400,17 @@ class CaptionControl extends ThemedControl {
     //#endregion textTransform
     //#region textShadows
     get textShadows() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set textShadows(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         const form = this.form;
         //#endregion Variables déclaration
-        if (newValue instanceof TextShadows && !core.getPrivate(this, propName).equals(newValue.items)) {
-            core.getPrivate(this, propName).items.clear();
-            core.getPrivate(this, propName).items.addRange(newValue.items);
+        if (newValue instanceof TextShadows && !priv[propName].equals(newValue.items)) {
+            priv[propName].items.clear();
+            priv[propName].items.addRange(newValue.items);
             this.propertyChanged(propName);
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
@@ -407,16 +418,17 @@ class CaptionControl extends ThemedControl {
     //#endregion textShadows
     //#region textDecoration
     get textDecoration() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set textDecoration(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         const form = this.form;
         //#endregion Variables déclaration
-        if (newValue instanceof TextDecoration && !core.getPrivate(this, propName).equals(newValue.items)) {
-            core.getPrivate(this, propName).items.clear();
-            core.getPrivate(this, propName).items.addRange(newValue.items);
+        if (newValue instanceof TextDecoration && !priv[propName].equals(newValue.items)) {
+            priv[propName].items.clear();
+            priv[propName].items.addRange(newValue.items);
             this.propertyChanged(propName);
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
@@ -424,14 +436,15 @@ class CaptionControl extends ThemedControl {
     //#endregion textDecoration
     //#region autoSize
     get autoSize() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set autoSize(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && newValue !== core.getPrivate(this, propName)) {
-            core.setPrivate(this, propName, newValue);
+        if (core.tools.isBool(newValue) && newValue !== priv[propName]) {
+            core.private(this, { [propName]: newValue });
             this.propertyChanged(propName);
             !this.loading && !this.form.loading && this.update();
         }
@@ -439,16 +452,17 @@ class CaptionControl extends ThemedControl {
     //#endregion autoSize
     //#region textOverflow
     get textOverflow() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set textOverflow(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         const form = this.form;
         const TEXTOVERFLOWS = core.types.TEXTOVERFLOWS;
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, TEXTOVERFLOWS) && core.getPrivate(this, propName) !== newValue) {
-            core.setPrivate(this, propName, newValue);
+        if (core.tools.valueInSet(newValue, TEXTOVERFLOWS) && priv[propName] !== newValue) {
+            core.private(this, { [propName]: newValue });
             this.propertyChanged(propName);
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
@@ -456,16 +470,17 @@ class CaptionControl extends ThemedControl {
     //#endregion textOverflow
     //#region backColor
     get backColor() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set backColor(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         const form = this.form;
         //#endregion Variables déclaration
         core.tools.isString(newValue) && (newValue = Color.parse(newValue));
-        if (newValue instanceof Color && !core.getPrivate(this, propName).equals(newValue)) {
-            core.getPrivate(this, propName).assign(newValue);
+        if (newValue instanceof Color && !priv[propName].equals(newValue)) {
+            priv[propName].assign(newValue);
             this.propertyChanged(propName);
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
@@ -477,7 +492,7 @@ class CaptionControl extends ThemedControl {
         let html = super.template;
         const a = html.split('{caption}');
         //#endregion Variables déclaration
-        html = a.join(core.getPrivate(this, 'caption'));
+        html = a.join(core.private(this).caption);
         return html;
     }
     //#endregion template
@@ -489,7 +504,7 @@ class CaptionControl extends ThemedControl {
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (core.isHTMLRenderer && htmlElement) {
-            Text.setTextNode(htmlElement, core.getPrivate(this, 'caption'));
+            Text.setTextNode(htmlElement, core.private(this).caption);
             this.updateCssProperties();
         }
     }
@@ -497,27 +512,27 @@ class CaptionControl extends ThemedControl {
     //#region updateCssProperties
     updateCssProperties() {
         //#region Variables déclaration
+        const priv = core.private(this);
         const htmlElementStyle = this.HTMLElementStyle;
         const FONTSTYLES = core.types.FONTSTYLES;
         const TEXTDECORATIONS = core.types.TEXTDECORATIONS;
-        const textDecoration = core.getPrivate(this, 'textDecoration');
+        const textDecoration = priv.textDecoration;
         let textDecorationStr = String.EMPTY;
-        const color = core.getPrivate(this, 'color')
-            ? core.getPrivate(this, 'color').toRGBAString() : core.getPrivate(this, 'color');
+        const color = priv.color ? priv.color.toRGBAString() : priv.color;
         const TEXTALIGNS = core.types.TEXTALIGNS;
         const VERTTEXTALIGNS = core.types.VERTTEXTALIGNS;
         const isHtmlRenderer = core.isHTMLRenderer;
         const CSSVALUES = core.types.CSSVALUES;
         const DISPLAYS = core.types.DISPLAYS;
-        const fontFamily = core.getPrivate(this, 'fontFamily');
-        const fontSize = core.getPrivate(this, 'fontSize');
-        const textShadows = core.getPrivate(this, 'textShadows');
-        const horizAlign = core.getPrivate(this, 'horizAlign');
-        const vertAlign = core.getPrivate(this, 'vertAlign');
-        const backColor = core.getPrivate(this, 'backColor');
-        const fontBold = core.getPrivate(this, 'fontBold');
+        const fontFamily = priv.fontFamily;
+        const fontSize = priv.fontSize;
+        const textShadows = priv.textShadows;
+        const horizAlign = priv.horizAlign;
+        const vertAlign = priv.vertAlign;
+        const backColor = priv.backColor;
+        const fontBold = priv.fontBold;
         //#endregion Variables déclaration
-        if (core.getPrivate(this, 'autoSize')) {
+        if (priv.autoSize) {
             if (isHtmlRenderer) {
                 htmlElementStyle.width = String.EMPTY;
                 htmlElementStyle.height = String.EMPTY;
@@ -548,10 +563,10 @@ class CaptionControl extends ThemedControl {
             ? htmlElementStyle.fontFamily = fontFamily
             : htmlElementStyle.fontFamily = 'inherit';
         fontSize
-            && (htmlElementStyle.fontSize = `${fontSize}${core.getPrivate(this, 'fontSizeUnit')}`);
-        htmlElementStyle.fontWeight = core.getPrivate(this, 'fontBold') && core.tools.isBool(fontBold)
+            && (htmlElementStyle.fontSize = `${fontSize}${priv.fontSizeUnit}`);
+        htmlElementStyle.fontWeight = priv.fontBold && core.tools.isBool(fontBold)
             ? FONTSTYLES.BOLD : FONTSTYLES.NORMAL;
-        htmlElementStyle.fontStyle = core.getPrivate(this, 'fontStyle');
+        htmlElementStyle.fontStyle = priv.fontStyle;
         if (textDecoration) {
             textDecorationStr += textDecoration.underline
                 ? `${String.SPACE}${TEXTDECORATIONS.UNDERLINE}` : String.EMPTY;
@@ -575,7 +590,7 @@ class CaptionControl extends ThemedControl {
             });
             htmlElementStyle.textShadow = textS.join(String.SPACE);
         }
-        htmlElementStyle.textTransform = core.getPrivate(this, 'textTransform');
+        htmlElementStyle.textTransform = priv.textTransform;
         if (horizAlign !== TEXTALIGNS.LEFT || vertAlign !== VERTTEXTALIGNS.TOP) {
             htmlElementStyle.display = DISPLAYS.FLEX;
             switch (horizAlign) {
@@ -613,8 +628,11 @@ class CaptionControl extends ThemedControl {
     //#endregion loaded
     //#region destroy
     destroy() {
-        core.getPrivate(this, 'color').destroy();
-        core.getPrivate(this, 'backColor').destroy();
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        priv.color.destroy();
+        priv.backColor.destroy();
         super.destroy();
     }
     //#region destroy

@@ -311,13 +311,14 @@ class Application extends BaseClass {
      */
     run() {
         //#region Variables déclaration
+        const priv = core.private(this);
         let data = null;
         let form = null;
         let wins = null;
         //#endregion Variables déclaration
         switch (core.renderer) {
             case core.types.RENDERERS.HTML:
-                wins = document.querySelectorAll(`jagui-window.${core.private(this).name}`);
+                wins = document.querySelectorAll(`jagui-window.${priv.name}`);
                 wins.forEach(win => {
                     let props = {};
                     const properties = win.querySelector('properties');
@@ -339,11 +340,11 @@ class Application extends BaseClass {
                 data = document.querySelector('object.mainWindow');
                 if (data) {
                     data = JSON.parse(data.innerHTML.replace(/{theme}/g, core.defaultTheme));
-                    data.themes && core.private(this).themeManifest.addThemes(data.themes);
+                    data.themes && priv.themeManifest.addThemes(data.themes);
                     wins = data.windows;
                     wins.forEach(win => {
                         form = this.createForm(win.childs, win.className, win.properties);
-                        core.private(this).windows.push(form);
+                        priv.windows.push(form);
                         form.name === data.mainForm
                             ? core.private(this, { mainWindow: form, activeWindow: form })
                             : form.show();
@@ -351,7 +352,7 @@ class Application extends BaseClass {
                 }
                 break;
         }
-        core.private(this).mainWindow.show();
+        priv.mainWindow.show();
         document.getElementById('loading_msg') && document.body.removeChild(data);
         this.createToolTip();
         window.activeApp = this;
@@ -578,8 +579,8 @@ class Application extends BaseClass {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        if (privtoolTip) {
-            privtoolTip.classList.remove('fade');
+        if (priv.toolTip) {
+            priv.toolTip.classList.remove('fade');
             clearTimeout(priv.toolTipTimerHandle);
         }
     }
@@ -614,24 +615,9 @@ class Application extends BaseClass {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        //this._toolTipTimerHandle = null;
         priv.windows.destroy();
-        //this._windows = null;
-        //this._windowsClass = null;
         priv.globalComponentName.destroy();
-        //this._globalComponentName = null;
-        //this._lastThemeName = null;
-        //this._themeName = null;
-        //this._toolTip = null;
-        //this._showMainWindow = null;
-        //this._name = null;
-        //this._mainWindow = null;
-        //this._activeWindow = null;
-        //this._title = String.null;
         priv.lastActiveWindow.destroy();
-        //this._lastActiveWindow = null;
-        //this._locale = null;
-        //this._locales = null;
     }
     render() {
         //#region Variables déclaration

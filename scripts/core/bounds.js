@@ -17,7 +17,7 @@ class Bounds extends Rect {
     constructor(rect, owner) {
         !(rect instanceof core.classes.Rect) && (rect = new core.classes.Rect);
         super(rect.left, rect.top, rect.right, rect.bottom);
-        core.setPrivate(this, 'owner', owner);
+        core.private(this, { owner: owner });
         //if (!rect) rect = new Rect;
         //#region Private
         //#endregion

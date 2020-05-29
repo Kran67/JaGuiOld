@@ -24,12 +24,14 @@ class Brush extends Bindable {
             //#region Properties
             //#region Private Properties
             bitmap.obj = this;
-            core.setPrivate(this, 'gradient', new core.classes.Gradient(this));
-            core.setPrivate(this, 'bitmap', bitmap);
-            core.setPrivate(this, 'color', color);
-            core.setPrivate(this, 'bitmapRepeatMode', core.types.BITMAPREPEATMODES.REPEAT);
-            core.setPrivate(this, 'style', style);
-            core.setPrivate(this, 'owner', owner);
+            core.private(this, {
+                gradient: new core.classes.Gradient(this),
+                bitmap: bitmap,
+                color: color,
+                bitmapRepeatMode: core.types.BITMAPREPEATMODES.REPEAT,
+                style: style,
+                owner: owner
+            });
             //#endregion Private Properties
             //#region Public Properties
             this.onChange = new core.classes.NotifyEvent(owner);
@@ -40,36 +42,37 @@ class Brush extends Bindable {
     //#region Getters / Setters
     //#region color
     get color() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set color(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         //#enregion Variables déclaration
-        if (newValue instanceof core.classes.Color && !newValue.equals(core.getPrivate(this, propName))) {
-            core.getPrivate(this, propName).assign(newValue);
+        if (newValue instanceof core.classes.Color && !newValue.equals(priv[propName])) {
+            priv[propName].assign(newValue);
             this.onChange.invoke();
         }
     }
     //#endregion color
     //#region gradient
     get gradient() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set gradient(newValue) {
         if (newValue instanceof core.classes.Gradient) {
-            core.getPrivate(this, core.tools.getPropertyName()).assign(newValue);
+            core.private(this)[core.tools.getPropertyName()].assign(newValue);
             this.onChange.invoke();
         }
     }
     //#endregion gradient
     //#region bitmap
     get bitmap() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set(newValue) {
         //#region Variables déclaration
-        const bitmap = core.getPrivate(this, 'bitmap');
+        const bitmap = core.private(this).bitmap;
         //#region Variables déclaration
         if (core.tools.isString(newValue) && newValue !== bitmap.src) {
             bitmap.src = newValue;
@@ -79,28 +82,30 @@ class Brush extends Bindable {
     //#endregion bitmap
     //#region bitmapRepeatMode
     get bitmapRepeatMode() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set bitmapRepeatMode(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, core.types.BITMAPREPEATMODES) && newValue !== core.getPrivate(this, propName)) {
-            core.getPrivate(this, propName, newValue);
+        if (core.tools.valueInSet(newValue, core.types.BITMAPREPEATMODES) && newValue !== priv[propName]) {
+            core.private(this, { [propName]: newValue });
             this.onChange.invoke();
         }
     }
     //#endregion bitmapRepeatMode
     //#region style
     get style() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set style(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, core.types.BRUSHSTYLES) && newValue !== core.getPrivate(this, propName)) {
-            core.getPrivate(this, propName, newValue);
+        if (core.tools.valueInSet(newValue, core.types.BRUSHSTYLES) && newValue !== priv[propName]) {
+            core.private(this, { [propName]: newValue });
             this.onChange.invoke();
         }
     }
@@ -114,13 +119,13 @@ class Brush extends Bindable {
      */
     assign(source) {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         //#endregion Variables déclaration
         if (source instanceof core.classes.Brush) {
-            core.getPrivate(this, 'color').assign(source.color);
-            !String.isNullOrEmpty(source.bitmap.src) && (core.getPrivate(this, 'bitmap').src = source.bitmap.src);
-            core.setPrivate(this, 'style', source.style);
-            core.getPrivate(this, 'gradient') && source.gradient && core.getPrivate(this, 'gradient').assign(source.gradient);
+            priv.color.assign(source.color);
+            !String.isNullOrEmpty(source.bitmap.src) && (priv.bitmap.src = source.bitmap.src);
+            core.private(this, { style: source.style});
+            priv.gradient && source.gradient && priv.gradient.assign(source.gradient);
         }
     }
     /**
@@ -143,18 +148,21 @@ class Brush extends Bindable {
      */
     clear() {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         //#endregion Variables déclaration
-        core.setPrivate(this, 'style', core.types.BRUSHSTYLES.NONE);
-        core.getPrivate(this, 'color').assign(Colors.TRANSPARENT);
+        core.private(this, { style: core.types.BRUSHSTYLES.NONE});
+        priv.color.assign(Colors.TRANSPARENT);
     }
     /**
      * Destroy all properties of the instance
      * @override
      */
     destroy() {
-        core.getPrivate(this, 'gradient').destroy();
-        core.getPrivate(this, 'color').destroy();
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        priv.gradient.destroy();
+        priv.color.destroy();
         this.onChange.destroy();
         this.onChange = null;
         delete this.onChange;

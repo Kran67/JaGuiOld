@@ -219,13 +219,13 @@ class Tools {
     //#region addPropertyFromEnum
     static addPropertyFromEnum(params) {
         params.component.addPropertyEnum(params.propName, params.enum);
-        params.hasOwnProperty('value') && (params.variable[params.propName] = params.value);
+        params.hasOwnProperty('value') && params.private && (core.private(params.component, { [params.propName]: params.value }));
         params.forceUpdate === undefined && (params.forceUpdate = !1);
         params.enumerable === undefined && (params.enumerable = !0);
         const setter = params.setter ? params.setter : (newValue) => {
             if (core.tools.valueInSet(newValue, params.enum)) {
-                if (params.variable[params.propName] !== newValue) {
-                    params.variable[params.propName] = newValue;
+                if (core.private(params.component)[params.propName] !== newValue) {
+                    core.private(params.component, { [params.propName]: newValue });
                     params.forceUpdate && params.component.update && !params.component.loading &&
                         !params.component.form.creating && !params.component.form.loading
                         && params.component.update();
@@ -233,7 +233,7 @@ class Tools {
             }
         };
         Object.defineProperty(params.component, params.propName, {
-            get: () => { return params.variable[params.propName]; },
+            get: () => { return core.private(params.component)[params.propName]; },
             set: setter,
             enumerable: params.enumerable,
             configurable: !0

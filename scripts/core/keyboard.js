@@ -161,10 +161,10 @@ const Keyboard = (() => {
             priv.alt = !1;
             priv.shift = !1;
             priv.meta = !1;
-            priv.keyCode = Keyboard.VKEYSCODES.NONE;
+            priv.key = Keyboard.VKEYSCODES.NONE;
             priv.keyEvent = Keyboard.KEYBORDEVENTS.NONE;
             priv.keyChar = String.EMPTY;
-            priv.keyCodeTable = [];
+            priv.keyTable = [];
             priv.event = null;
             if (core.browser.ff) {
                 const c = {
@@ -175,12 +175,12 @@ const Keyboard = (() => {
                     220: '\\', 221: ']', 222: '"'
                 };
                 // à modifier avec getOwnPropertyNames
-                const keyCodeTable = priv.keyCodeTable;
+                const keyTable = priv.keyTable;
                 for (let b in c) {
                     if (c.hasOwnProperty(b)) {
                         const d = c[b];
-                        keyCodeTable[d.charCodeAt(0)] = int(b);
-                        d.toUpperCase() !== d && (keyCodeTable[d.toUpperCase().charCodeAt(0)] = int(b));
+                        keyTable[d.charCodeAt(0)] = int(b);
+                        d.toUpperCase() !== d && (keyTable[d.toUpperCase().charCodeAt(0)] = int(b));
                     }
                 }
             }
@@ -243,17 +243,17 @@ const Keyboard = (() => {
             core.tools.isBool(newValue) && priv.meta !== newValue && (priv.meta = newValue);
         }
         //#endregion meta
-        //#region keyCode
-        get keyCode() {
-            return internal(this).keyCode;
+        //#region key
+        get key() {
+            return internal(this).key;
         }
-        set keyCode(newValue) {
+        set key(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             //#endregion Variables déclaration
-            core.tools.valueInSet(newValue, Keyboard.VKEYSCODES) && priv.keyCode !== newValue && (priv.keyCode = newValue);
+            core.tools.valueInSet(newValue, Keyboard.VKEYSCODES) && priv.key !== newValue && (priv.key = newValue);
         }
-        //#endregion keyCode
+        //#endregion key
         //#region keyEvent
         get keyEvent() {
             return internal(this).keyEvent;
@@ -277,11 +277,11 @@ const Keyboard = (() => {
             core.tools.isString(newValue) && priv.keyChar !== newValue && (priv.keyChar = newValue);
         }
         //#endregion keyChar
-        //#region keyCodeTable
-        get keyCodeTable() {
-            return internal(this).keyCodeTable;
+        //#region keyTable
+        get keyTable() {
+            return internal(this).keyTable;
         }
-        //#endregion keyCodeTable
+        //#endregion keyTable
         //#region event
         get event() {
             return internal(this).event;
@@ -315,7 +315,7 @@ const Keyboard = (() => {
                 VKEYSCODES.VK_RAPP,
                 VKEYSCODES.VK_MENU,
                 VKEYSCODES.VK_RETURN
-            ].indexOf(priv.keyCode) > -1;
+            ].indexOf(priv.key) > -1;
         }
         //#endregion isNavigationKey
         //#endregion Getter / Setter
@@ -331,17 +331,17 @@ const Keyboard = (() => {
             priv.ctrl = keyboardEventArg.ctrlKey;
             priv.alt = keyboardEventArg.altKey;
             priv.shift = keyboardEventArg.shiftKey;
-            priv.keyCode = keyboardEventArg.type === 'keypress'
-                ? (keyboardEventArg.charCode !== 0) ? keyboardEventArg.charCode : keyboardEventArg.keyCode
-                : keyboardEventArg.keyCode;
+            priv.key = keyboardEventArg.type === 'keypress'
+                ? (keyboardEventArg.charCode !== 0) ? keyboardEventArg.charCode : keyboardEventArg.key
+                : keyboardEventArg.key;
             priv.meta = keyboardEventArg.metaKey;
             if (core.browser.ff && (keyboardEventArg.type === 'keypress')) {
-                priv.keyCode = keyboardEventArg.charCode !== 0 && priv.keyCodeTable[keyboardEventArg.charCode] ? priv.keyCodeTable[keyboardEventArg.charCode] : keyboardEventArg.keyCode;
+                priv.key = keyboardEventArg.charCode !== 0 && priv.keyTable[keyboardEventArg.charCode] ? priv.keyTable[keyboardEventArg.charCode] : keyboardEventArg.key;
                 priv.keyChar = keyboardEventArg.charCode !== 0 ? String.fromCharCode(keyboardEventArg.charCode) : String.EMPTY;
             } else {
-                const keyCode = keyboardEventArg.which || keyboardEventArg.keyCode;
-                priv.keyChar = keyCode === VKEYSCODES.VK_SHIFT || keyCode === VKEYSCODES.VK_CONTROL || keyCode === VKEYSCODES.VK_ALT
-                    ? String.EMPTY : String.fromCharCode(keyCode);
+                const key = keyboardEventArg.which || keyboardEventArg.key;
+                priv.keyChar = key === VKEYSCODES.VK_SHIFT || key === VKEYSCODES.VK_CONTROL || key === VKEYSCODES.VK_ALT
+                    ? String.EMPTY : String.fromCharCode(key);
             }
             !priv.shift && (priv.keyChar = this.keyChar.toLowerCase());
             priv.keyEvent = !core.isKeyDown ? KEYBORDEVENTS.NONE : KEYBORDEVENTS.DOWN;
@@ -359,7 +359,7 @@ const Keyboard = (() => {
             priv.ctrl = !1;
             priv.alt = !1;
             priv.shift = !1;
-            priv.keyCode = Keyboard.VKEYSCODES.NONE;
+            priv.key = Keyboard.VKEYSCODES.NONE;
             priv.keyEvent = Keyboard.KEYBORDEVENTS.NONE;
             priv.keyChar = String.EMPTY;
         }

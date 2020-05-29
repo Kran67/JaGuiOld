@@ -33,23 +33,21 @@ class Apps {
      * Create a new instance of Application.
      */
     constructor() {
-        core.setPrivate(this, 'applications', {});
-        core.setPrivate(this, 'activeApplication', null);
-        core.setPrivate(this, 'capslock', 'UNKNOWN');
+        core.private(this, { applications: {}, activeApplication: null, capslock: 'UNKNOWN' });
     }
     //#region Getters / Setters
     /**
      * Get the applications list
      */
     get applications() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     /**
      * Get the activeApplication
      * @return  {Application}   the active application
      */
     get activeApplication() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     /**
      * Set the activeApplication
@@ -57,22 +55,23 @@ class Apps {
      */
     set activeApplication(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        (newValue instanceof core.classes.Application || newValue == null) && core.getPrivate(propName) !== newValue
-            && core.setPrivate(this, propName, newValue);
+        (newValue instanceof core.classes.Application || newValue == null) && priv[propName] !== newValue
+            && core.private(this, { [propName]: newValue });
     }
     /**
      * Get the capslock
      */
     get capslock() {
-        return core.getPrivate(this, core.tools.getPropertyName());
+        return core.private(this)[core.tools.getPropertyName()];
     }
     /**
      * Set the capslock
      */
     set capslock(newValue) {
-        core.tools.isString(newValue) && core.setPrivate(this, core.tools.getPropertyName(), newValue);
+        core.tools.isString(newValue) && core.private(this, { [core.tools.getPropertyName()]: newValue });
     }
     //#endregion Getters / Setters
     //#region Methods
