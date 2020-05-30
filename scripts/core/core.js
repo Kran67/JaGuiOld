@@ -65,6 +65,7 @@ const Core = (() => {
             };
             this.destroyPrivate = (obj) => {
                 _private[obj.internalKey] = null;
+                delete _private[obj.internalKey];
             };
             this.privateFromComponent = (objName) => {
                 return Object.fromEntries(Object.entries(_private).filter(function (item) {

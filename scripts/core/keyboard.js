@@ -141,234 +141,119 @@ const KEYBORDEVENTS = Object.freeze(Object.seal({
 }));
 //#endregion
 //#region Keyboard
-const Keyboard = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Keyboard
-    class Keyboard extends BaseClass {
-        //#region constructor
-        constructor() {
-            super();
-            const priv = internal(this);
-            priv.ctrl = !1;
-            priv.alt = !1;
-            priv.shift = !1;
-            priv.meta = !1;
-            priv.key = Keyboard.VKEYSCODES.NONE;
-            priv.keyEvent = Keyboard.KEYBORDEVENTS.NONE;
-            priv.keyChar = String.EMPTY;
-            priv.keyTable = [];
-            priv.event = null;
-            if (core.browser.ff) {
-                const c = {
-                    32: ' ', 48: '0', 49: '1', 50: '2', 51: '3', 52: '4', 53: '5', 54: '6', 55: '7', 56: '8', 57: '9', 59: ';',
-                    61: '=', 65: 'a', 66: 'b', 67: 'c', 68: 'd', 69: 'e', 70: 'f', 71: 'g', 72: 'h', 73: 'i', 74: 'j', 75: 'k',
-                    76: 'l', 77: 'm', 78: 'n', 79: 'o', 80: 'p', 81: 'q', 82: 'r', 83: 's', 84: 't', 85: 'u', 86: 'v', 87: 'w',
-                    88: 'x', 89: 'y', 90: 'z', 107: '+', 109: '-', 110: '.', 188: ',', 190: '.', 191: '/', 192: '`', 219: '[',
-                    220: '\\', 221: ']', 222: '"'
-                };
-                // à modifier avec getOwnPropertyNames
-                const keyTable = priv.keyTable;
-                for (let b in c) {
-                    if (c.hasOwnProperty(b)) {
-                        const d = c[b];
-                        keyTable[d.charCodeAt(0)] = int(b);
-                        d.toUpperCase() !== d && (keyTable[d.toUpperCase().charCodeAt(0)] = int(b));
-                    }
+class Keyboard {
+    //#region constructor
+    constructor() {
+        this.ctrl = !1;
+        this.alt = !1;
+        this.shift = !1;
+        this.meta = !1;
+        this.key = Keyboard.VKEYSCODES.NONE;
+        this.keyEvent = Keyboard.KEYBORDEVENTS.NONE;
+        this.keyChar = String.EMPTY;
+        this.keyTable = [];
+        this.event = null;
+        if (core.browser.ff) {
+            const c = {
+                32: ' ', 48: '0', 49: '1', 50: '2', 51: '3', 52: '4', 53: '5', 54: '6', 55: '7', 56: '8', 57: '9', 59: ';',
+                61: '=', 65: 'a', 66: 'b', 67: 'c', 68: 'd', 69: 'e', 70: 'f', 71: 'g', 72: 'h', 73: 'i', 74: 'j', 75: 'k',
+                76: 'l', 77: 'm', 78: 'n', 79: 'o', 80: 'p', 81: 'q', 82: 'r', 83: 's', 84: 't', 85: 'u', 86: 'v', 87: 'w',
+                88: 'x', 89: 'y', 90: 'z', 107: '+', 109: '-', 110: '.', 188: ',', 190: '.', 191: '/', 192: '`', 219: '[',
+                220: '\\', 221: ']', 222: '"'
+            };
+            // à modifier avec getOwnPropertyNames
+            const keyTable = this.keyTable;
+            for (let b in c) {
+                if (c.hasOwnProperty(b)) {
+                    const d = c[b];
+                    keyTable[d.charCodeAt(0)] = int(b);
+                    d.toUpperCase() !== d && (keyTable[d.toUpperCase().charCodeAt(0)] = int(b));
                 }
             }
         }
-        //#endregion constructor
-        //#region Static
-        //#region VKEYSCODES
-        static get VKEYSCODES() {
-            return VKEYSCODES;
-        }
-        //#endregion VKEYSCODES
-        //#region KEYBORDEVENTS
-        static KEYBORDEVENTS() {
-            return KEYBORDEVENTS;
-        }
-        //#endregion KEYBORDEVENTS
-        //#endregion Static
-        //#region Getter / Setter
-        //#region ctrl
-        get ctrl() {
-            return internal(this).ctrl;
-        }
-        set ctrl(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.ctrl !== newValue && (priv.ctrl = newValue);
-        }
-        //#endregion ctrl
-        //#region alt
-        get alt() {
-            return internal(this).alt;
-        }
-        set alt(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.alt !== newValue && (priv.alt = newValue);
-        }
-        //#endregion alt
-        //#region shift
-        get shift() {
-            return internal(this).shift;
-        }
-        set shift(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.shift !== newValue && (priv.shift = newValue);
-        }
-        //#endregion shift
-        //#region meta
-        get meta() {
-            return internal(this).meta;
-        }
-        set meta(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            core.tools.isBool(newValue) && priv.meta !== newValue && (priv.meta = newValue);
-        }
-        //#endregion meta
-        //#region key
-        get key() {
-            return internal(this).key;
-        }
-        set key(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            core.tools.valueInSet(newValue, Keyboard.VKEYSCODES) && priv.key !== newValue && (priv.key = newValue);
-        }
-        //#endregion key
-        //#region keyEvent
-        get keyEvent() {
-            return internal(this).keyEvent;
-        }
-        set keyEvent(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            core.tools.valueInSet(newValue, Keyboard.KEYBORDEVENTS) && priv.keyEvent !== newValue
-                && (priv.keyEvent = newValue);
-        }
-        //#endregion keyEvent
-        //#region keyChar
-        get keyChar() {
-            return internal(this).keyChar;
-        }
-        set keyChar(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            core.tools.isString(newValue) && priv.keyChar !== newValue && (priv.keyChar = newValue);
-        }
-        //#endregion keyChar
-        //#region keyTable
-        get keyTable() {
-            return internal(this).keyTable;
-        }
-        //#endregion keyTable
-        //#region event
-        get event() {
-            return internal(this).event;
-        }
-        set event(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            newValue instanceof KeyboardEvent && priv.event !== newValue && (priv.event = newValue);
-        }
-        //#endregion event
-        //#region isNavigationKey
-        get isNavigationKey() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const VKEYSCODES = Keyboard.VKEYSCODES;
-            //#endregion Variables déclaration
-            return [
-                VKEYSCODES.VK_BACKSPACE,
-                VKEYSCODES.VK_PRIOR,
-                VKEYSCODES.VK_NEXT,
-                VKEYSCODES.VK_END,
-                VKEYSCODES.VK_HOME,
-                VKEYSCODES.VK_LEFT,
-                VKEYSCODES.VK_UP,
-                VKEYSCODES.VK_RIGHT,
-                VKEYSCODES.VK_DOWN,
-                VKEYSCODES.VK_INSERT,
-                VKEYSCODES.VK_DELETE,
-                VKEYSCODES.VK_LAPP,
-                VKEYSCODES.VK_RAPP,
-                VKEYSCODES.VK_MENU,
-                VKEYSCODES.VK_RETURN
-            ].indexOf(priv.key) > -1;
-        }
-        //#endregion isNavigationKey
-        //#endregion Getter / Setter
-        //#region Methods
-        //#region getKeyboardInfos
-        getKeyboardInfos(keyboardEventArg) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const VKEYSCODES = Keyboard.VKEYSCODES;
-            const KEYBORDEVENTS = Keyboard.KEYBORDEVENTS;
-            //#endregion Variables déclaration
-            priv.event = keyboardEventArg;
-            priv.ctrl = keyboardEventArg.ctrlKey;
-            priv.alt = keyboardEventArg.altKey;
-            priv.shift = keyboardEventArg.shiftKey;
-            priv.key = keyboardEventArg.type === 'keypress'
-                ? (keyboardEventArg.charCode !== 0) ? keyboardEventArg.charCode : keyboardEventArg.key
-                : keyboardEventArg.key;
-            priv.meta = keyboardEventArg.metaKey;
-            if (core.browser.ff && (keyboardEventArg.type === 'keypress')) {
-                priv.key = keyboardEventArg.charCode !== 0 && priv.keyTable[keyboardEventArg.charCode] ? priv.keyTable[keyboardEventArg.charCode] : keyboardEventArg.key;
-                priv.keyChar = keyboardEventArg.charCode !== 0 ? String.fromCharCode(keyboardEventArg.charCode) : String.EMPTY;
-            } else {
-                const key = keyboardEventArg.which || keyboardEventArg.key;
-                priv.keyChar = key === VKEYSCODES.VK_SHIFT || key === VKEYSCODES.VK_CONTROL || key === VKEYSCODES.VK_ALT
-                    ? String.EMPTY : String.fromCharCode(key);
-            }
-            !priv.shift && (priv.keyChar = this.keyChar.toLowerCase());
-            priv.keyEvent = !core.isKeyDown ? KEYBORDEVENTS.NONE : KEYBORDEVENTS.DOWN;
-            core.tools.isFunc(core.onGetMouseInfos) && core.onGetMouseInfos();
-        }
-        //#endregion getKeyboardInfos
-        //#region stopEvent
-        stopEvent() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.event.cancelBubble = !0;
-            priv.event.stopPropagation();
-            priv.event.preventDefault();
-            priv.ctrl = !1;
-            priv.alt = !1;
-            priv.shift = !1;
-            priv.key = Keyboard.VKEYSCODES.NONE;
-            priv.keyEvent = Keyboard.KEYBORDEVENTS.NONE;
-            priv.keyChar = String.EMPTY;
-        }
-        //#endregion stopEvent
-        //#endregion
     }
-    return Keyboard;
-    //#endregion Keyboard
-})();
+    //#endregion constructor
+    //#region Static
+    //#region VKEYSCODES
+    static get VKEYSCODES() {
+        return VKEYSCODES;
+    }
+    //#endregion VKEYSCODES
+    //#region KEYBORDEVENTS
+    static KEYBORDEVENTS() {
+        return KEYBORDEVENTS;
+    }
+    //#endregion KEYBORDEVENTS
+    //#endregion Static
+    //#region Getter / Setter
+    //#region isNavigationKey
+    get isNavigationKey() {
+        //#region Variables déclaration
+        const VKEYSCODES = Keyboard.VKEYSCODES;
+        //#endregion Variables déclaration
+        return [
+            VKEYSCODES.VK_BACKSPACE,
+            VKEYSCODES.VK_PRIOR,
+            VKEYSCODES.VK_NEXT,
+            VKEYSCODES.VK_END,
+            VKEYSCODES.VK_HOME,
+            VKEYSCODES.VK_LEFT,
+            VKEYSCODES.VK_UP,
+            VKEYSCODES.VK_RIGHT,
+            VKEYSCODES.VK_DOWN,
+            VKEYSCODES.VK_INSERT,
+            VKEYSCODES.VK_DELETE,
+            VKEYSCODES.VK_LAPP,
+            VKEYSCODES.VK_RAPP,
+            VKEYSCODES.VK_MENU,
+            VKEYSCODES.VK_RETURN
+        ].indexOf(this.key) > -1;
+    }
+    //#endregion isNavigationKey
+    //#endregion Getter / Setter
+    //#region Methods
+    //#region getKeyboardInfos
+    getKeyboardInfos(keyboardEventArg) {
+        //#region Variables déclaration
+        const VKEYSCODES = Keyboard.VKEYSCODES;
+        const KEYBORDEVENTS = Keyboard.KEYBORDEVENTS;
+        //#endregion Variables déclaration
+        this.event = keyboardEventArg;
+        this.ctrl = keyboardEventArg.ctrlKey;
+        this.alt = keyboardEventArg.altKey;
+        this.shift = keyboardEventArg.shiftKey;
+        this.key = keyboardEventArg.type === 'keypress'
+            ? (keyboardEventArg.charCode !== 0) ? keyboardEventArg.charCode : keyboardEventArg.key
+            : keyboardEventArg.key;
+        this.meta = keyboardEventArg.metaKey;
+        if (core.browser.ff && (keyboardEventArg.type === 'keypress')) {
+            this.key = keyboardEventArg.charCode !== 0 && this.keyTable[keyboardEventArg.charCode] ? this.keyTable[keyboardEventArg.charCode] : keyboardEventArg.key;
+            this.keyChar = keyboardEventArg.charCode !== 0 ? String.fromCharCode(keyboardEventArg.charCode) : String.EMPTY;
+        } else {
+            const key = keyboardEventArg.which || keyboardEventArg.key;
+            this.keyChar = key === VKEYSCODES.VK_SHIFT || key === VKEYSCODES.VK_CONTROL || key === VKEYSCODES.VK_ALT
+                ? String.EMPTY : String.fromCharCode(key);
+        }
+        !this.shift && (this.keyChar = this.keyChar.toLowerCase());
+        this.keyEvent = !core.isKeyDown ? KEYBORDEVENTS.NONE : KEYBORDEVENTS.DOWN;
+        core.tools.isFunc(core.onGetMouseInfos) && core.onGetMouseInfos();
+    }
+    //#endregion getKeyboardInfos
+    //#region stopEvent
+    stopEvent() {
+        this.event.cancelBubble = !0;
+        this.event.stopPropagation();
+        this.event.preventDefault();
+        this.ctrl = !1;
+        this.alt = !1;
+        this.shift = !1;
+        this.key = Keyboard.VKEYSCODES.NONE;
+        this.keyEvent = Keyboard.KEYBORDEVENTS.NONE;
+        this.keyChar = String.EMPTY;
+    }
+    //#endregion stopEvent
+    //#endregion
+}
 core.keyboard = new Keyboard;
 //#endregion Keyboard
 export { Keyboard };

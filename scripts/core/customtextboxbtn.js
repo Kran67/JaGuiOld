@@ -15,7 +15,8 @@ class CustomTextBoxBtn extends CustomTextControl {
             core.private(this, {
                 btnClass: props.btnClass ? props.btnClass : Button,
                 numBtns: props.hasOwnProperty('numBtns') ? props.numBtns : 1,
-                autoHideButtons: props.hasOwnProperty('autoHideButtons') && core.tools.isBool(props.autoHideButtons) ? props.autoHideButtons : !1
+                autoHideButtons: props.hasOwnProperty('autoHideButtons') && core.tools.isBool(props.autoHideButtons) 
+                    ? props.autoHideButtons : !1
             });
             //#endregion Private Properties
             //#region Public Properties

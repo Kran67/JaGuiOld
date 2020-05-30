@@ -8,8 +8,7 @@ class TextShadowsItem {
     constructor(owner, props) {
         props = !props ? {} : props;
         this.offset = new Point(props.offset.x ? props.offset.x : 0, props.offset.y ? props.offset.y : 0);
-        this.color = owner.color;
-        props.color && core.tools.isString(props.color) && (this.color = Color.parse(props.color));
+        this.color = props.color && core.tools.isString(props.color) ? Color.parse(props.color) : owner.color;
         this.blur = props.blur ? props.blur : 0;
     }
     //#endregion Constructor
@@ -57,7 +56,6 @@ class TextShadows {
     destroy() {
         this.items.destroy();
         this.items = null;
-        super.destroy();
     }
     //#endregion destroy
     //#endregion Methods
