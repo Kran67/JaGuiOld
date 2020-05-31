@@ -3,118 +3,86 @@ import { Tab } from '/scripts/components/containers/tab.js';
 import { Layout } from '/scripts/components/containers/layout.js';
 import { CustomTabControl } from '/scripts/core/customtabcontrol.js';
 //#endregion Import
-//#region TabSheet
-const TabSheet = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class TabSheet
-    class TabSheet extends Tab {
-        //#region constructor
-        constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
-            props = !props ? {} : props;
-            if (owner) {
-                super(owner, props);
-                const priv = internal(this);
-                priv.HTMLPage = null;
-            }
+//#region Class TabSheet
+class TabSheet extends Tab {
+    //#region constructor
+    constructor(owner, props) {
+        //#region Variables déclaration
+        //#endregion Variables déclaration
+        props = !props ? {} : props;
+        if (owner) {
+            super(owner, props);
+            core.private(this, {
+                HTMLPage: null
+            });
         }
-        //#endregion constructor
-        //#region Getters / Setters
-        //#region HTMLPage
-        get HTMLPage() {
-            return internal(this).HTMLPage;
-        }
-        set HTMLPage(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            newValue instanceof PageContent&&priv.HTMLPage !== newValue && (priv.HTMLPage = newValue);
-        }
-        //#endregion HTMLPage
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region show
-        show() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (this.enabled) {
-                super.show();
-                priv.HTMLPage.visible = !0;
-            }
-        }
-        //#endregion show
-        //#region hide
-        hide() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            super.hide();
-            priv.HTMLPage.visible = !1;
-        }
-        //#endregion hide
-        //#region loaded
-        loaded() {
-            super.loaded();
-            this.display = core.types.CSSVALUES.INLINEBLOCK;
-        }
-        //#endregion
-        //#region destroy
-        destroy() {
-            priv.HTMLPage = null;
-            super.destroy();
-        }
-        //#endregion destroy
-        //#endregion Methods
     }
-    return TabSheet;
-    //#endregion TabSheet
-})();
+    //#endregion constructor
+    //#region Getters / Setters
+    //#region HTMLPage
+    get HTMLPage() {
+        return core.private(this).HTMLPage;
+    }
+    set HTMLPage(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        newValue instanceof PageContent && priv.HTMLPage !== newValue && (priv.HTMLPage = newValue);
+    }
+    //#endregion HTMLPage
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region show
+    show() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (this.enabled) {
+            super.show();
+            priv.HTMLPage.visible = !0;
+        }
+    }
+    //#endregion show
+    //#region hide
+    hide() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        super.hide();
+        priv.HTMLPage.visible = !1;
+    }
+    //#endregion hide
+    //#region loaded
+    loaded() {
+        super.loaded();
+        this.display = core.types.CSSVALUES.INLINEBLOCK;
+    }
+    //#endregion
+    //#endregion Methods
+}
 Object.seal(TabSheet);
 core.classes.register(core.types.CATEGORIES.INTERNAL, TabSheet);
 //#endregion TabSheet
-//#region PageContent
-const PageContent = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key)&&_private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class PageContent
-    class PageContent extends Layout {
-        //#region constructor
-        constructor(owner, props) {
-            props = !props ? {} : props;
-            if (owner) {
-                super(owner, props);
-                const priv = internal(this);
-                priv.tab = props.hasOwnProperty('tab') ? this.form[props.tab] : null;
-            }
+//#region Class PageContent
+class PageContent extends Layout {
+    //#region constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            super(owner, props);
+            core.private(this, {
+                tab: props.hasOwnProperty('tab') ? this.form[props.tab] : null
+            });
         }
-        //#endregion constructor
-        //#endregion Getters / Setters
-        get tab() {
-            return internal(this).tab;
-        }
-        //#region Methods
-        //#endregion Methods
     }
-    return PageContent;
-    //#endregion PageContent
-})();
+    //#endregion constructor
+    //#endregion Getters / Setters
+    get tab() {
+        return core.private(this).tab;
+    }
+    //#region Methods
+    //#endregion Methods
+}
 Object.seal(PageContent);
 core.classes.register(core.types.CATEGORIES.INTERNAL, PageContent);
 //#endregion PageContent

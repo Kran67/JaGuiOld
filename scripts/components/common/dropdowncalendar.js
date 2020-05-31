@@ -28,17 +28,6 @@ class CalendarPopup extends Calendar {
     //#endregion Methods
 }
 //#endregion CalendarPopup
-//#region DropDownCalendarPopup
-const DropDownCalendarPopup = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
     //#region Class DropDownCalendarPopup
     class DropDownCalendarPopup extends PopupBox {
         //#region constructor
@@ -56,7 +45,7 @@ const DropDownCalendarPopup = (() => {
         //#region Getters / Setters
         //#region calendar
         get calendar() {
-            return internal(this).calendar;
+            return core.private(this).calendar;
         }
         //#endregion calendar
         //#endregion Getters / Setters
@@ -64,7 +53,7 @@ const DropDownCalendarPopup = (() => {
         //#region show
         show(x, y) {
             //#region Variables déclaration
-            const priv = internal(this);
+            const priv = core.private(this);
             //#endregion Variables déclaration
             super.show(x, y);
             !priv.calendar.HTMLElement && priv.calendar.getHTMLElement(priv.calendar.internalId);
@@ -73,7 +62,7 @@ const DropDownCalendarPopup = (() => {
         //#region loaded
         loaded() {
             //#region Variables déclaration
-            const priv = internal(this);
+            const priv = core.private(this);
             //#endregion Variables déclaration
             super.loaded();
             priv.calendar = core.classes.createComponent({
@@ -95,22 +84,8 @@ const DropDownCalendarPopup = (() => {
         //#endregion destroy
         //#endregion Methods
     }
-    return DropDownCalendarPopup;
-    //#endregion DropDownCalendarPopup
-})();
 Object.seal(DropDownCalendarPopup);
 //#endregion DropDownCalendarPopup
-//#region DropDownCalendar
-const DropDownCalendar = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
     //#region Class DropDownCalendar
     class DropDownCalendar extends ThemedControl {
         //#region constructor
@@ -124,12 +99,14 @@ const DropDownCalendar = (() => {
                 props.autoCapture = !0;
                 //priv.editable=!1;
                 super(owner, props);
-                const priv = internal(this);
-                priv.content = null;
-                priv.dropDownPopup = null;
-                priv.opened = props.hasOwnProperty('opened') && core.tools.isBool(props.opened) ? props.opened : !1;
-                priv.date = props.hasOwnProperty('date') ? new Date(props.date) : new Date();
-                priv.text = props.hasOwnProperty('text') ? props.text : String.EMPTY;
+                core.private(this, {
+                    content : null,
+                    dropDownPopup : null,
+                    opened: props.hasOwnProperty('opened') && core.tools.isBool(props.opened)
+                        ? props.opened : !1,
+                    date : props.hasOwnProperty('date') ? new Date(props.date) : new Date(),
+                    text : props.hasOwnProperty('text') ? props.text : String.EMPTY
+                });
                 this.createEventsAndBind(['onChange'], props);
             }
         }
@@ -137,16 +114,16 @@ const DropDownCalendar = (() => {
         //#region Getters / Setters
         //#region dropDownPopup
         get dropDownPopup() {
-            return internal(this).dropDownPopup;
+            return core.private(this).dropDownPopup;
         }
         //#endregion dropDownPopup
         //#region text
         get text() {
-            return internal(this).text;
+            return core.private(this).text;
         }
         set text(newValue) {
             //#region Variables déclaration
-            const priv = internal(this);
+            const priv = core.private(this);
             //#endregion Variables déclaration
             if (core.tools.isString(newValue) && priv.text !== newValue) {
                 priv.text = newValue;
@@ -156,11 +133,11 @@ const DropDownCalendar = (() => {
         //#endregion text
         //#region opened
         get opened() {
-            return internal(this).opened;
+            return core.private(this).opened;
         }
         set opened(newValue) {
             //#region Variables déclaration
-            const priv = internal(this);
+            const priv = core.private(this);
             //#endregion Variables déclaration
             if (core.tools.isBool(newValue) && priv.opened !== newValue) {
                 priv.opened = newValue;
@@ -171,11 +148,11 @@ const DropDownCalendar = (() => {
         //#endregion opened
         //#region date
         get date() {
-            return internal(this).date;
+            return core.private(this).date;
         }
         set date(newValue) {
             //#region Variables déclaration
-            const priv = internal(this);
+            const priv = core.private(this);
             //#endregion Variables déclaration
             if ((newValue instanceof Date) && !priv.date.equals(newValue)) {
                 priv.date = new Date(newValue);
@@ -188,7 +165,7 @@ const DropDownCalendar = (() => {
         //#region template
         get template() {
             //#region Variables déclaration
-            const priv = internal(this);
+            const priv = core.private(this);
             let html = super.template();
             let a = html.split('{date}');
             //#endregion Variables déclaration
@@ -201,7 +178,7 @@ const DropDownCalendar = (() => {
         //#region update
         update() {
             //#region Variables déclaration
-            const priv = internal(this);
+            const priv = core.private(this);
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
             priv.opened ? htmlElement.classList.add('opened') : htmlElement.classList.remove('opened');
@@ -211,7 +188,7 @@ const DropDownCalendar = (() => {
         //#region mouseDown
         mouseDown() {
             //#region Variables déclaration
-            const priv = internal(this);
+            const priv = core.private(this);
             const lastOpened = priv.opened;
             //#endregion Variables déclaration
             this === this.form.focusedControl && lastOpened && (this.closePopups = !1);
@@ -223,7 +200,7 @@ const DropDownCalendar = (() => {
         //#region showPopup
         showPopup() {
             //#region Variables déclaration
-            const priv = internal(this);
+            const priv = core.private(this);
             const pt = this.clientToDocument();
             //#endregion Variables déclaration
             if (!priv.dropDownPopup) {
@@ -245,7 +222,7 @@ const DropDownCalendar = (() => {
         //#region destroyPopup
         destroyPopup() {
             //#region Variables déclaration
-            const priv = internal(this);
+            const priv = core.private(this);
             //#endregion Variables déclaration
             priv.dropDownPopup.calendar.destroy();
             priv.dropDownPopup.destroy();
@@ -256,7 +233,7 @@ const DropDownCalendar = (() => {
         //#region keyDown
         keyDown() {
             //#region Variables déclaration
-            const priv = internal(this);
+            const priv = core.private(this);
             //#endregion Variables déclaration
             super.keyDown();
             if (core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
@@ -278,7 +255,7 @@ const DropDownCalendar = (() => {
         //#region loaded
         loaded() {
             //#region Variables déclaration
-            const priv = internal(this);
+            const priv = core.private(this);
             const TAG = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
             const htmlElement = this.HTMLElement;
             //#endregion Variables déclaration
@@ -296,22 +273,14 @@ const DropDownCalendar = (() => {
         //#region destroy
         destroy() {
             //#region Variables déclaration
-            const priv = internal(this);
+            const priv = core.private(this);
             //#endregion Variables déclaration
-            priv.content = null;
-            priv.opened = null;
-            priv.date = null;
-            priv.text = null;
-            priv.dropDownPopup = null;
             this.unBindAndDestroyEvents(['onChange']);
             super.destroy();
         }
         //#endregion destroy
         //#endregion Methods
     }
-    return DropDownCalendar;
-    //#endregion DropDownCalendar
-})();
 Object.seal(DropDownCalendar);
 core.classes.register(core.types.CATEGORIES.INTERNAL, CalendarPopup, DropDownCalendarPopup);
 core.classes.register(core.types.CATEGORIES.COMMON, DropDownCalendar);

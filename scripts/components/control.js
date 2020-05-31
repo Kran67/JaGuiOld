@@ -37,7 +37,8 @@ class Control extends Component {
                 },
                 tabList: [],
                 constraints: new core.classes.SizeConstraints(this),
-                ownerShowToolTip: props.hasOwnProperty('ownerShowToolTip') && core.tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : !0,
+                ownerShowToolTip: props.hasOwnProperty('ownerShowToolTip')
+                    && core.tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : !0,
                 autoCapture: props.hasOwnProperty('autoCapture') && core.tools.isBool(props.autoCapture)
                     ? props.autoCapture : !1,
                 padding: new core.classes.Padding(this),
@@ -62,7 +63,8 @@ class Control extends Component {
                     ? props.rotateAngle : 0,
                 customStyle: null,
                 cssClasses: props.hasOwnProperty('cssClasses') ? props.cssClasses : String.EMPTY,
-                tabOrder: props.hasOwnProperty('tabOrder') && core.tools.isNumber(props.tabOrder) ? props.tabOrder : 0,
+                tabOrder: props.hasOwnProperty('tabOrder') && core.tools.isNumber(props.tabOrder)
+                    ? props.tabOrder : 0,
                 right: props.hasOwnProperty('right') && core.tools.isNumber(props.right) ? props.right : null,
                 bottom: props.hasOwnProperty('bottom') && core.tools.isNumber(props.bottom) ? props.bottom : null,
                 doubleClick: !1,
@@ -75,12 +77,15 @@ class Control extends Component {
                     ? props.reflected : !1,
                 column: props.hasOwnProperty('column') && core.tools.isNumber(props.column) ? props.column : 0,
                 row: props.hasOwnProperty('row') && core.tools.isNumber(props.row) ? props.row : 0,
-                colSpan: props.hasOwnProperty('colSpan') && core.tools.isNumber(props.colSpan) ? props.colSpan : 0,
-                rowSpan: props.hasOwnProperty('rowSpan') && core.tools.isNumber(props.rowSpan) ? props.rowSpan : 0,
-                allowUpdateOnResize: props.hasOwnProperty('allowUpdateOnResize') && core.tools.isBool(props.allowUpdateOnResize)
-                    ? props.allowUpdateOnResize : !1,
+                colSpan: props.hasOwnProperty('colSpan') && core.tools.isNumber(props.colSpan)
+                    ? props.colSpan : 0,
+                rowSpan: props.hasOwnProperty('rowSpan') && core.tools.isNumber(props.rowSpan)
+                    ? props.rowSpan : 0,
+                allowUpdateOnResize: props.hasOwnProperty('allowUpdateOnResize')
+                    && core.tools.isBool(props.allowUpdateOnResize) ? props.allowUpdateOnResize : !1,
                 allowRealignChildsOnResize: props.hasOwnProperty('allowRealignChildsOnResize')
-                    && core.tools.isBool(props.allowRealignChildsOnResize) ? props.allowRealignChildsOnResize : !1,
+                    && core.tools.isBool(props.allowRealignChildsOnResize)
+                    ? props.allowRealignChildsOnResize : !1,
                 resizer: new ResizeObserver(function () {
                     const obj = this.obj;
                     obj.allowUpdateOnResize && obj.update();

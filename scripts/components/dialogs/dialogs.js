@@ -39,126 +39,103 @@ const DIALOGS_CONSTS = Object.freeze(Object.seal({
 }));
 //#endregion Dialogs constants
 //#region MessageDlg
-const MessageDlg = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region MessageDlg
-    class MessageDlg extends Window {
-        //#region constructor
-        constructor(owner, props) {
-            props = !props ? {} : props;
-            if (owner) {
-                super(owner, props);
-                const priv = internal(this);
-                priv.dlgType = MESSAGETYPES.CUSTOM;
-                priv.dlgButtons = [MESSAGEBUTTONS.OK];
-                priv.dlgIcon = String.EMPTY;
-                props.dlgType && (priv.dlgType = props.dlgType);
-                props.dlgButtons && (priv.dlgButtons = props.dlgButtons);
-                if (!String.isNullOrEmpty(props.dlgIcon)) {
-                    priv.dlgIcon = props.dlgIcon;
-                } else if (priv.dlgType !== MESSAGETYPES.CUSTOM) {
-                    priv.dlgIcon = priv.dlgType;
-                }
-            }
-        }
-        //#endregion constructor
-        //#region Getters / Setters
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region loaded
-        loaded() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            super.loaded();
-            this.borderStyle = Window.BORDERSTYLES.DIALOG;
-            this.Msg_gridlayout.columnGap = 0;
-            this.Msg_gridlayout.rowGap = 0;
-            if (String.isNullOrEmpty(priv.dlgIcon)) {
-                this.Msg_gridlayout.templateColumns = '12px 1fr 12px';
-                this.Msg_gridlayout.templateRows = '12px 1fr 5px 22px 5px';
-                this.Msg.column = 2;
-            } else {
-                this.Msg_gridlayout.templateColumns = '12px 32px 12px 1fr 12px';
-                this.Msg_gridlayout.templateRows = '12px 32px 1fr 5px 22px 5px';
-                this.Msg.column = 4;
-                this.Msg.rowSpan = 2;
-                this.Msg_btnsLayout.row = 5;
-                this.Msg_btnsLayout.colSpan = 3;
-            }
-            this.Msg.colSpan = 1;
-            this.resizeByContent();
-        }
-        //#endregion loaded
-        //#region resizeByContent
-        resizeByContent() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const buttons = priv.dlgButtons;
-            const msgW = this.Msg.HTMLElement.offsetWidth;
-            const msgH = this.Msg.HTMLElement.offsetHeight;
-            const titleH = this.titleBarSize.height;
-            const msgIcon = this.Msg_icon;
-            let nW = 24 + Window.SIZEABLEBORDERSIZE * 2;
-            let nH = titleH + 44 + Window.SIZEABLEBORDERSIZE * 2;
-            let btnsWidth = 0;
-            //#endregion Variables déclaration
-            if (!String.isNullOrEmpty(priv.dlgIcon)) {
-                nH += (msgH < 32 ? 32 : msgH);
-                msgIcon.visible = !0;
-                priv.dlgType == MESSAGETYPES.CUSTOM
-                    ? msgIcon.load(priv.dlgIcon)
-                    : msgIcon.changeCSS(priv.dlgIcon);
-            } else {
-                nH += msgH;
-            }
-            DIALOGS_CONSTS.BTNS_ALL.forEach(btn => {
-                if (buttons.indexOf(btn) > -1) {
-                    const btnName = `btn${btn.firstCharUpper}`;
-                    if (this.hasOwnProperty(btnName)) {
-                        const button = this[btnName];
-                        button.visible = !0;
-                        if (buttons.length > 1 && btn !== buttons.last) {
-                            button.margin.right = 10;
-                            button.sizing();
-                        }
-                        const translatedCaption = core.locales.translateConstant(this.app.locale, `msgDlg${btn.toUpperCase()}`);
-                        translatedCaption && (button.caption = translatedCaption);
-                        btnsWidth += button.width + button.margin.right;
-                    }
-                }
+class MessageDlg extends Window {
+    //#region constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            super(owner, props);
+            const priv = core.private(this, {
+                dlgType: MESSAGETYPES.CUSTOM,
+                dlgButtons: [MESSAGEBUTTONS.OK],
+                dlgIcon: String.EMPTY
             });
-            !String.isNullOrEmpty(priv.dlgIcon) && (nW += 44);
-            nW += (btnsWidth < msgW ? msgW : btnsWidth);
-            nW > document.body.offsetWidth && (nW = document.body.offsetWidth - 20);
-            nH > document.body.offsetHeight && (nH = document.body.offsetHeight - 20);
-            this.width = nW;
-            this.height = nH;
+            props.dlgType && (priv.dlgType = props.dlgType);
+            props.dlgButtons && (priv.dlgButtons = props.dlgButtons);
+            if (!String.isNullOrEmpty(props.dlgIcon)) {
+                priv.dlgIcon = props.dlgIcon;
+            } else if (priv.dlgType !== MESSAGETYPES.CUSTOM) {
+                priv.dlgIcon = priv.dlgType;
+            }
         }
-        //#endregion resizeByContent
-        //#region destroy
-        destroy() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.dlgType = null;
-            priv.dlgButtons = null;
-            priv.dlgIcon = null;
-            super.destroy();
-        }
-        //#endregion destroy
-        //#endregion Methods
     }
-    return MessageDlg;
-})();
+    //#endregion constructor
+    //#region Getters / Setters
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region loaded
+    loaded() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        super.loaded();
+        this.borderStyle = Window.BORDERSTYLES.DIALOG;
+        this.Msg_gridlayout.columnGap = 0;
+        this.Msg_gridlayout.rowGap = 0;
+        if (String.isNullOrEmpty(priv.dlgIcon)) {
+            this.Msg_gridlayout.templateColumns = '12px 1fr 12px';
+            this.Msg_gridlayout.templateRows = '12px 1fr 5px 22px 5px';
+            this.Msg.column = 2;
+        } else {
+            this.Msg_gridlayout.templateColumns = '12px 32px 12px 1fr 12px';
+            this.Msg_gridlayout.templateRows = '12px 32px 1fr 5px 22px 5px';
+            this.Msg.column = 4;
+            this.Msg.rowSpan = 2;
+            this.Msg_btnsLayout.row = 5;
+            this.Msg_btnsLayout.colSpan = 3;
+        }
+        this.Msg.colSpan = 1;
+        this.resizeByContent();
+    }
+    //#endregion loaded
+    //#region resizeByContent
+    resizeByContent() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const buttons = priv.dlgButtons;
+        const msgW = this.Msg.HTMLElement.offsetWidth;
+        const msgH = this.Msg.HTMLElement.offsetHeight;
+        const titleH = this.titleBarSize.height;
+        const msgIcon = this.Msg_icon;
+        let nW = 24 + Window.SIZEABLEBORDERSIZE * 2;
+        let nH = titleH + 44 + Window.SIZEABLEBORDERSIZE * 2;
+        let btnsWidth = 0;
+        //#endregion Variables déclaration
+        if (!String.isNullOrEmpty(priv.dlgIcon)) {
+            nH += (msgH < 32 ? 32 : msgH);
+            msgIcon.visible = !0;
+            priv.dlgType == MESSAGETYPES.CUSTOM
+                ? msgIcon.load(priv.dlgIcon)
+                : msgIcon.changeCSS(priv.dlgIcon);
+        } else {
+            nH += msgH;
+        }
+        DIALOGS_CONSTS.BTNS_ALL.forEach(btn => {
+            if (buttons.indexOf(btn) > -1) {
+                const btnName = `btn${btn.firstCharUpper}`;
+                if (this.hasOwnProperty(btnName)) {
+                    const button = this[btnName];
+                    button.visible = !0;
+                    if (buttons.length > 1 && btn !== buttons.last) {
+                        button.margin.right = 10;
+                        button.sizing();
+                    }
+                    const translatedCaption = core.locales.translateConstant(this.app.locale, `msgDlg${btn.toUpperCase()}`);
+                    translatedCaption && (button.caption = translatedCaption);
+                    btnsWidth += button.width + button.margin.right;
+                }
+            }
+        });
+        !String.isNullOrEmpty(priv.dlgIcon) && (nW += 44);
+        nW += (btnsWidth < msgW ? msgW : btnsWidth);
+        nW > document.body.offsetWidth && (nW = document.body.offsetWidth - 20);
+        nH > document.body.offsetHeight && (nH = document.body.offsetHeight - 20);
+        this.width = nW;
+        this.height = nH;
+    }
+    //#endregion resizeByContent
+    //#endregion Methods
+}
 //#endregion MessageDlg
 //#region InputDlg
 class InputDlg extends Window {

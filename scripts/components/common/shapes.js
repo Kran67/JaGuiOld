@@ -36,137 +36,115 @@ const SHAPES = Object.seal(Object.freeze({
     REGULARPOLYGON: 'regularPolygon'
 }));
 //#endregion
-//#region Line
-const Line = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class Line
-    class Line extends SVGGraphicControl {
-        //#region constructor
-        constructor(owner, props) {
-            props = !props ? {} : props;
-            if (owner) {
-                props.shape = SHAPES.LINE;
-                super(owner, props);
-                const priv = internal(this);
-                priv.lineDirection = props.hasOwnProperty('lineDirection')
-                    ? props.lineDirection : LINEDIRECTIONS.TOPLEFT_BOTTOMRIGHT;
-            }
+//#region Class Line
+class Line extends SVGGraphicControl {
+    //#region constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            props.shape = SHAPES.LINE;
+            super(owner, props);
+            core.private(this, {
+                lineDirection: props.hasOwnProperty('lineDirection')
+                    ? props.lineDirection : LINEDIRECTIONS.TOPLEFT_BOTTOMRIGHT
+            });
         }
-        //#endregion constructor
-        //#region Getters / Setters
-        //#region SHAPES
-        /**
-         * @type    {Object}        SHAPES
-         */
-        static get SHAPES() {
-            return SHAPES;
-        }
-        //#endregion SHAPES
-        //#region LINEDIRECTIONS
-        /**
-         * @type    {Object}        LINEDIRECTIONS
-         */
-        static get LINEDIRECTIONS() {
-            return LINEDIRECTIONS;
-        }
-        //#endregion LINEDIRECTIONS
-        //#region lineDirection
-        get lineDirection() {
-            return internal(this).lineDirection;
-        }
-        set lineDirection(newValue) {
-            if (core.tools.valueInSet(newValue, LINEDIRECTIONS) && priv.lineDirection !== newValue) {
-                priv.lineDirection = newValue;
-                this.update();
-            }
-        }
-        //#endregion lineDirection
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region update
-        update() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (!this.loading && !this.form.loading && this.svgShape) {
-                super.update();
-                switch (priv.lineDirection) {
-                    case LINEDIRECTIONS.TOPLEFT_BOTTOMRIGHT:
-                        this.svgShape.setAttribute('x1', 0);
-                        this.svgShape.setAttribute('y1', 0);
-                        this.svgShape.setAttribute('x2', '100%');
-                        this.svgShape.setAttribute('y2', '100%');
-                        break;
-                    case LINEDIRECTIONS.TOPRIGHT_BOTTOMLEFT:
-                        this.svgShape.setAttribute('x1', 0);
-                        this.svgShape.setAttribute('y1', '100%');
-                        this.svgShape.setAttribute('x2', '100%');
-                        this.svgShape.setAttribute('y2', 0);
-                        break;
-                    case LINEDIRECTIONS.TOPLEFT_TOPRIGHT:
-                        this.svgShape.setAttribute('x1', 0);
-                        this.svgShape.setAttribute('y1', 0);
-                        this.svgShape.setAttribute('x2', '100%');
-                        this.svgShape.setAttribute('y2', 0);
-                        break;
-                    case LINEDIRECTIONS.BOTTOMLEFT_BOTTOMRIGHT:
-                        this.svgShape.setAttribute('x1', 0);
-                        this.svgShape.setAttribute('y1', '100%');
-                        this.svgShape.setAttribute('x2', '100%');
-                        this.svgShape.setAttribute('y2', '100%');
-                        break;
-                    case LINEDIRECTIONS.TOPLEFT_BOTTOMLEFT:
-                        this.svgShape.setAttribute('x1', 0);
-                        this.svgShape.setAttribute('y1', 0);
-                        this.svgShape.setAttribute('x2', 0);
-                        this.svgShape.setAttribute('y2', '100%');
-                        break;
-                    case LINEDIRECTIONS.TOPRIGHT_BOTTOMRIGHT:
-                        this.svgShape.setAttribute('x1', '100%');
-                        this.svgShape.setAttribute('y1', 0);
-                        this.svgShape.setAttribute('x2', '100%');
-                        this.svgShape.setAttribute('y2', '100%');
-                        break;
-                    case LINEDIRECTIONS.MIDDLETOP_MIDDLEBOTTOM:
-                        this.svgShape.setAttribute('x1', '50%');
-                        this.svgShape.setAttribute('y1', 0);
-                        this.svgShape.setAttribute('x2', '50%');
-                        this.svgShape.setAttribute('y2', '100%');
-                        break;
-                    case LINEDIRECTIONS.MIDDLELEFT_MIDDLERIGHT:
-                        this.svgShape.setAttribute('x1', 0);
-                        this.svgShape.setAttribute('y1', '50%');
-                        this.svgShape.setAttribute('x2', '100%');
-                        this.svgShape.setAttribute('y2', '50%');
-                        break;
-                }
-                this.svgShape.setAttribute('stroke', this.strokeColor.toRGBAString());
-                this.svgShape.setAttribute('stroke-width', this.strokeWidth);
-            }
-        }
-        //#endregion update
-        //#region destroy
-        destroy() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.lineDirection = null;
-            super.destroy();
-        }
-        //#endregion destroy
-        //#endregion Methods
     }
-    return Line;
-    //#endregion Line
-})();
+    //#endregion constructor
+    //#region Getters / Setters
+    //#region SHAPES
+    /**
+     * @type    {Object}        SHAPES
+     */
+    static get SHAPES() {
+        return SHAPES;
+    }
+    //#endregion SHAPES
+    //#region LINEDIRECTIONS
+    /**
+     * @type    {Object}        LINEDIRECTIONS
+     */
+    static get LINEDIRECTIONS() {
+        return LINEDIRECTIONS;
+    }
+    //#endregion LINEDIRECTIONS
+    //#region lineDirection
+    get lineDirection() {
+        return core.private(this).lineDirection;
+    }
+    set lineDirection(newValue) {
+        if (core.tools.valueInSet(newValue, LINEDIRECTIONS) && priv.lineDirection !== newValue) {
+            priv.lineDirection = newValue;
+            this.update();
+        }
+    }
+    //#endregion lineDirection
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region update
+    update() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (!this.loading && !this.form.loading && this.svgShape) {
+            super.update();
+            switch (priv.lineDirection) {
+                case LINEDIRECTIONS.TOPLEFT_BOTTOMRIGHT:
+                    this.svgShape.setAttribute('x1', 0);
+                    this.svgShape.setAttribute('y1', 0);
+                    this.svgShape.setAttribute('x2', '100%');
+                    this.svgShape.setAttribute('y2', '100%');
+                    break;
+                case LINEDIRECTIONS.TOPRIGHT_BOTTOMLEFT:
+                    this.svgShape.setAttribute('x1', 0);
+                    this.svgShape.setAttribute('y1', '100%');
+                    this.svgShape.setAttribute('x2', '100%');
+                    this.svgShape.setAttribute('y2', 0);
+                    break;
+                case LINEDIRECTIONS.TOPLEFT_TOPRIGHT:
+                    this.svgShape.setAttribute('x1', 0);
+                    this.svgShape.setAttribute('y1', 0);
+                    this.svgShape.setAttribute('x2', '100%');
+                    this.svgShape.setAttribute('y2', 0);
+                    break;
+                case LINEDIRECTIONS.BOTTOMLEFT_BOTTOMRIGHT:
+                    this.svgShape.setAttribute('x1', 0);
+                    this.svgShape.setAttribute('y1', '100%');
+                    this.svgShape.setAttribute('x2', '100%');
+                    this.svgShape.setAttribute('y2', '100%');
+                    break;
+                case LINEDIRECTIONS.TOPLEFT_BOTTOMLEFT:
+                    this.svgShape.setAttribute('x1', 0);
+                    this.svgShape.setAttribute('y1', 0);
+                    this.svgShape.setAttribute('x2', 0);
+                    this.svgShape.setAttribute('y2', '100%');
+                    break;
+                case LINEDIRECTIONS.TOPRIGHT_BOTTOMRIGHT:
+                    this.svgShape.setAttribute('x1', '100%');
+                    this.svgShape.setAttribute('y1', 0);
+                    this.svgShape.setAttribute('x2', '100%');
+                    this.svgShape.setAttribute('y2', '100%');
+                    break;
+                case LINEDIRECTIONS.MIDDLETOP_MIDDLEBOTTOM:
+                    this.svgShape.setAttribute('x1', '50%');
+                    this.svgShape.setAttribute('y1', 0);
+                    this.svgShape.setAttribute('x2', '50%');
+                    this.svgShape.setAttribute('y2', '100%');
+                    break;
+                case LINEDIRECTIONS.MIDDLELEFT_MIDDLERIGHT:
+                    this.svgShape.setAttribute('x1', 0);
+                    this.svgShape.setAttribute('y1', '50%');
+                    this.svgShape.setAttribute('x2', '100%');
+                    this.svgShape.setAttribute('y2', '50%');
+                    break;
+            }
+            this.svgShape.setAttribute('stroke', this.strokeColor.toRGBAString());
+            this.svgShape.setAttribute('stroke-width', this.strokeWidth);
+        }
+    }
+    //#endregion update
+    //#endregion Methods
+}
 Object.seal(Object.freeze(Line));
 //#endregion Line
 //#region Rectangle
@@ -191,131 +169,106 @@ class Rectangle extends GraphicControl {
 }
 Object.seal(Object.freeze(Rectangle));
 //#endregion Rectangle
-//#region RoundRect
-const RoundRect = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class RoundRect
-    class RoundRect extends Rectangle {
-        //#region constructor
-        constructor(owner, props) {
-            props = !props ? {} : props;
-            if (owner) {
-                super(owner, props);
-                const priv = internal(this);
-                priv.topLeftRadius = props.hasOwnProperty('topLeftRadius') ? props.topLeftRadius : 20;
-                priv.topRightRadius = props.hasOwnProperty('topRightRadius') ? props.topLeftRadius : 20;
-                priv.bottomLeftRadius = props.hasOwnProperty('bottomLeftRadius') ? props.topLeftRadius : 20;
-                priv.bottomRightRadius = props.hasOwnProperty('bottomRightRadius') ? props.topLeftRadius : 20;
-            }
+//#region Class RoundRect
+class RoundRect extends Rectangle {
+    //#region constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            super(owner, props);
+            core.private(this, {
+                topLeftRadius: props.hasOwnProperty('topLeftRadius') ? props.topLeftRadius : 20,
+                topRightRadius: props.hasOwnProperty('topRightRadius') ? props.topLeftRadius : 20,
+                bottomLeftRadius: props.hasOwnProperty('bottomLeftRadius') ? props.topLeftRadius : 20,
+                bottomRightRadius: props.hasOwnProperty('bottomRightRadius') ? props.topLeftRadius : 20
+            });
         }
-        //#endregion constructor
-        //#region Getters / Setters
-        //#region topLeftRadius
-        get topLeftRadius() {
-            return internal(this).topLeftRadius;
-        }
-        set topLeftRadius(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && priv.topLeftRadius !== newValue) {
-                priv.topLeftRadius = newValue;
-                this.update();
-            }
-        }
-        //#endregion topLeftRadius
-        //#region topRightRadius
-        get topRightRadius() {
-            return internal(this).topRightRadius;
-        }
-        set topRightRadius(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && priv.topRightRadius !== newValue) {
-                priv.topRightRadius = newValue;
-                this.update();
-            }
-        }
-        //#endregion topRightRadius
-        //#region bottomLeftRadius
-        get bottomLeftRadius() {
-            return internal(this).bottomLeftRadius;
-        }
-        set bottomLeftRadius(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && priv.bottomLeftRadius !== newValue) {
-                priv.bottomLeftRadius = newValue;
-                this.update();
-            }
-        }
-        //#endregion bottomLeftRadius
-        //#region bottomRightRadius
-        get bottomRightRadius() {
-            return internal(this).bottomRightRadius;
-        }
-        set bottomRightRadius(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && priv.bottomRightRadius !== newValue) {
-                priv.bottomRightRadius = newValue;
-                this.update();
-            }
-        }
-        //#endregion bottomRightRadius
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region assign
-        assign(source) {
-            if (source instanceof core.classes.RoundRect) {
-                super.assign(source);
-                priv.topLeftRadius = source.topLeftRadius;
-                priv.topRightRadius = source.topLeftRadius;
-                priv.bottomLeftRadius = source.topLeftRadius;
-                priv.bottomRightRadius = source.topLeftRadius;
-            }
-        }
-        //#endregion assign
-        //#region update
-        update() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const htmlElementStyle = this.HTMLElementStyle;
-            const PX = core.types.CSSUNITS.PX;
-            //#endregion Variables déclaration
-            super.update();
-            !this.loading && !this.form.loading
-                && (htmlElementStyle.borderRadius = `${priv.topLeftRadius}${PX} ${priv.topRightRadius}${PX} ${priv.bottomRightRadius}${PX} ${priv.bottomLeftRadius}${PX}`);
-        }
-        //#endregion update
-        //#region destroy
-        destroy() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.topLeftRadius = null;
-            priv.topRightRadius = null;
-            priv.bottomLeftRadius = null;
-            priv.bottomRightRadius = null;
-            super.destroy();
-        }
-        //#endregion destroy
-        //#endregion Methods
     }
-    return RoundRect;
-    //#endregion RoundRect
-})();
+    //#endregion constructor
+    //#region Getters / Setters
+    //#region topLeftRadius
+    get topLeftRadius() {
+        return core.private(this).topLeftRadius;
+    }
+    set topLeftRadius(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && priv.topLeftRadius !== newValue) {
+            priv.topLeftRadius = newValue;
+            this.update();
+        }
+    }
+    //#endregion topLeftRadius
+    //#region topRightRadius
+    get topRightRadius() {
+        return core.private(this).topRightRadius;
+    }
+    set topRightRadius(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && priv.topRightRadius !== newValue) {
+            priv.topRightRadius = newValue;
+            this.update();
+        }
+    }
+    //#endregion topRightRadius
+    //#region bottomLeftRadius
+    get bottomLeftRadius() {
+        return core.private(this).bottomLeftRadius;
+    }
+    set bottomLeftRadius(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && priv.bottomLeftRadius !== newValue) {
+            priv.bottomLeftRadius = newValue;
+            this.update();
+        }
+    }
+    //#endregion bottomLeftRadius
+    //#region bottomRightRadius
+    get bottomRightRadius() {
+        return core.private(this).bottomRightRadius;
+    }
+    set bottomRightRadius(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && priv.bottomRightRadius !== newValue) {
+            priv.bottomRightRadius = newValue;
+            this.update();
+        }
+    }
+    //#endregion bottomRightRadius
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region assign
+    assign(source) {
+        if (source instanceof core.classes.RoundRect) {
+            super.assign(source);
+            priv.topLeftRadius = source.topLeftRadius;
+            priv.topRightRadius = source.topLeftRadius;
+            priv.bottomLeftRadius = source.topLeftRadius;
+            priv.bottomRightRadius = source.topLeftRadius;
+        }
+    }
+    //#endregion assign
+    //#region update
+    update() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const htmlElementStyle = this.HTMLElementStyle;
+        const PX = core.types.CSSUNITS.PX;
+        //#endregion Variables déclaration
+        super.update();
+        !this.loading && !this.form.loading
+            && (htmlElementStyle.borderRadius = `${priv.topLeftRadius}${PX} ${priv.topRightRadius}${PX} ${priv.bottomRightRadius}${PX} ${priv.bottomLeftRadius}${PX}`);
+    }
+    //#endregion update
+    //#endregion Methods
+}
 Object.seal(Object.freeze(RoundRect));
 //#endregion RoundRect
 //#region Class Ellipse
@@ -416,230 +369,193 @@ class Circle extends SVGGraphicControl {
 }
 Object.seal(Object.freeze(Circle));
 //#endregion Circle
-//#region Path
-const Path = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class Path
-    class Path extends SVGGraphicControl {
-        //#region constructor
-        constructor(owner, props) {
-            props = !props ? {} : props;
-            if (owner) {
-                props.shape = SHAPES.PATH;
-                super(owner, props);
-                const priv = internal(this);
-                if (this instanceof core.classes.Path) {
-                    this.svgShape.setAttribute('vector-effect', 'non-scaling-stroke');
-                    priv.path = new core.classes.PathData(this);
-                    props.hasOwnProperty('path') && (priv.path.pathString = props.path);
-                }
+//#region Class Path
+class Path extends SVGGraphicControl {
+    //#region constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            props.shape = SHAPES.PATH;
+            super(owner, props);
+            const priv = core.private(this);
+            if (this instanceof core.classes.Path) {
+                this.svgShape.setAttribute('vector-effect', 'non-scaling-stroke');
+                priv.path = new core.classes.PathData(this);
+                props.hasOwnProperty('path') && (priv.path.pathString = props.path);
             }
         }
-        //#endregion constructor
-        //#region Getters / Setters
-        //#region path
-        get path() {
-            return internal(this).path;
-        }
-        set path(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (this instanceof core.classes.Path && newValue instanceof core.classes.Path && priv.path !== newValue) {
-                priv.path.assign(newValue);
-                this.update();
-            }
-        }
-        //#endregion path
-        //#region width
-        get width() {
-            return super.width;
-        }
-        set width(newValue) {
-            //#region Variables déclaration
-            const htmlElement = this.HTMLElement;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && htmlElement.offsetWidth !== newValue) {
-                super.width = newValue;
-                htmlElement.offsetWidth > htmlElement.offsetHeight
-                    && (htmlElement.offsetHeight = htmlElement.offsetWidth);
-                this.update();
-            }
-        }
-        //#endregion width
-        //#region height
-        get height() {
-            return super.height;
-        }
-        set height(newValue) {
-            //#region Variables déclaration
-            const htmlElement = this.HTMLElement;
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue)) {
-                super.height = newValue;
-                htmlElement.offsetHeight > htmlElement.offsetWidth
-                    && (htmlElement.offsetWidth = htmlElement.offsetHeight);
-                this.update();
-            }
-        }
-        //#endregion height
-        //#region pathString
-        get pathString() {
-            return internal(this).path.pathString;
-        }
-        set pathString(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            this instanceof core.classes.Path && core.tools.isString(newValue) && priv.path.pathString !== newValue
-                && (priv.path.pathString = newValue);
-        }
-        //#endregion pathString
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region update
-        update() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const htmlElement = this.HTMLElement;
-            //#endregion Variables déclaration
-            if (htmlElement) {
-                const sStyle = getComputedStyle(htmlElement);
-                const strokeWidth = parseFloat(sStyle.strokeWidth);
-                if (!this.loading && !this.form.loading && this.svgShape) {
-                    super.update();
-                    const path = new core.classes.PathData();
-                    path.assign(priv.path);
-                    path.resizeToRect(new core.classes.Rect(strokeWidth, strokeWidth, htmlElement.offsetWidth - strokeWidth, htmlElement.offsetHeight - strokeWidth));
-                    this.svgShape.setAttribute('d', path.pathString);
-                    path.destroy();
-                }
-            }
-        }
-        //#endregion update
-        //#region destroy
-        destroy() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            super.destroy();
-            this instanceof core.classe.Path && priv.path.destroy();
-        }
-        //#endregion destroy
-        //#endregion Methods
     }
-    return Path;
-    //#endregion Path
-})();
+    //#endregion constructor
+    //#region Getters / Setters
+    //#region path
+    get path() {
+        return core.private(this).path;
+    }
+    set path(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (this instanceof core.classes.Path && newValue instanceof core.classes.Path && priv.path !== newValue) {
+            priv.path.assign(newValue);
+            this.update();
+        }
+    }
+    //#endregion path
+    //#region width
+    get width() {
+        return super.width;
+    }
+    set width(newValue) {
+        //#region Variables déclaration
+        const htmlElement = this.HTMLElement;
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && htmlElement.offsetWidth !== newValue) {
+            super.width = newValue;
+            htmlElement.offsetWidth > htmlElement.offsetHeight
+                && (htmlElement.offsetHeight = htmlElement.offsetWidth);
+            this.update();
+        }
+    }
+    //#endregion width
+    //#region height
+    get height() {
+        return super.height;
+    }
+    set height(newValue) {
+        //#region Variables déclaration
+        const htmlElement = this.HTMLElement;
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue)) {
+            super.height = newValue;
+            htmlElement.offsetHeight > htmlElement.offsetWidth
+                && (htmlElement.offsetWidth = htmlElement.offsetHeight);
+            this.update();
+        }
+    }
+    //#endregion height
+    //#region pathString
+    get pathString() {
+        return core.private(this).path.pathString;
+    }
+    set pathString(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        this instanceof core.classes.Path && core.tools.isString(newValue) && priv.path.pathString !== newValue
+            && (priv.path.pathString = newValue);
+    }
+    //#endregion pathString
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region update
+    update() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const htmlElement = this.HTMLElement;
+        //#endregion Variables déclaration
+        if (htmlElement) {
+            const sStyle = getComputedStyle(htmlElement);
+            const strokeWidth = parseFloat(sStyle.strokeWidth);
+            if (!this.loading && !this.form.loading && this.svgShape) {
+                super.update();
+                const path = new core.classes.PathData();
+                path.assign(priv.path);
+                path.resizeToRect(new core.classes.Rect(strokeWidth, strokeWidth, htmlElement.offsetWidth - strokeWidth, htmlElement.offsetHeight - strokeWidth));
+                this.svgShape.setAttribute('d', path.pathString);
+                path.destroy();
+            }
+        }
+    }
+    //#endregion update
+    //#region destroy
+    destroy() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        this instanceof core.classe.Path && priv.path.destroy();
+        super.destroy();
+    }
+    //#endregion destroy
+    //#endregion Methods
+}
 Object.seal(Object.freeze(Path));
 //#endregion Path
-//#region Pie
-const Pie = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class Pie
-    class Pie extends SVGGraphicControl {
-        //#region constructor
-        constructor(owner, props) {
-            props = !props ? {} : props;
-            if (owner) {
-                props.shape = SHAPES.PATH;
-                super(owner, props);
-                const priv = internal(this);
-                priv.startAngle = props.hasOwnProperty('startAngle') ? props.startAngle : 0;
-                priv.endAngle = props.hasOwnProperty('endAngle') ? props.endAngle : 270;
-                this instanceof core.classes.Arc && (this.fillColor = Colors.TRANSPARENT);
-            }
+//#region Class Pie
+class Pie extends SVGGraphicControl {
+    //#region constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            props.shape = SHAPES.PATH;
+            super(owner, props);
+            const priv = core.private(this, {
+                startAngle: props.hasOwnProperty('startAngle') ? props.startAngle : 0,
+                endAngle: props.hasOwnProperty('endAngle') ? props.endAngle : 270
+            });
+            this instanceof core.classes.Arc && (this.fillColor = Colors.TRANSPARENT);
         }
-        //#endregion constructor
-        //#region Getters / Setters
-        //#region startAngle
-        get startAngle() {
-            return internal(this).startAngle;
-        }
-        set startAngle(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && priv.startAngle !== newValue) {
-                priv.startAngle = newValue;
-                this.update();
-            }
-        }
-        //#endregion startAngle
-        //#region endAngle
-        get endAngle() {
-            return internal(this).endAngle;
-        }
-        set endAngle(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && priv.endAngle !== newValue) {
-                priv.endAngle = newValue;
-                this.update();
-            }
-        }
-        //#endregion endAngle
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region assign
-        assign(source) {
-            if (source instanceof core.classe.Pie) {
-                super.assign(source);
-                priv.startAngle = source.startAngle;
-                priv.endAngle = source.endAngle;
-            }
-        }
-        //#endregion assign
-        //#region update
-        update() {
-            //#region Variables déclaration
-            const htmlElement = this.HTMLElement;
-            //#endregion Variables déclaration
-            if (htmlElement) {
-                const sStyle = getComputedStyle(htmlElement);
-                const strokeWidth = parseFloat(sStyle.strokeWidth);
-                if (this.svgShape) {
-                    super.update();
-                    const path = new core.classes.PathData(this);
-                    path.addPie(new core.classes.Rect(strokeWidth, strokeWidth, htmlElement.offsetWidth - strokeWidth, htmlElement.offsetHeight - strokeWidth), this);
-                    this.svgShape.setAttribute('d', path.pathString);
-                    path.destroy();
-                }
-            }
-        }
-        //#endregion update
-        //#region destroy
-        destroy() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.startAngle = null;
-            priv.endAngle = null;
-            super.destroy();
-        }
-        //#endregion destroy
-        //#endregion Methods
     }
-    return Pie;
-    //#endregion Pie
-})();
+    //#endregion constructor
+    //#region Getters / Setters
+    //#region startAngle
+    get startAngle() {
+        return core.private(this).startAngle;
+    }
+    set startAngle(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && priv.startAngle !== newValue) {
+            priv.startAngle = newValue;
+            this.update();
+        }
+    }
+    //#endregion startAngle
+    //#region endAngle
+    get endAngle() {
+        return core.private(this).endAngle;
+    }
+    set endAngle(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && priv.endAngle !== newValue) {
+            priv.endAngle = newValue;
+            this.update();
+        }
+    }
+    //#endregion endAngle
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region assign
+    assign(source) {
+        if (source instanceof core.classe.Pie) {
+            super.assign(source);
+            priv.startAngle = source.startAngle;
+            priv.endAngle = source.endAngle;
+        }
+    }
+    //#endregion assign
+    //#region update
+    update() {
+        //#region Variables déclaration
+        const htmlElement = this.HTMLElement;
+        //#endregion Variables déclaration
+        if (htmlElement) {
+            const sStyle = getComputedStyle(htmlElement);
+            const strokeWidth = parseFloat(sStyle.strokeWidth);
+            if (this.svgShape) {
+                super.update();
+                const path = new core.classes.PathData(this);
+                path.addPie(new core.classes.Rect(strokeWidth, strokeWidth, htmlElement.offsetWidth - strokeWidth, htmlElement.offsetHeight - strokeWidth), this);
+                this.svgShape.setAttribute('d', path.pathString);
+                path.destroy();
+            }
+        }
+    }
+    //#endregion update
+    //#endregion Methods
+}
 Object.freeze(Pie);
 //#endregion Pie
 //#region Chord
@@ -650,93 +566,71 @@ Object.seal(Object.freeze(Chord));
 class Arc extends Pie { }
 Object.seal(Object.freeze(Arc));
 //#endregion Arc
-//#region Star
-const Star = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class Star
-    class Star extends SVGGraphicControl {
-        //#region constructor
-        constructor(owner, props) {
-            props = !props ? {} : props;
-            if (owner) {
-                props.shape = SHAPES.PATH;
-                super(owner, props);
-                const priv = internal(this);
-                priv.spikes = props.hasOwnProperty('spikes') ? props.spikes : 4;
-            }
+//#region Class Star
+class Star extends SVGGraphicControl {
+    //#region constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            props.shape = SHAPES.PATH;
+            super(owner, props);
+            core.private(this, {
+                spikes: props.hasOwnProperty('spikes') ? props.spikes : 4
+            });
         }
-        //#endregion constructor
-        //#region Getters / Setters
-        //#region spikes
-        get spikes() {
-            return internal(this).spikes;
-        }
-        set spikes(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (core.tools.isNumber(newValue) && priv.spikes !== newValue) {
-                newValue < 4 && (newValue = 4);
-                priv.spikes = newValue;
-                this.update();
-            }
-        }
-        //#endregion spikes
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region update
-        update() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const sStyle = getComputedStyle(this.HTMLElement);
-            let rot = Math.PI / 2 * 3;
-            const cx = int(parseFloat(sStyle.width) / 2);
-            const cy = int(parseFloat(sStyle.height) / 2);
-            const step = Math.PI / priv.spikes;
-            const outerRadius = cx > cy ? cy : cx;
-            const innerRadius = (cx > cy ? cy : cx) / 2;
-            const pts = [];
-            //#endregion Variables déclaration
-            if (!this.loading && !this.form.loading && this.svgShape) {
-                super.update();
-                pts.push(`M${cx},${Math.round(cy - outerRadius)}`);
-                for (let i = 0; i < priv.spikes; i++) {
-                    let x = Math.round(cx + Math.cos(rot) * outerRadius);
-                    let y = Math.round(cy + Math.sin(rot) * outerRadius);
-                    pts.push(` L${x},${y}`);
-                    rot += step;
-                    x = Math.round(cx + Math.cos(rot) * innerRadius);
-                    y = Math.round(cy + Math.sin(rot) * innerRadius);
-                    pts.push(` L${x},${y}`);
-                    rot += step;
-                }
-                pts.push(' Z');
-                this.svgShape.setAttribute('d', pts.join(String.EMPTY));
-            }
-        }
-        //#endregion update
-        //#region destroy
-        destroy() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.spikes = null;
-            super.destroy();
-        }
-        //#endregion destroy
-        //#endregion Methods
     }
-    return Star;
-    //#endregion Star
-})();
+    //#endregion constructor
+    //#region Getters / Setters
+    //#region spikes
+    get spikes() {
+        return core.private(this).spikes;
+    }
+    set spikes(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && priv.spikes !== newValue) {
+            newValue < 4 && (newValue = 4);
+            priv.spikes = newValue;
+            this.update();
+        }
+    }
+    //#endregion spikes
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region update
+    update() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const sStyle = getComputedStyle(this.HTMLElement);
+        let rot = Math.PI / 2 * 3;
+        const cx = int(parseFloat(sStyle.width) / 2);
+        const cy = int(parseFloat(sStyle.height) / 2);
+        const step = Math.PI / priv.spikes;
+        const outerRadius = cx > cy ? cy : cx;
+        const innerRadius = (cx > cy ? cy : cx) / 2;
+        const pts = [];
+        //#endregion Variables déclaration
+        if (!this.loading && !this.form.loading && this.svgShape) {
+            super.update();
+            pts.push(`M${cx},${Math.round(cy - outerRadius)}`);
+            for (let i = 0; i < priv.spikes; i++) {
+                let x = Math.round(cx + Math.cos(rot) * outerRadius);
+                let y = Math.round(cy + Math.sin(rot) * outerRadius);
+                pts.push(` L${x},${y}`);
+                rot += step;
+                x = Math.round(cx + Math.cos(rot) * innerRadius);
+                y = Math.round(cy + Math.sin(rot) * innerRadius);
+                pts.push(` L${x},${y}`);
+                rot += step;
+            }
+            pts.push(' Z');
+            this.svgShape.setAttribute('d', pts.join(String.EMPTY));
+        }
+    }
+    //#endregion update
+    //#endregion Methods
+}
 Object.seal(Object.freeze(Star));
 //#endregion Star
 //#region POLYGONSIDES
@@ -797,76 +691,54 @@ const POLYGONSIDES = Object.seal(Object.freeze({
     MYRIAGONE: 10000
 }));
 //#endregion POLYGONSIDES
-//#region Polygon
-const Polygon = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class Polygon
-    class Polygon extends SVGGraphicControl {
-        //#region constructor
-        constructor(owner, props) {
-            props = !props ? {} : props;
-            if (owner) {
-                props.shape = SHAPES.PATH;
-                super(owner, props);
-                const priv = internal(this);
-                priv.sides = props.hasOwnProperty('sides') ? props.sides : POLYGONSIDES.TRIANGLE;
-            }
+//#region Class Polygon
+class Polygon extends SVGGraphicControl {
+    //#region constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            props.shape = SHAPES.PATH;
+            super(owner, props);
+            core.private(this, {
+                sides: props.hasOwnProperty('sides') ? props.sides : POLYGONSIDES.TRIANGLE
+            });
         }
-        //#endregion constructor
-        //#region Getters / Setters
-        //#region POLYGONSIDES
-        /**
-         * @type    {Object}        POLYGONSIDES
-         */
-        static get POLYGONSIDES() {
-            return POLYGONSIDES;
-        }
-        //#endregion POLYGONSIDES
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region update
-        update() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const pts = [];
-            const sStyle = getComputedStyle(this.HTMLElement);
-            //#endregion Variables déclaration
-            if (!this.loading && !this.form.loading && this.svgShape) {
-                super.update();
-                const cx = int(parseFloat(sStyle.width) / 2);
-                const cy = int(parseFloat(sStyle.height) / 2);
-                const s = cx > cy ? cy : cx;
-                pts.push(`M${Math.round(cx + s * Math.cos(0))},${Math.round(cy + s * Math.sin(0))}`);
-                for (let i = 1; i <= priv.sides - 1; i++) {
-                    pts.push(` L${Math.round(cx + s * Math.cos(i * 2 * Math.PI / priv.sides))},${Math.round(cy + s * Math.sin(i * 2 * Math.PI / priv.sides))}`);
-                }
-                pts.push(' Z');
-                this.svgShape.setAttribute('d', pts.join(String.EMPTY));
-            }
-        }
-        //#endregion update
-        //#region destroy
-        destroy() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.sides = null;
-            super.destroy();
-        }
-        //#endregion destroy
-        //#endregion Methods
     }
-    return Polygon;
-    //#endregion Polygon
-})();
+    //#endregion constructor
+    //#region Getters / Setters
+    //#region POLYGONSIDES
+    /**
+     * @type    {Object}        POLYGONSIDES
+     */
+    static get POLYGONSIDES() {
+        return POLYGONSIDES;
+    }
+    //#endregion POLYGONSIDES
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region update
+    update() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const pts = [];
+        const sStyle = getComputedStyle(this.HTMLElement);
+        //#endregion Variables déclaration
+        if (!this.loading && !this.form.loading && this.svgShape) {
+            super.update();
+            const cx = int(parseFloat(sStyle.width) / 2);
+            const cy = int(parseFloat(sStyle.height) / 2);
+            const s = cx > cy ? cy : cx;
+            pts.push(`M${Math.round(cx + s * Math.cos(0))},${Math.round(cy + s * Math.sin(0))}`);
+            for (let i = 1; i <= priv.sides - 1; i++) {
+                pts.push(` L${Math.round(cx + s * Math.cos(i * 2 * Math.PI / priv.sides))},${Math.round(cy + s * Math.sin(i * 2 * Math.PI / priv.sides))}`);
+            }
+            pts.push(' Z');
+            this.svgShape.setAttribute('d', pts.join(String.EMPTY));
+        }
+    }
+    //#endregion update
+    //#endregion Methods
+}
 Object.seal(Object.freeze(Polygon));
 //#endregion Polygon
 core.classes.register(core.types.CATEGORIES.SHAPES, Line, Rectangle, RoundRect, Ellipse, Circle, Pie, Chord, Arc, Path, Star, Polygon);

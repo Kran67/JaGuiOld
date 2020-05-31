@@ -165,151 +165,107 @@ const WindowHelpButton = (() => {
     //#endregion Class WindowHelpButton
 })();
 //#endregion WindowHelpButton
-//#region WindowRollUpButton
-const WindowRollUpDownButton = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class WindowRollUpDownButton
-    class WindowRollUpDownButton extends WindowButton {
-        //#region Constructor
-        constructor(owner, props) {
-            props = !props ? {} : props;
-            if (owner) {
-                props.toolTip = 'Taille minimale'; // à voir pour mettre en locale
-                props.showToolTip = !0;
-                super(owner, props);
-                const priv = internal(this);
-                priv.isRolledUp = !1;
-            }
+//#region Class WindowRollUpDownButton
+class WindowRollUpDownButton extends WindowButton {
+    //#region Constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            props.toolTip = 'Taille minimale'; // à voir pour mettre en locale
+            props.showToolTip = !0;
+            super(owner, props);
+            core.private(this, {
+                isRolledUp: !1
+            });
         }
-        //#endregion Constructor
-        //#region getters / setters
-        //#region isRolledUp
-        get isRolledUp() {
-            return internal(this).isRolledUp;
-        }
-        set isRolledUp(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const isRolledUp = priv.isRolledUp;
-            //#endregion Variables déclaration
-            if (core.tools.isBool(newValue)) {
-                isRolledUp !== newValue && (priv.isRolledUp = newValue);
-                this.toolTip = newValue
-                    ? 'Taille précédente' // à voir pour mettre en locale
-                    : 'Taille minimale'; // à voir pour mettre en locale
-            }
-        }
-        //#endregion isRolledUp
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region click
-        click() {
-            core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.form.toggleRollUpDown();
-        }
-        //#endregion click
-        //#region destroy
-        destroy() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            super.destroy();
-            priv.isRolledUp = null;
-        }
-        //#endregion destroy
-        //#region render
-        render(className) {
-            //#region Variables déclaration
-            const form = this.form;
-            //#endregion Variables déclaration
-            !form.isBorderDialog && super.render(className);
-        }
-        //#endregion render
-        //#endregion Methods
     }
-    return WindowRollUpDownButton;
-    //#endregion Class WindowRollUpDownButton
-})();
+    //#endregion Constructor
+    //#region getters / setters
+    //#region isRolledUp
+    get isRolledUp() {
+        return core.private(this).isRolledUp;
+    }
+    set isRolledUp(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const isRolledUp = priv.isRolledUp;
+        //#endregion Variables déclaration
+        if (core.tools.isBool(newValue)) {
+            isRolledUp !== newValue && (priv.isRolledUp = newValue);
+            this.toolTip = newValue
+                ? 'Taille précédente' // à voir pour mettre en locale
+                : 'Taille minimale'; // à voir pour mettre en locale
+        }
+    }
+    //#endregion isRolledUp
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region click
+    click() {
+        core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.form.toggleRollUpDown();
+    }
+    //#endregion click
+    //#region render
+    render(className) {
+        //#region Variables déclaration
+        const form = this.form;
+        //#endregion Variables déclaration
+        !form.isBorderDialog && super.render(className);
+    }
+    //#endregion render
+    //#endregion Methods
+}
 //#endregion WindowRollUpDownButton
-//#region WindowStayOnButton
-const WindowStayOnOffButton = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class WindowStayOnOffButton
-    class WindowStayOnOffButton extends WindowButton {
-        //#region Constructor
-        constructor(owner, props) {
-            props = !props ? {} : props;
-            if (owner) {
-                props.toolTip = 'Epingler au dessus'; // à voir pour mettre en locale
-                props.showToolTip = !0;
-                super(owner, props);
-                const priv = internal(this);
-                priv.isStayOn = !1;
-            }
+//#region Class WindowStayOnOffButton
+class WindowStayOnOffButton extends WindowButton {
+    //#region Constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            props.toolTip = 'Epingler au dessus'; // à voir pour mettre en locale
+            props.showToolTip = !0;
+            super(owner, props);
+            core.private(this, {
+                isStayOn: !1
+            });
         }
-        //#endregion Constructor
-        //#region Getters / Setters
-        //#region isStayOn
-        get isStayOn() {
-            return internal(this).isStayOn;
-        }
-        set isStayOn(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const isStayOn = priv.isStayOn;
-            //#endregion Variables déclaration
-            if (core.tools.isBool(newValue)) {
-                isStayOn !== newValue && (priv.isStayOn = newValue);
-                this.toolTip = newValue
-                    ? 'Ne pas épingler' // à voir pour mettre en locale
-                    : 'Epingler au dessus'; // à voir pour mettre en locale
-            }
-        }
-        //#endregion isStayOn
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region click
-        click() {
-            core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.form.toggleStay();
-        }
-        //#endregion click
-        //#region destroy
-        destroy() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.isStayOn = null;
-            super.destroy();
-        }
-        //#endregion destroy
-        //#region render
-        render(className) {
-            //#region Variables déclaration
-            const form = this.form;
-            //#endregion Variables déclaration
-            !form.isBorderDialog && super.render(className);
-        }
-        //#endregion render
-        //#endregion Methods
     }
-    return WindowStayOnOffButton;
-    //#endregion Class WindowStayOnOffButton
-})();
+    //#endregion Constructor
+    //#region Getters / Setters
+    //#region isStayOn
+    get isStayOn() {
+        return core.private(this).isStayOn;
+    }
+    set isStayOn(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const isStayOn = priv.isStayOn;
+        //#endregion Variables déclaration
+        if (core.tools.isBool(newValue)) {
+            isStayOn !== newValue && (priv.isStayOn = newValue);
+            this.toolTip = newValue
+                ? 'Ne pas épingler' // à voir pour mettre en locale
+                : 'Epingler au dessus'; // à voir pour mettre en locale
+        }
+    }
+    //#endregion isStayOn
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region click
+    click() {
+        core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.form.toggleStay();
+    }
+    //#endregion click
+    //#region render
+    render(className) {
+        //#region Variables déclaration
+        const form = this.form;
+        //#endregion Variables déclaration
+        !form.isBorderDialog && super.render(className);
+    }
+    //#endregion render
+    //#endregion Methods
+}
 //#endregion WindowStayOnOffButton
 core.classes.register(core.types.CATEGORIES.INTERNAL, WindowButton, WindowCloseButton, WindowMinimizeButton,
     WindowMaxRestoreButton, WindowHelpButton, WindowRollUpDownButton, WindowStayOnOffButton);

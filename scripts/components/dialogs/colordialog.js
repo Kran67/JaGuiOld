@@ -15,257 +15,222 @@ import '/scripts/components/color/colorpicker.js';
 import '/scripts/components/color/alphaslider.js';
 import '/scripts/components/extended/valuelabel.js';
 //#endregion Import
-//#region ColorDlg
-const ColorDlg = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class ColorDlg
-    class ColorDlg extends Window {
-        //#region constructor
-        constructor(owner, props) {
-            props = !props ? {} : props;
-            if (owner) {
-                props.width = 575;
-                props.height = 297;
-                props.borderStyle = Window.BORDERSTYLES.DIALOG;
-                props.formPosition = Window.FORMPOSITIONS.MAINFORMCENTER;
-                props.name = 'colorDlg';
-                props.destroyOnHide = !0;
-                props.caption = core.locales[core.currentLocale]['colorDlg'];
-                super(owner, props);
-                const priv = internal(this);
-                priv.control = props.hasOwnProperty('control') ? props.control : null;
-            }
-        }
-        //#endregion constructor
-        //#region Getters / Setters
-        //#region color
-        set color(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (newValue instanceof core.classes.Color && !priv.clrBoxCurColor.fillColor.equals(newValue)) {
-                priv.clrBoxCurColor.color.assign(newValue);
-                priv.clrPicker.color.assign(newValue);
-                this.updateControls(newValue);
-            }
-        }
-        //#endregion color
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region loaded
-        loaded() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const color = priv.control.color;
-            //#endregion Variables déclaration
-            super.loaded();
-            if (priv.control) {
-                this.clrBoxCurColor.color.assign(color);
-                this.clrPicker.color.assign(color);
-                this.clrQuad.onChange.addListener(this.clrQuad_change);
-                this.txtbHex.btns.first.onClick.addListener(this.txtbHexBtn_click);
-                this.txtbHex.btns.first.mode = 'rgbh';
-                this.pgeCtrl.onChange.addListener(this.pgeCtrl_change);
-                this.slrRed.onChange.addListener(this.slider_change);
-                this.slrGreen.onChange.addListener(this.slider_change);
-                this.slrBlue.onChange.addListener(this.slider_change);
-                this.updateControls(color);
-            }
-        }
-        //#endregion loaded
-        //#region slider_change
-        slider_change() {
-            //#region Variables déclaration
-            const form = this.form;
-            const c = new core.classes.Color(form.clrBoxNewColor.fillColor);
-            //#endregion Variables déclaration
-            this === form.slrRed && (c.red = this.firstValue);
-            this === form.slrGreen && (c.green = this.firstValue);
-            this === form.slrBlue && (c.blue = this.firstValue);
-            (this === form.slrHue || this === form.slrHSVHue) && (c.hue = this.firstValue);
-            (this === form.slrSat || this === form.slrHSVSat) && (c.saturation = this.firstValue);
-            this === form.slrLight && (c.lightness = this.firstValue);
-            this === form.slrValue && (c.value = this.firstValue);
-            form.updateControls(c);
-        }
-        //#endregion slider_change
-        //#region pgeCtrl_change
-        pgeCtrl_change() {
-            //#region Variables déclaration
-            const COLORFORMATS = core.types.COLORFORMATS;
-            const form = this.form;
-            const clrQuad = form.clrQuad;
-            const c = new core.classes.Color(form.clrBoxNewColor.fillColor);
-            //#endregion Variables déclaration
-            clrQuad.format = this.activeTabIndex > 1 ? COLORFORMATS.HSV : COLORFORMATS.HSL;
-            this.activeTabIndex === 1 && c.RGBtoHSL();
-            this.activeTabIndex === 2 && c.RGBtoHSV();
-            form.updateControls(c);
-        }
-        //#endregion pgeCtrl_change
-        //#region clrQuad_change
-        clrQuad_change() {
-            //#region Variables déclaration
-            const form = this.form;
-            const funcs = {
-                'argbh': 'toARGBHexString',
-                'rgb': 'toRGBString',
-                'rgba': 'toRGBAString',
-                'hsl': 'toHSLString',
-                'hsl': 'toHSLString',
-                'hsv': 'toHSVString'
-            };
-            const func = funcs[form.txtbHex.btns.first.mode] ? funcs[form.txtbHex.btns.first.mode] : 'toRGBHexString';
-            //#endregion Variables déclaration
-            form.txtbHex.text = form.clrBoxNewColor.color[func]();
-            form.updateControls(this.color);
-        }
-        //#endregion clrQuad_change
-        //#region txtbHex_click
-        txtbHexBtn_click() {
-            //#region Variables déclaration
-            const modes = {
-                'rgbh': 'argbh',
-                'argbh': 'rgb',
-                'rgb': 'rgba',
-                'rgba': 'hsl',
-                'hsl': 'hsv',
-                'hsv': 'rgbh'
-            };
-            //#endregion Variables déclaration
-            this.mode = modes[this.mode];
-            this.form.clrQuad.onChange.invoke();
-        }
-        //#endregion txtbHex_click
-        //#region updateControls
-        updateControls(color) {
-            this.clrBoxNewColor.color = color;
-            this.clrPicker._updating();
-            this.clrPicker.color = color;
-            this.clrPicker.updated();
-            this.clrQuad._updating();
-            this.clrQuad.color = color;
-            this.clrQuad.updated();
-            this.updateSliders(color);
-        }
-        //#endregion updateControls
-        //#region updateSliders
-        updateSliders(color) {
-            //#region Variables déclaration
-            const pageIdx = this.pgeCtrl.activeTabIndex;
-            const tabs = ['RGB', 'HSL', 'HSV'];
-            //#endregion Variables déclaration
-            this[`update${tabs[pageIdx]}Tab`](color);
-            this.txtbHex.setFocus();
-        }
-        //#endregion updateSliders
-        //#region updateRGBTab
-        updateRGBTab(color) {
-            ['Red', 'Green', 'Blue'].forEach(item => {
-                const silderName = `slr${item}`;
-                this[silderName]._updating();
-                this[silderName].values = [color[item.toLowerCase()], 0];
-                this[silderName].updated();
+//#region Class ColorDlg
+class ColorDlg extends Window {
+    //#region constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            props.width = 575;
+            props.height = 297;
+            props.borderStyle = Window.BORDERSTYLES.DIALOG;
+            props.formPosition = Window.FORMPOSITIONS.MAINFORMCENTER;
+            props.name = 'colorDlg';
+            props.destroyOnHide = !0;
+            props.caption = core.locales[core.currentLocale]['colorDlg'];
+            super(owner, props);
+            core.private(this, {
+                control: props.hasOwnProperty('control') ? props.control : null
             });
         }
-        //#endregion updateRGBTab
-        //#region updateHSLTab
-        updateHSLTab(color) {
-            const cor = ['hue', 'saturation', 'lightness'];
-            ['Hue', 'Sat', 'Light'].forEach((item, idx) => {
-                const silderName = `slr${item}`;
-                this[silderName]._updating();
-                this[silderName].values = [color[cor[idx]], 0];
-                this[silderName].updated();
-            });
-        }
-        //#endregion updateHSLTab
-        //#region updateHSVTab
-        updateHSVTab(color) {
-            this.slrHSVHue._updating();
-            this.slrHSVHue.values = [color.hue, 0];
-            this.slrHSVHue.updated();
-            this.slrHSVSat._updating();
-            this.slrHSVSat.values = [color.saturation, 0];
-            this.slrHSVSat.updated();
-            this.slrValue._updating();
-            this.slrValue.values = [color.value, 0];
-            this.slrValue.updated();
-        }
-        //#endregion updateHSVTab
-        //#endregion Methods
     }
-    return ColorDlg;
-    //#endregion ColorDlg
-})();
+    //#endregion constructor
+    //#region Getters / Setters
+    //#region color
+    set color(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (newValue instanceof core.classes.Color && !priv.clrBoxCurColor.fillColor.equals(newValue)) {
+            priv.clrBoxCurColor.color.assign(newValue);
+            priv.clrPicker.color.assign(newValue);
+            this.updateControls(newValue);
+        }
+    }
+    //#endregion color
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region loaded
+    loaded() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const color = priv.control.color;
+        //#endregion Variables déclaration
+        super.loaded();
+        if (priv.control) {
+            this.clrBoxCurColor.color.assign(color);
+            this.clrPicker.color.assign(color);
+            this.clrQuad.onChange.addListener(this.clrQuad_change);
+            this.txtbHex.btns.first.onClick.addListener(this.txtbHexBtn_click);
+            this.txtbHex.btns.first.mode = 'rgbh';
+            this.pgeCtrl.onChange.addListener(this.pgeCtrl_change);
+            this.slrRed.onChange.addListener(this.slider_change);
+            this.slrGreen.onChange.addListener(this.slider_change);
+            this.slrBlue.onChange.addListener(this.slider_change);
+            this.updateControls(color);
+        }
+    }
+    //#endregion loaded
+    //#region slider_change
+    slider_change() {
+        //#region Variables déclaration
+        const form = this.form;
+        const c = new core.classes.Color(form.clrBoxNewColor.fillColor);
+        //#endregion Variables déclaration
+        this === form.slrRed && (c.red = this.firstValue);
+        this === form.slrGreen && (c.green = this.firstValue);
+        this === form.slrBlue && (c.blue = this.firstValue);
+        (this === form.slrHue || this === form.slrHSVHue) && (c.hue = this.firstValue);
+        (this === form.slrSat || this === form.slrHSVSat) && (c.saturation = this.firstValue);
+        this === form.slrLight && (c.lightness = this.firstValue);
+        this === form.slrValue && (c.value = this.firstValue);
+        form.updateControls(c);
+    }
+    //#endregion slider_change
+    //#region pgeCtrl_change
+    pgeCtrl_change() {
+        //#region Variables déclaration
+        const COLORFORMATS = core.types.COLORFORMATS;
+        const form = this.form;
+        const clrQuad = form.clrQuad;
+        const c = new core.classes.Color(form.clrBoxNewColor.fillColor);
+        //#endregion Variables déclaration
+        clrQuad.format = this.activeTabIndex > 1 ? COLORFORMATS.HSV : COLORFORMATS.HSL;
+        this.activeTabIndex === 1 && c.RGBtoHSL();
+        this.activeTabIndex === 2 && c.RGBtoHSV();
+        form.updateControls(c);
+    }
+    //#endregion pgeCtrl_change
+    //#region clrQuad_change
+    clrQuad_change() {
+        //#region Variables déclaration
+        const form = this.form;
+        const funcs = {
+            'argbh': 'toARGBHexString',
+            'rgb': 'toRGBString',
+            'rgba': 'toRGBAString',
+            'hsl': 'toHSLString',
+            'hsl': 'toHSLString',
+            'hsv': 'toHSVString'
+        };
+        const func = funcs[form.txtbHex.btns.first.mode] ? funcs[form.txtbHex.btns.first.mode] : 'toRGBHexString';
+        //#endregion Variables déclaration
+        form.txtbHex.text = form.clrBoxNewColor.color[func]();
+        form.updateControls(this.color);
+    }
+    //#endregion clrQuad_change
+    //#region txtbHex_click
+    txtbHexBtn_click() {
+        //#region Variables déclaration
+        const modes = {
+            'rgbh': 'argbh',
+            'argbh': 'rgb',
+            'rgb': 'rgba',
+            'rgba': 'hsl',
+            'hsl': 'hsv',
+            'hsv': 'rgbh'
+        };
+        //#endregion Variables déclaration
+        this.mode = modes[this.mode];
+        this.form.clrQuad.onChange.invoke();
+    }
+    //#endregion txtbHex_click
+    //#region updateControls
+    updateControls(color) {
+        this.clrBoxNewColor.color = color;
+        this.clrPicker._updating();
+        this.clrPicker.color = color;
+        this.clrPicker.updated();
+        this.clrQuad._updating();
+        this.clrQuad.color = color;
+        this.clrQuad.updated();
+        this.updateSliders(color);
+    }
+    //#endregion updateControls
+    //#region updateSliders
+    updateSliders(color) {
+        //#region Variables déclaration
+        const pageIdx = this.pgeCtrl.activeTabIndex;
+        const tabs = ['RGB', 'HSL', 'HSV'];
+        //#endregion Variables déclaration
+        this[`update${tabs[pageIdx]}Tab`](color);
+        this.txtbHex.setFocus();
+    }
+    //#endregion updateSliders
+    //#region updateRGBTab
+    updateRGBTab(color) {
+        ['Red', 'Green', 'Blue'].forEach(item => {
+            const silderName = `slr${item}`;
+            this[silderName]._updating();
+            this[silderName].values = [color[item.toLowerCase()], 0];
+            this[silderName].updated();
+        });
+    }
+    //#endregion updateRGBTab
+    //#region updateHSLTab
+    updateHSLTab(color) {
+        const cor = ['hue', 'saturation', 'lightness'];
+        ['Hue', 'Sat', 'Light'].forEach((item, idx) => {
+            const silderName = `slr${item}`;
+            this[silderName]._updating();
+            this[silderName].values = [color[cor[idx]], 0];
+            this[silderName].updated();
+        });
+    }
+    //#endregion updateHSLTab
+    //#region updateHSVTab
+    updateHSVTab(color) {
+        this.slrHSVHue._updating();
+        this.slrHSVHue.values = [color.hue, 0];
+        this.slrHSVHue.updated();
+        this.slrHSVSat._updating();
+        this.slrHSVSat.values = [color.saturation, 0];
+        this.slrHSVSat.updated();
+        this.slrValue._updating();
+        this.slrValue.values = [color.value, 0];
+        this.slrValue.updated();
+    }
+    //#endregion updateHSVTab
+    //#endregion Methods
+}
 //#endregion ColorDlg
-//#region ColorDialog
-const ColorDialog = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region class ColorDialog
-    class ColorDialog extends CommonDialog {
-        //#region constructor
-        constructor(owner, props) {
-            props = !props ? {} : props;
-            if (owner) {
-                super(owner, props);
-                const priv = internal(this);
-                priv.control = null;
-            }
-        }
-        //#endregion constructor
-        //#region Methods
-        //#region loaded
-        execute(control, callback) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            let dlg;
-            //#endregion Variables déclaration
-            priv.control = control;
-            dlg = core.classes.createComponent({
-                class: ColorDlg,
-                owner: activeApp,
-                props: {
-                    parentHTML: document.body,
-                    control,
-                    color: !control ? Colors.RED : control.color
-                }
+//#region class ColorDialog
+class ColorDialog extends CommonDialog {
+    //#region constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            super(owner, props);
+            core.private(this, {
+                control: null
             });
-            dlg.dialog = this;
-            dlg.onClose.addListener(callback);
-            super.execute();
         }
-        //#endregion loaded
-        //#region destroy
-        destroy() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.control = null;
-            super.destroy();
-        }
-        //#endregion destroy
-        //#endregion Methods
     }
-    return ColorDialog;
-    //#endregion class ColorDialog
-})();
+    //#endregion constructor
+    //#region Methods
+    //#region loaded
+    execute(control, callback) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        let dlg;
+        //#endregion Variables déclaration
+        priv.control = control;
+        dlg = core.classes.createComponent({
+            class: ColorDlg,
+            owner: activeApp,
+            props: {
+                parentHTML: document.body,
+                control,
+                color: !control ? Colors.RED : control.color
+            }
+        });
+        dlg.dialog = this;
+        dlg.onClose.addListener(callback);
+        super.execute();
+    }
+    //#endregion loaded
+    //#endregion Methods
+}
 //#endregion ColorDialog
 core.classes.register(core.types.CATEGORIES.INTERNAL, ColorDlg);
 core.classes.register(core.types.CATEGORIES.DIALOGS, ColorDialog);
