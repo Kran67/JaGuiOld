@@ -72,6 +72,9 @@ const Core = (() => {
                     return item.length > 0 && item[1] && item[1].name === objName;
                 }));
             };
+            this.privates = () => {
+                return _private;
+            }
             this.name = 'JaGui';
             this.propertiesCategories = {};
             this.bindableProperties = [];

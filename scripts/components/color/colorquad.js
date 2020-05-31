@@ -44,45 +44,42 @@ class ColorQuad extends Control {
     //#region Getters / Setters
     //#region colorBox
     get colorBox() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).colorBox;
     }
     set colorBox(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        newValue instanceof core.classes.ColorBox && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+        newValue instanceof core.classes.ColorBox && priv.colorBox !== newValue
+            && (priv.colorBox= newValue );
     }
     //#endregion colorBox
     //#region color
     get color() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).color;
     }
     set color(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        if (newValue instanceof core.classes.Color && !priv[propName].equals(newValue)) {
-            priv[propName].assign(newValue);
+        if (newValue instanceof core.classes.Color && !priv.color.equals(newValue)) {
+            priv.color.assign(newValue);
             this.moveIndicator();
         }
     }
     //#endregion color
     //#region hue
     get hue() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).hue;
     }
     set hue(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue = Math.min(Math.max(newValue, 0), 359);
-            if (priv[propName] !== newValue) {
-                core.private(this, { [propName]: newValue });
+            if (priv.color.hue !== newValue) {
+                priv.color.hue = newValue;
                 this.update();
             }
         }
@@ -90,15 +87,14 @@ class ColorQuad extends Control {
     //#endregion hue
     //#region format
     get format() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).format;
     }
     set format(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, core.types.COLORFORMATS) && newValue !== priv[propName]) {
-            core.private(this, { [propName]: newValue });
+        if (core.tools.valueInSet(newValue, core.types.COLORFORMATS) && newValue !== priv.format) {
+            priv.format = newValue;
             !core.isHTMLRenderer && this.redraw();
             this.HTMLElement && this.update();
         }
@@ -106,43 +102,30 @@ class ColorQuad extends Control {
     //#endregion format
     //#region width
     get width() {
-        //#region Variables déclaration
-        const propName = core.tools.getPropertyName();
-        //#endregion Variables déclaration
-        return super[propName];
+        return super.width;
     }
     set width(newValue) {
-        //#region Variables déclaration
-        const propName = core.tools.getPropertyName();
-        //#endregion Variables déclaration
-        this.HTMLElement.offsetWidth !== newValue && (super[propName] = newValue);
+        this.HTMLElement.offsetWidth !== newValue && (super.width = newValue);
     }
     //#endregion width
     //#region height
     get height() {
-        //#region Variables déclaration
-        const propName = core.tools.getPropertyName();
-        //#endregion Variables déclaration
-        return super[propName];
+        return super.height;
     }
     set height(newValue) {
-        //#region Variables déclaration
-        const propName = core.tools.getPropertyName();
-        //#endregion Variables déclaration
-        this.HTMLElement.offsetHeight !== newValue && (super[propName] = newValue);
+        this.HTMLElement.offsetHeight !== newValue && (super.height = newValue);
     }
     //#endregion height
     //#region preserveColorAlpha
     get preserveColorAlpha() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).preserveColorAlpha;
     }
     set preserveColorAlpha(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+        core.tools.isBool(newValue) && priv.preserveColorAlpha !== newValue
+            && (priv.preserveColorAlpha = newValue);
     }
     //#endregion preserveColorAlpha
     //#endregion Getters / Setters
@@ -155,14 +138,14 @@ class ColorQuad extends Control {
         const COLORPICKSIZE = core.types.CONSTANTS.COLORPICKSIZE;
         const PX = core.types.CSSUNITS.PX;
         //#endregion Variables déclaration
-        //if (!point) {
-        //    point = new Point;
-        //    let value;
-        //    value = priv.format === core.types.COLORFORMATS.HSV
-        //        ? priv.color.value : priv.color.lightness;
-        //    point.x = int(priv.color.saturation * htmlElement.offsetWidth / 100);
-        //    point.y = int(htmlElement.offsetHeight - value * htmlElement.offsetHeight / 100);
-        //}
+        if (!point) {
+            point = new Point;
+            let value;
+            value = priv.format === core.types.COLORFORMATS.HSV
+                ? priv.color.value : priv.color.lightness;
+            point.x = int(priv.color.saturation * htmlElement.offsetWidth / 100);
+            point.y = int(htmlElement.offsetHeight - value * htmlElement.offsetHeight / 100);
+        }
         if (point) {
             priv.handle.x = Math.max(Math.min(point.x, htmlElement.offsetWidth), 0);
             priv.handle.y = Math.max(Math.min(point.y, htmlElement.offsetHeight), 0);

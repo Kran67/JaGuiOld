@@ -28,10 +28,9 @@ class GraphicControl extends Control {
     set fillColor(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'fillColor';
         //#endregion Variables déclaration
-        if (newValue instanceof Color && !priv[propName].equals(newValue)) {
-            priv[propName].assign(newValue);
+        if (newValue instanceof Color && !priv.fillColor.equals(newValue)) {
+            priv.fillColor.assign(newValue);
             this.update();
         }
     }
@@ -43,10 +42,9 @@ class GraphicControl extends Control {
     set strokeColor(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'strokeColor';
         //#endregion Variables déclaration
-        if (newValue instanceof Color && !priv[propName].equals(newValue)) {
-            priv[propName].assign(newValue);
+        if (newValue instanceof Color && !priv.strokeColor.equals(newValue)) {
+            priv.strokeColor.assign(newValue);
             this.update();
         }
     }
@@ -58,12 +56,11 @@ class GraphicControl extends Control {
     set strokeWidth(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'strokeWidth';
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue = Math.max(0, newValue);
-            if (priv[propName] !== newValue) {
-                priv[propName] = newValue;
+            if (priv.strokeWidth !== newValue) {
+                priv.strokeWidth = newValue;
                 this.update();
             }
         }
@@ -76,10 +73,9 @@ class GraphicControl extends Control {
     set strokeDash(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'strokeDash';
         //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
+        if (core.tools.isString(newValue) && priv.strokeDash !== newValue) {
+            priv.strokeDash = newValue;
             this.update();
         }
     }
@@ -91,10 +87,9 @@ class GraphicControl extends Control {
     set strokeDashOffset(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'strokeDashOffset';
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
+        if (core.tools.isNumber(newValue) && priv.strokeDashOffset !== newValue) {
+            priv.strokeDashOffset = newValue;
             this.update();
         }
     }

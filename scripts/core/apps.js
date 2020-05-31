@@ -56,10 +56,9 @@ class Apps {
     set activeApplication(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'activeApplication';
         //#endregion Variables déclaration
-        (newValue instanceof core.classes.Application || newValue == null) && priv[propName] !== newValue
-            && (priv[propName] = newValue);
+        (newValue instanceof core.classes.Application || newValue == null) && priv.activeApplication !== newValue
+            && (priv.activeApplication = newValue);
     }
     /**
      * Get the capslock

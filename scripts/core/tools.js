@@ -219,7 +219,7 @@ class Tools {
     //#region addPropertyFromEnum
     static addPropertyFromEnum(params) {
         params.component.addPropertyEnum(params.propName, params.enum);
-        params.hasOwnProperty('value') && params.private && (core.private(params.component, { [params.propName]: params.value }));
+        params.hasOwnProperty('value') && (core.private(params.component, { [params.propName]: params.value }));
         params.forceUpdate === undefined && (params.forceUpdate = !1);
         params.enumerable === undefined && (params.enumerable = !0);
         const setter = params.setter ? params.setter : (newValue) => {

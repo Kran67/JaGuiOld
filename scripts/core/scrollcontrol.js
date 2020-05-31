@@ -42,10 +42,9 @@ class ScrollControl extends ThemedControl {
     set scrollMode(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'scrollMode';
         //#endregion Variables déclaration
-        core.tools.valueInSet(newValue, SCROLLMODES) && priv[propName] !== newValue
-            && (priv[propName] = newValue);
+        core.tools.valueInSet(newValue, SCROLLMODES) && priv.scrollMode !== newValue
+            && (priv.scrollMode = newValue);
     }
     //#endregion scrollMode
     //#region hasHorizScrollBar

@@ -286,17 +286,16 @@ class Color extends Bindable {
     set red(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'red';
         const owner = priv.owner;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
+        if (core.tools.isNumber(newValue) && newValue !== priv.red) {
             newValue = newValue & 0xFF;
-            core.private(this, { [propName]: newValue });
+            core.private(this, { red: newValue });
             if (!priv.updating) {
                 this.RGBtoHSV();
                 this.RGBtoHSL();
             }
-            this.propertyChanged(propName);
+            this.propertyChanged('red');
             owner && !owner.loading && owner.update();
         }
     }
@@ -308,17 +307,16 @@ class Color extends Bindable {
     set green(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'green';
         const owner = priv.owner;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
+        if (core.tools.isNumber(newValue) && newValue !== priv.green) {
             newValue = newValue & 0xFF;
-            core.private(this, { [propName]: newValue });
+            core.private(this, { green: newValue });
             if (!priv.updating) {
                 this.RGBtoHSV();
                 this.RGBtoHSL();
             }
-            this.propertyChanged(propName);
+            this.propertyChanged('green');
             owner && !owner.loading && owner.update();
         }
     }
@@ -330,17 +328,16 @@ class Color extends Bindable {
     set blue(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'blue';
         const owner = priv.owner;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
+        if (core.tools.isNumber(newValue) && newValue !== priv.blue) {
             newValue = newValue & 0xFF;
-            core.private(this, { [propName]: newValue });
+            core.private(this, { blue: newValue });
             if (!priv.updating) {
                 this.RGBtoHSV();
                 this.RGBtoHSL();
             }
-            this.propertyChanged(propName);
+            this.propertyChanged('blue');
             owner && !owner.loading && owner.update();
         }
     }
@@ -352,13 +349,12 @@ class Color extends Bindable {
     set alpha(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'alpha';
         const owner = priv.owner;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
+        if (core.tools.isNumber(newValue) && newValue !== priv.alpha) {
             newValue = Math.max(Math.min(newValue, 1), 0);
-            core.private(this, { [propName]: newValue });
-            this.propertyChanged(propName);
+            core.private(this, { alpha: newValue });
+            this.propertyChanged('alpha');
             owner && !owner.loading && owner.update();
         }
     }
@@ -370,13 +366,12 @@ class Color extends Bindable {
     set hue(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'hue';
         const owner = priv.owner;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
+        if (core.tools.isNumber(newValue) && newValue !== priv.hue) {
             newValue = Math.max(Math.min(newValue, 360), 0);
-            core.private(this, { [propName]: newValue });
-            this.propertyChanged(propName);
+            core.private(this, { hue: newValue });
+            this.propertyChanged('hue');
             !priv.updating && this.HSVtoRGB();
             owner && !owner.loading && owner.update();
         }
@@ -389,14 +384,13 @@ class Color extends Bindable {
     set saturation(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'saturation';
         const owner = priv.owner;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
+        if (core.tools.isNumber(newValue) && newValue !== priv.saturation) {
             newValue = Math.max(Math.min(newValue, 100), 0);
-            core.private(this, { [propName]: newValue });
+            core.private(this, { saturation: newValue });
             !priv.updating && this.HSVtoRGB();
-            this.propertyChanged(propName);
+            this.propertyChanged('saturation');
             owner && !owner.loading && owner.update();
         }
     }
@@ -408,14 +402,13 @@ class Color extends Bindable {
     set value(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'value';
         const owner = this.owner;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
+        if (core.tools.isNumber(newValue) && newValue !== priv.value) {
             newValue = Math.max(Math.min(newValue, 100), 0);
-            core.private(this, { [propName]: newValue });
+            core.private(this, { value: newValue });
             !priv.updating && this.HSVtoRGB();
-            this.propertyChanged(propName);
+            this.propertyChanged('value');
             owner && !owner.loading && owner.update();
         }
     }
@@ -427,14 +420,13 @@ class Color extends Bindable {
     set lightness(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'lightness';
         const owner = this.owner;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
+        if (core.tools.isNumber(newValue) && newValue !== priv.lightness) {
             newValue = Math.max(Math.min(newValue, 100), 0);
-            core.private(this, { [propName]: newValue });
+            core.private(this, { lightness: newValue });
             !priv.updating && this.HSLtoRGB();
-            this.propertyChanged(propName);
+            this.propertyChanged('lightness');
             owner && !owner.loading && owner.update();
         }
     }

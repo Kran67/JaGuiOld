@@ -24,7 +24,7 @@ class BaseEffect extends Component {
      * Get the enabled property
      */
     get enabled() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).enabled;
     }
     /**
      * Set the enabled property
@@ -32,12 +32,11 @@ class BaseEffect extends Component {
     set enabled(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         const owner = priv.owner;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
+        if (core.tools.isBool(newValue) && priv.enabled !== newValue) {
             //let lastRect = owner.screenRect();
-            core.private(this, { [propName]: newValue });
+            core.private(this, { enabled: newValue });
             owner.form.addControlToRedraw(owner);
         }
     }
@@ -47,7 +46,7 @@ class BaseEffect extends Component {
      * Get the trigger property
      */
     get trigger() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).trigger;
     }
     /**
      * Set the trigger property
@@ -55,10 +54,9 @@ class BaseEffect extends Component {
     set trigger(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        !String.isNullOrEmpty(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+        !String.isNullOrEmpty(newValue) && priv.trigger !== newValue
+            && core.private(this, { trigger: newValue });
     }
     //#endregion trigger
     //#region prepareBeforePaint
@@ -66,7 +64,7 @@ class BaseEffect extends Component {
      * Get the prepareBeforePaint property
      */
     get prepareBeforePaint() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).prepareBeforePaint;
     }
     /**
      * Set the prepareBeforePaint property
@@ -74,10 +72,9 @@ class BaseEffect extends Component {
     set prepareBeforePaint(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+        core.tools.isBool(newValue) && priv.prepareBeforePaint !== newValue
+            && core.private(this, { prepareBeforePaint: newValue });
     }
     //#endregion prepareBeforePaint
     //#region applyOnChilds
@@ -85,7 +82,7 @@ class BaseEffect extends Component {
      * Get the applyOnChilds property
      */
     get applyOnChilds() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).applyOnChilds;
     }
     /**
      * Set the applyOnChilds property
@@ -93,10 +90,9 @@ class BaseEffect extends Component {
     set applyOnChilds(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+        core.tools.isBool(newValue) && priv.applyOnChilds !== newValue
+            && core.private(this, { applyOnChilds: newValue });
     }
     //#endregion applyOnChilds
     //#region disablePaint
@@ -105,7 +101,7 @@ class BaseEffect extends Component {
      * @return  {Boolean}
      */
     get disablePaint() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).disablePaint;
     }
     /**
      * Set the disablePaint property
@@ -114,10 +110,9 @@ class BaseEffect extends Component {
     set disablePaint(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+        core.tools.isBool(newValue) && priv.disablePaint !== newValue
+            && core.private(this, { disablePaint: newValue });
     }
     //#endregion disablePaint
     //#endregion Getters / Setters

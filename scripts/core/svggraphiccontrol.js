@@ -24,9 +24,8 @@ class SVGGraphicControl extends GraphicControl {
     set svg(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'svg';
         //#endregion Variables déclaration
-        newValue instanceof HTMLElement && priv[propName] !== newValue && (priv[propName] = newValue);
+        newValue instanceof HTMLElement && priv.svg !== newValue && (priv.svg = newValue);
     }
     //#endregion svg
     //#region svgShape
@@ -36,9 +35,8 @@ class SVGGraphicControl extends GraphicControl {
     set svgShape(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'svgShape';
         //#endregion Variables déclaration
-        newValue instanceof HTMLElement && priv[propName] !== newValue && (priv[propName] = newValue);
+        newValue instanceof HTMLElement && priv.svgShape !== newValue && (priv.svgShape = newValue);
     }
     //#endregion svgShape
     //#endregion Getter / Setter

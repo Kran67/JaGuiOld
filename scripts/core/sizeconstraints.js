@@ -26,10 +26,9 @@ class SizeConstraints extends BaseClass {
     set control(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'control';
         //#endregion Variables déclaration
-        if (newValue instanceof core.classes.Control && newValue !== priv[propName]) {
-            priv[propName] = newValue;
+        if (newValue instanceof core.classes.Control && newValue !== priv.control) {
+            priv.control = newValue;
             this.onChange.invoke();
         }
     }
@@ -41,10 +40,9 @@ class SizeConstraints extends BaseClass {
     set maxHeight(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'maxHeight';
         //#endregion Variables déclaration
-        if (newValue instanceof core.classes.Control && newValue !== priv[propName]) {
-            priv[propName] = newValue;
+        if (newValue instanceof core.classes.Control && newValue !== priv.maxHeight) {
+            priv.maxHeight = newValue;
             this.onChange.invoke();
         }
     }
@@ -56,10 +54,9 @@ class SizeConstraints extends BaseClass {
     set maxWidth(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'maxWidth';
         //#endregion Variables déclaration
-        if (newValue instanceof core.classes.Control && newValue !== priv[propName]) {
-            priv[propName] = newValue;
+        if (newValue instanceof core.classes.Control && newValue !== priv.maxWidth) {
+            priv.maxWidth = newValue;
             this.onChange.invoke();
         }
     }
@@ -71,10 +68,9 @@ class SizeConstraints extends BaseClass {
     set minHeight(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'minHeight';
         //#endregion Variables déclaration
-        if (newValue instanceof core.classes.Control && newValue !== priv[propName]) {
-            priv[propName] = newValue;
+        if (newValue instanceof core.classes.Control && newValue !== priv.minHeight) {
+            priv.minHeight = newValue;
             this.onChange.invoke();
         }
     }
@@ -86,10 +82,9 @@ class SizeConstraints extends BaseClass {
     set minWidth(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'minWidth';
         //#endregion Variables déclaration
-        if (newValue instanceof core.classes.Control && newValue !== priv[propName]) {
-            priv[propName] = newValue;
+        if (newValue instanceof core.classes.Control && newValue !== priv.minWidth) {
+            priv.minWidth = newValue;
             this.onChange.invoke();
         }
     }

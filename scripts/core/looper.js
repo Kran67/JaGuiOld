@@ -34,11 +34,10 @@ class Looper extends BaseClass {
     set fps(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'fps';
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv[propName] !== newValue) {
+        if (core.tools.isNumber(newValue) && priv.fps !== newValue) {
             this.stop();
-            priv[propName] = newValue;
+            priv.fps = newValue;
             //priv.rAF = window.requestAnimationFrameRate(priv.fps);
             this.start();
         }
@@ -51,9 +50,8 @@ class Looper extends BaseClass {
     set handle(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'handle';
         //#endregion Variables déclaration
-        priv[propName] !== newValue && (priv[propName] = newValue);
+        priv.handle !== newValue && (priv.handle = newValue);
     }
     //#endregion handle
     //#region paused
@@ -63,9 +61,8 @@ class Looper extends BaseClass {
     set paused(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'paused';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
+        core.tools.isBool(newValue) && priv.paused !== newValue && (priv.paused = newValue);
     }
     //#endregion paused
     //#region rAF
@@ -75,9 +72,8 @@ class Looper extends BaseClass {
     set rAF(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'rAF';
         //#endregion Variables déclaration
-        priv[propName] !== newValue && (priv[propName] = newValue);
+        priv.rAF !== newValue && (priv.rAF = newValue);
     }
     //#endregion rAF
     //#region isBusy
@@ -87,9 +83,8 @@ class Looper extends BaseClass {
     set isBusy(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'isBusy';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
+        core.tools.isBool(newValue) && priv.isBusy !== newValue && (priv.isBusy= newValue);
     }
     //#endregion isBusy
     //#endregion Getter / Setter

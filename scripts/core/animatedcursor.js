@@ -31,11 +31,10 @@ class AnimatedCursor extends BaseClass {
     set HTMLElement(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'HTMLElement';
-        const htmlElement = priv[propName];
+        const htmlElement = priv.HTMLElement;
         //#endregion Variables déclaration
         newValue instanceof HTMLElement && htmlElement !== newValue
-            && (priv[propName] = newValue);
+            && (priv.HTMLElement = newValue);
     }
     //#endregion HTMLElement
     //#region maxFrame
@@ -45,11 +44,10 @@ class AnimatedCursor extends BaseClass {
     set maxFrame(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'maxFrame';
-        const maxFrame = priv[propName];
+        const maxFrame = priv.maxFrame;
         //#endregion Variables déclaration
         core.tools.isNumber(newValue) && maxFrame !== newValue
-            && (priv[propName] = newValue);
+            && (priv.maxFrame = newValue);
     }
     //#endregion maxFrame
     //#region curFrame
@@ -59,11 +57,10 @@ class AnimatedCursor extends BaseClass {
     set curFrame(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'curFrame';
-        const curFrame = priv[propName];
+        const curFrame = priv.curFrame;
         //#endregion Variables déclaration
         core.tools.isNumber(newValue) && curFrame !== newValue
-            && (priv[propName] = newValue);
+            && (priv.curFrame = newValue);
     }
     //#endregion curFrame
     //#region className
@@ -73,11 +70,10 @@ class AnimatedCursor extends BaseClass {
     set className(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'className';
-        const className = priv[propName];
+        const className = priv.className;
         //#endregion Variables déclaration
         core.tools.isString(newValue) && className !== newValue
-            && (priv[propName] = newValue);
+            && (priv.className = newValue);
     }
     //#endregion className
     //#region iterationBetweenFrames
@@ -87,11 +83,10 @@ class AnimatedCursor extends BaseClass {
     set iterationBetweenFrames(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'iterationBetweenFrames';
-        const iterationBetweenFrames = priv[propName];
+        const iterationBetweenFrames = priv.iterationBetweenFrames;
         //#endregion Variables déclaration
         core.tools.isNumber(newValue) && iterationBetweenFrames !== newValue
-            && (priv[propName] = newValue);
+            && (priv.iterationBetweenFrames = newValue);
     }
     //#endregion iterationBetweenFrames
     //#region iteration
@@ -101,11 +96,10 @@ class AnimatedCursor extends BaseClass {
     set iteration(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'iteration';
-        const iteration = priv[propName];
+        const iteration = priv.iteration;
         //#endregion Variables déclaration
         core.tools.isNumber(newValue) && iteration !== newValue
-            && (priv[propName] = newValue);
+            && (priv.iteration = newValue);
     }
     //#endregion iteration
     //#endregion Getters / Setters

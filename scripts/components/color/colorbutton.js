@@ -29,16 +29,15 @@ class ColorButton extends Button {
     //#endregion caption
     //#region color
     get color() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).color;
     }
     set color(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        if (newValue instanceof Color && !priv[propName].equals(newValue)) {
-            priv[propName].assign(newValue);
-            this.caption = priv[propName].toRGBAString(); // à voir
+        if (newValue instanceof Color && !priv.color.equals(newValue)) {
+            priv.color.assign(newValue);
+            this.caption = priv.color.toRGBAString(); // à voir
             if (core.isHTMLRenderer) {
                 !this.loading && !this.form.loading && this.update();
                 !this.updating && this.onChange.invoke();

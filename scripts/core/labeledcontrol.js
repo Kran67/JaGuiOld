@@ -22,10 +22,9 @@ class LabeledControl extends ThemedControl {
     set caption(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'caption';
         //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.label[propName] !== newValue) {
-            priv.label[propName] = newValue;
+        if (core.tools.isString(newValue) && priv.label.caption !== newValue) {
+            priv.label.caption = newValue;
         }
     }
     //#endregion caption
@@ -36,10 +35,9 @@ class LabeledControl extends ThemedControl {
     set height(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'height';
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv[propName] !== newValue) {
-            super[propName] = newValue;
+        if (core.tools.isNumber(newValue) && priv.height !== newValue) {
+            super.height = newValue;
             this.update();
         }
     }

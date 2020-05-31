@@ -22,9 +22,8 @@ class StringList extends BaseClass {
     set list(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'list';
         //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
+        core.tools.isString(newValue) && priv.list !== newValue && (priv.list = newValue);
     }
     //#endregion list
     //#region owner

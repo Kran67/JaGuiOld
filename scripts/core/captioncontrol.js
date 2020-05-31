@@ -214,11 +214,10 @@ class CaptionControl extends ThemedControl {
     set caption(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'caption';
         //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv[propName] !== newValue) {
-            priv[propName] = Text.replace(newValue, core.types.CONSTANTS.HOTKEYPREFIX, String.EMPTY);
-            this.propertyChanged(propName);
+        if (core.tools.isString(newValue) && priv.caption !== newValue) {
+            priv.caption = Text.replace(newValue, core.types.CONSTANTS.HOTKEYPREFIX, String.EMPTY);
+            this.propertyChanged('caption');
             this.update();
         }
     }
@@ -230,12 +229,11 @@ class CaptionControl extends ThemedControl {
     set wordWrap(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'wordWrap';
         const form = this.form;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
-            this.propertyChanged(propName);
+        if (core.tools.isBool(newValue) && priv.wordWrap !== newValue) {
+            priv.wordWrap = newValue;
+            this.propertyChanged('wordWrap');
             !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate && this.update();
         }
     }
@@ -247,13 +245,12 @@ class CaptionControl extends ThemedControl {
     set horizAlign(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'horizAlign';
         const form = this.form;
         //#endregion Variables déclaration
         if (core.tools.valueInSet(newValue, core.types.TEXTALIGNS)
-            && newValue !== priv[propName]) {
-            priv[propName] = newValue;
-            this.propertyChanged(propName);
+            && newValue !== priv.horizAlign) {
+            priv.horizAlign = newValue;
+            this.propertyChanged('horizAlign');
             !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate && this.update();
         }
     }
@@ -265,13 +262,12 @@ class CaptionControl extends ThemedControl {
     set vertAlign(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'vertAlign';
         const form = this.form;
         //#endregion Variables déclaration
         if (core.tools.valueInSet(newValue, core.types.VERTTEXTALIGNS)
-            && newValue !== priv[propName]) {
-            priv[propName] = newValue;
-            this.propertyChanged(propName);
+            && newValue !== priv.vertAlign) {
+            priv.vertAlign = newValue;
+            this.propertyChanged('vertAlign');
             !this.loading && !form.loading && !core.isHTMLRenderer && this.allowUpdate && this.update();
         }
     }
@@ -283,13 +279,12 @@ class CaptionControl extends ThemedControl {
     set color(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'color';
         const form = this.form;
         //#endregion Variables déclaration
         core.tools.isString(newValue) && (newValue = Color.parse(newValue));
-        if (newValue instanceof Color && !priv[propName].equals(newValue)) {
-            priv[propName] = newValue;
-            this.propertyChanged(propName);
+        if (newValue instanceof Color && !priv.color.equals(newValue)) {
+            priv.color = newValue;
+            this.propertyChanged('color');
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
     }
@@ -301,12 +296,11 @@ class CaptionControl extends ThemedControl {
     set fontFamily(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'fontFamily';
         const form = this.form;
         //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
-            this.propertyChanged(propName);
+        if (core.tools.isString(newValue) && priv.fontFamily !== newValue) {
+            priv.fontFamily = newValue;
+            this.propertyChanged('fontFamily');
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
     }
@@ -318,12 +312,11 @@ class CaptionControl extends ThemedControl {
     set fontSize(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'fontSize';
         const form = this.form;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
-            this.propertyChanged(propName);
+        if (core.tools.isNumber(newValue) && priv.fontSize !== newValue) {
+            priv.fontSize = newValue;
+            this.propertyChanged('fontSize');
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
     }
@@ -335,13 +328,12 @@ class CaptionControl extends ThemedControl {
     set fontSizeUnit(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'fontSizeUnit';
         const form = this.form;
         const CSSUNITS = core.types.CSSUNITS;
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, CSSUNITS) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
-            this.propertyChanged(propName);
+        if (core.tools.valueInSet(newValue, CSSUNITS) && priv.fontSizeUnit !== newValue) {
+            priv.fontSizeUnit = newValue;
+            this.propertyChanged('fontSizeUnit');
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
     }
@@ -353,12 +345,11 @@ class CaptionControl extends ThemedControl {
     set fontBold(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'fontBold';
         const form = this.form;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
-            this.propertyChanged(propName);
+        if (core.tools.isBool(newValue) && priv.fontBold !== newValue) {
+            priv.fontBold = newValue;
+            this.propertyChanged('fontBold');
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
     }
@@ -370,13 +361,12 @@ class CaptionControl extends ThemedControl {
     set fontStyle(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'fontStyle';
         const form = this.form;
         const FONTSTYLES = core.types.FONTSTYLES;
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, FONTSTYLES) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
-            this.propertyChanged(propName);
+        if (core.tools.valueInSet(newValue, FONTSTYLES) && priv.fontStyle !== newValue) {
+            priv.fontStyle = newValue;
+            this.propertyChanged('fontStyle');
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
     }
@@ -388,13 +378,12 @@ class CaptionControl extends ThemedControl {
     set textTransform(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'textTransform';
         const form = this.form;
         const TEXTTRANSFORMS = core.types.TEXTTRANSFORMS;
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, TEXTTRANSFORMS) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
-            this.propertyChanged(propName);
+        if (core.tools.valueInSet(newValue, TEXTTRANSFORMS) && priv.textTransform!== newValue) {
+            priv.textTransform = newValue;
+            this.propertyChanged('textTransform');
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
     }
@@ -406,13 +395,12 @@ class CaptionControl extends ThemedControl {
     set textShadows(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'textShadows';
         const form = this.form;
         //#endregion Variables déclaration
-        if (newValue instanceof TextShadows && !priv[propName].equals(newValue.items)) {
-            priv[propName].items.clear();
-            priv[propName].items.addRange(newValue.items);
-            this.propertyChanged(propName);
+        if (newValue instanceof TextShadows && !priv.textTransform.equals(newValue.items)) {
+            priv.textTransform.items.clear();
+            priv.textTransform.items.addRange(newValue.items);
+            this.propertyChanged('textTransform');
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
     }
@@ -424,13 +412,12 @@ class CaptionControl extends ThemedControl {
     set textDecoration(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'textDecoration';
         const form = this.form;
         //#endregion Variables déclaration
-        if (newValue instanceof TextDecoration && !priv[propName].equals(newValue.items)) {
-            priv[propName].items.clear();
-            priv[propName].items.addRange(newValue.items);
-            this.propertyChanged(propName);
+        if (newValue instanceof TextDecoration && !priv.textDecoration.equals(newValue.items)) {
+            priv.textDecoration.items.clear();
+            priv.textDecoration.items.addRange(newValue.items);
+            this.propertyChanged('textDecoration');
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
     }
@@ -442,11 +429,10 @@ class CaptionControl extends ThemedControl {
     set autoSize(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'autoSize';
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && newValue !== priv[propName]) {
-            priv[propName] = newValue;
-            this.propertyChanged(propName);
+        if (core.tools.isBool(newValue) && newValue !== priv.autoSize) {
+            priv.autoSize = newValue;
+            this.propertyChanged('autoSize');
             !this.loading && !this.form.loading && this.update();
         }
     }
@@ -458,13 +444,12 @@ class CaptionControl extends ThemedControl {
     set textOverflow(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'textOverflow';
         const form = this.form;
         const TEXTOVERFLOWS = core.types.TEXTOVERFLOWS;
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, TEXTOVERFLOWS) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
-            this.propertyChanged(propName);
+        if (core.tools.valueInSet(newValue, TEXTOVERFLOWS) && priv.textOverflow!== newValue) {
+            priv.textOverflow = newValue;
+            this.propertyChanged('textOverflow');
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
     }
@@ -476,13 +461,12 @@ class CaptionControl extends ThemedControl {
     set backColor(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'backColor';
         const form = this.form;
         //#endregion Variables déclaration
         core.tools.isString(newValue) && (newValue = Color.parse(newValue));
-        if (newValue instanceof Color && !priv[propName].equals(newValue)) {
-            priv[propName].assign(newValue);
-            this.propertyChanged(propName);
+        if (newValue instanceof Color && !priv.backColor.equals(newValue)) {
+            priv.backColor.assign(newValue);
+            this.propertyChanged('backColor');
             !this.loading && !form.loading && core.isHTMLRenderer && this.allowUpdate && this.update();
         }
     }

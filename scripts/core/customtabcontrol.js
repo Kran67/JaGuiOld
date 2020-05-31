@@ -86,10 +86,9 @@ class CustomTabControl extends ThemedControl {
     set centerTabs(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'centerTabs';
         //#endregion Variables déclaration
         priv.tabsContainer.classList.remove('center');
-        core.tools.isBool(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
+        core.tools.isBool(newValue) && priv.centerTabs !== newValue && (priv.centerTabs = newValue);
         this.checkTabsPosition();
     }
     //#endregion centerTabs
@@ -100,9 +99,8 @@ class CustomTabControl extends ThemedControl {
     set tabClass(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'tabClass';
         //#endregion Variables déclaration
-        newValue instanceof Tab && priv[propName] !== newValue && (priv[propName] = newValue);
+        newValue instanceof Tab && priv.tabClass !== newValue && (priv.tabClass = newValue);
     }
     //#endregion tabClass
     //#region firstVisibleTab
@@ -112,9 +110,8 @@ class CustomTabControl extends ThemedControl {
     set firstVisibleTab(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'firstVisibleTab';
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
+        core.tools.isNumber(newValue) && priv.firstVisibleTab !== newValue && (priv.firstVisibleTab = newValue);
     }
     //#endregion firstVisibleTab
     //#region lastVisibleTab
@@ -124,9 +121,8 @@ class CustomTabControl extends ThemedControl {
     set lastVisibleTab(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'lastVisibleTab';
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
+        core.tools.isNumber(newValue) && priv.lastVisibleTab !== newValue && (priv.lastVisibleTab = newValue);
     }
     //#endregion lastVisibleTab
     //#region activeTab
@@ -136,12 +132,11 @@ class CustomTabControl extends ThemedControl {
     set activeTab(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'activeTab';
         //#endregion Variables déclaration
-        if (newValue instanceof Tab && priv[propName] !== newValue) {
-            priv[propName] = newValue;
+        if (newValue instanceof Tab && priv.activeTab !== newValue) {
+            priv.activeTab = newValue;
             newValue.activeTab.show();
-            this.propertyChanged(propName);
+            this.propertyChanged('activeTab');
         }
     }
     //#endregion activeTab
@@ -152,9 +147,8 @@ class CustomTabControl extends ThemedControl {
     set images(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'images';
         //#endregion Variables déclaration
-        newValue instanceof core.classes.ImageList && priv[propName] !== newValue && (priv[propName] = newValue);
+        newValue instanceof core.classes.ImageList && priv.images !== newValue && (priv.images = newValue);
     }
     //#endregion images
     //#region canChange
@@ -164,9 +158,8 @@ class CustomTabControl extends ThemedControl {
     set canChange(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'canChange';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
+        core.tools.isBool(newValue) && priv.canChange !== newValue && (priv.canChange = newValue);
     }
     //#endregion canChange
     //#region showTabsCloseBtn
@@ -176,11 +169,10 @@ class CustomTabControl extends ThemedControl {
     set showTabsCloseBtn(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'showTabsCloseBtn';
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
+        if (core.tools.isBool(newValue) && priv.showTabsCloseBtn !== newValue) {
+            priv.showTabsCloseBtn = newValue;
             newValue
                 ? htmlElement.classList.add('showTabsCloseBtn')
                 : htmlElement.classList.remove('showTabsCloseBtn');
@@ -211,12 +203,11 @@ class CustomTabControl extends ThemedControl {
     tabPosition(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'tabPosition';
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (core.tools.valueInSet(newValue, TABPOSITIONS)) {
-            if (priv[propName] !== newValue) {
-                priv[propName] = newValue;
+            if (priv.tabPosition !== newValue) {
+                priv.tabPosition = newValue;
                 newValue === TABPOSITIONS.BOTTOM
                     ? htmlElement.classList.add(`tabs${newValue.capitalise()}`)
                     : htmlElement.classList.remove('tabsBottom');

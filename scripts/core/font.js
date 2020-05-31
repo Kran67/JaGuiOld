@@ -59,10 +59,9 @@ class Font extends BaseClass {
     set underline(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'underline';
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && newValue !== priv[propName]) {
-            priv[propName] = newValue;
+        if (core.tools.isBool(newValue) && newValue !== priv.underline) {
+            priv.underline = newValue;
             core.isHTMLRenderer && this.stringify();
             this.onChange.invoke();
         }
@@ -75,10 +74,9 @@ class Font extends BaseClass {
     set strikeout(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'strikeout';
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && newValue !== priv[propName]) {
-            priv[propName] = newValue;
+        if (core.tools.isBool(newValue) && newValue !== priv.strikeout) {
+            priv.strikeout = newValue;
             core.isHTMLRenderer && this.stringify();
         }
     }
@@ -90,10 +88,9 @@ class Font extends BaseClass {
     set size(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'size';
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
-            priv[propName] = newValue;
+        if (core.tools.isNumber(newValue) && newValue !== priv.size) {
+            priv.size = newValue;
             core.isHTMLRenderer && this.stringify();
             this.onChange.invoke();
         }
@@ -106,10 +103,9 @@ class Font extends BaseClass {
     set sizeUnit(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'sizeUnit';
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, core.types.CSSUNITS) && newValue !== priv[propName]) {
-            priv[propName] = newValue;
+        if (core.tools.valueInSet(newValue, core.types.CSSUNITS) && newValue !== priv.sizeUnit) {
+            priv.sizeUnit = newValue;
             this.onChange.invoke();
         }
     }
@@ -121,10 +117,9 @@ class Font extends BaseClass {
     set family(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'family';
         //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && newValue !== priv[propName]) {
-            priv[propName] = newValue;
+        if (core.tools.isString(newValue) && newValue !== priv.family) {
+            priv.family = newValue;
             core.isHTMLRenderer && this.stringify();
             this.onChange.invoke();
         }
@@ -137,10 +132,9 @@ class Font extends BaseClass {
     set style(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'style';
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, core.types.BRUSHSTYLES) && newValue !== priv[propName]) {
-            priv[propName] = newValue;
+        if (core.tools.valueInSet(newValue, core.types.BRUSHSTYLES) && newValue !== priv.style) {
+            priv.style = newValue;
             core.isHTMLRenderer && this.stringify();
             this.onChange.invoke();
             if (priv.owner.allowUpdate) {
@@ -156,10 +150,9 @@ class Font extends BaseClass {
     set string(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'string';
         //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv[propName] !== newValue
-            && (priv[propName] = newValue);
+        core.tools.isString(newValue) && priv.string !== newValue
+            && (priv.string = newValue);
     }
     //#endregion string
     //#region height
@@ -169,10 +162,9 @@ class Font extends BaseClass {
     set height(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'height';
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv[propName] !== newValue
-            && (priv[propName] = newValue);
+        core.tools.isNumber(newValue) && priv.height !== newValue
+            && (priv.height = newValue);
     }
     //#endregion height
     //#region owner

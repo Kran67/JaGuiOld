@@ -60,13 +60,12 @@ class CustomTextControl extends ThemedControl {
     set inputObj(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'inputObj';
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if ((newValue instanceof HTMLInputElement || newValue instanceof HTMLTextAreaElement)
-            && priv[propName] !== newValue) {
-            htmlElement.removeChild(priv[propName]);
-            priv[propName] = newValue;
+            && priv.inputObj !== newValue) {
+            htmlElement.removeChild(priv.inputObj);
+            priv.inputObj = newValue;
             htmlElement.appendChild(newValue);
         }
     }
@@ -78,10 +77,9 @@ class CustomTextControl extends ThemedControl {
     set hasError(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'hasError';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue
-            && (priv[propName] = newValue);
+        core.tools.isBool(newValue) && priv.hasError !== newValue
+            && (priv.hasError= newValue);
     }
     //#endregion hasError
     //#region text
@@ -91,11 +89,10 @@ class CustomTextControl extends ThemedControl {
     set text(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'text';
         //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
-            this.propertyChanged(propName);
+        if (core.tools.isString(newValue) && priv.text !== newValue) {
+            priv.text = newValue;
+            this.propertyChanged('text');
             !this.loading && !this.form.loading && core.isHTMLRenderer && this.update();
         }
     }
@@ -107,11 +104,10 @@ class CustomTextControl extends ThemedControl {
     set maxLength(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'maxLength';
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
-            this.propertyChanged(propName);
+        if (core.tools.isNumber(newValue) && priv.maxLength !== newValue) {
+            priv.maxLength = newValue;
+            this.propertyChanged('maxLength');
             core.isHTMLRenderer && this.update();
         }
     }
@@ -123,11 +119,10 @@ class CustomTextControl extends ThemedControl {
     set readOnly(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'readOnly';
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
-            this.propertyChanged(propName);
+        if (core.tools.isBool(newValue) && priv.readOnly!== newValue) {
+            priv.readOnly = newValue;
+            this.propertyChanged('readOnly');
             core.isHTMLRenderer && this.update();
         }
     }
@@ -139,11 +134,10 @@ class CustomTextControl extends ThemedControl {
     set placeHolder(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'placeHolder';
         //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
-            this.propertyChanged(propName);
+        if (core.tools.isString(newValue) && priv.placeHolder !== newValue) {
+            priv.placeHolder = newValue;
+            this.propertyChanged('placeHolder');
             core.isHTMLRenderer && this.update();
         }
     }
@@ -155,10 +149,9 @@ class CustomTextControl extends ThemedControl {
     set filterChars(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'filterChars';
         //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv[propName] !== newValue
-            && (priv[propName] = newValue);
+        core.tools.isString(newValue) && priv.filterChars !== newValue
+            && (priv.filterChars = newValue);
     }
     //#endregion filterChars
     //#region autoTranslate
@@ -168,10 +161,9 @@ class CustomTextControl extends ThemedControl {
     set autoTranslate(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'autoTranslate';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue
-            && (priv[propName] = newValue);
+        core.tools.isBool(newValue) && priv.autoTranslate !== newValue
+            && (priv.autoTranslate = newValue);
     }
     //#endregion autoTranslate
     //#region required
@@ -181,10 +173,9 @@ class CustomTextControl extends ThemedControl {
     set required(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'required';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue
-            && (priv[propName] = newValue);
+        core.tools.isBool(newValue) && priv.required !== newValue
+            && (priv.required = newValue);
     }
     //#endregion required
     //#region errorMsg
@@ -194,10 +185,9 @@ class CustomTextControl extends ThemedControl {
     set errorMsg(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'errorMsg';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue
-            && (priv[propName] = newValue);
+        core.tools.isBool(newValue) && priv.errorMsg !== newValue
+            && (priv.errorMsg = newValue);
     }
     //#endregion errorMsg
     //#region enabled
@@ -207,11 +197,10 @@ class CustomTextControl extends ThemedControl {
     set enabled(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'enabled';
         const inputObj = priv.inputObj;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && this[propName] !== newValue) {
-            super[propName] = newValue;
+        if (core.tools.isBool(newValue) && this.enabled !== newValue) {
+            super.enabled = newValue;
             newValue ? inputObj.removeAttribute('disabled') : inputObj.setAttribute('disabled', 'disabled');
         }
     }
@@ -221,7 +210,7 @@ class CustomTextControl extends ThemedControl {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        let priv;
+        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (!htmlElement.querySelector('input')) {

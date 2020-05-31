@@ -44,10 +44,9 @@ class ItemsWheel extends ThemedControl {
     set value(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'value';
         //#endregion Variables déclaration
-        if (typeof newValue === typeof priv[propName] && newValue !== priv[propName]) {
-            priv[propName] = newValue;
+        if (typeof newValue === typeof priv.value && newValue !== priv.value) {
+            priv.value = newValue;
             !this.updating && this.onChange.invoke();
         }
     }
@@ -60,12 +59,11 @@ class ItemsWheel extends ThemedControl {
         //#region Variables déclaration
         const items = this.items;
         let priv = core.private(this);
-        const propName = 'index';
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue = Math.max(Math.min(newValue, items.length - 1), 0);
-            if (priv[propName] !== newValue) {
-                priv[propName] = Math.intCeiling(newValue, 1);
+            if (priv.index !== newValue) {
+                priv.index = Math.intCeiling(newValue, 1);
                 if (priv.index !== -1) {
                     const offset = 15 * priv.index;
                     priv.content.style.top = `${-offset}${core.types.CSSUNITS.PX}`;
@@ -83,9 +81,8 @@ class ItemsWheel extends ThemedControl {
     set mouseTracking(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'mouseTracking';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && newValue !== priv[propName] && (priv[propName] = newValue);
+        core.tools.isBool(newValue) && newValue !== priv.mouseTracking && (priv.mouseTracking = newValue);
     }
     //#endregion mouseTracking
     //#region animated
@@ -95,9 +92,8 @@ class ItemsWheel extends ThemedControl {
     set animated(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'animated';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && newValue !== priv[propName] && (priv[propName] = newValue);
+        core.tools.isBool(newValue) && newValue !== priv.animated && (priv.animated = newValue);
     }
     //#endregion animated
     //#endregion Getter / Setter

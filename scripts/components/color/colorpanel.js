@@ -34,7 +34,7 @@ class ColorPanel extends Control {
                     const c = Colors.TRANSPARENT;
                     //#endregion Variables déclaration
                     if (core.tools.valueInSet(newValue, COLORPANELBOXES) && priv.colorBoxType !== newValue) {
-                        core.private(this, { colorBoxType: newValue });
+                        priv.colorBoxType = newValue;
                         switch (newValue) {
                             case COLORPANELBOXES.PRIMARY:
                                 c.assign(priv.primaryColorBox.fillColor);
@@ -72,19 +72,19 @@ class ColorPanel extends Control {
     }
     //#endregion
     get colorQuad() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).colorQuad;
     }
     get hueSlider() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).hueSlider;
     }
     get alphaSlider() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).alphaSlider;
     }
     get primaryColorBox() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).primaryColorBox;
     }
     get secondaryColorBox() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).secondaryColorBox;
     }
     //#endregion Getters / Setters
     //#region Methods
@@ -152,12 +152,12 @@ class ColorPanel extends Control {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        this.unBindAndDestroyEvents(['onChange'], props);
         priv.colorQuad.destroy();
         priv.alphaSlider.destroy();
         priv.hueSlider.destroy();
         priv.secondaryColorBox.destroy();
         priv.primaryColorBox.destroy();
+        this.unBindAndDestroyEvents(['onChange'], props);
         super.destroy();
     }
     loaded() {

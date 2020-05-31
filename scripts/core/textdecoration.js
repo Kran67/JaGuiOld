@@ -28,11 +28,10 @@ class TextDecoration extends BaseClass {
     set underline(newValue) {
         //#region Variables déclaration
         const priv = internal(this);
-        const propName = 'underline';
         const form = priv.owner.form;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
+        if (core.tools.isBool(newValue) && priv.underline !== newValue) {
+            priv.underline = newValue;
             if (priv.owner.loading || form.loading) {
                 return null;
             }
@@ -47,11 +46,10 @@ class TextDecoration extends BaseClass {
     set overline(newValue) {
         //#region Variables déclaration
         const priv = internal(this);
-        const propName = 'overline';
         const form = priv.owner.form;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
+        if (core.tools.isBool(newValue) && priv.overline !== newValue) {
+            priv.overline = newValue;
             if (priv.owner.loading || form.loading) {
                 return null;
             }
@@ -66,11 +64,10 @@ class TextDecoration extends BaseClass {
     set lineThrough(newValue) {
         //#region Variables déclaration
         const priv = internal(this);
-        const propName = 'lineThrough';
         const form = priv.owner.form;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
+        if (core.tools.isBool(newValue) && priv.lineThrough !== newValue) {
+            priv.lineThrough = newValue;
             if (priv.owner.loading || form.loading) {
                 return null;
             }
@@ -85,12 +82,11 @@ class TextDecoration extends BaseClass {
     set color(newValue) {
         //#region Variables déclaration
         const priv = internal(this);
-        const propName = 'color';
         const form = priv.owner.form;
         //#endregion Variables déclaration
         core.tools.isString(newValue) && (newValue = Color.parse(newValue));
-        if (newValue instanceof Color && priv[propName] !== newValue) {
-            priv[propName] = newValue;
+        if (newValue instanceof Color && priv.color !== newValue) {
+            priv.color = newValue;
             if (priv.owner.loading || form.loading) {
                 return null;
             }
@@ -105,12 +101,11 @@ class TextDecoration extends BaseClass {
     set style(newValue) {
         //#region Variables déclaration
         const priv = internal(this);
-        const propName = 'style';
         const form = this.form;
         const TEXTDECORATIONSTYLES = core.types.TEXTDECORATIONSTYLES;
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, TEXTDECORATIONSTYLES) && priv[propName] !== newValue) {
-            priv[propName] = newValue;
+        if (core.tools.valueInSet(newValue, TEXTDECORATIONSTYLES) && priv.style!== newValue) {
+            priv.style = newValue;
             if (this.loading || form.loading) {
                 return null;
             }

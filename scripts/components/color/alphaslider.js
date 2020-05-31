@@ -14,15 +14,14 @@ class AlphaSlider extends ColorSlider {
     //#endregion constructor
     //#region Getters / Setters
     get gradientEdit() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).gradientEdit;
     }
     set gradientEdit(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        newValue instanceof core.classes.GradientEdit && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+        newValue instanceof core.classes.GradientEdit && priv.gradientEdit !== newValue
+            && (priv.gradientEdit = newValue);
     }
     //#endregion Getters / Setters
     //#region Methods

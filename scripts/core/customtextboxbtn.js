@@ -35,10 +35,9 @@ class CustomTextBoxBtn extends CustomTextControl {
     set btnClass(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'btnClass';
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv[propName] !== newValue
-            && (priv[propsName] = newValue);
+        core.tools.isNumber(newValue) && priv.btnClass !== newValue
+            && (priv.btnClass = newValue);
     }
     //#endregion btnClass
     //#region autoHideButtons
@@ -48,10 +47,9 @@ class CustomTextBoxBtn extends CustomTextControl {
     set autoHideButtons(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'autoHideButtons';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue
-            && (priv[propsName] = newValue);
+        core.tools.isBool(newValue) && priv.autoHideButtons !== newValue
+            && (priv.autoHideButtons = newValue);
     }
     //#endregion autoHideButtons
     //#endregion Getters / Setters

@@ -54,10 +54,9 @@ class Application extends BaseClass {
     set toolTipTimerHandle(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'toolTipTimerHandle';
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv[propName] !== newValue
-            && (priv[propName] = newValue);
+        core.tools.isNumber(newValue) && priv.toolTipTimerHandle !== newValue
+            && (priv.toolTipTimerHandle= newValue);
     }
     //#endregion toolTipTimerHandle
     //#region windows
@@ -92,10 +91,9 @@ class Application extends BaseClass {
     set loadedWindowsHTML(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'loadedWindowsHTML';
         //#endregion Variables déclaration
-        core.core.tools.isNumber(newValue) && priv[propName] !== newValue
-            && (priv[propName] = newValue);
+        core.core.tools.isNumber(newValue) && priv.loadedWindowsHTML !== newValue
+            && (priv.loadedWindowsHTML = newValue);
     }
     //#endregion loadedWindowsHTML
     //#region windowsClass
@@ -125,10 +123,9 @@ class Application extends BaseClass {
     set mainWindow(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'mainWindow';
         //#endregion Variables déclaration
-        newValue instanceof core.classes.Window && priv[propName] !== newValue
-            && (priv[propName] = newValue);
+        newValue instanceof core.classes.Window && priv.mainWindow !== newValue
+            && (priv.mainWindow = newValue);
     }
     //#endregion mainWindow
     //#region activeWindow
@@ -138,10 +135,9 @@ class Application extends BaseClass {
     set activeWindow(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'activeWindow';
         //#endregion Variables déclaration
-        if (newValue instanceof core.classes.Window && priv[propName] !== newValue) {
-            priv[propName] = newValue;
+        if (newValue instanceof core.classes.Window && priv.activeWindow !== newValue) {
+            priv.activeWindow = newValue;
             core.isCanvasRenderer && (core.canvas.needRedraw = !0);
         }
     }
@@ -153,10 +149,9 @@ class Application extends BaseClass {
     set title(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'title';
         //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv[propName] !== newValue
-            && (priv[propName] = newValue);
+        core.tools.isString(newValue) && priv.title !== newValue
+            && (priv.title = newValue);
     }
     //#endregion title
     //#region locale
@@ -166,13 +161,12 @@ class Application extends BaseClass {
     set locale(locale) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = 'locale';
         let comps = null;
         const windows = priv.windows;
         //#endregion Variables déclaration
         if (priv.locales[locale]) {
-            if (priv[propName] !== locale) {
-                priv[propName] = locale;
+            if (priv.locale !== locale) {
+                priv.locale = locale;
                 windows.forEach(win => {
                     if (win.visible) {
                         comps = priv.activeWindow.controls.filter(e => {

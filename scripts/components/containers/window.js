@@ -857,7 +857,7 @@ class BaseWindow extends ThemedControl {
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && newValue !== priv.keyPreview) {
             priv.keyPreview = newValue;
-            this.propertyChanged(core.tools.getPropertyName());
+            this.propertyChanged('keyPreview');
         }
     }
     //#endregion keyPreview

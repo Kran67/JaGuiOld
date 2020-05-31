@@ -28,10 +28,9 @@ class ThemeManifest extends BaseClass {
     set lastThemeName(newValue) {
         //#region Variables declaration
         const priv = core.private(this);
-        const propName = 'lastThemeName';
         //#endregion Variables declaration
-        core.tools.isString(newValue) && priv[propName] !== newValue
-            && (priv[propName] = newValue);
+        core.tools.isString(newValue) && priv.lastThemeName !== newValue
+            && (priv.lastThemeName = newValue);
     }
     //#endregion lastThemeName
     //#region owner
@@ -46,9 +45,8 @@ class ThemeManifest extends BaseClass {
     set themeName(newValue) {
         //#region Variables declaration
         const priv = core.private(this);
-        const propName = 'themeName';
         //#endregion Variables declaration
-        if (core.tools.isString(newValue) && newValue !== priv[propName]) {
+        if (core.tools.isString(newValue) && newValue !== priv.lastThemeName) {
             document.body.classList.add('changingTheme');
             core.private(this, {
                 lastThemeName: priv.themeName,

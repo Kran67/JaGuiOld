@@ -31,18 +31,17 @@ class ColorPicker extends Control {
     //#region Getters / Setters
     //#region color
     get color() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).color;
     }
     set color(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         const htmlElement = this.HTMLElement;
         const COLORPICKSIZE = core.types.CONSTANTS.COLORPICKSIZE;
         //#endregion Variables déclaration
-        if (newValue instanceof Color && !priv[propName].equals(newValue)) {
-            priv[propName].assign(newValue);
-            let pos = int(priv[propName].hue * htmlElement.offsetHeight / 360);
+        if (newValue instanceof Color && !priv.color.equals(newValue)) {
+            priv.color.assign(newValue);
+            let pos = int(priv.color.hue * htmlElement.offsetHeight / 360);
             pos -= COLORPICKSIZE / 2;
             priv.handle.y = (pos > htmlElement.offsetHeight - 5
                 ? htmlElement.offsetHeight - 5 : (pos < -5) ? -5 : pos);
@@ -52,15 +51,14 @@ class ColorPicker extends Control {
     //#endregion color
     //#region colorQuad
     get colorQuad() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).colorQuad;
     }
     set colorQuad(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        if (newValue instanceof core.classes.ColorQuad && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+        if (newValue instanceof core.classes.ColorQuad && priv.colorQuad !== newValue) {
+            priv.colorQuad = newValue;
             newValue.color.assign(priv.color);
         }
     }
