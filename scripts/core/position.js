@@ -21,30 +21,28 @@ class Position extends BaseClass {
     //#region Getter/Setter
     //#region x
     get x() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).x;
     }
     set x(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
-            core.private(this, { [propName]: newValue });
+        if (core.tools.isNumber(newValue) && newValue !== priv.x) {
+            priv.x = newValue;
             this.onChange.invoke();
         }
     }
     //#endregion x
     //#region y
     get y() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).y;
     }
     set y(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
-            core.private(this, { [propName]: newValue });
+        if (core.tools.isNumber(newValue) && newValue !== priv.y) {
+            priv.y = newValue;
             this.onChange.invoke();
         }
     }

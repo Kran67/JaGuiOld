@@ -20,14 +20,14 @@ class PopupBox extends ThemedControl {
     //#region Getter / Setter
     //#region refControl
     get refControl() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).refControl;
     }
     set refControl(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'refControl';
         //#endregion Variables déclaration
-        newValue instanceof core.classes.Control && priv[propName] !== newValue && core.private(this, { [propName]: newValue });
+        newValue instanceof core.classes.Control && priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion refControl
     //#endregion Getter / Setter

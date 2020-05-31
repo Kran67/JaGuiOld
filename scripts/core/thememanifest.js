@@ -18,35 +18,35 @@ class ThemeManifest extends BaseClass {
     //#region Getters / Setters
     //#region themes
     get themes() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).themes;
     }
     //#endregion themes
     //#region lastThemeName
     get lastThemeName() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).lastThemeName;
     }
     set lastThemeName(newValue) {
         //#region Variables declaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'lastThemeName';
         //#endregion Variables declaration
         core.tools.isString(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+            && (priv[propName] = newValue);
     }
     //#endregion lastThemeName
     //#region owner
     get owner() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).owner;
     }
     //#endregion owner
     //#region themeName
     get themeName() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).themeName;
     }
     set themeName(newValue) {
         //#region Variables declaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'themeName';
         //#endregion Variables declaration
         if (core.tools.isString(newValue) && newValue !== priv[propName]) {
             document.body.classList.add('changingTheme');

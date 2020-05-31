@@ -17,19 +17,19 @@ class StringList extends BaseClass {
     //#region Getters/ Setters
     //#region list
     get list() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).list;
     }
     set list(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'list';
         //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv[propName] !== newValue && core.private(this, { [propName]: newValue });
+        core.tools.isString(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion list
     //#region owner
     get owner() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).owner;
     }
     //#endregion owner
     //#region text

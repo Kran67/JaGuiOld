@@ -19,7 +19,7 @@ class Looper extends BaseClass {
     //#region Getter / Setter
     //#region listeners
     get listeners() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).listeners;
     }
     //#endregion listeners
     //#region functions
@@ -29,16 +29,16 @@ class Looper extends BaseClass {
     //#endregion functions
     //#region fps
     get fps() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).fps;
     }
     set fps(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'fps';
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && priv[propName] !== newValue) {
             this.stop();
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             //priv.rAF = window.requestAnimationFrameRate(priv.fps);
             this.start();
         }
@@ -46,50 +46,50 @@ class Looper extends BaseClass {
     //#endregion fps
     //#region handle
     get handle() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).handle;
     }
     set handle(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'handle';
         //#endregion Variables déclaration
-        priv[propName] !== newValue && core.private(this, { [propName]: newValue });
+        priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion handle
     //#region paused
     get paused() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).paused;
     }
     set paused(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'paused';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue && core.private(this, { [propName]: newValue });
+        core.tools.isBool(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion paused
     //#region rAF
     get rAF() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).rAF;
     }
     set rAF(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'rAF';
         //#endregion Variables déclaration
-        priv[propName] !== newValue && core.private(this, { [propName]: newValue });
+        priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion rAF
     //#region isBusy
     get isBusy() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).isBusy;
     }
     set isBusy(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'isBusy';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue && core.private(this, { [propName]: newValue });
+        core.tools.isBool(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion isBusy
     //#endregion Getter / Setter
@@ -100,7 +100,7 @@ class Looper extends BaseClass {
         const priv = core.private(this);
         //#endregion Variables déclaration
         priv.rAF = window.requestAnimationFrameRate(priv.fps);
-        core.private(this, { handle: priv.rAF(core.looper.loop) });
+        priv.handle = priv.rAF(core.looper.loop);
     }
     //#endregion start
     //#region stop
@@ -109,7 +109,7 @@ class Looper extends BaseClass {
         const priv = core.private(this);
         //#endregion Variables déclaration
         priv.handle !== null && window.cancelAnimationFrameRate(priv.handle);
-        core.private(this, { handle: null });
+        priv.handle = null;
     }
     //#endregion stop
     //#region pause
@@ -170,7 +170,7 @@ class Looper extends BaseClass {
             priv.listeners[key].functions.length = 0;
             priv.listeners[key].component = null;
         });
-        core.private(this, { listeners: {} });
+        priv.listeners = {};
     }
     //#endregion removeAllListeners
     //#region destroy

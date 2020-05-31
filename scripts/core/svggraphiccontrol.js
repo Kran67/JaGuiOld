@@ -19,26 +19,26 @@ class SVGGraphicControl extends GraphicControl {
     //#region Getter / Setter
     //#region svg
     get svg() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).svg;
     }
     set svg(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'svg';
         //#endregion Variables déclaration
-        newValue instanceof HTMLElement && priv[propName] !== newValue && core.private(this, {[propName]: newValue});
+        newValue instanceof HTMLElement && priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion svg
     //#region svgShape
     get svgShape() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).svgShape;
     }
     set svgShape(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'svgShape';
         //#endregion Variables déclaration
-        newValue instanceof HTMLElement && priv[propName] !== newValue && core.private(this, {[propName]: newValue});
+        newValue instanceof HTMLElement && priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion svgShape
     //#endregion Getter / Setter

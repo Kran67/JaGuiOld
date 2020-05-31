@@ -39,33 +39,33 @@ class ItemsWheel extends ThemedControl {
     //#region Getter / Setter
     //#region value
     get value() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).value;
     }
     set value(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'value';
         //#endregion Variables déclaration
         if (typeof newValue === typeof priv[propName] && newValue !== priv[propName]) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             !this.updating && this.onChange.invoke();
         }
     }
     //#endregion value
     //#region index
     get index() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).index;
     }
     set index(newValue) {
         //#region Variables déclaration
         const items = this.items;
         let priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'index';
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue = Math.max(Math.min(newValue, items.length - 1), 0);
             if (priv[propName] !== newValue) {
-                priv = core.private(this, { [propName]: Math.intCeiling(newValue, 1) });
+                priv[propName] = Math.intCeiling(newValue, 1);
                 if (priv.index !== -1) {
                     const offset = 15 * priv.index;
                     priv.content.style.top = `${-offset}${core.types.CSSUNITS.PX}`;
@@ -78,26 +78,26 @@ class ItemsWheel extends ThemedControl {
     //#endregion index
     //#region mouseTracking
     get mouseTracking() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).mouseTracking;
     }
     set mouseTracking(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'mouseTracking';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && newValue !== priv[propName] && core.private(this, { [propName]: newValue });
+        core.tools.isBool(newValue) && newValue !== priv[propName] && (priv[propName] = newValue);
     }
     //#endregion mouseTracking
     //#region animated
     get animated() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).animated;
     }
     set animated(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'animated';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && newValue !== priv[propName] && core.private(this, { [propName]: newValue });
+        core.tools.isBool(newValue) && newValue !== priv[propName] && (priv[propName] = newValue);
     }
     //#endregion animated
     //#endregion Getter / Setter
@@ -189,7 +189,7 @@ class ItemsWheel extends ThemedControl {
             priv.lastDelta.setValues(0, 0);
             priv.downPos.assign(core.mouse.screen);
             priv.currentPos.assign(core.mouse.screen);
-            core.private(this, { down: !0 });
+            priv.down = !0;
             //if (scrollAni && scrollAni.running) {
             //    scrollAni.stopAtCurrent();
             this.index = Math.intCeiling(priv.index, 1);
@@ -223,7 +223,7 @@ class ItemsWheel extends ThemedControl {
         super.mouseUp();
         //const offset = core.mouse.screen.y - currentPos.y;
         if (priv.down && priv.mouseTracking) {
-            core.private(this, { down: !1 });
+            priv.down = !1;
             if (priv.animated && priv.lastDelta.y !== 0) {
                 if (Math.abs(priv.downPos.y - priv.currentPos.y) > 20) {
                     //this.createScrollAni();

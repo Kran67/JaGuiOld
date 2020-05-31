@@ -40,14 +40,14 @@ class Apps {
      * Get the applications list
      */
     get applications() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).applications;
     }
     /**
      * Get the activeApplication
      * @return  {Application}   the active application
      */
     get activeApplication() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).activeApplication;
     }
     /**
      * Set the activeApplication
@@ -56,22 +56,22 @@ class Apps {
     set activeApplication(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'activeApplication';
         //#endregion Variables déclaration
         (newValue instanceof core.classes.Application || newValue == null) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+            && (priv[propName] = newValue);
     }
     /**
      * Get the capslock
      */
     get capslock() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).capslock;
     }
     /**
      * Set the capslock
      */
     set capslock(newValue) {
-        core.tools.isString(newValue) && core.private(this, { [core.tools.getPropertyName()]: newValue });
+        core.tools.isString(newValue) && (priv.capslock = newValue);
     }
     //#endregion Getters / Setters
     //#region Methods

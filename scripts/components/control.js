@@ -150,7 +150,7 @@ class Control extends Component {
                     let align = priv.align;
                     //#endregion Variables déclaration
                     if (core.tools.valueInSet(newValue, core.types.ALIGNS) && align !== newValue) {
-                        align = core.private(this, { align: newValue }).align;
+                        align = priv.align = newValue;
                         if (!this.loading && !this.form.loading && align !== core.types.ALIGNS.NONE) {
                             owner.realignChilds();
                             owner.hasResizeEvent && owner.resized();
@@ -172,7 +172,7 @@ class Control extends Component {
                     //#endregion Variables déclaration
                     if (core.tools.valueInSet(newValue, core.types.CUSTOMCURSORS) && cursor !== newValue) {
                         htmlElement.classList.remove(cursor);
-                        cursor = core.private(this, { cursor: newValue }).cursor;
+                        cursor = priv.cursor = newValue;
                         htmlElement.classList.add(cursor);
                     }
                 },
@@ -201,33 +201,33 @@ class Control extends Component {
     //#region Getters / Setters
     //#region translationKey
     get translationKey() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).translationKey;
     }
     //#endregion translationKey
     //#region allowUpdateOnResize
     get allowUpdateOnResize() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).allowUpdateOnResize;
     }
     set allowUpdateOnResize(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'allowUpdateOnResize';
         //#endregion Variables déclaration
         core.tools.isBool(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+            && (priv[propName] = newValue);
     }
     //#endregion allowUpdateOnResize
     //#region allowRealignChildsOnResize
     get allowRealignChildsOnResize() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).allowRealignChildsOnResize;
     }
     set allowRealignChildsOnResize(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'allowRealignChildsOnResize';
         //#endregion Variables déclaration
         core.tools.isBool(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+            && (priv[propName] = newValue);
     }
     //#endregion allowRealignChildsOnResize
     //#region bounds
@@ -250,20 +250,20 @@ class Control extends Component {
     //#endregion bounds
     //#region clipped
     get clipped() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).clipped;
     }
     set clipped(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'clipped';
         //#endregion Variables déclaration
         core.tools.isBool(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+            && (priv[propName] = newValue);
     }
     //#endregion clipped
     //#region reflected
     get reflected() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).reflected;
     }
     set reflected(newValue) {
         //#region Variables déclaration
@@ -271,7 +271,7 @@ class Control extends Component {
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && priv.reflected !== newValue) {
-            core.private(this, { [propName]: newValue });
+            (priv[propName] = newValue);
             if (core.isHTMLRenderer) {
                 newValue
                     ? htmlElement.classList.add('reflected')
@@ -282,69 +282,69 @@ class Control extends Component {
     //#endregion reflected
     //#region forceDisplayVisibility
     get forceDisplayVisibility() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).forceDisplayVisibility;
     }
     set forceDisplayVisibility(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'forceDisplayVisibility';
         //#endregion Variables déclaration
         core.tools.isBool(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+            && (priv[propName] = newValue);
     }
     //#endregion forceDisplayVisibility
     //#region allowUpdate
     get allowUpdate() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).allowUpdate;
     }
     set allowUpdate(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'allowUpdate';
         //#endregion Variables déclaration
         core.tools.isBool(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+            && (priv[propName] = newValue);
     }
     //#endregion allowUpdate
     //#region autoTranslate
     get autoTranslate() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).autoTranslate;
     }
     set autoTranslate(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'autoTranslate';
         //#endregion Variables déclaration
         core.tools.isBool(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+            && (priv[propName] = newValue);
     }
     //#endregion autoTranslate
     //#region isMouseOver
     get isMouseOver() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).isMouseOver;
     }
     set isMouseOver(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'isMouseOver';
         //#endregion Variables déclaration
         core.tools.isBool(newValue) && priv.mouseEvents.mouseenter && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+            && (priv[propName] = newValue);
     }
     //#endregion isMouseOver
     //#region isFocused
     get isFocused() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).isFocused;
     }
     set isFocused(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'isFocused';
         const form = this.form;
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             let lastFc;
             form.focusedControl && (core.classes.CustomTextControl
                 && form.focusedControl instanceof core.classes.CustomTextControl) && !newValue
@@ -368,16 +368,16 @@ class Control extends Component {
     //#endregion isFocused
     //#region isPressed
     get isPressed() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).isPressed;
     }
     set isPressed(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'isPressed';
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && priv.mouseEvents.mousedown && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             core.isHTMLRenderer && htmlElement.classList.remove('pressed');
             newValue && (core.isHTMLRenderer && htmlElement.classList.add('pressed'));
         }
@@ -385,16 +385,16 @@ class Control extends Component {
     //#endregion isPressed
     //#region closePopups
     get closePopups() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).closePopups;
     }
     set closePopups(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'closePopups';
         const components = this.components;
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             components.forEach(comp => {
                 comp instanceof core.classes.Control && (comp.closePopups = newValue);
             });
@@ -403,111 +403,111 @@ class Control extends Component {
     //#endregion closePopups
     //#region wrapper
     get wrapper() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).wrapper;
     }
     set wrapper(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'wrapper';
         //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv[propName] !== newValue && core.private(this, { [propName]: newValue });
+        core.tools.isString(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion wrapper
     //#region hasResizeEvent
     get hasResizeEvent() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).hasResizeEvent;
     }
     set hasResizeEvent(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'hasResizeEvent';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue && core.private(this, { [propName]: newValue });
+        core.tools.isBool(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion hasResizeEvent
     //#region resizeData
     get resizeData() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).resizeData;
     }
     //#endregion resizeData
     //#region tabList
     get tabList() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).tabList;
     }
     //#endregion tabList
     //#region constraints
     get constraints() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).constraints;
     }
     set constraints(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'constraints';
         //#endregion Variables déclaration
         newValue instanceof core.classes.Constraints && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+            && (priv[propName] = newValue);
     }
     //#endregion constraints
     //#region ownerShowToolTip
     get ownerShowToolTip() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).ownerShowToolTip;
     }
     set ownerShowToolTip(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'ownerShowToolTip';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue && core.private(this, { [propName]: newValue });
+        core.tools.isBool(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion ownerShowToolTip
     //#region autoCapture
     get autoCapture() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).autoCapture;
     }
     set autoCapture(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'autoCapture';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue && core.private(this, { [propName]: newValue });
+        core.tools.isBool(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion autoCapture
     //#region padding
     get padding() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).padding;
     }
     //#endregion padding
     //#region margin
     get margin() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).margin;
     }
     //#endregion margin
     //#region popupMenu
     get popupMenu() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).popupMenu;
     }
     set popupMenu(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'popupMenu';
         //#endregion Variables déclaration
         newValue instanceof core.classes.PopupMenu && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+            && (priv[propName] = newValue);
     }
     //#endregion popupMenu
     //#region opacity
     get opacity() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).opacity;
     }
     set opacity(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'opacity';
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue = Math.max(Math.min(newValue, 0), 0);
             if (priv[propName] !== newValue) {
-                core.private(this, { [propName]: newValue });
+                priv[propName] = newValue;
                 this.propertyChanged(propName);
                 !this.loading && !this.form.loading
                     && (this.HTMLElementStyle.opacity = newValue);
@@ -534,7 +534,7 @@ class Control extends Component {
     get width() {
         //#region Variables déclaration
         let priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'width';
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (!core.isHTMLRenderer) {
@@ -543,25 +543,26 @@ class Control extends Component {
             let width = htmlElement.offsetWidth > 0 ?
                 htmlElement.offsetWidth :
                 parseInt(getComputedStyle(this.HTMLElement)[propName], 10);
-            return core.private(this, { width: priv[propName] !== width && width > 0 ? width : priv[propName] })[propName];
+            priv[propName] = priv[propName] !== width && width > 0 ? width : priv[propName];
+            return priv[propName];
         }
     }
     set width(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'width';
         const htmlElementStyle = this.HTMLElementStyle;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && priv[propName] !== newValue) {
             if (!core.isHTMLRenderer) {
-                core.private(this, { [propName]: newValue });
+                priv[propName] = newValue;
                 this.realignChilds();
             } else if (!this.loading) {
                 this.propertyChanged(propName);
                 newValue < 0
                     ? htmlElementStyle.width = 'auto'
                     : htmlElementStyle.width = `${newValue}${core.types.CSSUNITS.PX}`;
-                core.private(this, { [propName]: newValue });
+                priv[propName] = newValue;
                 //this._boundingClientRect.right=this._boundingClientRect.left+this.HTMLElement.offsetWidth;
             }
         }
@@ -586,7 +587,7 @@ class Control extends Component {
     get height() {
         //#region Variables déclaration
         let priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'height';
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (!core.isHTMLRenderer) {
@@ -595,37 +596,38 @@ class Control extends Component {
             let height = htmlElement.offsetHeight > 0 ?
                 htmlElement.offsetHeight :
                 parseInt(getComputedStyle(this.HTMLElement)[propName], 10);
-            return core.private(this, { height: priv[propName] !== height && height > 0 ? height : priv[propName] })[propName];
+            priv[propName] = priv[propName] !== height && height > 0 ? height : priv[propName];
+            return priv[propName];
         }
     }
     set height(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'height';
         const htmlElementStyle = this.HTMLElementStyle;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && priv[propName] !== newValue) {
             if (!core.isHTMLRenderer) {
-                core.private(this, { [propName]: newValue });
+                priv[propName] = newValue;
                 this.realignChilds();
             } else if (!this.loading) {
                 this.propertyChanged(propName);
                 newValue < 0
                     ? htmlElementStyle.height = 'auto'
                     : htmlElementStyle.height = `${newValue}${core.types.CSSUNITS.PX}`;
-                core.private(this, { [propName]: newValue });
+                priv[propName] = newValue;
             }
         }
     }
     //#endregion height
     //#region scale
     get scale() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).scale;
     }
     set scale(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'scale';
         const scale = priv[propName];
         //#endregion Variables déclaration
         if (newValue instanceof core.classes.Point && !scale.equals(newValue)) {
@@ -638,28 +640,28 @@ class Control extends Component {
     //#endregion scale
     //#region canFocused
     get canFocused() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).canFocused;
     }
     set canFocused(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'canFocused';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue && core.private(this, { [propName]: newValue });
+        core.tools.isBool(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion canFocused
     //#region showFocus
     get showFocus() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).showFocus;
     }
     set showFocus(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'showFocus';
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             if (!newValue) {
                 htmlElement.classList.remove('focused');
             } else if (priv.isFocused) {
@@ -670,20 +672,20 @@ class Control extends Component {
     //#endregion showFocus
     //#region enabled
     get enabled() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).enabled;
     }
     set enabled(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'enabled';
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             core.isHTMLRenderer && htmlElement.classList.remove('disabled');
             if (!newValue) {
                 core.isHTMLRenderer && htmlElement.classList.add('disabled');
-                core.private(this, { isPressed: !1 });
+                priv.isPressed = !1;
             }
             const comps = this.components.filter(e => {
                 return e instanceof core.classes.Control;
@@ -696,13 +698,13 @@ class Control extends Component {
     //#endregion enabled
     //#region rotateCenter
     get rotateCenter() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).rotateCenter;
     }
     set rotateCenter(newValue) {
         //#region Variables déclaration
         const PO = core.types.CSSUNITS.PO;
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'rotateCenter';
         const rotateCenter = priv[propName];
         //#endregion Variables déclaration
         if (newValue instanceof core.classes.Point && !rotateCenter.equals(newValue)) {
@@ -714,31 +716,31 @@ class Control extends Component {
     //#endregion rotateCenter
     //#region toolTip
     get toolTip() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).toolTip;
     }
     set toolTip(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'toolTip';
         //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv[propName] !== newValue && core.private(this, { [propName]: newValue });
+        core.tools.isString(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion toolTip
     //#region showToolTip
     get showToolTip() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).showToolTip;
     }
     set showToolTip(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'showToolTip';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue && core.private(this, { [propName]: newValue });
+        core.tools.isBool(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion showToolTip
     //#region mouseEvents
     get mouseEvents() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).mouseEvents;
     }
     //set mouseEvents(newValue) {
     //    //#region Variables déclaration
@@ -753,15 +755,15 @@ class Control extends Component {
     //#endregion mouseEvents
     //#region rotateAngle
     get rotateAngle() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).rotateAngle;
     }
     set rotateAngle(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'rotateAngle';
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             this.propertyChanged(propName);
             !this.loading && !this.form.loading && core.isHTMLRenderer && this.applyTransforms();
         }
@@ -769,38 +771,38 @@ class Control extends Component {
     //#endregion rotateAngle
     //#region customStyle
     get customStyle() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).customStyle;
     }
     set customStyle(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'customStyle';
         //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv[propName] !== newValue && core.private(this, { [propName]: newValue });
+        core.tools.isString(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion customStyle
     //#region cssClasses
     get cssClasses() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).cssClasses;
     }
     set cssClasses(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'cssClasses';
         //#endregion Variables déclaration
         if (core.tools.isString(newValue) && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             this.HTMLElement.classList.add(newValue);
         }
     }
     //#endregion cssClasses
     //#region tabOrder
     get tabOrder() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).tabOrder;
     }
     set tabOrder(newValue) {
         //#region Variables déclaration
-        const propName = core.tools.getPropertyName();
+        const propName = 'tabOrder';
         const tabList = this.owner.tabList;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
@@ -811,10 +813,10 @@ class Control extends Component {
                 if (newValue !== curIndex) {
                     tabList.deleteAt(curIndex);
                     tabList.insert(newValue, this);
-                    core.private(this, { [propName]: newValue });
+                    priv[propName] = newValue;
                 }
             } else {
-                core.private(this, { [propName]: newValue });
+                priv[propName] = newValue;
                 tabList.push(this);
             }
         }
@@ -822,16 +824,16 @@ class Control extends Component {
     //#endregion tabOrder
     //#region right
     get right() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).right;
     }
     set right(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'right';
         const htmlElementStyle = this.HTMLElementStyle;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) || newValue === null && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             this.propertyChanged(propName);
             if (core.isHTMLRenderer && !this.loading && !this.form.loading) {
                 htmlElementStyle.right = `${newValue}${core.types.CSSUNITS.PX}`;
@@ -842,16 +844,16 @@ class Control extends Component {
     //#endregion right
     //#region bottom
     get bottom() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).bottom;
     }
     set bottom(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'bottom';
         const htmlElementStyle = this.HTMLElementStyle;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) || newValue === null && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             this.propertyChanged(propName);
             if (core.isHTMLRenderer && !this.loading && !this.form.loading) {
                 htmlElementStyle.bottom = `${newValue}${core.types.CSSUNITS.PX}`;
@@ -862,25 +864,25 @@ class Control extends Component {
     //#endregion bottom
     //#region doubleClick
     get doubleClick() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).doubleClick;
     }
     set doubleClick(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'doubleClick';
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv[propName] !== newValue && core.private(this, { [propName]: newValue });
+        core.tools.isBool(newValue) && priv[propName] !== newValue && (priv[propName] = newValue);
     }
     //#endregion doubleClick
     //#region visible
     get visible() {
-        return super[core.tools.getPropertyName()];
+        return super.visible;
     }
     set visible(newValue) {
         //#region Variables déclaration
         const htmlElement = this.HTMLElement;
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'visible';
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && super[propName] !== newValue) {
             super[propName] = newValue;
@@ -958,10 +960,10 @@ class Control extends Component {
     set column(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'column';
         //#endregion Variables déclaration
         if (this.owner instanceof core.classes.GridLayout && core.tools.isNumber(newValue) && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             priv.updateCell();
         }
     }
@@ -974,10 +976,10 @@ class Control extends Component {
     set row(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'row';
         //#endregion Variables déclaration
         if (this.owner instanceof core.classes.GridLayout && core.tools.isNumber(newValue) && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             priv.updateCell();
         }
     }
@@ -990,11 +992,11 @@ class Control extends Component {
     set colSpan(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'colSpan';
         //#endregion Variables déclaration
         if (this.owner instanceof core.classes.GridLayout && core.tools.isNumber(newValue)
             && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             priv.updateCell();
         }
     }
@@ -1007,11 +1009,11 @@ class Control extends Component {
     set rowSpan(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'rowSpan';
         //#endregion Variables déclaration
         if (this.owner instanceof core.classes.GridLayout && core.tools.isNumber(newValue)
             && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             priv.updateCell();
         }
     }

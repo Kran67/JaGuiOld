@@ -281,12 +281,12 @@ class Color extends Bindable {
     //#region Getters / Setters
     //#region red
     get red() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).red;
     }
     set red(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'red';
         const owner = priv.owner;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
@@ -303,12 +303,12 @@ class Color extends Bindable {
     //#endregion red
     //#region green
     get green() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).green;
     }
     set green(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'green';
         const owner = priv.owner;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
@@ -325,12 +325,12 @@ class Color extends Bindable {
     //#endregion green
     //#region blue
     get blue() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).blue;
     }
     set blue(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'blue';
         const owner = priv.owner;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
@@ -347,12 +347,12 @@ class Color extends Bindable {
     //#endregion blue
     //#region alpha
     get alpha() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).alpha;
     }
     set alpha(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'alpha';
         const owner = priv.owner;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
@@ -365,12 +365,12 @@ class Color extends Bindable {
     //#endregion alpha
     //#region hue
     get hue() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).hue;
     }
     set hue(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'hue';
         const owner = priv.owner;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
@@ -384,12 +384,12 @@ class Color extends Bindable {
     //#endregion hue
     //#region saturation
     get saturation() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).saturation;
     }
     set saturation(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'saturation';
         const owner = priv.owner;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
@@ -403,12 +403,12 @@ class Color extends Bindable {
     //#endregion saturation
     //#region value
     get value() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).value;
     }
     set value(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'value';
         const owner = this.owner;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
@@ -422,12 +422,12 @@ class Color extends Bindable {
     //#endregion value
     //#region lightness
     get lightness() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).lightness;
     }
     set lightness(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'lightness';
         const owner = this.owner;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && newValue !== priv[propName]) {
@@ -441,18 +441,18 @@ class Color extends Bindable {
     //#endregion lightness
     //#region owner
     get owner() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).owner;
     }
     set owner(newValue) {
-        core.private(this, { owner: newValue });
+        core.private(this).owner= newValue ;
     }
     //#endregion owner
     //#region updating
     get updating() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).updating;
     }
     set updating(newValue) {
-        core.private(this, { updating: newValue });
+        core.private(this).updating= newValue ;
     }
     //#endregion updating
     //#endregion Getters / Setters
@@ -706,7 +706,7 @@ class Color extends Bindable {
             } else if (alpha < 0) {
                 alpha = 0;
             }
-            core.private(this, { alpha });
+            priv.alpha = alpha;
             return this;
         }
         return this;

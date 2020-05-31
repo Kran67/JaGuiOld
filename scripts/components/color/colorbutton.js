@@ -12,8 +12,7 @@ class ColorButton extends Button {
             const color = props.hasOwnProperty('color') ? Color.parse(props.color) : Colors.TRANSPARENT;
             props.caption = color.toRGBAString();
             super(owner, props);
-            const priv = internal(this);
-            priv.color = color;
+            core.private(this, { color });
             this.createEventsAndBind(['onChange'], props);
             //priv.colorDlg = null;
         }
@@ -22,7 +21,7 @@ class ColorButton extends Button {
     //#region Getters / Setters
     //#region caption
     get caption() {
-        return internal(this).color.toRGBAString();
+        return core.private(this).color.toRGBAString();
     }
     set caption(newValue) {
         return;
@@ -30,15 +29,16 @@ class ColorButton extends Button {
     //#endregion caption
     //#region color
     get color() {
-        return internal(this).color;
+        return core.private(this)[core.tools.getPropertyName()];
     }
     set color(newValue) {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
+        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        if (newValue instanceof Color && !priv.color.equals(newValue)) {
-            priv.color.assign(newValue);
-            this.caption = priv.color.toRGBAString();
+        if (newValue instanceof Color && !priv[propName].equals(newValue)) {
+            priv[propName].assign(newValue);
+            this.caption = priv[propName].toRGBAString(); // à voir
             if (core.isHTMLRenderer) {
                 !this.loading && !this.form.loading && this.update();
                 !this.updating && this.onChange.invoke();
@@ -46,23 +46,12 @@ class ColorButton extends Button {
         }
     }
     //#endregion color
-    //#region colorDlg
-    //get colorDlg() {
-    //    return internal(this).colorDlg;
-    //}
-    //set colorDlg(newValue) {
-    //    //#region Variables déclaration
-    //    const priv = internal(this);
-    //    //#endregion Variables déclaration
-    //    newValue instanceof ColorDialog && priv.colorDlg !== newValue && (priv.colorDlg = newValue);
-    //}
-    //#endregion colorDlg
     //#endregion Getters / Setters
     //#region Methods
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         //#endregion Variables déclaration
         this.textObj && (this.textObj.innerHTML = String.EMPTY);
         priv.colorObj
@@ -72,7 +61,6 @@ class ColorButton extends Button {
     //#region click
     click() {
         //#region Variables déclaration
-        const priv = internal(this);
         const colorDlg = core.classes.createComponent({
             class: core.classes.ColorDlg,
             owner: activeApp,
@@ -83,12 +71,6 @@ class ColorButton extends Button {
         });
         //#endregion Variables déclaration
         colorDlg.obj = this;
-        //colorDlg.caption = 'Couleurs'; // à traduire
-        //colorDlg.color = priv.color;
-        //colorDlg.lblOpacity.visible = !1;
-        //colorDlg.slrOpacity.visible = !1;
-        //colorDlg.txtbOpacity.visible = !1;
-        //colorDlg.lblOpacityPer.visible = !1;
         colorDlg.onClose.addListener(this.updateColor);
         colorDlg.showModal();
         super.click();
@@ -103,10 +85,12 @@ class ColorButton extends Button {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
+        let colorObj;
         //#endregion Variables déclaration
-        priv.colorObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}color`);
-        priv.colorObj.classList.add('Control', 'ColorButtonColor', this.themeName);
+        colorObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}color`);
+        colorObj.classList.add('Control', 'ColorButtonColor', this.themeName);
+        core.private(this, { colorObj });
         this.HTMLElement.appendChild(priv.colorObj);
         super.loaded();
     }
@@ -114,11 +98,9 @@ class ColorButton extends Button {
     //#region destroy
     destroy() {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         //#endregion Variables déclaration
-        priv.colorObj = null;
         priv.color.destroy();
-        priv.color = null;
         this.unBindAndDestroyEvents(['onChange']);
         super.destroy();
     }

@@ -21,75 +21,75 @@ class SizeConstraints extends BaseClass {
     //#region Getter / Setter
     //#region control
     get control() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).control;
     }
     set control(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'control';
         //#endregion Variables déclaration
         if (newValue instanceof core.classes.Control && newValue !== priv[propName]) {
-            core.private(this, {[propName]: newValue});
+            priv[propName] = newValue;
             this.onChange.invoke();
         }
     }
     //#endregion control
     //#region maxHeight
     get maxHeight() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).maxHeight;
     }
     set maxHeight(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'maxHeight';
         //#endregion Variables déclaration
         if (newValue instanceof core.classes.Control && newValue !== priv[propName]) {
-            core.private(this, {[propName]: newValue});
+            priv[propName] = newValue;
             this.onChange.invoke();
         }
     }
     //#endregion maxHeight
     //#region maxWidth
     get maxWidth() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).maxWidth;
     }
     set maxWidth(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'maxWidth';
         //#endregion Variables déclaration
         if (newValue instanceof core.classes.Control && newValue !== priv[propName]) {
-            core.private(this, {[propName]: newValue});
+            priv[propName] = newValue;
             this.onChange.invoke();
         }
     }
     //#endregion maxWidth
     //#region minHeight
     get minHeight() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).minHeight;
     }
     set minHeight(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'minHeight';
         //#endregion Variables déclaration
         if (newValue instanceof core.classes.Control && newValue !== priv[propName]) {
-            core.private(this, {[propName]: newValue});
+            priv[propName] = newValue;
             this.onChange.invoke();
         }
     }
     //#endregion minHeight
     //#region minWidth
     get minWidth() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).minWidth;
     }
     set minWidth(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'minWidth';
         //#endregion Variables déclaration
         if (newValue instanceof core.classes.Control && newValue !== priv[propName]) {
-            core.private(this, {[propName]: newValue});
+            priv[propName] = newValue;
             this.onChange.invoke();
         }
     }

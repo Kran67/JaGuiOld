@@ -37,14 +37,15 @@ class ScrollControl extends ThemedControl {
     //#endregion SCROLLMODES
     //#region scrollMode
     get scrollMode() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).scrollMode;
     }
     set scrollMode(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'scrollMode';
         //#endregion Variables déclaration
-        core.tools.valueInSet(newValue, SCROLLMODES) && (priv[propName] !== newValue && core.private(this, { [propName]: newValue }));
+        core.tools.valueInSet(newValue, SCROLLMODES) && priv[propName] !== newValue
+            && (priv[propName] = newValue);
     }
     //#endregion scrollMode
     //#region hasHorizScrollBar
@@ -78,7 +79,7 @@ class ScrollControl extends ThemedControl {
             priv.lastDelta.setValues(0, 0);
             priv.downPos.assign(core.mouse.screen);
             priv.currentPos.assign(core.mouse.screen);
-            core.private(this, { down: !0 });
+            priv.down = !0;
             //if (this._VScrollAni && this._VScrollAni.running) this._VScrollAni.stopAtCurrent();
             //if (this._HScrollAni && this._HScrollAni.running) this._HScrollAni.stopAtCurrent();
         }
@@ -111,7 +112,7 @@ class ScrollControl extends ThemedControl {
         //#endregion Variables déclaration
         super.mouseUp();
         if (priv.down && this.mouseTracking) {
-            core.private(this, { down: !1 });
+            priv.down = !1;
             //if (this.animated && ((this._lastDelta.x !== 0) || (this._lastDelta.y !== 0))) {
             //    data = this._HTMLElement.dataset.scrollbars;
             //    if (data === $j.core.types.scrollbars.VERTICAL || data === $j.core.types.scrollbars.BOTH) {

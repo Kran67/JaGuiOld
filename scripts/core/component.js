@@ -57,10 +57,10 @@ class Component extends Bindable {
     //#region Getter / Setters
     //#region owner
     get owner() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).owner;
     }
     set owner(newValue) {
-        core.private(this, { owner: newValue });
+        core.private(this).owner = newValue;
     }
     //#endregion owner
     //#region componentIndex
@@ -92,146 +92,146 @@ class Component extends Bindable {
     //#endregion componentIndex
     //#region owners
     get owners() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).owners;
     }
     //#endregion owners
     //#region app
     get app() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).app;
     }
     set app(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        newValue instanceof core.classes.Application && priv.app !== newValue && core.private(this, { app: newValue });
+        newValue instanceof core.classes.Application && priv.app !== newValue && (priv.app = newValue);
     }
     //#endregion app
     //#region form
     get form() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).form;
     }
     set form(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        newValue instanceof core.classes.Window && priv.form !== newValue && core.private(this, { form: newValue });
+        newValue instanceof core.classes.Window && priv.form !== newValue && (priv.form = newValue);
     }
     //#endregion form
     //#region loading
     get loading() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).loading;
     }
     set loading(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        priv.loading !== newValue && core.private(this, { loading: newValue });
+        priv.loading !== newValue && (priv.loading = newValue);
     }
     //#endregion loading
     //#region destroying
     get destroying() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).destroying;
     }
     //#endregion destroying
     //#region HTMLElement
     get HTMLElement() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).HTMLElement;
     }
     set HTMLElement(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
         newValue instanceof HTMLElement && priv.HTMLElement !== newValue
-            && core.private(this, { HTMLElement: newValue });
+            && (priv.HTMLElement = newValue);
     }
     //#endregion HTMLElement
     //#region HTMLElementStyle
     get HTMLElementStyle() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).HTMLElementStyle;
     }
     set HTMLElementStyle(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
         newValue instanceof CSSStyleDeclaration && priv.HTMLElementStyle !== newValue
-            && core.private(this, { HTMLElementStyle: newValue });
+            && (priv.HTMLElementStyle = newValue);
     }
     //#endregion HTMLElementStyle
     //#region designing
     get designing() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).designing;
     }
     set designing(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
         core.tools.isBool(newValue) && priv.designing !== newValue
-            && core.private(this, { designing: newValue });
+            && (priv.designing = newValue);
     }
     //#endregion designing
     //#region internalId
     get internalId() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).internalId;
     }
     set internalId(newValue) {
-        core.private(this, { internalId: newValue });
+        core.private(this).internalId = newValue;
     }
     //#endregion internalId
     //#region updating
     get updating() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).updating;
     }
     set updating(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
         core.tools.isBool(newValue) && priv.updating !== newValue
-            && core.private(this, { updating: newValue });
+            && (priv.updating = newValue);
     }
     //#endregion updating
     //#region designInstance
     get designInstance() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).designInstance;
     }
     set designInstance(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
         core.tools.isBool(newValue) && priv.designInstance !== newValue
-            && core.private(this, { designInstance: newValue });
+            && (priv.designInstance = newValue);
     }
     //#endregion designInstance
     //#region component
     get component() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).component;
     }
     set component(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.component !== newValue && core.private(this, { component: newValue });
+        core.tools.isBool(newValue) && priv.component !== newValue && (priv.component = newValue);
     }
     //#endregion component
     //#region inForm
     get inForm() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).inForm;
     }
     set inForm(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.inForm !== newValue && core.private(this, { inForm: newValue });
+        core.tools.isBool(newValue) && priv.inForm !== newValue && (priv.inForm = newValue);
     }
     //#endregion inForm
     //#region visible
     get visible() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).visible;
     }
     set visible(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.visible !== newValue && core.private(this, { visible: newValue });
+        core.tools.isBool(newValue) && priv.visible !== newValue && (priv.visible = newValue);
     }
     //#endregion visible
     //#region template
@@ -370,10 +370,10 @@ class Component extends Bindable {
         if (core.tools.isNumber(newValue) && cStyle.position === 'absolute') {
             const lastLeft = core.isHTMLRenderer ? priv.HTMLElement.offsetLeft : priv.left;
             if (lastLeft !== newValue && !priv.loading) {
-                this.propertyChanged(core.tools.getPropertyName());
+                this.propertyChanged('left');
                 core.isHTMLRenderer
                     ? priv.HTMLElementStyle.left = `${newValue}${core.types.CSSUNITS.PX}`
-                    : core.private(this, { left: newValue });
+                    : priv.left = newValue;
             }
         }
     }
@@ -397,7 +397,7 @@ class Component extends Bindable {
         const bottom = this.bottom;
         //#endregion Variables déclaration
         bottom != null
-            && core.private(this, { top: priv.owner.height - this.height - bottom - this.margin.bottom });
+            && (priv.top = priv.owner.height - this.height - bottom - this.margin.bottom);
         return top;
     }
     set top(newValue) {
@@ -408,10 +408,10 @@ class Component extends Bindable {
         if (core.tools.isNumber(newValue) && cStyle.position === 'absolute') {
             const lastTop = (core.isHTMLRenderer ? priv.HTMLElement.offsetTop : priv.top);
             if (lastTop !== newValue && !priv.loading) {
-                this.propertyChanged(core.tools.getPropertyName());
+                this.propertyChanged('top');
                 core.isHTMLRenderer
                     ? priv.HTMLElementStyle.top = `${newValue}${core.types.CSSUNITS.PX}`
-                    : core.private(this, { top: newValue });
+                    : priv.top = newValue;
             }
         }
     }
@@ -630,12 +630,12 @@ class Component extends Bindable {
     //#endregion findComponent
     //#region updating
     _updating() {
-        core.private(this, { updating: !0 });
+        core.private(this).updating = !0;
     }
     //#endregion updating
     //#region updated
     updated() {
-        core.private(this, { updating: !1 });
+        core.private(this).updating = !1;
     }
     //#endregion updated
     //#region validateRename
@@ -668,9 +668,9 @@ class Component extends Bindable {
             priv.HTMLElementStyle = htmlElement.style;
             !htmlElement.jsObj && (htmlElement.jsObj = this);
             const data = htmlElement.name;
-            data && core.private(this, { name: data });
+            data && (priv.name = data);
         }
-        !internalId || internalId !== id && core.private(this, { internalId: id });
+        !internalId || internalId !== id && (priv.internalId = id);
     }
     //#endregion getHTMLElement
     //#region getChilds

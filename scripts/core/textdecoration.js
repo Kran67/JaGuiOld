@@ -23,16 +23,16 @@ class TextDecoration extends BaseClass {
     //#region Getters / Setters
     //#region underline
     get underline() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).underline;
     }
     set underline(newValue) {
         //#region Variables déclaration
         const priv = internal(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'underline';
         const form = priv.owner.form;
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             if (priv.owner.loading || form.loading) {
                 return null;
             }
@@ -42,16 +42,16 @@ class TextDecoration extends BaseClass {
     //#endregion underline
     //#region overline
     get overline() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).overline;
     }
     set overline(newValue) {
         //#region Variables déclaration
         const priv = internal(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'overline';
         const form = priv.owner.form;
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             if (priv.owner.loading || form.loading) {
                 return null;
             }
@@ -61,16 +61,16 @@ class TextDecoration extends BaseClass {
     //#endregion overline
     //#region lineThrough
     get lineThrough() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).lineThrough;
     }
     set lineThrough(newValue) {
         //#region Variables déclaration
         const priv = internal(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'lineThrough';
         const form = priv.owner.form;
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             if (priv.owner.loading || form.loading) {
                 return null;
             }
@@ -80,17 +80,17 @@ class TextDecoration extends BaseClass {
     //#endregion lineThrough
     //#region color
     get color() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).color;
     }
     set color(newValue) {
         //#region Variables déclaration
         const priv = internal(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'color';
         const form = priv.owner.form;
         //#endregion Variables déclaration
         core.tools.isString(newValue) && (newValue = Color.parse(newValue));
         if (newValue instanceof Color && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             if (priv.owner.loading || form.loading) {
                 return null;
             }
@@ -100,17 +100,17 @@ class TextDecoration extends BaseClass {
     //#endregion color
     //#region style
     get style() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).style;
     }
     set style(newValue) {
         //#region Variables déclaration
         const priv = internal(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'style';
         const form = this.form;
         const TEXTDECORATIONSTYLES = core.types.TEXTDECORATIONSTYLES;
         //#endregion Variables déclaration
         if (core.tools.valueInSet(newValue, TEXTDECORATIONSTYLES) && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             if (this.loading || form.loading) {
                 return null;
             }

@@ -23,12 +23,12 @@ class GraphicControl extends Control {
     //#region Getter / Setters
     //#region fillColor
     get fillColor() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).fillColor;
     }
     set fillColor(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'fillColor';
         //#endregion Variables déclaration
         if (newValue instanceof Color && !priv[propName].equals(newValue)) {
             priv[propName].assign(newValue);
@@ -38,12 +38,12 @@ class GraphicControl extends Control {
     //#endregion fillColor
     //#region strokeColor
     get strokeColor() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).strokeColor;
     }
     set strokeColor(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'strokeColor';
         //#endregion Variables déclaration
         if (newValue instanceof Color && !priv[propName].equals(newValue)) {
             priv[propName].assign(newValue);
@@ -53,17 +53,17 @@ class GraphicControl extends Control {
     //#endregion strokeColor
     //#region strokeWidth
     get strokeWidth() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).strokeWidth;
     }
     set strokeWidth(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'strokeWidth';
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue = Math.max(0, newValue);
             if (priv[propName] !== newValue) {
-                core.private(this, { [propName]: newValue });
+                priv[propName] = newValue;
                 this.update();
             }
         }
@@ -71,30 +71,30 @@ class GraphicControl extends Control {
     //#endregion strokeWidth
     //#region strokeDash
     get strokeDash() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).strokeDash;
     }
     set strokeDash(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'strokeDash';
         //#endregion Variables déclaration
         if (core.tools.isString(newValue) && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             this.update();
         }
     }
     //#endregion strokeDash
     //#region strokeDashOffset
     get strokeDashOffset() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).strokeDashOffset;
     }
     set strokeDashOffset(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'strokeDashOffset';
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && priv[propName] !== newValue) {
-            core.private(this, { [propName]: newValue });
+            priv[propName] = newValue;
             this.update();
         }
     }

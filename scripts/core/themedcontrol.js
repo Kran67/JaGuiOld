@@ -19,14 +19,14 @@ class ThemedControl extends Control {
     get themeName() {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'themeName';
         //#endregion Variables déclaration
         return !String.isNullOrEmpty(priv[propName]) ? priv[propName] : this.form.app.themeManifest.themeName;
     }
     set themeName(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'themeName';
         //#endregion Variables déclaration
         if (core.tools.isString(newValue) && priv[propName] !== newValue) {
             // on recherche s'il existe un theme
@@ -37,7 +37,7 @@ class ThemedControl extends Control {
                 })
                 : core.themes[newValue];
             if (newThemeOk) {
-                core.private(this, { [propName]: newValue });
+                priv[propName] = newValue;
                 //if (core.isHTMLRenderer) {
                 //    ctrls = this.HTMLElement.querySelectorAll("[data-theme]");
                 //    ctrls.forEach(ctrl => {

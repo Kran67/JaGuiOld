@@ -19,7 +19,7 @@ class Bindable extends BaseClass {
     //#region Getters / Setters
     //#region dataBindings
     get dataBindings() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).dataBindings;
     }
     //#endregion dataBindings
     //#endregion Getters / Setters

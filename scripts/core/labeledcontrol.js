@@ -17,12 +17,12 @@ class LabeledControl extends ThemedControl {
     //#region Getters / Setters
     //#region caption
     get caption() {
-        return core.private(this)[core.tools.getPropertyName()].caption;
+        return core.private(this).caption;
     }
     set caption(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'caption';
         //#endregion Variables déclaration
         if (core.tools.isString(newValue) && priv.label[propName] !== newValue) {
             priv.label[propName] = newValue;
@@ -31,12 +31,12 @@ class LabeledControl extends ThemedControl {
     //#endregion caption
     //#region height
     get height() {
-        return super[core.tools.getPropertyName()];
+        return super.height;
     }
     set height(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
+        const propName = 'height';
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && priv[propName] !== newValue) {
             super[propName] = newValue;

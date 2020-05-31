@@ -57,27 +57,30 @@ class Point extends BaseClass {
         !core.tools.isNumber(x) && (x = 0);
         !core.tools.isNumber(y) && (y = 0);
 
-        core.private(this, {
-            x,
-            y
-        });
+        core.private(this, { x, y });
     }
     //#endregion constructor
     //#region Getter / Setters
     //#region x
     get x() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).x;
     }
     set x(newValue) {
-        core.tools.isNumber(newValue) && core.private(this, { x: newValue });
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        core.tools.isNumber(newValue) && priv.x !== newValue && (priv.x = newValue);
     }
     //#endregion x
     //#region y
     get y() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).y;
     }
     set y(newValue) {
-        core.tools.isNumber(newValue) && core.private(this, { x: newValue });
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        core.tools.isNumber(newValue) && priv.y !== newValue && (priv.y = newValue);
     }
     //#endregion y
     //#region isEmpty
@@ -427,46 +430,46 @@ class Rect extends BaseClass {
     //#region Getter / Setters
     //#region left
     get left() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).left;
     }
     set left(newValue) {
         //#region Variables déclaration
-        const propName = core.tools.getPropertyName();
+        const priv = core.private(this);
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && core.private(this, { [propName]: newValue });
+        core.tools.isNumber(newValue) && priv.left !== newValue && (priv.left = newValue);
     }
     //#endregion
     //#region top
     get top() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).top;
     }
     set top(newValue) {
         //#region Variables déclaration
-        const propName = core.tools.getPropertyName();
+        const priv = core.private(this);
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && core.private(this, { [propName]: newValue });
+        core.tools.isNumber(newValue) && priv.top !== newValue && (priv.top = newValue);
     }
     //#endregion
     //#region right
     get right() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).right;
     }
     set right(newValue) {
         //#region Variables déclaration
-        const propName = core.tools.getPropertyName();
+        const priv = core.private(this);
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && core.private(this, { [propName]: newValue });
+        core.tools.isNumber(newValue) && priv.right !== newValue && (priv.right = newValue);
     }
     //#endregion
     //#region bottom
     get bottom() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).bottom;
     }
     set bottom(newValue) {
         //#region Variables déclaration
-        const propName = core.tools.getPropertyName();
+        const priv = core.private(this);
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && core.private(this, { [propName]: newValue });
+        core.tools.isNumber(newValue) && priv.bottom !== newValue && (priv.bottom = newValue);
     }
     //#endregion
     //#region isEmpty
@@ -831,33 +834,29 @@ class Vector extends BaseClass {
     //#region Getter / Setters
     //#region x
     get x() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).x;
     }
     set x(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv[propName] !== newValue
-            && core.private(this, { y: newValue });
+        core.tools.isNumber(newValue) && priv.x !== newValue && (priv.x = newValue);
     }
     //#endregion x
     //#region y
     get y() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).y;
     }
     set y(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv[propName] !== newValue
-            && core.private(this, { y: newValue });
+        core.tools.isNumber(newValue) && priv.y !== newValue && (priv.y = newValue);
     }
     //#endregion y
     //#region z
     get z() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).z;
     }
     set z(newValue) {
         //#region Variables déclaration
@@ -1079,110 +1078,101 @@ class Matrix extends BaseClass {
     //#region Getter / Setters
     //#region m11
     get m11() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).m11;
     }
     set m11(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && core.private(this, { [propName]: newValue });
+        core.tools.isNumber(newValue) && priv.m11 !== newValue && (priv.m11 = newValue);
     }
     //#endregion m11
     //#region m12
     get m12() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).m12;
     }
     set m12(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && core.private(this, { [propName]: newValue });
+        core.tools.isNumber(newValue) && priv.m12 !== newValue && (priv.m12 = newValue);
     }
     //#endregion m12
     //#region m13
     get m13() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).m13;
     }
     set m13(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && core.private(this, { [propName]: newValue });
+        core.tools.isNumber(newValue) && priv.m13 !== newValue && (priv.m13 = newValue);
     }
     //#endregion m13
     //#region m21
     get m21() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).m21;
     }
     set m21(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && core.private(this, { [propName]: newValue });
+        core.tools.isNumber(newValue) && priv.m21 !== newValue && (priv.m21 = newValue);
     }
     //#endregion m21
     //#region m22
     get m22() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).m22;
     }
     set m22(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && core.private(this, { [propName]: newValue });
+        core.tools.isNumber(newValue) && priv.m22 !== newValue && (priv.m22 = newValue);
     }
     //#endregion m22
     //#region m23
     get m23() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).m23;
     }
     set m23(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && core.private(this, { [propName]: newValue });
+        core.tools.isNumber(newValue) && priv.m23 !== newValue && (priv.m23 = newValue);
     }
     //#endregion m23
     //#region m31
     get m31() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).m31;
     }
     set m31(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && core.private(this, { [propName]: newValue });
+        core.tools.isNumber(newValue) && priv.m31 !== newValue && (priv.m31 = newValue);
     }
     //#endregion m31
     //#region m32
     get m32() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).m32;
     }
     set m32(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && core.private(this, { [propName]: newValue });
+        core.tools.isNumber(newValue) && priv.m32 !== newValue && (priv.m32 = newValue);
     }
     //#endregion m32
     //#region m33
     get m33() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).m33;
     }
     set m33(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && core.private(this, { [propName]: newValue });
+        core.tools.isNumber(newValue) && priv.m33 !== newValue && (priv.m33 = newValue);
     }
     //#endregion m33
     //#region clone
