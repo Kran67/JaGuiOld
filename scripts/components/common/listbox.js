@@ -790,7 +790,7 @@ class ListBox extends ScrollControl {
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         super.keyDown();
-        switch (core.keyboard.keyCode) {
+        switch (core.keyboard.key) {
             case VKEYSCODES.VK_LEFT:
             case VKEYSCODES.VK_UP:
                 priv.keyDir = DIRECTIONS.LEFT;

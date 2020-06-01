@@ -50,7 +50,7 @@ class ProgressBar extends ThemedControl {
     //#endregion orientation
     //#region value
     get value() {
-        return internal(this).value;
+        return core.private(this).value;
     }
     set value(newValue) {
         //#region Variables déclaration

@@ -145,7 +145,7 @@ class ButtonGlyph extends Button {
     //#endregion height
     //#region showCaption
     get showCaption() {
-        return internal(this).showCaption;
+        return core.private(this).showCaption;
     }
     set showCaption(newValue) {
         //#region Variables déclaration

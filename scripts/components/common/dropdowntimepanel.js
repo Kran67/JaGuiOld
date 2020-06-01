@@ -239,7 +239,7 @@ class DropDownTimePanel extends ThemedControl {
         const priv = core.private(this);
         //#endregion Variables déclaration
         super.keyDown();
-        if (core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
+        if (core.keyboard.key === Keyboard.VKEYSCODES.VK_SPACE) {
             if (!priv.opened) {
                 this.opened = !0;
             } else if (priv.dropDownPopup) {

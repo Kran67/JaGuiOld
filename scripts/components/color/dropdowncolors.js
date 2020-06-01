@@ -157,7 +157,7 @@ class ListBoxColorPopup extends ListBox {
     keyUp() {
         const VKEYSCODES = Keyboard.VKEYSCODES;
         super.keyUp();
-        switch (core.keyboard.keyCode) {
+        switch (core.keyboard.key) {
             case VKEYSCODES.VK_RETURN:
             case VKEYSCODES.VK_ENTER:
                 this.selectItem(this.items[this.itemIndex]);

@@ -234,7 +234,7 @@ class Slider extends ThemedControl {
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && priv.leftInput.valueAsNumber !== newValue) {
             priv.leftInput.valueAsNumber = newValue;
-            this.propertyChanged(core.tools.getPropertyName());
+            this.propertyChanged('firstValue');
             this.update();
         }
     }
@@ -249,7 +249,7 @@ class Slider extends ThemedControl {
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && priv.rightInput.valueAsNumber !== newValue) {
             priv.rightInput.valueAsNumber = newValue;
-            this.propertyChanged(core.tools.getPropertyName());
+            this.propertyChanged('lastValue');
             this.update();
         }
     }
@@ -518,7 +518,7 @@ class Slider extends ThemedControl {
         const shift = core.keyboard.shift;
         //#endregion Variables déclaration
         super.keyDown();
-        switch (core.keyboard.keyCode) {
+        switch (core.keyboard.key) {
             case VKEYSCODES.VK_LEFT:
             case VKEYSCODES.VK_UP:
                 shift && priv.mode === SLIDERMODES.RANGE

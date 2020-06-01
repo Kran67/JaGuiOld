@@ -94,13 +94,12 @@ class Control extends Component {
                 }),
                 updateCell: function () {
                     //#region Variables déclaration
-                    const priv = core.private(this);
                     const htmlElementStyle = self.HTMLElementStyle;
                     //#endregion Variables déclaration
                     // columns
-                    htmlElementStyle.gridColumn = `${priv.column} / span ${priv.colSpan > 1 ? priv.colSpan : 1}`;
+                    htmlElementStyle.gridColumn = `${this.column} / span ${this.colSpan > 1 ? this.colSpan : 1}`;
                     // rows
-                    htmlElementStyle.gridRow = `${priv.row} / span ${priv.rowSpan > 1 ? priv.rowSpan : 1}`;
+                    htmlElementStyle.gridRow = `${this.row} / span ${this.rowSpan > 1 ? this.rowSpan : 1}`;
                 }
             });
             priv.resizer.obj = this;
@@ -1856,7 +1855,7 @@ class Control extends Component {
     //#region keyDown
     keyDown() {
         this.onKeyDown.invoke();
-        core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE
+        core.keyboard.key === Keyboard.VKEYSCODES.VK_SPACE
             && !(this instanceof core.classes.CustomTextControl)
             && (this.isPressed = !0);
     }
@@ -1867,12 +1866,12 @@ class Control extends Component {
         const VKEYSCODES = Keyboard.VKEYSCODES;
         //#endregion Variables déclaration
         this.onKeyUp.invoke();
-        if (core.keyboard.keyCode === VKEYSCODES.VK_SPACE || core.keyboard.keyCode === VKEYSCODES.VK_RETURN) {
+        if (core.keyboard.key === VKEYSCODES.VK_SPACE || core.keyboard.key === VKEYSCODES.VK_RETURN) {
             if (!(this instanceof core.classes.CustomTextControl)) {
                 this.click();
                 this.isPressed = !1;
             }
-        } else if (core.keyboard.keyCode === VKEYSCODES.VK_MENU) {
+        } else if (core.keyboard.key === VKEYSCODES.VK_MENU) {
             if (this.popupMenu) {
                 const pt = this.clientToDocument();
                 this.popupMenu.show(pt.x, pt.y);

@@ -394,7 +394,7 @@ class Calendar extends ThemedControl {
         const priv = core.private(this);
         //#endregion Variables déclaration
         super.keyDown();
-        switch (core.keyboard.keyCode) {
+        switch (core.keyboard.key) {
             case Keyboard.VKEYSCODES.VK_LEFT:
                 switch (priv.mode) {
                     default:
@@ -528,7 +528,7 @@ class Calendar extends ThemedControl {
                 }
                 break;
         }
-        core.keyboard.keyCode !== Keyboard.VKEYSCODES.VK_SPACE && this.update();
+        core.keyboard.key !== Keyboard.VKEYSCODES.VK_SPACE && this.update();
     }
     //#endregion keyDown
     //#region loaded

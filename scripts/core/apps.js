@@ -70,7 +70,7 @@ class Apps {
      * Set the capslock
      */
     set capslock(newValue) {
-        core.tools.isString(newValue) && (priv.capslock = newValue);
+        core.tools.isString(newValue) && (core.private(this).capslock = newValue);
     }
     //#endregion Getters / Setters
     //#region Methods
@@ -136,9 +136,9 @@ class Apps {
         core.keyboard.getKeyboardInfos(event);
         obj = event.target;
         obj !== document.body && obj.jsObj;// && (dealEvent = obj.jsObj.stopEvent);
-        dealEvent = dealEvent || core.keyboard.keyCode === vKeysCodes.VK_ALT || core.keyboard.keyCode === vKeysCodes.VK_TAB || form.mainMenu && form.mainMenu.activeItem;
+        dealEvent = dealEvent || core.keyboard.key === vKeysCodes.VK_ALT || core.keyboard.key === vKeysCodes.VK_TAB || form.mainMenu && form.mainMenu.activeItem;
         if (dealEvent) {
-            switch (core.keyboard.keyCode) {
+            switch (core.keyboard.key) {
                 case vKeysCodes.VK_SPACE:
                 case vKeysCodes.VK_RETURN:
                     if (form) {
@@ -245,7 +245,7 @@ class Apps {
         form = core.apps.activeApplication ? core.apps.activeApplication.activeWindow : null;
         if (core.keyboard && form) {
             core.keyboard.getKeyboardInfos(event);
-            switch (core.keyboard.keyCode) {
+            switch (core.keyboard.key) {
                 case vKeysCodes.VK_ALT:
                     form.mainMenu && (!core.keyboard.ctrl && !core.keyboard.shift && !core.keyboard.meta)
                         && form.mainMenu.keyUp();
@@ -304,7 +304,7 @@ class Apps {
         console.log('keyPress');
         //#region Variables déclaration
         let form;
-        const keyCode = core.keyboard.keyCode;
+        const key = core.keyboard.key;
         const vKeysCodes = Keyboard.VKEYSCODES;
         //#endregion Variables déclaration
         form = core.apps.activeApplication ? core.apps.activeApplication.activeWindow : null;
@@ -318,9 +318,9 @@ class Apps {
             } else if (keyBoardEventArgs.modifiers) {
                 shiftOn = !!(keyBoardEventArgs.modifiers & 4);
             }
-            keyCode >= vKeysCodes.VK_NUMPAD1 && keyCode <= vKeysCodes.VK_F11 && shiftOn
-                || keyCode >= vKeysCodes.VK_A &&
-                keyCode <= vKeysCodes.VK_Z && !shiftOn
+            key >= vKeysCodes.VK_NUMPAD1 && key <= vKeysCodes.VK_F11 && shiftOn
+                || key >= vKeysCodes.VK_A &&
+                key <= vKeysCodes.VK_Z && !shiftOn
                 && (core.apps.capslock = 'ON');
 
             form.focusedControl ? form.focusedControl.keyPress() : form.keyPress();

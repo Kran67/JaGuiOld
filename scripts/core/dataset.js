@@ -43,113 +43,105 @@ class DataSet extends Component {
     //#region Getters / Setters
     //#region data
     get data() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).data;
     }
     set data(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        Array.isArray(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+        Array.isArray(newValue) && priv.data !== newValue
+            && (priv.data = newValue);
     }
     //#endregion data
     //#region cursorIdx
     get cursorIdx() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).cursorIdx;
     }
     set cursorIdx(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+        core.tools.isNumber(newValue) && priv.cursorIdx !== newValue
+            && (priv.cursorIdx = newValue);
     }
     //#endregion cursorIdx
     //#region cursor
     get cursor() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).cursor;
     }
     set cursor(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isObject(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+        core.tools.isObject(newValue) && priv.cursor !== newValue
+            && (priv.cursor = newValue);
     }
     //#endregion cursor
     //#region numFields
     get numFields() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).numFields;
     }
     set numFields(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+        core.tools.isNumber(newValue) && priv.numFields !== newValue
+            && (priv.numFields = newValue);
     }
     //#endregion numFields
     //#region numRecords
     get numRecords() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).numRecords;
     }
     set numRecords(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+        core.tools.isNumber(newValue) && priv.numRecords !== newValue
+            && (priv.numRecords = newValue);
     }
     //#endregion numRecords
     //#region keyValues
     get keyValues() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).keyValues;
     }
     set keyValues(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv[propName] !== newValue
-            && core.private(this, { [propName]: newValue });
+        core.tools.isString(newValue) && priv.keyValues !== newValue
+            && (priv.keyValues = newValue);
     }
     //#endregion keyValues
     //#region dataSource
     get dataSource() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).dataSource;
     }
     set dataSource(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        if (newValue instanceof core.classes.DataSource && priv[propName] !== newValue) {
+        if (newValue instanceof core.classes.DataSource && priv.dataSource !== newValue) {
             //priv.active = !1;
-            core.private(this, { [propName]: newValue });
+            priv.dataSource = newValue;
             //priv.active = !0;
         }
     }
     //#endregion dataSource
     //#region active
     get active() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).active;
     }
     set active(newValue) {
         //#region Variables déclaration
         let priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv[propName] !== newValue) {
-            priv = core.private(this, { [propName]: newValue });
+        if (core.tools.isBool(newValue) && priv.active !== newValue) {
+            priv.active = newValue;
             if (priv.active) {
                 this.open();
                 this.getKeyValues();
-                core.private(this, { cursorIdx: 0 });
+                priv.cursorIdx = 0;
             } else {
                 this.close();
             }
@@ -158,16 +150,16 @@ class DataSet extends Component {
     //#endregion active
     //#region activeOnLoad
     get activeOnLoad() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).activeOnLoad;
     }
     //#endregion activeOnLoad
     //#region isOpen
     get isOpen() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).isOpen;
     }
     set isOpen(newValue) {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         //#endregion Variables déclaration
         core.tools.isBool(newValue) && priv.isOpen !== newValue && (priv.isOpen = newValue);
     }
@@ -178,7 +170,7 @@ class DataSet extends Component {
      */
     //#region keyField
     get keyField() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.core.private(this).keyField;
     }
     /**
      * Set the keyField value
@@ -186,7 +178,7 @@ class DataSet extends Component {
      */
     set keyField(newValue) {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         //#endregion Variables déclaration
         if (core.tools.isString(newValue) && priv.keyField !== newValue) {
             priv.keyField = newValue;
@@ -202,7 +194,7 @@ class DataSet extends Component {
     //#region open
     open() {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         //#endregion Variables déclaration
         if (!priv.data.isEmpty) {
             priv.cursorIdx = 0;
@@ -218,7 +210,7 @@ class DataSet extends Component {
     //#region close
     close() {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         //#endregion Variables déclaration
         priv.isOpen = !1;
         priv.cursorIdx = -1;
@@ -232,7 +224,7 @@ class DataSet extends Component {
     //#region next
     next() {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         //#endregion Variables déclaration
         priv.cursorIdx++;
         priv.cursorIdx > priv.numRecords && (priv.cursorIdx = priv.numRecords - 1);
@@ -246,7 +238,7 @@ class DataSet extends Component {
     //#region prev
     prev() {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         //#endregion Variables déclaration
         priv.cursorIdx--;
         priv.cursorIdx = Math.max(priv.cursorIdx, 0);
@@ -260,7 +252,7 @@ class DataSet extends Component {
     //#region first
     first() {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         //#endregion Variables déclaration
         priv.cursorIdx = 0;
         this.getKeyValues();
@@ -273,7 +265,7 @@ class DataSet extends Component {
     //#region last
     last() {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         //#endregion Variables déclaration
         priv.cursorIdx = priv.numRecords - 1;
         this.getKeyValues();
@@ -287,7 +279,7 @@ class DataSet extends Component {
     //#region hasKeyfield
     hasKeyfield() {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         //#endregion Variables déclaration
         return !priv.keyFields.isEmpty;
     }
@@ -298,7 +290,7 @@ class DataSet extends Component {
     //#region getKeyValues
     getKeyValues() {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         let values = null;
         //#endregion Variables déclaration
         if (!String.isNullOrEmpty(priv.keyFields)) {
@@ -321,7 +313,7 @@ class DataSet extends Component {
     //#region goToCurrentCursor
     goToCurrentCursor() {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         const keyValues = prvi.keyValues;
         const keyFields = prvi.keyFields.split(',');
         let idx = -1;
@@ -449,20 +441,9 @@ class DataSet extends Component {
     //#region destroy
     destroy() {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         //#endregion Variables déclaration
-        priv.cursorIdx = null;
-        priv.cursor = null;
-        priv.numFields = null;
-        priv.numRecords = null;
-        priv.keyValues = null;
-        priv.dataSource = null;
-        priv.active = null;
-        priv.activeOnLoad = null;
-        priv.isOpen = null;
-        priv.keyField = null;
         priv.data && priv.data.destroy();
-        priv.data = null;
         super.destroy();
     }
     //#endregion destroy

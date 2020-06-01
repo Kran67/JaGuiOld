@@ -142,7 +142,7 @@ class ColorPicker extends Control {
         //#endregion Variables déclaration
         super.keyDown();
         core.keyboard.shift && (offset *= 5);
-        switch (core.keyboard.keyCode) {
+        switch (core.keyboard.key) {
             case VKEYSCODES.VK_UP:
                 pt.y -= offset - COLORPICKSIZE / 2;
                 pt.y = Math.max(pt.y, 0);

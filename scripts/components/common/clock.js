@@ -51,7 +51,7 @@ class Clock extends ThemedControl {
             props.width = -1;
             props.hitTest = { mouseUp: !1 };
             super(owner, props);
-            core.private(this, {
+            const priv = core.private(this, {
                 startTime: null,
                 handle: null,
                 started: !1,
@@ -60,19 +60,18 @@ class Clock extends ThemedControl {
                     ? props.showSeconds : !1,
                 showDays: props.hasOwnProperty('showDays') && core.tools.isBool(props.showDays) ? props.showDays : !1,
                 showDate: props.hasOwnProperty('showDate') && core.tools.isBool(props.showDate) ? props.showDate : !0,
-                use24H : core.tools.getLocale().date.pm === String.EMPTY,
+                use24H: core.tools.getLocale().date.pm === String.EMPTY,
                 autoStart: props.hasOwnProperty('autoStart') && core.tools.isBool(props.autoStart)
                     ? props.autoStart : !0,
                 alarm: props.hasOwnProperty('alarm') && core.tools.isObject(props.alarm) ? props.alarm : null,
                 countDown: props.hasOwnProperty('countDown') && core.tools.isObject(props.countDown)
                     ? props.countDown : { seconds: 0 },
                 dotsGap: props.hasOwnProperty('dotsGap') && core.tools.isNumber(props.dotsGap)
-                    ? props.dotsGap : 1,
+                    ? Math.min(props.dotsGap, 2) : 1,
                 dotsFirstColor: props.hasOwnProperty('dotsFirstColor')
                     ? Color.parse(props.dotsFirstColor) : Color.parse('#3559ff'),
                 dotsLastColor: props.hasOwnProperty('dotsLastColor')
                     ? Color.parse(props.dotsLastColor) : Color.parse('#0a1854'),
-                dotsGap: priv.dotsGap > 2 ? 2 : priv.dotsGap,
                 numbers: {
                     '0': 'zero',
                     '1': 'one',
@@ -180,7 +179,7 @@ class Clock extends ThemedControl {
                 }
             });
             //#endregion dotMatrix
-            countDown.days && priv.countDown.days > 999 && (priv.countDown.days = 999);
+            priv.countDown.days && priv.countDown.days > 999 && (priv.countDown.days = 999);
             if (priv.countDown.hours && priv.countDown.hours > 23) {
                 priv.countDown.hours = !String.isNullOrEmpty(priv.use24H) ? 12 : 23;
             }

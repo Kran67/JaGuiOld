@@ -3,54 +3,39 @@ import { LabeledControl } from '/scripts/core/labeledcontrol.js';
 import { ColorButton } from '/scripts/components/color/colorbutton.js';
 import { Colors } from '/scripts/core/color.js';
 //#endregion Import
-//#region LabeledColorButton
-const LabeledColorButton = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class LabeledColorButton
-    class LabeledColorButton extends LabeledControl {
-        //#region Getters / Setters
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region loaded
-        loaded() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
-            //#endregion Variables déclaration
-            super.loaded();
-            priv.colorButton = core.classes.createComponent({
-                class: ColorButton,
-                owner: this,
-                props: {
-                    inForm: !1,
-                    color: props.hasOwnProperty('color') ? props.color : Colors.RED
-                }
-            });
-        }
-        //#endregion loaded
-        //#region destroy
-        destroy() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.colorButton.destroy();
-            priv.colorButton = null;
-            super.destroy();
-        }
-        //#endregion destroy
-        //#endregion Methods
+//#region Class LabeledColorButton
+class LabeledColorButton extends LabeledControl {
+    //#region Getters / Setters
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region loaded
+    loaded() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
+        //#endregion Variables déclaration
+        super.loaded();
+        priv.colorButton = core.classes.createComponent({
+            class: ColorButton,
+            owner: this,
+            props: {
+                inForm: !1,
+                color: props.hasOwnProperty('color') ? props.color : Colors.RED
+            }
+        });
     }
-    return LabeledColorButton;
-    //#endregion LabeledColorButton
-})();
+    //#endregion loaded
+    //#region destroy
+    destroy() {
+        //#region Variables déclaration
+        const priv = intcore.privateernal(this);
+        //#endregion Variables déclaration
+        priv.colorButton.destroy();
+        super.destroy();
+    }
+    //#endregion destroy
+    //#endregion Methods
+}
 Object.seal(LabeledColorButton);
 core.classes.register(core.types.CATEGORIES.EXTENDED, LabeledColorButton);
 //#endregion LabeledColorButton

@@ -2,54 +2,39 @@
 import { LabeledControl } from '/scripts/core/labeledcontrol.js';
 import { TextBox } from '/scripts/components/common/textbox.js';
 //#endregion Import
-//#region LabeledTextBox
-const LabeledTextBox = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        !_private.has(key) && _private.set(key, {});
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class LabeledTextBox
-    class LabeledTextBox extends LabeledControl {
-        //#region Getters / Setters
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region loaded
-        loaded() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
-            //#endregion Variables déclaration
-            super.loaded();
-            priv.textBox = core.classes.createComponent({
-                class: TextBox,
-                owner: this,
-                props: {
-                    inForm: !1,
-                    text: props.hasOwnProperty('text') ? props.text : String.EMPTY
-                }
-            });
-        }
-        //#endregion loaded
-        //#region destroy
-        destroy() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.textBox.destroy();
-            priv.textBox = null;
-            super.destroy();
-        }
-        //#endregion destroy
-        //#endregion Methods
+//#region Class LabeledTextBox
+class LabeledTextBox extends LabeledControl {
+    //#region Getters / Setters
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region loaded
+    loaded() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
+        //#endregion Variables déclaration
+        super.loaded();
+        priv.textBox = core.classes.createComponent({
+            class: TextBox,
+            owner: this,
+            props: {
+                inForm: !1,
+                text: props.hasOwnProperty('text') ? props.text : String.EMPTY
+            }
+        });
     }
-    return LabeledTextBox;
-    //#endregion LabeledTextBox
-})();
+    //#endregion loaded
+    //#region destroy
+    destroy() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        priv.textBox.destroy();
+        super.destroy();
+    }
+    //#endregion destroy
+    //#endregion Methods
+}
 Object.seal(LabeledTextBox);
 core.classes.register(core.types.CATEGORIES.EXTENDED, LabeledTextBox);
 //#endregion LabeledTextBox

@@ -68,7 +68,7 @@ class ItemsWheel extends ThemedControl {
                     const offset = 15 * priv.index;
                     priv.content.style.top = `${-offset}${core.types.CSSUNITS.PX}`;
                 }
-                //priv.value = items[priv.index];
+                priv.value = items[priv.index];
                 this.onChange.invoke();
             }
         }
@@ -270,7 +270,7 @@ class ItemsWheel extends ThemedControl {
         const VKEYSCODES = Keyboard.VKEYSCODES;
         //#endregion Variables déclaration
         super.keyDown();
-        switch (core.keyboard.keyCode) {
+        switch (core.keyboard.key) {
             case VKEYSCODES.VK_LEFT:
                 break;
             case VKEYSCODES.VK_UP:

@@ -1582,7 +1582,7 @@ export { TreeViewItem, TreeView };
         },
         keyDown: function () {
             this._inherited();
-            switch ($j.keyboard.keyCode) {
+            switch ($j.keyboard.key) {
                 case $j.types.VKeysCodes.VK_LEFT:
                 case $j.types.VKeysCodes.VK_UP:
                     this._keyDir = $j.types.directions.LEFT;

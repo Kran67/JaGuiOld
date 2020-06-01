@@ -168,13 +168,13 @@ class CustomButton extends CaptionControl {
     //#region keyDown
     keyDown() {
         super.keyDown();
-        core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE && this._down();
+        core.keyboard.key === Keyboard.VKEYSCODES.VK_SPACE && this._down();
     }
     //#endregion keyDown
     //#region keyUp
     keyUp() {
         super.keyUp();
-        core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE && this._up();
+        core.keyboard.key === Keyboard.VKEYSCODES.VK_SPACE && this._up();
     }
     //#endregion keyUp
     //#region _down

@@ -135,7 +135,7 @@ class CustomTabControl extends ThemedControl {
         //#endregion Variables déclaration
         if (newValue instanceof Tab && priv.activeTab !== newValue) {
             priv.activeTab = newValue;
-            newValue.activeTab.show();
+            priv.activeTab.show();
             this.propertyChanged('activeTab');
         }
     }
@@ -504,7 +504,7 @@ class CustomTabControl extends ThemedControl {
         const tabs = this.tabs;
         //#endregion Variables déclaration
         super.keyDown();
-        switch (core.keyboard.keyCode) {
+        switch (core.keyboard.key) {
             case VKEYSCODES.VK_LEFT:
                 if (activeTab === tabs.first) {
                     return;

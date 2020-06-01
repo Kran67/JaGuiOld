@@ -236,7 +236,7 @@ class TimePanel extends ThemedControl {
         currentItemWheel && currentItemWheel.keyDown();
         cHtmlElement = currentItemWheel.HTMLElement;
         cHtmlElement.classList.remove('focused');
-        switch (core.keyboard.keyCode) {
+        switch (core.keyboard.key) {
             case VKeysCodes.VK_LEFT:
                 if (currentItemWheel === minutes) {
                     currentItemWheel = hours;

@@ -2035,7 +2035,7 @@ class BaseWindow extends ThemedControl {
     //#endregion removeCursors
     //#region keyDown
     keyDown() {
-        switch (core.keyboard.keyCode) {
+        switch (core.keyboard.key) {
             case Keyboard.VKEYSCODES.VK_TAB:
                 core.keyboard.shift ? this.prevFocusedCtrl() : this.nextFocusedCtrl();
                 break;

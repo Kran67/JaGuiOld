@@ -27,7 +27,7 @@ class TextDecoration extends BaseClass {
     }
     set underline(newValue) {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         const form = priv.owner.form;
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && priv.underline !== newValue) {
@@ -45,7 +45,7 @@ class TextDecoration extends BaseClass {
     }
     set overline(newValue) {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         const form = priv.owner.form;
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && priv.overline !== newValue) {
@@ -63,7 +63,7 @@ class TextDecoration extends BaseClass {
     }
     set lineThrough(newValue) {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         const form = priv.owner.form;
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && priv.lineThrough !== newValue) {
@@ -81,7 +81,7 @@ class TextDecoration extends BaseClass {
     }
     set color(newValue) {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         const form = priv.owner.form;
         //#endregion Variables déclaration
         core.tools.isString(newValue) && (newValue = Color.parse(newValue));
@@ -100,7 +100,7 @@ class TextDecoration extends BaseClass {
     }
     set style(newValue) {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         const form = this.form;
         const TEXTDECORATIONSTYLES = core.types.TEXTDECORATIONSTYLES;
         //#endregion Variables déclaration
@@ -118,7 +118,7 @@ class TextDecoration extends BaseClass {
     //#region destroy
     destroy() {
         //#region Variables déclaration
-        const priv = internal(this);
+        const priv = core.private(this);
         //#endregion Variables déclaration
         priv.color.destroy();
         super.destroy();

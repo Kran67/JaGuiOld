@@ -94,7 +94,7 @@ class ListBoxPopup extends ListBox {
     keyUp() {
         const VKEYSCODES = Keyboard.VKEYSCODES;
         super.keyUp();
-        switch (core.keyboard.keyCode) {
+        switch (core.keyboard.key) {
             case VKEYSCODES.VK_RETURN:
             case VKEYSCODES.VK_ENTER:
                 this.selectItem(this.items[this.itemIndex]);
@@ -179,7 +179,7 @@ class DropDownListBoxPopup extends PopupBox {
         const VKEYSCODES = Keyboard.VKEYSCODES;
         //#endregion Variables déclaration
         super.keyUp();
-        switch (core.keyboard.keyCode) {
+        switch (core.keyboard.key) {
             case VKEYSCODES.VK_RETURN:
             case VKEYSCODES.VK_ENTER:
                 listBox.selectItem = listBox.items[listBox.itemIndex]; // à voir
@@ -502,7 +502,7 @@ Object.seal(DropDownListBoxPopup);
             const priv = core.private(this);
             //#endregion Variables déclaration
             super.keyDown();
-            if (core.keyboard.keyCode === Keyboard.VKEYSCODES.VK_SPACE) {
+            if (core.keyboard.key === Keyboard.VKEYSCODES.VK_SPACE) {
                 if (!priv.opened) {
                     this.opened = !0;
                 } else {

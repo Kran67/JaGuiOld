@@ -225,9 +225,9 @@ class SpinBox extends CustomTextBoxBtn {
         const VKeysCodes = Keyboard.VKEYSCODES;
         //#endregion Variables déclaration
         super.keyDown();
-        if (core.keyboard.keyCode === VKeysCodes.VK_DOWN) {
+        if (core.keyboard.key === VKeysCodes.VK_DOWN) {
             this.decValue();
-        } else if (core.keyboard.keyCode === VKeysCodes.VK_UP) {
+        } else if (core.keyboard.key === VKeysCodes.VK_UP) {
             this.incValue();
         }
     }

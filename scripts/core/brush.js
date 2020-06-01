@@ -42,33 +42,32 @@ class Brush extends Bindable {
     //#region Getters / Setters
     //#region color
     get color() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).color;
     }
     set color(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#enregion Variables déclaration
-        if (newValue instanceof core.classes.Color && !newValue.equals(priv[propName])) {
-            priv[propName].assign(newValue);
+        if (newValue instanceof core.classes.Color && !newValue.equals(priv.color)) {
+            priv.color.assign(newValue);
             this.onChange.invoke();
         }
     }
     //#endregion color
     //#region gradient
     get gradient() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).gradient;
     }
     set gradient(newValue) {
         if (newValue instanceof core.classes.Gradient) {
-            core.private(this)[core.tools.getPropertyName()].assign(newValue);
+            core.private(this).gradient.assign(newValue);
             this.onChange.invoke();
         }
     }
     //#endregion gradient
     //#region bitmap
     get bitmap() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).bitmap;
     }
     set(newValue) {
         //#region Variables déclaration
@@ -82,30 +81,28 @@ class Brush extends Bindable {
     //#endregion bitmap
     //#region bitmapRepeatMode
     get bitmapRepeatMode() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).bitmapRepeatMode;
     }
     set bitmapRepeatMode(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, core.types.BITMAPREPEATMODES) && newValue !== priv[propName]) {
-            core.private(this, { [propName]: newValue });
+        if (core.tools.valueInSet(newValue, core.types.BITMAPREPEATMODES) && newValue !== priv.bitmapRepeatMode) {
+            priv.bitmapRepeatMode = newValue;
             this.onChange.invoke();
         }
     }
     //#endregion bitmapRepeatMode
     //#region style
     get style() {
-        return core.private(this)[core.tools.getPropertyName()];
+        return core.private(this).style;
     }
     set style(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const propName = core.tools.getPropertyName();
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, core.types.BRUSHSTYLES) && newValue !== priv[propName]) {
-            core.private(this, { [propName]: newValue });
+        if (core.tools.valueInSet(newValue, core.types.BRUSHSTYLES) && newValue !== priv.style) {
+            priv.style = newValue;
             this.onChange.invoke();
         }
     }
@@ -124,7 +121,7 @@ class Brush extends Bindable {
         if (source instanceof core.classes.Brush) {
             priv.color.assign(source.color);
             !String.isNullOrEmpty(source.bitmap.src) && (priv.bitmap.src = source.bitmap.src);
-            core.private(this, { style: source.style});
+            core.private(this, { style: source.style });
             priv.gradient && source.gradient && priv.gradient.assign(source.gradient);
         }
     }
@@ -150,7 +147,7 @@ class Brush extends Bindable {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        core.private(this, { style: core.types.BRUSHSTYLES.NONE});
+        priv.style = core.types.BRUSHSTYLES.NONE;
         priv.color.assign(Colors.TRANSPARENT);
     }
     /**
