@@ -144,7 +144,7 @@ class ColorDlg extends Window {
         this.clrQuad._updating();
         this.clrQuad.color = color;
         this.clrQuad.updated();
-        this.updateSliders(color);
+        //this.updateSliders(color);
     }
     //#endregion updateControls
     //#region updateSliders
@@ -379,8 +379,7 @@ if (core.isHTMLRenderer) {
         '<jagui-gridlayout id="{internalId}" data-class="GridLayout" class="Control GridLayout">',
         '<properties>{ "name": "grdLayout_footer", "templateColumns": "98px 18px 71px 10px 71px", ',
         '"templateRows": "29px", "columnGap": 0, "rowGap": 0, "column": 3, "row": 8, "colSpan": 3 }</properties>',
-        '<jagui-textbox id="{internalId}" data-class="TextBoxBtn" class="Control TextBox TextBoxBtn {theme}"><properties>{ "name": "txtbHex", "margin": { "top": 3, "bottom": 2 }, "toolTip": "Click to change ", "showToolTip": true }</properties></jagui-textbox>',
-        '',
+        '<jagui-textbox id="{internalId}" data-class="TextBoxBtn" class="Control TextBox TextBoxBtn {theme}"><properties>{ "name": "txtbHex", "margin": { "top": 3, "bottom": 2 }, "toolTip": "Click to the button to change", "showToolTip": true }</properties></jagui-textbox>',
         '<jagui-button id="{internalId}" data-class="Button" class="Control Button {theme}"><properties>{ "name": "btnOk", "modalResult": "ok", "column": 3, "margin": { "top": 4, "bottom": 4 }, "translationKey": "constantMessages.okButton" }</properties></jagui-button>',
         '<jagui-button id="{internalId}" data-class="Button" class="Control Button {theme}"><properties>{ "name": "btnCancel", "modalResult": "cancel", "column": 5, "margin": { "top": 4, "bottom": 4 }, "translationKey": "constantMessages.cancelButton" }</properties></jagui-button>',
         '</jagui-gridlayout>',

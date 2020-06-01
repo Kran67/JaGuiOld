@@ -4,7 +4,7 @@ import { CANVAS as canvas } from '/scripts/core/canvas.js';
 import '/scripts/components/common/label.js';
 import '/scripts/components/common/speedbutton.js';
 //import { Point } from '/scripts/core/geometry.js';
-import '/scripts/components/dialogs/dialogs.js';
+import { Dialogs } from '/scripts/components/dialogs/dialogs.js';
 import '/scripts/components/common/listbox.js';
 import '/scripts/components/common/image.js';
 //import { Animation } from '/scripts/animation.js';
@@ -126,9 +126,9 @@ class Window1 extends Window {
         //core.looper.addListener(this, "paint");
     }
     formShow() {
-        if (!core.browser.chrome) {
-            Dialogs.alert('Best experience with Chrome Browser');
-        }
+        //if (!core.browser.chrome) {
+        //    Dialogs.alert('Best experience with Chrome Browser');
+        //}
         lastTime = new Date().getTime();
     }
     initStars() {
