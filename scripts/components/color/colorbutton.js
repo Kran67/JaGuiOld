@@ -14,7 +14,6 @@ class ColorButton extends Button {
             super(owner, props);
             core.private(this, { color });
             this.createEventsAndBind(['onChange'], props);
-            //priv.colorDlg = null;
         }
     }
     //#endregion Constructor

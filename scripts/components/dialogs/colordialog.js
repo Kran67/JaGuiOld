@@ -2,7 +2,6 @@
 import { Window } from '/scripts/components/containers/window.js';
 import { CommonDialog } from '/scripts/components/dialogs/commondialog.js';
 import { Colors } from '/scripts/core/color.js';
-import { Mouse } from '/scripts/core/mouse.js';
 import '/scripts/components/common/button.js';
 import '/scripts/components/common/label.js';
 import '/scripts/components/common/slider.js';
@@ -225,8 +224,9 @@ class ColorDialog extends CommonDialog {
             }
         });
         dlg.dialog = this;
-        dlg.onClose.addListener(callback);
+        callback && dlg.onClose.addListener(callback);
         super.execute();
+        dlg.showModal();
     }
     //#endregion loaded
     //#endregion Methods

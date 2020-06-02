@@ -74,7 +74,7 @@ import '/scripts/components/extended/splitbutton.js';
 //import { commonDialog } from '/scripts/components/dialogs/commonDialog.js';
 //import '/scripts/components/dialogs/opendialog.js';
 //import { findReplaceDialog } from '/scripts/components/dialogs/findReplaceDialog.js';
-//import { fontDialog } from '/scripts/components/dialogs/fontDialog.js';
+import '/scripts/components/dialogs/fontdialog.js';
 import '/scripts/components/dialogs/colordialog.js';
 //import { gridView } from '/scripts/components/common/gridView.js';
 //import { imageList } from '/scripts/components/nonvisual/imageList.js';

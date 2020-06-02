@@ -473,7 +473,7 @@ Object.seal(DropDownListBoxPopup);
                         parentHTML: document.body,
                         refControl: this,
                         width: priv.dropDownWidth > -1 ? priv.dropDownWidth : this.HTMLElement.offsetWidth,
-                        height: priv.dropDownCount * priv.itemsSize,
+                        height: (priv.dropDownCount * priv.itemsSize) + 2,
                         itemsSize: priv.itemsSize,
                         items: [...priv.items],
                         listBoxPopupClass: priv.listBoxPopupClass,

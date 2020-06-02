@@ -30,7 +30,7 @@ class ListBoxItem extends BaseClass {
                 form: owner.form,
                 selected: props.hasOwnProperty('selected') && core.tools.isBool(props.selected)
                     ? props.selected : !1,
-                css: String.EMPTY,
+                css: props.hasOwnProperty('css') ? props.css : String.EMPTY,
                 imageIndex: props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex)
                     ? props.imageIndex : -1,
                 image: props.hasOwnProperty('image') ? props.image : String.EMPTY,
@@ -344,6 +344,7 @@ class ListBoxItem extends BaseClass {
             priv.owner.orientation === ORIENTATIONS.VERTICAL
                 ? priv.html.classList.add('VListBoxItem') : priv.html.classList.add('HListBoxItem');
             priv.owner.HTMLElement.appendChild(priv.html);
+            !String.isNullOrEmpty(priv.css) && (priv.html.style.cssText += priv.css);
             //Events.bind(priv.html, Mouse.MOUSEEVENTS.DOWN, priv.owner.selectItem);
         }
         this.update();
