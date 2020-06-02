@@ -4,7 +4,7 @@ import { CANVAS as canvas } from '/scripts/core/canvas.js';
 import '/scripts/components/common/label.js';
 import '/scripts/components/common/speedbutton.js';
 //import { Point } from '/scripts/core/geometry.js';
-import { Dialogs } from '/scripts/components/dialogs/dialogs.js';
+import '/scripts/components/dialogs/dialogs.js';
 import '/scripts/components/common/listbox.js';
 import '/scripts/components/common/image.js';
 //import { Animation } from '/scripts/animation.js';
@@ -72,7 +72,7 @@ import '/scripts/components/extended/bitmapstatebutton.js';
 import '/scripts/components/common/busyindicator.js';
 import '/scripts/components/extended/splitbutton.js';
 //import { commonDialog } from '/scripts/components/dialogs/commonDialog.js';
-//import '/scripts/components/dialogs/opendialog.js';
+import '/scripts/components/dialogs/opendialog.js';
 //import { findReplaceDialog } from '/scripts/components/dialogs/findReplaceDialog.js';
 import '/scripts/components/dialogs/fontdialog.js';
 import '/scripts/components/dialogs/colordialog.js';
@@ -161,6 +161,15 @@ class Window1 extends Window {
         }
     }
     RoundButton1_onClick() {
+        const form = this.form;
+        form.OpenDialog1.onClose.clearListeners();
+        form.OpenDialog1.onClose.addListener(availableFiles => {
+            const reader = new FileReader();
+            reader.addEventListener('load', (event) => {
+                form.ImageViewer1.image = event.target.result;
+            });
+            reader.readAsDataURL(availableFiles[0]);
+        });
         this.form.OpenDialog1.execute();
     }
     Label1_onClick() {
@@ -287,7 +296,7 @@ class Window1 extends Window {
                 }
                 p[i] = new core.classes.Point(htmlElement.offsetWidth / 2 + x * frequency, htmlElement.offsetHeight / 2 - y * frequency);
             }
-        }
+        };
         ctx.save();
         // Paint sin
         calc('sin');

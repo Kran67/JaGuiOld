@@ -55,7 +55,7 @@ class Uri {
         //#endregion Variables déclaration
         props.forEach(prop => {
             const newUri = uri.split(prop);
-            newUri.length > 1 && (uri = newUri.join(core.folders[prop]) ;
+            newUri.length > 1 && (uri = newUri.join(core.folders[prop]));
         });
         return uri;
     }

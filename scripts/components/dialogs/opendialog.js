@@ -1,86 +1,116 @@
-﻿(function () {
-    var OpenDialog = $j.classes.CommonDialog.extend("OpenDialog", {
-        init: function (owner, props) {
-            if (owner) {
-                this._inherited(owner, props);
-                //#region Private properties
-                this._form = $j.doc.createElement($j.types.HTMLElements.FORM);
-                this._inputFile = $j.doc.createElement($j.types.HTMLElements.INPUT);
-                this._inputFile.type = "file";
-                this._inputFile.multiple = false;
-                this._inputFile._owner = this;
-                this._form.appendChild(this._inputFile);
-                //#endregion
-                this.filesFilter = String.EMPTY;
-                this.multiple = false;
-                $j.tools.events.bind(this._inputFile, "change", this.handleFileSelection);
-            }
-        },
-        //#region Properties
-        //#endregion
-        //#region Methods
-        handleFileSelection: function (evt) {
-            var files = evt.target.files, openDlg = evt.target._owner, availableFiles = [], filesFilter = openDlg.filesFilter.split(',');
-            for (var i = files.length - 1; i >= 0; i--) {
-                var file = files[i];
-                if (openDlg.filesFilter === String.EMPTY) availableFiles.push(file);
-                else if (openDlg.filesFilter.toLowerCase().indexOf($j.tools.uri.extractFileExt(file.name).toLowerCase()) > -1) availableFiles.push(file);
-            }
-            openDlg._form.reset();
-            if (availableFiles.length === 0) {
-                $j.dialogs.error("At least one selected file is invalid - do not select any folders.<br />Please reselect and try again.");
-                return;
-            }
-            openDlg.onClose.invoke(availableFiles);
-        },
-        updateFromHTML: function () {
-            var data;
-            this._inherited();
-            data = this._HTMLElement.dataset.filesfilter;
-            if (data) this.filesFilter = data;
-            data = this._HTMLElement.dataset.multiple;
-            if (data) this.multiple = _conv.strToBool(data);
-            //this.bindEventToHTML("onClose");
-        },
-        loaded: function () {
-            this._inherited();
-            this._inputFile.setAttribute("accept", this.filesFilter);
-            this._inputFile.setAttribute("multiple", this.multiple);
-        },
-        execute: function () {
-            this._inherited();
-            this._inputFile.click();
-        },
-        setFileFilter: function (newValue) {
-            if (typeof newValue !== _const.STRING) return;
-            if (this.filesFilter !== newValue) {
-                this._inputFile.setAttribute("accept", newValue);
-            }
-        },
-        setMultiple: function (newValue) {
-            if (typeof newValue !== _const.BOOLEAN) return;
-            if (this.multiple !== newValue) {
-                this._inputFile.setAttribute("multiple", newValue);
-            }
-        },
-        destroy: function () {
-            this._inherited();
-            $j.tools.events.unBind(this._inputFile, "change", this.handleFileSelection);
-            this._inputFile = null;
-            this.filesFilter = null;
-            this.multiple = null;
+﻿//#region Import
+import { CommonDialog } from '/scripts/components/dialogs/commondialog.js';
+import { Events } from '/scripts/core/events.js';
+import { Convert } from '/scripts/core/convert.js';
+import { Uri } from '/scripts/core/uri.js';
+//#endregion Import
+//#region OpenDialog
+class OpenDialog extends CommonDialog {
+    //#region constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            super(owner, props);
+            const priv = core.private(this, {
+                form: document.createElement(core.types.HTMLELEMENTS.FORM),
+                inputFile: document.createElement(core.types.HTMLELEMENTS.INPUT),
+                filesFilter: props.hasOwnProperty('filesFilter') ? props.filesFilter : String.EMPTY,
+                multiple: props.hasOwnProperty('multiple') && core.tools.isBool(props.multiple)
+                    ? props.multiple : !1
+            });
+            priv.inputFile.type = "file";
+            priv.inputFile.multiple = priv.multiple;
+            priv.inputFile.owner = this;
+            priv.form.appendChild(priv.inputFile);
+            Events.bind(priv.inputFile, core.types.HTMLEVENTS.CHANGE, this.handleFileSelection);
         }
-        //#endregion
-    });
-    Object.seal(OpenDialog);
-    $j.classes.register($j.types.categories.DIALOGS, OpenDialog);
-    //#region Templates
-    if ($j.isHTMLRenderer()) {
-        var OpenDialogTpl = "<div id='{internalId}' data-name='{name}' data-class='OpenDialog' class='ShortCutIcon'>\
+    }
+    //#endregion constructor
+    //#region Getters / Setters
+    //#region filesFilter
+    get filesFilter() {
+        return core.private(this).filesFilter;
+    }
+    set filesFilter(newValue) {
+        if (core.tools.isString(newValue) && priv.filesFilter !== newValue) {
+            priv.filesFilter = newValue;
+            priv.inputFile.setAttribute('accept', newValue);
+        }
+    }
+    //#endregion filesFilter
+    //#region multiple
+    get multiple() {
+        return core.private(this).multiple;
+    }
+    set multiple(newValue) {
+        if (core.tools.isBool(newValue) && priv.multiple !== newValue) {
+            priv.multiple = newValue;
+            priv.inputFile.setAttribute('multiple', newValue);
+        }
+    }
+    //#endregion multiple
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region loaded
+    loaded() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        super.loaded();
+        priv.inputFile.setAttribute('accept', priv.filesFilter);
+        priv.inputFile.setAttribute('multiple', priv.multiple);
+    }
+    //#endregion loaded
+    //#region handleFileSelection
+    handleFileSelection(evt) {
+        const files = evt.target.files;
+        const openDlg = evt.target.owner;
+        const availableFiles = [];
+        const filesFilter = openDlg.filesFilter;
+        Convert.nodeListToArray(files).forEach(file => {
+            if (filesFilter === String.EMPTY) {
+                availableFiles.push(file);
+            } else if (filesFilter.toLowerCase().indexOf(
+                Uri.extractFileExt(file.name).toLowerCase()) > -1) {
+                availableFiles.push(file);
+            }
+        });
+        openDlg.form.reset();
+        if (availableFiles.length === 0) {
+            core.dialogs.error("At least one selected file is invalid - do not select any folders.<br />Please /reselect and try again.");
+            return;
+        }
+        openDlg.onClose.invoke(availableFiles);
+    }
+    //#endregion handleFileSelection
+    //#region execute
+    execute() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        super.execute();
+        priv.inputFile.click();
+    }
+    //#endregion execute
+    //#region destroy
+    destroy() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        Events.unBind(priv.inputFile, core.type.HTMLEVENTS.CHANGE, this.handleFileSelection);
+        super.destroy();
+    }
+    //#endregion destroy
+}
+Object.seal(OpenDialog);
+core.classes.register(core.types.CATEGORIES.DIALOGS, OpenDialog);
+//#region Templates
+if (core.isHTMLRenderer) {
+    const OpenDialogTpl = "<div id='{internalId}' data-name='{name}' data-class='OpenDialog' class='ShortCutIcon'>\
                        <div class='ShortCutIconImg opendialog'></div>\
                        <div class='ShortCutIconCaption'>{name}</div>\
                        </div>";
-        $j.classes.registerTemplates([{ Class: OpenDialog, template: OpenDialogTpl }]);
-    }
-    //#endregion
-})();
+    core.classes.registerTemplates([{ Class: OpenDialog, template: OpenDialogTpl }]);
+}
+//#endregion OpenDialog
+export { OpenDialog };

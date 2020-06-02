@@ -1,6 +1,5 @@
 ﻿//#region Import
 import { CaptionControl } from '/scripts/core/captioncontrol.js';
-import { Colors, Color } from '/scripts/core/color.js';
 import './labeleffects.js';
 //#endregion Import
 //#region Label

@@ -175,13 +175,13 @@ if (core.isHTMLRenderer) {
     const WindowTpl = core.classes.getTemplate(core.classes.Window.name);
     const FontDlgTpl = ['<jagui-gridlayout id="{internalId}" data-class="GridLayout" class="Control GridLayout">',
         '<properties>{ "name": "grdLayout", "align": "client", "margin": 15, "templateColumns": "147px 7px 112px 7px 55px", ',
-        '"templateRows": "14px 20px 105px 31px", "columnGap": 0, "rowGap": 0 }</properties>',
+        '"templateRows": "14px 20px 113px 23px", "columnGap": 0, "rowGap": 0 }</properties>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
-        '<properties>{ "name": "lblFont", "vertAlign": "bottom" }</properties></jagui-label>',
+        '<properties>{ "name": "lblFont" }</properties></jagui-label>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
-        '<properties>{ "name": "lblStyle", "column": 3, "row": 1, "vertAlign": "bottom" }</properties></jagui-label>',
+        '<properties>{ "name": "lblStyle", "column": 3, "row": 1 }</properties></jagui-label>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
-        '<properties>{ "name": "lblSize", "column": 5, "row": 1, "vertAlign": "bottom" }</properties></jagui-label>',
+        '<properties>{ "name": "lblSize", "column": 5, "row": 1 }</properties></jagui-label>',
         '<jagui-dropdownlistbox id="{internalId}" data-class="DropDownListBox" class="Control DropDownListBox {theme}">',
             '<properties>{ "name": "ddlbFontFamily", "editable": false, "items" : [{ "caption": "Arial", "css": "font-family: Arial" }, { "caption": "Arial Black", "css": "font-family: Arial Black" }, { "caption": "Courier New", "css": "font-family: Courier New" }, { "caption": "Georgia", "css": "font-family: Georgia" }, { "caption": "Tahoma", "css": "font-family: tahoma" }, { "caption": "Times", "css": "font-family: Times" }, { "caption": "Times New Roman", "css": "font-family: Times New Roman" }, { "caption": "Trebuchet MS", "css": "font-family: Trebuchet MS" }, { "caption": "Verdana", "css": "font-family: Verdana" }], "column": 1, "row": 2, "dropDownCount": 9 }</properties>',
         '</jagui-dropdownlistbox>',
@@ -191,15 +191,18 @@ if (core.isHTMLRenderer) {
         '<jagui-dropdownlistbox id="{internalId}" data-class="DropDownListBox" class="Control DropDownListBox {theme}">',
             '<properties>{ "name": "ddlbFontSize", "editable": false, "items" : [{ "caption": "8" }, { "caption": "9" }, { "caption": "10" }, { "caption": "11" }, { "caption": "12" }, { "caption": "14" }, { "caption": "16" }, { "caption": "18" }, { "caption": "20" }, { "caption": "22" }, { "caption": "24" }, { "caption": "26" }, { "caption": "28" }, { "caption": "36" }, { "caption": "48" }, { "caption": "72" }], "column": 5, "row": 2 }</properties>',
         '</jagui-dropdownlistbox>',
-
+        '<fieldset id="{internalId}" data-class="GroupBox" class="Control GroupBox {theme}"><properties>{ "name": "grpEffects", "caption": "Effets : ", "column": 1, "row": 3, "margin": { "top": 5, "bottom": 5} }</properties>',
+        
+        
+        '</fieldset > ',
 
 
 
         '<jagui-gridlayout id="{internalId}" data-class="GridLayout" class="Control GridLayout">',
         '<properties>{ "name": "grdLayout_footer", "templateColumns": "90px 71px 6px 71px 90px", ',
         '"templateRows": "1fr", "columnGap": 0, "rowGap": 0, "column": 1, "row": 4, "colSpan": 5 }</properties>',
-        '<jagui-button id="{internalId}" data-class="Button" class="Control Button {theme}"><properties>{ "name": "btnOk", "modalResult": "ok", "column": 2, "margin": { "top": 4, "bottom": 4 }, "translationKey": "constantMessages.okButton" }</properties></jagui-button>',
-        '<jagui-button id="{internalId}" data-class="Button" class="Control Button {theme}"><properties>{ "name": "btnCancel", "modalResult": "cancel", "column": 4, "margin": { "top": 4, "bottom": 4 }, "translationKey": "constantMessages.cancelButton" }</properties></jagui-button>',
+        '<jagui-button id="{internalId}" data-class="Button" class="Control Button {theme}"><properties>{ "name": "btnOk", "modalResult": "ok", "column": 2, "translationKey": "constantMessages.okButton" }</properties></jagui-button>',
+        '<jagui-button id="{internalId}" data-class="Button" class="Control Button {theme}"><properties>{ "name": "btnCancel", "modalResult": "cancel", "column": 4, "translationKey": "constantMessages.cancelButton" }</properties></jagui-button>',
         '</jagui-gridlayout>',
         '<jagui-gridlayout>'].join(String.EMPTY);
     core.classes.registerTemplates([

@@ -596,26 +596,6 @@ class Convert {
     static nodeListToArray(nodeList) {
         return Array.from(nodeList);
     }
-    // Optimisation
-    /*for (let i=0;i<10000;i++) -> let i=10000; while(i--) ...
-
-    x=x*2; -> x=x << 1;
-    x=x*64; -> x=x << 6;
-
-    x=x / 2; -> x=x >> 1;
-    x=x / 64; -> x=x >> 6;
-
-    x=int(1.232) -> x=1.232 >> 0;
-
-    i++ -> i=-~i;
-    i-- -> i=~-i;
-
-    i=-i; -> i=~i+1;
-
-    x=131 % 4; -> x=131 & (4 - 1);
-
-    (i % 2)==0; -> (i & 1)
-    */
 }
 //#region Convert
 export { Convert };
