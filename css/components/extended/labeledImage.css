@@ -1,6 +1,5 @@
 ﻿.LabeledImage {
     display: flex;
-    align-items: center;
     justify-content: center;
     flex-direction: row;
     height: 60px;
@@ -8,7 +7,6 @@
 
 .LabeledImage .ImageControl {
     position: relative;
-    height: 100% !important;
     flex: 1;
 }
 

@@ -4,29 +4,12 @@ import { ImageControl } from '/scripts/components/extended/imagecontrol.js';
 //#endregion Import
 //#region Class CustomButton
 class LabeledImage extends LabeledControl {
-    //#region constructor
-    constructor(owner, props) {
-        props = !props ? {} : props;
-        if (owner) {
-            super(owner, props);
-            core.private(this, {
-                src: props.hasOwnProperty('src') ? props.src : core.types.CONSTANTS.PIX
-            });
-        }
-    }
-    //#endregion constructor
     //#region Getters / Setters
-    //#region src
-    get src() {
-        return priv.src;
+    //#region imageControl
+    get imageControl() {
+        return core.private(this).imgCtrl;
     }
-    set src(newValue) {
-        if (core.tools.isString(newValue) && priv.src !== newValue) {
-            priv.src = newValue;
-            priv.imgCtrl.load(priv.src);
-        }
-    }
-    //#endregion src
+    //#endregion imageControl
     //#endregion Getters / Setters
     //#region Methods
     //#region loaded
@@ -39,10 +22,10 @@ class LabeledImage extends LabeledControl {
             class: ImageControl,
             owner: this,
             props: {
+                src: priv.props.imageControl.src,
                 inForm: !1
             }
         });
-        priv.imgCtrl.load(priv.src);
     }
     //#endregion loaded
     //#region destroy
@@ -51,7 +34,6 @@ class LabeledImage extends LabeledControl {
         const priv = core.private(this);
         //#endregion Variables déclaration
         priv.imgCtrl.destroy();
-        priv.imgCtrl = null;
         super.destroy();
     }
     //#endregion destroy

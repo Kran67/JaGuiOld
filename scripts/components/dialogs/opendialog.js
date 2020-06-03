@@ -77,7 +77,7 @@ class OpenDialog extends CommonDialog {
         });
         openDlg.form.reset();
         if (availableFiles.length === 0) {
-            core.dialogs.error("At least one selected file is invalid - do not select any folders.<br />Please /reselect and try again.");
+            core.dialogs.error("At least one selected file is invalid - do not select any folders.<br />Please / reselect and try again.");
             return;
         }
         openDlg.onClose.invoke(availableFiles);

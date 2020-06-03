@@ -421,6 +421,7 @@ class Slider extends ThemedControl {
         const leftInput = inputs[0];
         const rightInput = inputs[1];
         //#endregion Variables déclaration
+        event = event || core.mouse.event;
         slider.propertyChanged('firstValue');
         if (slider.mode === SLIDERMODES.RANGE) {
             event.target === leftInput && (slider.value = Math.min(slider.valueAsNumber, slider.lastValue - 1));

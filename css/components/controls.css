@@ -237,3 +237,18 @@ input.Control {
 .noEvents {
     pointer-events: none;
 }
+
+.LabeledControl.labelTop,
+.LabeledControl.labelBottom {
+    flex-direction: column;
+    min-height: 30px;
+    align-items: normal;
+}
+
+.LabeledControl.labelBottom {
+    flex-direction: column-reverse;
+}
+
+.LabeledControl.labelRight {
+    flex-direction: row-reverse;
+}

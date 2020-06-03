@@ -11,8 +11,9 @@ class ImageControl extends ThemedControl {
         if (owner) {
             super(owner, props);
             core.private(this, {
-                bitmapStyle: null,
-                bitmap: null
+                bitmapStyle: null, // TODO à finir
+                bitmap: null,
+                props
             });
         }
     }
@@ -96,7 +97,7 @@ class ImageControl extends ThemedControl {
     loaded() {
         //#region Variables déclaration
         const priv = core.private(this);
-        const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
+        //const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
         const htmlEvents = core.types.HTMLEVENTS;
         //#endregion Variables déclaration
         super.loaded();
@@ -104,7 +105,7 @@ class ImageControl extends ThemedControl {
         this.HTMLElement.appendChild(priv.bitmap);
         priv.bitmapStyle = priv.bitmap.style;
         priv.bitmap.jsObj = this;
-        priv.bitmap.src = props.hasOwnProperty('src') ? props.src : core.types.CONSTANTS.PIX;
+        priv.bitmap.src = priv.props.hasOwnProperty('src') ? priv.props.src : core.types.CONSTANTS.PIX;
         Events.bind(priv.bitmap, htmlEvents.LOAD, this.doBitmapLoaded);
         Events.bind(priv.bitmap, htmlEvents.ERROR, this.doBitmapNotLoaded);
     }

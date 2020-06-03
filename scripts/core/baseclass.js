@@ -12,7 +12,8 @@ class BaseClass {
         this.internalKey = String.uniqueId();
         core.private(this, {
             propsEnums: {},
-            name: props.hasOwnProperty('name') ? props.name : this.constructor.name
+            name: props.hasOwnProperty('name') ? props.name : this.constructor.name,
+            props
         });
     }
     //#region Getter / Setter

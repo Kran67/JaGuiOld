@@ -268,7 +268,7 @@ core.classes.register(core.types.CATEGORIES.COMMON, DropDownListBoxColor);
 //#endregion DropDownListBoxColor
 //#region Templates
 if (core.isHTMLRenderer) {
-    const DropDownListBoxColorTpl = '<jagui-dropdownlistboxcolor id="{internalId}" data-class="DropDownListBoxColor" class="Control DropDownListBoxColor {theme}"><properties>{ "name": "{name}", "editable": !1, "width": 100 }</properties></jagui-dropdownlistboxcolor>';
+    const DropDownListBoxColorTpl = '<jagui-dropdownlistboxcolor id="{internalId}" data-class="DropDownListBoxColor" class="Control DropDownListBox DropDownListBoxColor {theme}"><properties>{ "name": "{name}", "editable": !1, "width": 100 }</properties></jagui-dropdownlistboxcolor>';
     core.classes.registerTemplates([
         { Class: DropDownListBoxColor, template: DropDownListBoxColorTpl },
         { Class: ListBoxColorPopup, template: core.templates['ListBoxPopup'] }

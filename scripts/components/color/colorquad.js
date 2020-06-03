@@ -26,8 +26,7 @@ class ColorQuad extends GraphicControl {
                 gradientEdit: props.hasOwnProperty('gradientEdit') ? this.form[props.gradientEdit] : null,
                 preserveColorAlpha: props.hasOwnProperty('preserveColorAlpha')
                     && core.tools.isBool(props.preserveColorAlpha)
-                    ? props.preserveColorAlpha : !1,
-                props
+                    ? props.preserveColorAlpha : !1
             });
             core.tools.addPropertyFromEnum({
                 component: this,
@@ -225,7 +224,6 @@ class ColorQuad extends GraphicControl {
             priv.preserveColorAlpha && (priv.colorBox.color.alpha = oldAlpha);
         }
         //priv.gradientEdit instanceof core.classes.GradientEdit && (priv.gradientEdit.color = priv.color);
-        delete priv.props;
         this.moveIndicator();
     };
     //#region loaded

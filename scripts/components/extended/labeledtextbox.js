@@ -11,15 +11,14 @@ class LabeledTextBox extends LabeledControl {
     loaded() {
         //#region Variables déclaration
         const priv = core.private(this);
-        const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
         //#endregion Variables déclaration
         super.loaded();
         priv.textBox = core.classes.createComponent({
             class: TextBox,
             owner: this,
             props: {
-                inForm: !1,
-                text: props.hasOwnProperty('text') ? props.text : String.EMPTY
+                ...priv.props.textBox,
+                inForm: !1
             }
         });
     }

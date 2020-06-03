@@ -1,6 +1,16 @@
 ﻿//#region Imports
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 //#endregion Imports
+//#region LABELPOSITIONS
+/**
+ * @type    {Object}        LABELPOSITIONS
+ */
+const LABELPOSITIONS = Object.freeze(Object.seal({
+    TOP: 'top',
+    RIGHT: 'right',
+    BOTTOM: 'bottom'
+}));
+//#endregion LABELPOSITIONS
 //#region LabeledControl
 class LabeledControl extends ThemedControl {
     //#region constructor
@@ -10,21 +20,35 @@ class LabeledControl extends ThemedControl {
             props.width = props.hasOwnProperty('width') && core.tools.isNumber(props.width) ? props.width : 200;
             props.height = props.hasOwnProperty('height') && core.tools.isNumber(props.height) ? props.height : 20;
             super(owner, props);
+            core.private(this, {
+                labelPosition: props.hasOwnProperty('labelPosition') 
+                    && core.tools.valueInSet(props.labelPosition, LABELPOSITIONS) ? props.labelPosition : String.EMPTY
+            });
             this.createEventsAndBind(['onChange'], props);
         }
     }
     //#endregion constructor
     //#region Getters / Setters
-    //#region caption
-    get caption() {
-        return core.private(this).caption;
+    //#region static
+    //#region LABELPOSITIONS
+    /**
+     * @type    {Object}        LABELPOSITIONS
+     */
+    static get LABELPOSITIONS() {
+        return LABELPOSITIONS;
     }
-    set caption(newValue) {
+    //#endregion static
+    //#region labelPosition
+    get labelPosition() {
+        return core.private(this).labelPosition;
+    }
+    set labelPosition(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.label.caption !== newValue) {
-            priv.label.caption = newValue;
+        if (core.tools.valueInSet(newValue, LABELPOSITIONS) && priv.labelPosition !== newValue) {
+            priv.labelPosition = newValue;
+            this.update();
         }
     }
     //#endregion caption
@@ -57,7 +81,7 @@ class LabeledControl extends ThemedControl {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
+        const priv = core.private(this);
         //#endregion Variables déclaration
         super.loaded();
         core.private(this, {
@@ -65,9 +89,9 @@ class LabeledControl extends ThemedControl {
                 class: core.classes.Label,
                 owner: this,
                 props: {
+                    ...priv.props.label,
                     inForm: !1,
-                    caption: props.hasOwnProperty('caption') ? props.caption : this.name,
-                    hitTest: { mouseDown: !0 },
+                    mouseEvents: { mousedown: !0 },
                     onMouseDown: function () {
                         const components = this.owner.components.filter(comp => { return comp.canFocused; });
                         components.length > 0 && components.first.setFocus();
@@ -75,14 +99,20 @@ class LabeledControl extends ThemedControl {
                 }
             })
         });
+        this.update();
     }
     //#endregion loaded
     //#region update
     update() {
         //#region Variables déclaration
         const priv = core.private(this);
+        const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        priv.label && (priv.label.HTMLElementStyle.lineHeight = `${this.height}${core.types.CSSUNITS.PX}`);
+        //priv.label && (priv.label.HTMLElementStyle.lineHeight = `${this.height}${core.types.CSSUNITS.PX}`);
+        Object.keys(LABELPOSITIONS).forEach(key => {
+            htmlElement.classList.remove(`label${LABELPOSITIONS[key].firstCharUpper}`);
+        });
+        !String.isNullOrEmpty(priv.labelPosition) && htmlElement.classList.add(`label${priv.labelPosition.firstCharUpper}`);
     }
     //#endregion update
     //#endregion

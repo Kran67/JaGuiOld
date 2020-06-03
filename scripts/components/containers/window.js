@@ -566,8 +566,7 @@ class BaseWindow extends ThemedControl {
                 enabledShadow: props.hasOwnProperty('enabledShadow') ? props.enabledShadow : !0,
                 //priv.minimizeAnimation = new RectAnimation(this, { inForm: !1 }),
                 position: props.hasOwnProperty('position') ? props.position : FORMPOSITIONS.DEFAULT,
-                buttons: props.hasOwnProperty('buttons') ? props.buttons : null,
-                props
+                buttons: props.hasOwnProperty('buttons') ? props.buttons : null
             });
             core.tools.addPropertyFromEnum({
                 component: this,
@@ -2189,7 +2188,7 @@ class BaseWindow extends ThemedControl {
                     class: classes[dataClass],
                     owner: layout,
                     name: dataName,
-                    props: props,
+                    props: { ...props },
                     internalId: node.id,
                     withTpl: !1
                 });
@@ -2311,7 +2310,6 @@ class BaseWindow extends ThemedControl {
         comp && comp.setFocus();
         !isHtmlRenderer && this.alignButtons();
         this.setTitleBtn(priv.buttons ? priv.buttons : [TITLEBUTTONS.MINIMIZE, TITLEBUTTONS.MAXRESTORE]);
-        delete priv.props;
     }
     //#endregion loaded
     //#region closePopups

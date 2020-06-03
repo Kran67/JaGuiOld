@@ -95,6 +95,7 @@ import '/scripts/components/extended/toggle.js';
 import '/scripts/components/common/batteryindicator.js';
 import '/scripts/components/extended/segmentledlabel.js';
 import '/scripts/components/extended/circularprogressbar.js';
+import '/scripts/components/extended/labeleddropdowncolors.js';
 //#endregion Imports
 let lastTime;
 class Window1 extends Window {

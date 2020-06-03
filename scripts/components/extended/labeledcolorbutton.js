@@ -12,15 +12,14 @@ class LabeledColorButton extends LabeledControl {
     loaded() {
         //#region Variables déclaration
         const priv = core.private(this);
-        const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
         //#endregion Variables déclaration
         super.loaded();
         priv.colorButton = core.classes.createComponent({
             class: ColorButton,
             owner: this,
             props: {
-                inForm: !1,
-                color: props.hasOwnProperty('color') ? props.color : Colors.RED
+                ...priv.props.colorButton,
+                inForm: !1
             }
         });
     }
@@ -28,7 +27,7 @@ class LabeledColorButton extends LabeledControl {
     //#region destroy
     destroy() {
         //#region Variables déclaration
-        const priv = intcore.privateernal(this);
+        const priv = core.private(this);
         //#endregion Variables déclaration
         priv.colorButton.destroy();
         super.destroy();

@@ -157,7 +157,7 @@ core.locales[core.types.LANGUAGES.FR_FR] = {
     ...locale, ...{
         'fontDlg': 'Paramètrage de la police',
         'fontDlg.lblFont': 'Police :',
-        'fontDlg.lblStyle': 'Style :',
+        'fontDlg.lblStyle': 'Style de police :',
         'fontDlg.lblSize': 'Taille :'
     }
 };
@@ -166,7 +166,7 @@ core.locales[core.types.LANGUAGES.EN_US] = {
     ...locale, ...{
         'fontDlg': 'Font settings',
         'fontDlg.lblFont': 'Font family :',
-        'fontDlg.lblStyle': 'Style :',
+        'fontDlg.lblStyle': 'Font Style :',
         'fontDlg.lblSize': 'Size :'
     }
 };
@@ -179,7 +179,7 @@ if (core.isHTMLRenderer) {
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblFont" }</properties></jagui-label>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
-        '<properties>{ "name": "lblStyle", "column": 3, "row": 1 }</properties></jagui-label>',
+        '<properties>{ "name": "lblFontStyle", "column": 3, "row": 1 }</properties></jagui-label>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblSize", "column": 5, "row": 1 }</properties></jagui-label>',
         '<jagui-dropdownlistbox id="{internalId}" data-class="DropDownListBox" class="Control DropDownListBox {theme}">',
