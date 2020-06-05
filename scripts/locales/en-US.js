@@ -1,11 +1,11 @@
 ﻿export default {
     date: {
-        dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-        abbreviatedDayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        shortestDayNames: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-        firstLetterDayNames: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        abbreviatedMonthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        dayNames: core.tools.getWeekDayList('en-US'),
+        abbreviatedDayNames: core.tools.getWeekDayList('en-US', 'short'),
+        shortestDayNames: core.tools.getWeekDayList('en-US', 'short', 2),
+        firstLetterDayNames: core.tools.getWeekDayList('en-US', 'short', 1),
+        monthNames: core.tools.getMonthList('en-US'),
+        abbreviatedMonthNames: core.tools.getMonthList('en-US', 'short'),
         am: 'AM',
         pm: 'PM',
         firstDayOfWeek: 0,

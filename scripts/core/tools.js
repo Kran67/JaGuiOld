@@ -571,7 +571,7 @@ class Tools {
         return !value;
     }
     //#endregion not
-    //#region
+    //#region getPropertyName
     static getPropertyName() {
         return new Error('dummy')
             .stack
@@ -579,8 +579,8 @@ class Tools {
             .split(" ")
             .last;
     }
-    //#endregion
-
+    //#endregion getPropertyName
+    //#region loadStyle
     static loadStyle(url) {
         return new Promise((resolve, reject) => {
             let link = document.createElement('link');
@@ -599,7 +599,40 @@ class Tools {
             }
         });
     }
-
+    //#endregion loadStyle
+    //#region getMonthList
+    static getMonthList(locale, format = 'long', lower = false) {
+        const year = new Date().getFullYear(); // 20xx
+        const monthList = [...Array(12).keys()]; // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        const formatter = new Intl.DateTimeFormat(locale, {
+            month: format
+        });
+        const getMonthName = (monthIndex) =>
+            formatter.format(new Date(year, monthIndex))[lower ? 'toLowerCase' : 'toString']();
+        return monthList.map(getMonthName);
+    }
+    //#endregion getMonthList
+    //#region getWeekDayList
+    static getWeekDayList(locale, format = 'long', numberOfChar = 0, lower = false) {
+        let day = new Date().getDay();
+        let date = new Date();
+        date = date.addDays(-day);
+        const dayList = [];
+        for (let i = 0; i < 7; i++) {
+            dayList.push(date);
+            date = date.addDays(1);
+        }
+        const formatter = new Intl.DateTimeFormat(locale, {
+            weekday: format
+        });
+        const getDayName = (_date) => {
+            let retValue = formatter.format(_date)[lower ? 'toLowerCase' : 'toString']();
+            numberOfChar > 0 && (retValue = retValue.substring(0, numberOfChar));
+            return retValue;
+        };
+        return dayList.map(getDayName);
+    }
+    //#endregion getWeekDayList
     //#endregion Methods
 }
 Object.seal(Object.freeze(Tools));
