@@ -1,3 +1,4 @@
 ﻿.FlexLayout {
     display: flex;
+    overflow: visible;
 }

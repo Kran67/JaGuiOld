@@ -1,7 +1,6 @@
 ﻿//#region Import
 import { LabeledControl } from '/scripts/core/labeledcontrol.js';
 import { ColorButton } from '/scripts/components/color/colorbutton.js';
-import { Colors } from '/scripts/core/color.js';
 //#endregion Import
 //#region Class LabeledColorButton
 class LabeledColorButton extends LabeledControl {

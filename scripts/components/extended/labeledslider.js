@@ -2,6 +2,7 @@
 import { LabeledControl } from '/scripts/core/labeledcontrol.js';
 import { Slider } from '/scripts/components/common/slider.js';
 import { ValueLabel } from '/scripts/components/extended/valuelabel.js';
+import { GridLayout } from '/scripts/components/containers/gridlayout.js';
 //#endregion Import
 //#region Class LabeledSlider
 class LabeledSlider extends LabeledControl {
@@ -27,27 +28,42 @@ class LabeledSlider extends LabeledControl {
         const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
         //#endregion Variables déclaration
         super.loaded();
-        priv.slider = core.classes.createComponent({
-            class: Slider,
+        priv.layout = core.classes.createComponent({
+            class: GridLayout,
             owner: this,
             props: {
                 inForm: !1,
-                values: [props.hasOwnProperty('value') ? props.value : 0, 0]
+                templateColumns: '1fr 40px',
+                rows: 1,
+                columnGap: 0,
+                rowGap: 0
+            }
+        });
+        priv.slider = core.classes.createComponent({
+            class: Slider,
+            owner: priv.layout,
+            props: {
+                inForm: !1,
+                values: [props.hasOwnProperty('value') ? props.value : 0, 0],
+                margin: { left:10, right: 10 }
             }
         });
         priv.slider.onChange.addListener(this.valueChange);
         priv.valueLabel = core.classes.createComponent({
             class: ValueLabel,
-            owner: this,
+            owner: priv.layout,
             props: {
                 inForm: !1,
-                caption: priv.slider.firstValue.toFixed(priv.slider.decimalPrecision)
+                vertAlign: core.types.VERTTEXTALIGNS.MIDDLE,
+                horizAlign: core.types.TEXTALIGNS.CENTER,
+                caption: priv.slider.firstValue.toFixed(priv.slider.decimalPrecision),
+                margin: { top:3, bottom: 3 }
             }
         });
         priv.slider.valueLabel = priv.valueLabel;
     }
     valueChange() {
-        const lab = this.owner;
+        const lab = this.owner.owner;
         this.valueLabel.caption = this.firstValue.toFixed(this.decimalPrecision);
         lab.onChanged.invoke();
     }
@@ -57,6 +73,7 @@ class LabeledSlider extends LabeledControl {
         //#endregion Variables déclaration
         priv.slider.destroy();
         priv.valueLabel.destroy();
+        priv.layout.destroy();
         this.unBindAndDestroyEvents(['onChanged']);
         super.destroy();
     }

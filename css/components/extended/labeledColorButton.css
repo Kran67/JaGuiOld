@@ -1,11 +1,4 @@
-﻿.LabeledColorButton {
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    overflow: visible;
-}
-
-.LabeledColorButton .ColorButton {
+﻿.LabeledColorButton .ColorButton {
     position: relative;
     flex: 1;
 }

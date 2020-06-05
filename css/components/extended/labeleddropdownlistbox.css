@@ -1,10 +1,9 @@
-﻿.LabeledMemo .Memo {
+.LabeledDropDownListBox .DropDownListBox {
     position: relative;
-    height: 100% !important;
     flex: 1;
 }
 
-.LabeledMemo .Label {
+.LabeledDropDownListBox .Label {
     position: static;
     white-space: nowrap;
 }

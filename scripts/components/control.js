@@ -1718,7 +1718,7 @@ class Control extends Component {
         if (!control || control.form.destroying || (!control.isEnabled && event.type !== MOUSEEVENTS.MOVE)
             || !control.mouseEvents.has(event.type)) {
             if (event.type === MOUSEEVENTS.DOWN && control.closePopups) {
-                    control.form.closePopups();
+                control.form.closePopups();
             }
             return;
         }
@@ -1743,8 +1743,8 @@ class Control extends Component {
                     if (activeWin !== control.form.app.mainWindow) {
                         control.form.app.mainWindow.mainMenu
                             && (control.form.app.mainWindow.mainMenu.isActive = !1);
+                        control.form.app.mainWindow.closePopups();
                     }
-                    control.form.app.mainWindow.closePopups();
                 }
                 core.tools.isFunc(control.mouseDown) && control.mouseDown();
                 core.classes.CustomTextControl

@@ -1,10 +1,4 @@
-﻿.LabeledTextBox {
-    display: flex;
-    align-items: center;
-    overflow: visible;
-}
-
-.LabeledTextBox .TextBox {
+﻿.LabeledTextBox .TextBox {
     position: relative;
     flex: 1;
 }

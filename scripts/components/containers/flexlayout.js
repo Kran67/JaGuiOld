@@ -37,6 +37,14 @@ const ALIGNITEMS = Object.freeze(Object.seal({
     LASTBASELINE: 'last baseline'
 }));
 //#endregion ALIGNITEMS
+//#region FLEXDIRECTIONS
+const FLEXDIRECTIONS = Object.freeze(Object.seal({
+    COLUMN: 'column',
+    ROW: 'row',
+    COLUMNREVERSE: 'column-reverse',
+    ROWREVERSE: 'row-reverse'
+}));
+//#endregion FLEXDIRECTIONS
 //#region Class FlexLayout
 class FlexLayout extends Layout {
     //#region constructor
@@ -76,6 +84,22 @@ class FlexLayout extends Layout {
                 },
                 value: props.alignItems ? props.alignItems : ALIGNITEMS.FLEXSTART
             });
+            core.tools.addPropertyFromEnum({
+                component: this,
+                propName: 'flexDirection',
+                enum: FLEXDIRECTIONS,
+                setter: function (newValue) {
+                    //#region Variables déclaration
+                    const priv = core.private(this);
+                    const flexDirection = priv.flexDirection;
+                    //#endregion Variables déclaration
+                    if (core.tools.valueInSet(newValue, FLEXDIRECTIONS) && flexDirection !== newValue) {
+                        priv.flexDirection = newValue;
+                        isHtmlRenderer && this.update();
+                    }
+                },
+                value: props.flexDirection ? props.flexDirection : FLEXDIRECTIONS.ROW
+            });
         }
     }
     //#endregion constructor
@@ -100,21 +124,13 @@ class FlexLayout extends Layout {
         //#endregion Variables déclaration
         htmlElementStyle.justifyContent = priv.justifyContent;
         htmlElementStyle.alignItems = priv.alignItems;
+        htmlElementStyle.flexDirection = priv.flexDirection;
     }
     //#endregion update
-    //#region destroy
-    destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.justifyContent = null;
-        priv.alignItems = null;
-        super.destroy();
-    }
-    //#endregion destroy
     //#region loaded
     loaded() {
         super.loaded();
+        this.HTMLElement.classList.add('FlexLayout');
         this.update();
     }
     //#endregion loaded

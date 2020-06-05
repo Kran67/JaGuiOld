@@ -1,28 +1,22 @@
-﻿.LabeledAngleBar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    overflow: visible;
+﻿.LabeledAngleBar .GridLayout {
+    flex: 1;
+    position: relative;
 }
 
 .LabeledAngleBar .AngleButton {
     position: relative;
-    width: 20px;
-    height: 100%;
-    margin-right: calc(100% - 25% - 50% - 20px);
+    width: 22px;
+    height: 22px;
+    margin: auto;
 }
 
 .LabeledAngleBar .Label {
     position: static;
-    width: 50%;
     white-space: nowrap;
-    flex: 1;
 }
 
 .LabeledAngleBar .ValueLabel {
     position: static;
-    width: 25%;
     white-space: nowrap;
     text-align: center;
 }

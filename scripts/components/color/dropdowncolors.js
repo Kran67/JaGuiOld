@@ -149,7 +149,7 @@ class ListBoxColorPopup extends ListBox {
             dropDownListBoxColor.itemIndex = item.index;
             dropDownListBoxColor.color.assign(item.color);
             !dropDownListBoxColor.updating && dropDownListBoxColor.onChange.invoke();
-            item.form.closePopups();
+            dropDownListBoxColor.form.closePopups();
         }
     }
     //#endregion selectItem

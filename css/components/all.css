@@ -109,6 +109,8 @@
 @import url('extended/bitmapbutton.css');
 @import url('extended/bitmapstatebutton.css');
 @import url('extended/circularprogressbar.css');
+@import url('extended/labeleddropdowncolors.css');
+@import url('extended/labeleddropdownlistbox.css');
 /* extras components */
 @import url('extras/carousel.css');
 @import url('extras/chart.css');

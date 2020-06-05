@@ -1,0 +1,9 @@
+.LabeledDropDownListBoxColor .DropDownListBoxColor {
+    position: relative;
+    flex: 1;
+}
+
+.LabeledDropDownListBoxColor .Label {
+    position: static;
+    white-space: nowrap;
+}

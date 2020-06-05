@@ -1,15 +1,11 @@
-﻿.LabeledSlider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    overflow: visible;
+﻿.LabeledSlider .GridLayout {
+    flex: 1;
+    position: relative;
 }
 
 .LabeledSlider .Slider {
     position: relative;
     flex: 1;
-    margin: 0 5px;
 }
 
 .LabeledSlider .Label {
@@ -18,9 +14,7 @@
 }
 
 .LabeledSlider .ValueLabel {
-    width: 16%;
     position: static;
     white-space: nowrap;
     text-align: center;
-    margin-left: 5px;
 }
