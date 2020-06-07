@@ -5,6 +5,11 @@ import { DropDownListBox } from '/scripts/components/common/dropdownlistbox.js';
 //#region Class LabeledDropDownListBox
 class LabeledDropDownListBox extends LabeledControl {
     //#region Getters / Setters
+    //#region dropDownListBox
+    get dropDownListBox() {
+        return core.private(this).dropDownListBox;
+    }
+    //#endregion dropDownListBox
     //#endregion Getters / Setters
     //#region Methods
     //#region loaded

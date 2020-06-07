@@ -5,6 +5,11 @@ import { DropDownListBoxColor } from '/scripts/components/color/dropdowncolors.j
 //#region Class LabeledDropDownListBoxColor
 class LabeledDropDownListBoxColor extends LabeledControl {
     //#region Getters / Setters
+    //#region dropDownListBoxColor
+    get dropDownListBoxColor() {
+        return core.private(this).dropDownListBoxColor;
+    }
+    //#endregion dropDownListBoxColor
     //#endregion Getters / Setters
     //#region Methods
     //#region loaded

@@ -4,6 +4,13 @@ import { Memo } from '/scripts/components/common/memo.js';
 //#endregion Import
 //#region Class LabeledMemo
 class LabeledMemo extends LabeledControl {
+    //#region Getters / Setters
+    //#region memo
+    get memo() {
+        return core.private(this).memo;
+    }
+    //#endregion memo
+    //#endregion Getters / Setters
     //#region Methods
     //#region loaded
     loaded() {

@@ -266,7 +266,7 @@ class ListBoxItem extends BaseClass {
     //#endregion image
     //#region index
     get index() {
-        return core.private(this).owner.items.indexOf(this);
+        return core.private(this).owner.items ? core.private(this).owner.items.indexOf(this) : -1;
     }
     //#endregion index
     //#region isEnabled
@@ -451,7 +451,6 @@ class ListBox extends ScrollControl {
                 visibleItems: [],
                 scrollPos: 0,
                 innerHeight: 0,
-                items: props.hasOwnProperty('items') ? props.items : null,
                 lastDelta: new Point,
                 downPos: new Point,
                 currentPos: new Point,
@@ -479,7 +478,8 @@ class ListBox extends ScrollControl {
                 orientation: props.hasOwnProperty('orientation')
                     ? props.orientation : core.types.ORIENTATIONS.VERTICAL,
                 scrollToItemMode: props.hasOwnProperty('scrollToItemMode')
-                    ? props.scrollToItemMode : 'last'
+                    ? props.scrollToItemMode : 'last',
+                props
             });
             core.classes.newCollection(this, this, priv.itemsClass);
             this.createEventsAndBind(['onChange', 'onSelectItem', 'onDrawItem'], props);
@@ -509,7 +509,7 @@ class ListBox extends ScrollControl {
         if (core.tools.isBool(newValue) && priv.sorted !== newValue) {
             priv.sorted = newValue;
             if (priv.sorted) {
-                this.items.sort();
+                priv.items.sort();
                 this.draw();
             }
         }
@@ -524,7 +524,7 @@ class ListBox extends ScrollControl {
         const priv = core.private(this);
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && priv.itemsSize !== newValue) {
-            this.items.forEach(item => {
+            priv.items.forEach(item => {
                 item.size === priv.itemsSize && (item.size = newValue);
             });
             priv.itemsSize = newValue;
@@ -572,17 +572,17 @@ class ListBox extends ScrollControl {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue < this.items.length && newValue >= 0) {
+        if (core.tools.isNumber(newValue) && newValue < priv.items.length && newValue >= 0) {
             if (priv.itemIndex !== newValue) {
                 priv.itemIndex > -1 && this.deselectItemIndex();
-                let item = this.items[newValue];
-                while ((item.isHeader || !item.enabled) && (newValue > -1 && newValue < this.items.length)) {
+                let item = priv.items[newValue];
+                while ((item.isHeader || !item.enabled) && (newValue > -1 && newValue < priv.items.length)) {
                     priv.keyDir === core.types.DIRECTIONS.LEFT ? newValue-- : newValue++;
-                    item = this.items[newValue];
+                    item = priv.items[newValue];
                 }
-                newValue = Math.min(Math.max(newValue, 0), this.items.length - 1);
+                newValue = Math.min(Math.max(newValue, 0), priv.items.length - 1);
                 priv.itemIndex = newValue;
-                item = this.items[priv.itemIndex];
+                item = priv.items[priv.itemIndex];
                 if (item) {
                     item.selected = !0;
                     this.scrollToItem();
@@ -624,7 +624,7 @@ class ListBox extends ScrollControl {
     //#endregion images
     //#region count
     get count() {
-        return this.items.count();
+        return core.private(this).items.count();
     }
     //#endregion count
     //#endregion Getters / Setters
@@ -634,7 +634,7 @@ class ListBox extends ScrollControl {
         //#region Variables déclaration
         const priv = core.private(this);
         const oldVisibleItems = priv.visibleItems;
-        const items = this.items;
+        const items = priv.items;
         const vert = priv.orientation === core.types.ORIENTATIONS.VERTICAL;
         const scrollModeNormal = this.scrollMode === ScrollControl.SCROLLMODES.NORMAL;
         const htmlElement = this.HTMLElement;
@@ -694,7 +694,7 @@ class ListBox extends ScrollControl {
         const priv = core.private(this);
         //#endregion Variables déclaration
         if (priv.itemIndex !== -1) {
-            const item = this.items[priv.itemIndex];
+            const item = priv.items[priv.itemIndex];
             item && (item.selected = !1);
         }
     }
@@ -703,7 +703,7 @@ class ListBox extends ScrollControl {
     refreshInnerHeight() {
         //#region Variables déclaration
         const priv = core.private(this);
-        const items = this.items;
+        const items = priv.items;
         //#endregion Variables déclaration
         priv.innerHeight = 0;
         items.forEach(item => {
@@ -719,19 +719,25 @@ class ListBox extends ScrollControl {
         //#endregion Variables déclaration
         if (item instanceof ListBoxItem) {
             priv.innerHeight += item.size;
-            item.pos = this.items.last ? this.items.last.pos + item.size : 0;
-            this.items.push(item);
+            item.pos = priv.items.last ? priv.items.last.pos + item.size : 0;
+            priv.items.push(item);
         }
     }
     //#endregion addItem
     //#region deleteItem
     deleteItem(item) {
-        item instanceof ListBoxItem && this.items.indexOf(item) !== -1 && this.items.remove(item);
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        item instanceof ListBoxItem && priv.items.indexOf(item) !== -1 && priv.items.remove(item);
     }
     //#endregion deleteItem
     //#region deleteAt
     deleteAt(index) {
-        index >= 0 && index < this.items.length && this.items.removeAt(this.items[index]);
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        index >= 0 && index < priv.items.length && priv.items.removeAt(priv.items[index]);
     }
     //#endregion deleteAt
     //#region moveItem
@@ -740,25 +746,31 @@ class ListBox extends ScrollControl {
         const priv = core.private(this);
         //#endregion Variables déclaration
         if (itemToMove instanceof ListBoxItem && itemBefore instanceof ListBoxItem) {
-            priv.visibleItems.indexOf(itemToMove) > -1 && this.items.beginUpdate();
-            this.items.remove(itemToMove);
-            this.items.insert(itemBefore.index, itemToMove);
+            priv.visibleItems.indexOf(itemToMove) > -1 && priv.items.beginUpdate();
+            priv.items.remove(itemToMove);
+            priv.items.insert(itemBefore.index, itemToMove);
             priv.itemIndex = itemToMove.index;
-            priv.visibleItems.indexOf(itemToMove) > -1 && this.items.endUpdate();
+            priv.visibleItems.indexOf(itemToMove) > -1 && priv.items.endUpdate();
         }
     }
     //#endregion moveItem
     //#region beginUpdate
     beginUpdate() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
         this.allowUpdate = !1;
-        this.items.beginUpdate();
+        priv.items.beginUpdate();
     }
     //#endregion beginUpdate
     //#region endUpdate
     endUpdate() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
         this.allowUpdate = !0;
         this.refreshInnerHeight();
-        this.items.endUpdate();
+        priv.items.endUpdate();
     }
     //#endregion endUpdate
     //#region clear
@@ -766,26 +778,31 @@ class ListBox extends ScrollControl {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        while (this.items.length > 0) {
-            this.items.pop().destroy();
-        }
-        //this.items.forEach(item => {
-        //    item.destroy();
-        //});
         priv.visibleItems.clear();
-        this.items.clear();
+        if (priv.items) {
+            while (priv.items.length > 0) {
+                priv.items.pop().destroy();
+            }
+            priv.items.clear();
+        }
     }
     //#endregion clear
     //#region clearSelection
     clearSelection() {
-        this.items.forEach(item => {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        priv.items.forEach(item => {
             item.selected = !1;
         });
     }
     //#endregion clearSelection
     //#region selectAll
     selectAll() {
-        this.items.forEach(item => {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        priv.items.forEach(item => {
             item.selected = !0;
         });
     }
@@ -795,11 +812,13 @@ class ListBox extends ScrollControl {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        while (this.items.length > 0) {
-            this.items.last.destroy();
-            this.items.pop();
+        if (priv.items) {
+            while (priv.items.length > 0) {
+                priv.items.last.destroy();
+                priv.items.pop();
+            }
+            priv.items.destroy();
         }
-        this.items.destroy();
         priv.visibleItems.destroy();
         priv.lastDelta.destroy();
         priv.downPos.destroy();
@@ -834,7 +853,7 @@ class ListBox extends ScrollControl {
                 this.itemIndex = 0;
                 break;
             case VKEYSCODES.VK_END:
-                this.itemIndex = this.items.length - 1;
+                this.itemIndex = priv.items.length - 1;
                 break;
             case VKEYSCODES.VK_PRIOR:
                 this.itemIndex = priv.orientation === ORIENTATIONS.VERTICAL
@@ -848,7 +867,7 @@ class ListBox extends ScrollControl {
                 break;
             case VKEYSCODES.VK_SPACE:
                 {
-                    const item = this.items[priv.itemIndex];
+                    const item = priv.items[priv.itemIndex];
                     priv.viewCheckboxes && item && (item.isChecked = !item.isChecked);
                 }
                 break;
@@ -871,14 +890,14 @@ class ListBox extends ScrollControl {
                 ? base + ((priv.itemIndex - nbrVisibleItems) * priv.itemsSize) + 2
                 : priv.itemIndex * priv.itemsSize;
         } else {
-            if (this.items[priv.itemIndex].html[`offset${prop}`]
-                + this.items[priv.itemIndex].html[`offset${propSize}`] >
+            if (priv.items[priv.itemIndex].html[`offset${prop}`]
+                + priv.items[priv.itemIndex].html[`offset${propSize}`] >
                 htmlElement[`offset${propSize}`] + htmlElement[`scroll${prop}`]) {
-                htmlElement[`scroll${prop}`] = this.items[priv.itemIndex].html[`offset${propSize}`] +
-                    this.items[priv.itemIndex].html[`offset${propSize}`] + 2
+                htmlElement[`scroll${prop}`] = priv.items[priv.itemIndex].html[`offset${propSize}`] +
+                    priv.items[priv.itemIndex].html[`offset${propSize}`] + 2
                     - htmlElement[`offset${propSize}`];
-            } else if (htmlElement[`scroll${prop}`] > this.items[priv.itemIndex].html[`offset${prop}`]) {
-                htmlElement[`scroll${prop}`] = this.items[priv.itemIndex].html[`offset${prop}`] - 1;
+            } else if (htmlElement[`scroll${prop}`] > priv.items[priv.itemIndex].html[`offset${prop}`]) {
+                htmlElement[`scroll${prop}`] = priv.items[priv.itemIndex].html[`offset${prop}`] - 1;
             }
         }
     }
@@ -896,10 +915,10 @@ class ListBox extends ScrollControl {
         priv.scroller = document.createElement(`${name}-scroller`);
         priv.scroller.classList.add('listBoxScroller');
         htmlElement.appendChild(priv.scroller);
-        if (priv.items) {
-            if (core.tools.isArray(priv.items)) {
+        if (priv.props.items) {
+            if (core.tools.isArray(priv.props.items)) {
                 this.beginUpdate();
-                priv.items.forEach((item, idx) => {
+                priv.props.items.forEach((item, idx) => {
                     const props = item;
                     props.inForm = !1;
                     props.selected = priv.itemIndex === idx;
@@ -914,7 +933,6 @@ class ListBox extends ScrollControl {
                 });
                 this.endUpdate();
             }
-            priv.items = null;
         }
         priv.useAlternateColor && htmlElement.classList.add('useAlternateColor');
         htmlElement.classList.add(`orientation-${priv.orientation}`);

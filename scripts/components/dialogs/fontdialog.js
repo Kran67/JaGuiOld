@@ -1,6 +1,8 @@
 ﻿//#region Import
 import { Window } from '/scripts/components/containers/window.js';
 import { CommonDialog } from '/scripts/components/dialogs/commondialog.js';
+import { Convert } from '/scripts/core/convert.js';
+import { Color } from '/scripts/core/color.js';
 import '/scripts/components/common/button.js';
 import '/scripts/components/common/label.js';
 import '/scripts/components/extended/labeleddropdownlistbox.js';
@@ -35,13 +37,17 @@ class FontDlg extends Window {
     //#region loaded
     loaded() {
         super.loaded();
+        this.updateFromObject();
     }
     //#endregion loaded
     updatePreview() {
         const form = this.form;
-        form.updateObject(form.lblPreview);
+        this.updateObject();
     }
-    updateObject(obj) {
+    updateObject() {
+        const priv = core.private(this);
+        const form = this.form;
+        console.log(form.lblPreview);
         //obj._HTMLElementStyle.fontFamily = this.ddlbPolice.text;
         //obj._HTMLElementStyle.fontWeight = String.EMPTY;
         //obj._HTMLElementStyle.fontStyle = String.EMPTY;
@@ -61,31 +67,38 @@ class FontDlg extends Window {
         //obj._HTMLElementStyle.textDecoration = (this.chkUnderline.isChecked) ? "underline" : String.EMPTY;
         //obj._HTMLElementStyle.color = this.colorBtn.color.toRGBHexString();
     }
-    updateFromObject(obj) {
-        //var value = parseInt(getComputedStyle(obj._HTMLElement).fontSize, 10), idx;
-        //// font-size
-        //if (value) {
-        //    idx = this.ddlbSize.findItemFromText(_conv.intToStr(value));
-        //    if (idx > -1) this.ddlbSize.setItemIndex(idx);
-        //    else {
-        //        this.ddlbSize.setItemIndex(-1);
-        //        this.ddlbSize.setText(_conv.intToStr(value));
-        //    }
-        //}
-        //// color
-        //value = getComputedStyle(obj._HTMLElement).color;
-        //if (value) this.colorBtn.setColor(_colors.parse(value));
-        //// font-family
-        //value = getComputedStyle(obj._HTMLElement).fontFamily;
-        //if (value) {
-        //    value = value.split("'").join(String.EMPTY);
-        //    idx = this.ddlbPolice.findItemFromText(value);
-        //    if (idx > -1) this.ddlbPolice.setItemIndex(idx);
-        //    else {
-        //        this.ddlbPolice.setItemIndex(-1);
-        //        this.ddlbPolice.setText(value);
-        //    }
-        //}
+    updateFromObject() {
+        const priv = core.private(this);
+        const cHtmlElement = priv.control.HTMLElement;
+        let value = int(getComputedStyle(cHtmlElement).fontSize, 10);
+        let idx;
+        // font-size
+        if (value) {
+            idx = this.lddlbFontSize.dropDownListBox.findItemFromText(Convert.intToStr(value));
+            if (idx > -1) {
+                this.lddlbFontSize.dropDownListBox.itemIndex = idx;
+            } else {
+                this.lddlbFontSize.dropDownListBox.itemIndex = -1;
+                this.lddlbFontSize.dropDownListBox.text = Convert.intToStr(value);
+            }
+        }
+        // color
+        value = getComputedStyle(cHtmlElement).color;
+        if (value) {
+            this.lddlbcFontColor.dropDownListBoxColor.color = Color.parse(value);
+        }
+        // font-family
+        value = getComputedStyle(cHtmlElement).fontFamily;
+        if (value) {
+            value = value.split("'").join(String.EMPTY);
+            idx = this.lddlbFont.dropDownListBox.findItemFromText(value);
+            if (idx > -1) {
+                this.lddlbFont.dropDownListBox.itemIndex = idx;
+            } else {
+                this.lddlbFont.dropDownListBox.itemIndex = -1;
+                this.lddlbFont.dropDownListBox.text = value;
+            }
+        }
         //// font style
         //idx = 0;
         //// Bold
@@ -167,8 +180,9 @@ core.locales.addLocaleKeyValues(core.types.LANGUAGES.FR_FR, !1, {
     'fontDlg.cboxOverline': 'Surligné',
     'fontDlg.cboxShadow': 'Ombre',
     'fontDlg.cboxAllCaps': 'Majuscules',
-    'fontDlg.lddlbLableEffects.label': 'Effets spéciaux :',
-    'fontDlg.btnEditEffect': 'Editer l\'effet...'
+    'fontDlg.lblEffect': 'Effet spécial :',
+    'fontDlg.lblCurrentEffect': '(Aucun)',
+    'fontDlg.btnEditEffect': 'Ajouter / Editer un effet...'
 });
 core.locales.addLocaleKeyValues(core.types.LANGUAGES.EN_US, !1, {
     'fontDlg': 'Font settings',
@@ -184,9 +198,11 @@ core.locales.addLocaleKeyValues(core.types.LANGUAGES.EN_US, !1, {
     'fontDlg.cboxOverline': 'Overline',
     'fontDlg.cboxShadow': 'Shadow',
     'fontDlg.cboxAllCaps': 'All caps',
-    'fontDlg.lddlbLableEffects.label': 'Special effects :',
-    'fontDlg.btnEditEffect': 'Edit effect...'
+    'fontDlg.lblEffect': 'Special effect :',
+    'fontDlg.lblCurrentEffect': '(None)',
+    'fontDlg.btnEditEffect': 'Add / Edit an effect...'
 });
+//#endregion
 //#region Template
 if (core.isHTMLRenderer) {
     const WindowTpl = core.classes.getTemplate(core.classes.Window.name);
@@ -194,7 +210,7 @@ if (core.isHTMLRenderer) {
         '<properties>{ "name": "grdLayout", "align": "client", "margin": 15, "templateColumns": "143px 7px 41px 7px 23px 7px 68px 7px 55px", ',
         '"templateRows": "33px 5px 33px 5px 55px 5px 70px 5px 23px", "columnGap": 0, "rowGap": 0 }</properties>',
         '<jagui-labeleddropdownlistbox id="{internalId}" data-class="LabeledDropDownListBox" class="Control LabeledControl LabeledDropDownListBox"><properties>{ "name": "lddlbFont", "flexDirection": "column", "dropDownListBox": { "items" : [{ "caption": "Arial", "css": "font-family: Arial" }, { "caption": "Arial Black", "css": "font-family: Arial Black" }, { "caption": "Courier New", "css": "font-family: Courier New" }, { "caption": "Georgia", "css": "font-family: Georgia" }, { "caption": "Tahoma", "css": "font-family: tahoma" }, { "caption": "Times", "css": "font-family: Times" }, { "caption": "Times New Roman", "css": "font-family: Times New Roman" }, { "caption": "Trebuchet MS", "css": "font-family: Trebuchet MS" }, { "caption": "Verdana", "css": "font-family: Verdana" }], "dropDownCount": 9 }, "column": 1, "row": 1, "colSpan": 3 }</properties></jagui-labeleddropdownlistbox>',
-        '<jagui-labeleddropdownlistbox id="{internalId}" data-class="LabeledDropDownListBox" class="Control LabeledControl LabeledDropDownListBox"><properties>{ "name": "lddlbFontStyle", "flexDirection": "column", "dropDownListBox": { "items" : [{ "caption": "Normal", "css": "font-weight: Normal" }, { "caption": "Gras", "css": "font-weight: bold", "translationKey": "constantMessages.fontBold" }, { "caption": "Italique", "css": "font-style: italic", "translationKey": "constantMessages.fontItalique" }, { "caption": "Gras Italique", "css": "font-weight: bold; font-style: italique", "translationKey": "constantMessages.fontBoldItalic" }], "dropDownCount": 4 }, "column": 5, "row": 1, "colSpan": 3 }</properties></jagui-labeleddropdownlistbox>',
+        '<jagui-labeleddropdownlistbox id="{internalId}" data-class="LabeledDropDownListBox" class="Control LabeledControl LabeledDropDownListBox"><properties>{ "name": "lddlbFontStyle", "flexDirection": "column", "dropDownListBox": { "items" : [{ "css": "font-weight: Normal", "translationKey": "constantMessages.regularFont" }, { "css": "font-weight: bold", "translationKey": "constantMessages.boldFont" }, { "css": "font-style: italic", "translationKey": "constantMessages.italicFont" }, { "css": "font-weight: bold; font-style: italique", "translationKey": "constantMessages.boldItalicFont" }], "dropDownCount": 4 }, "column": 5, "row": 1, "colSpan": 3 }</properties></jagui-labeleddropdownlistbox>',
         '<jagui-labeleddropdownlistbox id="{internalId}" data-class="LabeledDropDownListBox" class="Control LabeledControl LabeledDropDownListBox"><properties>{ "name": "lddlbFontSize", "flexDirection": "column", "dropDownListBox": { "items" : [{ "caption": "8" }, { "caption": "9" }, { "caption": "10" }, { "caption": "11" }, { "caption": "12" }, { "caption": "14" }, { "caption": "16" }, { "caption": "18" }, { "caption": "20" }, { "caption": "22" }, { "caption": "24" }, { "caption": "26" }, { "caption": "28" }, { "caption": "36" }, { "caption": "48" }, { "caption": "72" }] }, "column": 9, "row": 1 }</properties></jagui-labeleddropdownlistbox>',
         '<jagui-labeleddropdownlistboxcolor id="{internalId}" data-class="LabeledDropDownListBoxColor" class="Control LabeledControl LabeledDropDownListBoxColor"><properties>{ "name": "lddlbcFontColor", "flexDirection": "column", "column": 1, "row": 3, "dropDownListBoxColor": { "color": "black" } }</properties></jagui-labeleddropdownlistboxcolor>',
         `<jagui-labeleddropdownlistbox id="{internalId}" data-class="LabeledDropDownListBox" class="Control LabeledControl LabeledDropDownListBox"><properties>{ "name": "lddlbUnderline", "flexDirection": "column", "dropDownListBox": { "items" : [{ "translationKey": "constantMessages.rNone" }, { "caption": "${String.dupeString("&nbsp;", 19)}", "css": "text-decoration: solid line-through" }, { "caption": "${String.dupeString("&nbsp;", 19)}", "css": "text-decoration: line-through double" }, { "caption": "${String.dupeString("&nbsp;", 19)}", "css": "text-decoration: line-through dotted" }, { "caption": "${String.dupeString("&nbsp;", 19)}", "css": "text-decoration: line-through dashed" }, { "caption": "${String.dupeString("&nbsp;", 19)}", "css": "text-decoration: line-through wavy" }], "dropDownCount": 6 }, "column": 3, "row": 3, "colSpan": 3 }</properties></jagui-labeleddropdownlistbox>`,
@@ -207,7 +223,8 @@ if (core.isHTMLRenderer) {
         '<jagui-checkbox id="{internalId}" data-class="Checkbox" class="Control Checkbox {theme}"><properties>{ "name": "cboxOverline" }</properties></jagui-checkbox>',
         '<jagui-checkbox id="{internalId}" data-class="Checkbox" class="Control Checkbox {theme}"><properties>{ "name": "cboxShadow" }</properties></jagui-checkbox>',
         '<jagui-checkbox id="{internalId}" data-class="Checkbox" class="Control Checkbox {theme}"><properties>{ "name": "cboxAllCaps" }</properties></jagui-checkbox>',
-        '<jagui-labeleddropdownlistbox id="{internalId}" data-class="LabeledDropDownListBox" class="Control LabeledControl LabeledDropDownListBox"><properties>{ "name": "lddlbLableEffects", "dropDownListBox": { "items" : [{ "translationKey": "constantMessages.rNone" }, { "translationKey": "labelEffects.Neon" }, { "translationKey": "labelEffects.Outlined" }, { "translationKey": "labelEffects.Engraved" }, { "translationKey": "labelEffects.Embossed" }, { "translationKey": "labelEffects.Rainbow" }, { "translationKey": "labelEffects.Stickers" }, { "translationKey": "labelEffects.Thickness" }, { "translationKey": "labelEffects.NeonLaser" }, { "translationKey": "labelEffects.Fire" }, { "translationKey": "labelEffects.3DText" }, { "translationKey": "labelEffects.PrettyShadow" }, { "translationKey": "labelEffects.Gradient" }, { "translationKey": "labelEffects.Reflected" }, { "translationKey": "labelEffects.Shine" }, { "translationKey": "labelEffects.Cloudy" }, { "translationKey": "labelEffects.Burning" }] }, "column": 1, "row": 2, "colSpan": 2, "label": { "vertAlign": "middle" }, "enabled": false }</properties></jagui-labeleddropdownlistbox>',
+        '<jagui-label id="{internalId}" data-class="Label" class="Label {theme}"><properties>{ "name": "lblEffect", "column": 1, "row": 2, "enabled": false }</properties></jagui-label>',
+        '<jagui-label id="{internalId}" data-class="Label" class="Label {theme}"><properties>{ "name": "lblCurrentEffect", "column": 2, "row": 2, "enabled": false }</properties></jagui-label>',
         '<jagui-button id="{internalId}" data-class="Button" class="Control Button {theme}"><properties>{ "name": "btnEditEffect", "column": 3, "colSpan": 2, "row": 2, "enabled": false }</properties></jagui-button>',
         '</jagui-gridlayout></fieldset>',
         '<fieldset id="{internalId}" data-class="GroupBox" class="Control GroupBox {theme}"><properties>{ "name": "grpBPreview", "column": 1, "row": 7, "colSpan": 9 }</properties>',

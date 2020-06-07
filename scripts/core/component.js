@@ -552,8 +552,10 @@ class Component extends Bindable {
                 form[component.name] = null;
                 delete form[component.name];
             }
-            idx = controls.indexOf(component);
-            idx > -1 && controls.removeAt(idx);
+            if (controls) {
+                idx = controls.indexOf(component);
+                idx > -1 && controls.removeAt(idx);
+            }
         }
     }
     //#endregion remove

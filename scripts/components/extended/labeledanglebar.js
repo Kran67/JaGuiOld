@@ -16,6 +16,11 @@ class LabeledAngleBar extends LabeledControl {
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region angleButton
+    get angleButton() {
+        return core.private(this).angleButton;
+    }
+    //#endregion angleButton
     //#endregion Getters / Setters
     //#region Methods
     loaded() {

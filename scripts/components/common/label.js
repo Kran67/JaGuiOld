@@ -84,7 +84,7 @@ class Label extends CaptionControl {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        priv.effect.destroy();
+        priv.effect && priv.effect.destroy();
         super.destroy();
     }
     //#endregion destroy

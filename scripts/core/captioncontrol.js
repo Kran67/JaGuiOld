@@ -616,8 +616,8 @@ class CaptionControl extends ThemedControl {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        priv.color.destroy();
-        priv.backColor.destroy();
+        priv.color && priv.color.destroy();
+        priv.backColor && priv.backColor.destroy();
         super.destroy();
     }
     //#region destroy

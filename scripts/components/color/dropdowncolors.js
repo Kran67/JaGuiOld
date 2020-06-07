@@ -2,7 +2,9 @@
 import { ListBox, ListBoxItem } from '/scripts/components/common/listbox.js';
 import { DropDownListBox } from '/scripts/components/common/dropdownlistbox.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
-import { Colors } from '/scripts/core/color.js';
+import { Colors, Color } from '/scripts/core/color.js';
+import '/scripts/components/dialogs/colordialog.js';
+import { Window } from '/scripts/components/containers/window.js';
 //#endregion Import
 //#region ListBoxItemPopup
 class ListBoxItemColorPopup extends ListBoxItem {
@@ -131,7 +133,10 @@ class ListBoxColorPopup extends ListBox {
     //#region Methods
     //#region refreshInnerHeight
     refreshInnerHeight() {
-        const items = this.items;
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const items = priv.items;
+        //#endregion Variables déclaration
         if (this.owner) {
             items.forEach(item => {
                 item.removeToHTML();
@@ -143,7 +148,9 @@ class ListBoxColorPopup extends ListBox {
     //#endregion refreshInnerHeight
     //#region selectItem
     selectItem(item) {
+        //#region Variables déclaration
         const dropDownListBoxColor = item.owner.dropDownListBox;
+        //#endregion Variables déclaration
         if (item.enabled) {
             dropDownListBoxColor.colorIndex = item.index;
             dropDownListBoxColor.itemIndex = item.index;
@@ -155,7 +162,9 @@ class ListBoxColorPopup extends ListBox {
     //#endregion selectItem
     //#region keyUp
     keyUp() {
+        //#region Variables déclaration
         const VKEYSCODES = Keyboard.VKEYSCODES;
+        //#endregion Variables déclaration
         super.keyUp();
         switch (core.keyboard.key) {
             case VKEYSCODES.VK_RETURN:
@@ -165,6 +174,13 @@ class ListBoxColorPopup extends ListBox {
         }
     }
     //#endregion keyUp
+    destroy() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        priv.items = null;
+        super.destroy();
+    }
     //#endregion Methods
 }
 Object.seal(ListBoxColorPopup);
@@ -180,7 +196,7 @@ class DropDownListBoxColor extends DropDownListBox {
             props.dropDownWidth = 130;
             super(owner, props);
             core.private(this, {
-                color: Colors.BLACK,
+                color: Colors.TRANSPARENT,
                 colorIndex: -1
             });
         }
@@ -195,13 +211,29 @@ class DropDownListBoxColor extends DropDownListBox {
         //#region Variables déclaration
         const priv = core.private(this);
         const fElChild = this.HTMLElement.firstElementChild;
+        let colorDlg;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue >= 0 && newValue < this.items.length) {
-            const item = this.items[newValue];
-            this.text = item.caption;
-            fElChild.style.backgroundColor = item.color.toRGBAString();
-            fElChild.firstElementChild.style.color = item.color.getForeColorHex();
-            priv.color.assign(item.color);
+        if (core.tools.isNumber(newValue) && newValue >= 0 && newValue < priv.items.length) {
+            if (newValue === 0) {
+                colorDlg = core.classes.createComponent({
+                    class: core.classes.ColorDlg,
+                    owner: activeApp,
+                    props: {
+                        parentHTML: document.body,
+                        control: this
+                    }
+                });
+                colorDlg.obj = this;
+                colorDlg.onClose.addListener(this.updateColor);
+                colorDlg.showModal();
+            } else {
+                const item = priv.items[newValue];
+                this.text = newValue > 0 ? item.caption : item.color.toRGBAString();
+                fElChild.style.backgroundColor = item.color.toRGBAString();
+                fElChild.firstElementChild.style.color = item.color.getForeColorHex();
+                priv.color.assign(item.color);
+            }
+            priv.colorIndex = newValue;
         }
     }
     //#endregion colorIndex
@@ -214,32 +246,38 @@ class DropDownListBoxColor extends DropDownListBox {
         const priv = core.private(this);
         //#endregion Variables déclaration
         if (newValue instanceof Color) {
-            const item = this.items.filter(item => item.color.equals(newValue));
-            if (item.length > 0) {
-                this.text = item.first.caption;
-                priv.color.assign(newValue);
+            const item = priv.items.find(item => item.color.equals(newValue));
+            if (item) {
+                //this.text = item.first.caption;
+                this.colorIndex = item.index;
+            } else {
+                priv.items.first.color.assign(newValue);
+                this.colorIndex = 0;
+                this.text = newValue.toRGBAString();
             }
+            //priv.color.assign(newValue);
         }
     }
     //#endregion color
     //#endregion Getters / Setters
     //#region Methods
+    //#region updateColor
+    updateColor() {
+        this.modalResult === Window.MODALRESULTS.OK && (this.obj.color = this.clrBoxNewColor.fillColor);
+        this.obj.colorDlg = null;
+    }
+    //#endregion updateColor
     //#region loaded
     loaded() {
         //#region Variables déclaration
         const priv = core.private(this);
+        const colors = Object.keys(Colors);
+        let items = [{
+            caption: core.locales.translateConstant(core.currentLocale, 'colorBoxCustomCaption'),
+            color: Colors.TRANSPARENT
+        }];
         //#endregion Variables déclaration
         super.loaded();
-        priv.colorIndex = priv.itemIndex;
-    }
-    //#endregion loaded
-    //#region showPopup
-    showPopup() {
-        //#region Variables déclaration
-        const colors = Object.keys(Colors);
-        let items = [];
-        //#endregion Variables déclaration
-        this.items && this.items.destroy() && this.items.clear();
         colors.forEach(color => {
             const item = {
                 caption: color.firstCharUpper,
@@ -247,10 +285,10 @@ class DropDownListBoxColor extends DropDownListBox {
             };
             items = [...items, item];
         });
-        this.items.addRange(items);
-        super.showPopup();
+        priv.items.addRange(items);
+        priv.colorIndex = priv.itemIndex;
     }
-    //#endregion showPopup
+    //#endregion loaded
     //#region destroy
     destroy() {
         //#region Variables déclaration

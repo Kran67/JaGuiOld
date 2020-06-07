@@ -20,6 +20,11 @@ class LabeledSlider extends LabeledControl {
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region slider
+    get slider() {
+        return core.private(this).slider;
+    }
+    //#endregion slider
     //#endregion Getters / Setters
     //#region Methods
     loaded() {

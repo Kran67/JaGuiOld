@@ -606,12 +606,12 @@
         mCIVideodisc:'Videodisc',
         mCIWaveAudio:'WaveAudio',
         mCIUnknownError:'Unknown error code',
-
-        boldItalicFont:'Bold Italic',
-        boldFont:'Bold',
-        italicFont:'Italic',
-        regularFont:'Regular',
-
+        */
+        boldItalicFont:'Gras Italique',
+        boldFont:'Gras',
+        italicFont:'Italique',
+        regularFont:'Normal',
+        /*
         propertiesVerb:'Properties',
 
         serviceFailed:'Service failed on %s: %s',
@@ -646,9 +646,9 @@
 
         textNotFound:'Text not found: "%s"',
         browserExecError:'No default browser is specified',
-
-        colorBoxCustomCaption:'Custom...',
-
+        */
+        colorBoxCustomCaption:'Personnalisée...',
+        /*
         multiSelectRequired:'Multiselect mode must be on for this feature',
 
         keyCaption:'Key',

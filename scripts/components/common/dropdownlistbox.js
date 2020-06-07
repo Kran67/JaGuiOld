@@ -146,9 +146,7 @@ class DropDownListBoxPopup extends PopupBox {
                 width: -1,
                 height: -1,
                 itemsSize: priv.lbItemsSize,
-                items: priv.items/*,
-                    canFocused: !1,
-                    mouseTracking: !1*/
+                items: [ ...priv.items ]
             }
         });
         priv.listBox.dropDownListBox = this.owner;
@@ -582,9 +580,12 @@ class DropDownListBox extends ThemedControl {
     //#endregion getImages
     //#region findItemFromText
     findItemFromText(text) {
+        //#region Variables déclaration
+        const priv = core.private(this);
         const items = priv.items.filter(function (e) {
             return (e.caption === text);
         });
+        //#endregion Variables déclaration
         return items.length > 0 ? items.first.index : -1;
     }
     //#endregion findItemFromText

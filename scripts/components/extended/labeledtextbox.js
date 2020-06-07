@@ -5,6 +5,11 @@ import { TextBox } from '/scripts/components/common/textbox.js';
 //#region Class LabeledTextBox
 class LabeledTextBox extends LabeledControl {
     //#region Getters / Setters
+    //#region textBox
+    get textBox() {
+        return core.private(this).textBox;
+    }
+    //#endregion textBox
     //#endregion Getters / Setters
     //#region Methods
     //#region loaded

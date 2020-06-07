@@ -5,6 +5,11 @@ import { ColorButton } from '/scripts/components/color/colorbutton.js';
 //#region Class LabeledColorButton
 class LabeledColorButton extends LabeledControl {
     //#region Getters / Setters
+    //#region colorButton
+    get colorButton() {
+        return core.private(this).colorButton;
+    }
+    //#endregion colorButton
     //#endregion Getters / Setters
     //#region Methods
     //#region loaded
