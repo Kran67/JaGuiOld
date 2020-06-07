@@ -40,7 +40,8 @@ class Label extends CaptionControl {
                 htmlElement.classList.remove(this.effect.cssName);
                 this.effect.destroy();
                 this.effect = newValue;
-                newValue && htmlElement.classList.add(this.effect.cssName);
+                //newValue && htmlElement.classList.add(this.effect.cssName);
+                this.update();
             }
         }
     }

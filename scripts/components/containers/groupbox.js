@@ -17,6 +17,7 @@ class GroupBox extends CaptionControl {
                 props.height = 100;
             }
             super(owner, props);
+            //core.tools.defineLayout(this, props);
             core.tools.addPropertyFromEnum({
                 component: this,
                 propName: 'horizAlign',
@@ -52,7 +53,6 @@ class GroupBox extends CaptionControl {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        super.update();
         !this.loading && !this.form.loading && priv.legend && priv.legend.setAttribute('align', priv.horizAlign);
     }
     //#endregion update
@@ -72,8 +72,8 @@ class GroupBox extends CaptionControl {
         priv.legend = document.createElement(core.types.HTMLELEMENTS.LEGEND);
         priv.legend.classList.add('GroupBoxLegend', this.themeName);
         this.HTMLElement.appendChild(priv.legend);
-        this.updateCaption();
         super.loaded();
+        this.updateCaption();
     }
     //#endregion loaded
     //#endregion Methods

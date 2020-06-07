@@ -207,6 +207,13 @@ class Control extends Component {
     get translationKey() {
         return core.private(this).translationKey;
     }
+    set translationKey(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        core.tools.isString(newValue) && priv.translationKey !== newValue
+            && (priv.translationKey = newValue);
+    }
     //#endregion translationKey
     //#region allowUpdateOnResize
     get allowUpdateOnResize() {

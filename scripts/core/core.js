@@ -111,15 +111,21 @@ const Core = (() => {
             this.disableAnimation = !1;
             this.isMouseDown = !1;
             this.windowZIndex = 0;
-            this.currentLocale = 'en_US';
+            this.currentLocale = 'fr-FR';
             this.locales = {
                 translateConstant: (locale, key) => {
                     const c = locale ? core.locales[locale] : core.tools.getDefaultLocale();
                     return c && c.constantMessages[key] ? c.constantMessages[key] : null;
                 },
                 addLocale: (locale, key, value) => {
+                    !core.locales[locale] && (core.locales[locale] = {});
                     const c = core.locales[locale];
                     c[key] = value;
+                },
+                addLocaleKeyValues: (locale, key, values) => {
+                    !core.locales[locale] && (core.locales[locale] = {});
+                    key && (core.locales[locale] = { ...core.locales[locale], [key]: values });
+                    !key && (core.locales[locale] = { ...core.locales[locale], ...values });
                 }
             };
             this.version = '0.8b';

@@ -474,7 +474,7 @@ class Application extends BaseClass {
                 key = c[key];
             }
             if (key) {
-                if (obj instanceof core.classes.CaptionControl) {
+                if (obj instanceof core.classes.CaptionControl || obj instanceof core.classes.ListBoxItem) {
                     obj.caption = key;
                 } else if (obj instanceof core.classes.CustomTextControl) {
                     obj.placeHolder = key;

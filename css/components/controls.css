@@ -65,7 +65,7 @@ input.Control {
     display: none;
 }
 
-.Control.disabled {
+.disabled {
     opacity: 0.5;
 }
 

@@ -63,7 +63,7 @@ const CONSTANTS = Object.freeze(Object.seal({
     RESTOREBTNGLYPH: '<',
     MINIMIZEBTNGLYPH: ':',
     HELPBTNGLYPH: '9',
-    ROLLDOWNBTNGLYPH:'=',
+    ROLLDOWNBTNGLYPH: '=',
     ROLLUPBTNGLYPH: '>',
     STAYOFFBTNGLYPH: '@',
     STAYONBTNGLYPH: '?',
@@ -73,17 +73,17 @@ const CONSTANTS = Object.freeze(Object.seal({
 //#endregion CONSTANTS
 //#region
 const ARITHMETICOPERATIONS = Object.freeze(Object.seal({
-    EQUAL:'equal',
-    NOTEQUAL:'notEqual',
-    LESSTHAN:'lessThan',
-    GREATERTHAN:'greaterThan',
-    LESSTHANOREQUAL:'lessThanOrEqual',
-    GREATERTHANOREQUAL:'greaterThanOrEqual',
-    ISFALSE:'isFalse',
-    ISTRUE:'isTrue',
-    OR:'or',
-    AND:'and',
-    INDEXOF:'indexOf'
+    EQUAL: 'equal',
+    NOTEQUAL: 'notEqual',
+    LESSTHAN: 'lessThan',
+    GREATERTHAN: 'greaterThan',
+    LESSTHANOREQUAL: 'lessThanOrEqual',
+    GREATERTHANOREQUAL: 'greaterThanOrEqual',
+    ISFALSE: 'isFalse',
+    ISTRUE: 'isTrue',
+    OR: 'or',
+    AND: 'and',
+    INDEXOF: 'indexOf'
 }));
 //#endregion ARITHMETICOPERATIONS
 const Types = Object.seal(Object.freeze({
@@ -439,9 +439,9 @@ const Types = Object.seal(Object.freeze({
         SCROLL: 'scroll',
         WHEEL: 'wheel',
         INPUT: 'input',
-        MOUSEMOVE:'mousemove',
-        MOUSEDOWN:'mousedown',
-        MOUSEUP:'mouseup'
+        MOUSEMOVE: 'mousemove',
+        MOUSEDOWN: 'mousedown',
+        MOUSEUP: 'mouseup'
     })),
     //#endregion
     //#region HTMLINPUTTYPES
@@ -1188,8 +1188,59 @@ const Types = Object.seal(Object.freeze({
         TORIGHT: 'toRight',
         TOBOTTOM: 'toBottom',
         TOBOTTOMRIGHT: 'toBottomRight'
-    }))
+    })),
     //#endregion
+    //#region JUSTIFYCONTENT
+    JUSTIFYCONTENT: Object.freeze(Object.seal({
+        CENTER: 'center',
+        START: 'start',
+        END: 'end',
+        FLEXSTART: 'flex-start',
+        FLEXEND: 'flex-end',
+        LEFT: 'left',
+        RIGHT: 'right',
+        NORMAL: 'normal',
+        SPACEBETWEEN: 'space-between',
+        SPACEAROUND: 'space-around',
+        SPACEEVENLY: 'space-evenly',
+        STRETCH: 'stretch',
+        SAFECENTER: 'safe center',
+        UNSAFECENTER: 'unsafe center'
+    })),
+    //#endregion JUSTIFYCONTENT
+    //#region ALIGNITEMS
+    ALIGNITEMS: Object.freeze(Object.seal({
+        CENTER: 'center',
+        START: 'start',
+        END: 'end',
+        FLEXSTART: 'flex-start',
+        FLEXEND: 'flex-end',
+        NORMAL: 'normal',
+        STRETCH: 'stretch',
+        SAFECENTER: 'safe center',
+        UNSAFECENTER: 'unsafe center',
+        SELFSTART: 'self-start',
+        SELFEND: 'self-end',
+        FIRST: 'first',
+        FIRSTBASELINE: 'first baseline',
+        LASTBASELINE: 'last baseline'
+    })),
+    //#endregion ALIGNITEMS
+    //#region FLEXDIRECTIONS
+    FLEXDIRECTIONS: Object.freeze(Object.seal({
+        COLUMN: 'column',
+        ROW: 'row',
+        COLUMNREVERSE: 'column-reverse',
+        ROWREVERSE: 'row-reverse'
+    })),
+    //#endregion FLEXDIRECTIONS
+    //#region LAYOUTMODES
+    LAYOUTMODES: Object.freeze(Object.seal({
+        NORMAL: 'normal',
+        FLEX: 'flex',
+        GRID: 'grid'
+    }))
+    //#endregion LAYOUTMODES
 }));
 window.Types = window.core.types = Types;
 export { Types, ARITHMETICOPERATIONS }; // à supprimer

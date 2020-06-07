@@ -1,12 +1,11 @@
-﻿/*.fontDlgGbPreview {
-    color: black;
+﻿.FontDlg fieldset.GroupBox {
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
 }
 
-.fontDlgLblPreview {
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    font-family: Arial;
-    font-size: 8pt;
+.FontDlg legend {
+    margin-left: -5px;
+    padding: 0 5px 0 0;
 }
-*/

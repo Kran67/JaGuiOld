@@ -9,7 +9,7 @@ class LabeledControl extends FlexLayout {
         if (owner) {
             props.width = props.hasOwnProperty('width') && core.tools.isNumber(props.width) ? props.width : 200;
             props.height = props.hasOwnProperty('height') && core.tools.isNumber(props.height) ? props.height : 22;
-            props.alignItems = FlexLayout.ALIGNITEMS.STRETCH;
+            props.alignItems = core.types.ALIGNITEMS.STRETCH;
             super(owner, props);
             this.createEventsAndBind(['onChange'], props);
         }
@@ -52,6 +52,7 @@ class LabeledControl extends FlexLayout {
             label: core.classes.createComponent({
                 class: core.classes.Label,
                 owner: this,
+                name: `${this.name}.label`,
                 props: {
                     ...priv.props.label,
                     inForm: !1,
@@ -59,7 +60,8 @@ class LabeledControl extends FlexLayout {
                     onMouseDown: function () {
                         const components = this.owner.components.filter(comp => { return comp.canFocused; });
                         components.length > 0 && components.first.setFocus();
-                    }
+                    },
+                    margin: { right: 5 }
                 }
             })
         });

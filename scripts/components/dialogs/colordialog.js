@@ -235,44 +235,36 @@ class ColorDialog extends CommonDialog {
 core.classes.register(core.types.CATEGORIES.INTERNAL, ColorDlg);
 core.classes.register(core.types.CATEGORIES.DIALOGS, ColorDialog);
 //#region I18n
-!core.locales[core.types.LANGUAGES.FR_FR] && (core.locales[core.types.LANGUAGES.FR_FR] = {});
-!core.locales[core.types.LANGUAGES.EN_US] && (core.locales[core.types.LANGUAGES.EN_US] = {});
-let locale = core.locales[core.types.LANGUAGES.FR_FR];
-core.locales[core.types.LANGUAGES.FR_FR] = {
-    ...locale, ...{
-        'colorDlg': 'Choix de la couleur',
-        'colorDlg.lblCurColor': 'Couleur actuelle :',
-        'colorDlg.lblNewColor': 'Nouvelle couleur :',
-        'colorDlg.lblRed': 'Rouge :',
-        'colorDlg.lblGreen': 'Vert :',
-        'colorDlg.lblBlue': 'Bleu :',
-        'colorDlg.lblHue': 'Hue :',
-        'colorDlg.lblSat': 'Saturation :',
-        'colorDlg.lblLight': 'Luminosité :',
-        'colorDlg.lblHSVHue': 'Hue :',
-        'colorDlg.lblHSVSat': 'Saturation :',
-        'colorDlg.lblValue': 'Valeur :',
-        'colorDlg.lblOpacity': 'Opacité :'
-    }
-};
-locale = core.locales[core.types.LANGUAGES.EN_US];
-core.locales[core.types.LANGUAGES.EN_US] = {
-    ...locale, ...{
-        'colorDlg': 'Color choice',
-        'colorDlg.lblCurColor': 'Current color :',
-        'colorDlg.lblNewColor': 'New color :',
-        'colorDlg.lblRed': 'Red :',
-        'colorDlg.lblGreen': 'Green :',
-        'colorDlg.lblBlue': 'Blue :',
-        'colorDlg.lblHue': 'Hue :',
-        'colorDlg.lblSat': 'Saturate :',
-        'colorDlg.lblLight': 'Light :',
-        'colorDlg.lblHSVHue': 'Hue :',
-        'colorDlg.lblHSVSat': 'Saturate :',
-        'colorDlg.lblValue': 'Value :',
-        'colorDlg.lblOpacity': 'Opacity :'
-    }
-};
+core.locales.addLocaleKeyValues(core.types.LANGUAGES.FR_FR, !1, {
+    'colorDlg': 'Choix de la couleur',
+    'colorDlg.lblCurColor': 'Couleur actuelle :',
+    'colorDlg.lblNewColor': 'Nouvelle couleur :',
+    'colorDlg.lblRed': 'Rouge :',
+    'colorDlg.lblGreen': 'Vert :',
+    'colorDlg.lblBlue': 'Bleu :',
+    'colorDlg.lblHue': 'Hue :',
+    'colorDlg.lblSat': 'Saturation :',
+    'colorDlg.lblLight': 'Luminosité :',
+    'colorDlg.lblHSVHue': 'Hue :',
+    'colorDlg.lblHSVSat': 'Saturation :',
+    'colorDlg.lblValue': 'Valeur :',
+    'colorDlg.lblOpacity': 'Opacité :'
+});
+core.locales.addLocaleKeyValues(core.types.LANGUAGES.EN_US, !1, {
+    'colorDlg': 'Color choice',
+    'colorDlg.lblCurColor': 'Current color :',
+    'colorDlg.lblNewColor': 'New color :',
+    'colorDlg.lblRed': 'Red :',
+    'colorDlg.lblGreen': 'Green :',
+    'colorDlg.lblBlue': 'Blue :',
+    'colorDlg.lblHue': 'Hue :',
+    'colorDlg.lblSat': 'Saturate :',
+    'colorDlg.lblLight': 'Light :',
+    'colorDlg.lblHSVHue': 'Hue :',
+    'colorDlg.lblHSVSat': 'Saturate :',
+    'colorDlg.lblValue': 'Value :',
+    'colorDlg.lblOpacity': 'Opacity :'
+});
 //#endregion I18n
 //#region Template
 if (core.isHTMLRenderer) {

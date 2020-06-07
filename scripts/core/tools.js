@@ -633,6 +633,193 @@ class Tools {
         return dayList.map(getDayName);
     }
     //#endregion getWeekDayList
+    static defineLayout(control, props) {
+        if (control.update) {
+            control.oldUpdate = control.update;
+            control.update = function () {
+                //#region Variables déclaration
+                const priv = core.private(this);
+                const htmlElementStyle = this.HTMLElementStyle;
+                const PX = core.types.CSSUNITS.PX;
+                //#endregion Variables déclaration
+                control.oldUpdate();
+                switch (priv.layoutMode) {
+                    case core.types.LAYOUTMODES.NORMAL:
+                        htmlElementStyle.display = core.types.DISPLAYS.BLOCK;
+                        break;
+                    case core.types.LAYOUTMODES.FLEX:
+                        htmlElementStyle.display = core.types.DISPLAYS.FLEX;
+                        htmlElementStyle.flexDirection = priv.flexDirection;
+                        htmlElementStyle.justifyContent = priv.justifyContent;
+                        htmlElementStyle.alignItems = priv.alignItems;
+                        break;
+                    case core.types.LAYOUTMODES.GRID:
+                        htmlElementStyle.display = core.types.DISPLAYS.GRID;
+                        htmlElementStyle.gridTemplateColumns = !String.isNullOrEmpty(priv.templateColumns)
+                            ? priv.templateColumns : `repeat(${priv.columns}, 1fr [col-start])`;
+                        htmlElementStyle.gridTemplateRows = !String.isNullOrEmpty(priv.templateRows)
+                            ? priv.templateRows : `repeat(${priv.rows}, 1fr [row-start])`;
+                        htmlElementStyle.columnGap = `${priv.columnGap}${PX}`;
+                        htmlElementStyle.rowGap = `${priv.rowGap}${PX}`;
+                        break;
+                }
+            };
+        }
+        core.tools.addPropertyFromEnum({
+            component: control,
+            propName: 'layoutMode',
+            enum: core.types.LAYOUTMODES,
+            setter: function (newValue) {
+                //#region Variables déclaration
+                const priv = core.private(this);
+                const layoutMode = priv.layoutMode;
+                //#endregion Variables déclaration
+                if (core.tools.valueInSet(newValue, core.types.LAYOUTMODES) && layoutMode !== newValue) {
+                    priv.layoutMode = newValue;
+                    isHtmlRenderer && this.update();
+                }
+            },
+            value: props.layoutMode ? props.layoutMode : core.types.LAYOUTMODES.NORMAL
+        });
+        core.tools.addPropertyFromEnum({
+            component: control,
+            propName: 'justifyContent',
+            enum: core.types.JUSTIFYCONTENT,
+            setter: function (newValue) {
+                //#region Variables déclaration
+                const priv = core.private(this);
+                const justifyContent = priv.justifyContent;
+                //#endregion Variables déclaration
+                if (core.tools.valueInSet(newValue, core.types.JUSTIFYCONTENT) && justifyContent !== newValue) {
+                    priv.justifyContent = newValue;
+                    isHtmlRenderer && this.update();
+                }
+            },
+            value: props.justifyContent ? props.justifyContent : core.types.JUSTIFYCONTENT.FLEXSTART
+        });
+        core.tools.addPropertyFromEnum({
+            component: control,
+            propName: 'alignItems',
+            enum: core.types.ALIGNITEMS,
+            setter: function (newValue) {
+                //#region Variables déclaration
+                const priv = core.private(this);
+                const alignItems = priv.alignItems;
+                //#endregion Variables déclaration
+                if (core.tools.valueInSet(newValue, core.types.ALIGNITEMS) && alignItems !== newValue) {
+                    priv.alignItems = newValue;
+                    isHtmlRenderer && this.update();
+                }
+            },
+            value: props.alignItems ? props.alignItems : core.types.ALIGNITEMS.FLEXSTART
+        });
+        core.tools.addPropertyFromEnum({
+            component: control,
+            propName: 'flexDirection',
+            enum: core.types.FLEXDIRECTIONS,
+            setter: function (newValue) {
+                //#region Variables déclaration
+                const priv = core.private(this);
+                const flexDirection = priv.flexDirection;
+                //#endregion Variables déclaration
+                if (core.tools.valueInSet(newValue, core.types.FLEXDIRECTIONS) && flexDirection !== newValue) {
+                    priv.flexDirection = newValue;
+                    isHtmlRenderer && this.update();
+                }
+            },
+            value: props.flexDirection ? props.flexDirection : core.types.FLEXDIRECTIONS.ROW
+        });
+        core.private(control).columnGap = props.columnGap ? props.columnGap : 5;
+        Object.defineProperty(control, 'columnGap', {
+            get: () => { return core.private(control).columnGap; },
+            set: function () {
+                //#region Variables déclaration
+                const priv = core.private(this);
+                //#endregion Variables déclaration
+                if (core.tools.isNumber(newValue) && priv.columnGap !== newValue) {
+                    priv.columnGap = newValue;
+                    this.update();
+                }
+            },
+            enumerable: !0,
+            configurable: !0
+        });
+        core.private(control).rowGap = props.rowGap ? props.rowGap : 5;
+        Object.defineProperty(control, 'rowGap', {
+            get: () => { return core.private(control).rowGap; },
+            set: function () {
+                //#region Variables déclaration
+                const priv = core.private(this);
+                //#endregion Variables déclaration
+                if (core.tools.isNumber(newValue) && priv.rowGap !== newValue) {
+                    priv.rowGap = newValue;
+                    this.update();
+                }
+            },
+            enumerable: !0,
+            configurable: !0
+        });
+        core.private(control).columns = props.columns ? props.columns : 5;
+        Object.defineProperty(control, 'columns', {
+            get: () => { return core.private(control).columns; },
+            set: function () {
+                //#region Variables déclaration
+                const priv = core.private(this);
+                //#endregion Variables déclaration
+                if (core.tools.isNumber(newValue) && priv.columns !== newValue) {
+                    priv.columns = newValue;
+                    this.update();
+                }
+            },
+            enumerable: !0,
+            configurable: !0
+        });
+        core.private(control).rows = props.rows ? props.rows : 5;
+        Object.defineProperty(control, 'rows', {
+            get: () => { return core.private(control).rows; },
+            set: function () {
+                //#region Variables déclaration
+                const priv = core.private(this);
+                //#endregion Variables déclaration
+                if (core.tools.isNumber(newValue) && priv.rows !== newValue) {
+                    priv.rows = newValue;
+                    this.update();
+                }
+            },
+            enumerable: !0,
+            configurable: !0
+        });
+        core.private(control).templateColumns = props.templateColumns ? props.templateColumns : String.EMPTY;
+        Object.defineProperty(control, 'templateColumns', {
+            get: () => { return core.private(control).templateColumns; },
+            set: function () {
+                //#region Variables déclaration
+                const priv = core.private(this);
+                //#endregion Variables déclaration
+                if (core.tools.isNumber(newValue) && priv.templateColumns !== newValue) {
+                    priv.templateColumns = newValue;
+                    this.update();
+                }
+            },
+            enumerable: !0,
+            configurable: !0
+        });
+        core.private(control).templateRows = props.templateRows ? props.templateRows : String.EMPTY;
+        Object.defineProperty(control, 'templateRows', {
+            get: () => { return core.private(control).templateRows; },
+            set: function () {
+                //#region Variables déclaration
+                const priv = core.private(this);
+                //#endregion Variables déclaration
+                if (core.tools.isNumber(newValue) && priv.templateRows !== newValue) {
+                    priv.templateRows = newValue;
+                    this.update();
+                }
+            },
+            enumerable: !0,
+            configurable: !0
+        });
+    }
     //#endregion Methods
 }
 Object.seal(Object.freeze(Tools));

@@ -13,7 +13,7 @@ class ListBoxItem extends BaseClass {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
+            const priv = core.private(this, {
                 owner,
                 html: null,
                 check: null,
@@ -37,8 +37,12 @@ class ListBoxItem extends BaseClass {
                 cssImage: props.hasOwnProperty('cssImage') ? props.cssImage : String.EMPTY,
                 pos: props.hasOwnProperty('pos') && core.tools.isNumber(props.pos) ? props.pos : 0,
                 allowGrayed: props.hasOwnProperty('allowGrayed') && core.tools.isBool(props.allowGrayed)
-                    ? props.allowGrayed : !1
+                    ? props.allowGrayed : !1,
+                autoTranslate: props.hasOwnProperty('autoTranslate') && core.tools.isBool(props.autoTranslate)
+                    ? props.autoTranslate : !0,
+                translationKey: props.hasOwnProperty('translationKey') ? props.translationKey : String.EMPTY,
             });
+            priv.autoTranslate && !String.isNullOrEmpty(priv.translationKey) && this.app.getLocalText(this);
             this.mouseEvents = new core.classes.MouseEvents();
             core.tools.addPropertyFromEnum({
                 component: this,
@@ -52,6 +56,30 @@ class ListBoxItem extends BaseClass {
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region translationKey
+    get translationKey() {
+        return core.private(this).translationKey;
+    }
+    set translationKey(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        core.tools.isString(newValue) && priv.translationKey !== newValue
+            && (priv.translationKey = newValue);
+    }
+    //#endregion translationKey
+    //#region autoTranslate
+    get autoTranslate() {
+        return core.private(this).autoTranslate;
+    }
+    set autoTranslate(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        core.tools.isBool(newValue) && priv.autoTranslate !== newValue
+            && (priv.autoTranslate = newValue);
+    }
+    //#endregion autoTranslate
     //#region pos
     get pos() {
         return core.private(this).pos;

@@ -3,8 +3,11 @@ import { Window } from '/scripts/components/containers/window.js';
 import { CommonDialog } from '/scripts/components/dialogs/commondialog.js';
 import '/scripts/components/common/button.js';
 import '/scripts/components/common/label.js';
-import '/scripts/components/common/dropdownlistbox.js';
+import '/scripts/components/extended/labeleddropdownlistbox.js';
+import '/scripts/components/extended/labeleddropdowncolors.js';
+import '/scripts/components/containers/flexlayout.js';
 import '/scripts/components/containers/gridlayout.js';
+import '/scripts/components/containers/groupbox.js';
 //#endregion Import
 //#region FontDlg
 class FontDlg extends Window {
@@ -12,8 +15,8 @@ class FontDlg extends Window {
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
-            props.width = 367;
-            props.height = 234;
+            props.width = 396;
+            props.height = 297;
             props.borderStyle = Window.BORDERSTYLES.DIALOG;
             props.formPosition = Window.FORMPOSITIONS.MAINFORMCENTER;
             props.name = 'fontDlg';
@@ -150,57 +153,70 @@ class FontDialog extends CommonDialog {
 core.classes.register(core.types.CATEGORIES.INTERNAL, FontDlg);
 core.classes.register(core.types.CATEGORIES.DIALOGS, FontDialog);
 //#region I18n
-!core.locales[core.types.LANGUAGES.FR_FR] && (core.locales[core.types.LANGUAGES.FR_FR] = {});
-!core.locales[core.types.LANGUAGES.EN_US] && (core.locales[core.types.LANGUAGES.EN_US] = {});
-let locale = core.locales[core.types.LANGUAGES.FR_FR];
-core.locales[core.types.LANGUAGES.FR_FR] = {
-    ...locale, ...{
-        'fontDlg': 'Paramètrage de la police',
-        'fontDlg.lblFont': 'Police :',
-        'fontDlg.lblStyle': 'Style de police :',
-        'fontDlg.lblSize': 'Taille :'
-    }
-};
-locale = core.locales[core.types.LANGUAGES.EN_US];
-core.locales[core.types.LANGUAGES.EN_US] = {
-    ...locale, ...{
-        'fontDlg': 'Font settings',
-        'fontDlg.lblFont': 'Font family :',
-        'fontDlg.lblStyle': 'Font Style :',
-        'fontDlg.lblSize': 'Size :'
-    }
-};
+core.locales.addLocaleKeyValues(core.types.LANGUAGES.FR_FR, !1, {
+    'fontDlg': 'Paramètrage de la police',
+    'fontDlg.lddlbFont.label': 'Police :',
+    'fontDlg.lddlbFontStyle.label': 'Style de police :',
+    'fontDlg.lddlbFontSize.label': 'Taille :',
+    'fontDlg.lddlbcFontColor.label': 'Couleur de police :',
+    'fontDlg.lddlbUnderline.label': 'Soulignement :',
+    'fontDlg.lddlbcUnderlineColor.label': 'Couleur de soulignement : ',
+    'fontDlg.grpBEffects': 'Effets',
+    'fontDlg.grpBPreview': 'Aperçu',
+    'fontDlg.cboxStrikeThrough': 'Barré',
+    'fontDlg.cboxOverline': 'Surligné',
+    'fontDlg.cboxShadow': 'Ombre',
+    'fontDlg.cboxAllCaps': 'Majuscules',
+    'fontDlg.lddlbLableEffects.label': 'Effets spéciaux :',
+    'fontDlg.btnEditEffect': 'Editer l\'effet...'
+});
+core.locales.addLocaleKeyValues(core.types.LANGUAGES.EN_US, !1, {
+    'fontDlg': 'Font settings',
+    'fontDlg.lddlbFont.label': 'Font family :',
+    'fontDlg.lddlbFontStyle.label': 'Font Style :',
+    'fontDlg.lddlbFontSize.label': 'Size :',
+    'fontDlg.lddlbcFontColor.label': 'Font color :',
+    'fontDlg.lddlbUnderline.label': 'Underline :',
+    'fontDlg.lddlbcUnderlineColor.label': 'Underline color : ',
+    'fontDlg.grpBEffects': 'Effects',
+    'fontDlg.grpBPreview': 'Preview',
+    'fontDlg.cboxStrikeThrough': 'Strikethrough',
+    'fontDlg.cboxOverline': 'Overline',
+    'fontDlg.cboxShadow': 'Shadow',
+    'fontDlg.cboxAllCaps': 'All caps',
+    'fontDlg.lddlbLableEffects.label': 'Special effects :',
+    'fontDlg.btnEditEffect': 'Edit effect...'
+});
 //#region Template
 if (core.isHTMLRenderer) {
     const WindowTpl = core.classes.getTemplate(core.classes.Window.name);
     const FontDlgTpl = ['<jagui-gridlayout id="{internalId}" data-class="GridLayout" class="Control GridLayout">',
-        '<properties>{ "name": "grdLayout", "align": "client", "margin": 15, "templateColumns": "147px 7px 112px 7px 55px", ',
-        '"templateRows": "14px 20px 113px 23px", "columnGap": 0, "rowGap": 0 }</properties>',
-        '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
-        '<properties>{ "name": "lblFont" }</properties></jagui-label>',
-        '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
-        '<properties>{ "name": "lblFontStyle", "column": 3, "row": 1 }</properties></jagui-label>',
-        '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
-        '<properties>{ "name": "lblSize", "column": 5, "row": 1 }</properties></jagui-label>',
-        '<jagui-dropdownlistbox id="{internalId}" data-class="DropDownListBox" class="Control DropDownListBox {theme}">',
-            '<properties>{ "name": "ddlbFontFamily", "editable": false, "items" : [{ "caption": "Arial", "css": "font-family: Arial" }, { "caption": "Arial Black", "css": "font-family: Arial Black" }, { "caption": "Courier New", "css": "font-family: Courier New" }, { "caption": "Georgia", "css": "font-family: Georgia" }, { "caption": "Tahoma", "css": "font-family: tahoma" }, { "caption": "Times", "css": "font-family: Times" }, { "caption": "Times New Roman", "css": "font-family: Times New Roman" }, { "caption": "Trebuchet MS", "css": "font-family: Trebuchet MS" }, { "caption": "Verdana", "css": "font-family: Verdana" }], "column": 1, "row": 2, "dropDownCount": 9 }</properties>',
-        '</jagui-dropdownlistbox>',
-        '<jagui-dropdownlistbox id="{internalId}" data-class="DropDownListBox" class="Control DropDownListBox {theme}">',
-            '<properties>{ "name": "ddlbFontStyle", "editable": false, "items" : [{ "caption": "Normal", "css": "font-weight: Normal" }, { "caption": "Gras", "css": "font-weight: bold", "translationKey": "constantMessages.fontBold" }, { "caption": "Italique", "css": "font-style: italic", "translationKey": "constantMessages.fontItalique" }, { "caption": "Gras Italique", "css": "font-weight: bold; font-style: italique", "translationKey": "constantMessages.fontBoldItalic" }], "column": 3, "row": 2, "dropDownCount": 4 }</properties>',
-        '</jagui-dropdownlistbox>',
-        '<jagui-dropdownlistbox id="{internalId}" data-class="DropDownListBox" class="Control DropDownListBox {theme}">',
-            '<properties>{ "name": "ddlbFontSize", "editable": false, "items" : [{ "caption": "8" }, { "caption": "9" }, { "caption": "10" }, { "caption": "11" }, { "caption": "12" }, { "caption": "14" }, { "caption": "16" }, { "caption": "18" }, { "caption": "20" }, { "caption": "22" }, { "caption": "24" }, { "caption": "26" }, { "caption": "28" }, { "caption": "36" }, { "caption": "48" }, { "caption": "72" }], "column": 5, "row": 2 }</properties>',
-        '</jagui-dropdownlistbox>',
-        '<fieldset id="{internalId}" data-class="GroupBox" class="Control GroupBox {theme}"><properties>{ "name": "grpEffects", "caption": "Effets : ", "column": 1, "row": 3, "margin": { "top": 5, "bottom": 5} }</properties>',
-        
-        
-        '</fieldset > ',
-
-
-
+        '<properties>{ "name": "grdLayout", "align": "client", "margin": 15, "templateColumns": "143px 7px 41px 7px 23px 7px 68px 7px 55px", ',
+        '"templateRows": "33px 5px 33px 5px 55px 5px 70px 5px 23px", "columnGap": 0, "rowGap": 0 }</properties>',
+        '<jagui-labeleddropdownlistbox id="{internalId}" data-class="LabeledDropDownListBox" class="Control LabeledControl LabeledDropDownListBox"><properties>{ "name": "lddlbFont", "flexDirection": "column", "dropDownListBox": { "items" : [{ "caption": "Arial", "css": "font-family: Arial" }, { "caption": "Arial Black", "css": "font-family: Arial Black" }, { "caption": "Courier New", "css": "font-family: Courier New" }, { "caption": "Georgia", "css": "font-family: Georgia" }, { "caption": "Tahoma", "css": "font-family: tahoma" }, { "caption": "Times", "css": "font-family: Times" }, { "caption": "Times New Roman", "css": "font-family: Times New Roman" }, { "caption": "Trebuchet MS", "css": "font-family: Trebuchet MS" }, { "caption": "Verdana", "css": "font-family: Verdana" }], "dropDownCount": 9 }, "column": 1, "row": 1, "colSpan": 3 }</properties></jagui-labeleddropdownlistbox>',
+        '<jagui-labeleddropdownlistbox id="{internalId}" data-class="LabeledDropDownListBox" class="Control LabeledControl LabeledDropDownListBox"><properties>{ "name": "lddlbFontStyle", "flexDirection": "column", "dropDownListBox": { "items" : [{ "caption": "Normal", "css": "font-weight: Normal" }, { "caption": "Gras", "css": "font-weight: bold", "translationKey": "constantMessages.fontBold" }, { "caption": "Italique", "css": "font-style: italic", "translationKey": "constantMessages.fontItalique" }, { "caption": "Gras Italique", "css": "font-weight: bold; font-style: italique", "translationKey": "constantMessages.fontBoldItalic" }], "dropDownCount": 4 }, "column": 5, "row": 1, "colSpan": 3 }</properties></jagui-labeleddropdownlistbox>',
+        '<jagui-labeleddropdownlistbox id="{internalId}" data-class="LabeledDropDownListBox" class="Control LabeledControl LabeledDropDownListBox"><properties>{ "name": "lddlbFontSize", "flexDirection": "column", "dropDownListBox": { "items" : [{ "caption": "8" }, { "caption": "9" }, { "caption": "10" }, { "caption": "11" }, { "caption": "12" }, { "caption": "14" }, { "caption": "16" }, { "caption": "18" }, { "caption": "20" }, { "caption": "22" }, { "caption": "24" }, { "caption": "26" }, { "caption": "28" }, { "caption": "36" }, { "caption": "48" }, { "caption": "72" }] }, "column": 9, "row": 1 }</properties></jagui-labeleddropdownlistbox>',
+        '<jagui-labeleddropdownlistboxcolor id="{internalId}" data-class="LabeledDropDownListBoxColor" class="Control LabeledControl LabeledDropDownListBoxColor"><properties>{ "name": "lddlbcFontColor", "flexDirection": "column", "column": 1, "row": 3, "dropDownListBoxColor": { "color": "black" } }</properties></jagui-labeleddropdownlistboxcolor>',
+        `<jagui-labeleddropdownlistbox id="{internalId}" data-class="LabeledDropDownListBox" class="Control LabeledControl LabeledDropDownListBox"><properties>{ "name": "lddlbUnderline", "flexDirection": "column", "dropDownListBox": { "items" : [{ "translationKey": "constantMessages.rNone" }, { "caption": "${String.dupeString("&nbsp;", 19)}", "css": "text-decoration: solid line-through" }, { "caption": "${String.dupeString("&nbsp;", 19)}", "css": "text-decoration: line-through double" }, { "caption": "${String.dupeString("&nbsp;", 19)}", "css": "text-decoration: line-through dotted" }, { "caption": "${String.dupeString("&nbsp;", 19)}", "css": "text-decoration: line-through dashed" }, { "caption": "${String.dupeString("&nbsp;", 19)}", "css": "text-decoration: line-through wavy" }], "dropDownCount": 6 }, "column": 3, "row": 3, "colSpan": 3 }</properties></jagui-labeleddropdownlistbox>`,
+        '<jagui-labeleddropdownlistboxcolor id="{internalId}" data-class="LabeledDropDownListBoxColor" class="Control LabeledControl LabeledDropDownListBoxColor"><properties>{ "name": "lddlbcUnderlineColor", "flexDirection": "column", "column": 7, "row": 3, "colSpan": 3, "dropDownListBoxColor": { "color": "transparent" } }</properties></jagui-labeleddropdownlistboxcolor>',
+        '<fieldset id="{internalId}" data-class="GroupBox" class="Control GroupBox {theme}"><properties>{ "name": "grpBEffects", "column": 1, "row": 5, "colSpan": 9 }</properties>',
+        '<jagui-gridlayout id="{internalId}" data-class="GridLayout" class="Control GridLayout">',
+        '<properties>{ "name": "grdLayout_effects", "columns": 4, ',
+        '"rows": 2, "columnGap": 5, "rowGap": 5, "align": "client" }</properties>',
+        '<jagui-checkbox id="{internalId}" data-class="Checkbox" class="Control Checkbox {theme}"><properties>{ "name": "cboxStrikeThrough" }</properties></jagui-checkbox>',
+        '<jagui-checkbox id="{internalId}" data-class="Checkbox" class="Control Checkbox {theme}"><properties>{ "name": "cboxOverline" }</properties></jagui-checkbox>',
+        '<jagui-checkbox id="{internalId}" data-class="Checkbox" class="Control Checkbox {theme}"><properties>{ "name": "cboxShadow" }</properties></jagui-checkbox>',
+        '<jagui-checkbox id="{internalId}" data-class="Checkbox" class="Control Checkbox {theme}"><properties>{ "name": "cboxAllCaps" }</properties></jagui-checkbox>',
+        '<jagui-labeleddropdownlistbox id="{internalId}" data-class="LabeledDropDownListBox" class="Control LabeledControl LabeledDropDownListBox"><properties>{ "name": "lddlbLableEffects", "dropDownListBox": { "items" : [{ "translationKey": "constantMessages.rNone" }, { "translationKey": "labelEffects.Neon" }, { "translationKey": "labelEffects.Outlined" }, { "translationKey": "labelEffects.Engraved" }, { "translationKey": "labelEffects.Embossed" }, { "translationKey": "labelEffects.Rainbow" }, { "translationKey": "labelEffects.Stickers" }, { "translationKey": "labelEffects.Thickness" }, { "translationKey": "labelEffects.NeonLaser" }, { "translationKey": "labelEffects.Fire" }, { "translationKey": "labelEffects.3DText" }, { "translationKey": "labelEffects.PrettyShadow" }, { "translationKey": "labelEffects.Gradient" }, { "translationKey": "labelEffects.Reflected" }, { "translationKey": "labelEffects.Shine" }, { "translationKey": "labelEffects.Cloudy" }, { "translationKey": "labelEffects.Burning" }] }, "column": 1, "row": 2, "colSpan": 2, "label": { "vertAlign": "middle" }, "enabled": false }</properties></jagui-labeleddropdownlistbox>',
+        '<jagui-button id="{internalId}" data-class="Button" class="Control Button {theme}"><properties>{ "name": "btnEditEffect", "column": 3, "colSpan": 2, "row": 2, "enabled": false }</properties></jagui-button>',
+        '</jagui-gridlayout></fieldset>',
+        '<fieldset id="{internalId}" data-class="GroupBox" class="Control GroupBox {theme}"><properties>{ "name": "grpBPreview", "column": 1, "row": 7, "colSpan": 9 }</properties>',
+        '<jagui-flexlayout id="{internalId}" data-class="FlexLayout" class="Control FlexLayout {theme}"><properties>{ "name": "flxLayout", "align": "client", "justifyContent": "center", "alignItems": "center" }</properties>',
+        '<jagui-label id="{internalId}" data-class="Label" class="Label {theme}"><properties>{ "name": "lblPreview", "caption": "AaBbYyZz" }</properties></jagui-label>',
+        '<jagui-flexlayout></fieldset>',
         '<jagui-gridlayout id="{internalId}" data-class="GridLayout" class="Control GridLayout">',
         '<properties>{ "name": "grdLayout_footer", "templateColumns": "90px 71px 6px 71px 90px", ',
-        '"templateRows": "1fr", "columnGap": 0, "rowGap": 0, "column": 1, "row": 4, "colSpan": 5 }</properties>',
+        '"templateRows": "1fr", "columnGap": 0, "rowGap": 0, "column": 1, "row": 9, "colSpan": 5 }</properties>',
         '<jagui-button id="{internalId}" data-class="Button" class="Control Button {theme}"><properties>{ "name": "btnOk", "modalResult": "ok", "column": 2, "translationKey": "constantMessages.okButton" }</properties></jagui-button>',
         '<jagui-button id="{internalId}" data-class="Button" class="Control Button {theme}"><properties>{ "name": "btnCancel", "modalResult": "cancel", "column": 4, "translationKey": "constantMessages.cancelButton" }</properties></jagui-button>',
         '</jagui-gridlayout>',

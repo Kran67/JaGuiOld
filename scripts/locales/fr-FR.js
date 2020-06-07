@@ -541,9 +541,9 @@
         mkcCtrl:'Ctrl+',
         mkcAlt:'Alt+',
 
-        rUnknown:'(Unknown)',
-        rNone:'(None)',
-        outOfRange:'Value must be between %d and %d',
+        rUnknown:'(Unknown)',*/
+        rNone:'(Aucun)',
+        /*outOfRange:'Value must be between %d and %d',
 
         dateEncodeError:'Invalid argument to date encode',
         defaultFilter:'All files (*.*)|*.*',

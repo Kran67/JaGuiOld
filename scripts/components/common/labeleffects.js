@@ -50,7 +50,7 @@ class LabelNeonEffect extends LabelEffect {
     processTick(elapsedTime) {
         this.currentTick += elapsedTime;
         this.currentTick > 1500 && (this.currentTick = 0);
-        core.canvas.needRedraw = !0;
+        !core.isHTMLRenderer && (core.canvas.needRedraw = !0);
     }
     //#endregion processTick
     //#region update
@@ -608,3 +608,39 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, LabelBurningEffect);
 export { LabelEffect, LabelNeonEffect, LabelOutlinedEffect, LabelEngravedEffect, LabelEmbossedEffect, LabelRainbowsEffect, LabelStickersEffect };
 export { LabelThicknessEffect, LabelNeonlasenterEffect, LabelFireEffect, LabelText3dEffect, LabelBurningEffect };
 export { LabelPrettyshadowEffect, LabelGradientEffect, LabelReflectEffect, LabelShineEffect, LabelCloudyEffect };
+core.locales.addLocaleKeyValues(core.types.LANGUAGES.FR_FR, 'labelEffects', {
+    'Neon': 'Néon',
+    'Outlined': 'Contour',
+    'Engraved': 'Gravé',
+    'Embossed': 'Relief',
+    'Rainbow': 'Arc en ciel',
+    'Stickers': 'Autocollant',
+    'Thickness': 'Épaisseur',
+    'NeonLaser': 'Néon laser',
+    'Fire': 'Feu',
+    '3DText': 'Texte 3D',
+    'PrettyShadow': 'Jolie ombre',
+    'Gradient': 'Dégradé',
+    'Reflected': 'Réfléchi',
+    'Shine': 'Éclat',
+    'Cloudy': 'Nuageux',
+    'Burning': 'Brûlant'
+});
+core.locales.addLocaleKeyValues(core.types.LANGUAGES.EN_US, 'labelEffects', {
+    'Neon': 'Neon',
+    'Outlined': 'Outlined',
+    'Engraved': 'Engraved',
+    'Embossed': 'Embossed',
+    'Rainbow': 'Rainbow',
+    'Stickers': 'Stickers',
+    'Thickness': 'Thickness',
+    'NeonLaser': 'Neon laser',
+    'Fire': 'Fire',
+    '3DText': '3DText',
+    'PrettyShadow': 'Pretty shadow',
+    'Gradient': 'Gradient',
+    'Reflected': 'Reflected',
+    'Shine': 'Shine',
+    'Cloudy': 'Cloudy',
+    'Burning': 'Burning'
+});
