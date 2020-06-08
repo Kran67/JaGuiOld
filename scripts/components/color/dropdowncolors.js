@@ -210,10 +210,10 @@ class DropDownListBoxColor extends DropDownListBox {
     set colorIndex(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const fElChild = this.HTMLElement.firstElementChild;
         let colorDlg;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && newValue >= 0 && newValue < priv.items.length) {
+            priv.colorIndex = newValue;
             if (newValue === 0) {
                 colorDlg = core.classes.createComponent({
                     class: core.classes.ColorDlg,
@@ -227,13 +227,8 @@ class DropDownListBoxColor extends DropDownListBox {
                 colorDlg.onClose.addListener(this.updateColor);
                 colorDlg.showModal();
             } else {
-                const item = priv.items[newValue];
-                this.text = newValue > 0 ? item.caption : item.color.toRGBAString();
-                fElChild.style.backgroundColor = item.color.toRGBAString();
-                fElChild.firstElementChild.style.color = item.color.getForeColorHex();
-                priv.color.assign(item.color);
+                this.updateTextAndColor();
             }
-            priv.colorIndex = newValue;
         }
     }
     //#endregion colorIndex
@@ -246,21 +241,34 @@ class DropDownListBoxColor extends DropDownListBox {
         const priv = core.private(this);
         //#endregion Variables déclaration
         if (newValue instanceof Color) {
-            const item = priv.items.find(item => item.color.equals(newValue));
-            if (item) {
-                //this.text = item.first.caption;
-                this.colorIndex = item.index;
+            const index = priv.items.findIndex(item => item.color.equals(newValue));
+            if (index > 0) {
+                priv.colorIndex = index;
             } else {
                 priv.items.first.color.assign(newValue);
-                this.colorIndex = 0;
-                this.text = newValue.toRGBAString();
+                priv.colorIndex = 0;
             }
-            //priv.color.assign(newValue);
+            this.updateTextAndColor();
         }
     }
     //#endregion color
     //#endregion Getters / Setters
     //#region Methods
+    //#region update
+    updateTextAndColor() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const fElChild = this.HTMLElement.firstElementChild;
+        const item = priv.items[priv.colorIndex];
+        //#endregion Variables déclaration
+        if (item) {
+            this.text = priv.colorIndex > 0 ? item.caption : item.color.toRGBAString();
+            fElChild.style.backgroundColor = item.color.toRGBAString();
+            fElChild.firstElementChild.style.color = item.color.getForeColorHex();
+            priv.color.assign(item.color);
+        }
+    }
+    //#endregion update
     //#region updateColor
     updateColor() {
         this.modalResult === Window.MODALRESULTS.OK && (this.obj.color = this.clrBoxNewColor.fillColor);
