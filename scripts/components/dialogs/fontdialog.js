@@ -72,6 +72,8 @@ class FontDlg extends Window {
         const cHtmlElement = priv.control.HTMLElement;
         let value = int(getComputedStyle(cHtmlElement).fontSize, 10);
         let idx;
+        const FONTSTYLES = core.types.FONTSTYLES;
+        const TEXTDECORATIONS = core.types.TEXTDECORATIONS;
         // font-size
         if (value) {
             idx = this.lddlbFontSize.dropDownListBox.findItemFromText(Convert.intToStr(value));
@@ -99,26 +101,30 @@ class FontDlg extends Window {
                 this.lddlbFont.dropDownListBox.text = value;
             }
         }
-        //// font style
-        //idx = 0;
-        //// Bold
-        //value = getComputedStyle(obj._HTMLElement).fontWeight;
-        //if (value) {
-        //    if (value === $j.types.fontStyles.BOLD) idx++;
-        //}
-        //// Oblique
-        //value = getComputedStyle(obj._HTMLElement).fontStyle;
-        //if (value) {
-        //    if (value === $j.types.fontStyles.OBLIQUE) idx += 2;
-        //}
-        //this.ddlbStyle.setItemIndex(idx);
-        //this.ddlbStyle.setText(this.ddlbStyle.items[idx].text);
-        //// underline
-        //value = getComputedStyle(obj._HTMLElement).textDecoration;
-        //if (value) {
-        //    if (value === "underline") this.chkUnderline.setIsChecked(true);
-        //}
+        // font style
+        idx = 0;
+        // Bold
+        value = getComputedStyle(cHtmlElement).fontWeight;
+        value && value === FONTSTYLES.BOLD && idx++;
+        // Oblique
+        value = getComputedStyle(cHtmlElement).fontStyle;
+        value && value === FONTSTYLES.OBLIQUE && (idx += 2);
+        this.lddlbFontStyle.dropDownListBox.itemIndex = idx;
+        this.lddlbFontStyle.dropDownListBox.text = this.lddlbFontStyle.dropDownListBox.items[idx].text;
+        // underline
+        value = getComputedStyle(cHtmlElement).textDecoration;
+        console.log(value);
+        idx = 0;
+        if (value && value.includes(TEXTDECORATIONS.UNDERLINE)) {
 
+        }
+        this.cboxStrikeThrough.isChecked = value && value.includes(TEXTDECORATIONS.LINETHROUGH);
+        this.cboxOverline.isChecked = value && value.includes(TEXTDECORATIONS.OVERLINE);
+        value = getComputedStyle(cHtmlElement).textShadow;
+        this.cboxShadow.isChecked = value && value.includes('rgb');
+        value = getComputedStyle(cHtmlElement).textTransform;
+        this.cboxAllCaps.isChecked = value && value.includes(core.types.TEXTTRANSFORMS.UPPERCASE);
+        this.btnEditEffect.enabled = this.lblEffect.enabled = this.lblCurrentEffect.enabled = priv.control instanceof core.classes.Label;
         this.updatePreview();
     }
     //#endregion Methods

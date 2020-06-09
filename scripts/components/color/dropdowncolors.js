@@ -297,6 +297,15 @@ class DropDownListBoxColor extends DropDownListBox {
         priv.colorIndex = priv.itemIndex;
     }
     //#endregion loaded
+    //#region showPopup
+    showPopup() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        priv.items.first.color.assign(Colors.TRANSPARENT);
+        super.showPopup();
+    }
+    //#endregion showPopup
     //#region destroy
     destroy() {
         //#region Variables déclaration
