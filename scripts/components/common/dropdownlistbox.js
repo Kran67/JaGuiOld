@@ -268,15 +268,24 @@ class DropDownListBox extends ThemedControl {
         if (core.tools.isString(newValue) && priv.text !== newValue) {
             priv.text = newValue;
             if (items && items.length > 0) {
-                const item = items.filter(function (el) {
-                    return el.caption === newValue;
-                });
-                item.length > 0 && (priv.itemIndex = items.indexOf(item.first));
+                const item = items.find(el => el.caption === newValue);
+                item && (priv.itemIndex = items.indexOf(item));
             }
             this.update();
         }
     }
     //#endregion text
+    //#region cssText
+    get cssText() {
+        return core.private(this).input.style.cssText;
+    }
+    set cssText(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        core.tools.isString(newValue) && (priv.input.style.cssText !== newValue) && (priv.input.style.cssText = newValue);
+    }
+    //#endregion cssText
     //#region opened
     get opened() {
         return core.private(this).opened;
@@ -578,15 +587,21 @@ class DropDownListBox extends ThemedControl {
         form[priv.images] && (priv.images = form[priv.images]);
     }
     //#endregion getImages
+    //#region findItemIndexFromText
+    findItemIndexFromText(text) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const item = priv.items.find(e => e.caption === text);
+        //#endregion Variables déclaration
+        return item ? item.index : -1;
+    }
+    //#endregion findItemIndexFromText
     //#region findItemFromText
     findItemFromText(text) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const items = priv.items.filter(function (e) {
-            return (e.caption === text);
-        });
         //#endregion Variables déclaration
-        return items.length > 0 ? items.first.index : -1;
+        return priv.items.find(e => e.caption === text);
     }
     //#endregion findItemFromText
     //#region newItem
@@ -598,7 +613,7 @@ class DropDownListBox extends ThemedControl {
             class: ListBoxItem, // à voir ici
             owner: this,
             props
-        });
+            });
         priv.items.push(item);
         return item;
     }

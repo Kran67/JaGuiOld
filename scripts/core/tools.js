@@ -633,6 +633,7 @@ class Tools {
         return dayList.map(getDayName);
     }
     //#endregion getWeekDayList
+    //#region defineLayout
     static defineLayout(control, props) {
         if (control.update) {
             control.oldUpdate = control.update;
@@ -820,6 +821,7 @@ class Tools {
             configurable: !0
         });
     }
+    //#endregion defineLayout
     //#endregion Methods
 }
 Object.seal(Object.freeze(Tools));

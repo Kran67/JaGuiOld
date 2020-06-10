@@ -37,16 +37,43 @@ class FontDlg extends Window {
     //#region loaded
     loaded() {
         super.loaded();
+        this.lddlbUnderline.dropDownListBox.onChange.addListener(this.ddlbUnderline_Change);
         this.updateFromObject();
     }
     //#endregion loaded
+    ddlbUnderline_Change() {
+        this.cssText = this.items[this.itemIndex].css;
+    }
     updatePreview() {
-        const form = this.form;
-        this.updateObject();
+        //#region Variables déclaration
+        const pHTMLElementStyle = this.lblPreview.HTMLElementStyle;
+        const FONTSTYLES = core.types.FONTSTYLES;
+        //#endregion Variables déclaration
+        pHTMLElementStyle.fontFamily = this.lddlbFont.dropDownListBox.text;
+        pHTMLElementStyle.fontSize = `${this.lddlbFontSize.dropDownListBox.text}px`;
+        switch (this.lddlbFontStyle.dropDownListBox.itemIndex) {
+            case 1: // Bold
+                pHTMLElementStyle.fontWeight = FONTSTYLES.BOLD;
+                break;
+            case 2: // Italic
+                pHTMLElementStyle.fontStyle = FONTSTYLES.ITALIC;
+                break;
+            case 3: // Bold Italic
+                pHTMLElementStyle.fontWeight = FONTSTYLES.BOLD;
+                pHTMLElementStyle.fontStyle = FONTSTYLES.ITALIC;
+                break;
+            default: // Regular
+                pHTMLElementStyle.fontWeight = FONTSTYLES.ITALIC;
+                pHTMLElementStyle.fontStyle = FONTSTYLES.ITALIC;
+        }
+        pHTMLElementStyle.font
+        //this.updateObject();
     }
     updateObject() {
+        //#region Variables déclaration
         const priv = core.private(this);
         const form = this.form;
+        //#endregion Variables déclaration
         console.log(form.lblPreview);
         //obj._HTMLElementStyle.fontFamily = this.ddlbPolice.text;
         //obj._HTMLElementStyle.fontWeight = String.EMPTY;
@@ -68,15 +95,18 @@ class FontDlg extends Window {
         //obj._HTMLElementStyle.color = this.colorBtn.color.toRGBHexString();
     }
     updateFromObject() {
+        //#region Variables déclaration
         const priv = core.private(this);
         const cHtmlElement = priv.control.HTMLElement;
         let value = int(getComputedStyle(cHtmlElement).fontSize, 10);
-        let idx;
+        let idx, text;
         const FONTSTYLES = core.types.FONTSTYLES;
         const TEXTDECORATIONS = core.types.TEXTDECORATIONS;
+        const TEXTDECORATIONSTYLES = core.types.TEXTDECORATIONSTYLES;
+        //#endregion Variables déclaration
         // font-size
         if (value) {
-            idx = this.lddlbFontSize.dropDownListBox.findItemFromText(Convert.intToStr(value));
+            idx = this.lddlbFontSize.dropDownListBox.findItemIndexFromText(Convert.intToStr(value));
             if (idx > -1) {
                 this.lddlbFontSize.dropDownListBox.itemIndex = idx;
             } else {
@@ -86,14 +116,12 @@ class FontDlg extends Window {
         }
         // color
         value = getComputedStyle(cHtmlElement).color;
-        if (value) {
-            this.lddlbcFontColor.dropDownListBoxColor.color = Color.parse(value);
-        }
+        (value)  && (this.lddlbcFontColor.dropDownListBoxColor.color = Color.parse(value));
         // font-family
         value = getComputedStyle(cHtmlElement).fontFamily;
         if (value) {
             value = value.split("'").join(String.EMPTY);
-            idx = this.lddlbFont.dropDownListBox.findItemFromText(value);
+            idx = this.lddlbFont.dropDownListBox.findItemIndexFromText(value);
             if (idx > -1) {
                 this.lddlbFont.dropDownListBox.itemIndex = idx;
             } else {
@@ -105,18 +133,44 @@ class FontDlg extends Window {
         idx = 0;
         // Bold
         value = getComputedStyle(cHtmlElement).fontWeight;
-        value && value === FONTSTYLES.BOLD && idx++;
+        value && value === FONTSTYLES.BOLD && (text = 'bold');
         // Oblique
         value = getComputedStyle(cHtmlElement).fontStyle;
-        value && value === FONTSTYLES.OBLIQUE && (idx += 2);
-        this.lddlbFontStyle.dropDownListBox.itemIndex = idx;
-        this.lddlbFontStyle.dropDownListBox.text = this.lddlbFontStyle.dropDownListBox.items[idx].text;
+        value && value === FONTSTYLES.ITALIC && (!String.isNullOrEmpty(text) ? text += 'Italic': 'italic' );
+        idx = this.lddlbFontStyle.dropDownListBox.findItemIndexFromText(text);
+        if (idx > -1) {
+            this.lddlbFontStyle.dropDownListBox.itemIndex = idx;
+        } else {
+            this.lddlbFontStyle.dropDownListBox.itemIndex = -1;
+            this.lddlbFontStyle.dropDownListBox.text = value;
+        }
         // underline
         value = getComputedStyle(cHtmlElement).textDecoration;
-        console.log(value);
         idx = 0;
         if (value && value.includes(TEXTDECORATIONS.UNDERLINE)) {
-
+            // check type of the line
+            if (value.includes(TEXTDECORATIONSTYLES.SOLID)) {
+                idx = 1;
+            } else if (value.includes(TEXTDECORATIONSTYLES.DOUBLE)) {
+                idx = 2;
+            } else if (value.includes(TEXTDECORATIONSTYLES.DOTTED)) { 
+                idx = 3;
+            } else if (value.includes(TEXTDECORATIONSTYLES.DASHED)) {
+                idx = 4;
+            } else if (value.includes(TEXTDECORATIONSTYLES.WAVY)) {
+                idx = 5;
+            }
+            this.lddlbUnderline.dropDownListBox.text = this.lddlbUnderline.dropDownListBox.items[idx].caption;
+            this.lddlbUnderline.dropDownListBox.itemIndex = idx;
+            this.lddlbUnderline.dropDownListBox.cssText = this.lddlbUnderline.dropDownListBox.items[idx].css;
+            // color
+            if (value.includes('rgb')) {
+                let parts = value.replace(/, /g,',').split(' ');
+                this.lddlbcUnderlineColor.dropDownListBoxColor.color = Color.parse(parts.find(e => e.includes('rgb')));
+            }
+        } else {
+            this.lddlbUnderline.dropDownListBox.text = this.lddlbUnderline.dropDownListBox.items[0].caption;
+            this.lddlbUnderline.dropDownListBox.itemIndex = 0;
         }
         this.cboxStrikeThrough.isChecked = value && value.includes(TEXTDECORATIONS.LINETHROUGH);
         this.cboxOverline.isChecked = value && value.includes(TEXTDECORATIONS.OVERLINE);
