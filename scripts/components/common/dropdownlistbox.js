@@ -263,7 +263,7 @@ class DropDownListBox extends ThemedControl {
     set text(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const items = this.items;
+        const items = priv.items;
         //#endregion Variables déclaration
         if (core.tools.isString(newValue) && priv.text !== newValue) {
             priv.text = newValue;
@@ -572,8 +572,8 @@ class DropDownListBox extends ThemedControl {
         const priv = core.private(this);
         //#endregion Variables déclaration
         this.clearItems();
-        this.items = null;
-        delete this.items;
+        priv.items = null;
+        //delete this.items;
         this.unBindAndDestroyEvents(['onChange', 'onDrawItem']);
         super.destroy();
     }
