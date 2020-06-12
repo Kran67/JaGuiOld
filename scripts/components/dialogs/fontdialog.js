@@ -52,93 +52,69 @@ class FontDlg extends Window {
     //#endregion loaded
     //#region common_Change
     common_Change() {
-        this.form.updatePreview();
+        this.form.updateControl(this.form.lblPreview);
     }
     //#endregion common_Change
     //#region ddlbUnderline_Change
     ddlbUnderline_Change() {
         this.cssText = this.items[this.itemIndex].css;
-        this.form.updatePreview();
+        this.form.updateControl(this.form.lblPreview);
     }
     //#endregion ddlbUnderline_Change
     //#region updatePreview
-    updatePreview() {
+    updateControl(htmlElement) {
         //#region Variables déclaration
-        const pHTMLElementStyle = this.lblPreview.HTMLElementStyle;
+        const htmlElementStyle = htmlElement.HTMLElementStyle;
         const FONTSTYLES = core.types.FONTSTYLES;
+        let textDecoration = String.EMPTY;
         //#endregion Variables déclaration
-        // clear all css
-        pHTMLElementStyle.cssText = String.EMPTY;
         // font family
-        pHTMLElementStyle.fontFamily = this.lddlbFont.dropDownListBox.text;
+        htmlElementStyle.fontFamily = this.lddlbFont.dropDownListBox.text;
         // font size
-        pHTMLElementStyle.fontSize = `${this.lddlbFontSize.dropDownListBox.text}px`;
+        htmlElementStyle.fontSize = `${this.lddlbFontSize.dropDownListBox.text}px`;
         // font style
+        htmlElementStyle.fontWeight = String.EMPTY;
         switch (this.lddlbFontStyle.dropDownListBox.itemIndex) {
             case 1: // Bold
-                pHTMLElementStyle.fontWeight = FONTSTYLES.BOLD;
+                htmlElementStyle.fontWeight = FONTSTYLES.BOLD;
                 break;
             case 2: // Italic
-                pHTMLElementStyle.fontStyle = FONTSTYLES.ITALIC;
+                htmlElementStyle.fontStyle = FONTSTYLES.ITALIC;
                 break;
             case 3: // Bold Italic
-                pHTMLElementStyle.fontWeight = FONTSTYLES.BOLD;
-                pHTMLElementStyle.fontStyle = FONTSTYLES.ITALIC;
+                htmlElementStyle.fontWeight = FONTSTYLES.BOLD;
+                htmlElementStyle.fontStyle = FONTSTYLES.ITALIC;
                 break;
             default: // Regular
-                pHTMLElementStyle.fontWeight = FONTSTYLES.NORMAL;
-                pHTMLElementStyle.fontStyle = FONTSTYLES.NORMAL;
+                htmlElementStyle.fontWeight = FONTSTYLES.NORMAL;
+                htmlElementStyle.fontStyle = FONTSTYLES.NORMAL;
         }
         // font color
-        pHTMLElementStyle.color = this.lddlbcFontColor.dropDownListBoxColor.color.toRGBAString();
+        htmlElementStyle.color = this.lddlbcFontColor.dropDownListBoxColor.color.toRGBAString();
         // underline
-        this.lddlbUnderline.dropDownListBox.itemIndex > 0 && (pHTMLElementStyle.textDecoration = 'underline');
+        this.lddlbUnderline.dropDownListBox.itemIndex > 0 && (textDecoration = 'underline');
         // line through
-        this.cboxStrikeThrough.isChecked && (pHTMLElementStyle.textDecoration = `line-through ${pHTMLElementStyle.textDecoration}`);
+        this.cboxStrikeThrough.isChecked && (textDecoration = `line-through ${textDecoration}`);
         // overline
-        this.cboxOverline.isChecked && (pHTMLElementStyle.textDecoration = `overline ${pHTMLElementStyle.textDecoration}`);
+        this.cboxOverline.isChecked && (textDecoration = `overline ${textDecoration}`);
         // underline style
         this.lddlbUnderline.dropDownListBox.itemIndex > 0 
-            && (pHTMLElementStyle.textDecoration = `${this.lddlbUnderline.dropDownListBox.cssText
+            && (textDecoration += `${this.lddlbUnderline.dropDownListBox.cssText
                 .replace('line-through', String.EMPTY)
                 .replace('text-decoration:', String.EMPTY)
-                .replace(';', String.EMPTY)} ${pHTMLElementStyle.textDecoration}`);
+                .replace(';', String.EMPTY)}`);
+        htmlElementStyle.textDecoration = textDecoration;
         // underline color
-        pHTMLElementStyle.textDecorationColor = this.lddlbcUnderlineColor.dropDownListBoxColor.color.toRGBAString();
+        this.lddlbUnderline.dropDownListBox.itemIndex > 0 && (htmlElementStyle.textDecorationColor = this.lddlbcUnderlineColor.dropDownListBoxColor.color.toRGBAString());
         // shadow
-        this.cboxShadow.isChecked && (pHTMLElementStyle.textShadow = '2px 2px 0 gray');
+        htmlElementStyle.textShadow = String.EMPTY;
+        this.cboxShadow.isChecked && (htmlElementStyle.textShadow = '2px 2px 0 gray');
         // all caps
-        this.cboxAllCaps.isChecked && (pHTMLElementStyle.textTransform = 'uppercase');
+        htmlElementStyle.textTransform = String.EMPTY;
+        this.cboxAllCaps.isChecked && (htmlElementStyle.textTransform = 'uppercase');
         // special effect
     }
     //#endregion updatePreview
-    //#region updateObject
-    updateObject() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        const form = this.form;
-        //#endregion Variables déclaration
-        console.log(form.lblPreview);
-        //obj._HTMLElementStyle.fontFamily = this.ddlbPolice.text;
-        //obj._HTMLElementStyle.fontWeight = String.EMPTY;
-        //obj._HTMLElementStyle.fontStyle = String.EMPTY;
-        //switch (this.ddlbStyle.itemIndex) {
-        //    case 1:
-        //        obj._HTMLElementStyle.fontWeight = "bold";
-        //        break;
-        //    case 2:
-        //        obj._HTMLElementStyle.fontStyle = "oblique";
-        //        break;
-        //    case 3:
-        //        obj._HTMLElementStyle.fontWeight = "bold";
-        //        obj._HTMLElementStyle.fontStyle = "oblique";
-        //        break;
-        //}
-        //obj._HTMLElementStyle.fontSize = this.ddlbSize.text + $j.types.CSSUnits.PX;
-        //obj._HTMLElementStyle.textDecoration = (this.chkUnderline.isChecked) ? "underline" : String.EMPTY;
-        //obj._HTMLElementStyle.color = this.colorBtn.color.toRGBHexString();
-    }
-    //#endregion updateObject
     //#region updateFromObject
     updateFromObject() {
         //#region Variables déclaration
@@ -215,7 +191,7 @@ class FontDlg extends Window {
                 this.lddlbcUnderlineColor.dropDownListBoxColor.color = Color.parse(parts.find(e => e.includes('rgb')));
             }
         } else {
-            this.lddlbUnderline.dropDownListBox.text = this.lddlbUnderline.dropDownListBox.items[0].caption;
+            this.lddlbUnderline.dropDownListBox.text = core.locales.translateConstant(core.currentLocale, 'rNone');
             this.lddlbUnderline.dropDownListBox.itemIndex = 0;
         }
         this.cboxStrikeThrough.isChecked = value && value.includes(TEXTDECORATIONS.LINETHROUGH);
@@ -225,9 +201,15 @@ class FontDlg extends Window {
         value = getComputedStyle(cHtmlElement).textTransform;
         this.cboxAllCaps.isChecked = value && value.includes(core.types.TEXTTRANSFORMS.UPPERCASE);
         this.btnEditEffect.enabled = this.lblEffect.enabled = this.lblCurrentEffect.enabled = priv.control instanceof core.classes.Label;
-        this.updatePreview();
+        this.updateControl(this.form.lblPreview);
     }
     //#endregion updateFromObject
+    //#region close
+    close() {
+        this.modalResult === Window.MODALRESULTS.OK && this.updateControl(core.private(this).control);
+        super.close();
+    }
+    //#endregion close
     //#endregion Methods
 
 }
