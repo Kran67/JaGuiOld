@@ -113,8 +113,6 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, LabelOutlinedEffect);
 class LabelEngravedEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, 'engraved');
     }
@@ -128,8 +126,6 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, LabelEngravedEffect);
 class LabelEmbossedEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, 'embossed');
     }
@@ -143,8 +139,6 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, LabelEmbossedEffect);
 class LabelRainbowEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, 'rainbow');
     }
@@ -158,8 +152,6 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, LabelRainbowEffect);
 class LabelStickersEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, 'stickers');
     }
@@ -173,8 +165,6 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, LabelStickersEffect);
 class LabelThicknessEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, 'thickness');
     }
@@ -188,8 +178,6 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, LabelThicknessEffect);
 class LabelNeonlasenterEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, 'neonlasenter');
         this.color = Color.parse('#28D7FE');
@@ -254,9 +242,6 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, LabelNeonlasenterEffect);
 class LabelFireEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        const looper = core.looper;
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, 'fire');
         this.fireDelta = [];
@@ -267,7 +252,7 @@ class LabelFireEffect extends LabelEffect {
         for (let i = 0; i < 6; i++) {
             this.fireDelta[i] = Math.random() * 2 - 1;
         }
-        looper.addListener(this, 'updateFire');
+        core.looper.addListener(this, 'updateFire');
     }
     //#endregion Constructor
     //#region Methods
@@ -306,6 +291,7 @@ class LabelFireEffect extends LabelEffect {
     //#endregion updateFire
     //#region destroy
     destroy() {
+        core.looper.removeListener(this, 'updateFire');
         this.fireDelta.clear();
         this.currentTick = null;
         this.step = null;
@@ -329,8 +315,6 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, LabelFireEffect);
 class LabelText3dEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, 'text3d');
     }
@@ -344,8 +328,6 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, LabelText3dEffect);
 class LabelPrettyshadowEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, 'prettyshadow');
         this.color = Color.parse('#2196f3');
@@ -390,8 +372,6 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, LabelPrettyshadowEffect);
 class LabelGradientEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, 'gradient');
         this.gradient = [new GradientPoint(0, Colors.WHITE), new GradientPoint(100, Colors.BLACK)];
@@ -436,9 +416,6 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, LabelGradientEffect);
 class LabelReflectedEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        const root = document.documentElement;
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, 'reflected');
         this.color = owner.color || Color.parse(getComputedStyle(this.owner.htmlElement).color);
@@ -493,8 +470,6 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, LabelReflectedEffect);
 class LabelShineEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, 'shine');
     }
@@ -545,7 +520,7 @@ class LabelCloudyEffect extends LabelEffect {
         this.color.alpha = 0.6;
         this.color2.alpha = 0.4;
         this.color3.alpha = 0.3;
-        this.owner.color.alpha = 0;
+        this.owner.color ? this.owner.color.alpha = 0 : this.owner.color = Colors.TRANSPARENT;
     }
     //#endregion prepare
     //#region update
@@ -583,8 +558,6 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, LabelCloudyEffect);
 class LabelBurningEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, 'burning');
     }
