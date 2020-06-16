@@ -348,7 +348,7 @@ class Tools {
             return currentValue;
         }
         const keys = Object.keys(_enum);
-        const enumName = keys.some(key => {
+        const enumName = keys.find(key => {
             return _enum[key] === currentValue;
         });
         return enumName;

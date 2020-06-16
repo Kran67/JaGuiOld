@@ -282,6 +282,7 @@ class CaptionControl extends ThemedControl {
         const form = this.form;
         //#endregion Variables déclaration
         core.tools.isString(newValue) && (newValue = Color.parse(newValue));
+        !priv.color && (priv.color = Colors.BLACK);
         if (newValue instanceof Color && !priv.color.equals(newValue)) {
             priv.color = newValue;
             this.propertyChanged('color');
@@ -464,6 +465,7 @@ class CaptionControl extends ThemedControl {
         const form = this.form;
         //#endregion Variables déclaration
         core.tools.isString(newValue) && (newValue = Color.parse(newValue));
+        !priv.backColor && (priv.color = Colors.BLACK);
         if (newValue instanceof Color && !priv.backColor.equals(newValue)) {
             priv.backColor.assign(newValue);
             this.propertyChanged('backColor');
@@ -521,7 +523,7 @@ class CaptionControl extends ThemedControl {
             if (isHtmlRenderer) {
                 htmlElementStyle.width = String.EMPTY;
                 htmlElementStyle.height = String.EMPTY;
-                htmlElementStyle.display = DISPLAYS.INLINE;
+                htmlElementStyle.display = DISPLAYS.INLINEBLOCK;
             }
         } else {
             this.beginUpdate();

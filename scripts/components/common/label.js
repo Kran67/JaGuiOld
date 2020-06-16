@@ -1,6 +1,6 @@
 ﻿//#region Import
 import { CaptionControl } from '/scripts/core/captioncontrol.js';
-import './labeleffects.js';
+import { LabelEffect } from './labeleffects.js';
 //#endregion Import
 //#region Label
 class Label extends CaptionControl {
@@ -33,13 +33,14 @@ class Label extends CaptionControl {
     }
     set effect(newValue) {
         //#region Variables déclaration
+        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (newValue instanceof LabelEffect) {
-            if (this.effect !== newValue) {
-                htmlElement.classList.remove(this.effect.cssName);
-                this.effect.destroy();
-                this.effect = newValue;
+            if (priv.effect !== newValue) {
+                priv.effect && htmlElement.classList.remove(this.effect.cssName);
+                priv.effect && this.effect.destroy();
+                priv.effect = newValue;
                 //newValue && htmlElement.classList.add(this.effect.cssName);
                 this.update();
             }

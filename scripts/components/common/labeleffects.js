@@ -139,21 +139,21 @@ class LabelEmbossedEffect extends LabelEffect {
 }
 core.classes.register(core.types.CATEGORIES.INTERNAL, LabelEmbossedEffect);
 //#endregion LabelEmbossedEffect
-//#region LabelRainbowsEffect
-class LabelRainbowsEffect extends LabelEffect {
+//#region LabelRainbowEffect
+class LabelRainbowEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
         //#region Variables déclaration
         //#endregion Variables déclaration
         props = !props ? {} : props;
-        super(owner, 'rainbows');
+        super(owner, 'rainbow');
     }
     //#endregion Constructor
     //#region Methods
     //#endregion Methods
 }
-core.classes.register(core.types.CATEGORIES.INTERNAL, LabelRainbowsEffect);
-//#endregion LabelRainbowsEffect
+core.classes.register(core.types.CATEGORIES.INTERNAL, LabelRainbowEffect);
+//#endregion LabelRainbowEffect
 //#region LabelStickersEffect
 class LabelStickersEffect extends LabelEffect {
     //#region Constructor
@@ -217,7 +217,7 @@ class LabelNeonlasenterEffect extends LabelEffect {
     prepare() {
         super.prepare();
         this.owner.fontFamily = 'lasenter';
-        this.owner.color.assign(this.color);
+        this.owner.color ? this.owner.color.assign(this.color) : this.owner.color = this.color;
     }
     //#endregion prepare
     //#region update
@@ -311,12 +311,9 @@ class LabelFireEffect extends LabelEffect {
         this.step = null;
         this.textBrightness = null;
         this.shadows.clear();
-        this.color.destroy();
-        this.color = null;
         this.currentTick = null;
         this.shadows = null;
         this.fireDelta = null;
-        delete this.color;
         delete this.shadows;
         delete this.fireDelta;
         delete this.textBrightness;
@@ -411,7 +408,7 @@ class LabelGradientEffect extends LabelEffect {
     //#region prepare
     prepare() {
         super.prepare();
-        this.owner.color.assign(Colors.TRANSPARENT);
+        this.owner.color = Colors.TRANSPARENT;
     }
     //#endregion prepare
     //#region update
@@ -435,15 +432,16 @@ class LabelGradientEffect extends LabelEffect {
 }
 core.classes.register(core.types.CATEGORIES.INTERNAL, LabelGradientEffect);
 //#endregion LabelGradientEffect
-//#region LabelReflectEffect
-class LabelReflectEffect extends LabelEffect {
+//#region LabelReflectedEffect
+class LabelReflectedEffect extends LabelEffect {
     //#region Constructor
     constructor(owner, props) {
         //#region Variables déclaration
+        const root = document.documentElement;
         //#endregion Variables déclaration
         props = !props ? {} : props;
-        super(owner, 'reflect');
-        this.color = owner.color;
+        super(owner, 'reflected');
+        this.color = owner.color || Color.parse(getComputedStyle(this.owner.htmlElement).color);
         if (props.hasOwnProperty('color') && core.tools.isString(props.color)) {
             this.color = Color.parse(props.color);
             this.color.owner = this;
@@ -467,7 +465,7 @@ class LabelReflectEffect extends LabelEffect {
         //#endregion Variables déclaration
         if (!this.color.equals(Colors.TRANSPARENT)) {
             this.prepare();
-            root.style.setProperty('--reflect-color', this.color.toRGBAString());
+            root.style.setProperty('--reflected-color', this.color.toRGBAString());
         }
     }
     //#endregion updateCss
@@ -489,8 +487,8 @@ class LabelReflectEffect extends LabelEffect {
     //#endregion destroy
     //#endregion Methods
 }
-core.classes.register(core.types.CATEGORIES.INTERNAL, LabelReflectEffect);
-//#endregion LabelReflectEffect
+core.classes.register(core.types.CATEGORIES.INTERNAL, LabelReflectedEffect);
+//#endregion LabelReflectedEffect
 //#region LabelShineEffect
 class LabelShineEffect extends LabelEffect {
     //#region Constructor
@@ -522,17 +520,17 @@ class LabelCloudyEffect extends LabelEffect {
         //#endregion Variables déclaration
         props = !props ? {} : props;
         super(owner, 'cloudy');
-        this.color = this.owner.color.clone();
+        this.color = this.owner.color ? this.owner.color.clone() : Color.parse(getComputedStyle(this.owner.HTMLElement).color);
         if (props.hasOwnProperty('color') && core.tools.isString(props.color)) {
             this.color = Color.parse(props.color);
             this.color.owner = this;
         }
-        this.color2 = this.owner.color.clone();
+        this.color2 = this.owner.color ? this.owner.color.clone() : Color.parse(getComputedStyle(this.owner.HTMLElement).color);
         if (props.hasOwnProperty('color2') && core.tools.isString(props.color2)) {
             this.color2 = Color.parse(props.color2);
             this.color2.owner = this;
         }
-        this.color3 = this.owner.color.clone();
+        this.color3 = this.owner.color ? this.owner.color.clone() : Color.parse(getComputedStyle(this.owner.HTMLElement).color);
         if (props.hasOwnProperty('color3') && core.tools.isString(props.color3)) {
             this.color3 = Color.parse(props.color3);
             this.color3.owner = this;
@@ -605,9 +603,9 @@ class LabelBurningEffect extends LabelEffect {
 core.classes.register(core.types.CATEGORIES.INTERNAL, LabelBurningEffect);
 //#endregion LabelBurningEffect
 //#endregion LabelEffects
-export { LabelEffect, LabelNeonEffect, LabelOutlinedEffect, LabelEngravedEffect, LabelEmbossedEffect, LabelRainbowsEffect, LabelStickersEffect };
+export { LabelEffect, LabelNeonEffect, LabelOutlinedEffect, LabelEngravedEffect, LabelEmbossedEffect, LabelRainbowEffect, LabelStickersEffect };
 export { LabelThicknessEffect, LabelNeonlasenterEffect, LabelFireEffect, LabelText3dEffect, LabelBurningEffect };
-export { LabelPrettyshadowEffect, LabelGradientEffect, LabelReflectEffect, LabelShineEffect, LabelCloudyEffect };
+export { LabelPrettyshadowEffect, LabelGradientEffect, LabelReflectedEffect, LabelShineEffect, LabelCloudyEffect };
 core.locales.addLocaleKeyValues(core.types.LANGUAGES.FR_FR, 'labelEffects', {
     'Neon': 'Néon',
     'Outlined': 'Contour',
@@ -616,10 +614,10 @@ core.locales.addLocaleKeyValues(core.types.LANGUAGES.FR_FR, 'labelEffects', {
     'Rainbow': 'Arc en ciel',
     'Stickers': 'Autocollant',
     'Thickness': 'Épaisseur',
-    'NeonLaser': 'Néon laser',
+    'Neonlasenter': 'Néon laser',
     'Fire': 'Feu',
-    '3DText': 'Texte 3D',
-    'PrettyShadow': 'Jolie ombre',
+    'Text3d': 'Texte 3D',
+    'Prettyshadow': 'Jolie ombre',
     'Gradient': 'Dégradé',
     'Reflected': 'Réfléchi',
     'Shine': 'Éclat',
@@ -634,10 +632,10 @@ core.locales.addLocaleKeyValues(core.types.LANGUAGES.EN_US, 'labelEffects', {
     'Rainbow': 'Rainbow',
     'Stickers': 'Stickers',
     'Thickness': 'Thickness',
-    'NeonLaser': 'Neon laser',
+    'Neonlasenter': 'Neon laser',
     'Fire': 'Fire',
-    '3DText': '3DText',
-    'PrettyShadow': 'Pretty shadow',
+    'Text3d': '3DText',
+    'Prettyshadow': 'Pretty shadow',
     'Gradient': 'Gradient',
     'Reflected': 'Reflected',
     'Shine': 'Shine',
