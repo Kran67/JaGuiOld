@@ -69,7 +69,7 @@ class PathCheckbox extends Checkbox {
                 ' xmlns="http://www.w3.org/2000/svg">',
             `<path d="${priv.checkSvg}" /></svg>`].join(String.EMPTY);
             this.check.style.opacity = 0.2;
-            this.isChecked && (this.check.style.opacity = 1);
+            this.checked && (this.check.style.opacity = 1);
         }
     }
     //#endregion updateCSSProperties

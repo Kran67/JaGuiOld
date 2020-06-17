@@ -32,9 +32,9 @@ const Action = (() => {
             if (owner) {
                 super(owner, props);
                 const priv = internal(this);
-                priv.propertiesToUpdate = ['caption', 'isChecked', 'enabled', 'groupIndex', 'hint', 'imageIndex', 'shortCut', 'visible', 'autoCheck'];
+                priv.propertiesToUpdate = ['caption', 'checked', 'enabled', 'groupIndex', 'hint', 'imageIndex', 'shortCut', 'visible', 'autoCheck'];
                 priv.caption = String.EMPTY;
-                priv.isChecked = !1;
+                priv.checked = !1;
                 priv.enabled = !0;
                 priv.groupIndex = 0;
                 priv.hint = String.EMPTY;
@@ -90,26 +90,26 @@ const Action = (() => {
         }
         //#endregion caption
         /**
-         * @return  {Boolean}   the isChecked property
+         * @return  {Boolean}   the checked property
          */
-        //#region isChecked
-        get isChecked() {
-            return internal(this).isChecked;
+        //#region checked
+        get checked() {
+            return internal(this).checked;
         }
         /**
-         * Set the isChecked property
+         * Set the checked property
          * @param   {String}    newValue    the new value
          */
-        set isChecked(newValue) {
+        set checked(newValue) {
             const priv = internal(this);
             if (Tools.isBool(newValue)) {
-                if (priv.isChecked !== newValue) {
-                    priv.isChecked = newValue;
+                if (priv.checked !== newValue) {
+                    priv.checked = newValue;
                     this.change();
                 }
             }
         }
-        //#endregion isChecked
+        //#endregion checked
         /**
          * @return  {Boolean}   the enabled property
          */
@@ -339,7 +339,7 @@ Object.defineProperties(Action, {
     'caption': {
         enumerable: !0
     },
-    'isChecked': {
+    'checked': {
         enumerable: !0
     },
     'enabled': {

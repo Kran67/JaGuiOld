@@ -9,6 +9,7 @@ class LabelEffect {
     constructor(owner, name) {
         this.owner = owner;
         this.cssName = name;
+        this.name = String.uniqueId();
         this.drawBefore = !0;
     }
     //#endregion Constructor

@@ -72,7 +72,7 @@ class ListBoxPopup extends ListBox {
             items.forEach(item => {
                 item.removeToHTML();
                 //item.owner = this;
-                item.isChecked = !1;
+                item.checked = !1;
                 item.selected = !1;
             });
             super.refreshInnerHeight();
@@ -388,7 +388,11 @@ class DropDownListBox extends ThemedControl {
             newValue = Math.max(Math.min(newValue, priv.items.length - 1), 0);
             priv.itemIndex > -1 && (priv.items[priv.itemIndex].selected = !1);
             priv.itemIndex = newValue;
-            newValue > -1 && (this.text = priv.items[newValue].text);
+            if (newValue > -1) {
+                this.text = priv.items[newValue].translationKey 
+                    ? core.locales.translateConstant(null, priv.items[newValue].translationKey) 
+                    : priv.items[newValue].caption;
+            }
             priv.items[newValue].selected = !0;
         }
     }

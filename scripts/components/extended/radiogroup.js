@@ -30,7 +30,7 @@ class RadioGroup extends GroupBox {
         if (core.tools.isNumber(newValue) && priv.itemIndex !== newValue) {
             priv.itemIndex = newValue;
             this.items.forEach((item, i) => {
-                item.isChecked = i === priv.itemIndex ? !0 : !1;
+                item.checked = i === priv.itemIndex ? !0 : !1;
             });
         }
     }
@@ -108,7 +108,7 @@ class RadioGroup extends GroupBox {
                     props: {
                         caption: obj.caption,
                         enabled: obj.enabled,
-                        checked: priv.itemIndex === i || obj.isChecked,
+                        checked: priv.itemIndex === i || obj.checked,
                         autoWidth: !1
                     }
                 });

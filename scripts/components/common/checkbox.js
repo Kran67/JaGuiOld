@@ -43,7 +43,7 @@ class Checkbox extends CaptionControl {
             super(owner, props);
             this.createEventsAndBind(['onChange'], props);
             core.private(this, {
-                isChecked : props.hasOwnProperty('isChecked') ? props.isChecked : !1,
+                checked : props.hasOwnProperty('checked') ? props.checked : !1,
                 autoWidth : props.hasOwnProperty('autoWidth') ? props.autoWidth : !0,
                 allowGrayed : props.hasOwnProperty('allowGrayed') ? props.allowGrayed : !1,
                 action : props.hasOwnProperty('action') ? props.action : null, // à voir
@@ -65,11 +65,11 @@ class Checkbox extends CaptionControl {
         return core.private(this).check;
     }
     //#endregion check
-    //#region isChecked
-    get isChecked() {
-        return core.private(this).isChecked;
+    //#region checked
+    get checked() {
+        return core.private(this).checked;
     }
-    set isChecked(newValue) {
+    set checked(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
@@ -96,8 +96,8 @@ class Checkbox extends CaptionControl {
             else {
                 priv.state = CHECKBOXSTATES.UNCHECKED;
             }
-            if (priv.isChecked !== newValue) {
-                priv.isChecked = newValue;
+            if (priv.checked !== newValue) {
+                priv.checked = newValue;
                 if (!this.loading && !this.form.loading) {
                     if (!core.isHTMLRenderer) {
                         this.allowUpdate && this.update();
@@ -110,7 +110,7 @@ class Checkbox extends CaptionControl {
             }
         }
     }
-    //#endregion isChecked
+    //#endregion checked
     //#region allowGrayed
     get allowGrayed() {
         return core.private(this).allowGrayed;
@@ -173,7 +173,7 @@ class Checkbox extends CaptionControl {
         if (core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.pressing) {
             this.pressing = !1;
             this.isPressed = !1;
-            this.isChecked = !priv.isChecked;
+            this.checked = !priv.checked;
             this.update();
         }
     }
@@ -186,7 +186,7 @@ class Checkbox extends CaptionControl {
         super.keyUp();
         if (core.keyboard.key === Keyboard.VKEYSCODES.VK_RETURN
             || core.keyboard.key === Keyboard.VKEYSCODES.VK_SPACE) {
-            this.isChecked = !priv.isChecked;
+            this.checked = !priv.checked;
             this.update();
         }
     }
@@ -203,7 +203,7 @@ class Checkbox extends CaptionControl {
             super.update();
             if (priv.check) {
                 priv.check.classList.remove('checked', 'grayed');
-                if (priv.isChecked) {
+                if (priv.checked) {
                     priv.check.classList.add('checked');
                 } else if (priv.allowGrayed && priv.state === CHECKBOXSTATES.GRAYED) {
                     priv.check.classList.add('grayed');
@@ -214,7 +214,7 @@ class Checkbox extends CaptionControl {
                     priv.state !== CHECKBOXSTATES.UNCHECKED
                         ? priv.input.setAttribute('checked', 'checked')
                         : priv.input.removeAttribute('checked');
-                } else if (priv.isChecked) {
+                } else if (priv.checked) {
                     priv.input.setAttribute('checked', 'checked');
                 } else {
                     priv.input.removeAttribute('checked');
@@ -244,9 +244,9 @@ class Checkbox extends CaptionControl {
         if (!htmlElement.querySelector('input')) {
             priv.input.type = this instanceof core.classes.RadioButton ? 'radio' : 'checkbox';
             priv.input.classList.add('Control', `${this.constructor.name}Input`);
-            priv.input.checked = priv.isChecked;
+            priv.input.checked = priv.checked;
             priv.check.classList.add('Control', this.themeName, `${this.constructor.name}Check`);
-            priv.isChecked && priv.check.classList.add('checked');
+            priv.checked && priv.check.classList.add('checked');
             priv.allowGrayed && priv.check.classList.add('grayed');
             htmlElement.appendChild(priv.input);
             htmlElement.appendChild(priv.check);

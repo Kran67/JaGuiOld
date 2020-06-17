@@ -36,10 +36,10 @@ class Label extends CaptionControl {
         const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        if (newValue instanceof LabelEffect) {
+        if (newValue instanceof LabelEffect || newValue == null) {
             if (priv.effect !== newValue) {
-                priv.effect && htmlElement.classList.remove(this.effect.cssName);
-                priv.effect && this.effect.destroy();
+                priv.effect && htmlElement.classList.remove(priv.effect.cssName);
+                priv.effect && priv.effect.destroy();
                 priv.effect = newValue;
                 //newValue && htmlElement.classList.add(this.effect.cssName);
                 this.update();

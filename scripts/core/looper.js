@@ -134,12 +134,14 @@ class Looper extends BaseClass {
         const priv = core.private(this);
         //#endregion Variables déclaration
         func = func || 'processTick';
-        if (!priv.listeners.hasOwnProperty(obj.name)) {
-            priv.listeners[obj.name] = { component: obj, functions: [] };
-            priv.listeners[obj.name].functions.push(func);
-        } else {
-            const idx = priv.listeners[obj.name].functions.indexOf(func);
-            idx === -1 && priv.listeners[obj.name].functions.push(func);
+        if (obj.name) {
+            if (!priv.listeners.hasOwnProperty(obj.name)) {
+                priv.listeners[obj.name] = { component: obj, functions: [] };
+                priv.listeners[obj.name].functions.push(func);
+            } else {
+                const idx = priv.listeners[obj.name].functions.indexOf(func);
+                idx === -1 && priv.listeners[obj.name].functions.push(func);
+            }
         }
     }
     //#endregion addListener
@@ -152,6 +154,9 @@ class Looper extends BaseClass {
         if (priv.listeners.hasOwnProperty(obj.name)) {
             const idx = priv.listeners[obj.name].functions.indexOf(func);
             idx > -1 && priv.listeners[obj.name].functions.removeAt(idx);
+            priv.listeners[obj.name].component = null;
+            priv.listeners[obj.name] = null;
+            delete priv.listeners[obj.name];
         }
     }
     //#endregion removeListener

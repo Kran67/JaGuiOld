@@ -21,8 +21,8 @@ class ListBoxItem extends BaseClass {
                 text: null,
                 caption: props.hasOwnProperty('caption') ? props.caption : String.EMPTY,
                 size: props.hasOwnProperty('size') ? props.size : owner.itemsSize,
-                isChecked: props.hasOwnProperty('isChecked') && core.tools.isBool(props.isChecked)
-                    ? props.isChecked : !1,
+                checked: props.hasOwnProperty('checked') && core.tools.isBool(props.checked)
+                    ? props.checked : !1,
                 isHeader: props.hasOwnProperty('isHeader') && core.tools.isBool(props.isHeader)
                     ? props.isHeader : !1,
                 enabled: props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled)
@@ -106,11 +106,11 @@ class ListBoxItem extends BaseClass {
         return core.private(this).owner.app;
     }
     //#endregion app
-    //#region isChecked
-    get isChecked() {
-        return core.private(this).isChecked;
+    //#region checked
+    get checked() {
+        return core.private(this).checked;
     }
-    set isChecked(newValue) {
+    set checked(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         const checkboxStates = Checkbox.CHECKBOXSTATES;
@@ -138,8 +138,8 @@ class ListBoxItem extends BaseClass {
             else {
                 priv.state = checkboxStates.UNCHECKED;
             }
-            if (priv.isChecked !== newValue) {
-                priv.isChecked = newValue;
+            if (priv.checked !== newValue) {
+                priv.checked = newValue;
                 if (!priv.owner.loading && !priv.owner.form.loading) {
                     if (!core.isHTMLRenderer) {
                         priv.owner.allowUpdate && priv.owner.update();
@@ -151,7 +151,7 @@ class ListBoxItem extends BaseClass {
             }
         }
     }
-    //#endregion isChecked
+    //#endregion checked
     //#region isHeader
     get isHeader() {
         return core.private(this).isHeader;
@@ -314,7 +314,7 @@ class ListBoxItem extends BaseClass {
             if (priv.owner.viewCheckboxes) {
                 priv.check.classList.remove('grayed', 'checked');
                 priv.check && priv.check.classList.remove('checked');
-                if (priv.isChecked) {
+                if (priv.checked) {
                     priv.check.classList.add('checked');
                 } else if (priv.allowGrayed && priv.state === core.types.CHECKBOXSTATES.GRAYED) {
                     priv.check.classList.add('grayed');
@@ -682,7 +682,7 @@ class ListBox extends ScrollControl {
             this.multiSelect && !core.keyboard.ctrl && item.owner.clearSelection();
             this.multiSelect && core.keyboard.ctrl
                 ? item.selected = !item.selected : this.itemIndex = item.index;
-            this.viewCheckboxes && (item.isChecked = !item.isChecked);
+            this.viewCheckboxes && (item.checked = !item.checked);
             this.onSelectItem.hasListener && this.onSelectItem.invoke();
         }
         this.mouseDown();
@@ -868,7 +868,7 @@ class ListBox extends ScrollControl {
             case VKEYSCODES.VK_SPACE:
                 {
                     const item = priv.items[priv.itemIndex];
-                    priv.viewCheckboxes && item && (item.isChecked = !item.isChecked);
+                    priv.viewCheckboxes && item && (item.checked = !item.checked);
                 }
                 break;
         }

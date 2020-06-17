@@ -46,7 +46,7 @@ const TreeViewItem = (() => {
                 priv.caption = props.hasOwnProperty('caption') ? props.caption : String.EMPTY;
                 priv.text = null;
                 priv.height = props.hasOwnProperty('height') ? props.height : owner.itemsHeight;
-                priv.isChecked = props.hasOwnProperty('isChecked') && Tools.isBool(props.isChecked) ? props.isChecked : !1;
+                priv.checked = props.hasOwnProperty('checked') && Tools.isBool(props.checked) ? props.checked : !1;
                 Tools.addPropertyFromEnum({
                     component: this,
                     propName: 'state',
@@ -113,30 +113,30 @@ const TreeViewItem = (() => {
             }
         }
         //#endregion onlyRootExpand
-        //#region isChecked
-        get isChecked() {
-            return internal(this).isChecked;
+        //#region checked
+        get checked() {
+            return internal(this).checked;
         }
-        set isChecked(newValue) {
+        set checked(newValue) {
             //#region Variables déclaration
             const priv = internal(this);
             const checkboxStates = Checkbox.CHECKBOXSTATES;
             //#endregion Variables déclaration
             if (Tools.isBool(newValue)) {
-                if (priv.isChecked !== newValue) {
-                    priv.isChecked = newValue;
-                    if (priv.isChecked) {
+                if (priv.checked !== newValue) {
+                    priv.checked = newValue;
+                    if (priv.checked) {
                         priv.state = checkboxStates.CHECKED;
                     } else {
                         priv.state = checkboxStates.UNCHECKED;
                     }
                     this.update();
-                    this.updateChildsCheck(priv.isChecked);
-                    this.updateParentCheck(priv.isChecked);
+                    this.updateChildsCheck(priv.checked);
+                    this.updateParentCheck(priv.checked);
                 }
             }
         }
-        //#endregion isChecked
+        //#endregion checked
         //#region enabled
         get enabled() {
             return internal(this).enabled;
@@ -370,7 +370,7 @@ const TreeViewItem = (() => {
                     if (priv.check) {
                         priv.check.classList.remove('checked');
                     }
-                    if (priv.isChecked) {
+                    if (priv.checked) {
                         priv.check.classList.add('checked');
                     } else if (priv.allowGrayed && priv.state === Types.CHECKBOXSTATES.GRAYED) {
                         priv.check.classList.add('grayed');
@@ -459,7 +459,7 @@ const TreeViewItem = (() => {
             //if (this.items.length > 0) {
             //    for (var i = 0, l = this.items.length; i < l; i++) {
             //        item = this.items[i];
-            //        item.isChecked = checked;
+            //        item.checked = checked;
             //        if (item._html) {
             //            $j.CSS.removeClass(item._check, "checked");
             //            $j.CSS.removeClass(item._check, "grayed");
@@ -481,14 +481,14 @@ const TreeViewItem = (() => {
             //for (var i = this._parentNodes.length - 1; i >= 0; i--) {
             //    p = this._parentNodes[i];
             //    nbs = p.getNbCheckedChilds();
-            //    p.isChecked = false;
+            //    p.checked = false;
             //    if (p._html) {
             //        $j.CSS.removeClass(p._check, "checked");
             //        $j.CSS.removeClass(p._check, "grayed");
             //    }
             //    if (nbs.nbChecked === p.items.length) {
             //        p.state = $j.types.checkboxStates.CHECKED;
-            //        p.isChecked = true;
+            //        p.checked = true;
             //        if (p._html) $j.CSS.addClass(p._check, "checked");
             //    } else if (nbs.nbChecked + nbs.nbGrayed !== 0) {
             //        p.state = $j.types.checkboxStates.GRAYED;
@@ -502,7 +502,7 @@ const TreeViewItem = (() => {
             //var nbC = 0, nbG = 0, item;
             //for (var i = 0, l = this.items.length; i < l; i++) {
             //    item = this.items[i];
-            //    if (item.isChecked) nbC++;
+            //    if (item.checked) nbC++;
             //    else if (item.state === $j.types.checkboxStates.GRAYED) nbG++;
             //}
             //return { "nbChecked": nbC, "nbGrayed": nbG };
@@ -543,7 +543,7 @@ const TreeViewItem = (() => {
             priv.text = null;
             priv.caption = null;
             priv.height = null;
-            priv.isChecked = null;
+            priv.checked = null;
             priv.state = null;
             priv.allowGrayed = null;
             priv.enabled = null;
@@ -656,7 +656,7 @@ export { TreeViewItem, TreeView };
                 //#endregion
                 this.text = String.EMPTY;
                 this.height = owner.itemsHeight;
-                this.isChecked = false;
+                this.checked = false;
                 $j.tools.addPropertyFromSet(this, "state", $j.types.checkboxStates, $j.types.checkboxStates.UNCHECKED);
                 this.allowGrayed = false;
                 this.enabled = true;
@@ -700,15 +700,15 @@ export { TreeViewItem, TreeView };
                 this.update();
             }
         },
-        setIsChecked: function (newValue) {
+        setchecked: function (newValue) {
             if (typeof newValue !== _const.BOOLEAN) return;
-            if (this.isChecked !== newValue) {
-                this.isChecked = newValue;
-                if (this.isChecked) this.state = $j.types.checkboxStates.CHECKED;
+            if (this.checked !== newValue) {
+                this.checked = newValue;
+                if (this.checked) this.state = $j.types.checkboxStates.CHECKED;
                 else this.state = $j.types.checkboxStates.UNCHECKED;
                 this.update();
-                this.updateChildsCheck(this.isChecked);
-                this.updateParentCheck(this.isChecked);
+                this.updateChildsCheck(this.checked);
+                this.updateParentCheck(this.checked);
             }
         },
         setEnabled: function (newValue) {
@@ -796,7 +796,7 @@ export { TreeViewItem, TreeView };
         checkUnCheck: function () {
             var jsObj = this.jsObj;
             if (!jsObj.enabled) return;
-            jsObj.setIsChecked(!jsObj.isChecked);
+            jsObj.setchecked(!jsObj.checked);
         },
         mouseMove: function () {
             this._owner.mouseMove();
@@ -829,7 +829,7 @@ export { TreeViewItem, TreeView };
                     $j.tools.events.bind(this._check, $j.types.mouseEvents.DOWN, this.checkUnCheck);
                     $j.CSS.removeClass(this._check, "grayed checked");
                     if (this._check) $j.CSS.removeClass(this._check, "checked");
-                    if (this.isChecked) $j.CSS.addClass(this._check, "checked");
+                    if (this.checked) $j.CSS.addClass(this._check, "checked");
                     else if (this.allowGrayed && this.state === $j.types.checkboxStates.GRAYED) $j.CSS.addClass(this._check, "grayed");
                 }
                 if (this.height !== this._owner.itemsHeight) {
@@ -866,7 +866,7 @@ export { TreeViewItem, TreeView };
         updateDataSet: function () {
             if (!this._html) return;
             this._html.dataset.height = this.height;
-            this._html.dataset.ischecked = this.isChecked;
+            this._html.dataset.checked = this.checked;
             this._html.dataset.enabled = this.enabled;
             this._html.dataset.idx = this.getIndex();
             this._html.dataset.expanded = this.expanded;
@@ -875,7 +875,7 @@ export { TreeViewItem, TreeView };
             this._html.dataset.cssimage = this.cssImage;
             this._html.dataset.imageindex = this.imageIndex;
             if (this._owner.viewCheckboxes) {
-                //this._html.dataset.ischecked=this.isChecked;
+                //this._html.dataset.checked=this.checked;
                 this._html.dataset.state = this.state;
                 this._html.dataset.allowgrayed = this.allowGrayed;
             }
@@ -952,7 +952,7 @@ export { TreeViewItem, TreeView };
             if (this.items.length > 0) {
                 for (var i = 0, l = this.items.length; i < l; i++) {
                     item = this.items[i];
-                    item.isChecked = checked;
+                    item.checked = checked;
                     if (item._html) {
                         $j.CSS.removeClass(item._check, "checked");
                         $j.CSS.removeClass(item._check, "grayed");
@@ -974,14 +974,14 @@ export { TreeViewItem, TreeView };
             for (var i = this._parentNodes.length - 1; i >= 0; i--) {
                 p = this._parentNodes[i];
                 nbs = p.getNbCheckedChilds();
-                p.isChecked = false;
+                p.checked = false;
                 if (p._html) {
                     $j.CSS.removeClass(p._check, "checked");
                     $j.CSS.removeClass(p._check, "grayed");
                 }
                 if (nbs.nbChecked === p.items.length) {
                     p.state = $j.types.checkboxStates.CHECKED;
-                    p.isChecked = true;
+                    p.checked = true;
                     if (p._html) $j.CSS.addClass(p._check, "checked");
                 } else if (nbs.nbChecked + nbs.nbGrayed !== 0) {
                     p.state = $j.types.checkboxStates.GRAYED;
@@ -995,7 +995,7 @@ export { TreeViewItem, TreeView };
             var nbC = 0, nbG = 0, item;
             for (var i = 0, l = this.items.length; i < l; i++) {
                 item = this.items[i];
-                if (item.isChecked) nbC++;
+                if (item.checked) nbC++;
                 else if (item.state === $j.types.checkboxStates.GRAYED) nbG++;
             }
             return { "nbChecked": nbC, "nbGrayed": nbG };
@@ -1029,7 +1029,7 @@ export { TreeViewItem, TreeView };
             this._checkedChildsNb = null;
             this.text = null;
             this.height = null;
-            this.isChecked = null;
+            this.checked = null;
             this.state = null;
             this.allowGrayed = null;
             this.enabled = null;
@@ -1210,12 +1210,12 @@ export { TreeViewItem, TreeView };
                 item = new $j.classes.TreeViewItem(this, top.parent);
                 item.text = top.text;
                 item.height = top.height;
-                item.isChecked = top.isChecked;
+                item.checked = top.checked;
                 item.enabled = top.enabled;
                 item.expanded = top.expanded;
                 item.visible = top.visible;
                 item.allowGrayed = top.allowgrayed;
-                item.isChecked = top.isChecked;
+                item.checked = top.checked;
                 if (top.imageIndex) item.imageIndex = top.imageIndex;
                 item.state = top.state;
                 item._top = lastStart;
@@ -1223,7 +1223,7 @@ export { TreeViewItem, TreeView };
                 if (top.image) item.image = top.image;
                 if (top.parent) {
                     top.parent.items.push(item);
-                    if (item.isChecked) top.parent._checkedChildsNb++;
+                    if (item.checked) top.parent._checkedChildsNb++;
                 }
                 if (item.visible) {
                     this._innerHeight += item.height;
@@ -1608,7 +1608,7 @@ export { TreeViewItem, TreeView };
                 case $j.types.VKeysCodes.VK_SPACE:
                     var item = this.items[this.itemIndex];
                     if (this.viewCheckboxes) {
-                        if (item) item.setIsChecked(!item.isChecked);
+                        if (item) item.setchecked(!item.checked);
                     }
                     break;
             }

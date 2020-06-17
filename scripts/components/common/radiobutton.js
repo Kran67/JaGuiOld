@@ -36,16 +36,16 @@ class RadioButton extends Checkbox {
         this.allowGrayed = !1;
     }
     //#endregion allowGrayed
-    //#region isChecked
-    get isChecked() {
-        return super.isChecked;
+    //#region checked
+    get checked() {
+        return super.checked;
     }
-    set isChecked(newValue) {
+    set checked(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && this.isChecked !== newValue) {
-            newValue && (super.isChecked = newValue);
+        if (core.tools.isBool(newValue) && this.checked !== newValue) {
+            newValue && (super.checked = newValue);
             // group
             let c = 0;
             let cc = 0;
@@ -53,8 +53,8 @@ class RadioButton extends Checkbox {
                 const list = this.owner.components;
                 list.forEach(comp => {
                     if (comp instanceof core.classes.RadioButton && comp !== this && comp.groupName === priv.groupName) {
-                        comp.isChecked && cc++;
-                        newValue && (comp.isChecked = !1);
+                        comp.checked && cc++;
+                        newValue && (comp.checked = !1);
                         c++;
                     }
                 });
@@ -63,7 +63,7 @@ class RadioButton extends Checkbox {
             if (!newValue && c === 0 || !newValue && cc === 0) {
                 return;
             }
-            super.isChecked = newValue;
+            super.checked = newValue;
             if (!core.isHTMLRenderer) {
                 this.allowUpdate && this.update();
                 this.redraw();
@@ -74,7 +74,7 @@ class RadioButton extends Checkbox {
             !this.updating && this.onChange.invoke();
         }
     }
-    //#endregion isChecked
+    //#endregion checked
     //#endregion Getters / Setters
     //#region Methods
     //#endregion Methods

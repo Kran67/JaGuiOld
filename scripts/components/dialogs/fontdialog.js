@@ -31,8 +31,6 @@ class FontDlg extends Window {
         }
     }
     //#endregion constructor
-    //#region Getters / Setters
-    //#endregion Getters / Setters
     //#region Methods
     //#region loaded
     loaded() {
@@ -47,16 +45,28 @@ class FontDlg extends Window {
         this.lddlbcUnderlineColor.dropDownListBoxColor.onChange.addListener(this.common_Change);
         this.cboxStrikeThrough.onChange.addListener(this.common_Change);
         this.cboxOverline.onChange.addListener(this.common_Change);
-        this.cboxShadow.onChange.addListener(this.common_Change);
+        this.cboxShadow.onChange.addListener(this.cboxShadow_Change);
         this.cboxAllCaps.onChange.addListener(this.common_Change);
         effects = Object.keys(locale.labelEffects).map(key => {
             return { 'caption': locale.labelEffects[key] };
         });
         this.lddlbEffect.dropDownListBox.items.addRange([{ "translationKey": "constantMessages.rNone" }, ...effects]);
-        this.lddlbEffect.dropDownListBox.onChange.addListener(this.common_Change);
+        this.lddlbEffect.dropDownListBox.onChange.addListener(this.lddlbEffect_Change);
         this.updateFromObject();
     }
     //#endregion loaded
+    //#region cboxShadow_Change
+    cboxShadow_Change() {
+        this.form.lddlbEffect.dropDownListBox.itemIndex = 0;
+        this.form.updateControl(this.form.lblPreview);
+    }
+    //#endregion cboxShadow_Change
+    //#region lddlbEffect_Change
+    lddlbEffect_Change() {
+        this.form.cboxShadow.checked = false;
+        this.form.updateControl(this.form.lblPreview);
+    }
+    //#endregion lddlbEffect_Change
     //#region common_Change
     common_Change() {
         this.form.updateControl(this.form.lblPreview);
@@ -76,11 +86,11 @@ class FontDlg extends Window {
         let textDecoration = String.EMPTY;
         //#endregion Variables déclaration
         // special effect
-        control.effect && control.effect.destroy();
-        control.effect = null;
         if (this.lddlbEffect.dropDownListBox.itemIndex > 0) {
             const effectName = core.tools.getEnumNameFromValue(core.locales[core.currentLocale].labelEffects, this.lddlbEffect.dropDownListBox.text);
             control.effect = new core.classes[`Label${effectName}Effect`](control);
+        } else {
+            control.effect = null;
         }
         // font family
         htmlElementStyle.fontFamily = this.lddlbFont.dropDownListBox.text;
@@ -108,9 +118,9 @@ class FontDlg extends Window {
         // underline
         this.lddlbUnderline.dropDownListBox.itemIndex > 0 && (textDecoration = 'underline');
         // line through
-        this.cboxStrikeThrough.isChecked && (textDecoration = `line-through ${textDecoration}`);
+        this.cboxStrikeThrough.checked && (textDecoration = `line-through ${textDecoration}`);
         // overline
-        this.cboxOverline.isChecked && (textDecoration = `overline ${textDecoration}`);
+        this.cboxOverline.checked && (textDecoration = `overline ${textDecoration}`);
         // underline style
         this.lddlbUnderline.dropDownListBox.itemIndex > 0
             && (textDecoration += `${this.lddlbUnderline.dropDownListBox.cssText
@@ -122,10 +132,10 @@ class FontDlg extends Window {
         this.lddlbUnderline.dropDownListBox.itemIndex > 0 && (htmlElementStyle.textDecorationColor = this.lddlbcUnderlineColor.dropDownListBoxColor.color.toRGBAString());
         // shadow
         htmlElementStyle.textShadow = String.EMPTY;
-        this.cboxShadow.isChecked && (htmlElementStyle.textShadow = '2px 2px 0 gray');
+        this.cboxShadow.checked && (htmlElementStyle.textShadow = '2px 2px 0 gray');
         // all caps
         htmlElementStyle.textTransform = String.EMPTY;
-        this.cboxAllCaps.isChecked && (htmlElementStyle.textTransform = 'uppercase');
+        this.cboxAllCaps.checked && (htmlElementStyle.textTransform = 'uppercase');
     }
     //#endregion updatePreview
     //#region updateFromObject
@@ -207,12 +217,12 @@ class FontDlg extends Window {
             this.lddlbUnderline.dropDownListBox.text = core.locales.translateConstant(core.currentLocale, 'rNone');
             this.lddlbUnderline.dropDownListBox.itemIndex = 0;
         }
-        this.cboxStrikeThrough.isChecked = value && value.includes(TEXTDECORATIONS.LINETHROUGH);
-        this.cboxOverline.isChecked = value && value.includes(TEXTDECORATIONS.OVERLINE);
+        this.cboxStrikeThrough.checked = value && value.includes(TEXTDECORATIONS.LINETHROUGH);
+        this.cboxOverline.checked = value && value.includes(TEXTDECORATIONS.OVERLINE);
         value = getComputedStyle(cHtmlElement).textShadow;
-        this.cboxShadow.isChecked = value && value.includes('rgb');
+        this.cboxShadow.checked = value && value.includes('rgb');
         value = getComputedStyle(cHtmlElement).textTransform;
-        this.cboxAllCaps.isChecked = value && value.includes(core.types.TEXTTRANSFORMS.UPPERCASE);
+        this.cboxAllCaps.checked = value && value.includes(core.types.TEXTTRANSFORMS.UPPERCASE);
         this.lddlbEffect.enabled = priv.control instanceof core.classes.Label;
         //control.effect && 
         this.updateControl(this.form.lblPreview);
@@ -225,7 +235,6 @@ class FontDlg extends Window {
     }
     //#endregion close
     //#endregion Methods
-
 }
 //#endregion FontDlg
 //#region class FontDialog
