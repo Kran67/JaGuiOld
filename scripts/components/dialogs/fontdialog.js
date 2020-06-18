@@ -225,8 +225,6 @@ class FontDlg extends Window {
         this.cboxAllCaps.checked = value && value.includes(core.types.TEXTTRANSFORMS.UPPERCASE);
         this.lddlbEffect.enabled = priv.control instanceof core.classes.Label;
         if (priv.control.effect) {
-            console.clear();
-            //console.log(priv.control.effect.cssName);
             let idx = Object.keys(core.locales[core.currentLocale].labelEffects).findIndex(e => e.toLowerCase() === priv.control.effect.cssName.toLowerCase());
             this.lddlbEffect.dropDownListBox.itemIndex = ++idx;
         }
