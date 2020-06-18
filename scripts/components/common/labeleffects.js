@@ -24,8 +24,12 @@ class LabelEffect {
     destroy() {
         this.cssName = null;
         this.owner = null;
+        this.drawBefore = null;
+        this.name = null;
         delete this.cssName;
         delete this.owner;
+        delete this.drawBefore;
+        delete this.name;
     }
     //#endregion destroy
     //#endregion Methods
@@ -68,6 +72,7 @@ class LabelNeonEffect extends LabelEffect {
         this.color = null;
         this.currentTick = null;
         delete this.color;
+        delete this.currentTick;
         super.destroy();
     }
     //#endregion destroy
@@ -409,6 +414,20 @@ class LabelGradientEffect extends LabelEffect {
         }
     }
     //#endregion update
+    //#region destroy
+    destroy() {
+        //#region Variables déclaration
+        const htmlElementStyle = this.owner.HTMLElementStyle;
+        //#endregion Variables déclaration
+        htmlElementStyle.backgroundImage = core.types.CSSVALUES.NONE;
+        this.gradient.destroy();
+        this.gradient = null;
+        delete this.gradient;
+        this.orientation = null;
+        delete this.orientation;
+        super.destroy();
+    }
+    //#endregion destroy
     //#endregion Methods
 }
 core.classes.register(core.types.CATEGORIES.INTERNAL, LabelGradientEffect);

@@ -220,10 +220,16 @@ class FontDlg extends Window {
         this.cboxStrikeThrough.checked = value && value.includes(TEXTDECORATIONS.LINETHROUGH);
         this.cboxOverline.checked = value && value.includes(TEXTDECORATIONS.OVERLINE);
         value = getComputedStyle(cHtmlElement).textShadow;
-        this.cboxShadow.checked = value && value.includes('rgb');
+        this.cboxShadow.checked = value && !priv.control.effect && value.includes('rgb');
         value = getComputedStyle(cHtmlElement).textTransform;
         this.cboxAllCaps.checked = value && value.includes(core.types.TEXTTRANSFORMS.UPPERCASE);
         this.lddlbEffect.enabled = priv.control instanceof core.classes.Label;
+        if (priv.control.effect) {
+            console.clear();
+            //console.log(priv.control.effect.cssName);
+            let idx = Object.keys(core.locales[core.currentLocale].labelEffects).findIndex(e => e.toLowerCase() === priv.control.effect.cssName.toLowerCase());
+            this.lddlbEffect.dropDownListBox.itemIndex = ++idx;
+        }
         //control.effect && 
         this.updateControl(this.form.lblPreview);
     }
