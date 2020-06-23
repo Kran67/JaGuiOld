@@ -115,21 +115,24 @@ class ColorPicker extends Control {
         //#region Variables déclaration
         const priv = core.private(this);
         const htmlElement = this.HTMLElement;
-        const COLORPICKSIZE = core.types.CONSTANTS.COLORPICKSIZE;
+        const COLORPICKSIZE = int(core.types.CONSTANTS.COLORPICKSIZE / 2);
         //#endregion Variables déclaration
         if (!point) {
             point = new Point;
             point.x = 0;
-            point.y = 0;
+            point.y = -COLORPICKSIZE;
         }
         //priv.color.hue = int((point.y * 360) / htmlElement.offsetHeight);
         if (!core.isHTMLRenderer) {
             point.x -= COLORPICKSIZE * 2;
             point.y -= COLORPICKSIZE * 2;
         } else {
-            point.y -= COLORPICKSIZE / 2;
+            //point.y -= COLORPICKSIZE;
         }
-        priv.handle.y = point.y > htmlElement.offsetHeight - 5 ? htmlElement.offsetHeight - 5 : point.y < -5 ? -5 : point.y;
+        console.log(point.y);
+        priv.handle.y = point.y > htmlElement.offsetHeight - COLORPICKSIZE
+            ? htmlElement.offsetHeight - COLORPICKSIZE
+            : point.y < -COLORPICKSIZE ? -COLORPICKSIZE : point.y;
         priv.handleObj
             && (priv.handleObj.style.transform = `translate(-50%,${priv.handle.y}${core.types.CSSUNITS.PX})`);
         priv.colorQuad instanceof core.classes.ColorQuad && !this.updating && (priv.colorQuad.hue = priv.color.hue);
