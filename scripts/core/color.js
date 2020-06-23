@@ -692,7 +692,7 @@ class Color extends Bindable {
         let alpha = priv.alpha;
         //#endregion Variables déclaration
         if (core.tools.isNumber(opacity)) {
-            opacity < 1 && (alpha = alpha * 0xFF * opacity / 0xFF);
+            opacity < 1 && (alpha = (alpha * 0xFF) * opacity / 0xFF);
             if (alpha > 1) {
                 alpha = 1;
             } else if (alpha < 0) {
@@ -871,9 +871,9 @@ class Color extends Bindable {
         const x = 1 - Math.abs(2 * lightness - 1);
         //#endregion Variables déclaration
         if (delta) {
-            cMax === red && (hue = green - blue / delta);
-            cMax === green && (hue = 2 + blue - red / delta);
-            cMax === blue && (hue = 4 + red - green / delta);
+            cMax === red && (hue = (green - blue) / delta);
+            cMax === green && (hue = 2 + (blue - red) / delta);
+            cMax === blue && (hue = 4 + (red - green) / delta);
             cMax && (saturation = delta / x);
         }
         hue = 60 * hue | 0;
@@ -888,7 +888,7 @@ class Color extends Bindable {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        return 0.3 * priv.red + 0.59 * priv.green + 0.11 * priv.blue <= 128 ? '#FFF' : '#000';
+        return ((0.3 * priv.red) + (0.59 * priv.green) + (0.11 * priv.blue) <= 128) ? '#FFF' : '#000';
     }
     //#endregion
 }

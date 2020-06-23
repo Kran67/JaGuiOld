@@ -352,17 +352,14 @@ class Control extends Component {
             form.focusedControl && (core.classes.CustomTextControl
                 && form.focusedControl instanceof core.classes.CustomTextControl) && !newValue
                 && (lastFc = form.focusedControl);
-
+        
             if (newValue) {
                 form.focusedControl = this;
             } else if (form.focusedControl === this) {
                 form.focusedControl = null;
             }
-            if (htmlElement) {
-                //this.HTMLElement.dataset.focused = internal(this).isFocused;
-                htmlElement.classList.remove('focused');
-                newValue && priv.showFocus
-                    && htmlElement.classList.add('focused');
+            if (htmlElement && !this.updating) {
+                newValue && priv.showFocus ? htmlElement.classList.add('focused') : htmlElement.classList.remove('focused');
             }
             !newValue && this.killFocus();
             lastFc && lastFc.inputObj && lastFc.inputObj.blur();

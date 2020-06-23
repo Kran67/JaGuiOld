@@ -45,7 +45,7 @@ class ColorPicker extends Control {
             pos -= COLORPICKSIZE / 2;
             priv.handle.y = (pos > htmlElement.offsetHeight - 5
                 ? htmlElement.offsetHeight - 5 : (pos < -5) ? -5 : pos);
-            this.update();
+            this.update(new core.classes.Point(priv.handle.x, priv.handle.y));
         }
     }
     //#endregion color
@@ -67,7 +67,12 @@ class ColorPicker extends Control {
     //#region Methods
     //#region mouseDown
     mouseDown() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const htmlElement = this.HTMLElement;
+        //#endregion Variables déclaration
         super.mouseDown();
+        priv.color.hue = int((core.mouse.target.y * 360) / htmlElement.offsetHeight);
         core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.isPressed
             && this.update(core.mouse.target);
     }
@@ -75,6 +80,7 @@ class ColorPicker extends Control {
     //#region mouseMove
     mouseMove() {
         //#region Variables déclaration
+        const priv = core.private(this);
         const point = new core.classes.Point;
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
@@ -88,6 +94,7 @@ class ColorPicker extends Control {
             } else {
                 point.assign(core.mouse.target);
             }
+            priv.color.hue = int((point.y * 360) / htmlElement.offsetHeight);
             this.update(point);
         }
     }
@@ -115,7 +122,7 @@ class ColorPicker extends Control {
             point.x = 0;
             point.y = 0;
         }
-        priv.color.hue = int((point.y * 360) / htmlElement.offsetHeight);
+        //priv.color.hue = int((point.y * 360) / htmlElement.offsetHeight);
         if (!core.isHTMLRenderer) {
             point.x -= COLORPICKSIZE * 2;
             point.y -= COLORPICKSIZE * 2;
@@ -125,7 +132,7 @@ class ColorPicker extends Control {
         priv.handle.y = point.y > htmlElement.offsetHeight - 5 ? htmlElement.offsetHeight - 5 : point.y < -5 ? -5 : point.y;
         priv.handleObj
             && (priv.handleObj.style.transform = `translate(-50%,${priv.handle.y}${core.types.CSSUNITS.PX})`);
-        priv.colorQuad instanceof core.classes.ColorQuad && (priv.colorQuad.hue = priv.color.hue);
+        priv.colorQuad instanceof core.classes.ColorQuad && !this.updating && (priv.colorQuad.hue = priv.color.hue);
         !this.updating && this.onChange.invoke();
     }
     //#endregion update

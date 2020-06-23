@@ -59,13 +59,8 @@ class ColorDlg extends Window {
         if (priv.control) {
             this.clrBoxCurColor.color.assign(color);
             this.clrPicker.color.assign(color);
-            this.clrQuad.onChange.addListener(this.clrQuad_change);
             this.txtbHex.btns.first.onClick.addListener(this.txtbHexBtn_click);
             this.txtbHex.btns.first.mode = 'rgbh';
-            this.pgeCtrl.onChange.addListener(this.pgeCtrl_change);
-            this.slrRed.onChange.addListener(this.slider_change);
-            this.slrGreen.onChange.addListener(this.slider_change);
-            this.slrBlue.onChange.addListener(this.slider_change);
             this.updateControls(color);
         }
     }
@@ -97,7 +92,7 @@ class ColorDlg extends Window {
         clrQuad.format = this.activeTabIndex > 1 ? COLORFORMATS.HSV : COLORFORMATS.HSL;
         this.activeTabIndex === 1 && c.RGBtoHSL();
         this.activeTabIndex === 2 && c.RGBtoHSV();
-        form.updateControls(c);
+        form.updateControls(c, !0);
     }
     //#endregion pgeCtrl_change
     //#region clrQuad_change
@@ -112,10 +107,13 @@ class ColorDlg extends Window {
             'hsl': 'toHSLString',
             'hsv': 'toHSVString'
         };
-        const func = funcs[form.txtbHex.btns.first.mode] ? funcs[form.txtbHex.btns.first.mode] : 'toRGBHexString';
+        let func;
         //#endregion Variables déclaration
-        form.txtbHex.text = form.clrBoxNewColor.color[func]();
-        form.updateControls(this.color);
+        if (!form.creating && !form.loading) {
+            func = funcs[form.txtbHex.btns.first.mode] ? funcs[form.txtbHex.btns.first.mode] : 'toRGBHexString';
+            form.txtbHex.text = form.clrBoxNewColor.fillColor[func]();
+            form.updateControls(this.color, !0);
+        }
     }
     //#endregion clrQuad_change
     //#region txtbHex_click
@@ -135,15 +133,15 @@ class ColorDlg extends Window {
     }
     //#endregion txtbHex_click
     //#region updateControls
-    updateControls(color) {
-        this.clrBoxNewColor.color = color;
+    updateControls(color, updateSliders) {
+        this.clrBoxNewColor.fillColor = color;
         this.clrPicker._updating();
         this.clrPicker.color = color;
         this.clrPicker.updated();
         this.clrQuad._updating();
         this.clrQuad.color = color;
         this.clrQuad.updated();
-        //this.updateSliders(color);
+        updateSliders && this.updateSliders(color);
     }
     //#endregion updateControls
     //#region updateSliders
@@ -153,7 +151,7 @@ class ColorDlg extends Window {
         const tabs = ['RGB', 'HSL', 'HSV'];
         //#endregion Variables déclaration
         this[`update${tabs[pageIdx]}Tab`](color);
-        this.txtbHex.setFocus();
+        //this.txtbHex.setFocus();
     }
     //#endregion updateSliders
     //#region updateRGBTab
@@ -274,7 +272,7 @@ if (core.isHTMLRenderer) {
         '"templateRows": "20px 24px 38px 25px 26px 44px 28px 29px", "columnGap": 0, "rowGap": 0 }</properties>',
         '<jagui-colorquad id="{internalId}" data-class="ColorQuad" class="Control ColorQuad">',
         '<properties>{ "name": "clrQuad", "color": "blue", "format": "hsl", "rowSpan": 8, ',
-        '"column": 1, "row": 1, "width": 234, "height": 234 }</properties></jagui-colorquad>',
+        '"column": 1, "row": 1, "width": 234, "height": 234, "onChange": "clrQuad_change" }</properties></jagui-colorquad>',
         '<jagui-colorpicker id="{internalId}" data-class="ColorPicker" class="Control ColorPicker">',
         '<properties>{ "name": "clrPicker", "colorQuad": "clrQuad", "color": "blue", "column": 2, "row": 1, "rowSpan": 8, "margin": { "left": 8, "right": 8 } }',
         '</properties></jagui-colorpicker>',
@@ -285,7 +283,7 @@ if (core.isHTMLRenderer) {
         '<jagui-colorbox id="{internalId}" data-class="ColorBox" class="Control ColorBox"><properties>{ "name": "clrBoxCurColor", "column": 3, "row": 2, "margin": { "left": 5, "right": 5 } }</properties></jagui-colorbox>',
         '<jagui-colorbox id="{internalId}" data-class="ColorBox" class="Control ColorBox"><properties>{ "name": "clrBoxNewColor", "column": 4, "row": 2, "colSpan": 2, "margin": { "left": 5, "right": 5 } }</properties></jagui-colorbox>',
         '<jagui-pagecontrol id="{internalId}" data-class="PageControl" class="Control TabControl PageControl {theme}">',
-        '<properties>{ "name": "pgeCtrl", "activeTab": "tabRGB", "column": 3, "row": 3, "colSpan": 3, "margin": 7, "centerTabs": true, "rowSpan": 4, "dataBindings": [{ "property": "activeTab", "destination": { "component": "lblDeg", "property": "visible", "expressions": [{ "script": "return args.obj.activeTabIndex > 0;" }] } },{ "property": "activeTab", "destination": { "component": "lblSatPer", "property": "visible", "expressions": [{ "script": "return args.obj.activeTabIndex > 0;" }] } },{ "property": "activeTab", "destination": { "component": "lblLVPer", "property": "visible", "expressions": [{ "script": "return args.obj.activeTabIndex > 0;" }] } }] }</properties>',
+        '<properties>{ "name": "pgeCtrl", "activeTab": "tabRGB", "column": 3, "row": 3, "colSpan": 3, "margin": 7, "centerTabs": true, "rowSpan": 4, "dataBindings": [{ "property": "activeTab", "destination": { "component": "lblDeg", "property": "visible", "expressions": [{ "script": "return args.obj.activeTabIndex > 0;" }] } },{ "property": "activeTab", "destination": { "component": "lblSatPer", "property": "visible", "expressions": [{ "script": "return args.obj.activeTabIndex > 0;" }] } },{ "property": "activeTab", "destination": { "component": "lblLVPer", "property": "visible", "expressions": [{ "script": "return args.obj.activeTabIndex > 0;" }] } }], "onChange": "pgeCtrl_change" }</properties>',
         '<jagui-tabcontrolheader class="Control TabControlHeader {theme}">',
         '<jagui-tabscontainer class="Control TabsContainer {theme}">',
         '<jagui-tabsheet id="{internalId}" data-class="TabSheet" data-name="tabRGB" class="Control Tab TabSheet selected {theme}">RGB</jagui-tabsheet>',
@@ -301,15 +299,15 @@ if (core.isHTMLRenderer) {
         '"templateRows": "23px 23px 23px", "columnGap": 0, "rowGap": 3 }</properties>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblRed", "vertAlign": "middle" }</properties></jagui-label>',
-        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrRed", "values": [0,0], "max": 255, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbRed", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
+        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrRed", "values": [0,0], "max": 255, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbRed", "property": "text", "converter": "intToStr" } }], "onChange": "slider_change" }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbRed", "readOnly": true, "text": "0" }</properties></jagui-textbox>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblGreen", "vertAlign": "middle" }</properties></jagui-label>',
-        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrGreen", "values": [0,0], "max": 255, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbGreen", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
+        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrGreen", "values": [0,0], "max": 255, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbGreen", "property": "text", "converter": "intToStr" } }], "onChange": "slider_change" }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbGreen", "readOnly": true, "text": "0" }</properties></jagui-textbox>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblBlue", "vertAlign": "middle" }</properties></jagui-label>',
-        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrBlue", "values": [0,0], "max": 255, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbBlue", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
+        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrBlue", "values": [0,0], "max": 255, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbBlue", "property": "text", "converter": "intToStr" } }], "onChange": "slider_change" }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbBlue", "readOnly": true, "text": "0" }</properties></jagui-textbox>',
         '</jagui-gridlayout>',
         '</jagui-pagecontent>',
@@ -320,15 +318,15 @@ if (core.isHTMLRenderer) {
         '"templateRows": "23px 23px 23px", "columnGap": 0, "rowGap": 3 }</properties>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblHue", "vertAlign": "middle" }</properties></jagui-label>',
-        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrHue", "values": [0,0], "max": 359, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbHue", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
+        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrHue", "values": [0,0], "max": 359, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbHue", "property": "text", "converter": "intToStr" } }], "onChange": "slider_change" }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbHue", "readOnly": true }</properties></jagui-textbox>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblSat", "vertAlign": "middle", "column": 1, "row": 2 }</properties></jagui-label>',
-        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrSat", "values": [0,0], "max": 100, "column": 2, "row": 2, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbSat", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
+        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrSat", "values": [0,0], "max": 100, "column": 2, "row": 2, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbSat", "property": "text", "converter": "intToStr" } }], "onChange": "slider_change" }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbSat", "readOnly": true, "column": 3, "row": 2 }</properties></jagui-textbox>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblLight", "vertAlign": "middle", "column": 1, "row": 3 }</properties></jagui-label>',
-        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrLight", "values": [0,0], "column": 2, "row": 3, "max": 100, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbLight", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
+        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrLight", "values": [0,0], "column": 2, "row": 3, "max": 100, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbLight", "property": "text", "converter": "intToStr" } }], "onChange": "slider_change" }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbLight", "readOnly": true, "column": 3, "row": 3 }</properties></jagui-textbox>',
         '</jagui-gridlayout>',
         '</jagui-pagecontent>',
@@ -339,15 +337,15 @@ if (core.isHTMLRenderer) {
         '"templateRows": "23px 23px 23px", "columnGap": 0, "rowGap": 3 }</properties>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblHSVHue", "vertAlign": "middle" }</properties></jagui-label>',
-        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrHSVHue", "values": [0,0], "max": 359, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbHSVHue", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
+        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrHSVHue", "values": [0,0], "max": 359, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbHSVHue", "property": "text", "converter": "intToStr" } }], "onChange": "slider_change" }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbHSVHue", "readOnly": true }</properties></jagui-textbox>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblHSVSat", "vertAlign": "middle", "column": 1, "row": 2 }</properties></jagui-label>',
-        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrHSVSat", "values": [0,0], "max": 100, "margin": { "left": 15, "right": 15 }, "column": 2, "row": 2, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbHSVSat", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
+        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrHSVSat", "values": [0,0], "max": 100, "margin": { "left": 15, "right": 15 }, "column": 2, "row": 2, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbHSVSat", "property": "text", "converter": "intToStr" } }], "onChange": "slider_change" }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbHSVSat", "readOnly": true, "column": 3, "row": 2 }</properties></jagui-textbox>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblValue", "vertAlign": "middle", "column": 1, "row": 3 }</properties></jagui-label>',
-        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrValue", "values": [0,0], "max": 100, "column": 2, "row": 3, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbValue", "property": "text", "converter": "intToStr" } }] }</properties></jagui-slider>',
+        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrValue", "values": [0,0], "max": 100, "column": 2, "row": 3, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbValue", "property": "text", "converter": "intToStr" } }], "onChange": "slider_change" }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbValue", "readOnly": true, "column": 3, "row": 3 }</properties></jagui-textbox>',
         '</jagui-gridlayout>',
         '</jagui-pagecontent>',

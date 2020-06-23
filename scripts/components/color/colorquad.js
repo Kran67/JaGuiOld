@@ -1,12 +1,12 @@
 ﻿//#region Imports
-import { GraphicControl } from '/scripts/core/graphiccontrol.js';
+import { Control } from '/scripts/components/control.js';
 import { Color, Colors } from '/scripts/core/color.js';
 import { Point } from '/scripts/core/geometry.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Imports
 //#region ColorQuad
-class ColorQuad extends GraphicControl {
+class ColorQuad extends Control {
     //#region Constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -63,7 +63,7 @@ class ColorQuad extends GraphicControl {
         //#endregion Variables déclaration
         if (newValue instanceof core.classes.Color && !priv.color.equals(newValue)) {
             priv.color.assign(newValue);
-            this.fillColor.assign(newValue);
+            //this.fillColor.assign(newValue);
             this.moveIndicator();
         }
     }
@@ -78,7 +78,8 @@ class ColorQuad extends GraphicControl {
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue = Math.min(Math.max(newValue, 0), 359);
-            if (this.fillColor.hue !== newValue) {
+            //if (this.fillColor.hue !== newValue) {
+            if (priv.color.hue !== newValue) {
                 priv.color.hue = newValue;
                 this.update();
             }
@@ -92,11 +93,19 @@ class ColorQuad extends GraphicControl {
     set format(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
+        let value;
+        const point = new Point;
         //#endregion Variables déclaration
         if (core.tools.valueInSet(newValue, core.types.COLORFORMATS) && newValue !== priv.format) {
             priv.format = newValue;
             !core.isHTMLRenderer && this.redraw();
-            this.HTMLElement && this.update();
+            if (this.HTMLElement) {
+                value = priv.format === core.types.COLORFORMATS.HSV
+                    ? priv.color.value : priv.color.lightness;
+                point.x = int(priv.color.saturation * htmlElement.offsetWidth / 100);
+                point.y = int(htmlElement.offsetHeight - value * htmlElement.offsetHeight / 100);
+                this.update(point);
+            }
         }
     }
     //#endregion format
@@ -138,14 +147,14 @@ class ColorQuad extends GraphicControl {
         const COLORPICKSIZE = core.types.CONSTANTS.COLORPICKSIZE;
         const PX = core.types.CSSUNITS.PX;
         //#endregion Variables déclaration
-        if (!point) {
-            point = new Point;
-            let value;
-            value = priv.format === core.types.COLORFORMATS.HSV
-                ? priv.color.value : priv.color.lightness;
-            point.x = int(priv.color.saturation * htmlElement.offsetWidth / 100);
-            point.y = int(htmlElement.offsetHeight - value * htmlElement.offsetHeight / 100);
-        }
+        //if (!point) {
+        //    point = new Point;
+        //    let value;
+        //    value = priv.format === core.types.COLORFORMATS.HSV
+        //        ? priv.color.value : priv.color.lightness;
+        //    point.x = int(priv.color.saturation * htmlElement.offsetWidth / 100);
+        //    point.y = int(htmlElement.offsetHeight - value * htmlElement.offsetHeight / 100);
+        //}
         if (point) {
             priv.handle.x = Math.max(Math.min(point.x, htmlElement.offsetWidth), 0);
             priv.handle.y = Math.max(Math.min(point.y, htmlElement.offsetHeight), 0);
@@ -236,17 +245,17 @@ class ColorQuad extends GraphicControl {
         const color = Colors.BLACK;
         //#endregion Variables déclaration
         if (!this.loading && !this.form.loading && htmlElement) {
-                this.fillColor.hue = priv.color.hue;
-                this.fillColor.saturation = 100;
-                this.fillColor.value = 100;
-                this.fillColor.lightness = 50;
-            priv.format === COLORFORMATS.HSV ? this.fillColor.HSVtoRGB() : this.fillColor.HSLtoRGB();
-            this.HTMLElementStyle.backgroundColor = this.fillColor.toRGBAString();
+                //priv.color.hue = priv.color.hue;
+                priv.color.saturation = 100;
+                priv.color.value = 100;
+                priv.color.lightness = 50;
+            priv.format === COLORFORMATS.HSV ? priv.color.HSVtoRGB() : priv.color.HSLtoRGB();
+            this.HTMLElementStyle.backgroundColor = priv.color.toRGBAString();
             const value = 100 - (priv.handle.y * 100 / htmlElement.offsetHeight) | 0;
             const saturation = (priv.handle.x * 100 / htmlElement.offsetWidth) | 0;
             priv.format === COLORFORMATS.HSV
-                ? priv.color.setHSV(this.fillColor.hue, saturation, value)
-                : priv.color.setHSL(this.fillColor.hue, saturation, value);
+                ? priv.color.setHSV(priv.color.hue, saturation, value)
+                : priv.color.setHSL(priv.color.hue, saturation, value);
             if (!this.updating) {
                 if (priv.colorBox instanceof core.classes.ColorBox) {
                     let oldAlpha;
