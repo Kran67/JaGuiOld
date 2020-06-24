@@ -243,7 +243,7 @@ class Tools {
     //#region getPropertiesFromObject
     static getPropertiesFromObject(obj) {
         //#region Variables déclaration
-        const props = [];
+        let props = [];
         const keys = Object.keys(obj);
         //#endregion Variables déclaration
         keys.forEach(propName => {
@@ -299,7 +299,7 @@ class Tools {
     //#region getPreviousValueFromEnum
     static getPreviousValueFromEnum(_enum, currentValue) {
         //#region Variables déclaration
-        const values = [];
+        let values = [];
         //#endregion Variables déclaration
         if (!_enum) {
             return currentValue;
@@ -323,7 +323,7 @@ class Tools {
     //#region getValueIndexFromEnum
     static getValueIndexFromEnum(_enum, currentValue) {
         //#region Variables déclaration
-        const values = [];
+        let values = [];
         //#endregion Variables déclaration
         if (!_enum) {
             return currentValue;
@@ -601,7 +601,7 @@ class Tools {
     }
     //#endregion loadStyle
     //#region getMonthList
-    static getMonthList(locale, format = 'long', lower = false) {
+    static getMonthList(locale, format = 'long', lower = !1) {
         const year = new Date().getFullYear(); // 20xx
         const monthList = [...Array(12).keys()]; // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
         const formatter = new Intl.DateTimeFormat(locale, {
@@ -613,7 +613,7 @@ class Tools {
     }
     //#endregion getMonthList
     //#region getWeekDayList
-    static getWeekDayList(locale, format = 'long', numberOfChar = 0, lower = false) {
+    static getWeekDayList(locale, format = 'long', numberOfChar = 0, lower = !1) {
         let day = new Date().getDay();
         let date = new Date();
         date = date.addDays(-day);

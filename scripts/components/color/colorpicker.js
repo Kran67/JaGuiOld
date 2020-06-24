@@ -36,16 +36,10 @@ class ColorPicker extends Control {
     set color(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const htmlElement = this.HTMLElement;
-        const COLORPICKSIZE = core.types.CONSTANTS.COLORPICKSIZE;
         //#endregion Variables déclaration
         if (newValue instanceof Color && !priv.color.equals(newValue)) {
             priv.color.assign(newValue);
-            let pos = int(priv.color.hue * htmlElement.offsetHeight / 360);
-            pos -= COLORPICKSIZE / 2;
-            priv.handle.y = (pos > htmlElement.offsetHeight - 5
-                ? htmlElement.offsetHeight - 5 : (pos < -5) ? -5 : pos);
-            this.update(new core.classes.Point(priv.handle.x, priv.handle.y));
+            this.moveHandleByHue();
         }
     }
     //#endregion color
@@ -65,6 +59,16 @@ class ColorPicker extends Control {
     //#endregion colorQuad
     //#endregion Getters / Setters
     //#region Methods
+    //#region moveHandleByHue
+    moveHandleByHue() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const htmlElement = this.HTMLElement;
+        let pos = int(priv.color.hue * htmlElement.offsetHeight / 360);
+        //#endregion Variables déclaration
+        this.update(new core.classes.Point(priv.handle.x, pos));
+    }
+    //#endregion moveHandleByHue
     //#region mouseDown
     mouseDown() {
         //#region Variables déclaration
@@ -118,21 +122,13 @@ class ColorPicker extends Control {
         const COLORPICKSIZE = int(core.types.CONSTANTS.COLORPICKSIZE / 2);
         //#endregion Variables déclaration
         if (!point) {
-            point = new Point;
-            point.x = 0;
-            point.y = -COLORPICKSIZE;
-        }
-        //priv.color.hue = int((point.y * 360) / htmlElement.offsetHeight);
-        if (!core.isHTMLRenderer) {
-            point.x -= COLORPICKSIZE * 2;
-            point.y -= COLORPICKSIZE * 2;
+            this.moveHandleByHue();
         } else {
-            //point.y -= COLORPICKSIZE;
+            point.y -= COLORPICKSIZE;
+            priv.handle.y = point.y > htmlElement.offsetHeight - COLORPICKSIZE
+                ? htmlElement.offsetHeight - COLORPICKSIZE
+                : point.y < -COLORPICKSIZE ? -COLORPICKSIZE : point.y;
         }
-        console.log(point.y);
-        priv.handle.y = point.y > htmlElement.offsetHeight - COLORPICKSIZE
-            ? htmlElement.offsetHeight - COLORPICKSIZE
-            : point.y < -COLORPICKSIZE ? -COLORPICKSIZE : point.y;
         priv.handleObj
             && (priv.handleObj.style.transform = `translate(-50%,${priv.handle.y}${core.types.CSSUNITS.PX})`);
         priv.colorQuad instanceof core.classes.ColorQuad && !this.updating && (priv.colorQuad.hue = priv.color.hue);
@@ -180,7 +176,8 @@ class ColorPicker extends Control {
             htmlElement.appendChild(priv.handleObj);
         }
         super.loaded();
-        priv.colorQuad instanceof core.classes.ColorQuad && (priv.colorQuad.hue = priv.color.hue);
+        this.moveHandleByHue();
+        //priv.colorQuad instanceof core.classes.ColorQuad && (priv.colorQuad.hue = priv.color.hue);
     }
     //#endregion loaded
     //#endregion Methods

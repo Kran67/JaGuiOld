@@ -184,7 +184,7 @@ class Checkbox extends CaptionControl {
         const priv = core.private(this);
         //#endregion Variables déclaration
         super.keyUp();
-        if (core.keyboard.key === Keyboard.VKEYSCODES.VK_RETURN
+        if (core.keyboard.key === Keyboard.VKEYSCODES.VK_ENTER
             || core.keyboard.key === Keyboard.VKEYSCODES.VK_SPACE) {
             this.checked = !priv.checked;
             this.update();

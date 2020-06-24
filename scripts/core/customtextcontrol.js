@@ -77,9 +77,11 @@ class CustomTextControl extends ThemedControl {
     set hasError(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
+        const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         core.tools.isBool(newValue) && priv.hasError !== newValue
-            && (priv.hasError= newValue);
+            && (priv.hasError = newValue);
+        htmlElement.classList[newValue ? 'add' : 'remove']('haserror');
     }
     //#endregion hasError
     //#region text
@@ -186,7 +188,7 @@ class CustomTextControl extends ThemedControl {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.errorMsg !== newValue
+        core.tools.isString(newValue) && priv.errorMsg !== newValue
             && (priv.errorMsg = newValue);
     }
     //#endregion errorMsg
@@ -258,11 +260,11 @@ class CustomTextControl extends ThemedControl {
         //#endregion Variables déclaration
         const filterChars = this.filterChars;
         !core.keyboard.isNavigationKey && filterChars.length > 0
-            && filterChars.indexOf(core.keyboard.keyChar) === -1
+            && filterChars.indexOf(core.keyboard.key) === -1
             && core.keyboard.stopEvent();
-        this.textChanged.apply(priv.inputObj);
+        //this.textChanged.apply(priv.inputObj);
         super.keyPress();
-        this.onChange.invoke();
+        //this.onChange.invoke();
     }
     //#endregion keyPress
     //#region keyUp
@@ -323,7 +325,7 @@ class CustomTextControl extends ThemedControl {
         const inputObj = priv.inputObj;
         const htmlEvents = core.types.HTMLEVENTS;
         //#endregion Variables déclaration
-        Events.bind(inputObj, htmlEvents.CHANGE, this.textChanged);
+        Events.bind(inputObj, htmlEvents.INPUT, this.textChanged);
         Events.bind(inputObj, htmlEvents.FOCUS, this.HTMLFocus);
         Events.bind(inputObj, htmlEvents.KILLFOCUS, this.HTMLBlur);
     }
@@ -335,7 +337,7 @@ class CustomTextControl extends ThemedControl {
         const inputObj = priv.inputObj;
         const htmlEvents = core.types.HTMLEVENTS;
         //#endregion Variables déclaration
-        Events.unBind(inputObj, htmlEvents.CHANGE, this.textChanged);
+        Events.unBind(inputObj, htmlEvents.INPUT, this.textChanged);
         Events.unBind(inputObj, htmlEvents.FOCUS, this.HTMLFocus);
         Events.unBind(inputObj, htmlEvents.KILLFOCUS, this.HTMLBlur);
     }

@@ -1,6 +1,7 @@
 All : 
   Vérifier la suppression de toutes les propriétés des objets
   Si une boite de dialogue ou une fenetre modal se ferme, remettre le focus sur l'ancien controle
+  Revoir la gestion clavier sur tous les composants
   
 Controls :
   SplitToolButton : vérifier l'icône, une fois le composant ImageList ajouté

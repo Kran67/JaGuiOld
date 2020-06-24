@@ -1717,7 +1717,7 @@ class Control extends Component {
         //console.log(event.type, event.target);
         activeWin = control.form.app.activeWindow;
         activeWin.capturedControl && (control = activeWin.capturedControl);
-        core.keyboard.getKeyboardInfos(event);
+        //core.keyboard.getKeyboardInfos(event);
         core.mouse.getMouseInfos(event);
         if (!control || control.form.destroying || (!control.isEnabled && event.type !== MOUSEEVENTS.MOVE)
             || !control.mouseEvents.has(event.type)) {
@@ -1873,12 +1873,12 @@ class Control extends Component {
         const VKEYSCODES = Keyboard.VKEYSCODES;
         //#endregion Variables déclaration
         this.onKeyUp.invoke();
-        if (core.keyboard.key === VKEYSCODES.VK_SPACE || core.keyboard.key === VKEYSCODES.VK_RETURN) {
+        if (core.keyboard.key === VKEYSCODES.VK_SPACE || core.keyboard.key === VKEYSCODES.VK_ENTER) {
             if (!(this instanceof core.classes.CustomTextControl)) {
                 this.click();
                 this.isPressed = !1;
             }
-        } else if (core.keyboard.key === VKEYSCODES.VK_MENU) {
+        } else if (core.keyboard.key === VKEYSCODES.VK_CONTEXTMENU) {
             if (this.popupMenu) {
                 const pt = this.clientToDocument();
                 this.popupMenu.show(pt.x, pt.y);

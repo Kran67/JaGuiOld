@@ -1,7 +1,7 @@
 ﻿//#region Import
 import { Window } from '/scripts/components/containers/window.js';
 import { CommonDialog } from '/scripts/components/dialogs/commondialog.js';
-import { Colors } from '/scripts/core/color.js';
+import { Color, Colors } from '/scripts/core/color.js';
 import '/scripts/components/common/button.js';
 import '/scripts/components/common/label.js';
 import '/scripts/components/common/slider.js';
@@ -13,6 +13,7 @@ import '/scripts/components/color/colorbox.js';
 import '/scripts/components/color/colorpicker.js';
 import '/scripts/components/color/alphaslider.js';
 import '/scripts/components/extended/valuelabel.js';
+import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Import
 //#region Class ColorDlg
 class ColorDlg extends Window {
@@ -26,7 +27,7 @@ class ColorDlg extends Window {
             props.formPosition = Window.FORMPOSITIONS.MAINFORMCENTER;
             props.name = 'colorDlg';
             props.destroyOnHide = !0;
-            props.caption = core.locales[core.currentLocale]['colorDlg'];
+            props.caption = core.locales[core.currentLocale].colorDlg;
             super(owner, props);
             core.private(this, {
                 control: props.hasOwnProperty('control') ? props.control : null
@@ -99,19 +100,8 @@ class ColorDlg extends Window {
     clrQuad_change() {
         //#region Variables déclaration
         const form = this.form;
-        const funcs = {
-            'argbh': 'toARGBHexString',
-            'rgb': 'toRGBString',
-            'rgba': 'toRGBAString',
-            'hsl': 'toHSLString',
-            'hsl': 'toHSLString',
-            'hsv': 'toHSVString'
-        };
-        let func;
         //#endregion Variables déclaration
         if (!form.creating && !form.loading) {
-            func = funcs[form.txtbHex.btns.first.mode] ? funcs[form.txtbHex.btns.first.mode] : 'toRGBHexString';
-            form.txtbHex.text = form.clrBoxNewColor.fillColor[func]();
             form.updateControls(this.color, !0);
         }
     }
@@ -134,6 +124,18 @@ class ColorDlg extends Window {
     //#endregion txtbHex_click
     //#region updateControls
     updateControls(color, updateSliders) {
+        //#region Variables déclaration
+        const funcs = {
+            'argbh': 'toARGBHexString',
+            'rgb': 'toRGBString',
+            'rgba': 'toRGBAString',
+            'hsl': 'toHSLString',
+            'hsl': 'toHSLString',
+            'hsv': 'toHSVString'
+        };
+        let func;
+        //#endregion Variables déclaration
+        color.alpha = this.slrOpacity.firstValue;
         this.clrBoxNewColor.fillColor = color;
         this.clrPicker._updating();
         this.clrPicker.color = color;
@@ -142,6 +144,8 @@ class ColorDlg extends Window {
         this.clrQuad.color = color;
         this.clrQuad.updated();
         updateSliders && this.updateSliders(color);
+        func = funcs[this.txtbHex.btns.first.mode] ? funcs[this.txtbHex.btns.first.mode] : 'toRGBHexString';
+        this.txtbHex.text = this.clrBoxNewColor.fillColor[func]();
     }
     //#endregion updateControls
     //#region updateSliders
@@ -157,10 +161,13 @@ class ColorDlg extends Window {
     //#region updateRGBTab
     updateRGBTab(color) {
         ['Red', 'Green', 'Blue'].forEach(item => {
-            const silderName = `slr${item}`;
-            this[silderName]._updating();
-            this[silderName].values = [color[item.toLowerCase()], 0];
-            this[silderName].updated();
+            const sliderName = `slr${item}`;
+            this[sliderName]._updating();
+            this[sliderName].values = [color[item.toLowerCase()], 0];
+            this[sliderName].updated();
+            this[`txtb${item}`]._updating();
+            this[`txtb${item}`].text = this[sliderName].firstValue.toString();
+            this[`txtb${item}`].updated();
         });
     }
     //#endregion updateRGBTab
@@ -168,26 +175,68 @@ class ColorDlg extends Window {
     updateHSLTab(color) {
         const cor = ['hue', 'saturation', 'lightness'];
         ['Hue', 'Sat', 'Light'].forEach((item, idx) => {
-            const silderName = `slr${item}`;
-            this[silderName]._updating();
-            this[silderName].values = [color[cor[idx]], 0];
-            this[silderName].updated();
+            const sliderName = `slr${item}`;
+            this[sliderName]._updating();
+            this[sliderName].values = [color[cor[idx]], 0];
+            this[sliderName].updated();
+            this[`txtb${item}`]._updating();
+            this[`txtb${item}`].text = this[sliderName].firstValue.toString();
+            this[`txtb${item}`].updated();
         });
     }
     //#endregion updateHSLTab
     //#region updateHSVTab
     updateHSVTab(color) {
-        this.slrHSVHue._updating();
-        this.slrHSVHue.values = [color.hue, 0];
-        this.slrHSVHue.updated();
-        this.slrHSVSat._updating();
-        this.slrHSVSat.values = [color.saturation, 0];
-        this.slrHSVSat.updated();
-        this.slrValue._updating();
-        this.slrValue.values = [color.value, 0];
-        this.slrValue.updated();
+        //this.slrHSVHue._updating();
+        //this.slrHSVHue.values = [color.hue, 0];
+        //this.slrHSVHue.updated();
+        //this.slrHSVSat._updating();
+        //this.slrHSVSat.values = [color.saturation, 0];
+        //this.slrHSVSat.updated();
+        //this.slrValue._updating();
+        //this.slrValue.values = [color.value, 0];
+        //this.slrValue.updated();
+        const cor = ['hue', 'saturation', 'value'];
+        ['HSVHue', 'HSVSat', 'Value'].forEach((item, idx) => {
+            const sliderName = `slr${item}`;
+            this[sliderName]._updating();
+            this[sliderName].values = [color[cor[idx]], 0];
+            this[sliderName].updated();
+            this[`txtb${item}`]._updating();
+            this[`txtb${item}`].text = this[sliderName].firstValue.toString();
+            this[`txtb${item}`].updated();
+        });
     }
     //#endregion updateHSVTab
+    //#region txtbHex_keyPress
+    txtbHex_keyPress() {
+        //#region Variables déclaration
+        const form = this.form;
+        const color = Color.parse(this.text);
+        //#endregion Variables déclaration
+        if (core.keyboard.key === Keyboard.VKEYSCODES.VK_ENTER) {
+            this.hasError = !1;
+            this.errorMsg = String.EMTPY;
+            if (color && !color.equals(Colors.TRANSPARENT)) {
+                form.updateControls(color);
+            } else {
+                this.hasError = !0;
+                this.errorMsg= core.locales[core.currentLocale]['colorDlg.invalidColor'];
+            }
+        }
+    }
+    //#endregion txtbHex_keyPress
+    //#region txtbOpacity_change
+    txtbOpacity_keyPress() {
+        const form=this.form;
+        const c=new Color(form.clrBoxNewColor.fillColor);
+        const v = Math.max(Math.min(int(this.text)/100, form.slrOpacity.max), form.slrOpacity.min);
+        c.alpha = v;
+        form.slrOpacity.values = [v,0];
+        form.updateControls(c);
+        this.setFocus();
+    }
+    //#endregion txtbOpacity_change
     //#endregion Methods
 }
 //#endregion ColorDlg
@@ -246,7 +295,9 @@ core.locales.addLocaleKeyValues(core.types.LANGUAGES.FR_FR, !1, {
     'colorDlg.lblHSVHue': 'Hue :',
     'colorDlg.lblHSVSat': 'Saturation :',
     'colorDlg.lblValue': 'Valeur :',
-    'colorDlg.lblOpacity': 'Opacité :'
+    'colorDlg.lblOpacity': 'Opacité :',
+    'colorDlg.invalidColor': 'Couleur invalide',
+    'colorDlg.txtbHex.toolTip': 'Cliquez pour changer la représentation de la couleur'
 });
 core.locales.addLocaleKeyValues(core.types.LANGUAGES.EN_US, !1, {
     'colorDlg': 'Color choice',
@@ -261,7 +312,9 @@ core.locales.addLocaleKeyValues(core.types.LANGUAGES.EN_US, !1, {
     'colorDlg.lblHSVHue': 'Hue :',
     'colorDlg.lblHSVSat': 'Saturate :',
     'colorDlg.lblValue': 'Value :',
-    'colorDlg.lblOpacity': 'Opacity :'
+    'colorDlg.lblOpacity': 'Opacity :',
+    'colorDlg.invalidColor': 'Invalid color',
+    'colorDlg.txtbHex.toolTip': 'Click to the change the color string'
 });
 //#endregion I18n
 //#region Template
@@ -362,14 +415,14 @@ if (core.isHTMLRenderer) {
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblOpacity", "vertAlign": "middle" }</properties></jagui-label>',
         '<jagui-alphaslider id="{internalId}" data-class="AlphaSlider" class="Control Slider AlphaSlider {theme}"><properties>{"name": "slrOpacity", "values": [1,0], "margin": { "left": 15, "right": 15 }, "column": 2, "row": 1, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbOpacity", "property": "text", "expressions": [{ "script": "return int(args.value * 100).toString()", "params": "value" }] } }, { "property": "firstValue", "destination": { "component": "clrBoxNewColor", "property": "color", "expressions": [{ "script": "args.destProperty.alpha = args.value", "needReturn": false }] } }] }</properties></jagui-alphaslider>',
-        '<jagui-textbox id="{internalId}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbOpacity", "readOnly": true, "column": 3, "row": 1 }</properties></jagui-textbox>',
+        '<jagui-textbox id="{internalId}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbOpacity", "filterChars": "0123456789", "column": 3, "row": 1, "maxLength": 3, "onChange": "txtbOpacity_keyPress" }</properties></jagui-textbox>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblOpacityPer", "column": 4, "row": 1, "caption": "%", "margin": { "left": 3 }, "padding": { "top": 3} }</properties></jagui-label>',
         '</jagui-gridlayout>',
         '<jagui-gridlayout id="{internalId}" data-class="GridLayout" class="Control GridLayout">',
         '<properties>{ "name": "grdLayout_footer", "templateColumns": "98px 18px 71px 10px 71px", ',
         '"templateRows": "29px", "columnGap": 0, "rowGap": 0, "column": 3, "row": 8, "colSpan": 3 }</properties>',
-        '<jagui-textbox id="{internalId}" data-class="TextBoxBtn" class="Control TextBox TextBoxBtn {theme}"><properties>{ "name": "txtbHex", "margin": { "top": 3, "bottom": 2 }, "toolTip": "Click to the button to change", "showToolTip": true }</properties></jagui-textbox>',
+        '<jagui-textbox id="{internalId}" data-class="TextBoxBtn" class="Control TextBox TextBoxBtn {theme}" spellcheck="false"><properties>{ "name": "txtbHex", "margin": { "top": 3, "bottom": 2 }, "showToolTip": true, "onKeyPress": "txtbHex_keyPress" }</properties></jagui-textbox>',
         '<jagui-button id="{internalId}" data-class="Button" class="Control Button {theme}"><properties>{ "name": "btnOk", "modalResult": "ok", "column": 3, "margin": { "top": 4, "bottom": 4 }, "translationKey": "constantMessages.okButton" }</properties></jagui-button>',
         '<jagui-button id="{internalId}" data-class="Button" class="Control Button {theme}"><properties>{ "name": "btnCancel", "modalResult": "cancel", "column": 5, "margin": { "top": 4, "bottom": 4 }, "translationKey": "constantMessages.cancelButton" }</properties></jagui-button>',
         '</jagui-gridlayout>',

@@ -459,6 +459,7 @@ class Application extends BaseClass {
         //#region Variables déclaration
         const priv = core.private(this);
         const c = { ...priv.locales[priv.locale], ...core.tools.getDefaultLocale() };
+        let isToolTip = !1;
         //#endregion Variables déclaration
         if (c) {
             let key = `${obj.form.name}.${obj.name}`;
@@ -472,9 +473,15 @@ class Application extends BaseClass {
                 }
             } else {
                 key = c[key];
+                if (!key) {
+                    key = `${obj.form.name}.${obj.name}.toolTip`;
+                    key && (key = c[key]) && (isToolTip = !0);
+                }
             }
             if (key) {
-                if (obj instanceof core.classes.CaptionControl || obj instanceof core.classes.ListBoxItem) {
+                if (isToolTip) {
+                    obj.toolTip = key;
+                } else if (obj instanceof core.classes.CaptionControl || obj instanceof core.classes.ListBoxItem) {
                     obj.caption = key;
                 } else if (obj instanceof core.classes.CustomTextControl) {
                     obj.placeHolder = key;
@@ -510,31 +517,25 @@ class Application extends BaseClass {
     showToolTip(obj, coord, useOffset) {
         //#region Variables déclaration
         let text = String.EMPTY;
-        let exit = !1;
         const priv = core.private(this);
         //#endregion Variables déclaration
         this.hideToolTip();
         !obj.showToolTip && !obj.ownerShowToolTip && (exit = !0);
-        //if (core.classes.CustomTextControl && obj instanceof core.classes.CustomTextControl) {
-        //    !obj.hasError && (exit = !0);
-        //}
-        if (!exit) {
-            if (!String.isNullOrEmpty(obj.toolTip)) {
-                text = obj.toolTip;
-            } else if (obj.ownerShowToolTip) {
-                !String.isNullOrEmpty(obj.owner.toolTip) && (text = obj.owner.toolTip);
-            }
-            if (core.classes.CustomTextControl && obj instanceof core.classes.CustomTextControl) {
-                obj.hasError && (text = obj.errorMsg);
-            }
-            if (!text || typeof text !== core.types.CONSTANTS.STRING) {
-                return;
-            }
-            if (!String.isNullOrEmpty(text) && priv.toolTip) {
-                priv.toolTip.innerHTML = text;
-                this.placeToolTip(coord, useOffset);
-                this.closeToolTip();
-            }
+        if (!String.isNullOrEmpty(obj.toolTip)) {
+            text = obj.toolTip;
+        } else if (obj.ownerShowToolTip) {
+            !String.isNullOrEmpty(obj.owner.toolTip) && (text = obj.owner.toolTip);
+        }
+        if (core.classes.CustomTextControl && obj instanceof core.classes.CustomTextControl) {
+            obj.hasError && (text = obj.errorMsg);
+        }
+        if (!text || typeof text !== core.types.CONSTANTS.STRING) {
+            return;
+        }
+        if (!String.isNullOrEmpty(text) && priv.toolTip) {
+            priv.toolTip.innerHTML = text;
+            this.placeToolTip(coord, useOffset);
+            this.closeToolTip();
         }
     }
     /**

@@ -476,7 +476,7 @@ class Calendar extends ThemedControl {
             case Keyboard.VKEYSCODES.VK_END:
                 this.goToThisDay();
                 break;
-            case Keyboard.VKEYSCODES.VK_PRIOR:
+            case Keyboard.VKEYSCODES.VK_PAGEUP:
                 switch (priv.mode) {
                     default:
                         priv.curDate = priv.curDate.addMonths(-1);
@@ -495,7 +495,7 @@ class Calendar extends ThemedControl {
                         break;
                 }
                 break;
-            case Keyboard.VKEYSCODES.VK_NEXT:
+            case Keyboard.VKEYSCODES.VK_PAGEDOWN:
                 switch (priv.mode) {
                     default:
                         priv.curDate = priv.curDate.addMonths(1);

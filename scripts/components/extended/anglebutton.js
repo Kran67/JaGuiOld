@@ -248,10 +248,10 @@ class AngleButton extends Button {
             case VKeysCodes.VK_END:
                 priv.value = 0;
                 break;
-            case VKeysCodes.VK_PRIOR:
+            case VKeysCodes.VK_PAGEUP:
                 priv.value += priv.frequency * 5;
                 break;
-            case VKeysCodes.VK_NEXT:
+            case VKeysCodes.VK_PAGEDOWN:
                 priv.value -= priv.frequency * 5;
                 break;
         }

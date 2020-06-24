@@ -55,7 +55,6 @@ class PopupButton extends Button {
             case Keyboard.VKEYSCODES.VK_UP:
             case Keyboard.VKEYSCODES.VK_RIGHT:
             case Keyboard.VKEYSCODES.VK_DOWN:
-            case Keyboard.VKEYSCODES.VK_RETURN:
             case Keyboard.VKEYSCODES.VK_ENTER:
                 !form.popups.isEmpty && form.popups.last.keyDown();
                 core.keyboard.stopEvent();
@@ -68,7 +67,6 @@ class PopupButton extends Button {
     //#region keyUp
     keyUp() {
         switch (core.keyboard.key) {
-            case Keyboard.VKEYSCODES.VK_RETURN:
             case Keyboard.VKEYSCODES.VK_ENTER:
                 core.keyboard.stopEvent();
                 break;

@@ -46,7 +46,7 @@ class Bindable extends BaseClass {
         const dataBindings = core.private(this).dataBindings;
         const form = this.form;
         //#endregion Variables déclaration
-        dataBindings.filter(item => item.property === property)
+        !this.updating && dataBindings.filter(item => item.property === property)
             .forEach(dataBinding => {
                 const destination = dataBinding.destination;
                 if (form[destination.component]) {

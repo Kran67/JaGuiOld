@@ -28,8 +28,8 @@
     top: 0;
 }
 
-.TextBox.required.haserror {
-    border-color: red;
+.TextBox.haserror {
+    border-color: red !important;
 }
 
 .TextBox.haserror:after {

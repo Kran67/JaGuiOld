@@ -287,10 +287,10 @@ class ItemsWheel extends ThemedControl {
             case VKEYSCODES.VK_END:
                 this.index = this.items.length - 1;
                 break;
-            case VKEYSCODES.VK_PRIOR:
+            case VKEYSCODES.VK_PAGEUP:
                 this.index -= 5;
                 break;
-            case VKEYSCODES.VK_NEXT:
+            case VKEYSCODES.VK_PAGEDOWN:
                 this.index += 5;
                 break;
         }

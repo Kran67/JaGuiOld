@@ -167,7 +167,6 @@ class ListBoxColorPopup extends ListBox {
         //#endregion Variables déclaration
         super.keyUp();
         switch (core.keyboard.key) {
-            case VKEYSCODES.VK_RETURN:
             case VKEYSCODES.VK_ENTER:
                 this.selectItem(this.items[this.itemIndex]);
                 break;

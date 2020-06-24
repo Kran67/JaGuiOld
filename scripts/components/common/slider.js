@@ -540,12 +540,12 @@ class Slider extends ThemedControl {
                 //if ($j.keyboard.shift && this.mode === $j.types.sliderModes.RANGE) this.setValues([this.leftValue, this.max])
                 //else this.setValues([this.max, this.rightValue]);
                 break;
-            case VKEYSCODES.VK_PRIOR:
+            case VKEYSCODES.VK_PAGEUP:
                 shift && priv.mode === SLIDERMODES.RANGE
                     ? this.scrollBy(0, -priv.frequency * 2)
                     : this.scrollBy(-priv.frequency * 2, 0);
                 break;
-            case VKEYSCODES.VK_NEXT:
+            case VKEYSCODES.VK_PAGEDOWN:
                 shift && priv.mode === SLIDERMODES.RANGE
                     ? this.scrollBy(0, priv.frequency * 2)
                     : this.scrollBy(priv.frequency * 2, 0);

@@ -140,7 +140,7 @@ class Apps {
         if (dealEvent) {
             switch (core.keyboard.key) {
                 case vKeysCodes.VK_SPACE:
-                case vKeysCodes.VK_RETURN:
+                case vKeysCodes.VK_ENTER:
                     if (form) {
                         form.focusedControl ? form.focusedControl.keyDown() : form.keyDown();
                     }
@@ -278,7 +278,7 @@ class Apps {
                     }
                     break;
                 case vKeysCodes.VK_SPACE:
-                case vKeysCodes.VK_RETURN:
+                case vKeysCodes.VK_ENTER:
                     if (form) {
                         if (!form.popups.isEmpty) {
                             form.popups.last.keyUp();
