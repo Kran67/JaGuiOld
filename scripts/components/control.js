@@ -352,7 +352,7 @@ class Control extends Component {
             form.focusedControl && (core.classes.CustomTextControl
                 && form.focusedControl instanceof core.classes.CustomTextControl) && !newValue
                 && (lastFc = form.focusedControl);
-        
+
             if (newValue) {
                 form.focusedControl = this;
             } else if (form.focusedControl === this) {
@@ -1714,15 +1714,14 @@ class Control extends Component {
         } else {
             control = this;
         }
-        //console.log(event.type, event.target);
         activeWin = control.form.app.activeWindow;
         activeWin.capturedControl && (control = activeWin.capturedControl);
-        //core.keyboard.getKeyboardInfos(event);
         core.mouse.getMouseInfos(event);
         if (!control || control.form.destroying || (!control.isEnabled && event.type !== MOUSEEVENTS.MOVE)
             || !control.mouseEvents.has(event.type)) {
-            if (event.type === MOUSEEVENTS.DOWN && control.closePopups) {
-                control.form.closePopups();
+            if (event.type === MOUSEEVENTS.DOWN) {
+                control.closePopups && control.form.closePopups();
+                control.setFocus();
             }
             return;
         }
