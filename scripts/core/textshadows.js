@@ -41,6 +41,7 @@ class TextShadows {
     //#region Constructor
     constructor(owner, props) {
         props = !props ? {} : props;
+        this.internalKey = String.uniqueId();
         if (owner) {
             core.classes.newCollection(this, this, TextShadowsItem);
             if (props.textShadows) {

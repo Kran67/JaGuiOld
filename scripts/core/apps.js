@@ -33,6 +33,7 @@ class Apps {
      * Create a new instance of Application.
      */
     constructor() {
+        this.internalKey = String.uniqueId();
         core.private(this, { applications: {}, activeApplication: null, capslock: 'UNKNOWN' });
     }
     //#region Getters / Setters

@@ -5,6 +5,5 @@
     'Window1.Tab2': 'tab2',
     'Window1.Tab3': 'tab3',
     'Window1.Tab4': 'tab4',
-    'Window1.Tab5': 'tab5',
-    'Window1.CornerButton1': 'blabla'
+    'Window1.Tab5': 'tab5'
 };

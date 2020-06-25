@@ -1734,7 +1734,6 @@ class Control extends Component {
                 }
                 break;
             case MOUSEEVENTS.DOWN:
-                console.log(control.constructor.name, event.target);
                 if (activeWin !== control.form) {
                     activeWin.mainMenu && (activeWin.mainMenu.isActive = !1);
                     activeWin.app.closeAllPopups();

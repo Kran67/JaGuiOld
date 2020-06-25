@@ -101,8 +101,6 @@ class Bindable extends BaseClass {
                 typeof this[property] === typeof form[component][propertyComponent]) {
                 //priv.dataBindings.push(dataBinding);
                 core.private(this).dataBindings.push(dataBinding);
-            } else {
-                console.log('');
             }
         }
     }

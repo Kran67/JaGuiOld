@@ -142,6 +142,7 @@ class Classes {
             }
         });
         obj[propName].convertToCollection(owner, itemsClass);
+        !obj.internalKey && console.log(obj.name, obj.constructor.name);
     }
     //#endregion newCollection
     //#region getClassName

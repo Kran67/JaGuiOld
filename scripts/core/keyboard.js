@@ -183,23 +183,12 @@ class Keyboard {
         const VKEYSCODES = Keyboard.VKEYSCODES;
         const KEYBORDEVENTS = Keyboard.KEYBORDEVENTS;
         //#endregion Variables déclaration
-        console.log(keyboardEventArg.key);
         this.event = keyboardEventArg;
         this.ctrl = keyboardEventArg.ctrlKey;
         this.alt = keyboardEventArg.altKey;
         this.shift = keyboardEventArg.shiftKey;
-        this.key = keyboardEventArg.key;//keyboardEventArg.type === 'keypress'
-        //    ? (keyboardEventArg.charCode !== 0) ? keyboardEventArg.charCode : keyboardEventArg.key
-        //    : keyboardEventArg.key;
+        this.key = keyboardEventArg.key;
         this.meta = keyboardEventArg.metaKey;
-        //if (core.browser.ff && (keyboardEventArg.type === 'keypress')) {
-        //    this.key = keyboardEventArg.charCode !== 0 && this.keyTable[keyboardEventArg.charCode] ? this.keyTable[keyboardEventArg.charCode] : //keyboardEventArg.key;
-        //    this.keyChar = keyboardEventArg.charCode !== 0 ? String.fromCharCode(keyboardEventArg.charCode) : String.EMPTY;
-        //} else {
-        //    const key = keyboardEventArg.which || keyboardEventArg.key;
-        //    this.keyChar = key === VKEYSCODES.VK_SHIFT || key === VKEYSCODES.VK_CONTROL || key === VKEYSCODES.VK_ALT
-        //        ? String.EMPTY : String.fromCharCode(key);
-        //}
         !this.shift && (this.keyChar = this.keyChar.toLowerCase());
         this.keyEvent = !core.isKeyDown ? KEYBORDEVENTS.NONE : KEYBORDEVENTS.DOWN;
         core.tools.isFunc(core.onGetMouseInfos) && core.onGetMouseInfos();

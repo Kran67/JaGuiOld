@@ -730,7 +730,7 @@ class Component extends Bindable {
     unBindAndDestroyEvents(eventsName) {
         Array.isArray(eventsName)
             && eventsName.forEach(eventName => {
-                console.log(eventName);
+                //console.log(eventName);
                 this[eventName].destroy();
                 this[eventName] = null;
                 delete this[eventName];

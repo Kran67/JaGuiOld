@@ -213,17 +213,20 @@ class MaskedTextBox extends CustomTextControl {
         const priv = core.private(this);
         const k = core.keyboard.key;
         const pos = this.caret();
+        const VKEYSCODES = Keyboard.VKEYSCODES;
+        const EXCLUDED_KEYS = [VKEYSCODES.VK_NONE, VKEYSCODES.VK_BACKSPACE, VKEYSCODES.VK_TAB, VKEYSCODES.VK_SHIFT, VKEYSCODES.VK_CONTROL, 
+            VKEYSCODES.VK_ALT, VKEYSCODES.VK_ALTGR, VKEYSCODES.VK_META, VKEYSCODES.VK_PAUSE, VKEYSCODES.VK_CAPSLOCK, VKEYSCODES.VK_ESCAPE];
         //#endregion Variables déclaration
         super.keyPress();
         if (!core.keyboard.ctrl && !core.keyboard.alt && !core.keyboard.meta &&
-            !core.keyboard.event.which < Keyboard.VKEYSCODES.VK_SPACE && k) {
+            EXCLUDED_KEYS.indexOf(core.keyboard.event.key) === -1 && k) {
             if (pos.end - pos.begin !== 0) {
                 this.clearBuffer(pos.begin, pos.end);
                 this.shiftL(pos.begin, pos.end - 1);
             }
             const p = this.seekNext(pos.begin - 1);
             if (p < priv.mask.length) {
-                const c = core.keyboard.keyChar;
+                const c = core.keyboard.key
                 if (priv.tests[p].test(c)) {
                     this.shiftR(p);
                     priv.buffer[p] = c;

@@ -34,7 +34,6 @@ Controls à faire :
   GradientEdit  (1)
   
   FindReplaceDialog  (2)
-  ColorDialog  (2)
   PropertyGrid  (2)
   
   BitmapAnimation  (7)

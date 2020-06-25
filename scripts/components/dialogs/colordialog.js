@@ -143,7 +143,6 @@ class ColorDlg extends Window {
         this.clrQuad._updating();
         this.clrQuad.color = color;
         this.clrQuad.updated();
-        console.log(this.clrQuad.color.red, this.clrQuad.color.green, this.clrQuad.color.blue);
         updateSliders && this.updateSliders(color);
         func = funcs[this.txtbHex.btns.first.mode] ? funcs[this.txtbHex.btns.first.mode] : 'toRGBHexString';
         this.txtbHex.text = this.clrBoxNewColor.fillColor[func]();
