@@ -74,7 +74,7 @@ class MaskedTextBox extends CustomTextControl {
                 maskArray[i] !== '?' && (priv.buffer[i] = priv.maskDefinitions[maskArray[i]] ? priv.blankSpace : maskArray[i]);
             }
             this.checkVal();
-            this.inputObj.placeholder = priv.mask;
+            this.placeHolder = priv.mask;
         }
     }
     //#endregion makeMask

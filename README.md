@@ -16,11 +16,9 @@ Javascript Advanced Graphical User Interface
 - CaptionControl : finir set textDecoration
 - Window : dans la méthode center, gérer la position en fonction de SCREECENTER ou MAINFORMCENTER
 - MaskedTextBox : si le champ est vide, mettre le placeholder
-- CheckBox : mettre en flex
 
 ### Apps :
 - Vérifier la tabulation entre composants
-  
 
 ### Traduction :
 - Si la langue n'existe pas, prendre l'anglais par défaut
