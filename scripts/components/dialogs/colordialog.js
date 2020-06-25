@@ -143,6 +143,7 @@ class ColorDlg extends Window {
         this.clrQuad._updating();
         this.clrQuad.color = color;
         this.clrQuad.updated();
+        console.log(this.clrQuad.color.red, this.clrQuad.color.green, this.clrQuad.color.blue);
         updateSliders && this.updateSliders(color);
         func = funcs[this.txtbHex.btns.first.mode] ? funcs[this.txtbHex.btns.first.mode] : 'toRGBHexString';
         this.txtbHex.text = this.clrBoxNewColor.fillColor[func]();
@@ -237,8 +238,8 @@ class ColorDlg extends Window {
         const v = Math.max(Math.min(int(this.text), form.slrRed.max), form.slrRed.min);
         //#endregion Variables déclaration
         c.red = v;
-        form.slrRed.values = [v,0];
-        form.updateControls(c);
+        //form.slrRed.values = [v,0];
+        form.updateControls(c, !0);
         this.setFocus();
     }
     //#endregion txtbRed_change
@@ -250,8 +251,8 @@ class ColorDlg extends Window {
         const v = Math.max(Math.min(int(this.text), form.slrGreen.max), form.slrGreen.min);
         //#endregion Variables déclaration
         c.green = v;
-        form.slrGreen.values = [v,0];
-        form.updateControls(c);
+        //form.slrGreen.values = [v,0];
+        form.updateControls(c, !0);
         this.setFocus();
     }
     //#endregion txtbGreen_change
@@ -263,8 +264,8 @@ class ColorDlg extends Window {
         const v = Math.max(Math.min(int(this.text), form.slrBlue.max), form.slrBlue.min);
         //#endregion Variables déclaration
         c.blue = v;
-        form.slrBlue.values = [v,0];
-        form.updateControls(c);
+        //form.slrBlue.values = [v,0];
+        form.updateControls(c, !0);
         this.setFocus();
     }
     //#endregion txtbBlue_change
@@ -276,8 +277,8 @@ class ColorDlg extends Window {
         const v = Math.max(Math.min(int(this.text), form.slrHue.max), form.slrHue.min);
         //#endregion Variables déclaration
         c.hue = v;
-        form.updateControls(c);
-        form.slrHue.values = [v,0];
+        form.updateControls(c, !0);
+        //form.slrHue.values = [v,0];
         this.setFocus();
     }
     //#endregion txtbHue_change
@@ -289,8 +290,8 @@ class ColorDlg extends Window {
         const v = Math.max(Math.min(int(this.text), form.slrSat.max), form.slrSat.min);
         //#endregion Variables déclaration
         c.saturation = v;
-        form.slrSat.values = [v,0];
-        form.updateControls(c);
+        //form.slrSat.values = [v,0];
+        form.updateControls(c, !0);
         this.setFocus();
     }
     //#endregion txtbSat_change
@@ -302,8 +303,8 @@ class ColorDlg extends Window {
         const v = Math.max(Math.min(int(this.text), form.slrLight.max), form.slrLight.min);
         //#endregion Variables déclaration
         c.lightness = v;
-        form.slrLight.values = [v,0];
-        form.updateControls(c);
+        //form.slrLight.values = [v,0];
+        form.updateControls(c, !0);
         this.setFocus();
     }
     //#endregion txtbLight_change
@@ -315,8 +316,8 @@ class ColorDlg extends Window {
         const v = Math.max(Math.min(int(this.text), form.slrHSVHue.max), form.slrHSVHue.min);
         //#endregion Variables déclaration
         c.hue = v;
-        form.slrHSVHue.values = [v,0];
-        form.updateControls(c);
+        //form.slrHSVHue.values = [v,0];
+        form.updateControls(c, !0);
         this.setFocus();
     }
     //#endregion txtbHSVHue_change
@@ -328,8 +329,8 @@ class ColorDlg extends Window {
         const v = Math.max(Math.min(int(this.text), form.slrHSVSat.max), form.slrHSVSat.min);
         //#endregion Variables déclaration
         c.saturation = v;
-        form.slrHSVSat.values = [v,0];
-        form.updateControls(c);
+        //form.slrHSVSat.values = [v,0];
+        form.updateControls(c, !0);
         this.setFocus();
     }
     //#endregion txtbHSVSat_change
@@ -341,8 +342,8 @@ class ColorDlg extends Window {
         const v = Math.max(Math.min(int(this.text), form.slrValue.max), form.slrValue.min);
         //#endregion Variables déclaration
         c.value = v;
-        form.slrValue.values = [v,0];
-        form.updateControls(c);
+        //form.slrValue.values = [v,0];
+        form.updateControls(c, !0);
         this.setFocus();
     }
     //#endregion txtbValue_change
@@ -480,7 +481,7 @@ if (core.isHTMLRenderer) {
         '"templateRows": "23px 23px 23px", "columnGap": 0, "rowGap": 3 }</properties>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblHue", "vertAlign": "middle" }</properties></jagui-label>',
-        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrHue", "values": [0,0], "max": 360, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbHue", "property": "text", "converter": "intToStr" } }], "onChange": "slider_change" }</properties></jagui-slider>',
+        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrHue", "values": [0,0], "max": 359, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbHue", "property": "text", "converter": "intToStr" } }], "onChange": "slider_change" }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbHue", "filterChars": "0123456789", "onChange": "txtbHue_change" }</properties></jagui-textbox>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblSat", "vertAlign": "middle", "column": 1, "row": 2 }</properties></jagui-label>',
@@ -499,7 +500,7 @@ if (core.isHTMLRenderer) {
         '"templateRows": "23px 23px 23px", "columnGap": 0, "rowGap": 3 }</properties>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblHSVHue", "vertAlign": "middle" }</properties></jagui-label>',
-        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrHSVHue", "values": [0,0], "max": 360, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbHSVHue", "property": "text", "converter": "intToStr" } }], "onChange": "slider_change" }</properties></jagui-slider>',
+        '<jagui-slider id="{internalId}" data-class="Slider" class="Control Slider {theme}"><properties>{"name": "slrHSVHue", "values": [0,0], "max": 359, "margin": { "left": 15, "right": 15 }, "dataBindings": [{ "property": "firstValue", "destination": { "component": "txtbHSVHue", "property": "text", "converter": "intToStr" } }], "onChange": "slider_change" }</properties></jagui-slider>',
         '<jagui-textbox id="{internalId}" data-class="TextBox" class="Control TextBox {theme}"><properties>{ "name": "txtbHSVHue", "filterChars": "0123456789", "onChange": "txtbHSVHue_change" }</properties></jagui-textbox>',
         '<jagui-label id="{internalId}" data-class="Label" class="Control Label {theme}">',
         '<properties>{ "name": "lblHSVSat", "vertAlign": "middle", "column": 1, "row": 2 }</properties></jagui-label>',
