@@ -1,6 +1,7 @@
 ﻿//#region Imports
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
+import { Mouse } from '/scripts/core/mouse.js';
 import { Tab } from '/scripts/components/containers/tab.js';
 //#endregion Imports
 //#region CustomTabControl constants
@@ -376,6 +377,8 @@ class CustomTabControl extends ThemedControl {
         if (htmlElement) {
             priv.tabsHeader = htmlElement.querySelector('.TabControlHeader');
             priv.tabsContainer = htmlElement.querySelector('.TabsContainer');
+            priv.tabsContainer.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { this.wheel(event); });
+            priv.tabsContainer.jsObj = this;
             const nodes = priv.tabsContainer.childNodes;
             nodes.forEach(node => {
                 if (node.nodeType === core.types.XMLNODETYPES.ELEMENT_NODE) {
@@ -590,6 +593,14 @@ class CustomTabControl extends ThemedControl {
         this.checkTabsPosition();
     }
     //#endregion loaded
+    //#region wheel
+    wheel(event) {
+        core.mouse.getMouseInfos(event);
+        core.mouse.preventDefault(event);
+        this.setFocus();
+        this.selectNextTab(core.mouse.wheelDir === Mouse.MOUSEWHEELDIRS.DOWN, !0);
+    }
+    //#endregion wheel
     //#endregion Methods
 }
 Object.seal(CustomTabControl);

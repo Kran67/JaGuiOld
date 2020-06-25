@@ -9,7 +9,6 @@ Javascript Advanced Graphical User Interface
 ### Controls :
 - SplitToolButton : vérifier l'icône, une fois le composant ImageList ajouté
 - Dialog : gérer le bouton par défaut
-- PageControl / TabControl : ajouter wheel sur les tabs
 - DropDownListBox : Finir de tester les différentes méthodes, mettre pointer-events:none si pas editable
 - DropDownTimePanel : ne perd pas le focus
 - CaptionControl : finir set textDecoration
