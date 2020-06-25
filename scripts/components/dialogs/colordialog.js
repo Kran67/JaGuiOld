@@ -64,6 +64,7 @@ class ColorDlg extends Window {
             this.txtbHex.btns.first.mode = 'rgbh';
             this.updateControls(color);
         }
+        console.log(priv.lastFocusedControl);
     }
     //#endregion loaded
     //#region slider_change

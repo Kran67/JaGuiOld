@@ -539,6 +539,7 @@ class BaseWindow extends ThemedControl {
                 titleBarObj: {},
                 firstShow: !0,
                 controlsToResize: [],
+                lastFocusedControl: null,
                 focusedControl: null,
                 hoveredControl: null,
                 capturedControl: null,
@@ -1329,7 +1330,7 @@ class BaseWindow extends ThemedControl {
             }
         }
         priv.isModal = !1;
-
+        priv.lastFocusedControl.setFocus();
     }
     //#endregion hide
     //#region minimize
@@ -1774,7 +1775,6 @@ class BaseWindow extends ThemedControl {
             this.classList.remove('bounceOut', 'animated', 'inactive');
         }
         jsObj.visible = !1;
-        //this.dataset.isactive = !1;
         jsObj.onClose.invoke();
         jsObj.app.lastActiveWindow.length === 0 && (core.private(jsObj).destroyOnHide = !0);
         jsObj.destroyOnHide && jsObj.destroy();
@@ -1793,6 +1793,7 @@ class BaseWindow extends ThemedControl {
         const priv = core.private(this);
         const isHtmlRenderer = core.isHTMLRenderer;
         //#endregion Variables déclaration
+        priv.lastFocusedControl = activeWindow.focusedControl;
         if (isHtmlRenderer) {
             glass = document.createElement(core.types.HTMLELEMENTS.DIV);
             glass.classList.add('Control', 'glass');

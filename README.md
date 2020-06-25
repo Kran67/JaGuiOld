@@ -4,7 +4,6 @@ Javascript Advanced Graphical User Interface
 ## TODO
 ### All : 
 - Vérifier la suppression de toutes les propriétés des objets
-- Si une boite de dialogue ou une fenetre modal se ferme, remettre le focus sur l'ancien controle
 - Revoir la gestion clavier sur tous les composants
   
 ### Controls :
@@ -15,7 +14,6 @@ Javascript Advanced Graphical User Interface
 - DropDownTimePanel : ne perd pas le focus
 - CaptionControl : finir set textDecoration
 - Window : dans la méthode center, gérer la position en fonction de SCREECENTER ou MAINFORMCENTER
-- MaskedTextBox : si le champ est vide, mettre le placeholder
 
 ### Apps :
 - Vérifier la tabulation entre composants

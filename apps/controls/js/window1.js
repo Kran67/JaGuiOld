@@ -172,7 +172,7 @@ class Window1 extends Window {
             });
             reader.readAsDataURL(availableFiles[0]);
         });
-        this.form.OpenDialog1.execute();
+        this.form.OpenDialog1.execute(this);
     }
     Label1_onClick() {
         this.form.FontDialog1.execute(this);
