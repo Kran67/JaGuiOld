@@ -27,7 +27,7 @@ class ToolButton extends BitmapButton {
             super(owner, props);
             core.private(this, {
                 imageIndex: props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1,
-                action: props.hasOwnProperty('action') && this.form.hasOwnProperty(props.action) ? props.action : null
+                action: null
             });
         }
     }
@@ -72,6 +72,9 @@ class ToolButton extends BitmapButton {
         if (priv.imageIndex > -1 && imgs && thisimgs.images[priv.imageIndex]) {
             lElementChildStyle.backgroundImage = `url(${imgs.images[priv.imageIndex]})`;
             lElementChildStyle.backgroundSize = `${imgs.width}${PX} ${imgs.height}${PX}`;
+        }
+        if (priv.props.hasOwnProperty('action') && this.form[priv.props.action]) {
+            this.action = this.form[priv.props.action];
         }
     }
     //#endregion loaded

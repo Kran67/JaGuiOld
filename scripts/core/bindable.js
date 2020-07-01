@@ -126,6 +126,41 @@ class Bindable extends BaseClass {
         super.destroy();
     }
     //#endregion destroy
+    //#region createEventsAndBind
+    createEventsAndBind(eventsName, props) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const form = priv.form;
+        //#endregion Variables déclaration
+        if (Array.isArray(eventsName)) {
+            eventsName.forEach(eventName => {
+                const eventValue = props[eventName];
+                this[eventName] = new core.classes.NotifyEvent(this);
+                if (props.hasOwnProperty(eventName)) {
+                    if (core.tools.isFunc(form[eventValue])) {
+                        this[eventName].addListener(form[eventValue]);
+                    } else if (core.tools.isString(eventValue)) {
+                        !String.isNullOrEmpty(eventValue)
+                            && this[eventName].addListener(new Function(eventValue));
+                    } else if (core.tools.isFunc(eventValue)) {
+                        this[eventName].addListener(eventValue);
+                    }
+                }
+            });
+        }
+    }
+    //#endregion createEventsAndBind
+    //#region unBindAndDestroyEvents
+    unBindAndDestroyEvents(eventsName) {
+        Array.isArray(eventsName)
+            && eventsName.forEach(eventName => {
+                //console.log(eventName);
+                this[eventName].destroy();
+                this[eventName] = null;
+                delete this[eventName];
+            });
+    }
+    //#endregion unBindAndDestroyEvents
     //#endregion Methods
 }
 core.classes.register(core.types.CATEGORIES.INTERNAL, Bindable);

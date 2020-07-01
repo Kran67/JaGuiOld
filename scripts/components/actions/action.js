@@ -1,12 +1,57 @@
 ﻿//#region Imports
-import { Component } from '/scripts/core/component.js';
-import { Tools } from '/scripts/core/tools.js';
+import { Bindable } from '/scripts/core/bindable.js';
 //#endregion
-//#region Action
-/**
- * Class representing an Action.
- * @extends {Component}
- */
+//#region COMMANDS
+const COMMANDS = {
+    NONE: 'none',
+    BACKCOLOR: 'backColor',
+    BOLD: 'bold',
+    CONTENTREADONLY: 'contentReadOnly',
+    COPY: 'copy',
+    CREATELINK: 'createLink',
+    CUT: 'cut',
+    DECREASEFONTSIZE: 'decreaseFontSize',
+    DELETE: 'delete',
+    ENABLEINLINETABLEEDITING: 'enableInlineTableEditing',
+    ENABLEOBJECTRESIZING: 'enableObjectResizing',
+    FONTNAME: 'fontName',
+    FONTSIZE: 'fontSize',
+    FORECOLOR: 'foreColor',
+    FORMATBLOCK: 'formatBlock',
+    FORWARDDELETE: 'forwardDelete',
+    HEADING: 'heading',
+    HILITECOLOR: 'hiliteColor',
+    INCREASEFONTSIZE: 'increaseFontSize',
+    INDENT: 'indent',
+    INSERTBRONRETURN: 'insertBrOnReturn',
+    INSERTHORIZONTALRULE: 'insertHorizontalRule',
+    INSERTHTML: 'insertHTML',
+    INSERTIMAGE: 'insertImage',
+    INSERTORDEREDLIST: 'insertOrderedList',
+    INSERTUNORDEREDLIST: 'insertUnorderedList',
+    INSERTPARAGRAPH: 'insertParagraph',
+    INSERTTEXT: 'insertText',
+    ITALIC: 'italic',
+    JUSTIFYCENTER: 'justifyCenter',
+    JUSTIFYFULL: 'justifyFull',
+    JUSTIFYLEFT: 'justifyLeft',
+    JUSTIFYRIGHT: 'justifyRight',
+    OUTDENT: 'outdent',
+    PASTE: 'paste',
+    REDO: 'redo',
+    REMOVEFORMAT: 'removeFormat',
+    SELECTALL: 'selectAll',
+    STRIKETHROUGH: 'strikeThrough',
+    SUBSCRIPT: 'subscript',
+    SUPERSCRIPT: 'superscript',
+    UNDERLINE: 'underline',
+    UNDO: 'undo',
+    UNLINK: 'unlink',
+    USECSS: 'useCSS',
+    STYLEWITHCSS: 'styleWithCSS'
+}
+Object.seal(Object.freeze(COMMANDS));
+//#endregion COMMANDS
 //#region Action
 class Action extends Bindable {
     /**
@@ -19,28 +64,41 @@ class Action extends Bindable {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            const priv = internal(this);
             core.private(this, {
                 propertiesToUpdate: ['caption', 'checked', 'enabled', 'groupIndex', 'hint', 'imageIndex', 'shortCut', 'visible', 'autoCheck'],
-                caption: String.EMPTY,
-                checked: !1,
-                enabled: !0,
-                groupIndex: 0,
-                hint: String.EMPTY,
-                imageIndex: -1,
-                shortCut: String.EMPTY,
-                autoCheck: !1,
+                caption: props.hasOwnProperty('caption') ? props.caption : String.EMPTY,
+                checked: props.hasOwnProperty('checked') && core.tools.isBool(props.checked) ? props.checked : !1,
+                enabled: props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0,
+                groupIndex: props.hasOwnProperty('groupIndex') && core.tools.isNumber(props.groupIndex) ? props.groupIndex : 0,
+                hint: props.hasOwnProperty('hint') ? props.hint : String.EMPTY,
+                imageIndex: props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1,
+                shortCut: props.hasOwnProperty('shortCut') ? props.shortCut : String.EMPTY,
+                autoCheck: props.hasOwnProperty('autoCheck') && core.tools.isBool(props.autoCheck) ? props.autoCheck : !1,
                 targets: [],
-                visible: !0
+                visible: props.hasOwnProperty('visible') && core.tools.isBool(props.visible) ? props.visible : !0
             });
-            const form = this.form;
+            core.tools.addPropertyFromEnum({
+                component: this,
+                propName: 'command',
+                enum: COMMANDS,
+                setter: function (newValue) {
+                    //#region Variables déclaration
+                    const priv = core.private(this);
+                    //#endregion Variables déclaration
+                    if (core.tools.valueInSet(newValue, COMMANDS) && priv.command !== newValue) {
+                        priv.command = newValue;
+                    }
+                },
+                value: props.hasOwnProperty('command') ? props.command : COMMANDS.NONE
+            });
+            const form = owner.form;
             this.createEventsAndBind(['onHint', 'onChange', 'onExecute', 'onUpdate'], props);
             if (props.hasOwnProperty('onExecute')) {
                 if (form[props.onExecute]) {
                     this.onExecute.addListener(form[props.onExecute]);
-                } else if (Tools.isString(props.onExecute)) {
+                } else if (core.tools.isString(props.onExecute)) {
                     this.onExecute.addListener(new Function(props.onExecute));
-                } else if (Tools.isFunc(props.onExecute)) {
+                } else if (core.tools.isFunc(props.onExecute)) {
                     this.onExecute.addListener(props.onExecute);
                 }
             }
@@ -48,14 +106,17 @@ class Action extends Bindable {
     }
     //#endregion constructor
     //#region Getter / Setters
+    static get COMMANDS() {
+        return COMMANDS;
+    }
     //#region targets
     get targets() {
-        return internal(this).targets;
+        return core.private(this).targets;
     }
     //#endregion targets
     //#region propertiesToUpdate
     get propertiesToUpdate() {
-        return internal(this).propertiesToUpdate;
+        return core.private(this).propertiesToUpdate;
     }
     //#endregion propertiesToUpdate
     /**
@@ -63,15 +124,17 @@ class Action extends Bindable {
      */
     //#region caption
     get caption() {
-        return internal(this).caption;
+        return core.private(this).caption;
     }
     /**
      * Set the caption property
      * @param   {String}    newValue    the new value
      */
     set caption(newValue) {
-        const priv = internal(this);
-        if (Tools.isString(newValue)) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isString(newValue)) {
             if (priv.caption !== newValue) {
                 priv.caption = newValue;
                 this.change();
@@ -84,15 +147,17 @@ class Action extends Bindable {
      */
     //#region checked
     get checked() {
-        return internal(this).checked;
+        return core.private(this).checked;
     }
     /**
      * Set the checked property
      * @param   {String}    newValue    the new value
      */
     set checked(newValue) {
-        const priv = internal(this);
-        if (Tools.isBool(newValue)) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isBool(newValue)) {
             if (priv.checked !== newValue) {
                 priv.checked = newValue;
                 this.change();
@@ -105,15 +170,17 @@ class Action extends Bindable {
      */
     //#region enabled
     get enabled() {
-        return internal(this).enabled;
+        return core.private(this).enabled;
     }
     /**
      * Set the enabled property
      * @param   {String}    newValue    the new value
      */
     set enabled(newValue) {
-        const priv = internal(this);
-        if (Tools.isBool(newValue)) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isBool(newValue)) {
             if (priv.enabled !== newValue) {
                 priv.enabled = newValue;
                 this.change();
@@ -126,15 +193,17 @@ class Action extends Bindable {
      */
     //#region groupIndex
     get groupIndex() {
-        return internal(this).groupIndex;
+        return core.private(this).groupIndex;
     }
     /**
      * Set the groupIndex property
      * @param   {String}    newValue    the new value
      */
     set groupIndex(newValue) {
-        const priv = internal(this);
-        if (Tools.isNumber(newValue)) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue)) {
             if (priv.groupIndex !== newValue) {
                 priv.groupIndex = newValue;
                 this.change();
@@ -147,15 +216,17 @@ class Action extends Bindable {
      */
     //#region hint
     get hint() {
-        return internal(this).hint;
+        return core.private(this).hint;
     }
     /**
      * Set the hint property
      * @param   {String}    newValue    the new value
      */
     set hint(newValue) {
-        const priv = internal(this);
-        if (Tools.isString(newValue)) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isString(newValue)) {
             if (priv.hint !== newValue) {
                 priv.hint = newValue;
                 this.change();
@@ -168,15 +239,17 @@ class Action extends Bindable {
      */
     //#region imageIndex
     get imageIndex() {
-        return internal(this).imageIndex;
+        return core.private(this).imageIndex;
     }
     /**
      * Set the imageIndex property
      * @param   {String}    newValue    the new value
      */
     set imageIndex(newValue) {
-        const priv = internal(this);
-        if (Tools.isNumber(newValue)) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue)) {
             if (priv.imageIndex !== newValue) {
                 priv.imageIndex = newValue;
                 this.change();
@@ -189,15 +262,17 @@ class Action extends Bindable {
      */
     //#region shortCut
     get shortCut() {
-        return internal(this).shortCut;
+        return core.private(this).shortCut;
     }
     /**
      * Set the shortCut property
      * @param   {String}    newValue    the new value
      */
     set shortCut(newValue) {
-        const priv = internal(this);
-        if (Tools.isString(newValue)) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isString(newValue)) {
             if (priv.shortCut !== newValue) {
                 priv.shortCut = newValue;
                 this.change();
@@ -210,15 +285,17 @@ class Action extends Bindable {
      */
     //#region autoCheck
     get autoCheck() {
-        return internal(this).autoCheck;
+        return core.private(this).autoCheck;
     }
     /**
      * Set the autoCheck property
      * @param   {String}    newValue    the new value
      */
     set autoCheck(newValue) {
-        const priv = internal(this);
-        if (Tools.isBool(newValue)) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isBool(newValue)) {
             if (priv.autoCheck !== newValue) {
                 priv.autoCheck = newValue;
                 this.change();
@@ -231,15 +308,17 @@ class Action extends Bindable {
      */
     //#region visible
     get visible() {
-        return internal(this).visible;
+        return core.private(this).visible;
     }
     /**
      * Set the visible property
      * @param   {String}    newValue    the new value
      */
     set visible(newValue) {
-        const priv = internal(this);
-        if (Tools.isBool(newValue)) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isBool(newValue)) {
             if (priv.visible !== newValue) {
                 priv.visible = newValue;
                 this.change();
@@ -263,7 +342,9 @@ class Action extends Bindable {
      */
     //#region registerChanges
     registerChanges(component) {
+        //#region Variables déclaration
         const targets = this.targets;
+        //#endregion Variables déclaration
         if (targets.indexOf(component) === -1) {
             targets.push(component);
             this.updateTarget(component);
@@ -276,7 +357,9 @@ class Action extends Bindable {
      */
     //#region unRegisterChanges
     unRegisterChanges(component) {
+        //#region Variables déclaration
         const targets = this.targets;
+        //#endregion Variables déclaration
         if (targets.indexOf(component) > -1) {
             targets.remove(component);
         }
@@ -290,7 +373,6 @@ class Action extends Bindable {
     updateTarget(target) {
         this.propertiesToUpdate.forEach(prop => {
             if (target.hasOwnProperty(prop)) {
-                /*if (typeof target[this._propertiesToUpdate[j].firstCharUpper()] === _const.FUNCTION)*/
                 target[prop.firstCharUpper()] = this[prop];
             }
         });
