@@ -101,7 +101,7 @@ import '/scripts/components/extended/labeleddropdownlistbox.js';
 let lastTime;
 class Window1 extends Window {
     get MAX_DEPTH() { return 32; }
-    get STARS() { return this.stars; }
+    get STARS() { return core.private(this).stars; }
     get TOTALSTARS() { return 512; }
     get SIZE() { return [10, 30]; }
     get SHINEDIR() { return [0.01, 0.05]; }
@@ -111,9 +111,11 @@ class Window1 extends Window {
     //get FRAME() { return (Math.random() * 360) | 0; }
     constructor(owner, props) {
         super(owner, props);
-        this.stars = [];
+        core.private(this, {
+            stars: [],
+            frame: (Math.random() * 360) | 0
+        });
         this.onShow.addListener(this.formShow);
-        this.frame = (Math.random() * 360) | 0;
     }
     rand(ar) {
         return Math.random() * (ar[1] - ar[0]) + ar[0];
@@ -233,7 +235,7 @@ class Window1 extends Window {
                 }
                 break;
             case 1:
-                ++form.FRAME;
+                ++core.private(form).frame;
                 ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.DESTINATIONOUT;
                 ctx.fillStyle = 'rgba(0, 0, 0, .1)';
                 ctx.fillRect(0, 0, htmlElement.offsetWidth, htmlElement.offsetHeight);

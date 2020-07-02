@@ -87,5 +87,10 @@ class BaseClass {
     //#endregion Methods
 }
 core.classes.register(core.types.CATEGORIES.INTERNAL, BaseClass);
+Object.defineProperties(BaseClass.prototype, {
+    'name': {
+        enumerable: !0
+    }
+});
 //#endregion BaseClass
 export { BaseClass };

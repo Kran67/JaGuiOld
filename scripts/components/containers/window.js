@@ -2687,6 +2687,44 @@ class BaseWindow extends ThemedControl {
     //#endregion render
     //#endregion
 }
+Object.defineProperties(BaseWindow.prototype, {
+    'snapArea': {
+        enumerable: !0
+    },
+    'destroyOnHide': {
+        enumerable: !0
+    },
+    'animated': {
+        enumerable: !0
+    },
+    'keyPreview': {
+        enumerable: !0
+    },
+    'icon': {
+        enumerable: !0
+    },
+    'mainMenu': {
+        enumerable: !0
+    },
+    'activeControl': {
+        enumerable: !0
+    },
+    'moveable': {
+        enumerable: !0
+    },
+    'stayOn': {
+        enumerable: !0
+    },
+    'enabledShadow': {
+        enumerable: !0
+    },
+    'position': {
+        enumerable: !0
+    },
+    'buttons': {
+        enumerable: !0
+    }
+});
 //#endregion BaseWindow
 //#region Window constants
 //#region HELPTYPES

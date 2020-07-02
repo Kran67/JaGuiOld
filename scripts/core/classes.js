@@ -52,7 +52,7 @@ class Classes {
         const keys = Object.keys(propertiesCategories);
         //#endregion Variables déclaration
         keys.forEach(key => {
-            propertiesCategories[key].indexOf(prop) > -1 && (cat = [...cat, propertiesCategories[key]]);
+            propertiesCategories[key].properties.indexOf(prop) > -1 && (cat = [...cat, propertiesCategories[key]]);
         });
         cat = [...cat, propertiesCategories.MISCELLANEOUS];
         return cat;

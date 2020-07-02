@@ -301,5 +301,25 @@ class ButtonGlyph extends Button {
     //#endregion
 }
 core.classes.register(core.types.CATEGORIES.COMMON, ButtonGlyph);
+Object.defineProperties(ButtonGlyph.prototype, {
+    'glyphPos': {
+        enumerable: !0
+    },
+    'glyphSize': {
+        enumerable: !0
+    },
+    'glyphSpacing': {
+        enumerable: !0
+    },
+    'glyphMargin': {
+        enumerable: !0
+    },
+    'showCaption': {
+        enumerable: !0
+    },
+    'src': {
+        enumerable: !0
+    }
+});
 //#endregion ButtonGlyph
 export { ButtonGlyph };

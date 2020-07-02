@@ -20,7 +20,7 @@ class Brush extends Bindable {
         super();
         const bitmap = new Image;
         if (owner) {
-            !(color instanceof core.classes.Color) ? color = Colors.BLACK : 1;
+            !(color instanceof core.classes.Color) && (color = Colors.BLACK);
             //#region Properties
             //#region Private Properties
             bitmap.obj = this;
@@ -29,8 +29,8 @@ class Brush extends Bindable {
                 bitmap: bitmap,
                 color: color,
                 bitmapRepeatMode: core.types.BITMAPREPEATMODES.REPEAT,
-                style: style,
-                owner: owner
+                style,
+                owner
             });
             //#endregion Private Properties
             //#region Public Properties
@@ -47,7 +47,7 @@ class Brush extends Bindable {
     set color(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
-        //#enregion Variables déclaration
+        //#endregion Variables déclaration
         if (newValue instanceof core.classes.Color && !newValue.equals(priv.color)) {
             priv.color.assign(newValue);
             this.onChange.invoke();
@@ -72,7 +72,7 @@ class Brush extends Bindable {
     set(newValue) {
         //#region Variables déclaration
         const bitmap = core.private(this).bitmap;
-        //#region Variables déclaration
+        //#endregion Variables déclaration
         if (core.tools.isString(newValue) && newValue !== bitmap.src) {
             bitmap.src = newValue;
             this.onChange.invoke();
@@ -167,6 +167,23 @@ class Brush extends Bindable {
     }
     //#endregion Methods
 }
+Object.defineProperties(Brush.prototype, {
+    'gradient': {
+        enumerable: !0
+    },
+    'bitmap': {
+        enumerable: !0
+    },
+    'color': {
+        enumerable: !0
+    },
+    'bitmapRepeatMode': {
+        enumerable: !0
+    },
+    'style': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.COMMON, Brush);
 //#endregion Brush
 export { Brush };

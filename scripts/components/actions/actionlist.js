@@ -20,8 +20,14 @@ class ActionList extends Component {
             core.classes.newCollection(this, this, Action, "actions");
             this.createEventsAndBind(['onChange', 'onExecute', 'onUpdate'], props);
             props.actions && props.actions.length > 0 && props.actions.forEach(actionProps =>  {
+                //#region Variables déclaration
+                const form = this.form;
                 let act = new core.classes[actionProps.class](this, actionProps);
-                this.form[actionProps.name] = act;
+                //#endregion Variables déclaration
+                form[actionProps.name] = act;
+                Object.defineProperty(form, actionProps.name, {
+                    enumerable: !1
+                });
                 priv.actions.push(act);
             });
         }
@@ -127,6 +133,11 @@ class ActionList extends Component {
     //#endregion Methods
 }
 Object.seal(ActionList);
+Object.defineProperties(ActionList.prototype, {
+    'imageList': {
+        enumerable: !0
+    }
+});
 //#endregion Action
 core.classes.register(core.types.CATEGORIES.COMMON, ActionList);
 //#region Templates

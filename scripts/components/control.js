@@ -2505,6 +2505,86 @@ class Control extends Component {
     }
 }*/
 }
+Object.defineProperties(Component.prototype, {
+    'autoTranslate': {
+        enumerable: !0
+    },
+    'translationKey': {
+        enumerable: !0
+    },
+    'constraints': {
+        enumerable: !0
+    },
+    'ownerShowToolTip': {
+        enumerable: !0
+    },
+    'padding': {
+        enumerable: !0
+    },
+    'margin': {
+        enumerable: !0
+    },
+    'popupMenu': {
+        enumerable: !0
+    },
+    'opacity': {
+        enumerable: !0
+    },
+    'width': {
+        enumerable: !0
+    },
+    'height': {
+        enumerable: !0
+    },
+    'scale': {
+        enumerable: !0
+    },
+    'enabled': {
+        enumerable: !0
+    },
+    'rotateCenter': {
+        enumerable: !0
+    },
+    'toolTip': {
+        enumerable: !0
+    },
+    'showToolTip': {
+        enumerable: !0
+    },
+    'rotateAngle': {
+        enumerable: !0
+    },
+    'customStyle': {
+        enumerable: !0
+    },
+    'cssClasses': {
+        enumerable: !0
+    },
+    'tabOrder': {
+        enumerable: !0
+    },
+    'right': {
+        enumerable: !0
+    },
+    'bottom': {
+        enumerable: !0
+    },
+    'reflected': {
+        enumerable: !0
+    },
+    'column': {
+        enumerable: !0
+    },
+    'row': {
+        enumerable: !0
+    },
+    'colSpan': {
+        enumerable: !0
+    },
+    'rowSpan': {
+        enumerable: !0
+    }
+});
 //#endregion Control
 //#region Templates
 //const controlTpl = ['<div id='{internalId}' data-name='{name}' data-class='{className}' class='Control {className}' style='width:100px;height:100px;'></div>";

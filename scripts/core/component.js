@@ -247,53 +247,12 @@ class Component extends Bindable {
     //#endregion template
     //#region properties
     get properties() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        let prop = null;
-        const htmlElement = priv.HTMLElement;
-        let props = core.tools.getPropertiesFromObject(this);
-        //#endregion Variables déclaration
-        if (!priv.component) {
-            prop = 'width';
-            props = [...props, {
-                property: prop,
-                value: htmlElement.offsetWidth,
-                categories: core.classes.getPropertyCategories(prop)
-            }];
-            prop = 'height';
-            props = [...props, {
-                property: prop,
-                value: htmlElement.offsetHeight,
-                categories: core.classes.getPropertyCategories(prop)
-            }];
-        }
-        prop = 'left';
-        props = [...props, {
-            property: prop,
-            value: htmlElement.offsetLeft,
-            categories: core.classes.getPropertyCategories(prop)
-        }];
-        prop = 'top';
-        props = [...props, {
-            property: prop,
-            value: htmlElement.offsetTop,
-            categories: core.classes.getPropertyCategories(prop)
-        }];
-        return props;
+        return core.tools.getPropertiesFromObject(this);
     }
     //#endregion properties
     //#region events
-    get events() {
-        //#region Variables déclaration
-        let props = [];
-        //#endregion Variables déclaration
-        for (let prop in this) {
-            if (this.hasOwnProperty(prop)) {
-                props = prop.startsWith('on') && this[prop] instanceof core.classes.NotifyEvent
-                    && ([...props, { event: prop, value: this[prop] }]);
-            }
-        }
-        return props;
+    get events() { // TODO à revoir
+        return core.tools.getPropertiesFromObject(this, !0);
     }
     //#endregion events
     //#region isVisible
@@ -353,14 +312,15 @@ class Component extends Bindable {
     get left() {
         //#region Variables déclaration
         const priv = core.private(this);
-        let left = priv.left;
+        const htmlElement = this.HTMLElement;
+        let left = htmlElement.offsetLeft > 0 ? htmlElement.offsetLeft : parseInt(getComputedStyle(this.HTMLElement).left, 10);
         const margin = this.margin;
         const padding = this.padding;
         const right = this.right;
         //#endregion Variables déclaration
         right != null
             && (left = priv.owner.contentWidth - this.width - right - padding.right - margin.right);
-        return left;
+        return priv.left !== left && left > 0 ? left: priv.left;
     }
     set left(newValue) {
         //#region Variables déclaration
@@ -532,7 +492,12 @@ class Component extends Bindable {
             component.owner = this;
             if (form !== component && component.inForm && controls.indexOf(component) === -1) {
                 controls.push(component);
-                !form[component.name] && (form[component.name] = component);
+                if (!form[component.name]) {
+                    form[component.name] = component;
+                    Object.defineProperty(form, component.name, {
+                        enumerable: !1
+                    });
+                }
             }
         }
     }
@@ -705,5 +670,16 @@ class Component extends Bindable {
     //#endregion
 }
 core.classes.register(core.types.CATEGORIES.COMMON, Component);
+Object.defineProperties(Component.prototype, {
+    'visible': {
+        enumerable: !0
+    },
+    'left': {
+        enumerable: !0
+    },
+    'top': {
+        enumerable: !0
+    }
+});
 //#endregion Component
 export { Component };

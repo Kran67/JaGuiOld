@@ -111,5 +111,16 @@ class CustomTextBoxBtn extends CustomTextControl {
     //#endregion Methods
 }
 core.classes.register(core.types.CATEGORIES.INTERNAL, CustomTextBoxBtn);
+Object.defineProperties(CustomTextBoxBtn.prototype, {
+    'btnClass': {
+        enumerable: !0
+    },
+    'numBtns': {
+        enumerable: !0
+    },
+    'autoHideButtons': {
+        enumerable: !0
+    }
+});
 //#endregion CustomTextBoxBtn
 export { CustomTextBoxBtn };

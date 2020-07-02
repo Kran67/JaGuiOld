@@ -233,30 +233,33 @@ class Tools {
             }
         };
         Object.defineProperty(params.component, params.propName, {
-            get: () => { return core.private(params.component)[params.propName]; },
-            set: setter,
+    get: () => { return core.private(params.component)[params.propName]; },
+    set: setter,
             enumerable: params.enumerable,
             configurable: !0
         });
     }
     //#endregion addPropertyFromEnum
     //#region getPropertiesFromObject
-    static getPropertiesFromObject(obj) {
+    static getPropertiesFromObject(obj, events = !1) {
         //#region Variables déclaration
         let props = [];
-        const keys = Object.keys(obj);
         //#endregion Variables déclaration
-        keys.forEach(propName => {
-            if (propName !== 'rotateAngle' && propName !== 'rotateCenter' && obj.hasOwnProperty(propName)
-                && !propName.startsWith('on') && !core.tools.isFunc(obj[propName])
-                && propName !== 'form' && propName !== 'app') {
-                props = [...props, {
-                    property: propName,
-                    value: obj[propName],
-                    categories: core.classes.getPropertyCategories(propName)
-                }];
+        for (let o = obj; o != Object.prototype; o = Object.getPrototypeOf(o)) {
+            for (let propName of Object.keys(o)) {
+                if (propName !== 'internalKey' && !core.tools.isFunc(obj[propName])) {
+                    if ((!events && !propName.startsWith('on')) || (events && propName.startsWith('on'))) {
+                        if (!(this.owner instanceof core.classes.GridLayout) && ['column', 'row', 'colSpan', 'rowSpan'].indexOf(propName) === -1) {
+                            props = [...props, {
+                                property: propName,
+                                value: obj[propName],
+                                categories: core.classes.getPropertyCategories(propName)
+                            }];
+                        }
+                    }
+                }
             }
-        });
+        }
         return props;
     }
     //#endregion getPropertiesFromObject
@@ -271,8 +274,8 @@ class Tools {
             top: int(mat[5])
         };
     }
-    //#endregion getLeftTopFromTranslation
-    //#region getNextValueFromEnum
+        //#endregion getLeftTopFromTranslation
+        //#region getNextValueFromEnum
     static getNextValueFromEnum(_enum, currentValue) {
         //#region Variables déclaration
         let values = [];
@@ -295,8 +298,8 @@ class Tools {
         curIndex = Math.min(curIndex, keys.length - 1);
         return values[curIndex];
     }
-    //#endregion getNextValueFromEnum
-    //#region getPreviousValueFromEnum
+        //#endregion getNextValueFromEnum
+        //#region getPreviousValueFromEnum
     static getPreviousValueFromEnum(_enum, currentValue) {
         //#region Variables déclaration
         let values = [];
@@ -319,8 +322,8 @@ class Tools {
         curIndex = Math.max(0, curIndex);
         return values[curIndex];
     }
-    //#endregion getPreviousValueFromEnum
-    //#region getValueIndexFromEnum
+        //#endregion getPreviousValueFromEnum
+        //#region getValueIndexFromEnum
     static getValueIndexFromEnum(_enum, currentValue) {
         //#region Variables déclaration
         let values = [];
@@ -338,8 +341,8 @@ class Tools {
         const curIndex = values.indexOf(currentValue);
         return curIndex;
     }
-    //#endregion getValueIndexFromEnum
-    //#region getEnumNameFromValue
+        //#endregion getValueIndexFromEnum
+        //#region getEnumNameFromValue
     static getEnumNameFromValue(_enum, currentValue) {
         if (!_enum) {
             return currentValue;
@@ -353,8 +356,8 @@ class Tools {
         });
         return enumName;
     }
-    //#endregion getEnumNameFromValue
-    //#region checkTrigger
+        //#endregion getEnumNameFromValue
+        //#region checkTrigger
     static checkTrigger(instance, obj) {
         //#region Variables déclaration
         let trigger = !0;
@@ -373,15 +376,15 @@ class Tools {
         return {
             isOK: trigger,
             value
-        };
+            };
     }
-    //#endregion checkTrigger
-    //#region storeValue
+        //#endregion checkTrigger
+        //#region storeValue
     static storeValue(dic, name, value) {
         dic[name] = value;
     }
-    //#endregion storeValue
-    //#region processRadius
+        //#endregion storeValue
+        //#region processRadius
     static processRadius(instance, dic, radius) {
         //#region Variables déclaration
         let trigger = !1;
@@ -414,8 +417,8 @@ class Tools {
         }
         return params;
     }
-    //#endregion processRadius
-    //#region processShadow
+        //#endregion processRadius
+        //#region processShadow
     static processShadow(instance, shadow, ctx) {
         if (shadow.triggers) {
             const trigger = Tools.checkTrigger(instance, shadow);
@@ -433,8 +436,8 @@ class Tools {
             ctx.shadowOffsetY = shadow.offsetY ? shadow.offsetY : 0;
         }
     }
-    //#endregion processShadow
-    //#region processStyle
+        //#endregion processShadow
+        //#region processStyle
     static processStyle(instance, shape, state, suffixFunc, params) {
         //#region Variables déclaration
         const ctx = core.ctx;
@@ -485,8 +488,8 @@ class Tools {
         });
         ctx.clearShadow();
     }
-    //#endregion processStyle
-    //#region processBorders
+        //#endregion processStyle
+        //#region processBorders
     static processBorders(instance, borders) {
         if (borders.triggers) {
             const trigger = core.tools.checkTrigger(instance, borders);
@@ -495,83 +498,83 @@ class Tools {
             return borders;
         }
     }
-    //#endregion processBorders
-    //#region equal
+        //#endregion processBorders
+        //#region equal
     static equal(left, right) {
         return left === right;
     }
-    //#endregion equal
-    //#region notEqual
+        //#endregion equal
+        //#region notEqual
     static notEqual(left, right) {
         return left !== right;
     }
-    //#endregion notEqual
-    //#region lessThan
+        //#endregion notEqual
+        //#region lessThan
     static lessThan(left, right) {
         return left < right;
     }
-    //#endregion lessThan
-    //#region greaterThan
+        //#endregion lessThan
+        //#region greaterThan
     static greaterThan(left, right) {
         return left > right;
     }
-    //#endregion greaterThan
-    //#region lessThanOrEqual
+        //#endregion greaterThan
+        //#region lessThanOrEqual
     static lessThanOrEqual(left, right) {
         return left <= right;
     }
-    //#endregion lessThanOrEqual
-    //#region greaterThanOrEqual
+        //#endregion lessThanOrEqual
+        //#region greaterThanOrEqual
     static greaterThanOrEqual(left, right) {
         return left >= right;
     }
-    //#endregion greaterThanOrEqual
-    //#region isTrue
+        //#endregion greaterThanOrEqual
+        //#region isTrue
     static isTrue(value) {
         return core.tools.isBool(value) && value;
     }
-    //#endregion isTrue
-    //#region isFalse
+        //#endregion isTrue
+        //#region isFalse
     static isFalse(value) {
         return core.tools.isBool(value) && !value;
     }
-    //#endregion isFalse
-    //#region or
+        //#endregion isFalse
+        //#region or
     static or(left, right) {
         return left || right;
     }
-    //#endregion or
-    //#region and
+        //#endregion or
+        //#region and
     static and(left, right) {
         return left && right;
     }
-    //#endregion and
-    //#region indexOf
+        //#endregion and
+        //#region indexOf
     static indexOf(left, right) {
         return right.indexOf(left) > -1;
     }
-    //#endregion indexOf
-    //#region IfAll
+        //#endregion indexOf
+        //#region IfAll
     static IfAll(...args) {
         return !args.isEmpty && args.every(e => core.tools.isBool(e) && e);
     }
-    //#endregion IfAll
-    //#region IfAny
+        //#endregion IfAll
+        //#region IfAny
     static IfAny(...args) {
         return !args.isEmpty && args.some(e => core.tools.isBool(e) && e);
     }
-    //#endregion IfAny
-    //#region IfThen
+        //#endregion IfAny
+        //#region IfThen
     static IfThen(...params) {
         return params.cond ? params.trueValue : params.falseValue;
     }
-    //#endregion IfThen
-    //#region not
+        //#endregion IfThen
+        //#region not
     static not(value) {
         return !value;
     }
-    //#endregion not
-    //#region getPropertyName
+        //#endregion not
+        //#region getPropertyName
     static getPropertyName() {
         return new Error('dummy')
             .stack
@@ -579,8 +582,8 @@ class Tools {
             .split(" ")
             .last;
     }
-    //#endregion getPropertyName
-    //#region loadStyle
+        //#endregion getPropertyName
+        //#region loadStyle
     static loadStyle(url) {
         return new Promise((resolve, reject) => {
             let link = document.createElement('link');
@@ -599,8 +602,8 @@ class Tools {
             }
         });
     }
-    //#endregion loadStyle
-    //#region getMonthList
+        //#endregion loadStyle
+        //#region getMonthList
     static getMonthList(locale, format = 'long', lower = !1) {
         const year = new Date().getFullYear(); // 20xx
         const monthList = [...Array(12).keys()]; // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
@@ -611,8 +614,8 @@ class Tools {
             formatter.format(new Date(year, monthIndex))[lower ? 'toLowerCase' : 'toString']();
         return monthList.map(getMonthName);
     }
-    //#endregion getMonthList
-    //#region getWeekDayList
+        //#endregion getMonthList
+        //#region getWeekDayList
     static getWeekDayList(locale, format = 'long', numberOfChar = 0, lower = !1) {
         let day = new Date().getDay();
         let date = new Date();
@@ -632,8 +635,8 @@ class Tools {
         };
         return dayList.map(getDayName);
     }
-    //#endregion getWeekDayList
-    //#region defineLayout
+        //#endregion getWeekDayList
+        //#region defineLayout
     static defineLayout(control, props) {
         if (control.update) {
             control.oldUpdate = control.update;
@@ -732,99 +735,99 @@ class Tools {
         });
         core.private(control).columnGap = props.columnGap ? props.columnGap : 5;
         Object.defineProperty(control, 'columnGap', {
-            get: () => { return core.private(control).columnGap; },
-            set: function () {
-                //#region Variables déclaration
-                const priv = core.private(this);
-                //#endregion Variables déclaration
-                if (core.tools.isNumber(newValue) && priv.columnGap !== newValue) {
-                    priv.columnGap = newValue;
-                    this.update();
-                }
-            },
+    get: () => { return core.private(control).columnGap; },
+    set: function () {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && priv.columnGap !== newValue) {
+            priv.columnGap = newValue;
+            this.update();
+        }
+    },
             enumerable: !0,
             configurable: !0
         });
         core.private(control).rowGap = props.rowGap ? props.rowGap : 5;
         Object.defineProperty(control, 'rowGap', {
-            get: () => { return core.private(control).rowGap; },
-            set: function () {
-                //#region Variables déclaration
-                const priv = core.private(this);
-                //#endregion Variables déclaration
-                if (core.tools.isNumber(newValue) && priv.rowGap !== newValue) {
-                    priv.rowGap = newValue;
-                    this.update();
-                }
-            },
+    get: () => { return core.private(control).rowGap; },
+    set: function () {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && priv.rowGap !== newValue) {
+            priv.rowGap = newValue;
+            this.update();
+        }
+    },
             enumerable: !0,
             configurable: !0
         });
         core.private(control).columns = props.columns ? props.columns : 5;
         Object.defineProperty(control, 'columns', {
-            get: () => { return core.private(control).columns; },
-            set: function () {
-                //#region Variables déclaration
-                const priv = core.private(this);
-                //#endregion Variables déclaration
-                if (core.tools.isNumber(newValue) && priv.columns !== newValue) {
-                    priv.columns = newValue;
-                    this.update();
-                }
-            },
+    get: () => { return core.private(control).columns; },
+    set: function () {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && priv.columns !== newValue) {
+            priv.columns = newValue;
+            this.update();
+        }
+    },
             enumerable: !0,
             configurable: !0
         });
         core.private(control).rows = props.rows ? props.rows : 5;
         Object.defineProperty(control, 'rows', {
-            get: () => { return core.private(control).rows; },
-            set: function () {
-                //#region Variables déclaration
-                const priv = core.private(this);
-                //#endregion Variables déclaration
-                if (core.tools.isNumber(newValue) && priv.rows !== newValue) {
-                    priv.rows = newValue;
-                    this.update();
-                }
-            },
+    get: () => { return core.private(control).rows; },
+    set: function () {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && priv.rows !== newValue) {
+            priv.rows = newValue;
+            this.update();
+        }
+    },
             enumerable: !0,
             configurable: !0
         });
         core.private(control).templateColumns = props.templateColumns ? props.templateColumns : String.EMPTY;
         Object.defineProperty(control, 'templateColumns', {
-            get: () => { return core.private(control).templateColumns; },
-            set: function () {
-                //#region Variables déclaration
-                const priv = core.private(this);
-                //#endregion Variables déclaration
-                if (core.tools.isNumber(newValue) && priv.templateColumns !== newValue) {
-                    priv.templateColumns = newValue;
-                    this.update();
-                }
-            },
+    get: () => { return core.private(control).templateColumns; },
+    set: function () {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && priv.templateColumns !== newValue) {
+            priv.templateColumns = newValue;
+            this.update();
+        }
+    },
             enumerable: !0,
             configurable: !0
         });
         core.private(control).templateRows = props.templateRows ? props.templateRows : String.EMPTY;
         Object.defineProperty(control, 'templateRows', {
-            get: () => { return core.private(control).templateRows; },
-            set: function () {
-                //#region Variables déclaration
-                const priv = core.private(this);
-                //#endregion Variables déclaration
-                if (core.tools.isNumber(newValue) && priv.templateRows !== newValue) {
-                    priv.templateRows = newValue;
-                    this.update();
-                }
-            },
+    get: () => { return core.private(control).templateRows; },
+    set: function () {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && priv.templateRows !== newValue) {
+            priv.templateRows = newValue;
+            this.update();
+        }
+    },
             enumerable: !0,
             configurable: !0
         });
     }
-    //#endregion defineLayout
-    //#endregion Methods
-}
-Object.seal(Object.freeze(Tools));
-//#endregion Tools
-window.core.tools = Tools;
-export { Tools }; // à supprimer
+        //#endregion defineLayout
+        //#endregion Methods
+    }
+    Object.seal(Object.freeze(Tools));
+        //#endregion Tools
+        window.core.tools = Tools;
+    export { Tools }; // à supprimer

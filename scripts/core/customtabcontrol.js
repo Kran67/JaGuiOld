@@ -605,5 +605,19 @@ class CustomTabControl extends ThemedControl {
 }
 Object.seal(CustomTabControl);
 core.classes.register(core.types.CATEGORIES.INTERNAL, CustomTabControl);
+Object.defineProperties(CustomTabControl.prototype, {
+    'tabClass': {
+        enumerable: !0
+    },
+    'images': {
+        enumerable: !0
+    },
+    'showTabsCloseBtn': {
+        enumerable: !0
+    },
+    'centerTabs': {
+        enumerable: !0
+    }
+});
 //#endregion CustomTabControl
 export { CustomTabControl };

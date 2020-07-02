@@ -87,9 +87,7 @@ class EditCut extends EditAction {
         props = !props ? {} : props;
         props.command = Action.COMMANDS.CUT;
         props.needCheckIsAvailable = !0;
-        if (owner) {
-            super(owner, props);
-        }
+        owner && super(owner, props);
     }
     //#endregion constructor
 }
@@ -102,9 +100,7 @@ class EditCopy extends EditAction {
         props = !props ? {} : props;
         props.command = Action.COMMANDS.COPY;
         props.needCheckIsAvailable = !0;
-        if (owner) {
-            super(owner, props);
-        }
+        owner && super(owner, props);
     }
     //#endregion constructor
 }
@@ -116,9 +112,7 @@ class EditPaste extends EditAction {
     constructor(owner, props) {
         props = !props ? {} : props;
         props.command = Action.COMMANDS.PASTE;
-        if (owner) {
-            super(owner, props);
-        }
+        owner && super(owner, props);
     }
     //#endregion constructor
 }
@@ -130,9 +124,7 @@ class EditSelectAll extends EditAction {
     constructor(owner, props) {
         props = !props ? {} : props;
         props.command = Action.COMMANDS.SELECTALL;
-        if (owner) {
-            super(owner, props);
-        }
+        owner && super(owner, props);
     }
     //#endregion constructor
 }
@@ -144,9 +136,7 @@ class EditUndo extends EditAction {
     constructor(owner, props) {
         props = !props ? {} : props;
         props.command = Action.COMMANDS.UNDO;
-        if (owner) {
-            super(owner, props);
-        }
+        owner && super(owner, props);
     }
     //#endregion constructor
 }
@@ -158,9 +148,7 @@ class EditRedo extends EditAction {
     constructor(owner, props) {
         props = !props ? {} : props;
         props.command = Action.COMMANDS.REDO;
-        if (owner) {
-            super(owner, props);
-        }
+        owner && super(owner, props);
     }
     //#endregion constructor
 };
@@ -173,9 +161,7 @@ class EditDelete extends EditAction {
         props = !props ? {} : props;
         props.command = Action.COMMANDS.DELETE;
         props.needCheckIsAvailable = !0;
-        if (owner) {
-            super(owner, props);
-        }
+        owner && super(owner, props);
     }
     //#endregion constructor
 }
@@ -259,9 +245,7 @@ class FileOpen extends CommonDialogAction {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        if (core.tools.isString(newValue)) {
-            priv.filesFilter !== newVlaue && (priv.filesFilter = newVlaue);
-        }
+        core.tools.isString(newValue) && priv.filesFilter !== newVlaue && (priv.filesFilter = newVlaue);
     }
     //#endregion filesFilter
     //#region multiSelect
@@ -272,9 +256,7 @@ class FileOpen extends CommonDialogAction {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue)) {
-            priv.multiSelect !== newVlaue && (priv.multiSelect = newVlaue);
-        }
+        core.tools.isBool(newValue) && priv.multiSelect !== newVlaue && (priv.multiSelect = newVlaue);
     }
     //#endregion multiSelect
     //#endregion Getters / Setters
@@ -306,6 +288,14 @@ class FileOpen extends CommonDialogAction {
     //#endregion Methods
 }
 Object.seal(FileOpen);
+Object.defineProperties(Action.prototype, {
+    'filesFilter': {
+        enumerable: !0
+    },
+    'multiSelect': {
+        enumerable: !0
+    }
+});
 //#endregion FileOpen
 //#region FileSaveAs
 class FileSaveAs extends CommonDialogAction {}

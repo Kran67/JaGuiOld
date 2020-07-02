@@ -284,6 +284,29 @@ class CustomButton extends CaptionControl {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(CustomButton.prototype, {
+    'horizAlign': {
+        enumerable: !0
+    },
+    'vertAlign': {
+        enumerable: !0
+    },
+    'autoSize': {
+        enumerable: !0
+    },
+    'staysPressed': {
+        enumerable: !0
+    },
+    'repeatClick': {
+        enumerable: !0
+    },
+    'borderRadius': {
+        enumerable: !0
+    },
+    'action': {
+        enumerable: !0
+    }
+});
 //#endregion CustomButton
 //#region Class Button
 class Button extends CustomButton {
@@ -339,6 +362,11 @@ class Button extends CustomButton {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(CustomButton.prototype, {
+    'isDefault': {
+        enumerable: !0
+    }
+});
 //#endregion Button
 //#region TextButton
 //const TextButton = (function () {
