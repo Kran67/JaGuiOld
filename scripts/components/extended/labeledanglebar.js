@@ -81,6 +81,14 @@ class LabeledAngleBar extends LabeledControl {
     }
     //#endregion Methods
 }
+Object.defineProperties(LabeledAngleBar.prototype, {
+    'angleButton': {
+        enumerable: !0
+    },
+    'valueLabel': {
+        enumerable: !0
+    }
+});
 Object.seal(LabeledAngleBar);
 core.classes.register(core.types.CATEGORIES.EXTENDED, LabeledAngleBar);
 //#endregion LabeledAngleBar

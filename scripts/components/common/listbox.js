@@ -15,10 +15,6 @@ class ListBoxItem extends BaseClass {
             super(owner, props);
             const priv = core.private(this, {
                 owner,
-                html: null,
-                check: null,
-                icon: null,
-                text: null,
                 caption: props.hasOwnProperty('caption') ? props.caption : String.EMPTY,
                 size: props.hasOwnProperty('size') ? props.size : owner.itemsSize,
                 checked: props.hasOwnProperty('checked') && core.tools.isBool(props.checked)
@@ -435,6 +431,47 @@ class ListBoxItem extends BaseClass {
     //#endregion mouseDown
     //#endregion Methods
 }
+Object.defineProperties(ListBoxItem.prototype, {
+    'caption': {
+        enumerable: !0
+    },
+    'size': {
+        enumerable: !0
+    },
+    'checked': {
+        enumerable: !0
+    },
+    'isHeader': {
+        enumerable: !0
+    },
+    'enabled': {
+        enumerable: !0
+    },
+    'selected': {
+        enumerable: !0
+    },
+    'css': {
+        enumerable: !0
+    },
+    'imageIndex': {
+        enumerable: !0
+    },
+    'image': {
+        enumerable: !0
+    },
+    'cssImage': {
+        enumerable: !0
+    },
+    'allowGrayed': {
+        enumerable: !0
+    },
+    'autoTranslate': {
+        enumerable: !0
+    },
+    'translationKey': {
+        enumerable: !0
+    }
+});
 Object.seal(ListBoxItem);
 //#endregion ListBoxItem
 //#region Class ListBox
@@ -478,8 +515,7 @@ class ListBox extends ScrollControl {
                 orientation: props.hasOwnProperty('orientation')
                     ? props.orientation : core.types.ORIENTATIONS.VERTICAL,
                 scrollToItemMode: props.hasOwnProperty('scrollToItemMode')
-                    ? props.scrollToItemMode : 'last',
-                props
+                    ? props.scrollToItemMode : 'last'
             });
             core.classes.newCollection(this, this, priv.itemsClass);
             this.createEventsAndBind(['onChange', 'onSelectItem', 'onDrawItem'], props);
@@ -953,6 +989,41 @@ class ListBox extends ScrollControl {
     //#endregion getImages
     //#endregion Methods
 }
+Object.defineProperties(ListBox.prototype, {
+    'multiSelect': {
+        enumerable: !0
+    },
+    'sorted': {
+        enumerable: !0
+    },
+    'itemsSize': {
+        enumerable: !0
+    },
+    'itemsClass': {
+        enumerable: !0
+    },
+    'useAlternateColor': {
+        enumerable: !0
+    },
+    'viewCheckboxes': {
+        enumerable: !0
+    },
+    'itemIndex': {
+        enumerable: !0
+    },
+    'columns': {
+        enumerable: !0
+    },
+    'images': {
+        enumerable: !0
+    },
+    'orientation': {
+        enumerable: !0
+    },
+    'scrollToItemMode': {
+        enumerable: !0
+    }
+});
 Object.seal(ListBox);
 core.classes.register(core.types.CATEGORIES.INTERNAL, ListBoxItem);
 core.classes.register(core.types.CATEGORIES.COMMON, ListBox);

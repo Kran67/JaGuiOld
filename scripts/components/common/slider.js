@@ -32,11 +32,6 @@ class Slider extends ThemedControl {
             props.mouseEvents = { mousedown: !1, mouseup: !1, click: !1 };
             super(owner, props);
             core.private(this, {
-                leftInput: null,
-                rightInput: null,
-                range: null,
-                leftToolTip: null,
-                rightToolTip: null,
                 min: props.hasOwnProperty('min') ? props.min : 0,
                 max: props.hasOwnProperty('max') ? props.max : 100,
                 frequency: props.hasOwnProperty('frequency') ? props.frequency : 1,
@@ -627,6 +622,32 @@ class Slider extends ThemedControl {
     //#endregion moveRange
     //#endregion Methods
 }
+Object.defineProperties(Slider.prototype, {
+    'min': {
+        enumerable: !0
+    },
+    'max': {
+        enumerable: !0
+    },
+    'frequency': {
+        enumerable: !0
+    },
+    'showTooltips': {
+        enumerable: !0
+    },
+    'decimalPrecision': {
+        enumerable: !0
+    },
+    'values': {
+        enumerable: !0
+    },
+    'showTickmarks': {
+        enumerable: !0
+    },
+    'tickmarksPosition': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.COMMON, Slider);
 //#endregion Slider
 //#region Templates

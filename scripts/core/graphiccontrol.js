@@ -20,7 +20,7 @@ class GraphicControl extends Control {
         }
     }
     //#endregion constructor
-    //#region Getter / Setters
+    //#region Getters / Setters
     //#region fillColor
     get fillColor() {
         return core.private(this).fillColor;
@@ -94,7 +94,7 @@ class GraphicControl extends Control {
         }
     }
     //#endregion strokeDashOffset
-    //#endregion
+    //#endregion Getters / Setters
     //#region Methods
     //#region changed
     changed() { }
@@ -119,6 +119,23 @@ class GraphicControl extends Control {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(GraphicControl.prototype, {
+    'fillColor': {
+        enumerable: !0
+    },
+    'strokeColor': {
+        enumerable: !0
+    },
+    'strokeWidth': {
+        enumerable: !0
+    },
+    'strokeDash': {
+        enumerable: !0
+    },
+    'strokeDashOffset': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.INTERNAL, GraphicControl);
 //#endregion GraphicControl
 export { GraphicControl };

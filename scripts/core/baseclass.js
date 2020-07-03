@@ -31,7 +31,7 @@ class BaseClass {
             && name !== newValue) {
             form !== this && form && form[name] && (delete form[name]);
             priv.name = name = newValue;
-            form !== this && this !== form.layout && this !== form.content && form && !form[name]
+            form !== this && this !== form.layout && this !== form.content && form && !form[name] && this.inform
                 && (form[name] = this);
         }
     }
@@ -86,11 +86,11 @@ class BaseClass {
     }
     //#endregion Methods
 }
-core.classes.register(core.types.CATEGORIES.INTERNAL, BaseClass);
 Object.defineProperties(BaseClass.prototype, {
     'name': {
         enumerable: !0
     }
 });
+core.classes.register(core.types.CATEGORIES.INTERNAL, BaseClass);
 //#endregion BaseClass
 export { BaseClass };

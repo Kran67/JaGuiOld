@@ -144,6 +144,17 @@ class SplitButton extends ThemedControl {
     //#endregion loaded
     //#endregion Methods
 }
+Object.defineProperties(SplitButton.prototype, {
+    'caption': {
+        enumerable: !0
+    },
+    'action': {
+        enumerable: !0
+    },
+    'popupMenu': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.EXTENDED, SplitButton);
 //#endregion SplitButton
 export { SplitButton };

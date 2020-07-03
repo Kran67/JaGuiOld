@@ -51,7 +51,7 @@ class Font extends BaseClass {
         }
     }
     //#endregion
-    //#region Getter / Setter
+    //#region Getters / Setters
     //#region underline
     get underline() {
         return core.private(this).underline;
@@ -191,7 +191,7 @@ class Font extends BaseClass {
             priv.brush.color.equals(Colors.TRANSPARENT);
     }
     //#endregion isEmpty
-    //#endregion
+    //#endregion Getters / Setters
     //#region Methods
     //#region stringify
     stringify() {
@@ -381,8 +381,31 @@ class Font extends BaseClass {
         super.destroy();
     }
     //#endregion destroy
-    //#endregion
+    //#endregion Methods
 }
+Object.defineProperties(Font.prototype, {
+    'underline': {
+        enumerable: !0
+    },
+    'strikeout': {
+        enumerable: !0
+    },
+    'size': {
+        enumerable: !0
+    },
+    'sizeUnit': {
+        enumerable: !0
+    },
+    'family': {
+        enumerable: !0
+    },
+    'style': {
+        enumerable: !0
+    },
+    'brush': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.INTERNAL, Font);
 //#endregion Font
 export { Font };

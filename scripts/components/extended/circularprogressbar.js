@@ -11,10 +11,7 @@ class CircularProgressBar extends ThemedControl {
             props.allowUpdateOnResize = !0;
             super(owner, props);
             core.private(this, {
-                value : props.hasOwnProperty('value') ? props.value : 0,
-                svg : null,
-                backCircle : null,
-                progress : null
+                value : props.hasOwnProperty('value') ? props.value : 0
             });
             delete this.tabOrder;
         }
@@ -144,6 +141,11 @@ class CircularProgressBar extends ThemedControl {
     //#endregion loaded
     //#endregion Methods
 }
+Object.defineProperties(CircularProgressBar.prototype, {
+    'value': {
+        enumerable: !0
+    }
+});
 Object.seal(CircularProgressBar);
 core.classes.register(core.types.CATEGORIES.EXTENDED, CircularProgressBar);
 //#endregion CircularProgressBar

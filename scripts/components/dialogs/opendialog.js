@@ -101,7 +101,16 @@ class OpenDialog extends CommonDialog {
         super.destroy();
     }
     //#endregion destroy
+    //#endregion Methods
 }
+Object.defineProperties(OpenDialog.prototype, {
+    'filesFilter': {
+        enumerable: !0
+    },
+    'multiple': {
+        enumerable: !0
+    }
+});
 Object.seal(OpenDialog);
 core.classes.register(core.types.CATEGORIES.DIALOGS, OpenDialog);
 //#region Templates

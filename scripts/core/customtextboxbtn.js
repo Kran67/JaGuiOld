@@ -64,18 +64,18 @@ class CustomTextBoxBtn extends CustomTextControl {
             const btn = core.classes.createComponent({
                 class: priv.btnClass,
                 owner: this,
+                name: `${this.name}_btn${i+1}`,
                 props: {
                     inForm: !1,
                     caption: '…',
                     forceDisplayVisibility: !0,
-                    height: -1
+                    height: -1,
+                    canFocused: !1
                 },
                 withTpl: !0
             });
             btn.HTMLElement.classList.add('TextBoxBtnButton');
             btn.HTMLElement.classList.remove('Control');
-            btn.name = `btn${i}`;
-            btn.canFocused = !1;
             this.btns.add(btn);
         }
         this.update();
@@ -110,7 +110,6 @@ class CustomTextBoxBtn extends CustomTextControl {
     //#endregion update
     //#endregion Methods
 }
-core.classes.register(core.types.CATEGORIES.INTERNAL, CustomTextBoxBtn);
 Object.defineProperties(CustomTextBoxBtn.prototype, {
     'btnClass': {
         enumerable: !0
@@ -122,5 +121,6 @@ Object.defineProperties(CustomTextBoxBtn.prototype, {
         enumerable: !0
     }
 });
+core.classes.register(core.types.CATEGORIES.INTERNAL, CustomTextBoxBtn);
 //#endregion CustomTextBoxBtn
 export { CustomTextBoxBtn };

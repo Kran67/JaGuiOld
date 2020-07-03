@@ -157,6 +157,17 @@ class PlotGrid extends PaintBox {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(PlotGrid.prototype, {
+    'lineFill': {
+        enumerable: !0
+    },
+    'marks': {
+        enumerable: !0
+    },
+    'frequency': {
+        enumerable: !0
+    }
+});
 Object.seal(PlotGrid);
 core.classes.register(core.types.CATEGORIES.COMMON, PlotGrid);
 //#endregion PlotGrid

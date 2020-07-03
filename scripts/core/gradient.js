@@ -55,6 +55,14 @@ class GradientPoint extends BaseClass {
     //#endregion destroy
     //#endregion
 }
+Object.defineProperties(GradientPoint.prototype, {
+    'offset': {
+        enumerable: !0
+    },
+    'color': {
+        enumerable: !0
+    }
+});
 //#endregion GradientPoint
 // TODO : support of databinding
 //#region Gradient
@@ -75,7 +83,7 @@ class Gradient extends BaseClass {
         }
     }
     //#endregion constructor
-    //#region Getter / Setters
+    //#region Getters / Setters
     //#region startPosition
     get startPosition() {
         return core.private(this).startPosition;
@@ -135,7 +143,7 @@ class Gradient extends BaseClass {
         }
     }
     //#endregion style
-    //#endregion Getter / Setter
+    //#endregion Getters / Setter
     //#region Methods
     //#region assign
     assign(source) {
@@ -219,6 +227,17 @@ class Gradient extends BaseClass {
     //#endregion destroy
     //#endregion
 }
+Object.defineProperties(Gradient.prototype, {
+    'startPosition': {
+        enumerable: !0
+    },
+    'stopPosition': {
+        enumerable: !0
+    },
+    'style': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.INTERNAL, GradientPoint, Gradient);
 //#endregion Gradient
 export { GradientPoint, Gradient };

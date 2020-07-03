@@ -275,6 +275,17 @@ class DropDownTimePanel extends ThemedControl {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(DropDownTimePanel.prototype, {
+    'text': {
+        enumerable: !0
+    },
+    'use24H': {
+        enumerable: !0
+    },
+    'viewSeconds': {
+        enumerable: !0
+    }
+});
 Object.seal(DropDownTimePanel);
 core.classes.register(core.types.CATEGORIES.INTERNAL, TimePanelPopup, DropDownTimePanelPopup);
 core.classes.register(core.types.CATEGORIES.COMMON, DropDownTimePanel);

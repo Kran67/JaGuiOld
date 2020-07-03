@@ -115,6 +115,17 @@ class Tab extends CaptionControl {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(Tab.prototype, {
+    'imageIndex': {
+        enumerable: !0
+    },
+    'showCaption': {
+        enumerable: !0
+    },
+    'caption': {
+        enumerable: !0
+    }
+});
 Object.seal(Tab);
 core.classes.register(core.types.CATEGORIES.CONTAINERS, Tab);
 //#endregion Tab

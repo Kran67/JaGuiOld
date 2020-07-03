@@ -323,6 +323,14 @@ class MaskedTextBox extends CustomTextControl {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(MaskedTextBox.prototype, {
+    'mask': {
+        enumerable: !0
+    },
+    'blankSpace': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.EXTENDED, MaskedTextBox);
 //#endregion MaskedTextBox
 //#region Template

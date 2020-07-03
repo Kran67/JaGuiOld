@@ -11,8 +11,6 @@ class Expander extends ThemedControl {
             props.allowRealignChildsOnResize = !0;
             super(owner, props);
             core.private(this, {
-                header: null,
-                headerCaption: null,
                 lastHeight: props.hasOwnProperty('height') ? props.height : 0,
                 expanded: props.hasOwnProperty('expanded') ? props.expanded : !1,
                 checked: props.hasOwnProperty('checked') ? props.checked : !1,
@@ -204,6 +202,20 @@ class Expander extends ThemedControl {
     //#endregion loaded
     //#endregion Methods
 }
+Object.defineProperties(Expander.prototype, {
+    'expanded': {
+        enumerable: !0
+    },
+    'checked': {
+        enumerable: !0
+    },
+    'caption': {
+        enumerable: !0
+    },
+    'viewCheck': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.CONTAINERS, Expander);
 //#endregion Expander
 //#region Template

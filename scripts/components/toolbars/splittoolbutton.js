@@ -92,6 +92,14 @@ class SplitToolButton extends SplitButton {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(SplitToolButton.prototype, {
+    'imageIndex': {
+        enumerable: !0
+    },
+    'popupMenu': {
+        enumerable: !0
+    }
+});
 Object.seal(SplitToolButton);
 core.classes.register(core.types.CATEGORIES.INTERNAL, SplitToolButton);
 //#endregion SplitToolButton

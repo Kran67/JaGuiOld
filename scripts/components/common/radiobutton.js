@@ -79,6 +79,17 @@ class RadioButton extends Checkbox {
     //#region Methods
     //#endregion Methods
 }
+Object.defineProperties(RadioButton.prototype, {
+    'groupName': {
+        enumerable: !0
+    },
+    'checkChar': {
+        enumerable: !0
+    },
+    'grayedChar': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.COMMON, RadioButton);
 //#endregion RadioButton
 //#region Template

@@ -253,6 +253,23 @@ class SpinBox extends CustomTextBoxBtn {
     //#endregion Methods
 }
 //#endregion SpinBox
+Object.defineProperties(SpinBox.prototype, {
+    'value': {
+        enumerable: !0
+    },
+    'increment': {
+        enumerable: !0
+    },
+    'decimalDigits': {
+        enumerable: !0
+    },
+    'min': {
+        enumerable: !0
+    },
+    'max': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.COMMON, SpinBox);
 //#region Template
 if (core.isHTMLRenderer) {

@@ -61,7 +61,7 @@ class ButtonGlyph extends Button {
         }
     }
     //#endregion Constructor
-    //#region getter / setter
+    //#region Getters / Setters
     //#region glyphHTMLElement
     get glyphHTMLElement() {
         return core.private(this).glyphHTMLElement;
@@ -181,7 +181,7 @@ class ButtonGlyph extends Button {
         }
     }
     //#endregion src
-    //#endregion getter / setter
+    //#endregion Getters / Setters
     //#region Methods
     //#region loaded
     loaded() {

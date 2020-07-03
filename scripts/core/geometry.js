@@ -60,7 +60,7 @@ class Point extends BaseClass {
         core.private(this, { x, y });
     }
     //#endregion constructor
-    //#region Getter / Setters
+    //#region Getters / Setters
     //#region x
     get x() {
         return core.private(this).x;
@@ -133,7 +133,7 @@ class Point extends BaseClass {
         return new core.classes.Point(this);
     }
     //#endregion clone
-    //#endregion
+    //#endregion Getters / Setters
     //#region Methods
     //#region setValues
     setValues(x, y) {
@@ -407,8 +407,16 @@ class Point extends BaseClass {
         }
     }
     //#endregion offset
-    //#endregion
+    //#endregion Methods
 }
+Object.defineProperties(Point.prototype, {
+    'x': {
+        enumerable: !0
+    },
+    'y': {
+        enumerable: !0
+    }
+});
 //#endregion Point
 //#region Rect
 class Rect extends BaseClass {
@@ -427,7 +435,7 @@ class Rect extends BaseClass {
         });
     }
     //#endregion
-    //#region Getter / Setters
+    //#region Getters / Setters
     //#region left
     get left() {
         return core.private(this).left;
@@ -539,7 +547,7 @@ class Rect extends BaseClass {
         return rect;
     }
     //#endregion clone
-    //#endregion
+    //#endregion Getters / Setters
     //#region Methods
     //#region setTopLeft
     setTopLeft(newValue) {
@@ -815,8 +823,22 @@ class Rect extends BaseClass {
         return priv.left = priv.top = priv.right = priv.bottom = 0;
     }
     //#endregion empty
-    //#endregion
+    //#endregion Methods
 }
+Object.defineProperties(Rect.prototype, {
+    'left': {
+        enumerable: !0
+    },
+    'top': {
+        enumerable: !0
+    },
+    'right': {
+        enumerable: !0
+    },
+    'bottom': {
+        enumerable: !0
+    }
+});
 //#endregion Rect
 //#region Vector
 class Vector extends BaseClass {
@@ -831,7 +853,7 @@ class Vector extends BaseClass {
         });
     }
     //#endregion
-    //#region Getter / Setters
+    //#region Getters / Setters
     //#region x
     get x() {
         return core.private(this).x;
@@ -911,7 +933,7 @@ class Vector extends BaseClass {
         return this;
     }
     //#endregion normalize
-    //#endregion
+    //#endregion Getters / Setters
     //#region Methods
     //#region setValues
     setValues(x, y, z) {
@@ -1050,8 +1072,19 @@ class Vector extends BaseClass {
         return priv.x === vector.x && priv.y === vector.y && priv.z === vector.z;
     }
     //#endregion equals
-    //#endregion
+    //#endregion Methods
 }
+Object.defineProperties(Vector.prototype, {
+    'x': {
+        enumerable: !0
+    },
+    'y': {
+        enumerable: !0
+    },
+    'z': {
+        enumerable: !0
+    }
+});
 //#endregion Vector
 //#region Matrix
 //#region Matrix
@@ -1075,7 +1108,7 @@ class Matrix extends BaseClass {
         });
     }
     //#endregion constructor
-    //#region Getter / Setters
+    //#region Getters / Setters
     //#region m11
     get m11() {
         return core.private(this).m11;
@@ -1264,7 +1297,7 @@ class Matrix extends BaseClass {
         return result;
     }
     //#endregion toArray
-    //#endregion
+    //#endregion Getters / Setters
     //#region Methods
     //#region setValues
     setValues(mat) {
@@ -1407,8 +1440,37 @@ class Matrix extends BaseClass {
         return result;
     }
     //#endregion toString
-    //#endregion
+    //#endregion Methods
 }
+Object.defineProperties(Matrix.prototype, {
+    'm11': {
+        enumerable: !0
+    },
+    'm12': {
+        enumerable: !0
+    },
+    'm13': {
+        enumerable: !0
+    },
+    'm21': {
+        enumerable: !0
+    },
+    'm22': {
+        enumerable: !0
+    },
+    'm23': {
+        enumerable: !0
+    },
+    'm31': {
+        enumerable: !0
+    },
+    'm32': {
+        enumerable: !0
+    },
+    'm33': {
+        enumerable: !0
+    }
+});
 //#endregion Matrix
 core.classes.register(core.types.CATEGORIES.INTERNAL, Point, Rect, Vector, Matrix);
 export { Geometry, Point, Rect, Vector, Matrix };

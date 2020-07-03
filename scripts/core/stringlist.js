@@ -9,12 +9,12 @@ class StringList extends BaseClass {
         super(owner);
         core.private(this, {
             list: [],
-            owner: owner
+            owner
         });
         this.onChange = new NotifyEvent(this);
     }
     //#endregion constructor
-    //#region Getters/ Setters
+    //#region Getters / Setters
     //#region list
     get list() {
         return core.private(this).list;
@@ -150,7 +150,7 @@ class StringList extends BaseClass {
         super.destroy();
     }
     //#endregion destroy
-    //#endregion Metods
+    //#endregion Methods
 }
 core.classes.register(core.types.CATEGORIES.INTERNAL, StringList);
 //#endregion StringList

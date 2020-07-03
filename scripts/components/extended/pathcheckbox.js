@@ -75,6 +75,14 @@ class PathCheckbox extends Checkbox {
     //#endregion updateCSSProperties
     //#endregion Methods
 }
+Object.defineProperties(PathCheckbox.prototype, {
+    'checkSvg': {
+        enumerable: !0
+    },
+    'svgViewBox': {
+        enumerable: !0
+    }
+});
 Object.seal(PathCheckbox);
 core.classes.register(core.types.CATEGORIES.EXTENDED, PathCheckbox);
 //#endregion PathCheckbox

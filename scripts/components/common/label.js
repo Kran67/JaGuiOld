@@ -91,6 +91,11 @@ class Label extends CaptionControl {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(Label.prototype, {
+    'effect': {
+        enumerable: !0
+    }
+});
 Object.seal(Label);
 core.classes.register(core.types.CATEGORIES.COMMON, Label);
 //#endregion Label

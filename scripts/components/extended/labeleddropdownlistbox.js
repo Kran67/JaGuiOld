@@ -39,6 +39,11 @@ class LabeledDropDownListBox extends LabeledControl {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(LabeledDropDownListBox.prototype, {
+    'dropDownListBox': {
+        enumerable: !0
+    }
+});
 Object.seal(LabeledDropDownListBox);
 core.classes.register(core.types.CATEGORIES.EXTENDED, LabeledDropDownListBox);
 //#endregion LabeledDropDownListBox

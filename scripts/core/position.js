@@ -18,7 +18,7 @@ class Position extends BaseClass {
         this.onChange = new core.classes.NotifyEvent(owner);
     }
     //#endregion constructor
-    //#region Getter/Setter
+    //#region Getters / Setters
     //#region x
     get x() {
         return core.private(this).x;
@@ -68,7 +68,7 @@ class Position extends BaseClass {
         return core.tools.getPropertiesFromObject(this);
     }
     //#endregion properties
-    //#endregion
+    //#endregion Getters / Setters
     //#region Methods
     //#region setValues
     setValues(x, y) {
@@ -101,8 +101,16 @@ class Position extends BaseClass {
         return priv.x === position.x && priv.y === position.y;
     }
     //#endregion equals
-    //#endregion
+    //#endregion Methods
 }
+Object.defineProperties(Position.prototype, {
+    'x': {
+        enumerable: !0
+    },
+    'y': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.INTERNAL, Position);
 //#endregion Position
 export { Position };

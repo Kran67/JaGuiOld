@@ -115,9 +115,12 @@ class Memo extends CustomTextControl {
     //#endregion lines
     //#endregion Getters / Setters
     //#region Methods
+    //#region textChanged
     textChanged() {
         this.jsObj.lines.list = this.value.split('\n');
     }
+    //#endregion textChanged
+    //#region update
     update(arg) {
         //#region Variables déclaration
         let memo = this;
@@ -137,12 +140,18 @@ class Memo extends CustomTextControl {
             memo.readOnly ? ta.setAttribute('readonly', null) : ta.removeAttribute('readonly');
         }
     }
+    //#endregion update
+    //#region HTMLFocus
     HTMLFocus() {
         this.jsObj.enterFocus();
     }
+    //#endregion HTMLFocus
+    //#region HTMLBlur
     HTMLBlur() {
         this.jsObj.killFocus();
     }
+    //#endregion HTMLBlur
+    //#region loaded
     loaded() {
         //#region Variables déclaration
         const priv = core.private(this);
@@ -157,8 +166,23 @@ class Memo extends CustomTextControl {
         Events.bind(ta, core.types.HTMLEVENTS.BLUR, this.HTMLBlur);
         priv.lines.addText(priv.text, false);
     }
+    //#endregion loaded
     //#endregion Methods
 }
+Object.defineProperties(Memo.prototype, {
+    'whiteSpace': {
+        enumerable: !0
+    },
+    'wordBreak': {
+        enumerable: !0
+    },
+    'wordWraps': {
+        enumerable: !0
+    },
+    'lines': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.COMMON, Memo);
 //#endregion Memo
 //#region Templates

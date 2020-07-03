@@ -77,6 +77,7 @@ class GridLayout extends Layout {
         }
     }
     //#endregion rows
+    //#region templateColumns
     get templateColumns() {
         return core.private(this).templateColumns;
     }
@@ -89,6 +90,8 @@ class GridLayout extends Layout {
             core.isHTMLRenderer && this.update();
         }
     }
+    //#endregion templateColumns
+    //#region templateRows
     get templateRows() {
         return core.private(this).templateRows;
     }
@@ -101,6 +104,7 @@ class GridLayout extends Layout {
             core.isHTMLRenderer && this.update();
         }
     }
+    //#endregion templateRows
     //#endregion Getters / Setters
     //#region Methods
     //#region update
@@ -133,6 +137,26 @@ class GridLayout extends Layout {
     //#endregion loaded
     //#endregion Methods
 }
+Object.defineProperties(GridLayout.prototype, {
+    'columnGap': {
+        enumerable: !0
+    },
+    'rowGap': {
+        enumerable: !0
+    },
+    'columns': {
+        enumerable: !0
+    },
+    'rows': {
+        enumerable: !0
+    },
+    'templateColumns': {
+        enumerable: !0
+    },
+    'templateRows': {
+        enumerable: !0
+    }
+});
 Object.seal(GridLayout);
 core.classes.register(core.types.CATEGORIES.CONTAINERS, GridLayout);
 //#endregion GridLayout

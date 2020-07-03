@@ -28,12 +28,15 @@ class Toggle extends Checkbox {
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region allowGrayed
     get allowGrayed() {
         return super.allowGrayed;
     }
     set allowGrayed(newValue) {
         super.allowGrayed = !1;
     }
+    //#endregion allowGrayed
+    //#region uncheckedLabel
     get uncheckedLabel() {
         //#region constructor
         const priv = core.private(this);
@@ -49,6 +52,8 @@ class Toggle extends Checkbox {
             this.update();
         }
     }
+    //#endregion uncheckedLabel
+    //#region checkedLabel
     get checkedLabel() {
         //#region constructor
         const priv = core.private(this);
@@ -61,6 +66,7 @@ class Toggle extends Checkbox {
             this.update();
         }
     }
+    //#endregion checkedLabel
     //#endregion Getters / Setters
     //#region Methods
     //#region update
@@ -87,6 +93,14 @@ class Toggle extends Checkbox {
     //#endregion update
     //#endregion Methods
 }
+Object.defineProperties(Action.prototype, {
+    'uncheckedLabel': {
+        enumerable: !0
+    },
+    'checkedLabel': {
+        enumerable: !0
+    }
+});
 Object.seal(Toggle);
 core.classes.register(core.types.CATEGORIES.EXTENDED, Toggle);
 //#endregion Toggle

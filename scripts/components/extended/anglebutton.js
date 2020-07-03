@@ -281,8 +281,22 @@ class AngleButton extends Button {
         this.update();
     }
     //#endregion loaded
-    //#endregion
+    //#endregion Methods
 }
+Object.defineProperties(AngleButton.prototype, {
+    'frequency': {
+        enumerable: !0
+    },
+    'tracking': {
+        enumerable: !0
+    },
+    'value': {
+        enumerable: !0
+    },
+    'showValue': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.EXTENDED, AngleButton);
 //#endregion AngleButton
 //#region Templates

@@ -34,7 +34,6 @@ class Rating extends ThemedControl {
             props.allowUpdateOnResize = !0;
             super(owner, props);
             const priv = core.private(this, {
-                ratingObj: null,
                 nbItem: props.hasOwnProperty('nbItem') ? props.nbItem : 5,
                 value: props.hasOwnProperty('value') ? props.value : 0
             });
@@ -342,6 +341,14 @@ class Rating extends ThemedControl {
     //#endregion loaded
     //#endregion Methods
 }
+Object.defineProperties(Rating.prototype, {
+    'nbItem': {
+        enumerable: !0
+    },
+    'value': {
+        enumerable: !0
+    }
+});
 Object.seal(Rating);
 core.classes.register(core.types.CATEGORIES.COMMON, Rating);
 //#endregion Rating

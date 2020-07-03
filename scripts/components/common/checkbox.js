@@ -59,7 +59,7 @@ class Checkbox extends CaptionControl {
         }
     }
     //#endregion constructor
-    //#region Getter / Setter
+    //#region Getters / Setters
     //#region check
     get check() {
         return core.private(this).check;
@@ -153,7 +153,7 @@ class Checkbox extends CaptionControl {
         }
     }
     //#endregion autoWidth
-    //#endregion Getter / Setter
+    //#endregion Getters / Setters
     //#region Methods
     //#region mouseDown
     mouseDown() {
@@ -256,6 +256,20 @@ class Checkbox extends CaptionControl {
     //#endregion
     //#endregion Checkbox
 }
+Object.defineProperties(Checkbox.prototype, {
+    'checked': {
+        enumerable: !0
+    },
+    'autoWidth': {
+        enumerable: !0
+    },
+    'allowGrayed': {
+        enumerable: !0
+    },
+    'action': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.COMMON, Checkbox);
 //#endregion Checkbox
 //#region Templates

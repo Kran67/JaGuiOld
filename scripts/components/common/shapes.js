@@ -145,6 +145,11 @@ class Line extends SVGGraphicControl {
     //#endregion update
     //#endregion Methods
 }
+Object.defineProperties(Line.prototype, {
+    'lineDirection': {
+        enumerable: !0
+    }
+});
 Object.seal(Object.freeze(Line));
 //#endregion Line
 //#region Rectangle
@@ -269,6 +274,20 @@ class RoundRect extends Rectangle {
     //#endregion update
     //#endregion Methods
 }
+Object.defineProperties(RoundRect.prototype, {
+    'topLeftRadius': {
+        enumerable: !0
+    },
+    'topRightRadius': {
+        enumerable: !0
+    },
+    'bottomLeftRadius': {
+        enumerable: !0
+    },
+    'bottomRightRadius': {
+        enumerable: !0
+    }
+});
 Object.seal(Object.freeze(RoundRect));
 //#endregion RoundRect
 //#region Class Ellipse
@@ -478,6 +497,11 @@ class Path extends SVGGraphicControl {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(Path.prototype, {
+    'path': {
+        enumerable: !0
+    }
+});
 Object.seal(Object.freeze(Path));
 //#endregion Path
 //#region Class Pie
@@ -556,6 +580,14 @@ class Pie extends SVGGraphicControl {
     //#endregion update
     //#endregion Methods
 }
+Object.defineProperties(Pie.prototype, {
+    'startAngle': {
+        enumerable: !0
+    },
+    'endAngle': {
+        enumerable: !0
+    }
+});
 Object.freeze(Pie);
 //#endregion Pie
 //#region Chord
@@ -631,6 +663,11 @@ class Star extends SVGGraphicControl {
     //#endregion update
     //#endregion Methods
 }
+Object.defineProperties(Star.prototype, {
+    'spikes': {
+        enumerable: !0
+    }
+});
 Object.seal(Object.freeze(Star));
 //#endregion Star
 //#region POLYGONSIDES
@@ -739,6 +776,11 @@ class Polygon extends SVGGraphicControl {
     //#endregion update
     //#endregion Methods
 }
+Object.defineProperties(Polygon.prototype, {
+    'sides': {
+        enumerable: !0
+    }
+});
 Object.seal(Object.freeze(Polygon));
 //#endregion Polygon
 core.classes.register(core.types.CATEGORIES.SHAPES, Line, Rectangle, RoundRect, Ellipse, Circle, Pie, Chord, Arc, Path, Star, Polygon);

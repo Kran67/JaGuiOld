@@ -36,7 +36,7 @@ class ItemsWheel extends ThemedControl {
         }
     }
     //#endregion constructor
-    //#region Getter / Setter
+    //#region Getters / Setters
     //#region value
     get value() {
         return core.private(this).value;
@@ -96,7 +96,7 @@ class ItemsWheel extends ThemedControl {
         core.tools.isBool(newValue) && newValue !== priv.animated && (priv.animated = newValue);
     }
     //#endregion animated
-    //#endregion Getter / Setter
+    //#endregion Getters / Setters
     //#region Methods
     //#region recreateItems
     recreateItems() {
@@ -298,6 +298,20 @@ class ItemsWheel extends ThemedControl {
     //#endregion keyDown
     //#endregion Methods
 }
+Object.defineProperties(ItemsWheel.prototype, {
+    'scrollAni': {
+        enumerable: !0
+    },
+    'value': {
+        enumerable: !0
+    },
+    'animated': {
+        enumerable: !0
+    },
+    'mouseTracking': {
+        enumerable: !0
+    }
+});
 Object.seal(ItemsWheel);
 core.classes.register(core.types.CATEGORIES.INTERNAL, ItemsWheel);
 //#endregion ItemsWheel

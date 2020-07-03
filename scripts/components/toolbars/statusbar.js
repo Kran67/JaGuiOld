@@ -139,6 +139,14 @@ class StatusBarPanel extends BaseClass {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(StatusBarPanel.prototype, {
+    'text': {
+        enumerable: !0
+    },
+    'width': {
+        enumerable: !0
+    }
+});
 //#endregion StatusBarPanel
 //#region Class StatusBar
 class StatusBar extends ThemedControl {
@@ -150,9 +158,8 @@ class StatusBar extends ThemedControl {
             !core.isHTMLRenderer && (props.height = 19);
             super(owner, props);
             core.private(this, {
-                simplePanel: null,
-                autoHint: props.hasOwnProperty('autoHint') ? props.autoHint : !1,
-                simplePanel: props.hasOwnProperty('simplePanel') ? props.simplePanel : !1,
+                autoHint: props.hasOwnProperty('autoHint') && core.tools.isBool(props.autoHint) ? props.autoHint : !1,
+                simplePanel: props.hasOwnProperty('simplePanel') && core.tools.isBool(props.simplePanel) ? props.simplePanel : !1,
                 simpleText: props.hasOwnProperty('simpleText') ? props.simpleText : String.EMPTY
             });
             this.align = props.hasOwnProperty('align') ? props.alignment : core.types.ALIGNS.MOSTBOTTOM;
@@ -252,6 +259,17 @@ class StatusBar extends ThemedControl {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(StatusBar.prototype, {
+    'autoHint': {
+        enumerable: !0
+    },
+    'simplePanel': {
+        enumerable: !0
+    },
+    'simpleText': {
+        enumerable: !0
+    }
+});
 Object.seal(StatusBar);
 core.classes.register(core.types.CATEGORIES.INTERNAL, StatusBarPanel);
 core.classes.register(core.types.CATEGORIES.TOOLBARS, StatusBar);

@@ -26,8 +26,7 @@ class ToolButton extends BitmapButton {
         if (owner) {
             super(owner, props);
             core.private(this, {
-                imageIndex: props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1,
-                action: null
+                imageIndex: props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1
             });
         }
     }
@@ -41,22 +40,6 @@ class ToolButton extends BitmapButton {
         return null;
     }
     //#endregion height
-    //#region action
-    get action() {
-        return core.private(this).action;
-    }
-    set action(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof core.classes.Action && priv.action !== newValue) {
-            priv.action instanceof core.classes.Action && priv.action.unRegisterChanges(this);
-            priv.action = newValue;
-            priv.action.registerChanges(this);
-            priv.action.updateTarget(this);
-        }
-    }
-    //#endregion action
     //#endregion Getters / Setters
     //#region Methods
     //#region loaded
@@ -96,6 +79,11 @@ class ToolButton extends BitmapButton {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(ToolButton.prototype, {
+    'imageIndex': {
+        enumerable: !0
+    }
+});
 Object.seal(ToolButton);
 core.classes.register(core.types.CATEGORIES.INTERNAL, ToolButtonSep, ToolButton);
 //#endregion ToolButton

@@ -39,6 +39,11 @@ class LabeledMemo extends LabeledControl {
     //#endregion destroy
     //#endregion Methods
 }
+    Object.defineProperties(LabeledMemo.prototype, {
+    'memo': {
+        enumerable: !0
+    }
+});
 Object.seal(LabeledMemo);
 core.classes.register(core.types.CATEGORIES.EXTENDED, LabeledMemo);
 //#endregion LabeledMemo

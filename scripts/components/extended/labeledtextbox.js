@@ -39,6 +39,11 @@ class LabeledTextBox extends LabeledControl {
     //#endregion destroy
     //#endregion Methods
 }
+    Object.defineProperties(LabeledTextBox.prototype, {
+    'textBox': {
+        enumerable: !0
+    }
+});
 Object.seal(LabeledTextBox);
 core.classes.register(core.types.CATEGORIES.EXTENDED, LabeledTextBox);
 //#endregion LabeledTextBox

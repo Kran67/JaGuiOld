@@ -44,6 +44,7 @@ class RadioGroup extends GroupBox {
         }
         return null;
     }
+    //#endregion getRadio
     //#region arrangeButtons
     arrangeButtons() {
         //#region Variables déclaration
@@ -105,6 +106,7 @@ class RadioGroup extends GroupBox {
                 const item = core.classes.createComponent({
                     class: this.items.itemClass,
                     owner: this,
+                    name: `${this.name}_radio${i+1}`,
                     props: {
                         caption: obj.caption,
                         enabled: obj.enabled,
@@ -124,6 +126,14 @@ class RadioGroup extends GroupBox {
     //#endregion loaded
     //#endregion Methods
 }
+Object.defineProperties(RadioGroup.prototype, {
+    'itemIndex': {
+        enumerable: !0
+    },
+    'columns': {
+        enumerable: !0
+    }
+});
 Object.seal(RadioGroup);
 core.classes.register(core.types.CATEGORIES.EXTENDED, RadioGroup);
 //#endregion RadioGroup

@@ -5,19 +5,6 @@ import { Rect } from '/scripts/core/geometry.js';
 //#endregion Import
 //#region Class ImageControl
 class ImageControl extends ThemedControl {
-    //#region constructor
-    constructor(owner, props) {
-        props = !props ? {} : props;
-        if (owner) {
-            super(owner, props);
-            core.private(this, {
-                bitmapStyle: null, // TODO à finir
-                bitmap: null,
-                props
-            });
-        }
-    }
-    //#endregion constructor
     //#region Getters / Setters
     //#region width
     get width() {

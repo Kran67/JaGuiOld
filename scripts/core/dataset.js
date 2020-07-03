@@ -186,7 +186,7 @@ class DataSet extends Component {
         }
     }
     //#endregion keyField
-    //#endregion Getter / Setters
+    //#endregion Getters / Setters
     //#region Methods
     /**
      * Open the dataset
@@ -447,8 +447,22 @@ class DataSet extends Component {
         super.destroy();
     }
     //#endregion destroy
-    //#endregion
+    //#endregion Methods
 }
+Object.defineProperties(DataSet.prototype, {
+    'dataSource': {
+        enumerable: !0
+    },
+    'active': {
+        enumerable: !0
+    },
+    'activeOnLoad': {
+        enumerable: !0
+    },
+    'keyField': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.NONVISUAL, DataSet);
 //#region DataSet
 export { DataSet };

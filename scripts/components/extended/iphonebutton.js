@@ -10,9 +10,6 @@ class IPhoneButton extends BitmapButton {
             props.caption = String.EMPTY;
             props.canFocused = !1;
             super(owner, props);
-            core.private(this, {
-                halo: null
-            });
             delete this.tabOrder;
         }
     }

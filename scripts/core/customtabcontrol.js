@@ -604,7 +604,6 @@ class CustomTabControl extends ThemedControl {
     //#endregion Methods
 }
 Object.seal(CustomTabControl);
-core.classes.register(core.types.CATEGORIES.INTERNAL, CustomTabControl);
 Object.defineProperties(CustomTabControl.prototype, {
     'tabClass': {
         enumerable: !0
@@ -619,5 +618,6 @@ Object.defineProperties(CustomTabControl.prototype, {
         enumerable: !0
     }
 });
+core.classes.register(core.types.CATEGORIES.INTERNAL, CustomTabControl);
 //#endregion CustomTabControl
 export { CustomTabControl };

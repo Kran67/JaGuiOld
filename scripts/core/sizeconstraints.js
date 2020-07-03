@@ -18,7 +18,7 @@ class SizeConstraints extends BaseClass {
         }
     }
     //#endregion constructor
-    //#region Getter / Setter
+    //#region Getters / Setters
     //#region control
     get control() {
         return core.private(this).control;
@@ -105,7 +105,7 @@ class SizeConstraints extends BaseClass {
         return props;
     }
     //#endregion properties
-    //#endregion Getter / Setter
+    //#endregion Getters / Setters
     //#region Methods
     //#region setConstraints
     setConstraints(index, value) {
@@ -196,6 +196,20 @@ class SizeConstraints extends BaseClass {
     //#endregion equals
     //#endregion Methods
 }
+Object.defineProperties(SizeConstraints.prototype, {
+    'maxHeight': {
+        enumerable: !0
+    },
+    'maxWidth': {
+        enumerable: !0
+    },
+    'minHeight': {
+        enumerable: !0
+    },
+    'minWidth': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.INTERNAL, SizeConstraints);
 //#endregion SizeConstraints
 export { SizeConstraints };

@@ -143,6 +143,11 @@ class ScrollControl extends ThemedControl {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(ScrollControl.prototype, {
+    'scrollMode': {
+        enumerable: !0
+    }
+});
 Object.seal(ScrollControl);
 core.classes.register(core.types.CATEGORIES.INTERNAL, ScrollControl);
 //#endregion ScrollControl

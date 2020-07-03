@@ -54,12 +54,15 @@ class ToolBar extends ThemedControl {
     //#endregion images
     //#endregion Getters / Setters
     //#region Methods
+    //#region loaded
     loaded() {
         this.getImages();
         super.loaded();
         this.updateToolButtons();
         this.owner === this.form.layout && this.form.toolBars.indexOf(this) === -1 && this.form.toolBars.push(this);
     }
+    //#endregion loaded
+    //#region destroy
     destroy() {
         //#region Variables déclaration
         const priv = core.private(this);
@@ -68,6 +71,8 @@ class ToolBar extends ThemedControl {
         priv.showCaption = null;
         super.destroy();
     }
+    //#endregion destroy
+    //#region getImages
     getImages() {
         //var data = htmlElement.dataset.images;
         //if (data) {
@@ -76,6 +81,8 @@ class ToolBar extends ThemedControl {
         //    }
         //}
     }
+    //#endregion getImages
+    //#region updateToolButtons
     updateToolButtons() {
         //#region Variables déclaration
         const priv = core.private(this);
@@ -85,8 +92,17 @@ class ToolBar extends ThemedControl {
             comp instanceof core.classes.ToolButton && (comp.showCaption = priv.showCaption);
         });
     }
+    //#endregion updateToolButtons
     //#endregion Methods
 }
+Object.defineProperties(ToolBar.prototype, {
+    'images': {
+        enumerable: !0
+    },
+    'showCaption': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.TOOLBARS, ToolBar);
 //#endregion ToolBar
 //#region Templates

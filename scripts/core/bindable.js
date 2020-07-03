@@ -163,11 +163,11 @@ class Bindable extends BaseClass {
     //#endregion unBindAndDestroyEvents
     //#endregion Methods
 }
-core.classes.register(core.types.CATEGORIES.INTERNAL, Bindable);
 Object.defineProperties(Bindable.prototype, {
     'dataBindings': {
         enumerable: !0
     }
 });
+core.classes.register(core.types.CATEGORIES.INTERNAL, Bindable);
 //#endregion Bindable
 export { Bindable };

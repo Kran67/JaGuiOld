@@ -357,6 +357,32 @@ class CornerButton extends Button {
     //#endregion loaded
     //#endregion Methods
 }
+Object.defineProperties(CornerButton.prototype, {
+    'topLeftCorner': {
+        enumerable: !0
+    },
+    'topLeftCornerType': {
+        enumerable: !0
+    },
+    'topRightCorner': {
+        enumerable: !0
+    },
+    'topRightCornerType': {
+        enumerable: !0
+    },
+    'bottomRightCorner': {
+        enumerable: !0
+    },
+    'bottomRightCornerType': {
+        enumerable: !0
+    },
+    'bottomLeftCorner': {
+        enumerable: !0
+    },
+    'bottomLeftCornerType': {
+        enumerable: !0
+    }
+});
 //#endregion CornerButton
 core.classes.register(core.types.CATEGORIES.EXTENDED, CornerButton);
 //#region Template

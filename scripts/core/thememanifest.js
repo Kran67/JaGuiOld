@@ -159,6 +159,11 @@ class ThemeManifest extends BaseClass {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(ThemeManifest.prototype, {
+    'themes': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.INTERNAL, ThemeManifest);
 //#endregion ThemeManifest
 export { ThemeManifest };

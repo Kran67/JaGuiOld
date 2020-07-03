@@ -438,6 +438,17 @@ class Splitter extends ThemedControl {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(Splitter.prototype, {
+    'minSize': {
+        enumerable: !0
+    },
+    'maxSize': {
+        enumerable: !0
+    },
+    'collapsible': {
+        enumerable: !0
+    }
+});
 Object.seal(Splitter);
 core.classes.register(core.types.CATEGORIES.COMMON, Splitter);
 //#endregion Splitter

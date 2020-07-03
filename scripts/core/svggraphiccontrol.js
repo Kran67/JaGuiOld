@@ -16,7 +16,7 @@ class SVGGraphicControl extends GraphicControl {
         }
     }
     //#endregion constructor
-    //#region Getter / Setter
+    //#region Getters / Setters
     //#region svg
     get svg() {
         return core.private(this).svg;
@@ -39,7 +39,7 @@ class SVGGraphicControl extends GraphicControl {
         newValue instanceof HTMLElement && priv.svgShape !== newValue && (priv.svgShape = newValue);
     }
     //#endregion svgShape
-    //#endregion Getter / Setter
+    //#endregion Getters / Setters
     //#region Methods
     //#region loaded
     loaded() {

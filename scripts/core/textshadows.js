@@ -63,4 +63,5 @@ class TextShadows {
 }
 Object.seal(TextShadows);
 //#endregion TextShadows
+core.classes.register(core.types.CATEGORIES.INTERNAL, TextShadows, TextShadowsItem);
 export { TextShadows };

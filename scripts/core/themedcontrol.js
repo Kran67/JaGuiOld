@@ -74,6 +74,11 @@ class ThemedControl extends Control {
     //#endregion changeTheme
     //#endregion Methods
 }
+Object.defineProperties(Action.prototype, {
+    'themeName': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.INTERNAL, ThemedControl);
 //#endregion ThemedControl
 export { ThemedControl };

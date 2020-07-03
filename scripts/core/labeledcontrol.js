@@ -67,7 +67,7 @@ class LabeledControl extends FlexLayout {
         });
     }
     //#endregion loaded
-    //#endregion
+    //#endregion Methods
 }
 core.classes.register(core.types.CATEGORIES.INTERNAL, LabeledControl);
 //#endregion LabeledControl

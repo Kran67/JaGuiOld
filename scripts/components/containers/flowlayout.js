@@ -32,6 +32,7 @@ class FlowLayout extends Layout {
             core.tools.addPropertyFromEnum({
                 component: this,
                 propName: 'layout',
+                enumerable: !1,
                 enum: FLOWLAYOUTS,
                 value: props.hasOwnProperty('layout') ? props.layout : FLOWLAYOUTS.HORIZONTAL
             });
@@ -115,6 +116,14 @@ class FlowLayout extends Layout {
     //#endregion alignControls
     //#endregion Methods
 }
+Object.defineProperties(FlowLayout.prototype, {
+    'hGap': {
+        enumerable: !0
+    },
+    'vGap': {
+        enumerable: !0
+    }
+});
 Object.seal(FlowLayout);
 core.classes.register(core.types.CATEGORIES.CONTAINERS, FlowLayout);
 //#endregion FlowLayout

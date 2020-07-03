@@ -669,7 +669,6 @@ class Component extends Bindable {
     //#endregion clientToDocument
     //#endregion
 }
-core.classes.register(core.types.CATEGORIES.COMMON, Component);
 Object.defineProperties(Component.prototype, {
     'visible': {
         enumerable: !0
@@ -681,5 +680,6 @@ Object.defineProperties(Component.prototype, {
         enumerable: !0
     }
 });
+core.classes.register(core.types.CATEGORIES.COMMON, Component);
 //#endregion Component
 export { Component };

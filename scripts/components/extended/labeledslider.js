@@ -84,6 +84,14 @@ class LabeledSlider extends LabeledControl {
     }
     //#endregion Methods
 }
+Object.defineProperties(LabeledSlider.prototype, {
+    'slider': {
+        enumerable: !0
+    },
+    'valueLabel': {
+        enumerable: !0
+    }
+});
 Object.seal(LabeledSlider);
 core.classes.register(core.types.CATEGORIES.EXTENDED, LabeledSlider);
 //#endregion LabeledSlider

@@ -1126,6 +1126,35 @@ class SegmentLedLabel extends ThemedControl {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(SegmentLedLabel.prototype, {
+    'maxLength': {
+        enumerable: !0
+    },
+    'autoScroll': {
+        enumerable: !0
+    },
+    'scrollSpeed': {
+        enumerable: !0
+    },
+    'color': {
+        enumerable: !0
+    },
+    'segmentSize': {
+        enumerable: !0
+    },
+    'caption': {
+        enumerable: !0
+    },
+    'scrollType': {
+        enumerable: !0
+    },
+    'scrollDir': {
+        enumerable: !0
+    },
+    'autoAdjustTextLengthWithSpace': {
+        enumerable: !0
+    }
+});
 Object.seal(SegmentLedLabel);
 core.classes.register(core.types.CATEGORIES.EXTENDED, SegmentLedLabel);
 //#endregion SegmentLedLabel

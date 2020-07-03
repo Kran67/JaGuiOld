@@ -133,6 +133,11 @@ class Image extends Control {
     //#endregion load
     //#endregion Methods
 }
+Object.defineProperties(Image.prototype, {
+    'src': {
+        enumerable: !0
+    }
+});
 //#endregion Image
 //#region Class Image
 class Icon extends ThemedControl {

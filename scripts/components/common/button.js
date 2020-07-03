@@ -64,6 +64,9 @@ class CustomButton extends CaptionControl {
     }
     //#endregion pressing
     //#region action
+    get action() {
+        return core.private(this).action;
+    }
     set action(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);

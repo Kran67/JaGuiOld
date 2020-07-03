@@ -39,6 +39,11 @@ class LabeledDropDownListBoxColor extends LabeledControl {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(LabeledDropDownListBoxColor.prototype, {
+    'dropDownListBoxColor': {
+        enumerable: !0
+    }
+});
 Object.seal(LabeledDropDownListBoxColor);
 core.classes.register(core.types.CATEGORIES.EXTENDED, LabeledDropDownListBoxColor);
 //#endregion LabeledDropDownListBoxColor

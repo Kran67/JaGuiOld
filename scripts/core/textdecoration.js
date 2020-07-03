@@ -126,6 +126,24 @@ class TextDecoration extends BaseClass {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(SVGGraphicControl.prototype, {
+    'underline': {
+        enumerable: !0
+    },
+    'overline': {
+        enumerable: !0
+    },
+    'lineThrough': {
+        enumerable: !0
+    },
+    'color': {
+        enumerable: !0
+    },
+    'style': {
+        enumerable: !0
+    }
+});
 Object.seal(TextDecoration);
+core.classes.register(core.types.CATEGORIES.INTERNAL, TextDecoration);
 //#endregion TextDecoration
 export { TextDecoration };

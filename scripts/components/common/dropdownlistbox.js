@@ -210,12 +210,9 @@ class DropDownListBox extends ThemedControl {
             props.autoCapture = !0;
             super(owner, props);
             core.private(this, {
-                content: null,
-                dropDownPopup: null,
                 opened: props.hasOwnProperty('opened') && core.tools.isBool(props.opened)
                     ? props.opened : !1,
                 text: props.hasOwnProperty('text') ? props.text : String.EMPTY,
-                input: null,
                 dropDownCount: props.hasOwnProperty('dropDownCount')
                     && core.tools.isNumber(props.dropDownCount)
                     ? props.dropDownCount : 8,
@@ -655,6 +652,32 @@ class DropDownListBox extends ThemedControl {
     //#endregion killFocus
     //#endregion Methods
 }
+Object.defineProperties(DropDownListBox.prototype, {
+    'text': {
+        enumerable: !0
+    },
+    'dropDownCount': {
+        enumerable: !0
+    },
+    'editable': {
+        enumerable: !0
+    },
+    'items': {
+        enumerable: !0
+    },
+    'itemIndex': {
+        enumerable: !0
+    },
+    'itemsSize': {
+        enumerable: !0
+    },
+    'listBoxPopupClass': {
+        enumerable: !0
+    },
+    'dropDownWidth': {
+        enumerable: !0
+    }
+});
 Object.seal(DropDownListBox);
 core.classes.register(core.types.CATEGORIES.INTERNAL, DropDownListBoxPopup, ListBoxPopup, ListBoxItemPopup);
 core.classes.register(core.types.CATEGORIES.COMMON, DropDownListBox);

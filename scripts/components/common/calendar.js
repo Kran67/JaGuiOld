@@ -22,16 +22,7 @@ class Calendar extends ThemedControl {
             props.canFocused = !0;
             super(owner, props);
             core.private(this, {
-                prevMonth: null,
-                thisDay: null,
-                nextMonth: null,
-                thisMonth: null,
-                weekDays: null,
                 weeks: new Array(6),
-                months: null,
-                decades: null,
-                centuries: null,
-                lastSelectedDay: null,
                 autoTranslate: !0,
                 curDate: props.hasOwnProperty('date') ? new Date(props.date) : new Date(Date.now()),
                 viewWeeksNum: props.hasOwnProperty('viewWeeksNum') && core.tools.isBool(props.viewWeeksNum)
@@ -697,6 +688,17 @@ class Calendar extends ThemedControl {
     //#endregion mouseDown
     //#endregion Methods
 }
+Object.defineProperties(Calendar.prototype, {
+    'autoTranslate': {
+        enumerable: !0
+    },
+    'curDate': {
+        enumerable: !0
+    },
+    'viewWeeksNum': {
+        enumerable: !0
+    }
+});
 Object.seal(Calendar);
 core.classes.register(core.types.CATEGORIES.COMMON, Calendar);
 //#endregion Calendar

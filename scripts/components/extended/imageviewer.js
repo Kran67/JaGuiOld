@@ -27,6 +27,7 @@ class ImageViewer extends ScrollBox {
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region image
     get image() {
         return core.private(this).bitmap;
     }
@@ -36,11 +37,15 @@ class ImageViewer extends ScrollBox {
         //#endregion Variables déclaration
         core.tools.isString(newValue) && priv.bitmap.src !== newValue && this.load(newValue);
     }
+    //#endregion image
+    //#region isEmpty
     isEmpty() {
         return priv.bitmap.src === core.types.CONSTANS.PIX;
     }
+    //#endregion isEmpty
     //#endregion Getters / Setters
     //#region Methods
+    //#region wheel
     wheel(event) {
         //#region Variables déclaration
         const priv = core.private(this);
@@ -52,16 +57,24 @@ class ImageViewer extends ScrollBox {
             this.update();
         }
     }
+    //#endregion wheel
+    //#region doBitmapLoaded
     doBitmapLoaded() {
         this.jsObj.update();
     }
+    //#endregion doBitmapLoaded
+    //#region doBitmapNotLoaded
     doBitmapNotLoaded() { throw 'Image bitmap error'; }
+    //#endregion doBitmapNotLoaded
+    //#region load
     load(uri) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
         priv.bitmap.src = uri;
     }
+    //#endregion load
+    //#region update
     update() {
         //#region Variables déclaration
         const priv = core.private(this);
@@ -90,18 +103,21 @@ class ImageViewer extends ScrollBox {
             priv.bitmap.style.top = 0;
         }
     }
+    //#endregion update
+    //#region loaded
     loaded() {
         //#region Variables déclaration
         const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const props = JSON.parse(htmlElement.querySelector('properties').innerText);
-
         //#endregion Variables déclaration
         super.loaded();
         props.hasOwnProperty('src') && this.load(props.src);
         htmlElement.appendChild(priv.bitmap);
         htmlElement.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { this.wheel(event); });
     }
+    //#endregion loaded
+    //#region destroy
     destroy() {
         //#region Variables déclaration
         const HTMLEvents = core.types.HTMLEVENTS;
@@ -111,8 +127,14 @@ class ImageViewer extends ScrollBox {
         priv.bitmap.jsObj = null;
         super.destroy();
     }
+    //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(Action.prototype, {
+    'scale': {
+        enumerable: !0
+    }
+});
 Object.seal(ImageViewer);
 core.classes.register(core.types.CATEGORIES.EXTENDED, ImageViewer);
 //#endregion ImageViewer

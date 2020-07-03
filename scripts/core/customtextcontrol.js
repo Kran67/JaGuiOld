@@ -41,6 +41,7 @@ class CustomTextControl extends ThemedControl {
                 propName: 'type',
                 enum: htmlInputTypes,
                 forceUpdate: !0,
+                enumerable: !1,
                 value: props.hasOwnProperty('type') ? props.type : htmlInputTypes.TEXT
             });
             htmlInputTypes = null;
@@ -344,6 +345,32 @@ class CustomTextControl extends ThemedControl {
     //#endregion unbindEventToHTMLInput
     //#endregion Methods
 }
+Object.defineProperties(CustomTextControl.prototype, {
+    'hasError': {
+        enumerable: !0
+    },
+    'text': {
+        enumerable: !0
+    },
+    'maxLength': {
+        enumerable: !0
+    },
+    'readOnly': {
+        enumerable: !0
+    },
+    'placeHolder': {
+        enumerable: !0
+    },
+    'filterChars': {
+        enumerable: !0
+    },
+    'required': {
+        enumerable: !0
+    },
+    'errorMsg': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.INTERNAL, CustomTextControl);
 //#endregion Class CustomTextControl
 export { CustomTextControl };

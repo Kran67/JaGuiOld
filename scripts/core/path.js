@@ -1619,8 +1619,13 @@ class PathData extends BaseClass {
         this.owner && this.owner.update();
     }
     //#endregion updateOwner
-    //#endregion
+    //#endregion Methods
 }
+Object.defineProperties(PathData.prototype, {
+    'data': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.INTERNAL, PathPoint, PathData);
 //#endregion PathData
 export { PathPoint, PathData };

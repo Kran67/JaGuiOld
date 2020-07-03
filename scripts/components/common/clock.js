@@ -52,8 +52,6 @@ class Clock extends ThemedControl {
             props.hitTest = { mouseUp: !1 };
             super(owner, props);
             const priv = core.private(this, {
-                startTime: null,
-                handle: null,
                 started: !1,
                 paused: !1,
                 showSeconds: props.hasOwnProperty('showSeconds') && core.tools.isBool(props.showSeconds)
@@ -1158,6 +1156,38 @@ class Clock extends ThemedControl {
     //#endregion snoozeAlarm
     //#endregion Methods
 }
+Object.defineProperties(Clock.prototype, {
+    'showSeconds': {
+        enumerable: !0
+    },
+    'showDays': {
+        enumerable: !0
+    },
+    'showDate': {
+        enumerable: !0
+    },
+    'use24H': {
+        enumerable: !0
+    },
+    'autoStart': {
+        enumerable: !0
+    },
+    'alarm': {
+        enumerable: !0
+    },
+    'countDown': {
+        enumerable: !0
+    },
+    'dotsGap': {
+        enumerable: !0
+    },
+    'dotsFirstColor': {
+        enumerable: !0
+    },
+    'dotsLastColor': {
+        enumerable: !0
+    }
+});
 Object.seal(Clock);
 core.classes.register(core.types.CATEGORIES.COMMON, Clock);
 //#endregion Clock

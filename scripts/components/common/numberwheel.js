@@ -78,9 +78,20 @@ class NumberWheel extends ItemsWheel {
     //#endregion recreateItems
     //#endregion Methods
 }
-//#endregion NumberWheel
+Object.defineProperties(NumberWheel.prototype, {
+    'min': {
+        enumerable: !0
+    },
+    'max': {
+        enumerable: !0
+    },
+    'numberDigits': {
+        enumerable: !0
+    }
+});
 Object.seal(NumberWheel);
 core.classes.register(core.types.CATEGORIES.COMMON, NumberWheel);
+//#endregion NumberWheel
 //#region Templates
 if (core.isHTMLRenderer) {
     const NumberWheelTpl = ['<jagui-numberwheel id="{internalId}" data-class="NumberWheel" class="Control ',

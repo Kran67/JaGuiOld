@@ -39,6 +39,11 @@ class LabeledImage extends LabeledControl {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(LabeledImage.prototype, {
+    'imgCtrl': {
+        enumerable: !0
+    }
+});
 Object.seal(LabeledImage);
 core.classes.register(core.types.CATEGORIES.EXTENDED, LabeledImage);
 //#endregion LabeledImage

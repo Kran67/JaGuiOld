@@ -278,6 +278,17 @@ class DropDownSlider extends ThemedControl {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(DropDownSlider.prototype, {
+    'value': {
+        enumerable: !0
+    },
+    'min': {
+        enumerable: !0
+    },
+    'max': {
+        enumerable: !0
+    }
+});
 Object.seal(DropDownSlider);
 core.classes.register(core.types.CATEGORIES.INTERNAL, SliderPopup, DropDownSliderPopup);
 core.classes.register(core.types.CATEGORIES.COMMON, DropDownSlider);

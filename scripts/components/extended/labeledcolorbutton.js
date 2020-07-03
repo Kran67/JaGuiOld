@@ -39,6 +39,11 @@ class LabeledColorButton extends LabeledControl {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(LabeledColorButton.prototype, {
+    'colorButton': {
+        enumerable: !0
+    }
+});
 Object.seal(LabeledColorButton);
 core.classes.register(core.types.CATEGORIES.EXTENDED, LabeledColorButton);
 //#endregion LabeledColorButton

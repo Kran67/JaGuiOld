@@ -16,7 +16,6 @@ class TimePanel extends ThemedControl {
                 ? props.canFocused : !0;
             super(owner, props);
             core.private(this, {
-                currentItemWheel: null,
                 time: props.hasOwnProperty('time') ? props.time : String.EMPTY,
                 use24H: props.hasOwnProperty('use24H') && core.tools.isBool(props.use24H)
                     ? props.use24H : !0,
@@ -121,6 +120,7 @@ class TimePanel extends ThemedControl {
     //#endregion meridiem
     //#endregion Getters / Setters
     //#region Methods
+    //#region killFocus
     killFocus() {
         //#region Variables déclaration
         const priv = core.private(this);
@@ -128,6 +128,8 @@ class TimePanel extends ThemedControl {
         super.killFocus();
         priv.currentItemWheel && priv.currentItemWheel.HTMLElement.classList.remove('focused');
     }
+    //#endregion killFocus
+    //#region update
     update() {
         //#region Variables déclaration
         const priv = core.private(this);
@@ -135,6 +137,8 @@ class TimePanel extends ThemedControl {
         priv.seconds.visible = priv.viewSeconds;
         priv.meridiem.visible = !priv.use24H;
     }
+    //#endregion update
+    //#region change
     change() {
         //#region Variables déclaration
         const owner = this.owner;
@@ -149,6 +153,8 @@ class TimePanel extends ThemedControl {
         owner.time = val;
         !owner.updating && owner.onChange.invoke();
     }
+    //#endregion change
+    //#region loaded
     loaded() {
         //#region Variables déclaration
         const priv = core.private(this);
@@ -210,6 +216,8 @@ class TimePanel extends ThemedControl {
         }
         this.update();
     }
+    //#endregion loaded
+    //#region destroy
     destroy() {
         //#region Variables déclaration
         const priv = core.private(this);
@@ -221,6 +229,8 @@ class TimePanel extends ThemedControl {
         this.unBindAndDestroyEvents(['onChange']);
         super.destroy();
     }
+    //#endregion destroy
+    //#region keyDown
     keyDown() {
         //#region Variables déclaration
         const priv = core.private(this);
@@ -264,8 +274,20 @@ class TimePanel extends ThemedControl {
         cHtmlElement.classList.add('focused');
         priv.currentItemWheel = currentItemWheel;
     }
+    //#endregion keyDown
     //#endregion Methods
 }
+Object.defineProperties(TimePanel.prototype, {
+    'time': {
+        enumerable: !0
+    },
+    'use24H': {
+        enumerable: !0
+    },
+    'viewSeconds': {
+        enumerable: !0
+    }
+});
 Object.seal(TimePanel);
 core.classes.register(core.types.CATEGORIES.COMMON, TimePanel);
 //#endregion TimePanel

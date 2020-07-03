@@ -23,9 +23,7 @@ class CalloutPanel extends Panel {
             core.private(this, {
                 calloutOffset: props.hasOwnProperty('calloutOffset') ? props.calloutOffset : 0,
                 calloutLength: props.hasOwnProperty('calloutLength') ? props.calloutLength : 11,
-                calloutWidth: props.hasOwnProperty('calloutWidth') ? props.calloutWidth : 23,
-                content: null,
-                arrow: null
+                calloutWidth: props.hasOwnProperty('calloutWidth') ? props.calloutWidth : 23
             });
             core.tools.addPropertyFromEnum({
                 component: this,
@@ -38,9 +36,11 @@ class CalloutPanel extends Panel {
     }
     //#endregion
     //#region Getters / Setters
+    //#region CALLOUTPOSITIONS
     static get CALLOUTPOSITIONS() {
         return CALLOUTPOSITIONS;
     }
+    //#endregion CALLOUTPOSITIONS
     //#region calloutPosition
     get calloutPosition() {
         return core.private(this).calloutPosition;
@@ -232,6 +232,17 @@ class CalloutPanel extends Panel {
     //#endregion loaded
     //#endregion Methods
 }
+Object.defineProperties(Action.prototype, {
+    'calloutOffset': {
+        enumerable: !0
+    },
+    'calloutLength': {
+        enumerable: !0
+    },
+    'calloutWidth': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.CONTAINERS, CalloutPanel);
 //#endregion CalloutPanel
 //#region Templates

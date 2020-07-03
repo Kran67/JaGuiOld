@@ -21,7 +21,6 @@ class ProgressBar extends ThemedControl {
             props.allowUpdateOnResize = !0;
             super(owner, props);
             core.private(this, {
-                progress: null,
                 value: props.hasOwnProperty('value') ? props.value : 0,
                 min: props.hasOwnProperty('min') ? props.min : 0,
                 max: props.hasOwnProperty('max') ? props.max : 100
@@ -208,6 +207,17 @@ class ProgressBar extends ThemedControl {
     //#endregion loaded
     //#endregion Methods
 };
+Object.defineProperties(ProgressBar.prototype, {
+    'value': {
+        enumerable: !0
+    },
+    'min': {
+        enumerable: !0
+    },
+    'max': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.COMMON, ProgressBar);
 //#endregion ProgressBar
 //#region Templates

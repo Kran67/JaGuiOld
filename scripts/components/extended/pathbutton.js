@@ -239,6 +239,29 @@ class PathButton extends ButtonGlyph {
     //#endregion loaded
     //#endregion Methods
 }
+Object.defineProperties(PathButton.prototype, {
+    'path': {
+        enumerable: !0
+    },
+    'glyphNormalStrokeColor': {
+        enumerable: !0
+    },
+    'glyphNormalFillColor': {
+        enumerable: !0
+    },
+    'glyphHoveredStrokeColor': {
+        enumerable: !0
+    },
+    'glyphHoveredFillColor': {
+        enumerable: !0
+    },
+    'glyphPressedStrokeColor': {
+        enumerable: !0
+    },
+    'glyphPressedFillColor': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.EXTENDED, PathButton);
 //#endregion PathButton
 //#region Templates

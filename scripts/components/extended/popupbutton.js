@@ -97,6 +97,11 @@ class PopupButton extends Button {
     //#endregion
     //#endregion Methods
 }
+Object.defineProperties(PopupButton.prototype, {
+    'popupMenu': {
+        enumerable: !0
+    }
+});
 Object.seal(PopupButton);
 core.classes.register(core.types.CATEGORIES.EXTENDED, PopupButton);
 //#endregion PopupButton

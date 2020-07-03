@@ -161,6 +161,11 @@ class PasswordTextBox extends CustomTextBoxBtn {
     //#endregion keyUp
     //#endregion Methods
 }
+Object.defineProperties(PasswordTextBox.prototype, {
+    'showComplexityIndicator': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.COMMON, PasswordTextBox);
 //#endregion PasswordTextBox
 //#region Templates
