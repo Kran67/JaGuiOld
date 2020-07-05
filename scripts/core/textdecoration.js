@@ -126,7 +126,7 @@ class TextDecoration extends BaseClass {
     //#endregion destroy
     //#endregion Methods
 }
-Object.defineProperties(SVGGraphicControl.prototype, {
+Object.defineProperties(TextDecoration.prototype, {
     'underline': {
         enumerable: !0
     },

@@ -93,7 +93,7 @@ class Toggle extends Checkbox {
     //#endregion update
     //#endregion Methods
 }
-Object.defineProperties(Action.prototype, {
+Object.defineProperties(Toggle.prototype, {
     'uncheckedLabel': {
         enumerable: !0
     },

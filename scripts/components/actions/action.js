@@ -354,9 +354,9 @@ class Action extends Bindable {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        priv.propertiesToUpdate.forEach(prop => {
-            target.properties.some(e => e.property === prop) && (target[prop] = this[prop]);
-        });
+        //priv.propertiesToUpdate.forEach(prop => {
+        //    target.properties.some(e => e.property === prop) && (target[prop] = this[prop]);
+        //});
     }
     //#endregion updateTarget
     /**

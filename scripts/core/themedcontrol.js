@@ -74,7 +74,7 @@ class ThemedControl extends Control {
     //#endregion changeTheme
     //#endregion Methods
 }
-Object.defineProperties(Action.prototype, {
+Object.defineProperties(ThemedControl.prototype, {
     'themeName': {
         enumerable: !0
     }

@@ -232,7 +232,7 @@ class CalloutPanel extends Panel {
     //#endregion loaded
     //#endregion Methods
 }
-Object.defineProperties(Action.prototype, {
+Object.defineProperties(CalloutPanel.prototype, {
     'calloutOffset': {
         enumerable: !0
     },

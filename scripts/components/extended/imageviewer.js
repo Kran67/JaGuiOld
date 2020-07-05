@@ -130,7 +130,7 @@ class ImageViewer extends ScrollBox {
     //#endregion destroy
     //#endregion Methods
 }
-Object.defineProperties(Action.prototype, {
+Object.defineProperties(ImageViewer.prototype, {
     'scale': {
         enumerable: !0
     }
