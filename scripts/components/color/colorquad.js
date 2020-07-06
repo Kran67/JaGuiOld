@@ -245,10 +245,10 @@ class ColorQuad extends Control {
         const color = Colors.BLACK;
         //#endregion Variables déclaration
         if (!this.loading && !this.form.loading && htmlElement) {
-                //priv.color.hue = priv.color.hue;
-                priv.color.saturation = 100;
-                priv.color.value = 100;
-                priv.color.lightness = 50;
+            //priv.color.hue = priv.color.hue;
+            priv.color.saturation = 100;
+            priv.color.value = 100;
+            priv.color.lightness = 50;
             priv.format === COLORFORMATS.HSV ? priv.color.HSVtoRGB() : priv.color.HSLtoRGB();
             this.HTMLElementStyle.backgroundColor = priv.color.toRGBAString();
             const value = 100 - (priv.handle.y * 100 / htmlElement.offsetHeight) | 0;
@@ -325,6 +325,21 @@ class ColorQuad extends Control {
     //#endregion keyDown
     //#endregion Methods
 }
+Object.defineProperties(ColorQuad.prototypej, {
+    'colorBox': {
+        enumerable: !0
+    },
+    'color': {
+        enumerable: !0
+    },
+    'gradientEdit': {
+        enumerable: !0
+    },
+    'preserveColorAlpha': {
+        enumerable: !0
+    }
+});
+Object.seal(ColorQuad);
 core.classes.register(core.types.CATEGORIES.EXTENDED, ColorQuad);
 //#endregion ColorQuad
 //#region Templates

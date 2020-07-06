@@ -233,6 +233,23 @@ class ColorPanel extends Control {
     }
     //#endregion Methods
 }
+Object.defineProperties(ColorPanel.prototype, {
+    'colorQuad': {
+        enumerable: !0
+    },
+    'hueSlider': {
+        enumerable: !0
+    },
+    'alphaSlider': {
+        enumerable: !0
+    },
+    'secondaryColorBox': {
+        enumerable: !0
+    },
+    'primaryColorBox': {
+        enumerable: !0
+    }
+});
 Object.seal(ColorPanel);
 core.classes.register(core.types.CATEGORIES.COLOR, ColorPanel);
 //#endregion ColorPanel

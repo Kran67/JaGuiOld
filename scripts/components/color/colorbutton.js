@@ -106,6 +106,12 @@ class ColorButton extends Button {
     //#endregion Methods
 }
 //#endregion ColorButton
+Object.defineProperties(ColorButton.prototype, {
+    'color': {
+        enumerable: !0
+    }
+});
+Object.seal(ColorButton);
 core.classes.register(core.types.CATEGORIES.COLOR, ColorButton);
 //#region Templates
 if (core.isHTMLRenderer) {

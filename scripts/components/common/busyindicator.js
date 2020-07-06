@@ -171,6 +171,29 @@ class BusyIndicatorSpinOptions extends Bindable {
     //#region Methods
     //#endregion Methods
 }
+Object.defineProperties(BusyIndicatorSpinOptions.prototype, {
+    'lines': {
+        enumerable: !0
+    },
+    'length': {
+        enumerable: !0
+    },
+    'width': {
+        enumerable: !0
+    },
+    'width': {
+        enumerable: !0
+    },
+    'direction': {
+        enumerable: !0
+    },
+    'speed': {
+        enumerable: !0
+    },
+    'trail': {
+        enumerable: !0
+    }
+});
 Object.seal(BusyIndicatorSpinOptions);
 //#endregion BusyIndicatorSpinOptions
 //#region Class BusyIndicator
@@ -417,6 +440,11 @@ class BusyIndicator extends ThemedControl {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(BusyIndicator.prototype, {
+    'spinIndicatorOptions': {
+        enumerable: !0
+    }
+});
 Object.seal(BusyIndicator);
 core.classes.register(core.types.CATEGORIES.INTERNAL, BusyIndicatorSpinOptions);
 core.classes.register(core.types.CATEGORIES.COMMON, BusyIndicator);

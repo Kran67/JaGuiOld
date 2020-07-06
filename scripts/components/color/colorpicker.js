@@ -182,6 +182,15 @@ class ColorPicker extends Control {
     //#endregion loaded
     //#endregion Methods
 }
+Object.defineProperties(ColorPicker.prototype, {
+    'color': {
+        enumerable: !0
+    },
+    'colorQuad': {
+        enumerable: !0
+    }
+});
+Object.seal(ColorPicker);
 core.classes.register(core.types.CATEGORIES.COLOR, ColorPicker);
 //#endregion ColorPicker
 //#region Templates

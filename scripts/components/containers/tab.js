@@ -8,13 +8,13 @@ class Tab extends CaptionControl {
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
+        String.isNullOrEmpty(props.caption) && (props.caption = `${this.constructor.name}${num}`);
         if (owner) {
             super(owner, props);
             core.private(this, {
                 imageIndex: -1,
                 showCaption: props.hasOwnProperty('showCaption') ? props.showCaption : !0,
-                tabControl: owner,
-                caption: props.hasOwnProperty('caption') ? props.caption : `${this.constructor.name}${num}`
+                tabControl: owner
             });
             let num = 1;
             owner instanceof CustomTabControl && (num = owner.tabs.length + 1);
@@ -120,9 +120,6 @@ Object.defineProperties(Tab.prototype, {
         enumerable: !0
     },
     'showCaption': {
-        enumerable: !0
-    },
-    'caption': {
         enumerable: !0
     }
 });

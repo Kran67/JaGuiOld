@@ -41,6 +41,12 @@ class ColorBox extends GraphicControl {
     //#endregion update
     //#endregion Methods
 }
+Object.defineProperties(ColorBox.prototype, {
+    'color': {
+        enumerable: !0
+    }
+});
+Object.seal(ColorBox);
 core.classes.register(core.types.CATEGORIES.COLOR, ColorBox);
 //#endregion ColorBox
 //#region Templates

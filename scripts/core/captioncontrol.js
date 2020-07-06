@@ -625,6 +625,56 @@ class CaptionControl extends ThemedControl {
     //#region destroy
     //#endregion
 }
+Object.defineProperties(CaptionControl.prototype, {
+    'caption': {
+        enumerable: !0
+    },
+    'wordWrap': {
+        enumerable: !0
+    },
+    'horizAlign': {
+        enumerable: !0
+    },
+    'color': {
+        enumerable: !0
+    },
+    'fontFamily': {
+        enumerable: !0
+    },
+    'fontSize': {
+        enumerable: !0
+    },
+    'fontSizeUnit': {
+        enumerable: !0
+    },
+    'fontBold': {
+        enumerable: !0
+    },
+    'fontStyle': {
+        enumerable: !0
+    },
+    'textDecoration': {
+        enumerable: !0
+    },
+    'textShadows': {
+        enumerable: !0
+    },
+    'textTransform': {
+        enumerable: !0
+    },
+    'vertAlign': {
+        enumerable: !0
+    },
+    'backColor': {
+        enumerable: !0
+    },
+    'autoSize': {
+        enumerable: !0
+    },
+    'textOverflow': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.COMMON, CaptionControl);
 //#region CaptionControl
 export { CaptionControl };

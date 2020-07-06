@@ -316,6 +316,11 @@ class DropDownListBoxColor extends DropDownListBox {
     //#endregion destroy
     //#endregion Methods
 }
+Object.defineProperties(DropDownListBoxColor.prototype, {
+    'color': {
+        enumerable: !0
+    }
+});
 Object.seal(DropDownListBoxColor);
 core.classes.register(core.types.CATEGORIES.INTERNAL, ListBoxColorPopup, ListBoxItemColorPopup);
 core.classes.register(core.types.CATEGORIES.COMMON, DropDownListBoxColor);
