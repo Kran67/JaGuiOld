@@ -24,9 +24,9 @@ Javascript Advanced Graphical User Interface
 - Mettre le JS/CSS/Locale dans le dossier correspondant à la catégorie, faire un import de la locale et du css (créer une fonction)
 
 ### Controls todo :
-- [ ] ActionList  (1)
-- [ ] stdActions  (1)
-- [ ] extActions  (1)
+- [X] ActionList  (1)
+- [/] stdActions  (1)
+- [/] extActions  (1)
 - [ ] MainMenu  (1)
 - [ ] PopupMenu  (1)
 - [ ] TreeView  (1)
