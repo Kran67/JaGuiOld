@@ -93,7 +93,7 @@ class ActionList extends Component {
         const priv = core.private(this);
         const form = this.form;
         let imageList = priv.props.imageList;
-        let actions = priv.props.actions;
+        let actions = priv.actions;
         //#endregion Variables déclaration
         super.loaded();
         if (imageList) {
@@ -109,6 +109,9 @@ class ActionList extends Component {
                 }
             }
         }
+        actions.forEach(action => {
+            action.loaded();
+        });
     }
     //#endregion loaded
     //#region executeAction

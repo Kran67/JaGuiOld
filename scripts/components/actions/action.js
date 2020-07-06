@@ -64,6 +64,7 @@ class Action extends Bindable {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
+            const form = owner.form;
             core.private(this, {
                 propertiesToUpdate: ['caption', 'checked', 'enabled', 'groupIndex', 'toolTip', 'imageIndex', 'shortCut', 'visible', 'autoCheck'],
                 caption: props.hasOwnProperty('caption') ? props.caption : String.EMPTY,
@@ -75,7 +76,8 @@ class Action extends Bindable {
                 shortCut: props.hasOwnProperty('shortCut') ? props.shortCut : String.EMPTY,
                 autoCheck: props.hasOwnProperty('autoCheck') && core.tools.isBool(props.autoCheck) ? props.autoCheck : !1,
                 targets: [],
-                visible: props.hasOwnProperty('visible') && core.tools.isBool(props.visible) ? props.visible : !0
+                visible: props.hasOwnProperty('visible') && core.tools.isBool(props.visible) ? props.visible : !0,
+                form
             });
             core.tools.addPropertyFromEnum({
                 component: this,
@@ -89,7 +91,6 @@ class Action extends Bindable {
                 },
                 value: props.hasOwnProperty('command') ? props.command : COMMANDS.NONE
             });
-            const form = owner.form;
             this.createEventsAndBind(['onHint', 'onChange', 'onExecute', 'onUpdate'], props);
             if (props.hasOwnProperty('onExecute')) {
                 if (form[props.onExecute]) {
@@ -202,26 +203,26 @@ class Action extends Bindable {
     }
     //#endregion groupIndex
     /**
-     * @return  {String}    the hint property
+     * @return  {String}    the toolTip property
      */
-    //#region hint
-    get hint() {
-        return core.private(this).hint;
+    //#region toolTip
+    get toolTip() {
+        return core.private(this).toolTip;
     }
     /**
-     * Set the hint property
+     * Set the toolTip property
      * @param   {String}    newValue    the new value
      */
-    set hint(newValue) {
+    set toolTip(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.hint !== newValue) {
-            priv.hint = newValue;
+        if (core.tools.isString(newValue) && priv.toolTip !== newValue) {
+            priv.toolTip = newValue;
             this.change();
         }
     }
-    //#endregion hint
+    //#endregion toolTip
     /**
      * @return  {Number}    the imageIndex property
      */
@@ -306,6 +307,11 @@ class Action extends Bindable {
         }
     }
     //#endregion visible
+    //#region form
+    get form() {
+        return core.private(this).form;
+    }
+    //#endregion
     //#endregion Getter / Setter
     //#region Methods
     /**
@@ -354,9 +360,9 @@ class Action extends Bindable {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        //priv.propertiesToUpdate.forEach(prop => {
-        //    target.properties.some(e => e.property === prop) && (target[prop] = this[prop]);
-        //});
+        priv.propertiesToUpdate.forEach(prop => {
+            target.properties.some(e => e.property === prop) && (target[prop] = this[prop]);
+        });
     }
     //#endregion updateTarget
     /**

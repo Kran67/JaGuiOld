@@ -9,7 +9,8 @@ class EditAction extends Action {
         if (owner) {
             super(owner, props);
             core.private(this, {
-                needCheckIsAvailable: !1
+                needCheckIsAvailable: props.hasOwnProperty("needCheckIsAvailable") && core.tools.isBool(props.needCheckIsAvailable)
+                    ? props.needCheckIsAvailable : !1
             });
         }        
     }
@@ -21,7 +22,6 @@ class EditAction extends Action {
         const priv = core.private(this);
         let canExecCmd = !0;
         //#endregion Variables déclaration
-        //if (!$j.doc.queryCommandSupported(command)) console.log("The command "+command+" is not supported, use the keyboard shortcut.");
         if (priv.command !== Action.COMMANDS.NONE) {
             !this.form.focusedControl && (canExecCmd = !1);
             !(this.form.focusedControl instanceof core.classes.CustomTextControl) && (canExecCmd = !1);
@@ -46,25 +46,25 @@ class EditAction extends Action {
         let selection = window.getSelection();
         let available = !1;
         //#endregion Variables déclaration
-        if (this.app._aceWrappers.length > 0) {
-            //selection.removeAllRanges();
-            for (let i = 0, l = this.app._aceWrappers.length; i < l; i++) {
-                //if (this.app._aceWrappers[i].isFocused()) {
-                switch (priv.command) {
-                    case Action.COMMANDS.CUT:
-                    case Action.COMMANDS.COPY:
-                    case Action.COMMANDS.DELETE:
-                        //if (this.app._aceWrappers[i].selection) {
-                        //    available = this.app._aceWrappers[i].getSelectedText() !== String.EMPTY;
-                        //}
-                        break;
-                    default:
-                        available = !0;
-                        break;
-                }
-                //}
-            }
-        } else if (selection.type === 'Range') {
+        //if (this.app._aceWrappers.length > 0) {
+        //    //selection.removeAllRanges();
+        //    for (let i = 0, l = this.app._aceWrappers.length; i < l; i++) {
+        //        //if (this.app._aceWrappers[i].isFocused()) {
+        //        switch (priv.command) {
+        //            case Action.COMMANDS.CUT:
+        //            case Action.COMMANDS.COPY:
+        //            case Action.COMMANDS.DELETE:
+        //                //if (this.app._aceWrappers[i].selection) {
+        //                //    available = this.app._aceWrappers[i].getSelectedText() !== String.EMPTY;
+        //                //}
+        //                break;
+        //            default:
+        //                available = !0;
+        //                break;
+        //        }
+        //        //}
+        //    }
+        /*} else*/ if (selection.type === 'Range') {
             available = !0;
             //console.log(selection.getRangeAt(0));
         }
@@ -73,7 +73,9 @@ class EditAction extends Action {
     //#endregion checkCommandAvailable
     //#region loaded
     loaded() {
-        super.loaded();
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
         priv.needCheckIsAvailable &&  core.looper.addListener(this, 'checkCommandAvailable');
     }
     //#endregion loaded

@@ -131,6 +131,17 @@ class CustomButton extends CaptionControl {
     //#endregion repeatClick
     //#endregion Getters / Setters
     //#region Methods
+    //#region loaded
+    loaded() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        super.loaded();
+        if (priv.props.hasOwnProperty('action') && this.form[priv.props.action]) {
+            this.action = this.form[priv.props.action];
+        }
+    }
+    //#endregion loaded
     //#region update
     update() {
         //#region Variables déclaration
@@ -162,7 +173,13 @@ class CustomButton extends CaptionControl {
     //#endregion update
     //#region mouseDown
     mouseDown() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
         if (this.enabled) {
+            if (priv.action) {
+                priv.action.execute();
+            }
             super.mouseDown();
             core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this._down();
         }

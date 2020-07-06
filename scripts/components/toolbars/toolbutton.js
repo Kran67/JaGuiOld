@@ -40,31 +40,48 @@ class ToolButton extends BitmapButton {
         return null;
     }
     //#endregion height
+    //#region imageIndex
+    get imageIndex() {
+        return core.private(this).imageIndex;
+    }
+    set imageIndex(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isNumber(newValue) && priv.imageIndex !== newValue) {
+            priv.imageIndex = newValue;
+            this.propertyChanged('imageIndex');
+            this.update();
+        }
+    }
+    //#endregion height
     //#endregion Getters / Setters
     //#region Methods
     //#region loaded
     loaded() {
         //#region Variables déclaration
         const priv = core.private(this);
-        const htmlElement = this.HTMLElement;
-        const lElementChildStyle = htmlElement.lastElementChild.style;
-        const imgs = this.owner.images;
-        const PX = core.types.CSSUNITS.PX;
         //#endregion Variables déclaration
         super.loaded();
-        if (priv.imageIndex > -1 && imgs && thisimgs.images[priv.imageIndex]) {
-            lElementChildStyle.backgroundImage = `url(${imgs.images[priv.imageIndex]})`;
-            lElementChildStyle.backgroundSize = `${imgs.width}${PX} ${imgs.height}${PX}`;
-        }
-        if (priv.props.hasOwnProperty('action') && this.form[priv.props.action]) {
-            this.action = this.form[priv.props.action];
-        }
+        this.update();
     }
     //#endregion loaded
     //#region update
     update() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const htmlElement = this.HTMLElement;
+        let lElementChildStyle;
+        const imgs = this.owner.images;
+        const PX = core.types.CSSUNITS.PX;
         const htmlElementStyle = this.HTMLElementStyle;
+        //#endregion Variables déclaration
         super.update();
+        if (priv.imageIndex > -1 && imgs && this.images[priv.imageIndex] && htmlElement.lastElementChild) {
+            lElementChildStyle = htmlElement.lastElementChild.style;
+            lElementChildStyle.backgroundImage = `url(${imgs.images[priv.imageIndex]})`;
+            lElementChildStyle.backgroundSize = `${imgs.width}${PX} ${imgs.height}${PX}`;
+        }
         htmlElementStyle.height = 'auto';
     }
     //#endregion update

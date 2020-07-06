@@ -325,7 +325,7 @@ class ColorQuad extends Control {
     //#endregion keyDown
     //#endregion Methods
 }
-Object.defineProperties(ColorQuad.prototypej, {
+Object.defineProperties(ColorQuad.prototype, {
     'colorBox': {
         enumerable: !0
     },
