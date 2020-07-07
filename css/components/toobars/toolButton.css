@@ -1,18 +1,18 @@
-﻿.Control.ToolButton,
-.Control.ToolButtonSep {
+﻿.ToolButton,
+.ToolButtonSep {
     overflow: hidden;
     position: relative;
     width: 23px;
 }
 
-.Control.ToolButtonSep {
+.ToolButtonSep {
     width: 0;
     margin-left: 2px;
     margin-right: 2px;
     position: relative;
 }
 
-.Control.ToolButton img {
+.ToolButton img {
     background-repeat: no-repeat;
 }
 

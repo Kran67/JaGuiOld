@@ -1,11 +1,11 @@
-﻿.Control.ToolBar {
+﻿.ToolBar {
     position: relative;
     height: 40px;
     order: 3;
 }
 
 
-    .Control.ToolBar > * {
-        position: relative;
+    .ToolBar > * {
+        position: relative !important;
         height: auto !important;
     }

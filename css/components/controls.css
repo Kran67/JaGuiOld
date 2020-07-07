@@ -167,11 +167,12 @@ input.Control {
     flex-direction: column;
     align-items: center;
     max-height: 64px;
+    visibility: hidden;
 }
 
-/*.ShortCutIcon.inDesigner {
-        display: block;
-    }*/
+    .ShortCutIcon.inDesigner {
+        visibility: visible;
+    }
 
 .ShortCutIconImg {
     background-repeat: no-repeat;

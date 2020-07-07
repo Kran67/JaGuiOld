@@ -892,7 +892,7 @@ class BaseWindow extends ThemedControl {
         //#endregion Variables déclaration
         if (core.classes.MainMenu && newValue instanceof core.classes.MainMenu && newValue !== priv.mainMenu) {
             priv.mainMenu = newValue;
-            this.redraw();
+            !core.isHTMLRenderer && this.redraw();
         }
     }
     //#endregion mainMenu

@@ -32,7 +32,8 @@ class StatusBarPanel extends BaseClass {
                 html: document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`),
                 owner,
                 text: props.hasOwnProperty('text') ? props.text : String.EMPTY,
-                width: props.hasOwnProperty('width') ? props.width : 50
+                width: props.hasOwnProperty('width') && core.tools.isNumber(props.width) ? props.width : 50,
+                autoToolTip: props.hasOwnProperty('autoToolTip') && core.tools.isBool(props.autoToolTip) ? props.autoToolTip : !0
             });
             priv.html.classList.add('StatusBarPanel', owner.app.themeManifest.themeName);
             owner.HTMLElement.appendChild(priv.html);
@@ -92,19 +93,15 @@ class StatusBarPanel extends BaseClass {
         }
     }
     //#endregion text
-    //#region width
-    get width() {
-        return core.private(this).width;
+    //#region autoToolTip
+    get autoToolTip() {
+        return core.private(this).autoToolTip;
     }
-    set width(newValue) {
+    set autoToolTip(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.width !== newValue) {
-            priv.width = newValue;
-            this.update();
-            priv.owner.panels.onChange.hasListener && priv.owner.panels.onChange.invoke();
-        }
+        core.tools.isBool(newValue) && priv.autoToolTip !== newValue && (priv.autoToolTip = newValue);
     }
     //#endregion width
     //#endregion Getters / Setters

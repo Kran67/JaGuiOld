@@ -1,4 +1,5 @@
-﻿/*
+﻿
+/*
 //TODO : finir MenuItem
 (function () {
     //#region MenuItem
@@ -331,7 +332,7 @@
             this.setActive(false);
         },
         HTMLMouseEnter: function (mouseEventArg) {
-            var jsObj = this.jsObj, popupMenu, i, items, l/*,activeMenuItem*/;
+            var jsObj = this.jsObj, popupMenu, i, items, l;
             //activeMenuItem=jsObj._owner.getActiveItem();
             //if (activeMenuItem)) activeMenuItem.setActive(false);
             if (jsObj._inMainMenu && jsObj.form.mainMenu._isActive) {
