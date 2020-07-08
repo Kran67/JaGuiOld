@@ -1,16 +1,8 @@
-﻿.MainMenu {
+﻿.MainMenuBar {
     height: 20px;
     position: static;
     order: 2;
-}
-
-.MenuItem.inMainMenu {
-    float: left;
-    position: relative;
-    width: auto;
-    padding: 0 12px;
-    min-width: 0;
-    display: block;
+    display: flex;
 }
 
 .MenuItem {
@@ -34,10 +26,6 @@
     line-height: 20px;
 }
 
-.MenuItemCaption.inMainMenu {
-    padding: 0;
-}
-
 .MenuItemShortCut {
     position: relative;
     display: table-cell;
@@ -46,16 +34,14 @@
     line-height: 20px;
 }
 
-.MenuItemShortCut.inMainMenu {
-    display: none;
-}
-
-.MenuItemHasSubMenu.nochilds.inMainMenu {
-    display: none;
-}
-
-.MenuItemHasSubMenu.inMainMenu {
-    display: none;
+.MenuItem.inMainMenu {
+    float: left;
+    position: relative;
+    width: auto;
+    padding: 0 12px;
+    min-width: 0;
+    display: block;
+    width: auto;
 }
 
 .MenuItemHasSubMenu {
@@ -66,7 +52,12 @@
     height: 100%;
 }
 
+.MenuItemHasSubMenu.nochilds:before {
+    display: none;
+}
+
 .MenuItemSep {
+    display: block;
     height: 1px;
     line-height: 1px;
     margin: 1px 0 2px 30px;
@@ -84,6 +75,22 @@ u.ShortCutLetter.isactive {
 .subMenu {
     position: relative;
     display: table;
+}
+
+.MenuItemCaption.inMainMenu {
+    padding: 0;
+}
+
+.MenuItemShortCut.inMainMenu {
+    display: none;
+}
+
+.MenuItemHasSubMenu.nochilds.inMainMenu {
+    display: none;
+}
+
+.MenuItemHasSubMenu.inMainMenu {
+    display: none;
 }
 
 .alt, .ctrl, .shift, .sys {
@@ -119,8 +126,4 @@ u.ShortCutLetter.isactive {
     content: ")";
     font-family: 'JaGui';
     font-size: 5pt;
-}
-
-.MenuItemHasSubMenu.nochilds:before {
-    display: none;
 }

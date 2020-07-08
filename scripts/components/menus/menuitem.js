@@ -12,16 +12,18 @@ class MenuItem extends Component {
             super(owner, props);
             core.private(this, {
                 caption: props.hasOwnProperty('caption') && core.tools.isString(props.caption) ? props.caption : String.EMPTY,
-                inMainMenu: !1,
-                shortcut: String.EMPTY,
-                radioItem: !1,
-                groupIndex: 0,
-                imageIndex: -1,
-                autoCheck: !1,
-                active: !1,
+                inMainMenu: props.hasOwnProperty('inMainMenu') && core.tools.isBool(props.inMainMenu) ? props.inMainMenu : !1,
+                shortcut: props.hasOwnProperty('shortcut') ? props.shortcut : String.EMPTY,
+                radioItem: props.hasOwnProperty('radioItem') && core.tools.isBool(props.radioItem) ? props.radioItem : !1,
+                groupIndex: props.hasOwnProperty('groupIndex') && core.tools.isNumber(props.groupIndex) ? props.groupIndex : 0,
+                imageIndex: props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1,
+                autoCheck: props.hasOwnProperty('autoCheck') && core.tools.isBool(props.autoCheck) ? props.autoCheck : !1,
+                active: props.hasOwnProperty('active') && core.tools.isBool(props.active) ? props.active : !1,
+                enabled: props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0,
                 action: null
             });
             core.classes.newCollection(this, this, MenuItem);
+            this.createEventsAndBind(['onClick'], props);
         }
     }
     //#endregion constructor
@@ -62,7 +64,6 @@ class MenuItem extends Component {
         if (core.tools.isBool(newValue) &&  priv.checked !== newValue) {
             newValue && (priv.checked = newValue);
             if (priv.radioItem) {
-                //for (let i = 0, l = list.length; i < l; i++)
                 list.forEach(item => {
                     if (item instanceof MenuItem && (item !== this) && (item.groupIndex === priv.groupIndex) && item.radioItem) {
                         item.checked && cc++;
@@ -77,7 +78,6 @@ class MenuItem extends Component {
                 }
             }
             priv.radioItem && this.HTMLElement.classList[priv.checked ? 'add': 'remove']('checked');
-            this.update();
         }
     }
     //#endregion checked
@@ -170,38 +170,36 @@ class MenuItem extends Component {
         //#endregion Variables déclaration
         if (priv.caption === core.types.CONSTANTS.LINECAPTION) {
             html = core.templates['MenuItemSep'];
+            a = html.split('{internalId}');
+            html = a.join(String.uniqueId());
         } else {
             html = super.template;
             a = html.split('{caption}');
             html = a.join(this.captionToHTML());
             a = html.split('{asChilds}');
-            html = this.items.length > 0 && !priv.inMainMenu ? a.join('true') : html = a.join('false');
+            html = this.items.length > 0 && !priv.inMainMenu ? a.join(String.EMPTY) : a.join('nochilds');
             a = html.split('{shortcut}');
             html = priv.inMainMenu ? a.join(String.EMPTY) : a.join(priv.shortcut);
+            a = html.split('{inMainMenu}');
+            html = priv.inMainMenu ? a.join('inMainMenu') : a.join(String.EMPTY);
         }
-        //a = html.split('{internalId}')
-        //html = a.join(this.internalId);
-        //a = html.split('{theme}');
-        //html = a.join(theme);
-        if (/*owner instanceof classes.PopupMenu ||*/ owner instanceof core.classes.MainMenu) {
+        a = html.split('{theme}');
+        html = a.join(theme);
+        if (owner instanceof classes.PopupMenu || owner instanceof classes.MainMenu) {
             popupMenu = owner;
-        //} else if (owner.popupMenu instanceof classes.PopupMenu) {
-        //    popupMenu = owner.popupMenu;
+        } else if (owner.popupMenu instanceof classes.PopupMenu) {
+            popupMenu = owner.popupMenu;
         }
         a = html.split('{icon}');
-        if (popupMenu.images && priv.imageIndex > -1) {
-            popupMenu.images.images[priv.imageIndex] && (imgList = popupMenu.images);
-        } else if (priv.action && priv.action.owner.imageList) {
-            imgList = priv.action.owner.imageList;
-        }
-        html = imgList
-            ? a.join(`style='background-image:url("${imgList.getImage(priv.imageIndex)}");background-size:${imgList.imageWidth}px ${imgList.imageHeight}px`)
+        imgList = this.getImageList();
+        html = imgList && priv.imageIndex > -1 && !String.isNullOrEmpty(imgList.getImage(priv.imageIndex))
+            ? a.join(`style='background-image:url("${imgList.getImage(priv.imageIndex)}");background-size:${imgList.imageWidth}px ${imgList.imageHeight}px'`)
             : a.join(String.EMPTY);
         if (priv.shortcut !== String.EMPTY) {
-            html = html.replace('Ctrl', "<span class='ctrl'></span>");
-            html = html.replace('Alt', "<span class='alt'></span>");
-            html = html.replace('Shift', "<span class='shift'></span>");
-            html = html.replace('Sys', "<span class='sys'></span>");
+            html = html.replace('Ctrl', '<span class="ctrl"></span>');
+            html = html.replace('Alt', '<span class="alt"></span>');
+            html = html.replace('Shift', '<span class="shift"></span>');
+            html = html.replace('Sys', '<span class="sys"></span>');
         }
         return html;
     }
@@ -219,8 +217,22 @@ class MenuItem extends Component {
         return this.items.find(e => e.enabled && e.visible && e.active);
     }
     //#endregion activeItem
+    //#region isEnabled
+    isEnabled() {
+        return core.private(this).enabled;
+    }
+    //#endregion isEnabled
     //#endregion Getters / Setters
     //#region Methods
+    //#region getImageList
+    getImageList() {
+        let owner = this.owner;
+        while (owner instanceof core.classes.MenuItem) {
+            owner = owner.owner;
+        }
+        return owner.images;
+    }
+    //#endregion getImageList
     //#region insert
     insert(index, item) {
     }
@@ -315,16 +327,24 @@ class MenuItem extends Component {
         const parentPopupMenu = priv.parentPopupMenu;
         const items = this.items;
         let popupMenu;
+        const mainMenuBar = this.form.HTMLElement.querySelector('.MainMenuBar');
         //#endregion Variables déclaration
-        if (this.owner instanceof core.classes.MainMenu) {
+        if (owner instanceof core.classes.MainMenu) {
             r = htmlElement.getBoundingClientRect();
             left = r.left;
-            top = r.top + owner.HTMLMenu.offsetHeight;
+            top = r.top + mainMenuBar.offsetHeight;
         } else {
             left = parentPopupMenu.popupBox.HTMLElement.offsetLeft + htmlElement.offsetWidth;
             top = parentPopupMenu.popupBox.HTMLElement.offsetTop + htmlElement.offsetTop;
         }
-        popupMenu = priv.popupMenu = core.classes.createComponent(core.classes.PopupMenu, this, null, null, false);
+        popupMenu = priv.popupMenu = core.classes.createComponent({
+            class: core.classes.PopupMenu,
+            owner: this,
+            props: {
+                control: this
+            },
+            withTpl: !1
+        });
         if (owner instanceof core.classes.MainMenu) {
             owner.images instanceof core.classes.ImageList && (popupMenu.images = owner.images);
         } else {
@@ -352,12 +372,6 @@ class MenuItem extends Component {
             : caption;
     }
     //#endregion captionToHTML
-    //htmlClick(mouseEventArg) {
-    //    var jsObj = this.jsObj;
-    //    if (!jsObj.enabled) return;
-    //    jsObj.click();
-    //    $j.mouse.stopEvent(mouseEventArg);
-    //},
     //#region click
     click() {
         //#region Variables déclaration
@@ -369,6 +383,8 @@ class MenuItem extends Component {
         if (priv.inMainMenu) {
             !mainMenu.active && (this.form.mainMenu.active = !0);
             this.app.closeAllPopups();
+            form.focusedControl.killFocus();
+            this.setFocus();
         }
         this.app.activeWindow = form;
         if (this.items.length > 0) {
@@ -384,7 +400,7 @@ class MenuItem extends Component {
             this.onClick.hasListener && this.onClick.invoke();
             priv.action && priv.action.execute();
         }
-        this.enabled && this.visible && form.statusBar && form.statusBar.autoToolTip && (form.statusBar.simplePanel = !1);
+        //this.enabled && this.visible && form.statusBar && form.statusBar.autoToolTip && (form.statusBar.simplePanel = !1);
     }
     //#endregion click
     //#region closeSubMenu
@@ -409,14 +425,58 @@ class MenuItem extends Component {
         priv.htmlCaption = htmlElement.querySelector('jagui-menuitem-caption');
         priv.htmlShortcut = htmlElement.querySelector('jagui-menuitem-shortcut');
         priv.htmlHasSubMenu = htmlElement.querySelector('jagui-menuitem-arrow');
+        priv.props.hasOwnProperty('items') && priv.props.items.forEach(item => {
+            const menuItem = new MenuItem(this, item);
+            const tpl = menuItem.template;
+            const container = document.createElement(core.types.HTMLELEMENTS.DIV);
+            container.innerHTML = tpl;
+            menuItem.HTMLElement = container.firstElementChild;
+            menuItem.HTMLElementStyle = menuItem.HTMLElement.style;
+            menuItem.internalId = container.firstElementChild.id;
+            //menuItem.items.length > 0 && 
+            this.items.push(menuItem);
+        });
     }
     //#endregion loaded
     //#region destroy
     destroy() {
         this.items.clear();
+        this.unBindAndDestroyEvents(['onClick']);
         super.destroy();
     }
     //#endregion destroy
+    //#region setFocus
+    setFocus() {
+        this.form.focusedControl.killFocus();
+        this.HTMLElement.classList.add('active');
+        this.form.focusedControl = this;
+    }
+    //#endregion setFocus
+    //#region killFocus
+    killFocus() {
+        this.HTMLElement.classList.remove('active');
+    }
+    //#endregion killFocus
+    //#region update
+    update() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const htmlElement = this.HTMLElement;
+        const htmlElementStyle = this.HTMLElementStyle;
+        let imgList;
+        //#endregion Variables déclaration
+        imgList = this.getImageList();
+        if (imgList && priv.imageIndex > -1) {
+            !String.isNullOrEmpty(imgList.getImage(priv.imageIndex)) 
+                ? (HTMLElementStyle.backgroundImage = `url("${imgList.getImage(priv.imageIndex)}")`) && (htmlElementStyle.backgroundSize = `${imgList.imageWidth}px ${imgList.imageHeight}px`)
+            : HTMLElementStyle.backgroundImage = String.EMPTY;
+        }
+        priv.htmlCaption.innerHTML !== priv.caption && (priv.htmlCaption.innerHTML = priv.caption);
+        priv.htmlShortcut.innerHTML !== priv.shortcut && (priv.htmlShortcut.innerHTML = priv.shortcut);
+        priv.enabled && htmlElement.classList.contains('disabled') && htmlElement.classList.remove('disabled');
+        !priv.enabled && !htmlElement.classList.contains('disabled') && htmlElement.classList.add('disabled');
+    }
+    //#endregion update
     //#endregion Methods
 }
 Object.defineProperties(MenuItem.prototype, {
@@ -446,10 +506,10 @@ Object.defineProperties(MenuItem.prototype, {
 core.classes.register(core.types.CATEGORIES.INTERNAL, MenuItem);
 //#region Templates
 if (core.isHTMLRenderer) {
-    const MenuItemTpl = ['<jagui-menuitem id="{internalId}" class="Control MenuItem {theme}">',
-                         '<jagui-menuitem-caption class="MenuItemCaption {theme}" {icon}>{caption}</jagui-menuitem-caption>',
-                         '<jagui-menuitem-shortcut class="MenuItemShortCut {theme}">{shortcut}</jagui-menuitem-shortcut>',
-                         '<jagui-menuitem-arrow class="MenuItemHasSubMenu {theme}"></jagui-menuitem-arrow>',
+    const MenuItemTpl = ['<jagui-menuitem id="{internalId}" class="Control MenuItem {theme} {inMainMenu}">',
+                         '<jagui-menuitem-caption class="MenuItemCaption {theme} {inMainMenu}" {icon}>{caption}</jagui-menuitem-caption>',
+                         '<jagui-menuitem-shortcut class="MenuItemShortCut {theme} {inMainMenu}">{shortcut}</jagui-menuitem-shortcut>',
+                         '<jagui-menuitem-arrow class="MenuItemHasSubMenu {theme} {asChilds} {inMainMenu}"></jagui-menuitem-arrow>',
                          '</jagui-menuitem>'].join(String.EMPTY);
     const MenuItemSepTpl = '<jagui-menuitemsep id="{internalId}" class="Control MenuItemSep {theme}"></jagui-menuitemsep>';
     core.classes.registerTemplates([{ Class: MenuItem, template: MenuItemTpl }, { Class: 'MenuItemSep', template: MenuItemSepTpl }]);

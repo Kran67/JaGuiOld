@@ -2343,7 +2343,7 @@ class BaseWindow extends ThemedControl {
         }
         if (mainMenu) {
             mainMenu.items.forEach(item => {
-                item.setActive(!1);
+                item.active = !1;
             });
             //Css.removeClass(this.mainMenu.HTMLElement,"isactive
             //this.mainMenu.HTMLElement.dataset.isactive = !1;

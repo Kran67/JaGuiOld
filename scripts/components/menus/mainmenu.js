@@ -3,6 +3,7 @@ import { Component } from '/scripts/core/component.js';
 import { MenuItem } from '/scripts/components/menus/menuitem.js';
 import { Events } from '/scripts/core/events.js';
 import { Mouse } from '/scripts/core/mouse.js';
+import '/scripts/components/nonvisual/imagelist.js';
 //#endregion Import
 //#region Class MainMenu
 class MainMenu extends Component {
@@ -15,11 +16,33 @@ class MainMenu extends Component {
                 active: props.hasOwnProperty('active') && core.tools.isBool(props.active) ? props.active : !1,
                 images: null
             });
-            core.classes.newCollection(this, this, core.classes.MenuItem);
+            core.classes.newCollection(this, this, MenuItem);
         }
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region active
+    get active() {
+        return core.private(this).active;
+    }
+    set active(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        core.tools.isBool(newValue) && priv.active !== newValue && (priv.active = newValue);
+    }
+    //#endregion active
+    //#region images
+    get images() {
+        return core.private(this).images;
+    }
+    set images(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        newValue instanceof core.classes.ImageList && priv.images !== newValue && (priv.images = newValue);
+    }
+    //#endregion active
     //#region isEnabled
     get isEnabled() {
         return this.enabled;
@@ -47,7 +70,7 @@ class MainMenu extends Component {
         //#endregion Variables déclaration
         super.loaded();
         priv.HTMLMenu = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}-bar`);
-        priv.HTMLMenu.classList.add('Control', 'MainMenu', form.themeName);
+        priv.HTMLMenu.classList.add('Control', 'MainMenuBar', form.themeName);
         form.HTMLElement.firstElementChild.appendChild(priv.HTMLMenu);
         this.getImages();
         this.generateItems();
@@ -66,8 +89,9 @@ class MainMenu extends Component {
         //#region Variables déclaration
         const priv = core.private(this);
         const form = this.form;
+        const imgList = priv.props.hasOwnProperty('images') ? form[priv.props.images] : null;
         //#endregion Variables déclaration
-        priv.props.hasOwnProperty('images') && form[priv.props.images] && (priv.images = form[priv.props.images]);
+        imgList && (priv.images = imgList) && imgList.addReference(this);
     }
     //#endregion getImages
     //#region generateItems
@@ -105,15 +129,15 @@ class MainMenu extends Component {
             //Events.bind(menu.HTMLElement, MOUSEEVENTS.CLICK, menu.htmlClick);
             //Events.bind(menu.HTMLElement, MOUSEEVENTS.ENTER, menu.HTMLMouseEnter);
             //Events.bind(menu.HTMLElement, MOUSEEVENTS.LEAVE, menu.HTMLMouseLeave);
-            const newMenu = core.classes.createComponent({
+            this.items.push(core.classes.createComponent({
                 class: MenuItem,
                 owner: this,
                 props: {
                     ...menu,
-                    parentHTML: priv.HTMLMenu
+                    parentHTML: priv.HTMLMenu,
+                    inMainMenu: !0
                 }
-            });
-            this.items.push(newMenu);
+            }));
         });
     }
     //#endregion generateItems

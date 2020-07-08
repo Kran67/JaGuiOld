@@ -1718,7 +1718,7 @@ class Control extends Component {
         activeWin.capturedControl && (control = activeWin.capturedControl);
         core.mouse.getMouseInfos(event);
         if (!control || control.form.destroying || (!control.isEnabled && event.type !== MOUSEEVENTS.MOVE)
-            || !control.mouseEvents.has(event.type)) {
+            || (control.mouseEvents && !control.mouseEvents.has(event.type))) {
             if (event.type === MOUSEEVENTS.DOWN) {
                 control.closePopups && control.form.closePopups();
                 control.setFocus();

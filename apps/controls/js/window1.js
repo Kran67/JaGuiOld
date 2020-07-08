@@ -78,7 +78,7 @@ import '/scripts/components/dialogs/opendialog.js';
 import '/scripts/components/dialogs/fontdialog.js';
 import '/scripts/components/dialogs/colordialog.js';
 //import { gridView } from '/scripts/components/common/gridView.js';
-//import { imageList } from '/scripts/components/nonvisual/imageList.js';
+import '/scripts/components/nonvisual/imagelist.js';
 //import { timers } from '/scripts/components/nonvisual/timers.js';
 //import { dataFile } from '/scripts/components/data/dataFile.js';
 //import { dataSource } from '/scripts/components/data/dataSource.js';

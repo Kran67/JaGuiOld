@@ -53,7 +53,7 @@
                     <properties>{ "popupmenu":"PopupMenu1" }</properties>
                     <jagui-mainmenu id="_9tuaold" data-class="MainMenu" class="Control ShortCutIcon MainMenu">
                         <properties>
-                            { "name": "MainMenu1", "images": "imageList1", "menus": [
+                            { "name": "MainMenu1", "images": "ImageList1", "menus": [
                             { "name": "Mnu_File", "caption": "&File", "shortcut": "Alt+F", "items": [
                             { "name": "MnuItem_New", "caption": "&New", "shortcut": "Ctrl+N", "imageIndex": 0 },
                             { "name": "MnuItem_Open", "caption": "&Open", "shortcut":"Ctrl+O", "imageIndex": 1, "onClick": "alert('Open');" },
@@ -254,7 +254,7 @@
                     <jagui-labeleddropdownlistbox id="_mj89hac" data-class="LabeledDropDownListBox" class="Control LabeledControl LabeledDropDownListBox"><properties>{ "name": "LabeledDropDownListBox1", "left": 1010, "top": 700, "dropDownListBox": { "items" : [{ "caption": "Item1" }, { "caption": "Item2" }, { "caption": "Item3" }, {"caption": "Item4" }, { "caption": "Item5", "isHeader": true }, { "caption": "Item6" }, { "caption": "Item7" }, { "caption": "Item8" }, { "caption": "Item9" }, { "caption": "Item10" }, { "caption": "Item11" }, { "caption": "Item12" }, { "caption": "Item13" }, { "caption": "Item14" }, { "caption": "Item15" }, { "caption": "Item16" }, { "caption": "Item17" }] }, "label": { "caption": "LabeledDropDownListBox :", "vertAlign": "middle" } }</properties></jagui-labeleddropdownlistbox>
                     <!--<jagui-treeview id="_n2vg450" data-class="TreeView" class="Control scrollContent TreeView {theme}"><properties>{ "name": "TreeView1", "tabOrder": 64, "left": 1010, "top": 10, "width": 100, "height": 140, "items": [{ "caption": "Item1" }, { "caption": "Item2", "expanded": true, "items":[{ "caption": "Item3" }, { "caption": "Item4", "checked": true, "items": [{ "caption": "Item5", "checked": true, "visible": false }, { "caption": "Item6", "checked": true, "enabled": false, "visible": false }] }] }, { "caption": "Item7", "checked": true }, { "caption": "Item8", "checked": true },{ "caption": "Item9", "checked": true }, { "caption": "Item10" }, { "caption": "Item11" }, { "caption": "Item12" }, { "caption": "Item13" }, { "caption": "Item14" }, { "caption": "Item15" }, { "caption": "Item16" }, { "caption": "Item17" }] }</properties></jagui-treeview>-->
                     <!--<div id="_faqc3ci" name="TreeView2" data-class="TreeView" class="Control scrollContent TreeView {theme} viewcheckboxes scrollbars-both"
-                        data-scrollbars="both" data-viewcheckboxes="true" data-taborder="65" data-images="imageList1" style="left: 1010px;top: 160px;width: 100px;height: 140px;">
+                        data-scrollbars="both" data-viewcheckboxes="true" data-taborder="65" data-images="ImageList1" style="left: 1010px;top: 160px;width: 100px;height: 140px;">
                         <div class="Control TreeViewContent {theme}"></div>
                         <div id="_ysbexpp" data-class="ScrollBar" class="Control ScrollBar {theme} orientation-horizontal" data-value="0" data-contentsize="0"
                             data-orientation="horizontal">
@@ -289,14 +289,13 @@
                             {"text":"Item14","height":16,"checked":false,"enabled":true,"expanded":false,"visible":false,"allowgrayed":false,"state":"unchecked","checked":false,"cssImage":"button","items":[]}
                             ] } ] } ]
                         </properties>
-                    </div>
-                    <div id="_t61e8xz" name="imageList1" data-class="ImageList" class="Control ShortCutIcon imageList" style="left: 0;top: 400px;">
-                        <properties>["images/home.png","images/duck.png","images/clock.png","images/earth.png","images/folder.png"]</properties>
-                        <div class="Control ShortCutIconImg imagelist">
-                            <div class="Control ShortCutIconCaption">imageList1</div>
-                        </div>
-                    </div>
-                    <div id="_t61e8xs" name="PopupMenu1" data-class="PopupMenu" class="Control PopupMenu ShortCutIcon" data-images="imageList1"
+                    </div>-->
+                    <jagui-imagelist id="_t61e8xz" data-class="ImageList" class="Control ShortCutIcon imageList"><properties>{ "name": "ImageList1", "left": 0, "top": 400, "images": ["images/home.png", "images/duck.png", "images/clock.png", "images/earth.png", "images/folder.png"] }</properties>
+                        <!--<div class="Control ShortCutIconImg imagelist">
+                            <div class="Control ShortCutIconCaption">ImageList1</div>
+                        </div>-->
+                    </jagui-imagelist>
+                    <!--<div id="_t61e8xs" name="PopupMenu1" data-class="PopupMenu" class="Control PopupMenu ShortCutIcon" data-images="ImageList1"
                         style="left: 40px;top: 400px;">
                         <properties>[{"caption":"File","shortcut":"","enabled":true,"visible":true,"items":[ {"caption":"New","shortcut":"","enabled":true,"visible":true,"imageIndex":0,"items":[]},
                             {"caption":"Open","shortcut":"","enabled":true,"visible":true,"imageIndex":1,"items":[]}, {"caption":"-","shortcut":"","enabled":true,"visible":true,"items":[]},
@@ -495,7 +494,7 @@
                         <jagui-button id="_ge4wf3d" data-class="Button" class="Control Button {theme}"><properties>{ "name": "GridButton16", "row": 3, "column": 1, "tabOrder": 3, "caption": "Button6" }</properties></jagui-button>
                         <jagui-button id="_ge4wf3e" data-class="Button" class="Control Button {theme}"><properties>{ "name": "GridButton17", "row": 3, "column": 2, "colSpan": 2, "tabOrder": 4, "caption": "Button7" }</properties></jagui-button>
                     </jagui-gridlayout>
-                    <jagui-actionlist id="_tn4ca29" data-class="ActionList" class="Control actionList ShortCutIcon"><properties>{ "name": "actionList1", "imagelist": "imageList1", "actions": [{ "class": "EditCut", "name": "EditCut1", "caption": "Cu&t", "checked": false, "enabled": true, "groupIndex": -1, "hint": "Cut|Cuts the selection and puts it on the Clipboard", "imageIndex": 0, "shortcut": "CTRL+X", "visible": true, "autoCheck": false }] }</properties></jagui-actionlist>
+                    <jagui-actionlist id="_tn4ca29" data-class="ActionList" class="Control actionList ShortCutIcon"><properties>{ "name": "actionList1", "imagelist": "ImageList1", "actions": [{ "class": "EditCut", "name": "EditCut1", "caption": "Cu&t", "checked": false, "enabled": true, "groupIndex": -1, "hint": "Cut|Cuts the selection and puts it on the Clipboard", "imageIndex": 0, "shortcut": "CTRL+X", "visible": true, "autoCheck": false }] }</properties></jagui-actionlist>
                     <!--<div id="_PqiWJsg" name="PropertyGrid" data-class="PropertyGrid" class="Control scrollContent PropertyGrid {theme} scrollbars-none orientation-vertical viewgutter"
                         data-scrollbars="none" style="left: 1680px;top: 300px;width: 200px;height: 190px;">
                         <div class="Control PropertyGridContent {theme}">
