@@ -92,7 +92,7 @@ class ThemeManifest extends BaseClass {
         const lastThemeName = priv.lastThemeName;
         const themeName = priv.themeName;
         const isHtmlRenderer = core.isHTMLRenderer;
-        const wHTMLElement = window.HTMLElement =
+        const wHTMLElement = window.HTMLElement;
             //#endregion Variables declaration
             window.themeName = themeName;
         if (isHtmlRenderer) {

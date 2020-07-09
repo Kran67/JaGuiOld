@@ -28,8 +28,6 @@ class PopupMenu extends Component {
         });
     }
     //#endregion activeItem
-    //#endregion Getters / Setters
-    //#region Methods
     //#region images
     get images() {
         return core.private(this).images;
@@ -41,6 +39,13 @@ class PopupMenu extends Component {
         (!newValue || newValue instanceof core.classes.ImageList) && priv.images !== newValue && (priv.images = newValue) && priv.images.addReference(this);
     }
     //#endregion images
+    //#region popupBox
+    get popupBox() {
+        return core.private(this).popupBox;
+    }
+    //#endregion popupBox
+    //#endregion Getters / Setters
+    //#region Methods
     //#region loaded
     loaded() {
         super.loaded();

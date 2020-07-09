@@ -102,33 +102,6 @@ class MainMenu extends Component {
         const MOUSEEVENTS = Mouse.MOUSEEVENTS;
         //#endregion Variables déclaration
         menus.forEach(menu => {
-            //if (item.HTMLElement) {
-            //    item.htmlCaption.remove();
-            //    item.htmlCaption = null;
-            //    item.htmlShortcut.remove();
-            //    item.htmlShortcut = null;
-            //    item.htmlHasSubMenu.remove();
-            //    item.htmlHasSubMenu = null;
-            //    item.HTMLElement.remove();
-            //    item.HTMLElement = null;
-            //    Events.unBind(item.HTMLElement, MOUSEEVENTS.CLICK, item.htmlClick);
-            //    Events.unBind(item.HTMLElement, MOUSEEVENTS.ENTER, item.HTMLMouseEnter);
-            //    Events.unBind(item.HTMLElement, MOUSEEVENTS.LEAVE, item.HTMLMouseLeave);
-            //}
-            //let tpl = menu.template;
-            //const tmpDiv = document.createElement(core.types.HTMLELEMENTS.DIV);
-            //tmpDiv.innerHTML = tpl;
-            //priv.HTMLMenu.appendChild(tmpDiv.firstElementChild);
-            //menu.getHTMLElement(menu.internalId);
-            //menu.getChilds();
-            //menu.HTMLElement.classList.add('inMainMenu');
-            //menu.htmlCaption.classList.add('inMainMenu');
-            //menu.htmlShortcut.classList.add('inMainMenu');
-            //menu.htmlHasSubMenu.classList.add('nochilds inMainMenu');
-            //this.items.push(menu);
-            //Events.bind(menu.HTMLElement, MOUSEEVENTS.CLICK, menu.htmlClick);
-            //Events.bind(menu.HTMLElement, MOUSEEVENTS.ENTER, menu.HTMLMouseEnter);
-            //Events.bind(menu.HTMLElement, MOUSEEVENTS.LEAVE, menu.HTMLMouseLeave);
             this.items.push(core.classes.createComponent({
                 class: MenuItem,
                 owner: this,

@@ -10,7 +10,7 @@ class PopupBox extends ThemedControl {
         if (owner) {
             !props.height ? (props.height = -1) : null;
             !props.width ? (props.width = -1) : null;
-            props.mouseEvents = { mousedown: !1 };
+            props.mouseEvents = { mousedown: !1, mousemouse: !1, mouseenter: !1 };
             super(owner, props);
             core.private(this, { refControl: props.hasOwnProperty('refControl') ? props.refControl : null });
             this.owners.destroy();

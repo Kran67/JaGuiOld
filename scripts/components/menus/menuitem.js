@@ -2,6 +2,8 @@
 import { Component } from '/scripts/core/component.js';
 import { Action } from '/scripts/components/actions/action.js';
 import { Text } from '/scripts/core/text.js';
+import { Events } from '/scripts/core/events.js';
+import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Import
 //#region Class MenuItem
 class MenuItem extends Component {
@@ -134,9 +136,10 @@ class MenuItem extends Component {
         const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.autoCheck !== newValue) {
+        if (core.tools.isBool(newValue) && priv.active !== newValue) {
             priv.active = newValue;
             htmlElement && htmlElement.classList[priv.active ? 'add': 'remove']('active');
+            !priv.active && priv.popupMenu && this.closeSubMenu();
         }
     }
     //#endregion active
@@ -222,11 +225,26 @@ class MenuItem extends Component {
         return core.private(this).enabled;
     }
     //#endregion isEnabled
+    //#region inMainMenu
+    get inMainMenu() {
+        return core.private(this).inMainMenu;
+    }
+    //#endregion inMainMenu
+    //#region parentPopupMenu
+    set parentPopupMenu(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        (newValue instanceof core.classes.PopupMenu || !newValue) && (priv.parentPopupMenu !== newValue) && (priv.parentPopupMenu = newValue);
+    }
+    //#endregion parentPopupMenu
     //#endregion Getters / Setters
     //#region Methods
     //#region getImageList
     getImageList() {
+        //#region Variables déclaration
         let owner = this.owner;
+        //#endregion Variables déclaration
         while (owner instanceof core.classes.MenuItem) {
             owner = owner.owner;
         }
@@ -420,27 +438,35 @@ class MenuItem extends Component {
         //#region Variables déclaration
         const priv = core.private(this);
         const htmlElement = this.HTMLElement;
+        const MOUSEEVENTS = Mouse.MOUSEEVENTS;
         //#endregion Variables déclaration
         super.loaded();
         priv.htmlCaption = htmlElement.querySelector('jagui-menuitem-caption');
         priv.htmlShortcut = htmlElement.querySelector('jagui-menuitem-shortcut');
         priv.htmlHasSubMenu = htmlElement.querySelector('jagui-menuitem-arrow');
-        priv.props.hasOwnProperty('items') && priv.props.items.forEach(item => {
-            const menuItem = new MenuItem(this, item);
-            const tpl = menuItem.template;
-            const container = document.createElement(core.types.HTMLELEMENTS.DIV);
-            container.innerHTML = tpl;
-            menuItem.HTMLElement = container.firstElementChild;
-            menuItem.HTMLElementStyle = menuItem.HTMLElement.style;
-            menuItem.internalId = container.firstElementChild.id;
-            //menuItem.items.length > 0 && 
-            this.items.push(menuItem);
-        });
+        if (priv.props.hasOwnProperty('items')) {
+            priv.htmlHasSubMenu.classList.remove('nochilds');
+            priv.props.items.forEach(item => {
+                const menuItem = new MenuItem(this, item);
+                const tpl = menuItem.template;
+                const container = document.createElement(core.types.HTMLELEMENTS.DIV);
+                container.innerHTML = tpl;
+                menuItem.HTMLElement = container.firstElementChild;
+                menuItem.HTMLElement.jsObj = menuItem;
+                menuItem.HTMLElementStyle = menuItem.HTMLElement.style;
+                menuItem.internalId = container.firstElementChild.id;
+                this.items.push(menuItem);
+            });
+        }
     }
     //#endregion loaded
     //#region destroy
     destroy() {
-        this.items.clear();
+        //#region Variables déclaration
+        const items = this.items;
+        const htmlElement = this.HTMLElement;
+        //#endregion Variables déclaration
+        items.clear();
         this.unBindAndDestroyEvents(['onClick']);
         super.destroy();
     }
@@ -448,13 +474,16 @@ class MenuItem extends Component {
     //#region setFocus
     setFocus() {
         this.form.focusedControl.killFocus();
-        this.HTMLElement.classList.add('active');
         this.form.focusedControl = this;
+        this.active = !0;
     }
     //#endregion setFocus
     //#region killFocus
     killFocus() {
-        this.HTMLElement.classList.remove('active');
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        this.active = !1;
     }
     //#endregion killFocus
     //#region update
@@ -477,6 +506,24 @@ class MenuItem extends Component {
         !priv.enabled && !htmlElement.classList.contains('disabled') && htmlElement.classList.add('disabled');
     }
     //#endregion update
+    //#region mouseEnter
+    mouseEnter() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const form = this.form;
+        const owner = this.owner;
+        const focusedControl = this.form.focusedControl;
+        //#endregion Variables déclaration
+        focusedControl !== this && focusedControl instanceof MenuItem && focusedControl.active 
+            && focusedControl.inMainMenu && priv.inMainMenu && this.click();
+        if (!priv.inMainMenu && !priv.active) {
+            //!focusedControl.inMainMenu && (focusedControl.active = !1);
+            //this.form.focusedControl = this;
+            this.active = !0;
+            this.items.length > 0 && this.showSubMenu();
+        }
+    }
+    //#endregion mouseEnter
     //#endregion Methods
 }
 Object.defineProperties(MenuItem.prototype, {

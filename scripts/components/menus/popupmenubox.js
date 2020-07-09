@@ -188,10 +188,12 @@ class PopupMenuBox extends PopupBox {
         const htmlElementStyle = this.HTMLElementStyle;
         let direction = priv.direction;
         const content = htmlElement.querySelector('.subMenu');
+        const owner = this.owner;
         //#endregion Variables déclaration
         super.show(x, y);
-        this.owner.items.forEach(item => {
+        owner.items.forEach(item => {
             content.appendChild(item.HTMLElement);
+            item.parentPopupMenu = owner;
         });
         //priv.direction = $j.types.directions.RIGHT;
         //for (var i = 0, l = this._owner.items.length; i < l; i++) {
