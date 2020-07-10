@@ -14,8 +14,8 @@ class SplitButton extends ThemedControl {
             super(owner, props);
             core.private(this, {
                 caption: props.hasOwnProperty('caption') ? props.caption : this.name,
-                action: null,
-                popupMenu: props.hasOwnProperty('popupMenu') && this.form[props.popupMenu] ? this.form[props.popupMenu] : null
+                action: null//,
+                //popupMenu: props.hasOwnProperty('popupMenu') && this.form[props.popupMenu] ? this.form[props.popupMenu] : null
             });
         }
     }
@@ -54,15 +54,15 @@ class SplitButton extends ThemedControl {
     }
     //#endregion btn
     //#region popupMenu
-    get popupMenu() {
-        return core.private(this).popupMenu;
-    }
-    set popupMenu(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        newValue instanceof core.classes.Menu && priv.popupMenu !== newValue && (priv.popupMenu = newValue);
-    }
+    //get popupMenu() {
+    //    return core.private(this).popupMenu;
+    //}
+    //set popupMenu(newValue) {
+    //    //#region Variables déclaration
+    //    const priv = core.private(this);
+    //    //#endregion Variables déclaration
+    //    newValue instanceof core.classes.Menu && priv.popupMenu !== newValue && (priv.popupMenu = newValue);
+    //}
     //#endregion popupMenu
     //#region getTemplate
     get template() {

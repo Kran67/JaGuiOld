@@ -68,7 +68,7 @@ u.ShortCutLetter {
     text-decoration: none;
 }
 
-u.ShortCutLetter.isactive {
+u.ShortCutLetter.active {
     text-decoration: underline;
 }
 

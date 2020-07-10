@@ -11,7 +11,7 @@ class PopupButton extends Button {
             props.textObj = null;
             super(owner, props);
             core.private(this, {
-                popupMenu: props.hasOwnProperty('popupMenu') ? this.form[props.popupMenu] : null
+                //popupMenu: props.hasOwnProperty('popupMenu') ? this.form[props.popupMenu] : null
             });
         }
     }
@@ -19,7 +19,7 @@ class PopupButton extends Button {
     //#region Getters / Setters
     //#region caption
     get caption() {
-        return super.cpation();
+        return super.caption();
     }
     set caption(newValue) {
         //#region Variables déclaration
@@ -97,11 +97,11 @@ class PopupButton extends Button {
     //#endregion
     //#endregion Methods
 }
-Object.defineProperties(PopupButton.prototype, {
-    'popupMenu': {
-        enumerable: !0
-    }
-});
+//Object.defineProperties(PopupButton.prototype, {
+//    'popupMenu': {
+//        enumerable: !0
+//    }
+//});
 Object.seal(PopupButton);
 core.classes.register(core.types.CATEGORIES.EXTENDED, PopupButton);
 //#endregion PopupButton

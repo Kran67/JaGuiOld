@@ -243,6 +243,15 @@ class PopupMenuBox extends PopupBox {
         htmlElement.classList.add('animated', 'fadeIn');
     }
     //#endregion show
+    //#region mouseLeave
+    mouseLeave() {
+        //#region Variables déclaration
+        const control = this.refControl;
+        //#endregion Variables déclaration
+        super.mouseLeave();
+        control.popupMenu && control.popupMenu.activeItem && (control.popupMenu.activeItem.active = !1);
+    }
+    //#endregion mouseLeave
     //#endregion Methods
 }
 Object.defineProperties(PopupMenuBox.prototype, {

@@ -22,6 +22,7 @@ class MenuItem extends Component {
                 autoCheck: props.hasOwnProperty('autoCheck') && core.tools.isBool(props.autoCheck) ? props.autoCheck : !1,
                 active: props.hasOwnProperty('active') && core.tools.isBool(props.active) ? props.active : !1,
                 enabled: props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0,
+                checked: props.hasOwnProperty('checked') && core.tools.isBool(props.checked) ? props.checked : !1,
                 action: null
             });
             core.classes.newCollection(this, this, MenuItem);
@@ -67,10 +68,10 @@ class MenuItem extends Component {
             newValue && (priv.checked = newValue);
             if (priv.radioItem) {
                 list.forEach(item => {
-                    if (item instanceof MenuItem && (item !== this) && (item.groupIndex === priv.groupIndex) && item.radioItem) {
+                    if (item instanceof MenuItem && (item !== this) && (item.groupIndex === priv.groupIndex) && item.radioItem && item.checked) {
                         item.checked && cc++;
                         newValue && (item.checked = !1);
-                        item.HTMLElement.classList[priv.checked ? 'add': 'remove']('checked');
+                        item.HTMLElement.classList[priv.checked ? 'remove': 'add']('checked');
                         c++;
                     }
                 })
@@ -91,20 +92,20 @@ class MenuItem extends Component {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.isRadioItem !== newValue && (priv.radioItem = newValue) && this.update();
+        core.tools.isBool(newValue) && priv.radioItem !== newValue && (priv.radioItem = newValue) && this.update();
     }
     //#endregion radioItem
-    //#region groupItem
-    get groupItem() {
-        return core.private(this).groupItem;
+    //#region groupIndex
+    get groupIndex() {
+        return core.private(this).groupIndex;
     }
-    set groupItem(newValue) {
+    set groupIndex(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
         core.tools.isNumber(newValue) && priv.groupIndex !== newValue && (priv.groupIndex = newValue);
     }
-    //#endregion groupItem
+    //#endregion groupIndex
     //#region imageIndex
     get imageIndex() {
         return core.private(this).imageIndex;
@@ -159,6 +160,17 @@ class MenuItem extends Component {
         }
     }
     //#endregion action
+    //#region enabled
+    get enabled() {
+        return core.private(this).enabled;
+    }
+    set enabled(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        core.tools.isBool(newValue) && priv.enabled !== newValue && (priv.enabled = newValue) && this.update();
+    }
+    //#endregion enabled
     //#region template
     get template() {
         //#region Variables déclaration
@@ -238,6 +250,11 @@ class MenuItem extends Component {
         (newValue instanceof core.classes.PopupMenu || !newValue) && (priv.parentPopupMenu !== newValue) && (priv.parentPopupMenu = newValue);
     }
     //#endregion parentPopupMenu
+    //#region popupMenu
+    get popupMenu() {
+        return core.private(this).popupMenu;
+    }
+    //#endregion popupMenu
     //#endregion Getters / Setters
     //#region Methods
     //#region getImageList
@@ -425,7 +442,11 @@ class MenuItem extends Component {
     closeSubMenu() {
         //#region Variables déclaration
         const priv = core.private(this);
+        const owner = this.owner;
         //#endregion Variables déclaration
+        priv.popupMenu.items.forEach(item => {
+            item.active = !1
+        });
         if (priv.popupMenu) {
             priv.popupMenu.close();
             priv.popupMenu = null;
@@ -455,9 +476,11 @@ class MenuItem extends Component {
                 menuItem.HTMLElement.jsObj = menuItem;
                 menuItem.HTMLElementStyle = menuItem.HTMLElement.style;
                 menuItem.internalId = container.firstElementChild.id;
+                menuItem.loaded();
                 this.items.push(menuItem);
             });
         }
+        priv.htmlCaption && this.update();
     }
     //#endregion loaded
     //#region destroy
@@ -493,17 +516,28 @@ class MenuItem extends Component {
         const htmlElement = this.HTMLElement;
         const htmlElementStyle = this.HTMLElementStyle;
         let imgList;
+        const caption = this.captionToHTML();
+        let shortcut = priv.shortcut;
         //#endregion Variables déclaration
         imgList = this.getImageList();
         if (imgList && priv.imageIndex > -1) {
             !String.isNullOrEmpty(imgList.getImage(priv.imageIndex)) 
-                ? (HTMLElementStyle.backgroundImage = `url("${imgList.getImage(priv.imageIndex)}")`) && (htmlElementStyle.backgroundSize = `${imgList.imageWidth}px ${imgList.imageHeight}px`)
-            : HTMLElementStyle.backgroundImage = String.EMPTY;
+                ? (htmlElementStyle.backgroundImage = `url("${imgList.getImage(priv.imageIndex)}")`) && (htmlElementStyle.backgroundSize = `${imgList.imageWidth}px ${imgList.imageHeight}px`)
+            : htmlElementStyle.backgroundImage = String.EMPTY;
         }
-        priv.htmlCaption.innerHTML !== priv.caption && (priv.htmlCaption.innerHTML = priv.caption);
-        priv.htmlShortcut.innerHTML !== priv.shortcut && (priv.htmlShortcut.innerHTML = priv.shortcut);
+
+        priv.htmlCaption.innerHTML !== caption && (priv.htmlCaption.innerHTML = caption);
+        if (!String.isNullOrEmpty(shortcut)) {
+            shortcut = shortcut.replace('Ctrl', '<span class="ctrl"></span>');
+            shortcut = shortcut.replace('Alt', '<span class="alt"></span>');
+            shortcut = shortcut.replace('Shift', '<span class="shift"></span>');
+            shortcut = shortcut.replace('Sys', '<span class="sys"></span>');
+        }
+        priv.htmlShortcut.innerHTML !== shortcut && (priv.htmlShortcut.innerHTML = shortcut);
         priv.enabled && htmlElement.classList.contains('disabled') && htmlElement.classList.remove('disabled');
         !priv.enabled && !htmlElement.classList.contains('disabled') && htmlElement.classList.add('disabled');
+        htmlElement.classList[priv.checked ? 'add': 'remove']('checked');
+        htmlElement.classList[priv.radioItem ? 'add': 'remove']('radioitem');
     }
     //#endregion update
     //#region mouseEnter
@@ -517,10 +551,11 @@ class MenuItem extends Component {
         focusedControl !== this && focusedControl instanceof MenuItem && focusedControl.active 
             && focusedControl.inMainMenu && priv.inMainMenu && this.click();
         if (!priv.inMainMenu && !priv.active) {
-            //!focusedControl.inMainMenu && (focusedControl.active = !1);
-            //this.form.focusedControl = this;
+            owner.popupMenu.activeItem && (owner.popupMenu.activeItem.active = !1);
             this.active = !0;
             this.items.length > 0 && this.showSubMenu();
+        } else {
+            this.popupMenu && this.popupMenu.activeItem && (this.popupMenu.activeItem.active = !1);
         }
     }
     //#endregion mouseEnter
@@ -546,6 +581,12 @@ Object.defineProperties(MenuItem.prototype, {
         enumerable: !0
     },
     'action': {
+        enumerable: !0
+    },
+    'enabled': {
+        enumerable: !0
+    },
+    'checked': {
         enumerable: !0
     }
 });

@@ -23,9 +23,7 @@ class PopupMenu extends Component {
     //#region Getters / Setters
     //#region activeItem
     get activeItem() {
-        return this.items.find(e => {
-            e.enabled && e.visible && e.active;
-        });
+        return this.items.find(e => e.enabled && e.visible && e.active);
     }
     //#endregion activeItem
     //#region images
