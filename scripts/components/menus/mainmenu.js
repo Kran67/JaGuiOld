@@ -99,7 +99,6 @@ class MainMenu extends Component {
         //#region Variables déclaration
         const priv = core.private(this);
         const menus = priv.props.menus;
-        const MOUSEEVENTS = Mouse.MOUSEEVENTS;
         //#endregion Variables déclaration
         menus.forEach(menu => {
             this.items.push(core.classes.createComponent({

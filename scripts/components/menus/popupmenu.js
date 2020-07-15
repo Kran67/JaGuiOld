@@ -42,21 +42,53 @@ class PopupMenu extends Component {
         return core.private(this).popupBox;
     }
     //#endregion popupBox
+    //#region popupBox
+    get control() {
+        return core.private(this).control;
+    }
+    set control(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        newValue instanceof core.classes.Control && priv.control !== newValue && (priv.control = newValue);
+    }
+    //#endregion popupBox
     //#endregion Getters / Setters
     //#region Methods
     //#region loaded
     loaded() {
         super.loaded();
         this.getImages();
+        this.generateItems();
     }
     //#endregion loaded
+    //#region generateItems
+    generateItems() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        const items = priv.props.items;
+        //#endregion Variables déclaration
+        priv.htmlContainer = document.createElement(core.types.HTMLELEMENTS.DIV);
+        items && items.forEach(item => {
+            this.items.push(core.classes.createComponent({
+                class: MenuItem,
+                owner: this,
+                props: {
+                    ...item,
+                    parentHTML: this.HTMLElement
+                }
+            }));
+        });
+    }
+    //#endregion generateItems
     //#region getImages
     getImages() {
         //#region Variables déclaration
         const priv = core.private(this);
         const form = this.form;
-        const imgList = priv.props.hasOwnProperty('images') ? form[priv.props.images] : null;
+        let imgList = priv.props.hasOwnProperty('images') && priv.props.images;
         //#endregion Variables déclaration
+        core.tools.isString(imgList) && (imgList = form[priv.props.images]);
         imgList && (priv.images = imgList) && imgList.addReference(this);
     }
     //#endregion getImages

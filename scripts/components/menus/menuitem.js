@@ -376,7 +376,8 @@ class MenuItem extends Component {
             class: core.classes.PopupMenu,
             owner: this,
             props: {
-                control: this
+                control: this,
+                images: this.getImageList()
             },
             withTpl: !1
         });
@@ -391,6 +392,7 @@ class MenuItem extends Component {
         items.forEach(item => {
             item.loading && item.loaded();
         });
+        popupMenu.loaded();
         popupMenu.show(left, top);
         this.active = !0;
     }
@@ -514,7 +516,7 @@ class MenuItem extends Component {
         //#region Variables déclaration
         const priv = core.private(this);
         const htmlElement = this.HTMLElement;
-        const htmlElementStyle = this.HTMLElementStyle;
+        const htmlCaptionStyle = priv.htmlCaption.style;
         let imgList;
         const caption = this.captionToHTML();
         let shortcut = priv.shortcut;
@@ -522,8 +524,8 @@ class MenuItem extends Component {
         imgList = this.getImageList();
         if (imgList && priv.imageIndex > -1) {
             !String.isNullOrEmpty(imgList.getImage(priv.imageIndex)) 
-                ? (htmlElementStyle.backgroundImage = `url("${imgList.getImage(priv.imageIndex)}")`) && (htmlElementStyle.backgroundSize = `${imgList.imageWidth}px ${imgList.imageHeight}px`)
-            : htmlElementStyle.backgroundImage = String.EMPTY;
+                ? (htmlCaptionStyle.backgroundImage = `url("${imgList.getImage(priv.imageIndex)}")`) && (htmlCaptionStyle.backgroundSize = `${imgList.imageWidth}px ${imgList.imageHeight}px`)
+            : htmlCaptionStyle.backgroundImage = String.EMPTY;
         }
 
         priv.htmlCaption.innerHTML !== caption && (priv.htmlCaption.innerHTML = caption);
@@ -551,7 +553,7 @@ class MenuItem extends Component {
         focusedControl !== this && focusedControl instanceof MenuItem && focusedControl.active 
             && focusedControl.inMainMenu && priv.inMainMenu && this.click();
         if (!priv.inMainMenu && !priv.active) {
-            owner.popupMenu.activeItem && (owner.popupMenu.activeItem.active = !1);
+            owner.popupMenu && owner.popupMenu.activeItem && (owner.popupMenu.activeItem.active = !1);
             this.active = !0;
             this.items.length > 0 && this.showSubMenu();
         } else {
