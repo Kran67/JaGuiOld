@@ -381,12 +381,12 @@ class MenuItem extends Component {
             },
             withTpl: !1
         });
-        if (owner instanceof core.classes.MainMenu) {
-            owner.images instanceof core.classes.ImageList && (popupMenu.images = owner.images);
-        } else {
-            popupMenu.images = parentPopupMenu.images;
-            popupMenu.zIndex = parentPopupMenu.zIndex + 1;
-        }
+        //if (owner instanceof core.classes.MainMenu) {
+        //    owner.images instanceof core.classes.ImageList && (popupMenu.images = owner.images);
+        //} else {
+        //    popupMenu.images = parentPopupMenu.images;
+        parentPopupMenu && (popupMenu.zIndex = parentPopupMenu.zIndex + 1);
+        //}
         popupMenu.control = this;
         popupMenu.items = items;
         items.forEach(item => {
@@ -549,11 +549,12 @@ class MenuItem extends Component {
         const form = this.form;
         const owner = this.owner;
         const focusedControl = this.form.focusedControl;
+        const popupMenu = owner instanceof core.classes.PopupMenu ? owner : owner.popupMenu;
         //#endregion Variables déclaration
         focusedControl !== this && focusedControl instanceof MenuItem && focusedControl.active 
             && focusedControl.inMainMenu && priv.inMainMenu && this.click();
         if (!priv.inMainMenu && !priv.active) {
-            owner.popupMenu && owner.popupMenu.activeItem && (owner.popupMenu.activeItem.active = !1);
+            popupMenu && popupMenu.activeItem && (popupMenu.activeItem.active = !1);
             this.active = !0;
             this.items.length > 0 && this.showSubMenu();
         } else {
