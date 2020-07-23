@@ -825,6 +825,12 @@ class Tools {
         });
     }
         //#endregion defineLayout
+    noEvent(event) {
+        console.log('noEvent');
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            event.preventDefault();
+        }
         //#endregion Methods
     }
     Object.seal(Object.freeze(Tools));

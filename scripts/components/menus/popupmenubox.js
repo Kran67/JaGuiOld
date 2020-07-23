@@ -195,32 +195,6 @@ class PopupMenuBox extends PopupBox {
             content.appendChild(item.HTMLElement);
             item.parentPopupMenu = owner;
         });
-        //priv.direction = $j.types.directions.RIGHT;
-        //for (var i = 0, l = this._owner.items.length; i < l; i++) {
-        //    var item = this._owner.items[i];
-        //    item._HTMLElement = $j.doc.getElementById(item._internalId);
-        //    item._HTMLElement.jsObj = item;
-        //    item._HTMLElement.dataset.ischecked = item.isChecked;
-        //    item._HTMLElement.dataset.isradioitem = item.isRadioItem;
-        //    item._parentPopupMenu = this._owner;
-        //    if (item.caption !== _const.LINECAPTION) {
-        //        item._htmlCaption = item._HTMLElement.firstElementChild;
-        //        item._htmlShortcut = item._htmlCaption.nextSibling;
-        //        while (item._htmlShortcut.nodeType !== $j.types.xmlNodeTypes.ELEMENT_NODE) {
-        //            item._htmlShortcut = item._htmlShortcut.nextSibling;
-        //        }
-        //        item._htmlHasSubMenu = item._HTMLElement.lastElementChild;
-        //    }
-        //    $j.tools.events.bind(item._HTMLElement, $j.types.mouseEvents.CLICK, item.htmlClick);
-        //    $j.tools.events.bind(item._HTMLElement, $j.types.mouseEvents.ENTER, item.HTMLMouseEnter);
-        //    $j.tools.events.bind(item._HTMLElement, $j.types.mouseEvents.LEAVE, item.HTMLMouseLeave);
-        //    if (item.isChecked) $j.CSS.addClass(item._HTMLElement, 'ischecked');
-        //    if (item.isRadioItem) $j.CSS.addClass(item._HTMLElement, 'isradioitem');
-        //    if (!item.enabled) $j.CSS.addClass(item._HTMLElement, 'disabled');
-        //    if (!item.visible) $j.CSS.addClass(item._HTMLElement, 'noDisplay');
-        //    if (item.items.length === 0) $j.CSS.addClass(item._htmlHasSubMenu, 'nochilds');
-        //    $j.CSS.addClass(item._HTMLElement, this.form.getThemeName());
-        //}
         if (htmlElement.offsetTop + htmlElement.offsetHeight > body.offsetHeight) {
             htmlElementStyle.top = control instanceof MenuItem 
                 ? `${htmlElement.offsetTop - htmlElement.offsetHeight + control.HTMLElement.offsetHeight}${PX}`

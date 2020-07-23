@@ -90,7 +90,7 @@ class Control extends Component {
                     const obj = this.obj;
                     obj.allowUpdateOnResize && obj.update();
                     obj.allowRealignChildsOnResize && obj.realignChilds();
-                    obj.onResize.invoke(obj);
+                    obj.onResize && obj.onResize.invoke(obj);
                 }),
                 updateCell: function () {
                     //#region Variables déclaration
@@ -1560,7 +1560,7 @@ class Control extends Component {
             } else {
                 this.autoCapture && this.capture();
                 this.isPressed = !0;
-                this.onMouseDown.invoke();
+                this.onMouseDown && this.onMouseDown.invoke();
             }
             !core.isHTMLRenderer && (core.canvas.needRedraw = !0);
         }
@@ -1576,7 +1576,7 @@ class Control extends Component {
         !target.jsObj && (target = target.parentNode);
         if (this instanceof core.classes.Control) {
             this.releaseCapture();
-            this.onMouseUp.invoke();
+            this.onMouseUp && this.onMouseUp.invoke();
             clicked = priv.isPressed && !priv.doubleClick;
             this.isPressed = !1;
             this.doubleClick = !1;
@@ -1585,7 +1585,7 @@ class Control extends Component {
     //#endregion mouseUp
     //#region mouseMove
     mouseMove() {
-        this instanceof core.classes.Control && this.onMouseMove.invoke();
+        this instanceof core.classes.Control && this.onMouseMove && this.onMouseMove.invoke();
     }
     //#endregion mouseMove
     //#region mouseEnter
@@ -1598,7 +1598,7 @@ class Control extends Component {
         //#endregion Variables déclaration
         if (this instanceof core.classes.Control) {
             this.isMouseOver = !0;
-            this.onMouseEnter.invoke();
+            this.onMouseEnter && this.onMouseEnter.invoke();
             cursor !== CUSTOMCURSORS.DEFAULT
                 && (cursor === CUSTOMCURSORS.WAIT || cursor === CUSTOMCURSORS.PROGRESS)
                 && core.animatedCursor.initAnimation(core.isHTMLRenderer ? htmlElement : core.canvas, cursor);
@@ -1620,7 +1620,7 @@ class Control extends Component {
         //#endregion Variables déclaration
         if (this instanceof core.classes.Control) {
             this.isMouseOver = !1;
-            this.onMouseLeave.invoke();
+            this.onMouseLeave && this.onMouseLeave.invoke();
             cursor !== CUSTOMCURSORS.DEFAULT
                 && (cursor === CUSTOMCURSORS.WAIT || cursor === CUSTOMCURSORS.PROGRESS)
                 && core.animatedCursor.stopAnimation();
@@ -1642,7 +1642,7 @@ class Control extends Component {
         this instanceof core.classes.Control && priv.canFocused && focusedControl && focusedControl !== this
             && focusedControl.killFocus();
         this.isFocused = !0;
-        this.onEnterFocus.invoke();
+        this.onEnterFocus && this.onEnterFocus.invoke();
     }
     //#endregion enterFocus
     //#region killFocus
@@ -1654,7 +1654,7 @@ class Control extends Component {
             this.isFocused = !1;
             //this._applyTriggerEffect(this,'isFocused');
             //this.startTriggerAnimation(this,'isFocused');
-            this.onKillFocus.invoke();
+            this.onKillFocus && this.onKillFocus.invoke();
         }
     }
     //#endregion killFocus
@@ -1702,126 +1702,132 @@ class Control extends Component {
         const DOCK = core.types.DRAGKINDS.DOCK;
         const MOUSEEVENTS = Mouse.MOUSEEVENTS;
         //#endregion Variables déclaration
-        if (core.isHTMLRenderer) {
-            while (!control) {
-                htmlObj = htmlObj.parentNode;
-                if (htmlObj !== null) {
-                    control = htmlObj.jsObj;
-                } else {
+        //if (core.isHTMLRenderer) {
+        //    while (!control) {
+        //        htmlObj = htmlObj.parentNode;
+        //        if (htmlObj !== null) {
+        //            control = htmlObj.jsObj;
+        //        } else {
+        //            break;
+        //        }
+        //    }
+        //} else {
+        //    control = this;
+        //}
+        !control && this instanceof core.classes.Component && (control = this);
+        if (control) {
+            activeWin = control.form.app.activeWindow;
+            activeWin.capturedControl && (control = activeWin.capturedControl);
+            core.mouse.getMouseInfos(event);
+            if (!control || control.form.destroying || (!control.isEnabled && event.type !== MOUSEEVENTS.MOVE)
+                || (control.mouseEvents && !control.mouseEvents.has(event.type))) {
+                if (event.type === MOUSEEVENTS.DOWN) {
+                    control.closePopups && control.form.closePopups();
+                    control.setFocus();
+                }
+                return;
+            }
+            switch (event.type) {
+                case MOUSEEVENTS.MOVE:
+                    if (core.resizeWindow) {
+                        activeWin.mouseMove();
+                    } else if (core.tools.isFunc(control.mouseMove)) {
+                        control.mouseMove();
+                    }
                     break;
-                }
-            }
-        } else {
-            control = this;
-        }
-        activeWin = control.form.app.activeWindow;
-        activeWin.capturedControl && (control = activeWin.capturedControl);
-        core.mouse.getMouseInfos(event);
-        if (!control || control.form.destroying || (!control.isEnabled && event.type !== MOUSEEVENTS.MOVE)
-            || (control.mouseEvents && !control.mouseEvents.has(event.type))) {
-            if (event.type === MOUSEEVENTS.DOWN) {
-                control.closePopups && control.form.closePopups();
-                control.setFocus();
-            }
-            return;
-        }
-        switch (event.type) {
-            case MOUSEEVENTS.MOVE:
-                if (core.resizeWindow) {
-                    activeWin.mouseMove();
-                } else if (core.tools.isFunc(control.mouseMove)) {
-                    control.mouseMove();
-                }
-                break;
-            case MOUSEEVENTS.DOWN:
-                if (activeWin !== control.form) {
-                    activeWin.mainMenu && (activeWin.mainMenu.isActive = !1);
-                    activeWin.app.closeAllPopups();
-                }
-                if (control.form && control.form instanceof core.classes.Window) {
-                    control.form.setActive();
-                    activeWin = control.form;
-                    control.autoCapture && (activeWin.capturedControl = control);
-                    if (activeWin !== control.form.app.mainWindow) {
-                        control.form.app.mainWindow.mainMenu
-                            && (control.form.app.mainWindow.mainMenu.isActive = !1);
-                        control.form.app.mainWindow.closePopups();
+                case MOUSEEVENTS.DOWN:
+                    if (activeWin !== control.form) {
+                        activeWin.mainMenu && (activeWin.mainMenu.isActive = !1);
+                        activeWin.app.closeAllPopups();
                     }
-                }
-                core.tools.isFunc(control.mouseDown) && control.mouseDown();
-                core.classes.CustomTextControl
-                    && activeWin.focusedControl instanceof core.classes.CustomTextControl
-                    && activeWin.focusedControl.inputObj.focus();
-                break;
-            case MOUSEEVENTS.UP:
-                if (core.resizeWindow) {
-                    activeWin.mouseUp();
-                } else if (core.tools.isFunc(control.mouseUp)) {
-                    control.mouseUp();
-                }
-                activeWin && (activeWin.capturedControl = null);
-                break;
-            case MOUSEEVENTS.CLICK:
-                if (core.resizeWindow) {
-                    activeWin.click();
-                } else if (core.tools.isFunc(control.click)) {
-                    control.click();
-                }
-                break;
-            case MOUSEEVENTS.DBLCLICK:
-                core.tools.isFunc(control.dblClick) && control.dblClick();
-                break;
-            case MOUSEEVENTS.OUT:
-            case MOUSEEVENTS.LEAVE:
-                core.tools.isFunc(control.mouseLeave) && control.mouseLeave();
-                break;
-            case MOUSEEVENTS.OVER:
-            case MOUSEEVENTS.ENTER:
-                core.tools.isFunc(control.mouseEnter) && control.mouseEnter();
-                break;
-            case MOUSEEVENTS.DRAG:
-                jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(control.drag) && control.drag();
-                break;
-            case MOUSEEVENTS.DROP:
-                if (control.dragKind === DOCK) {
+                    if (control.form && control.form instanceof core.classes.Window) {
+                        control.form.setActive();
+                        activeWin = control.form;
+                        control.autoCapture && (activeWin.capturedControl = control);
+                        if (activeWin !== control.form.app.mainWindow) {
+                            control.form.app.mainWindow.mainMenu
+                                && (control.form.app.mainWindow.mainMenu.isActive = !1);
+                            control.form.app.mainWindow.closePopups();
+                        }
+                    }
+                    core.tools.isFunc(control.mouseDown) && control.mouseDown();
+                    core.classes.CustomTextControl
+                        && activeWin.focusedControl instanceof core.classes.CustomTextControl
+                        && activeWin.focusedControl.inputObj.focus();
+                    break;
+                case MOUSEEVENTS.UP:
+                    if (core.resizeWindow) {
+                        activeWin.mouseUp();
+                    } else if (core.tools.isFunc(control.mouseUp)) {
+                        control.mouseUp();
+                    }
+                    activeWin && (activeWin.capturedControl = null);
+                    break;
+                case MOUSEEVENTS.CLICK:
+                    if (core.resizeWindow) {
+                        activeWin.click();
+                    } else if (core.tools.isFunc(control.click)) {
+                        control.click();
+                    }
+                    break;
+                case MOUSEEVENTS.DBLCLICK:
+                    core.tools.isFunc(control.dblClick) && control.dblClick();
+                    break;
+                case MOUSEEVENTS.OUT:
+                case MOUSEEVENTS.LEAVE:
+                    activeWin.hoveredControl === control && core.tools.isFunc(control.mouseLeave) && control.mouseLeave();
+                    break;
+                case MOUSEEVENTS.OVER:
+                case MOUSEEVENTS.ENTER:
+                    if (activeWin.hoveredControl !== control) {
+                        activeWin.hoveredControl = control;
+                        core.tools.isFunc(control.mouseEnter) && control.mouseEnter();
+                    }
+                    break;
+                case MOUSEEVENTS.DRAG:
+                    jsObj.dragMode !== AUTOMATIC && core.tools.isFunc(control.drag) && control.drag();
+                    break;
+                case MOUSEEVENTS.DROP:
+                    if (control.dragKind === DOCK) {
+                        if (control.dragMode === AUTOMATIC) {
+                            //event.preventDefault();
+                            event.target.appendChild(document.getElementById(event.dataTransfer.getData('text')));
+                        } else if (core.tools.isFunc(control.drop)) {
+                            control.drop();
+                        }
+                    }
+                    break;
+                case MOUSEEVENTS.DRAGEND:
+                    control.dragMode !== AUTOMATIC && core.tools.isFunc(control.dragEnd) && control.dragEnd();
+                    break;
+                case MOUSEEVENTS.DRAGENTER:
+                    control.dragMode !== AUTOMATIC && core.tools.isFunc(control.dragEnter) && control.dragEnter();
+                    break;
+                case MOUSEEVENTS.DRAGEXIT:
+                    control.dragMode !== AUTOMATIC && core.tools.isFunc(control.dragExit) && control.dragExit();
+                    break;
+                case MOUSEEVENTS.DRAGLEAVE:
+                    control.dragMode !== AUTOMATIC && core.tools.isFunc(control.dragLeave) && control.dragLeave();
+                    break;
+                case MOUSEEVENTS.DRAGOVER:
+                    if (control.dragKind === DOCK) {
+                        if (control.dragMode === AUTOMATIC) {
+                            event.preventDefault();
+                        } else if (core.tools.isFunc(control.dragOver)) {
+                            control.dragOver();
+                        }
+                    }
+                    break;
+                case MOUSEEVENTS.DRAGSTART:
                     if (control.dragMode === AUTOMATIC) {
-                        //event.preventDefault();
-                        event.target.appendChild(document.getElementById(event.dataTransfer.getData('text')));
-                    } else if (core.tools.isFunc(control.drop)) {
-                        control.drop();
+                        event.dataTransfer.setData('text', htmlObj.id);
+                    } else if (core.tools.isFunc(control.dragStart)) {
+                        control.dragStart();
                     }
-                }
-                break;
-            case MOUSEEVENTS.DRAGEND:
-                control.dragMode !== AUTOMATIC && core.tools.isFunc(control.dragEnd) && control.dragEnd();
-                break;
-            case MOUSEEVENTS.DRAGENTER:
-                control.dragMode !== AUTOMATIC && core.tools.isFunc(control.dragEnter) && control.dragEnter();
-                break;
-            case MOUSEEVENTS.DRAGEXIT:
-                control.dragMode !== AUTOMATIC && core.tools.isFunc(control.dragExit) && control.dragExit();
-                break;
-            case MOUSEEVENTS.DRAGLEAVE:
-                control.dragMode !== AUTOMATIC && core.tools.isFunc(control.dragLeave) && control.dragLeave();
-                break;
-            case MOUSEEVENTS.DRAGOVER:
-                if (control.dragKind === DOCK) {
-                    if (control.dragMode === AUTOMATIC) {
-                        event.preventDefault();
-                    } else if (core.tools.isFunc(control.dragOver)) {
-                        control.dragOver();
-                    }
-                }
-                break;
-            case MOUSEEVENTS.DRAGSTART:
-                if (control.dragMode === AUTOMATIC) {
-                    event.dataTransfer.setData('text', htmlObj.id);
-                } else if (core.tools.isFunc(control.dragStart)) {
-                    control.dragStart();
-                }
-                break;
+                    break;
+            }
+            core.mouse.stopAllEvents(event);
         }
-        core.mouse.stopAllEvents(event);
     }
     //#endregion dispatchEvent
     //#region releaseCapture
@@ -1845,7 +1851,7 @@ class Control extends Component {
         //#region Variables déclaration
         const action = this.hasOwnProperty('action') ? this.action : null;
         //#endregion Variables déclaration
-        if (this.onClick.hasListener) {
+        if (this.onClick && this.onClick.hasListener) {
             this.onClick.invoke();
         } else if (action) {
             action.execute();
@@ -1854,12 +1860,12 @@ class Control extends Component {
     //#endregion click
     //#region dblClick
     dblClick() {
-        this.onDblClick.invoke();
+        this.onDblClick && this.onDblClick.invoke();
     }
     //#endregion dblClick
     //#region keyDown
     keyDown() {
-        this.onKeyDown.invoke();
+        this.onKeyDown && this.onKeyDown.invoke();
         core.keyboard.key === Keyboard.VKEYSCODES.VK_SPACE
             && !(this instanceof core.classes.CustomTextControl)
             && (this.isPressed = !0);
@@ -1868,10 +1874,10 @@ class Control extends Component {
     //#region keyUp
     keyUp() {
         //#region Variables déclaration
-        const priv = core.privat(this);
+        const priv = core.private(this);
         const VKEYSCODES = Keyboard.VKEYSCODES;
         //#endregion Variables déclaration
-        this.onKeyUp.invoke();
+        this.onKeyUp && this.onKeyUp.invoke();
         if (core.keyboard.key === VKEYSCODES.VK_SPACE || core.keyboard.key === VKEYSCODES.VK_ENTER) {
             if (!(this instanceof core.classes.CustomTextControl)) {
                 this.click();
@@ -1889,7 +1895,7 @@ class Control extends Component {
     //#endregion keyUp
     //#region keyPress
     keyPress() {
-        this.onKeyPress.invoke();
+        this.onKeyPress && this.onKeyPress.invoke();
     }
     //#endregion keyPress
     //#region drag
@@ -1898,7 +1904,7 @@ class Control extends Component {
         const priv = core.private(this);
         //#endregion Variables déclaration
         priv.dragKind === core.types.DRAGKINDS.DRAG && priv.dragMode === core.types.DRAGMODES.MANUAL
-            && this.onDrag.invoke(event);
+            && this.onDrag && this.onDrag.invoke(event);
     }
     //#endregion drag
     //#region drop
@@ -1908,7 +1914,7 @@ class Control extends Component {
         //#endregion Variables déclaration
         priv.dragKind !== core.types.DRAGKINDS.DOCK
             && priv.dragMode !== core.types.DRAGMODES.MANUAL
-            && this.onDrop.invoke(event);
+            && this.onDrop && this.onDrop.invoke(event);
     }
     //#endregion drop
     //#region dragEnter
@@ -1918,7 +1924,7 @@ class Control extends Component {
         //#endregion Variables déclaration
         priv.dragKind === core.types.DRAGKINDS.DOCK
             && priv.dragMode === core.types.DRAGMODES.MANUAL
-            && this.onDragEnter.invoke(event);
+            && this.onDragEnter && this.onDragEnter.invoke(event);
     }
     //#endregion dragEnter
     //#region dragStart
@@ -1928,7 +1934,7 @@ class Control extends Component {
         //#endregion Variables déclaration
         priv.dragKind === core.types.DRAGKINDS.DRAG
             && priv.dragMode === core.types.DRAGMODES.MANUAL
-            && this.onDragStart.invoke(event);
+            && this.onDragStart && this.onDragStart.invoke(event);
     }
     //#endregion dragStart
     //#region dragLeave
@@ -1938,7 +1944,7 @@ class Control extends Component {
         //#endregion Variables déclaration
         priv.dragKind === core.types.DRAGKINDS.DOCK
             && priv.dragMode === core.types.DRAGMODES.MANUAL
-            && this.onDragLeave.invoke(event);
+            && this.onDragLeave && this.onDragLeave.invoke(event);
     }
     //#endregion dragLeave
     //#region dragExit
@@ -1948,7 +1954,7 @@ class Control extends Component {
         //#endregion Variables déclaration
         priv.dragKind === core.types.DRAGKINDS.DRAG
             && priv.dragMode === core.types.DRAGMODES.MANUAL
-            && this.onDragExit.invoke(event);
+            && this.onDragExit && this.onDragExit.invoke(event);
     }
     //#endregion dragExit
     //#region dragOver
@@ -1958,7 +1964,7 @@ class Control extends Component {
         //#endregion Variables déclaration
         priv.dragKind === core.types.DRAGKINDS.DOCK
             && priv.dragMode === core.types.DRAGMODES.MANUAL
-            && this.onDragOver.invoke(event);
+            && this.onDragOver && this.onDragOver.invoke(event);
     }
     //#endregion dragOver
     //#region dragEnd
@@ -1968,7 +1974,7 @@ class Control extends Component {
         //#endregion Variables déclaration
         priv.dragKind === core.types.DRAGKINDS.DRAG
             && priv.dragMode === core.types.DRAGMODES.MANUAL
-            && this.onDragEnd.invoke(event);
+            && this.onDragEnd && this.onDragEnd.invoke(event);
     }
     //#endregion dragEnd
     //dialogKey Control_dialogKey(key,shift){
@@ -2153,7 +2159,7 @@ class Control extends Component {
             });
             resizeData.width = htmlElement.offsetWidth;
             resizeData.height = htmlElement.offsetHeight;
-            this.onAfterResized.invoke(this);
+            this.onAfterResized && this.onAfterResized.invoke(this);
         }
     }
     //#endregion resized

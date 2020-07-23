@@ -748,7 +748,7 @@ class BaseWindow extends ThemedControl {
         const priv = core.private(this);
         let focusedControl = priv.focusedControl;
         //#endregion Variables déclaration
-        newValue && newValue instanceof core.classes.Component && focusedControl !== newValue
+        newValue && newValue instanceof core.classes.Control && focusedControl !== newValue
             && (focusedControl = priv.focusedControl = newValue);
     }
     //#endregion focusedControl
@@ -760,7 +760,7 @@ class BaseWindow extends ThemedControl {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        object && object instanceof core.classes.Control && priv.hoveredControl !== object
+        object && object instanceof core.classes.Component && priv.hoveredControl !== object
             && (priv.hoveredControl = object);
     }
     //#endregion hoveredControl

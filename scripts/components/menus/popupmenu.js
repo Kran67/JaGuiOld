@@ -34,7 +34,8 @@ class PopupMenu extends Component {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        (!newValue || newValue instanceof core.classes.ImageList) && priv.images !== newValue && (priv.images = newValue) && priv.images.addReference(this);
+        (!newValue || newValue instanceof core.classes.ImageList) && priv.images !== newValue && (priv.images = newValue) 
+            && priv.images.addReference(this);
     }
     //#endregion images
     //#region popupBox

@@ -131,19 +131,25 @@ class Bindable extends BaseClass {
         //#region Variables déclaration
         const priv = core.private(this);
         const form = priv.form;
+        let addEvent = !0;
         //#endregion Variables déclaration
         if (Array.isArray(eventsName)) {
             eventsName.forEach(eventName => {
                 const eventValue = props[eventName];
-                this[eventName] = new core.classes.NotifyEvent(this);
-                if (props.hasOwnProperty(eventName)) {
-                    if (core.tools.isFunc(form[eventValue])) {
-                        this[eventName].addListener(form[eventValue]);
-                    } else if (core.tools.isString(eventValue)) {
-                        !String.isNullOrEmpty(eventValue)
-                            && this[eventName].addListener(new Function(eventValue));
-                    } else if (core.tools.isFunc(eventValue)) {
-                        this[eventName].addListener(eventValue);
+                addEvent = !0;
+                eventName.toLowerCase().includes('mouse') && priv.mouseEvents && !priv.mouseEvents[eventName.replace('on', String.EMPTY).toLowerCase()]
+                    && (addEvent = !1);
+                if (addEvent) {
+                    this[eventName] = new core.classes.NotifyEvent(this);
+                    if (props.hasOwnProperty(eventName)) {
+                        if (core.tools.isFunc(form[eventValue])) {
+                            this[eventName].addListener(form[eventValue]);
+                        } else if (core.tools.isString(eventValue)) {
+                            !String.isNullOrEmpty(eventValue)
+                                && this[eventName].addListener(new Function(eventValue));
+                        } else if (core.tools.isFunc(eventValue)) {
+                            this[eventName].addListener(eventValue);
+                        }
                     }
                 }
             });
@@ -155,9 +161,7 @@ class Bindable extends BaseClass {
         Array.isArray(eventsName)
             && eventsName.forEach(eventName => {
                 //console.log(eventName);
-                this[eventName].destroy();
-                this[eventName] = null;
-                delete this[eventName];
+                this[eventName] && this[eventName].destroy() && (this[eventName] = null) && delete this[eventName];
             });
     }
     //#endregion unBindAndDestroyEvents

@@ -130,7 +130,7 @@ class PasswordTextBox extends CustomTextBoxBtn {
         btnHtmlElment.classList.add('PasswordTextBoxButton');
         button.onMouseDown.addListener(this.revealPassword);
         button.onMouseUp.addListener(this.revealPassword);
-        button.onMouseLeave.addListener(this.revealPassword);
+        //button.onMouseLeave.addListener(this.revealPassword);
     }
     //#endregion loaded
     //#region update

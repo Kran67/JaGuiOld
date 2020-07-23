@@ -184,7 +184,7 @@ class MenuItem extends Component {
         const owner = this.owner;
         //#endregion Variables déclaration
         if (priv.caption === core.types.CONSTANTS.LINECAPTION) {
-            html = core.templates['MenuItemSep'];
+            html = core.templates.MenuItemSep;
             a = html.split('{internalId}');
             html = a.join(String.uniqueId());
         } else {
@@ -243,6 +243,9 @@ class MenuItem extends Component {
     }
     //#endregion inMainMenu
     //#region parentPopupMenu
+    get parentPopupMenu() {
+        return core.private(this).parentPopupMenu;
+    }
     set parentPopupMenu(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
@@ -381,12 +384,7 @@ class MenuItem extends Component {
             },
             withTpl: !1
         });
-        //if (owner instanceof core.classes.MainMenu) {
-        //    owner.images instanceof core.classes.ImageList && (popupMenu.images = owner.images);
-        //} else {
-        //    popupMenu.images = parentPopupMenu.images;
         parentPopupMenu && (popupMenu.zIndex = parentPopupMenu.zIndex + 1);
-        //}
         popupMenu.control = this;
         popupMenu.items = items;
         items.forEach(item => {
@@ -467,6 +465,9 @@ class MenuItem extends Component {
         priv.htmlCaption = htmlElement.querySelector('jagui-menuitem-caption');
         priv.htmlShortcut = htmlElement.querySelector('jagui-menuitem-shortcut');
         priv.htmlHasSubMenu = htmlElement.querySelector('jagui-menuitem-arrow');
+        Events.bind(priv.htmlCaption, MOUSEEVENTS.LEAVE, core.tools.noEvent);
+        Events.bind(priv.htmlShortcut, MOUSEEVENTS.LEAVE, core.tools.noEvent);
+        Events.bind(priv.htmlHasSubMenu, MOUSEEVENTS.LEAVE, core.tools.noEvent);
         if (priv.props.hasOwnProperty('items')) {
             priv.htmlHasSubMenu.classList.remove('nochilds');
             priv.props.items.forEach(item => {
@@ -562,6 +563,9 @@ class MenuItem extends Component {
         }
     }
     //#endregion mouseEnter
+    mouseLeave() {
+        console.log(core.mouse.event);
+    }
     //#endregion Methods
 }
 Object.defineProperties(MenuItem.prototype, {
