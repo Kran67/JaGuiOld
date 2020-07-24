@@ -193,7 +193,7 @@ class ButtonGlyph extends Button {
         if (core.isHTMLRenderer) {
             Text.setTextNode(htmlElement, String.EMPTY);
             priv.textObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}caption`);
-            priv.textObj.classList.add('Control', 'ButtonCaption', 'includeCaption', `${this.constructor.name}Caption`);
+            priv.textObj.classList.add('ButtonCaption', 'includeCaption', `${this.constructor.name}Caption`);
             priv.textObj.jsObj = this;
             htmlElement.appendChild(priv.textObj);
             priv.glyph = document.createElement(priv.glyphHTMLElement);

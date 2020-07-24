@@ -87,7 +87,7 @@ class ColorButton extends Button {
         let colorObj;
         //#endregion Variables déclaration
         colorObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}color`);
-        colorObj.classList.add('Control', 'ColorButtonColor', this.themeName);
+        colorObj.classList.add('ColorButtonColor', this.themeName);
         core.private(this, { colorObj });
         this.HTMLElement.appendChild(priv.colorObj);
         super.loaded();

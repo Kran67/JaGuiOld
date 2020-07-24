@@ -90,7 +90,7 @@ class PopupButton extends Button {
         //#endregion Variables déclaration
         super.loaded();
         priv.arrow = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}arrow`);
-        priv.arrow.classList.add('Control', 'PopupButtonArrow');
+        priv.arrow.classList.add('PopupButtonArrow');
         priv.arrow.innerHTML = '8';
         this.HTMLElement.appendChild(priv.arrow);
     }

@@ -317,8 +317,9 @@ class CornerButton extends Button {
         const captionTag = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}caption`;
         const div = document.createElement(captionTag);
         //#endregion Variables déclaration
+        this.HTMLElementStyle.clipPath = `url(#${this.name}Clip)`;
         if (!htmlElement.querySelector(captionTag)) {
-            div.classList.add('Control', 'Button', 'CornerButton', this.themeName, 'includeCaption');
+            div.classList.add('Button', 'CornerButton', this.themeName, 'includeCaption');
             div.style = `clip-path:url(#${this.name}Clip);`;
             htmlElement.appendChild(div);
             svg.setAttribute('width', '100%');

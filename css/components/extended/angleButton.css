@@ -11,6 +11,7 @@
 }
 
 .AngleButtonKnob {
+    position: absolute;
     left: 0;
     top: 0;
     font-family: jagui;

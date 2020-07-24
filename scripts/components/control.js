@@ -1695,7 +1695,7 @@ class Control extends Component {
     //#region dispatchEvent
     dispatchEvent(event) {
         //#region Variables déclaration
-        let htmlObj = event.target;
+        let htmlObj = event.currentTarget;
         let control = htmlObj.jsObj;
         let activeWin = null;
         const AUTOMATIC = core.types.DRAGMODES.AUTOMATIC;
@@ -1715,7 +1715,7 @@ class Control extends Component {
         //    control = this;
         //}
         !control && this instanceof core.classes.Component && (control = this);
-        if (control) {
+        if (control && htmlObj === event.target) {
             activeWin = control.form.app.activeWindow;
             activeWin.capturedControl && (control = activeWin.capturedControl);
             core.mouse.getMouseInfos(event);
@@ -1826,6 +1826,7 @@ class Control extends Component {
                     }
                     break;
             }
+            //console.log(control.name, event.type);
             core.mouse.stopAllEvents(event);
         }
     }

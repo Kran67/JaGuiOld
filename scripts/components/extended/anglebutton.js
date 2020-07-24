@@ -266,10 +266,10 @@ class AngleButton extends Button {
         //#endregion Variables déclaration
         if (!htmlElement.querySelector('.AngleButtonCaption')) {
             priv.textObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}caption`);
-            priv.textObj.classList.add('Control', 'AngleButtonCaption');
+            priv.textObj.classList.add('AngleButtonCaption');
             priv.textObj.jsObj = this;
             priv.knob = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}knob`);
-            priv.knob.classList.add('Control', 'AngleButtonKnob');
+            priv.knob.classList.add('AngleButtonKnob');
             priv.knob.innerHTML = '3';
             priv.knob.jsObj = this;
             htmlElement.appendChild(priv.textObj);

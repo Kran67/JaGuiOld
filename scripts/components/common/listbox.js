@@ -349,21 +349,21 @@ class ListBoxItem extends BaseClass {
             priv.html = document.createElement(`${name}`);
             if (priv.owner.viewCheckboxes) {
                 priv.check = document.createElement(`${name}-check`);
-                priv.check.jsObj = this;
+                //priv.check.jsObj = this;
                 priv.check.classList.add('CheckboxCheck', priv.owner.themeName);
                 priv.html.appendChild(priv.check);
             }
             if (priv.owner.images || !String.isNullOrEmpty(priv.image)
                 || !String.isNullOrEmpty(priv.cssImage)) {
                 priv.icon = document.createElement(`${name}-icon`);
-                priv.icon.jsObj = this;
+                //priv.icon.jsObj = this;
                 priv.html.appendChild(priv.icon);
             }
             priv.text = document.createElement(`${name}-text`);
             priv.text.classList.add(`${this.constructor.name}Caption`);
             priv.text.innerHTML = priv.caption;
             priv.html.appendChild(priv.text);
-            priv.html.jsObj = this;
+            //priv.html.jsObj = this;
             priv.html.classList.add(this.constructor.name, priv.owner.themeName);
             priv.owner.orientation === ORIENTATIONS.VERTICAL
                 ? priv.html.classList.add('VListBoxItem') : priv.html.classList.add('HListBoxItem');
@@ -413,8 +413,6 @@ class ListBoxItem extends BaseClass {
         this.mouseEvents.destroy();
         this.mouseEvents = null;
         delete this.mouseEvents;
-        //this.onDraw.destroy();
-        //this.onDraw = null;
         super.destroy();
     }
     //#endregion destroy
@@ -424,10 +422,10 @@ class ListBoxItem extends BaseClass {
     }
     //#endregion clone
     //#region mouseDown
-    mouseDown() {
-        core.mouse.stopAllEvents();
-        this.owner.selectItem(this);
-    }
+    //mouseDown() {
+    //    core.mouse.stopAllEvents();
+    //    this.owner.selectItem(this);
+    //}
     //#endregion mouseDown
     //#endregion Methods
 }
@@ -721,7 +719,7 @@ class ListBox extends ScrollControl {
             this.viewCheckboxes && (item.checked = !item.checked);
             this.onSelectItem.hasListener && this.onSelectItem.invoke();
         }
-        this.mouseDown();
+        //this.mouseDown();
     }
     //#endregion selectItem
     //#region deselectItemIndex
@@ -795,7 +793,7 @@ class ListBox extends ScrollControl {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        this.allowUpdate = !1;
+        super.beginUpdate();
         priv.items.beginUpdate();
     }
     //#endregion beginUpdate
@@ -804,7 +802,7 @@ class ListBox extends ScrollControl {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        this.allowUpdate = !0;
+        super.endUpdate();
         this.refreshInnerHeight();
         priv.items.endUpdate();
     }
@@ -918,22 +916,25 @@ class ListBox extends ScrollControl {
         const htmlElement = this.HTMLElement;
         const prop = priv.orientation === ORIENTATIONS.VERTICAL ? 'Top' : 'Left';
         const propSize = priv.orientation === ORIENTATIONS.VERTICAL ? 'Height' : 'Width';
+        const scrollProp = `scroll${prop}`;
+        const offsetPropSize = `offset${propSize}`;
+        const offsetProp = `offset${prop}`;
         //#endregion Variables déclaration
         if (this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
-            const nbrVisibleItems = int(htmlElement[`offset${propSize}`] / priv.itemsSize);
-            const base = ((nbrVisibleItems * priv.itemsSize) - htmlElement[`offset${propSize}`]) + priv.itemsSize;
-            htmlElement[`scroll${prop}`] = priv.scrollToItemMode === 'last'
+            const nbrVisibleItems = int(htmlElement[offsetPropSize] / priv.itemsSize);
+            const base = ((nbrVisibleItems * priv.itemsSize) - htmlElement[offsetPropSize]) + priv.itemsSize;
+            htmlElement[scrollProp] = priv.scrollToItemMode === 'last'
                 ? base + ((priv.itemIndex - nbrVisibleItems) * priv.itemsSize) + 2
                 : priv.itemIndex * priv.itemsSize;
         } else {
-            if (priv.items[priv.itemIndex].html[`offset${prop}`]
-                + priv.items[priv.itemIndex].html[`offset${propSize}`] >
-                htmlElement[`offset${propSize}`] + htmlElement[`scroll${prop}`]) {
-                htmlElement[`scroll${prop}`] = priv.items[priv.itemIndex].html[`offset${propSize}`] +
-                    priv.items[priv.itemIndex].html[`offset${propSize}`] + 2
-                    - htmlElement[`offset${propSize}`];
-            } else if (htmlElement[`scroll${prop}`] > priv.items[priv.itemIndex].html[`offset${prop}`]) {
-                htmlElement[`scroll${prop}`] = priv.items[priv.itemIndex].html[`offset${prop}`] - 1;
+            if (priv.items[priv.itemIndex].html[offsetProp]
+                + priv.items[priv.itemIndex].html[offsetPropSize] >
+                htmlElement[offsetPropSize] + htmlElement[scrollProp]) {
+                htmlElement[scrollProp] = priv.items[priv.itemIndex].html[offsetPropSize] +
+                    priv.items[priv.itemIndex].html[offsetPropSize] + 2
+                    - htmlElement[offsetPropSize];
+            } else if (htmlElement[scrollProp] > priv.items[priv.itemIndex].html[offsetProp]) {
+                htmlElement[scrollProp] = priv.items[priv.itemIndex].html[offsetProp] - 1;
             }
         }
     }
@@ -987,6 +988,34 @@ class ListBox extends ScrollControl {
         core.tools.isString(priv.images) && this.form[priv.images] && (this.images = this.form[priv.images]);
     }
     //#endregion getImages
+    //#region mouseDown
+    mouseDown() {
+        //#region Variables déclaration
+        let item = this.itemAtPos(core.mouse.target);
+        //#endregion Variables déclaration
+        super.mouseDown();
+        item && this.selectItem(item);
+    }
+    //#endregion mouseDown
+    //#region itemAtPos
+    itemAtPos(point) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        let i = 0;
+        let notFound = !0;
+        let item = null;
+        let itemRect = new core.classes.Rect();
+        //#endregion Variables déclaration
+        while (notFound && i < priv.visibleItems.length - 1) {
+            item = priv.visibleItems[i];
+            item = priv.items[priv.items.indexOf(item.index)];
+            itemRect.setValues(0, item.offsetTop, item.offsetWidth, item.offsetHeight);
+            point.inRect(itemRect) && (notFound = !0);
+            i++;
+        }
+        return item;
+    }
+    //#endregion itemAtPos
     //#endregion Methods
 }
 Object.defineProperties(ListBox.prototype, {

@@ -1,4 +1,9 @@
-﻿.basefont,
+﻿.Control > *:not(.Control):not(input) {
+    pointer-events: none;
+}
+
+
+.basefont,
 .Control,
 input,
 .Control.Button,
@@ -8,13 +13,11 @@ textarea {
 }
 
 .Control,
-/*div.Control,*/
 span.Control,
 jagui-label.Control,
 svg.Control,
 img.Control {
     -moz-user-select: none;
-    -ms-user-select: none;
     -webkit-user-select: none;
     user-select: none;
 }

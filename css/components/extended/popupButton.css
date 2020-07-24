@@ -4,6 +4,7 @@
 }
 
 .PopupButtonArrow {
+    position:absolute;
     right: 4px;
     font-family: jagui;
     font-size: 5pt;

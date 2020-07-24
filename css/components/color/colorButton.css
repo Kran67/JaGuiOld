@@ -1,12 +1,11 @@
 ﻿.ColorButton {
     overflow: hidden;
     white-space: nowrap;
+    display: flex;
 }
 
 .ColorButtonColor {
-    left: 5px;
-    top: 5px;
-    right: 5px;
-    bottom: 5px;
+    flex: 1;
+    margin: 5px;
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAJ0lEQVQImWNYtGjR/0WLFv1///49HC9atOg/AzIHWREZEjjtwCUBAECKeHPjub7wAAAAAElFTkSuQmCC);
 }

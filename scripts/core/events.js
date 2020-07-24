@@ -2,15 +2,15 @@
 class Events {
     //#region Methods
     //#region bind
-    static bind(object, eventName, callBack, capture) {
+    static bind(object, eventName, callBack) {
         core.tools.isFunc(callBack) && object && core.tools.isString(eventName)
-            && object.addEventListener(eventName, callBack, capture || !0);
+            && object.addEventListener(eventName, callBack, !1);
     }
     //#endregion bind
     //#region unBind
-    static unBind(object, eventName, callBack, capture) {
+    static unBind(object, eventName, callBack) {
         core.tools.isFunc(callBack) && object && core.tools.isString(eventName)
-            && object.removeEventListener(eventName, callBack, capture || !0);
+            && object.removeEventListener(eventName, callBack, !1);
     }
     //#endregion unBind
     //#region stop

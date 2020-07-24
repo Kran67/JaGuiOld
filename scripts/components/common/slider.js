@@ -497,8 +497,10 @@ class Slider extends ThemedControl {
     wheel(event) {
         //#region Variables déclaration
         const priv = core.private(this);
-        const multiplier = core.mouse.wheelDelta < 0 ? 2 : -2;
+        let multiplier;
         //#endregion Variables déclaration
+        core.mouse.getMouseInfos(event);
+        multiplier = core.mouse.wheelDelta < 0 ? 2 : -2;
         core.keyboard.shift && priv.mode === SLIDERMODES.RANGE
             ? this.scrollBy(0, -priv.frequency * multiplier)
             : this.scrollBy(-priv.frequency * multiplier, 0);
