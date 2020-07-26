@@ -37,6 +37,7 @@
 .ListBoxItem {
     display: flex;
     align-items: center;
+    pointer-events: all !important;
 }
 
     .ListBoxItem .icon {
