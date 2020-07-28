@@ -362,7 +362,7 @@ class ListBoxItem extends BaseClass {
             priv.text.classList.add(`${this.constructor.name}Caption`);
             priv.text.innerHTML = priv.caption;
             priv.html.appendChild(priv.text);
-            priv.html.classList.add(this.constructor.name, priv.owner.themeName);
+            priv.html.classList.add('Control', this.constructor.name, priv.owner.themeName);
             priv.owner.orientation === ORIENTATIONS.VERTICAL
                 ? priv.html.classList.add('VListBoxItem') : priv.html.classList.add('HListBoxItem');
             priv.owner.HTMLElement.appendChild(priv.html);
@@ -911,6 +911,7 @@ class ListBox extends ScrollControl {
         const scrollProp = `scroll${prop}`;
         const offsetPropSize = `offset${propSize}`;
         const offsetProp = `offset${prop}`;
+        const itemHtml = priv.items[priv.itemIndex].html;
         //#endregion Variables déclaration
         if (this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
             const nbrVisibleItems = int(htmlElement[offsetPropSize] / priv.itemsSize);
@@ -919,14 +920,12 @@ class ListBox extends ScrollControl {
                 ? base + ((priv.itemIndex - nbrVisibleItems) * priv.itemsSize) + 2
                 : priv.itemIndex * priv.itemsSize;
         } else {
-            if (priv.items[priv.itemIndex].html[offsetProp]
-                + priv.items[priv.itemIndex].html[offsetPropSize] >
+            if (itemHtml[offsetProp] + itemHtml[offsetPropSize] >
                 htmlElement[offsetPropSize] + htmlElement[scrollProp]) {
-                htmlElement[scrollProp] = priv.items[priv.itemIndex].html[offsetPropSize] +
-                    priv.items[priv.itemIndex].html[offsetPropSize] + 2
+                htmlElement[scrollProp] = itemHtml[offsetPropSize] + itemHtml[offsetPropSize] + 2
                     - htmlElement[offsetPropSize];
-            } else if (htmlElement[scrollProp] > priv.items[priv.itemIndex].html[offsetProp]) {
-                htmlElement[scrollProp] = priv.items[priv.itemIndex].html[offsetProp] - 1;
+            } else if (htmlElement[scrollProp] > itemHtml[offsetProp]) {
+                htmlElement[scrollProp] = itemHtml[offsetProp] - 1;
             }
         }
     }
@@ -980,15 +979,6 @@ class ListBox extends ScrollControl {
         core.tools.isString(priv.images) && this.form[priv.images] && (this.images = this.form[priv.images]);
     }
     //#endregion getImages
-    //#region mouseDown
-    //mouseDown() {
-    //    //#region Variables déclaration
-    //    let item = this.itemAtPos(core.mouse.target);
-    //    //#endregion Variables déclaration
-    //    super.mouseDown();
-    //    item && this.selectItem(item);
-    //}
-    //#endregion mouseDown
     //#region itemAtPos
     itemAtPos(point) {
         //#region Variables déclaration
