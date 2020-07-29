@@ -273,6 +273,7 @@ class TimePanel extends ThemedControl {
         cHtmlElement = currentItemWheel.HTMLElement;
         cHtmlElement.classList.add('focused');
         priv.currentItemWheel = currentItemWheel;
+        core.keyboard.stopEvent();
     }
     //#endregion keyDown
     //#endregion Methods

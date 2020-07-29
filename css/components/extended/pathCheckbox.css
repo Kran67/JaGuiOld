@@ -1,9 +1,12 @@
 ﻿.PathCheckbox {
     box-shadow: none;
-    padding-left: 20px;
     overflow: visible;
     display: flex;
     align-items: center;
+}
+
+.PathCheckbox svg {
+    position: relative;
 }
 
 .PathCheckboxInput {
@@ -14,4 +17,5 @@
     box-shadow: none;
     left: 0;
     font-family: jagui;
+    margin-right: 5px;
 }

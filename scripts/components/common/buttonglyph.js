@@ -194,7 +194,6 @@ class ButtonGlyph extends Button {
             Text.setTextNode(htmlElement, String.EMPTY);
             priv.textObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}caption`);
             priv.textObj.classList.add('ButtonCaption', 'includeCaption', `${this.constructor.name}Caption`);
-            priv.textObj.jsObj = this;
             htmlElement.appendChild(priv.textObj);
             priv.glyph = document.createElement(priv.glyphHTMLElement);
             if (priv.glyphHTMLElement === core.types.HTMLELEMENTS.IMG) {

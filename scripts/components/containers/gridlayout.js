@@ -122,7 +122,7 @@ class GridLayout extends Layout {
         htmlElementStyle.columnGap = `${priv.columnGap}${PX}`;
         htmlElementStyle.rowGap = `${priv.rowGap}${PX}`;
         this.components.forEach(comps => {
-            comps.HTMLElement.classList.remove('Control');
+            //comps.HTMLElement.classList.remove('Control');
             comps.HTMLElementStyle.width = 'auto';
             comps.HTMLElementStyle.height = 'auto';
             core.tools.isFunc(comps.update) && comps.update();

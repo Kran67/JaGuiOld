@@ -760,7 +760,7 @@ class BaseWindow extends ThemedControl {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        object && object instanceof core.classes.Component && priv.hoveredControl !== object
+        ((object  && object instanceof core.classes.Component) || (object === null)) && priv.hoveredControl !== object
             && (priv.hoveredControl = object);
     }
     //#endregion hoveredControl

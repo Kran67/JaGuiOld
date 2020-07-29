@@ -39,22 +39,17 @@ class ColorPanel extends Control {
                             case COLORPANELBOXES.PRIMARY:
                                 c.assign(priv.primaryColorBox.fillColor);
                                 priv.colorQuad.colorBox = priv.primaryColorBox;
-                                priv.colorQuad.color.assign(c);
-                                priv.colorQuad.hue = c.hue;
-                                priv.hueSlider.firstValue = c.hue / 360;
-                                priv.alphaSlider.firstValue = c.alpha;
                                 priv.primaryColorBox.fillColor.assign(c);
                                 break;
                             case COLORPANELBOXES.SECONDARY:
                                 c.assign(priv.secondaryColorBox.fillColor);
                                 priv.colorQuad.colorBox = priv.secondaryColorBox;
-                                priv.colorQuad.color.assign(c);
-                                priv.colorQuad.hue = c.hue;
-                                priv.hueSlider.firstValue = c.hue / 360;
-                                priv.alphaSlider.firstValue = c.alpha;
                                 priv.secondaryColorBox.fillColor.assign(c);
                                 break;
                         }
+                        priv.colorQuad.color = c;
+                        priv.hueSlider.firstValue = c.hue / 360;
+                        priv.alphaSlider.firstValue = c.alpha;
                     }
                 }
             });

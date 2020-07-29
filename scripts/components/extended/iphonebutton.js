@@ -26,7 +26,7 @@ class IPhoneButton extends BitmapButton {
         super.loaded();
         if (core.isHTMLRenderer) {
             priv.halo = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}halo`);
-            priv.halo.classList.add('Control', 'IPhoneButtonHalo');
+            priv.halo.classList.add('IPhoneButtonHalo');
             htmlElement.appendChild(priv.halo);
         }
     }

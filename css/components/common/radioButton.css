@@ -1,6 +1,5 @@
 ﻿.RadioButton {
     box-shadow: none;
-    padding-left: 20px;
     overflow: visible;
     display: flex;
     align-items: center;
@@ -12,9 +11,9 @@
 
 .RadioButtonCheck {
     box-shadow: none;
-    left: 0;
     font-family: jagui;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-right: 5px;
 }

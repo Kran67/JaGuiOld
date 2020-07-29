@@ -1,5 +1,6 @@
 ﻿.BusyIndicator,
 .spinC {
+    position: absolute;
     overflow: visible;
 }
 
@@ -11,6 +12,7 @@
     overflow: visible;
     left: 50%;
     top: 50%;
+    position: absolute;
 }
 
 .win8loader {
@@ -56,6 +58,7 @@
 }
 
 .ballIndic {
+    position: absolute;
     opacity: 0.9;
     border-top: 5px solid rgba(0,0,0,0);
     border-left: 5px solid rgba(0,0,0,0);
@@ -68,6 +71,7 @@
 }
 
 .ball1Indic {
+    position: absolute;
     opacity: 0.9;
     border-top: 5px solid rgba(0,0,0,0);
     border-left: 5px solid rgba(0,0,0,0);
@@ -80,6 +84,7 @@
 }
 
 .circleIndic {
+    position: absolute;
     opacity: 0.9;
     border-right: 5px solid rgba(0,0,0,0);
     border-left: 5px solid rgba(0,0,0,0);
@@ -92,6 +97,7 @@
 }
 
 .circle1Indic {
+    position: absolute;
     opacity: 0.9;
     border-left: 5px solid rgba(0,0,0,0);
     border-right: 5px solid rgba(0,0,0,0);

@@ -171,8 +171,7 @@ class ColorPicker extends Control {
         //#endregion Variables déclaration
         if (!htmlElement.querySelector('.ColorPickerIndicator')) {
             priv.handleObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}indicator`);
-            priv.handleObj.classList.add('Control', 'ColorPickerIndicator');
-            priv.handleObj.jsObj = this;
+            priv.handleObj.classList.add('ColorPickerIndicator');
             htmlElement.appendChild(priv.handleObj);
         }
         super.loaded();

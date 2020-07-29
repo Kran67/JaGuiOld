@@ -213,8 +213,7 @@ class ColorQuad extends Control {
         //#endregion Variables déclaration
         if (!htmlElement.querySelector('.ColorQuadIndicator')) {
             priv.handleObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}indicator`);
-            priv.handleObj.classList.add('Control', 'ColorQuadIndicator');
-            priv.handleObj.jsObj = this;
+            priv.handleObj.classList.add('ColorQuadIndicator');
             htmlElement.appendChild(priv.handleObj);
         }
         //Object.keys(core.types.COLORFORMATS).forEach(format => {

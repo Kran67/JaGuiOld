@@ -1776,6 +1776,7 @@ class Control extends Component {
                 case MOUSEEVENTS.OUT:
                 case MOUSEEVENTS.LEAVE:
                     activeWin.hoveredControl === control && core.tools.isFunc(control.mouseLeave) && control.mouseLeave();
+                    activeWin.hoveredControl = null;
                     break;
                 case MOUSEEVENTS.OVER:
                 case MOUSEEVENTS.ENTER:

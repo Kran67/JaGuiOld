@@ -155,22 +155,22 @@ class ItemsWheel extends ThemedControl {
         //#endregion Variables déclaration
         super.loaded();
         topGradient = document.createElement(`${name}topgradient`);
-        topGradient.classList.add('Control', 'ItemsWheelTopGradient');
+        topGradient.classList.add('ItemsWheelTopGradient');
         htmlElement.appendChild(topGradient);
         sep = document.createElement(`${name}sep`);
-        sep.classList.add('Control', 'ItemsWheelSep', this.themeName);
+        sep.classList.add('ItemsWheelSep', this.themeName);
         htmlElement.appendChild(sep);
         content = document.createElement(`${name}content`);
-        content.classList.add('Control', 'ItemsWheelContent', this.themeName);
+        content.classList.add('ItemsWheelContent', this.themeName);
         content.jsObj = this;
         htmlElement.appendChild(content);
         bottomGradient = document.createElement(`${name}bottomgradient`);
-        bottomGradient.classList.add('Control', 'ItemsWheelBottomGradient');
+        bottomGradient.classList.add('ItemsWheelBottomGradient');
         htmlElement.appendChild(bottomGradient);
         htmlElement.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { this.wheel(event); });
         core.private(this, {
             topGradient, sep, content, bottomGradient
-        });
+            });
         this.recreateItems();
     }
     //#endregion loaded
@@ -271,12 +271,8 @@ class ItemsWheel extends ThemedControl {
         //#endregion Variables déclaration
         super.keyDown();
         switch (core.keyboard.key) {
-            case VKEYSCODES.VK_LEFT:
-                break;
             case VKEYSCODES.VK_UP:
                 this.index--;
-                break;
-            case VKEYSCODES.VK_RIGHT:
                 break;
             case VKEYSCODES.VK_DOWN:
                 this.index++;
@@ -293,6 +289,9 @@ class ItemsWheel extends ThemedControl {
             case VKEYSCODES.VK_PAGEDOWN:
                 this.index += 5;
                 break;
+        }
+        if ([VKEYSCODES.VK_LEFT, VKEYSCODES.VK_RIGHT].indexOf(core.keyboard.key) === -1) {
+            core.keyboard.stopEvent();
         }
     }
     //#endregion keyDown

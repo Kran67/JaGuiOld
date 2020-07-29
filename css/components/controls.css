@@ -1,4 +1,6 @@
-﻿.Control > *:not(.Control):not(input) {
+﻿.Control > *:not(.Control):not(input),
+.Control > *:before,
+.Control > *:after {
     pointer-events: none;
 }
 
@@ -15,7 +17,7 @@ textarea {
 .Control,
 span.Control,
 jagui-label.Control,
-svg.Control,
+svg,
 img.Control {
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -27,7 +29,7 @@ img.Control {
     jagui-label.Control,
     img.Control,
     fieldset.Control,
-    svg.Control,
+    svg,
     input.Control,
     .Control.Button,
     canvas.Control {
@@ -40,7 +42,7 @@ img.Control {
         span.Control,
         jagui-label.Control,
         img.Control,
-        svg.Control,
+        svg,
         input.Control,
         .Control.Button,
         canvas.Control {
@@ -120,6 +122,7 @@ input.Control {
 }
 
 .ItemsWheelTopGradient {
+    position:absolute;
     top: 0;
     left: 0;
     right: 0;
@@ -129,6 +132,7 @@ input.Control {
 }
 
 .ItemsWheelSep {
+    position:absolute;
     top: 50%;
     left: 0;
     right: 0;
@@ -136,6 +140,7 @@ input.Control {
 }
 
 .ItemsWheelContent {
+    position:absolute;
     left: 0;
     right: 0;
     padding-top: 12px;
@@ -144,6 +149,7 @@ input.Control {
 }
 
 .ItemsWheelBottomGradient {
+    position:absolute;
     bottom: 0;
     left: 0;
     right: 0;
@@ -153,6 +159,7 @@ input.Control {
 }
 
 .ItemsWheelItem {
+    position:absolute;
     display: block;
     left: 0;
     width: 100%;

@@ -225,8 +225,9 @@ class Rating extends ThemedControl {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
+        super.mouseEnter();
         priv.hoveredImg instanceof Image
-            && priv.ratingObj.style.backgroundImage !== `url('${priv.hoveredImg.src}')`
+            //&& priv.ratingObj.style.backgroundImage !== `url('${priv.hoveredImg.src}')`
             && (priv.ratingObj.style.backgroundImage = `url('${priv.hoveredImg.src}')`);
     }
     //#endregion mouseEnter
@@ -235,9 +236,10 @@ class Rating extends ThemedControl {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
+        super.mouseLeave();
         this.update();
         priv.selectedImg instanceof Image
-            && priv.ratingObj.style.backgroundImage !== `url('${priv.selectedImg.src}')`
+            //&& priv.ratingObj.style.backgroundImage !== `url('${priv.selectedImg.src}')`
             && (priv.ratingObj.style.backgroundImage = `url('${priv.selectedImg.src}')`);
     }
     //#endregion mouseLeave
@@ -327,10 +329,8 @@ class Rating extends ThemedControl {
         //#endregion Variables déclaration
         if (!htmlElement.querySelector('.RatingProgress')) {
             priv.ratingObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}progress`);
-            priv.ratingObj.classList.add('Control', 'RatingProgress', this.themeName, `orientation-${priv.orientation}`);
-            priv.ratingObj.jsObj = this;
+            priv.ratingObj.classList.add('RatingProgress', this.themeName, `orientation-${priv.orientation}`);
             htmlElement.appendChild(priv.ratingObj);
-            Events.bind(priv.ratingObj, Mouse.MOUSEEVENTS.MOVE, this.dispatchEvent);
         }
         super.loaded();
         priv.selectedImg instanceof Image

@@ -346,8 +346,7 @@ class BusyIndicator extends ThemedControl {
                                 '100%{opacity:', z, '}'].join(String.EMPTY)
                         );
                         child1.setAttribute('style', style);
-                        child1.jsObj = this;
-                        child1.classList.add('Control', 'spinC');
+                        child1.classList.add('spinC');
                         child2 = document.createElement(`${TAG}spinindic`);
                         style = ['width:', (sio.length + sio.width), PX, ';',
                             'height:', sio.width, PX, '; transform-origin:left;',
@@ -356,7 +355,6 @@ class BusyIndicator extends ThemedControl {
                             'border-radius:', (sio.corners * sio.width >> 1), PX, ';'].join(String.EMPTY);
                         child2.setAttribute('style', style);
                         child2.classList.add('spinIndic', this.themeName);
-                        child2.jsObj = this;
                         child1.appendChild(child2);
                         child.appendChild(child1);
                         htmlElement.appendChild(child);
@@ -368,7 +366,6 @@ class BusyIndicator extends ThemedControl {
                     for (i = 0; i < 5; i++) {
                         child = document.createElement(`${TAG}win8circle`);
                         child.classList.add('win8circle');
-                        child.jsObj = this;
                         style = child.style;
                         switch (i) {
                             case 1:
@@ -406,23 +403,19 @@ class BusyIndicator extends ThemedControl {
                 case BUSYINDICATORSTYLES.BALL:
                     // based on http://www.alessioatzeni.com/wp-content/tutorials/html-css/CSS3-loading-animation-loop/index.html
                     child = document.createElement(`${TAG}ballindic`);
-                    child.classList.add('Control', 'ballIndic', this.themeName);
-                    child.jsObj = this;
+                    child.classList.add('ballIndic', this.themeName);
                     htmlElement.appendChild(child);
                     child = document.createElement(`${TAG}ball1indic`);
-                    child.classList.add('Control', 'ball1Indic', this.themeName);
-                    child.jsObj = this;
+                    child.classList.add('ball1Indic', this.themeName);
                     htmlElement.appendChild(child);
                     break;
                 case BUSYINDICATORSTYLES.CIRCLE:
                     // based on http://www.alessioatzeni.com/wp-content/tutorials/html-css/CSS3-loading-animation-loop/index.html
                     child = document.createElement(`${TAG}circleindic`);
-                    child.classList.add('Control', 'circleIndic', this.themeName);
-                    child.jsObj = this;
+                    child.classList.add('circleIndic', this.themeName);
                     htmlElement.appendChild(child);
                     child = document.createElement(`${TAG}circle1indic`);
-                    child.classList.add('Control', 'circle1Indic', this.themeName);
-                    child.jsObj = this;
+                    child.classList.add('circle1Indic', this.themeName);
                     htmlElement.appendChild(child);
                     break;
             }

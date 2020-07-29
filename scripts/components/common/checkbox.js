@@ -241,17 +241,17 @@ class Checkbox extends CaptionControl {
         const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
+        super.loaded();
         if (!htmlElement.querySelector('input')) {
             priv.input.type = this instanceof core.classes.RadioButton ? 'radio' : 'checkbox';
-            priv.input.classList.add('Control', `${this.constructor.name}Input`);
+            priv.input.classList.add(`${this.constructor.name}Input`);
             priv.input.checked = priv.checked;
-            priv.check.classList.add('Control', this.themeName, `${this.constructor.name}Check`);
+            priv.check.classList.add(this.themeName, `${this.constructor.name}Check`);
             priv.checked && priv.check.classList.add('checked');
             priv.allowGrayed && priv.check.classList.add('grayed');
-            htmlElement.appendChild(priv.input);
-            htmlElement.appendChild(priv.check);
+            htmlElement.insertBefore(priv.check, htmlElement.firstChild);
+            htmlElement.insertBefore(priv.input, htmlElement.firstChild);
         }
-        super.loaded();
     }
     //#endregion
     //#endregion Checkbox

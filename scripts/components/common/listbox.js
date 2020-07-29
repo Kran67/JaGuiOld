@@ -916,9 +916,12 @@ class ListBox extends ScrollControl {
         if (this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
             const nbrVisibleItems = int(htmlElement[offsetPropSize] / priv.itemsSize);
             const base = ((nbrVisibleItems * priv.itemsSize) - htmlElement[offsetPropSize]) + priv.itemsSize;
-            htmlElement[scrollProp] = priv.scrollToItemMode === 'last'
-                ? base + ((priv.itemIndex - nbrVisibleItems) * priv.itemsSize) + 2
-                : priv.itemIndex * priv.itemsSize;
+            if (itemHtml[offsetProp] - htmlElement[scrollProp] < htmlElement[`client${prop}`] 
+                || itemHtml[offsetProp] + itemHtml[offsetPropSize] - htmlElement[scrollProp] > htmlElement[`client${propSize}`]) {
+                htmlElement[scrollProp] = priv.scrollToItemMode === 'last'
+                    ? base + ((priv.itemIndex - nbrVisibleItems) * priv.itemsSize) + 2
+                    : priv.itemIndex * priv.itemsSize;
+            }
         } else {
             if (itemHtml[offsetProp] + itemHtml[offsetPropSize] >
                 htmlElement[offsetPropSize] + htmlElement[scrollProp]) {

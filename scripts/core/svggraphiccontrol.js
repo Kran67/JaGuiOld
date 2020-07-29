@@ -51,7 +51,7 @@ class SVGGraphicControl extends GraphicControl {
         //#endregion Variables déclaration
         if (!htmlElement.querySelector(SVG)) {
             priv.svg = document.createElementNS(XMLNS, SVG);
-            priv.svg.classList.add('Control', 'svgShape');
+            priv.svg.classList.add('svgShape');
             htmlElement.appendChild(priv.svg);
             priv.svg.appendChild(priv.svgShape);
         }
