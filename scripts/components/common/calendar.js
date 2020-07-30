@@ -1,4 +1,5 @@
 ﻿//#region Import
+import { BaseClass } from '/scripts/core/baseclass.js';
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Events } from '/scripts/core/events.js';
 import { Mouse } from '/scripts/core/mouse.js';
@@ -13,7 +14,164 @@ const CALENDARMODES = Object.freeze(Object.seal({
     CENTURIES: 'centuries'
 }));
 //#endregion CALENDARMODES
-//#region Class CustomButton
+//#region Class CalendarItem
+class CalendarItem extends BaseClass {
+    //#region constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            props.canFocused = !1;
+            super(owner, props);
+            core.private(this, {
+                owner,
+                form: owner.form,
+                caption: props.hasOwnProperty('caption') ? props.caption : String.EMPTY,
+                css: props.hasOwnProperty('css') ? props.css : String.EMPTY,
+                selected: props.hasOwnProperty('selected') && core.tools.isBool(props.selected)
+                    ? props.selected : !1,
+                enabled: props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled)
+                    ? props.enabled : !0
+            });
+            this.mouseEvents = new core.classes.MouseEvents();
+        }
+    }
+    //#endregion constructor
+    //#region Getters / Setters
+    //#region form
+    get form() {
+        return core.private(this).owner.form;
+    }
+    //#endregion form
+    //#region html
+    get html() {
+        return core.private(this).html;
+    }
+    //#endregion html
+    //#region enabled
+    get enabled() {
+        return core.private(this).enabled;
+    }
+    set enabled(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isBool(newValue) && priv.enabled !== newValue) {
+            priv.enabled = newValue;
+            this.update();
+        }
+    }
+    //#endregion enabled
+    //#region caption
+    get caption() {
+        return core.private(this).caption;
+    }
+    set caption(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isString(newValue) && priv.caption !== newValue) {
+            priv.caption = newValue;
+            this.update();
+        }
+    }
+    //#endregion caption
+    //#region selected
+    get selected() {
+        return core.private(this).selected;
+    }
+    set selected(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (core.tools.isBool(newValue) && !priv.isHeader && priv.enabled && priv.selected !== newValue) {
+            priv.selected = newValue;
+            this.update();
+        }
+    }
+    //#endregion selected
+    //#region isEnabled
+    get isEnabled() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        return priv.enabled && priv.owner.isEnabled;
+    }
+    //#endregion isEnabled
+    //#region owner
+    get owner() {
+        return core.private(this).owner;
+    }
+    //#endregion owner
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region update
+    update() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+    }
+    //#endregion update
+    //#region draw
+    draw() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+    }
+    //#endregion draw
+    //#region removeToHTML
+    removeToHTML() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        if (priv.html) {
+            Events.unBind(priv.html, Mouse.MOUSEEVENTS.DOWN, priv.owner.selectItem.bind(this));
+            priv.html.removeChild(priv.text);
+            priv.owner.HTMLElement.removeChild(priv.html);
+            priv.html = null;
+            priv.text = null;
+        }
+    }
+    //#endregion removeToHTML
+    //#region destroy
+    destroy() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        this.removeToHTML();
+        this.mouseEvents.destroy();
+        this.mouseEvents = null;
+        delete this.mouseEvents;
+        super.destroy();
+    }
+    //#endregion destroy
+    //#region clone
+    clone() {
+        return Object.create(this);
+    }
+    //#endregion clone
+    //#region mouseDown
+    mouseDown() {
+        core.mouse.stopAllEvents();
+        this.owner.selectItem(this);
+    }
+    //#endregion mouseDown
+    //#endregion Methods
+}
+Object.defineProperties(CalendarItem.prototype, {
+    'caption': {
+        enumerable: !0
+    },
+    'enabled': {
+        enumerable: !0
+    },
+    'selected': {
+        enumerable: !0
+    },
+    'css': {
+        enumerable: !0
+    }
+});
+Object.seal(CalendarItem);
+//#endregion Class CalendarItem
+//#region Class Calendar
 class Calendar extends ThemedControl {
     //#region constructor
     constructor(owner, props) {
@@ -705,6 +863,8 @@ core.classes.register(core.types.CATEGORIES.COMMON, Calendar);
 //#region Templates
 const CalendarTpl = ['<jagui-calendar id="{internalId}" data-class="Calendar" class="Control Calendar {theme}">',
     '<properties>{ "name": "{name}" }</properties></jagui-calendar>'].join(String.EMPTY);
-core.classes.registerTemplates([{ Class: Calendar, template: CalendarTpl }]);
+const CalendarItemTpl = ['<jagui-calendaritem id="{internalId}" data-class="Calendar" class="Control CalendarItem {theme}">',
+    '<properties>{ "name": "{name}" }</properties></jagui-calendaritem>'].join(String.EMPTY);
+core.classes.registerTemplates([{ Class: Calendar, template: CalendarTpl }, { Class: CalendarItem, template: CalendarItemTpl }]);
 //#endregion
 export { Calendar };
