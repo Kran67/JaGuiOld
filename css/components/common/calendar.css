@@ -4,21 +4,24 @@
     min-height: 148px;
     min-width: 187px;
     transform-style: preserve-3d;
+    display: flex;
 }
 
 .CalendarContent {
-    top: 5px;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
+    flex: 1;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
 }
 
 .CalendarHeader {
     height: 21px;
-    top: 0;
-    left: 0;
-    right: 0;
+    display: flex;
 }
+
+    .CalendarHeader > * {
+        position: static;
+    }
 
 .CalendarPrevMonth {
     left: 0;
@@ -31,9 +34,9 @@
     justify-content: center;
 }
 
-.CalendarPrevMonth:before {
-    content: "*";
-}
+    .CalendarPrevMonth:before {
+        content: "*";
+    }
 
 .CalendarThisDay {
     left: 22px;
@@ -49,9 +52,9 @@
     background-position: center center;
 }
 
-.CalendarThisDay:before {
-    content: "3";
-}
+    .CalendarThisDay:before {
+        content: "3";
+    }
 
 .CalendarNextMonth {
     left: 43px;
@@ -64,25 +67,23 @@
     justify-content: center;
 }
 
-.CalendarNextMonth:before {
-    content: ")";
-}
+    .CalendarNextMonth:before {
+        content: ")";
+    }
 
 .CalendarThisMonth {
-    right: 0;
-    top: 0;
-    bottom: 0;
-    text-align: center;
-    line-height: 21px;
+    display: flex;
     font-weight: bold;
-    width: 105px;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
 }
 
 .CalendarWeekdays {
-    left: 6px;
+    /*left: 6px;
     right: 6px;
     height: 15px;
-    top: 22px;
+    top: 22px;*/
 }
 
 .CalendarWeekNum,
@@ -112,17 +113,15 @@
 }
 
 .CalendarWeeks {
-    left: 6px;
-    right: 6px;
-    top: 38px;
-    bottom: 0;
-    height: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .Calendar.viewweeknum .CalendarWeeks,
 .Calendar.viewweeknum .CalendarWeekdays {
-    left: 0;
-    right: 0;
+    /*left: 0;
+    right: 0;*/
 }
 
 .CalendarWeek {
@@ -170,10 +169,11 @@
 .CalendarMonths,
 .CalendarDecades,
 .CalendarCenturies {
-    top: 21px;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: absolute;
+    top: 27px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
     overflow: hidden;
     z-index: -1;
     transform: scale(1.7);

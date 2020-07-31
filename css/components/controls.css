@@ -1,9 +1,15 @@
-﻿.Control > *:not(.Control):not(input),
-.Control > *:before,
-.Control > *:after {
+﻿:not(.Control),
+:before,
+:after {
     pointer-events: none;
 }
 
+html,
+body,
+.Control,
+input {
+    pointer-events: all;
+}
 
 .basefont,
 .Control,

@@ -367,7 +367,7 @@ class ListBoxItem extends BaseClass {
                 ? priv.html.classList.add('VListBoxItem') : priv.html.classList.add('HListBoxItem');
             priv.owner.HTMLElement.appendChild(priv.html);
             !String.isNullOrEmpty(priv.css) && (priv.html.style.cssText += priv.css);
-            Events.bind(priv.html, Mouse.MOUSEEVENTS.DOWN, priv.owner.selectItem.bind(this));
+            Events.bind(priv.html, Mouse.MOUSEEVENTS.DOWN, () => { priv.owner.selectItem(this) });
         }
         this.update();
         if (!String.isNullOrEmpty(priv.css)) {
@@ -386,7 +386,7 @@ class ListBoxItem extends BaseClass {
         const priv = core.private(this);
         //#endregion Variables déclaration
         if (priv.html) {
-            Events.unBind(priv.html, Mouse.MOUSEEVENTS.DOWN, priv.owner.selectItem.bind(this));
+            Events.unBind(priv.html, Mouse.MOUSEEVENTS.DOWN, () => { priv.owner.selectItem(this) });
             priv.icon && this.html.removeChild(priv.icon);
             priv.html.removeChild(priv.text);
             priv.owner.HTMLElement.removeChild(priv.html);
@@ -414,12 +414,6 @@ class ListBoxItem extends BaseClass {
         return Object.create(this);
     }
     //#endregion clone
-    //#region mouseDown
-    mouseDown() {
-        core.mouse.stopAllEvents();
-        this.owner.selectItem(this);
-    }
-    //#endregion mouseDown
     //#endregion Methods
 }
 Object.defineProperties(ListBoxItem.prototype, {
@@ -711,7 +705,7 @@ class ListBox extends ScrollControl {
             this.viewCheckboxes && (item.checked = !item.checked);
             this.onSelectItem.hasListener && this.onSelectItem.invoke();
         }
-        this.mouseDown();
+        //this.mouseDown();
     }
     //#endregion selectItem
     //#region deselectItemIndex

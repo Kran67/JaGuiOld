@@ -18,21 +18,25 @@ const CALENDARMODES = Object.freeze(Object.seal({
 class CalendarItem extends BaseClass {
     //#region constructor
     constructor(owner, props) {
+        const div = document.createElement(core.types.HTMLELEMENTS.DIV);
         props = !props ? {} : props;
         if (owner) {
             props.canFocused = !1;
             super(owner, props);
-            core.private(this, {
+            props.hasOwnProperty('parentHTML') && (div.innerHTML = props.html);
+            const priv = core.private(this, {
                 owner,
                 form: owner.form,
                 caption: props.hasOwnProperty('caption') ? props.caption : String.EMPTY,
-                css: props.hasOwnProperty('css') ? props.css : String.EMPTY,
+                cssClasses: props.hasOwnProperty('cssClasses') ? props.cssClasses : String.EMPTY,
                 selected: props.hasOwnProperty('selected') && core.tools.isBool(props.selected)
                     ? props.selected : !1,
                 enabled: props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled)
-                    ? props.enabled : !0
+                    ? props.enabled : !0,
+                html: props.hasOwnProperty('parentHTML') ? div.firstElementChild : null
             });
             this.mouseEvents = new core.classes.MouseEvents();
+            props.hasOwnProperty('parentHTML') && props.parentHTML.appendChild(priv.html);
         }
     }
     //#endregion constructor
@@ -47,6 +51,11 @@ class CalendarItem extends BaseClass {
         return core.private(this).html;
     }
     //#endregion html
+    //#region app
+    get app() {
+        return core.private(this).owner.app;
+    }
+    //#endregion app
     //#region enabled
     get enabled() {
         return core.private(this).enabled;
@@ -57,7 +66,7 @@ class CalendarItem extends BaseClass {
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && priv.enabled !== newValue) {
             priv.enabled = newValue;
-            this.update();
+            priv.html && priv.html.classList[priv.enabled ? 'remove' : 'add']('disabled');
         }
     }
     //#endregion enabled
@@ -71,7 +80,7 @@ class CalendarItem extends BaseClass {
         //#endregion Variables déclaration
         if (core.tools.isString(newValue) && priv.caption !== newValue) {
             priv.caption = newValue;
-            this.update();
+            priv.html && (priv.html.innerHTML = priv.caption);
         }
     }
     //#endregion caption
@@ -85,7 +94,7 @@ class CalendarItem extends BaseClass {
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && !priv.isHeader && priv.enabled && priv.selected !== newValue) {
             priv.selected = newValue;
-            this.update();
+            priv.html && priv.html.classList[priv.selected ? 'add' : 'remove']('CalendarSelected');
         }
     }
     //#endregion selected
@@ -97,60 +106,30 @@ class CalendarItem extends BaseClass {
         return priv.enabled && priv.owner.isEnabled;
     }
     //#endregion isEnabled
-    //#region owner
-    get owner() {
-        return core.private(this).owner;
+    //#region html
+    get html() {
+        return core.private(this).html;
     }
-    //#endregion owner
+    //#endregion html
     //#endregion Getters / Setters
     //#region Methods
-    //#region update
-    update() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-    }
-    //#endregion update
-    //#region draw
-    draw() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-    }
-    //#endregion draw
-    //#region removeToHTML
-    removeToHTML() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (priv.html) {
-            Events.unBind(priv.html, Mouse.MOUSEEVENTS.DOWN, priv.owner.selectItem.bind(this));
-            priv.html.removeChild(priv.text);
-            priv.owner.HTMLElement.removeChild(priv.html);
-            priv.html = null;
-            priv.text = null;
-        }
-    }
-    //#endregion removeToHTML
     //#region destroy
     destroy() {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        this.removeToHTML();
         this.mouseEvents.destroy();
         this.mouseEvents = null;
         delete this.mouseEvents;
         super.destroy();
     }
     //#endregion destroy
-    //#region clone
-    clone() {
-        return Object.create(this);
-    }
-    //#endregion clone
     //#region mouseDown
-    mouseDown() {
-        core.mouse.stopAllEvents();
-        this.owner.selectItem(this);
+    loaded() {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        !String.isNullOrEmpty(priv.cssClasses) && priv.html.classList.add(...priv.cssClasses.split(' '));
     }
     //#endregion mouseDown
     //#endregion Methods
@@ -165,7 +144,7 @@ Object.defineProperties(CalendarItem.prototype, {
     'selected': {
         enumerable: !0
     },
-    'css': {
+    'cssClasses': {
         enumerable: !0
     }
 });
@@ -503,7 +482,7 @@ class Calendar extends ThemedControl {
                             w++;
                         }
                         // month
-                        priv.thisMonth.innerHTML = `${core.tools.getLocale().date.monthNames[priv.curDate.month - 1].firstCharUpper} ${priv.curDate.year}`;
+                        priv.thisMonth.caption = `${core.tools.getLocale().date.monthNames[priv.curDate.month - 1].firstCharUpper} ${priv.curDate.year}`;
                         // days
                         firstDay = priv.curDate.firstDayOfMonth.firstDayOfWeek;
                         div = htmlElement.querySelectorAll('.CalendarDay');
@@ -690,7 +669,7 @@ class Calendar extends ThemedControl {
         //#region generateContentHeaderAndWeeks
         const generateContent = function () {
             const content = document.createElement(`${tag}content`);
-            content.classList.add('Control', 'CalendarContent', self.themeName);
+            content.classList.add('CalendarContent', self.themeName);
             htmlElement.appendChild(content);
             generateHeader(content);
             generateWeekDays(content);
@@ -703,30 +682,62 @@ class Calendar extends ThemedControl {
         //#region generateHeader
         const generateHeader = function (content) {
             const header = document.createElement(`${tag}header`);
-            header.classList.add('Control', 'CalendarHeader', self.themeName);
+            header.classList.add('CalendarHeader', self.themeName);
             content.appendChild(header);
-            priv.prevMonth = document.createElement(`${tag}prevmonth`);
-            priv.prevMonth.classList.add('Control', 'CalendarPrevMonth', self.themeName);
-            priv.prevMonth.jsObj = self;
-            header.appendChild(priv.prevMonth);
-            priv.thisDay = document.createElement(`${tag}thisday`);
-            priv.thisDay.classList.add('Control', 'CalendarThisDay', self.themeName);
-            priv.thisDay.jsObj = self;
-            header.appendChild(priv.thisDay);
-            priv.nextMonth = document.createElement(`${tag}nextmonth`);
-            priv.nextMonth.classList.add('Control', 'CalendarNextMonth', self.themeName);
-            priv.nextMonth.jsObj = self;
-            header.appendChild(priv.nextMonth);
-            priv.thisMonth = document.createElement(`${tag}thismonth`);
-            priv.thisMonth.classList.add('Control', 'CalendarThisMonth', self.themeName);
-            priv.thisMonth.jsObj = self;
-            header.appendChild(priv.thisMonth);
+            priv.prevMonth = core.classes.createComponent({
+                class: CalendarItem,
+                owner: self,
+                props: {
+                    caption: String.EMPTY,
+                    cssClasses: `CalendarPrevMonth ${self.themeName}`,
+                    html: core.classes.getTemplate('CalendarItem'),
+                    parentHTML: header
+                }
+            });
+            Events.bind(priv.prevMonth.html, Mouse.MOUSEEVENTS.DOWN, self.decDate.bind(self));
+            priv.prevMonth.loaded();
+            priv.thisDay = core.classes.createComponent({
+                class: CalendarItem,
+                owner: self,
+                props: {
+                    caption: String.EMPTY,
+                    cssClasses: `CalendarThisDay ${self.themeName}`,
+                    html: core.classes.getTemplate('CalendarItem'),
+                    parentHTML: header
+                }
+            });
+            Events.bind(priv.thisDay.html, Mouse.MOUSEEVENTS.DOWN, self.goToThisDay.bind(self));
+            priv.thisDay.loaded();
+            priv.nextMonth = core.classes.createComponent({
+                class: CalendarItem,
+                owner: self,
+                props: {
+                    caption: String.EMPTY,
+                    cssClasses: `CalendarNextMonth ${self.themeName}`,
+                    html: core.classes.getTemplate('CalendarItem'),
+                    parentHTML: header
+                }
+            });
+            Events.bind(priv.nextMonth.html, Mouse.MOUSEEVENTS.DOWN, self.incDate.bind(self));
+            priv.nextMonth.loaded();
+            priv.thisMonth = core.classes.createComponent({
+                class: CalendarItem,
+                owner: self,
+                props: {
+                    caption: String.EMPTY,
+                    cssClasses: `Control CalendarThisMonth ${self.themeName}`,
+                    html: core.classes.getTemplate('CalendarItem'),
+                    parentHTML: header,  
+                }
+            });
+            Events.bind(priv.thisMonth.html, Mouse.MOUSEEVENTS.DOWN, self.viewMYDC.bind(self));
+            priv.thisMonth.loaded();
         };
         //#endregion generateHeader
         //#region generateWeekDays
         const generateWeekDays = function (content) {
             priv.weekDays = document.createElement(`${tag}weekdays`);
-            priv.weekDays.classList.add('Control', 'CalendarWeekdays', self.themeName);
+            priv.weekDays.classList.add('CalendarWeekdays', self.themeName);
             content.appendChild(priv.weekDays);
             generateWeekNumAndDay(priv.weekDays, !0);
         };
@@ -734,11 +745,12 @@ class Calendar extends ThemedControl {
         //#region generateWeekNumAndDay
         const generateWeekNumAndDay = function (content, isWeekDay) {
             const weekNum = document.createElement(`${tag}weeknum`);
-            weekNum.classList.add('Control', 'CalendarWeekNum', self.themeName);
+            weekNum.classList.add('CalendarWeekNum', self.themeName);
             content.appendChild(weekNum);
             for (let i = 0; i < 7; i++) {
                 const weekDay = document.createElement(`${tag}weekday`);
-                weekDay.classList.add('Control', `Calendar${isWeekDay ? 'Week' : String.EMPTY}Day`, self.themeName);
+                weekDay.classList.add(`Calendar${isWeekDay ? 'Week' : String.EMPTY}Day`, self.themeName);
+                !isWeekDay && weekDay.classList.add('Control');
                 content.appendChild(weekDay);
             }
         };
@@ -746,11 +758,11 @@ class Calendar extends ThemedControl {
         //#region generateWeeks
         const generateWeeks = function (content) {
             const weeks = document.createElement(`${tag}weeks`);
-            weeks.classList.add('Control', 'CalendarWeeks', self.themeName);
+            weeks.classList.add('CalendarWeeks', self.themeName);
             content.appendChild(weeks);
             ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].forEach((weekName, idx) => {
                 const week = document.createElement(`${tag}${weekName.toLowerCase()}week`);
-                week.classList.add('Control', 'CalendarWeek', `Calendar${weekName}Week`, self.themeName);
+                week.classList.add('CalendarWeek', `Calendar${weekName}Week`, self.themeName);
                 idx % 2 === 0 && week.classList.add('alternate');
                 week.dataset.week = idx;
                 weeks.appendChild(week);
@@ -761,7 +773,7 @@ class Calendar extends ThemedControl {
         //#region generateMonths
         const generateMonths = function (content) {
             priv.months = document.createElement(`${tag}months`);
-            priv.months.classList.add("Control", "CalendarMonths", self.themeName);
+            priv.months.classList.add('CalendarMonths', self.themeName);
             priv.months.jsObj = self;
             content.appendChild(priv.months);
             for (let i = 0; i < 12; i++) {
@@ -776,7 +788,7 @@ class Calendar extends ThemedControl {
         //#region generateDecades
         const generateDecades = function (content) {
             priv.decades = document.createElement(`${tag}decades`);
-            priv.decades.classList.add('Control', 'CalendarDecades', self.themeName);
+            priv.decades.classList.add('CalendarDecades', self.themeName);
             priv.decades.jsObj = self;
             content.appendChild(priv.decades);
             let currentYear = new Date().getFullYear() - 1;
@@ -793,7 +805,7 @@ class Calendar extends ThemedControl {
         //#region generateCenturies
         const generateCenturies = function (content) {
             priv.centuries = document.createElement(`${tag}centuries`);
-            priv.centuries.classList.add('Control', 'CalendarCenturies', self.themeName);
+            priv.centuries.classList.add('CalendarCenturies', self.themeName);
             priv.centuries.jsObj = self;
             content.appendChild(priv.centuries);
             for (let i = 0; i < 11; i++) {
@@ -863,8 +875,7 @@ core.classes.register(core.types.CATEGORIES.COMMON, Calendar);
 //#region Templates
 const CalendarTpl = ['<jagui-calendar id="{internalId}" data-class="Calendar" class="Control Calendar {theme}">',
     '<properties>{ "name": "{name}" }</properties></jagui-calendar>'].join(String.EMPTY);
-const CalendarItemTpl = ['<jagui-calendaritem id="{internalId}" data-class="Calendar" class="Control CalendarItem {theme}">',
-    '<properties>{ "name": "{name}" }</properties></jagui-calendaritem>'].join(String.EMPTY);
+const CalendarItemTpl = ['<jagui-calendaritem id="{internalId}" data-class="Calendar" class="Control CalendarItem"></jagui-calendaritem>'].join(String.EMPTY);
 core.classes.registerTemplates([{ Class: Calendar, template: CalendarTpl }, { Class: CalendarItem, template: CalendarItemTpl }]);
 //#endregion
 export { Calendar };
