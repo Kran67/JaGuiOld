@@ -33,10 +33,12 @@ class CalendarItem extends BaseClass {
                     ? props.selected : !1,
                 enabled: props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled)
                     ? props.enabled : !0,
-                html: props.hasOwnProperty('parentHTML') ? div.firstElementChild : null
+                html: props.hasOwnProperty('parentHTML') ? div.firstElementChild : null,
+                value: props.hasOwnProperty('value') ? props.value : null
             });
             this.mouseEvents = new core.classes.MouseEvents();
             props.hasOwnProperty('parentHTML') && props.parentHTML.appendChild(priv.html);
+            priv.html && (priv.html.innerHTML = priv.caption);
         }
     }
     //#endregion constructor
@@ -111,6 +113,22 @@ class CalendarItem extends BaseClass {
         return core.private(this).html;
     }
     //#endregion html
+    //#region owner
+    get owner() {
+        return core.private(this).owner;
+    }
+    //#endregion owner
+    //#region value
+    get value() {
+        return core.private(this).value;
+    }
+    set value(newValue) {
+        //#region Variables déclaration
+        const priv = core.private(this);
+        //#endregion Variables déclaration
+        core.tools.isNumber(newValue) && priv.value !== newValue && (priv.value = newValue);
+    }
+    //#endregion selected
     //#endregion Getters / Setters
     //#region Methods
     //#region destroy
@@ -163,7 +181,11 @@ class Calendar extends ThemedControl {
                 autoTranslate: !0,
                 curDate: props.hasOwnProperty('date') ? new Date(props.date) : new Date(Date.now()),
                 viewWeeksNum: props.hasOwnProperty('viewWeeksNum') && core.tools.isBool(props.viewWeeksNum)
-                    ? props.viewWeeksNum : !1
+                    ? props.viewWeeksNum : !1,
+                dayItems: [],
+                monthItems: [],
+                decadeItems: [],
+                centuryItems: []
             });
             core.tools.addPropertyFromEnum({
                 component: this,
@@ -305,13 +327,14 @@ class Calendar extends ThemedControl {
     selectDay() {
         //#region Variables déclaration
         const priv = core.private(this);
-        const htmlObj = core.mouse.event.target;
-        const day = htmlObj.dataset.day;
+        const owner = this.owner;
+        const oPriv = core.private(owner);
+        const day = int(priv.value);
         //#endregion Variables déclaration
-        if (this.isEnabled && day) {
-            priv.curDate.setDate(int(day));
-            htmlObj && (priv.lastSelectedDay = htmlObj);
-            this.update();
+        if (this.isEnabled) {
+            oPriv.curDate.setDate(day);
+            priv.html && (oPriv.lastSelectedDay = priv.html);
+            owner.update();
         }
     }
     //#endregion selectDay
@@ -319,14 +342,14 @@ class Calendar extends ThemedControl {
     selectMonth() {
         //#region Variables déclaration
         const priv = core.private(this);
-        const htmlObj = core.mouse.event.target;
-        const month = htmlObj.dataset.month;
+        const owner = this.owner;
+        const oPriv = core.private(this.owner);
+        const month = int(priv.value);
         //#endregion Variables déclaration
         if (this.isEnabled) {
-            month && priv.curDate.setMonth(int(month));
-            Events.bind(priv.months, 'AnimationEnd', this.animationEnd);
-            priv.months.dataset.view = !1;
-            this.mode = CALENDARMODES.DAYS;
+            oPriv.curDate.setMonth(month);
+            Events.bind(oPriv.months, 'AnimationEnd', owner.animationEnd);
+            owner.mode = CALENDARMODES.DAYS;
         }
     }
     //#endregion selectMonth
@@ -398,13 +421,14 @@ class Calendar extends ThemedControl {
                     div = priv.months.querySelectorAll('.CalendarMonth');
                     priv.months.dataset.view = !0;
                     priv.months.classList.remove('hidden');
-                    priv.thisMonth.innerHTML = priv.curDate.getFullYear();
+                    priv.thisMonth.caption = priv.curDate.getFullYear().toString();
                     for (let i = 0; i < 12; i++) {
-                        div[d].classList.remove('CalendarThis', 'CalendarSelected');
-                        i === date.month - 1 && div[d].classList.add('CalendarThis');
-                        i === priv.curDate.month - 1 && div[d].classList.add('CalendarSelected');
-                        div[d].jsObj = this;
-                        div[d].dataset.theme = this.themeName;
+                        const month = priv.monthItems[d];
+                        const mHtml = month.html;
+                        mHtml.classList.remove('CalendarThis', 'CalendarSelected');
+                        i === date.month - 1 && mHtml.classList.add('CalendarThis');
+                        i === priv.curDate.month - 1 && mHtml.classList.add('CalendarSelected');
+                        month.value = i;
                         d++;
                     }
                     break;
@@ -423,7 +447,7 @@ class Calendar extends ThemedControl {
                         div[d].jsObj = this;
                         d++;
                     }
-                    priv.thisMonth.innerHTML = `${l}-${(l + 9)}`;
+                    priv.thisMonth.caption = `${l}-${(l + 9)}`;
                     priv.decades.dataset.view = !0;
                     priv.decades.classList.remove('hidden');
                     break;
@@ -432,7 +456,7 @@ class Calendar extends ThemedControl {
                         const thisCentury = int(priv.curDate.getFullYear().toString().substr(0, 2) + '00');
                         let startCentury = thisCentury - 10;
                         const endCentury = thisCentury + 100;
-                        priv.thisMonth.innerHTML = `${thisCentury}-${(endCentury - 1)}`;
+                        priv.thisMonth.caption = `${thisCentury}-${(endCentury - 1)}`;
                         priv.centuries.dataset.view = !0;
                         priv.centuries.classList.remove('hidden');
                         d = 0;
@@ -485,27 +509,28 @@ class Calendar extends ThemedControl {
                         priv.thisMonth.caption = `${core.tools.getLocale().date.monthNames[priv.curDate.month - 1].firstCharUpper} ${priv.curDate.year}`;
                         // days
                         firstDay = priv.curDate.firstDayOfMonth.firstDayOfWeek;
-                        div = htmlElement.querySelectorAll('.CalendarDay');
                         let i = 0;
                         w = d = 0;
                         for (w = 0; w < priv.weeks.length; w++) {
                             for (d = 0; d < 7; d++) {
-                                div[i].classList.remove('CalendarOutMonth', 'CalendarNow', 'CalendarSelected');
+                                const day = priv.dayItems[i];
+                                const dHtml = day.html;
+                                dHtml.classList.remove('CalendarOutMonth', 'CalendarNow', 'CalendarSelected');
                                 firstDay.getMonth() !== priv.curDate.getMonth()
-                                    && div[i].classList.add('CalendarOutMonth');
+                                    && dHtml.classList.add('CalendarOutMonth');
                                 if (firstDay.getDate() === date.getDate() &&
                                     firstDay.month === date.month &&
                                     firstDay.year === date.year) {
-                                    div[i].classList.add('CalendarNow');
+                                    dHtml.classList.add('CalendarNow');
                                 }
                                 if (firstDay.getDate() === priv.curDate.getDate() &&
                                     firstDay.month === priv.curDate.month) {
-                                    div[i].classList.add('CalendarSelected');
-                                    priv.lastSelectedDay = div[i];
+                                    dHtml.classList.add('CalendarSelected');
+                                    priv.lastSelectedDay = dHtml;
                                 }
-                                div[i].innerHTML = firstDay.getDate();
-                                div[i].dataset.day = firstDay.getDate();
-                                div[i].jsObj = this;
+                                day.caption = firstDay.getDate().toString();
+                                day.value = firstDay.getDate();
+                                dHtml.dataset.day = firstDay.getDate();
                                 firstDay = firstDay.addDays(1);
                                 i++;
                             }
@@ -748,10 +773,26 @@ class Calendar extends ThemedControl {
             weekNum.classList.add('CalendarWeekNum', self.themeName);
             content.appendChild(weekNum);
             for (let i = 0; i < 7; i++) {
-                const weekDay = document.createElement(`${tag}weekday`);
-                weekDay.classList.add(`Calendar${isWeekDay ? 'Week' : String.EMPTY}Day`, self.themeName);
-                !isWeekDay && weekDay.classList.add('Control');
-                content.appendChild(weekDay);
+                if (isWeekDay) {
+                    const week = document.createElement(`${tag}weekday`);
+                    week.classList.add('CalendarWeekDay', self.themeName);
+                    !isWeekDay && week.classList.add('Control');
+                    content.appendChild(week);
+                } else {
+                    const day = core.classes.createComponent({
+                        class: CalendarItem,
+                        owner: self,
+                        props: {
+                            caption: String.EMPTY,
+                            cssClasses: `Control CalendarDay ${self.themeName}`,
+                            html: core.classes.getTemplate('CalendarItem'),
+                            parentHTML: content
+                        }
+                    });
+                    Events.bind(day.html, Mouse.MOUSEEVENTS.DOWN, self.selectDay.bind(day));
+                    day.loaded();
+                    priv.dayItems = [...priv.dayItems, day];
+                }
             }
         };
         //#endregion generateWeekNumAndDay
@@ -777,11 +818,19 @@ class Calendar extends ThemedControl {
             priv.months.jsObj = self;
             content.appendChild(priv.months);
             for (let i = 0; i < 12; i++) {
-                const month = document.createElement(`${tag}month`);
-                month.innerHTML = core.tools.getLocale().date.abbreviatedMonthNames[i].firstCharUpper;
-                month.classList.add('Control', 'CalendarMDC', 'CalendarMonth', self.themeName);
-                month.dataset.month = i;
-                priv.months.appendChild(month);
+                const month = core.classes.createComponent({
+                    class: CalendarItem,
+                    owner: self,
+                    props: {
+                        caption: core.tools.getLocale().date.abbreviatedMonthNames[i].firstCharUpper,
+                        cssClasses: `Control CalendarMDC CalendarMonth ${self.themeName}`,
+                        html: core.classes.getTemplate('CalendarItem'),
+                        parentHTML: priv.months,  
+                    }
+                });
+                Events.bind(month.html, Mouse.MOUSEEVENTS.DOWN, self.selectMonth.bind(month));
+                month.loaded();
+                priv.monthItems = [...priv.monthItems, month];
             }
         };
         //#endregion generateMonths
