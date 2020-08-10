@@ -7,7 +7,7 @@
 html,
 body,
 .Control,
-input {
+.Control input {
     pointer-events: all;
 }
 

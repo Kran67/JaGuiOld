@@ -19,15 +19,19 @@
     }
 
 .SliderInput {
-    pointer-events: all;
+    position:absolute;
     -moz-appearance: none;
     -webkit-appearance: none;
     z-index: 3;
     opacity: 0;
-    width: calc(100% + 14px);
-    height: auto;
 }
 
+.SliderRange {
+    position:absolute;
+}
+
+
+.SliderRange,
 .Slider.range .SliderInput {
     pointer-events: none;
 }
@@ -96,6 +100,7 @@
 }
 
 .SliderThumb {
+    position:absolute;
     left: 0;
     top: 0;
     z-index: 2;
@@ -110,6 +115,7 @@
 }
 
 .SliderTooltip {
+    position:absolute;
     z-index: 3;
     visibility: hidden;
     top: -20px;

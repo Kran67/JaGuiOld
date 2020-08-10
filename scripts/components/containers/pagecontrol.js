@@ -160,12 +160,12 @@ core.classes.register(core.types.CATEGORIES.CONTAINERS, PageControl);
 if (core.isHTMLRenderer) {
     const PageControlTpl = ['<jagui-pagecontrol id="{internalId}" data-class="PageControl" ',
         'class="Control TabControl PageControl csr_default {theme}">',
-        '<jagui-tabcontrolheader class="Control TabControlHeader {theme}">',
-        '<jagui-tabscontainer class="Control TabsContainer {theme}">',
+        '<jagui-tabcontrolheader class="TabControlHeader {theme}">',
+        '<jagui-tabscontainer class="TabsContainer {theme}">',
         '</jagui-tabscontainer>',
         '</jagui-tabcontrolheader>',
         '</jagui-pagecontrol>'].join(String.EMPTY);
-    const PageContentTpl = '<jagui-pagecontent data-class="PageContent" class="Control PageContent {theme}"></jagui-pagecontent>';
+    const PageContentTpl = '<jagui-pagecontent data-class="PageContent" class="PageContent {theme}"></jagui-pagecontent>';
     core.classes.registerTemplates([
         { Class: TabSheet, template: core.templates['Tab'] },
         { Class: PageControl, template: PageControlTpl }, { Class: "PageContent", template: PageContentTpl }

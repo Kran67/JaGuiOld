@@ -340,7 +340,7 @@ class Slider extends ThemedControl {
         //#region Create Inputs
         priv.leftInput = document.createElement(INPUT);
         priv.leftInput.type = 'range';
-        priv.leftInput.classList.add('Control', this.themeName, 'csr_default', 'SliderInput',
+        priv.leftInput.classList.add(this.themeName, 'csr_default', 'SliderInput',
             `orientation-${priv.orientation}`);
         priv.leftInput.jsObj = this;
         htmlElement.appendChild(priv.leftInput);
@@ -352,7 +352,7 @@ class Slider extends ThemedControl {
 
         priv.rightInput = document.createElement(INPUT);
         priv.rightInput.type = 'range';
-        priv.rightInput.classList.add('Control', this.themeName, 'csr_default', 'SliderInput',
+        priv.rightInput.classList.add(this.themeName, 'csr_default', 'SliderInput',
             `orientation-${priv.orientation}`);
         priv.rightInput.jsObj = this;
         htmlElement.appendChild(priv.rightInput);
@@ -364,28 +364,28 @@ class Slider extends ThemedControl {
         //#endregion Create Inputs
         //#region Create Range
         priv.range = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}range`);
-        priv.range.classList.add('Control', 'SliderRange', this.themeName, `orientation-${priv.orientation}`);
+        priv.range.classList.add('SliderRange', this.themeName, `orientation-${priv.orientation}`);
         priv.range.jsObj = this;
         htmlElement.appendChild(priv.range);
         //#endregion Create Range
         //#region Create Thumbs
         priv.leftThumb = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}thumb`);
-        priv.leftThumb.classList.add('Control', this.themeName, 'SliderThumb', 'csr_default');
+        priv.leftThumb.classList.add(this.themeName, 'SliderThumb', 'csr_default');
         priv.leftThumb.jsObj = this;
         htmlElement.appendChild(priv.leftThumb);
 
         priv.rightThumb = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}thumb`);
-        priv.rightThumb.classList.add('Control', this.themeName, 'SliderThumb', 'csr_default');
+        priv.rightThumb.classList.add(this.themeName, 'SliderThumb', 'csr_default');
         priv.rightThumb.jsObj = this;
         htmlElement.appendChild(priv.rightThumb);
         //#endregion Create Thumbs
         //#region Create ToolTips
         priv.leftTooltip = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}tooltip`);
-        priv.leftTooltip.classList.add('Control', this.themeName, 'SliderTooltip', 'csr_default', `orientation-${priv.orientation}`, priv.toolTipsPosition);
+        priv.leftTooltip.classList.add(this.themeName, 'SliderTooltip', 'csr_default', `orientation-${priv.orientation}`, priv.toolTipsPosition);
         htmlElement.appendChild(priv.leftTooltip);
 
         priv.rightTooltip = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}tooltip`);
-        priv.rightTooltip.classList.add('Control', this.themeName, 'SliderTooltip', 'csr_default', `orientation-${priv.orientation}`, priv.toolTipsPosition);
+        priv.rightTooltip.classList.add(this.themeName, 'SliderTooltip', 'csr_default', `orientation-${priv.orientation}`, priv.toolTipsPosition);
         htmlElement.appendChild(priv.rightTooltip);
         //#endregion Create ToolTips
         htmlElement.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { this.wheel(event); });

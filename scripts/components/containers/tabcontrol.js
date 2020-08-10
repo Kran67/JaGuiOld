@@ -9,8 +9,8 @@ core.classes.register(core.types.CATEGORIES.CONTAINERS, TabControl);
 //#region Template
 if (core.isHTMLRenderer) {
     const TabControlTpl = ['<jagui-tabcontrol id="{internalId}" data-class="TabControl" ',
-        'class="Control TabControl csr_default {theme}"><jagui-tabcontrolheader class="Control TabControlHeader {theme}">',
-        '<jagui-tabscontainer class="Control TabsContainer {theme}"></jagui-tabscontainer>',
+        'class="Control TabControl csr_default {theme}"><jagui-tabcontrolheader class="TabControlHeader {theme}">',
+        '<jagui-tabscontainer class="TabsContainer {theme}"></jagui-tabscontainer>',
         '</jagui-tabcontrolheader></jagui-tabcontrol>'].join(String.EMPTY);
     core.classes.registerTemplates([
         { Class: CustomTabControl, template: TabControlTpl }

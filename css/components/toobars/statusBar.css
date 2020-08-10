@@ -15,7 +15,7 @@
     flex:1;
 }
 
-.Control.StatusBarSimplePanel {
+.StatusBarSimplePanel {
     left: 1px;
     top: 1px;
     right: 1px;
@@ -23,7 +23,8 @@
     padding-left: 2px;
 }
 
-.Control.StatusBarSizer {
+.StatusBarSizer {
+    position:absolute;
     background-repeat: no-repeat;
     z-index: 1;
 }

@@ -43,3 +43,7 @@
     border-width: 0 7px 7px 0;
     border-color: transparent red transparent transparent;
 }
+
+.TextBox .Button {
+    position: relative;
+}

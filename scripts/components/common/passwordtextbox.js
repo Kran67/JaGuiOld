@@ -118,7 +118,7 @@ class PasswordTextBox extends CustomTextBoxBtn {
         const TAG = `${core.name.toLowerCase()}-`;
         //#endregion Variables déclaration
         priv.complexityIndicator = document.createElement(`${TAG}complexityindicator`);
-        priv.complexityIndicator.classList.add('Control', 'ComplexityIndicator');
+        priv.complexityIndicator.classList.add('ComplexityIndicator');
         this.HTMLElement.appendChild(priv.complexityIndicator);
         super.loaded();
         priv.inputObj = this.inputObj;

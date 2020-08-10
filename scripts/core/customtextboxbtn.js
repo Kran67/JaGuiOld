@@ -75,7 +75,7 @@ class CustomTextBoxBtn extends CustomTextControl {
                 withTpl: !0
             });
             btn.HTMLElement.classList.add('TextBoxBtnButton');
-            btn.HTMLElement.classList.remove('Control');
+            //btn.HTMLElement.classList.remove('Control');
             this.btns.add(btn);
         }
         this.update();

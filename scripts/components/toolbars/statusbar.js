@@ -223,7 +223,7 @@ class StatusBar extends ThemedControl {
             priv.simplePanel = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}simplepanel`);
             priv.simplePanel.classList.add('Control', 'StatusBarSimplePanel', this.themeName, 'hidden');
             htmlElement.appendChild(priv.simplePanel);
-            resizer.classList.add('Control', 'StatusBarSizer', this.themeName, 'csr_nwResize');
+            resizer.classList.add('StatusBarSizer', this.themeName, 'csr_nwResize');
             htmlElement.appendChild(resizer);
             let props = htmlElement.querySelector('properties');
             props && (props = JSON.parse(props.innerText));

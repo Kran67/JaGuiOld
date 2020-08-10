@@ -53,7 +53,7 @@
 .TabControl.tabsBottom .TabControlRightBtn {
 }
 
-div.TabControl.showTabsCloseBtn .TabsContainer .Tab {
+.TabControl.showTabsCloseBtn .TabsContainer .Tab {
     padding-right: 30px;
 }
 
