@@ -357,14 +357,14 @@ class Calendar extends ThemedControl {
     selectYear() {
         //#region Variables déclaration
         const priv = core.private(this);
-        const htmlObj = core.mouse.event.target;
-        const year = htmlObj.dataset.year;
+        const owner = this.owner;
+        const oPriv = core.private(this.owner);
+        const year = int(priv.value);
         //#endregion Variables déclaration
         if (this.isEnabled) {
-            year && priv.curDate.setFullYear(int(year));
-            Events.bind(priv.decades, 'AnimationEnd', this.animationEnd);
-            priv.decades.dataset.view = !1;
-            this.mode = CALENDARMODES.MONTHS;
+            oPriv.curDate.setFullYear(year);
+            Events.bind(priv.decades, 'AnimationEnd', owner.animationEnd);
+            owner.mode = CALENDARMODES.MONTHS;
         }
     }
     //#endregion selectYear
@@ -372,14 +372,14 @@ class Calendar extends ThemedControl {
     selectDecades() {
         //#region Variables déclaration
         const priv = core.private(this);
-        const htmlObj = core.mouse.event.target;
-        const decade = htmlObj.dataset.decade;
+        const owner = this.owner;
+        const oPriv = core.private(this.owner);
+        const decade = int(priv.value);
         //#endregion Variables déclaration
         if (this.isEnabled) {
-            decade && priv.curDate.setFullYear(int(decade));
-            Events.bind(priv.centuries, 'AnimationEnd', this.animationEnd);
-            priv.centuries.dataset.view = !1;
-            this.mode = CALENDARMODES.DECADES;
+            oPriv.curDate.setFullYear(decade);
+            Events.bind(priv.centuries, 'AnimationEnd', owner.animationEnd);
+            owner.mode = CALENDARMODES.DECADES;
         }
     }
     //#endregion selectDecades
@@ -418,7 +418,6 @@ class Calendar extends ThemedControl {
             switch (priv.mode) {
                 case CALENDARMODES.MONTHS:
                     d = 0;
-                    div = priv.months.querySelectorAll('.CalendarMonth');
                     priv.months.dataset.view = !0;
                     priv.months.classList.remove('hidden');
                     priv.thisMonth.caption = priv.curDate.getFullYear().toString();
@@ -433,21 +432,20 @@ class Calendar extends ThemedControl {
                     }
                     break;
                 case CALENDARMODES.DECADES:
-                    div = priv.decades.querySelectorAll('.CalendarDecade');
                     d = 0;
-                    l = priv.curDate.getFullYear() - int(priv.curDate.getFullYear().toString().substr(3, 1));
+                    l = priv.curDate.getFullYear();
                     for (let i = l - 1; i < l + 11; i++) {
-                        div[d].classList.remove('CalendarSelected', 'CalendarThis', 'CalendarOutMonth');
-                        div[d].dataset.theme = this.themeName;
-                        i === priv.curDate.getFullYear() && div[d].classList.add('CalendarSelected');
-                        i === date.getFullYear() && div[d].classList.add('CalendarThis');
-                        i === l - 1 || i === l + 10 && div[d].classList.add('CalendarOutMonth');
-                        div[d].innerHTML = i;
-                        div[d].dataset.year = i;
-                        div[d].jsObj = this;
+                        const year = priv.decadeItems[d];
+                        const mHtml = year.html;
+                        mHtml.classList.remove('CalendarSelected', 'CalendarThis', 'CalendarOutMonth');
+                        i === priv.curDate.getFullYear() && mHtml.classList.add('CalendarSelected');
+                        i === date.getFullYear() && mHtml.classList.add('CalendarThis');
+                        (i === l - 1 || i === l + 10) && mHtml.classList.add('CalendarOutMonth');
+                        year.value = i;
+                        year.caption = i.toString();
                         d++;
                     }
-                    priv.thisMonth.caption = `${l}-${(l + 9)}`;
+                    priv.thisMonth.caption = `${l}-${l + 9}`;
                     priv.decades.dataset.view = !0;
                     priv.decades.classList.remove('hidden');
                     break;
@@ -460,19 +458,18 @@ class Calendar extends ThemedControl {
                         priv.centuries.dataset.view = !0;
                         priv.centuries.classList.remove('hidden');
                         d = 0;
-                        div = priv.centuries.querySelectorAll('.CalendarCentury');
                         while (startCentury < endCentury) {
-                            div[d].classList.remove('CalendarOutMonth', 'CalendarThis', 'CalendarSelected');
-                            startCentury % thisCentury > 100 && div[d].classList.add('CalendarOutMonth');
-                            div[d].dataset.theme = this.themeName;
+                            const century = priv.centuryItems[d];
+                            const mHtml = century.html;
+                            mHtml.classList.remove('CalendarOutMonth', 'CalendarThis', 'CalendarSelected');
+                            startCentury % thisCentury > 100 && mHtml.classList.add('CalendarOutMonth');
                             date.getFullYear() >= startCentury && date.getFullYear() <= startCentury + 9
-                                && div[d].classList.add('CalendarThis');
+                                && mHtml.classList.add('CalendarThis');
                             priv.curDate.getFullYear() >= startCentury
                                 && priv.curDate.getFullYear() <= startCentury + 9
-                                && div[d].classList.add('CalendarSelected');
-                            div[d].innerHTML = `${startCentury}<br />${(startCentury + 9)}`;
-                            div[d].dataset.decade = `${startCentury + int(priv.curDate.getFullYear().toString().substr(3, 1))}`;
-                            div[d].jsObj = this;
+                                && mHtml.classList.add('CalendarSelected');
+                            century.value = startCentury;
+                            century.caption = `${startCentury}<br />${century.value}`;
                             startCentury += 10;
                             d++;
                         }
@@ -842,11 +839,19 @@ class Calendar extends ThemedControl {
             content.appendChild(priv.decades);
             let currentYear = new Date().getFullYear() - 1;
             for (let i = 0; i < 12; i++) {
-                const decade = document.createElement(`${tag}decade`);
-                decade.innerHTML = currentYear;
-                decade.classList.add('Control', 'CalendarMDC', 'CalendarDecade', self.themeName);
-                decade.dataset.decade = i;
-                priv.decades.appendChild(decade);
+                const decade = core.classes.createComponent({
+                    class: CalendarItem,
+                    owner: self,
+                    props: {
+                        caption: currentYear.toString(),
+                        cssClasses: `Control CalendarMDC CalendarDecade ${self.themeName}`,
+                        html: core.classes.getTemplate('CalendarItem'),
+                        parentHTML: priv.decades,
+                    }
+                });
+                Events.bind(decade.html, Mouse.MOUSEEVENTS.DOWN, self.selectYear.bind(decade));
+                decade.loaded();
+                priv.decadeItems = [...priv.decadeItems, decade];
                 currentYear++;
             }
         };
@@ -857,11 +862,24 @@ class Calendar extends ThemedControl {
             priv.centuries.classList.add('CalendarCenturies', self.themeName);
             priv.centuries.jsObj = self;
             content.appendChild(priv.centuries);
+            const thisCentury = int(priv.curDate.getFullYear().toString().substr(0, 2) + '00');
+            let startCentury = thisCentury - 10;
+            const endCentury = thisCentury + 100;
             for (let i = 0; i < 11; i++) {
-                const century = document.createElement(`${tag}century`);
-                century.classList.add('Control', 'CalendarMDC', 'CalendarMDCx2', 'CalendarCentury', self.themeName);
-                century.dataset.century = i;
-                priv.centuries.appendChild(century);
+                const century = core.classes.createComponent({
+                    class: CalendarItem,
+                    owner: self,
+                    props: {
+                        caption: `${startCentury}<br />${(startCentury + 9)}`,
+                        cssClasses: `Control CalendarMDC CalendarMDCx2 CalendarCentury ${self.themeName}`,
+                        html: core.classes.getTemplate('CalendarItem'),
+                        parentHTML: priv.centuries,
+                    }
+                });
+                Events.bind(century.html, Mouse.MOUSEEVENTS.DOWN, self.selectDecades.bind(century));
+                century.loaded();
+                priv.centuryItems = [...priv.centuryItems, century];
+                startCentury+=10;
             }
         };
         //#endregion generateCenturies

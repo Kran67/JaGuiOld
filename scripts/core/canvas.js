@@ -534,82 +534,49 @@ CanvasRenderingContext2D.prototype.setMatrix = function (mat) {
  * @param   {Color}         color   the color of flood fill
  * @returns {Boolean}       !0 if succed otherwise !1
  */
-CanvasRenderingContext2D.prototype.floodFill = function (x, y, color) {
+CanvasRenderingContext2D.prototype.floodFill = function (x, y, color, borderColor) {
     // if values are not set just exit
     if (x && y && color) {
         const width = this.canvas.width;
         const height = this.canvas.height;
         const image = this.getImageData(0, 0, width, height);
         const imageData = image.data;
-        const pixelStack = [[x, y]];
-        const getPixel = (_pixelPos) => {
-            return {
-                r: imageData[_pixelPos],
-                g: imageData[_pixelPos + 1],
-                b: imageData[_pixelPos + 2],
-                a: imageData[_pixelPos + 3]
-            };
-        }
-        const setPixel = (_pixelPos) => {
-            imageData[_pixelPos] = color.r;
-            imageData[_pixelPos + 1] = color.g;
-            imageData[_pixelPos + 2] = color.b;
-            imageData[_pixelPos + 3] = color.a;
-        }
-        const comparePixel = (px2) => {
-            return (px1.r === px2.r && px1.g === px2.g && px1.b === px2.b && px1.a === px2.a);
-        }
-        // get pixel at x/y position
-        const px1 = getPixel(((y * width) + x) * 4);
-        // quick way to get formatted rgba color
-        const colorTemp = this.canvas.style.color;
-        this.canvas.style.color = color;
-        color = this.canvas.style.color.match(/^rgba?\((.*)\);?$/)[1].split(",");
-        this.canvas.style.color = colorTemp;
-        color = {
-            r: int(color[0]),
-            g: int(color[1]),
-            b: int(color[2]),
-            a: int(color[3] || 255)
-        };
-        // if pixel and color the same do nothing
-        if (comparePixel(color)) {
-            return !0;
-        }
-        while (pixelStack.length) {
-            const newPos = pixelStack.pop();
-
-            let pixelPos = (newPos[1] * width + newPos[0]) * 4;
-            while (newPos[1]-- >= 0 && comparePixel(getPixel(pixelPos))) {
-                pixelPos -= width * 4;
+        const stack = [[x, y]];
+        let pixel;
+        let point = 0;
+        while (stack.length > 0)
+        {   
+            pixel = stack.pop();
+            if ((pixel[0] < 0 || pixel[0] >= width) || (pixel[1] < 0 || pixel[1] >= height)) {
+                continue;
             }
-            pixelPos += width * 4;
-            ++newPos[1];
-            let reachLeft = !1;
-            let reachRight = !1;
-            while (newPos[1]++ < height - 1 && comparePixel(getPixel(pixelPos))) {
-                setPixel(pixelPos);
-                if (newPos[0] > 0) {
-                    if (comparePixel(getPixel(pixelPos - 4))) {
-                        if (!reachLeft) {
-                            pixelStack.push([newPos[0] - 1, newPos[1]]);
-                            reachLeft = !0;
-                        }
-                    } else if (reachLeft) {
-                        reachLeft = !1;
-                    }
-                }
-                if (newPos[0] < width - 1) {
-                    if (comparePixel(getPixel(pixelPos + 4))) {
-                        if (!reachRight) {
-                            pixelStack.push([newPos[0] + 1, newPos[1]]);
-                            reachRight = !0;
-                        }
-                    } else if (reachRight) {
-                        reachRight = !1;
-                    }
-                }
-                pixelPos += width * 4;
+        
+            // Alpha
+            point = pixel[1] * 4 * width + pixel[0] * 4 + 3;
+        
+            // Если это не рамка и ещё не закрасили
+            if (imageData.data[point] !== borderColor && imageData.data[point] != color)
+            {
+                // Закрашиваем
+                imageData.data[point] = color;
+            
+                // Ставим соседей в стек на проверку
+                stack.push([
+                    pixel[0] - 1,
+                    pixel[1]
+                ]);
+                stack.push([
+                    pixel[0] + 1,
+                    pixel[1]
+                ]);
+                stack.push([
+                    pixel[0],
+                    pixel[1] - 1
+                ]);
+                stack.push([
+                    pixel[0],
+                    pixel[1] + 1
+                ]);
             }
         }
         this.putImageData(image, 0, 0);
@@ -1387,3 +1354,104 @@ loadImage("http://i.stack.imgur.com/Jafta.png",function(img){
     imageWithInnerShadow = img; // hold the image for use
 })
 */
+
+/*
+Draw + FloodFill
+var ClickMode = {
+    Paint: 0,
+    Fill: 1
+};
+var mouseDown = false;
+var currentMode = ClickMode.Paint;
+var ctx = $('#canvas').get(0).getContext('2d');
+ctx.lineWidth = 3;
+var lastPoint = {x: 0, y: 0};
+
+$('#canvas').mousedown(function(event){
+    if (currentMode == ClickMode.Paint)
+    {
+        mouseDown = true;
+        lastPoint.x = event.offsetX;
+        lastPoint.y = event.offsetY;
+    }
+    else
+        floodFill(event.offsetX, event.offsetY, 255, 1);
+    return false;
+}).mousemove(function(event){
+    if (mouseDown)
+    {
+        ctx.beginPath();
+        ctx.moveTo(lastPoint.x, lastPoint.y);
+        ctx.lineTo(event.offsetX, event.offsetY);
+        ctx.stroke();
+        
+        lastPoint.x = event.offsetX;
+        lastPoint.y = event.offsetY;
+    }
+}).mouseup(function(){
+    mouseDown = false;
+    return false
+});
+
+$('a').click(function(){
+    var mode = $(this).attr('href').slice(1);
+    switch(mode)
+    {
+        case "fill":
+            currentMode = ClickMode.Fill;
+            break;
+       case "clear":
+            ctx.clearRect(0, 0, 300, 300);
+       case "paint":
+            currentMode = ClickMode.Paint;
+            break;
+    }
+    return false;
+});
+function floodFill(x, y, color, borderColor){
+    var imageData = ctx.getImageData(0, 0, 300, 300);
+    var width = imageData.width;
+    var height = imageData.height;
+    var stack = [[x, y]];
+    var pixel;
+    var point = 0;
+    while (stack.length > 0)
+    {   
+        pixel = stack.pop();
+        if (pixel[0] < 0 || pixel[0] >= width)
+            continue;
+        if (pixel[1] < 0 || pixel[1] >= height)
+            continue;
+        
+        // Alpha
+        point = pixel[1] * 4 * width + pixel[0] * 4 + 3;
+        
+        // Если это не рамка и ещё не закрасили
+        if (imageData.data[point] != borderColor && imageData.data[point] != color)
+        {
+            // Закрашиваем
+            imageData.data[point] = color;
+            
+            // Ставим соседей в стек на проверку
+            stack.push([
+                pixel[0] - 1,
+                pixel[1]
+            ]);
+            stack.push([
+                pixel[0] + 1,
+                pixel[1]
+            ]);
+            stack.push([
+                pixel[0],
+                pixel[1] - 1
+            ]);
+            stack.push([
+                pixel[0],
+                pixel[1] + 1
+            ]);
+        }
+    }
+    ctx.putImageData(imageData, 0, 0);
+}
+ * 
+ **/
