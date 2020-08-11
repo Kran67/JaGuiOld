@@ -8,8 +8,6 @@ import { Keyboard } from '/scripts/core/keyboard.js';
 class CalendarPopup extends Calendar {
     //#region constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         if (owner) {
             props.closePopups = !1;
@@ -20,9 +18,12 @@ class CalendarPopup extends Calendar {
     //#region Methods
     //#region selectDay
     selectDay() {
+        //#region Variables déclaration
+        const owner = this.owner;
+        //#endregion Variables déclaration
         super.selectDay();
-        this.dropDownCalendar.date = this.date;
-        this.form.closePopups();
+        owner.dropDownCalendar.date = owner.date;
+        owner.form.closePopups();
     }
     //#endregion selectDay
     //#endregion Methods

@@ -112,7 +112,7 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, PopupBox);
 //#endregion Class PopupBox
 //#region Templates
 if (core.isHTMLRenderer) {
-    const PopupBoxTpl = '<jagui-popupbox id="{internalId}" class="Control PopupBox csr_default {theme}" />';
+    const PopupBoxTpl = '<jagui-popupbox id="{internalId}" class="PopupBox csr_default {theme}" />';
     core.classes.registerTemplates([{ Class: PopupBox, template: PopupBoxTpl }]);
 }
 //#endregion Templates

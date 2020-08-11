@@ -15,7 +15,6 @@ class ListBoxItemPopup extends ListBoxItem {
         //#endregion Variables déclaration
         props = !props ? {} : props;
         if (owner) {
-            //props.forceMouseWheel = !0;
             props.closePopups = !1;
             super(owner, props);
         }

@@ -37,7 +37,7 @@ img.Control {
     fieldset.Control,
     svg,
     input.Control,
-    .Control.Button,
+    /*.Control.Button,*/
     canvas.Control {
         position: absolute;
         overflow: hidden;
@@ -206,6 +206,7 @@ input.Control {
 }
 
 .PopupBox {
+    position: absolute;
     box-shadow: 3px 3px 2px rgba(0,0,0,.7);
     z-index: 10000;
     display: flex;
@@ -251,6 +252,6 @@ input.Control {
         overflow-x: auto;
     }
 
-.noEvents {
+.Control .noEvents {
     pointer-events: none;
 }
