@@ -211,7 +211,7 @@ class AngleButton extends Button {
     wheel(event) {
         //#region Variables déclaration
         const priv = core.private(this);
-        let newVal = priv.internalValue + int(core.mouse.wheelDelta * 10);
+        let newVal = priv.internalValue + (core.mouse.getWheelDetail(event) * 10);
         //#endregion Variables déclaration
         if (newVal < -360) {
             newVal = 360 + newVal;

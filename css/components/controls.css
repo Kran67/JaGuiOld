@@ -14,17 +14,15 @@ body,
 .basefont,
 .Control,
 input,
-.Control.Button,
+.Button,
 textarea {
     font-family: "Tahoma";
     font-size: 8pt;
 }
 
 .Control,
-span.Control,
-jagui-label.Control,
 svg,
-img.Control {
+img {
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;

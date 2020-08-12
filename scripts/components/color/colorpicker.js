@@ -176,7 +176,6 @@ class ColorPicker extends Control {
         }
         super.loaded();
         this.moveHandleByHue();
-        //priv.colorQuad instanceof core.classes.ColorQuad && (priv.colorQuad.hue = priv.color.hue);
     }
     //#endregion loaded
     //#endregion Methods
