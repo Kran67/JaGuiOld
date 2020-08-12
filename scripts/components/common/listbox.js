@@ -498,8 +498,6 @@ class ListBox extends ScrollControl {
                 //this.animated : !0,
                 orientation: props.hasOwnProperty('orientation')
                     ? props.orientation : core.types.ORIENTATIONS.VERTICAL,
-                scrollToItemMode: props.hasOwnProperty('scrollToItemMode')
-                    ? props.scrollToItemMode : 'last'
             });
             core.classes.newCollection(this, this, priv.itemsClass);
             this.createEventsAndBind(['onChange', 'onSelectItem', 'onDrawItem'], props);
@@ -591,6 +589,10 @@ class ListBox extends ScrollControl {
     set itemIndex(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
+        const vert = priv.orientation === core.types.ORIENTATIONS.VERTICAL;
+        const prop = vert ? 'Top' : 'Left';
+        const propSize = vert ? 'Height' : 'Width';
+        const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && newValue < priv.items.length && newValue >= 0) {
             if (priv.itemIndex !== newValue) {
@@ -605,6 +607,10 @@ class ListBox extends ScrollControl {
                 item = priv.items[priv.itemIndex];
                 if (item) {
                     item.selected = !0;
+                    if (this.owner instanceof core.classes.DropDownListBoxPopup) {
+                        htmlElement[`scroll${prop}`] = priv.itemIndex * priv.itemsSize;
+                        this.draw();
+                    }
                     this.scrollToItem();
                 }
             }
@@ -910,11 +916,11 @@ class ListBox extends ScrollControl {
         if (this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
             const nbrVisibleItems = int(htmlElement[offsetPropSize] / priv.itemsSize);
             const base = ((nbrVisibleItems * priv.itemsSize) - htmlElement[offsetPropSize]) + priv.itemsSize;
-            if (itemHtml[offsetProp] - htmlElement[scrollProp] < htmlElement[`client${prop}`] 
-                || itemHtml[offsetProp] + itemHtml[offsetPropSize] - htmlElement[scrollProp] > htmlElement[`client${propSize}`]) {
-                htmlElement[scrollProp] = priv.scrollToItemMode === 'last'
-                    ? base + ((priv.itemIndex - nbrVisibleItems) * priv.itemsSize) + 2
-                    : priv.itemIndex * priv.itemsSize;
+            if (itemHtml[offsetProp] - htmlElement[scrollProp] < 0 
+                    || itemHtml[offsetProp] + itemHtml[offsetPropSize] - htmlElement[scrollProp] > htmlElement[`client${propSize}`]) {
+                htmlElement[scrollProp] = itemHtml[offsetProp] - htmlElement[scrollProp] < 0
+                     ? priv.itemIndex * priv.itemsSize
+                     : base + ((priv.itemIndex - nbrVisibleItems) * priv.itemsSize) + 2
             }
         } else {
             if (itemHtml[offsetProp] + itemHtml[offsetPropSize] >
@@ -1032,9 +1038,6 @@ Object.defineProperties(ListBox.prototype, {
         enumerable: !0
     },
     'orientation': {
-        enumerable: !0
-    },
-    'scrollToItemMode': {
         enumerable: !0
     }
 });

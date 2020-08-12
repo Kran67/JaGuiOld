@@ -29,7 +29,7 @@ class ScrollControl extends ThemedControl {
         }
     }
     //#endregion constructor
-    //#region Methods
+    //#region Getters / Setters
     //#region SCROLLMODES
     static get SCROLLMODES() {
         return SCROLLMODES;
@@ -68,6 +68,8 @@ class ScrollControl extends ThemedControl {
         return this.hasHorizScrollBar() && this.hasVertScrollBar;
     }
     //#endregion hasBothScrollBars
+    //#endregion Getters / Setters
+    //#region Methods
     //#region mouseDown
     mouseDown() {
         //#region Variables déclaration

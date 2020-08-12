@@ -31,14 +31,7 @@ img.Control {
 }
 
     .Control,
-    span.Control,
-    jagui-label.Control,
-    img.Control,
-    fieldset.Control,
-    svg,
-    input.Control,
-    /*.Control.Button,*/
-    canvas.Control {
+    svg {
         position: absolute;
         overflow: hidden;
         box-sizing: border-box;
