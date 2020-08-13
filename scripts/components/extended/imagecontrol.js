@@ -92,7 +92,7 @@ class ImageControl extends ThemedControl {
         this.HTMLElement.appendChild(priv.bitmap);
         priv.bitmapStyle = priv.bitmap.style;
         priv.bitmap.jsObj = this;
-        priv.bitmap.src = priv.props.hasOwnProperty('src') ? priv.props.src : core.types.CONSTANTS.PIX;
+        priv.bitmap.src = this.props.hasOwnProperty('src') ? this.props.src : core.types.CONSTANTS.PIX;
         Events.bind(priv.bitmap, htmlEvents.LOAD, this.doBitmapLoaded);
         Events.bind(priv.bitmap, htmlEvents.ERROR, this.doBitmapNotLoaded);
     }

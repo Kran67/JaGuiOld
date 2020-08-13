@@ -22,7 +22,7 @@ class LabeledColorButton extends LabeledControl {
             class: ColorButton,
             owner: this,
             props: {
-                ...priv.props.colorButton,
+                ...this.props.colorButton,
                 inForm: !1
             }
         });

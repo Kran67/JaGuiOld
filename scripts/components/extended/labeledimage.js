@@ -22,7 +22,7 @@ class LabeledImage extends LabeledControl {
             class: ImageControl,
             owner: this,
             props: {
-                src: priv.props.imageControl.src,
+                src: this.props.imageControl.src,
                 inForm: !1
             }
         });

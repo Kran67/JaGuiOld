@@ -102,7 +102,7 @@ class ImageList extends Component {
         const priv = core.private(this);
         //#endregion Variables déclaration
         super.loaded();
-        priv.props.hasOwnProperty('images') && (priv.images = [...priv.props.images]);
+        this.props.hasOwnProperty('images') && (priv.images = [...this.props.images]);
     }
     //#endregion loaded
     //#region destroy

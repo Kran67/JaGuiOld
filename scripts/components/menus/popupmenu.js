@@ -67,7 +67,7 @@ class PopupMenu extends Component {
     generateItems() {
         //#region Variables déclaration
         const priv = core.private(this);
-        const items = priv.props.items;
+        const items = this.props.items;
         //#endregion Variables déclaration
         priv.htmlContainer = document.createElement(core.types.HTMLELEMENTS.DIV);
         items && items.forEach(item => {
@@ -87,9 +87,9 @@ class PopupMenu extends Component {
         //#region Variables déclaration
         const priv = core.private(this);
         const form = this.form;
-        let imgList = priv.props.hasOwnProperty('images') && priv.props.images;
+        let imgList = this.props.hasOwnProperty('images') && this.props.images;
         //#endregion Variables déclaration
-        core.tools.isString(imgList) && (imgList = form[priv.props.images]);
+        core.tools.isString(imgList) && (imgList = form[this.props.images]);
         imgList && (priv.images = imgList) && imgList.addReference(this);
     }
     //#endregion getImages

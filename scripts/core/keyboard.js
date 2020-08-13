@@ -109,17 +109,19 @@ const KEYBORDEVENTS = Object.freeze(Object.seal({
 //#endregion
 //#region Keyboard
 class Keyboard {
+    //#region Private fields
+    #ctrl = !1;
+    #alt = !1;
+    #shift = !1;
+    #meta = !1;
+    #key = Keyboard.VKEYSCODES.NONE;
+    #keyEvent = Keyboard.KEYBORDEVENTS.NONE;
+    #keyChar = String.EMPTY;
+    #keyTable = [];
+    #event = null;
+    //#endregion Private fields
     //#region constructor
     constructor() {
-        this.ctrl = !1;
-        this.alt = !1;
-        this.shift = !1;
-        this.meta = !1;
-        this.key = Keyboard.VKEYSCODES.NONE;
-        this.keyEvent = Keyboard.KEYBORDEVENTS.NONE;
-        this.keyChar = String.EMPTY;
-        this.keyTable = [];
-        this.event = null;
         //if (core.browser.ff) {
         //    const c = {
         //        32: ' ', 48: '0', 49: '1', 50: '2', 51: '3', 52: '4', 53: '5', 54: '6', 55: '7', 56: '8', 57: '9', 59: ';',
@@ -153,6 +155,51 @@ class Keyboard {
     //#endregion KEYBORDEVENTS
     //#endregion Static
     //#region Getter / Setter
+    //#region ctrl
+    get ctrl() {
+        return this.#ctrl;
+    }
+    //#endregion ctrl
+    //#region alt
+    get alt() {
+        return this.#alt;
+    }
+    //#endregion alt
+    //#region shift
+    get shift() {
+        return this.#shift;
+    }
+    //#endregion shift
+    //#region meta
+    get meta() {
+        return this.#meta;
+    }
+    //#endregion meta
+    //#region key
+    get key() {
+        return this.#key;
+    }
+    //#endregion key
+    //#region keyEvent
+    get keyEvent() {
+        return this.#keyEvent;
+    }
+    //#endregion keyEvent
+    //#region keyChar
+    get keyChar() {
+        return this.#keyChar;
+    }
+    //#endregion keyChar
+    //#region keyTable
+    get keyTable() {
+        return this.#keyTable;
+    }
+    //#endregion keyTable
+    //#region event
+    get event() {
+        return this.#event;
+    }
+    //#endregion event
     //#region isNavigationKey
     get isNavigationKey() {
         //#region Variables déclaration
@@ -172,7 +219,7 @@ class Keyboard {
             VKEYSCODES.VK_DELETE,
             VKEYSCODES.VK_CONTEXTMENU,
             VKEYSCODES.VK_ENTER
-        ].indexOf(this.key) > -1;
+        ].indexOf(this.#key) > -1;
     }
     //#endregion isNavigationKey
     //#endregion Getter / Setter
@@ -183,28 +230,28 @@ class Keyboard {
         const VKEYSCODES = Keyboard.VKEYSCODES;
         const KEYBORDEVENTS = Keyboard.KEYBORDEVENTS;
         //#endregion Variables déclaration
-        this.event = keyboardEventArg;
-        this.ctrl = keyboardEventArg.ctrlKey;
-        this.alt = keyboardEventArg.altKey;
-        this.shift = keyboardEventArg.shiftKey;
-        this.key = keyboardEventArg.key;
-        this.meta = keyboardEventArg.metaKey;
-        !this.shift && (this.keyChar = this.keyChar.toLowerCase());
-        this.keyEvent = !core.isKeyDown ? KEYBORDEVENTS.NONE : KEYBORDEVENTS.DOWN;
+        this.#event = keyboardEventArg;
+        this.#ctrl = keyboardEventArg.ctrlKey;
+        this.#alt = keyboardEventArg.altKey;
+        this.#shift = keyboardEventArg.shiftKey;
+        this.#key = keyboardEventArg.key;
+        this.#meta = keyboardEventArg.metaKey;
+        !this.#shift && (this.#keyChar = this.#keyChar.toLowerCase());
+        this.#keyEvent = !core.isKeyDown ? KEYBORDEVENTS.NONE : KEYBORDEVENTS.DOWN;
         core.tools.isFunc(core.onGetMouseInfos) && core.onGetMouseInfos();
     }
     //#endregion getKeyboardInfos
     //#region stopEvent
     stopEvent() {
-        this.event.cancelBubble = !0;
-        this.event.stopPropagation();
-        this.event.preventDefault();
-        this.ctrl = !1;
-        this.alt = !1;
-        this.shift = !1;
-        this.key = Keyboard.VKEYSCODES.NONE;
-        this.keyEvent = Keyboard.KEYBORDEVENTS.NONE;
-        this.keyChar = String.EMPTY;
+        this.#event.cancelBubble = !0;
+        this.#event.stopPropagation();
+        this.#event.preventDefault();
+        this.#ctrl = !1;
+        this.#alt = !1;
+        this.#shift = !1;
+        this.#key = Keyboard.VKEYSCODES.NONE;
+        this.#keyEvent = Keyboard.KEYBORDEVENTS.NONE;
+        this.#keyChar = String.EMPTY;
     }
     //#endregion stopEvent
     //#endregion

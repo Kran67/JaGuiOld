@@ -131,16 +131,7 @@ class Classes {
     //#endregion checkClassAndOwnerClass
     //#region newCollection
     static newCollection(obj, owner, itemsClass, propName = 'items') {
-        core.private(obj, { [propName]: [] });
-        Object.defineProperty(obj, propName, {
-            configurable: !0,
-            get: () => {
-                return core.private(obj)[propName];
-            },
-            set: (newValue) => {
-                core.private(obj)[propName] = newValue;
-            }
-        });
+        obj[propName] = [];
         obj[propName].convertToCollection(owner, itemsClass);
         !obj.internalKey && console.log(obj.name, obj.constructor.name);
     }

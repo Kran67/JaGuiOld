@@ -22,7 +22,7 @@ class LabeledMemo extends LabeledControl {
             class: Memo,
             owner: this,
             props: {
-                ...priv.props.memo,
+                ...this.props.memo,
                 inForm: !1
             }
         });

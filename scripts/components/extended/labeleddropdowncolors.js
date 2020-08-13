@@ -23,7 +23,7 @@ class LabeledDropDownListBoxColor extends LabeledControl {
             owner: this,
             props: {
                 inForm: !1,
-                ...priv.props.dropDownListBoxColor,
+                ...this.props.dropDownListBoxColor,
             }
         });
     }

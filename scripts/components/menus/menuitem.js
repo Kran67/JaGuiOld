@@ -9,6 +9,9 @@ import { Mouse } from '/scripts/core/mouse.js';
 class MenuItem extends Component {
     //#region constructor
     constructor(owner, props) {
+        //#region Variables déclaration
+        const MOUSEEVENTS = Mouse.MOUSEEVENTS;
+        //#endregion Variables déclaration
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
@@ -25,6 +28,7 @@ class MenuItem extends Component {
                 checked: props.hasOwnProperty('checked') && core.tools.isBool(props.checked) ? props.checked : !1,
                 action: null
             });
+            this.mouseEvents = new core.classes.MouseEvents({ mousemove: !0, mouseover: !0, mouseenter: !0, mouseleave: !0, mouseout: !0 });
             core.classes.newCollection(this, this, MenuItem);
             this.createEventsAndBind(['onClick'], props);
         }
@@ -468,15 +472,16 @@ class MenuItem extends Component {
         Events.bind(priv.htmlCaption, MOUSEEVENTS.LEAVE, core.tools.noEvent);
         Events.bind(priv.htmlShortcut, MOUSEEVENTS.LEAVE, core.tools.noEvent);
         Events.bind(priv.htmlHasSubMenu, MOUSEEVENTS.LEAVE, core.tools.noEvent);
-        if (priv.props.hasOwnProperty('items')) {
+        Events.bind(htmlElement, Mouse.MOUSEEVENTS.DOWN, () => { this.click(); });
+        if (this.props.hasOwnProperty('items')) {
             priv.htmlHasSubMenu.classList.remove('nochilds');
-            priv.props.items.forEach(item => {
+            this.props.items.forEach(item => {
                 const menuItem = new MenuItem(this, item);
                 const tpl = menuItem.template;
                 const container = document.createElement(core.types.HTMLELEMENTS.DIV);
                 container.innerHTML = tpl;
                 menuItem.HTMLElement = container.firstElementChild;
-                menuItem.HTMLElement.jsObj = menuItem;
+                //menuItem.HTMLElement.jsObj = menuItem;
                 menuItem.HTMLElementStyle = menuItem.HTMLElement.style;
                 menuItem.internalId = container.firstElementChild.id;
                 menuItem.loaded();
@@ -606,7 +611,7 @@ if (core.isHTMLRenderer) {
                          '<jagui-menuitem-shortcut class="MenuItemShortCut {theme} {inMainMenu}">{shortcut}</jagui-menuitem-shortcut>',
                          '<jagui-menuitem-arrow class="MenuItemHasSubMenu {theme} {asChilds} {inMainMenu}"></jagui-menuitem-arrow>',
                          '</jagui-menuitem>'].join(String.EMPTY);
-    const MenuItemSepTpl = '<jagui-menuitemsep id="{internalId}" class="Control MenuItemSep {theme}"></jagui-menuitemsep>';
+    const MenuItemSepTpl = '<jagui-menuitemsep id="{internalId}" class="MenuItemSep {theme}"></jagui-menuitemsep>';
     core.classes.registerTemplates([{ Class: MenuItem, template: MenuItemTpl }, { Class: 'MenuItemSep', template: MenuItemSepTpl }]);
 }
 //#endregion Templates

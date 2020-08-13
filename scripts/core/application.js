@@ -12,6 +12,9 @@ import { ShortCutIcon } from '/scripts/components/common/shortcuticon.js';
  * Class representing an Application.
  */
 class Application extends BaseClass {
+    //#region Private fields
+    //#endregion Private fields
+
     /**
      * Create a new instance of Application.
      * @param {String}      appName     Name of the Application.
@@ -312,7 +315,7 @@ class Application extends BaseClass {
         //#endregion Variables déclaration
         switch (core.renderer) {
             case core.types.RENDERERS.HTML:
-                wins = document.querySelectorAll(`jagui-window.${priv.name}`);
+                wins = document.querySelectorAll(`jagui-window.${this.name}`);
                 wins.forEach(win => {
                     let props = {};
                     const properties = win.querySelector('properties');

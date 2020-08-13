@@ -137,8 +137,8 @@ class CustomButton extends CaptionControl {
         const priv = core.private(this);
         //#endregion Variables déclaration
         super.loaded();
-        if (priv.props.hasOwnProperty('action') && this.form[priv.props.action]) {
-            this.action = this.form[priv.props.action];
+        if (this.props.hasOwnProperty('action') && this.form[this.props.action]) {
+            this.action = this.form[this.props.action];
         }
     }
     //#endregion loaded

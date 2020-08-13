@@ -9,17 +9,20 @@ import { Convert } from '/scripts/core/convert.js';
  */
 //#region Bindable
 class Bindable extends BaseClass {
+    //#region Private fields
+    #dataBindings;
+    //#endregion Private fields
     /**
      * Create a new instance of Bindable.
      */
     constructor(props) {
         super(props);
-        core.private(this, { dataBindings: props && props.hasOwnProperty('dataBindings') ? props.dataBindings : [] });
+        this.#dataBindings = props && props.hasOwnProperty('dataBindings') ? props.dataBindings : [];
     }
     //#region Getters / Setters
     //#region dataBindings
     get dataBindings() {
-        return core.private(this).dataBindings;
+        return this.#dataBindings;
     }
     //#endregion dataBindings
     //#endregion Getters / Setters
@@ -43,7 +46,7 @@ class Bindable extends BaseClass {
     //#region propertyChanged
     propertyChanged(property) {
         //#region Variables déclaration
-        const dataBindings = core.private(this).dataBindings;
+        const dataBindings = this.#dataBindings;
         const form = this.form;
         //#endregion Variables déclaration
         !this.updating && dataBindings.filter(item => item.property === property)
@@ -100,7 +103,7 @@ class Bindable extends BaseClass {
             if (!core.tools.isUndefined(form[component][propertyComponent]) &&
                 typeof this[property] === typeof form[component][propertyComponent]) {
                 //priv.dataBindings.push(dataBinding);
-                core.private(this).dataBindings.push(dataBinding);
+                this.#dataBindings.push(dataBinding);
             }
         }
     }
@@ -108,7 +111,7 @@ class Bindable extends BaseClass {
     //#region removeDataBinding
     removeDataBinding(property, component) {
         //#region Variables déclaration
-        const dataBindings = core.private(this).dataBindings;
+        const dataBindings = this.#dataBindings;
         const dataBindingsFromOtherProperty = dataBindings.filter(item => { return item.property !== property; });
         const dataBindingsFromProperty = dataBindings.filter(item => { return item.property === property && item.destination.component !== component; });
         //#endregion Variables déclaration
@@ -117,7 +120,7 @@ class Bindable extends BaseClass {
     //#endregion removeDataBinding
     //#region clear
     clear() {
-        core.private(this).dataBindings.length = 0;
+        this.#dataBindings.length = 0;
     }
     //#endregion clear
     //#region destroy
@@ -129,15 +132,14 @@ class Bindable extends BaseClass {
     //#region createEventsAndBind
     createEventsAndBind(eventsName, props) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const form = priv.form;
+        const form = this.form;
         let addEvent = !0;
         //#endregion Variables déclaration
         if (Array.isArray(eventsName)) {
             eventsName.forEach(eventName => {
                 const eventValue = props[eventName];
                 addEvent = !0;
-                eventName.toLowerCase().includes('mouse') && priv.mouseEvents && !priv.mouseEvents[eventName.replace('on', String.EMPTY).toLowerCase()]
+                eventName.toLowerCase().includes('mouse') && this.mouseEvents && !this.mouseEvents[eventName.replace('on', String.EMPTY).toLowerCase()]
                     && (addEvent = !1);
                 if (addEvent) {
                     this[eventName] = new core.classes.NotifyEvent(this);

@@ -221,10 +221,10 @@ class ColorQuad extends Control {
         //});
         //htmlElement.classList.add(priv.format);
         super.loaded();
-        priv.props.hasOwnProperty('colorBox') && !priv.colorBox
-            && (priv.colorBox = this.form[priv.props.colorBox]);
-        priv.props.hasOwnProperty('gradientEdit') && !priv.gradientEdit
-            && (priv.gradientEdit = this.form[priv.props.gradientEdit]);
+        this.props.hasOwnProperty('colorBox') && !priv.colorBox
+            && (priv.colorBox = this.form[this.props.colorBox]);
+        this.props.hasOwnProperty('gradientEdit') && !priv.gradientEdit
+            && (priv.gradientEdit = this.form[this.props.gradientEdit]);
         if (priv.colorBox instanceof core.classes.ColorBox) {
             let oldAlpha;
             priv.preserveColorAlpha && (oldAlpha = priv.colorBox.color.alpha);

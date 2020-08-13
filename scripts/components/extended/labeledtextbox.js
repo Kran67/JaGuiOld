@@ -22,7 +22,7 @@ class LabeledTextBox extends LabeledControl {
             class: TextBox,
             owner: this,
             props: {
-                ...priv.props.textBox,
+                ...this.props.textBox,
                 inForm: !1
             }
         });

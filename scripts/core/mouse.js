@@ -68,19 +68,66 @@ const MOUSEEVENTS = Object.freeze(Object.seal({
 //#endregion MOUSEEVENTS
 //#region Mouse
 class Mouse {
+    //#region Private fields
+    #target = new core.classes.Point;
+    #screen = new core.classes.Point;
+    #button = Mouse.MOUSEBUTTONS.NONE;
+    #document = new core.classes.Point;
+    #window = new core.classes.Point;
+    #wheelDir = Mouse.MOUSEWHEELDIRS.NONE;
+    #wheelDelta = 0;
+    #eventType = String.EMPTY;
+    #event = null;
+    //#endregion Private fields
     //#region constructor
-    constructor() {
-        this.target = new core.classes.Point;
-        this.screen = new core.classes.Point;
-        this.button = Mouse.MOUSEBUTTONS.NONE;
-        this.document = new core.classes.Point;
-        this.window = new core.classes.Point;
-        this.wheelDir = Mouse.MOUSEWHEELDIRS.NONE;
-        this.wheelDelta = 0;
-        this.eventType = String.EMPTY;
-        this.event = null;
-    }
+    constructor() { }
     //#endregion constructor
+    //#region Getters / Setters
+    //#region target
+    get target() {
+        return this.#target;
+    }
+    //#endregion target
+    //#region screen
+    get screen() {
+        return this.#screen;
+    }
+    //#endregion screen
+    //#region button
+    get button() {
+        return this.#button;
+    }
+    //#endregion button
+    //#region document
+    get document() {
+        return this.#document;
+    }
+    //#endregion document
+    //#region window
+    get window() {
+        return this.#window;
+    }
+    //#endregion window
+    //#region wheelDir
+    get wheelDir() {
+        return this.#wheelDir;
+    }
+    //#endregion wheelDir
+    //#region wheelDelta
+    get wheelDelta() {
+        return this.#wheelDelta;
+    }
+    //#endregion wheelDelta
+    //#region eventType
+    get eventType() {
+        return this.#eventType;
+    }
+    //#endregion eventType
+    //#region event
+    get event() {
+        return this.#event;
+    }
+    //#endregion event
     //#region Static
     static get MOUSEBUTTONS() {
         return MOUSEBUTTONS;
@@ -101,6 +148,7 @@ class Mouse {
         return MOUSEEVENTS;
     }
     //#endregion Static
+    //#endregion Getters / Setters
     //#region Methods
     //#region getMouseInfos
     getMouseInfos(mouseEventArg) {
@@ -109,12 +157,12 @@ class Mouse {
         const MOUSEEVENTS = Mouse.MOUSEEVENTS;
         const MOUSEWHEELDIRS = Mouse.MOUSEWHEELDIRS;
         //#endregion Variables déclaration
-        this.event = mouseEventArg;
-        this.eventType = mouseEventArg.type;
-        this.screen.setValues(mouseEventArg.screenX, mouseEventArg.screenY);
-        this.window.setValues(mouseEventArg.clientX, mouseEventArg.clientY);
-        this.document.setValues(mouseEventArg.pageX, mouseEventArg.pageY);
-        this.target.setValues(mouseEventArg.offsetX, mouseEventArg.offsetY);
+        this.#event = mouseEventArg;
+        this.#eventType = mouseEventArg.type;
+        this.#screen.setValues(mouseEventArg.screenX, mouseEventArg.screenY);
+        this.#window.setValues(mouseEventArg.clientX, mouseEventArg.clientY);
+        this.#document.setValues(mouseEventArg.pageX, mouseEventArg.pageY);
+        this.#target.setValues(mouseEventArg.offsetX, mouseEventArg.offsetY);
         //if ($j.isHTMLRenderer()) {
         //  if (mouseEventArg.currentTarget!==$j.doc) {
         //    style=mouseEventArg.currentTarget.currentStyle||getComputedStyle(mouseEventArg.currentTarget);
@@ -131,16 +179,16 @@ class Mouse {
         //} else {
         switch (mouseEventArg.which) {
             case 0:
-                this.button = MOUSEBUTTONS.NONE;
+                this.#button = MOUSEBUTTONS.NONE;
                 break;
             case 1:
-                this.button = MOUSEBUTTONS.LEFT;
+                this.#button = MOUSEBUTTONS.LEFT;
                 break;
             case 2:
-                this.button = MOUSEBUTTONS.MIDDLE;
+                this.#button = MOUSEBUTTONS.MIDDLE;
                 break;
             case 3:
-                this.button = MOUSEBUTTONS.RIGHT;
+                this.#button = MOUSEBUTTONS.RIGHT;
                 break;
         }
         //this.button=(mouseEventArg.which===1)?$j.core.types.mouseButtons.LEFT:((mouseEventArg.which===2)?$j.core.types.mouseButtons.MIDDLE:$j.core.types.mouseButtons.RIGHT);
@@ -154,11 +202,11 @@ class Mouse {
             //} else if (mouseEventArg.detail) delta = -mouseEventArg.detail * 0.3333;
             delta = this.getWheelDetail(mouseEventArg);
             if (delta !== 0) {
-                this.wheelDir = delta < 0 ? MOUSEWHEELDIRS.DOWN : MOUSEWHEELDIRS.UP;
-                this.wheelDelta = delta;
+                this.#wheelDir = delta < 0 ? MOUSEWHEELDIRS.DOWN : MOUSEWHEELDIRS.UP;
+                this.#wheelDelta = delta;
             } else {
-                this.wheelDir = MOUSEWHEELDIRS.NONE;
-                this.wheelDelta = 0;
+                this.#wheelDir = MOUSEWHEELDIRS.NONE;
+                this.#wheelDelta = 0;
             }
         }
         core.tools.isFunc(core.onGetMouseInfos) && core.onGetMouseInfos();
@@ -166,7 +214,7 @@ class Mouse {
     //#endregion getMouseInfos
     //#region getWheelDetail
     getWheelDetail(mouseEventArg) {
-        mouseEventArg = mouseEventArg || this.event;
+        mouseEventArg = mouseEventArg || this.#event;
         let delta = mouseEventArg.wheelDelta ? mouseEventArg.wheelDelta * 0.0083 : mouseEventArg.detail * 0.3333;
         !core.browser.ff && (delta = -delta);
         return delta;
@@ -174,47 +222,47 @@ class Mouse {
     //#endregion getWheelDetail
     //#region stopAllEvents
     stopAllEvents(mouseEventArg) {
-        mouseEventArg = mouseEventArg || this.event;
+        mouseEventArg = mouseEventArg || this.#event;
         mouseEventArg.stopPropagation();
         mouseEventArg.stopImmediatePropagation();
         mouseEventArg.preventDefault();
-        this.target.setValues(0, 0);
-        this.screen.setValues(0, 0);
-        this.button = Mouse.MOUSEBUTTONS.NONE;
-        this.document.setValues(0, 0);
-        this.window.setValues(0, 0);
-        this.wheelDir = Mouse.MOUSEWHEELDIRS.NONE;
-        this.wheelDelta = 0;
+        this.#target.setValues(0, 0);
+        this.#screen.setValues(0, 0);
+        this.#button = Mouse.MOUSEBUTTONS.NONE;
+        this.#document.setValues(0, 0);
+        this.#window.setValues(0, 0);
+        this.#wheelDir = Mouse.MOUSEWHEELDIRS.NONE;
+        this.#wheelDelta = 0;
     }
     //#endregion stopAllEvents
     stopPropagation(mouseEventArg) {
-        mouseEventArg = mouseEventArg || this.event;
+        mouseEventArg = mouseEventArg || this.#event;
         mouseEventArg.stopPropagation();
     }
     stopImmediatePropagation(mouseEventArg) {
-        mouseEventArg = mouseEventArg || this.event;
+        mouseEventArg = mouseEventArg || this.#event;
         mouseEventArg.stopImmediatePropagation();
     }
     preventDefault(mouseEventArg) {
-        mouseEventArg = mouseEventArg || this.event;
+        mouseEventArg = mouseEventArg || this.#event;
         mouseEventArg.preventDefault();
     }
     //#region destroy
     destroy() {
-        this.target.destroy();
-        this.target = null;
-        this.screen.destroy();
-        this.screen = null;
-        this.button.destroy();
-        this.button = null;
-        this.document.destroy();
-        this.document = null;
-        this.window.destroy();
-        this.window = null;
-        this.wheelDir = null;
-        this.wheelDelta = null;
-        this.eventType = null;
-        this.event = null;
+        this.#target.destroy();
+        this.#target = null;
+        this.#screen.destroy();
+        this.#screen = null;
+        this.#button.destroy();
+        this.#button = null;
+        this.#document.destroy();
+        this.#document = null;
+        this.#window.destroy();
+        this.#window = null;
+        this.#wheelDir = null;
+        this.#wheelDelta = null;
+        this.#eventType = null;
+        this.#event = null;
     }
     //#endregion destroy
     //#endregion

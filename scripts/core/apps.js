@@ -29,49 +29,50 @@ import { Keyboard } from '/scripts/core/keyboard.js';
  * Class representing an Apps, applications management
  */
 class Apps {
+    //#region Private fields
+    #applications = {};
+    #activeApplication = null;
+    #capslock= 'UNKNOWN';
+    //#endregion Private fields
     /**
      * Create a new instance of Application.
      */
     constructor() {
         this.internalKey = String.uniqueId();
-        core.private(this, { applications: {}, activeApplication: null, capslock: 'UNKNOWN' });
     }
     //#region Getters / Setters
     /**
      * Get the applications list
      */
     get applications() {
-        return core.private(this).applications;
+        return this.#applications;
     }
     /**
      * Get the activeApplication
      * @return  {Application}   the active application
      */
     get activeApplication() {
-        return core.private(this).activeApplication;
+        return this.#activeApplication;
     }
     /**
      * Set the activeApplication
      * @return  {Application}   the active application
      */
     set activeApplication(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        (newValue instanceof core.classes.Application || newValue == null) && priv.activeApplication !== newValue
-            && (priv.activeApplication = newValue);
+        (newValue instanceof core.classes.Application || newValue == null) && this.#activeApplication !== newValue
+            && (this.#activeApplication = newValue);
     }
     /**
      * Get the capslock
      */
     get capslock() {
-        return core.private(this).capslock;
+        return this.#capslock;
     }
     /**
      * Set the capslock
      */
     set capslock(newValue) {
-        core.tools.isString(newValue) && (core.private(this).capslock = newValue);
+        core.tools.isString(newValue) && (this.#capslock = newValue);
     }
     //#endregion Getters / Setters
     //#region Methods
@@ -107,8 +108,8 @@ class Apps {
             locale = await import(currentLocale);
             core.locales[core.currentLocale] = { ...core.locales[core.currentLocale], ...locale.default };
         }
-        this.activeApplication = new appClass;
-        document.body.classList.add(this.activeApplication.themeManifest.themeName);
+        this.#activeApplication = new appClass;
+        document.body.classList.add(this.#activeApplication.themeManifest.themeName);
     }
     /**
      * Kill the active application
@@ -329,7 +330,7 @@ class Apps {
     }
     renderApplications() {
         //#region Variables déclaration
-        const apps = this.applications;
+        const apps = this.#applications;
         const keys = Object.keys(apps);
         //#endregion Variables déclaration
         keys.forEach(key => {

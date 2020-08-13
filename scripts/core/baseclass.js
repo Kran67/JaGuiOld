@@ -4,33 +4,34 @@
  */
 //#region BaseClass
 class BaseClass {
+    //#region Private fields
+    #propsEnums;
+    #name;
+    //#endregion Private fields
     /**
      * Create a new instance of BaseClass.
      */
     constructor(props) {
         props = !props ? {} : props;
         this.internalKey = String.uniqueId();
-        core.private(this, {
-            propsEnums: {},
-            name: props.hasOwnProperty('name') ? props.name : this.constructor.name,
-            props
-        });
+        this.#propsEnums = {};
+        this.#name = props.hasOwnProperty('name') ? props.name : this.constructor.name;
+        this.props = props;
     }
     //#region Getter / Setter
     //#region name
     get name() {
-        return core.private(this).name;
+        return this.#name;
     }
     set name(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const form = this.form;
-        let name = priv.name;
+        let name = this.#name;
         //#endregion Variables déclaration
         if (!String.isNullOrEmpty(newValue) && !String.isNullOrEmpty(newValue.trim())
             && name !== newValue) {
             form !== this && form && form[name] && (delete form[name]);
-            priv.name = name = newValue;
+            this.#name = name = newValue;
             form !== this && this !== form.layout && this !== form.content && form && !form[name] && this.inform
                 && (form[name] = this);
         }
@@ -38,7 +39,7 @@ class BaseClass {
     //#endregion name
     //#region propsEnums
     get propsEnums() {
-        return core.private(this).propsEnums;
+        return this.#propsEnums;
     }
     //#endregion propsEnums
     //#endregion Getter / Setter
@@ -77,12 +78,9 @@ class BaseClass {
      * Destroy all properties of the instance
      * @override
      */
-    destroy() {
-        delete this.propsEnums;
-        core.destroyPrivate(this);
-    }
+    destroy() { }
     addPropertyEnum(propName, _enum) {
-        this.propsEnums[propName] = _enum;
+        this.#propsEnums[propName] = _enum;
     }
     //#endregion Methods
 }

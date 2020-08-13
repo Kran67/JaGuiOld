@@ -54,7 +54,7 @@ class LabeledControl extends FlexLayout {
                 owner: this,
                 name: `${this.name}.label`,
                 props: {
-                    ...priv.props.label,
+                    ...this.props.label,
                     inForm: !1,
                     mouseEvents: { mousedown: !0 },
                     onMouseDown: function () {

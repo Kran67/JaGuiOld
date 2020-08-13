@@ -23,7 +23,7 @@ class LabeledDropDownListBox extends LabeledControl {
             owner: this,
             props: {
                 inForm: !1,
-                ...priv.props.dropDownListBox
+                ...this.props.dropDownListBox
             }
         });
     }

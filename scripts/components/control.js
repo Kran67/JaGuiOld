@@ -2137,8 +2137,8 @@ class Control extends Component {
         !String.isNullOrEmpty(priv.cssClasses) && htmlElement.classList.add(priv.cssClasses.split(String.SPACE));
         htmlElement.classList.add(this.cursor);
         (priv.ownerShowToolTip || priv.showToolTip) && (priv.mouseEvents.mouseenter = priv.mouseEvents.mouseout = !0);
-        priv.props.hasOwnProperty('popupMenu') && this.form[priv.props.popupMenu] && this.form[priv.props.popupMenu] instanceof core.classes.PopupMenu
-            && (priv.popupMenu = this.form[priv.props.popupMenu]);
+        this.props.hasOwnProperty('popupMenu') && this.form[this.props.popupMenu] && this.form[this.props.popupMenu] instanceof core.classes.PopupMenu
+            && (priv.popupMenu = this.form[this.props.popupMenu]);
     }
     //#endregion loaded
     //#region resized

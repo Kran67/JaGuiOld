@@ -89,7 +89,7 @@ class MainMenu extends Component {
         //#region Variables déclaration
         const priv = core.private(this);
         const form = this.form;
-        const imgList = priv.props.hasOwnProperty('images') ? form[priv.props.images] : null;
+        const imgList = this.props.hasOwnProperty('images') ? form[this.props.images] : null;
         //#endregion Variables déclaration
         imgList && (priv.images = imgList) && imgList.addReference(this);
     }
@@ -98,7 +98,7 @@ class MainMenu extends Component {
     generateItems() {
         //#region Variables déclaration
         const priv = core.private(this);
-        const menus = priv.props.menus;
+        const menus = this.props.menus;
         //#endregion Variables déclaration
         menus.forEach(menu => {
             this.items.push(core.classes.createComponent({

@@ -1052,7 +1052,7 @@ class BaseWindow extends ThemedControl {
         //#endregion Variables déclaration
         html = a.join(this.app.name);
         a = html.split('{title}');
-        html = a.join(priv.props && priv.props.caption ? priv.props.caption : this.constructor.name);
+        html = a.join(this.props && this.props.caption ? this.props.caption : this.constructor.name);
         a = html.split('{content}');
         html = a.join(String.EMPTY);
         return html;

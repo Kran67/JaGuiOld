@@ -64,28 +64,17 @@ class Events {
  */
 //#region NotifyEvent
 class NotifyEvent {
+    //#region Private fields
+    #listeners = [];
+    #sender;
+    //#endregion Private fields
     /**
      * Create a new instance of NotifyEvent.
      * @param       {Component}     sender      The component can invoke the event
      */
     //#region constructor
     constructor(sender) {
-        //#region Variables déclaration
-        const _listeners = [];
-        const _sender = sender;
-        //#endregion Variables déclaration
-        Object.defineProperties(this, {
-            'listeners': {
-                get: () => {
-                    return _listeners;
-                }
-            },
-            'sender': {
-                get: () => {
-                    return _sender;
-                }
-            }
-        });
+        this.#sender = sender;
     }
     //#endregion constructor
     //#region Getters / Setters
@@ -94,7 +83,7 @@ class NotifyEvent {
      */
     //#region hasListener
     get hasListener() {
-        return this.listeners.length > 0;
+        return this.#listeners.length > 0;
     }
     //#endregion hasListener
     //#endregion Getters / Setters
@@ -108,7 +97,7 @@ class NotifyEvent {
     addListener(f, d) {
         if (core.tools.isFunc(f)) {
             d = d | 0;
-            this.listeners.push({ func: f, delay: d });
+            this.#listeners.push({ func: f, delay: d });
         }
     }
     //#endregion addListener
@@ -119,12 +108,12 @@ class NotifyEvent {
     //#region removeListener
     removeListener(f) {
         if (core.tools.isFunc(f)) {
-            const index = this.listeners.findIndex(elem => {
+            const index = this.#listeners.findIndex(elem => {
                 return elem.func === f;
             });
             if (index > -1) {
-                this.listeners[index].func = null;
-                this.listeners.removeAt(index);
+                this.#listeners[index].func = null;
+                this.#listeners.removeAt(index);
             }
         }
     }
@@ -136,8 +125,8 @@ class NotifyEvent {
     //#region copyListenerTo
     copyListenerTo(notifyEvent) {
         if (notifyEvent && notifyEvent instanceof core.classes.NotifyEvent) {
-            this.listeners.forEach(listener => {
-                core.tools.isFunc(this.listeners[i].func)
+            this.#listeners.forEach(listener => {
+                core.tools.isFunc(this.#listeners[i].func)
                     && notifyEvent.addListener(listener.func, listener.delay);
             });
         }
@@ -149,15 +138,15 @@ class NotifyEvent {
     //#region invoke
     invoke() {
         if (this.hasListener/* && this.stopPropagation*/) {
-            this.listeners.forEach(listener => {
+            this.#listeners.forEach(listener => {
                 const func = listener.func;
                 const delay = listener.delay;
                 if (delay > 0) {
                     setTimeout(((sender, args) => {
                         func.apply(sender, args);
-                    })(this.sender, arguments), delay);
+                    })(this.#sender, arguments), delay);
                 } else {
-                    func.apply(this.sender, arguments);
+                    func.apply(this.#sender, arguments);
                 }
             });
         }
@@ -168,7 +157,7 @@ class NotifyEvent {
      */
     //#region clearListeners
     clearListeners() {
-        this.listeners.length = 0;
+        this.#listeners.length = 0;
     }
     //#endregion clearListeners
     /**
@@ -177,7 +166,7 @@ class NotifyEvent {
     //#region destroy
     destroy() {
         this.clearListeners();
-        this.listeners.destroy();
+        this.#listeners.destroy();
     }
     //#endregion destroy
     //#endregion Methods

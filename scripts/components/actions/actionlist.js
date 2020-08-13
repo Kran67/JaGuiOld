@@ -28,7 +28,7 @@ class ActionList extends Component {
                 Object.defineProperty(form, actionProps.name, {
                     enumerable: !1
                 });
-                priv.actions.push(act);
+                this.actions.push(act);
             });
         }
     }
@@ -92,8 +92,8 @@ class ActionList extends Component {
         //#region Variables déclaration
         const priv = core.private(this);
         const form = this.form;
-        let imageList = priv.props.imageList;
-        let actions = priv.actions;
+        let imageList = this.props.imageList;
+        let actions = this.actions;
         //#endregion Variables déclaration
         super.loaded();
         if (imageList) {
