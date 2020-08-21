@@ -23,6 +23,24 @@ const TABPOSITIONS = Object.freeze(Object.seal({
 //#endregion CustomTabControl constants
 //#region CustomTabControl
 class CustomTabControl extends ThemedControl {
+    //#region Private fields
+    #firstVisibleTab = 0;
+    #lastVisibleTab = 0;
+    #tabClass = null;
+    #activeTab = null;
+    #images = null;
+    #canChange = !0;
+    #showTabsCloseBtn = !1;
+    #centerTabs = !1;
+    #tabStyle;
+    #tabPosition;
+    #tabs = [];
+    #btnLeft;
+    #btnRight;
+    #tabsContainer;
+    #tabContent;
+    #tabsHeader;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -33,35 +51,16 @@ class CustomTabControl extends ThemedControl {
             !props.hasOwnProperty('height') && (props.height = 200);
             super(owner, props);
             //#region Properties
-            //#region Private Properties
-            core.private(this, {
-                firstVisibleTab: 0,
-                lastVisibleTab: 0,
-                tabClass: props.hasOwnProperty('tabClass') ? props.tabClass : Tab,
-                activeTab: props.hasOwnProperty('activeTab') ? props.activeTab : null,
-                images: null,
-                canChange: !0,
-                showTabsCloseBtn: props.hasOwnProperty('showTabsCloseBtn') ? props.showTabsCloseBtn : !1,
-                centerTabs: props.hasOwnProperty('centerTabs') && core.tools.isBool(props.centerTabs)
-                    ? props.centerTabs : !1
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'tabStyle',
-                enum: TABSTYLES,
-                value: props.hasOwnProperty('tabStyle') ? props.tabStyle : TABSTYLES.TABS
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'tabPosition',
-                enum: TABPOSITIONS,
-                setter: this.tabPosition, // à voir
-                value: props.hasOwnProperty('tabPosition') ? props.tabPosition : TABPOSITIONS.TOP
-            });
-            //#endregion Private Properties
-            //#region Public Properties
-            core.classes.newCollection(this, this, Tab, "tabs");
-            //#endregion Public Properties
+            this.#tabClass = props.hasOwnProperty('tabClass') ? props.tabClass : Tab,
+                this.#activeTab = props.hasOwnProperty('activeTab') ? props.activeTab : null,
+                this.#showTabsCloseBtn = props.hasOwnProperty('showTabsCloseBtn') ? props.showTabsCloseBtn : !1,
+                this.#centerTabs = props.hasOwnProperty('centerTabs') && core.tools.isBool(props.centerTabs)
+                    ? props.centerTabs : !1;
+            this.#tabStyle = props.hasOwnProperty('tabStyle') ? props.tabStyle : TABSTYLES.TABS;
+            this.addPropertyEnum('tabStyle', TABSTYLES);
+            this.#tabPosition = props.hasOwnProperty('tabPosition') ? props.tabPosition : TABPOSITIONS.TOP;
+            this.addPropertyEnum('tabPosition', TABPOSITIONS);
+            this.#tabs.convertToCollection(owner, Tab);
             //#endregion Properties
             this.createEventsAndBind(['onChange', 'canFocused'], props);
         }
@@ -80,100 +79,99 @@ class CustomTabControl extends ThemedControl {
     //#endregion TABPOSITIONS
     //#endregion Statics
     //#region Getters / Setters
+    //#region tabs
+    get tabs() {
+        return this.#tabs;
+    }
+    //#endregion tabs
+    //#region tabStyle
+    get tabStyle() {
+        return this.#tabStyle;
+    }
+    set tabStyle(newValue) {
+        core.tools.valueInSet(newValue, TABSTYLES) && this.#tabStyle !== newValue && (this.#tabStyle = newValue);
+    }
+    //#endregion tabStyle
+    //#region tabPosition
+    get tabPosition() {
+        return this.#tabPosition;
+    }
+    set tabPosition(newValue) {
+        core.tools.valueInSet(newValue, TABPOSITIONS) && this.#tabPosition !== newValue && (this.#tabPosition = newValue);
+    }
+    //#endregion tabPosition
     //#region centerTabs
     get centerTabs() {
-        return core.private(this).centerTabs;
+        return this.#centerTabs;
     }
     set centerTabs(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.tabsContainer.classList.remove('center');
-        core.tools.isBool(newValue) && priv.centerTabs !== newValue && (priv.centerTabs = newValue);
+        this.#tabsContainer.classList.remove('center');
+        core.tools.isBool(newValue) && this.#centerTabs !== newValue && (this.#centerTabs = newValue);
         this.checkTabsPosition();
     }
     //#endregion centerTabs
     //#region tabClass
     get tabClass() {
-        return core.private(this).tabClass;
+        return this.#tabClass;
     }
     set tabClass(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        newValue instanceof Tab && priv.tabClass !== newValue && (priv.tabClass = newValue);
+        newValue instanceof Tab && this.#tabClass !== newValue && (this.#tabClass = newValue);
     }
     //#endregion tabClass
     //#region firstVisibleTab
     get firstVisibleTab() {
-        return core.private(this).firstVisibleTab;
+        return this.#firstVisibleTab;
     }
     set firstVisibleTab(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv.firstVisibleTab !== newValue && (priv.firstVisibleTab = newValue);
+        core.tools.isNumber(newValue) && this.#firstVisibleTab !== newValue && (this.#firstVisibleTab = newValue);
     }
     //#endregion firstVisibleTab
     //#region lastVisibleTab
     get lastVisibleTab() {
-        return core.private(this).lastVisibleTab;
+        return this.#lastVisibleTab;
     }
     set lastVisibleTab(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv.lastVisibleTab !== newValue && (priv.lastVisibleTab = newValue);
+        core.tools.isNumber(newValue) && this.#lastVisibleTab !== newValue && (this.#lastVisibleTab = newValue);
     }
     //#endregion lastVisibleTab
     //#region activeTab
     get activeTab() {
-        return core.private(this).activeTab;
+        return this.#activeTab;
     }
     set activeTab(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof Tab && priv.activeTab !== newValue) {
-            priv.activeTab = newValue;
-            priv.activeTab.show();
+        if (newValue instanceof Tab && this.#activeTab !== newValue) {
+            this.#activeTab = newValue;
+            this.#activeTab.show();
             this.propertyChanged('activeTab');
         }
     }
     //#endregion activeTab
     //#region images
     get images() {
-        return core.private(this).images;
+        return this.#images;
     }
     set images(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        newValue instanceof core.classes.ImageList && priv.images !== newValue && (priv.images = newValue);
+        newValue instanceof core.classes.ImageList && this.#images !== newValue && (this.#images = newValue);
     }
     //#endregion images
     //#region canChange
     get canChange() {
-        return core.private(this).canChange;
+        return this.#canChange;
     }
     set canChange(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.canChange !== newValue && (priv.canChange = newValue);
+        core.tools.isBool(newValue) && this.#canChange !== newValue && (this.#canChange = newValue);
     }
     //#endregion canChange
     //#region showTabsCloseBtn
     get showTabsCloseBtn() {
-        return core.private(this).showTabsCloseBtn;
+        return this.#showTabsCloseBtn;
     }
     set showTabsCloseBtn(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.showTabsCloseBtn !== newValue) {
-            priv.showTabsCloseBtn = newValue;
+        if (core.tools.isBool(newValue) && this.#showTabsCloseBtn !== newValue) {
+            this.#showTabsCloseBtn = newValue;
             newValue
                 ? htmlElement.classList.add('showTabsCloseBtn')
                 : htmlElement.classList.remove('showTabsCloseBtn');
@@ -182,10 +180,10 @@ class CustomTabControl extends ThemedControl {
     //#endregion showTabsCloseBtn
     //#region activeTabIndex
     get activeTabIndex() {
-        return this.tabs.indexOf(core.private(this).activeTab);
+        return this.#tabs.indexOf(this.#activeTab);
     }
     set activeTabIndex(index) {
-        index >= 0 && index <= this.tabs.length - 1 && this.tabs[index].show();
+        index >= 0 && index <= this.#tabs.length - 1 && this.#tabs[index].show();
         this.propertyChanged('activeTabIndex');
     }
     //#endregion activeTabIndex
@@ -193,22 +191,18 @@ class CustomTabControl extends ThemedControl {
     //#region Methods
     //#region checkTabsPosition
     checkTabsPosition() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.centerTabs && !priv.btnLeft.visible && !priv.btnRight.visible
-            && priv.tabsContainer.classList.add('center');
+        this.#centerTabs && !this.#btnLeft.visible && !this.#btnRight.visible
+            && this.#tabsContainer.classList.add('center');
     }
     //#endregion checkTabsPosition
     //#region tabPosition
     tabPosition(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (core.tools.valueInSet(newValue, TABPOSITIONS)) {
-            if (priv.tabPosition !== newValue) {
-                priv.tabPosition = newValue;
+            if (this.#tabPosition !== newValue) {
+                this.#tabPosition = newValue;
                 newValue === TABPOSITIONS.BOTTOM
                     ? htmlElement.classList.add(`tabs${newValue.capitalise()}`)
                     : htmlElement.classList.remove('tabsBottom');
@@ -218,10 +212,7 @@ class CustomTabControl extends ThemedControl {
     //#endregion tabPosition
     //#region changeActiveTab
     changeActiveTab(tab) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        tab !== priv.activeTab && tab.show();
+        tab !== this.#activeTab && tab.show();
         //if (this.tabsheets.indexOf(this.activeTab)<=this.firstVisibleTab) this.updateTabs(core.types.directions.LEFT);
         //if (this.tabsheets.indexOf(this.activeTab)>this.lastVisibleTab) this.updateTabs(core.types.directions.RIGHT);
     }
@@ -229,14 +220,13 @@ class CustomTabControl extends ThemedControl {
     //#region deleteTab
     deleteTab(index) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const tabs = this.tabs;
+        const tabs = this.#tabs;
         //#endregion Variables déclaration
         if (index >= 0 && index <= tabs.length - 1) {
             const tab = tabs[index];
             //this.tabContent.removeChild(tab._HTMLPage);
             // supprimer les controles de la page
-            priv.tabContainer.removeChild(tab.HTMLElement);
+            this.#tabsContainer.removeChild(tab.HTMLElement);
             tabs.removeAt(index);
             this.checkViewBtns();
         }
@@ -245,7 +235,7 @@ class CustomTabControl extends ThemedControl {
     //#region getTab
     getTab(index) {
         //#region Variables déclaration
-        const tabs = this.tabs;
+        const tabs = this.#tabs;
         //#endregion Variables déclaration
         if (index >= 0 || index <= tabs.length - 1) {
             return tabs[index];
@@ -255,8 +245,7 @@ class CustomTabControl extends ThemedControl {
     //#region newTab
     newTab(caption) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const tabs = this.tabs;
+        const tabs = this.#tabs;
         //#endregion Variables déclaration
         !caption && (caption = `tab${tabs.length + 1}`);
         const tab = core.classes.createComponent({
@@ -264,12 +253,12 @@ class CustomTabControl extends ThemedControl {
             owner: this,
             name: caption.firstCharUpper(),
             props: {
-                parentHTML: priv.tabsContainer,
+                parentHTML: this.#tabsContainer,
                 caption: caption
             },
             withTpl: !0
         });
-        this.tabs = [...this.tabs, tab];
+        this.#tabs = [...this.#tabs, tab];
         this.changeActiveTab(tab);
         this.checkViewBtns();
         this.change();
@@ -301,9 +290,8 @@ class CustomTabControl extends ThemedControl {
     //#region moveTab
     moveTab(fromIndex, toIndex) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const tabs = this.tabs;
-        const tabsContainer = priv.tabsContainer;
+        const tabs = this.#tabs;
+        const tabsContainer = this.#tabsContainer;
         //#endregion Variables déclaration
         if (fromIndex >= 0 && fromIndex <= tabs.length - 1 &&
             toIndex >= 0 && toIndex <= tabs.length - 1) {
@@ -313,7 +301,7 @@ class CustomTabControl extends ThemedControl {
             curTab.HTMLElement.remove();
             toIndex++;
             toIndex > tabs.length - 1
-                ? tabsContainer.insertBefore(curTab.HTMLElement, priv.tabContent)
+                ? tabsContainer.insertBefore(curTab.HTMLElement, this.#tabContent)
                 : tabsContainer.insertBefore(curTab.HTMLElement, this.getTab(toIndex).HTMLElement);
             this.change();
         }
@@ -322,7 +310,7 @@ class CustomTabControl extends ThemedControl {
     //#region findNextTab
     findNextTab(goForward, checkTabVisible) {
         //#region Variables déclaration
-        const tabs = this.tabs;
+        const tabs = this.#tabs;
         let startIndex = this.activeTabIndex;
         let result = null;
         //#endregion Variables déclaration
@@ -352,10 +340,9 @@ class CustomTabControl extends ThemedControl {
     //#region selectNextTab
     selectNextTab(goForward, checkTabVisible) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const tab = this.findNextTab(goForward, checkTabVisible);
         //#endregion Variables déclaration
-        if (tab && tab !== priv.activeTab && this.canChange) {
+        if (tab && tab !== this.#activeTab && this.canChange) {
             this.changeActiveTab(tab);
             this.change();
         }
@@ -369,17 +356,16 @@ class CustomTabControl extends ThemedControl {
     //#region getChildsHTMLElement
     getHTMLElement(id) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const tabs = this.tabs;
+        const tabs = this.#tabs;
         //#endregion Variables déclaration
         super.getHTMLElement(id);
         const htmlElement = this.HTMLElement;
         if (htmlElement) {
-            priv.tabsHeader = htmlElement.querySelector('.TabControlHeader');
-            priv.tabsContainer = htmlElement.querySelector('.TabsContainer');
-            priv.tabsContainer.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { this.wheel(event); });
-            priv.tabsContainer.jsObj = this;
-            const nodes = priv.tabsContainer.childNodes;
+            this.#tabsHeader = htmlElement.querySelector('.TabControlHeader');
+            this.#tabsContainer = htmlElement.querySelector('.TabsContainer');
+            this.#tabsContainer.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { this.wheel(event); });
+            this.#tabsContainer.jsObj = this;
+            const nodes = this.#tabsContainer.childNodes;
             nodes.forEach(node => {
                 if (node.nodeType === core.types.XMLNODETYPES.ELEMENT_NODE) {
                     let data = node.dataset.class;
@@ -395,9 +381,9 @@ class CustomTabControl extends ThemedControl {
                             withTpl: !1,
                             internalId: node.id
                         });
-                        node.jsObj = tab;
+                        //node.jsObj = tab;
                         tabs.push(tab);
-                        tab.name === priv.activeTab && (priv.activeTab = tab);
+                        tab.name === this.#activeTab && (this.#activeTab = tab);
                     }
                 }
             });
@@ -407,10 +393,9 @@ class CustomTabControl extends ThemedControl {
     //#region checkViewBtns
     checkViewBtns() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const tabsContainer = priv.tabsContainer;
-        const btnRight = priv.btnRight;
-        const btnLeft = priv.btnLeft;
+        const tabsContainer = this.#tabsContainer;
+        const btnRight = this.#btnRight;
+        const btnLeft = this.#btnLeft;
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         btnRight.enabled = (tabsContainer.scrollLeft < tabsContainer.scrollWidth - tabsContainer.offsetWidth);
@@ -452,8 +437,7 @@ class CustomTabControl extends ThemedControl {
     //#region scrollToTab
     scrollToTab(tab) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const tabsContainer = priv.tabsContainer;
+        const tabsContainer = this.#tabsContainer;
         const tw = tab.HTMLElement.offsetWidth;
         const tl = tab.HTMLElement.offsetLeft;
         const tcw = tabsContainer.offsetWidth;
@@ -470,29 +454,27 @@ class CustomTabControl extends ThemedControl {
     //#region checkLastVisibleTab
     checkLastVisibleTab() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const tabs = this.tabs;
+        const tabs = this.#tabs;
         let i = 0;
         const l = tabs.length;
-        const tabsContainer = priv.tabsContainer;
-        const btnLeft = priv.btnLeft;
+        const tabsContainer = this.#tabsContainer;
+        const btnLeft = this.#btnLeft;
         //#endregion Variables déclaration
-        priv.lastVisibleTab = -1;
-        for (i = priv.firstVisibleTab; i < l; i++) {
+        this.#lastVisibleTab = -1;
+        for (i = this.#firstVisibleTab; i < l; i++) {
             if (tabs[i].HTMLElement.offsetLeft + tabs[i].HTMLElement.offsetWidth + tabsContainer.offsetLeft > btnLeft.offsetLeft) {
-                priv.lastVisibleTab = i - 1;
+                this.#lastVisibleTab = i - 1;
                 break;
             }
         }
-        priv.lastVisibleTab === -1 && (priv.lastVisibleTab = tabs.length - 1);
+        this.#lastVisibleTab === -1 && (this.#lastVisibleTab = tabs.length - 1);
     }
     //#endregion checkLastVisibleTab
     //#region destroy
     destroy() {
-        this.tabs.destroy();
-        this.tabs.clear();
-        this.tabs = null;
-        delete this.tabs;
+        this.#tabs.destroy();
+        this.#tabs.clear();
+        this.#tabs = null;
         this.unBindAndDestroyEvents(['onChange']);
         super.destroy();
     }
@@ -500,11 +482,10 @@ class CustomTabControl extends ThemedControl {
     //#region keyDown
     keyDown() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const DIRECTIONS = core.types.DIRECTIONS;
         const VKEYSCODES = Keyboard.VKEYSCODES;
-        const activeTab = priv.activeTab;
-        const tabs = this.tabs;
+        const activeTab = this.#activeTab;
+        const tabs = this.#tabs;
         //#endregion Variables déclaration
         super.keyDown();
         switch (core.keyboard.key) {
@@ -513,14 +494,14 @@ class CustomTabControl extends ThemedControl {
                     return;
                 }
                 this.selectNextTab(!1, !0);
-                tabs.indexOf(activeTab) < priv.firstVisibleTab && this.updateTabs(DIRECTIONS.LEFT);
+                tabs.indexOf(activeTab) < this.#firstVisibleTab && this.updateTabs(DIRECTIONS.LEFT);
                 break;
             case VKEYSCODES.VK_RIGHT:
                 if (activeTab === tabs.last) {
                     return;
                 }
                 this.selectNextTab(!0, !0);
-                tabs.indexOf(activeTab) > priv.lastVisibleTab && this.updateTabs(DIRECTIONS.RIGHT);
+                tabs.indexOf(activeTab) > this.#lastVisibleTab && this.updateTabs(DIRECTIONS.RIGHT);
                 break;
         }
     }
@@ -528,8 +509,7 @@ class CustomTabControl extends ThemedControl {
     //#region getTabOrderList
     getTabOrderList(list, children) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const tabList = priv.tabContent.tabList;
+        const tabList = this.#tabContent.tabList;
         //#endregion Variables déclaration
         children && (children = !0);
         if (list && tabList) {
@@ -542,19 +522,15 @@ class CustomTabControl extends ThemedControl {
     //#endregion getTabOrderList
     //#region closeTab
     closeTab(tab) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         tab.onClose.invoke();
         tab.hide();
-        priv.tabs.remove(tab);
+        this.#tabs.remove(tab);
         tab.destroy();
     }
     //#endregion closeTab
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const DIRECTIONS = core.types.DIRECTIONS;
         let btnLeft, btnRight;
         //#endregion Variables déclaration
@@ -564,30 +540,31 @@ class CustomTabControl extends ThemedControl {
             owner: this,
             props: {
                 inForm: !1,
-                parentHTML: priv.tabsHeader,
+                parentHTML: this.#tabsHeader,
                 cssClasses: 'TabControlLeftBtn',
                 canFocused: !1,
                 caption: String.EMPTY
             }
         });
         btnLeft.direction = DIRECTIONS.LEFT;
-        btnLeft.tabsContainer = priv.tabsContainer;
+        btnLeft.tabsContainer = this.#tabsContainer;
         btnLeft.onClick.addListener(this.moveTabs);
         btnRight = core.classes.createComponent({
             class: core.classes.Button,
             owner: this,
             props: {
                 inForm: !1,
-                parentHTML: priv.tabsHeader,
+                parentHTML: this.#tabsHeader,
                 cssClasses: 'TabControlRightBtn',
                 canFocused: !1,
                 caption: String.EMPTY
             }
         });
         btnRight.direction = DIRECTIONS.RIGHT;
-        btnRight.tabsContainer = priv.tabsContainer;
+        btnRight.tabsContainer = this.#tabsContainer;
         btnRight.onClick.addListener(this.moveTabs);
-        core.private(this, { btnLeft, btnRight });
+        this.#btnLeft = btnLeft;
+        this.#btnRight = btnRight;;
         this.checkViewBtns();
         this.checkLastVisibleTab();
         this.checkTabsPosition();
@@ -615,6 +592,12 @@ Object.defineProperties(CustomTabControl.prototype, {
         enumerable: !0
     },
     'centerTabs': {
+        enumerable: !0
+    },
+    'tabStyle': {
+        enumerable: !0
+    },
+    'tabPosition': {
         enumerable: !0
     }
 });

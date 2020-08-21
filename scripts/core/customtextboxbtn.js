@@ -4,23 +4,27 @@ import { Button } from "/scripts/components/common/button.js";
 //#endregion Import
 //#region Class CustomButton
 class CustomTextBoxBtn extends CustomTextControl {
+    //#region Private fields
+    #btnClass;
+    #numBtns;
+    #autoHideButtons;
+    #btns = [];
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
-        if (!props) props = {};
-        if (!props.btns) props.btns = 1;
+        props = !props ? {} : props;
+        !props.btns && (props.btns = 1);
         if (owner) {
             super(owner, props);
             //#region Properties
             //#region Private Properties
-            core.private(this, {
-                btnClass: props.btnClass ? props.btnClass : Button,
-                numBtns: props.hasOwnProperty('numBtns') ? props.numBtns : 1,
-                autoHideButtons: props.hasOwnProperty('autoHideButtons') && core.tools.isBool(props.autoHideButtons)
-                    ? props.autoHideButtons : !1
-            });
+            this.#btnClass = props.btnClass ? props.btnClass : Button;
+            this.#numBtns = props.hasOwnProperty('numBtns') ? props.numBtns : 1;
+            this.#autoHideButtons = props.hasOwnProperty('autoHideButtons') && core.tools.isBool(props.autoHideButtons)
+                ? props.autoHideButtons : !1;
             //#endregion Private Properties
             //#region Public Properties
-            core.classes.newCollection(this, this, core.private(this).btnClass, 'btns');
+            this.#btns.convertToCollection(owner, this.#btnClass);
             //#endregion Public Properties
             //#endregion Properties
 
@@ -28,43 +32,39 @@ class CustomTextBoxBtn extends CustomTextControl {
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region btns
+    get btns() {
+        return this.#btns;
+    }
+    //#endregion btns
     //#region btnClass
     get btnClass() {
-        return core.private(this).btnClass;
+        return this.#btnClass;
     }
     set btnClass(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv.btnClass !== newValue
-            && (priv.btnClass = newValue);
+        core.tools.isNumber(newValue) && this.#btnClass !== newValue
+            && (this.#btnClass = newValue);
     }
     //#endregion btnClass
     //#region autoHideButtons
     get autoHideButtons() {
-        return core.private(this).autoHideButtons;
+        return this.#autoHideButtons;
     }
     set autoHideButtons(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.autoHideButtons !== newValue
-            && (priv.autoHideButtons = newValue);
+        core.tools.isBool(newValue) && this.#autoHideButtons !== newValue
+            && (this.#autoHideButtons = newValue);
     }
     //#endregion autoHideButtons
     //#endregion Getters / Setters
     //#region Methods
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
-        for (let i = 0; i < priv.numBtns; i++) {
+        for (let i = 0; i < this.#numBtns; i++) {
             const btn = core.classes.createComponent({
-                class: priv.btnClass,
+                class: this.#btnClass,
                 owner: this,
-                name: `${this.name}_btn${i+1}`,
+                name: `${this.name}_btn${i + 1}`,
                 props: {
                     inForm: !1,
                     caption: '…',
@@ -76,17 +76,17 @@ class CustomTextBoxBtn extends CustomTextControl {
             });
             btn.HTMLElement.classList.add('TextBoxBtnButton');
             //btn.HTMLElement.classList.remove('Control');
-            this.btns.add(btn);
+            this.#btns.add(btn);
         }
         this.update();
     }
     //#endregion loaded
     //#region destroy
     destroy() {
-        this.btns.forEach(btn => {
+        this.#btns.forEach(btn => {
             btn.destroy();
         });
-        this.btns.clear();
+        this.#btns.clear();
         super.destroy();
     }
     //#endregion destroy
@@ -99,11 +99,10 @@ class CustomTextBoxBtn extends CustomTextControl {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const visible = priv.autoHideButtons && this.text.length > 0;
+        const visible = this.#autoHideButtons && this.text.length > 0;
         //#endregion Variables déclaration
         super.update();
-        priv.autoHideButtons && this.btns.forEach(btn => {
+        this.#autoHideButtons && this.#btns.forEach(btn => {
             btn.visible = visible;
         });
     }

@@ -7,37 +7,35 @@ import { Interpolation } from '/scripts/core/interpolations.js';
 //#endregion Imports
 //#region GradientPoint
 class GradientPoint extends BaseClass {
+    //#region Private fields
+    #offset;
+    #color;
+    //#endregion Private fields
     //#region constructor
     constructor(offset, color) {
         super(offset, color);
         !core.tools.isNumber(offset) && (offset = 0);
         !(color instanceof core.classes.Color) && (color = Colors.BLACK);
-        core.private(this, {
-            offset,
-            color
-        });
+        this.#offset = offset;
+        this.#color = color;
     }
     //#endregion constructor
     //#region Getter / Setter
     //#region offset
     get offset() {
-        return core.private(this).offset;
+        return this.#offset;
     }
     set offset(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv.offset !== newValue && (priv.offset = newValue);
+        core.tools.isNumber(newValue) && this.#offset !== newValue && (this.#offset = newValue);
     }
     //#endregion offset
     //#region color
     get color() {
-        return core.private(this).color;
+        return this.#color;
     }
     set color(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const color = priv.color;
+        const color = this.#color;
         //#endregion Variables déclaration
         newValue instanceof core.classes.Color && color.equals(newValue) && (color.assign(newValue));
     }
@@ -46,10 +44,7 @@ class GradientPoint extends BaseClass {
     //#region Methods
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.color.destroy();
+        this.#color.destroy();
         super.destroy();
     }
     //#endregion destroy
@@ -67,34 +62,36 @@ Object.defineProperties(GradientPoint.prototype, {
 // TODO : support of databinding
 //#region Gradient
 class Gradient extends BaseClass {
+    //#region Private fields
+    #startPosition;
+    #stopPosition;
+    #style;
+    #items = [];
+    //#endregion Private fields
     //#region constructor
     constructor(owner) {
         super(owner);
-        core.private(this, {
-            startPosition: new core.classes.Position(null, owner),
-            stopPosition: new core.classes.Position(new core.classes.Point(0, 1), owner),
-            style: core.types.GRADIENTSTYLES.LINEAR
-        });
+        this.#startPosition = new core.classes.Position(null, owner);
+        this.#stopPosition = new core.classes.Position(new core.classes.Point(0, 1), owner);
+        this.#style = core.types.GRADIENTSTYLES.LINEAR;
         if (owner) {
-            core.classes.newCollection(this, owner, GradientPoint);
-            const items = this.items;
-            items.push(new core.classes.GradientPoint(0, Colors.BLACK));
-            items.push(new core.classes.GradientPoint(1, Colors.WHITE));
+            this.#items.convertToCollection(owner, GradientPoint);
+            this.#items.push(new core.classes.GradientPoint(0, Colors.BLACK));
+            this.#items.push(new core.classes.GradientPoint(1, Colors.WHITE));
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region startPosition
     get startPosition() {
-        return core.private(this).startPosition;
+        return this.#startPosition;
     }
     set startPosition(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const owner = priv.owner;
+        const owner = this.owner;
         //#endregion Variables déclaration
-        if (newValue instanceof core.classes.Position && !newValue.equals(priv.startPosition)) {
-            priv.startPosition.assign(newValue);
+        if (newValue instanceof core.classes.Position && !newValue.equals(this.#startPosition)) {
+            this.#startPosition.assign(newValue);
             if (owner.allowUpdate) {
                 owner.form.updateRects.push(owner.getClipParentRect());
                 owner.update();
@@ -105,13 +102,12 @@ class Gradient extends BaseClass {
     //#endregion startPosition
     //#region stopPosition
     get stopPosition() {
-        return core.private(this).stopPosition;
+        return this.#stopPosition;
     }
     set stopPosition(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const stopPosition = priv.stopPosition;
-        const owner = priv.owner;
+        const stopPosition = this.#stopPosition;
+        const owner = this.owner;
         //#endregion Variables déclaration
         if (newValue instanceof core.classes.Position && !newValue.equals(stopPosition)) {
             stopPosition.assign(newValue);
@@ -125,16 +121,15 @@ class Gradient extends BaseClass {
     //#endregion stopPosition
     //#region style
     get style() {
-        return core.private(this).style;
+        return this.#style;
     }
     set style(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const style = priv.style;
-        const owner = priv.owner;
+        const style = this.#style;
+        const owner = this.owner;
         //#endregion Variables déclaration
         if (core.tools.valueInSet(newValue, Gradientstyles) && newValue !== style) {
-            priv.style = newValue;
+            this.#style = newValue;
             if (owner.allowUpdate) {
                 owner.form.updateRects.push(owner.getClipParentRect());
                 owner.update();
@@ -148,13 +143,12 @@ class Gradient extends BaseClass {
     //#region assign
     assign(source) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const items = this.items;
+        const items = this.#items;
         //#endregion Variables déclaration
         if (source instanceof core.classes.Gradient) {
-            priv.startPosition.assign(source.startPosition);
-            priv.stopPosition.assign(source.stopPosition);
-            priv.style = source.style;
+            this.#startPosition.assign(source.startPosition);
+            this.#stopPosition.assign(source.stopPosition);
+            this.#style = source.style;
             items.length = 0;
             source.items.forEach(item => {
                 items.push(new core.classes.GradientPoint(item.offset, item.color));
@@ -175,7 +169,7 @@ class Gradient extends BaseClass {
     //#region interpolateColor
     interpolateColor(offset) {
         //#region Variables déclaration
-        const items = this.items;
+        const items = this.#items;
         //#endregion Variables déclaration
         if (core.tools.isNumber(offset)) {
             const result = Colors.TRANSPARENT.clone();
@@ -214,14 +208,10 @@ class Gradient extends BaseClass {
     //#endregion interpolateColor
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.startPosition.destroy();
-        priv.stopPosition.destroy();
-        this.items.destroy();
-        this.items = null;
-        delete this.items;
+        this.#startPosition.destroy();
+        this.#stopPosition.destroy();
+        this.#items.destroy();
+        this.#items = null;
         super.destroy();
     }
     //#endregion destroy

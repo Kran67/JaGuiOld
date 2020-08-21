@@ -6,6 +6,30 @@ import * as Canvas from '/scripts/core/canvas.js';
 // TODO : support of databinding
 //#region Font
 class Font extends BaseClass {
+    //#region Private fields
+    #underline = !1;
+    #strikeout = !1;
+    #size = 10;
+    #sizeUnit = core.types.CSSUNITS.PT;
+    #family = 'Tahoma';
+    #style = core.types.FONTSTYLES.NORMAL;
+    #string = String.EMPTY;
+    #height = 0;
+    #owner;
+    #brush;
+    //#endregion Private fields
+    //#region constructor
+    constructor(owner) {
+        super(owner);
+        this.#owner = owner;
+        this.#brush = new core.classes.Brush(core.types.BRUSHSTYLES.NONE, Colors.TRANSPARENT, owner);
+        if (owner) {
+            this.onChange = new core.classes.NotifyEvent(owner);
+            this.stringify();
+        }
+    }
+    //#endregion
+    //#region Getters / Setters
     //#region statics
     //#region getTextHeight
     static getTextHeight(text, font) {
@@ -30,38 +54,13 @@ class Font extends BaseClass {
     }
     //#endregion getCharWidth
     //#endregion
-    //#region constructor
-    constructor(owner) {
-        super(owner);
-        core.private(this, {
-            underline: !1,
-            strikeout: !1,
-            size: 10,
-            sizeUnit: core.types.CSSUNITS.PT,
-            family: 'Tahoma',
-            style: core.types.FONTSTYLES.NORMAL,
-            string: String.EMPTY,
-            height: 0,
-            owner,
-            brush: new core.classes.Brush(core.types.BRUSHSTYLES.NONE, Colors.TRANSPARENT, owner)
-        });
-        if (owner) {
-            this.onChange = new core.classes.NotifyEvent(owner);
-            this.stringify();
-        }
-    }
-    //#endregion
-    //#region Getters / Setters
     //#region underline
     get underline() {
-        return core.private(this).underline;
+        return this.#underline;
     }
     set underline(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && newValue !== priv.underline) {
-            priv.underline = newValue;
+        if (core.tools.isBool(newValue) && newValue !== this.#underline) {
+            this.#underline = newValue;
             core.isHTMLRenderer && this.stringify();
             this.onChange.invoke();
         }
@@ -69,28 +68,22 @@ class Font extends BaseClass {
     //#endregion underline
     //#region strikeout
     get strikeout() {
-        return core.private(this).strikeout;
+        return this.#strikeout;
     }
     set strikeout(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && newValue !== priv.strikeout) {
-            priv.strikeout = newValue;
+        if (core.tools.isBool(newValue) && newValue !== this.#strikeout) {
+            this.#strikeout = newValue;
             core.isHTMLRenderer && this.stringify();
         }
     }
     //#endregion strikeout
     //#region size
     get size() {
-        return core.private(this).size;
+        return this.#size;
     }
     set size(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv.size) {
-            priv.size = newValue;
+        if (core.tools.isNumber(newValue) && newValue !== this.#size) {
+            this.#size = newValue;
             core.isHTMLRenderer && this.stringify();
             this.onChange.invoke();
         }
@@ -98,28 +91,22 @@ class Font extends BaseClass {
     //#endregion size
     //#region sizeUnit
     get sizeUnit() {
-        return core.private(this).sizeUnit;
+        return this.#sizeUnit;
     }
     set sizeUnit(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, core.types.CSSUNITS) && newValue !== priv.sizeUnit) {
-            priv.sizeUnit = newValue;
+        if (core.tools.valueInSet(newValue, core.types.CSSUNITS) && newValue !== this.#sizeUnit) {
+            this.#sizeUnit = newValue;
             this.onChange.invoke();
         }
     }
     //#endregion sizeUnit
     //#region family
     get family() {
-        return core.private(this).family;
+        return this.#family;
     }
     set family(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && newValue !== priv.family) {
-            priv.family = newValue;
+        if (core.tools.isString(newValue) && newValue !== this.#family) {
+            this.#family = newValue;
             core.isHTMLRenderer && this.stringify();
             this.onChange.invoke();
         }
@@ -127,68 +114,56 @@ class Font extends BaseClass {
     //#endregion family
     //#region style
     get style() {
-        return core.private(this).style;
+        return this.#style;
     }
     set style(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, core.types.BRUSHSTYLES) && newValue !== priv.style) {
-            priv.style = newValue;
+        if (core.tools.valueInSet(newValue, core.types.BRUSHSTYLES) && newValue !== this.#style) {
+            this.#style = newValue;
             core.isHTMLRenderer && this.stringify();
             this.onChange.invoke();
-            if (priv.owner.allowUpdate) {
-                priv.owner.form.addControlToRedraw(priv.owner);
+            if (this.#owner.allowUpdate) {
+                this.#owner.form.addControlToRedraw(this.#owner);
             }
         }
     }
     //#endregion style
     //#region string
     get string() {
-        return core.private(this).string;
+        return this.#string;
     }
     set string(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv.string !== newValue
-            && (priv.string = newValue);
+        core.tools.isString(newValue) && this.#string !== newValue
+            && (this.#string = newValue);
     }
     //#endregion string
     //#region height
     get height() {
-        return core.private(this).height;
+        return this.#height;
     }
     set height(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv.height !== newValue
-            && (priv.height = newValue);
+        core.tools.isNumber(newValue) && this.#height !== newValue
+            && (this.#height = newValue);
     }
     //#endregion height
     //#region owner
     get owner() {
-        return core.private(this).owner;
+        return this.#owner;
     }
     //#endregion owner
     //#region brush
     get brush() {
-        return core.private(this).brush;
+        return this.#brush;
     }
     //#endregion brush
     //#region isEmpty
     get isEmpty() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return priv.underline === !1 &&
-            priv.strikeout === !1 &&
-            priv.size === 10 &&
-            priv.family === 'Tahoma' &&
-            priv.style === core.types.FONTSTYLES.NORMAL &&
-            priv.brush.style === core.types.BRUSHSTYLES.NONE &&
-            priv.brush.color.equals(Colors.TRANSPARENT);
+        return this.#underline === !1 &&
+            this.#strikeout === !1 &&
+            this.#size === 10 &&
+            this.#family === 'Tahoma' &&
+            this.#style === core.types.FONTSTYLES.NORMAL &&
+            this.#brush.style === core.types.BRUSHSTYLES.NONE &&
+            this.#brush.color.equals(Colors.TRANSPARENT);
     }
     //#endregion isEmpty
     //#endregion Getters / Setters
@@ -196,7 +171,6 @@ class Font extends BaseClass {
     //#region stringify
     stringify() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const FONTSTYLES = core.types.FONTSTYLES;
         const style = this.style;
         let str = String.Empty;
@@ -205,9 +179,9 @@ class Font extends BaseClass {
         //#endregion Variables déclaration
         style === FONTSTYLES.BOLD && (str += ' bold');
         style === FONTSTYLES.ITALIC && (str += ' italic');
-        str += String.SPACE + size + priv.sizeUnit + String.SPACE + family;
+        str += String.SPACE + size + this.#sizeUnit + String.SPACE + family;
         str.trim();
-        priv.height = Font.getTextHeight('°_', this);
+        this.#height = Font.getTextHeight('°_', this);
         if (!Font.fontsInfos[family]) {
             Font.fontsInfos[family] = {};
             Font.fontsInfos[family].sizes = {};
@@ -217,7 +191,7 @@ class Font extends BaseClass {
                 !Font.fontsInfos[family].sizes[size].chars.A && this.generateChars();
             }
         }
-        priv.string = str;
+        this.#string = str;
     }
     //#endregion stringify
     //#region toCss
@@ -225,19 +199,18 @@ class Font extends BaseClass {
         //#region Variables déclaration
         const FONTSTYLES = core.types.FONTSTYLES;
         const _style = this.style;
-        const priv = core.private(this);
         //#endregion Variables déclaration
         if (object instanceof HTMLElement) {
             const style = object.style;
-            style.fontFamily = priv.family;
-            style.fontSize = `${priv.size}${priv.sizeUnit}`;
+            style.fontFamily = this.#family;
+            style.fontSize = `${this.#size}${this.#sizeUnit}`;
             style.fontWeight = String.EMPTY;
             style.fontStyle = String.EMPTY;
             style.textDecoration = String.EMPTY;
             _style === FONTSTYLES.BOLD && (style.fontWeight = 'bold');
             _style === FONTSTYLES.ITALIC && (style.fontStyle = 'italic');
-            priv.underline && (style.textDecoration = 'underline');
-            if (priv.strikeout) {
+            this.#underline && (style.textDecoration = 'underline');
+            if (this.#strikeout) {
                 !String.isNullOrEmpty(style.textDecoration) && (style.textDecoration += ',');
                 style.textDecoration += 'line-through';
             }
@@ -250,14 +223,13 @@ class Font extends BaseClass {
         const style = this.style;
         let str = String.EMPTY;
         const FONTSTYLES = core.types.FONTSTYLES;
-        const priv = core.private(this);
         //#endregion Variables déclaration
-        str += `${priv.size}${priv.sizeUnit}`;
-        str += ` "${priv.family}"`;
+        str += `${this.#size}${this.#sizeUnit}`;
+        str += ` "${this.#family}"`;
         style === FONTSTYLES.BOLD && (str += ' bold');
         style === FONTSTYLES.ITALIC && (str += ' italic');
-        priv.underline && (str += ' underline');
-        priv.strikeout && (str += ' line-through');
+        this.#underline && (str += ' underline');
+        this.#strikeout && (str += ' line-through');
         str += ';';
         return str;
     }
@@ -298,7 +270,7 @@ class Font extends BaseClass {
                 } else if (s.includes('italic')) {
                     core.tools.include(this, 'style', FONTSTYLES.ITALIC);
                 } else {
-                    priv.family = s.replace(/"/g, String.EMPTY);
+                    this.#family = s.replace(/"/g, String.EMPTY);
                 }
             });
             !core.isHTMLRenderer && this.stringify();
@@ -308,61 +280,50 @@ class Font extends BaseClass {
     //#region assign
     assign(source) {
         if (source instanceof core.classes.Font) {
-            const priv = core.private(this, {
-                family: source.family,
-                size: source.size,
-                strikeout: source.strikeout,
-                style: source.style,
-                underline: source.underline,
-                sizeUnit: source.sizeUnit,
-                string: source.string
-            });
-            priv.brush.assign(source.brush);
+            this.#family = source.family;
+            this.#size = source.size;
+            this.#strikeout = source.strikeout;
+            this.#style = source.style;
+            this.#underline = source.underline;
+            this.#sizeUnit = source.sizeUnit;
+            this.#string = source.string;
+            this.#brush.assign(source.brush);
             this.onChange.invoke();
         }
     }
     //#endregion assign
     //#region equals
     equals(font) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return font.size === priv.size &&
-            font.family === priv.family &&
-            font.style === priv.style &&
-            font.underline === priv.underline &&
-            font.strikeout === priv.strikeout &&
-            font.sizeUnit === priv.sizeUnit;
+        return font.size === this.#size &&
+            font.family === this.#family &&
+            font.style === this.#style &&
+            font.underline === this.#underline &&
+            font.strikeout === this.#strikeout &&
+            font.sizeUnit === this.#sizeUnit;
     }
     //#endregion equals
     //#region reset
     reset() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.private(this, {
-            underline: !1,
-            strikeout: !1,
-            size: 10,
-            sizeUnit: core.types.CSSUNITS.PT,
-            family: 'Tahoma',
-            style: core.types.FONTSTYLES.NORMAL,
-            height: 0
-        });
-        priv.brush.clear();
+        this.#underline = !1;
+        this.#strikeout = !1;
+        this.#size = 10;
+        this.#sizeUnit = core.types.CSSUNITS.PT;
+        this.#family = 'Tahoma';
+        this.#style = core.types.FONTSTYLES.NORMAL;
+        this.#height = 0;
+        this.#brush.clear();
         this.stringify();
     }
     //#endregion reset
     //#region generateChars
     generateChars() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const canvas = Canvas.newCanvas();
         const ctx = canvas.getContext('2d');
-        const family = priv.family;
-        const size = priv.size;
+        const family = this.#family;
+        const size = this.#size;
         //#endregion Variables déclaration
-        ctx.font = priv.string;
+        ctx.font = this.#string;
         Font.fontsInfos[family].sizes[size].chars[String.SPACE] = ctx.measureText(String.SPACE).width;
         for (let i = 32; i < 255; i++) {
             Font.fontsInfos[family].sizes[size].chars[i] = ctx.measureText(String.fromCharCode(i)).width;
@@ -371,13 +332,10 @@ class Font extends BaseClass {
     //#endregion generateChars
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         this.onChange.destroy();
         this.onChange = null;
         delete this.onChange;
-        priv.brush.destroy();
+        this.#brush.destroy();
         super.destroy();
     }
     //#endregion destroy

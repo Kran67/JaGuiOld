@@ -6,61 +6,52 @@ import { BaseClass } from '/scripts/core/baseclass.js';
 // TODO : support of databinding
 //#region Position
 class Position extends BaseClass {
+    //#region Private fields
+    #x;
+    #y;
+    #owner;
+    //#endregion Private fields
     //#region constructor
     constructor(point, owner) {
         super(point, owner);
         !(point instanceof core.classes.Point) && (point = new core.classes.Point);
-        core.private(this, {
-            x: point.x,
-            y: point.y,
-            owner
-        });
+        this.#x = point.x;
+        this.#y = point.y;
+        this.#owner = owner;
         this.onChange = new core.classes.NotifyEvent(owner);
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region x
     get x() {
-        return core.private(this).x;
+        return this.#x;
     }
     set x(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv.x) {
-            priv.x = newValue;
+        if (core.tools.isNumber(newValue) && newValue !== this.#x) {
+            this.#x = newValue;
             this.onChange.invoke();
         }
     }
     //#endregion x
     //#region y
     get y() {
-        return core.private(this).y;
+        return this.#y;
     }
     set y(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv.y) {
-            priv.y = newValue;
+        if (core.tools.isNumber(newValue) && newValue !== this.#y) {
+            this.#y = newValue;
             this.onChange.invoke();
         }
     }
     //#endregion y
     //#region isEmpty
     get isEmpty() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return priv.x === 0 && priv.y === 0;
+        return this.#x === 0 && this.#y === 0;
     }
     //#endregion isEmpty
     //#region point
     get point() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return new core.classes.Point(priv.x, priv.y);
+        return new core.classes.Point(this.#x, this.#y);
     }
     //#endregion point
     //#region properties
@@ -95,10 +86,7 @@ class Position extends BaseClass {
     //#endregion destroy
     //#region equals
     equals(position) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return priv.x === position.x && priv.y === position.y;
+        return this.#x === position.x && this.#y === position.y;
     }
     //#endregion equals
     //#endregion Methods

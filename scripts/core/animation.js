@@ -15,6 +15,31 @@ const ANIMATIONTYPES = Object.freeze(Object.seal({
     OUT: 'out'
 }));
 class Animation extends Component {
+    //#region Private fields
+    #delayTime = 0;
+    #time = 0;
+    #initialValue = 0;
+    #pause = !1;
+    #animationType = ANIMATIONTYPES.IN;
+    #autoReverse = !1;
+    #enabled = !0;
+    #delay = 0;
+    #duration = 0.2;
+    #interpolation = Interpolation.INTERPOLATIONTYPES.LINEAR;
+    #inverse = !1;
+    #hideOnFinish = !1;
+    #loop = !1;
+    #trigger = String.EMPTY;
+    #triggerInverse = String.EMPTY;
+    #propertyName = String.EMPTY;
+    #control = null;
+    #startFromCurrent = !1;
+    #startValue = null;
+    #stopValue = null;
+    #autoStart = !1;
+    #running = !1;
+    #convertToCSS = core.isHTMLRenderer;
+    //#endregion Private fields
     /**
      * Create a new instance of Animation.
      * @param   {Object}    owner       Owner of the Animation.
@@ -24,82 +49,59 @@ class Animation extends Component {
     constructor(owner, props, autoStart) {
         props = !props ? {} : props;
         super(owner, props);
-        core.private(this, {
-            delayTime: 0,
-            time: 0,
-            initialValue: 0,
-            pause: !1,
-            animationType: ANIMATIONTYPES.IN,
-            autoReverse: !1,
-            enabled: !0,
-            delay: 0,
-            duration: 0.2,
-            interpolation: Interpolation.INTERPOLATIONTYPES.LINEAR,
-            inverse: !1,
-            hideOnFinish: !1,
-            loop: !1,
-            trigger: String.EMPTY,
-            triggerInverse: String.EMPTY,
-            propertyName: String.EMPTY,
-            control: null,
-            startFromCurrent: !1,
-            startValue: null,
-            stopValue: null,
-            autoStart: autoStart ? !0 : !1,
-            running: !1,
-            convertToCSS: core.isHTMLRenderer
-        });
+        this.#autoStart = autoStart ? !0 : !1;
         this.createEventsAndBind(['onProcess', 'onFinish'], props);
     }
     //#region Getters / Setters
     //#region delayTime
     get delayTime() {
-        return core.private(this).delayTime;
+        return this.#delayTime;
     }
     set delayTime(newValue) {
-        core.private(this).delayTime = newValue;
+        this.#delayTime = newValue;
     }
     //#endregion delayTime
     //#region time
     get time() {
-        return core.private(this).time;
+        return this.#time;
     }
     set time(newValue) {
-        core.private(this).time = newValue;
+        this.#time = newValue;
     }
     //#endregion time
     //#region initialValue
     get initialValue() {
-        return core.private(this).initialValue;
+        return this.#initialValue;
     }
     set initialValue(newValue) {
-        core.private(this).initialValue = newValue;
+        this.#initialValue = newValue;
     }
     //#endregion initialValue
     //#region pause
     get pause() {
-        return core.private(this).pause;
+        return this.#pause;
     }
     set pause(newValue) {
-        const priv = core.private(this);
-        let pause = priv.pause;
+        //#region Variables déclaration
+        let pause = this.#pause;
         const jsCssProperties = core.types.JSCSSPROPERTIES;
-        const owner = priv.owner;
-        const form = priv.form;
+        const owner = this.owner;
+        const form = this.form;
+        //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && newValue !== pause) {
-            pause = priv.pause = newValue;
+            pause = this.#pause = newValue;
             if (pause) {
-                if (priv.running) {
+                if (this.#running) {
                     if (!core.isHTMLRenderer || owner.HTMLElement === core.types.HTMLELEMENTS.CANVAS) {
                         this.stopAtCurrent();
-                    } else if (!priv.loading && !form.loading) {
+                    } else if (!this.loading && !form.loading) {
                         core.isHTMLRenderer && Css.updateInlineCSS(this, jsCssProperties.ANIMATIONSTATE);
                     }
                 }
                 else {
                     this.stop();
                 }
-            } else if (!priv.loading && !form.loading && core.isHTMLRenderer) {
+            } else if (!this.loading && !form.loading && core.isHTMLRenderer) {
                 Css.updateInlineCSS(owner, jsCssProperties.ANIMATIONSTATE, String.EMPTY);
             }
         }
@@ -107,200 +109,183 @@ class Animation extends Component {
     //#endregion pause
     //#region animationType
     get animationType() {
-        return core.private(this).animationType;
+        return this.#animationType;
     }
     set animationType(newValue) {
-        const priv = core.private(this);
-        core.tools.valueInSet(newValue, Animation.ANIMATIONTYPES) && newValue !== priv.animationType
-            && (priv.animationType = newValue);
+        core.tools.valueInSet(newValue, Animation.ANIMATIONTYPES) && newValue !== this.#animationType
+            && (this.#animationType = newValue);
     }
     //#endregion animationType
     //#region autoReverse
     get autoReverse() {
-        return core.private(this).autoReverse;
+        return this.#autoReverse;
     }
     set autoReverse(newValue) {
-        const priv = core.private(this);
-        core.tools.isBool(newValue) && newValue !== priv.autoReverse
-            && (priv.autoReverse = newValue);
+        core.tools.isBool(newValue) && newValue !== this.#autoReverse
+            && (this.#autoReverse = newValue);
     }
     //#endregion autoReverse
     //#region enabled
     get enabled() {
-        return core.private(this).enabled;
+        return this.#enabled;
     }
     set enabled(newValue) {
-        const priv = core.private(this);
-        let enabled = priv.enabled;
+        //#region Variables déclaration
+        let enabled = this.#enabled;
+        //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && newValue !== enabled) {
-            enabled = priv.enabled = newValue;
+            enabled = this.#enabled = newValue;
             enabled ? this.start() : this.stop();
         }
     }
     //#endregion enabled
     //#region delay
     get delay() {
-        return core.private(this).delay;
+        return this.#delay;
     }
     set delay(newValue) {
-        const priv = core.private(this);
-        core.tools.isNumber(newValue) && newValue !== priv.delay
-            && (priv.delay = newValue);
+        core.tools.isNumber(newValue) && newValue !== this.#delay
+            && (this.#delay = newValue);
     }
     //#endregion delay
     //#region duration
     get duration() {
-        return core.private(this).duration;
+        return this.#duration;
     }
     set duration(newValue) {
-        const priv = core.private(this);
-        core.tools.isNumber(newValue) && newValue !== priv.duration
-            && (priv.duration = newValue);
+        core.tools.isNumber(newValue) && newValue !== this.#duration
+            && (this.#duration = newValue);
     }
     //#endregion duration
     //#region interpolation
     get interpolation() {
-        return core.private(this).interpolation;
+        return this.#interpolation;
     }
     set interpolation(newValue) {
-        const priv = core.private(this);
-        core.tools.valueInSet(newValue, Interpolation.INTERPOLATIONTYPES) && newValue !== priv.interpolation
-            && (priv.interpolation = newValue);
+        core.tools.valueInSet(newValue, Interpolation.INTERPOLATIONTYPES) && newValue !== this.#interpolation
+            && (this.#interpolation = newValue);
     }
     //#endregion interpolation
     //#region inverse
     get inverse() {
-        return core.private(this).inverse;
+        return this.#inverse;
     }
     set inverse(newValue) {
-        const priv = core.private(this);
-        core.tools.isBool(newValue) && newValue !== priv.inverse
-            && (priv.inverse = newValue);
+        core.tools.isBool(newValue) && newValue !== this.#inverse
+            && (this.#inverse = newValue);
     }
     //#endregion inverse
     //#region hideOnFinish
     get hideOnFinish() {
-        return core.private(this).hideOnFinish;
+        return this.#hideOnFinish;
     }
     set hideOnFinish(newValue) {
-        const priv = core.private(this);
-        core.tools.isBool(newValue) && newValue !== priv.hideOnFinish
-            && (priv.hideOnFinish = newValue);
+        core.tools.isBool(newValue) && newValue !== this.#hideOnFinish
+            && (this.#hideOnFinish = newValue);
     }
     //#endregion hideOnFinish
     //#region loop
     get loop() {
-        return core.private(this).loop;
+        return this.#loop;
     }
     set loop(newValue) {
-        const priv = core.private(this);
-        core.tools.isBool(newValue) && newValue !== priv.loop
-            && (priv.loop = newValue);
+        core.tools.isBool(newValue) && newValue !== this.#loop
+            && (this.#loop = newValue);
     }
     //#endregion loop
     //#region trigger
     get trigger() {
-        return core.private(this).trigger;
+        return this.#trigger;
     }
     set trigger(newValue) {
-        const priv = core.private(this);
-        core.tools.isString(newValue) && newValue !== priv.trigger
-            && (priv.trigger = newValue);
+        core.tools.isString(newValue) && newValue !== this.#trigger
+            && (this.#trigger = newValue);
     }
     //#endregion trigger
     //#region triggerInverse
     get triggerInverse() {
-        return core.private(this).triggerInverse;
+        return this.#triggerInverse;
     }
     set triggerInverse(newValue) {
-        const priv = core.private(this);
-        core.tools.isBool(newValue) && newValue !== priv.triggerInverse
-            && (priv.triggerInverse = newValue);
+        core.tools.isBool(newValue) && newValue !== this.#triggerInverse
+            && (this.#triggerInverse = newValue);
     }
     //#endregion triggerInverse
     //#region propertyName
     get propertyName() {
-        return core.private(this).propertyName;
+        return this.#propertyName;
     }
     set propertyName(newValue) {
-        const priv = core.private(this);
-        if (core.tools.isString(newValue) && newValue !== priv.propertyName) {
-            priv.propertyName = newValue;
+        if (core.tools.isString(newValue) && newValue !== this.#propertyName) {
+            this.#propertyName = newValue;
             this.updateCSS();
         }
     }
     //#endregion propertyName
     //#region control
     get control() {
-        return core.private(this).control;
+        return this.#control;
     }
     set control(newValue) {
-        const priv = core.private(this);
-        if (newValue instanceof core.classes.Control && priv.control !== newValue) {
+        if (newValue instanceof core.classes.Control && this.#control !== newValue) {
             this.stop();
-            priv.control = newValue;
-            priv.autoStart && this.start();
+            this.#control = newValue;
+            this.#autoStart && this.start();
         }
     }
     //#endregion control
     //#region startFromCurrent
     get startFromCurrent() {
-        return core.private(this).startFromCurrent;
+        return this.#startFromCurrent;
     }
     set startFromCurrent(newValue) {
-        const priv = core.private(this);
-        core.tools.isBool(newValue) && newValue !== priv.startFromCurrent
-            && (priv.startFromCurrent = newValue);
+        core.tools.isBool(newValue) && newValue !== this.#startFromCurrent
+            && (this.#startFromCurrent = newValue);
     }
     //#endregion startFromCurrent
     //#region startValue
     get startValue() {
-        return core.private(this).startValue;
+        return this.#startValue;
     }
     set startValue(newValue) {
-        const priv = core.private(this);
-        typeof priv.startValue === typeof newValue && newValue !== priv.startValue
-            && (priv.startValue = newValue);
+        typeof this.#startValue === typeof newValue && newValue !== this.#startValue
+            && (this.#startValue = newValue);
     }
     //#endregion startValue
     //#region stopValue
     get stopValue() {
-        return core.private(this).stopValue;
+        return this.#stopValue;
     }
     set stopValue(newValue) {
-        const priv = core.private(this);
-        typeof priv.stopValue === typeof newValue && newValue !== priv.stopValue
-            && (priv.stopValue = newValue);
+        typeof this.#stopValue === typeof newValue && newValue !== this.#stopValue
+            && (this.#stopValue = newValue);
     }
     //#endregion stopValue
     //#region autoStart
     get autoStart() {
-        return core.private(this).autoStart;
+        return this.#autoStart;
     }
     set autoStart(newValue) {
-        const priv = core.private(this);
-        core.tools.isBool(newValue) && newValue !== priv.autoStart
-            && (priv.autoStart = newValue);
+        core.tools.isBool(newValue) && newValue !== this.#autoStart
+            && (this.#autoStart = newValue);
     }
     //#endregion autoStart
     //#region running
     get running() {
-        return core.private(this).running;
+        return this.#running;
     }
     set running(newValue) {
-        const priv = core.private(this);
-        core.tools.isBool(newValue) && newValue !== priv.running
-            && (priv.running = newValue);
+        core.tools.isBool(newValue) && newValue !== this.#running
+            && (this.#running = newValue);
     }
     //#endregion running
     //#region convertToCSS
     get convertToCSS() {
-        return core.private(this).convertToCSS;
+        return this.#convertToCSS;
     }
     set convertToCSS(newValue) {
-        const priv = core.private(this);
-        core.tools.isBool(newValue) && newValue !== priv.convertToCSS
-            && (priv.convertToCSS = newValue);
+        core.tools.isBool(newValue) && newValue !== this.#convertToCSS
+            && (this.#convertToCSS = newValue);
     }
     //#endregion convertToCSS
     //#region ANIMATIONTYPES
@@ -314,37 +299,38 @@ class Animation extends Component {
      * Start the animation
      */
     start() {
+        //#region Variables déclaration
         const inverse = this.inverse;
-        const priv = core.private(this);
+        //#endregion Variables déclaration
         if (this.control) {
             if (!this.convertToCSS /*|| this instanceof core.classes.PathAnimation*/ || this.owner.HTMLElement === core.types.HTMLELEMENTS.CANVAS) {
-                core.disableAnimation && (priv.duration = 0.001);
-                if (Math.abs(priv.duration) < 0.001) {
-                    priv.delayTime = 0;
+                core.disableAnimation && (this.#duration = 0.001);
+                if (Math.abs(this.#duration) < 0.001) {
+                    this.#delayTime = 0;
                     if (inverse) {
-                        priv.time = 0;
-                        priv.duration = 1;
+                        this.#time = 0;
+                        this.#duration = 1;
                     } else {
-                        priv.time = 1;
-                        priv.duration = 1;
+                        this.#time = 1;
+                        this.#duration = 1;
                     }
-                    priv.running = !0;
+                    this.#running = !0;
                     this.processAnimation();
-                    priv.running = !1;
-                    priv.time = 0;
-                    priv.duration = 0.00001;
+                    this.#running = !1;
+                    this.#time = 0;
+                    this.#duration = 0.00001;
                     this.onFinish.invoke();
-                    priv.enabled = !1;
+                    this.#enabled = !1;
                 } else {
-                    priv.delayTime = priv.delay;
-                    priv.running = !0;
-                    priv.time = inverse ? priv.duration : 0;
-                    priv.delay === 0 && this.processAnimation();
-                    priv.enabled = !0;
+                    this.#delayTime = this.#delay;
+                    this.#running = !0;
+                    this.#time = inverse ? this.#duration : 0;
+                    this.#delay === 0 && this.processAnimation();
+                    this.#enabled = !0;
                 }
                 core.looper.addListener(this, 'animate');
             } else {
-                priv.running = !0;
+                this.#running = !0;
                 core.isHTMLRenderer && Css.updateInlineCSS(this, core.types.JSCSSPROPERTIES.ANIMATION);
             }
         }
@@ -353,15 +339,16 @@ class Animation extends Component {
      * Stop the animation
      */
     stop() {
-        const priv = core.private(this);
+        //#region Variables déclaration
         const htmlElements = core.types.HTMLELEMENTS;
         const htmlElement = this.control ? this.control.HTMLElement : null;
+        //#endregion Variables déclaration
         if (!this.convertToCSS || htmlElement === htmlElements.CANVAS) {
-            priv.time = priv.inverse ? 0 : priv.duration;
+            this.#time = this.#inverse ? 0 : this.#duration;
             this.processAnimation();
         }
-        priv.running = !1;
-        priv.enabled = !1;
+        this.#running = !1;
+        this.#enabled = !1;
         this.onFinish.invoke();
         !this.convertToCSS || htmlElement === htmlElements.CANVAS;
         core.looper.removeListener(this) && !this.loading && !this.form.loading && core.isHTMLRenderer
@@ -380,10 +367,9 @@ class Animation extends Component {
      * Update css with properties
      */
     updateCSS() {
-        const priv = core.private(this);
         if (core.isHTMLRenderer) {
             Css.removeCSSRule(`@${core.browser.getVendorPrefix('keyframes')}keyframes${this.priv}, core.types.CSSRULEcore.types.KEYFRAMES_RULE}`);
-            if (priv.propertyName !== String.EMPTY) {
+            if (this.#propertyName !== String.EMPTY) {
                 cssProp = `0% { ${Convert.propertyToCssProperty(this)} }
                        100% { ${Convert.propertyToCssProperty(this, !0)} } `;
                 Css.addCSSRule(`@${core.browser.getVendorPrefix('keyframes')}keyframes ${this.priv}`, cssProp);
@@ -399,10 +385,9 @@ class Animation extends Component {
      * Determine if the animation stop at the current value
      */
     stopAtCurrent() {
-        const priv = core.private(this);
-        if (priv.running) {
-            priv.time = priv.inverse ? 0 : priv.duration;
-            priv.running = !1;
+        if (this.#running) {
+            this.#time = this.#inverse ? 0 : this.#duration;
+            this.#running = !1;
             this.enabled = !1;
             this.onFinish.invoke();
         }
@@ -413,9 +398,10 @@ class Animation extends Component {
      * @param   {String}    trigger     the trigger to launche the animation
      */
     startTrigger(control, trigger) {
-        const priv = core.private(this);
-        const triggerInverse = priv.triggerInverse;
-        const thisTrigger = priv.trigger;
+        //#region Variables déclaration
+        const triggerInverse = this.#triggerInverse;
+        const thisTrigger = this.#trigger;
+        //#endregion Variables déclaration
         if (control) {
             let startValue = !1;
             let line = null;
@@ -439,7 +425,7 @@ class Animation extends Component {
                     setter.removeAt(0);
                 }
                 if (startValue) {
-                    priv.inverse = !0;
+                    this.#inverse = !0;
                     this.start();
                     return;
                 }
@@ -460,7 +446,7 @@ class Animation extends Component {
                     setter.removeAt(0);
                 }
                 if (startValue) {
-                    !String.isNullOrEmpty(triggerInverse) && (priv.inverse = !1);
+                    !String.isNullOrEmpty(triggerInverse) && (this.#inverse = !1);
                     this.start();
                 }
             }
@@ -471,11 +457,11 @@ class Animation extends Component {
      * @return {Number}     a normalized time
      */
     normalizedTime() {
-        const priv = core.private(this);
-        const interpolation = priv.interpolation;
-        const time = priv.time;
-        const duration = priv.duration;
-        const animationType = priv.animationType;
+        //#region Variables déclaration
+        const interpolation = this.#interpolation;
+        const time = this.#time;
+        const duration = this.#duration;
+        const animationType = this.#animationType;
         const interpolationTypes = Interpolation.INTERPOLATIONTYPES;
         const fiveProps = {
             t: time,
@@ -484,7 +470,8 @@ class Animation extends Component {
             d: duration,
             a: animationType
         };
-        if (duration > 0 && priv.delayTime <= 0) {
+        //#endregion Variables déclaration
+        if (duration > 0 && this.#delayTime <= 0) {
             if (!core.tools.valueInSet(interpolation, interpolationTypes)) {
                 return 0;
             } if (interpolation === INTERPOLATIONTYPES.LINEAR) {
@@ -556,15 +543,16 @@ class Animation extends Component {
      * @param   {Number}    elapsedTime     time elapsed since last animation tick
      */
     animate(elapsedTime) {
-        const priv = core.private(this);
-        const owner = priv.owner;
-        let running = priv.running;
-        let delayTime = priv.delayTime;
-        const autoReverse = priv.autoReverse;
-        const duration = priv.duration;
-        const loop = priv.loop;
+        //#region Variables déclaration
+        const owner = this.owner;
+        let running = this.#running;
+        let delayTime = this.#delayTime;
+        const autoReverse = this.#autoReverse;
+        const duration = this.#duration;
+        const loop = this.#loop;
+        //#endregion Variables déclaration
         elapsedTime /= 1000;
-        if (running && priv.pause) {
+        if (running && this.#pause) {
             if (owner) {
                 if (!core.isHTMLRenderer) {
                     if (!owner.isVisible) {
@@ -580,9 +568,9 @@ class Animation extends Component {
                     }
                 }
             }
-            if (priv.delay > 0 && delayTime !== 0) {
+            if (this.#delay > 0 && delayTime !== 0) {
                 if (delayTime > 0) {
-                    delayTime = priv.delayTime = delayTime - elapsedTime;
+                    delayTime = this.#delayTime = delayTime - elapsedTime;
                     if (delayTime <= 0) {
                         this.start();
                         delayTime = this.delayTime = 0;
@@ -590,31 +578,31 @@ class Animation extends Component {
                 }
                 return;
             }
-            priv.inverse ? priv.time -= elapsedTime : priv.time += elapsedTime;
-            if (priv.time >= duration) {
-                priv.startFromCurrent && (priv.startValue = priv.initialValue);
-                priv.time = duration;
+            this.#inverse ? this.#time -= elapsedTime : this.#time += elapsedTime;
+            if (this.#time >= duration) {
+                this.#startFromCurrent && (this.#startValue = this.#initialValue);
+                this.#time = duration;
                 if (loop) {
                     if (autoReverse) {
-                        priv.inverse = !0;
-                        priv.time = duration;
+                        this.#inverse = !0;
+                        this.#time = duration;
                     } else {
-                        priv.time = 0;
+                        this.#time = 0;
                     }
                 } else {
-                    running = priv.running = !1;
+                    running = this.#running = !1;
                 }
-            } else if (priv.time <= 0) {
-                priv.time = 0;
+            } else if (this.#time <= 0) {
+                this.#time = 0;
                 if (loop) {
                     if (autoReverse) {
-                        priv.inverse = !1;
-                        priv.time = 0;
+                        this.#inverse = !1;
+                        this.#time = 0;
                     } else {
-                        priv.time = duration;
+                        this.#time = duration;
                     }
                 } else {
-                    running = priv.running = !1;
+                    running = this.#running = !1;
                 }
             }
             this.processAnimation();
@@ -628,13 +616,14 @@ class Animation extends Component {
      * @return  {String}                the css description of the animation
      */
     toCSS(aniName) {
-        const priv = core.private(this);
+        //#region Variables déclaration
         const interpolationTypes = Interpolation.INTERPOLATIONTYPES;
         let ani = String.EMPTY;
-        const interpolation = priv.interpolation;
-        const animationType = priv.animationType;
-        const inverse = priv.inverse;
-        const autoReverse = priv.autoReverse;
+        const interpolation = this.#interpolation;
+        const animationType = this.#animationType;
+        const inverse = this.#inverse;
+        const autoReverse = this.#autoReverse;
+        //#endregion Variables déclaration
         if (!this.convertToCSS) {
             return String.EMPTY;
         }
@@ -642,7 +631,7 @@ class Animation extends Component {
             return ani;
         }
         // animation-name + animation-duration
-        ani += (aniName ? aniName : priv.name) + String.SPACE + priv.duration + 's ';
+        ani += (aniName ? aniName : this.name) + String.SPACE + this.#duration + 's ';
         // animation-timing-function
         switch (interpolation) {
             case interpolationTypes.BACK:
@@ -780,7 +769,7 @@ class Animation extends Component {
                 break;
         }
         // animation-delay
-        ani += priv.delay + 's ';
+        ani += this.#delay + 's ';
         // animation-iteration-count
         this.loop ? ani += 'infinite ' : ani += '1 ';
         // animation-direction
@@ -804,21 +793,20 @@ class Animation extends Component {
      */
     assign(source) {
         if (source instanceof core.classes.Animation) {
-            const priv = core.private(this);
-            priv.running = source.running;
-            priv.pause = source.pause;
-            priv.animationType = source.animationType;
-            priv.autoReverse = source.autoReverse;
-            priv.enabled = source.enabled;
-            priv.delay = source.delay;
-            priv.duration = source.duration;
-            priv.interpolation = source.interpolation;
-            priv.inverse = source.inverse;
-            priv.hideOnFinish = source.hideOnFinish;
-            priv.loop = source.loop;
-            priv.trigger = source.trigger;
-            priv.triggerInverse = source.triggerInverse;
-            priv.propertyName = source.propertyName;
+            this.#running = source.running;
+            this.#pause = source.pause;
+            this.#animationType = source.animationType;
+            this.#autoReverse = source.autoReverse;
+            this.#enabled = source.enabled;
+            this.#delay = source.delay;
+            this.#duration = source.duration;
+            this.#interpolation = source.interpolation;
+            this.#inverse = source.inverse;
+            this.#hideOnFinish = source.hideOnFinish;
+            this.#loop = source.loop;
+            this.#trigger = source.trigger;
+            this.#triggerInverse = source.triggerInverse;
+            this.#propertyName = source.propertyName;
         }
     }
     /**
@@ -826,9 +814,8 @@ class Animation extends Component {
      * @override
      */
     destroy() {
-        const priv = core.private(this);
-        priv.startValue && core.tools.isFunc(priv.startValue.destroy) ? priv.startValue.destroy() : 1;
-        priv.stopValue && core.tools.isFunc(priv.stopValue.destroy) ? priv.stopValue.destroy() : 1;
+        this.#startValue && core.tools.isFunc(this.#startValue.destroy) ? this.#startValue.destroy() : 1;
+        this.#stopValue && core.tools.isFunc(this.#stopValue.destroy) ? this.#stopValue.destroy() : 1;
         this.unBindAndDestroyEvents(['onProcess', 'onFinish']);
         super.destroy();
     }

@@ -8,6 +8,10 @@ import { Animation } from '/scripts/core/animation.js';
  */
 //#region Class PathSwitcher
 class PathSwitcher extends Animation {
+    //#region Private fields
+    #pathTrue;
+    #pathFalse;
+    //#endregion Private fields
     /**
      * Create a new instance of PathSwitcher.
      * @param   {Object}    owner       Owner of the PathSwitcher.
@@ -20,34 +24,24 @@ class PathSwitcher extends Animation {
         if (owner) {
             props.duration = 0.001;
             super(owner, props, autoStart);
-            core.private(this, {
-                pathTrue: null,
-                pathFalse: null
-            });
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region pathTrue
     get pathTrue() {
-        return core.private(this).pathTrue;
+        return this.#pathTrue;
     }
     set pathTrue(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv.pathTrue !== newValue && (priv.pathTrue = newValue);
+        core.tools.isString(newValue) && this.#pathTrue !== newValue && (this.#pathTrue = newValue);
     }
     //#endregion pathTrue
     //#region pathFalse
     get pathFalse() {
-        return core.private(this).pathFalse;
+        return this.#pathFalse;
     }
     set pathFalse(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv.pathFalse !== newValue && (priv.pathFalse = newValue);
+        core.tools.isString(newValue) && this.#pathFalse !== newValue && (this.#pathFalse = newValue);
     }
     //#endregion pathFalse
     //#endregion Getters / Setters
@@ -58,13 +52,10 @@ class PathSwitcher extends Animation {
      */
     //#region assign
     assign(source) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (source instanceof core.classes.PathSwitcher) {
             super.assign(source);
-            priv.pathTrue = source.pathTrue;
-            priv.pathFalse = source.pathFalse;
+            this.#pathTrue = source.pathTrue;
+            this.#pathFalse = source.pathFalse;
         }
     }
     //#endregion assign

@@ -4,18 +4,23 @@ import { Color, Colors } from '/scripts/core/color.js';
 //#endregion Imports
 //#region GraphicControl
 class GraphicControl extends Control {
+    //#region Private fields
+    #fillColor;
+    #strokeColor;
+    #strokeWidth;
+    #strokeDash;
+    #strokeDashOffset;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                fillColor: props.hasOwnProperty('fillColor') ? Color.parse(props.fillColor) : new Color(this, Colors.WHITE),
-                strokeColor: props.hasOwnProperty('strokeColor') ? Color.parse(props.strokeColor) : new Color(this, Colors.BLACK),
-                strokeWidth: props.hasOwnProperty('strokeWidth') ? props.strokeWidth : 1,
-                strokeDash: props.hasOwnProperty('strokeDash') ? props.strokeDash : '[]',
-                strokeDashOffset: props.hasOwnProperty('strokeDashOffset') ? props.strokeDashOffset : 0
-            });
+            this.#fillColor = props.hasOwnProperty('fillColor') ? Color.parse(props.fillColor) : new Color(this, Colors.WHITE);
+            this.#strokeColor = props.hasOwnProperty('strokeColor') ? Color.parse(props.strokeColor) : new Color(this, Colors.BLACK);
+            this.#strokeWidth = props.hasOwnProperty('strokeWidth') ? props.strokeWidth : 1;
+            this.#strokeDash = props.hasOwnProperty('strokeDash') ? props.strokeDash : [];
+            this.#strokeDashOffset = props.hasOwnProperty('strokeDashOffset') ? props.strokeDashOffset : 0;
             delete this.tabOrder;
         }
     }
@@ -23,44 +28,35 @@ class GraphicControl extends Control {
     //#region Getters / Setters
     //#region fillColor
     get fillColor() {
-        return core.private(this).fillColor;
+        return this.#fillColor;
     }
     set fillColor(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof Color && !priv.fillColor.equals(newValue)) {
-            priv.fillColor.assign(newValue);
+        if (newValue instanceof Color && !this.#fillColor.equals(newValue)) {
+            this.#fillColor.assign(newValue);
             this.update();
         }
     }
     //#endregion fillColor
     //#region strokeColor
     get strokeColor() {
-        return core.private(this).strokeColor;
+        return this.#strokeColor;
     }
     set strokeColor(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof Color && !priv.strokeColor.equals(newValue)) {
-            priv.strokeColor.assign(newValue);
+        if (newValue instanceof Color && !this.#strokeColor.equals(newValue)) {
+            this.#strokeColor.assign(newValue);
             this.update();
         }
     }
     //#endregion strokeColor
     //#region strokeWidth
     get strokeWidth() {
-        return core.private(this).strokeWidth;
+        return this.#strokeWidth;
     }
     set strokeWidth(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue = Math.max(0, newValue);
-            if (priv.strokeWidth !== newValue) {
-                priv.strokeWidth = newValue;
+            if (this.#strokeWidth !== newValue) {
+                this.#strokeWidth = newValue;
                 this.update();
             }
         }
@@ -68,28 +64,22 @@ class GraphicControl extends Control {
     //#endregion strokeWidth
     //#region strokeDash
     get strokeDash() {
-        return core.private(this).strokeDash;
+        return this.#strokeDash;
     }
     set strokeDash(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.strokeDash !== newValue) {
-            priv.strokeDash = newValue;
+        if (core.tools.isString(newValue) && this.#strokeDash !== newValue) {
+            this.#strokeDash = newValue;
             this.update();
         }
     }
     //#endregion strokeDash
     //#region strokeDashOffset
     get strokeDashOffset() {
-        return core.private(this).strokeDashOffset;
+        return this.#strokeDashOffset;
     }
     set strokeDashOffset(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.strokeDashOffset !== newValue) {
-            priv.strokeDashOffset = newValue;
+        if (core.tools.isNumber(newValue) && this.#strokeDashOffset !== newValue) {
+            this.#strokeDashOffset = newValue;
             this.update();
         }
     }
@@ -108,9 +98,8 @@ class GraphicControl extends Control {
     //#region destroy
     destroy() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const fillColor = priv.fillColor;
-        const strokeColor = priv.strokeColor;
+        const fillColor = this.#fillColor;
+        const strokeColor = this.#strokeColor;
         //#endregion Variables déclaration
         fillColor && fillColor.destroy();
         strokeColor && strokeColor.destroy();

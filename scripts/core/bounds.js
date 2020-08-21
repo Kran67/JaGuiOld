@@ -8,6 +8,9 @@ import { Rect } from '/scripts/core/geometry.js';
  */
 //#region Bounds
 class Bounds extends Rect {
+    //#region Private fields
+    #owner;
+    //#endregion Private fields
     /**
      * Create a new instance of Bounds.
      * @param   {Object}    rect        Properties to initialize the Bounds.
@@ -17,7 +20,7 @@ class Bounds extends Rect {
     constructor(rect, owner) {
         !(rect instanceof core.classes.Rect) && (rect = new core.classes.Rect);
         super(rect.left, rect.top, rect.right, rect.bottom);
-        core.private(this, { owner: owner });
+        this.#owner = owner;
         //if (!rect) rect = new Rect;
         //#region Private
         //#endregion
@@ -122,10 +125,10 @@ class Bounds extends Rect {
      * Apply the local property to owner
      */
     apply() {
-        this.owner.left += this.left;
-        this.owner.top += this.top;
-        this.owner.width -= this.right + this.left;
-        this.owner.height -= this.bottom + this.top;
+        this.#owner.left += this.left;
+        this.#owner.top += this.top;
+        this.#owner.width -= this.right + this.left;
+        this.#owner.height -= this.bottom + this.top;
     }
     /**
      * Convert the local rect to css

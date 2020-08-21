@@ -3,23 +3,18 @@ import { BaseClass } from '/scripts/core/baseclass.js';
 //#endregion Imports
 //#region Looper
 class Looper extends BaseClass {
-    //#region constructor
-    constructor() {
-        super();
-        core.private(this, {
-            listeners: {},
-            fps: 60,
-            handle: null,
-            paused: !1,
-            rAF: null,
-            isBusy: !1
-        });
-    }
-    //#endregion constructor
+    //#region Private fields
+    #listeners = {};
+    #fps = 60;
+    #handle = null;
+    #paused = !1;
+    #rAF = null;
+    #isBusy = !1;
+    //#endregion Private fields
     //#region Getter / Setter
     //#region listeners
     get listeners() {
-        return core.private(this).listeners;
+        return this.#listeners;
     }
     //#endregion listeners
     //#region functions
@@ -29,82 +24,61 @@ class Looper extends BaseClass {
     //#endregion functions
     //#region fps
     get fps() {
-        return core.private(this).fps;
+        return this.#fps;
     }
     set fps(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.fps !== newValue) {
+        if (core.tools.isNumber(newValue) && this.#fps !== newValue) {
             this.stop();
-            priv.fps = newValue;
-            //priv.rAF = window.requestAnimationFrameRate(priv.fps);
+            this.#fps = newValue;
+            //this.#rAF = window.requestAnimationFrameRate(this.#fps);
             this.start();
         }
     }
     //#endregion fps
     //#region handle
     get handle() {
-        return core.private(this).handle;
+        return this.#handle;
     }
     set handle(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.handle !== newValue && (priv.handle = newValue);
+        this.#handle !== newValue && (this.#handle = newValue);
     }
     //#endregion handle
     //#region paused
     get paused() {
-        return core.private(this).paused;
+        return this.#paused;
     }
     set paused(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.paused !== newValue && (priv.paused = newValue);
+        core.tools.isBool(newValue) && this.#paused !== newValue && (this.#paused = newValue);
     }
     //#endregion paused
     //#region rAF
     get rAF() {
-        return core.private(this).rAF;
+        return this.#rAF;
     }
     set rAF(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.rAF !== newValue && (priv.rAF = newValue);
+        this.#rAF !== newValue && (this.#rAF = newValue);
     }
     //#endregion rAF
     //#region isBusy
     get isBusy() {
-        return core.private(this).isBusy;
+        return this.#isBusy;
     }
     set isBusy(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.isBusy !== newValue && (priv.isBusy= newValue);
+        core.tools.isBool(newValue) && this.#isBusy !== newValue && (this.#isBusy = newValue);
     }
     //#endregion isBusy
     //#endregion Getter / Setter
     //#region Methods
     //#region start
     start() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.rAF = window.requestAnimationFrameRate(priv.fps);
-        priv.handle = priv.rAF(core.looper.loop);
+        this.#rAF = window.requestAnimationFrameRate(this.#fps);
+        this.#handle = this.#rAF(core.looper.loop);
     }
     //#endregion start
     //#region stop
     stop() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.handle !== null && window.cancelAnimationFrameRate(priv.handle);
-        priv.handle = null;
+        this.#handle !== null && window.cancelAnimationFrameRate(this.#handle);
+        this.#handle = null;
     }
     //#endregion stop
     //#region pause
@@ -130,55 +104,45 @@ class Looper extends BaseClass {
     //#endregion loop
     //#region addListener
     addListener(obj, func) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         func = func || 'processTick';
         if (obj.name) {
-            if (!priv.listeners.hasOwnProperty(obj.name)) {
-                priv.listeners[obj.name] = { component: obj, functions: [] };
-                priv.listeners[obj.name].functions.push(func);
+            if (!this.#listeners.hasOwnProperty(obj.name)) {
+                this.#listeners[obj.name] = { component: obj, functions: [] };
+                this.#listeners[obj.name].functions.push(func);
             } else {
-                const idx = priv.listeners[obj.name].functions.indexOf(func);
-                idx === -1 && priv.listeners[obj.name].functions.push(func);
+                const idx = this.#listeners[obj.name].functions.indexOf(func);
+                idx === -1 && this.#listeners[obj.name].functions.push(func);
             }
         }
     }
     //#endregion addListener
     //#region removeListener
     removeListener(obj, func) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         func = func || 'processTick';
-        if (priv.listeners.hasOwnProperty(obj.name)) {
-            const idx = priv.listeners[obj.name].functions.indexOf(func);
-            idx > -1 && priv.listeners[obj.name].functions.removeAt(idx);
-            priv.listeners[obj.name].component = null;
-            priv.listeners[obj.name] = null;
-            delete priv.listeners[obj.name];
+        if (this.#listeners.hasOwnProperty(obj.name)) {
+            const idx = this.#listeners[obj.name].functions.indexOf(func);
+            idx > -1 && this.#listeners[obj.name].functions.removeAt(idx);
+            this.#listeners[obj.name].component = null;
+            this.#listeners[obj.name] = null;
+            delete this.#listeners[obj.name];
         }
     }
     //#endregion removeListener
     //#region removeAllListeners
     removeAllListeners() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const keys = Objects.keys(priv.listeners);
+        const keys = Objects.keys(this.#listeners);
         //#endregion Variables déclaration
         keys.forEach(key => {
-            priv.listeners[key].functions.length = 0;
-            priv.listeners[key].component = null;
+            this.#listeners[key].functions.length = 0;
+            this.#listeners[key].component = null;
         });
-        priv.listeners = {};
+        this.#listeners = {};
     }
     //#endregion removeAllListeners
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.listeners.length = 0;
+        this.#listeners.length = 0;
         super.destroy();
     }
     //#endregion destroy

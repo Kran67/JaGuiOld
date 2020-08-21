@@ -4,46 +4,47 @@ import { Interpolation } from '/scripts/core/interpolations.js';
 //#endregion
 //#region Spline
 class Spline extends BaseClass {
+    //#region Private fields
+    #x;
+    #y;
+    #len;
+    #matX;
+    #matY;
+    //#endregion Private fields
     //#region constructor
     constructor(a) {
         super();
-        core.private(this, {
-            x: a.map(e => e.x),
-            y: a.map(e => e.y),
-            len: a.length,
-            matX: Interpolation.calcHermiteFactors(priv.x),
-            matY: Interpolation.calcHermiteFactors(priv.y)
-        });
-        //for (let i = 0, l = priv.len; i < l; i++) {
-        //    priv.x[i] = a[i].x;
-        //    priv.y[i] = a[i].y;
-        //}
+        this.#x = a.map(e => e.x);
+        this.#y = a.map(e => e.y);
+        this.#len = a.length;
+        this.#matX = Interpolation.calcHermiteFactors(this.#x);
+        this.#matY = Interpolation.calcHermiteFactors(this.#y);
     }
     //#endregion constructor
     //#region Getter / Setter
     //#region x
     get x() {
-        return core.private(this).x;
+        return this.#x;
     }
     //#endregion x
     //#region y
     get y() {
-        return core.private(this).y;
+        return this.#y;
     }
     //#endregion y
     //#region len
     get len() {
-        return core.private(this).len;
+        return this.#len;
     }
     //#endregion len
     //#region matX
     get matX() {
-        return core.private(this).matX;
+        return this.#matX;
     }
     //#endregion matX
     //#region matY
     get matY() {
-        return core.private(this).matY;
+        return this.#matY;
     }
     //#endregion matY
     //#endregion Getter / Setter
@@ -51,23 +52,19 @@ class Spline extends BaseClass {
     //#region splineXY
     splineXY(t) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const len = priv.len;
-        const x = Interpolation.hermitInterpolate(priv.matX, t, len);
-        const y = Interpolation.hermitInterpolate(priv.matY, t, len);
+        const len = this.#len;
+        const x = Interpolation.hermitInterpolate(this.#matX, t, len);
+        const y = Interpolation.hermitInterpolate(this.#matY, t, len);
         //#endregion Variables déclaration
         return new core.classes.Point(x, y);
     }
     //#endregion splineXY
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.x.destroy();
-        priv.y.destroy();
-        priv.matX.destroy();
-        priv.matY.destroy();
+        this.#x.destroy();
+        this.#y.destroy();
+        this.#matX.destroy();
+        this.#matY.destroy();
         super.destroy();
     }
     //#endregion destroy

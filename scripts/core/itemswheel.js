@@ -8,6 +8,22 @@ import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Imports
 //#region ItemsWheel
 class ItemsWheel extends ThemedControl {
+    //#region Private fields
+    #content;
+    #lastDelta = new Point;
+    #downPos = new Point;
+    #currentPos = new Point;
+    #down = !1;
+    #scrollAni;
+    #sep;
+    #topGradient;
+    #bottomGradient;
+    #value = String.EMPTY;
+    #index = -1;
+    #mouseTracking = !0;
+    #animated = !0;
+    #items = [];
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -15,60 +31,46 @@ class ItemsWheel extends ThemedControl {
             props.mouseEvents = { mousemove: !0 };
             props.canFocused = !0;
             super(owner, props);
-            core.private(this, {
-                content: null,
-                lastDelta: new Point,
-                downPos: new Point,
-                currentPos: new Point,
-                down: !1,
-                scrollAni: null,
-                sep: null,
-                topGradient: null,
-                bottomGradient: null,
-                value: String.EMPTY,
-                index: -1,
-                mouseTracking: !0,
-                animated: !0
-            });
-            core.classes.newCollection(this, this, core.types.CONSTANTS.STRING);
+            this.#items.convertToCollection(owner, core.types.CONSTANTS.STRING);
             this.createEventsAndBind(['onChange'], props);
             delete this.tabOrder;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region items
+    get items() {
+        return this.#items;
+    }
+    //#endregion items
     //#region value
     get value() {
-        return core.private(this).value;
+        return this.#value;
     }
     set value(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (typeof newValue === typeof priv.value && newValue !== priv.value) {
-            priv.value = newValue;
+        if (typeof newValue === typeof this.#value && newValue !== this.#value) {
+            this.#value = newValue;
             !this.updating && this.onChange.invoke();
         }
     }
     //#endregion value
     //#region index
     get index() {
-        return core.private(this).index;
+        return this.#index;
     }
     set index(newValue) {
         //#region Variables déclaration
-        const items = this.items;
-        let priv = core.private(this);
+        const items = this.#items;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue = Math.max(Math.min(newValue, items.length - 1), 0);
-            if (priv.index !== newValue) {
-                priv.index = Math.intCeiling(newValue, 1);
-                if (priv.index !== -1) {
-                    const offset = 15 * priv.index;
-                    priv.content.style.top = `${-offset}${core.types.CSSUNITS.PX}`;
+            if (this.#index !== newValue) {
+                this.#index = Math.intCeiling(newValue, 1);
+                if (this.#index !== -1) {
+                    const offset = 15 * this.#index;
+                    this.#content.style.top = `${-offset}${core.types.CSSUNITS.PX}`;
                 }
-                priv.value = items[priv.index];
+                this.#value = items[this.#index];
                 this.onChange.invoke();
             }
         }
@@ -76,24 +78,18 @@ class ItemsWheel extends ThemedControl {
     //#endregion index
     //#region mouseTracking
     get mouseTracking() {
-        return core.private(this).mouseTracking;
+        return this.#mouseTracking;
     }
     set mouseTracking(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && newValue !== priv.mouseTracking && (priv.mouseTracking = newValue);
+        core.tools.isBool(newValue) && newValue !== this.#mouseTracking && (this.#mouseTracking = newValue);
     }
     //#endregion mouseTracking
     //#region animated
     get animated() {
-        return core.private(this).animated;
+        return this.#animated;
     }
     set animated(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && newValue !== priv.animated && (priv.animated = newValue);
+        core.tools.isBool(newValue) && newValue !== this.#animated && (this.#animated = newValue);
     }
     //#endregion animated
     //#endregion Getters / Setters
@@ -101,13 +97,12 @@ class ItemsWheel extends ThemedControl {
     //#region recreateItems
     recreateItems() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const content = priv.content;
+        const content = this.#content;
         const name = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
         //#endregion Variables déclaration
         if (content) {
             content.innerHTML = String.EMPTY;
-            this.items.forEach(item => {
+            this.#items.forEach(item => {
                 const _item = document.createElement(`${name}wheelitem`);
                 _item.classList.add(`${this.constructor.name}Item`, 'ItemsWheelItem');
                 _item.innerHTML = item;
@@ -135,10 +130,9 @@ class ItemsWheel extends ThemedControl {
     //#region scrollBy
     scrollBy(offset) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const index = priv.index;
+        const index = this.#index;
         //#endregion Variables déclaration
-        index + offset < 0 || index + offset > this.items.length - 1 && (offset = 0);
+        index + offset < 0 || index + offset > this.#items.length - 1 && (offset = 0);
         if (offset === 0) {
             return;
         }
@@ -148,7 +142,6 @@ class ItemsWheel extends ThemedControl {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const name = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
         let topGradient, sep, content, bottomGradient;
@@ -162,33 +155,30 @@ class ItemsWheel extends ThemedControl {
         htmlElement.appendChild(sep);
         content = document.createElement(`${name}content`);
         content.classList.add('ItemsWheelContent', this.themeName);
-        content.jsObj = this;
+        //content.jsObj = this;
         htmlElement.appendChild(content);
         bottomGradient = document.createElement(`${name}bottomgradient`);
         bottomGradient.classList.add('ItemsWheelBottomGradient');
         htmlElement.appendChild(bottomGradient);
         htmlElement.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { this.wheel(event); });
-        core.private(this, {
-            topGradient, sep, content, bottomGradient
-            });
+        this.#topGradient = topGradient;
+        this.#sep = sep;
+        this.#content = content;
+        this.#bottomGradient = bottomGradient;
         this.recreateItems();
     }
     //#endregion loaded
     //#region mouseDown
     mouseDown() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //const scrollAni = this.scrollAni;
-        //#endregion Variables déclaration
         super.mouseDown();
-        if (core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && priv.mouseTracking) {
-            priv.lastDelta.setValues(0, 0);
-            priv.downPos.assign(core.mouse.screen);
-            priv.currentPos.assign(core.mouse.screen);
-            priv.down = !0;
+        if (core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.#mouseTracking) {
+            this.#lastDelta.setValues(0, 0);
+            this.#downPos.assign(core.mouse.screen);
+            this.#currentPos.assign(core.mouse.screen);
+            this.#down = !0;
             //if (scrollAni && scrollAni.running) {
             //    scrollAni.stopAtCurrent();
-            this.index = Math.intCeiling(priv.index, 1);
+            this.index = Math.intCeiling(this.#index, 1);
             //}
         }
     }
@@ -196,32 +186,26 @@ class ItemsWheel extends ThemedControl {
     //#region mouseMove
     mouseMove() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const offset = core.mouse.screen.y - priv.currentPos.y;
+        const offset = core.mouse.screen.y - this.#currentPos.y;
         //#endregion Variables déclaration
         super.mouseMove();
-        if (priv.down && priv.mouseTracking) {
-            priv.lastDelta.y = core.mouse.screen.y - priv.downPos.y;
-            if (Math.abs(priv.lastDelta.y) < 10 && Math.abs(priv.lastDelta.y) > 3) {
+        if (this.#down && this.#mouseTracking) {
+            this.#lastDelta.y = core.mouse.screen.y - this.#downPos.y;
+            if (Math.abs(this.#lastDelta.y) < 10 && Math.abs(this.#lastDelta.y) > 3) {
                 this.scrollBy(offset > 0 ? -1 : 1);
-                priv.downPos.y = core.mouse.screen.y;
+                this.#downPos.y = core.mouse.screen.y;
             }
-            priv.currentPos.assign(core.mouse.screen);
+            this.#currentPos.assign(core.mouse.screen);
         }
     }
     //#endregion mouseMove
     //#region mouseUp
     mouseUp() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //const scrollAni = this.scrollAni;
-        //#endregion Variables déclaration
         super.mouseUp();
-        //const offset = core.mouse.screen.y - currentPos.y;
-        if (priv.down && priv.mouseTracking) {
-            priv.down = !1;
-            if (priv.animated && priv.lastDelta.y !== 0) {
-                if (Math.abs(priv.downPos.y - priv.currentPos.y) > 20) {
+        if (this.#down && this.#mouseTracking) {
+            this.#down = !1;
+            if (this.#animated && this.#lastDelta.y !== 0) {
+                if (Math.abs(this.#downPos.y - this.#currentPos.y) > 20) {
                     //this.createScrollAni();
                     //if (scrollAni.running) {
                     //    scrollAni.stopAtCurrent();
@@ -251,15 +235,11 @@ class ItemsWheel extends ThemedControl {
     //#endregion createScrollAni
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.lastDelta.destroy();
-        priv.downPos.destroy();
-        priv.currentPos.destroy();
-        this.items.destroy();
-        this.items.clear();
-        delete this.items;
+        this.#lastDelta.destroy();
+        this.#downPos.destroy();
+        this.#currentPos.destroy();
+        this.#items.destroy();
+        this.#items.clear();
         this.unBindAndDestroyEvents(['onChange']);
         super.destroy();
     }
@@ -281,7 +261,7 @@ class ItemsWheel extends ThemedControl {
                 this.index = 0;
                 break;
             case VKEYSCODES.VK_END:
-                this.index = this.items.length - 1;
+                this.index = this.#items.length - 1;
                 break;
             case VKEYSCODES.VK_PAGEUP:
                 this.index -= 5;

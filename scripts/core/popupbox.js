@@ -4,6 +4,9 @@ import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Import
 //#region Class PopupBox
 class PopupBox extends ThemedControl {
+    //#region Private fields
+    #refControl;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -14,7 +17,7 @@ class PopupBox extends ThemedControl {
             props.ownerShowToolTip = !1;
             props.showToolTip = !1;
             super(owner, props);
-            core.private(this, { refControl: props.hasOwnProperty('refControl') ? props.refControl : null });
+            this.#refControl = props.hasOwnProperty('refControl') ? props.refControl : null;
             this.owners.destroy();
             delete this.tabOrder;
         }
@@ -23,13 +26,10 @@ class PopupBox extends ThemedControl {
     //#region Getter / Setter
     //#region refControl
     get refControl() {
-        return core.private(this).refControl;
+        return this.#refControl;
     }
     set refControl(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        newValue instanceof core.classes.Control && priv.refControl !== newValue && (priv.refControl = newValue);
+        newValue instanceof core.classes.Control && this.#refControl !== newValue && (this.#refControl = newValue);
     }
     //#endregion refControl
     //#endregion Getter / Setter
@@ -37,10 +37,9 @@ class PopupBox extends ThemedControl {
     //#region show
     show(x, y) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const PX = core.types.CSSUNITS.PX;
         const htmlElement = this.HTMLElement;
-        const refControl = priv.refControl;
+        const refControl = this.#refControl;
         const htmlElementStyle = this.HTMLElementStyle;
         const cHtmlElement = refControl.HTMLElement;
         const TAG = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
@@ -96,12 +95,9 @@ class PopupBox extends ThemedControl {
     //#endregion show
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (priv.refControl) {
-            priv.refControl.HTMLElement.classList.remove('opened');
-            priv.refControl.onCloseMenu && priv.refControl.onCloseMenu.invoke();
+        if (this.#refControl) {
+            this.#refControl.HTMLElement.classList.remove('opened');
+            this.#refControl.onCloseMenu && this.#refControl.onCloseMenu.invoke();
         }
         super.destroy();
     }

@@ -9,6 +9,18 @@ import { Convert } from '/scripts/core/convert.js';
  */
 //#region Color
 class Color extends Bindable {
+    //#region Private fields
+    #owner;
+    #red = 0;
+    #green = 0;
+    #blue = 0;
+    #alpha = 0;
+    #hue = 0;
+    #saturation = 0;
+    #value = 0;
+    #lightness = 0;
+    #updating = !1;
+    //#endregion Private fields
     //#region Constructor
     /**
      * Create a new instance of Color.
@@ -20,17 +32,6 @@ class Color extends Bindable {
         super();
         //#region Properties
         //#region Private Properties
-        core.private(this, {
-            red: 0,
-            green: 0,
-            blue: 0,
-            alpha: 0,
-            hue: 0,
-            saturation: 0,
-            value: 0,
-            lightness: 0,
-            updating: !1
-        });
         if (arguments.length > 0) {
             for (let i = 0, l = arguments.length; i < l; i++) {
                 const arg = arguments[i];
@@ -38,7 +39,7 @@ class Color extends Bindable {
                 arg instanceof core.classes.Control && (owner = arg);
             }
         }
-        core.private(this, { owner: owner });
+        this.#owner = owner;
         //#endregion Private Properties
         //#endregion Properties
     }
@@ -281,17 +282,16 @@ class Color extends Bindable {
     //#region Getters / Setters
     //#region red
     get red() {
-        return core.private(this).red;
+        return this.#red;
     }
     set red(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const owner = priv.owner;
+        const owner = this.#owner;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv.red) {
+        if (core.tools.isNumber(newValue) && newValue !== this.#red) {
             newValue = newValue & 0xFF;
-            core.private(this, { red: newValue });
-            if (!priv.updating) {
+            this.#red = newValue;
+            if (!this.#updating) {
                 this.RGBtoHSV();
                 this.RGBtoHSL();
             }
@@ -302,17 +302,16 @@ class Color extends Bindable {
     //#endregion red
     //#region green
     get green() {
-        return core.private(this).green;
+        return this.#green;
     }
     set green(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const owner = priv.owner;
+        const owner = this.#owner;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv.green) {
+        if (core.tools.isNumber(newValue) && newValue !== this.#green) {
             newValue = newValue & 0xFF;
-            core.private(this, { green: newValue });
-            if (!priv.updating) {
+            this.#green = newValue;
+            if (!this.#updating) {
                 this.RGBtoHSV();
                 this.RGBtoHSL();
             }
@@ -323,17 +322,16 @@ class Color extends Bindable {
     //#endregion green
     //#region blue
     get blue() {
-        return core.private(this).blue;
+        return this.#blue;
     }
     set blue(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const owner = priv.owner;
+        const owner = this.#owner;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv.blue) {
+        if (core.tools.isNumber(newValue) && newValue !== this.#blue) {
             newValue = newValue & 0xFF;
-            core.private(this, { blue: newValue });
-            if (!priv.updating) {
+            this.#blue = newValue;
+            if (!this.#updating) {
                 this.RGBtoHSV();
                 this.RGBtoHSL();
             }
@@ -344,16 +342,15 @@ class Color extends Bindable {
     //#endregion blue
     //#region alpha
     get alpha() {
-        return core.private(this).alpha;
+        return this.#alpha;
     }
     set alpha(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const owner = priv.owner;
+        const owner = this.#owner;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv.alpha) {
+        if (core.tools.isNumber(newValue) && newValue !== this.#alpha) {
             newValue = Math.max(Math.min(newValue, 1), 0);
-            core.private(this, { alpha: newValue });
+            this.#alpha = newValue;
             this.propertyChanged('alpha');
             owner && !owner.loading && owner.update();
         }
@@ -361,35 +358,33 @@ class Color extends Bindable {
     //#endregion alpha
     //#region hue
     get hue() {
-        return core.private(this).hue;
+        return this.#hue;
     }
     set hue(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const owner = priv.owner;
+        const owner = this.#owner;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv.hue) {
+        if (core.tools.isNumber(newValue) && newValue !== this.#hue) {
             newValue = Math.max(Math.min(newValue, 360), 0);
-            core.private(this, { hue: newValue });
+            this.#hue = newValue;
             this.propertyChanged('hue');
-            !priv.updating && this.HSVtoRGB();
+            !this.#updating && this.HSVtoRGB();
             owner && !owner.loading && owner.update();
         }
     }
     //#endregion hue
     //#region saturation
     get saturation() {
-        return core.private(this).saturation;
+        return this.#saturation;
     }
     set saturation(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const owner = priv.owner;
+        const owner = this.#owner;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv.saturation) {
+        if (core.tools.isNumber(newValue) && newValue !== this.#saturation) {
             newValue = Math.max(Math.min(newValue, 100), 0);
-            core.private(this, { saturation: newValue });
-            !priv.updating && this.HSVtoRGB();
+            this.#saturation = newValue;
+            !this.#updating && this.HSVtoRGB();
             this.propertyChanged('saturation');
             owner && !owner.loading && owner.update();
         }
@@ -397,17 +392,16 @@ class Color extends Bindable {
     //#endregion saturation
     //#region value
     get value() {
-        return core.private(this).value;
+        return this.#value;
     }
     set value(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const owner = this.owner;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv.value) {
+        if (core.tools.isNumber(newValue) && newValue !== this.#value) {
             newValue = Math.max(Math.min(newValue, 100), 0);
-            core.private(this, { value: newValue });
-            !priv.updating && this.HSVtoRGB();
+            this.#value = newValue;
+            !this.#updating && this.HSVtoRGB();
             this.propertyChanged('value');
             owner && !owner.loading && owner.update();
         }
@@ -415,17 +409,16 @@ class Color extends Bindable {
     //#endregion value
     //#region lightness
     get lightness() {
-        return core.private(this).lightness;
+        return this.#lightness;
     }
     set lightness(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const owner = this.owner;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv.lightness) {
+        if (core.tools.isNumber(newValue) && newValue !== this.#lightness) {
             newValue = Math.max(Math.min(newValue, 100), 0);
-            core.private(this, { lightness: newValue });
-            !priv.updating && this.HSLtoRGB();
+            this.#lightness = newValue;
+            !this.#updating && this.HSLtoRGB();
             this.propertyChanged('lightness');
             owner && !owner.loading && owner.update();
         }
@@ -433,18 +426,18 @@ class Color extends Bindable {
     //#endregion lightness
     //#region owner
     get owner() {
-        return core.private(this).owner;
+        return this.#owner;
     }
     set owner(newValue) {
-        core.private(this).owner= newValue ;
+        this.#owner = newValue;
     }
     //#endregion owner
     //#region updating
     get updating() {
-        return core.private(this).updating;
+        return this.#updating;
     }
     set updating(newValue) {
-        core.private(this).updating= newValue ;
+        this.#updating = newValue;
     }
     //#endregion updating
     //#endregion Getters / Setters
@@ -456,12 +449,13 @@ class Color extends Bindable {
      */
     setRGB(red, green, blue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const owner = priv.owner;
+        const owner = this.#owner;
         //#endregion Variables déclaration
         if (core.tools.isNumber(red) && core.tools.isNumber(green) && core.tools.isNumber(blue)) {
-            ore.private(this, { red, green, blue });
-            !priv.updating && this.RGBtoHSL() && this.RGBtoHSV();
+            this.#red = red;
+            this.#green = green;
+            this.#blue = blue;
+            !this.#updating && this.RGBtoHSL() && this.RGBtoHSV();
             owner && !owner.loading && owner.update();
         }
     }
@@ -474,13 +468,15 @@ class Color extends Bindable {
      */
     setRGBA(red, green, blue, alpha) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const owner = priv.owner;
+        const owner = this.#owner;
         //#endregion Variables déclaration
         if (core.tools.isNumber(red) && core.tools.isNumber(green)
             && core.tools.isNumber(blue) && core.tools.isNumber(alpha)) {
-            core.private(this, { red, green, blue, alpha });
-            !priv.updating && this.RGBtoHSL() && this.RGBtoHSV();
+            this.#red = red;
+            this.#green = green;
+            this.#blue = blue;
+            this.#alpha = alpha;
+            !this.#updating && this.RGBtoHSL() && this.RGBtoHSV();
             owner && !owner.loading && owner.update();
         }
     }
@@ -492,12 +488,13 @@ class Color extends Bindable {
      */
     setHSV(hue, saturation, value) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const owner = priv.owner;
+        const owner = this.#owner;
         //#endregion Variables déclaration
         if (core.tools.isNumber(hue) && core.tools.isNumber(saturation) && core.tools.isNumber(value)) {
-            core.private(this, { hue, saturation, value });
-            !priv.updating && this.HSVtoRGB();
+            this.#hue = hue;
+            this.#saturation = saturation;
+            this.#value = value;
+            !this.#updating && this.HSVtoRGB();
             owner && !owner.loading && owner.update();
         }
     }
@@ -509,12 +506,13 @@ class Color extends Bindable {
      */
     setHSL(hue, saturation, lightness) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const owner = priv.owner;
+        const owner = this.#owner;
         //#endregion Variables déclaration
         if (core.tools.isNumber(hue) && core.tools.isNumber(saturation) && core.tools.isNumber(lightness)) {
-            core.private(this, { hue, saturation, lightness });
-            !priv.updating && this.HSLtoRGB();
+            this.#hue = hue;
+            this.#saturation = saturation;
+            this.#lightness = lightness;
+            !this.#updating && this.HSLtoRGB();
             owner && !owner.loading && owner.update();
         }
     }
@@ -530,80 +528,56 @@ class Color extends Bindable {
      * @returns     {String}        the string
      */
     toRGBHexString() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return `#${Convert.dec2Hex(priv.red).padStart(2, '0')}${Convert.dec2Hex(priv.green).padStart(2, '0')}${Convert.dec2Hex(priv.blue).padStart(2, '0')}`.toUpperCase();
+        return `#${Convert.dec2Hex(this.#red).padStart(2, '0')}${Convert.dec2Hex(this.#green).padStart(2, '0')}${Convert.dec2Hex(this.#blue).padStart(2, '0')}`.toUpperCase();
     }
     /**
      * Return the ARGB hexa string format of the color instance
      * @returns     {String}        the string
      */
     toARGBHexString() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return `#${Convert.dec2Hex(priv.alpha * 0xFF).padStart(2, '0')}${Convert.dec2Hex(priv.red).padStart(2, '0')}${Convert.dec2Hex(priv.green).padStart(2, '0')}${Convert.dec2Hex(priv.blue).padStart(2, '0')}`.toUpperCase();
+        return `#${Convert.dec2Hex(this.#alpha * 0xFF).padStart(2, '0')}${Convert.dec2Hex(this.#red).padStart(2, '0')}${Convert.dec2Hex(this.#green).padStart(2, '0')}${Convert.dec2Hex(this.#blue).padStart(2, '0')}`.toUpperCase();
     }
     /**
      * Return the rgb string format of the color instance
      * @returns     {String}        the string
      */
     toRGBString() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return `rgb(${priv.red},${priv.green},${priv.blue})`;
+        return `rgb(${this.#red},${this.#green},${this.#blue})`;
     }
     /**
      * Return the rgba string format of the color instance
      * @returns     {String}        the string
      */
     toRGBAString() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return `rgba(${priv.red},${priv.green},${priv.blue},${priv.alpha})`;
+        return `rgba(${this.#red},${this.#green},${this.#blue},${this.#alpha})`;
     }
     /**
      * Return the hsl string format of the color instance
      * @returns     {String}        the string
      */
     toHSLString() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return `hsl(${priv.hue},${priv.saturation},${priv.lightness})`;
+        return `hsl(${this.#hue},${this.#saturation},${this.#lightness})`;
     }
     /**
      * Return the hsv string format of the color instance
      * @returns     {String}        the string
      */
     toHSVString() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return `hsv(${priv.hue},${priv.saturation},${priv.value})`;
+        return `hsv(${this.#hue},${this.#saturation},${this.#value})`;
     }
     /**
      * Return the bgr string format of the color instance
      * @returns     {String}        the string
      */
     toBGRString() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return (Convert.dec2Hex(priv.blue).padStart(2, '0') + Convert.dec2Hex(priv.green).padStart(2, '0') + Convert.dec2Hex(priv.red).padStart(2, '0')).toUpperCase();
+        return (Convert.dec2Hex(this.#blue).padStart(2, '0') + Convert.dec2Hex(this.#green).padStart(2, '0') + Convert.dec2Hex(this.#red).padStart(2, '0')).toUpperCase();
     }
     /**
      * Return the int string format of the color instance
      * @returns     {String}        the string
      */
     toInt() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return `0x${priv.toBGRString()}`;
+        return `0x${this.toBGRString()}`;
     }
     /**
      * Blend a color with the current color
@@ -630,10 +604,7 @@ class Color extends Bindable {
      * @returns     {Color}             this color instance
      */
     RGBtoBGR() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.private(this, { red: priv.blue, blue: priv.red });
+        [this.#red, this.#blue] = [this.#blue, this.#red];
         this.RGBtoHSL();
         this.RGBtoHSV();
         return this;
@@ -644,20 +615,21 @@ class Color extends Bindable {
      */
     premultyAlpha() {
         //#region Variables déclaration
-        const priv = core.private(this);
         let red, green, blue;
         //#endregion Variables déclaration
-        if (priv.alpha === 0) {
+        if (this.#alpha === 0) {
             red = 0;
             green = 0;
             blue = 0;
         }
-        else if (priv.alpha !== 1) {
-            red = Math.trunc(priv.red * priv.alpha) & 0xFF;
-            green = Math.trunc(priv.green * priv.alpha) & 0xFF;
-            blue = Math.trunc(priv.blue * priv.alpha) & 0xFF;
+        else if (this.#alpha !== 1) {
+            red = Math.trunc(this.#red * this.#alpha) & 0xFF;
+            green = Math.trunc(this.#green * this.#alpha) & 0xFF;
+            blue = Math.trunc(this.#blue * this.#alpha) & 0xFF;
         }
-        core.private(this, { red, green, blue });
+        this.#red = red;
+        this.#green = green;
+        this.#blue = blue;
         return this;
     }
     /**
@@ -666,19 +638,20 @@ class Color extends Bindable {
      */
     unPremultyAlpha() {
         //#region Variables déclaration
-        const priv = core.private(this);
         let red, green, blue;
         //#endregion Variables déclaration
-        if (priv.alpha === 0) {
+        if (this.#alpha === 0) {
             red = 0;
             green = 0;
             blue = 0;
         } else {
-            red = Math.trunc(priv.red / priv.alpha);
-            green = Math.trunc(priv.green / priv.alpha);
-            blue = Math.trunc(priv.blue / priv.alpha);
+            red = Math.trunc(this.#red / this.#alpha);
+            green = Math.trunc(this.#green / this.#alpha);
+            blue = Math.trunc(this.#blue / this.#alpha);
         }
-        core.private(this, { red, green, blue });
+        this.#red = red;
+        this.#green = green;
+        this.#blue = blue;
         return this;
     }
     /**
@@ -688,8 +661,7 @@ class Color extends Bindable {
      */
     opacity(opacity) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        let alpha = priv.alpha;
+        let alpha = this.#alpha;
         //#endregion Variables déclaration
         if (core.tools.isNumber(opacity)) {
             opacity < 1 && (alpha = (alpha * 0xFF) * opacity / 0xFF);
@@ -698,7 +670,7 @@ class Color extends Bindable {
             } else if (alpha < 0) {
                 alpha = 0;
             }
-            priv.alpha = alpha;
+            this.#alpha = alpha;
             return this;
         }
         return this;
@@ -709,17 +681,14 @@ class Color extends Bindable {
      * @return      {Boolean}       return the current color instance
      */
     equals(color) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return priv.red === color.red &&
-            priv.green === color.green &&
-            priv.blue === color.blue &&
-            priv.alpha === color.alpha &&
-            priv.hue === color.hue &&
-            priv.saturation === color.saturation &&
-            priv.value === color.value &&
-            priv.lightness === color.lightness;
+        return this.#red === color.red &&
+            this.#green === color.green &&
+            this.#blue === color.blue &&
+            this.#alpha === color.alpha &&
+            this.#hue === color.hue &&
+            this.#saturation === color.saturation &&
+            this.#value === color.value &&
+            this.#lightness === color.lightness;
     }
     /**
      * Assign properties from source to the current color instance
@@ -727,20 +696,17 @@ class Color extends Bindable {
      */
     assign(source) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const owner = priv.owner;
+        const owner = this.#owner;
         //#endregion Variables déclaration
         if (source instanceof Color) {
-            core.private(this, {
-                alpha: source.alpha,
-                red: source.red,
-                green: source.green,
-                blue: source.blue,
-                hue: source.hue,
-                saturation: source.saturation,
-                value: source.value,
-                lightness: source.lightness
-            });
+            this.#alpha = source.alpha;
+            this.#red = source.red;
+            this.#green = source.green;
+            this.#blue = source.blue;
+            this.#hue = source.hue;
+            this.#saturation = source.saturation;
+            this.#value = source.value;
+            this.#lightness = source.lightness;
             owner && !owner.loading && owner.update();
         }
     }
@@ -748,15 +714,10 @@ class Color extends Bindable {
      * Inverse the color chanels
      */
     inverse() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.private(this, {
-            red: 255 - priv.red,
-            blue: 255 - priv.blue,
-            green: 255 - priv.green
-        });
-        if (!priv.updating) {
+        this.#red = 255 - this.#red;
+        this.#blue = 255 - this.#blue;
+        this.#green = 255 - this.#green;
+        if (!this.#updating) {
             this.RGBtoHSV();
             this.RGBtoHSL();
         }
@@ -765,24 +726,23 @@ class Color extends Bindable {
      * Prevent repaints until the operation is complete
      */
     beginUpdate() {
-        core.private(this).updating = !0;
+        this.#updating = !0;
     }
     /**
      * Enables repaints when the operation is complete
      */
     endUpdate() {
-        core.private(this).updating = !1;
+        this.#updating = !1;
     }
     /**
      * Convert HSV to RGB
      */
     HSVtoRGB() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const sat = priv.saturation / 100;
-        const value = priv.value / 100;
+        const sat = this.#saturation / 100;
+        const value = this.#value / 100;
         let c = sat * value;
-        const h = priv.hue / 60;
+        const h = this.#hue / 60;
         let x = c * (1 - Math.abs(h % 2 - 1));
         let m = value - c;
         const precision = 255;
@@ -790,23 +750,22 @@ class Color extends Bindable {
         c = (c + m) * precision | 0;
         x = (x + m) * precision | 0;
         m = m * precision | 0;
-        if (h >= 0 && h < 1) { core.private(this, { red: c, green: x, blue: m }); return; }
-        if (h >= 1 && h < 2) { core.private(this, { red: x, green: c, blue: m }); return; }
-        if (h >= 2 && h < 3) { core.private(this, { red: m, green: c, blue: x }); return; }
-        if (h >= 3 && h < 4) { core.private(this, { red: m, green: x, blue: c }); return; }
-        if (h >= 4 && h < 5) { core.private(this, { red: x, green: m, blue: c }); return; }
-        if (h >= 5 && h < 6) { core.private(this, { red: c, green: m, blue: x }); return; }
+        if (h >= 0 && h < 1) { this.#red = c; this.#green = x; this.#blue = m; return; }
+        if (h >= 1 && h < 2) { this.#red = x; this.#green = c; this.#blue = m; return; }
+        if (h >= 2 && h < 3) { this.#red = m; this.#green = c; this.#blue = x; return; }
+        if (h >= 3 && h < 4) { this.#red = m; this.#green = x; this.#blue = c; return; }
+        if (h >= 4 && h < 5) { this.#red = x; this.#green = m; this.#blue = c; return; }
+        if (h >= 5 && h < 6) { this.#red = c; this.#green = m; this.#blue = x; return; }
     }
     /**
      * Convert HSL to RGB
      */
     HSLtoRGB() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const sat = priv.saturation / 100;
-        const light = priv.lightness / 100;
+        const sat = this.#saturation / 100;
+        const light = this.#lightness / 100;
         let c = sat * (1 - Math.abs(2 * light - 1));
-        const h = priv.hue / 60;
+        const h = this.#hue / 60;
         let x = c * (1 - Math.abs(h % 2 - 1));
         let m = light - c / 2;
         const precision = 255;
@@ -815,17 +774,17 @@ class Color extends Bindable {
         x = (x + m) * precision | 0;
         m = m * precision | 0;
         if (h >= 0 && h < 1) {
-            core.private(this, { red: c, green: x, blue: m });
+            this.#red = c; this.#green = x; this.#blue = m;
         } else if (h >= 1 && h < 2) {
-            core.private(this, { red: x, green: c, blue: m });
+            this.#red = x; this.#green = c; this.#blue = m;
         } else if (h >= 2 && h < 3) {
-            core.private(this, { red: m, green: c, blue: x });
+            this.#red = m; this.#green = c; this.#blue = x;
         } else if (h >= 3 && h < 4) {
-            core.private(this, { red: m, green: x, blue: c });
+            this.#red = m; this.#green = x; this.#blue = c;
         } else if (h >= 4 && h < 5) {
-            core.private(this, { red: x, green: m, blue: c });
+            this.#red = x; this.#green = m; this.#blue = c;
         } else if (h >= 5 && h < 6) {
-            core.private(this, { red: c, green: m, blue: x });
+            this.#red = c; this.#green = m; this.#blue = x;
         }
     }
     /**
@@ -833,10 +792,9 @@ class Color extends Bindable {
      */
     RGBtoHSV() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const red = priv.red / 255,
-            green = priv.green / 255,
-            blue = priv.blue / 255,
+        const red = this.#red / 255,
+            green = this.#green / 255,
+            blue = this.#blue / 255,
             cMax = Math.max(red, green, blue),
             cMin = Math.min(red, green, blue),
             delta = cMax - cMin;
@@ -849,19 +807,20 @@ class Color extends Bindable {
             cMax === blue && (hue = 4 + (red - green) / delta);
             cMax && (saturation = delta / cMax);
         }
-        hue = priv.hue = 60 * hue | 0;
+        hue = 60 * hue | 0;
         hue < 0 && (hue += 360);
-        core.private(this, { hue, saturation: saturation * 100 | 0, value: cMax * 100 | 0 });
+        this.#hue = hue;
+        this.#saturation = saturation * 100 | 0;
+        this.#value = cMax * 100 | 0;
     }
     /**
      * Convert RGB to HSL
      */
     RGBtoHSL() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const red = priv.red / 255;
-        const green = priv.green / 255;
-        const blue = priv.blue / 255;
+        const red = this.#red / 255;
+        const green = this.#green / 255;
+        const blue = this.#blue / 255;
         const cMax = Math.max(red, green, blue);
         const cMin = Math.min(red, green, blue);
         const delta = cMax - cMin;
@@ -878,17 +837,16 @@ class Color extends Bindable {
         }
         hue = 60 * hue | 0;
         hue < 0 && (hue += 360);
-        core.private(this, { hue, saturation: saturation * 100 | 0, lightness: lightness * 100 | 0 });
+        this.#hue = hue;
+        this.#saturation = saturation * 100 | 0;
+        this.#lightness = lightness * 100 | 0;
     }
     /**
      * Return black or white color for the best viewing fore color
      * @return  {String}        retrun black or white color
      */
     getForeColorHex() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return ((0.3 * priv.red) + (0.59 * priv.green) + (0.11 * priv.blue) <= 128) ? '#FFF' : '#000';
+        return ((0.3 * this.#red) + (0.59 * this.#green) + (0.11 * this.#blue) <= 128) ? '#FFF' : '#000';
     }
     //#endregion
 }

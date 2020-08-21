@@ -10,6 +10,7 @@ import { Css } from '/scripts/core/css.js';
  */
 //#region BitmapAnimation
 class BitmapAnimation extends Animation {
+    #current = {};
     /**
      * Create a new instance of BitmapAnimation.
      * @param   {Object}    owner       Owner of the BitmapAnimation.
@@ -25,28 +26,21 @@ class BitmapAnimation extends Animation {
             super(owner, props, autoStart);
             //#region Properties
             //#region Private Properties
-            const current = {};
-            core.private(this, {
-                current
-            });
-            current.canvas = doc.createElement(core.types.HTMLELEMENTS.CANVAS);
-            current.canvas.width = 1;
-            current.canvas.height = 1;
-            current.ctx = canvas.getContext('2d');
+            this.#current.canvas = doc.createElement(core.types.HTMLELEMENTS.CANVAS);
+            this.#current.canvas.width = 1;
+            this.#current.canvas.height = 1;
+            this.#current.ctx = canvas.getContext('2d');
             //#endregion Private Properties
             //#endregion Properties
         }
     }
     //#region Getters / Setters
     get current() {
-        return core.private(this).current;
+        return this.#current;
     }
     set current(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isObject(newValue) && newValue.canvas && priv.current !== newValue
-            && (priv.current = newValue);
+        core.tools.isObject(newValue) && newValue.canvas && this.#current !== newValue
+            && (this.#current = newValue);
     }
     //#endregion Getters / Setters
     //#region Methods
@@ -56,13 +50,12 @@ class BitmapAnimation extends Animation {
      */
     processAnimation() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const form = this.form;
         const control = this.control;
         const propertyName = this.propertyName;
         const stopValue = this.stopValue;
         const inverse = this.inverse;
-        const current = priv.current;
+        const current = this.#current;
         const currentCtx = current.ctx;
         const startValue = this.startValue;
         const imgCanvasCtx = control.imgCanvas.ctx;
@@ -175,8 +168,7 @@ class BitmapAnimation extends Animation {
      */
     destroy() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const current = priv.current;
+        const current = this.#current;
         //#endregion Variables déclaration
         if (current) {
             current.canvas = null;

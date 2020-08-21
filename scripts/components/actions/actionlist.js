@@ -4,6 +4,10 @@ import { Action } from '/scripts/components/actions/action.js';
 //#endregion
 //#region Action
 class ActionList extends Component {
+    //#region Private fields
+    #actions = [];
+    #imageList = null;
+    //#endregion Private fields
     /**
      * Create a new instance of Action.
      * @param    {object}    owner  Owner of the Action.
@@ -14,10 +18,7 @@ class ActionList extends Component {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            const priv = core.private(this, {
-                imageList: null
-            });
-            core.classes.newCollection(this, this, Action, "actions");
+            this.#actions.convertToCollection(owner, Action);
             this.createEventsAndBind(['onChange', 'onExecute', 'onUpdate'], props);
             props.actions && props.actions.length > 0 && props.actions.forEach(actionProps =>  {
                 //#region Variables déclaration
@@ -28,7 +29,7 @@ class ActionList extends Component {
                 Object.defineProperty(form, actionProps.name, {
                     enumerable: !1
                 });
-                this.actions.push(act);
+                this.#actions.push(act);
             });
         }
     }
@@ -36,14 +37,11 @@ class ActionList extends Component {
     //#region Getters / Setters
     //#region imageList
     get imageList() {
-        return core.private(this).imageList;
+        return this.#imageList;
     }
     set imageList(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof core.classes.ImageList && priv.imageList !== newValue) {
-            priv.imageList = newValue;
+        if (newValue instanceof core.classes.ImageList && this.#imageList !== newValue) {
+            this.#imageList = newValue;
             this.updateActions();
         }
     }
@@ -52,59 +50,46 @@ class ActionList extends Component {
     //#region Methods
     //#region changeAction
     changeAction(index, newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (index > 0 && index < priv.actions.length - 1 && newValue instanceof Action && priv.actions[index]) {
-            priv.actions[index].destroy();
-            priv.actions[index] = newValue;
+        if (index > 0 && index < this.#actions.length - 1 && newValue instanceof Action && this.#actions[index]) {
+            this.#actions[index].destroy();
+            this.#actions[index] = newValue;
         }
     }
     //#endregion changeAction
     //#region getAction
     getAction(index) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (index > 0 && index < priv.actions.length - 1) {
-            return priv.actions[index];
+        if (index > 0 && index < this.#actions.length - 1) {
+            return this.#actions[index];
         }
     }
     //#endregion getAction
     //#region getAction
     addAction(action) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        action instanceof Action && priv.actions.indexOf(action) === -1 && priv.actions.push(action);
+        action instanceof Action && this.#actions.indexOf(action) === -1 && this.#actions.push(action);
     }
     //#endregion getAction
     //#region removeAction
     removeAction(action) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        action instanceof Action && priv.actions.indexOf(action) > -1 && priv.actions.remove(action);
+        action instanceof Action && this.#actions.indexOf(action) > -1 && this.#actions.remove(action);
     }
     //#endregion removeAction
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const form = this.form;
         let imageList = this.props.imageList;
-        let actions = this.actions;
+        let actions = this.#actions;
         //#endregion Variables déclaration
         super.loaded();
         if (imageList) {
             if (form[imageList]) {
-                priv.imageList = form[datas];
+                this.#imageList = form[datas];
             } else if (core.tools.isString(imageList)) {
                 if (imageList.contains('.')) {
                     imageList = imageList.split('.');
                     if (this.app[imageList.first]) {
                         imageList = this.app[imageList.first][imageList.last];
-                        imageList && (priv.imageList = imageList);
+                        imageList && (this.#imageList = imageList);
                     }
                 }
             }
@@ -121,15 +106,12 @@ class ActionList extends Component {
     //#endregion executeAction
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        while (priv.actions.length > 0) {
-            const act = priv.actions.pop();
+        while (this.#actions.length > 0) {
+            const act = this.#actions.pop();
             act.destroy();
         }
-        priv.imageList.destroy();
-        priv.imageList = null;
+        this.#imageList.destroy();
+        this.#imageList = null;
         super.destroy();
     }
     //#endregion destroy

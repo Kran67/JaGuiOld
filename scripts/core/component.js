@@ -23,6 +23,7 @@ class Component extends Bindable {
     #left;
     #top;
     #owner;
+    #components = [];
     //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
@@ -46,7 +47,7 @@ class Component extends Bindable {
         } else {
             this.#form = this;
         }
-        core.classes.newCollection(this, this, core.classes.Component, 'components');
+        this.#components.convertToCollection(owner, core.classes.Component);
         if (owner instanceof core.classes.Component) {
             this.#owners.addRange(owner.owners);
             this.#owners.push(owner);
@@ -54,6 +55,11 @@ class Component extends Bindable {
     }
     //#endregion constructor
     //#region Getter / Setters
+    //#region components
+    get components() {
+        return this.#components;
+    }
+    //#endregion components
     //#region owner
     get owner() {
         return this.#owner;
@@ -410,7 +416,7 @@ class Component extends Bindable {
             }
         }
         this.positioning();
-        this.components.forEach(comp => {
+        this.#components.forEach(comp => {
             comp.loaded && comp.loading && comp.loaded();
         });
     }
@@ -426,7 +432,7 @@ class Component extends Bindable {
     //#region insert
     insert(component) {
         //#region Variables déclaration
-        const components = this.components;
+        const components = this.#components;
         const form = this.#form;
         const controls = form.controls;
         //#endregion Variables déclaration
@@ -449,7 +455,7 @@ class Component extends Bindable {
     //#region remove
     remove(component) {
         //#region Variables déclaration
-        const components = this.components;
+        const components = this.#components;
         const form = this.#form;
         const controls = form.controls;
         //#endregion Variables déclaration
@@ -476,7 +482,7 @@ class Component extends Bindable {
     //#region getComponent
     getComponent(index) {
         //#region Variables déclaration
-        const components = this.components;
+        const components = this.#components;
         //#endregion Variables déclaration
         if (components.length === 0 || index >= components.length) {
             throw core.errMsg.LISTINDEXERROR.format(index);
@@ -494,7 +500,7 @@ class Component extends Bindable {
         //#region Variables déclaration
         let instance;
         //#endregion Variables déclaration
-        const components = this.components;
+        const components = this.#components;
         if (components) {
             while (components.length > 0) {
                 instance = components.last;
@@ -509,7 +515,7 @@ class Component extends Bindable {
     //#region _destroying
     _destroying() {
         //#region Variables déclaration
-        const components = this.components;
+        const components = this.#components;
         //#endregion Variables déclaration
         if (!this.#destroying) {
             this.#destroying = !0;
@@ -523,7 +529,7 @@ class Component extends Bindable {
     //#region findComponent
     findComponent(name) {
         //#region Variables déclaration
-        const components = this.components;
+        const components = this.#components;
         //#endregion Variables déclaration
         if (!String.isNullOrEmpty(name) && components) {
             const ret = components.find(comp => {

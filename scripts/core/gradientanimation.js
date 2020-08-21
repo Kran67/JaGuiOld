@@ -29,8 +29,10 @@ class GradientAnimation extends Animation {
      * Start the animation
      */
     start() {
+        //#region Variables déclaration
         const control = this.control;
         const propertyName = this.propertyName;
+        //#endregion Variables déclaration
         if (control) {
             if (!core.isHTMLRenderer || control.HTMLElement === core.types.HTMLELEMENTS.CANVAS
                 && this.startFromCurrent && control[propertyName]
@@ -44,9 +46,11 @@ class GradientAnimation extends Animation {
      * process animation on each tick
      */
     processAnimation() {
+        //#region Variables déclaration
         const control = this.control;
         const form = this.form;
         const propertyName = this.propertyName;
+        //#endregion Variables déclaration
         if (control) {
             if (!this.convertToCSS || control.HTMLElement === core.types.HTMLELEMENTS.CANVAS) {
                 if (core.isHTMLRenderer && control.checkOwnerVisible() && !form.loading && !form.creating) {

@@ -28,8 +28,10 @@ class FloatAnimation extends Animation {
      * Start the animation
      */
     start() {
+        //#region Variables déclaration
         const control = this.control;
         const propertyName = this.propertyName;
+        //#endregion Variables déclaration
         if (control) {
             !this.convertToCSS || control.HTMLElement === core.types.HTMLELEMENTS.CANVAS
                 && this.startFromCurrent && !isNaN(control[propertyName])
@@ -49,9 +51,11 @@ class FloatAnimation extends Animation {
      * process animation on each tick
      */
     processAnimation() {
+        //#region Variables déclaration
         const control = this.control;
         const form = this.form;
         const propertyName = this.propertyName;
+        //#endregion Variables déclaration
         if (!this.convertToCSS || control.HTMLElement === core.types.HTMLELEMENTS.CANVAS) {
             if (!core.isHTMLRenderer && !control.checkOwnerVisible()) {
                 return;

@@ -4,6 +4,9 @@ import { Css } from '/scripts/core/css.js';
 import { Interpolation } from '/scripts/core/interpolations.js';
 //#region RectAnimation
 class RectAnimation extends Animation {
+    //#region Private fields
+    #current;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props, autoStart) {
         props = !props ? {} : props;
@@ -12,16 +15,11 @@ class RectAnimation extends Animation {
             props.startFromCurrent = !1;
             props.stopValue = new core.classes.Rect;
             super(owner, props, autoStart);
-            core.private(this, {
-                current: new core.classes.Rect
-            });
+            this.#current = new core.classes.Rect;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
-    get current() {
-        return core.private(this).current;
-    }
     //#endregion Getters / Setters
     //#region Methods
     //#region start
@@ -40,7 +38,7 @@ class RectAnimation extends Animation {
     processAnimation() {
         //#region Variables déclaration
         const nt = this.normalizedTime();
-        const rect = this.current;
+        const rect = this.#current;
         const startValue = this.startValue;
         const stopValue = this.stopValue;
         const control = this.control;
@@ -59,7 +57,7 @@ class RectAnimation extends Animation {
             rect.top = Interpolation.single(startValue.top, stopValue.top, nt);
             rect.right = Interpolation.single(startValue.right, stopValue.right, nt);
             rect.bottom = Interpolation.single(startValue.bottom, stopValue.bottom, nt);
-            this.current.assign(rect);
+            this.#current.assign(rect);
             if (control[propertyName]) {
                 if (control[propertyName] instanceof Rect) {
                     control.allowUpdate && !core.isHTMLRenderer && control.update();

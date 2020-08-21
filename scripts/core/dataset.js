@@ -8,6 +8,19 @@ import { Convert } from '/scripts/core/convert.js';
  */
 //#region DataSet
 class DataSet extends Component {
+    //#region Private fields
+    #data = [];
+    #cursorIdx = -1;
+    #cursor = null;
+    #numFields = 0;
+    #numRecords = 0;
+    #keyValues;
+    #dataSource;
+    #active;
+    #activeOnLoad;
+    #isOpen;
+    #keyField;
+    //#endregion Private fields
     /**
      * Create a new instance of DataSet.
      * @param       {Component}     owner       The owner component
@@ -20,19 +33,12 @@ class DataSet extends Component {
             super(owner, props);
             //#region Properties
             //#region Private Properties
-            core.private(this, {
-                data: [],
-                cursorIdx: -1,
-                cursor: null,
-                numFields: 0,
-                numRecords: 0,
-                keyValues: props.hasOwnProperty('keyValues') ? props.keyValues : String.EMPTY,
-                dataSource: props.hasOwnProperty('dataSource') ? props.dataSource : null,
-                active: props.hasOwnProperty('active') ? props.active : !1,
-                activeOnLoad: props.hasOwnProperty('activeOnLoad') ? props.activeOnLoad : !0,
-                isOpen: props.hasOwnProperty('isOpen') ? props.isOpen : !1,
-                keyField: props.hasOwnProperty('keyField') ? props.keyField : String.EMPTY
-            });
+            this.#keyValues = props.hasOwnProperty('keyValues') ? props.keyValues : String.EMPTY;
+            this.#dataSource = props.hasOwnProperty('dataSource') ? props.dataSource : null;
+            this.#active = props.hasOwnProperty('active') ? props.active : !1;
+            this.#activeOnLoad = props.hasOwnProperty('activeOnLoad') ? props.activeOnLoad : !0;
+            this.#isOpen = props.hasOwnProperty('isOpen') ? props.isOpen : !1;
+            this.#keyField = props.hasOwnProperty('keyField') ? props.keyField : String.EMPTY;
             //#endregion Private Properties
             //#region Public Properties
             //#endregion Public Properties
@@ -43,105 +49,81 @@ class DataSet extends Component {
     //#region Getters / Setters
     //#region data
     get data() {
-        return core.private(this).data;
+        return this.#data;
     }
     set data(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        Array.isArray(newValue) && priv.data !== newValue
-            && (priv.data = newValue);
+        Array.isArray(newValue) && this.#data !== newValue
+            && (this.#data = newValue);
     }
     //#endregion data
     //#region cursorIdx
     get cursorIdx() {
-        return core.private(this).cursorIdx;
+        return this.#cursorIdx;
     }
     set cursorIdx(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv.cursorIdx !== newValue
-            && (priv.cursorIdx = newValue);
+        core.tools.isNumber(newValue) && this.#cursorIdx !== newValue
+            && (this.#cursorIdx = newValue);
     }
     //#endregion cursorIdx
     //#region cursor
     get cursor() {
-        return core.private(this).cursor;
+        return this.#cursor;
     }
     set cursor(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isObject(newValue) && priv.cursor !== newValue
-            && (priv.cursor = newValue);
+        core.tools.isObject(newValue) && this.#cursor !== newValue
+            && (this.#cursor = newValue);
     }
     //#endregion cursor
     //#region numFields
     get numFields() {
-        return core.private(this).numFields;
+        return this.#numFields;
     }
     set numFields(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv.numFields !== newValue
-            && (priv.numFields = newValue);
+        core.tools.isNumber(newValue) && this.#numFields !== newValue
+            && (this.#numFields = newValue);
     }
     //#endregion numFields
     //#region numRecords
     get numRecords() {
-        return core.private(this).numRecords;
+        return this.#numRecords;
     }
     set numRecords(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv.numRecords !== newValue
-            && (priv.numRecords = newValue);
+        core.tools.isNumber(newValue) && this.#numRecords !== newValue
+            && (this.#numRecords = newValue);
     }
     //#endregion numRecords
     //#region keyValues
     get keyValues() {
-        return core.private(this).keyValues;
+        return this.#keyValues;
     }
     set keyValues(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv.keyValues !== newValue
-            && (priv.keyValues = newValue);
+        core.tools.isString(newValue) && this.#keyValues !== newValue
+            && (this.#keyValues = newValue);
     }
     //#endregion keyValues
     //#region dataSource
     get dataSource() {
-        return core.private(this).dataSource;
+        return this.#dataSource;
     }
     set dataSource(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof core.classes.DataSource && priv.dataSource !== newValue) {
-            //priv.active = !1;
-            priv.dataSource = newValue;
-            //priv.active = !0;
+        if (newValue instanceof core.classes.DataSource && this.#dataSource !== newValue) {
+            //this.#active = !1;
+            this.#dataSource = newValue;
+            //this.#active = !0;
         }
     }
     //#endregion dataSource
     //#region active
     get active() {
-        return core.private(this).active;
+        return this.#active;
     }
     set active(newValue) {
-        //#region Variables déclaration
-        let priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.active !== newValue) {
-            priv.active = newValue;
-            if (priv.active) {
+        if (core.tools.isBool(newValue) && this.#active !== newValue) {
+            this.#active = newValue;
+            if (this.#active) {
                 this.open();
                 this.getKeyValues();
-                priv.cursorIdx = 0;
+                this.#cursorIdx = 0;
             } else {
                 this.close();
             }
@@ -150,18 +132,15 @@ class DataSet extends Component {
     //#endregion active
     //#region activeOnLoad
     get activeOnLoad() {
-        return core.private(this).activeOnLoad;
+        return this.#activeOnLoad;
     }
     //#endregion activeOnLoad
     //#region isOpen
     get isOpen() {
-        return core.private(this).isOpen;
+        return this.#isOpen;
     }
     set isOpen(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.isOpen !== newValue && (priv.isOpen = newValue);
+        core.tools.isBool(newValue) && this.#isOpen !== newValue && (this.#isOpen = newValue);
     }
     //#endregion isOpen
     /**
@@ -170,19 +149,16 @@ class DataSet extends Component {
      */
     //#region keyField
     get keyField() {
-        return core.core.private(this).keyField;
+        return core.this.#keyField;
     }
     /**
      * Set the keyField value
      * @param   {String}        newValue        the new key field
      */
     set keyField(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.keyField !== newValue) {
-            priv.keyField = newValue;
-            priv.dataSource.refreshControls();
+        if (core.tools.isString(newValue) && this.#keyField !== newValue) {
+            this.#keyField = newValue;
+            this.#dataSource.refreshControls();
         }
     }
     //#endregion keyField
@@ -193,14 +169,11 @@ class DataSet extends Component {
      */
     //#region open
     open() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (!priv.data.isEmpty) {
-            priv.cursorIdx = 0;
-            priv.cursor = priv.data[priv.cursorIdx];
-            priv.isOpen = !0;
-            priv.dataSource.refreshControls();
+        if (!this.#data.isEmpty) {
+            this.#cursorIdx = 0;
+            this.#cursor = this.#data[this.#cursorIdx];
+            this.#isOpen = !0;
+            this.#dataSource.refreshControls();
         }
     }
     //#endregion open
@@ -209,13 +182,10 @@ class DataSet extends Component {
      */
     //#region close
     close() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.isOpen = !1;
-        priv.cursorIdx = -1;
-        priv.keyValues = String.EMPTY;
-        priv.dataSource.refreshControls();
+        this.#isOpen = !1;
+        this.#cursorIdx = -1;
+        this.#keyValues = String.EMPTY;
+        this.#dataSource.refreshControls();
     }
     //#endregion close
     /**
@@ -223,13 +193,10 @@ class DataSet extends Component {
      */
     //#region next
     next() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.cursorIdx++;
-        priv.cursorIdx > priv.numRecords && (priv.cursorIdx = priv.numRecords - 1);
+        this.#cursorIdx++;
+        this.#cursorIdx > this.#numRecords && (this.#cursorIdx = this.#numRecords - 1);
         this.getKeyValues();
-        priv.dataSource.refreshControls();
+        this.#dataSource.refreshControls();
     }
     //#endregion next
     /**
@@ -237,13 +204,10 @@ class DataSet extends Component {
      */
     //#region prev
     prev() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.cursorIdx--;
-        priv.cursorIdx = Math.max(priv.cursorIdx, 0);
+        this.#cursorIdx--;
+        this.#cursorIdx = Math.max(this.#cursorIdx, 0);
         this.getKeyValues();
-        priv.dataSource.refreshControls();
+        this.#dataSource.refreshControls();
     }
     //#endregion prev
     /**
@@ -251,12 +215,9 @@ class DataSet extends Component {
      */
     //#region first
     first() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.cursorIdx = 0;
+        this.#cursorIdx = 0;
         this.getKeyValues();
-        priv.dataSource.refreshControls();
+        this.#dataSource.refreshControls();
     }
     //#endregion first
     /**
@@ -264,12 +225,9 @@ class DataSet extends Component {
      */
     //#region last
     last() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.cursorIdx = priv.numRecords - 1;
+        this.#cursorIdx = this.#numRecords - 1;
         this.getKeyValues();
-        priv.dataSource.refreshControls();
+        this.#dataSource.refreshControls();
     }
     //#endregion last
     /**
@@ -278,10 +236,7 @@ class DataSet extends Component {
      */
     //#region hasKeyfield
     hasKeyfield() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return !priv.keyFields.isEmpty;
+        return !this.#keyFields.isEmpty;
     }
     //#endregion hasKeyfield
     /**
@@ -290,20 +245,19 @@ class DataSet extends Component {
     //#region getKeyValues
     getKeyValues() {
         //#region Variables déclaration
-        const priv = core.private(this);
         let values = null;
         //#endregion Variables déclaration
-        if (!String.isNullOrEmpty(priv.keyFields)) {
+        if (!String.isNullOrEmpty(this.#keyFields)) {
             const keyFields = this.keyFields.split(',');
-            const cursor = priv.data[priv.cursorIdx];
-            priv.keyValues = String.EMPTY;
+            const cursor = this.#data[this.#cursorIdx];
+            this.#keyValues = String.EMPTY;
             keyFields.forEach((key, i) => {
                 if (cursor[key]) {
                     i > 0 && (values += '|');
                     values += cursor[key];
                 }
             });
-            priv.keyValues = values;
+            this.#keyValues = values;
         }
     }
     //#endregion getKeyValues
@@ -313,12 +267,11 @@ class DataSet extends Component {
     //#region goToCurrentCursor
     goToCurrentCursor() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const keyValues = prvi.keyValues;
         const keyFields = prvi.keyFields.split(',');
         let idx = -1;
         //#endregion Variables déclaration
-        priv.data.filter((e, i) => {
+        this.#data.filter((e, i) => {
             let ret = !1;
             let keyValue = String.EMPTY;
             keyFields.forEach((key, j) => {
@@ -330,10 +283,9 @@ class DataSet extends Component {
                 idx = i;
             }
             return ret;
-        }
-        );
-        priv.cursorIdx = idx;
-        priv.cursor = priv.data[priv.cursorIdx];
+        });
+        this.#cursorIdx = idx;
+        this.#cursor = this.#data[this.#cursorIdx];
     }
     //#endregion goToCurrentCursor
     /**
@@ -440,10 +392,7 @@ class DataSet extends Component {
      */
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.data && priv.data.destroy();
+        this.#data && this.#data.destroy();
         super.destroy();
     }
     //#endregion destroy

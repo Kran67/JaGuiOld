@@ -1,10 +1,23 @@
 ﻿//#region Imports
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Events } from '/scripts/core/events.js';
-import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Imports
 //#region Class CustomTextControl
 class CustomTextControl extends ThemedControl {
+    //#region Private fields
+    #inputObj = null;
+    #hasError;
+    #text;
+    #maxLength;
+    #readOnly;
+    #placeHolder;
+    #filterChars;
+    #autoTranslate = !0;
+    #required;
+    #errorMsg;
+    #horizAlign;
+    #type;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -14,36 +27,36 @@ class CustomTextControl extends ThemedControl {
             super(owner, props);
             //#region Properties
             //#region Private Properties
-            core.private(this, {
-                inputObj: null,
-                hasError: props.hasOwnProperty('hasError') ? props.hasError : !1,
-                text: props.hasOwnProperty('text') ? props.text : String.EMPTY,
-                maxLength: props.hasOwnProperty('maxLength') ? props.maxLength : 0,
-                readOnly: props.hasOwnProperty('readOnly') ? props.readOnly : !1,
-                placeHolder: props.hasOwnProperty('placeHolder') ? props.placeHolder : String.EMPTY,
-                filterChars: props.hasOwnProperty('filterChars') ? props.filterChars : String.EMPTY,
-                autoTranslate: !0,
-                required: props.hasOwnProperty('required') ? props.required : !1,
-                errorMsg: props.hasOwnProperty('errorMsg') ? props.errorMsg : String.EMPTY
-            });
+            this.#hasError = props.hasOwnProperty('hasError') ? props.hasError : !1;
+            this.#text = props.hasOwnProperty('text') ? props.text : String.EMPTY;
+            this.#maxLength = props.hasOwnProperty('maxLength') ? props.maxLength : 0;
+            this.#readOnly = props.hasOwnProperty('readOnly') ? props.readOnly : !1;
+            this.#placeHolder = props.hasOwnProperty('placeHolder') ? props.placeHolder : String.EMPTY;
+            this.#filterChars = props.hasOwnProperty('filterChars') ? props.filterChars : String.EMPTY;
+            this.#required = props.hasOwnProperty('required') ? props.required : !1;
+            this.#errorMsg = props.hasOwnProperty('errorMsg') ? props.errorMsg : String.EMPTY;
             let textAligns = core.types.TEXTALIGNS;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'horizAlign',
-                enum: textAligns,
-                forceUpdate: !0,
-                value: props.hasOwnProperty('horizAlign') ? props.horizAlign : textAligns.CENTER
-            });
+            this.#horizAlign = props.hasOwnProperty('horizAlign') ? props.horizAlign : textAligns.CENTER;
+            this.addPropertyEnum('horizAlign', textAligns);
+            //core.tools.addPropertyFromEnum({
+            //    component: this,
+            //    propName: 'horizAlign',
+            //    enum: textAligns,
+            //    forceUpdate: !0,
+            //    value: props.hasOwnProperty('horizAlign') ? props.horizAlign : textAligns.CENTER
+            //});
             textAligns = null;
             let htmlInputTypes = core.types.HTMLINPUTTYPES;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'type',
-                enum: htmlInputTypes,
-                forceUpdate: !0,
-                enumerable: !1,
-                value: props.hasOwnProperty('type') ? props.type : htmlInputTypes.TEXT
-            });
+            this.#type = props.hasOwnProperty('type') ? props.type : htmlInputTypes.TEXT;
+            this.addPropertyEnum('type', htmlInputTypes);
+            //core.tools.addPropertyFromEnum({
+            //    component: this,
+            //    propName: 'type',
+            //    enum: htmlInputTypes,
+            //    forceUpdate: !0,
+            //    enumerable: !1,
+            //    value: props.hasOwnProperty('type') ? props.type : htmlInputTypes.TEXT
+            //});
             htmlInputTypes = null;
             //#endregion Private Properties
             //#region Public Properties
@@ -54,47 +67,64 @@ class CustomTextControl extends ThemedControl {
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region horizAlign
+    get horizAlign() {
+        return this.#horizAlign;
+    }
+    set horizAlign(newValue) {
+        if (core.tools.valueInSet(newValue, core.types.TEXTALIGNS) && this.#horizAlign !== newValue) {
+            this.#horizAlign = newValue;
+            this.update && !this.loading && !this.form.creating && !this.form.loading && this.update();
+        }
+    }
+    //#endregion horizAlign
+    //#region type
+    get type() {
+        return this.#type;
+    }
+    set type(newValue) {
+        if (core.tools.valueInSet(newValue, core.types.HTMLINPUTTYPES) && this.#type !== newValue) {
+            this.#type = newValue;
+            this.update && !this.loading && !this.form.creating && !this.form.loading && this.update();
+        }
+    }
+    //#endregion type
     //#region inputObj
     get inputObj() {
-        return core.private(this).inputObj;
+        return this.#inputObj;
     }
     set inputObj(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if ((newValue instanceof HTMLInputElement || newValue instanceof HTMLTextAreaElement)
-            && priv.inputObj !== newValue) {
-            htmlElement.removeChild(priv.inputObj);
-            priv.inputObj = newValue;
+            && this.#inputObj !== newValue) {
+            htmlElement.removeChild(this.#inputObj);
+            this.#inputObj = newValue;
             htmlElement.appendChild(newValue);
         }
     }
     //#endregion inputObj
     //#region hasError
     get hasError() {
-        return core.private(this).hasError;
+        return this.#hasError;
     }
     set hasError(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.hasError !== newValue
-            && (priv.hasError = newValue);
+        core.tools.isBool(newValue) && this.#hasError !== newValue
+            && (this.#hasError = newValue);
         htmlElement.classList[newValue ? 'add' : 'remove']('haserror');
     }
     //#endregion hasError
     //#region text
     get text() {
-        return core.private(this).text;
+        return this.#text;
     }
     set text(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.text !== newValue) {
-            priv.text = newValue;
+        if (core.tools.isString(newValue) && this.#text !== newValue) {
+            this.#text = newValue;
             this.propertyChanged('text');
             !this.loading && !this.form.loading && core.isHTMLRenderer && this.update();
         }
@@ -102,14 +132,11 @@ class CustomTextControl extends ThemedControl {
     //#endregion text
     //#region maxLength
     get maxLength() {
-        return core.private(this).maxLength;
+        return this.#maxLength;
     }
     set maxLength(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.maxLength !== newValue) {
-            priv.maxLength = newValue;
+        if (core.tools.isNumber(newValue) && this.#maxLength !== newValue) {
+            this.#maxLength = newValue;
             this.propertyChanged('maxLength');
             core.isHTMLRenderer && this.update();
         }
@@ -117,14 +144,11 @@ class CustomTextControl extends ThemedControl {
     //#endregion maxLength
     //#region readOnly
     get readOnly() {
-        return core.private(this).readOnly;
+        return this.#readOnly;
     }
     set readOnly(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.readOnly!== newValue) {
-            priv.readOnly = newValue;
+        if (core.tools.isBool(newValue) && this.#readOnly !== newValue) {
+            this.#readOnly = newValue;
             this.propertyChanged('readOnly');
             core.isHTMLRenderer && this.update();
         }
@@ -132,14 +156,11 @@ class CustomTextControl extends ThemedControl {
     //#endregion readOnly
     //#region placeHolder
     get placeHolder() {
-        return core.private(this).placeHolder;
+        return this.#placeHolder;
     }
     set placeHolder(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.placeHolder !== newValue) {
-            priv.placeHolder = newValue;
+        if (core.tools.isString(newValue) && this.#placeHolder !== newValue) {
+            this.#placeHolder = newValue;
             this.propertyChanged('placeHolder');
             core.isHTMLRenderer && this.update();
         }
@@ -147,60 +168,47 @@ class CustomTextControl extends ThemedControl {
     //#endregion placeHolder
     //#region filterChars
     get filterChars() {
-        return core.private(this).filterChars;
+        return this.#filterChars;
     }
     set filterChars(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv.filterChars !== newValue
-            && (priv.filterChars = newValue);
+        core.tools.isString(newValue) && this.#filterChars !== newValue
+            && (this.#filterChars = newValue);
     }
     //#endregion filterChars
     //#region autoTranslate
     get autoTranslate() {
-        return core.private(this).autoTranslate;
+        return this.#autoTranslate;
     }
     set autoTranslate(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.autoTranslate !== newValue
-            && (priv.autoTranslate = newValue);
+        core.tools.isBool(newValue) && this.#autoTranslate !== newValue
+            && (this.#autoTranslate = newValue);
     }
     //#endregion autoTranslate
     //#region required
     get required() {
-        return core.private(this).required;
+        return this.#required;
     }
     set required(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.required !== newValue
-            && (priv.required = newValue);
+        core.tools.isBool(newValue) && this.#required !== newValue
+            && (this.#required = newValue);
     }
     //#endregion required
     //#region errorMsg
     get errorMsg() {
-        return core.private(this).errorMsg;
+        return this.#errorMsg;
     }
     set errorMsg(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv.errorMsg !== newValue
-            && (priv.errorMsg = newValue);
+        core.tools.isString(newValue) && this.#errorMsg !== newValue
+            && (this.#errorMsg = newValue);
     }
     //#endregion errorMsg
     //#region enabled
     get enabled() {
-        return core.private(this).enabled;
+        return super.enabled;
     }
     set enabled(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const inputObj = priv.inputObj;
+        const inputObj = this.#inputObj;
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && this.enabled !== newValue) {
             super.enabled = newValue;
@@ -213,15 +221,14 @@ class CustomTextControl extends ThemedControl {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (!htmlElement.querySelector('input')) {
-            priv.inputObj = document.createElement(core.types.HTMLELEMENTS.INPUT);
-            priv.inputObj.type = priv.type;
-            priv.inputObj.classList.add('csr_text', 'TextBoxInput', `${this.constructor.name}Input`, this.themeName);
-            priv.inputObj.jsObj = this;
-            htmlElement.appendChild(priv.inputObj);
+            this.#inputObj = document.createElement(core.types.HTMLELEMENTS.INPUT);
+            this.#inputObj.type = this.#type;
+            this.#inputObj.classList.add('csr_text', 'TextBoxInput', `${this.constructor.name}Input`, this.themeName);
+            this.#inputObj.jsObj = this;
+            htmlElement.appendChild(this.#inputObj);
             this.bindEventToHTMLInput();
         }
         super.loaded();
@@ -232,14 +239,13 @@ class CustomTextControl extends ThemedControl {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const inputObj = priv.inputObj;
+        const inputObj = this.#inputObj;
         //#endregion Variables déclaration
         if (!this.loading && !this.form.loading && inputObj) {
-            inputObj.value = priv.text;
-            priv.maxLength > 0 && inputObj.setAttribute('maxlength', priv.maxLength);
-            inputObj.setAttribute('placeholder', priv.placeHolder);
-            priv.readOnly
+            inputObj.value = this.#text;
+            this.#maxLength > 0 && inputObj.setAttribute('maxlength', this.#maxLength);
+            inputObj.setAttribute('placeholder', this.#placeHolder);
+            this.#readOnly
                 ? inputObj.setAttribute('readonly', String.EMPTY)
                 : inputObj.removeAttribute('readonly');
         }
@@ -256,24 +262,18 @@ class CustomTextControl extends ThemedControl {
     //#endregion textChanged
     //#region keyPress
     keyPress() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         const filterChars = this.filterChars;
         !core.keyboard.isNavigationKey && filterChars.length > 0
             && filterChars.indexOf(core.keyboard.key) === -1
             && core.keyboard.stopEvent();
-        //this.textChanged.apply(priv.inputObj);
+        //this.textChanged.apply(this.#inputObj);
         super.keyPress();
         //this.onChange.invoke();
     }
     //#endregion keyPress
     //#region keyUp
     keyUp() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        this.textChanged.apply(priv.inputObj);
+        this.textChanged.apply(this.#inputObj);
         super.keyUp();
         this.onChange.invoke();
     }
@@ -296,20 +296,14 @@ class CustomTextControl extends ThemedControl {
     //#endregion HTMLBlur
     //#region setFocus
     setFocus() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        const inputObj = priv.inputObj;
+        const inputObj = this.#inputObj;
         super.setFocus();
         this.canFocused && inputObj && inputObj.focus();
     }
     //#endregion setFocus
     //#region selectAll
     selectAll() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.inputObj.setSelectionRange(0, priv.inputObj.value.length);
+        this.#inputObj.setSelectionRange(0, this.#inputObj.value.length);
     }
     //#endregion selectAll
     //#region destroy
@@ -322,8 +316,7 @@ class CustomTextControl extends ThemedControl {
     //#region bindEventToHTMLInput
     bindEventToHTMLInput() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const inputObj = priv.inputObj;
+        const inputObj = this.#inputObj;
         const htmlEvents = core.types.HTMLEVENTS;
         //#endregion Variables déclaration
         Events.bind(inputObj, htmlEvents.INPUT, this.textChanged);
@@ -334,8 +327,7 @@ class CustomTextControl extends ThemedControl {
     //#region unbindEventToHTMLInput
     unbindEventToHTMLInput() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const inputObj = priv.inputObj;
+        const inputObj = this.#inputObj;
         const htmlEvents = core.types.HTMLEVENTS;
         //#endregion Variables déclaration
         Events.unBind(inputObj, htmlEvents.INPUT, this.textChanged);

@@ -7,40 +7,42 @@ import '/scripts/components/nonvisual/imagelist.js';
 //#endregion Import
 //#region Class MainMenu
 class MainMenu extends Component {
+    //#region Private fields
+    #items = [];
+    #active;
+    #images = null;
+    #HTMLMenu;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                active: props.hasOwnProperty('active') && core.tools.isBool(props.active) ? props.active : !1,
-                images: null
-            });
-            core.classes.newCollection(this, this, MenuItem);
+            this.#active = props.hasOwnProperty('active') && core.tools.isBool(props.active) ? props.active : !1;
+            this.#items.convertToCollection(owner, MenuItem);
         }
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region items
+    get items() {
+        return this.#items;
+    }
+    //#endregion items
     //#region active
     get active() {
-        return core.private(this).active;
+        return this.#active;
     }
     set active(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.active !== newValue && (priv.active = newValue);
+        core.tools.isBool(newValue) && this.#active !== newValue && (this.#active = newValue);
     }
     //#endregion active
     //#region images
     get images() {
-        return core.private(this).images;
+        return this.#images;
     }
     set images(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        newValue instanceof core.classes.ImageList && priv.images !== newValue && (priv.images = newValue);
+        newValue instanceof core.classes.ImageList && this.#images !== newValue && (this.#images = newValue);
     }
     //#endregion active
     //#region isEnabled
@@ -65,13 +67,12 @@ class MainMenu extends Component {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const form = this.form;
         //#endregion Variables déclaration
         super.loaded();
-        priv.HTMLMenu = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}-bar`);
-        priv.HTMLMenu.classList.add('Control', 'MainMenuBar', form.themeName);
-        form.HTMLElement.firstElementChild.appendChild(priv.HTMLMenu);
+        this.#HTMLMenu = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}-bar`);
+        this.#HTMLMenu.classList.add('Control', 'MainMenuBar', form.themeName);
+        form.HTMLElement.firstElementChild.appendChild(this.#HTMLMenu);
         this.getImages();
         this.generateItems();
         !this.loading && !form.loading && !form.mainMenu && (form.mainMenu = this);
@@ -87,17 +88,15 @@ class MainMenu extends Component {
     //#region getImages
     getImages() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const form = this.form;
         const imgList = this.props.hasOwnProperty('images') ? form[this.props.images] : null;
         //#endregion Variables déclaration
-        imgList && (priv.images = imgList) && imgList.addReference(this);
+        imgList && (this.#images = imgList) && imgList.addReference(this);
     }
     //#endregion getImages
     //#region generateItems
     generateItems() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const menus = this.props.menus;
         //#endregion Variables déclaration
         menus.forEach(menu => {
@@ -106,7 +105,7 @@ class MainMenu extends Component {
                 owner: this,
                 props: {
                     ...menu,
-                    parentHTML: priv.HTMLMenu,
+                    parentHTML: this.#HTMLMenu,
                     inMainMenu: !0
                 }
             }));
@@ -220,8 +219,8 @@ core.classes.register(core.types.CATEGORIES.MENUS, MainMenu);
 //#region Templates
 if (core.isHTMLRenderer) {
     const MainMenuTpl = ['<jagui-mainmenu id="{internalId}" data-class="MainMenu" class="Control ShortCutIcon MainMenu">',
-                         '<properties>{ "name": "{name}" }</properties>',
-                         '</jagui-menuitem>'].join(String.EMPTY);
+        '<properties>{ "name": "{name}" }</properties>',
+        '</jagui-menuitem>'].join(String.EMPTY);
     core.classes.registerTemplates([{ Class: MainMenu, template: MainMenuTpl }]);
 }
 //#endregion Templates

@@ -131,9 +131,12 @@ class Classes {
     //#endregion checkClassAndOwnerClass
     //#region newCollection
     static newCollection(obj, owner, itemsClass, propName = 'items') {
-        obj[propName] = [];
-        obj[propName].convertToCollection(owner, itemsClass);
-        !obj.internalKey && console.log(obj.name, obj.constructor.name);
+        if (!Array.isArray(propName)) {
+            obj[propName] = [];
+            obj[propName].convertToCollection(owner, itemsClass);
+        } else {
+            propName.convertToCollection(owner, itemsClass);
+        }
     }
     //#endregion newCollection
     //#region getClassName

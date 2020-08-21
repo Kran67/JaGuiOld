@@ -14,6 +14,12 @@ const KINDS = Object.freeze(Object.seal({
 //#endregion KINDS
 //#region PathPoint
 class PathPoint extends BaseClass {
+    //#region Private fields
+    #kind;
+    #point;
+    #cp1;
+    #cp2;
+    //#endregion Private fields
     //#region KINDS
     /**
      * @type    {Object}
@@ -25,69 +31,52 @@ class PathPoint extends BaseClass {
     //#region Constructor
     constructor() {
         super();
-        core.private(this, {
-            kind: PathPoint.KINDS.MOVETO,
-            point: new core.classes.Point,
-            cp1: new core.classes.Point,
-            cp2: new core.classes.Point
-        });
+        this.#kind = PathPoint.KINDS.MOVETO;
+        this.#point = new core.classes.Point;
+        this.#cp1 = new core.classes.Point;
+        this.#cp2 = new core.classes.Point;
     }
     //#endregion
     //#region Getters / Setters
     //#region kind
     get kind() {
-        return core.private(this).kind;
+        return this.#kind;
     }
     set kind(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.valueInSet(newValue, PathPoint.KINDS) && priv.kind !== newValue && (priv.kind = newValue);
+        core.tools.valueInSet(newValue, PathPoint.KINDS) && this.#kind !== newValue && (this.#kind = newValue);
     }
     //#endregion kind
     //#region point
     get point() {
-        return core.private(this).point;
+        return this.#point;
     }
     set point(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        newValue instanceof core.classes.Point && priv.point !== newValue && priv.point.assign(newValue);
+        newValue instanceof core.classes.Point && this.#point !== newValue && this.#point.assign(newValue);
     }
     //#endregion point
     //#region control point 1
     get cp1() {
-        return core.private(this).cp1;
+        return this.#cp1;
     }
     set cp1(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        newValue instanceof core.classes.Point && priv.cp1 !== newValue && priv.cp1.assign(newValue);
+        newValue instanceof core.classes.Point && this.#cp1 !== newValue && this.#cp1.assign(newValue);
     }
     //#endregion control point 1
     //#region control point 2
     get cp2() {
-        return core.private(this).cp2;
+        return this.#cp2;
     }
     set cp2(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        newValue instanceof core.classes.Point && priv.cp2 !== newValue && priv.cp2.assign(newValue);
+        newValue instanceof core.classes.Point && this.#cp2 !== newValue && this.#cp2.assign(newValue);
     }
     //#endregion control point 2
     //#endregion Getters / Setters
     //#region Methods
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.point.destroy();
-        priv.cp1.destroy();
-        priv.cp2.destroy();
+        this.#point.destroy();
+        this.#cp1.destroy();
+        this.#cp2.destroy();
     }
     //#endregion destroy
     //#endregion Methods
@@ -95,26 +84,30 @@ class PathPoint extends BaseClass {
 //#endregion PathData
 //#region PathData
 class PathData extends BaseClass {
+    //#region Private fields
+    #startPoint;
+    #data = [];
+    #originalBounds;
+    #originalPathString;
+    #owner;
+    //#endregion Private fields
     //#region Constructor
     constructor(owner) {
         super();
-        core.private(this, {
-            startPoint: new core.classes.Point,
-            data: [],
-            originalBounds: new core.classes.Rect,
-            originalPathString: null,
-            owner
-        });
+        this.#startPoint = new core.classes.Point;
+        this.#originalBounds = new core.classes.Rect;
+        this.#originalPathString = null;
+        this.#owner = owner;
     }
     //#endregion Constructor
     //#region Getters / Setters
     //#region startPoint
     get startPoint() {
-        return core.private(this).startPoint;
+        return this.#startPoint;
     }
     set startPoint(newValue) {
         //#region Variables déclaration
-        const startPoint = core.private(this).startPoint;
+        const startPoint = this.#startPoint;
         //#endregion Variables déclaration
         if (newValue instanceof core.classes.Point && !startPoint.equals(newValue)) {
             startPoint.assign(newValue);
@@ -125,28 +118,25 @@ class PathData extends BaseClass {
     //#endregion startPoint
     //#region data
     get data() {
-        return core.private(this).data;
+        return this.#data;
     }
     //#endregion data
     //#region originalBounds
     get originalBounds() {
-        return core.private(this).originalBounds;
+        return this.#originalBounds;
     }
     get originalPathString() {
-        return core.private(this).originalPathString;
+        return this.#originalPathString;
     }
     //#endregion originalBounds
     //#region originalPathString
     set originalPathString(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv.originalPathString !== newValue && (priv.originalPathString = newValue);
+        core.tools.isString(newValue) && this.#originalPathString !== newValue && (this.#originalPathString = newValue);
     }
     //#endregion originalPathString
     //#region owner
     get owner() {
-        return core.private(this).owner;
+        return this.#owner;
     }
     //#endregion owner
     //#region pathString
@@ -155,7 +145,7 @@ class PathData extends BaseClass {
         let i = 0;
         let result = [];
         const KINDS = PathPoint.KINDS;
-        const data = core.private(this).data;
+        const data = this.#data;
         //#endregion Variables déclaration
         while (i < data.length) {
             if (data[i].kind === KINDS.MOVETO) {
@@ -178,7 +168,6 @@ class PathData extends BaseClass {
     }
     set pathString(value) {
         //#region Variables déclaration
-        const priv = core.private(this);
         let s = String.EMPTY;
         let r = null;
         let cp1 = null;
@@ -188,7 +177,7 @@ class PathData extends BaseClass {
         let sweet = null;
         let o = null;
         const numbersArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'];
-        const data = priv.data;
+        const data = this.#data;
         //#endregion Variables déclaration
         if (core.tools.isString(value)) {
             if (value.length > 0) {
@@ -439,10 +428,10 @@ class PathData extends BaseClass {
                     break;
                 }
             }
-            priv.originalBounds.assign(this.bounds);
+            this.#originalBounds.assign(this.bounds);
             //this.onChange.invoke(this._owner);
             this.updateOwner();
-            if (priv.owner.allowUpdate) {
+            if (this.#owner.allowUpdate) {
                 //this._owner.update();
                 //  $j.canvas.needUpdate=!0;
             }
@@ -452,20 +441,20 @@ class PathData extends BaseClass {
     //#region lastPoint
     get lastPoint() {
         //#region Variables déclaration
-        const data = core.private(this).data;
+        const data = this.#data;
         //#endregion Variables déclaration
         return data.length > 0 ? data[data.length - 1].point : new core.classes.Point;
     }
     //#endregion lastPoint
     //#region isEmpty
     get isEmpty() {
-        return core.private(this).data.length === 0;
+        return this.#data.length === 0;
     }
     //#endregion isEmpty
     //#region bounds
     get bounds() {
         //#region Variables déclaration
-        const data = core.private(this).data;
+        const data = this.#data;
         //#endregion Variables déclaration
         if (data.length === 0) {
             return new core.classes.Rect;
@@ -492,7 +481,7 @@ class PathData extends BaseClass {
     //#region assign
     assign(source) {
         if (source instanceof core.classes.PathData) {
-            source.copyDataTo(this.data);
+            source.copyDataTo(this.#data);
             this.updateOwner();
         }
     }
@@ -500,7 +489,7 @@ class PathData extends BaseClass {
     //#region copyDataTo
     copyDataTo(dest) {
         //#region Variables déclaration
-        const data = this.data;
+        const data = this.#data;
         //#endregion Variables déclaration
         if (Array.isArray(dest)) {
             dest.length = 0;
@@ -581,7 +570,7 @@ class PathData extends BaseClass {
      */
     addArcSvg(params) {
         //#region Variables déclaration
-        const data = this.data;
+        const data = this.#data;
         //#endregion Variables déclaration
         if (params.p1 instanceof core.classes.Point && params.r instanceof core.classes.Point
             && params.p2 instanceof core.classes.Point && core.tools.isNumber(params.a)
@@ -595,7 +584,6 @@ class PathData extends BaseClass {
             const x2 = params.p2.x;
             const y2 = params.p2.y;
             params.a = Convert.deg2Rad(params.a);
-            let mRadiiOk = !0;
             rx < 0 && (rx = -rx);
             ry < 0 && (ry = -ry);
             //Calculate the middle point between
@@ -787,7 +775,7 @@ class PathData extends BaseClass {
             const pathPoint = new core.classes.PathPoint;
             pathPoint.kind = PathPoint.KINDS.MOVETO;
             pathPoint.point.setValues(point.x, point.y);
-            this.data.push(pathPoint);
+            this.#data.push(pathPoint);
             this.startPoint.setValues(point.x, point.y);
         }
     }
@@ -799,7 +787,7 @@ class PathData extends BaseClass {
             const lp = this.lastPoint;
             pathPoint.kind = PathPoint.KINDS.MOVETO;
             pathPoint.point.setValues(lp.x + point.x, lp.y + point.y);
-            this.data.push(pathPoint);
+            this.#data.push(pathPoint);
             this.startPoint.setValues(pathPoint.point.x, pathPoint.point.y);
         }
     }
@@ -810,7 +798,7 @@ class PathData extends BaseClass {
             const pathPoint = new core.classes.PathPoint;
             pathPoint.kind = PathPoint.KINDS.LINETO;
             pathPoint.point.setValues(point.x, point.y);
-            this.data.push(pathPoint);
+            this.#data.push(pathPoint);
         }
     }
     //#endregion lineTo
@@ -821,20 +809,20 @@ class PathData extends BaseClass {
             const lp = this.lastPoint;
             pathPoint.kind = PathPoint.KINDS.LINETO;
             pathPoint.point.setValues(lp.x + point.x, lp.y + point.y);
-            this.data.push(pathPoint);
+            this.#data.push(pathPoint);
         }
     }
     //#endregion lineToRel
     //#region hLineTo
     hLineTo(x) {
         //#region Variables déclaration
-        const data = this.data;
+        const data = this.#data;
         //#endregion Variables déclaration
         if (core.tools.isNumber(x)) {
             const pathPoint = new PathPoint;
             pathPoint.kind = PathPoint.KINDS.LINETO;
             pathPoint.point.setValues(x, data[data.length - 1].point.y);
-            this.data.push(pathPoint);
+            this.#data.push(pathPoint);
         }
     }
     //#endregion hLineTo
@@ -847,14 +835,14 @@ class PathData extends BaseClass {
             const lastPoint = this.lastPoint;
             pathPoint.kind = PathPoint.KINDS.LINETO;
             pathPoint.point.setValues(lastPoint.x + a, lastPoint.y);
-            this.data.push(pathPoint);
+            this.#data.push(pathPoint);
         }
     }
     //#endregion hLineToRel
     //#region vLineTo
     vLineTo(y) {
         //#region Variables déclaration
-        const data = this.data;
+        const data = this.#data;
         //#endregion Variables déclaration
         if (core.tools.isNumber(y)) {
             const pathPoint = new core.classes.PathPoint;
@@ -873,7 +861,7 @@ class PathData extends BaseClass {
             const pathPoint = new core.classes.PathPoint;
             pathPoint.kind = PathPoint.KINDS.LINETO;
             pathPoint.point.setValues(lastPoint.x, lastPoint.y + y);
-            this.data.push(pathPoint);
+            this.#data.push(pathPoint);
         }
     }
     //#endregion vLineToRel
@@ -883,7 +871,7 @@ class PathData extends BaseClass {
         const p1 = point1;
         const p2 = point2;
         const e = endpoint;
-        const data = this.data;
+        const data = this.#data;
         const CURVETO = PathPoint.KINDS.CURVETO;
         //#endregion Variables déclaration
         if (p1 instanceof core.classes.Point && p2 instanceof core.classes.Point && e instanceof core.classes.Point) {
@@ -908,7 +896,7 @@ class PathData extends BaseClass {
         const p1 = point1;
         const p2 = point2;
         const e = endpoint;
-        const data = this.data;
+        const data = this.#data;
         const CURVETO = PathPoint.KINDS.CURVETO;
         //#endregion Variables déclaration
         if (p1 instanceof core.classes.Point && p2 instanceof core.classes.Point && e instanceof core.classes.Point) {
@@ -933,7 +921,7 @@ class PathData extends BaseClass {
         //#region Variables déclaration
         const p2 = point2;
         const e = endpoint;
-        const data = this.data;
+        const data = this.#data;
         const CURVETO = PathPoint.KINDS.CURVETO;
         const lastPoint = this.lastPoint;
         //#endregion Variables déclaration
@@ -964,7 +952,7 @@ class PathData extends BaseClass {
         const p2 = point2;
         const e = endpoint;
         const CURVETO = PathPoint.KINDS.CURVETO;
-        const data = this.data;
+        const data = this.#data;
         const lastPoint = this.lastPoint;
         //#endregion Variables déclaration
         if (p2 instanceof core.classes.Point && e instanceof core.classes.Point) {
@@ -993,7 +981,7 @@ class PathData extends BaseClass {
     closePath() {
         //#region Variables déclaration
         const pathPoint = new core.classes.PathPoint;
-        const startPoint = this.startPoint;
+        const startPoint = this.#startPoint;
         //#endregion Variables déclaration
         pathPoint.kind = PathPoint.KINDS.CLOSE;
         pathPoint.point.setValues(startPoint.x, startPoint.y);
@@ -1376,7 +1364,7 @@ class PathData extends BaseClass {
     //#endregion addCallout
     //#region clear
     clear() {
-        this.data.length = 0;
+        this.#data.length = 0;
         //this.onChange.invoke();
         this.updateOwner();
     }
@@ -1387,7 +1375,7 @@ class PathData extends BaseClass {
         const oldPathData = [];
         const curPoint = new core.classes.Point;
         const KINDS = PathPoint.KINDS;
-        const data = this.data;
+        const data = this.#data;
         //#endregion Variables déclaration
         !core.tools.isNumber(coef) && (coef = 0.25);
         //scale
@@ -1401,7 +1389,6 @@ class PathData extends BaseClass {
                     oldPathData.push(d);
                 });
             data.length = 0;
-            let i = 0;
             oldPathData.forEach(opd => {
                 if (opd.kind === KINDS.MOVETO) {
                     this.moveTo(opd.point);
@@ -1440,7 +1427,7 @@ class PathData extends BaseClass {
     scale(x, y) {
         //#region Variables déclaration
         const KINDS = PathPoint.KINDS;
-        const data = this.data;
+        const data = this.#data;
         //#endregion Variables déclaration
         core.tools.isNumber(x) && core.tools.isNumber(y) && data.length > 0
             && data.forEach(d => {
@@ -1453,7 +1440,7 @@ class PathData extends BaseClass {
     offset(x, y) {
         //#region Variables déclaration
         const KINDS = PathPoint.KINDS;
-        const data = this.data;
+        const data = this.#data;
         //#endregion Variables déclaration
         data.length > 0
             && data.forEach(d => {
@@ -1467,7 +1454,7 @@ class PathData extends BaseClass {
         //#region Variables déclaration
         const m = matrix;
         const KINDS = PathPoint.KINDS;
-        const data = this.data;
+        const data = this.#data;
         //#endregion Variables déclaration
         m instanceof core.classes.Matrix && data.length > 0
             && data.forEach(d => {
@@ -1487,7 +1474,7 @@ class PathData extends BaseClass {
         const polygon = [];
         const KINDS = PathPoint.KINDS;
         const CONSTANTS = core.types.CONSTANTS;
-        const data = this.data;
+        const data = this.#data;
         //#endregion Variables déclaration
         !core.tools.isNumber(f) && (f = 0.25);
         if (data.length > 0) {
@@ -1548,7 +1535,7 @@ class PathData extends BaseClass {
             const bounds = this.bounds;
             if (!bounds.equals(r)) {
                 const b = bounds;
-                const pathData = this.data;
+                const pathData = this.#data;
                 const w = b.width;
                 const h = b.height;
                 const newW = r.width;
@@ -1567,7 +1554,7 @@ class PathData extends BaseClass {
         !core.tools.isNumber(y) && (y = 0);
         if (!this.isEmpty) {
             //b = this.bounds;
-            const pathData = this.data;
+            const pathData = this.#data;
             pathData.forEach(path => {
                 if (path.point.x > 0) path.point.x -= x;
                 if (path.point.y > 0) path.point.y -= y;
@@ -1580,7 +1567,7 @@ class PathData extends BaseClass {
         !core.tools.isNumber(x) && (x = 0);
         !core.tools.isNumber(y) && (y = 0);
         if (!this.isEmpty) {
-            const pathData = this.data;
+            const pathData = this.#data;
             pathData.forEach(path => {
                 if (path.point.x > 0) path.point.x += x;
                 if (path.point.y > 0) path.point.y += y;
@@ -1593,7 +1580,7 @@ class PathData extends BaseClass {
         !core.tools.isNumber(x) && (x = 0);
         !core.tools.isNumber(y) && (y = 0);
         if (!this.isEmpty) {
-            const pathData = this.data;
+            const pathData = this.#data;
             pathData.forEach(path => {
                 if (path.point.x > b.width * 0.5) path.point.x += x;
                 else path.point.x -= x;
@@ -1608,15 +1595,15 @@ class PathData extends BaseClass {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        priv.startPoint.destroy();
-        priv.data.destroy();
-        priv.originalBounds.destroy();
+        this.#startPoint.destroy();
+        this.#data.destroy();
+        this.#originalBounds.destroy();
         super.destroy();
     }
     //#endregion destroy
     //#region updateOwner
     updateOwner() {
-        this.owner && this.owner.update();
+        this.#owner && this.#owner.update();
     }
     //#endregion updateOwner
     //#endregion Methods

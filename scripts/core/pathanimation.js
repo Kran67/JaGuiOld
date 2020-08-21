@@ -13,6 +13,14 @@ import { Animation } from '/scripts/core/animation.js';
  */
 //#region Class PathAnimation
 class PathAnimation extends Animation {
+    //#region Private fields
+    #path;
+    #rotate;
+    #startPt;
+    #obj;
+    #polygon;
+    #spline;
+    //#endregion Private fields
     /**
      * Create a new instance of PathAnimation.
      * @param   {Object}    owner       Owner of the PathAnimation.
@@ -24,77 +32,59 @@ class PathAnimation extends Animation {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props, autoStart);
-            core.private(this, {
-                // Initialization
-                path: new core.classes.PathData(this),
-                rotate: !1,
-                startPt: new core.classes.Point(1, 1),
-                obj: null,
-                polygon: null,
-                spline: null
-            });
+            this.#path = new core.classes.PathData(this);
+            this.#rotate = !1;
+            this.#startPt = new core.classes.Point(1, 1);
+            this.#obj = null;
+            this.#polygon = null;
+            this.#spline = null;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region path
     get path() {
-        return core.private(this).path;
+        return this.#path;
     }
     set path(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        newValue instanceof core.classes.PathData && priv.path !== newValue && (priv.path = newValue);
+        newValue instanceof core.classes.PathData && this.#path !== newValue && (this.#path = newValue);
     }
     //#endregion path
     //#region rotate
     get rotate() {
-        return core.private(this).rotate;
+        return this.#rotate;
     }
     set rotate(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.rotate !== newValue && (priv.rotate = newValue);
+        core.tools.isBool(newValue) && this.#rotate !== newValue && (this.#rotate = newValue);
     }
     //#endregion rotate
     //#region startPt
     get startPt() {
-        return core.private(this).startPt;
+        return this.#startPt;
     }
     //#endregion startPt
     //#region obj
     get obj() {
-        return core.private(this).obj;
+        return this.#obj;
     }
     set obj(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        newValue instanceof core.classes.Control && priv.obj !== newValue && (priv.obj = newValue);
+        newValue instanceof core.classes.Control && this.#obj !== newValue && (this.#obj = newValue);
     }
     //#endregion obj
     //#region polygon
     get polygon() {
-        return core.private(this).polygon;
+        return this.#polygon;
     }
     set polygon(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        Array.isArray(newValue) && priv.polygon !== newValue && (priv.polygon = newValue);
+        Array.isArray(newValue) && this.#polygon !== newValue && (this.#polygon = newValue);
     }
     //#endregion polygon
     //#region spline
     get spline() {
-        return core.private(this).spline;
+        return this.#spline;
     }
     set spline(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        newValue instanceof core.classes.Spline && priv.spline !== newValue && (priv.spline = newValue);
+        newValue instanceof core.classes.Spline && this.#spline !== newValue && (this.#spline = newValue);
     }
     //#endregion spline
     //#endregion Getters / Setters
@@ -105,27 +95,27 @@ class PathAnimation extends Animation {
     start() {
         //#region Variables déclaration
         const CLOSEPOLYGON = core.types.CONSTANTS.CLOSEPOLYGON;
-        const control = this.control;
-        let spline = this.spline;
-        let polygon = this.polygon;
-        const obj = this.obj;
+        const control = this.#control;
+        let spline = this.#spline;
+        let polygon = this.#polygon;
+        const obj = this.#obj;
         const htmlElement = obj.HTMLElement;
         //#endregion Variables déclaration
         if (control) {
             spline && (spline = null);
             polygon && (polygon = null);
-            const i = this.path.flattenToPolygon();
-            this.polygon = i.Polygon;
+            const i = this.#path.flattenToPolygon();
+            this.#polygon = i.Polygon;
             if (polygon.length > 1) {
                 polygon.forEach(poly => {
                     poly.x === CLOSEPOLYGON.x && poly.y === CLOSEPOLYGON.y && (polygon[i] = polygon[i - 1]);
                 });
             }
-            this.spline = new core.classes.Spline(polygon);
-            this.obj = control.visible ? control : null;
+            this.#spline = new core.classes.Spline(polygon);
+            this.#obj = control.visible ? control : null;
             if (obj) {
-                this.startPt.x = htmlElement.offsetLeft;
-                this.startPt.y = htmlElement.offsetTop;
+                this.#startPt.x = htmlElement.offsetLeft;
+                this.#startPt.y = htmlElement.offsetTop;
             }
             super.start();
         }
@@ -136,10 +126,10 @@ class PathAnimation extends Animation {
     processAnimation() {
         //#region Variables déclaration
         const PX = core.types.CSSUNITS.PX;
-        const control = this.control;
-        const form = this.form;
-        const polygon = this.polygon;
-        const obj = this.obj;
+        const control = this.#control;
+        const form = this.#form;
+        const polygon = this.#polygon;
+        const obj = this.#obj;
         const htmlElement = obj.HTMLElement;
         const htmlElementStyle = obj.HTMLElementStyle;
         //#endregion Variables déclaration
@@ -160,10 +150,10 @@ class PathAnimation extends Animation {
                 !core.isHTMLRenderer && control.allowUpdate && (r = control.screenRect());
                 const nt = this.normalizedTime();
                 const oldP = new core.classes.Point(htmlElement.offsetLeft, htmlElement.offsetTop);
-                const p1 = this.spline.splineXY(nt * polygon.length);
-                const l = this.startPt.x + p1.x;
-                const t = this.startPt.y + p1.y;
-                if (this.rotate && nt !== 0 && nt !== 1 && (oldP.x !== l && oldP.y !== t)) {
+                const p1 = this.#spline.splineXY(nt * polygon.length);
+                const l = this.#startPt.x + p1.x;
+                const t = this.#startPt.y + p1.y;
+                if (this.#rotate && nt !== 0 && nt !== 1 && (oldP.x !== l && oldP.y !== t)) {
                     const v = new core.classes.Vector(l - oldP.x, t - oldP.y);
                     const c = v.crossProductZ(new core.classes.Vector(0, 1)) < 0;
                     if (this.inverse) {
@@ -198,21 +188,18 @@ class PathAnimation extends Animation {
     assign(source) {
         if (source instanceof core.classes.PathAnimation) {
             super.assign(source);
-            this.path = source.path;
-            this.rotate = source.rotate;
+            this.#path = source.path;
+            this.#rotate = source.rotate;
         }
     }
     /**
      * Destroy the instance
      */
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.path.destroy();
-        priv.startPt.destroy();
-        priv.polygon && (priv.polygon.destroy());
-        priv.spline && (priv.spline.destroy());
+        this.#path.destroy();
+        this.#startPt.destroy();
+        this.#polygon && (this.#polygon.destroy());
+        this.#spline && (this.#spline.destroy());
         super.destroy();
     }
     //#endregion Methods
