@@ -46,3 +46,8 @@
         background-position: center center;
         align-self: stretch;
     }
+
+.ListBoxItem .CheckboxCheck {
+    position: relative;
+    margin-right: 2px;
+}

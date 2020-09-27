@@ -1,0 +1,36 @@
+﻿.carbon.Button,
+.carbon.Button.disabled:hover,
+.carbon.TextButton,
+.carbon.TextButton.disabled:hover {
+    border-radius: 3px;
+    border: 1px solid #222;
+    background-image: linear-gradient(to bottom,#505050,#303030);
+}
+
+.carbon.Button.stayspressed.pressed,
+.carbon.Button.stayspressed.pressed:hover,
+.carbon.TextButton.stayspressed.pressed,
+.carbon.TextButton.stayspressed.pressed:hover {
+    background-color: #F5AB28;
+    background-image: none;
+    color: #000;
+}
+
+.carbon.CaptionButton.stayspressed.pressed {
+    color: #000;
+}
+
+.carbon.Button:hover,
+.carbon.TextButton:hover {
+    background-image: linear-gradient(to bottom,#707070,#303030);
+}
+
+.carbon.Button.pressed,
+.carbon.TextButton.pressed {
+    background-image: linear-gradient(to bottom,#404040,#303030);
+}
+
+.carbon.Button.focused,
+.carbon.TextButton.focused {
+    box-shadow: 0 0 6px #F69E2D;
+}

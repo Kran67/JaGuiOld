@@ -24,19 +24,11 @@
 }
 
 .carbon.subMenu:before {
-    top: 0;
-    left: 0;
-    width: 29px;
-    bottom: 0;
     background-color: rgba(0,0,0,0.5);
-    content: "";
-    z-index: -1;
-    position: absolute;
 }
 
 .carbon.MenuItemSep {
     background-color: #E0E0E0;
-    width: 200%;
 }
 
 .carbon.subMenu .MenuItemCaption {

@@ -1,0 +1,8 @@
+﻿.carbon.GroupBox {
+    border: 1px solid #202020;
+    border-radius: 4px;
+}
+
+.carbon.GroupBoxLegend {
+    color: #E0E0E0;
+}

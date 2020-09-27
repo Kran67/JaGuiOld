@@ -7,9 +7,6 @@
     height: 15px;
     color: #F5AB28;
     box-shadow: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .carbon.CheckboxCheck.checked:before,

@@ -1,0 +1,80 @@
+﻿.carbon.ScrollBar {
+    border-radius: 3px;
+    background-image: linear-gradient(to bottom,#606060 0,#303030 100%);
+}
+
+    .carbon.ScrollBar.orientation-vertical {
+        background-image: linear-gradient(to right,#606060 0,#303030 100%);
+    }
+
+.carbon.ScrollBarFirstButton,
+.carbon.ScrollBarLastButton {
+    background-image: linear-gradient(to bottom,#606060 0,#303030 100%);
+    border: none;
+    color: #000;
+}
+
+
+.carbon.ScrollBar.orientation-vertical .ScrollBarFirstButton,
+.carbon.ScrollBar.orientation-vertical .ScrollBarLastButton {
+    background-image: linear-gradient(to right,#606060 0,#303030 100%);
+}
+
+.carbon.ScrollBar.orientation-vertical .ScrollBarFirstButton:hover,
+.carbon.ScrollBar.orientation-vertical .ScrollBarLastButton:hover {
+    background-image: linear-gradient(to right,#707070 0,#303030 100%);
+}
+
+.carbon.ScrollBar.orientation-vertical .ScrollBarFirstButton.pressed,
+.carbon.ScrollBar.orientation-vertical .ScrollBarLastButton.pressed {
+    background-image: linear-gradient(to right,#404040 0,#303030 100%);
+}
+
+.carbon.ScrollBarFirstButton:hover,
+.carbon.ScrollBarLastButton:hover {
+    color: #202020;
+}
+
+.carbon.ScrollBar > div {
+    margin: 2px;
+}
+
+    .carbon.ScrollBar > div:before {
+        position: absolute;
+        content: "";
+        border-radius: 6px;
+        background-image: linear-gradient(to bottom,#303030 0,#606060 100%);
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .carbon.ScrollBar.orientation-vertical > div:before {
+        background-image: linear-gradient(to right,#303030 0,#606060 100%);
+    }
+
+.carbon.ScrollBar .ScrollBar_thumb,
+.carbon.ScrollBar.orientation-vertical .ScrollBar_thumb {
+    border: 1px solid #404040;
+    border-radius: 8px;
+}
+
+.carbon.ScrollBar .ScrollBar_thumb {
+    min-width: 12px;
+    background-image: linear-gradient(to bottom,#F4BB40 0,#674704 100%);
+}
+
+.carbon.ScrollBar.orientation-vertical .ScrollBar_thumb {
+    min-width: unset;
+    min-height: 12px;
+    background-image: linear-gradient(to right,#F4BB40 0,#674704 100%);
+}
+
+.carbon.ScrollBar .ScrollBar_thumb:hover {
+    background-image: linear-gradient(to bottom,#F9DDA2 0,#674704 100%);
+}
+
+.carbon.ScrollBar.orientation-vertical .ScrollBar_thumb:hover {
+    background-image: linear-gradient(to right,#F9DDA2 0,#674704 100%);
+}

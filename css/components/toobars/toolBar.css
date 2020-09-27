@@ -2,6 +2,7 @@
     position: relative;
     height: 40px;
     order: 3;
+    display: flex;
 }
 
 

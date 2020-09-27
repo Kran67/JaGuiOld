@@ -14,3 +14,24 @@
     min-width: 5px;
     top: 0;
 }
+
+.Splitter:before {
+    content: "";
+    position: absolute;
+}
+
+.Splitter.orientation-horizontal:before {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+
+.carbon.Splitter.orientation-vertical:before {
+    left: 0;
+    right: 0;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}

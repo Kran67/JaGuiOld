@@ -1,9 +1,4 @@
-﻿.carbon.ListBoxItem .CheckboxCheck {
-    position: relative;
-    margin-right: 2px;
-}
-
-.carbon.ListBox {
+﻿.carbon.ListBox {
     border: 1px solid #303030;
     border-radius: 2px;
     background-color: #404040;

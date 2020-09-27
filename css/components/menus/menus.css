@@ -56,12 +56,24 @@
     display: none;
 }
 
+.subMenu:before {
+    top: 0;
+    left: 0;
+    width: 29px;
+    bottom: 0;
+    content: "";
+    z-index: -1;
+    position: absolute;
+}
+
+
 .MenuItemSep {
     display: block;
     height: 1px;
     line-height: 1px;
     margin: 1px 0 2px 30px;
     position: relative;
+    width: 200%;
 }
 
 u.ShortCutLetter {
@@ -126,4 +138,13 @@ u.ShortCutLetter.active {
     content: ")";
     font-family: 'JaGui';
     font-size: 5pt;
+}
+
+.MenuItem.checked .MenuItemCaption:before,
+.MenuItem.checked.radioitem .MenuItemCaption:before {
+    position: absolute;
+    width: 20px;
+    height: 18px;
+    text-align: center;
+    font-family: "JaGui";
 }

@@ -1,0 +1,28 @@
+﻿.carbon.CalloutPanel {
+    border: 1px solid #303030;
+    border-radius: 2px;
+    background-image: linear-gradient(to bottom,#404040 0,#404040 70%,#303030 100%);
+}
+
+.carbon.CalloutPanel.calloutposition-top:before {
+    border: 1px solid transparent;
+    border-bottom-color: #404040;
+    filter: drop-shadow(0 0 0 #191919) drop-shadow(0 0 0 #191919);
+}
+
+.carbon.CalloutPanel.calloutposition-right:before {
+    border: 1px solid transparent;
+    border-left-color: #404040;
+    filter: drop-shadow(0 0 0 #191919) drop-shadow(0 0 0 #191919);
+}
+
+.carbon.CalloutPanel.calloutposition-bottom:before {
+    border: 1px solid transparent;
+    border-top-color: #303030;
+}
+
+.carbon.CalloutPanel.calloutposition-left:before {
+    border: 1px solid transparent;
+    border-right-color: #404040;
+    filter: drop-shadow(0 0 0 #191919) drop-shadow(0 0 0 #191919);
+}

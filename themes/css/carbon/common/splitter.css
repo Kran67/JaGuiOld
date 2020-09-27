@@ -15,26 +15,14 @@
 
 .carbon.Splitter:before {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAHklEQVQIW2NkYGD4D8QgwMgI4+Tm5jKAOAxABlgWAFuzBZCcNaxyAAAAAElFTkSuQmCC);
-    content: "";
-    position: absolute;
 }
 
 .carbon.Splitter.orientation-horizontal:before {
-    top: 0;
-    bottom: 0;
     width: 27px;
-    left: 50%;
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
 }
 
 .carbon.Splitter.orientation-vertical:before {
-    left: 0;
-    right: 0;
     height: 27px;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
 }
 
 .carbon.Splitter:hover:before {

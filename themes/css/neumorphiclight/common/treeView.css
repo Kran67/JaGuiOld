@@ -1,0 +1,38 @@
+﻿.carbon.TreeViewItem .CheckboxCheck {
+    position: relative;
+    margin-right: 2px;
+    float: left;
+}
+
+.carbon.TreeView {
+    border: 1px solid #303030;
+    border-radius: 2px;
+    background-color: #404040;
+}
+
+.carbon.TreeViewItem {
+    border-radius: 3px;
+}
+
+.carbon.TreeViewItem.selected {
+    background-color: #936639;
+}
+
+.carbon.TreeView.focused {
+    box-shadow: 0 0 6px #F69E2D;
+}
+
+/*.carbon.TreeViewItem .Checkbox {
+    margin-left: 19px;
+    padding-left: 0;
+}*/
+
+.carbon.TreeViewItem .TreeViewRoot.TVIHasChild.expanded:before {
+    color: #000;
+    content: "7";
+}
+
+.carbon.TreeViewItem .TreeViewRoot.TVIHasChild:before {
+    color: #000;
+    content: ")";
+}

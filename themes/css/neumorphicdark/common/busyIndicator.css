@@ -1,0 +1,22 @@
+﻿.carbon.spinIndic,
+.carbon.win8loader .win8circle:after {
+    background-color: #E0E0E0;
+}
+
+.carbon.ballIndic,
+.carbon.ball1Indic {
+    border-right: 5px solid #F5AB28;
+    border-bottom: 5px solid #F5AB28;
+    box-shadow: 0 0 35px rgba(0,0,0,0.9);
+}
+
+.carbon.circleIndic,
+.carbon.circle1Indic {
+    border-top: 5px solid #F5AB28;
+    border-bottom: 5px solid #F5AB28;
+    box-shadow: 0 0 35px rgba(0,0,0,0.9);
+}
+
+.carbon.circle1Indic {
+    box-shadow: 0 0 15px rgba(0,0,0,0.9);
+}

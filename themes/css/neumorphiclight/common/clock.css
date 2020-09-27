@@ -1,0 +1,101 @@
+﻿.carbon.Clock {
+    --icon-color: #E0E0E0;
+    background-color: #404040;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.08) inset, 0 1px 1px #303030;
+}
+
+    .carbon.Clock.led {
+        --icon-color: #F5AB28;
+        --led-color: #F5AB28;
+    }
+
+.carbon.Clock_alarm {
+    border: solid 2px var(--icon-color);
+}
+
+    .carbon.Clock_alarm:before {
+        border-left: solid 2px var(--icon-color);
+        border-top: solid 2px var(--icon-color);
+    }
+
+    .carbon.Clock_alarm:after {
+        border-top: solid 2px var(--icon-color);
+        border-right: solid 2px var(--icon-color);
+    }
+
+.carbon.Clock_alarm_inner {
+    border-left: solid 1px var(--icon-color);
+    border-bottom: solid 1px var(--icon-color);
+}
+
+.carbon.Clock_alarm_inner:before,
+    .carbon.Clock_alarm_inner:after,
+    .carbon.Clock_dots:before,
+    .carbon.Clock_dots:after,
+    .carbon.Clock_digit_d1,
+    .carbon.Clock_digit_d2,
+    .carbon.Clock_digit_d3,
+    .carbon.Clock_digit_d4,
+    .carbon.Clock_digit_d5,
+    .carbon.Clock_digit_d6,
+    .carbon.Clock_digit_d7 {
+        background-color: var(--icon-color);
+    }
+
+
+.carbon.Clock_snooze {
+    color: var(--icon-color);
+}
+
+.carbon.Clock.led .Clock_dots:before,
+.carbon.Clock.led .Clock_dots:after,
+.carbon.Clock.led .Clock_digit_d1,
+.carbon.Clock.led .Clock_digit_d2,
+.carbon.Clock.led .Clock_digit_d3,
+.carbon.Clock.led .Clock_digit_d4,
+.carbon.Clock.led .Clock_digit_d5,
+.carbon.Clock.led .Clock_digit_d6,
+.carbon.Clock.led .Clock_digit_d7 {
+    background: var(--led-color);
+}
+
+
+.carbon.Clock.led .Clock_meridian,
+.carbon.Clock.led .Clock_weekdays {
+    color: var(--led-color);
+}
+
+.carbon.Clock.flip .carbon.Clock_digit {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.carbon.Clock_digit_flip_up:after {
+    background-color: rgba(0,0,0,0.4);
+}
+
+.carbon.Clock_digit_flip_inn {
+    text-shadow: 0 1px 2px #000;
+    background-color: #333;
+}
+
+.carbon.Clock_dot {
+    background-color: var(--icon-color);
+}
+
+.carbon.Clock.circular .carbon.Clock_digit {
+    border: 1px solid #303030;
+}
+
+.carbon.Clock.circular .carbon.Clock_digit:after {
+    border: 1px solid #303030;
+}
+
+.carbon.ClockDigit_Circular_back {
+    stroke: #4A4A4A;
+    fill: transparent;
+    stroke-width: 8px;
+}
+
+.carbon.ClockDigit_Circular_progress {
+    stroke: #B48625;
+}

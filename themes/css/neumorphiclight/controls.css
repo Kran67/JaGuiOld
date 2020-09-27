@@ -1,0 +1,49 @@
+﻿.neumorphiclight.ItemsWheel {
+    border: 1px solid #222222;
+    background-color: #404040;
+}
+
+.neumorphiclight.ItemsWheelSep {
+    background-color: #6F6F6F;
+}
+
+.neumorphiclight.ItemsWheelContent {
+    border-left: 1px solid #6F6F6F;
+    border-right: 1px solid #6F6F6F;
+}
+
+.neumorphiclight.NumberWheel.focused {
+    box-shadow: 0 0 6px #F69E2D;
+}
+
+.neumorphiclight.PopupBox {
+    background-image: linear-gradient(to bottom,#404040 0,#404040 70%,#303030 100%);
+}
+
+.neumorphiclight.ToolTip {
+    box-shadow: rgba(0,0,0,0.5) 3px 3px 3px;
+    border-radius: 3px;
+    padding: 2px;
+    border: 1px solid #303030;
+    background-image: linear-gradient(to bottom,#F5CD76 0,#9F7009 100%);
+    z-index: 999999;
+    color: #000;
+}
+
+.neumorphiclight.TabControlLeftBtn:before,
+.neumorphiclight.TabControlRightBtn:before {
+    font-family: Jagui;
+    font-size: 4pt;
+}
+
+.neumorphiclight.TabControlLeftBtn:before {
+    content: "*";
+}
+
+.neumorphiclight.TabControlRightBtn:before {
+    content: ")";
+}
+
+.neumorphiclight.ghostSplitter {
+    background-color: rgba(246,159,45,0.43);
+}
