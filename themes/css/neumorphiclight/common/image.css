@@ -1,3 +1,5 @@
-﻿.carbon.image {}
+﻿@import url(/css/components/common/image.css);
 
-.carbon.icon {}
+.neumorphiclight.image {}
+
+.neumorphiclight.icon {}

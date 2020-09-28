@@ -1,28 +1,30 @@
-﻿.carbon.Toggle {
+﻿@import url(/css/components/extended/toggle.css);
+
+.neumorphiclight.Toggle {
     border-radius: 3px;
     border: 1px solid #222;
     background-color: #222;
 }
 
-.carbon.Toggle:before {
+.neumorphiclight.Toggle:before {
     border-bottom-left-radius: 2px;
     border-top-left-radius: 2px;
     background-image: linear-gradient(to bottom,#9F7009 0,#F5CD76 100%);
     color: #000;
 }
 
-.carbon.Toggle:after {
+.neumorphiclight.Toggle:after {
     border-bottom-right-radius: 2px;
     border-top-right-radius: 2px;
     background-image: linear-gradient(to bottom,#303030 0,#606060 100%);
 }
 
-.carbon.ToggleCheck {
+.neumorphiclight.ToggleCheck {
     border-radius: 2px;
     border: 1px solid #222;
     background-image: linear-gradient(to bottom,#505050 0,#303030 100%);
 }
 
-.carbon.Toggle.focused {
+.neumorphiclight.Toggle.focused {
     box-shadow: 0 0 6px #F69E2D;
 }

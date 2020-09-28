@@ -1,13 +1,15 @@
-﻿.carbon.Window {
+﻿@import url(/css/components/containers/window.css);
+
+.neumorphiclight.Window {
     background-repeat: no-repeat;
     background-color: #333;
 }
 
-.carbon.Window.maximized {
+.neumorphiclight.Window.maximized {
     box-shadow: inset 0 0 0 1px #222, inset 0 0 0 4px #000 !important;
 }
 
-.carbon.Window:not(.none) {
+.neumorphiclight.Window:not(.none) {
     border-radius: 9px;
     background-position: top left;
     background-size: 100% 25px;
@@ -15,52 +17,52 @@
     box-shadow: inset 0 0 0 1px #222, inset 0 0 0 4px #000, 5px 5px 5px rgba(0, 0, 0, .7);
 }
 
-.carbon.Window.inactive {
+.neumorphiclight.Window.inactive {
     background-image: linear-gradient(to bottom, #505050, #505050);
 }
 
-.carbon.Window:not(.none) {
+.neumorphiclight.Window:not(.none) {
     background-size: 100% 29px;
 }
 
-.carbon.WindowTitleBar {
+.neumorphiclight.WindowTitleBar {
     margin: 0;
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;
 }
 
-.carbon.WindowTitle {
+.neumorphiclight.WindowTitle {
     font-size: 10pt;
 }
 
-.carbon.Window.inactive .carbon.WindowTitle {
+.neumorphiclight.Window.inactive .neumorphiclight.WindowTitle {
     color: #A5A5A5;
 }
 
-.carbon.Window:not(.none) .carbon.WindowTitle {
+.neumorphiclight.Window:not(.none) .neumorphiclight.WindowTitle {
     line-height: 21px;
 }
 
-.carbon.Window:not(.none) .carbon.Button.WindowTitleButton {
+.neumorphiclight.Window:not(.none) .neumorphiclight.Button.WindowTitleButton {
     top: 1px;
 }
 
-.carbon.Button.WindowTitleButton {
+.neumorphiclight.Button.WindowTitleButton {
     border: none;
     box-shadow: inset 0 0 0 1px #222;
     border-radius: 50%;
     background-image: linear-gradient(to bottom, #505050, #303030);
 }
 
-.carbon.Button.WindowTitleButton:not(.disabled):hover {
+.neumorphiclight.Button.WindowTitleButton:not(.disabled):hover {
     background-image: linear-gradient(to bottom, #707070, #303030);
 }
 
-.carbon.Button.WindowTitleButton.pressed:not(.disabled) {
+.neumorphiclight.Button.WindowTitleButton.pressed:not(.disabled) {
     background-image: linear-gradient(to bottom, #404040, #303030);
 }
 
-.carbon.WindowContent {
+.neumorphiclight.WindowContent {
     background-color: #505050;
     scrollbar-color: #F4BB40 #303030;
     position: relative;

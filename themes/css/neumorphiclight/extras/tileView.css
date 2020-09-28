@@ -1,1 +1,3 @@
-﻿.carbon.TileView {}
+﻿@import url(/css/components/extras/tileView.css);
+
+.neumorphiclight.TileView {}

@@ -54,6 +54,21 @@ Object.seal(Object.freeze(COMMANDS));
 //#endregion COMMANDS
 //#region Action
 class Action extends Bindable {
+    //#region Private fields
+    #propertiesToUpdate = ['caption', 'checked', 'enabled', 'groupIndex', 'toolTip', 'imageIndex', 'shortCut', 'visible', 'autoCheck'];
+    #caption;
+    #checked;
+    #enabled;
+    #groupIndex;
+    #toolTip;
+    #imageIndex;
+    #shortCut;
+    #autoCheck;
+    #targets = [];
+    #visible;
+    #form;
+    #command;
+    //#endregion Private fields
     /**
      * Create a new instance of Action.
      * @param    {object}    owner  Owner of the Action.
@@ -65,29 +80,22 @@ class Action extends Bindable {
         if (owner) {
             super(owner, props);
             const form = owner.form;
-            core.private(this, {
-                propertiesToUpdate: ['caption', 'checked', 'enabled', 'groupIndex', 'toolTip', 'imageIndex', 'shortCut', 'visible', 'autoCheck'],
-                caption: props.hasOwnProperty('caption') ? props.caption : String.EMPTY,
-                checked: props.hasOwnProperty('checked') && core.tools.isBool(props.checked) ? props.checked : !1,
-                enabled: props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0,
-                groupIndex: props.hasOwnProperty('groupIndex') && core.tools.isNumber(props.groupIndex) ? props.groupIndex : 0,
-                toolTip: props.hasOwnProperty('toolTip') ? props.toolTip : String.EMPTY,
-                imageIndex: props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1,
-                shortCut: props.hasOwnProperty('shortCut') ? props.shortCut : String.EMPTY,
-                autoCheck: props.hasOwnProperty('autoCheck') && core.tools.isBool(props.autoCheck) ? props.autoCheck : !1,
-                targets: [],
-                visible: props.hasOwnProperty('visible') && core.tools.isBool(props.visible) ? props.visible : !0,
-                form
-            });
+            this.#caption = props.hasOwnProperty('caption') ? props.caption : String.EMPTY;
+            this.#checked = props.hasOwnProperty('checked') && core.tools.isBool(props.checked) ? props.checked : !1;
+            this.#enabled = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
+            this.#groupIndex = props.hasOwnProperty('groupIndex') && core.tools.isNumber(props.groupIndex) ? props.groupIndex : 0;
+            this.#toolTip = props.hasOwnProperty('toolTip') ? props.toolTip : String.EMPTY;
+            this.#imageIndex = props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
+            this.#shortCut = props.hasOwnProperty('shortCut') ? props.shortCut : String.EMPTY;
+            this.#autoCheck = props.hasOwnProperty('autoCheck') && core.tools.isBool(props.autoCheck) ? props.autoCheck : !1;
+            this.#visible = props.hasOwnProperty('visible') && core.tools.isBool(props.visible) ? props.visible : !0;
+            this.#form = form;
             core.tools.addPropertyFromEnum({
                 component: this,
                 propName: 'command',
                 enum: COMMANDS,
                 setter: function (newValue) {
-                    //#region Variables déclaration
-                    const priv = core.private(this);
-                    //#endregion Variables déclaration
-                    core.tools.valueInSet(newValue, COMMANDS) && priv.command !== newValue && (priv.command = newValue);
+                    core.tools.valueInSet(newValue, COMMANDS) && this.#command !== newValue && (this.#command = newValue);
                 },
                 value: props.hasOwnProperty('command') ? props.command : COMMANDS.NONE
             });
@@ -110,12 +118,12 @@ class Action extends Bindable {
     }
     //#region targets
     get targets() {
-        return core.private(this).targets;
+        return this.#targets;
     }
     //#endregion targets
     //#region propertiesToUpdate
     get propertiesToUpdate() {
-        return core.private(this).propertiesToUpdate;
+        return this.#propertiesToUpdate;
     }
     //#endregion propertiesToUpdate
     /**
@@ -123,18 +131,15 @@ class Action extends Bindable {
      */
     //#region caption
     get caption() {
-        return core.private(this).caption;
+        return this.#caption;
     }
     /**
      * Set the caption property
      * @param   {String}    newValue    the new value
      */
     set caption(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.caption !== newValue) {
-            priv.caption = newValue;
+        if (core.tools.isString(newValue) && this.#caption !== newValue) {
+            this.#caption = newValue;
             this.change();
         }
     }
@@ -144,18 +149,15 @@ class Action extends Bindable {
      */
     //#region checked
     get checked() {
-        return core.private(this).checked;
+        return this.#checked;
     }
     /**
      * Set the checked property
      * @param   {String}    newValue    the new value
      */
     set checked(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.checked !== newValue) {
-            priv.checked = newValue;
+        if (core.tools.isBool(newValue) && this.#checked !== newValue) {
+            this.#checked = newValue;
             this.change();
         }
     }
@@ -165,18 +167,15 @@ class Action extends Bindable {
      */
     //#region enabled
     get enabled() {
-        return core.private(this).enabled;
+        return this.#enabled;
     }
     /**
      * Set the enabled property
      * @param   {String}    newValue    the new value
      */
     set enabled(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.enabled !== newValue) {
-            priv.enabled = newValue;
+        if (core.tools.isBool(newValue) && this.#enabled !== newValue) {
+            this.#enabled = newValue;
             this.change();
         }
     }
@@ -186,18 +185,15 @@ class Action extends Bindable {
      */
     //#region groupIndex
     get groupIndex() {
-        return core.private(this).groupIndex;
+        return this.#groupIndex;
     }
     /**
      * Set the groupIndex property
      * @param   {String}    newValue    the new value
      */
     set groupIndex(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.groupIndex !== newValue) {
-            priv.groupIndex = newValue;
+        if (core.tools.isNumber(newValue) && this.#groupIndex !== newValue) {
+            this.#groupIndex = newValue;
             this.change();
         }
     }
@@ -207,18 +203,15 @@ class Action extends Bindable {
      */
     //#region toolTip
     get toolTip() {
-        return core.private(this).toolTip;
+        return this.#toolTip;
     }
     /**
      * Set the toolTip property
      * @param   {String}    newValue    the new value
      */
     set toolTip(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.toolTip !== newValue) {
-            priv.toolTip = newValue;
+        if (core.tools.isString(newValue) && this.#toolTip !== newValue) {
+            this.#toolTip = newValue;
             this.change();
         }
     }
@@ -228,18 +221,15 @@ class Action extends Bindable {
      */
     //#region imageIndex
     get imageIndex() {
-        return core.private(this).imageIndex;
+        return this.#imageIndex;
     }
     /**
      * Set the imageIndex property
      * @param   {String}    newValue    the new value
      */
     set imageIndex(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.imageIndex !== newValue) {
-            priv.imageIndex = newValue;
+        if (core.tools.isNumber(newValue) && this.#imageIndex !== newValue) {
+            this.#imageIndex = newValue;
             this.change();
         }
     }
@@ -249,18 +239,15 @@ class Action extends Bindable {
      */
     //#region shortCut
     get shortCut() {
-        return core.private(this).shortCut;
+        return this.#shortCut;
     }
     /**
      * Set the shortCut property
      * @param   {String}    newValue    the new value
      */
     set shortCut(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.shortCut !== newValue) {
-            priv.shortCut = newValue;
+        if (core.tools.isString(newValue) && this.#shortCut !== newValue) {
+            this.#shortCut = newValue;
             this.change();
         }
     }
@@ -270,18 +257,15 @@ class Action extends Bindable {
      */
     //#region autoCheck
     get autoCheck() {
-        return core.private(this).autoCheck;
+        return this.#autoCheck;
     }
     /**
      * Set the autoCheck property
      * @param   {String}    newValue    the new value
      */
     set autoCheck(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.autoCheck !== newValue) {
-            priv.autoCheck = newValue;
+        if (core.tools.isBool(newValue) && this.#autoCheck !== newValue) {
+            this.#autoCheck = newValue;
             this.change();
         }
     }
@@ -291,25 +275,22 @@ class Action extends Bindable {
      */
     //#region visible
     get visible() {
-        return core.private(this).visible;
+        return this.#visible;
     }
     /**
      * Set the visible property
      * @param   {String}    newValue    the new value
      */
     set visible(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.visible !== newValue) {
-            priv.visible = newValue;
+        if (core.tools.isBool(newValue) && this.#visible !== newValue) {
+            this.#visible = newValue;
             this.change();
         }
     }
     //#endregion visible
     //#region form
     get form() {
-        return core.private(this).form;
+        return this.#form;
     }
     //#endregion
     //#endregion Getter / Setter
@@ -329,8 +310,7 @@ class Action extends Bindable {
     //#region registerChanges
     registerChanges(component) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const targets = priv.targets;
+        const targets = this.#targets;
         //#endregion Variables déclaration
         if (targets.indexOf(component) === -1) {
             targets.push(component);
@@ -345,8 +325,7 @@ class Action extends Bindable {
     //#region unRegisterChanges
     unRegisterChanges(component) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const targets = priv.targets;
+        const targets = this.#targets;
         //#endregion Variables déclaration
         targets.indexOf(component) > -1 && targets.remove(component);
     }
@@ -357,10 +336,7 @@ class Action extends Bindable {
      */
     //#region updateTarget
     updateTarget(target) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.propertiesToUpdate.forEach(prop => {
+        this.#propertiesToUpdate.forEach(prop => {
             target.properties.some(e => e.property === prop) && (target[prop] = this[prop]);
         });
     }
@@ -370,10 +346,7 @@ class Action extends Bindable {
      */
     //#region change
     change() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.targets.forEach(target => {
+        this.#targets.forEach(target => {
             this.updateTarget(target);
         });
     }
@@ -384,10 +357,7 @@ class Action extends Bindable {
      */
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.targets.forEach(target => {
+        this.#targets.forEach(target => {
             target.action = null;
         });
         targets.clear();

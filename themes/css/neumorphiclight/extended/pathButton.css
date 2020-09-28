@@ -1,25 +1,27 @@
-﻿.carbon.PathButton,
-.carbon.PathButton.disabled:hover {
+﻿@import url(/css/components/extended/pathButton.css);
+
+.neumorphiclight.PathButton,
+.neumorphiclight.PathButton.disabled:hover {
     border-radius: 3px;
     border: 1px solid #222;
     background-image: linear-gradient(to bottom,#505050 0,#303030 100%);
 }
 
-.carbon.PathButton.stayspressed.pressed,
-.carbon.PathButton.stayspressed.pressed:hover {
+.neumorphiclight.PathButton.stayspressed.pressed,
+.neumorphiclight.PathButton.stayspressed.pressed:hover {
     background-color: #F5AB28;
     background-image: none;
     color: #000;
 }
 
-.carbon.PathButton:hover {
+.neumorphiclight.PathButton:hover {
     background-image: linear-gradient(to bottom,#707070 0,#303030 100%);
 }
 
-.carbon.PathButton.pressed {
+.neumorphiclight.PathButton.pressed {
     background-image: linear-gradient(to bottom,#404040 0,#303030 100%);
 }
 
-.carbon.PathButton.focused {
+.neumorphiclight.PathButton.focused {
     box-shadow: 0 0 6px #F69E2D;
 }

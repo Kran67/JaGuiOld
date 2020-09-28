@@ -1,8 +1,10 @@
-﻿.carbon.LabeledAngleBar {}
+﻿@import url(/css/components/extended/labeledAngleBar.css);
 
-.carbon.LabeledAngleBar .AngleButton {}
+.neumorphiclight.LabeledAngleBar {}
 
-.carbon.LabeledAngleBar .Label,
-.carbon.LabeledAngleBar .ValueLabel {}
+.neumorphiclight.LabeledAngleBar .AngleButton {}
 
-.carbon.LabeledAngleBar .ValueLabel {}
+.neumorphiclight.LabeledAngleBar .Label,
+.neumorphiclight.LabeledAngleBar .ValueLabel {}
+
+.neumorphiclight.LabeledAngleBar .ValueLabel {}

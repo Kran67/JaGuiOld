@@ -1,4 +1,6 @@
-﻿.carbon.PathCheckboxCheck {
+﻿@import url(/css/components/extended/pathCheckbox.css);
+
+.neumorphiclight.PathCheckboxCheck {
     max-width: 15px;
     width: 15px;
     height: 15px;

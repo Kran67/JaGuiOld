@@ -1,2 +1,4 @@
-﻿.carbon.SegmentLedLabel {
+﻿@import url(/css/components/extended/segmentLedLabel.css);
+
+.neumorphiclight.SegmentLedLabel {
 }

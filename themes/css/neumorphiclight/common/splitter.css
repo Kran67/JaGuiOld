@@ -1,25 +1,27 @@
-﻿.carbon.Splitter.orientation-horizontal,
-.carbon.Splitter.orientation-vertical {
+﻿@import url(/css/components/common/splitter.css);
+
+.neumorphiclight.Splitter.orientation-horizontal,
+.neumorphiclight.Splitter.orientation-vertical {
     background-color: #505050;
 }
 
-.carbon.Splitter.orientation-horizontal {
+.neumorphiclight.Splitter.orientation-horizontal {
     border-bottom: 1px solid #303030;
     border-top: 1px solid #6D6D6D;
 }
 
-.carbon.Splitter.orientation-vertical {
+.neumorphiclight.Splitter.orientation-vertical {
     border-right: 1px solid #303030;
     border-left: 1px solid #6D6D6D;
 }
 
-.carbon.Splitter:before {
+.neumorphiclight.Splitter:before {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAHklEQVQIW2NkYGD4D8QgwMgI4+Tm5jKAOAxABlgWAFuzBZCcNaxyAAAAAElFTkSuQmCC);
     content: "";
     position: absolute;
 }
 
-.carbon.Splitter.orientation-horizontal:before {
+.neumorphiclight.Splitter.orientation-horizontal:before {
     top: 0;
     bottom: 0;
     width: 27px;
@@ -28,7 +30,7 @@
     transform: translateX(-50%);
 }
 
-.carbon.Splitter.orientation-vertical:before {
+.neumorphiclight.Splitter.orientation-vertical:before {
     left: 0;
     right: 0;
     height: 27px;
@@ -37,6 +39,6 @@
     transform: translateY(-50%);
 }
 
-.carbon.Splitter:hover:before {
+.neumorphiclight.Splitter:hover:before {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAJElEQVQIW2P8ulrjPwMDAwN36A1GRhgneK4CAyNI1MPDAywLAOY6CbLm3HvHAAAAAElFTkSuQmCC);
 }

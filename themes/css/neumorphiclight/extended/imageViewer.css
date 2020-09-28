@@ -1,8 +1,10 @@
-﻿.carbon.ImageViewerViewPort {
+﻿@import url(/css/components/extended/imageViewer.css);
+
+.neumorphiclight.ImageViewerViewPort {
     background-color: #404040;
 }
 
-.carbon.ImageViewer {
+.neumorphiclight.ImageViewer {
     border: 1px solid #303030;
     background-color: #404040;
 }

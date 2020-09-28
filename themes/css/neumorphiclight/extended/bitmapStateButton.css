@@ -1,1 +1,3 @@
-﻿.carbon.BitmapStateButton {}
+﻿@import url(/css/components/extended/bitmapStateButton.css);
+
+.neumorphiclight.BitmapStateButton {}

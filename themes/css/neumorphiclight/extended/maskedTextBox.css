@@ -1,9 +1,11 @@
-﻿.carbon.MaskedTextBox {}
+﻿@import url(/css/components/extended/maskedTextBox.css);
 
-.carbon.MaskedTextBoxInput {}
+.neumorphiclight.MaskedTextBox {}
 
-.carbon.MaskedTextBox.required:before {}
+.neumorphiclight.MaskedTextBoxInput {}
 
-.carbon.MaskedTextBox.haserror {}
+.neumorphiclight.MaskedTextBox.required:before {}
 
-.carbon.MaskedTextBox.haserror:after {}
+.neumorphiclight.MaskedTextBox.haserror {}
+
+.neumorphiclight.MaskedTextBox.haserror:after {}

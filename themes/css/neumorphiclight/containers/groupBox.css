@@ -1,8 +1,10 @@
-﻿.carbon.GroupBox {
+﻿@import url(/css/components/containers/groupBox.css);
+
+.neumorphiclight.GroupBox {
     border: 1px solid #202020;
     border-radius: 4px;
 }
 
-.carbon.GroupBoxLegend {
+.neumorphiclight.GroupBoxLegend {
     color: #E0E0E0;
 }

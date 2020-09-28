@@ -1,1 +1,3 @@
-﻿.carbon.DropDownTimePanel {}
+﻿@import url(/css/components/common/dropDownTimePanel.css);
+
+.neumorphiclight.DropDownTimePanel {}

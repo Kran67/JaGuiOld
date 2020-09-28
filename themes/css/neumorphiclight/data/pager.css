@@ -1,1 +1,3 @@
-﻿.carbon.Pager {}
+﻿@import url(/css/components/data/pager.css);
+
+.neumorphiclight.Pager {}

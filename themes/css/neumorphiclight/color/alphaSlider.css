@@ -1,3 +1,5 @@
-﻿.carbon.AlphaSlider {
+﻿@import url(/css/components/color/alphaSlider.css);
+
+.neumorphiclight.AlphaSlider {
     box-shadow: none;
 }

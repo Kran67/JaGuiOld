@@ -1,1 +1,3 @@
-﻿.carbon.PlotGrid {}
+﻿@import url(/css/components/common/plotGrid.css);
+
+.neumorphiclight.PlotGrid {}

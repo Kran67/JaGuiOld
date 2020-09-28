@@ -1,1 +1,3 @@
-﻿.carbon.NumberWheel {}
+﻿@import url(/css/components/common/numberWheel.css);
+
+.neumorphiclight.NumberWheel {}

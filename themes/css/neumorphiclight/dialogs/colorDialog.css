@@ -1,4 +1,6 @@
-﻿.carbon.ColorDlg .carbon.TabSheet.selected {
+﻿@import url(/css/components/dialogs/colorDialog.css);
+
+.neumorphiclight.ColorDlg .neumorphiclight.TabSheet.selected {
     height: 17px;
     margin-top: 3px;
     padding-top: 0;
@@ -7,32 +9,32 @@
     background-color: #F69E2D;
 }
 
-.carbon.ColorDlg .carbon.TabControl.focused .carbon.Tab.selected {
+.neumorphiclight.ColorDlg .neumorphiclight.TabControl.focused .neumorphiclight.Tab.selected {
     color: #303030;
 }
 
-.carbon.ColorDlg .carbon.TabSheet {
+.neumorphiclight.ColorDlg .neumorphiclight.TabSheet {
     padding-top: 0;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
 }
 
-.carbon.ColorDlg .carbon.Tab.selected {
+.neumorphiclight.ColorDlg .neumorphiclight.Tab.selected {
     border-bottom: 1px solid #303030;
 }
 
-.carbon.ColorDlg .carbon.TabSheet:first-child {
+.neumorphiclight.ColorDlg .neumorphiclight.TabSheet:first-child {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-.carbon.ColorDlg .carbon.TabSheet:not(:first-child):not(:last-child) {
+.neumorphiclight.ColorDlg .neumorphiclight.TabSheet:not(:first-child):not(:last-child) {
     border-radius: 0;
     border-left: none;
     border-right: none;
 }
 
-.carbon.ColorDlg .carbon.TabSheet:last-child {
+.neumorphiclight.ColorDlg .neumorphiclight.TabSheet:last-child {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }

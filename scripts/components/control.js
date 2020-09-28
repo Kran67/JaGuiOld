@@ -13,111 +13,151 @@ import { Rect } from '/scripts/core/geometry.js';
 //#endregion Imports
 //#region Control
 class Control extends Component {
+    //#region Private fields
+    #allowUpdate = !0;
+    #autoTranslate;
+    #translationKey;
+    #isMouseOver = !1;
+    #isFocused = !1;
+    #isPressed = !1;
+    #closePopups;
+    #wrapper = String.EMPTY;
+    #hasResizeEvent = !1;
+    #resizeData = {
+        width: null,
+        height: null
+    };
+    #tabList = [];
+    #constraints;
+    #ownerShowToolTip;
+    #autoCapture;
+    #padding;
+    #margin;
+    #popupMenu = null;
+    #opacity;
+    #width;
+    #height;
+    #scale;
+    #canFocused;
+    #showFocus;
+    #enabled;
+    #rotateCenter;
+    #toolTip;
+    #showToolTip;
+    #mouseEvents;
+    #rotateAngle;
+    #customStyle = null;
+    #cssClasses;
+    #tabOrder;
+    #right;
+    #bottom;
+    #doubleClick = !1;
+    #component = !1;
+    #forceDisplayVisibility;
+    #clipped;
+    #reflected;
+    #column;
+    #row;
+    #colSpan;
+    #rowSpan;
+    #allowUpdateOnResize;
+    #allowRealignChildsOnResize;
+    #resizer;
+    #updateCell;
+    #anchor;
+    #align;
+    #cursor;
+    #dragMode;
+    #dragKind;
+    //#endregion Private fields
     //#region Constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
             const self = this;
-            const priv = core.private(this, {
-                allowUpdate: !0,
-                autoTranslate: props.hasOwnProperty('autoTranslate') && core.tools.isBool(props.autoTranslate)
-                    ? props.autoTranslate : !1,
-                translationKey: props.hasOwnProperty('translationKey') ? props.translationKey : String.EMPTY,
-                isMouseOver: !1,
-                isFocused: !1,
-                isPressed: !1,
-                closePopups: props.hasOwnProperty('closePopups') && core.tools.isBool(props.closePopups)
-                    ? props.closePopups : !0,
-                wrapper: String.EMPTY,
-                hasResizeEvent: !1,
-                resizeData: {
-                    width: null,
-                    height: null
-                },
-                tabList: [],
-                constraints: new core.classes.SizeConstraints(this),
-                ownerShowToolTip: props.hasOwnProperty('ownerShowToolTip')
-                    && core.tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : !0,
-                autoCapture: props.hasOwnProperty('autoCapture') && core.tools.isBool(props.autoCapture)
-                    ? props.autoCapture : !1,
-                padding: new core.classes.Padding(this),
-                margin: new core.classes.Margin(this),
-                popupMenu: null,
-                opacity: props.hasOwnProperty('opacity') && core.tools.isNumber(props.opacity) && (props.opacity),
-                width: props.hasOwnProperty('width') && core.tools.isNumber(props.width) ? props.width : 50,
-                height: props.hasOwnProperty('height') && core.tools.isNumber(props.height) ? props.height : 50,
-                scale: new core.classes.Scale(this),
-                canFocused: props.hasOwnProperty('canFocused') && core.tools.isBool(props.canFocused)
-                    ? props.canFocused : !1,
-                showFocus: props.hasOwnProperty('showFocus') && core.tools.isBool(props.showFocus)
-                    ? props.showFocus : !0,
-                enabled: props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0,
-                rotateCenter: new core.classes.RotateCenter(this),
-                toolTip: props.hasOwnProperty('toolTip') ? props.toolTip : String.EMPTY,
-                showToolTip: props.hasOwnProperty('showToolTip') && core.tools.isBool(props.showToolTip)
-                    ? props.showToolTip : !1,
-                mouseEvents: new core.classes.MouseEvents(props.hasOwnProperty('mouseEvents')
-                    ? props.mouseEvents : null),
-                rotateAngle: props.hasOwnProperty('rotateAngle') && core.tools.isNumber(props.rotateAngle)
-                    ? props.rotateAngle : 0,
-                customStyle: null,
-                cssClasses: props.hasOwnProperty('cssClasses') ? props.cssClasses : String.EMPTY,
-                tabOrder: props.hasOwnProperty('tabOrder') && core.tools.isNumber(props.tabOrder)
-                    ? props.tabOrder : 0,
-                right: props.hasOwnProperty('right') && core.tools.isNumber(props.right) ? props.right : null,
-                bottom: props.hasOwnProperty('bottom') && core.tools.isNumber(props.bottom) ? props.bottom : null,
-                doubleClick: !1,
-                component: !1,
-                forceDisplayVisibility: props.hasOwnProperty('forceDisplayVisibility')
-                    && core.tools.isBool(props.forceDisplayVisibility)
-                    ? props.forceDisplayVisibility : !1,
-                clipped: props.hasOwnProperty('clipped') && core.tools.isBool(props.clipped) ? props.clipped : !0,
-                reflected: props.hasOwnProperty('reflected') && core.tools.isBool(props.reflected)
-                    ? props.reflected : !1,
-                column: props.hasOwnProperty('column') && core.tools.isNumber(props.column) ? props.column : 0,
-                row: props.hasOwnProperty('row') && core.tools.isNumber(props.row) ? props.row : 0,
-                colSpan: props.hasOwnProperty('colSpan') && core.tools.isNumber(props.colSpan)
-                    ? props.colSpan : 0,
-                rowSpan: props.hasOwnProperty('rowSpan') && core.tools.isNumber(props.rowSpan)
-                    ? props.rowSpan : 0,
-                allowUpdateOnResize: props.hasOwnProperty('allowUpdateOnResize')
-                    && core.tools.isBool(props.allowUpdateOnResize) ? props.allowUpdateOnResize : !1,
-                allowRealignChildsOnResize: props.hasOwnProperty('allowRealignChildsOnResize')
-                    && core.tools.isBool(props.allowRealignChildsOnResize)
-                    ? props.allowRealignChildsOnResize : !1,
-                resizer: new ResizeObserver(function () {
-                    const obj = this.obj;
-                    obj.allowUpdateOnResize && obj.update();
-                    obj.allowRealignChildsOnResize && obj.realignChilds();
-                    obj.onResize && obj.onResize.invoke(obj);
-                }),
-                updateCell: function () {
-                    //#region Variables déclaration
-                    const htmlElementStyle = self.HTMLElementStyle;
-                    //#endregion Variables déclaration
-                    // columns
-                    htmlElementStyle.gridColumn = `${this.column} / span ${this.colSpan > 1 ? this.colSpan : 1}`;
-                    // rows
-                    htmlElementStyle.gridRow = `${this.row} / span ${this.rowSpan > 1 ? this.rowSpan : 1}`;
-                }
+            this.#autoTranslate= props.hasOwnProperty('autoTranslate') && core.tools.isBool(props.autoTranslate)
+                    ? props.autoTranslate : !1;
+            this.#translationKey= props.hasOwnProperty('translationKey') ? props.translationKey : String.EMPTY;
+            this.#closePopups= props.hasOwnProperty('closePopups') && core.tools.isBool(props.closePopups)
+                    ? props.closePopups : !0;
+            this.#constraints= new core.classes.SizeConstraints(this);
+            this.#ownerShowToolTip= props.hasOwnProperty('ownerShowToolTip')
+                    && core.tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : !0;
+            this.#autoCapture= props.hasOwnProperty('autoCapture') && core.tools.isBool(props.autoCapture)
+                    ? props.autoCapture : !1;
+            this.#padding= new core.classes.Padding(this);
+            this.#margin= new core.classes.Margin(this);
+            this.#opacity= props.hasOwnProperty('opacity') && core.tools.isNumber(props.opacity) && (props.opacity);
+            this.#width= props.hasOwnProperty('width') && core.tools.isNumber(props.width) ? props.width : 50;
+            this.#height= props.hasOwnProperty('height') && core.tools.isNumber(props.height) ? props.height : 50;
+            this.#scale= new core.classes.Scale(this);
+            this.#canFocused= props.hasOwnProperty('canFocused') && core.tools.isBool(props.canFocused)
+                    ? props.canFocused : !1;
+            this.#showFocus= props.hasOwnProperty('showFocus') && core.tools.isBool(props.showFocus)
+                    ? props.showFocus : !0;
+            this.#enabled= props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
+            this.#rotateCenter= new core.classes.RotateCenter(this);
+            this.#toolTip= props.hasOwnProperty('toolTip') ? props.toolTip : String.EMPTY;
+            this.#showToolTip= props.hasOwnProperty('showToolTip') && core.tools.isBool(props.showToolTip)
+                    ? props.showToolTip : !1;
+            this.#mouseEvents= new core.classes.MouseEvents(props.hasOwnProperty('mouseEvents')
+                    ? props.mouseEvents : null);
+            this.#rotateAngle= props.hasOwnProperty('rotateAngle') && core.tools.isNumber(props.rotateAngle)
+                    ? props.rotateAngle : 0;
+            this.#cssClasses= props.hasOwnProperty('cssClasses') ? props.cssClasses : String.EMPTY;
+            this.#tabOrder= props.hasOwnProperty('tabOrder') && core.tools.isNumber(props.tabOrder)
+                ? props.tabOrder : 0;
+            this.#right= props.hasOwnProperty('right') && core.tools.isNumber(props.right) ? props.right : null;
+            this.#bottom= props.hasOwnProperty('bottom') && core.tools.isNumber(props.bottom) ? props.bottom : null;
+            this.#forceDisplayVisibility= props.hasOwnProperty('forceDisplayVisibility')
+                && core.tools.isBool(props.forceDisplayVisibility)
+                ? props.forceDisplayVisibility : !1;
+            this.#clipped= props.hasOwnProperty('clipped') && core.tools.isBool(props.clipped) ? props.clipped : !0;
+            this.#reflected= props.hasOwnProperty('reflected') && core.tools.isBool(props.reflected)
+                ? props.reflected : !1;
+            this.#column= props.hasOwnProperty('column') && core.tools.isNumber(props.column) ? props.column : 0;
+            this.#row= props.hasOwnProperty('row') && core.tools.isNumber(props.row) ? props.row : 0;
+            this.#colSpan= props.hasOwnProperty('colSpan') && core.tools.isNumber(props.colSpan)
+                ? props.colSpan : 0;
+            this.#rowSpan= props.hasOwnProperty('rowSpan') && core.tools.isNumber(props.rowSpan)
+                ? props.rowSpan : 0;
+            this.#allowUpdateOnResize= props.hasOwnProperty('allowUpdateOnResize')
+                && core.tools.isBool(props.allowUpdateOnResize) ? props.allowUpdateOnResize : !1;
+            this.#allowRealignChildsOnResize= props.hasOwnProperty('allowRealignChildsOnResize')
+                && core.tools.isBool(props.allowRealignChildsOnResize)
+                ? props.allowRealignChildsOnResize : !1;
+            this.#resizer= new ResizeObserver(function () {
+                const obj = this.obj;
+                obj.allowUpdateOnResize && obj.update();
+                obj.allowRealignChildsOnResize && obj.realignChilds();
+                obj.onResize && obj.onResize.invoke(obj);
             });
-            priv.resizer.obj = this;
+            this.#updateCell= function () {
+                //#region Variables déclaration
+                const htmlElementStyle = self.HTMLElementStyle;
+                //#endregion Variables déclaration
+                // columns
+                htmlElementStyle.gridColumn = `${this.#column} / span ${this.#colSpan > 1 ? this.#colSpan : 1}`;
+                // rows
+                htmlElementStyle.gridRow = `${this.#row} / span ${this.#rowSpan > 1 ? this.#rowSpan : 1}`;
+            };
+            this.#resizer.obj = this;
             if (props.hasOwnProperty('padding')) {
                 //#region Variables déclaration
                 const padding = props.padding;
                 //#endregion Variables déclaration
                 core.tools.isNumber(padding)
-                    ? priv.padding.setValues(padding, padding, padding, padding)
-                    : priv.padding.setValues(padding.left, padding.top, padding.right, padding.bottom);
+                    ? this.#padding.setValues(padding, padding, padding, padding)
+                    : this.#padding.setValues(padding.left, padding.top, padding.right, padding.bottom);
             }
             if (props.hasOwnProperty('margin')) {
                 //#region Variables déclaration
                 const margin = props.margin;
                 //#endregion Variables déclaration
                 core.tools.isNumber(margin)
-                    ? priv.padding.setValues(margin, margin, margin, margin)
-                    : priv.margin.setValues(margin.left, margin.top, margin.right, margin.bottom);
+                    ? this.#padding.setValues(margin, margin, margin, margin)
+                    : this.#margin.setValues(margin.left, margin.top, margin.right, margin.bottom);
             }
             this.createEventsAndBind(['onMouseDown', 'onMouseMove', 'onMouseUp', 'onClick', 'onDblClick',
                 'onMouseLeave', 'onMouseEnter', 'onWheel', 'onScroll', 'onBeforePaint', 'onPaint',
@@ -131,7 +171,7 @@ class Control extends Component {
                 enum: anchors,
                 setter: function (newValue) {
                     //#region Variables déclaration
-                    const anchor = this.anchor;
+                    const anchor = this.#anchor;
                     //#endregion Variables déclaration
                     if (Array.isArray(newValue)) {
                         anchor.length = 0;
@@ -151,10 +191,10 @@ class Control extends Component {
                     //#region Variables déclaration
                     const owner = this.owner;
                     const priv = core.private(this);
-                    let align = priv.align;
+                    let align = this.#align;
                     //#endregion Variables déclaration
                     if (core.tools.valueInSet(newValue, core.types.ALIGNS) && align !== newValue) {
-                        align = priv.align = newValue;
+                        align = this.#align = newValue;
                         if (!this.loading && !this.form.loading && align !== core.types.ALIGNS.NONE) {
                             owner.realignChilds();
                             owner.hasResizeEvent && owner.resized();
@@ -171,12 +211,11 @@ class Control extends Component {
                 setter: function (newValue) {
                     //#region Variables déclaration
                     const htmlElement = this.HTMLElement;
-                    const priv = core.private(this);
-                    let cursor = priv.cursor;
+                    let cursor = this.#cursor;
                     //#endregion Variables déclaration
                     if (core.tools.valueInSet(newValue, core.types.CUSTOMCURSORS) && cursor !== newValue) {
                         htmlElement.classList.remove(cursor);
-                        cursor = priv.cursor = newValue;
+                        cursor = this.#cursor = newValue;
                         htmlElement.classList.add(cursor);
                     }
                 },
@@ -205,46 +244,34 @@ class Control extends Component {
     //#region Getters / Setters
     //#region translationKey
     get translationKey() {
-        return core.private(this).translationKey;
+        return this.#translationKey;
     }
     set translationKey(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv.translationKey !== newValue
-            && (priv.translationKey = newValue);
+        core.tools.isString(newValue) && this.#translationKey !== newValue
+            && (this.#translationKey = newValue);
     }
     //#endregion translationKey
     //#region allowUpdateOnResize
     get allowUpdateOnResize() {
-        return core.private(this).allowUpdateOnResize;
+        return this.#allowUpdateOnResize;
     }
     set allowUpdateOnResize(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.allowUpdateOnResize !== newValue
-            && (priv.allowUpdateOnResize = newValue);
+        core.tools.isBool(newValue) && this.#allowUpdateOnResize !== newValue
+            && (this.#allowUpdateOnResize = newValue);
     }
     //#endregion allowUpdateOnResize
     //#region allowRealignChildsOnResize
     get allowRealignChildsOnResize() {
-        return core.private(this).allowRealignChildsOnResize;
+        return this.#allowRealignChildsOnResize;
     }
     set allowRealignChildsOnResize(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.allowRealignChildsOnResize !== newValue
-            && (priv.allowRealignChildsOnResize = newValue);
+        core.tools.isBool(newValue) && this.#allowRealignChildsOnResize !== newValue
+            && (this.#allowRealignChildsOnResize = newValue);
     }
     //#endregion allowRealignChildsOnResize
     //#region bounds
     get bounds() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return new Rect(this.left, this.top, priv.width, priv.height);
+        return new Rect(this.left, this.top, this.#width, this.#height);
     }
     set bounds(newValue) {
         if (newValue instanceof Rect) {
@@ -259,27 +286,23 @@ class Control extends Component {
     //#endregion bounds
     //#region clipped
     get clipped() {
-        return core.private(this).clipped;
+        return this.#clipped;
     }
     set clipped(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.clipped !== newValue
-            && (priv.clipped = newValue);
+        core.tools.isBool(newValue) && this.#clipped !== newValue
+            && (this.#clipped = newValue);
     }
     //#endregion clipped
     //#region reflected
     get reflected() {
-        return core.private(this).reflected;
+        return this.#reflected;
     }
     set reflected(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.reflected !== newValue) {
-            (priv.reflected = newValue);
+        if (core.tools.isBool(newValue) && this.#reflected !== newValue) {
+            (this.#reflected = newValue);
             if (core.isHTMLRenderer) {
                 newValue
                     ? htmlElement.classList.add('reflected')
@@ -290,64 +313,51 @@ class Control extends Component {
     //#endregion reflected
     //#region forceDisplayVisibility
     get forceDisplayVisibility() {
-        return core.private(this).forceDisplayVisibility;
+        return this.#forceDisplayVisibility;
     }
     set forceDisplayVisibility(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.forceDisplayVisibility !== newValue
-            && (priv.forceDisplayVisibility = newValue);
+        core.tools.isBool(newValue) && this.#forceDisplayVisibility !== newValue
+            && (this.#forceDisplayVisibility = newValue);
     }
     //#endregion forceDisplayVisibility
     //#region allowUpdate
     get allowUpdate() {
-        return core.private(this).allowUpdate;
+        return this.#allowUpdate;
     }
     set allowUpdate(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.allowUpdate !== newValue
-            && (priv.allowUpdate = newValue);
+        core.tools.isBool(newValue) && this.#allowUpdate !== newValue
+            && (this.#allowUpdate = newValue);
     }
     //#endregion allowUpdate
     //#region autoTranslate
     get autoTranslate() {
-        return core.private(this).autoTranslate;
+        return this.#autoTranslate;
     }
     set autoTranslate(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.autoTranslate !== newValue
-            && (priv.autoTranslate = newValue);
+        core.tools.isBool(newValue) && this.#autoTranslate !== newValue
+            && (this.#autoTranslate = newValue);
     }
     //#endregion autoTranslate
     //#region isMouseOver
     get isMouseOver() {
-        return core.private(this).isMouseOver;
+        return this.#isMouseOver;
     }
     set isMouseOver(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.mouseEvents.mouseenter && priv.isMouseOver !== newValue
-            && (priv.isMouseOver = newValue);
+        core.tools.isBool(newValue) && this.#mouseEvents.mouseenter && this.#isMouseOver !== newValue
+            && (this.#isMouseOver = newValue);
     }
     //#endregion isMouseOver
     //#region isFocused
     get isFocused() {
-        return core.private(this).isFocused;
+        return this.#isFocused;
     }
     set isFocused(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const form = this.form;
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.isFocused !== newValue) {
-            priv.isFocused = newValue;
+        if (core.tools.isBool(newValue) && this.#isFocused !== newValue) {
+            this.#isFocused = newValue;
             let lastFc;
             form.focusedControl && (core.classes.CustomTextControl
                 && form.focusedControl instanceof core.classes.CustomTextControl) && !newValue
@@ -359,7 +369,7 @@ class Control extends Component {
                 form.focusedControl = null;
             }
             if (htmlElement && !this.updating) {
-                newValue && priv.showFocus ? htmlElement.classList.add('focused') : htmlElement.classList.remove('focused');
+                newValue && this.#showFocus ? htmlElement.classList.add('focused') : htmlElement.classList.remove('focused');
             }
             !newValue && this.killFocus();
             lastFc && lastFc.inputObj && lastFc.inputObj.blur();
@@ -368,15 +378,14 @@ class Control extends Component {
     //#endregion isFocused
     //#region isPressed
     get isPressed() {
-        return core.private(this).isPressed;
+        return this.#isPressed;
     }
     set isPressed(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.mouseEvents.mousedown && priv.isPressed !== newValue) {
-            priv.isPressed = newValue;
+        if (core.tools.isBool(newValue) && this.#mouseEvents.mousedown && this.#isPressed !== newValue) {
+            this.#isPressed = newValue;
             core.isHTMLRenderer && htmlElement.classList.remove('pressed');
             newValue && (core.isHTMLRenderer && htmlElement.classList.add('pressed'));
         }
@@ -384,15 +393,14 @@ class Control extends Component {
     //#endregion isPressed
     //#region closePopups
     get closePopups() {
-        return core.private(this).closePopups;
+        return this.#closePopups;
     }
     set closePopups(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const components = this.components;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.closePopups !== newValue) {
-            priv.closePopups = newValue;
+        if (core.tools.isBool(newValue) && this.#closePopups !== newValue) {
+            this.#closePopups = newValue;
             components.forEach(comp => {
                 comp instanceof core.classes.Control && (comp.closePopups = newValue);
             });
@@ -401,104 +409,83 @@ class Control extends Component {
     //#endregion closePopups
     //#region wrapper
     get wrapper() {
-        return core.private(this).wrapper;
+        return this.#wrapper;
     }
     set wrapper(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv.wrapper !== newValue && (priv.wrapper = newValue);
+        core.tools.isString(newValue) && this.#wrapper !== newValue && (this.#wrapper = newValue);
     }
     //#endregion wrapper
     //#region hasResizeEvent
     get hasResizeEvent() {
-        return core.private(this).hasResizeEvent;
+        return this.#hasResizeEvent;
     }
     set hasResizeEvent(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.hasResizeEvent !== newValue && (priv.hasResizeEvent = newValue);
+        core.tools.isBool(newValue) && this.#hasResizeEvent !== newValue && (this.#hasResizeEvent = newValue);
     }
     //#endregion hasResizeEvent
     //#region resizeData
     get resizeData() {
-        return core.private(this).resizeData;
+        return this.#resizeData;
     }
     //#endregion resizeData
     //#region tabList
     get tabList() {
-        return core.private(this).tabList;
+        return this.#tabList;
     }
     //#endregion tabList
     //#region constraints
     get constraints() {
-        return core.private(this).constraints;
+        return this.#constraints;
     }
     set constraints(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        newValue instanceof core.classes.Constraints && priv.constraints !== newValue
-            && (priv.constraints = newValue);
+        newValue instanceof core.classes.Constraints && this.#constraints !== newValue
+            && (this.#constraints = newValue);
     }
     //#endregion constraints
     //#region ownerShowToolTip
     get ownerShowToolTip() {
-        return core.private(this).ownerShowToolTip;
+        return this.#ownerShowToolTip;
     }
     set ownerShowToolTip(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.ownerShowToolTip !== newValue && (priv.ownerShowToolTip = newValue);
+        core.tools.isBool(newValue) && this.#ownerShowToolTip !== newValue && (this.#ownerShowToolTip = newValue);
     }
     //#endregion ownerShowToolTip
     //#region autoCapture
     get autoCapture() {
-        return core.private(this).autoCapture;
+        return this.#autoCapture;
     }
     set autoCapture(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.autoCapture !== newValue && (priv.autoCapture = newValue);
+        core.tools.isBool(newValue) && this.#autoCapture !== newValue && (this.#autoCapture = newValue);
     }
     //#endregion autoCapture
     //#region padding
     get padding() {
-        return core.private(this).padding;
+        return this.#padding;
     }
     //#endregion padding
     //#region margin
     get margin() {
-        return core.private(this).margin;
+        return this.#margin;
     }
     //#endregion margin
     //#region popupMenu
     get popupMenu() {
-        return core.private(this).popupMenu;
+        return this.#popupMenu;
     }
     set popupMenu(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        newValue instanceof core.classes.PopupMenu && priv.popupMenu !== newValue
-            && (priv.popupMenu = newValue);
+        newValue instanceof core.classes.PopupMenu && this.#popupMenu !== newValue
+            && (this.#popupMenu = newValue);
     }
     //#endregion popupMenu
     //#region opacity
     get opacity() {
-        return core.private(this).opacity;
+        return this.#opacity;
     }
     set opacity(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue = Math.max(Math.min(newValue, 0), 0);
-            if (priv.opacity !== newValue) {
-                priv.opacity = newValue;
+            if (this.#opacity !== newValue) {
+                this.#opacity = newValue;
                 this.propertyChanged('opacity');
                 !this.loading && !this.form.loading
                     && (this.HTMLElementStyle.opacity = newValue);
@@ -509,11 +496,10 @@ class Control extends Component {
     //#region contentWidth
     get contentWidth() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const owner = this.owner;
-        let width = priv.width;
-        const margin = priv.margin;
-        const padding = priv.padding;
+        let width = this.#width;
+        const margin = this.#margin;
+        const padding = this.#padding;
         //#endregion Variables déclaration
         core.tools.isString(width) && width.endsWith('%')
             && (width = owner.contentWidth * (parseFloat(width) / 100));
@@ -524,34 +510,32 @@ class Control extends Component {
     //#region width
     get width() {
         //#region Variables déclaration
-        let priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (!core.isHTMLRenderer) {
-            return priv.width;
+            return this.#width;
         } else {
             let width = htmlElement.offsetWidth > 0 ?
                 htmlElement.offsetWidth :
                 parseInt(getComputedStyle(this.HTMLElement).width, 10);
-            priv.width = priv.width !== width && width > 0 ? width : priv.width;
-            return priv.width;
+            this.#width = this.#width !== width && width > 0 ? width : this.#width;
+            return this.#width;
         }
     }
     set width(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElementStyle = this.HTMLElementStyle;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.width !== newValue) {
+        if (core.tools.isNumber(newValue) && this.#width !== newValue) {
             if (!core.isHTMLRenderer) {
-                priv.width = newValue;
+                this.#width = newValue;
                 this.realignChilds();
             } else if (!this.loading) {
                 this.propertyChanged('width');
                 newValue < 0
                     ? htmlElementStyle.width = 'auto'
                     : htmlElementStyle.width = `${newValue}${core.types.CSSUNITS.PX}`;
-                priv.width = newValue;
+                this.#width = newValue;
                 //this._boundingClientRect.right=this._boundingClientRect.left+this.HTMLElement.offsetWidth;
             }
         }
@@ -560,11 +544,10 @@ class Control extends Component {
     //#region contentHeight
     get contentHeight() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const owner = this.owner;
-        let height = priv.height;
-        const margin = priv.margin;
-        const padding = priv.padding;
+        let height = this.#height;
+        const margin = this.#margin;
+        const padding = this.#padding;
         //#endregion Variables déclaration
         core.tools.isString(height) && height.endsWith('%')
             && (height = owner.contentWidth * (parseFloat(height) / 100));
@@ -575,46 +558,43 @@ class Control extends Component {
     //#region height
     get height() {
         //#region Variables déclaration
-        let priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (!core.isHTMLRenderer) {
-            return priv.height;
+            return this.#height;
         } else {
             let height = htmlElement.offsetHeight > 0 ?
                 htmlElement.offsetHeight :
                 parseInt(getComputedStyle(this.HTMLElement).height, 10);
-            priv.height = priv.height !== height && height > 0 ? height : priv.height;
-            return priv.height;
+            this.#height = this.#height !== height && height > 0 ? height : this.#height;
+            return this.#height;
         }
     }
     set height(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElementStyle = this.HTMLElementStyle;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.height !== newValue) {
+        if (core.tools.isNumber(newValue) && this.#height !== newValue) {
             if (!core.isHTMLRenderer) {
-                priv.height = newValue;
+                this.#height = newValue;
                 this.realignChilds();
             } else if (!this.loading) {
                 this.propertyChanged('height');
                 newValue < 0
                     ? htmlElementStyle.height = 'auto'
                     : htmlElementStyle.height = `${newValue}${core.types.CSSUNITS.PX}`;
-                priv.height = newValue;
+                this.#height = newValue;
             }
         }
     }
     //#endregion height
     //#region scale
     get scale() {
-        return core.private(this).scale;
+        return this.#scale;
     }
     set scale(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const scale = priv.scale;
+        const scale = this.#scale;
         //#endregion Variables déclaration
         if (newValue instanceof core.classes.Point && !scale.equals(newValue)) {
             scale.assign(newValue);
@@ -626,29 +606,25 @@ class Control extends Component {
     //#endregion scale
     //#region canFocused
     get canFocused() {
-        return core.private(this).canFocused;
+        return this.#canFocused;
     }
     set canFocused(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.canFocused !== newValue && (priv.canFocused = newValue);
+        core.tools.isBool(newValue) && this.#canFocused !== newValue && (this.#canFocused = newValue);
     }
     //#endregion canFocused
     //#region showFocus
     get showFocus() {
-        return core.private(this).showFocus;
+        return this.#showFocus;
     }
     set showFocus(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.showFocus !== newValue) {
-            priv.showFocus = newValue;
+        if (core.tools.isBool(newValue) && this.#showFocus !== newValue) {
+            this.#showFocus = newValue;
             if (!newValue) {
                 htmlElement.classList.remove('focused');
-            } else if (priv.isFocused) {
+            } else if (this.#isFocused) {
                 htmlElement.classList.add('focused');
             }
         }
@@ -656,19 +632,18 @@ class Control extends Component {
     //#endregion showFocus
     //#region enabled
     get enabled() {
-        return core.private(this).enabled;
+        return this.#enabled;
     }
     set enabled(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.enabled !== newValue) {
-            priv.enabled = newValue;
+        if (core.tools.isBool(newValue) && this.#enabled !== newValue) {
+            this.#enabled = newValue;
             core.isHTMLRenderer && htmlElement.classList.remove('disabled');
             if (!newValue) {
                 core.isHTMLRenderer && htmlElement.classList.add('disabled');
-                priv.isPressed = !1;
+                this.#isPressed = !1;
             }
             const comps = this.components.filter(e => {
                 return e instanceof core.classes.Control;
@@ -681,13 +656,12 @@ class Control extends Component {
     //#endregion enabled
     //#region rotateCenter
     get rotateCenter() {
-        return core.private(this).rotateCenter;
+        return this.#rotateCenter;
     }
     set rotateCenter(newValue) {
         //#region Variables déclaration
         const PO = core.types.CSSUNITS.PO;
-        const priv = core.private(this);
-        const rotateCenter = priv.rotateCenter;
+        const rotateCenter = this.#rotateCenter;
         //#endregion Variables déclaration
         if (newValue instanceof core.classes.Point && !rotateCenter.equals(newValue)) {
             rotateCenter.assign(newValue);
@@ -698,34 +672,28 @@ class Control extends Component {
     //#endregion rotateCenter
     //#region toolTip
     get toolTip() {
-        return core.private(this).toolTip;
+        return this.#toolTip;
     }
     set toolTip(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv.toolTip !== newValue && (priv.toolTip = newValue);
+        core.tools.isString(newValue) && this.#toolTip !== newValue && (this.#toolTip = newValue);
     }
     //#endregion toolTip
     //#region showToolTip
     get showToolTip() {
-        return core.private(this).showToolTip;
+        return this.#showToolTip;
     }
     set showToolTip(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.showToolTip !== newValue && (priv.showToolTip = newValue);
+        core.tools.isBool(newValue) && this.#showToolTip !== newValue && (this.#showToolTip = newValue);
     }
     //#endregion showToolTip
     //#region mouseEvents
     get mouseEvents() {
-        return core.private(this).mouseEvents;
+        return this.#mouseEvents;
     }
     //set mouseEvents(newValue) {
     //    //#region Variables déclaration
     //    const priv = internal(this);
-    //    const mouseEvents = priv.mouseEvents;
+    //    const mouseEvents = this.#mouseEvents;
     //    //#endregion Variables déclaration
     //    if (core.tools.isBool(newValue)) {
     //        hitTest.mouseDown = hitTest.mouseMove =
@@ -735,14 +703,11 @@ class Control extends Component {
     //#endregion mouseEvents
     //#region rotateAngle
     get rotateAngle() {
-        return core.private(this).rotateAngle;
+        return this.#rotateAngle;
     }
     set rotateAngle(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.rotateAngle !== newValue) {
-            priv.rotateAngle = newValue;
+        if (core.tools.isNumber(newValue) && this.#rotateAngle !== newValue) {
+            this.#rotateAngle = newValue;
             this.propertyChanged('rotateAngle');
             !this.loading && !this.form.loading && core.isHTMLRenderer && this.applyTransforms();
         }
@@ -750,32 +715,26 @@ class Control extends Component {
     //#endregion rotateAngle
     //#region customStyle
     get customStyle() {
-        return core.private(this).customStyle;
+        return this.#customStyle;
     }
     set customStyle(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv.customStyle !== newValue && (priv.customStyle = newValue);
+        core.tools.isString(newValue) && this.#customStyle !== newValue && (this.#customStyle = newValue);
     }
     //#endregion customStyle
     //#region cssClasses
     get cssClasses() {
-        return core.private(this).cssClasses;
+        return this.#cssClasses;
     }
     set cssClasses(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.cssClasses !== newValue) {
-            priv.cssClasses = newValue;
+        if (core.tools.isString(newValue) && this.#cssClasses !== newValue) {
+            this.#cssClasses = newValue;
             this.HTMLElement.classList.add(newValue);
         }
     }
     //#endregion cssClasses
     //#region tabOrder
     get tabOrder() {
-        return core.private(this).tabOrder;
+        return this.#tabOrder;
     }
     set tabOrder(newValue) {
         //#region Variables déclaration
@@ -789,10 +748,10 @@ class Control extends Component {
                 if (newValue !== curIndex) {
                     tabList.deleteAt(curIndex);
                     tabList.insert(newValue, this);
-                    priv.tabOrder = newValue;
+                    this.#tabOrder = newValue;
                 }
             } else {
-                priv.tabOrder = newValue;
+                this.#tabOrder = newValue;
                 tabList.push(this);
             }
         }
@@ -800,15 +759,14 @@ class Control extends Component {
     //#endregion tabOrder
     //#region right
     get right() {
-        return core.private(this).right;
+        return this.#right;
     }
     set right(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElementStyle = this.HTMLElementStyle;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) || newValue === null && priv.right !== newValue) {
-            priv.right = newValue;
+        if (core.tools.isNumber(newValue) || newValue === null && this.#right !== newValue) {
+            this.#right = newValue;
             this.propertyChanged('right');
             if (core.isHTMLRenderer && !this.loading && !this.form.loading) {
                 htmlElementStyle.right = `${newValue}${core.types.CSSUNITS.PX}`;
@@ -819,15 +777,14 @@ class Control extends Component {
     //#endregion right
     //#region bottom
     get bottom() {
-        return core.private(this).bottom;
+        return this.#bottom;
     }
     set bottom(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElementStyle = this.HTMLElementStyle;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) || newValue === null && priv.bottom !== newValue) {
-            priv.bottom = newValue;
+        if (core.tools.isNumber(newValue) || newValue === null && this.#bottom !== newValue) {
+            this.#bottom = newValue;
             this.propertyChanged('bottom');
             if (core.isHTMLRenderer && !this.loading && !this.form.loading) {
                 htmlElementStyle.bottom = `${newValue}${core.types.CSSUNITS.PX}`;
@@ -838,13 +795,10 @@ class Control extends Component {
     //#endregion bottom
     //#region doubleClick
     get doubleClick() {
-        return core.private(this).doubleClick;
+        return this.#doubleClick;
     }
     set doubleClick(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.doubleClick !== newValue && (priv.doubleClick = newValue);
+        core.tools.isBool(newValue) && this.#doubleClick !== newValue && (this.#doubleClick = newValue);
     }
     //#endregion doubleClick
     //#region visible
@@ -854,7 +808,6 @@ class Control extends Component {
     set visible(newValue) {
         //#region Variables déclaration
         const htmlElement = this.HTMLElement;
-        const priv = core.private(this);
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && super.visible !== newValue) {
             super.visible = newValue;
@@ -862,11 +815,11 @@ class Control extends Component {
             if (core.isHTMLRenderer) {
                 if (newValue) {
                     //this._applyAllStyles();
-                    priv.forceDisplayVisibility
+                    this.#forceDisplayVisibility
                         ? htmlElement.classList.remove('noDisplay')
                         : htmlElement.classList.remove('hidden');
                 } else {
-                    priv.forceDisplayVisibility
+                    this.#forceDisplayVisibility
                         ? htmlElement.classList.add('noDisplay')
                         : htmlElement.classList.add('hidden');
                 }
@@ -892,7 +845,7 @@ class Control extends Component {
     //#region isEnabled
     get isEnabled() {
         //#region Variables déclaration
-        let enabled = core.private(this).enabled;
+        let enabled = this.#enabled;
         const owners = this.owners;
         //#endregion Variables déclaration
         if (enabled) {
@@ -906,8 +859,7 @@ class Control extends Component {
     //#region localRect
     get localRect() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const padding = priv.padding;
+        const padding = this.#padding;
         //#endregion Variables déclaration
         return new core.classes.Rect(padding.left, padding.top, padding.right, padding.bottom);
     }
@@ -918,71 +870,59 @@ class Control extends Component {
         let html = super.template;
         const a = html.split('{cssClasses}');
         //#endregion Variables déclaration
-        html = a.join(core.private(this).cssClasses);
+        html = a.join(this.#cssClasses);
         return html;
     }
     //#endregion template
     //#region column
     get column() {
         if (this.owner instanceof core.classes.GridLayout) {
-            return core.private(this).column;
+            return this.#column;
         }
         return null;
     }
     set column(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (this.owner instanceof core.classes.GridLayout && core.tools.isNumber(newValue) && priv.column !== newValue) {
-            priv.column = newValue;
-            priv.updateCell();
+        if (this.owner instanceof core.classes.GridLayout && core.tools.isNumber(newValue) && this.#column !== newValue) {
+            this.#column = newValue;
+            this.#updateCell();
         }
     }
     //#endregion column
     //#region row
     get row() {
         return this.owner instanceof core.classes.GridLayout
-            ? core.private(this).row : null;
+            ? this.#row : null;
     }
     set row(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (this.owner instanceof core.classes.GridLayout && core.tools.isNumber(newValue) && priv.row !== newValue) {
-            priv.row = newValue;
-            priv.updateCell();
+        if (this.owner instanceof core.classes.GridLayout && core.tools.isNumber(newValue) && this.#row !== newValue) {
+            this.#row = newValue;
+            this.#updateCell();
         }
     }
     //#endregion row
     //#region colSpan
     get colSpan() {
         return this.owner instanceof core.classes.GridLayout
-            ? core.private(this).colSpan : null;
+            ? this.#colSpan : null;
     }
     set colSpan(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (this.owner instanceof core.classes.GridLayout && core.tools.isNumber(newValue)
-            && priv.colSpan !== newValue) {
-            priv.colSpan = newValue;
-            priv.updateCell();
+            && this.#colSpan !== newValue) {
+            this.#colSpan = newValue;
+            this.#updateCell();
         }
     }
     //#endregion colSpan
     //#region rowSpan
     get rowSpan() {
         return this.owner instanceof core.classes.GridLayout
-            ? core.private(this).rowSpan : null;
+            ? this.#rowSpan : null;
     }
     set rowSpan(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (this.owner instanceof core.classes.GridLayout && core.tools.isNumber(newValue)
-            && priv.rowSpan !== newValue) {
-            priv.rowSpan = newValue;
-            priv.updateCell();
+            && this.#rowSpan !== newValue) {
+            this.#rowSpan = newValue;
+            this.#updateCell();
         }
     }
     //#endregion rowSpan
@@ -1035,41 +975,39 @@ class Control extends Component {
     //#region resize
     resize() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElementStyle = this.HTMLElementStyle;
         //#endregion Variables déclaration
         if (htmlElementStyle && this.inForm) {
-            htmlElementStyle.width = priv.width < 0 ? 'auto' : `${priv.width}${core.types.CSSUNITS.PX}`;
-            htmlElementStyle.height = priv.height < 0 ? 'auto' : `${priv.height}${core.types.CSSUNITS.PX}`;
+            htmlElementStyle.width = this.#width < 0 ? 'auto' : `${this.#width}${core.types.CSSUNITS.PX}`;
+            htmlElementStyle.height = this.#height < 0 ? 'auto' : `${this.#height}${core.types.CSSUNITS.PX}`;
         }
     }
     //#endregion resize
     //#region sizing
     sizing() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElementStyle = this.HTMLElementStyle;
         const PX = core.types.CSSUNITS.PX;
-        const right = priv.right;
+        const right = this.#right;
         //#endregion Variables déclaration
         if (core.isHTMLRenderer) {
             this.applyTransforms();
-            if (priv.column > 0 || priv.row > 0 || priv.colSpan > 1 || priv.rowSpan > 1
+            if (this.#column > 0 || this.#row > 0 || this.#colSpan > 1 || this.#rowSpan > 1
                 && this.owner instanceof core.classes.GridLayout) {
-                htmlElementStyle.gridColumn = `${priv.column} / ${priv.colSpan > 1 ? 'span ' + priv.colSpan : priv.column + 1}`;
-                htmlElementStyle.gridRow = `${priv.row} / ${priv.rowSpan > 1 ? 'span ' + priv.rowSpan : priv.row + 1}`;
+                htmlElementStyle.gridColumn = `${this.#column} / ${this.#colSpan > 1 ? 'span ' + this.#colSpan : this.#column + 1}`;
+                htmlElementStyle.gridRow = `${this.#row} / ${this.#rowSpan > 1 ? 'span ' + this.#rowSpan : this.#row + 1}`;
             }
-            !priv.margin.isEmpty
-                && (htmlElementStyle.margin = `${priv.margin.top}${PX} ${priv.margin.right}${PX} ${priv.margin.bottom}${PX} ${priv.margin.left}${PX}`);
-            !priv.padding.isEmpty
-                && (htmlElementStyle.padding = `${priv.padding.top}${PX} ${priv.padding.right}${PX} ${priv.padding.bottom}${PX} ${priv.padding.left}${PX}`);
+            !this.#margin.isEmpty
+                && (htmlElementStyle.margin = `${this.#margin.top}${PX} ${this.#margin.right}${PX} ${this.#margin.bottom}${PX} ${this.#margin.left}${PX}`);
+            !this.#padding.isEmpty
+                && (htmlElementStyle.padding = `${this.#padding.top}${PX} ${this.#padding.right}${PX} ${this.#padding.bottom}${PX} ${this.#padding.left}${PX}`);
         } else {
             core.canvas.needRedraw = !0;
         }
         if (this.form !== this) {
             if (right !== null) {
                 const oldRight = right;
-                priv.right = null;
+                this.#right = null;
                 this.right = oldRight;
             }
             core.isHTMLRenderer && this.inForm && this.resize();
@@ -1079,11 +1017,10 @@ class Control extends Component {
     //#region realignChilds
     realignChilds() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const PX = core.types.CSSUNITS.PX;
         const ALIGNS = core.types.ALIGNS;
         const comps = this.components;
-        const padding = priv.padding;
+        const padding = this.#padding;
         const width = this.contentWidth;// - padding.left - padding.right;
         let height = this.contentHeight;// - padding.top - padding.bottom;
         let l = padding.left;
@@ -1169,7 +1106,7 @@ class Control extends Component {
             child.realignChilds();
         };
         //#endregion Variables déclaration
-        if (comps.length === 0 || !priv.allowUpdate) {
+        if (comps.length === 0 || !this.#allowUpdate) {
             return null;
         }
         //#region mostTop
@@ -1409,29 +1346,20 @@ class Control extends Component {
     //#endregion insertTemplate
     //#region setFocus
     setFocus() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.canFocused && this.visible && this.isEnabled && this.enterFocus();
+        this.#canFocused && this.visible && this.isEnabled && this.enterFocus();
     }
     //#endregion setFocus
     //#region beginUpdate
     beginUpdate() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.allowUpdate = !1;
+        this.#allowUpdate = !1;
         if (core.isHTMLRenderer) {
-            //priv.wrapper = this.HTMLElement.innerHTML;
+            //this.#wrapper = this.HTMLElement.innerHTML;
         }
     }
     //#endregion beginUpdate
     //#region endUpdate
     endUpdate() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.allowUpdate = !0;
+        this.#allowUpdate = !0;
         this.realignChilds();
         //this.update();
         //if (this._owner._allowUpdate&&core.renderer!==core.types.renderers.HTML) this.redraw(this.lastRect);
@@ -1536,21 +1464,20 @@ class Control extends Component {
     //#region mouseDown
     mouseDown() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const form = this.form;
         //#endregion Variables déclaration
-        if (priv.enabled && (this instanceof core.classes.Control) && this.mouseEvents.mousedown) {
+        if (this.#enabled && (this instanceof core.classes.Control) && this.mouseEvents.mousedown) {
             if (form && form instanceof core.classes.Window) {
-                if (priv.closePopups) {
+                if (this.#closePopups) {
                     form.mainMenu && (form.mainMenu.isActive = !1);
                     form.closePopups();
                 }
-                if (!priv.canFocused && this !== form.content) {
+                if (!this.#canFocused && this !== form.content) {
                     const parentCanFocused = this.owner;
                     parentCanFocused && parentCanFocused.canFocused
                         && form.focusedControl !== parentCanFocused
                         && parentCanFocused.setFocus();
-                } else if (!priv.isFocused && form.focusedControl !== this) {
+                } else if (!this.#isFocused && form.focusedControl !== this) {
                     this.setFocus();
                 }
             }
@@ -1569,7 +1496,6 @@ class Control extends Component {
     //#region mouseUp
     mouseUp() {
         //#region Variables déclaration
-        const priv = core.private(this);
         let target = core.mouse.event.target;
         let clicked = !1;
         //#endregion Variables déclaration
@@ -1577,7 +1503,7 @@ class Control extends Component {
         if (this instanceof core.classes.Control) {
             this.releaseCapture();
             this.onMouseUp && this.onMouseUp.invoke();
-            clicked = priv.isPressed && !priv.doubleClick;
+            clicked = this.#isPressed && !this.#doubleClick;
             this.isPressed = !1;
             this.doubleClick = !1;
         }
@@ -1591,9 +1517,8 @@ class Control extends Component {
     //#region mouseEnter
     mouseEnter() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const CUSTOMCURSORS = core.types.CUSTOMCURSORS;
-        const cursor = priv.cursor;
+        const cursor = this.#cursor;
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (this instanceof core.classes.Control) {
@@ -1603,7 +1528,7 @@ class Control extends Component {
                 && (cursor === CUSTOMCURSORS.WAIT || cursor === CUSTOMCURSORS.PROGRESS)
                 && core.animatedCursor.initAnimation(core.isHTMLRenderer ? htmlElement : core.canvas, cursor);
             this.form.app.showToolTip(this, core.mouse.document, !0);
-            if (priv.isPressed && core.isHTMLRenderer) {
+            if (this.#isPressed && core.isHTMLRenderer) {
                 htmlElement.classList.add('pressed');
             } else if (!core.isHTMLRenderer) {
                 core.canvas.needRedraw = !0;
@@ -1614,8 +1539,7 @@ class Control extends Component {
     //#region mouseLeave
     mouseLeave() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const cursor = priv.cursor;
+        const cursor = this.#cursor;
         const CUSTOMCURSORS = core.types.CUSTOMCURSORS;
         //#endregion Variables déclaration
         if (this instanceof core.classes.Control) {
@@ -1636,10 +1560,9 @@ class Control extends Component {
     //#region enterFocus
     enterFocus() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const focusedControl = this.form.focusedControl;
         //#endregion Variables déclaration
-        this instanceof core.classes.Control && priv.canFocused && focusedControl && focusedControl !== this
+        this instanceof core.classes.Control && this.#canFocused && focusedControl && focusedControl !== this
             && focusedControl.killFocus();
         this.isFocused = !0;
         this.onEnterFocus && this.onEnterFocus.invoke();
@@ -1647,10 +1570,7 @@ class Control extends Component {
     //#endregion enterFocus
     //#region killFocus
     killFocus() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if ((this instanceof core.classes.Control) && priv.canFocused) {
+        if ((this instanceof core.classes.Control) && this.#canFocused) {
             this.isFocused = !1;
             //this._applyTriggerEffect(this,'isFocused');
             //this.startTriggerAnimation(this,'isFocused');
@@ -1876,7 +1796,6 @@ class Control extends Component {
     //#region keyUp
     keyUp() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const VKEYSCODES = Keyboard.VKEYSCODES;
         //#endregion Variables déclaration
         this.onKeyUp && this.onKeyUp.invoke();
@@ -1886,9 +1805,9 @@ class Control extends Component {
                 this.isPressed = !1;
             }
         } else if (core.keyboard.key === VKEYSCODES.VK_CONTEXTMENU) {
-            if (priv.popupMenu) {
+            if (this.#popupMenu) {
                 const pt = this.clientToDocument();
-                priv.popupMenu.show(pt.x, pt.y);
+                this.#popupMenu.show(pt.x, pt.y);
             } else {
                 this.form.content.popupMenu.show(0, 0);
             }
@@ -1902,80 +1821,56 @@ class Control extends Component {
     //#endregion keyPress
     //#region drag
     drag(event) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.dragKind === core.types.DRAGKINDS.DRAG && priv.dragMode === core.types.DRAGMODES.MANUAL
+        this.#dragKind === core.types.DRAGKINDS.DRAG && this.#dragMode === core.types.DRAGMODES.MANUAL
             && this.onDrag && this.onDrag.invoke(event);
     }
     //#endregion drag
     //#region drop
     drop(event) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.dragKind !== core.types.DRAGKINDS.DOCK
-            && priv.dragMode !== core.types.DRAGMODES.MANUAL
+        this.#dragKind !== core.types.DRAGKINDS.DOCK
+            && this.#dragMode !== core.types.DRAGMODES.MANUAL
             && this.onDrop && this.onDrop.invoke(event);
     }
     //#endregion drop
     //#region dragEnter
     dragEnter(event) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.dragKind === core.types.DRAGKINDS.DOCK
-            && priv.dragMode === core.types.DRAGMODES.MANUAL
+        this.#dragKind === core.types.DRAGKINDS.DOCK
+            && this.#dragMode === core.types.DRAGMODES.MANUAL
             && this.onDragEnter && this.onDragEnter.invoke(event);
     }
     //#endregion dragEnter
     //#region dragStart
     dragStart(event) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.dragKind === core.types.DRAGKINDS.DRAG
-            && priv.dragMode === core.types.DRAGMODES.MANUAL
+        this.#dragKind === core.types.DRAGKINDS.DRAG
+            && this.#dragMode === core.types.DRAGMODES.MANUAL
             && this.onDragStart && this.onDragStart.invoke(event);
     }
     //#endregion dragStart
     //#region dragLeave
     dragLeave() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.dragKind === core.types.DRAGKINDS.DOCK
-            && priv.dragMode === core.types.DRAGMODES.MANUAL
+        this.#dragKind === core.types.DRAGKINDS.DOCK
+            && this.#dragMode === core.types.DRAGMODES.MANUAL
             && this.onDragLeave && this.onDragLeave.invoke(event);
     }
     //#endregion dragLeave
     //#region dragExit
     dragExit() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.dragKind === core.types.DRAGKINDS.DRAG
-            && priv.dragMode === core.types.DRAGMODES.MANUAL
+        this.#dragKind === core.types.DRAGKINDS.DRAG
+            && this.#dragMode === core.types.DRAGMODES.MANUAL
             && this.onDragExit && this.onDragExit.invoke(event);
     }
     //#endregion dragExit
     //#region dragOver
     dragOver(event) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.dragKind === core.types.DRAGKINDS.DOCK
-            && priv.dragMode === core.types.DRAGMODES.MANUAL
+        this.#dragKind === core.types.DRAGKINDS.DOCK
+            && this.#dragMode === core.types.DRAGMODES.MANUAL
             && this.onDragOver && this.onDragOver.invoke(event);
     }
     //#endregion dragOver
     //#region dragEnd
     dragEnd() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.dragKind === core.types.DRAGKINDS.DRAG
-            && priv.dragMode === core.types.DRAGMODES.MANUAL
+        this.#dragKind === core.types.DRAGKINDS.DRAG
+            && this.#dragMode === core.types.DRAGMODES.MANUAL
             && this.onDragEnd && this.onDragEnd.invoke(event);
     }
     //#endregion dragEnd
@@ -1992,8 +1887,7 @@ class Control extends Component {
     //#region contextMenu
     contextMenu(stayOpen) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const popupMenu = priv.popupMenu;
+        const popupMenu = this.#popupMenu;
         //#endregion Variables déclaration
         if (popupMenu) {
             const x = core.mouse.window.x;
@@ -2006,13 +1900,10 @@ class Control extends Component {
     //#endregion contextMenu
     //#region getHTMLElement
     getHTMLElement(id) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         //if (core.tools.Debugger.debug) console.log(`${ this.constructor.name } getHTMLElement`);
         if (id !== String.EMPTY) {
             super.getHTMLElement(id);
-            this.HTMLElement && priv.resizer.observe(this.HTMLElement);
+            this.HTMLElement && this.#resizer.observe(this.HTMLElement);
             //this.initEvents();
             //if (this.animations.length>0) {
             //  for (let i=0,l=this.animations.length;i<l;i++) {
@@ -2120,7 +2011,6 @@ class Control extends Component {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const owner = this.owner;
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
@@ -2130,15 +2020,15 @@ class Control extends Component {
         owner.tab && (this.tab = owner.tab);
         !this.enabled ? htmlElement.classList.add('disabled') : null;
         !this.visible && (
-            priv.forceDisplayVisibility
+            this.#forceDisplayVisibility
                 ? htmlElement.classList.add('noDisplay')
                 : htmlElement.classList.add('hidden')
         );
-        !String.isNullOrEmpty(priv.cssClasses) && htmlElement.classList.add(priv.cssClasses.split(String.SPACE));
+        !String.isNullOrEmpty(this.#cssClasses) && htmlElement.classList.add(this.#cssClasses.split(String.SPACE));
         htmlElement.classList.add(this.cursor);
-        (priv.ownerShowToolTip || priv.showToolTip) && (priv.mouseEvents.mouseenter = priv.mouseEvents.mouseout = !0);
+        (this.#ownerShowToolTip || this.#showToolTip) && (this.#mouseEvents.mouseenter = this.#mouseEvents.mouseout = !0);
         this.props.hasOwnProperty('popupMenu') && this.form[this.props.popupMenu] && this.form[this.props.popupMenu] instanceof core.classes.PopupMenu
-            && (priv.popupMenu = this.form[this.props.popupMenu]);
+            && (this.#popupMenu = this.form[this.props.popupMenu]);
     }
     //#endregion loaded
     //#region resized
@@ -2186,7 +2076,6 @@ class Control extends Component {
     //#region fitToParent
     fitToParent() {
         //#region Variables déclaration
-        const priv = core.private(this);
         let newLeft = null;
         let newTop = null;
         let newWidth = null;
@@ -2195,7 +2084,7 @@ class Control extends Component {
         const PX = core.types.CSSUNITS.PX;
         const ALIGNS = core.types.ALIGNS;
         const oHtmlElement = this.owner.HTMLElement;
-        const align = priv.align;
+        const align = this.#align;
         const htmlElementStyle = this.HTMLElementStyle;
         const pP = getComputedStyle(oHtmlElement);
         const mR = new core.classes.Rect(int(pP.paddingLeft), int(pP.paddingTop),
@@ -2236,10 +2125,9 @@ class Control extends Component {
     //#region applyTransforms
     applyTransforms(transform) {
         //#region Variables déclaration
-        const priv = core.private(this);
         let t = [];
-        const rotateAngle = priv.rotateAngle;
-        const scale = priv.scale;
+        const rotateAngle = this.#rotateAngle;
+        const scale = this.#scale;
         //#endregion Variables déclaration
         if (this.HTMLElementStyle) {
             this.resetTransform();
@@ -2280,8 +2168,7 @@ class Control extends Component {
     //#region getTabOrderList
     getTabOrderList(list, children) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const tabList = priv.tabList;
+        const tabList = this.#tabList;
         //#endregion Variables déclaration
         children && (children = !0);
         if (!list) {
@@ -2297,17 +2184,14 @@ class Control extends Component {
     //#endregion getTabOrderList
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.resizer.disconnect();
-        priv.tabList.destroy();
-        priv.constraints.destroy();
-        priv.padding.destroy();
-        priv.margin.destroy();
-        priv.scale.destroy();
-        priv.rotateCenter.destroy();
-        priv.mouseEvents.destroy();
+        this.#resizer.disconnect();
+        this.#tabList.destroy();
+        this.#constraints.destroy();
+        this.#padding.destroy();
+        this.#margin.destroy();
+        this.#scale.destroy();
+        this.#rotateCenter.destroy();
+        this.#mouseEvents.destroy();
         this.unBindAndDestroyEvents(['onMouseDown', 'onMouseMove', 'onMouseUp', 'onClick', 'onDblClick',
             'onMouseLeave', 'onMouseEnter', 'onWheel', 'onScroll', 'onBeforePaint', 'onPaint',
             'onAfterPaint', 'onEnterFocus', 'onKillFocus', 'onKeyDown', 'onKeyUp', 'onKeyPress', 'onAfterResized',
@@ -2350,12 +2234,11 @@ class Control extends Component {
         //#region Variables déclaration
         const changingTheme = document.body.classList.contains('changingTheme');
         const themeName = changingTheme ? this.app.themeManifest.lastThemeName : this.themeName;
-        const priv = core.private(this);
         const ctx = core.ctx;
         const classes = core.classes;
         const CONSTANTS = core.types.CONSTANTS;
         let drawCaption = this instanceof classes.CaptionControl;
-        let state = priv.isPressed ? 'pressed' : priv.isMouseOver ? 'hovered' : priv.isFocused ? 'focused' : 'normal';
+        let state = this.#isPressed ? 'pressed' : this.#isMouseOver ? 'hovered' : this.#isFocused ? 'focused' : 'normal';
         const params = [];
         //#endregion Variables déclaration
         this instanceof classes.Window || this instanceof classes.WindowTitleBar
@@ -2373,7 +2256,7 @@ class Control extends Component {
                 objTheme = core.themes[themeName][className];
             }
             ctx.save();
-            !priv.enabled && (ctx.globalAlpha = 0.5);
+            !this.#enabled && (ctx.globalAlpha = 0.5);
             if (objTheme) {
                 objTheme.hasOwnProperty('clipped') && objTheme.clipped
                     && ctx.clipRect(0, 0, this.contentWidth, this.contentHeight);
@@ -2381,8 +2264,8 @@ class Control extends Component {
                     && (drawCaption = drawCaption && objTheme.defaultDrawing);
                 if (objTheme.shapes) {
                     objTheme.shapes.forEach(shape => {
-                        let width = shape.width ? shape.width : priv.width;
-                        let height = shape.height ? shape.height : priv.height;
+                        let width = shape.width ? shape.width : this.#width;
+                        let height = shape.height ? shape.height : this.#height;
                         core.tools.isString(height) && (height = eval(eval(height)));
                         core.tools.isString(width) && (width = eval(eval(width)));
                         const w2 = width / 2;
@@ -2472,7 +2355,7 @@ class Control extends Component {
             drawCaption && core.themes.CaptionControl.render(this);
             ctx.restore();
         }
-        priv.clipped && ctx.clipRect(0, 0, this.contentWidth, this.contentHeight);
+        this.#clipped && ctx.clipRect(0, 0, this.contentWidth, this.contentHeight);
         this.components.forEach(comp => {
             comp.isVisible && comp instanceof classes.Control && comp.render();
         });
@@ -2514,7 +2397,7 @@ class Control extends Component {
         { Class: "Tab", template: TabTpl }, { Class: "CustomTabControl", template: CustomTabControlTpl },
         { Class: "CustomTextBoxBtn", template: CustomTextBoxBtnTpl }]);
     }
-}*/
+    }*/
 }
 Object.defineProperties(Component.prototype, {
     'autoTranslate': {
@@ -2606,5 +2489,3 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, Control);
 //]);
 //#endregion
 export { Control };
-//http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/
-//http://www.twinhelix.com/javascript/dragresize/demo/

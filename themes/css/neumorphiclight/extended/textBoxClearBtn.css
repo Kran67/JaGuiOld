@@ -1,4 +1,6 @@
-﻿.carbon.TextBoxClearBtnButton {
+﻿@import url(/css/components/extended/textBoxClearBtn.css);
+
+.neumorphiclight.TextBoxClearBtnButton {
     border: none;
     background: none;
     font-family: jagui;

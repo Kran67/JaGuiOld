@@ -1,1 +1,3 @@
-﻿.carbon.MediaPlayer {}
+﻿@import url(/css/components/extras/mediaPlayer.css);
+
+.neumorphiclight.MediaPlayer {}

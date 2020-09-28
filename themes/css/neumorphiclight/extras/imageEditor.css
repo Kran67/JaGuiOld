@@ -1,1 +1,3 @@
-﻿.carbon.ImageEditor {}
+﻿@import url(/css/components/extras/imageEditor.css);
+
+.neumorphiclight.ImageEditor {}

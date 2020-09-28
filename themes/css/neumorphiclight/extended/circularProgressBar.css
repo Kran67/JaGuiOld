@@ -1,12 +1,14 @@
-﻿.carbon.CircularProgressBar,
-.carbon.CircularProgressBar:after {
+﻿@import url(/css/components/extended/circularProgressBar.css);
+
+.neumorphiclight.CircularProgressBar,
+.neumorphiclight.CircularProgressBar:after {
     border: 1px solid #303030;
 }
 
-.carbon.CircularProgressBar svg circle.CircularProgressBar_back {
+.neumorphiclight.CircularProgressBar svg circle.CircularProgressBar_back {
     stroke: #4A4A4A;
 }
 
-.carbon.CircularProgressBar svg circle.CircularProgressBar_progress {
+.neumorphiclight.CircularProgressBar svg circle.CircularProgressBar_progress {
     stroke: #B48625;
 }

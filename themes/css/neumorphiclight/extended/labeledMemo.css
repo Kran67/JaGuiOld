@@ -1,5 +1,7 @@
-﻿.carbon.LabeledMemo {}
+﻿@import url(/css/components/extended/labeledMemo.css);
 
-.carbon.LabeledMemo .Memo {}
+.neumorphiclight.LabeledMemo {}
 
-.carbon.LabeledMemo .Label {}
+.neumorphiclight.LabeledMemo .Memo {}
+
+.neumorphiclight.LabeledMemo .Label {}

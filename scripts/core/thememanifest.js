@@ -4,54 +4,45 @@ import { Window } from '/scripts/components/containers/window.js';
 //#endregion Imports
 //#region Class ThemeManifest
 class ThemeManifest extends BaseClass {
-    //#region Constructor
+    #themes = [];
+    #lastThemeName = core.defaultTheme;
+    #owner;
+    #themeName = core.defaultTheme;
+//#region Constructor
     constructor(owner) {
         super(owner);
-        core.private(this, {
-            themes: [],
-            lastThemeName: core.defaultTheme,
-            owner,
-            themeName: core.defaultTheme
-        });
+        this.#owner = owner;
     }
     //#endregion Constructor
     //#region Getters / Setters
     //#region themes
     get themes() {
-        return core.private(this).themes;
+        return this.#themes;
     }
     //#endregion themes
     //#region lastThemeName
     get lastThemeName() {
-        return core.private(this).lastThemeName;
+        return this.#lastThemeName;
     }
     set lastThemeName(newValue) {
-        //#region Variables declaration
-        const priv = core.private(this);
-        //#endregion Variables declaration
-        core.tools.isString(newValue) && priv.lastThemeName !== newValue
-            && (priv.lastThemeName = newValue);
+        core.tools.isString(newValue) && this.#lastThemeName !== newValue
+            && (this.#lastThemeName = newValue);
     }
     //#endregion lastThemeName
     //#region owner
     get owner() {
-        return core.private(this).owner;
+        return this.#owner;
     }
     //#endregion owner
     //#region themeName
     get themeName() {
-        return core.private(this).themeName;
+        return this.#themeName;
     }
     set themeName(newValue) {
-        //#region Variables declaration
-        const priv = core.private(this);
-        //#endregion Variables declaration
-        if (core.tools.isString(newValue) && newValue !== priv.lastThemeName) {
+        if (core.tools.isString(newValue) && newValue !== this.#lastThemeName) {
             document.body.classList.add('changingTheme');
-            core.private(this, {
-                lastThemeName: priv.themeName,
-                themeName: newValue.toLowerCase()
-            });
+            this.#lastThemeName = this.#themeName;
+            this.#themeName = newValue.toLowerCase();
             setTimeout(this.changeTheme.bind(this), 1000);
         }
     }
@@ -61,11 +52,10 @@ class ThemeManifest extends BaseClass {
     //#region changeTheme
     changeTheme() {
         //#region Variables declaration
-        const priv = core.private(this);
-        const wins = this.owner.windows;
-        const lastThemeName = priv.lastThemeName;
-        const themeName = priv.themeName;
-        const owner = priv.owner;
+        const wins = this.#owner.windows;
+        const lastThemeName = this.#lastThemeName;
+        const themeName = this.#themeName;
+        const owner = this.#owner;
         const isHtmlRenderer = core.isHTMLRenderer;
         //#endregion Variables declaration
         if (!isHtmlRenderer) {
@@ -88,9 +78,8 @@ class ThemeManifest extends BaseClass {
     //#region changeWindowTheme
     changeWindowTheme(window) {
         //#region Variables declaration
-        const priv = core.private(this);
-        const lastThemeName = priv.lastThemeName;
-        const themeName = priv.themeName;
+        const lastThemeName = this.#lastThemeName;
+        const themeName = this.#themeName;
         const isHtmlRenderer = core.isHTMLRenderer;
         const wHTMLElement = window.HTMLElement;
             //#endregion Variables declaration
@@ -142,18 +131,14 @@ class ThemeManifest extends BaseClass {
     //#region addTheme
     addTheme(themeName) {
         //#region Variables declaration
-        const priv = core.private(this);
-        const themes = priv.themes;
+        const themes = this.#themes;
         //#endregion Variables declaration
         core.tools.isString(themeName) && themes.indexOf(themeName) === -1 && themes.push(themeName);
     }
     //#endregion addTheme
     //#region destroy
     destroy() {
-        //#region Variables declaration
-        const priv = core.private(this);
-        //#endregion Variables declaration
-        priv.themes.clear();
+        this.#themes.clear();
         super.destroy();
     }
     //#endregion destroy

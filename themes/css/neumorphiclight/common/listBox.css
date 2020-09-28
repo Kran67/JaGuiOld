@@ -1,15 +1,17 @@
-﻿.carbon.ListBoxItem .CheckboxCheck {
+﻿@import url(/css/components/common/listBox.css);
+
+.neumorphiclight.ListBoxItem .CheckboxCheck {
     position: relative;
     margin-right: 2px;
 }
 
-.carbon.ListBox {
+.neumorphiclight.ListBox {
     border: 1px solid #303030;
     border-radius: 2px;
     background-color: #404040;
 }
 
-.carbon.ListBoxItem {
+.neumorphiclight.ListBoxItem {
     border-radius: 3px;
 }
 
@@ -17,18 +19,18 @@
     background-color: rgba(0,0,0,0.2);
 }
 
-.carbon.ListBoxItem.isheader,
-.carbon.PopupListBox .carbon.ListBoxItemPopup.isheader {
+.neumorphiclight.ListBoxItem.isheader,
+.neumorphiclight.PopupListBox .neumorphiclight.ListBoxItemPopup.isheader {
     background-color: #F9DDA2;
     color: #404040;
     font-style: italic;
 }
 
-.carbon.ListBox .carbon.ListBoxItem.selected,
-.carbon.ListBox.useAlternateColor .carbon.ListBoxItem.selected {
+.neumorphiclight.ListBox .neumorphiclight.ListBoxItem.selected,
+.neumorphiclight.ListBox.useAlternateColor .neumorphiclight.ListBoxItem.selected {
     background-color: #936639;
 }
 
-.carbon.ListBox.focused {
+.neumorphiclight.ListBox.focused {
     box-shadow: 0 0 6px #F69E2D;
 }

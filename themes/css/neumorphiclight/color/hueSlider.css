@@ -1,2 +1,4 @@
-﻿.carbon.HUESlider {
+﻿@import url(/css/components/color/hueSlider.css);
+
+.neumorphiclight.HUESlider {
 }

@@ -1,1 +1,3 @@
-﻿.carbon.Chart {}
+﻿@import url(/css/components/extras/chart.css);
+
+.neumorphiclight.Chart {}

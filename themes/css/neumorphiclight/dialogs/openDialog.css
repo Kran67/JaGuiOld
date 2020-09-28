@@ -1,1 +1,3 @@
-﻿.carbon.OpenDialog {}
+﻿@import url(/css/components/dialogs/openDialog.css);
+
+.neumorphiclight.OpenDialog {}

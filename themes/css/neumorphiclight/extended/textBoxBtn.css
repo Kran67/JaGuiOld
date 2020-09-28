@@ -1,3 +1,5 @@
-﻿.carbon.TextBoxBtnButton:before {}
+﻿@import url(/css/components/extended/textBoxBtn.css);
 
-.carbon.TextBoxBtnInput {}
+.neumorphiclight.TextBoxBtnButton:before {}
+
+.neumorphiclight.TextBoxBtnInput {}

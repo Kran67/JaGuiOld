@@ -1,1 +1,3 @@
-﻿.carbon.RibbonBar {}
+﻿@import url(/css/components/extras/ribbonBar.css);
+
+.neumorphiclight.RibbonBar {}

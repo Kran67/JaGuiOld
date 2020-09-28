@@ -1,21 +1,23 @@
-﻿.carbon.SpeedButton,
-.carbon.SpeedButton.disabled:hover {
+﻿@import url(/css/components/common/speedbutton.css);
+
+.neumorphiclight.SpeedButton,
+.neumorphiclight.SpeedButton.disabled:hover {
     border-radius: 3px;
     border: 1px solid #404040;
     background-image: linear-gradient(to bottom,#505050,#303030);
 }
 
-    .carbon.SpeedButton.stayspressed.pressed,
-    .carbon.SpeedButton.stayspressed.pressed:hover {
+    .neumorphiclight.SpeedButton.stayspressed.pressed,
+    .neumorphiclight.SpeedButton.stayspressed.pressed:hover {
         background-color: #F5AB28;
         background-image: none;
         color: #000;
     }
 
-    .carbon.SpeedButton:hover {
+    .neumorphiclight.SpeedButton:hover {
         background-image: linear-gradient(to bottom,#707070,#303030);
     }
 
-    .carbon.SpeedButton.pressed {
+    .neumorphiclight.SpeedButton.pressed {
         background-image: linear-gradient(to bottom,#404040,#303030);
     }

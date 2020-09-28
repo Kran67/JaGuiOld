@@ -1,1 +1,3 @@
-﻿.carbon.DBMemo {}
+﻿@import url(/css/components/data/dbMemo.css);
+
+.neumorphiclight.DBMemo {}

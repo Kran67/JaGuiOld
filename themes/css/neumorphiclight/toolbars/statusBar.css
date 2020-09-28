@@ -1,31 +1,33 @@
-﻿.carbon.StatusBar {
+﻿@import url(/css/components/toobars/statusBar.css);
+
+.neumorphiclight.StatusBar {
     left: 0;
     height: 19px;
     border-top: 1px solid #222;
     background-image: linear-gradient(to bottom,#3D3D3D 50%,#303030 100%);
 }
 
-.carbon.StatusBarPanel.lowered {
+.neumorphiclight.StatusBarPanel.lowered {
     border: 1px solid #222;
     border-bottom-color: #606060;
     border-right-color: #606060;
 }
 
-.carbon.StatusBarPanel.raised {
+.neumorphiclight.StatusBarPanel.raised {
     border: 1px solid #222;
     border-top-color: #606060;
     border-left-color: #606060;
 }
 
-.carbon.StatusBarPanel.single {
+.neumorphiclight.StatusBarPanel.single {
     border-left: 1px solid #222;
 }
 
-.carbon.StatusBarSimplePanel {
+.neumorphiclight.StatusBarSimplePanel {
     border: 1px solid #222;
 }
 
-.carbon.StatusBarSizer {
+.neumorphiclight.StatusBarSizer {
     right: 2px;
     bottom: 2px;
     width: 9px;

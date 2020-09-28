@@ -3,30 +3,14 @@ import { Control } from '/scripts/components/control.js';
 //#endregion Imports
 //#region ThemedControl
 class ThemedControl extends Control {
-    //#region constructor
-    constructor(owner, props) {
-        props = !props ? {} : props;
-        if (owner) {
-            super(owner, props);
-            core.private(this, {
-                themeName: String.EMPTY
-            });
-        }
-    }
-    //#endregion constructor
+    #themeName = String.EMPTY;
     //#region Getters / Setters
     //#region themeName
     get themeName() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return !String.isNullOrEmpty(priv.themeName) ? priv.themeName : this.form.app.themeManifest.themeName;
+        return !String.isNullOrEmpty(this.#themeName) ? this.#themeName : this.form.app.themeManifest.themeName;
     }
     set themeName(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.themeName !== newValue) {
+        if (core.tools.isString(newValue) && this.#themeName !== newValue) {
             // on recherche s'il existe un theme
             let newThemeOk = !1;
             newThemeOk = core.isHTMLRenderer
@@ -35,7 +19,7 @@ class ThemedControl extends Control {
                 })
                 : core.themes[newValue];
             if (newThemeOk) {
-                priv.themeName = newValue;
+                this.#themeName = newValue;
                 //if (core.isHTMLRenderer) {
                 //    ctrls = this.HTMLElement.querySelectorAll("[data-theme]");
                 //    ctrls.forEach(ctrl => {
@@ -52,7 +36,7 @@ class ThemedControl extends Control {
     //#endregion themeName
     //#region themeAndClassName
     get themeAndClassName() {
-        return `${core.private(this).themeName}_${this.constructor.name}`;
+        return `${this.#themeName}_${this.constructor.name}`;
     }
     //#endregion themeAndClassName
     //#region template

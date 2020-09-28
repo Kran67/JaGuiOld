@@ -1,36 +1,38 @@
-﻿.carbon.Button,
-.carbon.Button.disabled:hover,
-.carbon.TextButton,
-.carbon.TextButton.disabled:hover {
+﻿@import url(/css/components/common/button.css);
+
+.neumorphiclight.Button,
+.neumorphiclight.Button.disabled:hover,
+.neumorphiclight.TextButton,
+.neumorphiclight.TextButton.disabled:hover {
     border-radius: 3px;
     border: 1px solid #222;
     background-image: linear-gradient(to bottom,#505050,#303030);
 }
 
-.carbon.Button.stayspressed.pressed,
-.carbon.Button.stayspressed.pressed:hover,
-.carbon.TextButton.stayspressed.pressed,
-.carbon.TextButton.stayspressed.pressed:hover {
+.neumorphiclight.Button.stayspressed.pressed,
+.neumorphiclight.Button.stayspressed.pressed:hover,
+.neumorphiclight.TextButton.stayspressed.pressed,
+.neumorphiclight.TextButton.stayspressed.pressed:hover {
     background-color: #F5AB28;
     background-image: none;
     color: #000;
 }
 
-.carbon.CaptionButton.stayspressed.pressed {
+.neumorphiclight.CaptionButton.stayspressed.pressed {
     color: #000;
 }
 
-.carbon.Button:hover,
-.carbon.TextButton:hover {
+.neumorphiclight.Button:hover,
+.neumorphiclight.TextButton:hover {
     background-image: linear-gradient(to bottom,#707070,#303030);
 }
 
-.carbon.Button.pressed,
-.carbon.TextButton.pressed {
+.neumorphiclight.Button.pressed,
+.neumorphiclight.TextButton.pressed {
     background-image: linear-gradient(to bottom,#404040,#303030);
 }
 
-.carbon.Button.focused,
-.carbon.TextButton.focused {
+.neumorphiclight.Button.focused,
+.neumorphiclight.TextButton.focused {
     box-shadow: 0 0 6px #F69E2D;
 }

@@ -1,4 +1,6 @@
-﻿.carbon.ValueLabel {
+﻿@import url(/css/components/extended/valueLabel.css);
+
+.neumorphiclight.ValueLabel {
     border-radius: 10px;
     background-color: #E0E0E0;
     color: #000;

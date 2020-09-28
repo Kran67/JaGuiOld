@@ -1,1 +1,3 @@
-﻿.carbon.DataTable {}
+﻿@import url(/css/components/data/dataTable.css);
+
+.neumorphiclight.DataTable {}

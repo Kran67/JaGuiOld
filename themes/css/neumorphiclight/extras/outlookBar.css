@@ -1,1 +1,3 @@
-﻿.carbon.OutlookBar {}
+﻿@import url(/css/components/extras/outlookBar.css);
+
+.neumorphiclight.OutlookBar {}

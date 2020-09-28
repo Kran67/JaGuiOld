@@ -1,8 +1,10 @@
-﻿.carbon.LabeledSlider {}
+﻿@import url(/css/components/extended/labeledSlider.css);
 
-.carbon.LabeledSlider .Slider {}
+.neumorphiclight.LabeledSlider {}
 
-.carbon.LabeledSlider .Label,
-.carbon.LabeledSlider .ValueLabel {}
+.neumorphiclight.LabeledSlider .Slider {}
 
-.carbon.LabeledSlider .ValueLabel {}
+.neumorphiclight.LabeledSlider .Label,
+.neumorphiclight.LabeledSlider .ValueLabel {}
+
+.neumorphiclight.LabeledSlider .ValueLabel {}

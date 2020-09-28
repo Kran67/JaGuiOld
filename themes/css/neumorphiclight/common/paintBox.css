@@ -1,1 +1,3 @@
-﻿.carbon.PaintBox {}
+﻿@import url(/css/components/common/paintBox.css);
+
+.neumorphiclight.PaintBox {}

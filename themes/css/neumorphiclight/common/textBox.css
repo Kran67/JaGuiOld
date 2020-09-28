@@ -1,9 +1,11 @@
-﻿.carbon.TextBox {
+﻿@import url(/css/components/common/textBox.css);
+
+.neumorphiclight.TextBox {
     border: 1px solid #202020;
     background-color: #333;
     border-radius: 2px;
 }
 
-.carbon.TextBox.focused {
+.neumorphiclight.TextBox.focused {
     box-shadow: 0 0 6px #F69E2D;
 }

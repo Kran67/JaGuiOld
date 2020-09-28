@@ -1,1 +1,3 @@
-﻿.carbon.Gantt {}
+﻿@import url(/css/components/extras/gantt.css);
+
+.neumorphiclight.Gantt {}

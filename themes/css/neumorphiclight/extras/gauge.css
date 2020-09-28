@@ -1,1 +1,3 @@
-﻿.carbon.Gauge {}
+﻿@import url(/css/components/extras/gauge.css);
+
+.neumorphiclight.Gauge {}

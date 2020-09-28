@@ -219,13 +219,13 @@ class Tools {
     //#region addPropertyFromEnum
     static addPropertyFromEnum(params) {
         params.component.addPropertyEnum(params.propName, params.enum);
-        params.hasOwnProperty('value') && (core.private(params.component, { [params.propName]: params.value }));
+        params.hasOwnProperty('value') && (params.component[params.propName] = params.value);
         params.forceUpdate === undefined && (params.forceUpdate = !1);
         params.enumerable === undefined && (params.enumerable = !0);
         const setter = params.setter ? params.setter : (newValue) => {
             if (core.tools.valueInSet(newValue, params.enum)) {
-                if (core.private(params.component)[params.propName] !== newValue) {
-                    core.private(params.component, { [params.propName]: newValue });
+                if (params.component[params.propName] !== newValue) {
+                    params.component[params.propName] = newValue;
                     params.forceUpdate && params.component.update && !params.component.loading &&
                         !params.component.form.creating && !params.component.form.loading
                         && params.component.update();
@@ -233,8 +233,8 @@ class Tools {
             }
         };
         Object.defineProperty(params.component, params.propName, {
-    get: () => { return core.private(params.component)[params.propName]; },
-    set: setter,
+            get: () => { return params.component[params.propName]; },
+            set: setter,
             enumerable: params.enumerable,
             configurable: !0
         });
@@ -274,8 +274,8 @@ class Tools {
             top: int(mat[5])
         };
     }
-        //#endregion getLeftTopFromTranslation
-        //#region getNextValueFromEnum
+    //#endregion getLeftTopFromTranslation
+    //#region getNextValueFromEnum
     static getNextValueFromEnum(_enum, currentValue) {
         //#region Variables déclaration
         let values = [];
@@ -298,8 +298,8 @@ class Tools {
         curIndex = Math.min(curIndex, keys.length - 1);
         return values[curIndex];
     }
-        //#endregion getNextValueFromEnum
-        //#region getPreviousValueFromEnum
+    //#endregion getNextValueFromEnum
+    //#region getPreviousValueFromEnum
     static getPreviousValueFromEnum(_enum, currentValue) {
         //#region Variables déclaration
         let values = [];
@@ -322,8 +322,8 @@ class Tools {
         curIndex = Math.max(0, curIndex);
         return values[curIndex];
     }
-        //#endregion getPreviousValueFromEnum
-        //#region getValueIndexFromEnum
+    //#endregion getPreviousValueFromEnum
+    //#region getValueIndexFromEnum
     static getValueIndexFromEnum(_enum, currentValue) {
         //#region Variables déclaration
         let values = [];
@@ -341,8 +341,8 @@ class Tools {
         const curIndex = values.indexOf(currentValue);
         return curIndex;
     }
-        //#endregion getValueIndexFromEnum
-        //#region getEnumNameFromValue
+    //#endregion getValueIndexFromEnum
+    //#region getEnumNameFromValue
     static getEnumNameFromValue(_enum, currentValue) {
         if (!_enum) {
             return currentValue;
@@ -356,8 +356,8 @@ class Tools {
         });
         return enumName;
     }
-        //#endregion getEnumNameFromValue
-        //#region checkTrigger
+    //#endregion getEnumNameFromValue
+    //#region checkTrigger
     static checkTrigger(instance, obj) {
         //#region Variables déclaration
         let trigger = !0;
@@ -376,15 +376,15 @@ class Tools {
         return {
             isOK: trigger,
             value
-            };
+        };
     }
-        //#endregion checkTrigger
-        //#region storeValue
+    //#endregion checkTrigger
+    //#region storeValue
     static storeValue(dic, name, value) {
         dic[name] = value;
     }
-        //#endregion storeValue
-        //#region processRadius
+    //#endregion storeValue
+    //#region processRadius
     static processRadius(instance, dic, radius) {
         //#region Variables déclaration
         let trigger = !1;
@@ -417,8 +417,8 @@ class Tools {
         }
         return params;
     }
-        //#endregion processRadius
-        //#region processShadow
+    //#endregion processRadius
+    //#region processShadow
     static processShadow(instance, shadow, ctx) {
         if (shadow.triggers) {
             const trigger = Tools.checkTrigger(instance, shadow);
@@ -436,8 +436,8 @@ class Tools {
             ctx.shadowOffsetY = shadow.offsetY ? shadow.offsetY : 0;
         }
     }
-        //#endregion processShadow
-        //#region processStyle
+    //#endregion processShadow
+    //#region processStyle
     static processStyle(instance, shape, state, suffixFunc, params) {
         //#region Variables déclaration
         const ctx = core.ctx;
@@ -488,8 +488,8 @@ class Tools {
         });
         ctx.clearShadow();
     }
-        //#endregion processStyle
-        //#region processBorders
+    //#endregion processStyle
+    //#region processBorders
     static processBorders(instance, borders) {
         if (borders.triggers) {
             const trigger = core.tools.checkTrigger(instance, borders);
@@ -498,83 +498,83 @@ class Tools {
             return borders;
         }
     }
-        //#endregion processBorders
-        //#region equal
+    //#endregion processBorders
+    //#region equal
     static equal(left, right) {
         return left === right;
     }
-        //#endregion equal
-        //#region notEqual
+    //#endregion equal
+    //#region notEqual
     static notEqual(left, right) {
         return left !== right;
     }
-        //#endregion notEqual
-        //#region lessThan
+    //#endregion notEqual
+    //#region lessThan
     static lessThan(left, right) {
         return left < right;
     }
-        //#endregion lessThan
-        //#region greaterThan
+    //#endregion lessThan
+    //#region greaterThan
     static greaterThan(left, right) {
         return left > right;
     }
-        //#endregion greaterThan
-        //#region lessThanOrEqual
+    //#endregion greaterThan
+    //#region lessThanOrEqual
     static lessThanOrEqual(left, right) {
         return left <= right;
     }
-        //#endregion lessThanOrEqual
-        //#region greaterThanOrEqual
+    //#endregion lessThanOrEqual
+    //#region greaterThanOrEqual
     static greaterThanOrEqual(left, right) {
         return left >= right;
     }
-        //#endregion greaterThanOrEqual
-        //#region isTrue
+    //#endregion greaterThanOrEqual
+    //#region isTrue
     static isTrue(value) {
         return core.tools.isBool(value) && value;
     }
-        //#endregion isTrue
-        //#region isFalse
+    //#endregion isTrue
+    //#region isFalse
     static isFalse(value) {
         return core.tools.isBool(value) && !value;
     }
-        //#endregion isFalse
-        //#region or
+    //#endregion isFalse
+    //#region or
     static or(left, right) {
         return left || right;
     }
-        //#endregion or
-        //#region and
+    //#endregion or
+    //#region and
     static and(left, right) {
         return left && right;
     }
-        //#endregion and
-        //#region indexOf
+    //#endregion and
+    //#region indexOf
     static indexOf(left, right) {
         return right.indexOf(left) > -1;
     }
-        //#endregion indexOf
-        //#region IfAll
+    //#endregion indexOf
+    //#region IfAll
     static IfAll(...args) {
         return !args.isEmpty && args.every(e => core.tools.isBool(e) && e);
     }
-        //#endregion IfAll
-        //#region IfAny
+    //#endregion IfAll
+    //#region IfAny
     static IfAny(...args) {
         return !args.isEmpty && args.some(e => core.tools.isBool(e) && e);
     }
-        //#endregion IfAny
-        //#region IfThen
+    //#endregion IfAny
+    //#region IfThen
     static IfThen(...params) {
         return params.cond ? params.trueValue : params.falseValue;
     }
-        //#endregion IfThen
-        //#region not
+    //#endregion IfThen
+    //#region not
     static not(value) {
         return !value;
     }
-        //#endregion not
-        //#region getPropertyName
+    //#endregion not
+    //#region getPropertyName
     static getPropertyName() {
         return new Error('dummy')
             .stack
@@ -582,8 +582,8 @@ class Tools {
             .split(" ")
             .last;
     }
-        //#endregion getPropertyName
-        //#region loadStyle
+    //#endregion getPropertyName
+    //#region loadStyle
     static loadStyle(url) {
         return new Promise((resolve, reject) => {
             let link = document.createElement('link');
@@ -602,8 +602,8 @@ class Tools {
             }
         });
     }
-        //#endregion loadStyle
-        //#region getMonthList
+    //#endregion loadStyle
+    //#region getMonthList
     static getMonthList(locale, format = 'long', lower = !1) {
         const year = new Date().getFullYear(); // 20xx
         const monthList = [...Array(12).keys()]; // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
@@ -614,8 +614,8 @@ class Tools {
             formatter.format(new Date(year, monthIndex))[lower ? 'toLowerCase' : 'toString']();
         return monthList.map(getMonthName);
     }
-        //#endregion getMonthList
-        //#region getWeekDayList
+    //#endregion getMonthList
+    //#region getWeekDayList
     static getWeekDayList(locale, format = 'long', numberOfChar = 0, lower = !1) {
         let day = new Date().getDay();
         let date = new Date();
@@ -635,196 +635,173 @@ class Tools {
         };
         return dayList.map(getDayName);
     }
-        //#endregion getWeekDayList
-        //#region defineLayout
-    static defineLayout(control, props) {
-        if (control.update) {
-            control.oldUpdate = control.update;
-            control.update = function () {
-                //#region Variables déclaration
-                const priv = core.private(this);
-                const htmlElementStyle = this.HTMLElementStyle;
-                const PX = core.types.CSSUNITS.PX;
-                //#endregion Variables déclaration
-                control.oldUpdate();
-                switch (priv.layoutMode) {
-                    case core.types.LAYOUTMODES.NORMAL:
-                        htmlElementStyle.display = core.types.DISPLAYS.BLOCK;
-                        break;
-                    case core.types.LAYOUTMODES.FLEX:
-                        htmlElementStyle.display = core.types.DISPLAYS.FLEX;
-                        htmlElementStyle.flexDirection = priv.flexDirection;
-                        htmlElementStyle.justifyContent = priv.justifyContent;
-                        htmlElementStyle.alignItems = priv.alignItems;
-                        break;
-                    case core.types.LAYOUTMODES.GRID:
-                        htmlElementStyle.display = core.types.DISPLAYS.GRID;
-                        htmlElementStyle.gridTemplateColumns = !String.isNullOrEmpty(priv.templateColumns)
-                            ? priv.templateColumns : `repeat(${priv.columns}, 1fr [col-start])`;
-                        htmlElementStyle.gridTemplateRows = !String.isNullOrEmpty(priv.templateRows)
-                            ? priv.templateRows : `repeat(${priv.rows}, 1fr [row-start])`;
-                        htmlElementStyle.columnGap = `${priv.columnGap}${PX}`;
-                        htmlElementStyle.rowGap = `${priv.rowGap}${PX}`;
-                        break;
-                }
-            };
-        }
-        core.tools.addPropertyFromEnum({
-            component: control,
-            propName: 'layoutMode',
-            enum: core.types.LAYOUTMODES,
-            setter: function (newValue) {
-                //#region Variables déclaration
-                const priv = core.private(this);
-                const layoutMode = priv.layoutMode;
-                //#endregion Variables déclaration
-                if (core.tools.valueInSet(newValue, core.types.LAYOUTMODES) && layoutMode !== newValue) {
-                    priv.layoutMode = newValue;
-                    isHtmlRenderer && this.update();
-                }
-            },
-            value: props.layoutMode ? props.layoutMode : core.types.LAYOUTMODES.NORMAL
-        });
-        core.tools.addPropertyFromEnum({
-            component: control,
-            propName: 'justifyContent',
-            enum: core.types.JUSTIFYCONTENT,
-            setter: function (newValue) {
-                //#region Variables déclaration
-                const priv = core.private(this);
-                const justifyContent = priv.justifyContent;
-                //#endregion Variables déclaration
-                if (core.tools.valueInSet(newValue, core.types.JUSTIFYCONTENT) && justifyContent !== newValue) {
-                    priv.justifyContent = newValue;
-                    isHtmlRenderer && this.update();
-                }
-            },
-            value: props.justifyContent ? props.justifyContent : core.types.JUSTIFYCONTENT.FLEXSTART
-        });
-        core.tools.addPropertyFromEnum({
-            component: control,
-            propName: 'alignItems',
-            enum: core.types.ALIGNITEMS,
-            setter: function (newValue) {
-                //#region Variables déclaration
-                const priv = core.private(this);
-                const alignItems = priv.alignItems;
-                //#endregion Variables déclaration
-                if (core.tools.valueInSet(newValue, core.types.ALIGNITEMS) && alignItems !== newValue) {
-                    priv.alignItems = newValue;
-                    isHtmlRenderer && this.update();
-                }
-            },
-            value: props.alignItems ? props.alignItems : core.types.ALIGNITEMS.FLEXSTART
-        });
-        core.tools.addPropertyFromEnum({
-            component: control,
-            propName: 'flexDirection',
-            enum: core.types.FLEXDIRECTIONS,
-            setter: function (newValue) {
-                //#region Variables déclaration
-                const priv = core.private(this);
-                const flexDirection = priv.flexDirection;
-                //#endregion Variables déclaration
-                if (core.tools.valueInSet(newValue, core.types.FLEXDIRECTIONS) && flexDirection !== newValue) {
-                    priv.flexDirection = newValue;
-                    isHtmlRenderer && this.update();
-                }
-            },
-            value: props.flexDirection ? props.flexDirection : core.types.FLEXDIRECTIONS.ROW
-        });
-        core.private(control).columnGap = props.columnGap ? props.columnGap : 5;
-        Object.defineProperty(control, 'columnGap', {
-    get: () => { return core.private(control).columnGap; },
-    set: function () {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.columnGap !== newValue) {
-            priv.columnGap = newValue;
-            this.update();
-        }
-    },
-            enumerable: !0,
-            configurable: !0
-        });
-        core.private(control).rowGap = props.rowGap ? props.rowGap : 5;
-        Object.defineProperty(control, 'rowGap', {
-    get: () => { return core.private(control).rowGap; },
-    set: function () {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.rowGap !== newValue) {
-            priv.rowGap = newValue;
-            this.update();
-        }
-    },
-            enumerable: !0,
-            configurable: !0
-        });
-        core.private(control).columns = props.columns ? props.columns : 5;
-        Object.defineProperty(control, 'columns', {
-    get: () => { return core.private(control).columns; },
-    set: function () {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.columns !== newValue) {
-            priv.columns = newValue;
-            this.update();
-        }
-    },
-            enumerable: !0,
-            configurable: !0
-        });
-        core.private(control).rows = props.rows ? props.rows : 5;
-        Object.defineProperty(control, 'rows', {
-    get: () => { return core.private(control).rows; },
-    set: function () {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.rows !== newValue) {
-            priv.rows = newValue;
-            this.update();
-        }
-    },
-            enumerable: !0,
-            configurable: !0
-        });
-        core.private(control).templateColumns = props.templateColumns ? props.templateColumns : String.EMPTY;
-        Object.defineProperty(control, 'templateColumns', {
-    get: () => { return core.private(control).templateColumns; },
-    set: function () {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.templateColumns !== newValue) {
-            priv.templateColumns = newValue;
-            this.update();
-        }
-    },
-            enumerable: !0,
-            configurable: !0
-        });
-        core.private(control).templateRows = props.templateRows ? props.templateRows : String.EMPTY;
-        Object.defineProperty(control, 'templateRows', {
-    get: () => { return core.private(control).templateRows; },
-    set: function () {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.templateRows !== newValue) {
-            priv.templateRows = newValue;
-            this.update();
-        }
-    },
-            enumerable: !0,
-            configurable: !0
-        });
-    }
-        //#endregion defineLayout
+    //#endregion getWeekDayList
+    //#region defineLayout
+    //static defineLayout(control, props) {
+    //    if (control.update) {
+    //        control.oldUpdate = control.update;
+    //        control.update = function () {
+    //            //#region Variables déclaration
+    //            const htmlElementStyle = this.HTMLElementStyle;
+    //            const PX = core.types.CSSUNITS.PX;
+    //            //#endregion Variables déclaration
+    //            control.oldUpdate();
+    //            switch (this.layoutMode) {
+    //                case core.types.LAYOUTMODES.NORMAL:
+    //                    htmlElementStyle.display = core.types.DISPLAYS.BLOCK;
+    //                    break;
+    //                case core.types.LAYOUTMODES.FLEX:
+    //                    htmlElementStyle.display = core.types.DISPLAYS.FLEX;
+    //                    htmlElementStyle.flexDirection = this.flexDirection;
+    //                    htmlElementStyle.justifyContent = this.justifyContent;
+    //                    htmlElementStyle.alignItems = this.alignItems;
+    //                    break;
+    //                case core.types.LAYOUTMODES.GRID:
+    //                    htmlElementStyle.display = core.types.DISPLAYS.GRID;
+    //                    htmlElementStyle.gridTemplateColumns = !String.isNullOrEmpty(this.templateColumns)
+    //                        ? this.templateColumns : `repeat(${this.columns}, 1fr [col-start])`;
+    //                    htmlElementStyle.gridTemplateRows = !String.isNullOrEmpty(this.templateRows)
+    //                        ? this.templateRows : `repeat(${this.rows}, 1fr [row-start])`;
+    //                    htmlElementStyle.columnGap = `${this.columnGap}${PX}`;
+    //                    htmlElementStyle.rowGap = `${this.rowGap}${PX}`;
+    //                    break;
+    //            }
+    //        };
+    //    }
+    //    core.tools.addPropertyFromEnum({
+    //        component: control,
+    //        propName: 'layoutMode',
+    //        enum: core.types.LAYOUTMODES,
+    //        setter: function (newValue) {
+    //            //#region Variables déclaration
+    //            const layoutMode = this.layoutMode;
+    //            //#endregion Variables déclaration
+    //            if (core.tools.valueInSet(newValue, core.types.LAYOUTMODES) && layoutMode !== newValue) {
+    //                this.layoutMode = newValue;
+    //                isHtmlRenderer && this.update();
+    //            }
+    //        },
+    //        value: control.layoutMode ? control.layoutMode : core.types.LAYOUTMODES.NORMAL
+    //    });
+    //    core.tools.addPropertyFromEnum({
+    //        component: control,
+    //        propName: 'justifyContent',
+    //        enum: core.types.JUSTIFYCONTENT,
+    //        setter: function (newValue) {
+    //            //#region Variables déclaration
+    //            const justifyContent = this.#justifyContent;
+    //            //#endregion Variables déclaration
+    //            if (core.tools.valueInSet(newValue, core.types.JUSTIFYCONTENT) && justifyContent !== newValue) {
+    //                this.#justifyContent = newValue;
+    //                isHtmlRenderer && this.update();
+    //            }
+    //        },
+    //        value: control.justifyContent ? control.justifyContent : core.types.JUSTIFYCONTENT.FLEXSTART
+    //    });
+    //    core.tools.addPropertyFromEnum({
+    //        component: control,
+    //        propName: 'alignItems',
+    //        enum: core.types.ALIGNITEMS,
+    //        setter: function (newValue) {
+    //            //#region Variables déclaration
+    //            const alignItems = this.#alignItems;
+    //            //#endregion Variables déclaration
+    //            if (core.tools.valueInSet(newValue, core.types.ALIGNITEMS) && alignItems !== newValue) {
+    //                this.#alignItems = newValue;
+    //                isHtmlRenderer && this.update();
+    //            }
+    //        },
+    //        value: control.alignItems ? control.alignItems : core.types.ALIGNITEMS.FLEXSTART
+    //    });
+    //    core.tools.addPropertyFromEnum({
+    //        component: control,
+    //        propName: 'flexDirection',
+    //        enum: core.types.FLEXDIRECTIONS,
+    //        setter: function (newValue) {
+    //            //#region Variables déclaration
+    //            const flexDirection = this.#flexDirection;
+    //            //#endregion Variables déclaration
+    //            if (core.tools.valueInSet(newValue, core.types.FLEXDIRECTIONS) && flexDirection !== newValue) {
+    //                this.#flexDirection = newValue;
+    //                isHtmlRenderer && this.update();
+    //            }
+    //        },
+    //        value: control.flexDirection ? control.flexDirection : core.types.FLEXDIRECTIONS.ROW
+    //    });
+    //    control.columnGap = props.columnGap ? props.columnGap : 5;
+    //    Object.defineProperty(control, 'columnGap', {
+    //        get: () => { return control.columnGap; },
+    //        set: function () {
+    //            if (core.tools.isNumber(newValue) && this.#columnGap !== newValue) {
+    //                this.#columnGap = newValue;
+    //                this.update();
+    //            }
+    //        },
+    //        enumerable: !0,
+    //        configurable: !0
+    //    });
+    //    control.rowGap = props.rowGap ? props.rowGap : 5;
+    //    Object.defineProperty(control, 'rowGap', {
+    //        get: () => { return control.rowGap; },
+    //        set: function () {
+    //            if (core.tools.isNumber(newValue) && this.#rowGap !== newValue) {
+    //                this.#rowGap = newValue;
+    //                this.update();
+    //            }
+    //        },
+    //        enumerable: !0,
+    //        configurable: !0
+    //    });
+    //    control.columns = props.columns ? props.columns : 5;
+    //    Object.defineProperty(control, 'columns', {
+    //        get: () => { return control.columns; },
+    //        set: function () {
+    //            if (core.tools.isNumber(newValue) && this.#columns !== newValue) {
+    //                this.#columns = newValue;
+    //                this.update();
+    //            }
+    //        },
+    //        enumerable: !0,
+    //        configurable: !0
+    //    });
+    //    control.rows = props.rows ? props.rows : 5;
+    //    Object.defineProperty(control, 'rows', {
+    //        get: () => { return control.rows; },
+    //        set: function () {
+    //            if (core.tools.isNumber(newValue) && this.#rows !== newValue) {
+    //                this.#rows = newValue;
+    //                this.update();
+    //            }
+    //        },
+    //        enumerable: !0,
+    //        configurable: !0
+    //    });
+    //    control.templateColumns = props.templateColumns ? props.templateColumns : String.EMPTY;
+    //    Object.defineProperty(control, 'templateColumns', {
+    //        get: () => { return control.templateColumns; },
+    //        set: function () {
+    //            if (core.tools.isNumber(newValue) && this.#templateColumns !== newValue) {
+    //                this.#templateColumns = newValue;
+    //                this.update();
+    //            }
+    //        },
+    //        enumerable: !0,
+    //        configurable: !0
+    //    });
+    //    control.templateRows = props.templateRows ? props.templateRows : String.EMPTY;
+    //    Object.defineProperty(control, 'templateRows', {
+    //        get: () => { return control.templateRows; },
+    //        set: function () {
+    //            if (core.tools.isNumber(newValue) && this.#templateRows !== newValue) {
+    //                this.#templateRows = newValue;
+    //                this.update();
+    //            }
+    //        },
+    //        enumerable: !0,
+    //        configurable: !0
+    //    });
+    //}
+    //#endregion defineLayout
     noEvent(event) {
         console.log('noEvent');
             event.stopPropagation();
@@ -834,6 +811,6 @@ class Tools {
         //#endregion Methods
     }
     Object.seal(Object.freeze(Tools));
-        //#endregion Tools
-        window.core.tools = Tools;
+    //#endregion Tools
+    window.core.tools = Tools;
     export { Tools }; // à supprimer

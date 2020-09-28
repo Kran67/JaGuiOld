@@ -1,2 +1,4 @@
-﻿.carbon.PageContent {}
+﻿@import url(/css/components/containers/pageControl.css);
+
+.neumorphiclight.PageContent {}
 

@@ -1,2 +1,4 @@
-﻿.carbon.ColorQuad {
+﻿@import url(/css//components/color/colorQuad.css);
+
+.neumorphiclight.ColorQuad {
 }

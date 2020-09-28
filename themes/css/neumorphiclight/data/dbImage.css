@@ -1,1 +1,3 @@
-﻿.carbon.DBImage {}
+﻿@import url(/css/components/data/dbImage.css);
+
+.neumorphiclight.DBImage {}

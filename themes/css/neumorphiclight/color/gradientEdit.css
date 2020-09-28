@@ -1,1 +1,3 @@
-﻿.carbon.GradientEdit {}
+﻿@import url(/css/components/color/gradientEdit.css);
+
+.neumorphiclight.GradientEdit {}

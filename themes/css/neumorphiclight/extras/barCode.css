@@ -1,1 +1,3 @@
-﻿.carbon.BarCode {}
+﻿@import url(/css/components/extras/barCode.css);
+
+.neumorphiclight.BarCode {}

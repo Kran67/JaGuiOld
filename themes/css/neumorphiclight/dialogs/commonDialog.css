@@ -1,1 +1,3 @@
-﻿.carbon.CommonDialog {}
+﻿@import url(/css/components/dialogs/commonDialog.css);
+
+.neumorphiclight.CommonDialog {}

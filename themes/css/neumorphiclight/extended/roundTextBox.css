@@ -1,4 +1,6 @@
-﻿.carbon.RoundTextBox,
-.carbon.RoundTextBoxInput {
+﻿@import url(/css/components/extended/roundTextBox.css);
+
+.neumorphiclight.RoundTextBox,
+.neumorphiclight.RoundTextBoxInput {
     border-radius: 12px;
 }

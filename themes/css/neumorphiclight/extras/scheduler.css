@@ -1,1 +1,3 @@
-﻿.carbon.Scheduler {}
+﻿@import url(/css/components/extras/scheduler.css);
+
+.neumorphiclight.Scheduler {}

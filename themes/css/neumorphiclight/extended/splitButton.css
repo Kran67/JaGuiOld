@@ -1,12 +1,14 @@
-﻿.carbon.SplitButton .PopupButtonArrow {
+﻿@import url(/css/components/extended/splitButton.css);
+
+.neumorphiclight.SplitButton .PopupButtonArrow {
 }
 
-.carbon.SplitButton .BitmapButton {
+.neumorphiclight.SplitButton .BitmapButton {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-.carbon.SplitButton .PopupButton {
+.neumorphiclight.SplitButton .PopupButton {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }

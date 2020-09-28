@@ -1,5 +1,7 @@
-﻿.carbon.LabeledTextBox {}
+﻿@import url(/css/components/extended/labeledTextBox.css);
 
-.carbon.LabeledTextBox .TextBox {}
+.neumorphiclight.LabeledTextBox {}
 
-.carbon.LabeledTextBox .Label {}
+.neumorphiclight.LabeledTextBox .TextBox {}
+
+.neumorphiclight.LabeledTextBox .Label {}

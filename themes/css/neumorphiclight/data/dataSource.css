@@ -1,1 +1,3 @@
-﻿.carbon.DataSource {}
+﻿@import url(/css/components/data/dataSource.css);
+
+.neumorphiclight.DataSource {}

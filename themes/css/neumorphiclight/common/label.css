@@ -1,1 +1,3 @@
-﻿.carbon.Label {}
+﻿@import url(/css/components/common/label.css);
+
+.neumorphiclight.Label {}

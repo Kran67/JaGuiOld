@@ -1,1 +1,3 @@
-﻿.carbon.FindReplaceDialog {}
+﻿@import url(/css/components/dialogs/findReplaceDialog.css);
+
+.neumorphiclight.FindReplaceDialog {}

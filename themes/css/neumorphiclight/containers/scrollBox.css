@@ -1,3 +1,5 @@
-﻿.carbon.ScrollBox {
+﻿@import url(/css/components/containers/scrollBox.css);
+
+.neumorphiclight.ScrollBox {
     background-color: #404040;
 }

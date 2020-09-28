@@ -1,25 +1,27 @@
-﻿.carbon.Tab,
-.carbon.Tab.disabled:hover {
+﻿@import url(/css/components/containers/tabControl.css);
+
+.neumorphiclight.Tab,
+.neumorphiclight.Tab.disabled:hover {
     border: 1px solid #303030;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     background-image: linear-gradient(to bottom,#303030 0,#404040 100%);
 }
 
-.carbon.TabControl.focused .carbon.Tab.selected {
+.neumorphiclight.TabControl.focused .neumorphiclight.Tab.selected {
     color: #F69E2D;
 }
 
-.carbon.Tab:hover {
+.neumorphiclight.Tab:hover {
     background-image: linear-gradient(to bottom,#4F4F4F 0,#404040 100%);
 }
 
-.carbon.TabControl.tabsBottom .carbon.Tab:hover {
+.neumorphiclight.TabControl.tabsBottom .neumorphiclight.Tab:hover {
     background-image: linear-gradient(to top,#4F4F4F 0,#404040 100%);
 }
 
-.carbon.Tab.selected,
-.carbon.Tab.selected:hover {
+.neumorphiclight.Tab.selected,
+.neumorphiclight.Tab.selected:hover {
     background-image: linear-gradient(to bottom,#606060 0,#404040 100%);
     height: 20px;
     margin-top: 0;
@@ -27,15 +29,15 @@
     border-bottom: none;
 }
 
-.carbon.TabControl.tabsBottom .carbon.Tab.selected,
-.carbon.TabControl.tabsBottom .carbon.Tab.selected:hover {
+.neumorphiclight.TabControl.tabsBottom .neumorphiclight.Tab.selected,
+.neumorphiclight.TabControl.tabsBottom .neumorphiclight.Tab.selected:hover {
     background-image: linear-gradient(to top,#606060 0,#404040 100%);
     padding-top: 4px;
     height: 20px;
     border-top: none;
 }
 
-.carbon.TabControl.tabsBottom .carbonTab {
+.neumorphiclight.TabControl.tabsBottom .neumorphiclightTab {
     color: #E0E0E0;
     border: 1px solid #303030;
     border-top-left-radius: 0;
@@ -48,7 +50,7 @@
     margin-top: 0;
 }
 
-.carbon.TabsContent {
+.neumorphiclight.TabsContent {
     border: 1px solid #303030;
     border-radius: 3px;
     background-image: linear-gradient(to bottom,#404040 0,#303030 100%);
@@ -56,7 +58,7 @@
     box-shadow: 0 -1px 0 0 #303030;
 }
 
-.carbon.TabControl.tabsBottom .carbon.TabsContent {
+.neumorphiclight.TabControl.tabsBottom .neumorphiclight.TabsContent {
     background-image: linear-gradient(to top,#404040 0,#303030 100%);
     margin-bottom: -1px;
 }

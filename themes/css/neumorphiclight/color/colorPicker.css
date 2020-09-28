@@ -1,2 +1,4 @@
-﻿.carbon.ColorPicker {
+﻿@import url(/css/components/color/colorPicker.css);
+
+.neumorphiclight.ColorPicker {
 }

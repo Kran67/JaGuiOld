@@ -1,12 +1,14 @@
-﻿.carbon.ListBoxItemColor {
+﻿@import url(/css/components/color/dropDownListBoxColor.css);
+
+.neumorphiclight.ListBoxItemColor {
     border-radius: 3px;
 }
 
-.carbon.ListBoxItemColor.disabled:hover {
+.neumorphiclight.ListBoxItemColor.disabled:hover {
     background-color: transparent;
 }
 
-.carbon.ListBoxItemColor:hover,
-.carbon.ListBoxItemColor.selected {
+.neumorphiclight.ListBoxItemColor:hover,
+.neumorphiclight.ListBoxItemColor.selected {
     background-color: #936639;
 }

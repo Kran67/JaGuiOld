@@ -1,32 +1,34 @@
-﻿.carbon.Line {
+﻿@import url(/css/components/common/shapes.css);
+
+.neumorphiclight.Line {
 }
 
-.carbon.Circle {
+.neumorphiclight.Circle {
 }
 
-.carbon.Ellipse {
+.neumorphiclight.Ellipse {
 }
 
-.carbon.Rectangle {
+.neumorphiclight.Rectangle {
 }
 
-.carbon.RoundRect {
+.neumorphiclight.RoundRect {
 }
 
-.carbon.Path {
+.neumorphiclight.Path {
 }
 
-.carbon.Pie {
+.neumorphiclight.Pie {
 }
 
-.carbon.CHord {
+.neumorphiclight.CHord {
 }
 
-.carbon.Polygon {
+.neumorphiclight.Polygon {
 }
 
-.carbon.Star {
+.neumorphiclight.Star {
 }
 
-.carbon.Arc {
+.neumorphiclight.Arc {
 }

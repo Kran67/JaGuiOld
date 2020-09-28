@@ -1,1 +1,3 @@
-﻿.carbon.DOMLayout {}
+﻿@import url(/css/components/containers/domLayout.css);
+
+.neumorphiclight.DOMLayout {}

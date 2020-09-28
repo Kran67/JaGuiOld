@@ -1,14 +1,16 @@
-﻿.carbon.Slider {
+﻿@import url(/css/components/common/slider.css);
+
+.neumorphiclight.Slider {
     box-shadow: none;
     --ticks-color: #E0E0E0;
     padding: 8px 0;
 }
 
-    .carbon.Slider.orientation-vertical {
+    .neumorphiclight.Slider.orientation-vertical {
         padding: 0 8px;
     }
 
-.carbon.SliderThumb {
+.neumorphiclight.SliderThumb {
     background-image: linear-gradient(to bottom,#606060 0,#303030 100%);
     border: 1px solid #303030;
     min-width: 14px;
@@ -18,11 +20,11 @@
     border-radius: 50%;
 }
 
-.carbon.Slider:hover .carbon.SliderThumb {
+.neumorphiclight.Slider:hover .neumorphiclight.SliderThumb {
     background-image: linear-gradient(to bottom,#808080 0,#303030 100%);
 }
 
-.carbon.SliderRange {
+.neumorphiclight.SliderRange {
     top: 9px;
     bottom: 9px;
     left: 0;
@@ -30,7 +32,7 @@
     background-image: linear-gradient(to bottom,#F4BB40 0,#674704 100%);
 }
 
-    .carbon.SliderRange.orientation-vertical {
+    .neumorphiclight.SliderRange.orientation-vertical {
         left: 9px;
         right: 9px;
         top: 0;
@@ -38,7 +40,7 @@
         background-image: linear-gradient(to right,#F4BB40 0,#674704 100%);
     }
 
-.carbon.Slider:before {
+.neumorphiclight.Slider:before {
     content: "";
     background-color: #FFF;
     border: 1px solid #303030;
@@ -48,37 +50,37 @@
     background-image: linear-gradient(to bottom,#303030 0,#606060 100%);
 }
 
-.carbon.Slider.orientation-vertical:before {
+.neumorphiclight.Slider.orientation-vertical:before {
     background-image: linear-gradient(to right,#303030 0,#606060 100%);
 }
 
-.carbon.SliderTooltip {
+.neumorphiclight.SliderTooltip {
     border-radius: 3px;
     background-image: linear-gradient(to bottom,#F5CD76 0,#9F7009 100%);
     color: #000;
     filter: drop-shadow(0 0 1px #303030) drop-shadow(0 0 1px #303030) drop-shadow(0 0 1px #303030);
 }
 
-    .carbon.SliderTooltip:after {
+    .neumorphiclight.SliderTooltip:after {
         border-top: 5px solid #9F7009;
         border-left: 5px solid transparent;
         border-right: 5px solid transparent;
         border-bottom: 0 solid transparent;
     }
 
-    .carbon.SliderTooltip.bottom:after {
+    .neumorphiclight.SliderTooltip.bottom:after {
         border-top: 0 solid transparent;
         border-bottom: 5px solid #F3CB74;
         bottom: 100%;
         top: auto;
     }
-        .carbon.SliderTooltip.orientation-vertical.bottom {
+        .neumorphiclight.SliderTooltip.orientation-vertical.bottom {
             left: auto;
             right: 110%;
             transform: none;
         }
 
-        .carbon.SliderTooltip.orientation-vertical:after {
+        .neumorphiclight.SliderTooltip.orientation-vertical:after {
             border-top: 5px solid transparent;
             border-right: 5px solid #C89C3D;
             border-left: 0 solid transparent;
@@ -87,7 +89,7 @@
             right: 100%;
         }
 
-        .carbon.SliderTooltip.orientation-vertical.bottom:after {
+        .neumorphiclight.SliderTooltip.orientation-vertical.bottom:after {
             border-right: 0 solid transparent;
             border-left: 5px solid #C89C3D;
             border-bottom: 5px solid transparent;
@@ -96,21 +98,21 @@
         }
 
 
-.carbon.SliderInput::-ms-thumb {
+.neumorphiclight.SliderInput::-ms-thumb {
     width: 14px;
     height: 14px;
 }
 
-.carbon.SliderInput::-moz-range-thumb {
+.neumorphiclight.SliderInput::-moz-range-thumb {
     width: 14px;
     height: 14px;
 }
 
-.carbon.SliderInput::-webkit-slider-thumb {
+.neumorphiclight.SliderInput::-webkit-slider-thumb {
     width: 14px;
     height: 14px;
 }
 
-.carbon.Slider.focused:before {
+.neumorphiclight.Slider.focused:before {
     box-shadow: 0 0 6px #F69E2D;
 }

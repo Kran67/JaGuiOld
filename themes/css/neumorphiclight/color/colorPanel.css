@@ -1,1 +1,3 @@
-﻿.carbon.ColorPanel {}
+﻿@import url(/css/components/color/colorPanel.css);
+
+.neumorphiclight.ColorPanel {}

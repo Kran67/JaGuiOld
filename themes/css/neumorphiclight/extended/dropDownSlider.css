@@ -1,1 +1,3 @@
-﻿.carbon.DropDownSlider {}
+﻿@import url(/css/components/extended/dropDownSlider.css);
+
+.neumorphiclight.DropDownSlider {}

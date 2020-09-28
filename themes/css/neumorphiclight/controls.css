@@ -1,4 +1,6 @@
-﻿.neumorphiclight.ItemsWheel {
+﻿@import url(/css/components/controls.css);
+
+.neumorphiclight.ItemsWheel {
     border: 1px solid #222222;
     background-color: #404040;
 }

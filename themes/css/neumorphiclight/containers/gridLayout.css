@@ -1,1 +1,3 @@
-﻿.carbon.GridLayout {}
+﻿@import url(/css/components/containers/gridLayout.css);
+
+.neumorphiclight.GridLayout {}

@@ -1,1 +1,3 @@
-﻿.carbon.SaveDialog {}
+﻿@import url(/css/components/dialogs/saveDialog.css);
+
+.neumorphiclight.SaveDialog {}

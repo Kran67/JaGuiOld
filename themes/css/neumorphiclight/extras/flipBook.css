@@ -1,1 +1,3 @@
-﻿.carbon.FlipBook {}
+﻿@import url(/css/components/extras/flipBook.css);
+
+.neumorphiclight.FlipBook {}

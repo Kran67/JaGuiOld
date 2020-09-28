@@ -3,15 +3,16 @@ import { Action } from '/scripts/components/actions/action.js';
 //#endregion
 //#region EditAction
 class EditAction extends Action {
+    //#region Private fields
+    #needCheckIsAvailable;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                needCheckIsAvailable: props.hasOwnProperty("needCheckIsAvailable") && core.tools.isBool(props.needCheckIsAvailable)
-                    ? props.needCheckIsAvailable : !1
-            });
+            this.#needCheckIsAvailable = props.hasOwnProperty("needCheckIsAvailable") && core.tools.isBool(props.needCheckIsAvailable)
+                    ? props.needCheckIsAvailable : !1;
         }        
     }
     //#endregion constructor
@@ -19,14 +20,13 @@ class EditAction extends Action {
     //#region execute
     execute() {
         //#region Variables déclaration
-        const priv = core.private(this);
         let canExecCmd = !0;
         //#endregion Variables déclaration
-        if (priv.command !== Action.COMMANDS.NONE) {
+        if (this.command !== Action.COMMANDS.NONE) {
             !this.form.focusedControl && (canExecCmd = !1);
             !(this.form.focusedControl instanceof core.classes.CustomTextControl) && (canExecCmd = !1);
-            !document.queryCommandEnabled(priv.command) && (canExecCmd = !1);
-            canExecCmd  && document.execCommand(priv.command, !0, null);
+            !document.queryCommandEnabled(this.command) && (canExecCmd = !1);
+            canExecCmd  && document.execCommand(this.command, !0, null);
             //else this.onExecute.invoke();
 
 
@@ -42,7 +42,6 @@ class EditAction extends Action {
     //#region checkCommandAvailable
     checkCommandAvailable() {
         //#region Variables déclaration
-        const priv = core.private(this);
         let selection = window.getSelection();
         let available = !1;
         //#endregion Variables déclaration
@@ -50,7 +49,7 @@ class EditAction extends Action {
         //    //selection.removeAllRanges();
         //    for (let i = 0, l = this.app._aceWrappers.length; i < l; i++) {
         //        //if (this.app._aceWrappers[i].isFocused()) {
-        //        switch (priv.command) {
+        //        switch (this.#command) {
         //            case Action.COMMANDS.CUT:
         //            case Action.COMMANDS.COPY:
         //            case Action.COMMANDS.DELETE:
@@ -73,10 +72,7 @@ class EditAction extends Action {
     //#endregion checkCommandAvailable
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.needCheckIsAvailable &&  core.looper.addListener(this, 'checkCommandAvailable');
+        this.#needCheckIsAvailable && core.looper.addListener(this, 'checkCommandAvailable');
     }
     //#endregion loaded
     //#endregion Methods
@@ -171,6 +167,9 @@ Object.seal(EditDelete);
 //#endregion
 //#region CommonDialogAction
 class CommonDialogAction extends Action {
+    //#region Private fields
+    #dialog = null;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -178,9 +177,6 @@ class CommonDialogAction extends Action {
             super(owner, props);
             //this.executeResult=false;
             //this.onCancel=new $j.classes.NotifyEvent(this);
-            core.private(this, {
-                dialog: null
-            });
             this.createEventsAndBind(['beforeExecute'], props);
         }
     }
@@ -191,16 +187,13 @@ class CommonDialogAction extends Action {
     //},
     //#region execute
     execute() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         this.executeResult = !1;
-        if (priv.dialog) {
-            priv.dialog.onClose.removeListener(this.onCloseDialog);
-            priv.dialog.onClose.addListener(this.onCloseDialog);
+        if (this.#dialog) {
+            this.#dialog.onClose.removeListener(this.onCloseDialog);
+            this.#dialog.onClose.addListener(this.onCloseDialog);
             this.beforeExecute.hasListener && this.beforeExecute.invoke(this);
-            priv.dialog.action = this;
-            priv.dialog.execute();
+            this.#dialog.action = this;
+            this.#dialog.execute();
         }
         super.execute();
     }
@@ -214,17 +207,18 @@ Object.seal(CommonDialogAction);
 //#endregion CommonDialogAction
 //#region FileOpen
 class FileOpen extends CommonDialogAction {
+    //#region Private fields
+    #filesFilter = String.EMPTY;
+    #multiSelect = !1;
+    #dialog;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            const form = priv.form;
-            core.private(this, {
-                filesFilter: String.EMPTY,
-                multiSelect: !1,
-                dialog: new core.classes.OpenDialog(owner)
-            });
+            const form = this.form;
+            this.#dialog = new core.classes.OpenDialog(owner);
             this.createEventsAndBind(['onFilesSelected'], props);
             if (props.onFilesSelected) {
                 if (core.tools.isFunc(form[props.onFilesSelected])) {
@@ -241,44 +235,38 @@ class FileOpen extends CommonDialogAction {
     //#region Getters / Setters
     //#region filesFilter
     get filesFilter() {
-        return core.private(this).filesFilter;
+        return this.#filesFilter;
     }
     set filesFilter(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv.filesFilter !== newVlaue && (priv.filesFilter = newVlaue);
+        core.tools.isString(newValue) && this.#filesFilter !== newVlaue && (this.#filesFilter = newVlaue);
     }
     //#endregion filesFilter
     //#region multiSelect
     get multiSelect() {
-        return core.private(this).multiSelect;
+        return this.#multiSelect;
     }
     set multiSelect(newValue) {
         //#region Variables déclaration
         const priv = core.private(this);
         //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.multiSelect !== newVlaue && (priv.multiSelect = newVlaue);
+        core.tools.isBool(newValue) && this.#multiSelect !== newVlaue && (this.#multiSelect = newVlaue);
     }
     //#endregion multiSelect
     //#endregion Getters / Setters
     //#region Methods
     //#region execute
     execute() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.dialog.filesFilter = priv.filesFilter;
-        priv.dialog.multiple = priv.multiSelect;
+        this.#dialog.filesFilter = this.#filesFilter;
+        this.#dialog.multiple = this.#multiSelect;
         super.execute();
     }
     //#endregion execute
     //#region doFilesSelected
     doFilesSelected(files) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        !priv.multiSelect && (files = files.first);
+        !this.#multiSelect && (files = files.first);
         this.onFilesSelected.hasListener && this.onFilesSelected.invoke(files);
     }
     //#endregion doFilesSelected
@@ -344,9 +332,7 @@ class FontEdit extends CommonDialogAction {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                dialog:  new core.classes.FontDialog(owner)
-            });
+            this.dialog = new core.classes.FontDialog(owner);
         }
     }
     //#endregion constructor
@@ -360,9 +346,7 @@ class ColorSelect extends CommonDialogAction {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                dialog:  new core.classes.FontDialog(owner)
-            });
+            this.dialog = new core.classes.FontDialog(owner);
         }
     }
     //#endregion constructor

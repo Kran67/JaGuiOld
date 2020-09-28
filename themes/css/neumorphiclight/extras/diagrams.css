@@ -1,1 +1,3 @@
-﻿.carbon.Diagrams {}
+﻿@import url(/css/components/extras/diagrams.css);
+
+.neumorphiclight.Diagrams {}

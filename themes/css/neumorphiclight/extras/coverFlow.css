@@ -1,1 +1,3 @@
-﻿.carbon.CoverFlow {}
+﻿@import url(/css/components/extras/coverFlow.css);
+
+.neumorphiclight.CoverFlow {}

@@ -1,58 +1,60 @@
-﻿.carbon.PropertyGrid > .PropertyGridContent {
+﻿@import url(/css/components/extras/propertyGrid.css);
+
+.neumorphiclight.PropertyGrid > .PropertyGridContent {
     background-color: #404040;
     color: #E0E0E0;
 }
 
-.carbon.PropertyGrid {
+.neumorphiclight.PropertyGrid {
     border: 1px solid #303030;
     border-radius: 2px;
     background-color: #404040;
 }
 
-.carbon.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent {
+.neumorphiclight.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent {
     border-right: 1px solid #6D6D6D;
 }
 
-.carbon.PropertyGrid > .PropertyGridContent > .PropertyGridRightContent {
+.neumorphiclight.PropertyGrid > .PropertyGridContent > .PropertyGridRightContent {
     border-left: 1px solid #303030;
 }
 
-.carbon.PropertyGrid > .PropertyGridContent .PropertyGridItem {
+.neumorphiclight.PropertyGrid > .PropertyGridContent .PropertyGridItem {
     color: #E0E0E0;
     border-radius: 3px;
     overflow: hidden;
     border-radius: 0;
 }
 
-.carbon.PropertyGrid.focused {
+.neumorphiclight.PropertyGrid.focused {
     box-shadow: 0 0 6px #F69E2D;
 }
 
-.carbon.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent .PropertyGridItem.selected {
+.neumorphiclight.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent .PropertyGridItem.selected {
     background-color: #F69F2D;
 }
 
-.carbon.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent .PropertyGridItem.selected span {
+.neumorphiclight.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent .PropertyGridItem.selected span {
     color: #000;
 }
 
-.carbon.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent .PropertyGridItem > .sep {
+.neumorphiclight.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent .PropertyGridItem > .sep {
     background-color: #505050;
 }
 
-.carbon.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent .PropertyGridItem.selected:not(.TVIHasChild) > div.sep:last-of-type:before {
+.neumorphiclight.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent .PropertyGridItem.selected:not(.TVIHasChild) > div.sep:last-of-type:before {
     color: #F69F2D;
 }
 
-.carbon.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent .PropertyGridItem.grid {
+.neumorphiclight.PropertyGrid > .PropertyGridContent > .PropertyGridLeftContent .PropertyGridItem.grid {
     border-bottom: 1px dotted #808080;
 }
 
-.carbon.PropertyGrid > .PropertyGridContent > .PropertyGridRightContent .PropertyGridItem.grid {
+.neumorphiclight.PropertyGrid > .PropertyGridContent > .PropertyGridRightContent .PropertyGridItem.grid {
     border-bottom: 1px dotted #808080;
 }
 
-.carbon.PropertyGrid > .PropertyGridInfo {
+.neumorphiclight.PropertyGrid > .PropertyGridInfo {
     background-color: #404040;
     border-top: 1px solid #303030;
     color: #E0E0E0;

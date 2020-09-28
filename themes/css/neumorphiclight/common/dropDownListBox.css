@@ -1,46 +1,48 @@
-﻿.carbon.DropDownListBox:hover {
+﻿@import url(/css/components/common/dropDownListBox.css);
+
+.neumorphiclight.DropDownListBox:hover {
     background-image: linear-gradient(to bottom,#707070 0,#303030 100%);
 }
 
-.carbon.DropDownListBox.pressed,
-.carbon.DropDownListBox.opened,
-.carbon.DropDownListBox.opened:hover {
+.neumorphiclight.DropDownListBox.pressed,
+.neumorphiclight.DropDownListBox.opened,
+.neumorphiclight.DropDownListBox.opened:hover {
     background-image: linear-gradient(to bottom,#404040 0,#303030 100%);
 }
 
-.carbon.DropDownListBox,
-.carbon.DropDownListBox.disabled,
-.carbon.DropDownListBox.disabled.focused {
+.neumorphiclight.DropDownListBox,
+.neumorphiclight.DropDownListBox.disabled,
+.neumorphiclight.DropDownListBox.disabled.focused {
     border: 1px solid #222;
     border-radius: 3px;
     background-image: linear-gradient(to bottom,#505050 0,#303030 100%);
     box-shadow: none;
 }
 
-.carbon.DropDownListBoxInput {
+.neumorphiclight.DropDownListBoxInput {
     background-color: transparent;
     border: none;
     padding: 0;
 }
 
-.carbon.DropDownListBox.editable .DropDownListBoxContent {
+.neumorphiclight.DropDownListBox.editable .DropDownListBoxContent {
     border: 1px solid #202020;
     background-color: #333;
 }
 
-.carbon.DropDownListBox.focused {
+.neumorphiclight.DropDownListBox.focused {
     box-shadow: 0 0 6px #F69E2D;
 }
 
-.carbon.PopupListBox .ListBoxItemPopup:hover,
-.carbon.ListBoxItemPopup.selected {
+.neumorphiclight.PopupListBox .ListBoxItemPopup:hover,
+.neumorphiclight.ListBoxItemPopup.selected {
     background-color: #936639;
 }
 
-.carbon.ListBox .ListBoxContent .ListBoxItemPopup {
+.neumorphiclight.ListBox .ListBoxContent .ListBoxItemPopup {
     border-radius: 3px;
 }
 
-.carbon.PopupListBox .ListBoxItemPopup.disabled:hover {
+.neumorphiclight.PopupListBox .ListBoxItemPopup.disabled:hover {
     background-color: transparent;
 }

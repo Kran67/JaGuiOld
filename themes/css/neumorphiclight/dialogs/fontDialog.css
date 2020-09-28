@@ -1,1 +1,3 @@
-﻿.carbon.FontDialog {}
+﻿@import url(/css/components/dialogs/fontDialog.css);
+
+.neumorphiclight.FontDialog {}

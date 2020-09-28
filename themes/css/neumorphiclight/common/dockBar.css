@@ -1,1 +1,3 @@
-﻿.carbon.DockBar {}
+﻿@import url(/css/components/common/dockBar.css);
+
+.neumorphiclight.DockBar {}

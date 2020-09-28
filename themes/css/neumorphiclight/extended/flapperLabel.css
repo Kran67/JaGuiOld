@@ -1,2 +1,3 @@
-﻿body {
-}
+﻿@import url(/css/components/extended/flapperLabel.css);
+
+.neumorphiclight.flapperLabel {}

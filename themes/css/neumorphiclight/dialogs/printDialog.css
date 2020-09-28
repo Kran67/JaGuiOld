@@ -1,1 +1,3 @@
-﻿.carbon.PrintDialog {}
+﻿@import url(/css/components/dialogs/printDialog.css);
+
+.neumorphiclight.PrintDialog {}

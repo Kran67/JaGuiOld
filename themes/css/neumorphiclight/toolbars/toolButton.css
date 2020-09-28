@@ -1,37 +1,39 @@
-﻿.carbon.ToolButton,
-.carbon.ToolButton.disabled:hover {
+﻿@import url(/css/components/toobars/toolButton.css);
+
+.neumorphiclight.ToolButton,
+.neumorphiclight.ToolButton.disabled:hover {
     outline: none;
     background: none;
     border: none;
 }
 
-.carbon.ToolButton:hover {
+.neumorphiclight.ToolButton:hover {
     outline: 1px solid rgba(246,158,45,0.9);
     outline-offset: -1px;
 }
 
-.carbon.ToolButton:hover .ToolButtonCaption {
+.neumorphiclight.ToolButton:hover .ToolButtonCaption {
     text-shadow: 0 0 8px rgba(246,158,45,0.9);
 }
 
-.carbon.ToolButtonCaption {
+.neumorphiclight.ToolButtonCaption {
     text-shadow: none;
 }
 
-.carbon.ToolButton:hover img {
+.neumorphiclight.ToolButton:hover img {
     filter: drop-shadow(0 0 4px rgba(246,158,45,0.9));
     /*filter: url(../shadow.svg#drop-shadow);*/
 }
 
-.carbon.ToolButton img,
-.carbon.ToolButton.disabled:hover img {
+.neumorphiclight.ToolButton img,
+.neumorphiclight.ToolButton.disabled:hover img {
     -webkit-filter: none;
     filter: none;
     -ms-filter: none;
     filter: none;
 }
 
-.carbon.ToolButtonSep {
+.neumorphiclight.ToolButtonSep {
     background-color: #303030;
     height: calc(100% - 4px);
     margin: 2px;

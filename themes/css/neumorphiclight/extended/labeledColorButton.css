@@ -1,5 +1,7 @@
-﻿.carbon.LabeledColorButton {}
+﻿@import url(/css/components/extended/labeledColorButton.css);
 
-.carbon.LabeledColorButton .ColorButton {}
+.neumorphiclight.LabeledColorButton {}
 
-.carbon.LabeledColorButton .Label {}
+.neumorphiclight.LabeledColorButton .ColorButton {}
+
+.neumorphiclight.LabeledColorButton .Label {}

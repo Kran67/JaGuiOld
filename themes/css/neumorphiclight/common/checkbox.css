@@ -1,4 +1,6 @@
-﻿.carbon.CheckboxCheck {
+﻿@import url(/css/components/common/checkbox.css);
+
+.neumorphiclight.CheckboxCheck {
     border: 1px solid #202020;
     border-radius: 2px;
     background-image: linear-gradient(to bottom,#606060 0,#303030 100%);
@@ -12,16 +14,16 @@
     justify-content: center;
 }
 
-.carbon.CheckboxCheck.checked:before,
-.carbon.CheckboxCheck.grayed:before {
+.neumorphiclight.CheckboxCheck.checked:before,
+.neumorphiclight.CheckboxCheck.grayed:before {
     content: "4";
 }
 
-.carbon.CheckboxCheck.grayed:before {
+.neumorphiclight.CheckboxCheck.grayed:before {
     content: "[";
     font-size: 6pt;
 }
 
-.carbon.Checkbox.focused .CheckboxCheck {
+.neumorphiclight.Checkbox.focused .CheckboxCheck {
     box-shadow: 0 0 6px #F69E2D;
 }

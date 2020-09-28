@@ -1,1 +1,3 @@
-﻿.carbon.RichTextBox {}
+﻿@import url(/css/components/extras/richTextBox.css);
+
+.neumorphiclight.RichTextBox {}

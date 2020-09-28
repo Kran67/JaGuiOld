@@ -1,29 +1,31 @@
-﻿.carbon.Expander {
+﻿@import url(/css/components/containers/expander.css);
+
+.neumorphiclight.Expander {
     border: 1px solid #303030;
     border-radius: 2px;
     background-image: linear-gradient(to bottom,#404040 0,#404040 70%,#303030 100%);
-    --carbon-header-height: 21px;
-    --carbon-arrow-left: 13px;
-    --carbon-arrow-top: 3px;
-    --carbon-arrow-width: 13px;
-    --carbon-arrow-height: 13px;
-    --carbon-check-left: 30px;
-    --carbon-check-width: 22px;
+    --neumorphiclight-header-height: 21px;
+    --neumorphiclight-arrow-left: 13px;
+    --neumorphiclight-arrow-top: 3px;
+    --neumorphiclight-arrow-width: 13px;
+    --neumorphiclight-arrow-height: 13px;
+    --neumorphiclight-check-left: 30px;
+    --neumorphiclight-check-width: 22px;
 }
 
-    .carbon.Expander:before {
+    .neumorphiclight.Expander:before {
         background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='15' width='10'><polygon points='0,0 10,7.5 0,15' fill='rgb(224,224,224)' /></svg>"), linear-gradient(to bottom,#404040 0,#404040 70%,#303030 100%);
-        height: var(--carbon-header-height);
+        height: var(--neumorphiclight-header-height);
     }
 
-    .carbon.Expander.expanded:before {
+    .neumorphiclight.Expander.expanded:before {
         background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='13' width='13'><polygon points='13,0 13,13 0,13' fill='rgb(224,224,224)' /></svg>"), linear-gradient(to bottom,#404040 0,#404040 70%,#303030 100%);
     }
 
-    .carbon.Expander:after {
-        height: var(--carbon-header-height);
-        left: var(--carbon-check-left);
-        width: var(--carbon-check-width);
+    .neumorphiclight.Expander:after {
+        height: var(--neumorphiclight-header-height);
+        left: var(--neumorphiclight-check-left);
+        width: var(--neumorphiclight-check-width);
     }
 
 .Expander:not(.checked):after {
