@@ -8,6 +8,9 @@ import { Window } from '/scripts/components/containers/window.js';
 //#endregion Import
 //#region ListBoxItemPopup
 class ListBoxItemColorPopup extends ListBoxItem {
+    //#region Private fields
+    #color;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         //#region Variables déclaration
@@ -17,23 +20,18 @@ class ListBoxItemColorPopup extends ListBoxItem {
             props.closePopups = !1;
             props.forceMouseWheel = !0;
             super(owner, props);
-            core.private(this, {
-                color: props.hasOwnProperty('color') ? props.color : Colors.BLACK
-            });
+            this.#color = props.hasOwnProperty('color') ? props.color : Colors.BLACK;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region color
     get color() {
-        return core.private(this).color;
+        return this.#color;
     }
     set color(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof core.classes.Color && !priv.color.equals(newValue)) {
-            priv.color.assign(newValue);
+        if (newValue instanceof core.classes.Color && !this.#color.equals(newValue)) {
+            this.#color.assign(newValue);
             this.owner.draw();
         }
     }
@@ -62,7 +60,6 @@ class ListBoxItemColorPopup extends ListBoxItem {
     //#region draw
     draw() {
         //#region Variables déclaration
-        const priv = core.private(this);
         let colorDiv;
         let html;
         const TAG = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
@@ -76,16 +73,13 @@ class ListBoxItemColorPopup extends ListBoxItem {
         } else {
             colorDiv = html.lastElementChild;
         }
-        colorDiv.style.backgroundColor = priv.color.toRGBAString();
+        colorDiv.style.backgroundColor = this.#color.toRGBAString();
         html.classList.add('ListBoxItemPopup');
     }
     //#endregion draw
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.color.destroy();
+        this.#color.destroy();
         super.destroy();
     }
     //#endregion destroy
@@ -94,21 +88,20 @@ class ListBoxItemColorPopup extends ListBoxItem {
         //#region Variables déclaration
         const clone = super.clone();
         //#endregion Variables déclaration
-        clone.color.assign(priv.color);
+        clone.color.assign(this.#color);
         return clone;
     }
     //#endregion clone
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         let colorDiv;
         const html = this.html;
         //#endregion Variables déclaration
         super.update();
         if (html && html.childElementCount > 1) {
             colorDiv = html.lastElementChild;
-            colorDiv.style.backgroundColor = priv.color.toRGBAString();
+            colorDiv.style.backgroundColor = this.#color.toRGBAString();
         }
     }
     //#endregion update
@@ -134,8 +127,7 @@ class ListBoxColorPopup extends ListBox {
     //#region refreshInnerHeight
     refreshInnerHeight() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const items = priv.items;
+        const items = this.items;
         //#endregion Variables déclaration
         if (this.owner) {
             items.forEach(item => {
@@ -174,10 +166,7 @@ class ListBoxColorPopup extends ListBox {
     }
     //#endregion keyUp
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.items = null;
+        this.items = null;
         super.destroy();
     }
     //#endregion Methods
@@ -186,6 +175,10 @@ Object.seal(ListBoxColorPopup);
 //#endregion ListBoxColorPopup
 //#region Class DropDownListBoxColor
 class DropDownListBoxColor extends DropDownListBox {
+    //#region Private fields
+    #color = Colors.TRANSPARENT;
+    #colorIndex = -1;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -194,25 +187,20 @@ class DropDownListBoxColor extends DropDownListBox {
             props.items = [];
             props.dropDownWidth = 130;
             super(owner, props);
-            core.private(this, {
-                color: Colors.TRANSPARENT,
-                colorIndex: -1
-            });
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region colorIndex
     get colorIndex() {
-        return core.private(this).colorIndex;
+        return this.#colorIndex;
     }
     set colorIndex(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         let colorDlg;
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue >= 0 && newValue < priv.items.length) {
-            priv.colorIndex = newValue;
+        if (core.tools.isNumber(newValue) && newValue >= 0 && newValue < this.items.length) {
+            this.#colorIndex = newValue;
             if (newValue === 0) {
                 colorDlg = core.classes.createComponent({
                     class: core.classes.ColorDlg,
@@ -233,19 +221,16 @@ class DropDownListBoxColor extends DropDownListBox {
     //#endregion colorIndex
     //#region color
     get color() {
-        return core.private(this).color;
+        return this.#color;
     }
     set color(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (newValue instanceof Color) {
-            const index = priv.items.findIndex(item => item.color.equals(newValue));
+            const index = this.items.findIndex(item => item.color.equals(newValue));
             if (index > 0) {
-                priv.colorIndex = index;
+                this.#colorIndex = index;
             } else {
-                priv.items.first.color.assign(newValue);
-                priv.colorIndex = 0;
+                this.items.first.color.assign(newValue);
+                this.#colorIndex = 0;
             }
             this.updateTextAndColor();
         }
@@ -256,15 +241,14 @@ class DropDownListBoxColor extends DropDownListBox {
     //#region update
     updateTextAndColor() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const fElChild = this.HTMLElement.firstElementChild;
-        const item = priv.items[priv.colorIndex];
+        const item = this.items[this.#colorIndex];
         //#endregion Variables déclaration
         if (item) {
-            this.text = priv.colorIndex > 0 ? item.caption : item.color.toRGBAString();
+            this.text = this.#colorIndex > 0 ? item.caption : item.color.toRGBAString();
             fElChild.style.backgroundColor = item.color.toRGBAString();
             fElChild.firstElementChild.style.color = item.color.getForeColorHex();
-            priv.color.assign(item.color);
+            this.#color.assign(item.color);
         }
     }
     //#endregion update
@@ -277,7 +261,6 @@ class DropDownListBoxColor extends DropDownListBox {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const colors = Object.keys(Colors);
         let items = [{
             caption: core.locales.translateConstant(core.currentLocale, 'colorBoxCustomCaption'),
@@ -292,25 +275,19 @@ class DropDownListBoxColor extends DropDownListBox {
             };
             items = [...items, item];
         });
-        priv.items.addRange(items);
-        priv.colorIndex = priv.itemIndex;
+        this.items.addRange(items);
+        this.#colorIndex = this.itemIndex;
     }
     //#endregion loaded
     //#region showPopup
     showPopup() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.items.first.color.assign(Colors.TRANSPARENT);
+        this.items.first.color.assign(Colors.TRANSPARENT);
         super.showPopup();
     }
     //#endregion showPopup
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.color.destroy();
+        this.#color.destroy();
         super.destroy();
     }
     //#endregion destroy

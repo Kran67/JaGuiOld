@@ -7,6 +7,16 @@ import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Imports
 //#region ColorQuad
 class ColorQuad extends Control {
+    //#region Private fields
+    #handleObj = null;
+    #handle;
+    #colorBox;
+    #color;
+    #gradientEdit;
+    #preserveColorAlpha;
+    #hue;
+    #format;
+    //#endregion Private fields
     //#region Constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -18,16 +28,13 @@ class ColorQuad extends Control {
             props.allowUpdateOnResize = !0;
             props.autoCapture = !0;
             super(owner, props);
-            core.private(this, {
-                handleObj: null,
-                handle: new Point,
-                colorBox: props.hasOwnProperty('colorBox') ? this.form[props.colorBox] : null,
-                color: props.hasOwnProperty('color') ? Color.parse(props.color) : Colors.BLUE,
-                gradientEdit: props.hasOwnProperty('gradientEdit') ? this.form[props.gradientEdit] : null,
-                preserveColorAlpha: props.hasOwnProperty('preserveColorAlpha')
-                    && core.tools.isBool(props.preserveColorAlpha)
-                    ? props.preserveColorAlpha : !1
-            });
+            this.#handle = new Point;
+            this.#colorBox = props.hasOwnProperty('colorBox') ? this.form[props.colorBox] : null;
+            this.#color = props.hasOwnProperty('color') ? Color.parse(props.color) : Colors.BLUE;
+            this.#gradientEdit = props.hasOwnProperty('gradientEdit') ? this.form[props.gradientEdit] : null;
+            this.#preserveColorAlpha = props.hasOwnProperty('preserveColorAlpha')
+                && core.tools.isBool(props.preserveColorAlpha)
+                ? props.preserveColorAlpha : !1;
             core.tools.addPropertyFromEnum({
                 component: this,
                 propName: 'format',
@@ -43,26 +50,20 @@ class ColorQuad extends Control {
     //#region Getters / Setters
     //#region colorBox
     get colorBox() {
-        return core.private(this).colorBox;
+        return this.#colorBox;
     }
     set colorBox(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        newValue instanceof core.classes.ColorBox && priv.colorBox !== newValue
-            && (priv.colorBox = newValue);
+        newValue instanceof core.classes.ColorBox && this.#colorBox !== newValue
+            && (this.#colorBox = newValue);
     }
     //#endregion colorBox
     //#region color
     get color() {
-        return core.private(this).color;
+        return this.#color;
     }
     set color(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof core.classes.Color && !priv.color.equals(newValue)) {
-            priv.color.assign(newValue);
+        if (newValue instanceof core.classes.Color && !this.#color.equals(newValue)) {
+            this.#color.assign(newValue);
             //this.fillColor.assign(newValue);
             this.moveIndicator();
         }
@@ -70,17 +71,14 @@ class ColorQuad extends Control {
     //#endregion color
     //#region hue
     get hue() {
-        return core.private(this).hue;
+        return this.#hue;
     }
     set hue(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue = Math.min(Math.max(newValue, 0), 359);
             //if (this.fillColor.hue !== newValue) {
-            if (priv.color.hue !== newValue) {
-                priv.color.hue = newValue;
+            if (this.#color.hue !== newValue) {
+                this.#color.hue = newValue;
                 this.update();
             }
         }
@@ -88,21 +86,20 @@ class ColorQuad extends Control {
     //#endregion hue
     //#region format
     get format() {
-        return core.private(this).format;
+        return this.#format;
     }
     set format(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         let value;
         const point = new Point;
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, core.types.COLORFORMATS) && newValue !== priv.format) {
-            priv.format = newValue;
+        if (core.tools.valueInSet(newValue, core.types.COLORFORMATS) && newValue !== this.#format) {
+            this.#format = newValue;
             !core.isHTMLRenderer && this.redraw();
             if (this.HTMLElement) {
-                value = priv.format === core.types.COLORFORMATS.HSV
-                    ? priv.color.value : priv.color.lightness;
-                point.x = int(priv.color.saturation * htmlElement.offsetWidth / 100);
+                value = this.#format === core.types.COLORFORMATS.HSV
+                    ? this.#color.value : this.#color.lightness;
+                point.x = int(this.#color.saturation * htmlElement.offsetWidth / 100);
                 point.y = int(htmlElement.offsetHeight - value * htmlElement.offsetHeight / 100);
                 this.update(point);
             }
@@ -127,14 +124,11 @@ class ColorQuad extends Control {
     //#endregion height
     //#region preserveColorAlpha
     get preserveColorAlpha() {
-        return core.private(this).preserveColorAlpha;
+        return this.#preserveColorAlpha;
     }
     set preserveColorAlpha(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.preserveColorAlpha !== newValue
-            && (priv.preserveColorAlpha = newValue);
+        core.tools.isBool(newValue) && this.#preserveColorAlpha !== newValue
+            && (this.#preserveColorAlpha = newValue);
     }
     //#endregion preserveColorAlpha
     //#endregion Getters / Setters
@@ -142,7 +136,6 @@ class ColorQuad extends Control {
     //#region update
     update(point) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const COLORPICKSIZE = core.types.CONSTANTS.COLORPICKSIZE;
         const PX = core.types.CSSUNITS.PX;
@@ -150,16 +143,16 @@ class ColorQuad extends Control {
         //if (!point) {
         //    point = new Point;
         //    let value;
-        //    value = priv.format === core.types.COLORFORMATS.HSV
-        //        ? priv.color.value : priv.color.lightness;
-        //    point.x = int(priv.color.saturation * htmlElement.offsetWidth / 100);
+        //    value = this.#format === core.types.COLORFORMATS.HSV
+        //        ? this.#color.value : this.#color.lightness;
+        //    point.x = int(this.#color.saturation * htmlElement.offsetWidth / 100);
         //    point.y = int(htmlElement.offsetHeight - value * htmlElement.offsetHeight / 100);
         //}
         if (point) {
-            priv.handle.x = Math.max(Math.min(point.x, htmlElement.offsetWidth), 0);
-            priv.handle.y = Math.max(Math.min(point.y, htmlElement.offsetHeight), 0);
-            priv.handleObj
-                && (priv.handleObj.style.transform = `translate(${(priv.handle.x - (COLORPICKSIZE / 2))}${PX},${(priv.handle.y - (COLORPICKSIZE / 2))}${PX})`);
+            this.#handle.x = Math.max(Math.min(point.x, htmlElement.offsetWidth), 0);
+            this.#handle.y = Math.max(Math.min(point.y, htmlElement.offsetHeight), 0);
+            this.#handleObj
+                && (this.#handleObj.style.transform = `translate(${(this.#handle.x - (COLORPICKSIZE / 2))}${PX},${(this.#handle.y - (COLORPICKSIZE / 2))}${PX})`);
         }
         this._update();
     }
@@ -167,14 +160,13 @@ class ColorQuad extends Control {
     //#region moveIndicator
     moveIndicator() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const point = new Point;
         let value;
         //#endregion Variables déclaration
-        value = priv.format === core.types.COLORFORMATS.HSV
-            ? priv.color.value : priv.color.lightness;
-        point.x = int(priv.color.saturation * htmlElement.offsetWidth / 100);
+        value = this.#format === core.types.COLORFORMATS.HSV
+            ? this.#color.value : this.#color.lightness;
+        point.x = int(this.#color.saturation * htmlElement.offsetWidth / 100);
         point.y = int(htmlElement.offsetHeight - value * htmlElement.offsetHeight / 100);
         this.update(point);
     }
@@ -208,79 +200,74 @@ class ColorQuad extends Control {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (!htmlElement.querySelector('.ColorQuadIndicator')) {
-            priv.handleObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}indicator`);
-            priv.handleObj.classList.add('ColorQuadIndicator');
-            htmlElement.appendChild(priv.handleObj);
+            this.#handleObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}indicator`);
+            this.#handleObj.classList.add('ColorQuadIndicator');
+            htmlElement.appendChild(this.#handleObj);
         }
         //Object.keys(core.types.COLORFORMATS).forEach(format => {
         //    htmlElement.classList.remove(format);
         //});
-        //htmlElement.classList.add(priv.format);
+        //htmlElement.classList.add(this.#format);
         super.loaded();
-        this.props.hasOwnProperty('colorBox') && !priv.colorBox
-            && (priv.colorBox = this.form[this.props.colorBox]);
-        this.props.hasOwnProperty('gradientEdit') && !priv.gradientEdit
-            && (priv.gradientEdit = this.form[this.props.gradientEdit]);
-        if (priv.colorBox instanceof core.classes.ColorBox) {
+        this.props.hasOwnProperty('colorBox') && !this.#colorBox
+            && (this.#colorBox = this.form[this.props.colorBox]);
+        this.props.hasOwnProperty('gradientEdit') && !this.#gradientEdit
+            && (this.#gradientEdit = this.form[this.props.gradientEdit]);
+        if (this.#colorBox instanceof core.classes.ColorBox) {
             let oldAlpha;
-            priv.preserveColorAlpha && (oldAlpha = priv.colorBox.color.alpha);
-            priv.colorBox.color.assign(priv.color);
-            priv.preserveColorAlpha && (priv.colorBox.color.alpha = oldAlpha);
+            this.#preserveColorAlpha && (oldAlpha = this.#colorBox.color.alpha);
+            this.#colorBox.color.assign(this.#color);
+            this.#preserveColorAlpha && (this.#colorBox.color.alpha = oldAlpha);
         }
-        //priv.gradientEdit instanceof core.classes.GradientEdit && (priv.gradientEdit.color = priv.color);
+        //this.#gradientEdit instanceof core.classes.GradientEdit && (this.#gradientEdit.color = this.#color);
         this.moveIndicator();
     };
     //#region loaded
     //#region _update
     _update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const COLORFORMATS = core.types.COLORFORMATS;
         const color = Colors.BLACK;
         //#endregion Variables déclaration
         if (!this.loading && !this.form.loading && htmlElement) {
-            //priv.color.hue = priv.color.hue;
-            priv.color.saturation = 100;
-            priv.color.value = 100;
-            priv.color.lightness = 50;
-            priv.format === COLORFORMATS.HSV ? priv.color.HSVtoRGB() : priv.color.HSLtoRGB();
-            this.HTMLElementStyle.backgroundColor = priv.color.toRGBAString();
-            const value = 100 - (priv.handle.y * 100 / htmlElement.offsetHeight) | 0;
-            const saturation = (priv.handle.x * 100 / htmlElement.offsetWidth) | 0;
-            priv.format === COLORFORMATS.HSV
-                ? priv.color.setHSV(priv.color.hue, saturation, value)
-                : priv.color.setHSL(priv.color.hue, saturation, value);
+            //this.#color.hue = this.#color.hue;
+            this.#color.saturation = 100;
+            this.#color.value = 100;
+            this.#color.lightness = 50;
+            this.#format === COLORFORMATS.HSV ? this.#color.HSVtoRGB() : this.#color.HSLtoRGB();
+            this.HTMLElementStyle.backgroundColor = this.#color.toRGBAString();
+            const value = 100 - (this.#handle.y * 100 / htmlElement.offsetHeight) | 0;
+            const saturation = (this.#handle.x * 100 / htmlElement.offsetWidth) | 0;
+            this.#format === COLORFORMATS.HSV
+                ? this.#color.setHSV(this.#color.hue, saturation, value)
+                : this.#color.setHSL(this.#color.hue, saturation, value);
             if (!this.updating) {
-                if (priv.colorBox instanceof core.classes.ColorBox) {
+                if (this.#colorBox instanceof core.classes.ColorBox) {
                     let oldAlpha;
-                    priv.preserveColorAlpha && (oldAlpha = priv.colorBox.color.alpha);
-                    priv.colorBox.color.assign(priv.color);
-                    priv.preserveColorAlpha && (priv.colorBox.color.alpha = oldAlpha);
+                    this.#preserveColorAlpha && (oldAlpha = this.#colorBox.color.alpha);
+                    this.#colorBox.color.assign(this.#color);
+                    this.#preserveColorAlpha && (this.#colorBox.color.alpha = oldAlpha);
                 }
-                //priv.gradientEdit instanceof core.classes.GradientEdit
-                //    && (priv.gradientEdit.changeCurrentPointColor(priv.color));
+                //this.#gradientEdit instanceof core.classes.GradientEdit
+                //    && (this.#gradientEdit.changeCurrentPointColor(this.#color));
                 this.propertyChanged('color');
                 this.onChange.invoke();
             }
             Object.keys(COLORFORMATS).forEach(format => {
                 htmlElement.classList.remove(format.toLowerCase());
             });
-            htmlElement.classList.add(priv.format);
+            htmlElement.classList.add(this.#format);
         }
     }
     //#endregion _update
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.handle.destroy();
-        priv.color.destroy();
+        this.#handle.destroy();
+        this.#color.destroy();
         this.unBindAndDestroyEvents(['onChange']);
         super.destroy();
     }
@@ -288,9 +275,8 @@ class ColorQuad extends Control {
     //#region keyDown
     keyDown() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
-        const pt = new Point(priv.handle.x, priv.handle.y);
+        const pt = new Point(this.#handle.x, this.#handle.y);
         let changeHandle = !1;
         let offset = 1;
         const VKEYSCODES = Keyboard.VKEYSCODES;

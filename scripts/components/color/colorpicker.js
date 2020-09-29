@@ -7,6 +7,12 @@ import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Imports
 //#region Class ColorPicker
 class ColorPicker extends Control {
+    //#region Private fields
+    #handle;
+    #handleObj = null;
+    #color;
+    #colorQuad;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -17,12 +23,9 @@ class ColorPicker extends Control {
             props.canFocused = !0;
             props.allowUpdateOnResize = !0;
             super(owner, props);
-            core.private(this, {
-                handle: new Point((props.width / 2) - 5, -5),
-                handleObj: null,
-                color: props.hasOwnProperty('color') ? Color.parse(props.color) : Colors.RED,
-                colorQuad: props.hasOwnProperty('colorQuad') ? this.form[props.colorQuad] : null
-            });
+            this.#handle = new Point((props.width / 2) - 5, -5);
+            this.#color = props.hasOwnProperty('color') ? Color.parse(props.color) : Colors.RED;
+            this.#colorQuad = props.hasOwnProperty('colorQuad') ? this.form[props.colorQuad] : null;
             this.createEventsAndBind(['onChange'], props);
             delete this.tabOrder;
         }
@@ -31,29 +34,23 @@ class ColorPicker extends Control {
     //#region Getters / Setters
     //#region color
     get color() {
-        return core.private(this).color;
+        return this.#color;
     }
     set color(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof Color && !priv.color.equals(newValue)) {
-            priv.color.assign(newValue);
+        if (newValue instanceof Color && !this.#color.equals(newValue)) {
+            this.#color.assign(newValue);
             this.moveHandleByHue();
         }
     }
     //#endregion color
     //#region colorQuad
     get colorQuad() {
-        return core.private(this).colorQuad;
+        return this.#colorQuad;
     }
     set colorQuad(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof core.classes.ColorQuad && priv.colorQuad !== newValue) {
-            priv.colorQuad = newValue;
-            newValue.color.assign(priv.color);
+        if (newValue instanceof core.classes.ColorQuad && this.#colorQuad !== newValue) {
+            this.#colorQuad = newValue;
+            newValue.color.assign(this.#color);
         }
     }
     //#endregion colorQuad
@@ -62,21 +59,19 @@ class ColorPicker extends Control {
     //#region moveHandleByHue
     moveHandleByHue() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
-        let pos = int(priv.color.hue * htmlElement.offsetHeight / 360);
+        let pos = int(this.#color.hue * htmlElement.offsetHeight / 360);
         //#endregion Variables déclaration
-        this.update(new core.classes.Point(priv.handle.x, pos));
+        this.update(new core.classes.Point(this.#handle.x, pos));
     }
     //#endregion moveHandleByHue
     //#region mouseDown
     mouseDown() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         super.mouseDown();
-        priv.color.hue = int((core.mouse.target.y * 360) / htmlElement.offsetHeight);
+        this.#color.hue = int((core.mouse.target.y * 360) / htmlElement.offsetHeight);
         core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.isPressed
             && this.update(core.mouse.target);
     }
@@ -84,7 +79,6 @@ class ColorPicker extends Control {
     //#region mouseMove
     mouseMove() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const point = new core.classes.Point;
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
@@ -98,18 +92,15 @@ class ColorPicker extends Control {
             } else {
                 point.assign(core.mouse.target);
             }
-            priv.color.hue = int((point.y * 360) / htmlElement.offsetHeight);
+            this.#color.hue = int((point.y * 360) / htmlElement.offsetHeight);
             this.update(point);
         }
     }
     //#endregion mouseMove
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.handle.destroy();
-        priv.color.destroy();
+        this.#handle.destroy();
+        this.#color.destroy();
         this.unBindAndDestroyEvents(['onChange']);
         super.destroy();
     }
@@ -117,7 +108,6 @@ class ColorPicker extends Control {
     //#region update
     update(point) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const COLORPICKSIZE = int(core.types.CONSTANTS.COLORPICKSIZE / 2);
         //#endregion Variables déclaration
@@ -125,21 +115,20 @@ class ColorPicker extends Control {
             this.moveHandleByHue();
         } else {
             point.y -= COLORPICKSIZE;
-            priv.handle.y = point.y > htmlElement.offsetHeight - COLORPICKSIZE
+            this.#handle.y = point.y > htmlElement.offsetHeight - COLORPICKSIZE
                 ? htmlElement.offsetHeight - COLORPICKSIZE
                 : point.y < -COLORPICKSIZE ? -COLORPICKSIZE : point.y;
         }
-        priv.handleObj
-            && (priv.handleObj.style.transform = `translate(-50%,${priv.handle.y}${core.types.CSSUNITS.PX})`);
-        priv.colorQuad instanceof core.classes.ColorQuad && !this.updating && (priv.colorQuad.hue = priv.color.hue);
+        this.#handleObj
+            && (this.#handleObj.style.transform = `translate(-50%,${this.#handle.y}${core.types.CSSUNITS.PX})`);
+        this.#colorQuad instanceof core.classes.ColorQuad && !this.updating && (this.#colorQuad.hue = this.#color.hue);
         !this.updating && this.onChange.invoke();
     }
     //#endregion update
     //#region keyDown
     keyDown() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const pt = new Point(priv.handle.x, priv.handle.y);
+        const pt = new Point(this.#handle.x, this.#handle.y);
         let changeHandle = !1;
         let offset = 1;
         const VKEYSCODES = Keyboard.VKEYSCODES;
@@ -166,13 +155,12 @@ class ColorPicker extends Control {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (!htmlElement.querySelector('.ColorPickerIndicator')) {
-            priv.handleObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}indicator`);
-            priv.handleObj.classList.add('ColorPickerIndicator');
-            htmlElement.appendChild(priv.handleObj);
+            this.#handleObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}indicator`);
+            this.#handleObj.classList.add('ColorPickerIndicator');
+            htmlElement.appendChild(this.#handleObj);
         }
         super.loaded();
         this.moveHandleByHue();

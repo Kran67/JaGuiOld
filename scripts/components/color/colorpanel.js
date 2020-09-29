@@ -14,6 +14,14 @@ const COLORPANELBOXES = Object.freeze(Object.seal({
 //#endregion COLORPANELBOXES
 //#region Class ColorPanel
 class ColorPanel extends Control {
+    //#region Private fields
+    #colorBoxType;
+    #primaryColorBox;
+    #secondaryColorBox;
+    #colorQuad;
+    #hueSlider;
+    #alphaSlider;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -30,26 +38,25 @@ class ColorPanel extends Control {
                 value: props.hasOwnProperty('colorBoxType') ? props.colorBoxType : COLORPANELBOXES.PRIMARY,
                 setter: function (newValue) {
                     //#region Variables déclaration
-                    const priv = core.private(this);
                     const c = Colors.TRANSPARENT;
                     //#endregion Variables déclaration
-                    if (core.tools.valueInSet(newValue, COLORPANELBOXES) && priv.colorBoxType !== newValue) {
-                        priv.colorBoxType = newValue;
+                    if (core.tools.valueInSet(newValue, COLORPANELBOXES) && this.#colorBoxType !== newValue) {
+                        this.#colorBoxType = newValue;
                         switch (newValue) {
                             case COLORPANELBOXES.PRIMARY:
-                                c.assign(priv.primaryColorBox.fillColor);
-                                priv.colorQuad.colorBox = priv.primaryColorBox;
-                                priv.primaryColorBox.fillColor.assign(c);
+                                c.assign(this.#primaryColorBox.fillColor);
+                                this.#colorQuad.colorBox = this.#primaryColorBox;
+                                this.#primaryColorBox.fillColor.assign(c);
                                 break;
                             case COLORPANELBOXES.SECONDARY:
-                                c.assign(priv.secondaryColorBox.fillColor);
-                                priv.colorQuad.colorBox = priv.secondaryColorBox;
-                                priv.secondaryColorBox.fillColor.assign(c);
+                                c.assign(this.#secondaryColorBox.fillColor);
+                                this.#colorQuad.colorBox = this.#secondaryColorBox;
+                                this.#secondaryColorBox.fillColor.assign(c);
                                 break;
                         }
-                        priv.colorQuad.color = c;
-                        priv.hueSlider.firstValue = c.hue / 360;
-                        priv.alphaSlider.firstValue = c.alpha;
+                        this.#colorQuad.color = c;
+                        this.#hueSlider.firstValue = c.hue / 360;
+                        this.#alphaSlider.firstValue = c.alpha;
                     }
                 }
             });
@@ -67,19 +74,19 @@ class ColorPanel extends Control {
     }
     //#endregion
     get colorQuad() {
-        return core.private(this).colorQuad;
+        return this.#colorQuad;
     }
     get hueSlider() {
-        return core.private(this).hueSlider;
+        return this.#hueSlider;
     }
     get alphaSlider() {
-        return core.private(this).alphaSlider;
+        return this.#alphaSlider;
     }
     get primaryColorBox() {
-        return core.private(this).primaryColorBox;
+        return this.#primaryColorBox;
     }
     get secondaryColorBox() {
-        return core.private(this).secondaryColorBox;
+        return this.#secondaryColorBox;
     }
     //#endregion Getters / Setters
     //#region Methods
@@ -113,17 +120,14 @@ class ColorPanel extends Control {
         colorPanel.changeAlpha(colorPanel.alphaSlider.firstValue);
     }
     changeAlpha(value) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        switch (priv.colorBoxType) {
+        switch (this.#colorBoxType) {
             case COLORPANELBOXES.PRIMARY:
-                priv.primaryColorBox.fillColor.alpha = value;
-                priv.primaryColorBox.update();
+                this.#primaryColorBox.fillColor.alpha = value;
+                this.#primaryColorBox.update();
                 break;
             case COLORPANELBOXES.SECONDARY:
-                priv.secondaryColorBox.fillColor.alpha = value;
-                priv.secondaryColorBox.update();
+                this.#secondaryColorBox.fillColor.alpha = value;
+                this.#secondaryColorBox.update();
                 break;
         }
         !this.updating && this.onChange.invoke();
@@ -144,14 +148,11 @@ class ColorPanel extends Control {
         }
     }
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.colorQuad.destroy();
-        priv.alphaSlider.destroy();
-        priv.hueSlider.destroy();
-        priv.secondaryColorBox.destroy();
-        priv.primaryColorBox.destroy();
+        this.#colorQuad.destroy();
+        this.#alphaSlider.destroy();
+        this.#hueSlider.destroy();
+        this.#secondaryColorBox.destroy();
+        this.#primaryColorBox.destroy();
         this.unBindAndDestroyEvents(['onChange'], props);
         super.destroy();
     }
@@ -217,13 +218,10 @@ class ColorPanel extends Control {
         core.private(this, { colorQuad, hueSlider, alphaSlider, secondaryColorBox, primaryColorBox });
     }
     update() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (!this.loading && !this.form.loading) {
-            priv.alphaSlider.update();
-            priv.hueSlider.update();
-            priv.colorQuad.update();
+            this.#alphaSlider.update();
+            this.#hueSlider.update();
+            this.#colorQuad.update();
         }
     }
     //#endregion Methods
