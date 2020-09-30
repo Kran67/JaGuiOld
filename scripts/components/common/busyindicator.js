@@ -16,43 +16,47 @@ const BUSYINDICATORSTYLES = Object.freeze(Object.seal({
 //#endregion BUSYINDICATORSTYLES
 //#region Class BusyIndicatorSpinOptions
 class BusyIndicatorSpinOptions extends Bindable {
+    //#region Private fields
+    #lines;
+    #length;
+    #width;
+    #corners;
+    #direction;
+    #speed;
+    #trail;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                // The number of lines to draw
-                lines: props.hasOwnProperty('lines') ? props.lines : 12,
-                // The length of each line
-                length: props.hasOwnProperty('length') ? props.length : 7,
-                // The line thickness
-                width: props.hasOwnProperty('width') ? props.width : 4,
-                // Roundness (0..1)
-                corners: props.hasOwnProperty('corners') ? props.corners : 0,
-                // 1: clockwise, -1: counterclockwise
-                direction: props.hasOwnProperty('direction') ? props.direction : 1,
-                // Rounds per second
-                speed: props.hasOwnProperty('speed') ? props.speed : 1,
-                // Afterglow percentage
-                trail: props.hasOwnProperty('trail') ? props.trail : 100
-            });
+            // The number of lines to draw
+            this.#lines = props.hasOwnProperty('lines') ? props.lines : 12;
+            // The length of each line
+            this.#length = props.hasOwnProperty('length') ? props.length : 7;
+            // The line thickness
+            this.#width = props.hasOwnProperty('width') ? props.width : 4;
+            // Roundness (0..1)
+            this.#corners = props.hasOwnProperty('corners') ? props.corners : 0;
+            // 1: clockwise, -1: counterclockwise
+            this.#direction = props.hasOwnProperty('direction') ? props.direction : 1;
+            // Rounds per second
+            this.#speed = props.hasOwnProperty('speed') ? props.speed : 1;
+            // Afterglow percentage
+            this.#trail = props.hasOwnProperty('trail') ? props.trail : 100;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region lines
     get lines() {
-        return core.private(this).lines;
+        return this.#lines;
     }
     set lines(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue < 5 || newValue > 17 && (newValue = 12);
-            if (priv.lines !== newValue) {
-                priv.lines = newValue;
+            if (this.#lines !== newValue) {
+                this.#lines = newValue;
                 this.propertyChanged('lines');
                 core.isHTMLRenderer && this.owner.update();
             }
@@ -61,16 +65,13 @@ class BusyIndicatorSpinOptions extends Bindable {
     //#endregion lines
     //#region length
     get length() {
-        return core.private(this).length;
+        return this.#length;
     }
     set length(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue < 0 || newValue > 40 && (newValue = 7);
-            if (priv.length !== newValue) {
-                priv.length = newValue;
+            if (this.#length !== newValue) {
+                this.#length = newValue;
                 this.propertyChanged('length');
                 core.isHTMLRenderer && this.owner.update();
             }
@@ -79,16 +80,13 @@ class BusyIndicatorSpinOptions extends Bindable {
     //#endregion length
     //#region width
     get width() {
-        return core.private(this).width;
+        return this.#width;
     }
     set width(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue < 2 || newValue > 30 && (newValue = 4);
-            if (priv.width !== newValue) {
-                priv.width = newValue;
+            if (this.#width !== newValue) {
+                this.#width = newValue;
                 this.propertyChanged('width');
                 core.isHTMLRenderer && this.owner.update();
             }
@@ -97,16 +95,13 @@ class BusyIndicatorSpinOptions extends Bindable {
     //#endregion width
     //#region corners
     get corners() {
-        return core.private(this).corners;
+        return this.#corners;
     }
     set corners(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue < 0 || newValue > 1 && (newValue = 0);
-            if (priv.corners !== newValue) {
-                priv.corners = newValue;
+            if (this.#corners !== newValue) {
+                this.#corners = newValue;
                 this.propertyChanged('corners');
                 core.isHTMLRenderer && this.owner.update();
             }
@@ -115,16 +110,13 @@ class BusyIndicatorSpinOptions extends Bindable {
     //#endregion corners
     //#region direction
     get direction() {
-        return core.private(this).direction;
+        return this.#direction;
     }
     set direction(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue < -1 || newValue > 1 && (newValue = 1);
-            if (priv.direction !== newValue) {
-                priv.direction = newValue;
+            if (this.#direction !== newValue) {
+                this.#direction = newValue;
                 this.propertyChanged('direction');
                 core.isHTMLRenderer && this.owner.update();
             }
@@ -133,16 +125,13 @@ class BusyIndicatorSpinOptions extends Bindable {
     //#endregion direction
     //#region speed
     get speed() {
-        return core.private(this).speed;
+        return this.#speed;
     }
     set speed(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue < 0.5 || newValue > 2.2 && (newValue = 1);
-            if (priv.speed !== newValue) {
-                priv.speed = newValue;
+            if (this.#speed !== newValue) {
+                this.#speed = newValue;
                 this.propertyChanged('speed');
                 core.isHTMLRenderer && this.owner.update();
             }
@@ -151,17 +140,14 @@ class BusyIndicatorSpinOptions extends Bindable {
     //#endregion speed
     //#region trail
     get trail() {
-        return core.private(this).trail;
+        return this.#trail;
     }
     set trail(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue < 10 || newValue > 100 && (newValue = 100);
-            if (priv.trail !== newValue) {
-                priv.trail = newValue;
-                priv.propertyChanged('trail');
+            if (this.#trail !== newValue) {
+                this.#trail = newValue;
+                this.#propertyChanged('trail');
                 core.isHTMLRenderer && this.owner.update();
             }
         }
@@ -198,6 +184,10 @@ Object.seal(BusyIndicatorSpinOptions);
 //#endregion BusyIndicatorSpinOptions
 //#region Class BusyIndicator
 class BusyIndicator extends ThemedControl {
+    //#region Private fields
+    #indicatorStyle;
+    #spinIndicatorOptions;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -212,7 +202,7 @@ class BusyIndicator extends ThemedControl {
                 value: props.hasOwnProperty('indicatorStyle')
                     ? props.indicatorStyle : BUSYINDICATORSTYLES.SPIN
             });
-            core.private(this, { spinIndicatorOptions: new BusyIndicatorSpinOptions(this, props.options) });
+            this.#spinIndicatorOptions = new BusyIndicatorSpinOptions(this, props.options);
             delete this.tabOrder;
         }
     }
@@ -220,14 +210,11 @@ class BusyIndicator extends ThemedControl {
     //#region Getters / Setters
     //#region indicatorStyle
     get indicatorStyle() {
-        return core.private(this).indicatorStyle;
+        return this.#indicatorStyle;
     }
     set indicatorStyle(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, BUSYINDICATORSTYLES) && priv.indicatorStyle !== newValue) {
-            priv.indicatorStyle = newValue;
+        if (core.tools.valueInSet(newValue, BUSYINDICATORSTYLES) && this.#indicatorStyle !== newValue) {
+            this.#indicatorStyle = newValue;
             core.isHTMLRenderer && this.update();
             this.propertyChanged('indicatorStyle');
         }
@@ -245,10 +232,9 @@ class BusyIndicator extends ThemedControl {
     //#region addAnimations
     addAnimations() {
         //#region Variables déclaration
-        const priv = core.private(this);
         let cssProp;
         //#endregion Variables déclaration
-        switch (priv.indicatorStyle) {
+        switch (this.#indicatorStyle) {
             case BUSYINDICATORSTYLES.WIN8CIRCLE:
                 if (!Css.isCSSRuleExist('@keyframes orbit')) {
                     cssProp = ['0% { transform: rotate(225deg);opacity: 1; animation-timing-function: ease-out; } ',
@@ -287,10 +273,7 @@ class BusyIndicator extends ThemedControl {
     //#endregion addAnimations
     //#region removeCssRules
     removeCssRules() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        switch (priv.indicatorStyle) {
+        switch (this.#indicatorStyle) {
             case BUSYINDICATORSTYLES.SPIN:
                 break;
             case BUSYINDICATORSTYLES.WIN8CIRCLE:
@@ -307,7 +290,6 @@ class BusyIndicator extends ThemedControl {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const PX = core.types.CSSUNITS.PX;
         const TAG = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
@@ -323,10 +305,10 @@ class BusyIndicator extends ThemedControl {
         //#endregion Variables déclaration
         if (htmlElement) {
             htmlElement.innerHTML = String.EMPTY;
-            switch (priv.indicatorStyle) {
+            switch (this.#indicatorStyle) {
                 case BUSYINDICATORSTYLES.SPIN:
                     // based on http://fgnass.github.io/spin.js/
-                    sio = priv.spinIndicatorOptions;
+                    sio = this.#spinIndicatorOptions;
                     child = document.createElement(`${TAG}spincontainer`);
                     child.classList.add('spinContainer');
                     for (; i < sio.lines; i++) {
@@ -424,10 +406,7 @@ class BusyIndicator extends ThemedControl {
     //#endregion update
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.spinIndicatorOptions.destroy();
+        this.#spinIndicatorOptions.destroy();
         super.destroy();
     }
     //#endregion destroy

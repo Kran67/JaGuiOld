@@ -6,6 +6,9 @@ import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Import
 //#region Class CustomButton
 class CustomButton extends CaptionControl {
+    //#region Private fields
+
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         //#region Variables déclaration
