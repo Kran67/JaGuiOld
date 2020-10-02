@@ -147,7 +147,7 @@ class BusyIndicatorSpinOptions extends Bindable {
             newValue < 10 || newValue > 100 && (newValue = 100);
             if (this.#trail !== newValue) {
                 this.#trail = newValue;
-                this.#propertyChanged('trail');
+                this.propertyChanged('trail');
                 core.isHTMLRenderer && this.owner.update();
             }
         }

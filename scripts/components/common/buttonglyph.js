@@ -18,6 +18,18 @@ const BUTTONLAYOUTGLYPHS = Object.freeze(Object.seal({
 //#endregion BUTTONLAYOUTGLYPHS
 //#region Class ButtonGlyph
 class ButtonGlyph extends Button {
+    //#region Private fields
+    #glyphPos;
+    #glyphSize;
+    #glyphSpacing;
+    #glyphMargin;
+    #showCaption;
+    #glyphHTMLElement;
+    #src;
+    #layout;
+    #glyph;
+    #textObj;
+    //#endregion Private fields
     //#region BUTTONLAYOUTGLYPHS
     /**
      * @type    {Object}        BUTTONLAYOUTGLYPHS
@@ -33,26 +45,21 @@ class ButtonGlyph extends Button {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                glyphPos: new Point,
-                glyphSize: props.hasOwnProperty('glyphSize') ? props.glyphSize : 32,
-                glyphSpacing: props.hasOwnProperty('glyphSpacing') ? props.glyphSpacing : 4,
-                glyphMargin: props.hasOwnProperty('glyphMargin') ? props.glyphMargin : 0,
-                showCaption: props.hasOwnProperty('showCaption') ? props.showCaption : !0,
-                glyphHTMLElement: props.hasOwnProperty('glyphHTMLElement')
-                    ? props.glyphHTMLElement : core.types.HTMLELEMENTS.IMG,
-                src: props.src ? props.src : String.EMPTY
-            });
+            this.#glyphPos = new Point;
+            this.#glyphSize = props.hasOwnProperty('glyphSize') ? props.glyphSize : 32;
+            this.#glyphSpacing = props.hasOwnProperty('glyphSpacing') ? props.glyphSpacing : 4;
+            this.#glyphMargin = props.hasOwnProperty('glyphMargin') ? props.glyphMargin : 0;
+            this.#showCaption = props.hasOwnProperty('showCaption') ? props.showCaption : !0;
+            this.#glyphHTMLElement = props.hasOwnProperty('glyphHTMLElement')
+                    ? props.glyphHTMLElement : core.types.HTMLELEMENTS.IMG;
+            this.#src = props.src ? props.src : String.EMPTY;
             core.tools.addPropertyFromEnum({
                 component: this,
                 propName: 'layout',
                 enum: BUTTONLAYOUTGLYPHS,
                 setter: function (newValue) {
-                    //#region Variables déclaration
-                    const priv = core.private(this);
-                    //#endregion Variables déclaration
-                    if (core.tools.valueInSet(newValue, BUTTONLAYOUTGLYPHS) && priv.layout !== newValue) {
-                        priv.layout = newValue;
+                    if (core.tools.valueInSet(newValue, BUTTONLAYOUTGLYPHS) && this.#layout !== newValue) {
+                        this.#layout = newValue;
                         core.isHTMLRenderer && !this.loading && !this.form.loading && this.update();
                     }
                 },
@@ -64,63 +71,51 @@ class ButtonGlyph extends Button {
     //#region Getters / Setters
     //#region glyphHTMLElement
     get glyphHTMLElement() {
-        return core.private(this).glyphHTMLElement;
+        return this.#glyphHTMLElement;
     }
     set glyphHTMLElement(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv.glyphHTMLElement !== newValue && (priv.glyphHTMLElement = newValue);
+        core.tools.isString(newValue) && this.#glyphHTMLElement !== newValue && (this.#glyphHTMLElement = newValue);
     }
     //#endregion glyphHTMLElement
     //#region glyph
     get glyph() {
-        return core.private(this).glyph;
+        return this.#glyph;
     }
     //#endregion glyph
     //#region glyph
     get textObj() {
-        return core.private(this).textObj;
+        return this.#textObj;
     }
     //#endregion glyph
     //#region glyphSize
     get glyphSize() {
-        return core.private(this).glyphSize;
+        return this.#glyphSize;
     }
     set glyphSize(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.glyphSize !== newValue) {
-            priv.glyphSize = newValue;
+        if (core.tools.isNumber(newValue) && this.#glyphSize !== newValue) {
+            this.#glyphSize = newValue;
             core.isHTMLRenderer && !this.loading && !this.form.loading && this.update();
         }
     }
     //#endregion glyphSize
     //#region glyphSpacing
     get glyphSpacing() {
-        return core.private(this).glyphSpacing;
+        return this.#glyphSpacing;
     }
     set glyphSpacing(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.glyphSpacing !== newValue) {
-            priv.glyphSpacing = newValue;
+        if (core.tools.isNumber(newValue) && this.#glyphSpacing !== newValue) {
+            this.#glyphSpacing = newValue;
             core.isHTMLRenderer && !this.loading && !this.form.loading && this.update();
         }
     }
     //#endregion glyphSpacing
     //#region glyphMargin
     get glyphMargin() {
-        return core.private(this).glyphMargin;
+        return this.#glyphMargin;
     }
     set glyphMargin(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue instanceof Rect && priv.glyphMargin !== newValue) {
-            priv.glyphMargin = newValue;
+        if (core.tools.isNumber(newValue) && newValue instanceof Rect && this.#glyphMargin !== newValue) {
+            this.#glyphMargin = newValue;
             core.isHTMLRenderer && !this.loading && !this.form.loading && this.update();
         }
     }
@@ -145,30 +140,26 @@ class ButtonGlyph extends Button {
     //#endregion height
     //#region showCaption
     get showCaption() {
-        return core.private(this).showCaption;
+        return this.#showCaption;
     }
     set showCaption(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.showCaption !== newValue) {
-            priv.showCaption = newValue;
+        if (core.tools.isBool(newValue) && this.#showCaption !== newValue) {
+            this.#showCaption = newValue;
             core.isHTMLRenderer && !this.loading && !this.form.loading && this.update();
         }
     }
     //#endregion showCaption
     //#region src
     get src() {
-        return core.private(this).src;
+        return this.#src;
     }
     set src(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const src = priv.src;
-        const glyph = priv.glyph;
+        const src = this.#src;
+        const glyph = this.#glyph;
         //#endregion Variables déclaration
         if (core.tools.isString(newValue) && src !== newValue) {
-            priv.src = newValue;
+            this.#src = newValue;
             if (glyph instanceof Image) {
                 glyph.src = newValue;
                 if (core.isHTMLRenderer) {
@@ -186,23 +177,22 @@ class ButtonGlyph extends Button {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         super.loaded();
         if (core.isHTMLRenderer) {
             Text.setTextNode(htmlElement, String.EMPTY);
-            priv.textObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}caption`);
-            priv.textObj.classList.add('ButtonCaption', 'includeCaption', `${this.constructor.name}Caption`);
-            htmlElement.appendChild(priv.textObj);
-            priv.glyph = document.createElement(priv.glyphHTMLElement);
-            if (priv.glyphHTMLElement === core.types.HTMLELEMENTS.IMG) {
-                priv.glyph.src = priv.src !== String.EMPTY ? priv.src : core.types.CONSTANTS.PIX;
+            this.#textObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}caption`);
+            this.#textObj.classList.add('ButtonCaption', 'includeCaption', `${this.constructor.name}Caption`);
+            htmlElement.appendChild(this.#textObj);
+            this.#glyph = document.createElement(this.#glyphHTMLElement);
+            if (this.#glyphHTMLElement === core.types.HTMLELEMENTS.IMG) {
+                this.#glyph.src = this.#src !== String.EMPTY ? this.#src : core.types.CONSTANTS.PIX;
             }
-            priv.glyph.draggable = !1;
-            htmlElement.appendChild(priv.glyph);
+            this.#glyph.draggable = !1;
+            htmlElement.appendChild(this.#glyph);
         } else {
-            priv.src !== String.EMPTY && (priv.glyph = null);
+            this.#src !== String.EMPTY && (this.#glyph = null);
         }
         this.form.loaded && this.loaded && this.update();
     }
@@ -210,16 +200,15 @@ class ButtonGlyph extends Button {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
-        const layout = priv.layout;
-        const textObj = priv.textObj;
-        const showCaption = priv.showCaption;
+        const layout = this.#layout;
+        const textObj = this.#textObj;
+        const showCaption = this.#showCaption;
         const htmlElementStyle = this.HTMLElementStyle;
-        const glyph = priv.glyph;
+        const glyph = this.#glyph;
         const PX = core.types.CSSUNITS.PX;
-        const glyphMargin = priv.glyphMargin;
-        const glyphSpacing = priv.glyphSpacing;
+        const glyphMargin = this.#glyphMargin;
+        const glyphSpacing = this.#glyphSpacing;
         const isHtmlRenderer = core.isHTMLRenderer;
         //#endregion Variables déclaration
         if (!this.loading && !this.form.loading) {
@@ -255,8 +244,8 @@ class ButtonGlyph extends Button {
                     this.paint();
                 }
                 if (glyph) {
-                    glyph.offsetWidth !== priv.glyphSize && (glyph.style.width = `${priv.glyphSize}${PX}`);
-                    glyph.offsetHeight !== priv.glyphSize && (glyph.style.height = `${priv.glyphSize}${PX}`);
+                    glyph.offsetWidth !== this.#glyphSize && (glyph.style.width = `${this.#glyphSize}${PX}`);
+                    glyph.offsetHeight !== this.#glyphSize && (glyph.style.height = `${this.#glyphSize}${PX}`);
                     if (glyph.offsetWidth > 0 && glyph.offsetHeight > 0) {
                         glyphMargin > 0
                             && ((isHtmlRenderer ? glyph.style : glyph).margin = `${glyphMargin}${PX}`);
@@ -289,10 +278,9 @@ class ButtonGlyph extends Button {
     //#region destroy
     destroy() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const glyph = priv.glyph;
+        const glyph = this.#glyph;
         //#endregion Variables déclaration
-        priv.glyphPos.destroy();
+        this.#glyphPos.destroy();
         glyph && glyph instanceof Path && glyph.destroy();
         super.destroy();
     }
