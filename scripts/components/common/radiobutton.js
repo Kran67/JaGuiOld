@@ -3,29 +3,26 @@ import { Checkbox } from '/scripts/components/common/checkbox.js';
 //#endregion Imports
 //#region Class RadioButton
 class RadioButton extends Checkbox {
+    //#region Private fields
+    #groupName = String.EMPTY;
+    #checkChar = '3';
+    #grayedChar = String.EMPTY;
+    //#endregion Private fields
     //#region Constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                groupName: String.EMPTY,
-                checkChar: '3',
-                grayedChar: String.EMPTY
-            });
         }
     }
     //#endregion Constructor
     //#region Getters / Setters
     //#region allowGrayed
     get groupName() {
-        return core.private(this).groupName;
+        return this.#groupName;
     }
     set groupName(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv.groupName !== newValue && (priv.groupName = newValue);
+        core.tools.isString(newValue) && this.#groupName !== newValue && (this.#groupName = newValue);
     }
     //#endregion allowGrayed
     //#region allowGrayed
@@ -41,9 +38,6 @@ class RadioButton extends Checkbox {
         return super.checked;
     }
     set checked(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && this.checked !== newValue) {
             newValue && (super.checked = newValue);
             // group
@@ -52,7 +46,7 @@ class RadioButton extends Checkbox {
             if (this.form) {
                 const list = this.owner.components;
                 list.forEach(comp => {
-                    if (comp instanceof core.classes.RadioButton && comp !== this && comp.groupName === priv.groupName) {
+                    if (comp instanceof core.classes.RadioButton && comp !== this && comp.groupName === this.#groupName) {
                         comp.checked && cc++;
                         newValue && (comp.checked = !1);
                         c++;

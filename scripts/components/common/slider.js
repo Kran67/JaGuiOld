@@ -19,6 +19,27 @@ const TICKMARKSPOSITION = Object.freeze(Object.seal({
 //#endregion TICKMARKSPOSITION
 //#region Class Slider
 class Slider extends ThemedControl {
+    //#region Private fields
+    #min;
+    #max;
+    #frequency;
+    #showTooltips;
+    #decimalPrecision;
+    #values;
+    #tickmarks;
+    #showTickmarks;
+    #tickmarksPosition;
+    #orientation;
+    #mode;
+    #toolTipsPosition;
+    #leftThumb;
+    #rightThumb;
+    #leftInput;
+    #rightInput;
+    #leftToolTip;
+    #rightToolTip;
+    #range;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -31,18 +52,16 @@ class Slider extends ThemedControl {
             props.allowUpdateOnResize = !0;
             props.mouseEvents = { mousedown: !1, mouseup: !1, click: !1 };
             super(owner, props);
-            core.private(this, {
-                min: props.hasOwnProperty('min') ? props.min : 0,
-                max: props.hasOwnProperty('max') ? props.max : 100,
-                frequency: props.hasOwnProperty('frequency') ? props.frequency : 1,
-                showTooltips: props.hasOwnProperty('showTooltips') ? props.showTooltips : !1,
-                decimalPrecision: props.hasOwnProperty('decimalPrecision') ? props.decimalPrecision : 0,
-                values: props.hasOwnProperty('values') ? props.values : [0, 0],
-                tickmarks: props.hasOwnProperty('tickmarks') ? props.tickmarks : [],
-                showTickmarks: props.hasOwnProperty('showTickmarks') ? props.showTickmarks : !1,
-                tickmarksPosition: props.hasOwnProperty('tickmarksPosition')
-                    ? props.tickmarksPosition : TICKMARKSPOSITION.BOTH
-            });
+            this.#min = props.hasOwnProperty('min') ? props.min : 0;
+            this.#max = props.hasOwnProperty('max') ? props.max : 100;
+            this.#frequency = props.hasOwnProperty('frequency') ? props.frequency : 1;
+            this.#showTooltips = props.hasOwnProperty('showTooltips') ? props.showTooltips : !1;
+            this.#decimalPrecision = props.hasOwnProperty('decimalPrecision') ? props.decimalPrecision : 0;
+            this.#values = props.hasOwnProperty('values') ? props.values : [0, 0];
+            this.#tickmarks = props.hasOwnProperty('tickmarks') ? props.tickmarks : [];
+            this.#showTickmarks = props.hasOwnProperty('showTickmarks') ? props.showTickmarks : !1;
+            this.#tickmarksPosition = props.hasOwnProperty('tickmarksPosition')
+                ? props.tickmarksPosition : TICKMARKSPOSITION.BOTH;
             core.tools.addPropertyFromEnum({
                 component: this,
                 propName: 'orientation',
@@ -87,65 +106,55 @@ class Slider extends ThemedControl {
     //#endregion TICKMARKSPOSITION
     //#region tickmarks
     get tickmarks() {
-        return core.private(this).tickmarks;
+        return this.#tickmarks;
     }
     set tickmarks(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (Array.isArray(newValue) && priv.tickmarks !== newValue) {
-            priv.tickmarks = newValue;
+        if (Array.isArray(newValue) && this.#tickmarks !== newValue) {
+            this.#tickmarks = newValue;
             this.drawTickmarks();
         }
     }
     //#endregion tickmarks
     //#region showTickmarks
     get showTickmarks() {
-        return core.private(this).showTickmarks;
+        return this.#showTickmarks;
     }
     set showTickmarks(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.showTickmarks !== newValue) {
-            priv.showTickmarks = newValue;
+        if (core.tools.isBool(newValue) && this.#showTickmarks !== newValue) {
+            this.#showTickmarks = newValue;
             this.drawTickmarks();
         }
     }
     //#endregion showTickmarks
     //#region tickmarksPosition
     get tickmarksPosition() {
-        return core.private(this).tickmarksPosition;
+        return this.#tickmarksPosition;
     }
     set tickmarksPosition(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, TICKMARKSPOSITION) && priv.tickmarksPosition !== newValue) {
-            priv.tickmarksPosition = newValue;
+        if (core.tools.valueInSet(newValue, TICKMARKSPOSITION) && this.#tickmarksPosition !== newValue) {
+            this.#tickmarksPosition = newValue;
             this.drawTickmarks();
         }
     }
     //#endregion tickmarksPosition
     //#region orientation
     get orientation() {
-        return core.private(this).orientation;
+        return this.#orientation;
     }
     set orientation(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
-        let ori = `orientation-${priv.orientation}`;
+        let ori = `orientation-${this.#orientation}`;
         //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, core.types.ORIENTATIONS) && priv.orientation !== newValue) {
-            [htmlElement, priv.leftThumb, priv.rightThumb, priv.leftInput,
-                priv.rightInput, priv.leftTooltip, priv.rightTooltip].forEach(item => {
+        if (core.tools.valueInSet(newValue, core.types.ORIENTATIONS) && this.#orientation !== newValue) {
+            [htmlElement, this.#leftThumb, this.#rightThumb, this.#leftInput,
+                this.#rightInput, this.#leftToolTip, this.#rightToolTip].forEach(item => {
                     item.classList.remove(ori);
                 });
-            priv.orientation = newValue;
-            ori = `orientation-${priv.orientation}`;
-            [htmlElement, priv.leftThumb, priv.rightThumb, priv.leftInput,
-                priv.rightInput, priv.leftTooltip, priv.rightTooltip].forEach(item => {
+            this.#orientation = newValue;
+            ori = `orientation-${this.#orientation}`;
+            [htmlElement, this.#leftThumb, this.#rightThumb, this.#leftInput,
+                this.#rightInput, this.#leftToolTip, this.#rightToolTip].forEach(item => {
                     item.classList.add(ori);
                 });
             this.update();
@@ -154,81 +163,65 @@ class Slider extends ThemedControl {
     //#endregion orientation
     //#region min
     get min() {
-        return core.private(this).min;
+        return this.#min;
     }
     set min(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.min !== newValue) {
-            priv.min = newValue;
-            priv.leftInput.min = priv.min;
-            priv.rightInput.min = priv.min;
+        if (core.tools.isNumber(newValue) && this.#min !== newValue) {
+            this.#min = newValue;
+            this.#leftInput.min = this.#min;
+            this.#rightInput.min = this.#min;
         }
     }
     //#endregion min
     //#region max
     get max() {
-        return core.private(this).max;
+        return this.#max;
     }
     set max(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.max !== newValue) {
-            priv.max = newValue;
-            priv.leftInput.min = priv.max;
-            priv.rightInput.min = priv.max;
+        if (core.tools.isNumber(newValue) && this.#max !== newValue) {
+            this.#max = newValue;
+            this.#leftInput.min = this.#max;
+            this.#rightInput.min = this.#max;
         }
     }
     //#endregion max
     //#region frequency
     get frequency() {
-        return core.private(this).frequency;
+        return this.#frequency;
     }
     set frequency(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.frequency !== newValue) {
-            priv.frequency = newValue;
-            priv.leftInput.step = priv.frequency;
-            priv.rightInput.step = priv.frequency;
+        if (core.tools.isNumber(newValue) && this.#frequency !== newValue) {
+            this.#frequency = newValue;
+            this.#leftInput.step = this.#frequency;
+            this.#rightInput.step = this.#frequency;
         }
     }
     //#endregion frequency
     //#region getValues
     get values() {
-        const priv = core.private(this);
-        return new core.classes.Point(priv.leftInput.valueAsNumber, priv.rightInput.valueAsNumber);
+        return new core.classes.Point(this.#leftInput.valueAsNumber, this.#rightInput.valueAsNumber);
     }
     set values(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (Array.isArray(newValue)) {
             let leftValue = newValue.first;
             let rightValue = newValue.last;
-            if (priv.mode === SLIDERMODES.RANGE) {
-                leftValue > priv.rightInput.valueAsNumber && (leftValue = priv.rightInput.valueAsNumber - 1);
-                rightValue < priv.leftInput.valueAsNumber && (rightValue = priv.leftInput.valueAsNumber + 1);
+            if (this.#mode === SLIDERMODES.RANGE) {
+                leftValue > this.#rightInput.valueAsNumber && (leftValue = this.#rightInput.valueAsNumber - 1);
+                rightValue < this.#leftInput.valueAsNumber && (rightValue = this.#leftInput.valueAsNumber + 1);
             }
-            priv.leftInput.value !== leftValue && (priv.leftInput.value = leftValue);
-            priv.rightInput && priv.rightInput.value !== rightValue && (priv.rightInput.value = rightValue);
+            this.#leftInput.value !== leftValue && (this.#leftInput.value = leftValue);
+            this.#rightInput && this.#rightInput.value !== rightValue && (this.#rightInput.value = rightValue);
             this.change();
         }
     }
     //#endregion getValues
     //#region firstValue
     get firstValue() {
-        return core.private(this).leftInput.valueAsNumber;
+        return this.#leftInput.valueAsNumber;
     }
     set firstValue(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.leftInput.valueAsNumber !== newValue) {
-            priv.leftInput.valueAsNumber = newValue;
+        if (core.tools.isNumber(newValue) && this.#leftInput.valueAsNumber !== newValue) {
+            this.#leftInput.valueAsNumber = newValue;
             this.propertyChanged('firstValue');
             this.update();
         }
@@ -236,14 +229,11 @@ class Slider extends ThemedControl {
     //#endregion firstValue
     //#region lastValue
     get lastValue() {
-        return core.private(this).rightInput.valueAsNumber;
+        return this.#rightInput.valueAsNumber;
     }
     set lastValue(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.rightInput.valueAsNumber !== newValue) {
-            priv.rightInput.valueAsNumber = newValue;
+        if (core.tools.isNumber(newValue) && this.#rightInput.valueAsNumber !== newValue) {
+            this.#rightInput.valueAsNumber = newValue;
             this.propertyChanged('lastValue');
             this.update();
         }
@@ -251,77 +241,68 @@ class Slider extends ThemedControl {
     //#endregion lastValue
     //#region mode
     get mode() {
-        return core.private(this).mode;
+        return this.#mode;
     }
     set mode(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (core.tools.valueInSet(newValue, SLIDERMODES)) {
             this instanceof core.classes.ColorSlider && (newValue = SLIDERMODES.NORMAL);
-            if (priv.mode !== newValue) {
-                priv.mode = newValue;
+            if (this.#mode !== newValue) {
+                this.#mode = newValue;
                 Object.keys(SLIDERMODES).forEach(mode => {
                     htmlElement.classList.remove(mode);
                 });
-                htmlElement.classList.add(priv.mode);
+                htmlElement.classList.add(this.#mode);
             }
         }
     }
     //#endregion mode
     //#region toolTipsPosition
     get toolTipsPosition() {
-        return core.private(this).toolTipsPosition;
+        return this.#toolTipsPosition;
     }
     set toolTipsPosition(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, core.types.ANCHORS) && priv.toolTipsPosition !== newValue) {
-            priv.leftToolTip.classList.remove(priv.toolTipsPosition);
-            priv.rightToolTip.classList.remove(priv.toolTipsPosition);
-            priv.toolTipsPosition = newValue;
-            priv.leftToolTip.classList.add(priv.toolTipsPosition);
-            priv.rightToolTip.classList.add(priv.toolTipsPosition);
+        if (core.tools.valueInSet(newValue, core.types.ANCHORS) && this.#toolTipsPosition !== newValue) {
+            this.#leftToolTip.classList.remove(this.#toolTipsPosition);
+            this.#rightToolTip.classList.remove(this.#toolTipsPosition);
+            this.#toolTipsPosition = newValue;
+            this.#leftToolTip.classList.add(this.#toolTipsPosition);
+            this.#rightToolTip.classList.add(this.#toolTipsPosition);
         }
     }
     //#endregion toolTipsPosition
     //#region toolTipsPosition
     get decimalPrecision() {
-        return core.private(this).toolTipsPosition;
+        return this.#toolTipsPosition;
     }
     set decimalPrecision(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv.decimalPrecision !== newValue && (priv.decimalPrecision = newValue);
+        core.tools.isNumber(newValue) && this.#decimalPrecision !== newValue && (this.#decimalPrecision = newValue);
     }
     //#endregion toolTipsPosition
     //#region showTooltips
     get showTooltips() {
-        return core.private(this).showTooltips;
+        return this.#showTooltips;
     }
     set showTooltips(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.showTooltips !== newValue) {
-            htmlElement.classList.remove(priv.showTooltips);
-            priv.showTooltips = newValue;
-            htmlElement.classList.add(priv.showTooltips);
+        if (core.tools.isBool(newValue) && this.#showTooltips !== newValue) {
+            htmlElement.classList.remove(this.#showTooltips);
+            this.#showTooltips = newValue;
+            htmlElement.classList.add(this.#showTooltips);
         }
     }
     //#endregion showTooltips
     //#region template
     get template() {
         //#region Variables déclaration
-        const priv = core.private(this);
         let html = super.template;
         const a = html.split('{orientation}');
         //#endregion Variables déclaration
-        html = a.join(priv.orientation);
+        html = a.join(this.#orientation);
         return html;
     }
     //#endregion template
@@ -330,63 +311,62 @@ class Slider extends ThemedControl {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const INPUT = core.types.HTMLELEMENTS.INPUT;
         //#endregion Variables déclaration
-        htmlElement.classList.add(`orientation-${priv.orientation}`);
-        htmlElement.classList.add(priv.mode);
-        priv.showTooltips && htmlElement.classList.add('showTooltips');
+        htmlElement.classList.add(`orientation-${this.#orientation}`);
+        htmlElement.classList.add(this.#mode);
+        this.#showTooltips && htmlElement.classList.add('showTooltips');
         //#region Create Inputs
-        priv.leftInput = document.createElement(INPUT);
-        priv.leftInput.type = 'range';
-        priv.leftInput.classList.add(this.themeName, 'csr_default', 'SliderInput',
-            `orientation-${priv.orientation}`);
-        priv.leftInput.jsObj = this;
-        htmlElement.appendChild(priv.leftInput);
-        Events.bind(priv.leftInput, INPUT, this.change);
-        priv.leftInput.min = priv.min;
-        priv.leftInput.max = priv.max;
-        priv.leftInput.step = priv.frequency;
-        priv.leftInput.valueAsNumber = priv.values.first;
+        this.#leftInput = document.createElement(INPUT);
+        this.#leftInput.type = 'range';
+        this.#leftInput.classList.add(this.themeName, 'csr_default', 'SliderInput',
+            `orientation-${this.#orientation}`);
+        this.#leftInput.jsObj = this;
+        htmlElement.appendChild(this.#leftInput);
+        Events.bind(this.#leftInput, INPUT, this.change);
+        this.#leftInput.min = this.#min;
+        this.#leftInput.max = this.#max;
+        this.#leftInput.step = this.#frequency;
+        this.#leftInput.valueAsNumber = this.#values.first;
 
-        priv.rightInput = document.createElement(INPUT);
-        priv.rightInput.type = 'range';
-        priv.rightInput.classList.add(this.themeName, 'csr_default', 'SliderInput',
-            `orientation-${priv.orientation}`);
-        priv.rightInput.jsObj = this;
-        htmlElement.appendChild(priv.rightInput);
-        Events.bind(priv.rightInput, INPUT, this.change);
-        priv.leftInput.min = priv.min;
-        priv.leftInput.max = priv.max;
-        priv.leftInput.step = priv.frequency;
-        priv.rightInput.valueAsNumber = priv.values.last;
+        this.#rightInput = document.createElement(INPUT);
+        this.#rightInput.type = 'range';
+        this.#rightInput.classList.add(this.themeName, 'csr_default', 'SliderInput',
+            `orientation-${this.#orientation}`);
+        this.#rightInput.jsObj = this;
+        htmlElement.appendChild(this.#rightInput);
+        Events.bind(this.#rightInput, INPUT, this.change);
+        this.#leftInput.min = this.#min;
+        this.#leftInput.max = this.#max;
+        this.#leftInput.step = this.#frequency;
+        this.#rightInput.valueAsNumber = this.#values.last;
         //#endregion Create Inputs
         //#region Create Range
-        priv.range = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}range`);
-        priv.range.classList.add('SliderRange', this.themeName, `orientation-${priv.orientation}`);
-        priv.range.jsObj = this;
-        htmlElement.appendChild(priv.range);
+        this.#range = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}range`);
+        this.#range.classList.add('SliderRange', this.themeName, `orientation-${this.#orientation}`);
+        this.#range.jsObj = this;
+        htmlElement.appendChild(this.#range);
         //#endregion Create Range
         //#region Create Thumbs
-        priv.leftThumb = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}thumb`);
-        priv.leftThumb.classList.add(this.themeName, 'SliderThumb', 'csr_default');
-        priv.leftThumb.jsObj = this;
-        htmlElement.appendChild(priv.leftThumb);
+        this.#leftThumb = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}thumb`);
+        this.#leftThumb.classList.add(this.themeName, 'SliderThumb', 'csr_default');
+        this.#leftThumb.jsObj = this;
+        htmlElement.appendChild(this.#leftThumb);
 
-        priv.rightThumb = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}thumb`);
-        priv.rightThumb.classList.add(this.themeName, 'SliderThumb', 'csr_default');
-        priv.rightThumb.jsObj = this;
-        htmlElement.appendChild(priv.rightThumb);
+        this.#rightThumb = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}thumb`);
+        this.#rightThumb.classList.add(this.themeName, 'SliderThumb', 'csr_default');
+        this.#rightThumb.jsObj = this;
+        htmlElement.appendChild(this.#rightThumb);
         //#endregion Create Thumbs
         //#region Create ToolTips
-        priv.leftTooltip = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}tooltip`);
-        priv.leftTooltip.classList.add(this.themeName, 'SliderTooltip', 'csr_default', `orientation-${priv.orientation}`, priv.toolTipsPosition);
-        htmlElement.appendChild(priv.leftTooltip);
+        this.#leftToolTip = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}tooltip`);
+        this.#leftToolTip.classList.add(this.themeName, 'SliderTooltip', 'csr_default', `orientation-${this.#orientation}`, this.#toolTipsPosition);
+        htmlElement.appendChild(this.#leftToolTip);
 
-        priv.rightTooltip = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}tooltip`);
-        priv.rightTooltip.classList.add(this.themeName, 'SliderTooltip', 'csr_default', `orientation-${priv.orientation}`, priv.toolTipsPosition);
-        htmlElement.appendChild(priv.rightTooltip);
+        this.#rightToolTip = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}tooltip`);
+        this.#rightToolTip.classList.add(this.themeName, 'SliderTooltip', 'csr_default', `orientation-${this.#orientation}`, this.#toolTipsPosition);
+        htmlElement.appendChild(this.#rightToolTip);
         //#endregion Create ToolTips
         htmlElement.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { this.wheel(event); });
         super.loaded();
@@ -396,16 +376,15 @@ class Slider extends ThemedControl {
     //#region moveThumbs
     moveThumbs(lValue, rValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const thumbWidth = priv.leftThumb.offsetWidth / 2;
+        const thumbWidth = this.#leftThumb.offsetWidth / 2;
         const htmlElement = this.HTMLElement;
         const PX = core.types.CSSUNITS.PX;
-        const isVertical = priv.orientation === core.types.ORIENTATIONS.VERTICAL;
+        const isVertical = this.#orientation === core.types.ORIENTATIONS.VERTICAL;
         const size = !isVertical ? htmlElement.offsetWidth : htmlElement.offsetHeight;
         const prop = !isVertical ? 'translateX(' : 'translateY(';
         //#endregion Variables déclaration
-        priv.leftThumb.style.transform = `${prop}${(size * (lValue / 100)) - thumbWidth}${PX})`;
-        priv.rightThumb.style.transform = `${prop}${(size * (rValue / 100)) - thumbWidth}${PX})`;
+        this.#leftThumb.style.transform = `${prop}${(size * (lValue / 100)) - thumbWidth}${PX})`;
+        this.#rightThumb.style.transform = `${prop}${(size * (rValue / 100)) - thumbWidth}${PX})`;
     }
     //#endregion moveThumbs
     //#region change
@@ -433,27 +412,26 @@ class Slider extends ThemedControl {
     //#region drawTickmarks
     drawTickmarks() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const htmlElementStyle = this.HTMLElementStyle;
         const cStyle = getComputedStyle(htmlElement);
         const HORIZONTAL = core.types.ORIENTATIONS.HORIZONTAL;
-        const workingArea = priv.orientation === HORIZONTAL ?
+        const workingArea = this.#orientation === HORIZONTAL ?
             this.width - parseFloat(cStyle.paddingLeft) - parseFloat(cStyle.paddingRight) :
             this.height - parseFloat(cStyle.paddingTop) - parseFloat(cStyle.paddingBottom);
         //#endregion Variables déclaration
         htmlElement.classList.remove('showTickmarks');
         htmlElementStyle.background = String.EMPTY;
-        if (priv.showTickmarks) {
+        if (this.#showTickmarks) {
             htmlElement.classList.add('showTickmarks');
             const tickmarks = [];
-            const tickPosition = priv.tickmarksPosition === TICKMARKSPOSITION.TOP ?
-                '-18px' : priv.tickmarksPosition === TICKMARKSPOSITION.BOTTOM ? '18px' :
-                    priv.orientation === HORIZONTAL ? 'top' : 'left';
-            priv.tickmarks.forEach(tick => {
-                const pos = workingArea * tick / 100 + parseFloat(priv.orientation === HORIZONTAL ?
+            const tickPosition = this.#tickmarksPosition === TICKMARKSPOSITION.TOP ?
+                '-18px' : this.#tickmarksPosition === TICKMARKSPOSITION.BOTTOM ? '18px' :
+                    this.#orientation === HORIZONTAL ? 'top' : 'left';
+            this.#tickmarks.forEach(tick => {
+                const pos = workingArea * tick / 100 + parseFloat(this.#orientation === HORIZONTAL ?
                     cStyle.paddingLeft : cStyle.paddingTop);
-                priv.orientation === HORIZONTAL
+                this.#orientation === HORIZONTAL
                     ? tickmarks.push(`linear-gradient(90deg, var(--ticks-color), var(--ticks-color)) no-repeat ${pos}% ${tickPosition}`)
                     : tickmarks.push(`linear-gradient(0deg, var(--ticks-color), var(--ticks-color)) no-repeat ${tickPosition} ${pos}%`);
             });
@@ -464,27 +442,26 @@ class Slider extends ThemedControl {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const lValue = 100 / (int(priv.max - priv.min)) * priv.leftInput.valueAsNumber - 100 /
-            (int(priv.max - priv.min)) * int(priv.min);
-        const rValue = 100 / (int(priv.max - priv.min)) * priv.rightInput.valueAsNumber - 100 /
-            (int(priv.max - priv.min)) * int(priv.min);
+        const lValue = 100 / (int(this.#max - this.#min)) * this.#leftInput.valueAsNumber - 100 /
+            (int(this.#max - this.#min)) * int(this.#min);
+        const rValue = 100 / (int(this.#max - this.#min)) * this.#rightInput.valueAsNumber - 100 /
+            (int(this.#max - this.#min)) * int(this.#min);
         const PX = core.types.CSSUNITS.PX;
-        const width = `${this.width + priv.leftThumb.offsetWidth}${PX}`;
-        const height = `${this.height + priv.leftThumb.offsetHeight}${PX}`;
+        const width = `${this.width + this.#leftThumb.offsetWidth}${PX}`;
+        const height = `${this.height + this.#leftThumb.offsetHeight}${PX}`;
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (!this.loading && !this.form.loading) {
-            if (priv.orientation === core.types.ORIENTATIONS.VERTICAL) {
-                priv.leftInput.style.width = height;
-                priv.rightInput.style.width = height;
-                priv.leftInput.style.height = `${htmlElement.offsetWidth}${PX}`;
-                priv.rightInput.style.height = `${htmlElement.offsetWidth}${PX}`;
+            if (this.#orientation === core.types.ORIENTATIONS.VERTICAL) {
+                this.#leftInput.style.width = height;
+                this.#rightInput.style.width = height;
+                this.#leftInput.style.height = `${htmlElement.offsetWidth}${PX}`;
+                this.#rightInput.style.height = `${htmlElement.offsetWidth}${PX}`;
             } else {
-                priv.leftInput.style.width = width;
-                priv.rightInput.style.width = width;
-                priv.leftInput.style.height = `${htmlElement.offsetHeight}${PX}`;
-                priv.rightInput.style.height = `${htmlElement.offsetHeight}${PX}`;
+                this.#leftInput.style.width = width;
+                this.#rightInput.style.width = width;
+                this.#leftInput.style.height = `${htmlElement.offsetHeight}${PX}`;
+                this.#rightInput.style.height = `${htmlElement.offsetHeight}${PX}`;
             }
             this.moveThumbs(lValue, rValue);
             this.moveToolTips(lValue, rValue);
@@ -496,14 +473,13 @@ class Slider extends ThemedControl {
     //#region wheel
     wheel(event) {
         //#region Variables déclaration
-        const priv = core.private(this);
         let multiplier;
         //#endregion Variables déclaration
         core.mouse.getMouseInfos(event);
         multiplier = core.mouse.wheelDelta < 0 ? 2 : -2;
-        core.keyboard.shift && priv.mode === SLIDERMODES.RANGE
-            ? this.scrollBy(0, -priv.frequency * multiplier)
-            : this.scrollBy(-priv.frequency * multiplier, 0);
+        core.keyboard.shift && this.#mode === SLIDERMODES.RANGE
+            ? this.scrollBy(0, -this.#frequency * multiplier)
+            : this.scrollBy(-this.#frequency * multiplier, 0);
         core.mouse.stopAllEvents(event);
         this.form.focusedControl !== this && this.setFocus();
     }
@@ -511,7 +487,6 @@ class Slider extends ThemedControl {
     //#region keyDown
     keyDown() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const VKEYSCODES = Keyboard.VKEYSCODES;
         const shift = core.keyboard.shift;
         //#endregion Variables déclaration
@@ -519,15 +494,15 @@ class Slider extends ThemedControl {
         switch (core.keyboard.key) {
             case VKEYSCODES.VK_LEFT:
             case VKEYSCODES.VK_UP:
-                shift && priv.mode === SLIDERMODES.RANGE
-                    ? this.scrollBy(0, -priv.frequency)
-                    : this.scrollBy(-priv.frequency, 0);
+                shift && this.#mode === SLIDERMODES.RANGE
+                    ? this.scrollBy(0, -this.#frequency)
+                    : this.scrollBy(-this.#frequency, 0);
                 break;
             case VKEYSCODES.VK_RIGHT:
             case VKEYSCODES.VK_DOWN:
-                shift && priv.mode === SLIDERMODES.RANGE
-                    ? this.scrollBy(0, priv.frequency)
-                    : this.scrollBy(priv.frequency, 0);
+                shift && this.#mode === SLIDERMODES.RANGE
+                    ? this.scrollBy(0, this.#frequency)
+                    : this.scrollBy(this.#frequency, 0);
                 break;
             case VKEYSCODES.VK_HOME:
                 //if ($j.keyboard.shift && this.mode === $j.types.sliderModes.RANGE) this.setValues([this.leftValue, this.rightValue])
@@ -538,68 +513,63 @@ class Slider extends ThemedControl {
                 //else this.setValues([this.max, this.rightValue]);
                 break;
             case VKEYSCODES.VK_PAGEUP:
-                shift && priv.mode === SLIDERMODES.RANGE
-                    ? this.scrollBy(0, -priv.frequency * 2)
-                    : this.scrollBy(-priv.frequency * 2, 0);
+                shift && this.#mode === SLIDERMODES.RANGE
+                    ? this.scrollBy(0, -this.#frequency * 2)
+                    : this.scrollBy(-this.#frequency * 2, 0);
                 break;
             case VKEYSCODES.VK_PAGEDOWN:
-                shift && priv.mode === SLIDERMODES.RANGE
-                    ? this.scrollBy(0, priv.frequency * 2)
-                    : this.scrollBy(priv.frequency * 2, 0);
+                shift && this.#mode === SLIDERMODES.RANGE
+                    ? this.scrollBy(0, this.#frequency * 2)
+                    : this.scrollBy(this.#frequency * 2, 0);
                 break;
         }
     }
     //#endregion keyDown
     //#region scrollBy
     scrollBy(offsetFirst, offsetLast) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         this.values = [
-            priv.leftInput.valueAsNumber + offsetFirst,
-            priv.rightInput ? priv.rightInput.valueAsNumber + offsetLast : 0
+            this.#leftInput.valueAsNumber + offsetFirst,
+            this.#rightInput ? this.#rightInput.valueAsNumber + offsetLast : 0
         ];
     }
     //#endregion scrollBy
     //#region moveToolTips
     moveToolTips(lValue, rValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const PX = core.types.CSSUNITS.PX;
-        const isVertical = priv.orientation === core.types.ORIENTATIONS.VERTICAL;
+        const isVertical = this.#orientation === core.types.ORIENTATIONS.VERTICAL;
         const size = !isVertical ? htmlElement.offsetWidth : htmlElement.offsetHeight;
         const prop = !isVertical ? 'translateX(' : 'translateY(';
         let leftPos = (size * (lValue / 100));
         let rightPos = (size * (rValue / 100));
         //#endregion Variables déclaration
-        if (priv.showTooltips) {
-            priv.leftTooltip.innerHTML = priv.leftInput.valueAsNumber.toFixed(priv.decimalPrecision);
-            priv.rightTooltip.innerHTML = priv.rightInput.valueAsNumber.toFixed(priv.decimalPrecision);
-            priv.leftTooltip.style.transform = `${prop}calc(${leftPos}${PX} - 50%))`;
-            priv.rightTooltip.style.transform = `${prop}calc(${rightPos}${PX} - 50%))`;
+        if (this.#showTooltips) {
+            this.#leftToolTip.innerHTML = this.#leftInput.valueAsNumber.toFixed(this.#decimalPrecision);
+            this.#rightToolTip.innerHTML = this.#rightInput.valueAsNumber.toFixed(this.#decimalPrecision);
+            this.#leftToolTip.style.transform = `${prop}calc(${leftPos}${PX} - 50%))`;
+            this.#rightToolTip.style.transform = `${prop}calc(${rightPos}${PX} - 50%))`;
         }
     }
     //#endregion moveToolTips
     //#region destroyToolTips
     destroyToolTips() {
-        priv.leftToolTip = null;
-        priv.rightToolTip = null;
+        this.#leftToolTip = null;
+        this.#rightToolTip = null;
     }
     //#endregion destroyToolTips
     //#region destroy
     destroy() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        priv.leftInput ? htmlElement.removeChild(priv.leftInput) : null;
-        priv.rightInput ? htmlElement.removeChild(priv.rightInput) : null;
-        priv.range ? htmlElement.removeChild(priv.range) : null;
-        priv.leftThumb ? htmlElement.removeChild(priv.leftThumb) : null;
-        priv.rightThumb ? htmlElement.removeChild(priv.rightThumb) : null;
-        priv.leftToolTip ? htmlElement.removeChild(priv.leftToolTip) : null;
-        priv.rightToolTip ? htmlElement.removeChild(priv.rightToolTip) : null;
+        this.#leftInput ? htmlElement.removeChild(this.#leftInput) : null;
+        this.#rightInput ? htmlElement.removeChild(this.#rightInput) : null;
+        this.#range ? htmlElement.removeChild(this.#range) : null;
+        this.#leftThumb ? htmlElement.removeChild(this.#leftThumb) : null;
+        this.#rightThumb ? htmlElement.removeChild(this.#rightThumb) : null;
+        this.#leftToolTip ? htmlElement.removeChild(this.#leftToolTip) : null;
+        this.#rightToolTip ? htmlElement.removeChild(this.#rightToolTip) : null;
         this.unBindAndDestroyEvents(['onChange']);
         super.destroy();
     }
@@ -607,18 +577,17 @@ class Slider extends ThemedControl {
     //#region moveRange
     moveRange(lValue, rValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const PX = core.types.CSSUNITS.PX;
-        const isVertical = priv.orientation === core.types.ORIENTATIONS.VERTICAL;
+        const isVertical = this.#orientation === core.types.ORIENTATIONS.VERTICAL;
         const size = !isVertical ? htmlElement.offsetWidth : htmlElement.offsetHeight;
         const leftPos = !isVertical ? `${(size * (lValue / 100))}${PX}` : 0;
         const rightPos = !isVertical ? `${(htmlElement.offsetWidth - (size * (rValue / 100)))}${PX}` : 0;
         const topPos = isVertical ? `${(size * (lValue / 100))}${PX}` : 0;
         const bottomPos = isVertical ? `${(htmlElement.offsetHeight - (size * (rValue / 100)))}${PX}` : 0;
         //#endregion Variables déclaration
-        if (priv.mode === SLIDERMODES.RANGE) {
-            priv.range.style.clipPath = `inset(${topPos} ${rightPos} ${bottomPos} ${leftPos})`;
+        if (this.#mode === SLIDERMODES.RANGE) {
+            this.#range.style.clipPath = `inset(${topPos} ${rightPos} ${bottomPos} ${leftPos})`;
         }
     }
     //#endregion moveRange

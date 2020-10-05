@@ -15,15 +15,17 @@ const IMAGEWRAPS = Object.freeze(Object.seal({
 //#endregion
 //#region Class Image
 class Image extends Control {
+    //#region Private fields
+    #src;
+    #bitmap = 'No image';
+    #wrapMode;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                src: props.hasOwnProperty('src') ? props.src : core.types.CONSTANTS.PIX,
-                bitmap: 'No image'
-            });
+            this.#src = props.hasOwnProperty('src') ? props.src : core.types.CONSTANTS.PIX;
             core.tools.addPropertyFromEnum({
                 component: this,
                 propName: 'wrapMode',
@@ -45,14 +47,11 @@ class Image extends Control {
     //#region Getters / Setters
     //#region bitmap
     get bitmap() {
-        return core.private(this).bitmap;
+        return this.#bitmap;
     }
     set bitmap(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof Image && priv.src !== newValue.src) {
-            priv.src = newValue.src;
+        if (newValue instanceof Image && this.#src !== newValue.src) {
+            this.#src = newValue.src;
             this.backgroundImage.backgroundImage = `url(${newValue.src})`;
             this.update();
         }
@@ -60,14 +59,11 @@ class Image extends Control {
     //#endregion bitmap
     //#region wrapMode
     get wrapMode() {
-        return core.private(this).wrapMode;
+        return this.#wrapMode;
     }
     set wrapMode(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, IMAGEWRAPS) && priv.wrapMode !== newValue) {
-            priv.wrapMode = newValue;
+        if (core.tools.valueInSet(newValue, IMAGEWRAPS) && this.#wrapMode !== newValue) {
+            this.#wrapMode = newValue;
             !this.loading && !this.form.loading && this.update();
         }
     }
@@ -82,12 +78,11 @@ class Image extends Control {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElementStyle = this.HTMLElementStyle;
         //#endregion Variables déclaration
         //super.update();
         if (!this.loading && !this.form.loading) {
-            switch (priv.wrapMode) {
+            switch (this.#wrapMode) {
                 case IMAGEWRAPS.ORIGINAL:
                     htmlElementStyle.backgroundSize = 'auto auto';
                     htmlElementStyle.backgroundPosition = 'auto auto';
@@ -114,19 +109,13 @@ class Image extends Control {
     //#endregion update
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
-        priv.src && this.load(priv.src);
+        this.#src && this.load(this.#src);
     }
     //#endregion loaded
     //#region load
     load(uri) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.src = uri;
+        this.#src = uri;
         this.HTMLElementStyle.backgroundImage = `url(${uri})`;
         this.update();
     }
@@ -141,14 +130,14 @@ Object.defineProperties(Image.prototype, {
 //#endregion Image
 //#region Class Image
 class Icon extends ThemedControl {
+    //#region Private fields
+    #cssClass = String.EMPTY;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                cssClass: String.EMPTY
-            });
             delete this.tabOrder;
         }
     }
@@ -159,13 +148,12 @@ class Icon extends ThemedControl {
     //#region changeCSS
     changeCSS(cssClass) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        if (core.tools.isString(cssClass) && !String.isNullOrEmpty(cssClass) && priv.cssClass !== cssClass) {
-            !String.isNullOrEmpty(priv.cssClass) && htmlElement.classList.remove(priv.cssClass);
+        if (core.tools.isString(cssClass) && !String.isNullOrEmpty(cssClass) && this.#cssClass !== cssClass) {
+            !String.isNullOrEmpty(this.#cssClass) && htmlElement.classList.remove(this.#cssClass);
             htmlElement.classList.add(cssClass);
-            priv.cssClass = cssClass;
+            this.#cssClass = cssClass;
         }
     }
     //#endregion changeCSS

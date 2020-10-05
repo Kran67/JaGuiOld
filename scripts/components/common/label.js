@@ -4,6 +4,9 @@ import { LabelEffect } from './labeleffects.js';
 //#endregion Import
 //#region Label
 class Label extends CaptionControl {
+    //#region Private fields
+    #effect = null;
+    //#endregion Private fields
     //#region Constructor
     constructor(owner, props) {
         //#region Variables déclaration
@@ -12,16 +15,11 @@ class Label extends CaptionControl {
         if (owner) {
             props.clipped = !1;
             super(owner, props);
-            //#region Private
-            core.private(this, {
-                effect: null
-            });
             if (props.effect) {
                 const effectClassName = core.classes[`Label${props.effect.name.firstCharUpper}Effect`];
-                priv.effect = props.hasOwnProperty('effect') && effectClassName
+                this.#effect = props.hasOwnProperty('effect') && effectClassName
                     ? new effectClassName(this, props.effect.properties) : null;
             }
-            //#endregion Private
             delete this.tabOrder;
         }
     }
@@ -29,18 +27,17 @@ class Label extends CaptionControl {
     //#region Getters / Setters
     //#region effet
     get effect() {
-        return core.private(this).effect;
+        return this.#effect;
     }
     set effect(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (newValue instanceof LabelEffect || newValue == null) {
-            if (priv.effect !== newValue) {
-                priv.effect && htmlElement.classList.remove(priv.effect.cssName);
-                priv.effect && priv.effect.destroy();
-                priv.effect = newValue;
+            if (this.#effect !== newValue) {
+                this.#effect && htmlElement.classList.remove(this.#effect.cssName);
+                this.#effect && this.#effect.destroy();
+                this.#effect = newValue;
                 //newValue && htmlElement.classList.add(this.effect.cssName);
                 this.update();
             }
@@ -61,7 +58,6 @@ class Label extends CaptionControl {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElementStyle = this.HTMLElementStyle;
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
@@ -70,10 +66,10 @@ class Label extends CaptionControl {
                 htmlElement.innerHTML = this.caption;
                 this.updateCssProperties();
             }
-            if (priv.effect) {
+            if (this.#effect) {
                 htmlElementStyle.textShadow = String.EMPTY;
-                htmlElement.classList.add(priv.effect.cssName);
-                priv.effect.update();
+                htmlElement.classList.add(this.#effect.cssName);
+                this.#effect.update();
             }
         } else {
             //
@@ -82,10 +78,7 @@ class Label extends CaptionControl {
     //#endregion update
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.effect && priv.effect.destroy();
+        this.#effect && this.#effect.destroy();
         super.destroy();
     }
     //#endregion destroy

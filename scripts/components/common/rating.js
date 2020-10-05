@@ -12,6 +12,16 @@ const RATINGPRECISIONS = Object.freeze(Object.seal({
 //#endregion RATINGPRECISIONS
 //#region Class Rating
 class Rating extends ThemedControl {
+    //#region Private fields
+    #nbItem;
+    #value;
+    #precision;
+    #orientation;
+    #normalImg;
+    #hoveredImg;
+    #selectedImg;
+    #ratingObj;
+    //#endregion Private fields
     //#region Statics
     static get RATINGPRECISIONS() {
         return RATINGPRECISIONS;
@@ -33,10 +43,8 @@ class Rating extends ThemedControl {
             props.canFocused = !1;
             props.allowUpdateOnResize = !0;
             super(owner, props);
-            const priv = core.private(this, {
-                nbItem: props.hasOwnProperty('nbItem') ? props.nbItem : 5,
-                value: props.hasOwnProperty('value') ? props.value : 0
-            });
+            this.#nbItem = props.hasOwnProperty('nbItem') ? props.nbItem : 5;
+            this.#value = props.hasOwnProperty('value') ? props.value : 0;
             core.tools.addPropertyFromEnum({
                 component: this,
                 propName: 'precision',
@@ -44,31 +52,31 @@ class Rating extends ThemedControl {
                 value: props.hasOwnProperty('precision') ? props.precision : RATINGPRECISIONS.WHOLEITEM
             });
             if (props.hasOwnProperty('normalImg')) {
-                priv.normalImg = new Image;
-                Events.bind(priv.normalImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
-                Events.bind(priv.normalImg, HTMLEVENTS.ERROR, this.doBitmapNotLoaded);
-                priv.normalImg.obj = this;
-                priv.normalImg.src = props.normalImg;
+                this.#normalImg = new Image;
+                Events.bind(this.#normalImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
+                Events.bind(this.#normalImg, HTMLEVENTS.ERROR, this.doBitmapNotLoaded);
+                this.#normalImg.obj = this;
+                this.#normalImg.src = props.normalImg;
             } else {
-                priv.normalImg = 'var(--normlaImg)';
+                this.#normalImg = 'var(--normlaImg)';
             }
             if (props.hasOwnProperty('hoveredImg')) {
-                priv.hoveredImg = new Image;
-                Events.bind(priv.hoveredImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
-                Events.bind(priv.hoveredImg, HTMLEVENTS.ERROR, this.doBitmapNotLoaded);
-                priv.hoveredImg.obj = this;
-                priv.hoveredImg.src = props.hoveredImg;
+                this.#hoveredImg = new Image;
+                Events.bind(this.#hoveredImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
+                Events.bind(this.#hoveredImg, HTMLEVENTS.ERROR, this.doBitmapNotLoaded);
+                this.#hoveredImg.obj = this;
+                this.#hoveredImg.src = props.hoveredImg;
             } else {
-                priv.normalImg = 'var(--hoveredImg)';
+                this.#normalImg = 'var(--hoveredImg)';
             }
             if (props.hasOwnProperty('selectedImg')) {
-                priv.selectedImg = new Image;
-                Events.bind(priv.selectedImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
-                Events.bind(priv.selectedImg, HTMLEVENTS.ERROR, this.doBitmapNotLoaded);
-                priv.selectedImg.obj = this;
-                priv.selectedImg.src = props.selectedImg;
+                this.#selectedImg = new Image;
+                Events.bind(this.#selectedImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
+                Events.bind(this.#selectedImg, HTMLEVENTS.ERROR, this.doBitmapNotLoaded);
+                this.#selectedImg.obj = this;
+                this.#selectedImg.src = props.selectedImg;
             } else {
-                priv.normalImg = 'var(--hoveredImg)';
+                this.#normalImg = 'var(--hoveredImg)';
             }
             core.tools.addPropertyFromEnum({
                 component: this,
@@ -83,28 +91,22 @@ class Rating extends ThemedControl {
     //#region Getters / Setters
     //#region orientation
     get orientation() {
-        return core.private(this).orientation;
+        return this.#orientation;
     }
     set orientation(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, core.types.ORIENTATIONS) && priv.orientation !== newValue) {
-            priv.orientation = newValue;
+        if (core.tools.valueInSet(newValue, core.types.ORIENTATIONS) && this.#orientation !== newValue) {
+            this.#orientation = newValue;
             this.update();
         }
     }
     //#endregion orientation
     //#region precision
     get precision() {
-        return core.private(this).precision;
+        return this.#precision;
     }
     set precision(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, RATINGPRECISIONS) && priv.precision !== newValue) {
-            priv.precision = newValue;
+        if (core.tools.valueInSet(newValue, RATINGPRECISIONS) && this.#precision !== newValue) {
+            this.#precision = newValue;
             this.checkValue();
             this.allowUpdate && this.update();
         }
@@ -112,14 +114,11 @@ class Rating extends ThemedControl {
     //#endregion precision
     //#region value
     get value() {
-        return core.private(this).value;
+        return this.#value;
     }
     set value(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.value !== newValue) {
-            priv.value = Math.max(Math.min(newValue, priv.nbItem), 0);
+        if (core.tools.isNumber(newValue) && this.#value !== newValue) {
+            this.#value = Math.max(Math.min(newValue, this.#nbItem), 0);
             this.checkValue();
             this.allowUpdate && this.update();
         }
@@ -127,56 +126,44 @@ class Rating extends ThemedControl {
     //#endregion value
     //#region nbItem
     get nbItem() {
-        return core.private(this).nbItem;
+        return this.#nbItem;
     }
     set nbItem(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv.nbItem) {
-            priv.nbItem = newValue;
+        if (core.tools.isNumber(newValue) && newValue !== this.#nbItem) {
+            this.#nbItem = newValue;
             this.allowUpdate && this.update();
         }
     }
     //#endregion nbItem
     //#region normalImg
     get normalImg() {
-        return core.private(this).normalImg;
+        return this.#normalImg;
     }
     set normalImg(imgSrc) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isString(imgSrc)) {
-            priv.normalImg.src = imgSrc;
+            this.#normalImg.src = imgSrc;
             this.update();
         }
     }
     //#endregion normalImg
     //#region hoveredImg
     get hoveredImg() {
-        return core.private(this).hoveredImg;
+        return this.#hoveredImg;
     }
     set hoveredImg(imgSrc) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isString(imgSrc)) {
-            priv.hoveredImg.src = imgSrc;
+            this.#hoveredImg.src = imgSrc;
             this.update();
         }
     }
     //#endregion hoveredImg
     //#region selectedImg
     get selectedImg() {
-        return core.private(this).hoveredImg;
+        return this.#hoveredImg;
     }
     set selectedImg(imgSrc) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isString(imgSrc)) {
-            priv.selectedImg.src = imgSrc;
+            this.#selectedImg.src = imgSrc;
             this.update();
         }
     }
@@ -185,17 +172,14 @@ class Rating extends ThemedControl {
     //#region Methods
     //#region checkValue
     checkValue() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        switch (priv.precision) {
+        switch (this.#precision) {
             case RATINGPRECISIONS.WHOLEITEM:
-                this.value = Math.ceil(priv.value);
+                this.value = Math.ceil(this.#value);
                 break;
             case RATINGPRECISIONS.HALFANITEM:
                 {
-                    const f = Math.frac(priv.value);
-                    this.value = f > 0 && f <= 0.5 ? int(priv.value) + 0.5 : int(priv.value);
+                    const f = Math.frac(this.#value);
+                    this.value = f > 0 && f <= 0.5 ? int(this.#value) + 0.5 : int(this.#value);
                 }
                 break;
         }
@@ -204,43 +188,33 @@ class Rating extends ThemedControl {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const ORIENTATIONS = core.types.ORIENTATIONS;
         let offset;
         let clipRect = [0];
-        const isHoriz = priv.orientation === ORIENTATIONS.HORIZONTAL;
+        const isHoriz = this.#orientation === ORIENTATIONS.HORIZONTAL;
         const ori = isHoriz ? 'Width' : 'Height';
         //#endregion Variables déclaration
-        offset = priv.value * (priv.normalImg instanceof Image
-            ? priv.normalImg[`natural${ori}`] : this[ori.toLowerCase()] / priv.nbItem);
+        offset = this.#value * (this.#normalImg instanceof Image
+            ? this.#normalImg[`natural${ori}`] : this[ori.toLowerCase()] / this.#nbItem);
         clipRect = [...clipRect, isHoriz ? this.width - offset : 0];
         clipRect = [...clipRect, !isHoriz ? this.height - offset : 0];
         clipRect = [...clipRect, 0];
-        priv.ratingObj.style.clipPath = `inset(${clipRect.join("px ")}`;
-        //super.update();
+        this.#ratingObj.style.clipPath = `inset(${clipRect.join("px ")}`;
     }
     //#endregion update
     //#region mouseEnter
     mouseEnter() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.mouseEnter();
-        priv.hoveredImg instanceof Image
-            //&& priv.ratingObj.style.backgroundImage !== `url('${priv.hoveredImg.src}')`
-            && (priv.ratingObj.style.backgroundImage = `url('${priv.hoveredImg.src}')`);
+        this.#hoveredImg instanceof Image
+            && (this.#ratingObj.style.backgroundImage = `url('${this.#hoveredImg.src}')`);
     }
     //#endregion mouseEnter
     //#region mouseLeave
     mouseLeave() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.mouseLeave();
         this.update();
-        priv.selectedImg instanceof Image
-            //&& priv.ratingObj.style.backgroundImage !== `url('${priv.selectedImg.src}')`
-            && (priv.ratingObj.style.backgroundImage = `url('${priv.selectedImg.src}')`);
+        this.#selectedImg instanceof Image
+            && (this.#ratingObj.style.backgroundImage = `url('${this.#selectedImg.src}')`);
     }
     //#endregion mouseLeave
     //#region mouseMove
@@ -261,35 +235,34 @@ class Rating extends ThemedControl {
     //#region updateRatingProgress
     updateRatingProgress() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const ORIENTATIONS = core.types.ORIENTATIONS;
-        const isHoriz = priv.orientation === ORIENTATIONS.HORIZONTAL;
+        const isHoriz = this.#orientation === ORIENTATIONS.HORIZONTAL;
         const ori = isHoriz ? 'Width' : 'Height';
-        const imgSize = priv.normalImg instanceof Image
-            ? priv.normalImg[`natural${ori}`] : this[ori.toLowerCase()] / priv.nbItem;
+        const imgSize = this.#normalImg instanceof Image
+            ? this.#normalImg[`natural${ori}`] : this[ori.toLowerCase()] / this.#nbItem;
         const isMouseMove = core.mouse.eventType === Mouse.MOUSEEVENTS.MOVE;
         let offset = 0;
         let clipRect = [];
         //#endregion Variables déclaration
         offset = isHoriz ? core.mouse.target.x : offset = core.mouse.target.y;
         clipRect.push(0);
-        switch (priv.precision) {
+        switch (this.#precision) {
             case RATINGPRECISIONS.WHOLEITEM:
                 offset = Math.ceil(offset / imgSize) * imgSize;
-                !isMouseMove && (priv.value = int(offset / imgSize));
+                !isMouseMove && (this.#value = int(offset / imgSize));
                 break;
             case RATINGPRECISIONS.HALFANITEM:
                 offset = int(offset / (imgSize / 2) + 1) * int(imgSize / 2);
-                !isMouseMove && (priv.value = offset / imgSize);
+                !isMouseMove && (this.#value = offset / imgSize);
                 break;
             case RATINGPRECISIONS.EXACTPRECISION:
-                !isMouseMove && (priv.value = +(offset / imgSize).toFixed(1));
+                !isMouseMove && (this.#value = +(offset / imgSize).toFixed(1));
                 break;
         }
         clipRect = [...clipRect, isHoriz ? this.width - offset : 0];
         clipRect = [...clipRect, !isHoriz ? this.height - offset : 0];
         clipRect = [...clipRect, 0];
-        priv.ratingObj.style.clipPath = `inset(${clipRect.join("px ")}`;
+        this.#ratingObj.style.clipPath = `inset(${clipRect.join("px ")}`;
     }
     //#endregion updateRatingProgress
     //#region realign
@@ -324,18 +297,17 @@ class Rating extends ThemedControl {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (!htmlElement.querySelector('.RatingProgress')) {
-            priv.ratingObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}progress`);
-            priv.ratingObj.classList.add('RatingProgress', this.themeName, `orientation-${priv.orientation}`);
-            htmlElement.appendChild(priv.ratingObj);
+            this.#ratingObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}progress`);
+            this.#ratingObj.classList.add('RatingProgress', this.themeName, `orientation-${this.#orientation}`);
+            htmlElement.appendChild(this.#ratingObj);
         }
         super.loaded();
-        priv.selectedImg instanceof Image
-            && priv.ratingObj.style.backgroundImage !== `url('${priv.selectedImg.src}')`
-            && (priv.ratingObj.style.backgroundImage = `url('${priv.selectedImg.src}')`);
+        this.#selectedImg instanceof Image
+            && this.#ratingObj.style.backgroundImage !== `url('${this.#selectedImg.src}')`
+            && (this.#ratingObj.style.backgroundImage = `url('${this.#selectedImg.src}')`);
         this.update();
     }
     //#endregion loaded

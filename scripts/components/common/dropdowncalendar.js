@@ -31,6 +31,9 @@ class CalendarPopup extends Calendar {
 //#endregion CalendarPopup
 //#region Class DropDownCalendarPopup
 class DropDownCalendarPopup extends PopupBox {
+    //#region Private fields
+    #calendar;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         //#region Variables déclaration
@@ -46,7 +49,7 @@ class DropDownCalendarPopup extends PopupBox {
     //#region Getters / Setters
     //#region calendar
     get calendar() {
-        return core.private(this).calendar;
+        return this.#calendar;
     }
     //#endregion calendar
     //#endregion Getters / Setters
@@ -57,7 +60,7 @@ class DropDownCalendarPopup extends PopupBox {
         const priv = core.private(this);
         //#endregion Variables déclaration
         super.show(x, y);
-        !priv.calendar.HTMLElement && priv.calendar.getHTMLElement(priv.calendar.internalId);
+        !this.#calendar.HTMLElement && this.#calendar.getHTMLElement(this.#calendar.internalId);
     }
     //#endregion show
     //#region loaded
@@ -66,12 +69,12 @@ class DropDownCalendarPopup extends PopupBox {
         const priv = core.private(this);
         //#endregion Variables déclaration
         super.loaded();
-        priv.calendar = core.classes.createComponent({
+        this.#calendar = core.classes.createComponent({
             class: CalendarPopup,
             owner: this,
             canFocused: !1
         });
-        priv.calendar.dropDownCalendar = this.owner;
+        this.#calendar.dropDownCalendar = this.owner;
     }
     //#endregion loaded
     //#region destroy
@@ -89,6 +92,13 @@ Object.seal(DropDownCalendarPopup);
 //#endregion DropDownCalendarPopup
 //#region Class DropDownCalendar
 class DropDownCalendar extends ThemedControl {
+    //#region Private fields
+    #opened;
+    #date;
+    #text;
+    #dropDownPopup;
+    #content;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         //#region Variables déclaration
@@ -98,14 +108,12 @@ class DropDownCalendar extends ThemedControl {
             props.height = 20;
             props.canFocused = !0;
             props.autoCapture = !0;
-            //priv.editable=!1;
+            //this.#editable=!1;
             super(owner, props);
-            core.private(this, {
-                opened: props.hasOwnProperty('opened') && core.tools.isBool(props.opened)
-                    ? props.opened : !1,
-                date : props.hasOwnProperty('date') ? new Date(props.date) : new Date(),
-                text : props.hasOwnProperty('text') ? props.text : String.EMPTY
-            });
+            this.#opened = props.hasOwnProperty('opened') && core.tools.isBool(props.opened)
+                    ? props.opened : !1;
+            this.#date = props.hasOwnProperty('date') ? new Date(props.date) : new Date();
+            this.#text = props.hasOwnProperty('text') ? props.text : String.EMPTY;
             this.createEventsAndBind(['onChange'], props);
         }
     }
@@ -113,49 +121,40 @@ class DropDownCalendar extends ThemedControl {
     //#region Getters / Setters
     //#region dropDownPopup
     get dropDownPopup() {
-        return core.private(this).dropDownPopup;
+        return this.#dropDownPopup;
     }
     //#endregion dropDownPopup
     //#region text
     get text() {
-        return core.private(this).text;
+        return this.#text;
     }
     set text(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.text !== newValue) {
-            priv.text = newValue;
+        if (core.tools.isString(newValue) && this.#text !== newValue) {
+            this.#text = newValue;
             this.update();
         }
     }
     //#endregion text
     //#region opened
     get opened() {
-        return core.private(this).opened;
+        return this.#opened;
     }
     set opened(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.opened !== newValue) {
-            priv.opened = newValue;
+        if (core.tools.isBool(newValue) && this.#opened !== newValue) {
+            this.#opened = newValue;
             this.update();
-            priv.opened ? this.showPopup() : this.form.closePopups();
+            this.#opened ? this.showPopup() : this.form.closePopups();
         }
     }
     //#endregion opened
     //#region date
     get date() {
-        return core.private(this).date;
+        return this.#date;
     }
     set date(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if ((newValue instanceof Date) && !priv.date.equals(newValue)) {
-            priv.date = new Date(newValue);
-            priv.text = priv.date.toString(core.currentLocale, core.tools.getLocale().date.formatPatterns.shortDate);
+        if ((newValue instanceof Date) && !this.#date.equals(newValue)) {
+            this.#date = new Date(newValue);
+            this.#text = this.#date.toString(core.currentLocale, core.tools.getLocale().date.formatPatterns.shortDate);
             this.update();
             this.onChange.invoke();
         }
@@ -164,11 +163,10 @@ class DropDownCalendar extends ThemedControl {
     //#region template
     get template() {
         //#region Variables déclaration
-        const priv = core.private(this);
         let html = super.template();
         let a = html.split('{date}');
         //#endregion Variables déclaration
-        html = a.join(priv.date.toString(core.currentLocale, core.tools.getLocale().date.formatPatterns.shortDate));
+        html = a.join(this.#date.toString(core.currentLocale, core.tools.getLocale().date.formatPatterns.shortDate));
         return html;
     }
     //#endregion template
@@ -177,18 +175,16 @@ class DropDownCalendar extends ThemedControl {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        priv.opened ? htmlElement.classList.add('opened') : htmlElement.classList.remove('opened');
-        priv.content && (priv.content.innerHTML = priv.text);
+        this.#opened ? htmlElement.classList.add('opened') : htmlElement.classList.remove('opened');
+        this.#content && (this.#content.innerHTML = this.#text);
     }
     //#endregion update
     //#region mouseDown
     mouseDown() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const lastOpened = priv.opened;
+        const lastOpened = this.#opened;
         //#endregion Variables déclaration
         this === this.form.focusedControl && lastOpened && (this.closePopups = !1);
         super.mouseDown();
@@ -199,11 +195,10 @@ class DropDownCalendar extends ThemedControl {
     //#region showPopup
     showPopup() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const pt = this.clientToDocument();
         //#endregion Variables déclaration
-        if (!priv.dropDownPopup) {
-            priv.dropDownPopup = core.classes.createComponent({
+        if (!this.#dropDownPopup) {
+            this.#dropDownPopup = core.classes.createComponent({
                 class: DropDownCalendarPopup,
                 owner: this,
                 props: {
@@ -211,69 +206,59 @@ class DropDownCalendar extends ThemedControl {
                     refControl: this
                 }
             });
-            priv.dropDownPopup.calendar.date = new Date(priv.date);
-            priv.dropDownPopup.HTMLElement.classList.remove('hidden');
-            priv.dropDownPopup.show(pt.x, pt.y + this.HTMLElement.offsetHeight);
-            priv.dropDownPopup.HTMLElement.classList.add('animated', 'fadeIn');
+            this.#dropDownPopup.calendar.date = new Date(this.#date);
+            this.#dropDownPopup.HTMLElement.classList.remove('hidden');
+            this.#dropDownPopup.show(pt.x, pt.y + this.HTMLElement.offsetHeight);
+            this.#dropDownPopup.HTMLElement.classList.add('animated', 'fadeIn');
         }
     }
     //#endregion showPopup
     //#region destroyPopup
     destroyPopup() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.dropDownPopup.calendar.destroy();
-        priv.dropDownPopup.destroy();
-        priv.dropDownPopup = null;
-        priv.opened = !1;
+        this.#dropDownPopup.calendar.destroy();
+        this.#dropDownPopup.destroy();
+        this.#dropDownPopup = null;
+        this.#opened = !1;
     }
     //#endregion destroyPopup
     //#region keyDown
     keyDown() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.keyDown();
         if (core.keyboard.key === Keyboard.VKEYSCODES.VK_SPACE) {
-            if (!priv.opened) {
+            if (!this.#opened) {
                 this.opened = !0;
             } else {
-                if (!priv.dropDownPopup.calendar.mode) {
-                    this.text = priv.dropDownPopup.calendar.curDate.toString(core.currentLocale, core.tools.getLocale().date.formatPatterns.shortDate);
+                if (!this.#dropDownPopup.calendar.mode) {
+                    this.text = this.#dropDownPopup.calendar.curDate.toString(core.currentLocale, core.tools.getLocale().date.formatPatterns.shortDate);
                     this.opened = !1;
-                } else if (priv.dropDownPopup) {
-                    priv.dropDownPopup.calendar.keyDown();
+                } else if (this.#dropDownPopup) {
+                    this.#dropDownPopup.calendar.keyDown();
                 }
             }
-        } else if (priv.dropDownPopup) {
-            priv.dropDownPopup.calendar.keyDown();
+        } else if (this.#dropDownPopup) {
+            this.#dropDownPopup.calendar.keyDown();
         }
     }
     //#endregion keyDown
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const TAG = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         super.loaded();
-        priv.content = document.createElement(`${TAG}caption`);
-        priv.content.classList.add('DropDownCalendarCaption');
-        priv.content.jsObj = this;
-        htmlElement.appendChild(priv.content);
+        this.#content = document.createElement(`${TAG}caption`);
+        this.#content.classList.add('DropDownCalendarCaption');
+        this.#content.jsObj = this;
+        htmlElement.appendChild(this.#content);
         htmlElement.appendChild(document.createElement(`${TAG}arrow`));
         htmlElement.lastElementChild.classList.add('DropDownListBoxArrow');
-        priv.text = priv.date.toString(core.currentLocale, core.tools.getLocale().date.formatPatterns.shortDate);
-        priv.content.innerHTML = priv.text;
+        this.#text = this.#date.toString(core.currentLocale, core.tools.getLocale().date.formatPatterns.shortDate);
+        this.#content.innerHTML = this.#text;
     }
     //#endregion loaded
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         this.unBindAndDestroyEvents(['onChange']);
         super.destroy();
     }

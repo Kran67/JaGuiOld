@@ -39,6 +39,11 @@ class TimePanelPopup extends TimePanel {
 //#endregion TimePanelPopup
 //#region Class DropDownTimePanelPopup
 class DropDownTimePanelPopup extends PopupBox {
+    //#region Private fields
+    #use24H;
+    #viewSeconds;
+    #timePanel;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -46,55 +51,48 @@ class DropDownTimePanelPopup extends PopupBox {
             props.closePopups = !1;
             props.canFocused = !1;
             super(owner, props);
-            core.private(this, {
-                use24H: props.use24H,
-                viewSeconds: props.viewSeconds
-            });
+            this.#use24H = props.use24H;
+            this.#viewSeconds = props.viewSeconds;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region timePanel
     get timePanel() {
-        return core.private(this).timePanel;
+        return this.#timePanel;
     }
     //#endregion timePanel
     //#endregion Getters / Setters
     //#region Methods
     //#region show
     show(x, y) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.show(x, y);
-        !priv.timePanel.HTMLElement && priv.timePanel.getHTMLElement(priv.timePanel.internalId);
-        priv.timePanel.HTMLElement.classList.add('focused');
-        priv.timePanel.time = this.owner.text;
+        !this.#timePanel.HTMLElement && this.#timePanel.getHTMLElement(this.#timePanel.internalId);
+        this.#timePanel.HTMLElement.classList.add('focused');
+        this.#timePanel.time = this.owner.text;
     }
     //#endregion show
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const owner = this.owner;
         //#endregion Variables déclaration
         super.loaded();
-        priv.timePanel = core.classes.createComponent({
+        this.#timePanel = core.classes.createComponent({
             class: TimePanelPopup,
             owner: this,
             props: {
                 canFocused: !1,
-                use24H: priv.use24H,
-                viewSeconds: priv.viewSeconds
+                use24H: this.#use24H,
+                viewSeconds: this.#viewSeconds
             }
         });
-        priv.timePanel.dropDownTimePanel = owner;
+        this.#timePanel.dropDownTimePanel = owner;
     }
     //#endregion loaded
     //#region destroy
     destroy() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         htmlElement && htmlElement.classList.remove('animated', 'fadeIn');
@@ -107,6 +105,14 @@ Object.seal(DropDownTimePanelPopup);
 //#endregion DropDownTimePanelPopup
 //#region Class DropDownTimePanel
 class DropDownTimePanel extends ThemedControl {
+    //#region Private fields
+    #content = null;
+    #dropDownPopup = null;
+    #opened;
+    #text;
+    #use24H;
+    #viewSeconds;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -115,15 +121,11 @@ class DropDownTimePanel extends ThemedControl {
             props.canFocused = !0;
             props.autoCapture = !0;
             super(owner, props);
-            core.private(this, {
-                content: null,
-                dropDownPopup: null,
-                opened: props.hasOwnProperty('opened') && core.tools.isBool(props.opened) ? props.opened : !1,
-                text: props.hasOwnProperty('text') ? props.text : String.EMPTY,
-                use24H: props.hasOwnProperty('use24H') && core.tools.isBool(props.use24H) ? props.use24H : !1,
-                viewSeconds: props.hasOwnProperty('viewSeconds') && core.tools.isBool(props.viewSeconds)
-                    ? props.viewSeconds : !1
-            });
+            this.#opened = props.hasOwnProperty('opened') && core.tools.isBool(props.opened) ? props.opened : !1;
+            this.#text = props.hasOwnProperty('text') ? props.text : String.EMPTY;
+            this.#use24H = props.hasOwnProperty('use24H') && core.tools.isBool(props.use24H) ? props.use24H : !1;
+            this.#viewSeconds = props.hasOwnProperty('viewSeconds') && core.tools.isBool(props.viewSeconds)
+                    ? props.viewSeconds : !1;
             this.createEventsAndBind(['onChange'], props);
         }
     }
@@ -131,46 +133,39 @@ class DropDownTimePanel extends ThemedControl {
     //#region Getters / Setters
     //#region dropDownPopup
     get dropDownPopup() {
-        return core.private(this).dropDownPopup;
+        return this.#dropDownPopup;
     }
     //#endregion dropDownPopup
     //#region text
     get text() {
-        return core.private(this).text;
+        return this.#text;
     }
     set text(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.text !== newValue) {
-            priv.text = newValue;
+        if (core.tools.isString(newValue) && this.#text !== newValue) {
+            this.#text = newValue;
             this.update();
         }
     }
     //#endregion text
     //#region opened
     get opened() {
-        return core.private(this).opened;
+        return this.#opened;
     }
     set opened(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.opened !== newValue) {
-            priv.opened = newValue;
+        if (core.tools.isBool(newValue) && this.#opened !== newValue) {
+            this.#opened = newValue;
             this.update();
-            priv.opened ? this.showPopup() : this.form.closePopups();
+            this.#opened ? this.showPopup() : this.form.closePopups();
         }
     }
     //#endregion opened
     //#region template
     get template() {
         //#region Variables déclaration
-        const priv = core.private(this);
         let html = super.template;
         let a = html.split('{text}');
         //#endregion Variables déclaration
-        html = a.join(priv.text.toString());
+        html = a.join(this.#text.toString());
         return html;
     }
     //#endregion template
@@ -179,18 +174,16 @@ class DropDownTimePanel extends ThemedControl {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        priv.opened ? htmlElement.classList.add('opened') : htmlElement.classList.remove('opened');
-        priv.content && (priv.content.innerHTML = priv.text);
+        this.#opened ? htmlElement.classList.add('opened') : htmlElement.classList.remove('opened');
+        this.#content && (this.#content.innerHTML = this.#text);
     }
     //#endregion update
     //#region mouseDown
     mouseDown() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const lastOpened = priv.opened;
+        const lastOpened = this.#opened;
         //#endregion Variables déclaration
         this === this.form.focusedControl && lastOpened && (this.closePopups = false);
         super.mouseDown();
@@ -201,70 +194,62 @@ class DropDownTimePanel extends ThemedControl {
     //#region showPopup
     showPopup() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const pt = this.clientToDocument();
         //#endregion Variables déclaration
-        if (!priv.dropDownPopup) {
-            priv.dropDownPopup = core.classes.createComponent({
+        if (!this.#dropDownPopup) {
+            this.#dropDownPopup = core.classes.createComponent({
                 class: DropDownTimePanelPopup,
                 owner: this,
                 props: {
                     parentHTML: document.body,
                     refControl: this,
-                    use24H: priv.use24H,
-                    viewSeconds: priv.viewSeconds,
-                    time: priv.text
+                    use24H: this.#use24H,
+                    viewSeconds: this.#viewSeconds,
+                    time: this.#text
                 }
             });
-            priv.dropDownPopup.HTMLElement.classList.remove('hidden');
-            priv.dropDownPopup.show(pt.x, pt.y + this.HTMLElement.offsetHeight);
-            priv.dropDownPopup.HTMLElement.classList.add('animated', 'fadeIn');
+            this.#dropDownPopup.HTMLElement.classList.remove('hidden');
+            this.#dropDownPopup.show(pt.x, pt.y + this.HTMLElement.offsetHeight);
+            this.#dropDownPopup.HTMLElement.classList.add('animated', 'fadeIn');
         }
     }
     //#endregion showPopup
     //#region destroyPopup
     destroyPopup() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.dropDownPopup.timePanel.destroy();
-        priv.dropDownPopup.destroy();
-        priv.dropDownPopup = null;
-        priv.opened = !1;
+        this.#dropDownPopup.timePanel.destroy();
+        this.#dropDownPopup.destroy();
+        this.#dropDownPopup = null;
+        this.#opened = !1;
     }
     //#endregion destroyPopup
     //#region keyDown
     keyDown() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.keyDown();
         if (core.keyboard.key === Keyboard.VKEYSCODES.VK_SPACE) {
-            if (!priv.opened) {
+            if (!this.#opened) {
                 this.opened = !0;
-            } else if (priv.dropDownPopup) {
-                priv.dropDownPopup.timePanel.keyDown();
+            } else if (this.#dropDownPopup) {
+                this.#dropDownPopup.timePanel.keyDown();
             }
-        } else if (priv.dropDownPopup) {
-            priv.dropDownPopup.timePanel.keyDown();
+        } else if (this.#dropDownPopup) {
+            this.#dropDownPopup.timePanel.keyDown();
         }
     }
     //#endregion keyDown
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const TAG = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         super.loaded();
-        priv.content = document.createElement(`${TAG}caption`);
-        priv.content.classList.add('DropDownTimePanelCaption');
-        priv.content.jsObj = this;
-        htmlElement.appendChild(priv.content);
+        this.#content = document.createElement(`${TAG}caption`);
+        this.#content.classList.add('DropDownTimePanelCaption');
+        this.#content.jsObj = this;
+        htmlElement.appendChild(this.#content);
         htmlElement.appendChild(document.createElement(`${TAG}arrow`));
         htmlElement.lastElementChild.classList.add('DropDownListBoxArrow');
-        priv.content.innerHTML = priv.text;
+        this.#content.innerHTML = this.#text;
     }
     //#endregion loaded
     //#region destroy
