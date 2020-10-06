@@ -11,6 +11,16 @@ const SPINBOXTYPES = Object.freeze(Object.seal({
 //#endregion SPINBOXTYPES
 //#region Class SpinBox
 class SpinBox extends CustomTextBoxBtn {
+    //#region Private fields
+    #value;
+    #increment;
+    #decimalDigits;
+    #min;
+    #max;
+    #valueType;
+    #btnPlus;
+    #btnMinus;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -23,15 +33,13 @@ class SpinBox extends CustomTextBoxBtn {
             }
             props.filterChars = '0123456789.,-';
             super(owner, props);
-            core.private(this, {
-                value: props.hasOwnProperty('value') && core.tools.isNumber(props.value) ? props.value : 0,
-                increment: props.hasOwnProperty('increment') && core.tools.isNumber(props.increment)
-                    ? props.value : 1,
-                decimalDigits: props.hasOwnProperty('decimalDigits')
-                    && core.tools.isNumber(props.decimalDigits) ? props.value : 2,
-                min: props.hasOwnProperty('min') && core.tools.isNumber(props.min) ? props.min : 0,
-                max: props.hasOwnProperty('max') && core.tools.isNumber(props.max) ? props.max : 100
-            });
+            this.#value = props.hasOwnProperty('value') && core.tools.isNumber(props.value) ? props.value : 0;
+            this.#increment = props.hasOwnProperty('increment') && core.tools.isNumber(props.increment)
+                ? props.value : 1;
+            this.#decimalDigits = props.hasOwnProperty('decimalDigits')
+                && core.tools.isNumber(props.decimalDigits) ? props.value : 2;
+            this.#min = props.hasOwnProperty('min') && core.tools.isNumber(props.min) ? props.min : 0;
+            this.#max = props.hasOwnProperty('max') && core.tools.isNumber(props.max) ? props.max : 100;
             core.tools.addPropertyFromEnum({
                 component: this,
                 propName: 'valueType',
@@ -52,75 +60,59 @@ class SpinBox extends CustomTextBoxBtn {
     //#endregion SPINBOXTYPES
     //#region value
     get value() {
-        return core.private(this).value;
+        return this.#value;
     }
     set value(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //const decimalSeparator = '.';
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.value !== newValue) {
-            newValue = Math.min(Math.max(newValue, priv.min), priv.max);
-            priv.value = newValue;
-            priv.valueType === SPINBOXTYPES.FLOAT && (priv.value = parseFloat(priv.value.toFixed(priv.decimalDigits)));
-            this.text = (Math.frac(priv.value) === 0 || priv.valueType === SPINBOXTYPES.INTEGER)
-                ? parseInt(priv.value, 10).toString()
-                : this.text = priv.value.toString();
+        if (core.tools.isNumber(newValue) && this.#value !== newValue) {
+            newValue = Math.min(Math.max(newValue, this.#min), this.#max);
+            this.#value = newValue;
+            this.#valueType === SPINBOXTYPES.FLOAT && (this.#value = parseFloat(this.#value.toFixed(this.#decimalDigits)));
+            this.text = (Math.frac(this.#value) === 0 || this.#valueType === SPINBOXTYPES.INTEGER)
+                ? parseInt(this.#value, 10).toString()
+                : this.text = this.#value.toString();
             this.onChange.invoke();
         }
     }
     //#endregion value
     //#region increment
     get increment() {
-        return core.private(this).increment;
+        return this.#increment;
     }
     set increment(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv.increment !== newValue && (priv.increment = newValue);
+        core.tools.isNumber(newValue) && this.#increment !== newValue && (this.#increment = newValue);
     }
     //#endregion increment
     //#region decimalDigits
     get decimalDigits() {
-        return core.private(this).decimalDigits;
+        return this.#decimalDigits;
     }
     set decimalDigits(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.decimalDigits !== newValue) {
-            priv.decimalDigits = newValue;
+        if (core.tools.isNumber(newValue) && this.#decimalDigits !== newValue) {
+            this.#decimalDigits = newValue;
             this.update();
         }
     }
     //#endregion decimalDigits
     //#region min
     get min() {
-        return core.private(this).min;
+        return this.#min;
     }
     set min(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.min !== newValue) {
-            priv.min = newValue;
-            priv.value = Math.min(priv.value, priv.min);
+        if (core.tools.isNumber(newValue) && this.#min !== newValue) {
+            this.#min = newValue;
+            this.#value = Math.min(this.#value, this.#min);
             this.update();
         }
     }
     //#endregion min
     //#region max
     get max() {
-        return core.private(this).max;
+        return this.#max;
     }
     set max(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.max !== newValue) {
-            priv.max = newValue;
-            priv.value = Math.min(priv.value, priv.max);
+        if (core.tools.isNumber(newValue) && this.#max !== newValue) {
+            this.#max = newValue;
+            this.#value = Math.min(this.#value, this.#max);
             this.update();
         }
     }
@@ -130,13 +122,10 @@ class SpinBox extends CustomTextBoxBtn {
         return super.enabled;
     }
     set enabled(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isBool(newValue) && this.enabled !== newValue) {
             super.enabled = newValue;
-            priv.btnPlus.enabled = newValue;
-            priv.btnMinus.enabled = newValue;
+            this.#btnPlus.enabled = newValue;
+            this.#btnMinus.enabled = newValue;
         }
     }
     //#endregion enabled
@@ -144,19 +133,16 @@ class SpinBox extends CustomTextBoxBtn {
     //#region Methods
     //#region update
     update() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.update();
         if (!this.loading && !this.form.loading) {
             if (this.inputObj && this.text === String.EMPTY || !core.tools.isNumber(this.inputObj.value)) {
-                priv.value = 0;
+                this.#value = 0;
                 this.text = '0';
-                this.inputObj.value = priv.value;
+                this.inputObj.value = this.#value;
             }
-            if (priv.btnMinus && priv.btnPlus) {
-                priv.btnMinus.enabled = !(priv.value === priv.min);
-                priv.btnPlus.enabled = !(priv.value === priv.max);
+            if (this.#btnMinus && this.#btnPlus) {
+                this.#btnMinus.enabled = !(this.#value === this.#min);
+                this.#btnPlus.enabled = !(this.#value === this.#max);
             }
         }
     }
@@ -164,27 +150,26 @@ class SpinBox extends CustomTextBoxBtn {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const btns = this.btns;
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         super.loaded();
-        priv.btnPlus = btns.last;
-        priv.btnMinus = btns.first;
-        priv.btnPlus.repeatClick = true;
-        priv.btnMinus.repeatClick = true;
-        priv.btnPlus.fontFamily = 'JaGui';
-        priv.btnMinus.fontFamily = 'JaGui';
-        priv.btnPlus.fontSize = 4;
-        priv.btnMinus.fontSize = 4;
-        priv.btnMinus.caption = String.EMPTY;
-        priv.btnPlus.caption = String.EMPTY;
-        priv.btnMinus.HTMLElement.classList.add('SpinBoxMinusBtn');
-        priv.btnMinus.HTMLElement.classList.remove('TextBoxBtnButton');
-        priv.btnPlus.HTMLElement.classList.add('SpinBoxPlusBtn');
-        priv.btnPlus.HTMLElement.classList.remove('TextBoxBtnButton');
-        priv.btnMinus.onMouseDown.addListener(this.decValue);
-        priv.btnPlus.onMouseDown.addListener(this.incValue);
+        this.#btnPlus = btns.last;
+        this.#btnMinus = btns.first;
+        this.#btnPlus.repeatClick = true;
+        this.#btnMinus.repeatClick = true;
+        this.#btnPlus.fontFamily = 'JaGui';
+        this.#btnMinus.fontFamily = 'JaGui';
+        this.#btnPlus.fontSize = 4;
+        this.#btnMinus.fontSize = 4;
+        this.#btnMinus.caption = String.EMPTY;
+        this.#btnPlus.caption = String.EMPTY;
+        this.#btnMinus.HTMLElement.classList.add('SpinBoxMinusBtn');
+        this.#btnMinus.HTMLElement.classList.remove('TextBoxBtnButton');
+        this.#btnPlus.HTMLElement.classList.add('SpinBoxPlusBtn');
+        this.#btnPlus.HTMLElement.classList.remove('TextBoxBtnButton');
+        this.#btnMinus.onMouseDown.addListener(this.decValue);
+        this.#btnPlus.onMouseDown.addListener(this.incValue);
         htmlElement.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { this.wheel(event); });
     }
     //#endregion loaded

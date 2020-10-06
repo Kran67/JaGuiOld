@@ -8,9 +8,9 @@ import { Convert } from '/scripts/core/convert.js';
 //#endregion Import
 //#region CALENDARMODES
 const CALENDARMODES = Object.freeze(Object.seal({
-    DAYS: 'days',
-    MONTHS: 'months',
-    DECADES: 'decades',
+    DAYS: 'days', 
+    MONTHS: 'months', 
+    DECADES: 'decades', 
     CENTURIES: 'centuries'
 }));
 //#endregion CALENDARMODES
@@ -38,10 +38,10 @@ class CalendarItem extends BaseClass {
             this.#form = owner.form;
             this.#caption = props.hasOwnProperty('caption') ? props.caption : String.EMPTY;
             this.#cssClasses = props.hasOwnProperty('cssClasses') ? props.cssClasses : String.EMPTY;
-            this.#selected = props.hasOwnProperty('selected') && core.tools.isBool(props.selected)
-                    ? props.selected : !1;
-            this.#enabled = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled)
-                    ? props.enabled : !0;
+            this.#selected = props.hasOwnProperty('selected') && core.tools.isBool(props.selected) ?
+                props.selected : !1;
+            this.#enabled = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ?
+                props.enabled : !0;
             this.#html = props.hasOwnProperty('parentHTML') ? div.firstElementChild : null;
             this.#value = props.hasOwnProperty('value') ? props.value : null;
             this.mouseEvents = new core.classes.MouseEvents();
@@ -185,37 +185,10 @@ class Calendar extends ThemedControl {
             props.canFocused = !0;
             super(owner, props);
             this.#curDate = props.hasOwnProperty('date') ? new Date(props.date) : new Date(Date.now());
-            this.#viewWeeksNum = props.hasOwnProperty('viewWeeksNum') && core.tools.isBool(props.viewWeeksNum)
-                    ? props.viewWeeksNum : !1;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'mode',
-                enum: CALENDARMODES,
-                setter: function (newValue) {
-                    if (core.tools.valueInSet(newValue, CALENDARMODES) || newValue === null) {
-                        if (this.#mode !== newValue) {
-                            this.#mode = newValue;
-                            this.#decades.classList.remove('zoomOut');
-                            this.#centuries.classList.remove('zoomOut');
-                            this.#months.classList.remove('zoomOut');
-                            switch (this.#mode) {
-                                case CALENDARMODES.DECADES:
-                                    this.#decades.classList.add('zoomOut');
-                                    break;
-                                case CALENDARMODES.CENTURIES:
-                                    this.#centuries.classList.add('zoomOut');
-                                    break;
-                                case CALENDARMODES.MONTHS:
-                                    this.#months.classList.add('zoomOut');
-                                    break;
-                            }
-                        }
-                        this.update();
-                    }
-                },
-                value: props.hasOwnProperty('mode') ? props.mode : CALENDARMODES.DAYS,
-                forceUpdate: !0
-            });
+            this.#viewWeeksNum = props.hasOwnProperty('viewWeeksNum') && core.tools.isBool(props.viewWeeksNum) ?
+                props.viewWeeksNum : !1;
+            this.addPropertyEnum('mode', CALENDARMODES);
+            this.#mode = props.hasOwnProperty('mode') ? props.mode : CALENDARMODES.DAYS;
             this.createEventsAndBind(['onChange'], props);
         }
     }
@@ -229,6 +202,33 @@ class Calendar extends ThemedControl {
         return CALENDARMODES;
     }
     //#endregion CALENDARMODES
+    //#region mode
+    get mode() {
+        return this.#mode;
+    }
+    set mode(newValue) {
+        if (core.tools.valueInSet(newValue, CALENDARMODES) || newValue === null) {
+            if (this.#mode !== newValue) {
+                this.#mode = newValue;
+                this.#decades.classList.remove('zoomOut');
+                this.#centuries.classList.remove('zoomOut');
+                this.#months.classList.remove('zoomOut');
+                switch (this.#mode) {
+                    case CALENDARMODES.DECADES:
+                        this.#decades.classList.add('zoomOut');
+                        break;
+                    case CALENDARMODES.CENTURIES:
+                        this.#centuries.classList.add('zoomOut');
+                        break;
+                    case CALENDARMODES.MONTHS:
+                        this.#months.classList.add('zoomOut');
+                        break;
+                }
+            }
+            this.update();
+        }
+    }
+    //#endregion mode
     //#region viewWeeksNum
     get viewWeeksNum() {
         return this.#viewWeeksNum;
@@ -402,7 +402,8 @@ class Calendar extends ThemedControl {
                     d = 0;
                     this.#months.dataset.view = !0;
                     this.#months.classList.remove('hidden');
-                    this.#thisMonth.caption = this.#curDate.getFullYear().toString();
+                    this.#thisMonth.caption = this.#curDate.getFullYear()
+                        .toString();
                     for (let i = 0; i < 12; i++) {
                         const month = this.#monthItems[d];
                         const mHtml = month.html;
@@ -432,90 +433,96 @@ class Calendar extends ThemedControl {
                     this.#decades.classList.remove('hidden');
                     break;
                 case CALENDARMODES.CENTURIES:
-                    {
-                        const thisCentury = int(this.#curDate.getFullYear().toString().substr(0, 2) + '00');
-                        let startCentury = thisCentury - 10;
-                        const endCentury = thisCentury + 100;
-                        this.#thisMonth.caption = `${thisCentury}-${(endCentury - 1)}`;
-                        this.#centuries.dataset.view = !0;
-                        this.#centuries.classList.remove('hidden');
-                        d = 0;
-                        while (startCentury < endCentury) {
-                            const century = this.#centuryItems[d];
-                            const mHtml = century.html;
-                            mHtml.classList.remove('CalendarOutMonth', 'CalendarThis', 'CalendarSelected');
-                            startCentury % thisCentury > 100 && mHtml.classList.add('CalendarOutMonth');
-                            date.getFullYear() >= startCentury && date.getFullYear() <= startCentury + 9
-                                && mHtml.classList.add('CalendarThis');
-                            this.#curDate.getFullYear() >= startCentury
-                                && this.#curDate.getFullYear() <= startCentury + 9
-                                && mHtml.classList.add('CalendarSelected');
-                            century.value = startCentury;
-                            century.caption = `${startCentury}<br />${century.value}`;
-                            startCentury += 10;
-                            d++;
-                        }
+                {
+                    const thisCentury = int(this.#curDate.getFullYear()
+                        .toString()
+                        .substr(0, 2) + '00');
+                    let startCentury = thisCentury - 10;
+                    const endCentury = thisCentury + 100;
+                    this.#thisMonth.caption = `${thisCentury}-${(endCentury - 1)}`;
+                    this.#centuries.dataset.view = !0;
+                    this.#centuries.classList.remove('hidden');
+                    d = 0;
+                    while (startCentury < endCentury) {
+                        const century = this.#centuryItems[d];
+                        const mHtml = century.html;
+                        mHtml.classList.remove('CalendarOutMonth', 'CalendarThis', 'CalendarSelected');
+                        startCentury % thisCentury > 100 && mHtml.classList.add('CalendarOutMonth');
+                        date.getFullYear() >= startCentury && date.getFullYear() <= startCentury + 9 &&
+                            mHtml.classList.add('CalendarThis');
+                        this.#curDate.getFullYear() >= startCentury &&
+                            this.#curDate.getFullYear() <= startCentury + 9 &&
+                            mHtml.classList.add('CalendarSelected');
+                        century.value = startCentury;
+                        century.caption = `${startCentury}<br />${century.value}`;
+                        startCentury += 10;
+                        d++;
                     }
-                    break;
+                }
+                break;
                 default:
-                    {
-                        this.#weekDays.querySelector('.CalendarWeekNum').innerHTML = core.tools.getLocale().date.weekShortName;
-                        let firstDay = this.#curDate.firstDayOfMonth;
-                        const firstDayOfWeek = firstDay.day;
-                        const sdn = core.tools.getLocale().date.shortestDayNames;
-                        w = 0;
-                        firstDay = firstDay.firstDayOfWeek;
-                        if (this.#viewWeeksNum) {
-                            div = Convert.nodeListToArray(htmlElement.querySelectorAll('.CalendarWeekNum'));
-                            div.forEach((elem, idx) => {
-                                if (idx > 0) {
-                                    firstDay = firstDay.addDays(7);
-                                    elem.innerHTML = firstDay.week;
-                                }
-                            });
-                        }
-                        // days of week
-                        d = firstDayOfWeek;
-                        w = 0;
-                        div = htmlElement.querySelectorAll('.CalendarWeekDay');
-                        while (w < 7) {
-                            div[w].innerHTML = sdn[d].firstCharUpper;
-                            d++;
-                            d === 7 && (d = 0);
-                            w++;
-                        }
-                        // month
-                        this.#thisMonth.caption = `${core.tools.getLocale().date.monthNames[this.#curDate.month - 1].firstCharUpper} ${this.#curDate.year}`;
-                        // days
-                        firstDay = this.#curDate.firstDayOfMonth.firstDayOfWeek;
-                        let i = 0;
-                        w = d = 0;
-                        for (w = 0; w < this.#weeks.length; w++) {
-                            for (d = 0; d < 7; d++) {
-                                const day = this.#dayItems[i];
-                                const dHtml = day.html;
-                                dHtml.classList.remove('CalendarOutMonth', 'CalendarNow', 'CalendarSelected');
-                                firstDay.getMonth() !== this.#curDate.getMonth()
-                                    && dHtml.classList.add('CalendarOutMonth');
-                                if (firstDay.getDate() === date.getDate() &&
-                                    firstDay.month === date.month &&
-                                    firstDay.year === date.year) {
-                                    dHtml.classList.add('CalendarNow');
-                                }
-                                if (firstDay.getDate() === this.#curDate.getDate() &&
-                                    firstDay.month === this.#curDate.month) {
-                                    dHtml.classList.add('CalendarSelected');
-                                    this.#lastSelectedDay = dHtml;
-                                }
-                                day.caption = firstDay.getDate().toString();
-                                day.value = firstDay.getDate();
-                                dHtml.dataset.day = firstDay.getDate();
-                                firstDay = firstDay.addDays(1);
-                                i++;
+                {
+                    this.#weekDays.querySelector('.CalendarWeekNum')
+                        .innerHTML = core.tools.getLocale()
+                        .date.weekShortName;
+                    let firstDay = this.#curDate.firstDayOfMonth;
+                    const firstDayOfWeek = firstDay.day;
+                    const sdn = core.tools.getLocale()
+                        .date.shortestDayNames;
+                    w = 0;
+                    firstDay = firstDay.firstDayOfWeek;
+                    if (this.#viewWeeksNum) {
+                        div = Convert.nodeListToArray(htmlElement.querySelectorAll('.CalendarWeekNum'));
+                        div.forEach((elem, idx) => {
+                            if (idx > 0) {
+                                firstDay = firstDay.addDays(7);
+                                elem.innerHTML = firstDay.week;
                             }
+                        });
+                    }
+                    // days of week
+                    d = firstDayOfWeek;
+                    w = 0;
+                    div = htmlElement.querySelectorAll('.CalendarWeekDay');
+                    while (w < 7) {
+                        div[w].innerHTML = sdn[d].firstCharUpper;
+                        d++;
+                        d === 7 && (d = 0);
+                        w++;
+                    }
+                    // month
+                    this.#thisMonth.caption = `${core.tools.getLocale().date.monthNames[this.#curDate.month - 1].firstCharUpper} ${this.#curDate.year}`;
+                    // days
+                    firstDay = this.#curDate.firstDayOfMonth.firstDayOfWeek;
+                    let i = 0;
+                    w = d = 0;
+                    for (w = 0; w < this.#weeks.length; w++) {
+                        for (d = 0; d < 7; d++) {
+                            const day = this.#dayItems[i];
+                            const dHtml = day.html;
+                            dHtml.classList.remove('CalendarOutMonth', 'CalendarNow', 'CalendarSelected');
+                            firstDay.getMonth() !== this.#curDate.getMonth() &&
+                                dHtml.classList.add('CalendarOutMonth');
+                            if (firstDay.getDate() === date.getDate() &&
+                                firstDay.month === date.month &&
+                                firstDay.year === date.year) {
+                                dHtml.classList.add('CalendarNow');
+                            }
+                            if (firstDay.getDate() === this.#curDate.getDate() &&
+                                firstDay.month === this.#curDate.month) {
+                                dHtml.classList.add('CalendarSelected');
+                                this.#lastSelectedDay = dHtml;
+                            }
+                            day.caption = firstDay.getDate()
+                                .toString();
+                            day.value = firstDay.getDate();
+                            dHtml.dataset.day = firstDay.getDate();
+                            firstDay = firstDay.addDays(1);
+                            i++;
                         }
                     }
-                    break;
+                }
+                break;
             }
         }
     }
@@ -667,7 +674,7 @@ class Calendar extends ThemedControl {
         const self = this;
         const tag = `${core.name.toLowerCase()}-${self.constructor.name.toLowerCase()}`;
         //#region generateContentHeaderAndWeeks
-        const generateContent = function () {
+        const generateContent = function() {
             const content = document.createElement(`${tag}content`);
             content.classList.add('CalendarContent', self.themeName);
             htmlElement.appendChild(content);
@@ -680,62 +687,62 @@ class Calendar extends ThemedControl {
         };
         //#endregion generateContentHeaderAndWeeks
         //#region generateHeader
-        const generateHeader = function (content) {
+        const generateHeader = function(content) {
             const header = document.createElement(`${tag}header`);
             header.classList.add('CalendarHeader', self.themeName);
             content.appendChild(header);
             this.#prevMonth = core.classes.createComponent({
-                class: CalendarItem,
-                owner: self,
-                props: {
-                    caption: String.EMPTY,
-                    cssClasses: `CalendarPrevMonth ${self.themeName}`,
-                    html: core.classes.getTemplate('CalendarItem'),
-                    parentHTML: header
+                class: CalendarItem
+                , owner: self
+                , props: {
+                    caption: String.EMPTY
+                    , cssClasses: `CalendarPrevMonth ${self.themeName}`
+                    , html: core.classes.getTemplate('CalendarItem')
+                    , parentHTML: header
                 }
             });
             Events.bind(this.#prevMonth.html, Mouse.MOUSEEVENTS.DOWN, self.decDate.bind(self));
             this.#prevMonth.loaded();
             this.#thisDay = core.classes.createComponent({
-                class: CalendarItem,
-                owner: self,
-                props: {
-                    caption: String.EMPTY,
-                    cssClasses: `CalendarThisDay ${self.themeName}`,
-                    html: core.classes.getTemplate('CalendarItem'),
-                    parentHTML: header
+                class: CalendarItem
+                , owner: self
+                , props: {
+                    caption: String.EMPTY
+                    , cssClasses: `CalendarThisDay ${self.themeName}`
+                    , html: core.classes.getTemplate('CalendarItem')
+                    , parentHTML: header
                 }
             });
             Events.bind(this.#thisDay.html, Mouse.MOUSEEVENTS.DOWN, self.goToThisDay.bind(self));
             this.#thisDay.loaded();
             this.#nextMonth = core.classes.createComponent({
-                class: CalendarItem,
-                owner: self,
-                props: {
-                    caption: String.EMPTY,
-                    cssClasses: `CalendarNextMonth ${self.themeName}`,
-                    html: core.classes.getTemplate('CalendarItem'),
-                    parentHTML: header
+                class: CalendarItem
+                , owner: self
+                , props: {
+                    caption: String.EMPTY
+                    , cssClasses: `CalendarNextMonth ${self.themeName}`
+                    , html: core.classes.getTemplate('CalendarItem')
+                    , parentHTML: header
                 }
             });
             Events.bind(this.#nextMonth.html, Mouse.MOUSEEVENTS.DOWN, self.incDate.bind(self));
             this.#nextMonth.loaded();
             this.#thisMonth = core.classes.createComponent({
-                class: CalendarItem,
-                owner: self,
-                props: {
-                    caption: String.EMPTY,
-                    cssClasses: `Control CalendarThisMonth ${self.themeName}`,
-                    html: core.classes.getTemplate('CalendarItem'),
-                    parentHTML: header,  
-                }
+                class: CalendarItem
+                , owner: self
+                , props: {
+                    caption: String.EMPTY
+                    , cssClasses: `Control CalendarThisMonth ${self.themeName}`
+                    , html: core.classes.getTemplate('CalendarItem')
+                    , parentHTML: header
+                , }
             });
             Events.bind(this.#thisMonth.html, Mouse.MOUSEEVENTS.DOWN, self.viewMYDC.bind(self));
             this.#thisMonth.loaded();
         };
         //#endregion generateHeader
         //#region generateWeekDays
-        const generateWeekDays = function (content) {
+        const generateWeekDays = function(content) {
             this.#weekDays = document.createElement(`${tag}weekdays`);
             this.#weekDays.classList.add('CalendarWeekdays', self.themeName);
             content.appendChild(this.#weekDays);
@@ -743,7 +750,7 @@ class Calendar extends ThemedControl {
         };
         //#endregion generateWeekDays
         //#region generateWeekNumAndDay
-        const generateWeekNumAndDay = function (content, isWeekDay) {
+        const generateWeekNumAndDay = function(content, isWeekDay) {
             const weekNum = document.createElement(`${tag}weeknum`);
             weekNum.classList.add('CalendarWeekNum', self.themeName);
             content.appendChild(weekNum);
@@ -755,13 +762,13 @@ class Calendar extends ThemedControl {
                     content.appendChild(week);
                 } else {
                     const day = core.classes.createComponent({
-                        class: CalendarItem,
-                        owner: self,
-                        props: {
-                            caption: String.EMPTY,
-                            cssClasses: `Control CalendarDay ${self.themeName}`,
-                            html: core.classes.getTemplate('CalendarItem'),
-                            parentHTML: content
+                        class: CalendarItem
+                        , owner: self
+                        , props: {
+                            caption: String.EMPTY
+                            , cssClasses: `Control CalendarDay ${self.themeName}`
+                            , html: core.classes.getTemplate('CalendarItem')
+                            , parentHTML: content
                         }
                     });
                     Events.bind(day.html, Mouse.MOUSEEVENTS.DOWN, self.selectDay.bind(day));
@@ -772,7 +779,7 @@ class Calendar extends ThemedControl {
         };
         //#endregion generateWeekNumAndDay
         //#region generateWeeks
-        const generateWeeks = function (content) {
+        const generateWeeks = function(content) {
             const weeks = document.createElement(`${tag}weeks`);
             weeks.classList.add('CalendarWeeks', self.themeName);
             content.appendChild(weeks);
@@ -787,21 +794,22 @@ class Calendar extends ThemedControl {
         };
         //#endregion generateWeeks
         //#region generateMonths
-        const generateMonths = function (content) {
+        const generateMonths = function(content) {
             this.#months = document.createElement(`${tag}months`);
             this.#months.classList.add('CalendarMonths', self.themeName);
             this.#months.jsObj = self;
             content.appendChild(this.#months);
             for (let i = 0; i < 12; i++) {
                 const month = core.classes.createComponent({
-                    class: CalendarItem,
-                    owner: self,
-                    props: {
-                        caption: core.tools.getLocale().date.abbreviatedMonthNames[i].firstCharUpper,
-                        cssClasses: `Control CalendarMDC CalendarMonth ${self.themeName}`,
-                        html: core.classes.getTemplate('CalendarItem'),
-                        parentHTML: this.#months,  
-                    }
+                    class: CalendarItem
+                    , owner: self
+                    , props: {
+                        caption: core.tools.getLocale()
+                            .date.abbreviatedMonthNames[i].firstCharUpper
+                        , cssClasses: `Control CalendarMDC CalendarMonth ${self.themeName}`
+                        , html: core.classes.getTemplate('CalendarItem')
+                        , parentHTML: this.#months
+                    , }
                 });
                 Events.bind(month.html, Mouse.MOUSEEVENTS.DOWN, self.selectMonth.bind(month));
                 month.loaded();
@@ -810,22 +818,23 @@ class Calendar extends ThemedControl {
         };
         //#endregion generateMonths
         //#region generateDecades
-        const generateDecades = function (content) {
+        const generateDecades = function(content) {
             this.#decades = document.createElement(`${tag}decades`);
             this.#decades.classList.add('CalendarDecades', self.themeName);
             this.#decades.jsObj = self;
             content.appendChild(this.#decades);
-            let currentYear = new Date().getFullYear() - 1;
+            let currentYear = new Date()
+                .getFullYear() - 1;
             for (let i = 0; i < 12; i++) {
                 const decade = core.classes.createComponent({
-                    class: CalendarItem,
-                    owner: self,
-                    props: {
-                        caption: currentYear.toString(),
-                        cssClasses: `Control CalendarMDC CalendarDecade ${self.themeName}`,
-                        html: core.classes.getTemplate('CalendarItem'),
-                        parentHTML: this.#decades,
-                    }
+                    class: CalendarItem
+                    , owner: self
+                    , props: {
+                        caption: currentYear.toString()
+                        , cssClasses: `Control CalendarMDC CalendarDecade ${self.themeName}`
+                        , html: core.classes.getTemplate('CalendarItem')
+                        , parentHTML: this.#decades
+                    , }
                 });
                 Events.bind(decade.html, Mouse.MOUSEEVENTS.DOWN, self.selectYear.bind(decade));
                 decade.loaded();
@@ -835,29 +844,31 @@ class Calendar extends ThemedControl {
         };
         //#endregion generateDecades
         //#region generateCenturies
-        const generateCenturies = function (content) {
+        const generateCenturies = function(content) {
             this.#centuries = document.createElement(`${tag}centuries`);
             this.#centuries.classList.add('CalendarCenturies', self.themeName);
             this.#centuries.jsObj = self;
             content.appendChild(this.#centuries);
-            const thisCentury = int(this.#curDate.getFullYear().toString().substr(0, 2) + '00');
+            const thisCentury = int(this.#curDate.getFullYear()
+                .toString()
+                .substr(0, 2) + '00');
             let startCentury = thisCentury - 10;
             const endCentury = thisCentury + 100;
             for (let i = 0; i < 11; i++) {
                 const century = core.classes.createComponent({
-                    class: CalendarItem,
-                    owner: self,
-                    props: {
-                        caption: `${startCentury}<br />${(startCentury + 9)}`,
-                        cssClasses: `Control CalendarMDC CalendarMDCx2 CalendarCentury ${self.themeName}`,
-                        html: core.classes.getTemplate('CalendarItem'),
-                        parentHTML: this.#centuries,
-                    }
+                    class: CalendarItem
+                    , owner: self
+                    , props: {
+                        caption: `${startCentury}<br />${(startCentury + 9)}`
+                        , cssClasses: `Control CalendarMDC CalendarMDCx2 CalendarCentury ${self.themeName}`
+                        , html: core.classes.getTemplate('CalendarItem')
+                        , parentHTML: this.#centuries
+                    , }
                 });
                 Events.bind(century.html, Mouse.MOUSEEVENTS.DOWN, self.selectDecades.bind(century));
                 century.loaded();
                 this.#centuryItems = [...this.#centuryItems, century];
-                startCentury+=10;
+                startCentury += 10;
             }
         };
         //#endregion generateCenturies
@@ -919,7 +930,8 @@ core.classes.register(core.types.CATEGORIES.COMMON, Calendar);
 //#endregion Calendar
 //#region Templates
 const CalendarTpl = ['<jagui-calendar id="{internalId}" data-class="Calendar" class="Control Calendar {theme}">',
-    '<properties>{ "name": "{name}" }</properties></jagui-calendar>'].join(String.EMPTY);
+        '<properties>{ "name": "{name}" }</properties></jagui-calendar>'
+    ].join(String.EMPTY);
 const CalendarItemTpl = ['<jagui-calendaritem id="{internalId}" data-class="Calendar" class="Control CalendarItem"></jagui-calendaritem>'].join(String.EMPTY);
 core.classes.registerTemplates([{ Class: Calendar, template: CalendarTpl }, { Class: CalendarItem, template: CalendarItemTpl }]);
 //#endregion

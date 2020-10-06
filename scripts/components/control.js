@@ -164,84 +164,72 @@ class Control extends Component {
                 'onAfterPaint', 'onEnterFocus', 'onKillFocus', 'onKeyDown', 'onKeyUp', 'onKeyPress', 'onAfterResized',
                 'onDragStart', 'onDrag', 'onDragExit', 'onDragEnd', 'onDragEnter', 'onDragOver', 'onDragLeave',
                 'onDrop', 'onDestroy', 'onResize'], props);
-            let anchors = core.types.ANCHORS;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'anchor',
-                enum: anchors,
-                setter: function (newValue) {
-                    //#region Variables déclaration
-                    const anchor = this.#anchor;
-                    //#endregion Variables déclaration
-                    if (Array.isArray(newValue)) {
-                        anchor.length = 0;
-                        anchor.addRange(newValue);
-                    }
-                },
-                value: props.hasOwnProperty('anchor') && Array.isArray(props.anchor)
-                    ? props.anchor : [core.types.ANCHORS.LEFT, core.types.ANCHORS.TOP]
-            });
-            anchors = null;
-            const aligns = core.types.ALIGNS;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'align',
-                enum: aligns,
-                setter: function (newValue) {
-                    //#region Variables déclaration
-                    const owner = this.owner;
-                    const priv = core.private(this);
-                    let align = this.#align;
-                    //#endregion Variables déclaration
-                    if (core.tools.valueInSet(newValue, core.types.ALIGNS) && align !== newValue) {
-                        align = this.#align = newValue;
-                        if (!this.loading && !this.form.loading && align !== core.types.ALIGNS.NONE) {
-                            owner.realignChilds();
-                            owner.hasResizeEvent && owner.resized();
-                        }
-                    }
-                },
-                value: props.hasOwnProperty('align') ? props.align : core.types.ALIGNS.NONE
-            });
-            const customCursors = core.types.CUSTOMCURSORS;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'cursor',
-                enum: customCursors,
-                setter: function (newValue) {
-                    //#region Variables déclaration
-                    const htmlElement = this.HTMLElement;
-                    let cursor = this.#cursor;
-                    //#endregion Variables déclaration
-                    if (core.tools.valueInSet(newValue, core.types.CUSTOMCURSORS) && cursor !== newValue) {
-                        htmlElement.classList.remove(cursor);
-                        cursor = this.#cursor = newValue;
-                        htmlElement.classList.add(cursor);
-                    }
-                },
-                value: props.hasOwnProperty('cursor') && core.tools.isString(props.cursor)
-                    ? props.cursor : core.types.CUSTOMCURSORS.DEFAULT
-            });
-            const dragKinds = core.types.DRAGKINDS;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'dragKind',
-                enum: dragKinds,
-                value: props.hasOwnProperty('dragKind') && core.tools.isString(props.dragKind)
-                    ? props.dragKind : core.types.DRAGKINDS.DRAG
-            });
-            const dragModes = core.types.DRAGMODES;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'dragMode',
-                enum: dragModes,
-                value: props.hasOwnProperty('dragMode') && core.tools.isString(props.dragMode)
-                    ? props.dragMode : core.types.DRAGMODES.MANUAL
-            });
+            this.addPropertyEnum('anchor', core.types.ANCHORS);
+            this.#anchor = props.hasOwnProperty('anchor') && Array.isArray(props.anchor)
+                ? props.anchor : [core.types.ANCHORS.LEFT, core.types.ANCHORS.TOP];
+            this.addPropertyEnum('align', core.types.ALIGNS);
+            this.#align = props.hasOwnProperty('align') ? props.align : core.types.ALIGNS.NONE;
+            this.addPropertyEnum('cursor', core.types.CUSTOMCURSORS);
+            this.#cursor = props.hasOwnProperty('cursor') && core.tools.isString(props.cursor)
+                    ? props.cursor : core.types.CUSTOMCURSORS.DEFAULT;
+            this.addPropertyEnum('dragKind', core.types.DRAGKINDS);
+            this.#dragKind = props.hasOwnProperty('dragKind') && core.tools.isString(props.dragKind)
+                    ? props.dragKind : core.types.DRAGKINDS.DRAG;
+            this.addPropertyEnum('dragMode', core.types.DRAGMODES);
+            this.#dragMode = props.hasOwnProperty('dragMode') && core.tools.isString(props.dragMode)
+                    ? props.dragMode : core.types.DRAGMODES.MANUAL;
         }
     }
     //#endregion Constructor
     //#region Getters / Setters
+    //#region cursor
+    get cursor() {
+        return this.#cursor;
+    }
+    set cursor(newValue) {
+        //#region Variables déclaration
+        const htmlElement = this.HTMLElement;
+        let cursor = this.#cursor;
+        //#endregion Variables déclaration
+        if (core.tools.valueInSet(newValue, core.types.CUSTOMCURSORS) && cursor !== newValue) {
+            htmlElement.classList.remove(cursor);
+            cursor = this.#cursor = newValue;
+            htmlElement.classList.add(cursor);
+        }
+    }
+    //#endregion cursor
+    //#region align
+    get align() {
+        return this.#align;
+    }
+    set align(newValue) {
+        //#region Variables déclaration
+        const owner = this.owner;
+        let align = this.#align;
+        //#endregion Variables déclaration
+        if (core.tools.valueInSet(newValue, core.types.ALIGNS) && align !== newValue) {
+            align = this.#align = newValue;
+            if (!this.loading && !this.form.loading && align !== core.types.ALIGNS.NONE) {
+                owner.realignChilds();
+                owner.hasResizeEvent && owner.resized();
+            }
+        }
+    }
+    //#endregion align
+    //#region anchor
+    get anchor() {
+        return this.#anchor;
+    }
+    set anchor(newValue) {
+        //#region Variables déclaration
+        const anchor = this.#anchor;
+        //#endregion Variables déclaration
+        if (Array.isArray(newValue)) {
+            anchor.length = 0;
+            anchor.addRange(newValue);
+        }
+    }
+    //#endregion anchor
     //#region translationKey
     get translationKey() {
         return this.#translationKey;

@@ -167,6 +167,9 @@ const WindowHelpButton = (() => {
 //#endregion WindowHelpButton
 //#region Class WindowRollUpDownButton
 class WindowRollUpDownButton extends WindowButton {
+    //#region Private fields
+    #isRolledUp = !1;
+    //#endregion Private fields
     //#region Constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -174,24 +177,20 @@ class WindowRollUpDownButton extends WindowButton {
             props.toolTip = 'Taille minimale'; // à voir pour mettre en locale
             props.showToolTip = !0;
             super(owner, props);
-            core.private(this, {
-                isRolledUp: !1
-            });
         }
     }
     //#endregion Constructor
     //#region getters / setters
     //#region isRolledUp
     get isRolledUp() {
-        return core.private(this).isRolledUp;
+        return this.#isRolledUp;
     }
     set isRolledUp(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const isRolledUp = priv.isRolledUp;
+        const isRolledUp = this.#isRolledUp;
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue)) {
-            isRolledUp !== newValue && (priv.isRolledUp = newValue);
+            isRolledUp !== newValue && (this.#isRolledUp = newValue);
             this.toolTip = newValue
                 ? 'Taille précédente' // à voir pour mettre en locale
                 : 'Taille minimale'; // à voir pour mettre en locale
@@ -218,6 +217,9 @@ class WindowRollUpDownButton extends WindowButton {
 //#endregion WindowRollUpDownButton
 //#region Class WindowStayOnOffButton
 class WindowStayOnOffButton extends WindowButton {
+    //#region Private fields
+    #isStayOn = !1;
+    //#endregion Private fields
     //#region Constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -225,24 +227,20 @@ class WindowStayOnOffButton extends WindowButton {
             props.toolTip = 'Epingler au dessus'; // à voir pour mettre en locale
             props.showToolTip = !0;
             super(owner, props);
-            core.private(this, {
-                isStayOn: !1
-            });
         }
     }
     //#endregion Constructor
     //#region Getters / Setters
     //#region isStayOn
     get isStayOn() {
-        return core.private(this).isStayOn;
+        return this.#isStayOn;
     }
     set isStayOn(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const isStayOn = priv.isStayOn;
+        const isStayOn = this.#isStayOn;
         //#endregion Variables déclaration
         if (core.tools.isBool(newValue)) {
-            isStayOn !== newValue && (priv.isStayOn = newValue);
+            isStayOn !== newValue && (this.#isStayOn = newValue);
             this.toolTip = newValue
                 ? 'Ne pas épingler' // à voir pour mettre en locale
                 : 'Epingler au dessus'; // à voir pour mettre en locale

@@ -12,35 +12,28 @@ import { Convert } from '/scripts/core/convert.js';
 //#endregion Import
 //#region Class WindowTitleBar
 class WindowTitleBar extends ThemedControl {
+    //#region Private fields
+    #title = null;
+    #closeBtn = null;
+    #minimizeBtn = null;
+    #maxRestoreBtn = null;
+    #helpBtn = null;
+    #rollUpDownBtn = null;
+    #stayOnOffBtn = null;
+    #startDragOff = new core.classes.Point;
+    #visibleBtns = 0;
+    #horizAlign;
+    //#endregion Private fields
     //#region Constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        const textAligns = core.types.TEXTALIGNS;
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         if (owner) {
             props.autoCapture = !0;
             props.mouseEvents = { mousemove: !0, wheel: !0, dblclick: !0 };
             super(owner, props);
             //#region Private
-            core.private(this, {
-                title: null,
-                closeBtn: null,
-                minimizeBtn: null,
-                maxRestoreBtn: null,
-                helpBtn: null,
-                rollUpDownBtn: null,
-                stayOnOffBtn: null,
-                startDragOff: new core.classes.Point,
-                visibleBtns: 0
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'horizAlign',
-                enum: textAligns,
-                forceUpdate: !0,
-                value: textAligns.LEFT
-            });
+            this.addPropertyEnum('horizAlign', core.types.TEXTALIGNS);
+            this.#horizAlign = core.types.TEXTALIGNS.LEFT;
             //#endregion
             //#region Public
             //#endregion Public
@@ -51,12 +44,12 @@ class WindowTitleBar extends ThemedControl {
     //#region Getters / Setters
     //#region visibleButtons
     get visibleButtons() {
-        return this.form.isBorderDialog ? 2 : core.private(this).visibleBtns;
+        return this.form.isBorderDialog ? 2 : this.#visibleBtns;
     }
     //#endregion visibleButtons
     //#region title
     get title() {
-        return core.private(this).title;
+        return this.#title;
     }
     /*set title(newValue) {
         //#region Variables déclaration
@@ -65,14 +58,14 @@ class WindowTitleBar extends ThemedControl {
         if (typeof newValue !== core.types.CONSTANTS.STRING) {
             return;
         }
-        if (priv.title !== newValue) {
-            priv.title = newValue;
+        if (this.#title !== newValue) {
+            this.#title = newValue;
         }
     }*/
     //#endregion title
     //#region closeBtn
     get closeBtn() {
-        return core.private(this).closeBtn;
+        return this.#closeBtn;
     }
     /*set closeBtn(newValue) {
         //#region Variables déclaration
@@ -81,14 +74,14 @@ class WindowTitleBar extends ThemedControl {
         if (!(newValue instanceof core.classes.Component)) {
             return;
         }
-        if (priv.closeBtn !== newValue) {
-            priv.closeBtn = newValue;
+        if (this.#closeBtn !== newValue) {
+            this.#closeBtn = newValue;
         }
     }*/
     //#endregion closeBtn
     //#region minimizeBtn
     get minimizeBtn() {
-        return core.private(this).minimizeBtn;
+        return this.#minimizeBtn;
     }
     /*set minimizeBtn(newValue) {
         //#region Variables déclaration
@@ -97,14 +90,14 @@ class WindowTitleBar extends ThemedControl {
         if (!(newValue instanceof core.classes.Component)) {
             return;
         }
-        if (priv.minimizeBtn !== newValue) {
-            priv.minimizeBtn = newValue;
+        if (this.#minimizeBtn !== newValue) {
+            this.#minimizeBtn = newValue;
         }
     }*/
     //#endregion minimizeBtn
     //#region maxRestoreBtn
     get maxRestoreBtn() {
-        return core.private(this).maxRestoreBtn;
+        return this.#maxRestoreBtn;
     }
     /*set maxRestoreBtn(newValue) {
         //#region Variables déclaration
@@ -113,14 +106,14 @@ class WindowTitleBar extends ThemedControl {
         if (!(newValue instanceof core.classes.Component)) {
             return;
         }
-        if (priv.maxRestoreBtn !== newValue) {
-            priv.maxRestoreBtn = newValue;
+        if (this.#maxRestoreBtn !== newValue) {
+            this.#maxRestoreBtn = newValue;
         }
     }*/
     //#endregion maxRestoreBtn
     //#region helpBtn
     get helpBtn() {
-        return core.private(this).helpBtn;
+        return this.#helpBtn;
     }
     /*set helpBtn(newValue) {
         //#region Variables déclaration
@@ -129,14 +122,14 @@ class WindowTitleBar extends ThemedControl {
         if (!(newValue instanceof core.classes.Component)) {
             return;
         }
-        if (priv.helpBtn !== newValue) {
-            priv.helpBtn = newValue;
+        if (this.#helpBtn !== newValue) {
+            this.#helpBtn = newValue;
         }
     }*/
     //#endregion helpBtn
     //#region rollUpDownBtn
     get rollUpDownBtn() {
-        return core.private(this).rollUpDownBtn;
+        return this.#rollUpDownBtn;
     }
     /*set rollUpDownBtn(newValue) {
         //#region Variables déclaration
@@ -145,36 +138,33 @@ class WindowTitleBar extends ThemedControl {
         if (!(newValue instanceof core.classes.Component)) {
             return;
         }
-        if (priv.rollUpDownBtn !== newValue) {
-            priv.rollUpDownBtn = newValue;
+        if (this.#rollUpDownBtn !== newValue) {
+            this.#rollUpDownBtn = newValue;
         }
     }*/
     //#endregion rollUpDownBtn
     //#region stayOnOffBtn
     get stayOnOffBtn() {
-        return core.private(this).stayOnOffBtn;
+        return this.#stayOnOffBtn;
     }
     /*set stayOnOffBtn(newValue) {
         const priv = internal(this);
         if (!(newValue instanceof core.classes.Component)) {
             return;
         }
-        if (priv.stayOnOffBtn !== newValue) {
-            priv.stayOnOffBtn = newValue;
+        if (this.#stayOnOffBtn !== newValue) {
+            this.#stayOnOffBtn = newValue;
         }
     }*/
     //#endregion stayOnOffBtn
     //#region startDragOff
     get startDragOff() {
-        return core.private(this).startDragOff;
+        return this.#startDragOff;
     }
     //#endregion startDragOff
     //#region allControls
     get allControls() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return [priv.closeBtn, priv.maxRestoreBtn, priv.minimizeBtn, priv.helpBtn, priv.rollUpDownBtn, priv.stayOnOffBtn];
+        return [this.#closeBtn, this.#maxRestoreBtn, this.#minimizeBtn, this.#helpBtn, this.#rollUpDownBtn, this.#stayOnOffBtn];
     }
     //#endregion allControls
     //#endregion Getters / Setters
@@ -205,8 +195,7 @@ class WindowTitleBar extends ThemedControl {
     mouseDown() {
         //#region Variables déclaration
         const mouse = core.mouse;
-        const priv = core.private(this);
-        const startDragOff = priv.startDragOff;
+        const startDragOff = this.#startDragOff;
         const p = new core.classes.Point(mouse.document.x, mouse.document.y);
         const form = this.form;
         const savedSizePosState = form.savedSizePosState;
@@ -372,7 +361,6 @@ class WindowTitleBar extends ThemedControl {
         let nodes = null;
         const XMLNODETYPES = core.types.XMLNODETYPES;
         const isHtmlRenderer = core.isHTMLRenderer;
-        const priv = core.private(this);
         //#endregion Variables déclaration
         if (isHtmlRenderer) {
             nodes = childs ? childs.childNodes : this.HTMLElement.childNodes;
@@ -408,7 +396,7 @@ class WindowTitleBar extends ThemedControl {
                 }
                 switch (dataClass) {
                     case 'WindowTitle':
-                        priv.title = core.isHTMLRenderer ? node : properties.caption;
+                        this.#title = core.isHTMLRenderer ? node : properties.caption;
                         /*title.mouseDown = function () {
                             this.owner.mouseDown();
                         };
@@ -424,22 +412,22 @@ class WindowTitleBar extends ThemedControl {
                         //title.hitTest.all = !1;
                         break;
                     case 'WindowCloseButton':
-                        priv.closeBtn = obj;
+                        this.#closeBtn = obj;
                         break;
                     case 'WindowMinimizeButton':
-                        priv.minimizeBtn = obj;
+                        this.#minimizeBtn = obj;
                         break;
                     case 'WindowMaxRestoreButton':
-                        priv.maxRestoreBtn = obj;
+                        this.#maxRestoreBtn = obj;
                         break;
                     case 'WindowHelpButton':
-                        priv.helpBtn = obj;
+                        this.#helpBtn = obj;
                         break;
                     case 'WindowRollUpDownButton':
-                        priv.rollUpDownBtn = obj;
+                        this.#rollUpDownBtn = obj;
                         break;
                     case 'WindowStayOnOffButton':
-                        priv.stayOnOffBtn = obj;
+                        this.#stayOnOffBtn = obj;
                         break;
                 }
             }
@@ -448,20 +436,17 @@ class WindowTitleBar extends ThemedControl {
     //#endregion getChilds
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.startDragOff.destroy();
-        priv.startDragOff = null;
-        priv.title = null;
-        priv.closeBtn = null;
-        priv.minimizeBtn = null;
-        priv.maxRestoreBtn = null;
-        priv.helpBtn = null;
-        priv.rollUpDownBtn = null;
-        priv.stayOnOffBtn = null;
-        priv.visibleBtns = null;
-        priv.horizAlign = null;
+        this.#startDragOff.destroy();
+        this.#startDragOff = null;
+        this.#title = null;
+        this.#closeBtn = null;
+        this.#minimizeBtn = null;
+        this.#maxRestoreBtn = null;
+        this.#helpBtn = null;
+        this.#rollUpDownBtn = null;
+        this.#stayOnOffBtn = null;
+        this.#visibleBtns = null;
+        this.#horizAlign = null;
         this.unBindAndDestroyEvents(['onCaptionChanged']);
         super.destroy();
     }
@@ -485,14 +470,13 @@ class WindowTitleBar extends ThemedControl {
         //#region Variables déclaration
         const buttons = ['close', 'maxRestore', 'minimize', 'help', 'rollUpDown', 'stayOnOff'];
         let visbleBtns = 0;
-        const priv = core.private(this);
         //#endregion Variables déclaration
         buttons.forEach(btn => {
             btn = priv[`${btn}Btn`];
             btn.visible && (visbleBtns++);
         });
         core.isHTMLRenderer && (this.form.HTMLElement.dataset.buttons = visbleBtns);
-        priv.visibleBtns = visbleBtns;
+        this.#visibleBtns = visbleBtns;
     }
     //#endregion calcVisibleBtns
     //#region loaded
@@ -509,6 +493,54 @@ class WindowContent extends ThemedControl { }
 //#endregion WindowContent
 //#region Class BaseWindow
 class BaseWindow extends ThemedControl {
+    //#region Private fields
+    #resizeMode = {
+        leftEdge: !1,
+        topEdge: !1,
+        rightEdge: !1,
+        bottomEdge: !1
+    };
+    #savedSizePosState = {};
+    #isModal = !1;
+    #creating = !0;
+    #layout = null;
+    #titleBar = null;
+    #content = null;
+    #titleBarObj = {};
+    #firstShow = !0;
+    #controlsToResize = [];
+    #lastFocusedControl = null;
+    #focusedControl = null;
+    #hoveredControl = null;
+    #capturedControl = null;
+    #lastSelectedMenuItem = null;
+    #popups = [];
+    #toolBars = [];
+    #statusBars = [];
+    #isResizing = !1;
+    #snapArea;
+    #destroyOnHide;
+    #controls = [];
+    #isChildWindow;
+    #parentHTML;
+    #lastZIndex = -1;
+    #animated = !0;
+    #keyPreview = !1;
+    #icon = 'logo';
+    #mainMenu = null;
+    #activeControl = null;
+    #canClose = !0;
+    #moveable = !0;
+    #stayOn;
+    #enabledShadow;
+    #position;
+    #buttons;
+    #windowState;
+    #borderStyle;
+    #bordersType;
+    #modalResult;
+    #showingMode;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         //#region Variables déclaration
@@ -523,164 +555,27 @@ class BaseWindow extends ThemedControl {
             props.mouseEvents = { mousemove: !0 };
             super(owner, props);
             //#region Private
-            core.private(this, {
-                resizeMode: {
-                    leftEdge: !1,
-                    topEdge: !1,
-                    rightEdge: !1,
-                    bottomEdge: !1
-                },
-                savedSizePosState: {},
-                isModal: !1,
-                creating: !0,
-                layout: null,
-                titleBar: null,
-                content: null,
-                titleBarObj: {},
-                firstShow: !0,
-                controlsToResize: [],
-                lastFocusedControl: null,
-                focusedControl: null,
-                hoveredControl: null,
-                capturedControl: null,
-                lastSelectedMenuItem: null,
-                popups: [],
-                toolBars: [],
-                statusBars: [],
-                isResizing: !1,
-                snapArea: props.hasOwnProperty('snapArea') ? props.snapArea : Window.SNAPAREAS.NONE,
-                destroyOnHide: props.hasOwnProperty('destroyOnHide')
-                    && core.tools.isBool(props.destroyOnHide) ? props.destroyOnHide : !1,
-                controls: [],
-                isChildWindow: props.hasOwnProperty('parentHTML')
-                    ? (props.parentHTML !== document.body ? !0 : !1) : !1,
-                parentHTML: props.hasOwnProperty('parentHTML') ? props.parentHTML : null,
-                lastZIndex: -1,
-                animated: !0,
-                keyPreview: !1,
-                icon: 'logo',
-                mainMenu: null,
-                activeControl: null,
-                canClose: !0,
-                moveable: !0,
-                stayOn: props.hasOwnProperty('stayOn') ? props.stayOn : !1,
-                enabledShadow: props.hasOwnProperty('enabledShadow') ? props.enabledShadow : !0,
-                //priv.minimizeAnimation = new RectAnimation(this, { inForm: !1 }),
-                position: props.hasOwnProperty('position') ? props.position : FORMPOSITIONS.DEFAULT,
-                buttons: props.hasOwnProperty('buttons') ? props.buttons : null
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'position',
-                enum: FORMPOSITIONS,
-                value: props.hasOwnProperty('formPosition') ? props.formPosition : FORMPOSITIONS.DESIGNED
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'windowState',
-                enum: WINDOWSTATES,
-                setter: function (newValue) {
-                    //#region Variables déclaration
-                    const priv = core.private(this);
-                    const WINDOWSTATES = Window.WINDOWSTATES;
-                    const windowState = priv.windowState;
-                    //#endregion Variables déclaration
-                    if (core.tools.valueInSet(newValue, WINDOWSTATES) && windowState !== newValue) {
-                        const lastWindowState = windowState;
-                        switch (newValue) {
-                            case WINDOWSTATES.NORMAL:
-                                switch (lastWindowState) {
-                                    case WINDOWSTATES.MINIMIZED:
-                                    case WINDOWSTATES.MAXIMIZED:
-                                        this.restore();
-                                        break;
-                                    case WINDOWSTATES.ROLLEDUP:
-                                        this.rollDown();
-                                        break;
-                                    case WINDOWSTATES.SNAPED:
-                                        this.restoreWindow();
-                                        break;
-                                }
-                                break;
-                            case WINDOWSTATES.MINIMIZED:
-                                this.minimize();
-                                break;
-                            case WINDOWSTATES.MAXIMIZED:
-                                this.maximize();
-                                break;
-                            case WINDOWSTATES.ROLLEDUP:
-                                this.rollUp();
-                                break;
-                            case WINDOWSTATES.SNAPED:
-                                this.applySnap();
-                                break;
-                        }
-                        this.windowState = newValue;
-                    }
-                },
-                value: props.hasOwnProperty('windowState') ? props.windowState : WINDOWSTATES.NORMAL
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'borderStyle',
-                enum: BORDERSTYLES,
-                setter: function (newValue) {
-                    //#region Variables déclaration
-                    const priv = core.private(this);
-                    const htmlElement = this.HTMLElement;
-                    let borderStyle = priv.borderStyle;
-                    const isHtmlRenderer = core.isHTMLRenderer;
-                    const themeName = this.app.themeManifest.themeName;
-                    const theme = core.themes[themeName];
-                    const layout = priv.layout;
-                    const BORDERSTYLES = Window.BORDERSTYLES;
-                    //#endregion Variables déclaration
-                    if (core.tools.valueInSet(newValue, BORDERSTYLES) && borderStyle !== newValue) {
-                        isHtmlRenderer && htmlElement.classList.remove(borderStyle);
-                        borderStyle = priv.borderStyle = newValue;
-                        if (isHtmlRenderer) {
-                            htmlElement.classList.add(borderStyle);
-                        } else {
-                            this.alignButtons();
-                            if (this.isBorderNone) {
-                                layout.margin.empty();
-                            } else {
-                                let layoutMargin = null;
-                                layoutMargin = theme.Window && theme.Window.WindowLayout
-                                    && theme.Window.WindowLayout.margin
-                                    ? theme.Window.WindowLayout.margin
-                                    : Window.SIZEABLEBORDERSIZE;
-                                if (core.tools.isObject(layoutMargin)) {
-                                    layout.margin.setValues(layoutMargin.left, layoutMargin.top, layoutMargin.right, layoutMargin.bottom);
-                                } else if (core.tools.isObject(layoutMargin)) {
-                                    layout.margin.setValues(layoutMargin, layoutMargin, layoutMargin, layoutMargin);
-                                }
-                            }
-                            this.realignChilds();
-                            core.canvas.needRedraw = !0;
-                        }
-                    }
-                },
-                value: props.hasOwnProperty('borderStyle') ? props.borderStyle : BORDERSTYLES.SIZEABLE
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'bordersType',
-                enum: BORDERSTYPES,
-                value: props.hasOwnProperty('bordersType') ? props.bordersType : BORDERSTYPES.NONE
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'modalResult',
-                enum: MODALRESULTS,
-                value: MODALRESULTS.NONE
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'showingMode',
-                enum: SHOWINGMODES,
-                value: props.hasOwnProperty('showingMode') ? props.showingMode : SHOWINGMODES.NORMAL
-            });
+            this.#snapArea = props.hasOwnProperty('snapArea') ? props.snapArea : Window.SNAPAREAS.NONE;
+            this.#destroyOnHide = props.hasOwnProperty('destroyOnHide')
+                    && core.tools.isBool(props.destroyOnHide) ? props.destroyOnHide : !1;
+            this.#isChildWindow = props.hasOwnProperty('parentHTML')
+                    ? (props.parentHTML !== document.body ? !0 : !1) : !1;
+            this.#parentHTML = props.hasOwnProperty('parentHTML') ? props.parentHTML : null;
+            this.#stayOn = props.hasOwnProperty('stayOn') ? props.stayOn : !1;
+            this.#enabledShadow = props.hasOwnProperty('enabledShadow') ? props.enabledShadow : !0;
+            this.#buttons = props.hasOwnProperty('buttons') ? props.buttons : null;
+            this.addPropertyEnum('position', FORMPOSITIONS);
+            this.#position = props.hasOwnProperty('formPosition') ? props.formPosition : FORMPOSITIONS.DESIGNED;
+            this.addPropertyEnum('windowState', Window.WINDOWSTATES);
+            this.#windowState = props.hasOwnProperty('windowState') ? props.windowState : WINDOWSTATES.NORMAL;
+            this.addPropertyEnum('borderStyle', BORDERSTYLES);
+            this.#borderStyle = props.hasOwnProperty('borderStyle') ? props.borderStyle : BORDERSTYLES.SIZEABLE;
+            this.addPropertyEnum('bordersType', BORDERSTYPES);
+            this.#bordersType = props.hasOwnProperty('bordersType') ? props.bordersType : BORDERSTYPES.NONE;
+            this.addPropertyEnum('modalResult', MODALRESULTS);
+            this.#modalResult = MODALRESULTS.NONE;
+            this.addPropertyEnum('showingMode', SHOWINGMODES);
+            this.#showingMode = props.hasOwnProperty('showingMode') ? props.showingMode : SHOWINGMODES.NORMAL;
             //#endregion Private
             //#region Public
             //this.visible = !1;
@@ -690,230 +585,311 @@ class BaseWindow extends ThemedControl {
             this.createEventsAndBind(['onActivate', 'onDeactivate', 'onHide', 'onShow', 'onCreate', 'onClose', 'onCloseQuery', 'onThemeChanged'], props);
             //#endregion Events
             //if (!core.isHTMLRenderer) {
-            //    priv.minimizeAnimation.hideOnFinish = !0;
-            //    priv.minimizeAnimation.control = this;
-            //    priv.minimizeAnimation.propertyName = "bounds";
-            //    priv.minimizeAnimation.onProcess.addListener(this._onMinimizeProcess);
-            //    priv.minimizeAnimation.onFinish.addListener(this._onMinimizeFinish);
+            //    this.#minimizeAnimation.hideOnFinish = !0;
+            //    this.#minimizeAnimation.control = this;
+            //    this.#minimizeAnimation.propertyName = "bounds";
+            //    this.#minimizeAnimation.onProcess.addListener(this._onMinimizeProcess);
+            //    this.#minimizeAnimation.onFinish.addListener(this._onMinimizeFinish);
             //}
         }
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region showingMode
+    get showingMode() {
+        return this.#showingMode;
+    }
+    set showingMode(newValue) {
+        core.tools.valueInSet(newValue, SHOWINGMODES) && this.#showingMode !== newValue && (this.#showingMode = newValue);
+    }
+    //#endregion modalResult
+    //#region modalResult
+    get modalResult() {
+        return this.#modalResult;
+    }
+    set modalResult(newValue) {
+        core.tools.valueInSet(newValue, MODALRESULTS) && this.#modalResult !== newValue && (this.#modalResult = newValue);
+    }
+    //#endregion modalResult
+    //#region bordersType
+    get bordersType() {
+        return this.#bordersType;
+    }
+    set bordersType(newValue) {
+        core.tools.valueInSet(newValue, BORDERSTYPES) && this.#bordersType !== newValue && (this.#bordersType = newValue);
+    }
+    //#region bordersType
+    //#region borderStyle
+    get borderStyle() {
+        return this.#borderStyle;
+    }
+    set borderStyle(newValue) {
+        //#region Variables déclaration
+        const htmlElement = this.HTMLElement;
+        const isHtmlRenderer = core.isHTMLRenderer;
+        const themeName = this.app.themeManifest.themeName;
+        const theme = core.themes[themeName];
+        const layout = this.#layout;
+        const BORDERSTYLES = Window.BORDERSTYLES;
+        //#endregion Variables déclaration
+        if (core.tools.valueInSet(newValue, BORDERSTYLES) && this.#borderStyle !== newValue) {
+            isHtmlRenderer && htmlElement.classList.remove(this.#borderStyle);
+            this.#borderStyle = newValue;
+            if (isHtmlRenderer) {
+                htmlElement.classList.add(this.#borderStyle);
+            } else {
+                this.alignButtons();
+                if (this.isBorderNone) {
+                    layout.margin.empty();
+                } else {
+                    let layoutMargin = null;
+                    layoutMargin = theme.Window && theme.Window.WindowLayout
+                        && theme.Window.WindowLayout.margin
+                        ? theme.Window.WindowLayout.margin
+                        : Window.SIZEABLEBORDERSIZE;
+                    if (core.tools.isObject(layoutMargin)) {
+                        layout.margin.setValues(layoutMargin.left, layoutMargin.top, layoutMargin.right, layoutMargin.bottom);
+                    } else if (core.tools.isObject(layoutMargin)) {
+                        layout.margin.setValues(layoutMargin, layoutMargin, layoutMargin, layoutMargin);
+                    }
+                }
+                this.realignChilds();
+                core.canvas.needRedraw = !0;
+            }
+        }
+    }
+    //#endregion borderStyle
+
+    //#region windowState
+    get windowState() {
+        return this.#windowState;
+    }
+    set windowState(newValue) {
+        //#region Variables déclaration
+        const WINDOWSTATES = Window.WINDOWSTATES;
+        //#endregion Variables déclaration
+        if (core.tools.valueInSet(newValue, WINDOWSTATES) && this.#windowState !== newValue) {
+            const lastWindowState = this.#windowState;
+            switch (newValue) {
+                case WINDOWSTATES.NORMAL:
+                    switch (lastWindowState) {
+                        case WINDOWSTATES.MINIMIZED:
+                        case WINDOWSTATES.MAXIMIZED:
+                            this.restore();
+                            break;
+                        case WINDOWSTATES.ROLLEDUP:
+                            this.rollDown();
+                            break;
+                        case WINDOWSTATES.SNAPED:
+                            this.restoreWindow();
+                            break;
+                    }
+                    break;
+                case WINDOWSTATES.MINIMIZED:
+                    this.minimize();
+                    break;
+                case WINDOWSTATES.MAXIMIZED:
+                    this.maximize();
+                    break;
+                case WINDOWSTATES.ROLLEDUP:
+                    this.rollUp();
+                    break;
+                case WINDOWSTATES.SNAPED:
+                    this.applySnap();
+                    break;
+            }
+            this.#windowState = newValue;
+        }
+    }
+    //#endregion windowState
+    //#region position
+    get position() {
+        return this.#position;
+    }
+    set position(newValue) {
+        core.tools.valueInSet(newValue, FORMPOSITIONS) && this.#position !== newValue && (this.#position = value);
+    }
+    //#endregion
     //#region titleBarSize
     get titleBarSize() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         return {
-            width: priv.titleBar.HTMLElement.offsetWidth,
-            height: priv.titleBar.HTMLElement.offsetHeight
+            width: this.#titleBar.HTMLElement.offsetWidth,
+            height: this.#titleBar.HTMLElement.offsetHeight
         };
     }
     //#endregion titleBarSize
     //#region savedSizePosState
     get savedSizePosState() {
-        return core.private(this).savedSizePosState;
+        return this.#savedSizePosState;
     }
     //#endregion savedSizePosState
     //#region resizeMode
     get resizeMode() {
-        return core.private(this).resizeMode;
+        return this.#resizeMode;
     }
     //#endregion resizeMode
     //#region isModal
     get isModal() {
-        return core.private(this).isModal;
+        return this.#isModal;
     }
     //#endregion isModal
     //#region stayOn
     get stayOn() {
-        return core.private(this).stayOn;
+        return this.#stayOn;
     }
     set stayOn(newValue) {
-        core.tools.isBool(newValue) && (core.private(this).stayOn = newValue);
+        core.tools.isBool(newValue) && (this.#stayOn = newValue);
     }
     //#endregion stayOn
     //#region creating
     get creating() {
-        return core.private(this).creating;
+        return this.#creating;
     }
     //#endregion creating
     //#region focusedControl
     get focusedControl() {
-        return core.private(this).focusedControl;
+        return this.#focusedControl;
     }
     set focusedControl(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        let focusedControl = priv.focusedControl;
-        //#endregion Variables déclaration
-        newValue && newValue instanceof core.classes.Control && focusedControl !== newValue
-            && (focusedControl = priv.focusedControl = newValue);
+        newValue && newValue instanceof core.classes.Control && this.#focusedControl !== newValue
+            && (this.#focusedControl = newValue);
     }
     //#endregion focusedControl
     //#region hoveredControl
     get hoveredControl() {
-        return core.private(this).hoveredControl;
+        return this.#hoveredControl;
     }
     set hoveredControl(object) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        ((object  && object instanceof core.classes.Component) || (object === null)) && priv.hoveredControl !== object
-            && (priv.hoveredControl = object);
+        ((object && object instanceof core.classes.Component) || (object === null)) && this.#hoveredControl !== object
+            && (this.#hoveredControl = object);
     }
     //#endregion hoveredControl
     //#region capturedControl
     get capturedControl() {
-        return core.private(this).capturedControl;
+        return this.#capturedControl;
     }
     set capturedControl(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if ((newValue instanceof core.classes.Component && priv.capturedControl !== newValue) || newValue == null) {
+        if ((newValue instanceof core.classes.Component && this.#capturedControl !== newValue) || newValue == null) {
             //this.releaseCapture();
-            priv.capturedControl = newValue;
+            this.#capturedControl = newValue;
             newValue && (this.app.activeWindow = newValue.form);
         }
     }
     //#endregion capturedControl
     //#region lastSelectedMenuItem
     get lastSelectedMenuItem() {
-        return core.private(this).lastSelectedMenuItem;
+        return this.#lastSelectedMenuItem;
     }
     //#endregion lastSelectedMenuItem
     //#region popups
     get popups() {
-        return core.private(this).popups;
+        return this.#popups;
     }
     //#endregion popups
     //#region toolBars
     get toolBars() {
-        return core.private(this).toolBars;
+        return this.#toolBars;
     }
     //#endregion toolBars
     //#region statusBars
     get statusBars() {
-        return core.private(this).statusBars;
+        return this.#statusBars;
     }
     //#endregion statusBars
     //#region isResizing
     get isResizing() {
-        return core.private(this).isResizing;
+        return this.#isResizing;
     }
     set isResizing(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.isResizing !== newValue && (priv.isResizing = newValue);
+        core.tools.isBool(newValue) && this.#isResizing !== newValue && (this.#isResizing = newValue);
     }
     //#endregion isResizing
     //#region snapArea
     get snapArea() {
-        return core.private(this).snapArea;
+        return this.#snapArea;
     }
     set snapArea(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isString(newValue) && priv.snapArea !== newValue && (priv.snapArea = newValue);
+        core.tools.isString(newValue) && this.#snapArea !== newValue && (this.#snapArea = newValue);
     }
     //#endregion snapArea
     //#region destroyOnHide
     get destroyOnHide() {
-        return core.private(this).destroyOnHide;
+        return this.#destroyOnHide;
     }
     set destroyOnHide(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.destroyOnHide !== newValue && (priv.destroyOnHide = newValue);
+        core.tools.isBool(newValue) && this.#destroyOnHide !== newValue && (this.#destroyOnHide = newValue);
     }
     //#endregion destroyOnHide
     //#region controls
     get controls() {
-        return core.private(this).controls;
+        return this.#controls;
     }
     //#endregion controls
     //#region isChildWindow
     get isChildWindow() {
-        return core.private(this).isChildWindow;
+        return this.#isChildWindow;
     }
     //#endregion isChildWindow
     //#region parentHTML
     get parentHTML() {
-        return core.private(this).parentHTML;
+        return this.#parentHTML;
     }
     //#endregion parentHTML
     //#region keyPreview
     get keyPreview() {
-        return core.private(this).keyPreview;
+        return this.#keyPreview;
     }
     set keyPreview(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && newValue !== priv.keyPreview) {
-            priv.keyPreview = newValue;
+        if (core.tools.isBool(newValue) && newValue !== this.#keyPreview) {
+            this.#keyPreview = newValue;
             this.propertyChanged('keyPreview');
         }
     }
     //#endregion keyPreview
     //#region icon
     get icon() {
-        return core.private(this).icon;
+        return this.#icon;
     }
     set icon(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        let icon = priv.icon;
-        const htmlElement = priv.titleBar;
+        const htmlElement = this.#titleBar;
         //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && icon !== newValue) {
-            htmlElement.classList.remove(icon);
-            icon = priv.icon = newValue;
+        if (core.tools.isString(newValue) && this.#icon !== newValue) {
+            htmlElement.classList.remove(this.#icon);
+            this.#icon = newValue;
             if (newValue.contains('base64')) {
 
             } else {
-                htmlElement.classList.add(icon);
+                htmlElement.classList.add(this.#icon);
             }
         }
     }
     //#endregion icon
     //#region mainMenu
     get mainMenu() {
-        return core.private(this).mainMenu;
+        return this.#mainMenu;
     }
     set mainMenu(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.classes.MainMenu && newValue instanceof core.classes.MainMenu && newValue !== priv.mainMenu) {
-            priv.mainMenu = newValue;
+        if (core.classes.MainMenu && newValue instanceof core.classes.MainMenu && newValue !== this.#mainMenu) {
+            this.#mainMenu = newValue;
             !core.isHTMLRenderer && this.redraw();
         }
     }
     //#endregion mainMenu
     //#region activeControl
     get activeControl() {
-        return core.private(this).activeControl;
+        return this.#activeControl;
     }
     //#endregion activeControl
     //#region canClose
     get canClose() {
-        return core.private(this).canClose;
+        return this.#canClose;
     }
     set canClose(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        let canClose = priv.canClose;
-        //#endregion Variables déclaration
         if (core.tools.isBool(newValue)) {
-            canClose !== newValue && (canClose = priv.canClose = newValue);
-            if (canClose) {
-                priv.destroyOnHide = canClose;
+            this.#canClose !== newValue && (this.#canClose = newValue);
+            if (this.#canClose) {
+                this.#destroyOnHide = this.#canClose;
                 this._close();
             }
         }
@@ -921,77 +897,77 @@ class BaseWindow extends ThemedControl {
     //#endregion canClose
     //#region moveable
     get moveable() {
-        return core.private(this).moveable;
+        return this.#moveable;
     }
     //#endregion moveable
     //#region isShowed
     get isShowed() {
-        return core.private(this).visible;
+        return this.visible;
     }
     //#endregion isShowed
     //#region isNormal
     get isNormal() {
-        return core.private(this).windowState === Window.WINDOWSTATES.NORMAL;
+        return this.#windowState === Window.WINDOWSTATES.NORMAL;
     }
     //#endregion isNormal
     //#region isMinimized
     get isMinimized() {
-        return core.private(this).windowState === Window.WINDOWSTATES.MINIMIZED;
+        return this.#windowState === Window.WINDOWSTATES.MINIMIZED;
     }
     //#endregion isMinimized
     //#region isMaximized
     get isMaximized() {
-        return core.private(this).windowState === Window.WINDOWSTATES.MAXIMIZED;
+        return this.#windowState === Window.WINDOWSTATES.MAXIMIZED;
     }
     //#endregion isMaximized
     //#region isRolledUp
     get isRolledUp() {
-        return core.private(this).windowState === Window.WINDOWSTATES.ROLLEDUP;
+        return this.#windowState === Window.WINDOWSTATES.ROLLEDUP;
     }
     //#endregion isRolledUp
     //#region isBorderDialog
     get isBorderDialog() {
-        return core.private(this).borderStyle === Window.BORDERSTYLES.DIALOG;
+        return this.#borderStyle === Window.BORDERSTYLES.DIALOG;
     }
     //#endregion isBorderDialog
     //#region isBorderNone
     get isBorderNone() {
-        return core.private(this).borderStyle === Window.BORDERSTYLES.NONE;
+        return this.#borderStyle === Window.BORDERSTYLES.NONE;
     }
     //#endregion isBorderNone
     //#region isBorderSingle
     get isBorderSingle() {
-        return core.private(this).borderStyle === Window.BORDERSTYLES.SINGLE;
+        return this.#borderStyle === Window.BORDERSTYLES.SINGLE;
     }
     //#endregion isBorderSingle
     //#region isBorderSizeable
     get isBorderSizeable() {
-        return core.private(this).borderStyle === Window.BORDERSTYLES.SIZEABLE;
+        return this.#borderStyle === Window.BORDERSTYLES.SIZEABLE;
     }
     //#endregion isBorderSizeable
     //#region isPositionDefault
     get isPositionDefault() {
-        return core.private(this).position === Window.FORMPOSITIONS.DEFAULT;
+        return this.#position === Window.FORMPOSITIONS.DEFAULT;
     }
     //#endregion isPositionDefault
     //#region isPositionDesigned
     get isPositionDesigned() {
-        return core.private(this).position === Window.FORMPOSITIONS.DESIGNED;
+        return this.#position === Window.FORMPOSITIONS.DESIGNED;
     }
     //#endregion isPositionDesigned
     //#region isPositionMainFormCenter
     get isPositionMainFormCenter() {
-        return core.private(this).position === Window.FORMPOSITIONS.MAINFORMCENTER;
+        return this.#position === Window.FORMPOSITIONS.MAINFORMCENTER;
     }
     //#endregion isPositionMainFormCenter
     //#region isPositionScreenCenter
     get isPositionScreenCenter() {
-        return core.private(this).position === Window.FORMPOSITIONS.SCREENCENTER;
+        return this.#position === Window.FORMPOSITIONS.SCREENCENTER;
     }
     //#endregion isPositionScreenCenter
     //#region visibleButtons
     get visibleButtons() {
-        return core.private(this).titleBar.visibleButtons;
+        return this.#titleBar.visibleButtons;
     }
     //#endregion visibleButtons
     //#region activeWindow
@@ -1001,29 +977,25 @@ class BaseWindow extends ThemedControl {
     //#endregion activeWindow
     //#region animated
     get animated() {
-        return core.private(this).animated;
+        return this.#animated;
     }
     set animated(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.animated !== newValue && (priv.animated = newValue);
+        core.tools.isBool(newValue) && this.#animated !== newValue && (this.#animated = newValue);
     }
     //#endregion animated
     //#region caption
     get caption() {
-        return core.private(this).titleBar.title;
+        return this.#titleBar.title;
     }
     set caption(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        let title = core.isHTMLRenderer ? priv.titleBar.title.innerText : priv.titleBar.title;
+        let title = core.isHTMLRenderer ? this.#titleBar.title.innerText : this.#titleBar.title;
         //#endregion Variables déclaration
         if (core.tools.isString(newValue) && title !== newValue) {
-            //priv.titleBar.title.innerText = newValue;
+            //this.#titleBar.title.innerText = newValue;
             this.captionChanged();
-            //this.onCaptionChanged.invoke(priv.titleBar);
-            core.isHTMLRenderer && (priv.titleBar.title.innerText = newValue);
+            //this.onCaptionChanged.invoke(this.#titleBar);
+            core.isHTMLRenderer && (this.#titleBar.title.innerText = newValue);
         }
     }
     //#endregion caption
@@ -1046,7 +1018,6 @@ class BaseWindow extends ThemedControl {
     //#region template
     get template() {
         //#region Variables déclaration
-        const priv = core.private(this);
         let html = super.template;
         let a = html.split('{appName}');
         //#endregion Variables déclaration
@@ -1066,8 +1037,8 @@ class BaseWindow extends ThemedControl {
         if (core.tools.isBool(newValue) && super.visible !== newValue) {
             super.visible = newValue;
             // à revoir
-            //if (!priv.visible) {
-            //    //priv.visible = !1;
+            //if (!this.#visible) {
+            //    //this.#visible = !1;
             //    //Css.removeClass(this.HTMLElement,"isactive");
             //    //this.HTMLElement.dataset.isactive = !1;
             //}
@@ -1076,17 +1047,15 @@ class BaseWindow extends ThemedControl {
     //#endregion visible
     //#region enabledShadow
     get enabledShadow() {
-        return core.private(this).enabledShadow;
+        return this.#enabledShadow;
     }
     set enabledShadow(newValue) {
-        const priv = core.private(this);
-        core.tools.isBool(newValue) && priv.enabledShadow !== newValue && (priv.enabledShadow = newValue);
+        core.tools.isBool(newValue) && this.#enabledShadow !== newValue && (this.#enabledShadow = newValue);
     }
     //#endregion enabledShadow
     //#region setActive
     setActive() {
         //#region Variables déclaration
-        const priv = core.private(this);
         let activeWindow = this.app.activeWindow;
         const app = this.app;
         const isHtmlRenderer = core.isHTMLRenderer;
@@ -1100,7 +1069,7 @@ class BaseWindow extends ThemedControl {
             activeWindow.onDeactivate.invoke();
             isHtmlRenderer && htmlElement.classList.add('inactive');
             if (activeWindow) {
-                !priv.isChildWindow && this !== app.mainWindow
+                !this.#isChildWindow && this !== app.mainWindow
                     ? lastActiveWindow.push(this.app.activeWindow)
                     : lastActiveWindow.clear();
             }
@@ -1112,14 +1081,10 @@ class BaseWindow extends ThemedControl {
     //#endregion setActive
     //#region setFocused
     setFocused(value) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        let focusedControl = priv.focusedControl;
-        //#endregion Variables déclaration
-        if (value && value instanceof core.classes.Control && focusedControl !== value) {
-            focusedControl && focusedControl.killFocus();
-            focusedControl = priv.focusedControl = value;
-            focusedControl && focusedControl.enterFocus();
+        if (value && value instanceof core.classes.Control && this.#focusedControl !== value) {
+            this.#focusedControl && focusedControl.killFocus();
+            this.#focusedControl = value;
+            this.#focusedControl && this.#focusedControl.enterFocus();
         }
     }
     //#endregion setFocused
@@ -1139,8 +1104,7 @@ class BaseWindow extends ThemedControl {
     //#region setTitleBtn
     setTitleBtn(tab) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const titleBar = priv.titleBar;
+        const titleBar = this.#titleBar;
         const TITLEBUTTONS = Window.TITLEBUTTONS;
         const allBtns = [TITLEBUTTONS.MINIMIZE, TITLEBUTTONS.MAXRESTORE, TITLEBUTTONS.HELP, TITLEBUTTONS.ROLLUPDOWN, TITLEBUTTONS.STAYONOFF];
         //#endregion Variables déclaration
@@ -1157,8 +1121,7 @@ class BaseWindow extends ThemedControl {
     //#region layoutMargin
     layoutMargin(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const layout = priv.layout;
+        const layout = this.#layout;
         //#endregion Variables déclaration
         if (Array.isArray(newValue) && newValue.length === 3) {
             layout.margin.setValues(newValue[0], newValue[1], newValue[2], newValue[3]);
@@ -1170,8 +1133,7 @@ class BaseWindow extends ThemedControl {
     //#region setTitleBarProp
     setTitleBarProp(props) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const titleBar = priv.titleBar;
+        const titleBar = this.#titleBar;
         const keys = Object.keys(props);
         //#endregion Variables déclaration
         titleBar.beginUpdate();
@@ -1184,8 +1146,7 @@ class BaseWindow extends ThemedControl {
     //#region setLayoutProp
     setLayoutProp(props) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const layout = priv.titleBar;
+        const layout = this.#titleBar;
         const keys = Object.keys(props);
         //#endregion Variables déclaration
         layout.beginUpdate();
@@ -1197,23 +1158,20 @@ class BaseWindow extends ThemedControl {
     //#endregion setLayoutProp
     //#region allControls
     get allControls() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return [priv.titleBar, ...priv.titleBar.allControls, priv.content, ...priv.controls];
+        return [this.#titleBar, ...this.#titleBar.allControls, this.#content, ...this.#controls];
     }
     //#endregion allControls
     //#endregion Getters / Setters
     //#region Methods
     //#region captionChanged
     captionChanged() {
-        core.private(this).titleBar.onCaptionChanged.invoke();
+        this.#titleBar.onCaptionChanged.invoke();
     }
     //#endregion captionChanged
     //#region addCaptionChangedListener
     addCaptionChangedListener(func) {
         //#region Variables déclaration
-        const onCaptionChanged = core.private(this).titleBar.onCaptionChanged;
+        const onCaptionChanged = this.#titleBar.onCaptionChanged;
         //#endregion Variables déclaration
         onCaptionChanged.clearListeners();
         onCaptionChanged.addListener(func);
@@ -1222,8 +1180,7 @@ class BaseWindow extends ThemedControl {
     //#region alignButtons
     alignButtons() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const titleBar = priv.titleBar;
+        const titleBar = this.#titleBar;
         const buttons = ['close', 'maxRestore', 'minimize', 'help', 'rollUpDown', 'stayOnOff'];
         const btns = core.themes[this.themeName].WindowButton;
         let invisbleBtns = 0;
@@ -1283,10 +1240,7 @@ class BaseWindow extends ThemedControl {
     //#endregion close
     //#region _close
     _close() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (priv.canClose) {
+        if (this.#canClose) {
             this.hide();
         }
     }
@@ -1297,7 +1251,6 @@ class BaseWindow extends ThemedControl {
         const htmlElement = this.HTMLElement;
         const app = this.app;
         const lastActiveWindow = app.lastActiveWindow;
-        const priv = core.private(this);
         const isHtmlRenderer = core.isHTMLRenderer;
         let glass;
         //#endregion Variables déclaration
@@ -1320,7 +1273,7 @@ class BaseWindow extends ThemedControl {
             lastActiveWindow.last.setActive();
             lastActiveWindow.pop();
         }
-        if (priv.isModal && isHtmlRenderer) {
+        if (this.#isModal && isHtmlRenderer) {
             glass = activeWindow.HTMLElement.querySelector('.glass');
             if (!activeWindow.isChildWindow) {
                 isHtmlRenderer && activeWindow.HTMLElement.removeChild(glass);
@@ -1329,20 +1282,19 @@ class BaseWindow extends ThemedControl {
                 activeWindow = app.mainWindow;
             }
         }
-        priv.isModal = !1;
-        priv.lastFocusedControl.setFocus();
+        this.#isModal = !1;
+        this.#lastFocusedControl.setFocus();
     }
     //#endregion hide
     //#region minimize
     minimize() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const htmlElementStyle = this.HTMLElementStyle;
         const PX = core.types.CSSUNITS.PX;
-        const titleBar = priv.titleBar;
+        const titleBar = this.#titleBar;
         const WINDOWSTATES = Window.WINDOWSTATES;
-        const savedSizePosState = priv.savedSizePosState;
+        const savedSizePosState = this.#savedSizePosState;
         const isHtmlRenderer = core.isHTMLRenderer;
         const themeName = this.app.themeManifest.themeName;
         let minWinHeight = Window.MINHEIGHT;
@@ -1364,26 +1316,26 @@ class BaseWindow extends ThemedControl {
                 htmlElementStyle.top = `${document.body.offsetHeight - minWinHeight}${PX}`;
                 htmlElementStyle.width = `${Window.MINWIDTH}${PX}`;
                 htmlElementStyle.height = `${minWinHeight}${PX}`;
-                priv.windowState = WINDOWSTATES.MINIMIZED;
+                this.#windowState = WINDOWSTATES.MINIMIZED;
             } else {
                 const theme = core.themes[themeName];
                 if (theme && theme.Window) {
                     theme.Window.minHeight && (minWinHeight = theme.Window.minHeight);
                     theme.Window.minWidth && (minWinWidth = theme.Window.MINWIDTH);
                 }
-                priv.windowState = WINDOWSTATES.NONE;
-                //const minimizeAnimation = priv.minimizeAnimation;
+                this.#windowState = WINDOWSTATES.NONE;
+                //const minimizeAnimation = this.#minimizeAnimation;
                 //minimizeAnimation.startFromCurrent = !1;
                 //minimizeAnimation.inverse = !1;
                 //minimizeAnimation.stopValue.setValues(0, document.body.offsetHeight - minWinHeight, minWinWidth, document.body.offsetHeight);
-                //if (priv.windowState === WINDOWSTATES.MAXIMIZED) {
+                //if (this.#windowState === WINDOWSTATES.MAXIMIZED) {
                 //    minimizeAnimation.startValue.setValues(this.left, this.top, this.left + this.width, this.top + this.height);
                 //} else {
                 //    minimizeAnimation.startValue.setValues(savedSizePosState.left, savedSizePosState.top, savedSizePosState.left + savedSizePosState.width, savedSizePosState.top + savedSizePosState.height);
                 //}
                 //minimizeAnimation.start();
             }
-            priv.enabledShadow = !1;
+            this.#enabledShadow = !1;
             titleBar.maxRestoreBtn.enabled = !1;
             titleBar.helpBtn.enabled = !1;
             titleBar.rollUpDownBtn.enabled = !1;
@@ -1413,9 +1365,8 @@ class BaseWindow extends ThemedControl {
         //#region Variables déclaration
         const form = this.jsObj ? this.jsObj : this.control;
         const savedSizePosState = form.savedSizePosState;
-        const priv = core.private(form);
         //#endregion Variables déclaration
-        priv.windowState = form.savedSizePosState.state;
+        this.#windowState = form.savedSizePosState.state;
         if (this.isMaximized && form.control) {
             form.startValue.setValues(form.left, form.top, form.left + form.width, form.top + form.height);
             form.startValue.setValues(savedSizePosState.left, savedSizePosState.top, savedSizePosState.left + savedSizePosState.width,
@@ -1434,8 +1385,7 @@ class BaseWindow extends ThemedControl {
     //#region toggleMinRestore
     toggleMinRestore() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const minimizeBtn = priv.titleBar.minimizeBtn;
+        const minimizeBtn = this.#titleBar.minimizeBtn;
         const isHtmlRenderer = core.isHTMLRenderer;
         //#endregion Variables déclaration
         if (!this.isMinimized) {
@@ -1456,17 +1406,16 @@ class BaseWindow extends ThemedControl {
     //#region maximize
     maximize() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const WINDOWSTATES = Window.WINDOWSTATES;
         const htmlElement = this.HTMLElement;
         const htmlElementStyle = this.HTMLElementStyle;
-        const titleBar = priv.titleBar;
-        const savedSizePosState = priv.savedSizePosState;
+        const titleBar = this.#titleBar;
+        const savedSizePosState = this.#savedSizePosState;
         const isHtmlRenderer = core.isHTMLRenderer;
         const PX = core.types.CSSUNITS.PX;
         //#endregion Variables déclaration
         if (!this.isRolledUp) {
-            if (!this.isMinimized && priv.snapArea === Window.SNAPAREAS.NONE) {
+            if (!this.isMinimized && this.#snapArea === Window.SNAPAREAS.NONE) {
                 savedSizePosState.left = isHtmlRenderer ? htmlElement.offsetLeft : this.left;
                 savedSizePosState.top = isHtmlRenderer ? htmlElement.offsetTop : this.top;
                 savedSizePosState.width = isHtmlRenderer ? htmlElement.offsetWidth : this.width;
@@ -1476,25 +1425,25 @@ class BaseWindow extends ThemedControl {
             if (core.isHTMLRenderer) {
                 htmlElement.classList.add(WINDOWSTATES.MAXIMIZED);
                 htmlElement.classList.remove(WINDOWSTATES.MINIMIZED);
-                htmlElementStyle.left = `0`;
-                htmlElementStyle.top = `0`;
+                htmlElementStyle.left = '0';
+                htmlElementStyle.top = '0';
                 htmlElementStyle.width = `${document.body.offsetWidth}${PX}`;
                 htmlElementStyle.height = `${document.body.offsetHeight}${PX}`;
-                priv.windowState = WINDOWSTATES.MAXIMIZED;
+                this.#windowState = WINDOWSTATES.MAXIMIZED;
             } else {
-                //const minimizeAnimation = priv.minimizeAnimation;
+                //const minimizeAnimation = this.#minimizeAnimation;
                 //minimizeAnimation.startFromCurrent = !1;
                 //minimizeAnimation.inverse = !1;
                 //minimizeAnimation.stopValue.setValues(0, 0, document.body.offsetWidth, document.body.offsetHeight);
-                //if (priv.windowState === WINDOWSTATES.MINIMIZED) {
+                //if (this.#windowState === WINDOWSTATES.MINIMIZED) {
                 //    minimizeAnimation.startValue.setValues(this.left, this.top, this.left + this.width, this.top + this.height);
                 //} else {
                 //    minimizeAnimation.startValue.setValues(savedSizePosState.left, savedSizePosState.top, savedSizePosState.left + savedSizePosState.width, savedSizePosState.top + savedSizePosState.height);
                 //}
                 //minimizeAnimation.start();
-                priv.windowState = WINDOWSTATES.NONE;
+                this.#windowState = WINDOWSTATES.NONE;
             }
-            priv.enabledShadow = !1;
+            this.#enabledShadow = !1;
             // on désactive les autres boutons
             titleBar.maxRestoreBtn.enabled = !0;
             //titleBar.helpBtn.enabled = !1;
@@ -1507,14 +1456,13 @@ class BaseWindow extends ThemedControl {
     //#region toggleMaxRestore
     toggleMaxRestore() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const maxRestoreBtn = priv.titleBar.maxRestoreBtn;
+        const maxRestoreBtn = this.#titleBar.maxRestoreBtn;
         const isHtmlRenderer = core.isHTMLRenderer;
         const WINDOWSTATES = Window.WINDOWSTATES;
         //#endregion Variables déclaration
         if (!this.isMaximized) {
             maxRestoreBtn.toolTip = 'Rétablir précédent'; // à voir pour mettre en locale
-            priv.windowState === WINDOWSTATES.SNAPED && priv.snapArea === Window.SNAPAREAS.TOP
+            this.#windowState === WINDOWSTATES.SNAPED && this.#snapArea === Window.SNAPAREAS.TOP
                 ? this.restoreWindow()
                 : this.maximize();
             isHtmlRenderer && maxRestoreBtn.HTMLElement.classList.add('isrestore');
@@ -1528,13 +1476,12 @@ class BaseWindow extends ThemedControl {
     //#region restore
     restore() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const titleBar = priv.titleBar;
-        const savedSizePosState = priv.savedSizePosState;
+        const titleBar = this.#titleBar;
+        const savedSizePosState = this.#savedSizePosState;
         const WINDOWSTATES = Window.WINDOWSTATES;
         const PX = core.types.CSSUNITS.PX;
         if (savedSizePosState.oldState && savedSizePosState.oldState === WINDOWSTATES.MAXIMIZED) {
-            delete priv.savedSizePosState.oldState;
+            delete this.#savedSizePosState.oldState;
             this.toggleMaxRestore();
             return;
         }
@@ -1544,20 +1491,20 @@ class BaseWindow extends ThemedControl {
             htmlElementStyle.transitionProperty = 'left, width, top, height';
             htmlElementStyle.transitionDuration = '0.2s';
             Events.bind(this.HTMLElement, 'transitionend', this._onMinimizeFinish);
-            if ([WINDOWSTATES.MAXIMIZED, WINDOWSTATES.MINIMIZED].indexOf(priv.windowState) > -1) {
+            if ([WINDOWSTATES.MAXIMIZED, WINDOWSTATES.MINIMIZED].indexOf(this.#windowState) > -1) {
                 htmlElementStyle.left = `${savedSizePosState.left}${PX}`;
                 htmlElementStyle.top = `${savedSizePosState.top}${PX}`;
                 htmlElementStyle.width = `${savedSizePosState.width}${PX}`;
                 htmlElementStyle.height = `${savedSizePosState.height}${PX}`;
                 htmlElementStyle.right = 'auto';
                 htmlElementStyle.bottom = 'auto';
-                priv.windowState = WINDOWSTATES.NORMAL;
+                this.#windowState = WINDOWSTATES.NORMAL;
             }
             this.HTMLElement.classList.remove(WINDOWSTATES.MAXIMIZED, WINDOWSTATES.MINIMIZED);
         } else {
-            priv.enabledShadow = !0;
-            priv.windowState = WINDOWSTATES.NONE;
-            //const minimizeAnimation = priv.minimizeAnimation;
+            this.#enabledShadow = !0;
+            this.#windowState = WINDOWSTATES.NONE;
+            //const minimizeAnimation = this.#minimizeAnimation;
             //minimizeAnimation.startFromCurrent = !1;
             //minimizeAnimation.startValue.setValues(this.left, this.top, this.left + this.width, this.top + this.height);
             //minimizeAnimation.stopValue.setValues(savedSizePosState.left, savedSizePosState.top, savedSizePosState.left + savedSizePosState.width, savedSizePosState.top + savedSizePosState.height);
@@ -1591,13 +1538,12 @@ class BaseWindow extends ThemedControl {
     //#region rollUp
     rollUp() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const titleBar = priv.titleBar;
+        const titleBar = this.#titleBar;
         const maxRestoreBtn = titleBar.maxRestoreBtn;
         const minimizeBtn = titleBar.minimizeBtn;
         const rollUpDownBtn = titleBar.rollUpDownBtn;
         const isHtmlRenderer = core.isHTMLRenderer;
-        const savedSizePosState = priv.savedSizePosState;
+        const savedSizePosState = this.#savedSizePosState;
         let minWinHeight = Window.MINHEIGHT;
         const theme = core.themes[this.app.themeManifest.themeName];
         //#endregion Variables déclaration
@@ -1612,8 +1558,8 @@ class BaseWindow extends ThemedControl {
             }
             maxRestoreBtn.visible && (maxRestoreBtn.enabled = !1);
             minimizeBtn.visible && (minimizeBtn.enabled = !1);
-            priv.content.visible = !1;
-            priv.windowState = Window.WINDOWSTATES.ROLLEDUP;
+            this.#content.visible = !1;
+            this.#windowState = Window.WINDOWSTATES.ROLLEDUP;
             rollUpDownBtn.isRolledUp = !0;
             isHtmlRenderer
                 ? rollUpDownBtn.HTMLElement.classList.add('isup')
@@ -1625,22 +1571,21 @@ class BaseWindow extends ThemedControl {
     //#region rollDown
     rollDown() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const titleBar = priv.titleBar;
+        const titleBar = this.#titleBar;
         const maxRestoreBtn = titleBar.maxRestoreBtn;
         const minimizeBtn = titleBar.minimizeBtn;
         const rollUpDownBtn = titleBar.rollUpDownBtn;
         const isHtmlRenderer = core.isHTMLRenderer;
-        const savedSizePosState = priv.savedSizePosState;
+        const savedSizePosState = this.#savedSizePosState;
         //#endregion Variables déclaration
         if (this.isRolledUp) {
             isHtmlRenderer
                 ? this.HTMLElement.classList.remove('rolledUp')
                 : this.height = savedSizePosState.height;
-            priv.windowState = Window.WINDOWSTATES.NORMAL;
+            this.#windowState = Window.WINDOWSTATES.NORMAL;
             maxRestoreBtn.visible && (maxRestoreBtn.enabled = !0);
             minimizeBtn.visible && (minimizeBtn.enabled = !0);
-            priv.content.visible = !0;
+            this.#content.visible = !0;
             rollUpDownBtn.isRolledUp = !1;
             if (isHtmlRenderer) {
                 rollUpDownBtn.HTMLElement.classList.remove('isup');
@@ -1653,23 +1598,19 @@ class BaseWindow extends ThemedControl {
     //#endregion rollDown
     //#region toggleStay
     toggleStay() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        !priv.stayOn ? this.stayOnTop() : this.stayNormal();
+        !this.#stayOn ? this.stayOnTop() : this.stayNormal();
     }
     //#endregion toggleStay
     //#region stayOnTop
     stayOnTop() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const titleBar = priv.titleBar;
+        const titleBar = this.#titleBar;
         const stayOnOffBtn = titleBar.stayOnOffBtn;
         //#endregion Variables déclaration
         if (this.isBorderSizeable || this.isBorderSingle || titleBar.stayOnOffBtn.visible) {
             core.isHTMLRenderer && (this.HTMLElementStyle.zIndex = Window.STAYONTOP);
             core.isHTMLRenderer && stayOnOffBtn.HTMLElement.classList.add('isstayon');
-            stayOnOffBtn.isStayOn = priv.stayOn = !0;
+            stayOnOffBtn.isStayOn = this.#stayOn = !0;
             this.stopResize();
         }
     }
@@ -1677,15 +1618,14 @@ class BaseWindow extends ThemedControl {
     //#region stayNormal
     stayNormal() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const titleBar = priv.titleBar;
+        const titleBar = this.#titleBar;
         const stayOnOffBtn = titleBar.stayOnOffBtn;
         //#endregion Variables déclaration
         if (this.isBorderSizeable || this.isBorderSingle || titleBar.stayOnOffBtn.visible) {
-            stayOnOffBtn.isStayOn = priv.stayOn = !1;
+            stayOnOffBtn.isStayOn = this.#stayOn = !1;
             stayOnOffBtn.toolTip = 'Epingler au dessus'; // à voir pour mettre en locale
             core.isHTMLRenderer && stayOnOffBtn.HTMLElement.classList.remove('isstayon');
-            core.isHTMLRenderer && (this.HTMLElementStyle.zIndex = priv.lastZIndex);
+            core.isHTMLRenderer && (this.HTMLElementStyle.zIndex = this.#lastZIndex);
         }
     }
     //#endregion stayNormal
@@ -1699,29 +1639,28 @@ class BaseWindow extends ThemedControl {
     //#region beforeShow
     beforeShow() {
         //#region Variables declaration
-        const priv = core.private(this);
         const isHtmlRenderer = core.isHTMLRenderer;
         const htmlElement = this.HTMLElement;
         //#endregion Variables declaration
         //this.checkBorderStyle();
-        if (priv.firstShow) {
+        if (this.#firstShow) {
             //if (isHtmlRenderer) {
             //    this.HTMLResize();
             //}
-            priv.firstShow = !1;
-            htmlElement.classList.add(priv.borderStyle);
+            this.#firstShow = !1;
+            htmlElement.classList.add(this.#borderStyle);
             if (this.isMaximized) {
-                priv.windowState = Window.WINDOWSTATES.NORMAL;
+                this.#windowState = Window.WINDOWSTATES.NORMAL;
                 this.toggleMaxRestore();
             }
         }
-        switch (priv.position) {
+        switch (this.#position) {
             case Window.FORMPOSITIONS.SCREENCENTER:
             case Window.FORMPOSITIONS.MAINFORMCENTER:
                 this.center();
         }
         isHtmlRenderer && (this.HTMLElementStyle.zIndex = core.windowZIndex);
-        priv.lastZIndex = core.windowZIndex;
+        this.#lastZIndex = core.windowZIndex;
         this.loaded();
         this.initDataBindings();
     }
@@ -1740,16 +1679,15 @@ class BaseWindow extends ThemedControl {
     show() {
         //#region Variables déclaration
         const htmlElement = this.HTMLElement;
-        const priv = core.private(this);
         //#endregion Variables déclaration
         this.beforeShow();
         this.visible = !0;
         this.setActive();
-        if (priv.animated && core.isHTMLRenderer) {
+        if (this.#animated && core.isHTMLRenderer) {
             htmlElement.classList.add('animated', 'bounceIn');
             Events.bind(htmlElement, Events.whichAnimationEvent(), this.anitmationEndOnShow);
             const defaultBtn = htmlElement.querySelector('.isDefault');
-            defaultBtn && !priv.focusedControl && defaultBtn.jsObj.setFocus();
+            defaultBtn && !this.#focusedControl && defaultBtn.jsObj.setFocus();
         }
         this.onShow.invoke();
         if (!core.isHTMLRenderer) {
@@ -1790,17 +1728,16 @@ class BaseWindow extends ThemedControl {
         let glass = null;
         const app = this.app;
         let activeWindow = app.activeWindow;
-        const priv = core.private(this);
         const isHtmlRenderer = core.isHTMLRenderer;
         //#endregion Variables déclaration
-        priv.lastFocusedControl = activeWindow.focusedControl;
+        this.#lastFocusedControl = activeWindow.focusedControl;
         if (isHtmlRenderer) {
             glass = document.createElement(core.types.HTMLELEMENTS.DIV);
             glass.classList.add('Control', 'glass');
             glass.jsObj = this;
         }
-        priv.isModal = !0;
-        priv.modalResult = Window.MODALRESULTS.NONE;
+        this.#isModal = !0;
+        this.#modalResult = Window.MODALRESULTS.NONE;
         if (!activeWindow.isChildWindow) {
             isHtmlRenderer && activeWindow.HTMLElement.appendChild(glass);
         } else {
@@ -1813,7 +1750,7 @@ class BaseWindow extends ThemedControl {
     //#region releaseCapture
     releaseCapture() {
         //#region Variables déclaration
-        const capturedControl = core.private(this).capturedControl;
+        const capturedControl = this.#capturedControl;
         //#endregion Variables déclaration
         capturedControl !== this && capturedControl && capturedControl instanceof core.classes.Control
             && capturedControl.releaseCapture();
@@ -1822,13 +1759,12 @@ class BaseWindow extends ThemedControl {
     //#region HTMLResize
     HTMLResize() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const PX = core.types.CSSUNITS.PX;
         const htmlElementStyle = this.HTMLElementStyle;
         const width = this.width;
         const height = this.height;
         //#endregion Variables déclaration
-        !this.loading && !priv.creating && (priv.firstShow = !1);
+        !this.loading && !this.#creating && (this.#firstShow = !1);
         Object.keys(core.looper.listeners).forEach(key => {
             if (core.looper.listeners[key].component.hasResizeEvent) {
                 core.looper.listeners[key].component.resized();
@@ -1887,12 +1823,11 @@ class BaseWindow extends ThemedControl {
     //#region mouseDown
     mouseDown() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const resizeMode = priv.resizeMode;
-        const savedSizePosState = priv.savedSizePosState;
+        const resizeMode = this.#resizeMode;
+        const savedSizePosState = this.#savedSizePosState;
         //#endregion Variables déclaration
-        priv.isResizing = resizeMode.rightEdge || resizeMode.bottomEdge || resizeMode.topEdge || resizeMode.leftEdge;
-        if (priv.isResizing && !this.isMaximized && !this.isMinimized) {
+        this.#isResizing = resizeMode.rightEdge || resizeMode.bottomEdge || resizeMode.topEdge || resizeMode.leftEdge;
+        if (this.#isResizing && !this.isMaximized && !this.isMinimized) {
             const documentCoord = core.mouse.document;
             savedSizePosState.x = documentCoord.x;
             savedSizePosState.y = documentCoord.y;
@@ -1922,11 +1857,10 @@ class BaseWindow extends ThemedControl {
     //#region stopResize
     stopResize() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const resizeMode = priv.resizeMode;
+        const resizeMode = this.#resizeMode;
         //#endregion Variables déclaration
         resizeMode.rightEdge = resizeMode.bottomEdge = resizeMode.topEdge = resizeMode.leftEdge = !1;
-        priv.isResizing = !1;
+        this.#isResizing = !1;
         core.looper.removeListener(this, 'resize');
         core.resizeWindow = null;
         Events.unBind(document, Mouse.MOUSEEVENTS.UP.toLowerCase(), this.docMouseUp);
@@ -1937,22 +1871,21 @@ class BaseWindow extends ThemedControl {
     //#region mouseMove
     mouseMove() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const layoutRect = {};
         let cs = null;
         let csrDefault = !0;
         const CUSTOMCURSORS = core.types.CUSTOMCURSORS;
         const isHtmlRenderer = core.isHTMLRenderer;
         const htmlElement = isHtmlRenderer ? this.HTMLElement : core.canvas;
-        const resizeMode = priv.resizeMode;
-        const layout = priv.layout;
+        const resizeMode = this.#resizeMode;
+        const layout = this.#layout;
         const lHtmlElement = layout.HTMLElement;
         const mouse = core.mouse;
         const mDocument = mouse.document;
         //#endregion Variables déclaration
         super.mouseMove();
         this.removeCursors();
-        if (this.isBorderSizeable && !this.isMaximized && !this.isMinimized && !priv.isResizing && !this.isRolledUp && priv.snapArea !== Window.SNAPAREAS.TOP) {
+        if (this.isBorderSizeable && !this.isMaximized && !this.isMinimized && !this.#isResizing && !this.isRolledUp && this.#snapArea !== Window.SNAPAREAS.TOP) {
             if (mouse.event.srcElement === htmlElement || isHtmlRenderer) {
                 resizeMode.rightEdge = resizeMode.bottomEdge = resizeMode.topEdge = resizeMode.leftEdge = !1;
                 if (isHtmlRenderer) {
@@ -1992,7 +1925,7 @@ class BaseWindow extends ThemedControl {
             }
         }
         csrDefault && htmlElement.classList.add(CUSTOMCURSORS.DEFAULT);
-        priv.isResizing && this.docMouseMove();
+        this.#isResizing && this.docMouseMove();
     }
     //#endregion mouseMove
     //#region docMouseMove
@@ -2002,9 +1935,9 @@ class BaseWindow extends ThemedControl {
         const mDocument = mouse.document;
         const p = new core.classes.Point(mDocument.x, mDocument.y);
         const decOff = {};
-        //#endregion Variables déclaration
         const resizeWindow = core.resizeWindow;
         const savedSizePosState = core.private(resizeWindow).savedSizePosState;
+        //#endregion Variables déclaration
         if (resizeWindow && resizeWindow.isResizing) {
             decOff.x = Math.abs(savedSizePosState.x - p.x);
             decOff.y = Math.abs(savedSizePosState.y - p.y);
@@ -2064,12 +1997,11 @@ class BaseWindow extends ThemedControl {
     //#region resize
     resize() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const pos = {};
         const PX = core.types.CSSUNITS.PX;
         const htmlElement = this.HTMLElement;
-        const savedSizePosState = priv.savedSizePosState;
-        const resizeMode = priv.resizeMode;
+        const savedSizePosState = this.#savedSizePosState;
+        const resizeMode = this.#resizeMode;
         const htmlElementStyle = this.HTMLElementStyle;
         const isHtmlRenderer = core.isHTMLRenderer;
         const themeName = this.app.themeName;
@@ -2077,7 +2009,7 @@ class BaseWindow extends ThemedControl {
         const minWidth = windowTheme && windowTheme.minWidth ? windowTheme.minWidth : Window.MINWIDTH;
         const minHeight = windowTheme && windowTheme.minHeight ? windowTheme.minHeight : Window.MINHEIGHT;
         //#endregion Variables déclaration
-        if (priv.isResizing) {
+        if (this.#isResizing) {
             const b = (isHtmlRenderer ? htmlElement : this).getBoundingClientRect();
             pos.l = isHtmlRenderer ? htmlElement.offsetLeft : this.left;
             pos.t = isHtmlRenderer ? htmlElement.offsetTop : this.top;
@@ -2138,13 +2070,12 @@ class BaseWindow extends ThemedControl {
         let props = null;
         let dataName = null;
         let dataClass = null;
-        const priv = core.private(this);
         const isHtmlRenderer = core.isHTMLRenderer;
         const themeName = this.app.themeManifest.themeName;
         const theme = core.themes[themeName];
         const classes = core.classes;
         //#endregion Variables déclaration
-        priv.layout = classes.createComponent({
+        this.#layout = classes.createComponent({
             class: classes.Layout,
             owner: this,
             props: {
@@ -2153,7 +2084,7 @@ class BaseWindow extends ThemedControl {
             },
             withTpl: !1
         });
-        const layout = priv.layout;
+        const layout = this.#layout;
         layout.mouseEvents.all = !1;
         if (isHtmlRenderer) {
             layout.getHTMLElement(this.HTMLElement.querySelector('[data-class="Layout"]').id);
@@ -2190,13 +2121,13 @@ class BaseWindow extends ThemedControl {
                     owner: layout,
                     name: dataName,
                     props: { ...props },
-                    internalId: node.id,
-                    withTpl: !1
-                });
+                        internalId: node.id,
+                        withTpl: !1
+                    });
                 switch (dataClass) {
                     case 'WindowTitleBar': {
-                        priv.titleBar = obj;
-                        const titleBar = priv.titleBar;
+                        this.#titleBar = obj;
+                        const titleBar = this.#titleBar;
                         if (this.isBorderNone) {
                             isHtmlRenderer
                                 ? titleBar.display = core.types.DISPLAYS.NONE
@@ -2211,8 +2142,8 @@ class BaseWindow extends ThemedControl {
                         break;
                     }
                     case 'WindowContent': {
-                        priv.content = obj;
-                        const content = priv.content;
+                        this.#content = obj;
+                        const content = this.#content;
                         content.inForm = !1;
                         content.mouseEvents.all = !1;
                         content.mouseEvents.mousedown = !0;
@@ -2220,14 +2151,14 @@ class BaseWindow extends ThemedControl {
                         break;
                     }
                     case 'MainMenu':
-                        priv.mainMenu = obj;
+                        this.#mainMenu = obj;
                         break;
                     case 'ToolBar':
                     case 'ToolBarContainer':
-                        priv.toolBars.push(obj);
+                        this.#toolBars.push(obj);
                         break;
                     case 'StatusBar':
-                        priv.statusBars.push(obj);
+                        this.#statusBars.push(obj);
                         break;
                 }
                 !isHtmlRenderer && obj.getChilds(node.childs);
@@ -2237,15 +2168,12 @@ class BaseWindow extends ThemedControl {
     //#endregion getChilds
     //#region formCreated
     formCreated(id) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.isHTMLRenderer) {
             this.getHTMLElement(id);
             this.getChilds();
             this.addListeners && this.addListeners();
-            if (priv.isChildWindow) {
-                priv.parentHTML.appendChild(this.HTMLElement);
+            if (this.#isChildWindow) {
+                this.#parentHTML.appendChild(this.HTMLElement);
                 this.maximize();
                 this.desactiveHitTest();
             }
@@ -2258,12 +2186,11 @@ class BaseWindow extends ThemedControl {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const themeName = this.app.themeManifest.themeName;
         const theme = core.themes[themeName];
         const isHtmlRenderer = core.isHTMLRenderer;
-        const layoutMargin = priv.layout.margin;
-        const contentMargin = priv.content.margin;
+        const layoutMargin = this.#layout.margin;
+        const contentMargin = this.#content.margin;
         const TITLEBUTTONS = Window.TITLEBUTTONS;
         let margin = null;
         //#endregion Variables déclaration
@@ -2280,7 +2207,7 @@ class BaseWindow extends ThemedControl {
                         layoutMargin.setValues(margin.left, margin.top, margin.right, margin.bottom);
                     }
                 }
-                theme.WindowLayout.hasOwnProperty('clipped') && (priv.layout.clipped = theme.WindowLayout.clipped);
+                theme.WindowLayout.hasOwnProperty('clipped') && (this.#layout.clipped = theme.WindowLayout.clipped);
             }
             if (theme.WindowContent) {
                 if (theme.WindowContent.margin) {
@@ -2293,16 +2220,16 @@ class BaseWindow extends ThemedControl {
                         contentMargin.setValues(margin.left, margin.top, margin.right, margin.bottom);
                     }
                 }
-                theme.WindowContent.hasOwnProperty('clipped') && (priv.content.clipped = theme.WindowContent.clipped);
+                theme.WindowContent.hasOwnProperty('clipped') && (this.#content.clipped = theme.WindowContent.clipped);
             }
             theme.Window.hasOwnProperty('clipped') && (this.clipped = theme.Window.clipped);
             theme.WindowTitleBar && theme.WindowTitleBar.hasOwnProperty('clipped')
-                && (priv.titleBar.clipped = theme.WindowTitleBar.clipped);
+                && (this.#titleBar.clipped = theme.WindowTitleBar.clipped);
         }
         this.realignChilds();
         super.loaded();
-        priv.creating = !1;
-        const comp = priv.content.components.find(component => {
+        this.#creating = !1;
+        const comp = this.#content.components.find(component => {
             if (component instanceof core.classes.Control && component.visible && component.canFocused
                 && component.isEnabled) {
                 return component;
@@ -2310,15 +2237,14 @@ class BaseWindow extends ThemedControl {
         });
         comp && comp.setFocus();
         !isHtmlRenderer && this.alignButtons();
-        this.setTitleBtn(priv.buttons ? priv.buttons : [TITLEBUTTONS.MINIMIZE, TITLEBUTTONS.MAXRESTORE]);
+        this.setTitleBtn(this.#buttons ? this.#buttons : [TITLEBUTTONS.MINIMIZE, TITLEBUTTONS.MAXRESTORE]);
     }
     //#endregion loaded
     //#region closePopups
     closePopups() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const popups = priv.popups;
-        const mainMenu = priv.mainMenu;
+        const popups = this.#popups;
+        const mainMenu = this.#mainMenu;
         const classes = core.classes;
         //#endregion Variables déclaration
         if (popups) {
@@ -2412,7 +2338,6 @@ class BaseWindow extends ThemedControl {
     createSnapArea(_snapArea) {
         //#region Variables déclaration
         const SNAPAREAS = Window.SNAPAREAS;
-        const priv = core.private(this);
         let snapArea = document.getElementById('snapArea');
         //#endregion Variables déclaration
         if (!snapArea) {
@@ -2424,7 +2349,7 @@ class BaseWindow extends ThemedControl {
         }
         const snapAreaStyle = snapArea.style;
         snapAreaStyle.zIndex = core.isHTMLRenderer ? int(this.HTMLElementStyle.zIndex) - 1 : 0;
-        priv.snapArea = _snapArea;
+        this.#snapArea = _snapArea;
         switch (_snapArea) {
             case SNAPAREAS.TOP:
                 break;
@@ -2460,21 +2385,20 @@ class BaseWindow extends ThemedControl {
     //#region restoreWindow
     restoreWindow() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const PX = core.types.CSSUNITS.PX;
         const WINDOWSTATES = Window.WINDOWSTATES;
-        const savedSizePosState = priv.savedSizePosState;
+        const savedSizePosState = this.#savedSizePosState;
         const htmlElement = this.HTMLElement;
         const htmlElementStyle = this.HTMLElementStyle;
         const isHtmlRenderer = core.isHTMLRenderer;
         const SNAPED = WINDOWSTATES.SNAPED;
         const SNAPAREAS = Window.SNAPAREAS;
-        const titleBar = priv.titleBar;
+        const titleBar = this.#titleBar;
         const rollUpDownBtn = titleBar.rollUpDownBtn;
         const stayOnOffBtn = titleBar.stayOnOffBtn;
         const maxRestoreBtn = titleBar.maxRestoreBtn;
         //#endregion Variables déclaration
-        if (priv.windowState === SNAPED) {
+        if (this.#windowState === SNAPED) {
             if (isHtmlRenderer) {
                 htmlElementStyle.width = `${savedSizePosState.width}${PX}`;
                 htmlElementStyle.height = `${savedSizePosState.height}${PX}`;
@@ -2482,7 +2406,7 @@ class BaseWindow extends ThemedControl {
                 htmlElementStyle.bottom = String.EMPTY;
                 htmlElementStyle.left = `${savedSizePosState.left}${PX}`;
                 htmlElementStyle.top = `${savedSizePosState.top}${PX}`;
-                htmlElement.classList.remove(`${SNAPED}${priv.snapArea}`);
+                htmlElement.classList.remove(`${SNAPED}${this.#snapArea}`);
             } else {
                 this.width = savedSizePosState.width;
                 this.height = savedSizePosState.height;
@@ -2492,13 +2416,13 @@ class BaseWindow extends ThemedControl {
             // TODO enable rollup and stayon button
             // change maxRestore button to max
             // change maxRestore button to restore
-            priv.enabledShadow = !0;
+            this.#enabledShadow = !0;
             // on désactive les autres boutons
             maxRestoreBtn.enabled = !0;
             rollUpDownBtn.enabled = !0;
             stayOnOffBtn.enabled = !0;
-            priv.windowState = WINDOWSTATES.NORMAL;
-            priv.snapArea = SNAPAREAS.NONE;
+            this.#windowState = WINDOWSTATES.NORMAL;
+            this.#snapArea = SNAPAREAS.NONE;
         }
     }
     //#endregion restoreWindow
@@ -2506,14 +2430,13 @@ class BaseWindow extends ThemedControl {
     destroy() {
         //#region Variables déclaration
         const app = this.app;
-        const priv = core.private(this);
         const head = document.head;
         const className = this.constructor.name;
         const windows = app.windows;
         const scripts = Convert.nodeListToArray(head.getElementsByTagName('script'));
         //#endregion Variables déclaration
         this.closePopups();
-        priv.isModal && isHtmlRenderer && priv.parentHTML.removeChild(this.HTMLElement);
+        this.#isModal && isHtmlRenderer && this.#parentHTML.removeChild(this.HTMLElement);
         scripts.forEach(script => {
             script.src.indexOf(className.toLowerCase()) > -1 && head.removeChild(script);
         });
@@ -2526,74 +2449,71 @@ class BaseWindow extends ThemedControl {
             return;
         }
         app.windows.remove(this);
-        priv.popups.destroy();
-        priv.toolBars.destroy();
-        priv.statusBars.destroy();
-        priv.resizeMode = null;
-        priv.savedSizePosState = null;
-        priv.isModal = null;
-        priv.creating = null;
-        priv.layout = null;
-        priv.titleBar = null;
-        priv.content = null;
-        priv.titleBarObj = null;
-        priv.firstShow = null;
-        priv.controlsToResize.clear();
-        priv.controlsToResize.destroy();
-        priv.controlsToResize = null;
-        priv.focusedControl = null;
-        priv.hoveredControl = null;
-        priv.capturedControl = null;
-        priv.lastSelectedMenuItem = null;
-        priv.popups.clear();
-        priv.popups = null;
-        priv.toolBars.clear();
-        priv.toolBars.destroy();
-        priv.toolBars = null;
-        priv.statusBars.clear();
-        priv.statusBars.destroy();
-        priv.statusBars = null;
-        priv.isResizing = null;
-        priv.snapArea = null;
-        priv.destroyOnHide = null;
-        priv.controls.clear();
-        priv.controls.destroy();
-        priv.controls = null;
-        priv.isChildWindow = null;
-        priv.parentHTML = null;
-        priv.lastZIndex = null;
-        priv.animated = null;
-        priv.keyPreview = null;
-        priv.icon = null;
-        priv.mainMenu = null;
-        priv.activeControl = null;
-        priv.canClose = null;
-        priv.moveable = null;
-        priv.stayOn = null;
-        priv.enabledShadow = null;
-        //priv.minimizeAnimation = new RectAnimation(this, { inForm: !1 });
-        priv.position = null;
-        priv.buttons = null;
-        priv.position = null;
-        priv.windowState = null;
-        priv.borderStyle = null;
-        priv.bordersType = null;
-        priv.modalResult = null;
-        priv.showingMode = null;
+        this.#popups.destroy();
+        this.#toolBars.destroy();
+        this.#statusBars.destroy();
+        this.#resizeMode = null;
+        this.#savedSizePosState = null;
+        this.#isModal = null;
+        this.#creating = null;
+        this.#layout = null;
+        this.#titleBar = null;
+        this.#content = null;
+        this.#titleBarObj = null;
+        this.#firstShow = null;
+        this.#controlsToResize.clear();
+        this.#controlsToResize.destroy();
+        this.#controlsToResize = null;
+        this.#focusedControl = null;
+        this.#hoveredControl = null;
+        this.#capturedControl = null;
+        this.#lastSelectedMenuItem = null;
+        this.#popups.clear();
+        this.#popups = null;
+        this.#toolBars.clear();
+        this.#toolBars.destroy();
+        this.#toolBars = null;
+        this.#statusBars.clear();
+        this.#statusBars.destroy();
+        this.#statusBars = null;
+        this.#isResizing = null;
+        this.#snapArea = null;
+        this.#destroyOnHide = null;
+        this.#controls.clear();
+        this.#controls.destroy();
+        this.#controls = null;
+        this.#isChildWindow = null;
+        this.#parentHTML = null;
+        this.#lastZIndex = null;
+        this.#animated = null;
+        this.#keyPreview = null;
+        this.#icon = null;
+        this.#mainMenu = null;
+        this.#activeControl = null;
+        this.#canClose = null;
+        this.#moveable = null;
+        this.#stayOn = null;
+        this.#enabledShadow = null;
+        //this.#minimizeAnimation = new RectAnimation(this, { inForm: !1 });
+        this.#position = null;
+        this.#buttons = null;
+        this.#position = null;
+        this.#windowState = null;
+        this.#borderStyle = null;
+        this.#bordersType = null;
+        this.#modalResult = null;
+        this.#showingMode = null;
 
-        //priv.minimizeAnimation.destroy();
+        //this.#minimizeAnimation.destroy();
         this.unBindAndDestroyEvents(['onActivate', 'onDeactivate', 'onHide', 'onShow', 'onCreate', 'onClose', 'onCloseQuery', 'onThemeChanged']);
         super.destroy();
     }
     //#endregion destroy
     //#region desactiveHitTest
     desactiveHitTest() {
-        //#region Variables declaration
-        const priv = core.private(this);
-        //#endregion Variables declaration
-        priv.content.mouseEvents.all = !1;
-        priv.layout.mouseEvents.all = !1;
-        priv.titleBar.mouseEvents.all = !1;
+        this.#content.mouseEvents.all = !1;
+        this.#layout.mouseEvents.all = !1;
+        this.#titleBar.mouseEvents.all = !1;
         core.isHTMLRenderer && this.HTMLElement.classList.add('inactive');
         //this.HTMLElement.dataset.isactive = !1;
     }
@@ -2601,28 +2521,27 @@ class BaseWindow extends ThemedControl {
     //#region applySnap
     applySnap() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const WINDOWSTATES = Window.WINDOWSTATES;
         const SNAPAREAS = Window.SNAPAREAS;
-        const savedSizePosState = priv.savedSizePosState;
+        const savedSizePosState = this.#savedSizePosState;
         const htmlElement = this.HTMLElement;
         const htmlElementStyle = this.HTMLElementStyle;
         const isHtmlRenderer = core.isHTMLRenderer;
         const cw = !isHtmlRenderer ? core.canvas.offsetWidth : 0;
         const cw2 = !isHtmlRenderer ? int(core.canvas.offsetWidth / 2) : 0;
         const ch = !isHtmlRenderer ? core.canvas.offsetHeight : 0;
-        const titleBar = priv.titleBar;
+        const titleBar = this.#titleBar;
         const rollUpDownBtn = titleBar.rollUpDownBtn;
         const stayOnOffBtn = titleBar.stayOnOffBtn;
         const maxRestoreBtn = titleBar.maxRestoreBtn;
         const SNAPED = WINDOWSTATES.SNAPED;
-        const snapArea = priv.snapArea;
+        const snapArea = this.#snapArea;
         //#endregion Variables déclaration
-        priv.windowState = SNAPED;
+        this.#windowState = SNAPED;
         !isHtmlRenderer && this.beginUpdate();
         if (snapArea !== SNAPAREAS.NONE) {
             // change maxRestore button to restore
-            priv.enabledShadow = !1;
+            this.#enabledShadow = !1;
             // on désactive les autres boutons
             maxRestoreBtn.enabled = !0;
             rollUpDownBtn.enabled = !1;

@@ -195,13 +195,9 @@ class BusyIndicator extends ThemedControl {
             props.allowUpdateOnResize = !0;
             props.mouseEvents = { mousedown: !1, mouseup: !1, click: !1 };
             super(owner, props);
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'indicatorStyle',
-                enum: BUSYINDICATORSTYLES,
-                value: props.hasOwnProperty('indicatorStyle')
-                    ? props.indicatorStyle : BUSYINDICATORSTYLES.SPIN
-            });
+            this.addPropertyEnum('indicatorStyle', BUSYINDICATORSTYLES);
+            this.#indicatorStyle = props.hasOwnProperty('indicatorStyle')
+                    ? props.indicatorStyle : BUSYINDICATORSTYLES.SPIN;
             this.#spinIndicatorOptions = new BusyIndicatorSpinOptions(this, props.options);
             delete this.tabOrder;
         }

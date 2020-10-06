@@ -31,35 +31,8 @@ class ColorPanel extends Control {
                 props.height = 160;
             }
             super(owner, props);
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'colorBoxType',
-                enum: COLORPANELBOXES,
-                value: props.hasOwnProperty('colorBoxType') ? props.colorBoxType : COLORPANELBOXES.PRIMARY,
-                setter: function (newValue) {
-                    //#region Variables déclaration
-                    const c = Colors.TRANSPARENT;
-                    //#endregion Variables déclaration
-                    if (core.tools.valueInSet(newValue, COLORPANELBOXES) && this.#colorBoxType !== newValue) {
-                        this.#colorBoxType = newValue;
-                        switch (newValue) {
-                            case COLORPANELBOXES.PRIMARY:
-                                c.assign(this.#primaryColorBox.fillColor);
-                                this.#colorQuad.colorBox = this.#primaryColorBox;
-                                this.#primaryColorBox.fillColor.assign(c);
-                                break;
-                            case COLORPANELBOXES.SECONDARY:
-                                c.assign(this.#secondaryColorBox.fillColor);
-                                this.#colorQuad.colorBox = this.#secondaryColorBox;
-                                this.#secondaryColorBox.fillColor.assign(c);
-                                break;
-                        }
-                        this.#colorQuad.color = c;
-                        this.#hueSlider.firstValue = c.hue / 360;
-                        this.#alphaSlider.firstValue = c.alpha;
-                    }
-                }
-            });
+            this.addPropertyEnum('colorBoxType', COLORPANELBOXES);
+            this.#colorBoxType = props.hasOwnProperty('colorBoxType') ? props.colorBoxType : COLORPANELBOXES.PRIMARY;
             this.createEventsAndBind(['onChange'], props);
         }
     }
@@ -72,22 +45,59 @@ class ColorPanel extends Control {
     static get COLORPANELBOXES() {
         return COLORPANELBOXES;
     }
-    //#endregion
+    //#endregion COLORPANELBOXES
+    //#region colorBoxType
+    get colorBoxType() {
+        return this.#colorBoxType;
+    }
+    set colorBoxType(newValue) {
+        //#region Variables déclaration
+        const c = Colors.TRANSPARENT;
+        //#endregion Variables déclaration
+        if (core.tools.valueInSet(newValue, COLORPANELBOXES) && this.#colorBoxType !== newValue) {
+            this.#colorBoxType = newValue;
+            switch (newValue) {
+                case COLORPANELBOXES.PRIMARY:
+                    c.assign(this.#primaryColorBox.fillColor);
+                    this.#colorQuad.colorBox = this.#primaryColorBox;
+                    this.#primaryColorBox.fillColor.assign(c);
+                    break;
+                case COLORPANELBOXES.SECONDARY:
+                    c.assign(this.#secondaryColorBox.fillColor);
+                    this.#colorQuad.colorBox = this.#secondaryColorBox;
+                    this.#secondaryColorBox.fillColor.assign(c);
+                    break;
+            }
+            this.#colorQuad.color = c;
+            this.#hueSlider.firstValue = c.hue / 360;
+            this.#alphaSlider.firstValue = c.alpha;
+        }
+    }
+    //#endregion colorBoxType
+    //#region colorQuad
     get colorQuad() {
         return this.#colorQuad;
     }
+    //#endregion colorQuad
+    //#region hueSlider
     get hueSlider() {
         return this.#hueSlider;
     }
+    //#endregion hueSlider
+    //#region alphaSlider
     get alphaSlider() {
         return this.#alphaSlider;
     }
+    //#region primaryColorBox
     get primaryColorBox() {
         return this.#primaryColorBox;
     }
+    //#endregion primaryColorBox
+    //#region secondaryColorBox
     get secondaryColorBox() {
         return this.#secondaryColorBox;
     }
+    //#endregion secondaryColorBox
     //#endregion Getters / Setters
     //#region Methods
     doQuadChange() {

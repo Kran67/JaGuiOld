@@ -35,13 +35,8 @@ class ColorQuad extends Control {
             this.#preserveColorAlpha = props.hasOwnProperty('preserveColorAlpha')
                 && core.tools.isBool(props.preserveColorAlpha)
                 ? props.preserveColorAlpha : !1;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'format',
-                enum: core.types.COLORFORMATS,
-                value: props.hasOwnProperty('format') ? props.format : core.types.COLORFORMATS.HSL,
-                forceUpdate: !0
-            });
+            this.addPropertyEnum('format', core.types.COLORFORMATS);
+            this.#format = props.hasOwnProperty('format') ? props.format : core.types.COLORFORMATS.HSL;
             this.createEventsAndBind(['onChange'], props);
             delete this.tabOrder;
         }

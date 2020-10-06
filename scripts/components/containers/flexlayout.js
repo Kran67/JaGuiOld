@@ -3,6 +3,11 @@ import { Layout } from '/scripts/components/containers/layout.js';
 //#endregion Import
 //#region Class FlexLayout
 class FlexLayout extends Layout {
+    //#region Private fields
+    #justifyContent;
+    #alignItems;
+    #flexDirection;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -14,11 +19,10 @@ class FlexLayout extends Layout {
                 enum: core.types.JUSTIFYCONTENT,
                 setter: function (newValue) {
                     //#region Variables déclaration
-                    const priv = core.private(this);
-                    const justifyContent = priv.justifyContent;
+                    const justifyContent = this.#justifyContent;
                     //#endregion Variables déclaration
                     if (core.tools.valueInSet(newValue, core.types.JUSTIFYCONTENT) && justifyContent !== newValue) {
-                        priv.justifyContent = newValue;
+                        this.#justifyContent = newValue;
                         isHtmlRenderer && this.update();
                     }
                 },
@@ -30,11 +34,10 @@ class FlexLayout extends Layout {
                 enum: core.types.ALIGNITEMS,
                 setter: function (newValue) {
                     //#region Variables déclaration
-                    const priv = core.private(this);
-                    const alignItems = priv.alignItems;
+                    const alignItems = this.#alignItems;
                     //#endregion Variables déclaration
                     if (core.tools.valueInSet(newValue, core.types.ALIGNITEMS) && alignItems !== newValue) {
-                        priv.alignItems = newValue;
+                        this.#alignItems = newValue;
                         isHtmlRenderer && this.update();
                     }
                 },
@@ -46,11 +49,10 @@ class FlexLayout extends Layout {
                 enum: core.types.FLEXDIRECTIONS,
                 setter: function (newValue) {
                     //#region Variables déclaration
-                    const priv = core.private(this);
-                    const flexDirection = priv.flexDirection;
+                    const flexDirection = this.#flexDirection;
                     //#endregion Variables déclaration
                     if (core.tools.valueInSet(newValue, core.types.FLEXDIRECTIONS) && flexDirection !== newValue) {
-                        priv.flexDirection = newValue;
+                        this.#flexDirection = newValue;
                         isHtmlRenderer && this.update();
                     }
                 },
@@ -65,12 +67,11 @@ class FlexLayout extends Layout {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElementStyle = this.HTMLElementStyle;
         //#endregion Variables déclaration
-        htmlElementStyle.justifyContent = priv.justifyContent;
-        htmlElementStyle.alignItems = priv.alignItems;
-        htmlElementStyle.flexDirection = priv.flexDirection;
+        htmlElementStyle.justifyContent = this.#justifyContent;
+        htmlElementStyle.alignItems = this.#alignItems;
+        htmlElementStyle.flexDirection = this.#flexDirection;
     }
     //#endregion update
     //#region loaded

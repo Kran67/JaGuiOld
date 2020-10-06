@@ -35,16 +35,20 @@ class CustomButton extends CaptionControl {
             this.#repeatClick = props.hasOwnProperty('repeatClick') ? props.repeatClick : !1;
             this.#borderRadius = props.hasOwnProperty('borderRadius') && core.tools.isNumber(props.borderRadius)
                     || core.tools.isObject(props.borderRadius) ? props.borderRadius : null;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'modalResult',
-                enum: modalResult,
-                value: props.hasOwnProperty('modalResult') ? props.modalResult : modalResult.NONE
-            });
+            this.addPropertyEnum('modalResult', modalResult);
+            this.#modalResult = props.hasOwnProperty('modalResult') ? props.modalResult : modalResult.NONE;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region modalResult
+    get modalResult() {
+        return this.#modalResult;
+    }
+    set modalResult(newValue) {
+        core.tools.valueInSet(newValue, Window.MODALRESULTBUTTONS) && this.#modalResult !== newValue && (this.#modalResult = newValue);
+    }
+    //#endregion modalResult
     //#region pressing
     set pressing(newValue) {
         //#region Variables déclaration

@@ -90,15 +90,8 @@ class Action extends Bindable {
             this.#autoCheck = props.hasOwnProperty('autoCheck') && core.tools.isBool(props.autoCheck) ? props.autoCheck : !1;
             this.#visible = props.hasOwnProperty('visible') && core.tools.isBool(props.visible) ? props.visible : !0;
             this.#form = form;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'command',
-                enum: COMMANDS,
-                setter: function (newValue) {
-                    core.tools.valueInSet(newValue, COMMANDS) && this.#command !== newValue && (this.#command = newValue);
-                },
-                value: props.hasOwnProperty('command') ? props.command : COMMANDS.NONE
-            });
+            this.addPropertyEnum('command', COMMANDS);
+            this.#command = props.hasOwnProperty('command') ? props.command : COMMANDS.NONE;
             this.createEventsAndBind(['onHint', 'onChange', 'onExecute', 'onUpdate'], props);
             if (props.hasOwnProperty('onExecute')) {
                 if (form[props.onExecute]) {
@@ -113,9 +106,19 @@ class Action extends Bindable {
     }
     //#endregion constructor
     //#region Getter / Setters
+    //#region command
+    get command() {
+        return this.#command;
+    }
+    set command(newValue) {
+        core.tools.valueInSet(newValue, COMMANDS) && this.#command !== newValue && (this.#command = newValue);
+    }
+    //#endregion command
+    //#region COMMANDS
     static get COMMANDS() {
         return COMMANDS;
     }
+    //#endregion COMMANDS
     //#region targets
     get targets() {
         return this.#targets;

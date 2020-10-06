@@ -57,16 +57,20 @@ class Checkbox extends CaptionControl {
             this.#action = props.hasOwnProperty('action') ? props.action : null; // à voir
             this.#check = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}check`);
             this.#input = document.createElement(htmlElements.INPUT);
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'state',
-                enum: CHECKBOXSTATES,
-                value: props.hasOwnProperty('state') ? props.state : CHECKBOXSTATES.UNCHECKED
-            });
+            this.addPropertyEnum('state', CHECKBOXSTATES);
+            this.#state = props.hasOwnProperty('state') ? props.state : CHECKBOXSTATES.UNCHECKED;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region state
+    get state() {
+        return this.#state;
+    }
+    set state(newValue) {
+        core.tools.valueInSet(newValue, CHECKBOXSTATES) && this.#state !== newValue && (this.#state = newValue);
+    }
+    //#endregion state
     //#region check
     get check() {
         return this.#check;

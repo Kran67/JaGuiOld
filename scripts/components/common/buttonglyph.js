@@ -53,22 +53,23 @@ class ButtonGlyph extends Button {
             this.#glyphHTMLElement = props.hasOwnProperty('glyphHTMLElement')
                     ? props.glyphHTMLElement : core.types.HTMLELEMENTS.IMG;
             this.#src = props.src ? props.src : String.EMPTY;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'layout',
-                enum: BUTTONLAYOUTGLYPHS,
-                setter: function (newValue) {
-                    if (core.tools.valueInSet(newValue, BUTTONLAYOUTGLYPHS) && this.#layout !== newValue) {
-                        this.#layout = newValue;
-                        core.isHTMLRenderer && !this.loading && !this.form.loading && this.update();
-                    }
-                },
-                value: props.hasOwnProperty('layout') ? props.layout : BUTTONLAYOUTGLYPHS.LEFT
-            });
+            this.addPropertyEnum('layout', BUTTONLAYOUTGLYPHS);
+            this.#layout = props.hasOwnProperty('layout') ? props.layout : BUTTONLAYOUTGLYPHS.LEFT;
         }
     }
     //#endregion Constructor
     //#region Getters / Setters
+    //#region layout
+    get layout() {
+        return this.#layout;
+    }
+    set layout(newValue) {
+        if (core.tools.valueInSet(newValue, BUTTONLAYOUTGLYPHS) && this.#layout !== newValue) {
+            this.#layout = newValue;
+            core.isHTMLRenderer && !this.loading && !this.form.loading && this.update();
+        }
+    }
+    //#endregion layout
     //#region glyphHTMLElement
     get glyphHTMLElement() {
         return this.#glyphHTMLElement;
