@@ -1,0 +1,17 @@
+﻿.DropDownTimePanel {
+    max-width: 85px;
+    min-width: 85px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.DropDownTimePanelCaption {
+    white-space: nowrap;
+    overflow: hidden;
+    flex: 1;
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
