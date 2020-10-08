@@ -85,7 +85,7 @@ const Core = (() => {
             this.onStart = null;
             //this.defaultTheme= 'air';
             //this.defaultTheme= 'blend';
-            //this.defaultTheme = 'carbon';
+            this.defaultTheme = 'carbon';
             //this.defaultTheme= 'classic10k'; 
             //this.defaultTheme= 'clearlooksblue';
             //this.defaultTheme= 'corona12';
@@ -108,7 +108,7 @@ const Core = (() => {
             //this.defaultTheme= 'vista';
             //this.defaultTheme= 'watercolor';
             //this.defaultTheme= 'windows8';
-            this.defaultTheme= 'neumorphiclight';
+            //this.defaultTheme= 'neumorphiclight';
             //this.defaultTheme= 'neumorphicdark';
             this.disableAnimation = !1;
             this.isMouseDown = !1;

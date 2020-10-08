@@ -1,3 +1,4 @@
-﻿.carbon.TextBoxBtnButton:before {}
+﻿@import url(../../../../css/components/extended/textboxbtn.css);
+.carbon.TextBoxBtnButton:before {}
 
 .carbon.TextBoxBtnInput {}

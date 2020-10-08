@@ -32,7 +32,6 @@ class CaptionControl extends ThemedControl {
         let themeName = null;
         let theme = null;
         let captionControlTheme = null;
-        let params;
         let value;
         //#endregion Variables déclaration
         props = !props ? {} : props;
@@ -137,24 +136,15 @@ class CaptionControl extends ThemedControl {
             this.#fontStyle = value;
             //#endregion fontStyle
             //#region textDecoration
-            if (props.hasOwnProperty('textDecoration')) {
-                params = props.textDecoration;
-            } else if (captionControlTheme.hasOwnProperty('textDecoration')) {
-                params = captionControlTheme.textDecoration;
-            } else if (props.hasOwnProperty('textDecoration')) {
-                params = props.textDecoration;
-            }
-            this.#textDecoration = new TextDecoration(this, params);
+            /*if (props.hasOwnProperty('textDecoration')) {
+                params = { ...props.textDecoration };
+            } else*/ 
+            captionControlTheme.hasOwnProperty('textDecoration') && (props.textDecoration = captionControlTheme.textDecoration);
+            this.#textDecoration = new TextDecoration(this, props);
             //#endregion textDecoration
             //#region textShadow
-            if (props.hasOwnProperty('textShadow')) {
-                params = props.textShadow;
-            } else if (captionControlTheme.hasOwnProperty('textShadow')) {
-                params = captionControlTheme.textShadow;
-            } else if (props.hasOwnProperty('textShadow')) {
-                params = props.textShadow;
-            }
-            this.#textShadows = new TextShadows(this, params);
+            captionControlTheme.hasOwnProperty('textShadow') && (props.textShadow = captionControlTheme.textShadow);
+            this.#textShadows = new TextShadows(this, props);
             //#endregion textShadow
             //#region textTransform
             if (props.hasOwnProperty('textTransform')) {

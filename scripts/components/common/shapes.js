@@ -38,16 +38,17 @@ const SHAPES = Object.seal(Object.freeze({
 //#endregion
 //#region Class Line
 class Line extends SVGGraphicControl {
+    //#region Private fields
+    #lineDirection;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             props.shape = SHAPES.LINE;
             super(owner, props);
-            core.private(this, {
-                lineDirection: props.hasOwnProperty('lineDirection')
-                    ? props.lineDirection : LINEDIRECTIONS.TOPLEFT_BOTTOMRIGHT
-            });
+            this.#lineDirection = props.hasOwnProperty('lineDirection')
+                    ? props.lineDirection : LINEDIRECTIONS.TOPLEFT_BOTTOMRIGHT;
         }
     }
     //#endregion constructor
@@ -70,11 +71,11 @@ class Line extends SVGGraphicControl {
     //#endregion LINEDIRECTIONS
     //#region lineDirection
     get lineDirection() {
-        return core.private(this).lineDirection;
+        return this.#lineDirection;
     }
     set lineDirection(newValue) {
-        if (core.tools.valueInSet(newValue, LINEDIRECTIONS) && priv.lineDirection !== newValue) {
-            priv.lineDirection = newValue;
+        if (core.tools.valueInSet(newValue, LINEDIRECTIONS) && this.#lineDirection !== newValue) {
+            this.#lineDirection = newValue;
             this.update();
         }
     }
@@ -83,12 +84,9 @@ class Line extends SVGGraphicControl {
     //#region Methods
     //#region update
     update() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (!this.loading && !this.form.loading && this.svgShape) {
             super.update();
-            switch (priv.lineDirection) {
+            switch (this.#lineDirection) {
                 case LINEDIRECTIONS.TOPLEFT_BOTTOMRIGHT:
                     this.svgShape.setAttribute('x1', 0);
                     this.svgShape.setAttribute('y1', 0);
@@ -176,73 +174,65 @@ Object.seal(Object.freeze(Rectangle));
 //#endregion Rectangle
 //#region Class RoundRect
 class RoundRect extends Rectangle {
+    //#region Private fields
+    #topLeftRadius;
+    #topRightRadius;
+    #bottomLeftRadius;
+    #bottomRightRadius;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                topLeftRadius: props.hasOwnProperty('topLeftRadius') ? props.topLeftRadius : 20,
-                topRightRadius: props.hasOwnProperty('topRightRadius') ? props.topLeftRadius : 20,
-                bottomLeftRadius: props.hasOwnProperty('bottomLeftRadius') ? props.topLeftRadius : 20,
-                bottomRightRadius: props.hasOwnProperty('bottomRightRadius') ? props.topLeftRadius : 20
-            });
+            this.#topLeftRadius = props.hasOwnProperty('topLeftRadius') ? props.topLeftRadius : 20;
+            this.#topRightRadius = props.hasOwnProperty('topRightRadius') ? props.topLeftRadius : 20;
+            this.#bottomLeftRadius = props.hasOwnProperty('bottomLeftRadius') ? props.topLeftRadius : 20;
+            this.#bottomRightRadius = props.hasOwnProperty('bottomRightRadius') ? props.topLeftRadius : 20;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region topLeftRadius
     get topLeftRadius() {
-        return core.private(this).topLeftRadius;
+        return this.#topLeftRadius;
     }
     set topLeftRadius(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.topLeftRadius !== newValue) {
-            priv.topLeftRadius = newValue;
+        if (core.tools.isNumber(newValue) && this.#topLeftRadius !== newValue) {
+            this.#topLeftRadius = newValue;
             this.update();
         }
     }
     //#endregion topLeftRadius
     //#region topRightRadius
     get topRightRadius() {
-        return core.private(this).topRightRadius;
+        return this.#topRightRadius;
     }
     set topRightRadius(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.topRightRadius !== newValue) {
-            priv.topRightRadius = newValue;
+        if (core.tools.isNumber(newValue) && this.#topRightRadius !== newValue) {
+            this.#topRightRadius = newValue;
             this.update();
         }
     }
     //#endregion topRightRadius
     //#region bottomLeftRadius
     get bottomLeftRadius() {
-        return core.private(this).bottomLeftRadius;
+        return this.#bottomLeftRadius;
     }
     set bottomLeftRadius(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.bottomLeftRadius !== newValue) {
-            priv.bottomLeftRadius = newValue;
+        if (core.tools.isNumber(newValue) && this.#bottomLeftRadius !== newValue) {
+            this.#bottomLeftRadius = newValue;
             this.update();
         }
     }
     //#endregion bottomLeftRadius
     //#region bottomRightRadius
     get bottomRightRadius() {
-        return core.private(this).bottomRightRadius;
+        return this.#bottomRightRadius;
     }
     set bottomRightRadius(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.bottomRightRadius !== newValue) {
-            priv.bottomRightRadius = newValue;
+        if (core.tools.isNumber(newValue) && this.#bottomRightRadius !== newValue) {
+            this.#bottomRightRadius = newValue;
             this.update();
         }
     }
@@ -253,23 +243,22 @@ class RoundRect extends Rectangle {
     assign(source) {
         if (source instanceof core.classes.RoundRect) {
             super.assign(source);
-            priv.topLeftRadius = source.topLeftRadius;
-            priv.topRightRadius = source.topLeftRadius;
-            priv.bottomLeftRadius = source.topLeftRadius;
-            priv.bottomRightRadius = source.topLeftRadius;
+            this.#topLeftRadius = source.topLeftRadius;
+            this.#topRightRadius = source.topLeftRadius;
+            this.#bottomLeftRadius = source.topLeftRadius;
+            this.#bottomRightRadius = source.topLeftRadius;
         }
     }
     //#endregion assign
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElementStyle = this.HTMLElementStyle;
         const PX = core.types.CSSUNITS.PX;
         //#endregion Variables déclaration
         super.update();
         !this.loading && !this.form.loading
-            && (htmlElementStyle.borderRadius = `${priv.topLeftRadius}${PX} ${priv.topRightRadius}${PX} ${priv.bottomRightRadius}${PX} ${priv.bottomLeftRadius}${PX}`);
+            && (htmlElementStyle.borderRadius = `${this.#topLeftRadius}${PX} ${this.#topRightRadius}${PX} ${this.#bottomRightRadius}${PX} ${this.#bottomLeftRadius}${PX}`);
     }
     //#endregion update
     //#endregion Methods
@@ -390,6 +379,9 @@ Object.seal(Object.freeze(Circle));
 //#endregion Circle
 //#region Class Path
 class Path extends SVGGraphicControl {
+    //#region Private fields
+    #path;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -399,8 +391,8 @@ class Path extends SVGGraphicControl {
             const priv = core.private(this);
             if (this instanceof core.classes.Path) {
                 this.svgShape.setAttribute('vector-effect', 'non-scaling-stroke');
-                priv.path = new core.classes.PathData(this);
-                props.hasOwnProperty('path') && (priv.path.pathString = props.path);
+                this.#path = new core.classes.PathData(this);
+                props.hasOwnProperty('path') && (this.#path.pathString = props.path);
             }
         }
     }
@@ -408,14 +400,11 @@ class Path extends SVGGraphicControl {
     //#region Getters / Setters
     //#region path
     get path() {
-        return core.private(this).path;
+        return this.#path;
     }
     set path(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (this instanceof core.classes.Path && newValue instanceof core.classes.Path && priv.path !== newValue) {
-            priv.path.assign(newValue);
+        if (this instanceof core.classes.Path && newValue instanceof core.classes.Path && this.#path !== newValue) {
+            this.#path.assign(newValue);
             this.update();
         }
     }
@@ -454,14 +443,11 @@ class Path extends SVGGraphicControl {
     //#endregion height
     //#region pathString
     get pathString() {
-        return core.private(this).path.pathString;
+        return this.#path.pathString;
     }
     set pathString(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        this instanceof core.classes.Path && core.tools.isString(newValue) && priv.path.pathString !== newValue
-            && (priv.path.pathString = newValue);
+        this instanceof core.classes.Path && core.tools.isString(newValue) && this.#path.pathString !== newValue
+            && (this.#path.pathString = newValue);
     }
     //#endregion pathString
     //#endregion Getters / Setters
@@ -469,7 +455,6 @@ class Path extends SVGGraphicControl {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (htmlElement) {
@@ -478,7 +463,7 @@ class Path extends SVGGraphicControl {
             if (!this.loading && !this.form.loading && this.svgShape) {
                 super.update();
                 const path = new core.classes.PathData();
-                path.assign(priv.path);
+                path.assign(this.#path);
                 path.resizeToRect(new core.classes.Rect(strokeWidth, strokeWidth, htmlElement.offsetWidth - strokeWidth, htmlElement.offsetHeight - strokeWidth));
                 this.svgShape.setAttribute('d', path.pathString);
                 path.destroy();
@@ -488,10 +473,7 @@ class Path extends SVGGraphicControl {
     //#endregion update
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        this instanceof core.classe.Path && priv.path.destroy();
+        this instanceof core.classe.Path && this.#path.destroy();
         super.destroy();
     }
     //#endregion destroy
@@ -506,16 +488,18 @@ Object.seal(Object.freeze(Path));
 //#endregion Path
 //#region Class Pie
 class Pie extends SVGGraphicControl {
+    //#region Private fields
+    #startAngle;
+    #endAngle;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             props.shape = SHAPES.PATH;
             super(owner, props);
-            const priv = core.private(this, {
-                startAngle: props.hasOwnProperty('startAngle') ? props.startAngle : 0,
-                endAngle: props.hasOwnProperty('endAngle') ? props.endAngle : 270
-            });
+            this.#startAngle = props.hasOwnProperty('startAngle') ? props.startAngle : 0;
+            this.#endAngle = props.hasOwnProperty('endAngle') ? props.endAngle : 270;
             this instanceof core.classes.Arc && (this.fillColor = Colors.TRANSPARENT);
         }
     }
@@ -523,28 +507,22 @@ class Pie extends SVGGraphicControl {
     //#region Getters / Setters
     //#region startAngle
     get startAngle() {
-        return core.private(this).startAngle;
+        return this.#startAngle;
     }
     set startAngle(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.startAngle !== newValue) {
-            priv.startAngle = newValue;
+        if (core.tools.isNumber(newValue) && this.#startAngle !== newValue) {
+            this.#startAngle = newValue;
             this.update();
         }
     }
     //#endregion startAngle
     //#region endAngle
     get endAngle() {
-        return core.private(this).endAngle;
+        return this.#endAngle;
     }
     set endAngle(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.endAngle !== newValue) {
-            priv.endAngle = newValue;
+        if (core.tools.isNumber(newValue) && this.#endAngle !== newValue) {
+            this.#endAngle = newValue;
             this.update();
         }
     }
@@ -555,8 +533,8 @@ class Pie extends SVGGraphicControl {
     assign(source) {
         if (source instanceof core.classe.Pie) {
             super.assign(source);
-            priv.startAngle = source.startAngle;
-            priv.endAngle = source.endAngle;
+            this.#startAngle = source.startAngle;
+            this.#endAngle = source.endAngle;
         }
     }
     //#endregion assign
@@ -600,30 +578,28 @@ Object.seal(Object.freeze(Arc));
 //#endregion Arc
 //#region Class Star
 class Star extends SVGGraphicControl {
+    //#region Private fields
+    #spikes;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             props.shape = SHAPES.PATH;
             super(owner, props);
-            core.private(this, {
-                spikes: props.hasOwnProperty('spikes') ? props.spikes : 4
-            });
+            this.#spikes = props.hasOwnProperty('spikes') ? props.spikes : 4;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region spikes
     get spikes() {
-        return core.private(this).spikes;
+        return this.#spikes;
     }
     set spikes(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.spikes !== newValue) {
+        if (core.tools.isNumber(newValue) && this.#spikes !== newValue) {
             newValue < 4 && (newValue = 4);
-            priv.spikes = newValue;
+            this.#spikes = newValue;
             this.update();
         }
     }
@@ -633,12 +609,11 @@ class Star extends SVGGraphicControl {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const sStyle = getComputedStyle(this.HTMLElement);
         let rot = Math.PI / 2 * 3;
         const cx = int(parseFloat(sStyle.width) / 2);
         const cy = int(parseFloat(sStyle.height) / 2);
-        const step = Math.PI / priv.spikes;
+        const step = Math.PI / this.#spikes;
         const outerRadius = cx > cy ? cy : cx;
         const innerRadius = (cx > cy ? cy : cx) / 2;
         const pts = [];
@@ -646,7 +621,7 @@ class Star extends SVGGraphicControl {
         if (!this.loading && !this.form.loading && this.svgShape) {
             super.update();
             pts.push(`M${cx},${Math.round(cy - outerRadius)}`);
-            for (let i = 0; i < priv.spikes; i++) {
+            for (let i = 0; i < this.#spikes; i++) {
                 let x = Math.round(cx + Math.cos(rot) * outerRadius);
                 let y = Math.round(cy + Math.sin(rot) * outerRadius);
                 pts.push(` L${x},${y}`);
@@ -730,15 +705,16 @@ const POLYGONSIDES = Object.seal(Object.freeze({
 //#endregion POLYGONSIDES
 //#region Class Polygon
 class Polygon extends SVGGraphicControl {
+    //#region Private fields
+    #sides;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             props.shape = SHAPES.PATH;
             super(owner, props);
-            core.private(this, {
-                sides: props.hasOwnProperty('sides') ? props.sides : POLYGONSIDES.TRIANGLE
-            });
+            this.#sides = props.hasOwnProperty('sides') ? props.sides : POLYGONSIDES.TRIANGLE;
         }
     }
     //#endregion constructor
@@ -756,7 +732,6 @@ class Polygon extends SVGGraphicControl {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const pts = [];
         const sStyle = getComputedStyle(this.HTMLElement);
         //#endregion Variables déclaration
@@ -766,8 +741,8 @@ class Polygon extends SVGGraphicControl {
             const cy = int(parseFloat(sStyle.height) / 2);
             const s = cx > cy ? cy : cx;
             pts.push(`M${Math.round(cx + s * Math.cos(0))},${Math.round(cy + s * Math.sin(0))}`);
-            for (let i = 1; i <= priv.sides - 1; i++) {
-                pts.push(` L${Math.round(cx + s * Math.cos(i * 2 * Math.PI / priv.sides))},${Math.round(cy + s * Math.sin(i * 2 * Math.PI / priv.sides))}`);
+            for (let i = 1; i <= this.#sides - 1; i++) {
+                pts.push(` L${Math.round(cx + s * Math.cos(i * 2 * Math.PI / this.#sides))},${Math.round(cy + s * Math.sin(i * 2 * Math.PI / this.#sides))}`);
             }
             pts.push(' Z');
             this.svgShape.setAttribute('d', pts.join(String.EMPTY));

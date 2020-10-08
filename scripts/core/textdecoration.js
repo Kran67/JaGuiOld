@@ -21,7 +21,7 @@ class TextDecoration extends BaseClass {
             this.#underline = core.tools.isBool(props.underline) ? props.underline : !1;
             this.#overline = core.tools.isBool(props.overline) ? props.overline : !1;
             this.#lineThrough = core.tools.isBool(props.lineThrough) ? props.lineThrough : !1;
-            this.#color = props.color && core.tools.isString(props.color) ? Color.parse(props.color) : owner.color;
+            this.#color = props.color && (props.color instanceof Color) ? props.color : owner.color;
             this.#style = props.style ? props.style : core.types.TEXTDECORATIONSTYLES.SOLID;
         }
     }

@@ -1,1 +1,2 @@
-﻿.carbon.PlotGrid {}
+﻿@import url(../../../../css/components/common/plotgrid.css);
+.carbon.PlotGrid {}

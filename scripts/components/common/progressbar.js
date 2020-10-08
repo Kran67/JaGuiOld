@@ -4,6 +4,13 @@ import { Rect } from '/scripts/core/geometry.js';
 //#endregion Import
 //#region Class SplitButton
 class ProgressBar extends ThemedControl {
+    //#region Private fields
+    #value;
+    #min;
+    #max;
+    #orientation;
+    #progress;
+    //#endregion Private fields
     //#region Constructor
     constructor(owner, props) {
         //#region Variables déclaration
@@ -20,44 +27,35 @@ class ProgressBar extends ThemedControl {
             };
             props.allowUpdateOnResize = !0;
             super(owner, props);
-            core.private(this, {
-                value: props.hasOwnProperty('value') ? props.value : 0,
-                min: props.hasOwnProperty('min') ? props.min : 0,
-                max: props.hasOwnProperty('max') ? props.max : 100
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'orientation',
-                enum: orientations,
-                value: props.hasOwnProperty('orientation') ? props.orientation : orientations.NONE
-            });
+            this.#value = props.hasOwnProperty('value') ? props.value : 0;
+            this.#min = props.hasOwnProperty('min') ? props.min : 0;
+            this.#max = props.hasOwnProperty('max') ? props.max : 100;
+            this.addPropertyEnum('orientation', orientations);
+            this.#orientation = props.hasOwnProperty('orientation') ? props.orientation : orientations.NONE;
             delete this.tabOrder;
         }
     }
     //#endregion Constructor
     //#region Getters / Setters
     //#region orientation
+    get orientation() {
+        return this.#orientation;
+    }
     set orientation(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, core.types.ORIENTATIONS) && priv.orientation !== newValue) {
-            priv.orientation = newValue;
+        if (core.tools.valueInSet(newValue, core.types.ORIENTATIONS) && this.#orientation !== newValue) {
+            this.#orientation = newValue;
             this.update();
         }
     }
     //#endregion orientation
     //#region value
     get value() {
-        return core.private(this).value;
+        return this.#value;
     }
     set value(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv.value) {
-            priv.value = newValue;
-            priv.value = Math.max(Math.min(priv.value, priv.max), priv.min);
+        if (core.tools.isNumber(newValue) && newValue !== this.#value) {
+            this.#value = newValue;
+            this.#value = Math.max(Math.min(this.#value, this.#max), this.#min);
             if (!core.isHTMLRenderer) {
                 const lastRect = this.screenRect();
                 this.allowUpdate && this.update();
@@ -70,14 +68,11 @@ class ProgressBar extends ThemedControl {
     //#endregion value
     //#region min
     get min() {
-        return core.private(this).min;
+        return this.#min;
     }
     set min(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv.min) {
-            priv.min = newValue;
+        if (core.tools.isNumber(newValue) && newValue !== this.#min) {
+            this.#min = newValue;
             if (!core.isHTMLRenderer) {
                 this.allowUpdate && this.update();
                 this.redraw();
@@ -89,14 +84,11 @@ class ProgressBar extends ThemedControl {
     //#endregion min
     //#region max
     get max() {
-        return core.private(this).max;
+        return this.#max;
     }
     set max(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv.max) {
-            priv.max = newValue;
+        if (core.tools.isNumber(newValue) && newValue !== this.#max) {
+            this.#max = newValue;
             if (!core.isHTMLRenderer) {
                 this.allowUpdate && this.update();
                 this.redraw();
@@ -131,7 +123,6 @@ class ProgressBar extends ThemedControl {
     //#region calculProgress
     calculProgress() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         let nv = 0;
         const margin = new Rect;
@@ -146,31 +137,30 @@ class ProgressBar extends ThemedControl {
                 borderTop = parseInt(getComputedStyle(htmlElement).borderTopWidth, 10);
                 borderBottom = parseInt(getComputedStyle(htmlElement).borderBottomWidth, 10);
             }
-            if (priv.progress) {
-                margin.left = parseInt(getComputedStyle(priv.progress).marginLeft, 10);
-                margin.top = parseInt(getComputedStyle(priv.progress).marginTop, 10);
-                margin.right = parseInt(getComputedStyle(priv.progress).marginRight, 10);
-                margin.bottom = parseInt(getComputedStyle(priv.progress).marginBottom, 10);
+            if (this.#progress) {
+                margin.left = parseInt(getComputedStyle(this.#progress).marginLeft, 10);
+                margin.top = parseInt(getComputedStyle(this.#progress).marginTop, 10);
+                margin.right = parseInt(getComputedStyle(this.#progress).marginRight, 10);
+                margin.bottom = parseInt(getComputedStyle(this.#progress).marginBottom, 10);
             }
         }
-        nv = priv.orientation === core.types.ORIENTATIONS.HORIZONTAL
+        nv = this.#orientation === core.types.ORIENTATIONS.HORIZONTAL
             ? htmlElement.offsetWidth - padding.left - padding.right - margin.left - margin.right
             : htmlElement.offsetHeight - padding.top - padding.bottom - margin.top - margin.bottom - borderTop - borderBottom;
-        nv = int(((priv.value - priv.min) / (priv.max - priv.min)) * nv);
+        nv = int(((this.#value - this.#min) / (this.#max - this.#min)) * nv);
         return nv;
     }
     //#endregion calculProgress
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const PX = core.types.CSSUNITS.PX;
         const progressStyle = this.HTMLElement.firstElementChild.style;
         //#endregion Variables déclaration
-        if (priv.progress) {
+        if (this.#progress) {
             const wh = this.calculProgress();
-            if (priv.orientation === core.types.ORIENTATIONS.HORIZONTAL) {
-                if (priv.value === priv.max) {
+            if (this.#orientation === core.types.ORIENTATIONS.HORIZONTAL) {
+                if (this.#value === this.#max) {
                     progressStyle.right = 0;
                     progressStyle.width = String.EMPTY;
                 } else {
@@ -178,7 +168,7 @@ class ProgressBar extends ThemedControl {
                     progressStyle.right = String.EMPTY;
                 }
             } else {
-                if (priv.value === priv.max) {
+                if (this.#value === this.#max) {
                     progressStyle.top = 0;
                     progressStyle.height = String.EMPTY;
                 } else {
@@ -192,15 +182,14 @@ class ProgressBar extends ThemedControl {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const progressBarIndic = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}indicator`);
         //#endregion Variables déclaration
-        priv.progress = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}progress`);
-        priv.progress.classList.add('Control', 'ProgressBarProgress', this.themeName, `orientation-${priv.orientation}`);
-        priv.progress.jsObj = this;
-        progressBarIndic.classList.add('Control', this.themeName, 'ProgressBarIndic', `orientation-${priv.orientation}`);
-        priv.progress.appendChild(progressBarIndic);
-        this.HTMLElement.appendChild(priv.progress);
+        this.#progress = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}progress`);
+        this.#progress.classList.add('Control', 'ProgressBarProgress', this.themeName, `orientation-${this.#orientation}`);
+        this.#progress.jsObj = this;
+        progressBarIndic.classList.add('Control', this.themeName, 'ProgressBarIndic', `orientation-${this.#orientation}`);
+        this.#progress.appendChild(progressBarIndic);
+        this.HTMLElement.appendChild(this.#progress);
         super.loaded();
         this.update();
     }

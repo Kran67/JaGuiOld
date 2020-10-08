@@ -1,1 +1,2 @@
-﻿.carbon.Gantt {}
+﻿@import url(../../../../css/components/extras/gantt.css);
+.carbon.Gantt {}

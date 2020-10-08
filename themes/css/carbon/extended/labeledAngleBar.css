@@ -1,4 +1,5 @@
-﻿.carbon.LabeledAngleBar {}
+﻿@import url(../../../../css/components/extended/labeledanglebar.css);
+.carbon.LabeledAngleBar {}
 
 .carbon.LabeledAngleBar .AngleButton {}
 

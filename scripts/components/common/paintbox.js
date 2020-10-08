@@ -3,15 +3,15 @@ import { Control } from '/scripts/components/control.js';
 //#endregion Import
 //#region Class PaintBox
 class PaintBox extends Control {
+    //#region Private fields
+    #ctx = null;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             props.allowUpdateOnResize = !0;
             super(owner, props);
-            core.private(this, {
-                ctx: null
-            });
             delete this.tabOrder;
             this.createEventsAndBind(['onPaint'], props);
         }
@@ -20,7 +20,7 @@ class PaintBox extends Control {
     //#region Getters / Setters
     //#region ctx
     get ctx() {
-        return core.private(this).ctx;
+        return this.#ctx;
     }
     //#endregion ctx
     //#region width
@@ -49,12 +49,9 @@ class PaintBox extends Control {
     //#region Methods
     //#region getHTMLElement
     getHTMLElement(id) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.getHTMLElement(id);
         const htmlElement = this.HTMLElement;
-        htmlElement && (priv.ctx = htmlElement.getContext('2d'));
+        htmlElement && (this.#ctx = htmlElement.getContext('2d'));
     }
     //#endregion getHTMLElement
     //#region update
@@ -71,12 +68,11 @@ class PaintBox extends Control {
     //#region paint
     paint() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         if (htmlElement.offsetWidth !== 0 && htmlElement.offsetHeight !== 0 && !this.form.loading
             & !this.form.creating && this.isEnabled && core.isHTMLRenderer) {
-            priv.ctx.clear();
+            this.#ctx.clear();
             this.onPaint.invoke();
         }
     }

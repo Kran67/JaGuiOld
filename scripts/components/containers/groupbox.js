@@ -3,6 +3,10 @@ import { CaptionControl } from '/scripts/core/captioncontrol.js';
 //#endregion Import
 //#region Class GroupBox
 class GroupBox extends CaptionControl {
+    //#region Private fields
+    #horizAlign;
+    #legend;
+    //#endregion Private fields
     //#region Constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -18,19 +22,26 @@ class GroupBox extends CaptionControl {
             }
             super(owner, props);
             //core.tools.defineLayout(this, props);
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'horizAlign',
-                enum: core.types.TEXTALIGNS,
-                value: props.hasOwnProperty('horizAlign') ? props.horizAlign : core.types.TEXTALIGNS.LEFT
-            });
+            this.addPropertyEnum('horizAlign', core.types.TEXTALIGNS);
+            this.#horizAlign = props.hasOwnProperty('horizAlign') ? props.horizAlign : core.types.TEXTALIGNS.LEFT;
         }
     }
     //#endregion Constructor
     //#region Getters / Setters
+    //#region horizAlign
+    get horizAlign() {
+        return this.#horizAlign;
+    }
+    set horizAlign(newValue) {
+        if (core.tools.valueInSet(newValue, core.types.TEXTALIGNS) && this.#horizAlign !== newValue) {
+            this.#horizAlign = newValue;
+            core.isHTMLRenderer && this.update();
+        }
+    }
+    //#endregion horizAlign
     //#region legend
     get legend() {
-        return core.private(this).legend;
+        return this.#legend;
     }
     //#endregion legend
     //#endregion Getters / Setters
@@ -50,28 +61,19 @@ class GroupBox extends CaptionControl {
     //#endregion doBitmapNotLoaded
     //#region update
     update() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        !this.loading && !this.form.loading && priv.legend && priv.legend.setAttribute('align', priv.horizAlign);
+        !this.loading && !this.form.loading && this.#legend && this.#legend.setAttribute('align', this.#horizAlign);
     }
     //#endregion update
     //#region updateCaption
     updateCaption() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.legend.innerHTML = this.caption;
+        this.#legend.innerHTML = this.caption;
     }
     //#endregion updateCaption
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.legend = document.createElement(core.types.HTMLELEMENTS.LEGEND);
-        priv.legend.classList.add('GroupBoxLegend', this.themeName);
-        this.HTMLElement.appendChild(priv.legend);
+        this.#legend = document.createElement(core.types.HTMLELEMENTS.LEGEND);
+        this.#legend.classList.add('GroupBoxLegend', this.themeName);
+        this.HTMLElement.appendChild(this.#legend);
         super.loaded();
         this.updateCaption();
     }

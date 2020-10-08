@@ -1,1 +1,2 @@
-﻿.carbon.FlipBook {}
+﻿@import url(../../../../css/components/extras/flipbook.css);
+.carbon.FlipBook {}

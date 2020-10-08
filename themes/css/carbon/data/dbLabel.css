@@ -1,1 +1,2 @@
-﻿.carbon.DBLabel {}
+﻿@import url(../../../../css/components/data/dblabel.css);
+.carbon.DBLabel {}

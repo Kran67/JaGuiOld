@@ -3,104 +3,92 @@ import { Layout } from '/scripts/components/containers/layout.js';
 //#endregion Import
 //#region Class GridLayout
 class GridLayout extends Layout {
+    //#region Private fields
+    #columnGap;
+    #rowGap;
+    #columns;
+    #rows;
+    #templateColumns;
+    #templateRows;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                columnGap: props.hasOwnProperty('columnGap') ? props.columnGap : 5,
-                rowGap: props.hasOwnProperty('rowGap') ? props.rowGap : 5,
-                columns: props.hasOwnProperty('columns') ? props.columns : 5,
-                rows: props.hasOwnProperty('rows') ? props.rows : 5,
-                templateColumns: props.hasOwnProperty('templateColumns')
-                    ? props.templateColumns : String.EMPTY,
-                templateRows: props.hasOwnProperty('templateRows') ? props.templateRows : String.EMPTY
-            });
+            this.#columnGap = props.hasOwnProperty('columnGap') ? props.columnGap : 5;
+            this.#rowGap = props.hasOwnProperty('rowGap') ? props.rowGap : 5;
+            this.#columns = props.hasOwnProperty('columns') ? props.columns : 5;
+            this.#rows = props.hasOwnProperty('rows') ? props.rows : 5;
+            this.#templateColumns = props.hasOwnProperty('templateColumns')
+                ? props.templateColumns : String.EMPTY;
+            this.#templateRows = props.hasOwnProperty('templateRows') ? props.templateRows : String.EMPTY;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region columnGap
     get columnGap() {
-        return core.private(this).columnGap;
+        return this.#columnGap;
     }
     set columnGap(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.columnGap !== newValue) {
-            priv.columnGap = newValue;
+        if (core.tools.isNumber(newValue) && this.#columnGap !== newValue) {
+            this.#columnGap = newValue;
             this.update();
         }
     }
     //#endregion columnGap
     //#region rowGap
     get rowGap() {
-        return core.private(this).rowGap;
+        return this.#rowGap;
     }
     set rowGap(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.rowGap !== newValue) {
-            priv.rowGap = newValue;
+        if (core.tools.isNumber(newValue) && this.#rowGap !== newValue) {
+            this.#rowGap = newValue;
             this.update();
         }
     }
     //#endregion rowGap
     //#region columns
     get columns() {
-        return core.private(this).columns;
+        return this.#columns;
     }
     set columns(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.columns !== newValue) {
-            priv.columns = newValue;
+        if (core.tools.isNumber(newValue) && this.#columns !== newValue) {
+            this.#columns = newValue;
             this.update();
         }
     }
     //#endregion columns
     //#region rows
     get rows() {
-        return core.private(this).rows;
+        return this.#rows;
     }
     set rows(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.rows !== newValue) {
-            priv.rows = newValue;
+        if (core.tools.isNumber(newValue) && this.#rows !== newValue) {
+            this.#rows = newValue;
             this.update();
         }
     }
     //#endregion rows
     //#region templateColumns
     get templateColumns() {
-        return core.private(this).templateColumns;
+        return this.#templateColumns;
     }
     set templateColumns(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.templateColumns !== newValue) {
-            priv.templateColumns = newValue;
+        if (core.tools.isString(newValue) && this.#templateColumns !== newValue) {
+            this.#templateColumns = newValue;
             core.isHTMLRenderer && this.update();
         }
     }
     //#endregion templateColumns
     //#region templateRows
     get templateRows() {
-        return core.private(this).templateRows;
+        return this.#templateRows;
     }
     set templateRows(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.templateRows !== newValue) {
-            priv.templateRows = newValue;
+        if (core.tools.isString(newValue) && this.#templateRows !== newValue) {
+            this.#templateRows = newValue;
             core.isHTMLRenderer && this.update();
         }
     }
@@ -110,17 +98,16 @@ class GridLayout extends Layout {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const PX = core.types.CSSUNITS.PX;
         const htmlElementStyle = this.HTMLElementStyle;
         //#endregion Variables déclaration
         //super.update();
-        htmlElementStyle.gridTemplateColumns = !String.isNullOrEmpty(priv.templateColumns)
-            ? priv.templateColumns : `repeat(${priv.columns}, 1fr [col-start])`;
-        htmlElementStyle.gridTemplateRows = !String.isNullOrEmpty(priv.templateRows)
-            ? priv.templateRows : `repeat(${priv.rows}, 1fr [row-start])`;
-        htmlElementStyle.columnGap = `${priv.columnGap}${PX}`;
-        htmlElementStyle.rowGap = `${priv.rowGap}${PX}`;
+        htmlElementStyle.gridTemplateColumns = !String.isNullOrEmpty(this.#templateColumns)
+            ? this.#templateColumns : `repeat(${this.#columns}, 1fr [col-start])`;
+        htmlElementStyle.gridTemplateRows = !String.isNullOrEmpty(this.#templateRows)
+            ? this.#templateRows : `repeat(${this.#rows}, 1fr [row-start])`;
+        htmlElementStyle.columnGap = `${this.#columnGap}${PX}`;
+        htmlElementStyle.rowGap = `${this.#rowGap}${PX}`;
         this.components.forEach(comps => {
             //comps.HTMLElement.classList.remove('Control');
             comps.HTMLElementStyle.width = 'auto';

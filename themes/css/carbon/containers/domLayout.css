@@ -1,1 +1,2 @@
-﻿.carbon.DOMLayout {}
+﻿@import url(../../../../css/components/containers/domlayout.css);
+.carbon.DOMLayout {}

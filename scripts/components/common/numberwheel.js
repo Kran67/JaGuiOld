@@ -6,56 +6,50 @@ import { ItemsWheel } from '/scripts/core/itemswheel.js';
 //#endregion Import
 //#region Class NumberWheel
 class NumberWheel extends ItemsWheel {
+    //#region Private fields
+    #min;
+    #max;
+    #numberDigits;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                min: props.hasOwnProperty('min') && core.tools.isNumber(props.min) ? props.min : 0,
-                max: props.hasOwnProperty('max') && core.tools.isNumber(props.max) ? props.max : 100,
-                numberDigits: props.hasOwnProperty('numberDigits') && core.tools.isNumber(props.numberDigits)
-                    ? props.numberDigits : 2
-            });
+            this.#min = props.hasOwnProperty('min') && core.tools.isNumber(props.min) ? props.min : 0;
+            this.#max = props.hasOwnProperty('max') && core.tools.isNumber(props.max) ? props.max : 100;
+            this.#numberDigits = props.hasOwnProperty('numberDigits') && core.tools.isNumber(props.numberDigits)
+                    ? props.numberDigits : 2;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region min
     get min() {
-        return core.private(this).min;
+        return this.#min;
     }
     set min(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.min !== newValue) {
-            priv.min = newValue;
+        if (core.tools.isNumber(newValue) && this.#min !== newValue) {
+            this.#min = newValue;
             this.recreateItems();
         }
     }
     //#endregion min
     //#region max
     get max() {
-        return core.private(this).max;
+        return this.#max;
     }
     set max(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.max !== newValue) {
-            priv.max = newValue;
+        if (core.tools.isNumber(newValue) && this.#max !== newValue) {
+            this.#max = newValue;
             this.recreateItems();
         }
     }
     //#endregion max
     //#region numberDigits
     set numberDigits(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.numberDigits !== newValue) {
-            priv.numberDigits = newValue;
+        if (core.tools.isNumber(newValue) && this.#numberDigits !== newValue) {
+            this.#numberDigits = newValue;
             this.recreateItems();
         }
     }
@@ -64,13 +58,10 @@ class NumberWheel extends ItemsWheel {
     //#region Methods
     //#region recreateItems
     recreateItems() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         this.items.clear();
-        for (let i = priv.min; i <= priv.max; i++) {
+        for (let i = this.#min; i <= this.#max; i++) {
             let str = i.toString();
-            str.length < priv.numberDigits && (str = String.dupeString('0', priv.numberDigits - str.length) + str);
+            str.length < this.#numberDigits && (str = String.dupeString('0', this.#numberDigits - str.length) + str);
             this.items.push(str);
         }
         super.recreateItems();

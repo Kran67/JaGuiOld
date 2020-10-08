@@ -1,2 +1,3 @@
-﻿.carbon.SegmentLedLabel {
+﻿@import url(../../../../css/components/extended/segmentledlabel.css);
+.carbon.SegmentLedLabel {
 }

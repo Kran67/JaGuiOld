@@ -1,0 +1,6 @@
+﻿.CircleButton,
+.CircleButton:hover,
+.CircleButton.disabled:hover{
+    overflow: hidden;
+    border-radius: 50% !important;
+}

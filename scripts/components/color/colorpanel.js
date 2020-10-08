@@ -31,35 +31,8 @@ class ColorPanel extends Control {
                 props.height = 160;
             }
             super(owner, props);
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'colorBoxType',
-                enum: COLORPANELBOXES,
-                value: props.hasOwnProperty('colorBoxType') ? props.colorBoxType : COLORPANELBOXES.PRIMARY,
-                setter: function (newValue) {
-                    //#region Variables déclaration
-                    const c = Colors.TRANSPARENT;
-                    //#endregion Variables déclaration
-                    if (core.tools.valueInSet(newValue, COLORPANELBOXES) && this.#colorBoxType !== newValue) {
-                        this.#colorBoxType = newValue;
-                        switch (newValue) {
-                            case COLORPANELBOXES.PRIMARY:
-                                c.assign(this.#primaryColorBox.fillColor);
-                                this.#colorQuad.colorBox = this.#primaryColorBox;
-                                this.#primaryColorBox.fillColor.assign(c);
-                                break;
-                            case COLORPANELBOXES.SECONDARY:
-                                c.assign(this.#secondaryColorBox.fillColor);
-                                this.#colorQuad.colorBox = this.#secondaryColorBox;
-                                this.#secondaryColorBox.fillColor.assign(c);
-                                break;
-                        }
-                        this.#colorQuad.color = c;
-                        this.#hueSlider.firstValue = c.hue / 360;
-                        this.#alphaSlider.firstValue = c.alpha;
-                    }
-                }
-            });
+            this.addPropertyEnum('colorBoxType', COLORPANELBOXES);
+            this.#colorBoxType = props.hasOwnProperty('colorBoxType') ? props.colorBoxType : COLORPANELBOXES.PRIMARY;
             this.createEventsAndBind(['onChange'], props);
         }
     }
@@ -72,22 +45,59 @@ class ColorPanel extends Control {
     static get COLORPANELBOXES() {
         return COLORPANELBOXES;
     }
-    //#endregion
+    //#endregion COLORPANELBOXES
+    //#region colorBoxType
+    get colorBoxType() {
+        return this.#colorBoxType;
+    }
+    set colorBoxType(newValue) {
+        //#region Variables déclaration
+        const c = Colors.TRANSPARENT;
+        //#endregion Variables déclaration
+        if (core.tools.valueInSet(newValue, COLORPANELBOXES) && this.#colorBoxType !== newValue) {
+            this.#colorBoxType = newValue;
+            switch (newValue) {
+                case COLORPANELBOXES.PRIMARY:
+                    c.assign(this.#primaryColorBox.fillColor);
+                    this.#colorQuad.colorBox = this.#primaryColorBox;
+                    this.#primaryColorBox.fillColor.assign(c);
+                    break;
+                case COLORPANELBOXES.SECONDARY:
+                    c.assign(this.#secondaryColorBox.fillColor);
+                    this.#colorQuad.colorBox = this.#secondaryColorBox;
+                    this.#secondaryColorBox.fillColor.assign(c);
+                    break;
+            }
+            this.#colorQuad.color = c;
+            this.#hueSlider.firstValue = c.hue / 360;
+            this.#alphaSlider.firstValue = c.alpha;
+        }
+    }
+    //#endregion colorBoxType
+    //#region colorQuad
     get colorQuad() {
         return this.#colorQuad;
     }
+    //#endregion colorQuad
+    //#region hueSlider
     get hueSlider() {
         return this.#hueSlider;
     }
+    //#endregion hueSlider
+    //#region alphaSlider
     get alphaSlider() {
         return this.#alphaSlider;
     }
+    //#region primaryColorBox
     get primaryColorBox() {
         return this.#primaryColorBox;
     }
+    //#endregion primaryColorBox
+    //#region secondaryColorBox
     get secondaryColorBox() {
         return this.#secondaryColorBox;
     }
+    //#endregion secondaryColorBox
     //#endregion Getters / Setters
     //#region Methods
     doQuadChange() {
@@ -160,10 +170,10 @@ class ColorPanel extends Control {
         //#region Variables déclaration
         const json = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
         const color = json.hasOwnProperty('color') ? json.color : Colors.RED;
-        let colorQuad, hueSlider, alphaSlider, secondaryColorBox, primaryColorBox;
+        //let colorQuad, hueSlider, alphaSlider, secondaryColorBox, primaryColorBox;
         //#endregion Variables déclaration
         super.loaded();
-        colorQuad = core.classes.createComponent({
+        this.#colorQuad = core.classes.createComponent({
             class: ColorQuad,
             owner: this,
             props: {
@@ -171,8 +181,8 @@ class ColorPanel extends Control {
                 format: 'hsl'
             }
         });
-        colorQuad.onChange.addListener(this.doQuadChange);
-        hueSlider = core.classes.createComponent({
+        this.#colorQuad.onChange.addListener(this.doQuadChange);
+        this.#hueSlider = core.classes.createComponent({
             class: HUESlider,
             owner: this,
             props: {
@@ -180,8 +190,8 @@ class ColorPanel extends Control {
                 orientation: core.types.ORIENTATIONS.VERTICAL
             }
         });
-        hueSlider.onChange.addListener(this.doHueChange);
-        alphaSlider = core.classes.createComponent({
+        this.#hueSlider.onChange.addListener(this.doHueChange);
+        this.#alphaSlider = core.classes.createComponent({
             class: AlphaSlider,
             owner: this,
             props: {
@@ -189,18 +199,18 @@ class ColorPanel extends Control {
                 values: [1, 0]
             }
         });
-        alphaSlider.onChange.addListener(this.doAlphaChange);
-        secondaryColorBox = core.classes.createComponent({
+        this.#alphaSlider.onChange.addListener(this.doAlphaChange);
+        this.#secondaryColorBox = core.classes.createComponent({
             class: ColorBox,
             owner: this,
             props: {
                 inForm: !1
             }
         });
-        secondaryColorBox.onClick.addListener(this.changeColorBox);
-        secondaryColorBox.mouseEvents.mousedown = !0;
-        secondaryColorBox.HTMLElement.classList.add('secondaryColorBox');
-        primaryColorBox = core.classes.createComponent({
+        this.#secondaryColorBox.onClick.addListener(this.changeColorBox);
+        this.#secondaryColorBox.mouseEvents.mousedown = !0;
+        this.#secondaryColorBox.HTMLElement.classList.add('secondaryColorBox');
+        this.#primaryColorBox = core.classes.createComponent({
             class: ColorBox,
             owner: this,
             props: {
@@ -208,14 +218,14 @@ class ColorPanel extends Control {
                 color: color
             }
         });
-        primaryColorBox.onClick.addListener(this.changeColorBox);
-        primaryColorBox.mouseEvents.mousedown = !0;
-        primaryColorBox.HTMLElement.classList.add('primaryColorBox');
-        colorQuad.colorBox = primaryColorBox;
-        colorQuad.color = primaryColorBox.color;
-        hueSlider.firstValue = primaryColorBox.color.hue / 360;
-        secondaryColorBox.color = Colors.WHITE;
-        core.private(this, { colorQuad, hueSlider, alphaSlider, secondaryColorBox, primaryColorBox });
+        this.#primaryColorBox.onClick.addListener(this.changeColorBox);
+        this.#primaryColorBox.mouseEvents.mousedown = !0;
+        this.#primaryColorBox.HTMLElement.classList.add('primaryColorBox');
+        this.#colorQuad.colorBox = this.#primaryColorBox;
+        this.#colorQuad.color = this.#primaryColorBox.color;
+        this.#hueSlider.firstValue = this.#primaryColorBox.color.hue / 360;
+        this.#secondaryColorBox.color = Colors.WHITE;
+        //core.private(this, { colorQuad, hueSlider, alphaSlider, secondaryColorBox, primaryColorBox });
     }
     update() {
         if (!this.loading && !this.form.loading) {

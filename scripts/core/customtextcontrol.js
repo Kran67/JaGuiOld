@@ -38,25 +38,10 @@ class CustomTextControl extends ThemedControl {
             let textAligns = core.types.TEXTALIGNS;
             this.#horizAlign = props.hasOwnProperty('horizAlign') ? props.horizAlign : textAligns.CENTER;
             this.addPropertyEnum('horizAlign', textAligns);
-            //core.tools.addPropertyFromEnum({
-            //    component: this,
-            //    propName: 'horizAlign',
-            //    enum: textAligns,
-            //    forceUpdate: !0,
-            //    value: props.hasOwnProperty('horizAlign') ? props.horizAlign : textAligns.CENTER
-            //});
             textAligns = null;
             let htmlInputTypes = core.types.HTMLINPUTTYPES;
             this.#type = props.hasOwnProperty('type') ? props.type : htmlInputTypes.TEXT;
             this.addPropertyEnum('type', htmlInputTypes);
-            //core.tools.addPropertyFromEnum({
-            //    component: this,
-            //    propName: 'type',
-            //    enum: htmlInputTypes,
-            //    forceUpdate: !0,
-            //    enumerable: !1,
-            //    value: props.hasOwnProperty('type') ? props.type : htmlInputTypes.TEXT
-            //});
             htmlInputTypes = null;
             //#endregion Private Properties
             //#region Public Properties

@@ -1,4 +1,5 @@
-﻿.carbon.TreeViewItem .CheckboxCheck {
+﻿@import url(../../../../css/components/common/treeview.css);
+.carbon.TreeViewItem .CheckboxCheck {
     position: relative;
     margin-right: 2px;
     float: left;

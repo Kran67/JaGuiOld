@@ -216,30 +216,6 @@ class Tools {
      * @param {Boolean}     params.enumerable
      * @param {Any}         params.variable
      */
-    //#region addPropertyFromEnum
-    static addPropertyFromEnum(params) {
-        params.component.addPropertyEnum(params.propName, params.enum);
-        params.hasOwnProperty('value') && (params.component[params.propName] = params.value);
-        params.forceUpdate === undefined && (params.forceUpdate = !1);
-        params.enumerable === undefined && (params.enumerable = !0);
-        const setter = params.setter ? params.setter : (newValue) => {
-            if (core.tools.valueInSet(newValue, params.enum)) {
-                if (params.component[params.propName] !== newValue) {
-                    params.component[params.propName] = newValue;
-                    params.forceUpdate && params.component.update && !params.component.loading &&
-                        !params.component.form.creating && !params.component.form.loading
-                        && params.component.update();
-                }
-            }
-        };
-        Object.defineProperty(params.component, params.propName, {
-            get: () => { return params.component[params.propName]; },
-            set: setter,
-            enumerable: params.enumerable,
-            configurable: !0
-        });
-    }
-    //#endregion addPropertyFromEnum
     //#region getPropertiesFromObject
     static getPropertiesFromObject(obj, events = !1) {
         //#region Variables déclaration
@@ -804,13 +780,13 @@ class Tools {
     //#endregion defineLayout
     noEvent(event) {
         console.log('noEvent');
-            event.stopPropagation();
-            event.stopImmediatePropagation();
-            event.preventDefault();
-        }
-        //#endregion Methods
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        event.preventDefault();
     }
-    Object.seal(Object.freeze(Tools));
-    //#endregion Tools
-    window.core.tools = Tools;
-    export { Tools }; // à supprimer
+//#endregion Methods
+}
+Object.seal(Object.freeze(Tools));
+//#endregion Tools
+window.core.tools = Tools;
+export { Tools }; // à supprimer

@@ -1,4 +1,5 @@
-﻿.carbon.SplitToolButton:hover .BitmapButtonCaption {
+﻿@import url(../../../../css/components/toobars/splittoolbutton.css);
+.carbon.SplitToolButton:hover .BitmapButtonCaption {
     text-shadow: 0 0 8px rgba(246,158,45,0.9);
 }
 

@@ -1,1 +1,2 @@
-﻿.carbon.BitmapStateButton {}
+﻿@import url(../../../../css/components/extended/bitmapbutton.css);
+.carbon.BitmapStateButton {}

@@ -34,6 +34,13 @@ const WORDWRAPS = Object.freeze(Object.seal({
 //#endregion WORDWRAPS
 //#region Class Memo
 class Memo extends CustomTextControl {
+    //#region Private fields
+    #whiteSpace;
+    #wordBreak;
+    #wordWrap;
+    #lines = new StringList(this);
+    #text;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -44,71 +51,56 @@ class Memo extends CustomTextControl {
                 props.height = 89;
             }
             super(owner, props);
-            const priv = core.private(this, {
-                whiteSpace: props.hasOwnProperty('whiteSpace') ? props.whiteSpace : WHITESPACES.INHERIT,
-                wordBreak: props.hasOwnProperty('wordBreak') ? props.wordBreak : WORDBREAKS.INHERIT,
-                wordWraps: props.hasOwnProperty('wordWraps') ? props.wordWraps : WORDWRAPS.INHERIT,
-                lines: new StringList(this),
-                text: props.hasOwnProperty('text') ? props.text : this.name
-            });
-            priv.lines.onChange.addListener(this.update);
+            this.#whiteSpace = props.hasOwnProperty('whiteSpace') ? props.whiteSpace : WHITESPACES.INHERIT;
+            this.#wordBreak = props.hasOwnProperty('wordBreak') ? props.wordBreak : WORDBREAKS.INHERIT;
+            this.#wordWrap = props.hasOwnProperty('wordWrap') ? props.wordWrap : WORDWRAPS.INHERIT;
+            this.#text = props.hasOwnProperty('text') ? props.text : this.name;
+            this.#lines.onChange.addListener(this.update);
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region whiteSpace
     get whiteSpace() {
-        return core.private(this).whiteSpace;
+        return this.#whiteSpace;
     }
     set whiteSpace(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, WHITESPACES) && priv.whiteSpace !== newValue) {
-            priv.whiteSpace = newValue;
+        if (core.tools.valueInSet(newValue, WHITESPACES) && this.#whiteSpace !== newValue) {
+            this.#whiteSpace = newValue;
             this.update();
         }
     }
     //#endregion whiteSpace
     //#region wordBreak
     get wordBreak() {
-        return core.private(this).wordBreak;
+        return this.#wordBreak;
     }
     set wordBreak(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, WORDBREAKS) && priv.wordBreak !== newValue) {
-            priv.wordBreak = newValue;
+        if (core.tools.valueInSet(newValue, WORDBREAKS) && this.#wordBreak !== newValue) {
+            this.#wordBreak = newValue;
             this.update();
         }
     }
     //#endregion wordBreak
     //#region wordWrap
     get wordWrap() {
-        return core.private(this).wordWrap;
+        return this.#wordWrap;
     }
     set wordWrap(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, WORDWRAPS) && priv.wordWraps !== newValue) {
-            priv.wordWraps = newValue;
+        if (core.tools.valueInSet(newValue, WORDWRAPS) && this.#wordWrap !== newValue) {
+            this.#wordWrap = newValue;
             this.update();
         }
     }
     //#endregion wordWrap
     //#region lines
     get lines() {
-        return core.private(this).lines;
+        return this.#lines;
     }
     set lines(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof StringList && priv.lines !== newValue) {
-            priv.lines.clear();
-            priv.lines.list.addRange(newValue);
+        if (newValue instanceof StringList && this.#lines !== newValue) {
+            this.#lines.clear();
+            this.#lines.list.addRange(newValue);
             this.update();
         }
     }
@@ -154,7 +146,6 @@ class Memo extends CustomTextControl {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const ta = document.createElement(core.types.HTMLELEMENTS.TEXTAREA);
         //#endregion Variables déclaration
         super.loaded();
@@ -164,7 +155,7 @@ class Memo extends CustomTextControl {
         Events.bind(ta, core.types.HTMLEVENTS.CHANGE, this.textChanged);
         Events.bind(ta, core.types.HTMLEVENTS.FOCUS, this.HTMLFocus);
         Events.bind(ta, core.types.HTMLEVENTS.BLUR, this.HTMLBlur);
-        priv.lines.addText(priv.text, false);
+        this.#lines.addText(this.#text, false);
     }
     //#endregion loaded
     //#endregion Methods
@@ -176,7 +167,7 @@ Object.defineProperties(Memo.prototype, {
     'wordBreak': {
         enumerable: !0
     },
-    'wordWraps': {
+    'wordWrap': {
         enumerable: !0
     },
     'lines': {

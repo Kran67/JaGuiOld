@@ -1,2 +1,3 @@
-﻿.carbon.ColorPicker {
+﻿@import url(../../../../css/components/color/colorpicker.css);
+.carbon.ColorPicker {
 }

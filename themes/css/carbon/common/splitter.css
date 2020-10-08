@@ -1,4 +1,5 @@
-﻿.carbon.Splitter.orientation-horizontal,
+﻿@import url(../../../../css/components/common/splitter.css);
+.carbon.Splitter.orientation-horizontal,
 .carbon.Splitter.orientation-vertical {
     background-color: #505050;
 }

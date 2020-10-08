@@ -1,3 +1,4 @@
-﻿.carbon.image {}
+﻿@import url(../../../../css/components/common/image.css);
+.carbon.image {}
 
 .carbon.icon {}

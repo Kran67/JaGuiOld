@@ -1,4 +1,5 @@
-﻿.carbon.BitmapButton,
+﻿@import url(../../../../css/components/extended/bitmapbutton.css);
+.carbon.BitmapButton,
 .carbon.BitmapButton.disabled:hover {
     border-radius: 3px;
     border: 1px solid #222;

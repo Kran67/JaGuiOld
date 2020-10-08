@@ -1,4 +1,5 @@
-﻿.carbon.Calendar {
+﻿@import url(../../../../css/components/common/calendar.css);
+.carbon.Calendar {
     border: 1px solid #222;
     border-radius: 5px;
     background-image: linear-gradient(to bottom,#707070 0,#303030 100%);

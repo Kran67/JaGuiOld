@@ -1,1 +1,2 @@
-﻿.carbon.ColorPanel {}
+﻿@import url(../../../../css/components/color/colorpanel.css);
+.carbon.ColorPanel {}

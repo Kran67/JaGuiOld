@@ -12,6 +12,12 @@ const CALLOUTPOSITIONS = Object.seal(Object.freeze({
 //#endregion CALLOUTPOSITIONS
 //#region CalloutPanel
 class CalloutPanel extends Panel {
+    //#region Private fields
+    #calloutOffset;
+    #calloutLength;
+    #calloutWidth;
+    #calloutPosition;
+    //#endregion Private fields
     //#region Constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -20,18 +26,11 @@ class CalloutPanel extends Panel {
             props.allowRealignChildsOnResize = !0;
             props.clipChilds = !1;
             super(owner, props);
-            core.private(this, {
-                calloutOffset: props.hasOwnProperty('calloutOffset') ? props.calloutOffset : 0,
-                calloutLength: props.hasOwnProperty('calloutLength') ? props.calloutLength : 11,
-                calloutWidth: props.hasOwnProperty('calloutWidth') ? props.calloutWidth : 23
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'calloutPosition',
-                enum: CALLOUTPOSITIONS,
-                forceUpdate: !0,
-                value: props.hasOwnProperty('calloutPosition') ? props.calloutPosition : CALLOUTPOSITIONS.TOP
-            });
+            this.#calloutOffset = props.hasOwnProperty('calloutOffset') ? props.calloutOffset : 0;
+            this.#calloutLength = props.hasOwnProperty('calloutLength') ? props.calloutLength : 11;
+            this.#calloutWidth = props.hasOwnProperty('calloutWidth') ? props.calloutWidth : 23;
+            this.addPropertyEnum('calloutPosition', CALLOUTPOSITIONS);
+            this.#calloutPosition = props.hasOwnProperty('calloutPosition') ? props.calloutPosition : CALLOUTPOSITIONS.TOP;
         }
     }
     //#endregion
@@ -43,14 +42,11 @@ class CalloutPanel extends Panel {
     //#endregion CALLOUTPOSITIONS
     //#region calloutPosition
     get calloutPosition() {
-        return core.private(this).calloutPosition;
+        return this.#calloutPosition;
     }
     set calloutPosition(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, CALLOUTPOSITIONS) && priv.calloutPosition !== newValue) {
-            priv.calloutPosition = newValue;
+        if (core.tools.valueInSet(newValue, CALLOUTPOSITIONS) && this.#calloutPosition !== newValue) {
+            this.#calloutPosition = newValue;
             if (core.isHTMLRenderer) {
                 !this.loading && !this.form.loading && this.update();
             } else {
@@ -62,14 +58,11 @@ class CalloutPanel extends Panel {
     //#endregion calloutPosition
     //#region calloutOffset
     get calloutOffset() {
-        return core.private(this).calloutOffset;
+        return this.#calloutOffset;
     }
     set calloutOffset(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.calloutOffset !== newValue) {
-            priv.calloutOffset = newValue;
+        if (core.tools.isNumber(newValue) && this.#calloutOffset !== newValue) {
+            this.#calloutOffset = newValue;
             if (core.isHTMLRenderer) {
                 !this.loading && !this.form.loading && this.update();
             } else {
@@ -81,16 +74,13 @@ class CalloutPanel extends Panel {
     //#endregion calloutOffset
     //#region calloutLength
     get calloutLength() {
-        return core.private(this).calloutLength;
+        return this.#calloutLength;
     }
     set calloutLength(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue = Math.max(newValue, 0);
-            if (priv.calloutLength !== newValue) {
-                priv.calloutLength = newValue;
+            if (this.#calloutLength !== newValue) {
+                this.#calloutLength = newValue;
                 if (core.isHTMLRenderer) {
                     !this.loading && !this.form.loading && this.update();
                 } else {
@@ -103,16 +93,13 @@ class CalloutPanel extends Panel {
     //#endregion calloutLength
     //#region calloutWidth
     get calloutWidth() {
-        return core.private(this).calloutWidth;
+        return this.#calloutWidth;
     }
     set calloutWidth(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue = Math.max(newValue, 0);
-            if (priv.calloutWidth !== newValue) {
-                priv.calloutWidth = newValue;
+            if (this.#calloutWidth !== newValue) {
+                this.#calloutWidth = newValue;
                 if (core.isHTMLRenderer) {
                     !this.loading && !this.form.loading && this.update();
                 } else {
@@ -128,8 +115,7 @@ class CalloutPanel extends Panel {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const cw = int(priv.calloutWidth / 2);
+        const cw = int(this.#calloutWidth / 2);
         let pos = 0;
         const htmlElement = this.HTMLElement;
         const PX = core.types.CSSUNITS.PX;
@@ -150,11 +136,11 @@ class CalloutPanel extends Panel {
             });
             // remove all CSS rules for this component
             this.removeCssRules();
-            switch (priv.calloutPosition) {
+            switch (this.#calloutPosition) {
                 case CALLOUTPOSITIONS.TOP:
-                    pos = int((htmlElement.offsetWidth - priv.calloutWidth) / 2) - priv.calloutOffset;
-                    pos = Math.max(Math.min(pos, htmlElement.offsetWidth - priv.calloutWidth), 0);
-                    top = `${-priv.calloutLength}${PX}`;
+                    pos = int((htmlElement.offsetWidth - this.#calloutWidth) / 2) - this.#calloutOffset;
+                    pos = Math.max(Math.min(pos, htmlElement.offsetWidth - this.#calloutWidth), 0);
+                    top = `${-this.#calloutLength}${PX}`;
                     left = `${pos}${PX}`;
                     borderTopWidth = 0;
                     borderLeftWidth = `${cw}${PX}`;
@@ -165,9 +151,9 @@ class CalloutPanel extends Panel {
                     path = `0 0, ${left} 0, ${pos + cw}${PX} ${top}, ${pos + cw + 1}${PX} ${top}, ${pos + 1 + cw * 2}${PX} 0, 100% 0, 100% 100%, 0 100%`;
                     break;
                 case CALLOUTPOSITIONS.RIGHT:
-                    pos = int((htmlElement.offsetHeight - priv.calloutWidth) / 2) - priv.calloutOffset;
-                    pos = Math.max(Math.min(pos, htmlElement.offsetHeight - priv.calloutWidth), 0);
-                    right = `${-priv.calloutLength}${PX}`;
+                    pos = int((htmlElement.offsetHeight - this.#calloutWidth) / 2) - this.#calloutOffset;
+                    pos = Math.max(Math.min(pos, htmlElement.offsetHeight - this.#calloutWidth), 0);
+                    right = `${-this.#calloutLength}${PX}`;
                     top = `${pos}${PX}`;
                     borderRightWidth = 0;
                     borderTopWidth = `${cw}${PX}`;
@@ -175,12 +161,12 @@ class CalloutPanel extends Panel {
                     borderLeftWidth = `${cw}${PX}`;
                     bottom = 'auto';
                     left = 'auto';
-                    path = `0 0, 100% 0, 100% ${top}, ${htmlElement.offsetWidth + priv.calloutLength} ${pos + cw}${PX}, ${htmlElement.offsetWidth + priv.calloutLength} ${pos + cw + 1}${PX}, 100% ${pos + 1 + cw * 2}${PX}, 100% 100%, 0 100%`;
+                    path = `0 0, 100% 0, 100% ${top}, ${htmlElement.offsetWidth + this.#calloutLength} ${pos + cw}${PX}, ${htmlElement.offsetWidth + this.#calloutLength} ${pos + cw + 1}${PX}, 100% ${pos + 1 + cw * 2}${PX}, 100% 100%, 0 100%`;
                     break;
                 case CALLOUTPOSITIONS.BOTTOM:
-                    pos = int((htmlElement.offsetWidth - priv.calloutWidth) / 2) - priv.calloutOffset;
-                    pos = Math.max(Math.min(pos, htmlElement.offsetWidth - priv.calloutWidth), 0);
-                    bottom = `${-priv.calloutLength}${PX}`;
+                    pos = int((htmlElement.offsetWidth - this.#calloutWidth) / 2) - this.#calloutOffset;
+                    pos = Math.max(Math.min(pos, htmlElement.offsetWidth - this.#calloutWidth), 0);
+                    bottom = `${-this.#calloutLength}${PX}`;
                     left = `${pos}${PX}`;
                     top = 'auto';
                     borderLeftWidth = `${cw}${PX}`;
@@ -188,12 +174,12 @@ class CalloutPanel extends Panel {
                     borderBottomWidth = 0;
                     borderTopWidth = `${cw}${PX}`;
                     right = 'auto';
-                    path = `0 0, 100% 0, 100% 100%, ${pos + 1 + cw * 2}${PX} 100%, ${pos + cw + 1}${PX} ${htmlElement.offsetHeight + priv.calloutLength}, ${pos + cw}${PX} ${htmlElement.offsetHeight + priv.calloutLength}, ${left} 100%, 0 100%`;
+                    path = `0 0, 100% 0, 100% 100%, ${pos + 1 + cw * 2}${PX} 100%, ${pos + cw + 1}${PX} ${htmlElement.offsetHeight + this.#calloutLength}, ${pos + cw}${PX} ${htmlElement.offsetHeight + this.#calloutLength}, ${left} 100%, 0 100%`;
                     break;
                 case CALLOUTPOSITIONS.LEFT:
-                    pos = int((htmlElement.offsetHeight - priv.calloutWidth) / 2) - priv.calloutOffset;
-                    pos = Math.max(Math.min(pos, htmlElement.offsetHeight - priv.calloutWidth), 0);
-                    left = `${-priv.calloutLength}${PX}`;
+                    pos = int((htmlElement.offsetHeight - this.#calloutWidth) / 2) - this.#calloutOffset;
+                    pos = Math.max(Math.min(pos, htmlElement.offsetHeight - this.#calloutWidth), 0);
+                    left = `${-this.#calloutLength}${PX}`;
                     top = `${pos}${PX}`;
                     borderLeftWidth = 0;
                     borderTopWidth = `${cw}${PX}`;
@@ -204,13 +190,13 @@ class CalloutPanel extends Panel {
                     path = `0 0, 100% 0, 100% 100%, 0 100%, 0 ${pos + 1 + cw * 2}${PX}, ${left} ${pos + cw + 1}${PX}, ${left} ${pos + cw}${PX}, 0 ${top}`;
                     break;
             }
-            Css.addCSSRule(`#${this.internalId}.calloutposition-${priv.calloutPosition}${pseudoCssClass.BEFORE}`, `left: ${left}; top: ${top}; right: ${right};
+            Css.addCSSRule(`#${this.internalId}.calloutposition-${this.#calloutPosition}${pseudoCssClass.BEFORE}`, `left: ${left}; top: ${top}; right: ${right};
                     bottom: ${bottom};
                     border-left-width: ${borderLeftWidth};
                     border-top-width: ${borderTopWidth};
                     border-right-width: ${borderRightWidth};
                     border-bottom-width: ${borderBottomWidth}`);
-            htmlElement.classList.add(`calloutposition-${priv.calloutPosition}`);
+            htmlElement.classList.add(`calloutposition-${this.#calloutPosition}`);
             this.HTMLElementStyle.clipPath = `polygon(${path})`;
         }
     }

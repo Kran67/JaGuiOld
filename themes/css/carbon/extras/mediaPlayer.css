@@ -1,1 +1,2 @@
-﻿.carbon.MediaPlayer {}
+﻿@import url(../../../../css/components/extras/mediaplayer.css);
+.carbon.MediaPlayer {}

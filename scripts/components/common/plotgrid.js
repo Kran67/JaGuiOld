@@ -5,6 +5,11 @@ import { Color, Colors } from '/scripts/core/color.js';
 //#endregion Import
 //#region Class PlotGrid
 class PlotGrid extends PaintBox {
+    //#region Private fields
+    #lineFill;
+    #marks = 25;
+    #frequency = 5;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         //#region Variables déclaration
@@ -12,23 +17,18 @@ class PlotGrid extends PaintBox {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                lineFill: new Brush(core.types.BRUSHSTYLES.SOLID, Color.parse('#333'), this),
-                marks: 25,
-                frequency: 5
-            });
+            this.#lineFill = new Brush(core.types.BRUSHSTYLES.SOLID, Color.parse('#333'), this);
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region lineFill
     get lineFill() {
-        return core.private(this).lineFill;
+        return this.#lineFill;
     }
     set lineFill(newValue) {
-        const priv = core.private(this);
-        if (newValue instanceof Brush && priv.lineFill !== newValue) {
-            priv.lineFill.assign(newValue);
+        if (newValue instanceof Brush && this.#lineFill !== newValue) {
+            this.#lineFill.assign(newValue);
             if (core.isHTMLRenderer) {
                 if (!this.loading && !this.form.loading) {
                     this.update();
@@ -42,12 +42,11 @@ class PlotGrid extends PaintBox {
     //#endregion lineFill
     //#region marks
     get marks() {
-        return core.private(this).marks;
+        return this.#marks;
     }
     set marks(newValue) {
-        const priv = core.private(this);
-        if (core.tools.isNumber(newValue) && priv.marks !== newValue) {
-            priv.marks = newValue;
+        if (core.tools.isNumber(newValue) && this.#marks !== newValue) {
+            this.#marks = newValue;
             if (core.isHTMLRenderer) {
                 !this.loading && !this.form.loading && this.update();
             } else {
@@ -59,13 +58,12 @@ class PlotGrid extends PaintBox {
     //#endregion marks
     //#region frequency
     get frequency() {
-        return core.private(this).frequency;
+        return this.#frequency;
     }
     set frequency(newValue) {
-        const priv = core.private(this);
-        if (core.tools.isNumber(newValue) && priv.frequency !== newValue) {
+        if (core.tools.isNumber(newValue) && this.#frequency !== newValue) {
             newValue = Math.max(newValue, 0.001);
-            priv.frequency = newValue;
+            this.#frequency = newValue;
             if (core.isHTMLRenderer) {
                 !this.loading && !this.form.loading && this.update();
             } else {
@@ -79,9 +77,10 @@ class PlotGrid extends PaintBox {
     //#region Methods
     //#region paint
     paint() {
-        const priv = core.private(this);
+        //#region Variables déclaration
         const htmlElement = this.HTMLElement;
         const ctx = this.ctx;
+        //#endregion Variables déclaration
         if (htmlElement.offsetWidth !== 0 && htmlElement.offsetHeight !== 0 && this.ctx && this.isEnabled) {
             let x = 0;
             let y = 0;
@@ -89,15 +88,15 @@ class PlotGrid extends PaintBox {
             const w2 = htmlElement.offsetWidth / 2;
             const h2 = htmlElement.offsetHeight / 2;
             ctx.clear();
-            c.assign(priv.lineFill.color);
+            c.assign(this.#lineFill.color);
             c.opacity(0.4);
             this.ctx.save();
             while (x < w2) {
                 if (x === 0) {
                     ctx.lineWidth = 2;
-                    ctx.strokeStyle = priv.lineFill.color.toRGBAString();
+                    ctx.strokeStyle = this.#lineFill.color.toRGBAString();
                 } else {
-                    Math.frac(x) === 0 && Math.frac(x / priv.frequency / priv.marks) === 0
+                    Math.frac(x) === 0 && Math.frac(x / this.#frequency / this.#marks) === 0
                         ? this.ctx.strokeStyle = this.lineFill.color.toRGBAString()
                         : ctx.strokeStyle = c.toRGBAString();
                     ctx.lineWidth = 1;
@@ -110,15 +109,15 @@ class PlotGrid extends PaintBox {
                     ctx.lineTo(w2 - x + ctx.lineWidth / 2, htmlElement.offsetHeight);
                 }
                 ctx.stroke();
-                x += priv.frequency;
+                x += this.#frequency;
             }
             while (y < h2) {
                 if (y === 0) {
                     ctx.lineWidth = 2;
-                    ctx.strokeStyle = priv.lineFill.color.toRGBAString();
+                    ctx.strokeStyle = this.#lineFill.color.toRGBAString();
                 } else {
-                    Math.frac(y) === 0 && Math.frac(y / priv.frequency / priv.marks) === 0
-                        ? ctx.strokeStyle = priv.lineFill.color.toRGBAString()
+                    Math.frac(y) === 0 && Math.frac(y / this.#frequency / this.#marks) === 0
+                        ? ctx.strokeStyle = this.#lineFill.color.toRGBAString()
                         : ctx.strokeStyle = c.toRGBAString();
                     ctx.lineWidth = 1;
                 }
@@ -130,7 +129,7 @@ class PlotGrid extends PaintBox {
                     ctx.lineTo(htmlElement.offsetWidth, h2 - y + ctx.lineWidth / 2);
                 }
                 ctx.stroke();
-                y += priv.frequency;
+                y += this.#frequency;
             }
             ctx.restore();
             core.isHTMLRenderer && this.onPaint.invoke();
@@ -139,19 +138,17 @@ class PlotGrid extends PaintBox {
     //#endregion paint
     //#region assign
     assign(source) {
-        const priv = core.private(this);
         if (source instanceof PlotGrid) {
             super.assign(source);
-            priv.lineFill.assign(source.lineFill);
-            priv.marks = source.marks;
-            priv.frequency = source.frequency;
+            this.#lineFill.assign(source.lineFill);
+            this.#marks = source.marks;
+            this.#frequency = source.frequency;
         }
     }
     //#endregion assign
     //#region destroy
     destroy() {
-        const priv = core.private(this);
-        priv.lineFill.destroy();
+        this.#lineFill.destroy();
         super.destroy();
     }
     //#endregion destroy

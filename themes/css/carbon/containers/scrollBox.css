@@ -1,3 +1,4 @@
-﻿.carbon.ScrollBox {
+﻿@import url(../../../../css/components/containers/scrollbox.css);
+.carbon.ScrollBox {
     background-color: #404040;
 }

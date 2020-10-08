@@ -1,1 +1,2 @@
-﻿.carbon.ImageEditor {}
+﻿@import url(../../../../css/components/extras/imageeditor.css);
+.carbon.ImageEditor {}

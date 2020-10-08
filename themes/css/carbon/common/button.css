@@ -1,4 +1,5 @@
-﻿.carbon.Button,
+﻿@import url(../../../../css/components/common/button.css);
+.carbon.Button,
 .carbon.Button.disabled:hover,
 .carbon.TextButton,
 .carbon.TextButton.disabled:hover {

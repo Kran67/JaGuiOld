@@ -15,6 +15,15 @@ const CHECKBOXSTATES = Object.seal(Object.freeze({
 //#endregion CHECKBOXSTATES
 //#region Class Checkbox
 class Checkbox extends CaptionControl {
+    //#region Private fields
+    #checked;
+    #autoWidth;
+    #allowGrayed;
+    #action;
+    #check;
+    #input;
+    #state;
+    //#endregion Private fields
     //#region CHECKBOXSTATES
     /**
      * @type    {Object}        CHECKBOXSTATES
@@ -42,62 +51,61 @@ class Checkbox extends CaptionControl {
             }
             super(owner, props);
             this.createEventsAndBind(['onChange'], props);
-            core.private(this, {
-                checked : props.hasOwnProperty('checked') ? props.checked : !1,
-                autoWidth : props.hasOwnProperty('autoWidth') ? props.autoWidth : !0,
-                allowGrayed : props.hasOwnProperty('allowGrayed') ? props.allowGrayed : !1,
-                action : props.hasOwnProperty('action') ? props.action : null, // à voir
-                check : document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}check`),
-                input : document.createElement(htmlElements.INPUT)
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'state',
-                enum: CHECKBOXSTATES,
-                value: props.hasOwnProperty('state') ? props.state : CHECKBOXSTATES.UNCHECKED
-            });
+            this.#checked = props.hasOwnProperty('checked') ? props.checked : !1;
+            this.#autoWidth = props.hasOwnProperty('autoWidth') ? props.autoWidth : !0;
+            this.#allowGrayed = props.hasOwnProperty('allowGrayed') ? props.allowGrayed : !1;
+            this.#action = props.hasOwnProperty('action') ? props.action : null; // à voir
+            this.#check = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}check`);
+            this.#input = document.createElement(htmlElements.INPUT);
+            this.addPropertyEnum('state', CHECKBOXSTATES);
+            this.#state = props.hasOwnProperty('state') ? props.state : CHECKBOXSTATES.UNCHECKED;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region state
+    get state() {
+        return this.#state;
+    }
+    set state(newValue) {
+        core.tools.valueInSet(newValue, CHECKBOXSTATES) && this.#state !== newValue && (this.#state = newValue);
+    }
+    //#endregion state
     //#region check
     get check() {
-        return core.private(this).check;
+        return this.#check;
     }
     //#endregion check
     //#region checked
     get checked() {
-        return core.private(this).checked;
+        return this.#checked;
     }
     set checked(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isBool(newValue)) {
-            if (priv.allowGrayed) {
-                switch (priv.state) {
+            if (this.#allowGrayed) {
+                switch (this.#state) {
                     case CHECKBOXSTATES.UNCHECKED:
-                        priv.state = CHECKBOXSTATES.GRAYED;
+                        this.#state = CHECKBOXSTATES.GRAYED;
                         newValue = !1;
                         break;
                     case CHECKBOXSTATES.GRAYED:
-                        priv.state = CHECKBOXSTATES.CHECKED;
+                        this.#state = CHECKBOXSTATES.CHECKED;
                         newValue = !0;
                         break;
                     case CHECKBOXSTATES.CHECKED:
-                        priv.state = CHECKBOXSTATES.UNCHECKED;
+                        this.#state = CHECKBOXSTATES.UNCHECKED;
                         newValue = !1;
                         break;
                 }
             }
             else if (newValue) {
-                priv.state = CHECKBOXSTATES.CHECKED;
+                this.#state = CHECKBOXSTATES.CHECKED;
             }
             else {
-                priv.state = CHECKBOXSTATES.UNCHECKED;
+                this.#state = CHECKBOXSTATES.UNCHECKED;
             }
-            if (priv.checked !== newValue) {
-                priv.checked = newValue;
+            if (this.#checked !== newValue) {
+                this.#checked = newValue;
                 if (!this.loading && !this.form.loading) {
                     if (!core.isHTMLRenderer) {
                         this.allowUpdate && this.update();
@@ -113,42 +121,33 @@ class Checkbox extends CaptionControl {
     //#endregion checked
     //#region allowGrayed
     get allowGrayed() {
-        return core.private(this).allowGrayed;
+        return this.#allowGrayed;
     }
     set allowGrayed(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.allowGrayed !== newValue
-            && (priv.allowGrayed = newValue);
+        core.tools.isBool(newValue) && this.#allowGrayed !== newValue
+            && (this.#allowGrayed = newValue);
     }
     //#endregion allowGrayed
     //#region action
     get action() {
-        return core.private(this).action;
+        return this.#action;
     }
     set action(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof Action && priv.action !== newValue) {
-            priv.action instanceof Action && priv.action.unRegisterChanges(this);
-            priv.action = newValue;
-            priv.action.registerChanges(this);
-            priv.action.updateTarget(this);
+        if (newValue instanceof Action && this.#action !== newValue) {
+            this.#action instanceof Action && this.#action.unRegisterChanges(this);
+            this.#action = newValue;
+            this.#action.registerChanges(this);
+            this.#action.updateTarget(this);
         }
     }
     //#endregion action
     //#region autoWidth
     get autoWidth() {
-        return core.private(this).autoWidth;
+        return this.#autoWidth;
     }
     set autoWidth(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.autoWidth !== newValue) {
-            priv.autoWidth = newValue;
+        if (core.tools.isBool(newValue) && this.#autoWidth !== newValue) {
+            this.#autoWidth = newValue;
             this.update();
         }
     }
@@ -166,27 +165,21 @@ class Checkbox extends CaptionControl {
     //#endregion mouseDown
     //#region mouseUp
     mouseUp() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.mouseUp();
         if (core.mouse.button === Mouse.MOUSEBUTTONS.LEFT && this.pressing) {
             this.pressing = !1;
             this.isPressed = !1;
-            this.checked = !priv.checked;
+            this.checked = !this.#checked;
             this.update();
         }
     }
     //#endregion mouseUp
     //#region keyUp
     keyUp() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.keyUp();
         if (core.keyboard.key === Keyboard.VKEYSCODES.VK_ENTER
             || core.keyboard.key === Keyboard.VKEYSCODES.VK_SPACE) {
-            this.checked = !priv.checked;
+            this.checked = !this.#checked;
             this.update();
         }
     }
@@ -196,41 +189,35 @@ class Checkbox extends CaptionControl {
     //#endregion realign
     //#region update
     update() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (!this.loading && !this.form.loading) {
             super.update();
-            if (priv.check) {
-                priv.check.classList.remove('checked', 'grayed');
-                if (priv.checked) {
-                    priv.check.classList.add('checked');
-                } else if (priv.allowGrayed && priv.state === CHECKBOXSTATES.GRAYED) {
-                    priv.check.classList.add('grayed');
+            if (this.#check) {
+                this.#check.classList.remove('checked', 'grayed');
+                if (this.#checked) {
+                    this.#check.classList.add('checked');
+                } else if (this.#allowGrayed && this.#state === CHECKBOXSTATES.GRAYED) {
+                    this.#check.classList.add('grayed');
                 }
             }
-            if (priv.input) {
-                if (priv.state) {
-                    priv.state !== CHECKBOXSTATES.UNCHECKED
-                        ? priv.input.setAttribute('checked', 'checked')
-                        : priv.input.removeAttribute('checked');
-                } else if (priv.checked) {
-                    priv.input.setAttribute('checked', 'checked');
+            if (this.#input) {
+                if (this.#state) {
+                    this.#state !== CHECKBOXSTATES.UNCHECKED
+                        ? this.#input.setAttribute('checked', 'checked')
+                        : this.#input.removeAttribute('checked');
+                } else if (this.#checked) {
+                    this.#input.setAttribute('checked', 'checked');
                 } else {
-                    priv.input.removeAttribute('checked');
+                    this.#input.removeAttribute('checked');
                 }
             }
-            priv.autoWidth && this.HTMLElementStyle
+            this.#autoWidth && this.HTMLElementStyle
                 && (this.HTMLElementStyle.width = 'auto');
         }
     }
     //#endregion update
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.action && priv.action.removeTarget(this);
+        this.#action && this.#action.removeTarget(this);
         this.unBindAndDestroyEvents(['onChange']);
         super.destroy();
     }
@@ -238,19 +225,18 @@ class Checkbox extends CaptionControl {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         super.loaded();
         if (!htmlElement.querySelector('input')) {
-            priv.input.type = this instanceof core.classes.RadioButton ? 'radio' : 'checkbox';
-            priv.input.classList.add(`${this.constructor.name}Input`);
-            priv.input.checked = priv.checked;
-            priv.check.classList.add(this.themeName, `${this.constructor.name}Check`);
-            priv.checked && priv.check.classList.add('checked');
-            priv.allowGrayed && priv.check.classList.add('grayed');
-            htmlElement.insertBefore(priv.check, htmlElement.firstChild);
-            htmlElement.insertBefore(priv.input, htmlElement.firstChild);
+            this.#input.type = this instanceof core.classes.RadioButton ? 'radio' : 'checkbox';
+            this.#input.classList.add(`${this.constructor.name}Input`);
+            this.#input.checked = this.#checked;
+            this.#check.classList.add(this.themeName, `${this.constructor.name}Check`);
+            this.#checked && this.#check.classList.add('checked');
+            this.#allowGrayed && this.#check.classList.add('grayed');
+            htmlElement.insertBefore(this.#check, htmlElement.firstChild);
+            htmlElement.insertBefore(this.#input, htmlElement.firstChild);
         }
     }
     //#endregion

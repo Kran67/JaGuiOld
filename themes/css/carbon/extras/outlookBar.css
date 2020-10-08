@@ -1,1 +1,2 @@
-﻿.carbon.OutlookBar {}
+﻿@import url(../../../../css/components/extras/outlookbar.css);
+.carbon.OutlookBar {}

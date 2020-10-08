@@ -1,2 +1,3 @@
-﻿.carbon.PageContent {}
+﻿@import url(../../../../css/components/containers/pagecontrol.css);
+.carbon.PageContent {}
 

@@ -1,1 +1,2 @@
-﻿.carbon.DropDownTimePanel {}
+﻿@import url(../../../../css/components/common/dropdowntimepanel.css);
+.carbon.DropDownTimePanel {}

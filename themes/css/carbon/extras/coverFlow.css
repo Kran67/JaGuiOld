@@ -1,1 +1,2 @@
-﻿.carbon.CoverFlow {}
+﻿@import url(../../../../css/components/extras/coverflow.css);
+.carbon.CoverFlow {}
