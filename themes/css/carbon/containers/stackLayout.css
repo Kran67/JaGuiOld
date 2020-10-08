@@ -1,1 +1,2 @@
-﻿.carbon.StackLayout {}
+﻿@import url(../../../../css/components/containers/stacklayout.css);
+.carbon.StackLayout {}

@@ -1,1 +1,2 @@
-﻿.carbon.TileView {}
+﻿@import url(../../../../css/components/extras/tileview.css);
+.carbon.TileView {}

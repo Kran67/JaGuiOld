@@ -1,1 +1,2 @@
-﻿.carbon.PrintDialog {}
+﻿@import url(../../../../css/components/dialogs/printdialog.css);
+.carbon.PrintDialog {}

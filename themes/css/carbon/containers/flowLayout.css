@@ -1,1 +1,2 @@
-﻿.carbon.FlowLayout {}
+﻿@import url(../../../../css/components/containers/flowlayout.css);
+.carbon.FlowLayout {}

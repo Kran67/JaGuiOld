@@ -1,8 +1,8 @@
 ﻿import "/scripts/core/apps.js";
 
 import { Application } from "/scripts/core/application.js";
-import { fr_FR } from "../locales/fr-FR.js";
-import { en_US } from "../locales/en-US.js";
+import { fr_fr } from "../locales/fr-fr.js";
+import { en_us } from "../locales/en-us.js";
 import { Window1 } from "./window1.js";
 //import { Window2 } from "./window2.js";
 //import { BorderDialog } from "./borderdialog.js";
@@ -16,8 +16,8 @@ export class Controls extends Application {
         const LANGUAGES = Types.LANGUAGES;
         super("controls");
         //#region Locales
-        this.locales[LANGUAGES.FR_FR] = fr_FR;
-        this.locales[LANGUAGES.EN_US] = en_US;
+        this.locales[LANGUAGES.FR_FR] = fr_fr;
+        this.locales[LANGUAGES.EN_US] = en_us;
         this.locale = LANGUAGES.FR_FR;
         //#endregion
         this.windowsClass.Window1 = Window1;

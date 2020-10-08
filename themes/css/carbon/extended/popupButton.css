@@ -1,4 +1,5 @@
-﻿.carbon.PopupButton,
+﻿@import url(../../../../css/components/extended/popupbutton.css);
+.carbon.PopupButton,
 .carbon.PopupButton.disabled:hover {
     border-radius: 3px;
     border: 1px solid #222;

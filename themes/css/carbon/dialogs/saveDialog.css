@@ -1,1 +1,2 @@
-﻿.carbon.SaveDialog {}
+﻿@import url(../../../../css/components/dialogs/savedialog.css);
+.carbon.SaveDialog {}

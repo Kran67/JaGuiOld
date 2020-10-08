@@ -1,1 +1,2 @@
-﻿.carbon.BarCode {}
+﻿@import url(../../../../css/components/extras/barcode.css);
+.carbon.BarCode {}

@@ -1,1 +1,2 @@
-﻿.carbon.SyntaxEditor {}
+﻿@import url(../../../../css/components/extras/syntaxeditor.css);
+.carbon.SyntaxEditor {}

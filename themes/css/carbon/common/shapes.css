@@ -1,4 +1,5 @@
-﻿.carbon.Line {
+﻿@import url(../../../../css/components/common/shapes.css);
+.carbon.Line {
 }
 
 .carbon.Circle {

@@ -1,1 +1,2 @@
-﻿.carbon.CommonDialog {}
+﻿@import url(../../../../css/components/dialogs/commondialog.css);
+.carbon.CommonDialog {}

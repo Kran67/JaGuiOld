@@ -1,1 +1,2 @@
-﻿.carbon.FontDialog {}
+﻿@import url(../../../../css/components/dialogs/fontdialog.css);
+.carbon.FontDialog {}

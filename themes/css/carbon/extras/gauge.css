@@ -1,1 +1,2 @@
-﻿.carbon.Gauge {}
+﻿@import url(../../../../css/components/extras/gauge.css);
+.carbon.Gauge {}

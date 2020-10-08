@@ -1,1 +1,2 @@
-﻿.carbon.RibbonBar {}
+﻿@import url(../../../../css/components/extras/ribbonbar.css);
+.carbon.RibbonBar {}

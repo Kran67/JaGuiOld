@@ -1,8 +1,8 @@
 ﻿import '/scripts/core/apps.js';
 
 import { Application } from '/scripts/core/application.js';
-import { fr_FR } from '../locales/fr-FR.js';
-import { en_US } from '../locales/en-US.js';
+import { fr_FR } from '../locales/fr-fr.js';
+import { en_US } from '../locales/en-us.js';
 import { Window1 } from './window1.js';
 //import { Window2 } from "./window2.js";
 //import { BorderDialog } from "./borderdialog.js";

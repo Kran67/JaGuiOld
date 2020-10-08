@@ -1,4 +1,5 @@
-﻿.carbon.SplitButton .PopupButtonArrow {
+﻿@import url(../../../../css/components/extended/splitbutton.css);
+.carbon.SplitButton .PopupButtonArrow {
 }
 
 .carbon.SplitButton .BitmapButton {

@@ -1,1 +1,2 @@
-﻿.carbon.DropDownSlider {}
+﻿@import url(../../../../css/components/extended/dropdownslider.css);
+.carbon.DropDownSlider {}

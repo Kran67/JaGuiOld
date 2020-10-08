@@ -1,4 +1,5 @@
-﻿.carbon.ToolButton,
+﻿@import url(../../../../css/components/toobars/toolbutton.css);
+.carbon.ToolButton,
 .carbon.ToolButton.disabled:hover {
     outline: none;
     background: none;

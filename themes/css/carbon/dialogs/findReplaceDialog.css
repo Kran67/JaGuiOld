@@ -1,1 +1,2 @@
-﻿.carbon.FindReplaceDialog {}
+﻿@import url(../../../../css/components/dialogs/findreplacedialog.css);
+.carbon.FindReplaceDialog {}

@@ -1,1 +1,2 @@
-﻿.carbon.DBTextbox {}
+﻿@import url(../../../../css/components/data/dbtextbox.css);
+.carbon.DBTextbox {}

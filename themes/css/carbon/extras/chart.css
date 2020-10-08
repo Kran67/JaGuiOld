@@ -1,1 +1,2 @@
-﻿.carbon.Chart {}
+﻿@import url(../../../../css/components/extras/chart.css);
+.carbon.Chart {}

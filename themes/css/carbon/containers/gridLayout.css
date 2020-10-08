@@ -1,1 +1,2 @@
-﻿.carbon.GridLayout {}
+﻿@import url(../../../../css/components/containers/gridlayout.css);
+.carbon.GridLayout {}

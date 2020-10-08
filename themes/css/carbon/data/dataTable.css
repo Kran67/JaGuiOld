@@ -1,1 +1,2 @@
-﻿.carbon.DataTable {}
+﻿@import url(../../../../css/components/data/datatable.css);
+.carbon.DataTable {}
