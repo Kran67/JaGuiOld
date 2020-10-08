@@ -26,12 +26,8 @@ class Image extends Control {
         if (owner) {
             super(owner, props);
             this.#src = props.hasOwnProperty('src') ? props.src : core.types.CONSTANTS.PIX;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'wrapMode',
-                enum: IMAGEWRAPS,
-                value: props.hasOwnProperty('wrapMode') ? props.wrapMode : IMAGEWRAPS.FIT
-            });
+            this.addPropertyEnum('wrapMode', IMAGEWRAPS);
+            this.#wrapMode = props.hasOwnProperty('wrapMode') ? props.wrapMode : IMAGEWRAPS.FIT;
             delete this.tabOrder;
         }
     }

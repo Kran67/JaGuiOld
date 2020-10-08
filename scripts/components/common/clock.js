@@ -216,121 +216,121 @@ class Clock extends ThemedControl {
                 }
                 this.#countDown.seconds = 59;
             }
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'mode',
-                enum: CLOCKMODES,
-                forceUpdate: !0,
-                value: props.hasOwnProperty('mode') ? props.mode : CLOCKMODES.SIMPLE,
-                setter: function (newValue) {
-                    if (core.tools.valueInSet(newValue, CLOCKMODES) && this.#mode !== newValue) {
-                        this.#mode = newValue;
-                        this.prepareContent();
-                        this.update();
-                    }
-                }
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'type',
-                enum: CLOCKTYPES,
-                forceUpdate: !0,
-                value: props.hasOwnProperty('type') ? props.type : CLOCKTYPES.CLOCK,
-                setter: function (newValue) {
-                    if (core.tools.valueInSet(newValue, CLOCKTYPES) && this.#type !== newValue) {
-                        this.reset();
-                        this.#type = newValue;
-                        this.update();
-                    }
-                }
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'dotsType',
-                enum: DOTSTYPES,
-                forceUpdate: !0,
-                setter: function (newValue) {
-                    //#region Variables déclaration
-                    const htmlElement = this.HTMLElement;
-                    const elems = htmlElement.querySelectorAll(`.${this.#dotsType}`);
-                    //#endregion Variables déclaration
-                    if (core.tools.valueInSet(newValue, DOTSTYPES)) {
-                        if (this.#dotsType !== newValue) {
-                            elems.forEach(elem => {
-                                elem.classList.remove(this.#dotsType);
-                            });
-                            htmlElement.querySelectorAll('.Clock_dots').forEach(elem => {
-                                elem.classList.remove(this.#dotsType);
-                            });
-                            this.#dotsType = newValue;
-                            elems.forEach(elem => {
-                                elem.classList.add(this.#dotsType);
-                            });
-                            htmlElement.querySelectorAll('.Clock_dots').forEach(elem => {
-                                elem.classList.add(this.#dotsType);
-                            });
-                        }
-                    }
-                },
-                value: props.hasOwnProperty('dotsType') ? props.dotsType : DOTSTYPES.SQUARE
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'dotsAnimationDirection',
-                enum: DOTSANIMATIONDIRECTION,
-                forceUpdate: !0,
-                setter: function (newValue) {
-                    //#region Variables déclaration
-                    const htmlElement = this.HTMLElement;
-                    const elems = htmlElement.querySelectorAll('.Clock_dot');
-                    //#endregion Variables déclaration
-                    if (core.tools.valueInSet(newValue, DOTSANIMATIONDIRECTION)) {
-                        if (this.#dotsAnimationDirection !== newValue) {
-                            elems.forEach(elem => {
-                                elem.classList.remove(this.#dotsAnimationDirection);
-                            });
-                            this.#dotsAnimationDirection = newValue;
-                            this.#dotsAnimationType === DOTSANIMATIONTYPES.SLIDE
-                                && elems.forEach(elem => {
-                                    elem.classList.add(this.#dotsAnimationDirection);
-                                });
-                        }
-                    }
-                },
-                value: props.hasOwnProperty('dotsAnimationDirection')
-                    ? props.dotsAnimationDirection : DOTSANIMATIONDIRECTION.TOLEFT
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'dotsAnimationType',
-                enum: DOTSANIMATIONTYPES,
-                forceUpdate: !0,
-                setter: function (newValue) {
-                    //#region Variables déclaration
-                    const htmlElement = this.HTMLElement;
-                    const elems = htmlElement.querySelectorAll('.Clock_dot');
-                    //#endregion Variables déclaration
-                    if (core.tools.valueInSet(newValue, DOTSANIMATIONTYPES)) {
-                        if (this.#dotsAnimationType !== newValue) {
-                            elems.forEach(elem => {
-                                Object.keys(DOTSANIMATIONTYPES).forEach(dat => {
-                                    elem.classList.remove(dat);
-                                });
-                            });
-                            this.#dotsAnimationType = newValue;
-                            elems.forEach(elem => {
-                                elem.classList.add(this.#dotsAnimationType);
-                            });
-                        }
-                    }
-                },
-                value: props.hasOwnProperty('dotsAnimationType') ? props.dotsAnimationType : DOTSANIMATIONTYPES.FADE
-            });
+            this.addPropertyEnum('mode', CLOCKMODES);
+            this.#mode = props.hasOwnProperty('mode') ? props.mode : CLOCKMODES.SIMPLE;
+            this.addPropertyEnum('type', CLOCKTYPES);
+            this.#type = props.hasOwnProperty('type') ? props.type : CLOCKTYPES.CLOCK;
+            this.addPropertyEnum('dotsType', DOTSTYPES);
+            this.#dotsType = props.hasOwnProperty('dotsType') ? props.dotsType : DOTSTYPES.SQUARE;
+            this.addPropertyEnum('dotsAnimationDirection', DOTSANIMATIONDIRECTION);
+            this.#dotsAnimationDirection = props.hasOwnProperty('dotsAnimationDirection')
+                    ? props.dotsAnimationDirection : DOTSANIMATIONDIRECTION.TOLEFT;
+            this.addPropertyEnum('dotsAnimationType', DOTSANIMATIONTYPES);
+            this.#dotsAnimationType = props.hasOwnProperty('dotsAnimationType') ? props.dotsAnimationType : DOTSANIMATIONTYPES.FADE;
             this.createEventsAndBind(['onAlarm', 'onCountdownEnd', 'onCountdownEnd'], props);
         }
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region dotsAnimationType
+    get dotsAnimationType() {
+        return this.#dotsAnimationType;
+    }
+    set dotsAnimationType(newValue) {
+        //#region Variables déclaration
+        const htmlElement = this.HTMLElement;
+        const elems = htmlElement.querySelectorAll('.Clock_dot');
+        //#endregion Variables déclaration
+        if (core.tools.valueInSet(newValue, DOTSANIMATIONTYPES)) {
+            if (this.#dotsAnimationType !== newValue) {
+                elems.forEach(elem => {
+                    Object.keys(DOTSANIMATIONTYPES).forEach(dat => {
+                        elem.classList.remove(dat);
+                    });
+                });
+                this.#dotsAnimationType = newValue;
+                elems.forEach(elem => {
+                    elem.classList.add(this.#dotsAnimationType);
+                });
+            }
+        }
+    }
+    //#endregion dotsAnimationType
+    //#region dotsAnimationDirection
+    get dotsAnimationDirection() {
+        return this.#dotsAnimationDirection;
+    }
+    set dotsAnimationDirection(newValue) {
+        //#region Variables déclaration
+        const htmlElement = this.HTMLElement;
+        const elems = htmlElement.querySelectorAll('.Clock_dot');
+        //#endregion Variables déclaration
+        if (core.tools.valueInSet(newValue, DOTSANIMATIONDIRECTION)) {
+            if (this.#dotsAnimationDirection !== newValue) {
+                elems.forEach(elem => {
+                    elem.classList.remove(this.#dotsAnimationDirection);
+                });
+                this.#dotsAnimationDirection = newValue;
+                this.#dotsAnimationType === DOTSANIMATIONTYPES.SLIDE
+                    && elems.forEach(elem => {
+                        elem.classList.add(this.#dotsAnimationDirection);
+                    });
+            }
+        }
+    }
+    //#endregion dotsAnimationDirection
+    //#region dotsType
+    get dotsType() {
+        return this.#dotsType;
+    }
+    set dotsType(newValue) {
+        //#region Variables déclaration
+        const htmlElement = this.HTMLElement;
+        const elems = htmlElement.querySelectorAll(`.${this.#dotsType}`);
+        //#endregion Variables déclaration
+        if (core.tools.valueInSet(newValue, DOTSTYPES)) {
+            if (this.#dotsType !== newValue) {
+                elems.forEach(elem => {
+                    elem.classList.remove(this.#dotsType);
+                });
+                htmlElement.querySelectorAll('.Clock_dots').forEach(elem => {
+                    elem.classList.remove(this.#dotsType);
+                });
+                this.#dotsType = newValue;
+                elems.forEach(elem => {
+                    elem.classList.add(this.#dotsType);
+                });
+                htmlElement.querySelectorAll('.Clock_dots').forEach(elem => {
+                    elem.classList.add(this.#dotsType);
+                });
+            }
+        }
+    }
+    //#endregion dotsType
+    //#region type
+    get type() {
+        return this.#type;
+    }
+    set type(newValue) {
+        if (core.tools.valueInSet(newValue, CLOCKTYPES) && this.#type !== newValue) {
+            this.reset();
+            this.#type = newValue;
+            this.update();
+        }
+    }
+    //#endregion type
+    //#region mode
+    get mode() {
+        return this.#mode;
+    }
+    set mode(newValue) {
+        if (core.tools.valueInSet(newValue, CLOCKMODES) && this.#mode !== newValue) {
+            this.#mode = newValue;
+            this.prepareContent();
+            this.update();
+        }
+    }
+    //#endregion mode
     //#region CLOCKMODES
     static get CLOCKMODES() {
         return CLOCKMODES;

@@ -1,1 +1,2 @@
-﻿.carbon.DockBar {}
+﻿@import url(../../../../css/components/common/dockbar.css);
+.carbon.DockBar {}

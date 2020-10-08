@@ -45,12 +45,8 @@ class Rating extends ThemedControl {
             super(owner, props);
             this.#nbItem = props.hasOwnProperty('nbItem') ? props.nbItem : 5;
             this.#value = props.hasOwnProperty('value') ? props.value : 0;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'precision',
-                enum: RATINGPRECISIONS,
-                value: props.hasOwnProperty('precision') ? props.precision : RATINGPRECISIONS.WHOLEITEM
-            });
+            this.addPropertyEnum('precision', RATINGPRECISIONS);
+            this.#precision = props.hasOwnProperty('precision') ? props.precision : RATINGPRECISIONS.WHOLEITEM;
             if (props.hasOwnProperty('normalImg')) {
                 this.#normalImg = new Image;
                 Events.bind(this.#normalImg, HTMLEVENTS.LOAD, this.doBitmapLoaded);
@@ -78,12 +74,8 @@ class Rating extends ThemedControl {
             } else {
                 this.#normalImg = 'var(--hoveredImg)';
             }
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'orientation',
-                enum: ORIENTATIONS,
-                value: props.hasOwnProperty('orientation') ? props.orientation : ORIENTATIONS.HORIZONTAL
-            });
+            this.addPropertyEnum('orientation', ORIENTATIONS);
+            this.#orientation = props.hasOwnProperty('orientation') ? props.orientation : ORIENTATIONS.HORIZONTAL;
             delete this.tabOrder;
         }
     }

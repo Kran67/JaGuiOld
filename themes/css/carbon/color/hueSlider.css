@@ -1,2 +1,3 @@
-﻿.carbon.HUESlider {
+﻿@import url(../../../../css/components/color/hueSlider.css);
+.carbon.HUESlider {
 }

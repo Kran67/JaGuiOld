@@ -62,27 +62,12 @@ class Slider extends ThemedControl {
             this.#showTickmarks = props.hasOwnProperty('showTickmarks') ? props.showTickmarks : !1;
             this.#tickmarksPosition = props.hasOwnProperty('tickmarksPosition')
                 ? props.tickmarksPosition : TICKMARKSPOSITION.BOTH;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'orientation',
-                enum: core.types.ORIENTATIONS,
-                forceUpdate: !0,
-                value: props.hasOwnProperty('orientation') ? props.orientation : core.types.ORIENTATIONS.HORIZONTAL
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'mode',
-                enum: SLIDERMODES,
-                forceUpdate: !0,
-                value: props.hasOwnProperty('mode') ? props.mode : SLIDERMODES.NORMAL
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'toolTipsPosition',
-                enum: core.types.ANCHORS,
-                forceUpdate: !0,
-                value: props.hasOwnProperty('toolTipsPosition') ? props.toolTipsPosition : core.types.ANCHORS.TOP
-            });
+            this.addPropertyEnum('orientation', core.types.ORIENTATIONS);
+            this.#orientation = props.hasOwnProperty('orientation') ? props.orientation : core.types.ORIENTATIONS.HORIZONTAL;
+            this.addPropertyEnum('mode', SLIDERMODES);
+            this.#mode = props.hasOwnProperty('mode') ? props.mode : SLIDERMODES.NORMAL;
+            this.addPropertyEnum('toolTipsPosition', core.types.ANCHORS);
+            this.#toolTipsPosition = props.hasOwnProperty('toolTipsPosition') ? props.toolTipsPosition : core.types.ANCHORS.TOP;
             this.createEventsAndBind(['onChange'], props);
         }
     }

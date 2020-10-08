@@ -15,6 +15,7 @@ class ColorButton extends Button {
         if (owner) {
             const color = props.hasOwnProperty('color') ? Color.parse(props.color) : Colors.TRANSPARENT;
             props.caption = color.toRGBAString();
+            props.color = color;
             super(owner, props);
             this.#color = color;
             this.createEventsAndBind(['onChange'], props);

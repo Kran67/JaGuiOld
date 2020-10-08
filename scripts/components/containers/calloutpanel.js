@@ -29,13 +29,8 @@ class CalloutPanel extends Panel {
             this.#calloutOffset = props.hasOwnProperty('calloutOffset') ? props.calloutOffset : 0;
             this.#calloutLength = props.hasOwnProperty('calloutLength') ? props.calloutLength : 11;
             this.#calloutWidth = props.hasOwnProperty('calloutWidth') ? props.calloutWidth : 23;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'calloutPosition',
-                enum: CALLOUTPOSITIONS,
-                forceUpdate: !0,
-                value: props.hasOwnProperty('calloutPosition') ? props.calloutPosition : CALLOUTPOSITIONS.TOP
-            });
+            this.addPropertyEnum('calloutPosition', CALLOUTPOSITIONS);
+            this.#calloutPosition = props.hasOwnProperty('calloutPosition') ? props.calloutPosition : CALLOUTPOSITIONS.TOP;
         }
     }
     //#endregion

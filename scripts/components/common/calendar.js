@@ -691,7 +691,7 @@ class Calendar extends ThemedControl {
             const header = document.createElement(`${tag}header`);
             header.classList.add('CalendarHeader', self.themeName);
             content.appendChild(header);
-            this.#prevMonth = core.classes.createComponent({
+            self.#prevMonth = core.classes.createComponent({
                 class: CalendarItem
                 , owner: self
                 , props: {
@@ -701,9 +701,9 @@ class Calendar extends ThemedControl {
                     , parentHTML: header
                 }
             });
-            Events.bind(this.#prevMonth.html, Mouse.MOUSEEVENTS.DOWN, self.decDate.bind(self));
-            this.#prevMonth.loaded();
-            this.#thisDay = core.classes.createComponent({
+            Events.bind(self.#prevMonth.html, Mouse.MOUSEEVENTS.DOWN, self.decDate.bind(self));
+            self.#prevMonth.loaded();
+            self.#thisDay = core.classes.createComponent({
                 class: CalendarItem
                 , owner: self
                 , props: {
@@ -713,9 +713,9 @@ class Calendar extends ThemedControl {
                     , parentHTML: header
                 }
             });
-            Events.bind(this.#thisDay.html, Mouse.MOUSEEVENTS.DOWN, self.goToThisDay.bind(self));
-            this.#thisDay.loaded();
-            this.#nextMonth = core.classes.createComponent({
+            Events.bind(self.#thisDay.html, Mouse.MOUSEEVENTS.DOWN, self.goToThisDay.bind(self));
+            self.#thisDay.loaded();
+            self.#nextMonth = core.classes.createComponent({
                 class: CalendarItem
                 , owner: self
                 , props: {
@@ -725,9 +725,9 @@ class Calendar extends ThemedControl {
                     , parentHTML: header
                 }
             });
-            Events.bind(this.#nextMonth.html, Mouse.MOUSEEVENTS.DOWN, self.incDate.bind(self));
-            this.#nextMonth.loaded();
-            this.#thisMonth = core.classes.createComponent({
+            Events.bind(self.#nextMonth.html, Mouse.MOUSEEVENTS.DOWN, self.incDate.bind(self));
+            self.#nextMonth.loaded();
+            self.#thisMonth = core.classes.createComponent({
                 class: CalendarItem
                 , owner: self
                 , props: {
@@ -737,16 +737,16 @@ class Calendar extends ThemedControl {
                     , parentHTML: header
                 , }
             });
-            Events.bind(this.#thisMonth.html, Mouse.MOUSEEVENTS.DOWN, self.viewMYDC.bind(self));
-            this.#thisMonth.loaded();
+            Events.bind(self.#thisMonth.html, Mouse.MOUSEEVENTS.DOWN, self.viewMYDC.bind(self));
+            self.#thisMonth.loaded();
         };
         //#endregion generateHeader
         //#region generateWeekDays
         const generateWeekDays = function(content) {
-            this.#weekDays = document.createElement(`${tag}weekdays`);
-            this.#weekDays.classList.add('CalendarWeekdays', self.themeName);
-            content.appendChild(this.#weekDays);
-            generateWeekNumAndDay(this.#weekDays, !0);
+            self.#weekDays = document.createElement(`${tag}weekdays`);
+            self.#weekDays.classList.add('CalendarWeekdays', self.themeName);
+            content.appendChild(self.#weekDays);
+            generateWeekNumAndDay(self.#weekDays, !0);
         };
         //#endregion generateWeekDays
         //#region generateWeekNumAndDay
@@ -773,7 +773,7 @@ class Calendar extends ThemedControl {
                     });
                     Events.bind(day.html, Mouse.MOUSEEVENTS.DOWN, self.selectDay.bind(day));
                     day.loaded();
-                    this.#dayItems = [...this.#dayItems, day];
+                    self.#dayItems = [...self.#dayItems, day];
                 }
             }
         };
@@ -795,10 +795,10 @@ class Calendar extends ThemedControl {
         //#endregion generateWeeks
         //#region generateMonths
         const generateMonths = function(content) {
-            this.#months = document.createElement(`${tag}months`);
-            this.#months.classList.add('CalendarMonths', self.themeName);
-            this.#months.jsObj = self;
-            content.appendChild(this.#months);
+            self.#months = document.createElement(`${tag}months`);
+            self.#months.classList.add('CalendarMonths', self.themeName);
+            self.#months.jsObj = self;
+            content.appendChild(self.#months);
             for (let i = 0; i < 12; i++) {
                 const month = core.classes.createComponent({
                     class: CalendarItem
@@ -808,21 +808,21 @@ class Calendar extends ThemedControl {
                             .date.abbreviatedMonthNames[i].firstCharUpper
                         , cssClasses: `Control CalendarMDC CalendarMonth ${self.themeName}`
                         , html: core.classes.getTemplate('CalendarItem')
-                        , parentHTML: this.#months
+                        , parentHTML: self.#months
                     , }
                 });
                 Events.bind(month.html, Mouse.MOUSEEVENTS.DOWN, self.selectMonth.bind(month));
                 month.loaded();
-                this.#monthItems = [...this.#monthItems, month];
+                self.#monthItems = [...self.#monthItems, month];
             }
         };
         //#endregion generateMonths
         //#region generateDecades
         const generateDecades = function(content) {
-            this.#decades = document.createElement(`${tag}decades`);
-            this.#decades.classList.add('CalendarDecades', self.themeName);
-            this.#decades.jsObj = self;
-            content.appendChild(this.#decades);
+            self.#decades = document.createElement(`${tag}decades`);
+            self.#decades.classList.add('CalendarDecades', self.themeName);
+            self.#decades.jsObj = self;
+            content.appendChild(self.#decades);
             let currentYear = new Date()
                 .getFullYear() - 1;
             for (let i = 0; i < 12; i++) {
@@ -833,23 +833,23 @@ class Calendar extends ThemedControl {
                         caption: currentYear.toString()
                         , cssClasses: `Control CalendarMDC CalendarDecade ${self.themeName}`
                         , html: core.classes.getTemplate('CalendarItem')
-                        , parentHTML: this.#decades
+                        , parentHTML: self.#decades
                     , }
                 });
                 Events.bind(decade.html, Mouse.MOUSEEVENTS.DOWN, self.selectYear.bind(decade));
                 decade.loaded();
-                this.#decadeItems = [...this.#decadeItems, decade];
+                self.#decadeItems = [...self.#decadeItems, decade];
                 currentYear++;
             }
         };
         //#endregion generateDecades
         //#region generateCenturies
         const generateCenturies = function(content) {
-            this.#centuries = document.createElement(`${tag}centuries`);
-            this.#centuries.classList.add('CalendarCenturies', self.themeName);
-            this.#centuries.jsObj = self;
-            content.appendChild(this.#centuries);
-            const thisCentury = int(this.#curDate.getFullYear()
+            self.#centuries = document.createElement(`${tag}centuries`);
+            self.#centuries.classList.add('CalendarCenturies', self.themeName);
+            self.#centuries.jsObj = self;
+            content.appendChild(self.#centuries);
+            const thisCentury = int(self.#curDate.getFullYear()
                 .toString()
                 .substr(0, 2) + '00');
             let startCentury = thisCentury - 10;
@@ -862,12 +862,12 @@ class Calendar extends ThemedControl {
                         caption: `${startCentury}<br />${(startCentury + 9)}`
                         , cssClasses: `Control CalendarMDC CalendarMDCx2 CalendarCentury ${self.themeName}`
                         , html: core.classes.getTemplate('CalendarItem')
-                        , parentHTML: this.#centuries
+                        , parentHTML: self.#centuries
                     , }
                 });
                 Events.bind(century.html, Mouse.MOUSEEVENTS.DOWN, self.selectDecades.bind(century));
                 century.loaded();
-                this.#centuryItems = [...this.#centuryItems, century];
+                self.#centuryItems = [...self.#centuryItems, century];
                 startCentury += 10;
             }
         };

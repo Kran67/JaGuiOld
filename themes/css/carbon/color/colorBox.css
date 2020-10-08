@@ -1,1 +1,2 @@
-﻿.carbon.ColorBox {}
+﻿@import url(../../../../css/components/color/colorBox.css);
+.carbon.ColorBox {}

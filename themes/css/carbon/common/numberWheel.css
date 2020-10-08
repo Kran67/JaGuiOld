@@ -1,1 +1,2 @@
-﻿.carbon.NumberWheel {}
+﻿@import url(../../../../css/components/common/numberWheel.css);
+.carbon.NumberWheel {}

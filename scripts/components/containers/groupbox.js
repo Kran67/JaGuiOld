@@ -22,16 +22,23 @@ class GroupBox extends CaptionControl {
             }
             super(owner, props);
             //core.tools.defineLayout(this, props);
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'horizAlign',
-                enum: core.types.TEXTALIGNS,
-                value: props.hasOwnProperty('horizAlign') ? props.horizAlign : core.types.TEXTALIGNS.LEFT
-            });
+            this.addPropertyEnum('horizAlign', core.types.TEXTALIGNS);
+            this.#horizAlign = props.hasOwnProperty('horizAlign') ? props.horizAlign : core.types.TEXTALIGNS.LEFT;
         }
     }
     //#endregion Constructor
     //#region Getters / Setters
+    //#region horizAlign
+    get horizAlign() {
+        return this.#horizAlign;
+    }
+    set horizAlign(newValue) {
+        if (core.tools.valueInSet(newValue, core.types.TEXTALIGNS) && this.#horizAlign !== newValue) {
+            this.#horizAlign = newValue;
+            core.isHTMLRenderer && this.update();
+        }
+    }
+    //#endregion horizAlign
     //#region legend
     get legend() {
         return this.#legend;

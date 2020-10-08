@@ -127,11 +127,15 @@ class Control extends Component {
             this.#allowRealignChildsOnResize= props.hasOwnProperty('allowRealignChildsOnResize')
                 && core.tools.isBool(props.allowRealignChildsOnResize)
                 ? props.allowRealignChildsOnResize : !1;
-            this.#resizer= new ResizeObserver(function () {
+            this.#resizer = new ResizeObserver(function () {
                 const obj = this.obj;
-                obj.allowUpdateOnResize && obj.update();
-                obj.allowRealignChildsOnResize && obj.realignChilds();
-                obj.onResize && obj.onResize.invoke(obj);
+                if (obj.width !== this.oldWidth || obj.height !== this.oldHeight) {
+                    obj.allowUpdateOnResize && obj.update();
+                    obj.allowRealignChildsOnResize && obj.realignChilds();
+                    obj.onResize && obj.onResize.invoke(obj);
+                    this.oldWidth = obj.width;
+                    this.oldHeight = obj.height;
+                }
             });
             this.#updateCell= function () {
                 //#region Variables déclaration
@@ -143,6 +147,8 @@ class Control extends Component {
                 htmlElementStyle.gridRow = `${this.#row} / span ${this.#rowSpan > 1 ? this.#rowSpan : 1}`;
             };
             this.#resizer.obj = this;
+            this.#resizer.oldWidth = this.#width;
+            this.#resizer.oldHeight = this.#height;
             if (props.hasOwnProperty('padding')) {
                 //#region Variables déclaration
                 const padding = props.padding;

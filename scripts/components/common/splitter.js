@@ -30,13 +30,8 @@ class Splitter extends ThemedControl {
             this.#maxSize = props.hasOwnProperty('maxSize') ? props.maxSize : 100;
             this.#collapsible = props.hasOwnProperty('collapsible') && core.tools.isBool(props.collapsible)
                 ? props.collapsible : !1;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'orientation',
-                enum: core.types.ORIENTATIONS,
-                forceUpdate: !0,
-                value: props.hasOwnProperty('orientation') ? props.orientation : core.types.ORIENTATIONS.VERTICAL
-            });
+            this.addPropertyEnum('orientation', core.types.ORIENTATIONS);
+            this.#orientation = props.hasOwnProperty('orientation') ? props.orientation : core.types.ORIENTATIONS.VERTICAL;
             delete this.tabOrder;
         }
     }

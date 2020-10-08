@@ -1,4 +1,5 @@
-﻿.carbon.CheckboxCheck {
+﻿@import url(../../../../css/components/common/checkbox.css);
+.carbon.CheckboxCheck {
     border: 1px solid #202020;
     border-radius: 2px;
     background-image: linear-gradient(to bottom,#606060 0,#303030 100%);

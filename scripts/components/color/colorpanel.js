@@ -170,10 +170,10 @@ class ColorPanel extends Control {
         //#region Variables déclaration
         const json = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
         const color = json.hasOwnProperty('color') ? json.color : Colors.RED;
-        let colorQuad, hueSlider, alphaSlider, secondaryColorBox, primaryColorBox;
+        //let colorQuad, hueSlider, alphaSlider, secondaryColorBox, primaryColorBox;
         //#endregion Variables déclaration
         super.loaded();
-        colorQuad = core.classes.createComponent({
+        this.#colorQuad = core.classes.createComponent({
             class: ColorQuad,
             owner: this,
             props: {
@@ -181,8 +181,8 @@ class ColorPanel extends Control {
                 format: 'hsl'
             }
         });
-        colorQuad.onChange.addListener(this.doQuadChange);
-        hueSlider = core.classes.createComponent({
+        this.#colorQuad.onChange.addListener(this.doQuadChange);
+        this.#hueSlider = core.classes.createComponent({
             class: HUESlider,
             owner: this,
             props: {
@@ -190,8 +190,8 @@ class ColorPanel extends Control {
                 orientation: core.types.ORIENTATIONS.VERTICAL
             }
         });
-        hueSlider.onChange.addListener(this.doHueChange);
-        alphaSlider = core.classes.createComponent({
+        this.#hueSlider.onChange.addListener(this.doHueChange);
+        this.#alphaSlider = core.classes.createComponent({
             class: AlphaSlider,
             owner: this,
             props: {
@@ -199,18 +199,18 @@ class ColorPanel extends Control {
                 values: [1, 0]
             }
         });
-        alphaSlider.onChange.addListener(this.doAlphaChange);
-        secondaryColorBox = core.classes.createComponent({
+        this.#alphaSlider.onChange.addListener(this.doAlphaChange);
+        this.#secondaryColorBox = core.classes.createComponent({
             class: ColorBox,
             owner: this,
             props: {
                 inForm: !1
             }
         });
-        secondaryColorBox.onClick.addListener(this.changeColorBox);
-        secondaryColorBox.mouseEvents.mousedown = !0;
-        secondaryColorBox.HTMLElement.classList.add('secondaryColorBox');
-        primaryColorBox = core.classes.createComponent({
+        this.#secondaryColorBox.onClick.addListener(this.changeColorBox);
+        this.#secondaryColorBox.mouseEvents.mousedown = !0;
+        this.#secondaryColorBox.HTMLElement.classList.add('secondaryColorBox');
+        this.#primaryColorBox = core.classes.createComponent({
             class: ColorBox,
             owner: this,
             props: {
@@ -218,14 +218,14 @@ class ColorPanel extends Control {
                 color: color
             }
         });
-        primaryColorBox.onClick.addListener(this.changeColorBox);
-        primaryColorBox.mouseEvents.mousedown = !0;
-        primaryColorBox.HTMLElement.classList.add('primaryColorBox');
-        colorQuad.colorBox = primaryColorBox;
-        colorQuad.color = primaryColorBox.color;
-        hueSlider.firstValue = primaryColorBox.color.hue / 360;
-        secondaryColorBox.color = Colors.WHITE;
-        core.private(this, { colorQuad, hueSlider, alphaSlider, secondaryColorBox, primaryColorBox });
+        this.#primaryColorBox.onClick.addListener(this.changeColorBox);
+        this.#primaryColorBox.mouseEvents.mousedown = !0;
+        this.#primaryColorBox.HTMLElement.classList.add('primaryColorBox');
+        this.#colorQuad.colorBox = this.#primaryColorBox;
+        this.#colorQuad.color = this.#primaryColorBox.color;
+        this.#hueSlider.firstValue = this.#primaryColorBox.color.hue / 360;
+        this.#secondaryColorBox.color = Colors.WHITE;
+        //core.private(this, { colorQuad, hueSlider, alphaSlider, secondaryColorBox, primaryColorBox });
     }
     update() {
         if (!this.loading && !this.form.loading) {

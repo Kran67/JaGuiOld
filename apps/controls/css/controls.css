@@ -1,6 +1,8 @@
-﻿@import url('/css/jagui.css');
-@import url('/css/animate.css');
-@import url('/css/components.css');
+﻿@import url('../../../css/jagui.css');
+@import url('../../../css/animate.css');
+@import url('../../../css/components/common.css');
+@import url('../../../css/components.css');
+@import url('../../../css/components/controls.css');
 /*@import url('/css/components/all.css');*/
 /*@import url('css/window1.css');*/
 
@@ -20,7 +22,7 @@
 
 /*@import url('air.css');
 @import url('blend.css');*/
-/*@import url('carbon.css');*/
+@import url('carbon.css');
 /*@import url('classic10k.css');
 @import url('clearlooksblue.css');
 @import url('corona12.css');
@@ -44,5 +46,5 @@
 @import url('watercolor.css');
 @import url('windows8.css');*/
 /*@import url('material.css');*/
-@import url('neumorphiclight.css');
+/*@import url('neumorphiclight.css');*/
 /*@import url('neumorphicdark.css');*/

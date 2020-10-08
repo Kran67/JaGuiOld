@@ -32,17 +32,23 @@ class FlowLayout extends Layout {
             super(owner, props);
             this.#hGap = props.hasOwnProperty('hGap') ? props.hGap : 5;
             this.#vGap = props.hasOwnProperty('vGap') ? props.vGap : 5;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'layout',
-                enumerable: !1,
-                enum: FLOWLAYOUTS,
-                value: props.hasOwnProperty('layout') ? props.layout : FLOWLAYOUTS.HORIZONTAL
-            });
+            this.addPropertyEnum('layout', FLOWLAYOUTS);
+            this.#layout = props.hasOwnProperty('layout') ? props.layout : FLOWLAYOUTS.HORIZONTAL;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region layout
+    get layout() {
+        return this.#layout;
+    }
+    set layout(newValue) {
+        if (core.tools.isNumber(newValue) && this.#layout !== newValue) {
+            this.#layout = newValue;
+            core.isHTMLRenderer && this.update();
+        }
+    }
+    //#endregion layout
     //#region hGap
     get hGap() {
         return this.#hGap;
@@ -50,7 +56,7 @@ class FlowLayout extends Layout {
     set hGap(newValue) {
         if (core.tools.isNumber(newValue) && this.#hGap !== newValue) {
             this.#hGap = newValue;
-            icore.isHTMLRenderer && this.update();
+            core.isHTMLRenderer && this.update();
         }
     }
     //#endregion hGap

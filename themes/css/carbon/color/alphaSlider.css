@@ -1,3 +1,4 @@
-﻿.carbon.AlphaSlider {
+﻿@import url(../../../../css/components/color/alphaSlider.css);
+.carbon.AlphaSlider {
     box-shadow: none;
 }

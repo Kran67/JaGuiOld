@@ -468,11 +468,11 @@ class WindowTitleBar extends ThemedControl {
     //#region calcVisibleBtns
     calcVisibleBtns() {
         //#region Variables déclaration
-        const buttons = ['close', 'maxRestore', 'minimize', 'help', 'rollUpDown', 'stayOnOff'];
+        const buttons = [this.#closeBtn, this.#maxRestoreBtn, this.#minimizeBtn, this.#helpBtn, this.#rollUpDownBtn, this.#stayOnOffBtn];
         let visbleBtns = 0;
         //#endregion Variables déclaration
+
         buttons.forEach(btn => {
-            btn = priv[`${btn}Btn`];
             btn.visible && (visbleBtns++);
         });
         core.isHTMLRenderer && (this.form.HTMLElement.dataset.buttons = visbleBtns);

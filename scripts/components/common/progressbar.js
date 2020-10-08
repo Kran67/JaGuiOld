@@ -30,18 +30,17 @@ class ProgressBar extends ThemedControl {
             this.#value = props.hasOwnProperty('value') ? props.value : 0;
             this.#min = props.hasOwnProperty('min') ? props.min : 0;
             this.#max = props.hasOwnProperty('max') ? props.max : 100;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'orientation',
-                enum: orientations,
-                value: props.hasOwnProperty('orientation') ? props.orientation : orientations.NONE
-            });
+            this.addPropertyEnum('orientation', orientations);
+            this.#orientation = props.hasOwnProperty('orientation') ? props.orientation : orientations.NONE;
             delete this.tabOrder;
         }
     }
     //#endregion Constructor
     //#region Getters / Setters
     //#region orientation
+    get orientation() {
+        return this.#orientation;
+    }
     set orientation(newValue) {
         if (core.tools.valueInSet(newValue, core.types.ORIENTATIONS) && this.#orientation !== newValue) {
             this.#orientation = newValue;

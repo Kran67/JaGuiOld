@@ -40,12 +40,8 @@ class SpinBox extends CustomTextBoxBtn {
                 && core.tools.isNumber(props.decimalDigits) ? props.value : 2;
             this.#min = props.hasOwnProperty('min') && core.tools.isNumber(props.min) ? props.min : 0;
             this.#max = props.hasOwnProperty('max') && core.tools.isNumber(props.max) ? props.max : 100;
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'valueType',
-                enum: SPINBOXTYPES,
-                value: props.hasOwnProperty('valueType') ? props.valueType : SPINBOXTYPES.INTEGER
-            });
+            this.addPropertyEnum('valueType', SPINBOXTYPES);
+            this.#valueType = props.hasOwnProperty('valueType') ? props.valueType : SPINBOXTYPES.INTEGER;
         }
     }
     //#endregion constructor
@@ -58,6 +54,17 @@ class SpinBox extends CustomTextBoxBtn {
         return SPINBOXTYPES;
     }
     //#endregion SPINBOXTYPES
+    //#region valueType
+    get valueType() {
+        return this.#valueType;
+    }
+    set valueType(newValue) {
+        if (core.tools.valueInSet(newValue, SPINBOXTYPES) && this.#valueType !== newValue) {
+            this.#valueType = newValue;
+            this.update();
+        }
+    }
+    //#endregion valueType
     //#region value
     get value() {
         return this.#value;

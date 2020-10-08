@@ -780,13 +780,13 @@ class Tools {
     //#endregion defineLayout
     noEvent(event) {
         console.log('noEvent');
-            event.stopPropagation();
-            event.stopImmediatePropagation();
-            event.preventDefault();
-        }
-        //#endregion Methods
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        event.preventDefault();
     }
-    Object.seal(Object.freeze(Tools));
-    //#endregion Tools
-    window.core.tools = Tools;
-    export { Tools }; // à supprimer
+//#endregion Methods
+}
+Object.seal(Object.freeze(Tools));
+//#endregion Tools
+window.core.tools = Tools;
+export { Tools }; // à supprimer

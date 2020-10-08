@@ -13,55 +13,58 @@ class FlexLayout extends Layout {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'justifyContent',
-                enum: core.types.JUSTIFYCONTENT,
-                setter: function (newValue) {
-                    //#region Variables déclaration
-                    const justifyContent = this.#justifyContent;
-                    //#endregion Variables déclaration
-                    if (core.tools.valueInSet(newValue, core.types.JUSTIFYCONTENT) && justifyContent !== newValue) {
-                        this.#justifyContent = newValue;
-                        isHtmlRenderer && this.update();
-                    }
-                },
-                value: props.justifyContent ? props.justifyContent : core.types.JUSTIFYCONTENT.FLEXSTART
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'alignItems',
-                enum: core.types.ALIGNITEMS,
-                setter: function (newValue) {
-                    //#region Variables déclaration
-                    const alignItems = this.#alignItems;
-                    //#endregion Variables déclaration
-                    if (core.tools.valueInSet(newValue, core.types.ALIGNITEMS) && alignItems !== newValue) {
-                        this.#alignItems = newValue;
-                        isHtmlRenderer && this.update();
-                    }
-                },
-                value: props.alignItems ? props.alignItems : core.types.ALIGNITEMS.FLEXSTART
-            });
-            core.tools.addPropertyFromEnum({
-                component: this,
-                propName: 'flexDirection',
-                enum: core.types.FLEXDIRECTIONS,
-                setter: function (newValue) {
-                    //#region Variables déclaration
-                    const flexDirection = this.#flexDirection;
-                    //#endregion Variables déclaration
-                    if (core.tools.valueInSet(newValue, core.types.FLEXDIRECTIONS) && flexDirection !== newValue) {
-                        this.#flexDirection = newValue;
-                        isHtmlRenderer && this.update();
-                    }
-                },
-                value: props.flexDirection ? props.flexDirection : core.types.FLEXDIRECTIONS.ROW
-            });
+            this.addPropertyEnum('justifyContent', core.types.JUSTIFYCONTENT);
+            this.#justifyContent = props.justifyContent ? props.justifyContent : core.types.JUSTIFYCONTENT.FLEXSTART;
+            this.addPropertyEnum('alignItems', core.types.ALIGNITEMS);
+            this.#alignItems = props.alignItems ? props.alignItems : core.types.ALIGNITEMS.FLEXSTART;
+            this.addPropertyEnum('flexDirection', core.types.FLEXDIRECTIONS);
+            this.#flexDirection = props.flexDirection ? props.flexDirection : core.types.FLEXDIRECTIONS.ROW;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
+    //#region flexDirection
+    get flexDirection() {
+        return this.#flexDirection;
+    }
+    set flexDirection(newValue) {
+        //#region Variables déclaration
+        const flexDirection = this.#flexDirection;
+        //#endregion Variables déclaration
+        if (core.tools.valueInSet(newValue, core.types.FLEXDIRECTIONS) && flexDirection !== newValue) {
+            this.#flexDirection = newValue;
+            isHtmlRenderer && this.update();
+        }
+    }
+    //#endregion flexDirection
+    //#region alignItems
+    get alignItems() {
+        return this.#alignItems;
+    }
+    set alignItems(newValue) {
+        //#region Variables déclaration
+        const alignItems = this.#alignItems;
+        //#endregion Variables déclaration
+        if (core.tools.valueInSet(newValue, core.types.ALIGNITEMS) && alignItems !== newValue) {
+            this.#alignItems = newValue;
+            isHtmlRenderer && this.update();
+        }
+    }
+    //#endregion alignItems
+    //#region justifyContent
+    get justifyContent() {
+        return this.#justifyContent;
+    }
+    set justifyContent(newValue) {
+        //#region Variables déclaration
+        const justifyContent = this.#justifyContent;
+        //#endregion Variables déclaration
+        if (core.tools.valueInSet(newValue, core.types.JUSTIFYCONTENT) && justifyContent !== newValue) {
+            this.#justifyContent = newValue;
+            isHtmlRenderer && this.update();
+        }
+    }
+    //#endregion justifyContent
     //#endregion Getters / Setters
     //#region Methods
     //#region update
