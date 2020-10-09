@@ -1,4 +1,6 @@
-﻿.DropDownCalendar {
+﻿@import url(calendar.css);
+@import url(dropdownlistbox.css);
+.DropDownCalendar {
     min-width: 80px;
 }
 

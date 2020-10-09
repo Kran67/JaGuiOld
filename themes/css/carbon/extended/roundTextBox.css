@@ -1,4 +1,5 @@
 ﻿@import url(../../../../css/components/extended/roundtextbox.css);
+@import url(../common/textbox.css);
 .carbon.RoundTextBox,
 .carbon.RoundTextBoxInput {
     border-radius: 12px;

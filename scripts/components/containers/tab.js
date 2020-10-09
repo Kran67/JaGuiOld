@@ -62,14 +62,14 @@ class Tab extends CaptionControl {
     //#region Methods
     //#region show
     show() {
-        if (tabControl.activeTab !== this) {
-            tabControl.activeTab && tabControl.activeTab.hide();
+        if (this.owner.activeTab !== this) {
+            this.owner.activeTab && this.owner.activeTab.hide();
             if (this.enabled) {
-                tabControl.activeTab = this;
+                this.owner.activeTab = this;
                 this.HTMLElement.classList.add('selected');
                 // on bouge pour mettre le tab bien visible
-                tabControl.scrollToTab(this);
-                tabControl.change();
+                this.owner.scrollToTab(this);
+                this.owner.change();
             }
         }
     }

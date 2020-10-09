@@ -1,4 +1,5 @@
-﻿.AlphaSlider {
+﻿@import url(../common/slider.css);
+.AlphaSlider {
     overflow: visible;
 }
 

@@ -1,4 +1,5 @@
-﻿.BWSlider {
+﻿@import url(../common/slider.css);
+.BWSlider {
     overflow: visible;
 }
 

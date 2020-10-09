@@ -56,18 +56,12 @@ class DropDownCalendarPopup extends PopupBox {
     //#region Methods
     //#region show
     show(x, y) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.show(x, y);
         !this.#calendar.HTMLElement && this.#calendar.getHTMLElement(this.#calendar.internalId);
     }
     //#endregion show
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
         this.#calendar = core.classes.createComponent({
             class: CalendarPopup,

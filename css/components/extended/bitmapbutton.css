@@ -1,4 +1,5 @@
-﻿.BitmapButton {
+﻿@import url(../common/buttonglyph.css);
+.BitmapButton {
     overflow: hidden;
     white-space: nowrap;
 }

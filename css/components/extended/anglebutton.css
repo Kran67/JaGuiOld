@@ -1,4 +1,5 @@
-﻿.Button.AngleButton {
+﻿@import url(../common/button.css);
+.Button.AngleButton {
     overflow: hidden;
     white-space: nowrap;
     border-radius: 50% !important;

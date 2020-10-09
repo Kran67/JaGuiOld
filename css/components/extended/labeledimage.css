@@ -1,4 +1,6 @@
-﻿.LabeledImage {
+﻿@import url(../common/label.css);
+@import url(../extended/imagecontrol.css);
+.LabeledImage {
     height: 60px;
 }
 

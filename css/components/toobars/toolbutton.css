@@ -1,4 +1,5 @@
-﻿.ToolButton,
+﻿@import url(../common/button.css);
+.ToolButton,
 .ToolButtonSep {
     overflow: hidden;
     position: relative;

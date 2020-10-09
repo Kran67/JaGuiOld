@@ -1,4 +1,5 @@
-﻿.ButtonGlyph .paddingDownText {
+﻿@import url(button.css);
+.ButtonGlyph .paddingDownText {
     padding-left: 1px !important;
     padding-top: 1px !important;
 }

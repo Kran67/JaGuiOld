@@ -225,7 +225,6 @@ class ColorPanel extends Control {
         this.#colorQuad.color = this.#primaryColorBox.color;
         this.#hueSlider.firstValue = this.#primaryColorBox.color.hue / 360;
         this.#secondaryColorBox.color = Colors.WHITE;
-        //core.private(this, { colorQuad, hueSlider, alphaSlider, secondaryColorBox, primaryColorBox });
     }
     update() {
         if (!this.loading && !this.form.loading) {

@@ -238,9 +238,6 @@ class FileOpen extends CommonDialogAction {
         return this.#filesFilter;
     }
     set filesFilter(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         core.tools.isString(newValue) && this.#filesFilter !== newVlaue && (this.#filesFilter = newVlaue);
     }
     //#endregion filesFilter
@@ -249,9 +246,6 @@ class FileOpen extends CommonDialogAction {
         return this.#multiSelect;
     }
     set multiSelect(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         core.tools.isBool(newValue) && this.#multiSelect !== newVlaue && (this.#multiSelect = newVlaue);
     }
     //#endregion multiSelect

@@ -1,4 +1,5 @@
 ﻿@import url(../../../../css/components/containers/window.css);
+@import url(../common/button.css);
 .carbon.Window {
     background-repeat: no-repeat;
     background-color: #333;

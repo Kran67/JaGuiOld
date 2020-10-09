@@ -1,4 +1,6 @@
-﻿.LabeledTextBox .TextBox {
+﻿@import url(../common/label.css);
+@import url(../common/textbox.css);
+.LabeledTextBox .TextBox {
     position: relative;
     flex: 1;
 }

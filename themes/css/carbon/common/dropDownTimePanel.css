@@ -1,2 +1,4 @@
 ﻿@import url(../../../../css/components/common/dropdowntimepanel.css);
+@import url(timepanel.css);
+@import url(dropdownlistbox.css);
 .carbon.DropDownTimePanel {}

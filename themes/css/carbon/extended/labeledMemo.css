@@ -1,4 +1,6 @@
 ﻿@import url(../../../../css/components/extended/labeledmemo.css);
+@import url(../common/label.css);
+@import url(../common/memo.css);
 .carbon.LabeledMemo {}
 
 .carbon.LabeledMemo .Memo {}

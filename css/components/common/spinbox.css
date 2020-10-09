@@ -1,4 +1,6 @@
-﻿.SpinBox {
+﻿@import url(textbox.css);
+@import url(button.css);
+.SpinBox {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -14,7 +16,7 @@
 .SpinBoxMinusBtn {
     position: relative;
     order: 1;
-    width: 16px;
+    width: 16px !important;
     font-family: Jagui;
     font-size: 4pt;
     margin: 1px 0 1px 1px;
@@ -28,18 +30,8 @@
 .SpinBoxPlusBtn {
     position: relative;
     order: 3;
-    width: 16px;
+    width: 16px !important;
     font-family: Jagui;
     font-size: 4pt;
     margin: 1px 1px 1px 0;
-}
-
-.SpinBoxMinusBtn {
-    order: 1;
-    width: 16px !important;
-}
-
-.SpinBoxPlusBtn {
-    order: 3;
-    width: 16px !important;
 }

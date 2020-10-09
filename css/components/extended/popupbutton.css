@@ -1,4 +1,5 @@
-﻿.PopupButton {
+﻿@import url(../common/button.css);
+.PopupButton {
     overflow: hidden;
     white-space: nowrap;
 }

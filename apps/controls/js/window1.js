@@ -101,8 +101,11 @@ import '/scripts/components/extended/labeleddropdownlistbox.js';
 //#endregion Imports
 let lastTime;
 class Window1 extends Window {
+    //#region Private fields
+    #stars = [];
+    //#endregion Private fields
     get MAX_DEPTH() { return 32; }
-    get STARS() { return core.private(this).stars; }
+    get STARS() { return this.#stars; }
     get TOTALSTARS() { return 512; }
     get SIZE() { return [10, 30]; }
     get SHINEDIR() { return [0.01, 0.05]; }
@@ -112,14 +115,8 @@ class Window1 extends Window {
     //get FRAME() { return (Math.random() * 360) | 0; }
     constructor(owner, props) {
         super(owner, props);
-        core.private(this, {
-            stars: [],
-            frame: (Math.random() * 360) | 0
-        });
+        this.frame = Math.random() * 360;
         this.onShow.addListener(this.formShow);
-    }
-    rand(ar) {
-        return Math.random() * (ar[1] - ar[0]) + ar[0];
     }
     formCreated(id) {
         super.formCreated(id);
@@ -127,7 +124,7 @@ class Window1 extends Window {
             //this.Gauge2.createArrow=this.createArrowBlue;
             //this.Gauge3.createArrow=this.createArrowBlack;
         }
-        //this.initStars();
+        //this.#initStars();
         //core.looper.addListener(this, "paint");
     }
     formShow() {
@@ -136,17 +133,17 @@ class Window1 extends Window {
         //}
         lastTime = new Date().getTime();
     }
-    initStars() {
+    #initStars() {
         for (let i = 0; i < this.TOTALSTARS; i++) {
             this.STARS[i] = {
-                x: this.randomRange(-25, 25),
-                y: this.randomRange(-25, 25),
-                z: this.randomRange(1, this.MAX_DEPTH)
+                x: this.#randomRange(-25, 25),
+                y: this.#randomRange(-25, 25),
+                z: this.#randomRange(1, this.MAX_DEPTH)
             };
         }
         this.PaintBox1.drawType = 0;
     }
-    randomRange(minVal, maxVal) {
+    #randomRange(minVal, maxVal) {
         return Math.floor(Math.random() * (maxVal - minVal - 1)) + minVal;
     }
     Button1_onClick(sender) {
@@ -236,7 +233,7 @@ class Window1 extends Window {
                 }
                 break;
             case 1:
-                ++core.private(form).frame;
+                ++form.frame;
                 ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.DESTINATIONOUT;
                 ctx.fillStyle = 'rgba(0, 0, 0, .1)';
                 ctx.fillRect(0, 0, htmlElement.offsetWidth, htmlElement.offsetHeight);
@@ -380,22 +377,25 @@ class Circle {
 
 class Star {
     constructor(form, ctx) {
-        this.size = form.rand(form.SIZE);
+        this.size = this.#rand(form.SIZE);
         this.x = Math.random() * ctx.canvas.width;
         this.y = -this.size * 2;
         this.vy = this.size / 10;
         this.vx = Math.random() * 6 - 3;
         this.ay = this.size / 5000;
         this.shine = 0;
-        this.shineDir = form.rand(form.SHINEDIR);
+        this.shineDir = this.#rand(form.SHINEDIR);
         this.color = 'hsla(hue, 80%, brightness%, .15)'.replace('hue', form.frame % 360);
         this.rot = Math.random() * 2 * Math.PI;
-        this.omega = form.rand(form.ANGSPEED);
+        this.omega = this.#rand(form.ANGSPEED);
         if (Math.random() < 0.5) {
             this.omega *= -1;
         }
         this.form = form;
         this.ctx = ctx;
+    }
+    #rand(ar) {
+        return Math.random() * (ar[1] - ar[0]) + ar[0];
     }
     use() {
         this.x += this.vx;

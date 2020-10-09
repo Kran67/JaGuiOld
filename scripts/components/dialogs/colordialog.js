@@ -17,6 +17,9 @@ import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Import
 //#region Class ColorDlg
 class ColorDlg extends Window {
+    //#region Private fields
+    #control;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -29,21 +32,16 @@ class ColorDlg extends Window {
             props.destroyOnHide = !0;
             props.caption = core.locales[core.currentLocale].colorDlg;
             super(owner, props);
-            core.private(this, {
-                control: props.hasOwnProperty('control') ? props.control : null
-            });
+            this.#control = props.hasOwnProperty('control') ? props.control : null;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region color
     set color(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof core.classes.Color && !priv.clrBoxCurColor.fillColor.equals(newValue)) {
-            priv.clrBoxCurColor.color.assign(newValue);
-            priv.clrPicker.color.assign(newValue);
+        if (newValue instanceof core.classes.Color && !this.clrBoxCurColor.fillColor.equals(newValue)) {
+            this.clrBoxCurColor.color.assign(newValue);
+            this.clrPicker.color.assign(newValue);
             this.updateControls(newValue);
         }
     }
@@ -54,17 +52,17 @@ class ColorDlg extends Window {
     loaded() {
         //#region Variables déclaration
         const priv = core.private(this);
-        const color = priv.control.color;
+        const color = this.#control.color;
         //#endregion Variables déclaration
         super.loaded();
-        if (priv.control) {
+        if (this.#control) {
             this.clrBoxCurColor.color.assign(color);
             this.clrPicker.color.assign(color);
             this.txtbHex.btns.first.onClick.addListener(this.txtbHexBtn_click);
             this.txtbHex.btns.first.mode = 'rgbh';
             this.updateControls(color);
         }
-        console.log(priv.lastFocusedControl);
+        //console.log(this.#lastFocusedControl);
     }
     //#endregion loaded
     //#region slider_change
@@ -253,14 +251,14 @@ class ColorDlg extends Window {
 //#endregion ColorDlg
 //#region class ColorDialog
 class ColorDialog extends CommonDialog {
+    //#region Private fields
+    #control = null;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                control: null
-            });
         }
     }
     //#endregion constructor
@@ -268,10 +266,9 @@ class ColorDialog extends CommonDialog {
     //#region loaded
     execute(control, callback) {
         //#region Variables déclaration
-        const priv = core.private(this);
         let dlg;
         //#endregion Variables déclaration
-        priv.control = control;
+        this.#control = control;
         dlg = core.classes.createComponent({
             class: ColorDlg,
             owner: activeApp,

@@ -13,6 +13,9 @@ import '/scripts/components/containers/groupbox.js';
 //#endregion Import
 //#region FontDlg
 class FontDlg extends Window {
+    //#region Private fields
+    #control;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -25,17 +28,17 @@ class FontDlg extends Window {
             props.destroyOnHide = !0;
             props.caption = core.locales[core.currentLocale]['fontDlg'];
             super(owner, props);
-            core.private(this, {
-                control: props.hasOwnProperty('control') ? props.control : null
-            });
+            this.#control = props.hasOwnProperty('control') ? props.control : null;
         }
     }
     //#endregion constructor
     //#region Methods
     //#region loaded
     loaded() {
+        //#region Variables déclaration
         let effects = [];
         const locale = core.locales[core.currentLocale];
+        //#endregion Variables déclaration
         super.loaded();
         this.lddlbFont.dropDownListBox.onChange.addListener(this.common_Change);
         this.lddlbFontStyle.dropDownListBox.onChange.addListener(this.common_Change);
@@ -141,8 +144,7 @@ class FontDlg extends Window {
     //#region updateFromObject
     updateFromObject() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const cHtmlElement = priv.control.HTMLElement;
+        const cHtmlElement = this.#control.HTMLElement;
         let value = int(getComputedStyle(cHtmlElement).fontSize, 10);
         let idx, text;
         const FONTSTYLES = core.types.FONTSTYLES;
@@ -220,12 +222,12 @@ class FontDlg extends Window {
         this.cboxStrikeThrough.checked = value && value.includes(TEXTDECORATIONS.LINETHROUGH);
         this.cboxOverline.checked = value && value.includes(TEXTDECORATIONS.OVERLINE);
         value = getComputedStyle(cHtmlElement).textShadow;
-        this.cboxShadow.checked = value && !priv.control.effect && value.includes('rgb');
+        this.cboxShadow.checked = value && !this.#control.effect && value.includes('rgb');
         value = getComputedStyle(cHtmlElement).textTransform;
         this.cboxAllCaps.checked = value && value.includes(core.types.TEXTTRANSFORMS.UPPERCASE);
-        this.lddlbEffect.enabled = priv.control instanceof core.classes.Label;
-        if (priv.control.effect) {
-            let idx = Object.keys(core.locales[core.currentLocale].labelEffects).findIndex(e => e.toLowerCase() === priv.control.effect.cssName.toLowerCase());
+        this.lddlbEffect.enabled = this.#control instanceof core.classes.Label;
+        if (this.#control.effect) {
+            let idx = Object.keys(core.locales[core.currentLocale].labelEffects).findIndex(e => e.toLowerCase() === this.#control.effect.cssName.toLowerCase());
             this.lddlbEffect.dropDownListBox.itemIndex = ++idx;
         }
         //control.effect && 
@@ -243,14 +245,14 @@ class FontDlg extends Window {
 //#endregion FontDlg
 //#region class FontDialog
 class FontDialog extends CommonDialog {
+    //#region Private fields
+    #control = null;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                control: null
-            });
         }
     }
     //#endregion constructor
@@ -258,10 +260,9 @@ class FontDialog extends CommonDialog {
     //#region loaded
     execute(control, callback) {
         //#region Variables déclaration
-        const priv = core.private(this);
         let dlg;
         //#endregion Variables déclaration
-        priv.control = control;
+        this.#control = control;
         dlg = core.classes.createComponent({
             class: FontDlg,
             owner: activeApp,

@@ -1,4 +1,7 @@
-﻿.LabeledAngleBar .GridLayout {
+﻿@import url(../common/label.css);
+@import url(../extended/anglebutton.css);
+@import url(../extended/valuelabel.css);
+.LabeledAngleBar .GridLayout {
     flex: 1;
     position: relative;
 }

@@ -1,4 +1,6 @@
 ﻿@import url(../../../../css/components/containers/expander.css);
+@import url('../common/checkbox.css');
+@import url('../common/button.css');
 .carbon.Expander {
     border: 1px solid #303030;
     border-radius: 2px;

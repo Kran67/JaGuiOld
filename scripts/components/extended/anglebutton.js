@@ -6,6 +6,16 @@ import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Import
 //#region Class AngleButton
 class AngleButton extends Button {
+    //#region Private fields
+    #internalValue = 0;
+    #knob = null;
+    #saveValue = 0;
+    #textObj = null;
+    #frequency;
+    #tracking;
+    #value;
+    #showValue;
+    //#endregion Private fields
     //#region Constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -20,41 +30,10 @@ class AngleButton extends Button {
             props.mouseEvents = { mousemove: !0 };
             super(owner, props);
             const self = this;
-            core.private(this, {
-                internalValue: 0,
-                knob: null,
-                saveValue: 0,
-                textObj: null,
-                frequency: props.hasOwnProperty('frequency') ? props.frequency : 1,
-                tracking: props.hasOwnProperty('tracking') ? props.tracking : !0,
-                value: props.hasOwnProperty('value') ? props.value : 0,
-                showValue: props.hasOwnProperty('showValue') ? props.showValue : !0,
-                setInternalValue: function (newValue) {
-                    //#region Variables déclaration
-                    const priv = this;
-                    //#endregion Variables déclaration
-                    if (core.tools.isNumber(newValue) && priv.internalValue !== newValue) {
-                        if (priv.frequency === 0) {
-                            priv.internalValue = newValue;
-                        } else {
-                            const nv = Math.round(newValue / priv.frequency) * priv.frequency;
-                            if (priv.internalValue !== nv) {
-                                priv.internalValue = nv;
-                            }
-                        }
-                        priv.value = priv.internalValue > 0
-                            ? Math.round(360 - priv.internalValue, 0)
-                            : 360 - Math.round(360 + priv.internalValue, 0);
-                        if (!core.isHTMLRenderer) {
-                            self.allowUpdate && self.updateKnobAndText();
-                            self.redraw();
-                        } else {
-                            self.updateKnobAndText();
-                        }
-                        self.onChanged.invoke();
-                    }
-                }
-            });
+            this.#frequency = props.hasOwnProperty('frequency') ? props.frequency : 1;
+            this.#tracking = props.hasOwnProperty('tracking') ? props.tracking : !0;
+            this.#value = props.hasOwnProperty('value') ? props.value : 0;
+            this.#showValue = props.hasOwnProperty('showValue') ? props.showValue : !0;
             this.createEventsAndBind(['onChanged'], props);
         }
     }
@@ -62,55 +41,45 @@ class AngleButton extends Button {
     //#region Getters / Setters
     //#region frequency
     get frequency() {
-        return core.private(this).frequency;
+        return this.#frequency;
     }
     set frequency(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv.frequency !== newValue && (priv.frequency = newValue);
+        core.tools.isNumber(newValue) && this.#frequency !== newValue && (this.#frequency = newValue);
     }
     //#endregion frequency
     //#region tracking
     get tracking() {
-        return core.private(this).tracking;
+        return this.#tracking;
     }
     set tracking(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isBool(newValue) && priv.tracking !== newValue && (priv.tracking = newValue);
+        core.tools.isBool(newValue) && this.#tracking !== newValue && (this.#tracking = newValue);
     }
     //#endregion tracking
     //#region value
     get value() {
-        return core.private(this).value;
+        return this.#value;
     }
     set value(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (core.tools.isNumber(newValue)) {
             newValue = Math.max(Math.min(newValue, 360), 0);
-            if (priv.value !== newValue) {
-                priv.value = 360 - newValue;
-                priv.setInternalValue(priv.value);
+            if (this.#value !== newValue) {
+                this.#value = 360 - newValue;
+                this.#setInternalValue(this.#value);
             }
         }
     }
     //#endregion value
     //#region showValue
     get showValue() {
-        return core.private(this).showValue;
+        return this.#showValue;
     }
     set showValue(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const cssValues = core.types.CSSVALUES;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.showValue !== newValue) {
-            priv.showValue = newValue;
-            priv.textObj.style.visibility = priv.showValue ? cssValues.NORMAL : cssValues.HIDDEN;
+        if (core.tools.isBool(newValue) && this.#showValue !== newValue) {
+            this.#showValue = newValue;
+            this.#textObj.style.visibility = this.#showValue ? cssValues.NORMAL : cssValues.HIDDEN;
         }
     }
     //#endregion showValue
@@ -148,14 +117,37 @@ class AngleButton extends Button {
     //#endregion height
     //#endregion Getters / Setters
     //#region Methods
+    //#region privates Methods
+    //#region setInternalValue
+    #setInternalValue(newValue) {
+        if (core.tools.isNumber(newValue) && this.#internalValue !== newValue) {
+            if (this.#frequency === 0) {
+                this.#internalValue = newValue;
+            } else {
+                const nv = Math.round(newValue / this.#frequency) * this.#frequency;
+                if (this.#internalValue !== nv) {
+                    this.#internalValue = nv;
+                }
+            }
+            this.#value = this.#internalValue > 0
+                ? Math.round(360 - this.#internalValue, 0)
+                : 360 - Math.round(360 + this.#internalValue, 0);
+            if (!core.isHTMLRenderer) {
+                this.allowUpdate && this.updateKnobAndText();
+                this.redraw();
+            } else {
+                this.updateKnobAndText();
+            }
+            this.onChanged.invoke();
+        }
+    }
+    //#endregion setInternalValue
+    //#endregion privates Methods
     //#region mouseDown
     mouseDown() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.mouseDown();
         if (core.mouse.button === Mouse.MOUSEBUTTONS.LEFT) {
-            priv.saveValue = priv.internalValue;
+            this.#saveValue = this.#internalValue;
             this.valueFromPoint(core.mouse.target);
         }
     }
@@ -188,37 +180,32 @@ class AngleButton extends Button {
     //#endregion update
     //#region updateKnobAndText
     updateKnobAndText() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.knob.style.transform = `rotate(${priv.internalValue}deg)`;
-        priv.textObj.innerHTML = `${priv.value}&deg;`;
-        priv.textObj.style.lineHeight = `${priv.textObj.offsetHeight}${core.types.CSSUNITS.PX}`;
+        this.#knob.style.transform = `rotate(${this.#internalValue}deg)`;
+        this.#textObj.innerHTML = `${this.#value}&deg;`;
+        this.#textObj.style.lineHeight = `${this.#textObj.offsetHeight}${core.types.CSSUNITS.PX}`;
     }
     //#endregion updateKnobAndText
     //#region valueFromPoint
     valueFromPoint(point) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const v = new Vector(point.x - htmlElement.offsetWidth / 2, point.y - htmlElement.offsetHeight / 2);
         const v1 = new Vector(1, 0, 0);
         //#endregion Variables déclaration
-        priv.setInternalValue(-v1.angle(v));
+        this.#setInternalValue(-v1.angle(v));
     }
     //#endregion valueFromPoint
     //#region wheel
     wheel(event) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        let newVal = priv.internalValue + (core.mouse.getWheelDetail(event) * 10);
+        let newVal = this.#internalValue + (core.mouse.getWheelDetail(event) * 10);
         //#endregion Variables déclaration
         if (newVal < -360) {
             newVal = 360 + newVal;
         } else if (newVal > 360) {
             newVal = 360 - newVal;
         }
-        priv.setInternalValue(newVal);
+        this.#setInternalValue(newVal);
         core.mouse.stopAllEvents(event);
     }
     //#endregion wheel
@@ -231,28 +218,27 @@ class AngleButton extends Button {
     //#region keyDown
     keyDown() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const VKeysCodes = Keyboard.VKEYSCODES;
         //#endregion Variables déclaration
         super.keyDown();
         switch (core.keyboard.key) {
             case VKeysCodes.VK_LEFT:
             case VKeysCodes.VK_UP:
-                priv.value += priv.frequency;
+                this.#value += this.#frequency;
                 break;
             case VKeysCodes.VK_RIGHT:
             case VKeysCodes.VK_DOWN:
-                priv.value -= priv.frequency;
+                this.#value -= this.#frequency;
                 break;
             case VKeysCodes.VK_HOME:
             case VKeysCodes.VK_END:
-                priv.value = 0;
+                this.#value = 0;
                 break;
             case VKeysCodes.VK_PAGEUP:
-                priv.value += priv.frequency * 5;
+                this.#value += this.#frequency * 5;
                 break;
             case VKeysCodes.VK_PAGEDOWN:
-                priv.value -= priv.frequency * 5;
+                this.#value -= this.#frequency * 5;
                 break;
         }
     }
@@ -260,21 +246,20 @@ class AngleButton extends Button {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const cssValues = core.types.CSSVALUES;
         //#endregion Variables déclaration
         if (!htmlElement.querySelector('.AngleButtonCaption')) {
-            priv.textObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}caption`);
-            priv.textObj.classList.add('AngleButtonCaption');
-            priv.textObj.jsObj = this;
-            priv.knob = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}knob`);
-            priv.knob.classList.add('AngleButtonKnob');
-            priv.knob.innerHTML = '3';
-            priv.knob.jsObj = this;
-            htmlElement.appendChild(priv.textObj);
-            htmlElement.appendChild(priv.knob);
-            priv.textObj.style.visibility = priv.showValue ? cssValues.NORMAL : cssValues.HIDDEN;
+            this.#textObj = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}caption`);
+            this.#textObj.classList.add('AngleButtonCaption');
+            this.#textObj.jsObj = this;
+            this.#knob = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}knob`);
+            this.#knob.classList.add('AngleButtonKnob');
+            this.#knob.innerHTML = '3';
+            this.#knob.jsObj = this;
+            htmlElement.appendChild(this.#textObj);
+            htmlElement.appendChild(this.#knob);
+            this.#textObj.style.visibility = this.#showValue ? cssValues.NORMAL : cssValues.HIDDEN;
         }
         htmlElement.addEventListener(core.types.HTMLEVENTS.WHEEL, event => { this.wheel(event); });
         super.loaded();

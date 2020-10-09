@@ -1,4 +1,5 @@
-﻿.MaskedTextBox {
+﻿@import url(../common/textbox.css);
+.MaskedTextBox {
     min-height: 20px;
 }
 

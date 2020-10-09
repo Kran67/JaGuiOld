@@ -1,4 +1,5 @@
-﻿.SplitButton {
+﻿@import url(../common/button.css);
+.SplitButton {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;

@@ -4,6 +4,8 @@ import { Events } from '/scripts/core/events.js';
 //#endregion Import
 //#region Class BitmapStateButton
 class BitmapStateButton extends CustomButton {
+    //#region Private fields
+    //#endregion Private fields
     //#region Constructor
     constructor(owner, props) {
         //#region Variables déclaration

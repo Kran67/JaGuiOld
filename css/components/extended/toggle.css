@@ -1,4 +1,5 @@
-﻿.Toggle {
+﻿@import url(../common/checkbox.css);
+.Toggle {
     overflow: hidden;
     white-space: nowrap;
 }

@@ -1,4 +1,5 @@
-﻿.TextBoxClearBtnButton {
+﻿@import url(textboxbtn.css);
+.TextBoxClearBtnButton {
     width: 20px;
     position: relative;
 }

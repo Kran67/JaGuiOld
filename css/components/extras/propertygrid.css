@@ -1,4 +1,10 @@
-﻿div.PropertyGridContent {
+﻿@import url(../common/textbox.css);
+@import url(../common/spinbox.css);
+@import url(../common/dropdownlistbox.css);
+@import url(../common/dropdowncalendar.css);
+@import url(../color/colorbutton.css);
+@import url(../extended/textboxbtn.css);
+div.PropertyGridContent {
     left: 0;
     top: 0;
     z-index: 1;
@@ -76,15 +82,12 @@ div.PropertyGrid > div.PropertyGridContent > div.PropertyGridRightContent > div.
 
 div.PropertyGrid.viewgutter > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem > div.sep:last-of-type {
     border-right: 1px solid #808080;
+    border-right-radius: 4px;
 }
 
 div.PropertyGrid.viewgutter > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem > div.firstChild {
     border-top: 1px solid #808080;
     border-top-right-radius: 4px;
-}
-
-div.PropertyGrid.viewgutter > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem > div.sep:last-of-type {
-    border-right-radius: 4px;
 }
 
 div.PropertyGrid.viewgutter > div.PropertyGridContent > div.PropertyGridLeftContent > div.PropertyGridItem > div.lastChild {

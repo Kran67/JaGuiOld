@@ -1,3 +1,4 @@
-﻿.dialog .Button {
+﻿@import url(../common/button.css);
+.dialog .Button {
     position: relative;
 }

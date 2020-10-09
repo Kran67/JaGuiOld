@@ -1,4 +1,5 @@
-﻿.CircularProgressBar {
+﻿@import url(../common/progressbar.css);
+.CircularProgressBar {
     border-radius: 50%;
     box-sizing: border-box;
 }

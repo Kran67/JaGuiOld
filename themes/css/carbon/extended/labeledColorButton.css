@@ -1,4 +1,6 @@
 ﻿@import url(../../../../css/components/extended/labeledcolorbutton.css);
+@import url(../common/label.css);
+@import url(../color/colorbutton.css);
 .carbon.LabeledColorButton {}
 
 .carbon.LabeledColorButton .ColorButton {}

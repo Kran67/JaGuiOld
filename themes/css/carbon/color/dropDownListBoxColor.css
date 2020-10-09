@@ -1,4 +1,5 @@
 ﻿@import url(../../../../css/components/color/dropdownlistboxcolor.css);
+@import url(../common/dropdownlistbox.css);
 .carbon.ListBoxItemColor {
     border-radius: 3px;
 }

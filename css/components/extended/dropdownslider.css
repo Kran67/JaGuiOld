@@ -1,4 +1,5 @@
-﻿.DropDownSlider {
+﻿@import url(../common/slider.css);
+.DropDownSlider {
     max-width: 50px;
     min-width: 50px;
     display: flex;

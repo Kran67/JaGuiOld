@@ -1714,7 +1714,7 @@ class BaseWindow extends ThemedControl {
         }
         jsObj.visible = !1;
         jsObj.onClose.invoke();
-        jsObj.app.lastActiveWindow.length === 0 && (core.private(jsObj).destroyOnHide = !0);
+        jsObj.app.lastActiveWindow.length === 0 && (jsObj.destroyOnHide = !0);
         jsObj.destroyOnHide && jsObj.destroy();
         //let nodes=document.querySelectorAll(".Window.isactive");
         //Css.removeClass(nodes.last(),"isactive");
@@ -1936,7 +1936,7 @@ class BaseWindow extends ThemedControl {
         const p = new core.classes.Point(mDocument.x, mDocument.y);
         const decOff = {};
         const resizeWindow = core.resizeWindow;
-        const savedSizePosState = core.private(resizeWindow).savedSizePosState;
+        const savedSizePosState = resizeWindow.savedSizePosState;
         //#endregion Variables déclaration
         if (resizeWindow && resizeWindow.isResizing) {
             decOff.x = Math.abs(savedSizePosState.x - p.x);

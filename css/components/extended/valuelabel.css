@@ -1,3 +1,4 @@
-﻿.ValueLabel {
+﻿@import url(../common/label.css);
+.ValueLabel {
     padding: 0 5px;
 }

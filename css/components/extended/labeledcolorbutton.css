@@ -1,4 +1,6 @@
-﻿.LabeledColorButton .ColorButton {
+﻿@import url(../common/label.css);
+@import url(../color/colorbutton.css);
+.LabeledColorButton .ColorButton {
     position: relative;
     flex: 1;
 }

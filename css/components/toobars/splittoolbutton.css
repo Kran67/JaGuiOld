@@ -1,4 +1,5 @@
-﻿.SplitToolButton {
+﻿@import url(../extended/splitbutton.css);
+.SplitToolButton {
     overflow: hidden;
     position: relative;
     width: 23px;

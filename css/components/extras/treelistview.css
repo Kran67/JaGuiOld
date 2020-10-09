@@ -1,1 +1,2 @@
-﻿div.TreeListView {}
+﻿@import url(../common/treeview.css);
+div.TreeListView {}

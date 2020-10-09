@@ -1,4 +1,5 @@
-﻿.PathCheckbox {
+﻿@import url(../common/checkbox.css);
+.PathCheckbox {
     box-shadow: none;
     overflow: visible;
     display: flex;

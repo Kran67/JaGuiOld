@@ -1,4 +1,5 @@
-﻿/*.FindReplaceDlg {
+﻿@import url(commondialog.css);
+/*.FindReplaceDlg {
     height: 72px;
     width: 280px;
 }

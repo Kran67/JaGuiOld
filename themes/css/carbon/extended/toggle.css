@@ -1,4 +1,5 @@
 ﻿@import url(../../../../css/components/extended/toggle.css);
+@import url(../common/checkbox.css);
 .carbon.Toggle {
     border-radius: 3px;
     border: 1px solid #222;

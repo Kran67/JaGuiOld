@@ -1,4 +1,6 @@
-﻿.SpeedButton {
+﻿@import url(button.css);
+@import url(buttonglyph.css);
+.SpeedButton {
     overflow: hidden;
     white-space: nowrap;
 }

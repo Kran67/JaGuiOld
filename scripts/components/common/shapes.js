@@ -388,7 +388,6 @@ class Path extends SVGGraphicControl {
         if (owner) {
             props.shape = SHAPES.PATH;
             super(owner, props);
-            const priv = core.private(this);
             if (this instanceof core.classes.Path) {
                 this.svgShape.setAttribute('vector-effect', 'non-scaling-stroke');
                 this.#path = new core.classes.PathData(this);

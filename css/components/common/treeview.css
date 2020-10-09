@@ -1,4 +1,5 @@
-﻿.TreeView {
+﻿@import url('checkbox.css');
+.TreeView {
     display: flex;
     flex-direction: column;
 }

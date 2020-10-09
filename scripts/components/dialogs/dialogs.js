@@ -40,22 +40,22 @@ const DIALOGS_CONSTS = Object.freeze(Object.seal({
 //#endregion Dialogs constants
 //#region MessageDlg
 class MessageDlg extends Window {
+    //#region Private fields
+    #dlgType = MESSAGETYPES.CUSTOM;
+    #dlgButtons = [MESSAGEBUTTONS.OK];
+    #dlgIcon = String.EMPTY;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            const priv = core.private(this, {
-                dlgType: MESSAGETYPES.CUSTOM,
-                dlgButtons: [MESSAGEBUTTONS.OK],
-                dlgIcon: String.EMPTY
-            });
-            props.dlgType && (priv.dlgType = props.dlgType);
-            props.dlgButtons && (priv.dlgButtons = props.dlgButtons);
+            props.dlgType && (this.#dlgType = props.dlgType);
+            props.dlgButtons && (this.#dlgButtons = props.dlgButtons);
             if (!String.isNullOrEmpty(props.dlgIcon)) {
-                priv.dlgIcon = props.dlgIcon;
-            } else if (priv.dlgType !== MESSAGETYPES.CUSTOM) {
-                priv.dlgIcon = priv.dlgType;
+                this.#dlgIcon = props.dlgIcon;
+            } else if (this.#dlgType !== MESSAGETYPES.CUSTOM) {
+                this.#dlgIcon = this.#dlgType;
             }
         }
     }
@@ -65,14 +65,11 @@ class MessageDlg extends Window {
     //#region Methods
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
         this.borderStyle = Window.BORDERSTYLES.DIALOG;
         this.Msg_gridlayout.columnGap = 0;
         this.Msg_gridlayout.rowGap = 0;
-        if (String.isNullOrEmpty(priv.dlgIcon)) {
+        if (String.isNullOrEmpty(this.#dlgIcon)) {
             this.Msg_gridlayout.templateColumns = '12px 1fr 12px';
             this.Msg_gridlayout.templateRows = '12px 1fr 5px 22px 5px';
             this.Msg.column = 2;
@@ -91,8 +88,7 @@ class MessageDlg extends Window {
     //#region resizeByContent
     resizeByContent() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const buttons = priv.dlgButtons;
+        const buttons = this.#dlgButtons;
         const msgW = this.Msg.HTMLElement.offsetWidth;
         const msgH = this.Msg.HTMLElement.offsetHeight;
         const titleH = this.titleBarSize.height;
@@ -101,12 +97,12 @@ class MessageDlg extends Window {
         let nH = titleH + 44 + Window.SIZEABLEBORDERSIZE * 2;
         let btnsWidth = 0;
         //#endregion Variables déclaration
-        if (!String.isNullOrEmpty(priv.dlgIcon)) {
+        if (!String.isNullOrEmpty(this.#dlgIcon)) {
             nH += (msgH < 32 ? 32 : msgH);
             msgIcon.visible = !0;
-            priv.dlgType == MESSAGETYPES.CUSTOM
-                ? msgIcon.load(priv.dlgIcon)
-                : msgIcon.changeCSS(priv.dlgIcon);
+            this.#dlgType == MESSAGETYPES.CUSTOM
+                ? msgIcon.load(this.#dlgIcon)
+                : msgIcon.changeCSS(this.#dlgIcon);
         } else {
             nH += msgH;
         }
@@ -126,7 +122,7 @@ class MessageDlg extends Window {
                 }
             }
         });
-        !String.isNullOrEmpty(priv.dlgIcon) && (nW += 44);
+        !String.isNullOrEmpty(this.#dlgIcon) && (nW += 44);
         nW += (btnsWidth < msgW ? msgW : btnsWidth);
         nW > document.body.offsetWidth && (nW = document.body.offsetWidth - 20);
         nH > document.body.offsetHeight && (nH = document.body.offsetHeight - 20);

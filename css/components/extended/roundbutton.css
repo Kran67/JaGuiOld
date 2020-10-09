@@ -1,4 +1,5 @@
-﻿.RoundButton {
+﻿@import url(../common/button.css);
+.RoundButton {
     overflow: hidden;
     white-space: nowrap;
 }

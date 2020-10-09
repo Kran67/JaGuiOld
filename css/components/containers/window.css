@@ -1,4 +1,5 @@
-﻿.Window {
+﻿@import url(../common/button.css);
+.Window {
     overflow: hidden;
     display: inline-block;
     transform-style: preserve-3d;
