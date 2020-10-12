@@ -5,6 +5,7 @@ import { Events } from '/scripts/core/events.js';
 //#region Class BitmapStateButton
 class BitmapStateButton extends CustomButton {
     //#region Private fields
+    #bitmapState = new Image;
     //#endregion Private fields
     //#region Constructor
     constructor(owner, props) {
@@ -16,24 +17,18 @@ class BitmapStateButton extends CustomButton {
             props.auotSize = !0;
             props.mouseEvent = { mouseenter: !0, mouseleave: !0 };
             super(owner, props);
-            const priv = core.private(this, {
-                bitmapState: new Image
-            });
-            priv.bitmapState.obj = this;
-            priv.bitmapState.src = props.hasOwnProperty('bitmap') ? props.bitmap : core.types.CONSTANTS.PIX;
-            Events.bind(priv.bitmapState, htmlEvents.LOAD, this.doBitmapLoaded);
-            Events.bind(priv.bitmapState, htmlEvents.ERROR, this.doBitmapNotLoaded);
+            this.#bitmapState.obj = this;
+            this.#bitmapState.src = props.hasOwnProperty('bitmap') ? props.bitmap : core.types.CONSTANTS.PIX;
+            Events.bind(this.#bitmapState, htmlEvents.LOAD, this.doBitmapLoaded);
+            Events.bind(this.#bitmapState, htmlEvents.ERROR, this.doBitmapNotLoaded);
         }
     }
     //#endregion
     //#region Getters / Setters
     //#region bitmap
     set bitmap(bmpSrc) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (typeof bmpSrc === core.types.CONSTANTS.STRING) {
-            priv.bitmapState.src = bmpSrc;
+            this.#bitmapState.src = bmpSrc;
             this.update();
         }
     }
@@ -88,19 +83,18 @@ class BitmapStateButton extends CustomButton {
     }
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElementStyle = this.HTMLElementStyle;
-        const imagePartSize = priv.bitmapState.naturalHeight / 3;
+        const imagePartSize = this.#bitmapState.naturalHeight / 3;
         const PX = core.types.CSSUNITS.PX;
         const isPressed = this.isPressed;
         const isMouseOver = this.isMouseOver;
         //#endregion Variables déclaration
         super.update();
         if (this.autoSize) {
-            htmlElementStyle.width = `${priv.bitmapState.naturalWidth}${PX}`;
-            htmlElementStyle.height = `${priv.bitmapState.naturalHeight / 3}${PX}`;
+            htmlElementStyle.width = `${this.#bitmapState.naturalWidth}${PX}`;
+            htmlElementStyle.height = `${this.#bitmapState.naturalHeight / 3}${PX}`;
         }
-        htmlElementStyle.backgroundImage = `url('${priv.bitmapState.src}')`;
+        htmlElementStyle.backgroundImage = `url('${this.#bitmapState.src}')`;
         if (isPressed && isMouseOver) {
             htmlElementStyle.backgroundPosition = `left ${-imagePartSize * 2}${PX}`;
         } else if (!isPressed && isMouseOver) {
@@ -111,13 +105,12 @@ class BitmapStateButton extends CustomButton {
     }
     destroy() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlEvents = core.types.HTMLEVENTS;
         //#endregion Variables déclaration
-        Events.unBind(priv.bitmapState, htmlEvents.LOAD, this.doBitmapLoaded);
-        Events.unBind(priv.bitmapState, htmlEvents.ERROR, this.doBitmapNotLoaded);
-        priv.bitmapState.obj = null;
-        priv.bitmapState = null;
+        Events.unBind(this.#bitmapState, htmlEvents.LOAD, this.doBitmapLoaded);
+        Events.unBind(this.#bitmapState, htmlEvents.ERROR, this.doBitmapNotLoaded);
+        this.#bitmapState.obj = null;
+        this.#bitmapState = null;
         super.destroy();
     }
     //#region Methods

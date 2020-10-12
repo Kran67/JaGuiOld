@@ -3,6 +3,10 @@ import { ThemedControl } from '/scripts/core/themedcontrol.js';
 //#endregion Import
 //#region Class ToolBar
 class ToolBar extends ThemedControl {
+    //#region Private fields
+    #images;
+    #showCaption;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -13,41 +17,33 @@ class ToolBar extends ThemedControl {
             props.align = core.types.ALIGNS.MOSTTOP;
             owner === owner.form.content && (owner = owner.form.layout);
             super(owner, props);
-            core.private(this, {
-                images: props.hasOwnProperty('images') && this.form.hasOwnProperty(props.images) ? this.form[props.images] : null,
-                showCaption: props.hasOwnProperty('showCaption') && core.tools.isBool(props.showCaption) ? props.showCaption : !0
-            });
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region showCaption
     get showCaption() {
-        return core.private(this).showCaption;
+        return this.#showCaption;
     }
     set showCaption(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.showCaption !== newValue) {
-            priv.showCaption = newValue;
+        if (core.tools.isBool(newValue) && this.#showCaption !== newValue) {
+            this.#showCaption = newValue;
             htmlElement.classList.remove('nocaption');
-            !priv.showCaption && htmlElement.classList.add('nocaption');
+            !this.#showCaption && htmlElement.classList.add('nocaption');
             this.updateToolButtons();
         }
     }
     //#endregion showCaption
     //#region images
     get images() {
-        return core.private(this).images;
+        return this.#images;
     }
     set images(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof core.classes.ImageList && priv.images !== newValue) {
-            priv.images = newValue;
+        if (newValue instanceof core.classes.ImageList && this.#images !== newValue) {
+            this.#images = newValue;
             this.updateToolButtons();
         }
     }
@@ -64,11 +60,8 @@ class ToolBar extends ThemedControl {
     //#endregion loaded
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.images = null;
-        priv.showCaption = null;
+        this.#images = null;
+        this.#showCaption = null;
         super.destroy();
     }
     //#endregion destroy
@@ -84,12 +77,9 @@ class ToolBar extends ThemedControl {
     //#endregion getImages
     //#region updateToolButtons
     updateToolButtons() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         this.components.forEach(comp => {
-            !comp.HTMLElementStyle && (comp.HTMLElementStyle.backgroundImage = priv.images[comp.imageIndex]);
-            comp instanceof core.classes.ToolButton && (comp.showCaption = priv.showCaption);
+            !comp.HTMLElementStyle && (comp.HTMLElementStyle.backgroundImage = this.#images[comp.imageIndex]);
+            comp instanceof core.classes.ToolButton && (comp.showCaption = this.#showCaption);
         });
     }
     //#endregion updateToolButtons

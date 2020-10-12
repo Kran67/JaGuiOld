@@ -20,14 +20,15 @@ class ToolButtonSep extends ThemedControl {
 Object.seal(ToolButtonSep);
 //#region Class ToolButton
 class ToolButton extends BitmapButton {
+    //#region Private fields
+    #imageIndex;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                imageIndex: props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1
-            });
+            this.#imageIndex = props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
         }
     }
     //#endregion constructor
@@ -42,14 +43,11 @@ class ToolButton extends BitmapButton {
     //#endregion height
     //#region imageIndex
     get imageIndex() {
-        return core.private(this).imageIndex;
+        return this.#imageIndex;
     }
     set imageIndex(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.imageIndex !== newValue) {
-            priv.imageIndex = newValue;
+        if (core.tools.isNumber(newValue) && this.#imageIndex !== newValue) {
+            this.#imageIndex = newValue;
             this.propertyChanged('imageIndex');
             this.update();
         }
@@ -59,9 +57,6 @@ class ToolButton extends BitmapButton {
     //#region Methods
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
         this.update();
     }
@@ -69,7 +64,6 @@ class ToolButton extends BitmapButton {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         let lElementChildStyle;
         const imgs = this.owner.images;
@@ -77,9 +71,9 @@ class ToolButton extends BitmapButton {
         const htmlElementStyle = this.HTMLElementStyle;
         //#endregion Variables déclaration
         super.update();
-        if (priv.imageIndex > -1 && imgs && this.images[priv.imageIndex] && htmlElement.lastElementChild) {
+        if (this.#imageIndex > -1 && imgs && this.images[this.#imageIndex] && htmlElement.lastElementChild) {
             lElementChildStyle = htmlElement.lastElementChild.style;
-            lElementChildStyle.backgroundImage = `url(${imgs.images[priv.imageIndex]})`;
+            lElementChildStyle.backgroundImage = `url(${imgs.images[this.#imageIndex]})`;
             lElementChildStyle.backgroundSize = `${imgs.width}${PX} ${imgs.height}${PX}`;
         }
         htmlElementStyle.height = 'auto';
@@ -87,10 +81,7 @@ class ToolButton extends BitmapButton {
     //#endregion update
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.action && priv.action.removeTarget(this);
+        this.action && this.action.removeTarget(this);
         super.destroy();
     }
     //#endregion destroy

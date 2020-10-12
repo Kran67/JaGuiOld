@@ -6,6 +6,11 @@ import { GridLayout } from '/scripts/components/containers/gridlayout.js';
 //#endregion Import
 //#region Class LabeledSlider
 class LabeledSlider extends LabeledControl {
+    //#region Private fields
+    #slider;
+    #layout;
+    #valueLabel;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -22,18 +27,17 @@ class LabeledSlider extends LabeledControl {
     //#region Getters / Setters
     //#region slider
     get slider() {
-        return core.private(this).slider;
+        return this.#slider;
     }
     //#endregion slider
     //#endregion Getters / Setters
     //#region Methods
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
         //#endregion Variables déclaration
         super.loaded();
-        priv.layout = core.classes.createComponent({
+        this.#layout = core.classes.createComponent({
             class: GridLayout,
             owner: this,
             props: {
@@ -44,28 +48,28 @@ class LabeledSlider extends LabeledControl {
                 rowGap: 0
             }
         });
-        priv.slider = core.classes.createComponent({
+        this.#slider = core.classes.createComponent({
             class: Slider,
-            owner: priv.layout,
+            owner: this.#layout,
             props: {
                 inForm: !1,
                 values: [props.hasOwnProperty('value') ? props.value : 0, 0],
                 margin: { left:10, right: 10 }
             }
         });
-        priv.slider.onChange.addListener(this.valueChange);
-        priv.valueLabel = core.classes.createComponent({
+        this.#slider.onChange.addListener(this.valueChange);
+        this.#valueLabel = core.classes.createComponent({
             class: ValueLabel,
-            owner: priv.layout,
+            owner: this.#layout,
             props: {
                 inForm: !1,
                 vertAlign: core.types.VERTTEXTALIGNS.MIDDLE,
                 horizAlign: core.types.TEXTALIGNS.CENTER,
-                caption: priv.slider.firstValue.toFixed(priv.slider.decimalPrecision),
+                caption: this.#slider.firstValue.toFixed(this.#slider.decimalPrecision),
                 margin: { top:3, bottom: 3 }
             }
         });
-        priv.slider.valueLabel = priv.valueLabel;
+        this.#slider.valueLabel = this.#valueLabel;
     }
     valueChange() {
         const lab = this.owner.owner;
@@ -73,12 +77,9 @@ class LabeledSlider extends LabeledControl {
         lab.onChanged.invoke();
     }
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.slider.destroy();
-        priv.valueLabel.destroy();
-        priv.layout.destroy();
+        this.#slider.destroy();
+        this.#valueLabel.destroy();
+        this.#layout.destroy();
         this.unBindAndDestroyEvents(['onChanged']);
         super.destroy();
     }

@@ -4,15 +4,15 @@ import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Import
 //#region Class PopupButton
 class PopupButton extends Button {
+    //#region Private fields
+    #arrow;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             props.textObj = null;
             super(owner, props);
-            core.private(this, {
-                //popupMenu: props.hasOwnProperty('popupMenu') ? this.form[props.popupMenu] : null
-            });
         }
     }
     //#endregion constructor
@@ -22,11 +22,8 @@ class PopupButton extends Button {
         return super.caption();
     }
     set caption(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.caption !== newValue) {
-            priv.caption = Text.replace(newValue, core.types.CONSTANTS.HOTKEYPREFIX, String.EMPTY);
+        if (core.tools.isString(newValue) && this.caption !== newValue) {
+            this.caption = Text.replace(newValue, core.types.CONSTANTS.HOTKEYPREFIX, String.EMPTY);
             this.update();
         }
     }
@@ -35,20 +32,19 @@ class PopupButton extends Button {
     //#region Methods
     //#region click
     click() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         this.onClick.invoke();
-        if (priv.popupMenu && priv.popupMenu instanceof core.classes.PopupMenu) {
+        if (this.popupMenu && this.popupMenu instanceof core.classes.PopupMenu) {
             const pt = this.clientToDocument();
-            priv.popupMenu.control = this;
-            priv.popupMenu.show(pt.x, pt.y + this.HTMLElement.offsetHeight);
+            this.popupMenu.control = this;
+            this.popupMenu.show(pt.x, pt.y + this.HTMLElement.offsetHeight);
         }
     }
     //#endregion click
     //#region keyDown
     keyDown() {
+        //#region Variables déclaration
         const form = this.form;
+        //#endregion Variables déclaration
         super.keyDown();
         switch (core.keyboard.key) {
             case Keyboard.VKEYSCODES.VK_LEFT:
@@ -76,23 +72,17 @@ class PopupButton extends Button {
     //#endregion keyUp
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.popupMenu = null;
+        this.popupMenu = null;
         super.destroy();
     }
     //#endregion destroy
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
-        priv.arrow = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}arrow`);
-        priv.arrow.classList.add('PopupButtonArrow');
-        priv.arrow.innerHTML = '8';
-        this.HTMLElement.appendChild(priv.arrow);
+        this.#arrow = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}arrow`);
+        this.#arrow.classList.add('PopupButtonArrow');
+        this.#arrow.innerHTML = '8';
+        this.HTMLElement.appendChild(this.#arrow);
     }
     //#endregion
     //#endregion Methods

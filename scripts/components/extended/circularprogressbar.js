@@ -3,6 +3,12 @@ import { ThemedControl } from '/scripts/core/themedcontrol.js';
 //#endregion Import
 //#region Class CircularProgressBar
 class CircularProgressBar extends ThemedControl {
+    //#region Private fields
+    #value;
+    #svg;
+    #backCircle;
+    #progress;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -10,9 +16,7 @@ class CircularProgressBar extends ThemedControl {
             props.hitTest = { mouseDown: !1, mouseUp: !1 };
             props.allowUpdateOnResize = !0;
             super(owner, props);
-            core.private(this, {
-                value : props.hasOwnProperty('value') ? props.value : 0
-            });
+            this.#value = props.hasOwnProperty('value') ? props.value : 0;
             delete this.tabOrder;
         }
     }
@@ -20,14 +24,11 @@ class CircularProgressBar extends ThemedControl {
     //#region Getters / Setters
     //#region value
     get value() {
-        return core.private(this).value;
+        return this.#value;
     }
     set value(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue !== priv.value) {
-            priv.value = Math.max(Math.min(newValue, 100), 0);
+        if (core.tools.isNumber(newValue) && newValue !== this.#value) {
+            this.#value = Math.max(Math.min(newValue, 100), 0);
             if (!core.isHTMLRenderer) {
                 const lastRect = this.screenRect();
                 this.allowUpdate && this.update();
@@ -73,12 +74,11 @@ class CircularProgressBar extends ThemedControl {
     //#region update
     update(source) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        if (priv.svg) {
-            priv.backCircle.setAttribute('r', int(htmlElement.offsetWidth / 2) - 5);
-            priv.progress.setAttribute('r', int(htmlElement.offsetWidth / 2) - 5);
+        if (this.#svg) {
+            this.#backCircle.setAttribute('r', int(htmlElement.offsetWidth / 2) - 5);
+            this.#progress.setAttribute('r', int(htmlElement.offsetWidth / 2) - 5);
             this.calcProgress();
         }
     }
@@ -86,54 +86,49 @@ class CircularProgressBar extends ThemedControl {
     //#region calcProgress
     calcProgress() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const r = int(priv.progress.getAttribute('r'));
+        const r = int(this.#progress.getAttribute('r'));
         const c = Math.PI * (r * 2);
-        const pct = (100 - priv.value) / 100 * c;
+        const pct = (100 - this.#value) / 100 * c;
         //#endregion Variables déclaration
-        priv.progress.setAttribute('stroke-dasharray', c);
-        priv.progress.style.strokeDashoffset = pct;
-        this.HTMLElement.dataset.value = priv.value;
+        this.#progress.setAttribute('stroke-dasharray', c);
+        this.#progress.style.strokeDashoffset = pct;
+        this.HTMLElement.dataset.value = this.#value;
     }
     //#endregion calcProgress
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.svg = null;
-        priv.backCircle = null;
-        priv.progress = null;
-        priv.value = null;
+        this.#svg = null;
+        this.#backCircle = null;
+        this.#progress = null;
+        this.#value = null;
         super.destroy();
     }
     //#endregion destroy
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const SVG = core.types.SVG.SVG;
         const XMLNS = core.types.SVG.XMLNS;
         //#endregion Variables déclaration
         super.loaded();
         if (!htmlElement.querySelector(SVG)) {
-            priv.svg = document.createElementNS(XMLNS, SVG);
-            priv.svg.jsObj = this;
-            priv.backCircle = document.createElementNS(XMLNS, 'circle');
-            priv.backCircle.classList.add('Control', 'CircularProgressBar_back');
-            priv.backCircle.setAttribute('cx', '50%');
-            priv.backCircle.setAttribute('cy', '50%');
-            priv.backCircle.setAttribute('r', '20');
-            priv.progress = document.createElementNS(XMLNS, 'circle');
-            priv.progress.classList.add('Control', 'CircularProgressBar_progress');
-            priv.progress.setAttribute('cx', '50%');
-            priv.progress.setAttribute('cy', '50%');
-            priv.progress.setAttribute('r', '20');
-            priv.progress.setAttribute('stroke-linecap', 'round');
-            priv.svg.appendChild(priv.backCircle);
-            priv.svg.appendChild(priv.progress);
-            htmlElement.appendChild(priv.svg);
+            this.#svg = document.createElementNS(XMLNS, SVG);
+            this.#svg.jsObj = this;
+            this.#backCircle = document.createElementNS(XMLNS, 'circle');
+            this.#backCircle.classList.add('Control', 'CircularProgressBar_back');
+            this.#backCircle.setAttribute('cx', '50%');
+            this.#backCircle.setAttribute('cy', '50%');
+            this.#backCircle.setAttribute('r', '20');
+            this.#progress = document.createElementNS(XMLNS, 'circle');
+            this.#progress.classList.add('Control', 'CircularProgressBar_progress');
+            this.#progress.setAttribute('cx', '50%');
+            this.#progress.setAttribute('cy', '50%');
+            this.#progress.setAttribute('r', '20');
+            this.#progress.setAttribute('stroke-linecap', 'round');
+            this.#svg.appendChild(this.#backCircle);
+            this.#svg.appendChild(this.#progress);
+            htmlElement.appendChild(this.#svg);
         }
         super.loaded();
         this.calcProgress();

@@ -4,21 +4,21 @@ import { ColorButton } from '/scripts/components/color/colorbutton.js';
 //#endregion Import
 //#region Class LabeledColorButton
 class LabeledColorButton extends LabeledControl {
+    //#region Private fields
+    #colorButton;
+    //#endregion Private fields
     //#region Getters / Setters
     //#region colorButton
     get colorButton() {
-        return core.private(this).colorButton;
+        return this.#colorButton;
     }
     //#endregion colorButton
     //#endregion Getters / Setters
     //#region Methods
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
-        priv.colorButton = core.classes.createComponent({
+        this.#colorButton = core.classes.createComponent({
             class: ColorButton,
             owner: this,
             props: {
@@ -30,10 +30,7 @@ class LabeledColorButton extends LabeledControl {
     //#endregion loaded
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.colorButton.destroy();
+        this.#colorButton.destroy();
         super.destroy();
     }
     //#endregion destroy

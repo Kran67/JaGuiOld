@@ -4,21 +4,21 @@ import { TextBox } from '/scripts/components/common/textbox.js';
 //#endregion Import
 //#region Class LabeledTextBox
 class LabeledTextBox extends LabeledControl {
+    //#region Private fields
+    #textBox;
+    //#endregion Private fields
     //#region Getters / Setters
     //#region textBox
     get textBox() {
-        return core.private(this).textBox;
+        return this.#textBox;
     }
     //#endregion textBox
     //#endregion Getters / Setters
     //#region Methods
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
-        priv.textBox = core.classes.createComponent({
+        this.#textBox = core.classes.createComponent({
             class: TextBox,
             owner: this,
             props: {
@@ -30,10 +30,7 @@ class LabeledTextBox extends LabeledControl {
     //#endregion loaded
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.textBox.destroy();
+        this.#textBox.destroy();
         super.destroy();
     }
     //#endregion destroy

@@ -4,21 +4,21 @@ import { Memo } from '/scripts/components/common/memo.js';
 //#endregion Import
 //#region Class LabeledMemo
 class LabeledMemo extends LabeledControl {
+    //#region Private fields
+    #memo;
+    //#endregion Private fields
     //#region Getters / Setters
     //#region memo
     get memo() {
-        return core.private(this).memo;
+        return this.#memo;
     }
     //#endregion memo
     //#endregion Getters / Setters
     //#region Methods
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
-        priv.memo = core.classes.createComponent({
+        this.#memo = core.classes.createComponent({
             class: Memo,
             owner: this,
             props: {
@@ -30,10 +30,7 @@ class LabeledMemo extends LabeledControl {
     //#endregion loaded
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.memo.destroy();
+        this.#memo.destroy();
         super.destroy();
     }
     //#endregion destroy

@@ -6,6 +6,11 @@ import { GridLayout } from '/scripts/components/containers/gridlayout.js';
 //#endregion Import
 //#region Class CustomButton
 class LabeledAngleBar extends LabeledControl {
+    //#region Private fields
+    #angleButton;
+    #layout;
+    #valueLabel;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -18,18 +23,17 @@ class LabeledAngleBar extends LabeledControl {
     //#region Getters / Setters
     //#region angleButton
     get angleButton() {
-        return core.private(this).angleButton;
+        return this.#angleButton;
     }
     //#endregion angleButton
     //#endregion Getters / Setters
     //#region Methods
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
         //#endregion Variables déclaration
         super.loaded();
-        priv.layout = core.classes.createComponent({
+        this.#layout = core.classes.createComponent({
             class: GridLayout,
             owner: this,
             props: {
@@ -40,9 +44,9 @@ class LabeledAngleBar extends LabeledControl {
                 rowGap: 0
             }
         });
-        priv.angleButton = core.classes.createComponent({
+        this.#angleButton = core.classes.createComponent({
             class: AngleButton,
-            owner: priv.layout,
+            owner: this.#layout,
             props: {
                 inForm: !1,
                 height: this.height,
@@ -50,32 +54,31 @@ class LabeledAngleBar extends LabeledControl {
                 value: props.hasOwnProperty('value') ? props.value : 0
             }
         });
-        priv.angleButton.onChanged.addListener(this.valueChanged);
-        priv.valueLabel = core.classes.createComponent({
+        this.#angleButton.onChanged.addListener(this.valueChanged);
+        this.#valueLabel = core.classes.createComponent({
             class: ValueLabel,
-            owner: priv.layout,
+            owner: this.#layout,
             props: {
                 inForm: !1,
                 vertAlign: core.types.VERTTEXTALIGNS.MIDDLE,
                 horizAlign: core.types.TEXTALIGNS.CENTER,
-                caption: `${priv.angleButton.value}°`,
+                caption: `${this.#angleButton.value}°`,
                 margin: { top:3, bottom: 3 }
             }
         });
-        priv.angleButton.valueLabel = priv.valueLabel;
+        this.#angleButton.valueLabel = this.#valueLabel;
     }
     valueChanged() {
+        //#region Variables déclaration
         const lab = this.owner.owner;
+        //#endregion Variables déclaration
         this.valueLabel.caption = `${this.value}°`;
         lab.onChanged.invoke();
     }
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.angleButton.destroy();
-        priv.valueLabel.destroy();
-        priv.layout.destroy();
+        this.#angleButton.destroy();
+        this.#valueLabel.destroy();
+        this.#layout.destroy();
         this.unBindAndDestroyEvents(['onChanged']);
         super.destroy();
     }

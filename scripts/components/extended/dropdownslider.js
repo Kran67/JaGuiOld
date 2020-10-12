@@ -32,6 +32,9 @@ class SliderPopup extends Slider {
 //#endregion SliderPopup
 //#region Class DropDownSliderPopup
 class DropDownSliderPopup extends PopupBox {
+    //#region Private fields
+    #slider;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -45,27 +48,21 @@ class DropDownSliderPopup extends PopupBox {
     //#region Getters / Setters
     //#region Slider
     get slider() {
-        return core.private(this).slider;
+        return this.#slider;
     }
     //#endregion Slider
     //#endregion Getters / Setters
     //#region Methods
     //#region show
     show(x, y) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.show(x, y);
-        !priv.slider.HTMLElement && priv.slider.getHTMLElement(priv.slider.internalId);
+        !this.#slider.HTMLElement && this.#slider.getHTMLElement(this.#slider.internalId);
     }
     //#endregion show
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
-        priv.slider = core.classes.createComponent({
+        this.#slider = core.classes.createComponent({
             class: SliderPopup,
             owner: this,
             props: {
@@ -74,17 +71,16 @@ class DropDownSliderPopup extends PopupBox {
                 values: [this.refControl.value, 0]
             }
         });
-        priv.slider.dropDownSlider = this.owner;
+        this.#slider.dropDownSlider = this.owner;
     }
     //#endregion loaded
     //#region destroy
     destroy() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         htmlElement && htmlElement.classList.remove('animated', 'fadeIn');
-        priv.slider.destroy();
+        this.#slider.destroy();
         super.destroy();
     }
     //#endregion destroy
@@ -94,6 +90,14 @@ Object.seal(DropDownSliderPopup);
 //#endregion DropDownSliderPopup
 //#region Class DropDownSlider
 class DropDownSlider extends ThemedControl {
+    //#region Private fields
+    #content = null;
+    #dropDownPopup = null;
+    #opened;
+    #value;
+    #min = 0;
+    #max = 100;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -102,14 +106,8 @@ class DropDownSlider extends ThemedControl {
             props.canFocused = !0;
             props.autoCapture = !0;
             super(owner, props);
-            core.private(this, {
-                content: null,
-                dropDownPopup: null,
-                opened: props.hasOwnProperty('opened') && core.tools.isBool(props.opened) ? props.opened : !1,
-                value: props.hasOwnProperty('value') && core.tools.isNumber(props.value) ? props.value : 0,
-                min: 0,
-                max: 100
-            });
+            this.#opened = props.hasOwnProperty('opened') && core.tools.isBool(props.opened) ? props.opened : !1;
+            this.#value = props.hasOwnProperty('value') && core.tools.isNumber(props.value) ? props.value : 0;
             this.createEventsAndBind(['onChange'], props);
         }
     }
@@ -117,68 +115,55 @@ class DropDownSlider extends ThemedControl {
     //#region Getters / Setters
     //#region dropDownPopup
     get dropDownPopup() {
-        return core.private(this).dropDownPopup;
+        return this.#dropDownPopup;
     }
     //#endregion dropDownPopup
     //#region opened
     get opened() {
-        return core.private(this).opened;
+        return this.#opened;
     }
     set opened(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isBool(newValue) && priv.opened !== newValue) {
-            priv.opened = newValue;
+        if (core.tools.isBool(newValue) && this.#opened !== newValue) {
+            this.#opened = newValue;
             this.update();
-            priv.opened ? this.showPopup() : this.form.closePopups();
+            this.#opened ? this.showPopup() : this.form.closePopups();
         }
     }
     //#endregion opened
     //#region value
     get value() {
-        return core.private(this).value;
+        return this.#value;
     }
     set value(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.value !== newValue) {
-            priv.value = newValue;
+        if (core.tools.isNumber(newValue) && this.#value !== newValue) {
+            this.#value = newValue;
             this.update();
         }
     }
     //#endregion value
     //#region min
     get min() {
-        return core.private(this).min;
+        return this.#min;
     }
     set min(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv.min !== newValue && (priv.min = newValue);
+        core.tools.isNumber(newValue) && this.#min !== newValue && (this.#min = newValue);
     }
     //#endregion min
     //#region max
     get max() {
-        return core.private(this).max;
+        return this.#max;
     }
     set max(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv.max !== newValue && (priv.max = newValue);
+        core.tools.isNumber(newValue) && this.#max !== newValue && (this.#max = newValue);
     }
     //#endregion max
     //#region template
     get template() {
         //#region Variables déclaration
-        const priv = core.private(this);
         let html = super.template();
         let a = html.split('{value}');
         //#endregion Variables déclaration
-        html = a.join(priv.value.toString());
+        html = a.join(this.#value.toString());
         return html;
     }
     //#endregion template
@@ -187,18 +172,16 @@ class DropDownSlider extends ThemedControl {
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
-        priv.opened ? htmlElement.classList.add('opened') : htmlElement.classList.remove('opened');
-        priv.content && (priv.content.innerHTML = priv.value);
+        this.#opened ? htmlElement.classList.add('opened') : htmlElement.classList.remove('opened');
+        this.#content && (this.#content.innerHTML = this.#value);
     }
     //#endregion update
     //#region mouseDown
     mouseDown() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const lastOpened = priv.opened;
+        const lastOpened = this.#opened;
         //#endregion Variables déclaration
         this === this.form.focusedControl && lastOpened && (this.closePopups = !1);
         super.mouseDown();
@@ -209,11 +192,10 @@ class DropDownSlider extends ThemedControl {
     //#region showPopup
     showPopup() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const pt = this.clientToDocument();
         //#endregion Variables déclaration
-        if (!priv.dropDownPopup) {
-            priv.dropDownPopup = core.classes.createComponent({
+        if (!this.#dropDownPopup) {
+            this.#dropDownPopup = core.classes.createComponent({
                 class: DropDownSliderPopup,
                 owner: this,
                 props: {
@@ -223,51 +205,44 @@ class DropDownSlider extends ThemedControl {
                     height: 24
                 }
             });
-            priv.dropDownPopup.slider.value = priv.value;
-            priv.dropDownPopup.HTMLElement.classList.remove('hidden');
-            priv.dropDownPopup.show(pt.x, pt.y + this.HTMLElement.offsetHeight);
-            priv.dropDownPopup.HTMLElement.classList.add('animated', 'fadeIn');
+            this.#dropDownPopup.slider.value = this.#value;
+            this.#dropDownPopup.HTMLElement.classList.remove('hidden');
+            this.#dropDownPopup.show(pt.x, pt.y + this.HTMLElement.offsetHeight);
+            this.#dropDownPopup.HTMLElement.classList.add('animated', 'fadeIn');
         }
     }
     //#endregion showPopup
     //#region destroyPopup
     destroyPopup() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.dropDownPopup.destroy();
-        priv.dropDownPopup = null;
-        priv.opened = !1;
+        this.#dropDownPopup.destroy();
+        this.#dropDownPopup = null;
+        this.#opened = !1;
     }
     //#endregion destroyPopup
     //#region keyDown
     keyDown() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.keyDown();
         if (core.keyboard.key === Keyboard.VKEYSCODES.VK_SPACE) {
-            !priv.opened ? this.opened = !0 : priv.dropDownPopup && priv.dropDownPopup.slider.keyDown();
-        } else if (priv.dropDownPopup) {
-            priv.dropDownPopup.slider.keyDown();
+            !this.#opened ? this.opened = !0 : this.#dropDownPopup && this.#dropDownPopup.slider.keyDown();
+        } else if (this.#dropDownPopup) {
+            this.#dropDownPopup.slider.keyDown();
         }
     }
     //#endregion keyDown
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const TAG = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         super.loaded();
-        priv.content = document.createElement(`${TAG}caption`);
-        priv.content.classList.add('DropDownSliderCaption');
-        priv.content.jsObj = this;
-        htmlElement.appendChild(priv.content);
+        this.#content = document.createElement(`${TAG}caption`);
+        this.#content.classList.add('DropDownSliderCaption');
+        this.#content.jsObj = this;
+        htmlElement.appendChild(this.#content);
         htmlElement.appendChild(document.createElement(`${TAG}arrow`));
         htmlElement.lastElementChild.classList.add('DropDownListBoxArrow');
-        priv.content.innerHTML = priv.value.toFixed(this.decimalPrecision);
+        this.#content.innerHTML = this.#value.toFixed(this.decimalPrecision);
     }
     //#endregion loaded
     //#region destroy

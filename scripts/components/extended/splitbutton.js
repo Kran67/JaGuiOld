@@ -5,6 +5,13 @@ import '/scripts/components/extended/popupbutton.js';
 //#endregion Import
 //#region Class CustomButton
 class SplitButton extends ThemedControl {
+    //#region Private fields
+    #caption;
+    #action = null;
+    #popupMenu;
+    #btn;
+    #popupBtn;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         //#region Variables déclaration
@@ -12,69 +19,57 @@ class SplitButton extends ThemedControl {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                caption: props.hasOwnProperty('caption') ? props.caption : this.name,
-                action: null//,
-                //popupMenu: props.hasOwnProperty('popupMenu') && this.form[props.popupMenu] ? this.form[props.popupMenu] : null
-            });
+            this.#caption = props.hasOwnProperty('caption') ? props.caption : this.name;
+            //this.#popupMenu = props.hasOwnProperty('popupMenu') && this.form[props.popupMenu] ? this.form[props.popupMenu] : null;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region caption
     get caption() {
-        return core.private(this).btn.caption;
+        return this.#btn.caption;
     }
     set caption(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isString(newValue) && (priv.btn.caption = newValue);
+        core.tools.isString(newValue) && (this.#btn.caption = newValue);
     }
     //#endregion caption
     //#region action
     get action() {
-        return core.private(this).action;
+        return this.#action;
     }
     set action(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof core.classes.Action && priv.action !== newValue) {
-            priv.action.unRegisterChanges(this);
-            priv.action = newValue;
-            priv.action.registerChanges(this);
-            priv.action.updateTarget(this);
+        if (newValue instanceof core.classes.Action && this.#action !== newValue) {
+            this.#action.unRegisterChanges(this);
+            this.#action = newValue;
+            this.#action.registerChanges(this);
+            this.#action.updateTarget(this);
         }
     }
     //#endregion action
     //#region btn
     get btn() {
-        return core.private(this).btn;
+        return this.#btn;
     }
     //#endregion btn
     //#region popupMenu
     //get popupMenu() {
-    //    return core.private(this).popupMenu;
+    //    return this.#popupMenu;
     //}
     //set popupMenu(newValue) {
     //    //#region Variables déclaration
     //    const priv = core.private(this);
     //    //#endregion Variables déclaration
-    //    newValue instanceof core.classes.Menu && priv.popupMenu !== newValue && (priv.popupMenu = newValue);
+    //    newValue instanceof core.classes.Menu && this.#popupMenu !== newValue && (this.#popupMenu = newValue);
     //}
     //#endregion popupMenu
     //#region getTemplate
     get template() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         let html = super.template;
         let a = html.split('{bitmapButton}');
-        let tpl = priv.btn.getTemplate();
+        let tpl = this.#btn.getTemplate();
         html = a.join(tpl);
         a = html.split('{popupButton}');
-        tpl = priv.popupBtn.getTemplate();
+        tpl = this.#popupBtn.getTemplate();
         html = a.join(tpl);
         return html;
     }
@@ -83,46 +78,37 @@ class SplitButton extends ThemedControl {
     //#region Methods
     //#region clickPopup
     clickPopup() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (priv.popupMenu && core.classes.PopupMenu && priv.popupMenu instanceof core.classes.PopupMenu) {
+        if (this.#popupMenu && core.classes.PopupMenu && this.#popupMenu instanceof core.classes.PopupMenu) {
             const pt = this.owner.clientToDocument();
-            priv.popupMenu.control = this.owner;
-            priv.popupMenu.show(pt.x, pt.y + this.owner.HTMLElement.offsetHeight);
+            this.#popupMenu.control = this.owner;
+            this.#popupMenu.show(pt.x, pt.y + this.owner.HTMLElement.offsetHeight);
         }
     }
     //#endregion clickPopup
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.btn.destroy();
-        priv.popupBtn.destroy();
-        priv.action && priv.action.removeTarget(this);
+        this.#btn.destroy();
+        this.#popupBtn.destroy();
+        this.#action && this.#action.removeTarget(this);
         super.destroy();
     }
     //#endregion destroy
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
         if (core.isHTMLRenderer) {
-            priv.btn = core.classes.createComponent({
+            this.#btn = core.classes.createComponent({
                 class: core.classes.BitmapButton,
                 owner: this,
                 props: {
                     inForm: !1,
-                    caption: priv.caption,
+                    caption: this.#caption,
                     width: -1,
                     height: -1,
                     canFocused: !1
                 }
             });
-            priv.popupBtn = core.classes.createComponent({
+            this.#popupBtn = core.classes.createComponent({
                 class: core.classes.PopupButton,
                 owner: this,
                 props: {
@@ -133,12 +119,12 @@ class SplitButton extends ThemedControl {
                     canFocused: !1
                 }
             });
-            priv.popupBtn.click = this.clickPopup;
-            core.classes.PopupMenu && priv.popupMenu instanceof core.classes.PopupMenu
-                && (priv.popupBtn.popupMenu = priv.popupMenu);
-            priv.btn.glyphSize = 0;
-            priv.btn.resize();
-            priv.popupBtn.resize();
+            this.#popupBtn.click = this.clickPopup;
+            core.classes.PopupMenu && this.#popupMenu instanceof core.classes.PopupMenu
+                && (this.#popupBtn.popupMenu = this.#popupMenu);
+            this.#btn.glyphSize = 0;
+            this.#btn.resize();
+            this.#popupBtn.resize();
         }
     }
     //#endregion loaded

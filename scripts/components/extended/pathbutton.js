@@ -6,6 +6,16 @@ import { Rect } from '/scripts/core/geometry.js';
 //#endregion Import
 //#region PathButton
 class PathButton extends ButtonGlyph {
+    //#region Private fields
+    #path;
+    #glyphNormalStrokeColor;
+    #glyphNormalFillColor;
+    #glyphHoveredStrokeColor;
+    #glyphHoveredFillColor;
+    #glyphPressedStrokeColor;
+    #glyphPressedFillColor;
+    #ctx = null;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -13,42 +23,36 @@ class PathButton extends ButtonGlyph {
             props.glyphHTMLElement = core.types.HTMLELEMENTS.CANVAS;
             props.canFocused = !0;
             super(owner, props);
-            const priv = core.private(this, {
-                path: new PathData(this),
-                glyphNormalStrokeColor: props.hasOwnProperty('glyphNormalStrokeColor')
-                    ? Color.parse(props.glyphNormalStrokeColor) : new Color(Colors.BLACK),
-                glyphNormalFillColor: props.hasOwnProperty('glyphNormalFillColor')
-                    ? Color.parse(props.glyphNormalFillColor) : new Color(Colors.WHITE),
-                glyphHoveredStrokeColor: props.hasOwnProperty('glyphHoveredStrokeColor')
-                    ? Color.parse(props.glyphHoveredStrokeColor) : new Color(Colors.BLACK),
-                glyphHoveredFillColor: props.hasOwnProperty('glyphHoveredFillColor')
-                    ? Color.parse(props.glyphHoveredFillColor) : new Color(Colors.WHITE),
-                glyphPressedStrokeColor: props.hasOwnProperty('glyphPressedStrokeColor')
-                    ? Color.parse(props.glyphPressedStrokeColor) : new Color(Colors.BLACK),
-                glyphPressedFillColor: props.hasOwnProperty('glyphPressedFillColor')
-                    ? Color.parse(props.glyphPressedFillColor) : new Color(Colors.WHITE),
-                ctx: null
-            });
-            props.hasOwnProperty('path') && (priv.path.pathString = atob(props.path));
+            this.#path = new PathData(this);
+            this.#glyphNormalStrokeColor = props.hasOwnProperty('glyphNormalStrokeColor')
+                ? Color.parse(props.glyphNormalStrokeColor) : new Color(Colors.BLACK);
+            this.#glyphNormalFillColor = props.hasOwnProperty('glyphNormalFillColor')
+                ? Color.parse(props.glyphNormalFillColor) : new Color(Colors.WHITE);
+            this.#glyphHoveredStrokeColor = props.hasOwnProperty('glyphHoveredStrokeColor')
+                ? Color.parse(props.glyphHoveredStrokeColor) : new Color(Colors.BLACK);
+            this.#glyphHoveredFillColor = props.hasOwnProperty('glyphHoveredFillColor')
+                ? Color.parse(props.glyphHoveredFillColor) : new Color(Colors.WHITE);
+            this.#glyphPressedStrokeColor = props.hasOwnProperty('glyphPressedStrokeColor')
+                ? Color.parse(props.glyphPressedStrokeColor) : new Color(Colors.BLACK);
+            this.#glyphPressedFillColor = props.hasOwnProperty('glyphPressedFillColor')
+                ? Color.parse(props.glyphPressedFillColor) : new Color(Colors.WHITE);
+            props.hasOwnProperty('path') && (this.#path.pathString = atob(props.path));
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region Path
     get path() {
-        return core.private(this).path;
+        return this.#path;
     }
     //#endregion Path
     //#region glyphPressedFillColor
     get glyphPressedFillColor() {
-        return core.private(this).glyphPressedFillColor;
+        return this.#glyphPressedFillColor;
     }
     set glyphPressedFillColor(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof Color && priv.glyphPressedFillColor !== newValue) {
-            priv.glyphPressedFillColor.assign(newValue);
+        if (newValue instanceof Color && this.#glyphPressedFillColor !== newValue) {
+            this.#glyphPressedFillColor.assign(newValue);
             if (core.isHTMLRenderer) {
                 this.update();
                 this.paint();
@@ -58,14 +62,11 @@ class PathButton extends ButtonGlyph {
     //#endregion glyphPressedFillColor
     //#region glyphNormalStrokeColor
     get glyphNormalStrokeColor() {
-        return core.private(this).glyphNormalStrokeColor;
+        return this.#glyphNormalStrokeColor;
     }
     set glyphNormalStrokeColor(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof Color && priv.glyphNormalStrokeColor !== newValue) {
-            priv.glyphNormalStrokeColor.assign(newValue);
+        if (newValue instanceof Color && this.#glyphNormalStrokeColor !== newValue) {
+            this.#glyphNormalStrokeColor.assign(newValue);
             if (core.isHTMLRenderer) {
                 this.update();
                 this.paint();
@@ -75,14 +76,11 @@ class PathButton extends ButtonGlyph {
     //#endregion glyphNormalStrokeColor
     //#region glyphHoveredStrokeColor
     get glyphHoveredStrokeColor() {
-        return core.private(this).glyphHoveredStrokeColor;
+        return this.#glyphHoveredStrokeColor;
     }
     set glyphHoveredStrokeColor(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof Color && priv.glyphHoveredStrokeColor !== newValue) {
-            priv.glyphHoveredStrokeColor.assign(newValue);
+        if (newValue instanceof Color && this.#glyphHoveredStrokeColor !== newValue) {
+            this.#glyphHoveredStrokeColor.assign(newValue);
             if (core.isHTMLRenderer) {
                 this.update();
                 this.paint();
@@ -92,14 +90,11 @@ class PathButton extends ButtonGlyph {
     //#endregion glyphHoveredStrokeColor
     //#region glyphHoveredFillColor
     get glyphHoveredStrokeColor() {
-        return core.private(this).glyphHoveredFillColor;
+        return this.#glyphHoveredFillColor;
     }
     set glyphHoveredFillColor(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof Color && priv.glyphHoveredFillColor !== newValue) {
-            priv.glyphHoveredFillColor.assign(newValue);
+        if (newValue instanceof Color && this.#glyphHoveredFillColor !== newValue) {
+            this.#glyphHoveredFillColor.assign(newValue);
             if (core.isHTMLRenderer) {
                 this.update();
                 this.paint();
@@ -109,14 +104,11 @@ class PathButton extends ButtonGlyph {
     //#endregion glyphHoveredFillColor
     //#region glyphPressedStrokeColor
     get glyphHoveredStrokeColor() {
-        return core.private(this).glyphPressedStrokeColor;
+        return this.#glyphPressedStrokeColor;
     }
     set glyphPressedStrokeColor(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (newValue instanceof Color && priv.glyphPressedStrokeColor !== newValue) {
-            priv.glyphPressedStrokeColor.assign(newValue);
+        if (newValue instanceof Color && this.#glyphPressedStrokeColor !== newValue) {
+            this.#glyphPressedStrokeColor.assign(newValue);
             if (core.isHTMLRenderer) {
                 this.update();
                 this.paint();
@@ -137,43 +129,41 @@ class PathButton extends ButtonGlyph {
     //#region paint
     paint() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const glyph = this.glyph;
         const isPressed = this.isPressed;
         //#endregion Variables déclaration
-        if (htmlElement.offsetWidth > 0 && htmlElement.offsetHeight > 0 && glyph && priv.ctx) {
-            !priv.path.isEmpty
+        if (htmlElement.offsetWidth > 0 && htmlElement.offsetHeight > 0 && glyph && this.#ctx) {
+            !this.#path.isEmpty
                 ? glyph.classList.remove('hidden')
                 : glyph.classList.add('hidden');
-            priv.ctx.save();
-            priv.ctx.clear();
+            this.#ctx.save();
+            this.#ctx.clear();
             if (this.isMouseOver && !isPressed) {
-                priv.ctx.strokeStyle = priv.glyphHoveredStrokeColor.toRGBAString();
-                priv.ctx.fillStyle = priv.glyphHoveredFillColor.toRGBAString();
+                this.#ctx.strokeStyle = this.#glyphHoveredStrokeColor.toRGBAString();
+                this.#ctx.fillStyle = this.#glyphHoveredFillColor.toRGBAString();
             } else if (isPressed) {
-                priv.ctx.strokeStyle = priv.glyphPressedStrokeColor.toRGBAString();
-                priv.ctx.fillStyle = priv.glyphPressedFillColor.toRGBAString();
+                this.#ctx.strokeStyle = this.#glyphPressedStrokeColor.toRGBAString();
+                this.#ctx.fillStyle = this.#glyphPressedFillColor.toRGBAString();
             } else {
-                priv.ctx.strokeStyle = priv.glyphNormalStrokeColor.toRGBAString();
-                priv.ctx.fillStyle = priv.glyphNormalFillColor.toRGBAString();
+                this.#ctx.strokeStyle = this.#glyphNormalStrokeColor.toRGBAString();
+                this.#ctx.fillStyle = this.#glyphNormalFillColor.toRGBAString();
             }
-            priv.ctx.drawPath(this, priv.path, !1);
-            priv.ctx.restore();
+            this.#ctx.drawPath(this, this.#path, !1);
+            this.#ctx.restore();
         }
     }
     //#endregion paint
     //#region updateCanvas
     updateCanvas() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const glyph = this.glyph;
         const glyphSize = this.glyphSize;
         const PX = core.types.CSSUNITS.PX;
         //#endregion Variables déclaration
         if (glyph) {
             const clientRect = new Rect(0, 0, glyphSize, glyphSize);
-            const p = priv.path;
+            const p = this.#path;
             if (!p.isEmpty) {
                 const b = p.originalBounds;
                 p.resizeToRect(b);
@@ -214,26 +204,20 @@ class PathButton extends ButtonGlyph {
     //#endregion mouseLeave
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.path.destroy();
-        priv.glyphNormalStrokeColor.destroy();
-        priv.glyphNormalFillColor.destroy();
-        priv.glyphHoveredStrokeColor.destroy();
-        priv.glyphHoveredFillColor.destroy();
-        priv.glyphPressedStrokeColor.destroy();
-        priv.glyphPressedFillColor.destroy();
+        this.#path.destroy();
+        this.#glyphNormalStrokeColor.destroy();
+        this.#glyphNormalFillColor.destroy();
+        this.#glyphHoveredStrokeColor.destroy();
+        this.#glyphHoveredFillColor.destroy();
+        this.#glyphPressedStrokeColor.destroy();
+        this.#glyphPressedFillColor.destroy();
         super.destroy();
     }
     //#endregion destroy
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
-        priv.ctx = this.glyph.getContext('2d');
+        this.#ctx = this.glyph.getContext('2d');
         this.paint();
     }
     //#endregion loaded

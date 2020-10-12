@@ -236,7 +236,7 @@ class FontDlg extends Window {
     //#endregion updateFromObject
     //#region close
     close() {
-        this.modalResult === Window.MODALRESULTS.OK && this.updateControl(core.private(this).control);
+        this.modalResult === Window.MODALRESULTS.OK && this.updateControl(this.#control);
         super.close();
     }
     //#endregion close

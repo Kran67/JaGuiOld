@@ -4,6 +4,15 @@ import { Keyboard } from '/scripts/core/keyboard.js';
 //#endregion Import
 //#region Class MaskedTextBox
 class MaskedTextBox extends CustomTextControl {
+    //#region Private fields
+    #tests = [];
+    #firstNonMaskPos = null;
+    #partialPosition = 0;
+    #buffer = [];
+    #mask;
+    #maskDefinitions = { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' };
+    #blankSpace;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -17,29 +26,19 @@ class MaskedTextBox extends CustomTextControl {
                 props.height = 21;
             }
             super(owner, props);
-            core.private(this, {
-                tests: [],
-                firstNonMaskPos: null,
-                partialPosition: 0,
-                buffer: [],
-                mask: props.hasOwnProperty('mask') ? props.mask : String.EMPTY,
-                maskDefinitions: { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' },
-                blankSpace: props.hasOwnProperty('blankSpace') ? props.blankSpace : String.SPACE
-            });
+            this.#mask = props.hasOwnProperty('mask') ? props.mask : String.EMPTY;
+            this.#blankSpace = props.hasOwnProperty('blankSpace') ? props.blankSpace : String.SPACE;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region mask
     get mask() {
-        return core.private(this).mask;
+        return this.#mask;
     }
     set mask(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && priv.mask !== newValue) {
-            priv.mask = newValue;
+        if (core.tools.isString(newValue) && this.#mask !== newValue) {
+            this.#mask = newValue;
             this.makeMask();
         }
     }
@@ -55,39 +54,35 @@ class MaskedTextBox extends CustomTextControl {
     //#region makeMask
     makeMask() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const maskArray = priv.mask.split(String.EMPTY);
+        const maskArray = this.#mask.split(String.EMPTY);
         //#endregion Variables déclaration
         if (!this.readOnly) {
-            //let len = priv.mask.length;
+            //let len = this.#mask.length;
             this.unMask();
-            priv.partialPosition = priv.mask.length;
+            this.#partialPosition = this.#mask.length;
             for (let i = 0, l = maskArray.length; i < l; i++) {
                 if (maskArray[i] === '?') {
-                    priv.partialPosition = i;
-                } else if (priv.maskDefinitions[maskArray[i]]) {
-                    priv.tests.push(new RegExp(priv.maskDefinitions[maskArray[i]]));
-                    !priv.firstNonMaskPos && (priv.firstNonMaskPos = priv.tests.length - 1);
+                    this.#partialPosition = i;
+                } else if (this.#maskDefinitions[maskArray[i]]) {
+                    this.#tests.push(new RegExp(this.#maskDefinitions[maskArray[i]]));
+                    !this.#firstNonMaskPos && (this.#firstNonMaskPos = this.#tests.length - 1);
                 } else {
-                    priv.tests.push(null);
+                    this.#tests.push(null);
                 }
-                maskArray[i] !== '?' && (priv.buffer[i] = priv.maskDefinitions[maskArray[i]] ? priv.blankSpace : maskArray[i]);
+                maskArray[i] !== '?' && (this.#buffer[i] = this.#maskDefinitions[maskArray[i]] ? this.#blankSpace : maskArray[i]);
             }
             this.checkVal();
-            this.placeHolder = priv.mask;
+            this.placeHolder = this.#mask;
         }
     }
     //#endregion makeMask
     //#region unMask
     unMask() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.firstNonMaskPos = null;
-        priv.tests.clear();
-        priv.firstNonMaskPos = null;
-        priv.partialPosition = 0;
-        priv.buffer.clear();
+        this.#firstNonMaskPos = null;
+        this.#tests.clear();
+        this.#firstNonMaskPos = null;
+        this.#partialPosition = 0;
+        this.#buffer.clear();
     }
     //#endregion unMask
     //#region caret
@@ -122,33 +117,24 @@ class MaskedTextBox extends CustomTextControl {
     //#endregion caret
     //#region seekNext
     seekNext(pos) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        while (++pos <= priv.mask.length && !priv.tests[pos]);
+        while (++pos <= this.#mask.length && !this.#tests[pos]);
         return pos;
     }
     //#endregion seekNext
     //#region seekPrev
     seekPrev(pos) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        while (--pos >= 0 && !priv.tests[pos]);
+        while (--pos >= 0 && !this.#tests[pos]);
         return pos;
     }
     //#endregion seekPrev
     //#region shiftL
     shiftL(begin, end) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (begin >= 0) {
-            for (let i = begin, j = this.seekNext(end); i < priv.mask.length; i++) {
-                if (priv.tests[i]) {
-                    if (j < priv.mask.length && priv.tests[i].test(priv.buffer[j])) {
-                        priv.buffer[i] = priv.buffer[j];
-                        priv.buffer[j] = priv.blankSpace;
+            for (let i = begin, j = this.seekNext(end); i < this.#mask.length; i++) {
+                if (this.#tests[i]) {
+                    if (j < this.#mask.length && this.#tests[i].test(this.#buffer[j])) {
+                        this.#buffer[i] = this.#buffer[j];
+                        this.#buffer[j] = this.#blankSpace;
                     } else {
                         break;
                     }
@@ -156,21 +142,18 @@ class MaskedTextBox extends CustomTextControl {
                 }
             }
             this.writeBuffer();
-            this.caret(Math.max(priv.firstNonMaskPos, begin));
+            this.caret(Math.max(this.#firstNonMaskPos, begin));
         }
     }
     //#endregion shiftL
     //#region shiftR
     shiftR(pos) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        for (let i = pos, c = priv.blankSpace; i < priv.mask.length; i++) {
-            if (priv.tests[i]) {
+        for (let i = pos, c = this.#blankSpace; i < this.#mask.length; i++) {
+            if (this.#tests[i]) {
                 const j = this.seekNext(i);
-                const t = priv.buffer[i];
-                priv.buffer[i] = c;
-                if (j < priv.mask.length && priv.tests[j].test(t)) {
+                const t = this.#buffer[i];
+                this.#buffer[i] = c;
+                if (j < this.#mask.length && this.#tests[j].test(t)) {
                     c = t;
                 }
                 else {
@@ -210,7 +193,6 @@ class MaskedTextBox extends CustomTextControl {
     //#region keyPress
     keyPress() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const k = core.keyboard.key;
         const pos = this.caret();
         const VKEYSCODES = Keyboard.VKEYSCODES;
@@ -225,11 +207,11 @@ class MaskedTextBox extends CustomTextControl {
                 this.shiftL(pos.begin, pos.end - 1);
             }
             const p = this.seekNext(pos.begin - 1);
-            if (p < priv.mask.length) {
+            if (p < this.#mask.length) {
                 const c = core.keyboard.key
-                if (priv.tests[p].test(c)) {
+                if (this.#tests[p].test(c)) {
                     this.shiftR(p);
-                    priv.buffer[p] = c;
+                    this.#buffer[p] = c;
                     this.writeBuffer();
                     this.caret(this.seekNext(p));
                 }
@@ -240,39 +222,32 @@ class MaskedTextBox extends CustomTextControl {
     //#endregion keyPress
     //#region clearBuffer
     clearBuffer(start, end) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        for (let i = start; i < end && i < priv.mask.length; i++) {
-            priv.tests[i] && (priv.buffer[i] = priv.blankSpace);
+        for (let i = start; i < end && i < this.#mask.length; i++) {
+            this.#tests[i] && (this.#buffer[i] = this.#blankSpace);
         }
     }
     //#endregion clearBuffer
     //#region writeBuffer
     writeBuffer() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        this.inputObj && (this.inputObj.value = this.text = priv.buffer.join(String.EMPTY));
+        this.inputObj && (this.inputObj.value = this.text = this.#buffer.join(String.EMPTY));
     }
     //#endregion writeBuffer
     //#region checkVal
     checkVal(allow) {
         //#region Variables déclaration
         //try to place characters where they belong
-        const priv = core.private(this);
         const test = this.text;
         let lastMatch = -1;
-        const mask = priv.mask;
+        const mask = this.#mask;
         let i = 0;
         //#endregion Variables déclaration
         for (let pos = 0; i < mask.length; i++) {
-            if (priv.tests[i]) {
-                priv.buffer[i] = priv.blankSpace;
+            if (this.#tests[i]) {
+                this.#buffer[i] = this.#blankSpace;
                 while (pos++ < test.length) {
                     const c = test.charAt(pos - 1);
-                    if (priv.tests[i].test(c)) {
-                        priv.buffer[i] = c;
+                    if (this.#tests[i].test(c)) {
+                        this.#buffer[i] = c;
                         lastMatch = i;
                         break;
                     }
@@ -280,24 +255,26 @@ class MaskedTextBox extends CustomTextControl {
                 if (pos > test.length) {
                     break;
                 }
-            } else if (priv.buffer[i] === test.charAt(pos) && i !== priv.partialPosition) {
+            } else if (this.#buffer[i] === test.charAt(pos) && i !== this.#partialPosition) {
                 pos++;
                 lastMatch = i;
             }
         }
-        if (!allow && lastMatch + 1 < priv.partialPosition) {
+        if (!allow && lastMatch + 1 < this.#partialPosition) {
             this.inputObj.value = this.text = String.EMPTY;
             this.clearBuffer(0, mask.length);
-        } else if (allow || lastMatch + 1 >= priv.partialPosition) {
+        } else if (allow || lastMatch + 1 >= this.#partialPosition) {
             this.writeBuffer();
             this.inputObj && !allow && (this.inputObj.value = this.text = this.text.substring(0, lastMatch + 1));
         }
-        return (priv.partialPosition ? i : priv.firstNonMaskPos);
+        return (this.#partialPosition ? i : this.#firstNonMaskPos);
     }
     //#endregion checkVal
     //#region HTMLFocus
     HTMLFocus() {
+        //#region Variables déclaration
         const pos = this.jsObj.checkVal();
+        //#endregion Variables déclaration
         this.jsObj.writeBuffer();
         pos === this.jsObj.mask.length
             ? this.jsObj.caret(0, pos)
@@ -313,11 +290,8 @@ class MaskedTextBox extends CustomTextControl {
     //#endregion HTMLBlur
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.tests.destroy();
-        priv.buffer.destroy();
+        this.#tests.destroy();
+        this.#buffer.destroy();
         super.destroy();
     }
     //#endregion destroy

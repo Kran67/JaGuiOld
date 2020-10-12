@@ -1,4 +1,4 @@
-﻿@import url(../../../../css/components/toobars/toolbar.css);
+﻿@import url(../../../../css/components/toolbars/toolbar.css);
 .carbon.ToolBar {
     border-bottom: 1px solid #000;
     background-image: linear-gradient(to bottom,#5A5A5A 0,#5A5A5A 50%,#303030 100%);

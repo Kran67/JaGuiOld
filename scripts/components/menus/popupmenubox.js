@@ -4,29 +4,27 @@ import { MenuItem } from '/scripts/components/menus/menuitem.js';
 //#endregion Import
 //#region Class PopupMenuBox
 class PopupMenuBox extends PopupBox {
+    //#region Private fields
+    #direction;
+    #zIndex = 10000;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
             const DIRECTIONS = core.types.DIRECTIONS;
-            core.private(this, {
-                direction: props.hasOwnProperty('direction') && core.tools.valueInSet(props.direction, DIRECTIONS) ? props.direction : DIRECTIONS.RIGHT,
-                zIndex: 10000
-            });
+            this.#direction = props.hasOwnProperty('direction') && core.tools.valueInSet(props.direction, DIRECTIONS) ? props.direction : DIRECTIONS.RIGHT;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region direction
     get direction() {
-        return core.private(this).direction;
+        return this.#direction;
     }
     set direction(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.valueInSet(props.direction, DIRECTIONS) && priv.directon !== newValue && (priv.directon = newValue);
+        core.tools.valueInSet(props.direction, DIRECTIONS) && this.#direction !== newValue && (this.#direction = newValue);
     }
     //#endregion direction
     //#endregion Getters / Setters
@@ -180,13 +178,12 @@ class PopupMenuBox extends PopupBox {
     //#region show
     show(x, y) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const body = document.body;
         const control = this.refControl;
         const PX = core.types.CSSUNITS.PX;
         const htmlElementStyle = this.HTMLElementStyle;
-        let direction = priv.direction;
+        let direction = this.#direction;
         const content = htmlElement.querySelector('.subMenu');
         const owner = this.owner;
         //#endregion Variables déclaration
@@ -213,7 +210,7 @@ class PopupMenuBox extends PopupBox {
                 htmlElementStyle.left = `${control.parentPopupMenu.popupBox.HTMLElement.offsetLeft - htmlElement.offsetWidth}${PX}`;
             }
         }
-        htmlElementStyle.zIndex = priv.zIndex;
+        htmlElementStyle.zIndex = this.#zIndex;
         htmlElement.classList.add('animated', 'fadeIn');
     }
     //#endregion show

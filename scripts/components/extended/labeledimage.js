@@ -4,21 +4,21 @@ import { ImageControl } from '/scripts/components/extended/imagecontrol.js';
 //#endregion Import
 //#region Class CustomButton
 class LabeledImage extends LabeledControl {
+    //#region Private fields
+    #imgCtrl;
+    //#endregion Private fields
     //#region Getters / Setters
     //#region imageControl
     get imageControl() {
-        return core.private(this).imgCtrl;
+        return this.#imgCtrl;
     }
     //#endregion imageControl
     //#endregion Getters / Setters
     //#region Methods
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
-        priv.imgCtrl = core.classes.createComponent({
+        this.#imgCtrl = core.classes.createComponent({
             class: ImageControl,
             owner: this,
             props: {
@@ -30,10 +30,7 @@ class LabeledImage extends LabeledControl {
     //#endregion loaded
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.imgCtrl.destroy();
+        this.#imgCtrl.destroy();
         super.destroy();
     }
     //#endregion destroy

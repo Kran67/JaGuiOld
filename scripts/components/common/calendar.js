@@ -318,11 +318,11 @@ class Calendar extends ThemedControl {
     selectDay() {
         //#region Variables déclaration
         const owner = this.owner;
-        const day = int(this.#value);
+        const day = this.value;
         //#endregion Variables déclaration
         if (this.isEnabled) {
-            owner.curDate.setDate(day);
-            this.html && (owner.lastSelectedDay = this.html);
+            owner.#curDate.setDate(day);
+            this.html && (owner.#lastSelectedDay = this.html);
             owner.update();
         }
     }
@@ -331,11 +331,11 @@ class Calendar extends ThemedControl {
     selectMonth() {
         //#region Variables déclaration
         const owner = this.owner;
-        const month = int(this.#value);
+        const month = this.value;
         //#endregion Variables déclaration
         if (this.isEnabled) {
-            owner.curDate.setMonth(month);
-            Events.bind(owner.months, 'AnimationEnd', owner.animationEnd);
+            owner.#curDate.setMonth(month);
+            Events.bind(owner.#months, 'AnimationEnd', owner.animationEnd);
             owner.mode = CALENDARMODES.DAYS;
         }
     }
@@ -344,11 +344,11 @@ class Calendar extends ThemedControl {
     selectYear() {
         //#region Variables déclaration
         const owner = this.owner;
-        const year = int(this.#value);
+        const year = this.value;
         //#endregion Variables déclaration
         if (this.isEnabled) {
-            owner.curDate.setFullYear(year);
-            Events.bind(this.#decades, 'AnimationEnd', owner.animationEnd);
+            owner.#curDate.setFullYear(year);
+            Events.bind(owner.#decades, 'AnimationEnd', owner.animationEnd);
             owner.mode = CALENDARMODES.MONTHS;
         }
     }
@@ -357,11 +357,11 @@ class Calendar extends ThemedControl {
     selectDecades() {
         //#region Variables déclaration
         const owner = this.owner;
-        const decade = int(this.#value);
+        const decade = this.value;
         //#endregion Variables déclaration
         if (this.isEnabled) {
-            owner.curDate.setFullYear(decade);
-            Events.bind(this.#centuries, 'AnimationEnd', owner.animationEnd);
+            owner.#curDate.setFullYear(decade);
+            Events.bind(owner.#centuries, 'AnimationEnd', owner.animationEnd);
             owner.mode = CALENDARMODES.DECADES;
         }
     }

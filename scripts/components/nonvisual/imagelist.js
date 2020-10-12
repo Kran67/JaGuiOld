@@ -3,6 +3,12 @@ import { Component } from '/scripts/core/component.js';
 //#endregion Import
 //#region Class ImageList
 class ImageList extends Component {
+    //#region Private fields
+    #images = [];
+    #controls = [];
+    #imageHeight;
+    #imageWidth;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         //#region Variables déclaration
@@ -10,56 +16,40 @@ class ImageList extends Component {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                images: [],
-                controls: [],
-                imageHeight: props.hasOwnProperty('imageHeight') && core.tools.isNumber(imageHeight) ? props.imageHeight : 16,
-                imageWidth: props.hasOwnProperty('imageWidth') && core.tools.isNumber(imageWidth) ? props.imageWidth : 16
-            });
+            this.#imageHeight = props.hasOwnProperty('imageHeight') && core.tools.isNumber(imageHeight) ? props.imageHeight : 16;
+            this.#imageWidth = props.hasOwnProperty('imageWidth') && core.tools.isNumber(imageWidth) ? props.imageWidth : 16;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region imageWidth
     get imageWidth() {
-        return core.private(this).imageWidth;
+        return this.#imageWidth;
     }
     set imageWidth(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv.imageWidth !== newValue && (priv.imageWidth = newValue);
+        core.tools.isNumber(newValue) && this.#imageWidth !== newValue && (this.#imageWidth = newValue);
     }
     //#endregion imageWidth
     //#region imageHeight
     get imageHeight() {
-        return core.private(this).imageHeight;
+        return this.#imageHeight;
     }
     set imageHeight(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isNumber(newValue) && priv.imageHeight !== newValue && (priv.imageHeight = newValue);
+        core.tools.isNumber(newValue) && this.#imageHeight !== newValue && (this.#imageHeight = newValue);
     }
     //#endregion imageHeight
     //#endregion Getters / Setters
     //#region Methods
     //#region getImage
     getImage(idx) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return idx > -1 && idx < priv.images.length ? priv.images[idx] : String.EMPTY;
+        return idx > -1 && idx < this.#images.length ? this.#images[idx] : String.EMPTY;
     }
     //#endregion getImage
     //#region addImage
     addImage(image) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        core.tools.isStirng(image) && !priv.images.contains(image) && priv.images.push(image);
+        core.tools.isStirng(image) && !this.#images.contains(image) && this.#images.push(image);
         // refresh all components with a reference to this
-        priv.controls.forEach(ctrl => {
+        this.#controls.forEach(ctrl => {
             ctrl.update();
         });
     }
@@ -74,20 +64,14 @@ class ImageList extends Component {
     //#endregion removeImage
     //#region addReference
     addReference(control) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.controls.indexOf(priv.controls) === -1 && priv.controls.push(control);
+        this.#controls.indexOf(this.#controls) === -1 && this.#controls.push(control);
     }
     //#endregion addReference
     //#region clear
     clear() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.images.clear();
+        this.#images.clear();
         // refresh all components with a reference to this
-        priv.controls.forEach(ctrl => {
+        this.#controls.forEach(ctrl => {
             ctrl.update();
         });
     }
@@ -98,21 +82,15 @@ class ImageList extends Component {
     //#endregion replaceImage
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
-        this.props.hasOwnProperty('images') && (priv.images = [...this.props.images]);
+        this.props.hasOwnProperty('images') && (this.#images = [...this.props.images]);
     }
     //#endregion loaded
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.controls.clear();
-        priv.images.clear();
-        priv.images.destroy();
+        this.#controls.clear();
+        this.#images.clear();
+        this.#images.destroy();
         super.destroy();
     }
     //#endregion Methods

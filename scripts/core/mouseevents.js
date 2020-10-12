@@ -13,36 +13,33 @@ class MouseEvents extends BaseClass {
             const event = MOUSEEVENTS[mEvent];
             properties[event] = props && props.hasOwnProperty(event) && core.tools.isBool(props[event])
                 ? props[event] : [MOUSEEVENTS.DOWN, MOUSEEVENTS.UP, MOUSEEVENTS.CLICK].indexOf(event) > -1;
-            props && props.hasOwnProperty('all') && core.tools.isBool(props.all) && (priv[event] = !0);
+            this[`_${event}`] = properties[event];
+            props && props.hasOwnProperty('all') && core.tools.isBool(props.all) && (this[`_${event}`] = !0);
             Object.defineProperty(this, event, {
                 enumerable: !0,
                 configurable: !0,
                 get: function () {
-                    return core.private(this)[event];
+                    return this[`_${event}`];
                 },
                 set: function (newValue) {
-                    //#region Variables déclaration
-                    const priv = core.private(this);
-                    //#endregion Variables déclaration
-                    core.tools.isBool(newValue) && priv[event] !== newValue && core.private(this, { [event]: newValue });
+                    core.tools.isBool(newValue) && this[`_${event}`] !== newValue && (this[`_${event}`] = newValue);
                 }
             });
         });
-        core.private(this, properties);
+        //this.properties = properties;
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region all
     set all(newValue) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const MOUSEEVENTS = Mouse.MOUSEEVENTS;
         let result = true;
         //#endregion Variables déclaration
         core.tools.isBool(newValue) &&
             Object.keys(MOUSEEVENTS).forEach(mEvent => {
                 const event = MOUSEEVENTS[mEvent];
-                result = result && priv[event];
+                result = result && this[`_${event}`];
             });
         return result;
     }
@@ -60,14 +57,13 @@ class MouseEvents extends BaseClass {
     //#region equals
     equals(obj) {
         //#region Variables déclaration
-        const priv = core.private(this);
         const MOUSEEVENTS = Mouse.MOUSEEVENTS;
         let result = true;
         //#endregion Variables déclaration
         obj instanceof MouseEvent
             && Object.keys(MOUSEEVENTS).forEach(mEvent => {
                 const event = MOUSEEVENTS[mEvent];
-                result = result && (priv[event] && obj[event]);
+                result = result && (this[`_${event}`] && obj[event]);
             });
         return result;
     }
@@ -75,10 +71,9 @@ class MouseEvents extends BaseClass {
     //#region has
     has(type) {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const prop = Object.keys(priv).filter(e => { return e.toLowerCase() === type; })[0];
+        const prop = Object.keys(this).filter(e => { return e.toLowerCase() === type; })[0];
         //#endregion Variables déclaration
-        return (priv.hasOwnProperty(prop) && core.tools.isBool(priv[prop]) ? priv[prop] : !1);
+        return (this.hasOwnProperty(prop) && core.tools.isBool(this[`_${prop}`]) ? this[`_${prop}`] : !1);
     }
     //#endregion has
     //#endregion

@@ -5,6 +5,10 @@ import { Rect } from '/scripts/core/geometry.js';
 //#endregion Import
 //#region Class ImageControl
 class ImageControl extends ThemedControl {
+    //#region Private fields
+    #bitmap;
+    #bitmapStyle;
+    //#endregion Private fields
     //#region Getters / Setters
     //#region width
     get width() {
@@ -30,10 +34,7 @@ class ImageControl extends ThemedControl {
     //#endregion height
     //#region empty
     get empty() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        return priv.bitmap.src === core.types.CONSTANTS.PIX;
+        return this.#bitmap.src === core.types.CONSTANTS.PIX;
     }
     //#endregion empty
     //#endregion Getters / Setters
@@ -48,18 +49,14 @@ class ImageControl extends ThemedControl {
     //#endregion doBitmapNotLoaded
     //#region load
     load(uri) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.bitmap.src = uri;
+        this.#bitmap.src = uri;
     }
     //#endregion load
     //#region update
     update() {
         //#region Variables déclaration
-        const priv = core.private(this);
-        const iw = priv.bitmap.naturalWidth;
-        const ih = priv.bitmap.naturalHeight;
+        const iw = this.#bitmap.naturalWidth;
+        const ih = this.#bitmap.naturalHeight;
         const htmlElement = this.HTMLElement;
         const PX = core.types.CSSUNITS.PX;
         //#endregion Variables déclaration
@@ -68,33 +65,32 @@ class ImageControl extends ThemedControl {
             const destRect = new Rect(0, 0, htmlElement.offsetWidth, htmlElement.offsetHeight);
             const imgRect = new Rect(0, 0, iw, ih);
             destRect.assign(imgRect.fit(destRect).rect);
-            priv.bitmapStyle.width = `${destRect.width}${PX}`;
-            priv.bitmapStyle.height = `${destRect.height}${PX}`;
-            priv.bitmapStyle.left = `${destRect.left}${PX}`;
-            priv.bitmapStyle.top = `${destRect.top}${PX}`;
+            this.#bitmapStyle.width = `${destRect.width}${PX}`;
+            this.#bitmapStyle.height = `${destRect.height}${PX}`;
+            this.#bitmapStyle.left = `${destRect.left}${PX}`;
+            this.#bitmapStyle.top = `${destRect.top}${PX}`;
         } else {
-            priv.bitmapStyle.left = `${int((htmlElement.offsetWidth - iw) / 2)}${PX}`;
-            priv.bitmapStyle.top = `${int((htmlElement.offsetHeight - ih) / 2)}${PX}`;
-            priv.bitmapStyle.width = `${iw}${PX}`;
-            priv.bitmapStyle.height = `${ih}${PX}`;
+            this.#bitmapStyle.left = `${int((htmlElement.offsetWidth - iw) / 2)}${PX}`;
+            this.#bitmapStyle.top = `${int((htmlElement.offsetHeight - ih) / 2)}${PX}`;
+            this.#bitmapStyle.width = `${iw}${PX}`;
+            this.#bitmapStyle.height = `${ih}${PX}`;
         }
     }
     //#endregion update
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         //const props = JSON.parse(this.HTMLElement.querySelector('properties').innerText);
         const htmlEvents = core.types.HTMLEVENTS;
         //#endregion Variables déclaration
         super.loaded();
-        priv.bitmap = document.createElement(core.types.HTMLELEMENTS.IMG);
-        this.HTMLElement.appendChild(priv.bitmap);
-        priv.bitmapStyle = priv.bitmap.style;
-        priv.bitmap.jsObj = this;
-        priv.bitmap.src = this.props.hasOwnProperty('src') ? this.props.src : core.types.CONSTANTS.PIX;
-        Events.bind(priv.bitmap, htmlEvents.LOAD, this.doBitmapLoaded);
-        Events.bind(priv.bitmap, htmlEvents.ERROR, this.doBitmapNotLoaded);
+        this.#bitmap = document.createElement(core.types.HTMLELEMENTS.IMG);
+        this.HTMLElement.appendChild(this.#bitmap);
+        this.#bitmapStyle = this.#bitmap.style;
+        this.#bitmap.jsObj = this;
+        this.#bitmap.src = this.props.hasOwnProperty('src') ? this.props.src : core.types.CONSTANTS.PIX;
+        Events.bind(this.#bitmap, htmlEvents.LOAD, this.doBitmapLoaded);
+        Events.bind(this.#bitmap, htmlEvents.ERROR, this.doBitmapNotLoaded);
     }
     //#endregion
     //#endregion Methods

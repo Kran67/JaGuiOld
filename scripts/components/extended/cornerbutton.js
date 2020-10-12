@@ -27,6 +27,21 @@ const CORNERS = Object.freeze(Object.seal({
 //#endregion CORNERSTYPES
 //#region Class CornerButton
 class CornerButton extends Button {
+    //#region Private fields
+    #topLeftCorner;
+    #topLeftCornerType;
+    #topRightCorner;
+    #topRightCornerType;
+    #bottomRightCorner;
+    #bottomRightCornerType;
+    #bottomLeftCorner;
+    #bottomLeftCornerType;
+    #topLeftCornerUnit;
+    #topRightCornerUnit;
+    #bottomRightCornerUnit;
+    #bottomLeftCornerUnit;
+    #path;
+    //#endregion Private fields
     //#region CORNERSTYPES
     /**
      * @type    {Object}        CORNERSTYPES
@@ -37,8 +52,6 @@ class CornerButton extends Button {
     //#endregion
     //#region constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         if (owner) {
             props.allowUpdateOnResize = !0;
@@ -47,129 +60,103 @@ class CornerButton extends Button {
             const topRightCorner = props.hasOwnProperty('topRightCorner') ? props.topRightCorner : null;
             const bottomRightCorner = props.hasOwnProperty('bottomRightCorner') ? props.bottomRightCorner : null;
             const bottomLeftCorner = props.hasOwnProperty('bottomLeftCorner') ? props.bottomLeftCorner : null;
-            core.private(this, {
-                topLeftCorner : topLeftCorner ? new Point(topLeftCorner.x, topLeftCorner.y) : new Point,
-                topLeftCornerType : topLeftCorner.hasOwnProperty('type') ? topLeftCorner.type : CORNERSTYPES.ROUND,
-                topRightCorner : topRightCorner ? new Point(topRightCorner.x, topRightCorner.y) : new Point,
-                topRightCornerType : topRightCorner.hasOwnProperty('type') ? topRightCorner.type : CORNERSTYPES.ROUND,
-                bottomRightCorner : bottomRightCorner ? new Point(bottomRightCorner.x, bottomRightCorner.y) : new Point,
-                bottomRightCornerType : bottomRightCorner.hasOwnProperty('type')
-                    ? bottomRightCorner.type : CORNERSTYPES.ROUND,
-                bottomLeftCorner : bottomLeftCorner ? new Point(bottomLeftCorner.x, bottomLeftCorner.y) : new Point,
-                bottomLeftCornerType : bottomLeftCorner.hasOwnProperty('type') ? bottomLeftCorner.type : CORNERSTYPES.ROUND
-            });
+            this.#topLeftCorner = topLeftCorner ? new Point(topLeftCorner.x, topLeftCorner.y) : new Point;
+            this.#topLeftCornerType = topLeftCorner.hasOwnProperty('type') ? topLeftCorner.type : CORNERSTYPES.ROUND;
+            this.#topRightCorner = topRightCorner ? new Point(topRightCorner.x, topRightCorner.y) : new Point;
+            this.#topRightCornerType = topRightCorner.hasOwnProperty('type') ? topRightCorner.type : CORNERSTYPES.ROUND;
+            this.#bottomRightCorner = bottomRightCorner ? new Point(bottomRightCorner.x, bottomRightCorner.y) : new Point;
+            this.#bottomRightCornerType = bottomRightCorner.hasOwnProperty('type')
+                ? bottomRightCorner.type : CORNERSTYPES.ROUND;
+            this.#bottomLeftCorner = bottomLeftCorner ? new Point(bottomLeftCorner.x, bottomLeftCorner.y) : new Point;
+            this.#bottomLeftCornerType = bottomLeftCorner.hasOwnProperty('type') ? bottomLeftCorner.type : CORNERSTYPES.ROUND;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
     //#region topLeftCorner
     get topLeftCorner() {
-        return core.private(this).topLeftCorner;
+        return this.#topLeftCorner;
     }
     set topLeftCorner(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (newValue instanceof Point) {
-            priv.topLeftCorner.assign(newValue);
+            this.#topLeftCorner.assign(newValue);
             core.isHTMLRenderer && this.generateSVGPath();
         }
     }
     //#endregion topLeftCorner
     //#region topLeftCornerType
     get topLeftCornerType() {
-        return core.private(this).topLeftCornerType;
+        return this.#topLeftCornerType;
     }
     set topLeftCornerType(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, CORNERSTYPES) && priv.topLeftCornerType !== newValue) {
-            priv.topLeftCornerType = newValue;
+        if (core.tools.valueInSet(newValue, CORNERSTYPES) && this.#topLeftCornerType !== newValue) {
+            this.#topLeftCornerType = newValue;
             core.isHTMLRenderer && this.generateSVGPath();
         }
     }
     //#endregion topLeftCornerType
     //#region topRightCorner
     get topRightCorner() {
-        return core.private(this).topRightCorner;
+        return this.#topRightCorner;
     }
     set topRightCorner(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (newValue instanceof Point) {
-            priv.topRightCorner.assign(newValue);
+            this.#topRightCorner.assign(newValue);
             core.isHTMLRenderer && this.generateSVGPath();
         }
     }
     //#endregion topRightCorner
     //#region topRightCornerType
     get topRightCornerType() {
-        return core.private(this).topRightCornerType;
+        return this.#topRightCornerType;
     }
     set topRightCornerType(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, CORNERSTYPES) && priv.topRightCornerType !== newValue) {
-            priv.topRightCornerType = newValue;
+        if (core.tools.valueInSet(newValue, CORNERSTYPES) && this.#topRightCornerType !== newValue) {
+            this.#topRightCornerType = newValue;
             core.isHTMLRenderer && this.generateSVGPath();
         }
     }
     //#endregion topRightCornerType
     //#region topLeftCorner
     get topLeftCorner() {
-        return core.private(this).topLeftCorner;
+        return this.#topLeftCorner;
     }
     set topLeftCorner(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (newValue instanceof Point) {
-            priv.topLeftCorner.assign(newValue);
+            this.#topLeftCorner.assign(newValue);
             core.isHTMLRenderer && this.generateSVGPath();
         }
     }
     //#endregion topLeftCorner
     //#region bottomLeftCornerType
     get bottomLeftCornerType() {
-        return core.private(this).bottomLeftCornerType;
+        return this.#bottomLeftCornerType;
     }
     set bottomLeftCornerType(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, CORNERSTYPES) && priv.bottomLeftCornerType !== newValue) {
-            priv.bottomLeftCornerType = newValue;
+        if (core.tools.valueInSet(newValue, CORNERSTYPES) && this.#bottomLeftCornerType !== newValue) {
+            this.#bottomLeftCornerType = newValue;
             core.isHTMLRenderer && this.generateSVGPath();
         }
     }
     //#endregion bottomLeftCornerType
     //#region bottomRightCorner
     get bottomRightCorner() {
-        return core.private(this).bottomRightCorner;
+        return this.#bottomRightCorner;
     }
     set bottomRightCorner(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (newValue instanceof Point) {
-            priv.bottomRightCorner.assign(newValue);
+            this.#bottomRightCorner.assign(newValue);
             core.isHTMLRenderer && this.generateSVGPath();
         }
     }
     //#endregion bottomRightCorner
     //#region bottomRightCornerType
     get bottomRightCornerType() {
-        return core.private(this).bottomRightCornerType;
+        return this.#bottomRightCornerType;
     }
     set bottomRightCornerType(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.valueInSet(newValue, CORNERSTYPES) && priv.bottomRightCornerType !== newValue) {
-            priv.bottomRightCornerType = newValue;
+        if (core.tools.valueInSet(newValue, CORNERSTYPES) && this.#bottomRightCornerType !== newValue) {
+            this.#bottomRightCornerType = newValue;
             core.isHTMLRenderer && this.generateSVGPath();
         }
     }
@@ -188,13 +175,11 @@ class CornerButton extends Button {
     generateSVGPath() {
         //#region Variables déclaration
         const htmlElement = this.HTMLElement;
-        //const path = htmlElement.querySelector("path");
-        const priv = core.private(this);
         const r = [
-            { ...priv.topLeftCorner.toSimpleObject, type: priv.topLeftCornerType, unit: priv.topLeftCornerUnit },
-            { ...priv.topRightCorner.toSimpleObject, type: priv.topRightCornerType, unit: priv.topRightCornerUnit },
-            { ...priv.bottomRightCorner.toSimpleObject, type: priv.bottomRightCornerType, unit: priv.bottomRightCornerUnit },
-            { ...priv.bottomLeftCorner.toSimpleObject, type: priv.bottomLeftCornerType, unit: priv.bottomLeftCornerUnit }
+            { ...this.#topLeftCorner.toSimpleObject, type: this.#topLeftCornerType, unit: this.#topLeftCornerUnit },
+            { ...this.#topRightCorner.toSimpleObject, type: this.#topRightCornerType, unit: this.#topRightCornerUnit },
+            { ...this.#bottomRightCorner.toSimpleObject, type: this.#bottomRightCornerType, unit: this.#bottomRightCornerUnit },
+            { ...this.#bottomLeftCorner.toSimpleObject, type: this.#bottomLeftCornerType, unit: this.#bottomLeftCornerUnit }
         ];
         // Shrink overlapping curves
         const ratio = [1, 1];
@@ -230,7 +215,7 @@ class CornerButton extends Button {
         d = [...d, 'v', -htmlElement.offsetHeight + r[3].y + r[0].y];
         this.drawCorner(CORNERS.TOPLEFT, r[0], d);
         d = [...d, 'Z'];
-        priv.path.setAttribute('d', d.join(String.SPACE));
+        this.#path.setAttribute('d', d.join(String.SPACE));
     }
     //#endregion generateSVGPath
     //#region drawCorner
@@ -281,25 +266,21 @@ class CornerButton extends Button {
     //#endregion drawCorner
     //#region assign
     assign(source) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (source instanceof core.classes.CornerButton) {
-            priv.topLeftCorner.assign(source.topLeftCorner);
-            priv.topLeftCornerType = source.topLeftCornerType;
-            priv.topRightCorner.assign(source.topRightCorner);
-            priv.topRightCornerType = source.topRightCornerType;
-            priv.bottomRightCorner.assign(source.bottomRightCorner);
-            priv.bottomRightCornerType = source.bottomRightCornerType;
-            priv.bottomLeftCorner.assign(source.bottomLeftCorner);
-            priv.bottomLeftCornerType = source.bottomLeftCornerType;
+            this.#topLeftCorner.assign(source.topLeftCorner);
+            this.#topLeftCornerType = source.topLeftCornerType;
+            this.#topRightCorner.assign(source.topRightCorner);
+            this.#topRightCornerType = source.topRightCornerType;
+            this.#bottomRightCorner.assign(source.bottomRightCorner);
+            this.#bottomRightCornerType = source.bottomRightCornerType;
+            this.#bottomLeftCorner.assign(source.bottomLeftCorner);
+            this.#bottomLeftCornerType = source.bottomLeftCornerType;
         }
     }
     //#endregion assign
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         const SVG = core.types.SVG;
         const XMLNS = SVG.XMLNS;
@@ -345,11 +326,11 @@ class CornerButton extends Button {
             stop.classList.add(this.themeName, 'secondary-corner-button-color');
             lineargradient.appendChild(stop);
             svg.appendChild(lineargradient);
-            priv.path = document.createElementNS(XMLNS, 'path');
-            priv.path.setAttribute('stroke', `url(#${this.name}Gradient)`);
-            priv.path.classList.add('CornerButtonClipPath');
-            priv.path.id = `${this.name}ClipPath`;
-            svg.appendChild(priv.path);
+            this.#path = document.createElementNS(XMLNS, 'path');
+            this.#path.setAttribute('stroke', `url(#${this.name}Gradient)`);
+            this.#path.classList.add('CornerButtonClipPath');
+            this.#path.id = `${this.name}ClipPath`;
+            svg.appendChild(this.#path);
             div.appendChild(svg);
         }
         super.loaded();

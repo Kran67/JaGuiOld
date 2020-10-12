@@ -166,7 +166,10 @@ class ListBoxColorPopup extends ListBox {
     }
     //#endregion keyUp
     destroy() {
-        this.items = null;
+        this.items.forEach(item => {
+            item.destroy();
+        });
+        this.items.clear();
         super.destroy();
     }
     //#endregion Methods

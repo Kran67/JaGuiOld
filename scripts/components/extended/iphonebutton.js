@@ -3,6 +3,9 @@ import { BitmapButton } from '/scripts/components/extended/bitmapbutton.js';
 //#endregion Import
 //#region Class IPhoneButton
 class IPhoneButton extends BitmapButton {
+    //#region Private fields
+    #halo;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -20,14 +23,13 @@ class IPhoneButton extends BitmapButton {
     //#region loaded
     loaded() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const htmlElement = this.HTMLElement;
         //#endregion Variables déclaration
         super.loaded();
         if (core.isHTMLRenderer) {
-            priv.halo = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}halo`);
-            priv.halo.classList.add('IPhoneButtonHalo');
-            htmlElement.appendChild(priv.halo);
+            this.#halo = document.createElement(`${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}halo`);
+            this.#halo.classList.add('IPhoneButtonHalo');
+            htmlElement.appendChild(this.#halo);
         }
     }
     //#endregion loaded

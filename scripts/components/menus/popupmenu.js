@@ -5,6 +5,12 @@ import { PopupMenuBox } from '/scripts/components/menus/popupmenubox.js';
 //#endregion Import
 //#region Class PopupMenu
 class PopupMenu extends Component {
+    //#region Private fields
+    #control;
+    #images;
+    #popupBox;
+    #htmlContainer;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         //#region Variables déclaration
@@ -12,9 +18,7 @@ class PopupMenu extends Component {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
-            core.private(this, {
-                control: props.hasOwnProperty('control') ? props.control : null
-            });
+            this.#control = props.hasOwnProperty('control') ? props.control : null;
             core.classes.newCollection(this, this, MenuItem);
             this.createEventsAndBind(['onShow'], props);
         }
@@ -28,30 +32,24 @@ class PopupMenu extends Component {
     //#endregion activeItem
     //#region images
     get images() {
-        return core.private(this).images;
+        return this.#images;
     }
     set images(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        (!newValue || newValue instanceof core.classes.ImageList) && priv.images !== newValue && (priv.images = newValue) 
-            && priv.images.addReference(this);
+        (!newValue || newValue instanceof core.classes.ImageList) && this.#images !== newValue && (this.#images = newValue) 
+            && this.#images.addReference(this);
     }
     //#endregion images
     //#region popupBox
     get popupBox() {
-        return core.private(this).popupBox;
+        return this.#popupBox;
     }
     //#endregion popupBox
     //#region popupBox
     get control() {
-        return core.private(this).control;
+        return this.#control;
     }
     set control(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        newValue instanceof core.classes.Control && priv.control !== newValue && (priv.control = newValue);
+        newValue instanceof core.classes.Control && this.#control !== newValue && (this.#control = newValue);
     }
     //#endregion popupBox
     //#endregion Getters / Setters
@@ -66,10 +64,9 @@ class PopupMenu extends Component {
     //#region generateItems
     generateItems() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const items = this.props.items;
         //#endregion Variables déclaration
-        priv.htmlContainer = document.createElement(core.types.HTMLELEMENTS.DIV);
+        this.#htmlContainer = document.createElement(core.types.HTMLELEMENTS.DIV);
         items && items.forEach(item => {
             this.items.push(core.classes.createComponent({
                 class: MenuItem,
@@ -85,21 +82,17 @@ class PopupMenu extends Component {
     //#region getImages
     getImages() {
         //#region Variables déclaration
-        const priv = core.private(this);
         const form = this.form;
         let imgList = this.props.hasOwnProperty('images') && this.props.images;
         //#endregion Variables déclaration
         core.tools.isString(imgList) && (imgList = form[this.props.images]);
-        imgList && (priv.images = imgList) && imgList.addReference(this);
+        imgList && (this.#images = imgList) && imgList.addReference(this);
     }
     //#endregion getImages
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         this.close();
-        priv.popupBox = null;
+        this.#popupBox = null;
         this.unBindAndDestroyEvents(['onShow']);
         super.destroy();
     }
@@ -107,35 +100,31 @@ class PopupMenu extends Component {
     //#region show
     show(x, y) {
         //#region Variables déclaration
-        const priv = core.private(this);
         let paddingTop = 0;
         //#endregion Variables déclaration
         this.onShow.invoke();
-        priv.popupBox = core.classes.createComponent({
+        this.#popupBox = core.classes.createComponent({
             class: PopupMenuBox,
             owner: this,
             props: {
                 parentHTML: document.body,
-                refControl: priv.control
+                refControl: this.#control
             }
         });
-        priv.popupBox.control = priv.control ? priv.control : this;
-        priv.control instanceof MenuItem && !priv.control.inMainMenu 
-            && (paddingTop = int(getComputedStyle(priv.popupBox.HTMLElement.firstElementChild, null).paddingTop));
+        this.#popupBox.control = this.#control ? this.#control : this;
+        this.#control instanceof MenuItem && !this.#control.inMainMenu 
+            && (paddingTop = int(getComputedStyle(this.#popupBox.HTMLElement.firstElementChild, null).paddingTop));
         y -= paddingTop;
-        priv.popupBox.show(x, y);
+        this.#popupBox.show(x, y);
     }
     //#endregion show
     //#region close
     close() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (priv.popupBox) {
-            priv.popupBox.close();
-            priv.popupBox.destroy();
+        if (this.#popupBox) {
+            this.#popupBox.close();
+            this.#popupBox.destroy();
         }
-        priv.popupBox = null;
+        this.#popupBox = null;
     }
     //#endregion close
     //#region getItemIndex

@@ -3,15 +3,15 @@ import { SplitButton } from '/scripts/components/extended/splitbutton.js';
 //#endregion Import
 //#region Class SplitToolButton
 class SplitToolButton extends SplitButton {
+    //#region Private fields
+    #imageIndex = -1;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
             props.allowUpdateOnResize = !0;
             super(owner, props);
-            core.private(this, {
-                imageIndex: -1
-            });
             this.createEventsAndBind(['onCloseMenu', 'onOpenMenu'], props);
         }
     }
@@ -27,26 +27,23 @@ class SplitToolButton extends SplitButton {
     //#endregion height
     //#region popupMenu
     //get popupMenu() {
-    //    return core.private(this).popupMenu;
+    //    return this.#popupMenu;
     //}
     //set popupMenu(newValue) {
     //    //#region Variables déclaration
     //    const priv = core.private(this);
     //    //#endregion Variables déclaration
-    //    core.classes.Menu && newValue instanceof core.classes.Menu && priv.popupMenu !== newValue
-    //        && (priv.popupMenu = newValue);
+    //    core.classes.Menu && newValue instanceof core.classes.Menu && this.#popupMenu !== newValue
+    //        && (this.#popupMenu = newValue);
     //}
     //#endregion popupMenu
     //#region imageIndex
     get imageIndex() {
-        return core.private(this).imageIndex;
+        return this.#imageIndex;
     }
     set imageIndex(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && priv.imageIndex !== newValue) {
-            priv.imageIndex = newValue;
+        if (core.tools.isNumber(newValue) && this.#imageIndex !== newValue) {
+            this.#imageIndex = newValue;
             this.update();
         }
     }
@@ -55,21 +52,15 @@ class SplitToolButton extends SplitButton {
     //#region Methods
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
         //core.classes.PopupMenu && this.popupMenu instanceof core.classes.PopupMenu
-        //    && (this.popupBtn.popupMenu = priv.popupMenu);
-        priv.imageIndex > -1 && this.owner.images && this.owner.images.images[priv.imageIndex]
-            && (this.btn.src = this.owner.images.images[priv.imageIndex]);
+        //    && (this.popupBtn.popupMenu = this.#popupMenu);
+        this.#imageIndex > -1 && this.owner.images && this.owner.images.images[this.#imageIndex]
+            && (this.btn.src = this.owner.images.images[this.#imageIndex]);
     }
     //#endregion loaded
     //#region clickPopup
     clickPopup() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (this.popupMenu && this.popupMenu instanceof core.classes.PopupMenu) {
             const pt = this.owner.clientToDocument();
             this.popupMenu.control = this.owner;
@@ -79,7 +70,9 @@ class SplitToolButton extends SplitButton {
     //#endregion clickPopup
     //#region update
     update() {
+        //#region Variables déclaration
         const htmlElementStyle = this.HTMLElementStyle;
+        //#endregion Variables déclaration
         htmlElementStyle.height = 'auto';
     }
     //#endregion update

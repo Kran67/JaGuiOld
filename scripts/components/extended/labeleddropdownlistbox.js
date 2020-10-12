@@ -4,21 +4,21 @@ import { DropDownListBox } from '/scripts/components/common/dropdownlistbox.js';
 //#endregion Import
 //#region Class LabeledDropDownListBox
 class LabeledDropDownListBox extends LabeledControl {
+    //#region Private fields
+    #dropDownListBox;
+    //#endregion Private fields
     //#region Getters / Setters
     //#region dropDownListBox
     get dropDownListBox() {
-        return core.private(this).dropDownListBox;
+        return this.#dropDownListBox;
     }
     //#endregion dropDownListBox
     //#endregion Getters / Setters
     //#region Methods
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
-        priv.dropDownListBox = core.classes.createComponent({
+        this.#dropDownListBox = core.classes.createComponent({
             class: DropDownListBox,
             owner: this,
             props: {
@@ -30,10 +30,7 @@ class LabeledDropDownListBox extends LabeledControl {
     //#endregion loaded
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.dropDownListBox.destroy();
+        this.#dropDownListBox.destroy();
         super.destroy();
     }
     //#endregion destroy

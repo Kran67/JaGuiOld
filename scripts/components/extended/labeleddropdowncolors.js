@@ -4,21 +4,21 @@ import { DropDownListBoxColor } from '/scripts/components/color/dropdowncolors.j
 //#endregion Import
 //#region Class LabeledDropDownListBoxColor
 class LabeledDropDownListBoxColor extends LabeledControl {
+    //#region Private fields
+    #dropDownListBoxColor;
+    //#endregion Private fields
     //#region Getters / Setters
     //#region dropDownListBoxColor
     get dropDownListBoxColor() {
-        return core.private(this).dropDownListBoxColor;
+        return this.#dropDownListBoxColor;
     }
     //#endregion dropDownListBoxColor
     //#endregion Getters / Setters
     //#region Methods
     //#region loaded
     loaded() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         super.loaded();
-        priv.dropDownListBoxColor = core.classes.createComponent({
+        this.#dropDownListBoxColor = core.classes.createComponent({
             class: DropDownListBoxColor,
             owner: this,
             props: {
@@ -30,10 +30,7 @@ class LabeledDropDownListBoxColor extends LabeledControl {
     //#endregion loaded
     //#region destroy
     destroy() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        priv.dropDownListBoxColor.destroy();
+        this.#dropDownListBoxColor.destroy();
         super.destroy();
     }
     //#endregion destroy

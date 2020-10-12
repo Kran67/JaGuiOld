@@ -4,6 +4,10 @@ import { Css } from '/scripts/core/css.js';
 //#endregion Import
 //#region Class Toggle
 class Toggle extends Checkbox {
+    //#region Private fields
+    #uncheckedLabel;
+    #checkedLabel;
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -16,14 +20,12 @@ class Toggle extends Checkbox {
                 props.width = 50;
             }
             super(owner, props);
-            core.private(this, {
-                uncheckedLabel: props.hasOwnProperty('uncheckedLabel')
+            this.#uncheckedLabel = props.hasOwnProperty('uncheckedLabel')
                     ? props.uncheckedLabel
-                    : core.locales.translateConstant(this.app.locale, 'no').toUpperCase(),
-                checkedLabel: props.hasOwnProperty('checkedLabel')
+                    : core.locales.translateConstant(this.app.locale, 'no').toUpperCase();
+            this.#checkedLabel = props.hasOwnProperty('checkedLabel')
                     ? props.checkedLabel
-                    : core.locales.translateConstant(this.app.locale, 'yes').toUpperCase()
-            });
+                    : core.locales.translateConstant(this.app.locale, 'yes').toUpperCase();
         }
     }
     //#endregion constructor
@@ -38,31 +40,22 @@ class Toggle extends Checkbox {
     //#endregion allowGrayed
     //#region uncheckedLabel
     get uncheckedLabel() {
-        //#region constructor
-        const priv = core.private(this);
-        //#endregion constructor
-        return priv.uncheckedLabel;
+        return this.#uncheckedLabel;
     }
     set uncheckedLabel(newValue) {
-        //#region constructor
-        const priv = core.private(this);
-        //#endregion constructor
-        if (core.tools.isString(newValue) && priv.uncheckedLabel !== newValue) {
-            priv.uncheckedLabel = newValue;
+        if (core.tools.isString(newValue) && this.#uncheckedLabel !== newValue) {
+            this.#uncheckedLabel = newValue;
             this.update();
         }
     }
     //#endregion uncheckedLabel
     //#region checkedLabel
     get checkedLabel() {
-        //#region constructor
-        const priv = core.private(this);
-        //#endregion constructor
-        return priv.checkedLabel;
+        return this.#checkedLabel;
     }
     set checkedLabel(newValue) {
-        if (core.tools.isString(newValue) && priv.checkedLabel !== newValue) {
-            priv.checkedLabel = newValue;
+        if (core.tools.isString(newValue) && this.#checkedLabel !== newValue) {
+            this.#checkedLabel = newValue;
             this.update();
         }
     }
@@ -72,21 +65,20 @@ class Toggle extends Checkbox {
     //#region update
     update() {
         //#region constructor
-        const priv = core.private(this);
         const PSEUDOCSSCLASS = core.types.PSEUDOCSSCLASS;
         const htmlElement = this.HTMLElement;
         //#endregion constructor
         if (!this.loading && !this.form.loading) {
             super.update();
             if (this.check) {
-                htmlElement.dataset.unchecked = priv.uncheckedLabel;
-                htmlElement.dataset.checked = priv.checkedLabel;
+                htmlElement.dataset.unchecked = this.#uncheckedLabel;
+                htmlElement.dataset.checked = this.#checkedLabel;
                 Css.removeCSSRule(`#${this.internalId}${PSEUDOCSSCLASS.BEFORE}`);
                 Css.removeCSSRule(`#${this.internalId}${PSEUDOCSSCLASS.AFTER}`);
-                priv.checkedLabel.includes('data:image')
-                    && Css.addCSSRule(`#${this.internalId}${PSEUDOCSSCLASS.BEFORE}`, `content: url(${priv.checkedLabel})`);
-                priv.uncheckedLabel.includes('data:image')
-                    && Css.addCSSRule(`#${this.internalId}${PSEUDOCSSCLASS.AFTER}`, `content: url(${priv.uncheckedLabel})`);
+                this.#checkedLabel.includes('data:image')
+                    && Css.addCSSRule(`#${this.internalId}${PSEUDOCSSCLASS.BEFORE}`, `content: url(${this.#checkedLabel})`);
+                this.#uncheckedLabel.includes('data:image')
+                    && Css.addCSSRule(`#${this.internalId}${PSEUDOCSSCLASS.AFTER}`, `content: url(${this.#uncheckedLabel})`);
             }
         }
     }

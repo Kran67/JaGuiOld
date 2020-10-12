@@ -3,6 +3,10 @@ import { Checkbox } from '/scripts/components/common/checkbox.js';
 //#endregion Imports
 //#region Class PathCheckbox
 class PathCheckbox extends Checkbox {
+    //#region Private fields
+    #checkSvg;
+    #svgViewBox;
+    //#endregion Private fields
     //#region Constructor
     constructor(owner, props) {
         props = !props ? {} : props;
@@ -13,11 +17,9 @@ class PathCheckbox extends Checkbox {
             }
             props.canFocused = !1;
             super(owner, props);
-            core.private(this, {
-                checkSvg : props.hasOwnProperty('checkSvg')
-                    ? atob(props.checkSvg) : 'm49.568024,19.824736l-31.863983,29.73797l-17.705017,-16.521305l0,-19.824999l17.705017,16.469412l31.863983,-29.686078l0,19.825z',
-                svgViewBox : props.hasOwnProperty('svgViewBox') ? props.svgViewBox : '0 0 50 50'
-            });
+            this.#checkSvg = props.hasOwnProperty('checkSvg')
+                    ? atob(props.checkSvg) : 'm49.568024,19.824736l-31.863983,29.73797l-17.705017,-16.521305l0,-19.824999l17.705017,16.469412l31.863983,-29.686078l0,19.825z';
+            this.#svgViewBox = props.hasOwnProperty('svgViewBox') ? props.svgViewBox : '0 0 50 50';
             delete this.tabOrder;
         }
     }
@@ -25,25 +27,22 @@ class PathCheckbox extends Checkbox {
     //#region Getters / Setters
     //#region svgViewBox
     get svgViewBox() {
-        return core.private(this).svgViewBox;
+        return this.#svgViewBox;
     }
     set svgViewBox(newValue) {
-        if (core.tools.isString(newValue) && priv.svgViewBox !== newValue) {
-            priv.svgViewBox = newValue;
+        if (core.tools.isString(newValue) && this.#svgViewBox !== newValue) {
+            this.#svgViewBox = newValue;
             this.updateCSSProperties();
         }
     }
     //#endregion svgViewBox
     //#region checkSvg
     get checkSvg() {
-        return core.private(this).checkSvg;
+        return this.#checkSvg;
     }
     set checkSvg(newValue) {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
-        if (core.tools.isString(newValue) && newValue !== priv.checkSvg) {
-            priv.checkSvg = newValue;
+        if (core.tools.isString(newValue) && newValue !== this.#checkSvg) {
+            this.#checkSvg = newValue;
             core.isHTMLRenderer && this.addCheckedRule();
         }
     }
@@ -60,14 +59,11 @@ class PathCheckbox extends Checkbox {
     //#region Methods
     //#region updateCSSProperties
     update() {
-        //#region Variables déclaration
-        const priv = core.private(this);
-        //#endregion Variables déclaration
         if (!this.loading && !this.form.loading) {
             super.update();
-            this.check.innerHTML = [`<svg width="100%" height="100%" viewBox="${priv.svgViewBox}"`,
+            this.check.innerHTML = [`<svg width="100%" height="100%" viewBox="${this.#svgViewBox}"`,
                 ' xmlns="http://www.w3.org/2000/svg">',
-            `<path d="${priv.checkSvg}" /></svg>`].join(String.EMPTY);
+            `<path d="${this.#checkSvg}" /></svg>`].join(String.EMPTY);
             this.check.style.opacity = 0.2;
             this.checked && (this.check.style.opacity = 1);
         }
