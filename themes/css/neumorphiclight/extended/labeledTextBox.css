@@ -1,4 +1,6 @@
-﻿@import url(/css/components/extended/labeledTextBox.css);
+﻿@import url(../../../../css/components/extended/labeledtextbox.css);
+@import url(../common/label.css);
+@import url(../common/textbox.css);
 
 .neumorphiclight.LabeledTextBox {}
 

@@ -1,4 +1,5 @@
-﻿@import url(/css/components/common/speedbutton.css);
+﻿@import url(../../../../css/components/common/speedbutton.css);
+@import url(button.css);
 
 .neumorphiclight.SpeedButton,
 .neumorphiclight.SpeedButton.disabled:hover {

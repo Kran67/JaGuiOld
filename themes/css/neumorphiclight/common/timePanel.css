@@ -1,4 +1,5 @@
-﻿@import url(/css/components/common/timePanel.css);
+﻿@import url(../../../../css/components/common/timepanel.css);
+@import url(numberwheel.css);
 
 .neumorphiclight.TimePanel {
     background-color: #333;

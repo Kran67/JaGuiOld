@@ -1,4 +1,5 @@
-﻿@import url(/css/components/extended/valueLabel.css);
+﻿@import url(../../../../css/components/extended/valuelabel.css);
+@import url(../common/label.css);
 
 .neumorphiclight.ValueLabel {
     border-radius: 10px;

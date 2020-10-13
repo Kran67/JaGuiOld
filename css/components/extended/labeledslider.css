@@ -1,6 +1,11 @@
 ﻿@import url(../common/label.css);
 @import url(../common/slider.css);
 @import url(../extended/valuelabel.css);
+.LabeledSlider {
+    display:flex;
+    overflow:visible;
+}
+
 .LabeledSlider .GridLayout {
     flex: 1;
     position: relative;

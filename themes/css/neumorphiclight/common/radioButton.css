@@ -1,4 +1,5 @@
-﻿@import url(/css/components/common/radioButton.css);
+﻿@import url(../../../../css/components/common/radiobutton.css);
+@import url(checkbox.css);
 
 .neumorphiclight.RadioButtonCheck {
     border: 1px solid #202020;

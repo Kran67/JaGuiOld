@@ -1,4 +1,6 @@
-﻿@import url(/css/components/extended/radioGroup.css);
+﻿@import url(../../../../css/components/extended/radiogroup.css);
+@import url(../containers/groupbox.css);
+@import url(../common/radiobutton.css);
 
 .neumorphiclight.RadioGroup {
     border: 1px solid #202020;

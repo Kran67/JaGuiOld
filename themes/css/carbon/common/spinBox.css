@@ -8,28 +8,28 @@
     text-align: center;
 }
 
-.carbon.SpinBoxMinusBtn,
-.carbon.SpinBoxPlusBtn,
-.carbon.SpinBoxMinusBtn.disabled,
-.carbon.SpinBoxPlusBtn.disabled,
-.carbon.SpinBoxMinusBtn.disabled:hover,
-.carbon.SpinBoxPlusBtn.disabled:hover {
+.carbon.Button.SpinBoxMinusBtn,
+.carbon.Button.SpinBoxPlusBtn,
+.carbon.Button.SpinBoxMinusBtn.disabled,
+.carbon.Button.SpinBoxPlusBtn.disabled,
+.carbon.Button.SpinBoxMinusBtn.disabled:hover,
+.carbon.Button.SpinBoxPlusBtn.disabled:hover {
     border-radius: 50%;
     background: none;
     border: none;
 }
 
-.carbon.SpinBoxMinusBtn:hover,
-.carbon.SpinBoxPlusBtn:hover {
+.carbon.Button.SpinBoxMinusBtn:hover,
+.carbon.Button.SpinBoxPlusBtn:hover {
     background: none;
     background-color: #707070;
     opacity: 0.7;
 }
 
-.carbon.SpinBoxMinusBtn:before {
+.carbon.Button.SpinBoxMinusBtn:before {
     content: "*";
 }
 
-.carbon.SpinBoxPlusBtn:before {
+.carbon.Button.SpinBoxPlusBtn:before {
     content: ")";
 }

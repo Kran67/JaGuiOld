@@ -1,4 +1,5 @@
-﻿@import url(/css/components/extended/toggle.css);
+﻿@import url(../../../../css/components/extended/toggle.css);
+@import url(../common/checkbox.css);
 
 .neumorphiclight.Toggle {
     border-radius: 3px;

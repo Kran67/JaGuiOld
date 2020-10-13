@@ -1,4 +1,5 @@
-﻿@import url(/css/components/extended/pathButton.css);
+﻿@import url(../../../../css/components/extended/pathbutton.css);
+@import url(../common/button.css);
 
 .neumorphiclight.PathButton,
 .neumorphiclight.PathButton.disabled:hover {

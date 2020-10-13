@@ -1,3 +1,4 @@
-﻿@import url(/css/components/dialogs/findReplaceDialog.css);
+﻿@import url(../../../../css/components/dialogs/findreplacedialog.css);
+@import url(commondialog.css);
 
 .neumorphiclight.FindReplaceDialog {}

@@ -2,6 +2,8 @@
 @import url(../extended/imagecontrol.css);
 .LabeledImage {
     height: 60px;
+    display: flex;
+    overflow:visible;
 }
 
 .LabeledImage .ImageControl {

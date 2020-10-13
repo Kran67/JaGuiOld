@@ -1,3 +1,4 @@
-﻿@import url(/css/components/dialogs/commonDialog.css);
+﻿@import url(../../../../css/components/dialogs/commondialog.css);
+@import url(../common/button.css);
 
 .neumorphiclight.CommonDialog {}

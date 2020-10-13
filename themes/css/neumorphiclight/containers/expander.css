@@ -1,4 +1,6 @@
-﻿@import url(/css/components/containers/expander.css);
+﻿@import url(../../../../css/components/containers/expander.css);
+@import url('../common/checkbox.css');
+@import url('../common/button.css');
 
 .neumorphiclight.Expander {
     border: 1px solid #303030;

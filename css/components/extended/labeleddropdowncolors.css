@@ -1,5 +1,11 @@
+@import url(../../../../css/components/extended/labeleddropdowncolors.css);
 @import url(../common/label.css);
 @import url(../color/dropdownlistboxcolor.css);
+.LabeledDropDownListBoxColor {
+    display:flex;
+    overflow:visible;
+}
+
 .LabeledDropDownListBoxColor .DropDownListBoxColor {
     position: relative;
     flex: 1;

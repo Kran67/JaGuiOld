@@ -1,4 +1,5 @@
-﻿@import url(/css/components/extended/bitmapButton.css);
+﻿@import url(../../../../css/components/extended/bitmapbutton.css);
+@import url(../common/buttonglyph.css);
 
 .neumorphiclight.BitmapButton,
 .neumorphiclight.BitmapButton.disabled:hover {

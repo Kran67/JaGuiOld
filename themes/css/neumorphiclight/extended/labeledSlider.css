@@ -1,4 +1,7 @@
-﻿@import url(/css/components/extended/labeledSlider.css);
+﻿@import url(../../../../css/components/extended/labeledslider.css);
+@import url(../common/label.css);
+@import url(../common/slider.css);
+@import url(../extended/valuelabel.css);
 
 .neumorphiclight.LabeledSlider {}
 

@@ -62,3 +62,13 @@
 @import url('/themes/css/neumorphiclight/color/dropdownlistboxcolor.css');
 @import url('/themes/css/neumorphiclight/dialogs/colordialog.css');
 @import url('/themes/css/neumorphiclight/menus/menus.css');
+@import url('/themes/css/neumorphiclight/extended/circlebutton.css');
+@import url('/themes/css/neumorphiclight/extended/labeledanglebar.css');
+@import url('/themes/css/neumorphiclight/extended/labeledcolorbutton.css');
+@import url('/themes/css/neumorphiclight/extended/labeledimage.css');
+@import url('/themes/css/neumorphiclight/extended/labeledmemo.css');
+@import url('/themes/css/neumorphiclight/extended/labeledslider.css');
+@import url('/themes/css/neumorphiclight/extended/labeledtextbox.css');
+@import url('/themes/css/neumorphiclight/extended/maskedtextbox.css');
+@import url('/themes/css/neumorphiclight/extended/labeleddropdowncolors.css');
+@import url('/themes/css/neumorphiclight/extended/labeleddropdownlistbox.css');

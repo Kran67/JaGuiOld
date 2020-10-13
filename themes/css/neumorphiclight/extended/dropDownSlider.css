@@ -1,3 +1,4 @@
-﻿@import url(/css/components/extended/dropDownSlider.css);
+﻿@import url(../../../../css/components/extended/dropdownslider.css);
+@import url(../common/slider.css);
 
 .neumorphiclight.DropDownSlider {}

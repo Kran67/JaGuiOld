@@ -1,4 +1,6 @@
-﻿@import url(/css/components/common/spinBox.css);
+﻿@import url(../../../../css/components/common/spinbox.css);
+@import url(textbox.css);
+@import url(button.css);
 
 .neumorphiclight.SpinBox {
     border: 1px solid #202020;

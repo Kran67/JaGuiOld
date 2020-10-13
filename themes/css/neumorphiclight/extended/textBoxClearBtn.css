@@ -1,4 +1,5 @@
-﻿@import url(/css/components/extended/textBoxClearBtn.css);
+﻿@import url(../../../../css/components/extended/textboxclearbtn.css);
+@import url(textboxbtn.css);
 
 .neumorphiclight.TextBoxClearBtnButton {
     border: none;

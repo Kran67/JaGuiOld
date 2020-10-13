@@ -1,8 +1,9 @@
-﻿@import url(/css/components/containers/window.css);
+﻿@import url(../../../../css/components/containers/window.css);
+@import url(../common/button.css);
 
 .neumorphiclight.Window {
     background-repeat: no-repeat;
-    background-color: #333;
+    background-color: var(--neumorphiclight-background);
 }
 
 .neumorphiclight.Window.maximized {
@@ -12,17 +13,13 @@
 .neumorphiclight.Window:not(.none) {
     border-radius: 9px;
     background-position: top left;
-    background-size: 100% 25px;
     background-image: linear-gradient(to bottom, #000, #000);
     box-shadow: inset 0 0 0 1px #222, inset 0 0 0 4px #000, 5px 5px 5px rgba(0, 0, 0, .7);
+    background-size: 100% 29px;
 }
 
 .neumorphiclight.Window.inactive {
     background-image: linear-gradient(to bottom, #505050, #505050);
-}
-
-.neumorphiclight.Window:not(.none) {
-    background-size: 100% 29px;
 }
 
 .neumorphiclight.WindowTitleBar {
@@ -63,8 +60,8 @@
 }
 
 .neumorphiclight.WindowContent {
-    background-color: #505050;
-    scrollbar-color: #F4BB40 #303030;
+    background-color: var(--neumorphiclight-background);;
+    scrollbar-color: var(--neumorphiclight-primary) var(--neumorphiclight-background);
     position: relative;
     scrollbar-width: thin;
 }

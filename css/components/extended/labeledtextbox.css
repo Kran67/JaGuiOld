@@ -1,5 +1,10 @@
 ﻿@import url(../common/label.css);
 @import url(../common/textbox.css);
+.LabeledTextBox {
+    display:flex;
+    overflow:visible;
+}
+
 .LabeledTextBox .TextBox {
     position: relative;
     flex: 1;

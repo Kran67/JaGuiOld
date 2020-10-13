@@ -1,4 +1,5 @@
-﻿@import url(/css/components/extended/circularProgressBar.css);
+﻿@import url(../../../../css/components/extended/circularprogressbar.css);
+@import url(../common/progressbar.css);
 
 .neumorphiclight.CircularProgressBar,
 .neumorphiclight.CircularProgressBar:after {

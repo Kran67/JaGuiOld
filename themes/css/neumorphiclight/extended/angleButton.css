@@ -1,4 +1,5 @@
-﻿@import url(/css/components/extended/angleButton.css);
+﻿@import url(../../../../css/components/extended/anglebutton.css);
+@import url(../common/button.css);
 
 .neumorphiclight.AngleButton,
 .neumorphiclight.AngleButton.disabled:hover {

@@ -1,4 +1,5 @@
-﻿@import url(/css/components/extended/pathCheckbox.css);
+﻿@import url(../../../../css/components/extended/pathcheckbox.css);
+@import url(../common/checkbox.css);
 
 .neumorphiclight.PathCheckboxCheck {
     max-width: 15px;

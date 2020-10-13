@@ -1,3 +1,9 @@
-﻿@import url(/css/components/dialogs/fontDialog.css);
+﻿@import url(../../../../css/components/dialogs/fontdialog.css);
+@import url(commondialog.css);
+@import url(../common/dropdownlistbox.css);
+@import url(../color/dropdownlistboxcolor.css);
+@import url(../common/checkbox.css);
+@import url(../containers/groupbox.css);
+@import url(../common/label.css);
 
 .neumorphiclight.FontDialog {}

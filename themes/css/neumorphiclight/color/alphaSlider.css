@@ -1,4 +1,5 @@
-﻿@import url(/css/components/color/alphaSlider.css);
+﻿@import url(../../../../css/components/color/alphaslider.css);
+@import url(../common/slider.css);
 
 .neumorphiclight.AlphaSlider {
     box-shadow: none;

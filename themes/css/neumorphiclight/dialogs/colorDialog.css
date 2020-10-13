@@ -1,4 +1,9 @@
-﻿@import url(/css/components/dialogs/colorDialog.css);
+﻿@import url(../../../../css/components/dialogs/colordialog.css);
+@import url(commondialog.css);
+@import url(../color/colorpanel.css);
+@import url(../containers/pagecontrol.css);
+@import url(../common/label.css);
+@import url(../extended/textboxbtn.css);
 
 .neumorphiclight.ColorDlg .neumorphiclight.TabSheet.selected {
     height: 17px;

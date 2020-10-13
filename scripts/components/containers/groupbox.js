@@ -1,11 +1,13 @@
 ﻿//#region Import
 import { CaptionControl } from '/scripts/core/captioncontrol.js';
+import { CustomLayout } from '/scripts/core/customlayout.js';
 //#endregion Import
 //#region Class GroupBox
 class GroupBox extends CaptionControl {
     //#region Private fields
     #horizAlign;
     #legend;
+    #layout;
     //#endregion Private fields
     //#region Constructor
     constructor(owner, props) {
@@ -24,6 +26,7 @@ class GroupBox extends CaptionControl {
             //core.tools.defineLayout(this, props);
             this.addPropertyEnum('horizAlign', core.types.TEXTALIGNS);
             this.#horizAlign = props.hasOwnProperty('horizAlign') ? props.horizAlign : core.types.TEXTALIGNS.LEFT;
+            this.#layout = new CustomLayout(this, props.hasOwnProperty('layout') ? props.layout : null);
         }
     }
     //#endregion Constructor
@@ -42,6 +45,11 @@ class GroupBox extends CaptionControl {
     //#region legend
     get legend() {
         return this.#legend;
+    }
+    //#endregion legend
+    //#region legend
+    get layout() {
+        return this.#layout;
     }
     //#endregion legend
     //#endregion Getters / Setters
@@ -74,13 +82,21 @@ class GroupBox extends CaptionControl {
         this.#legend = document.createElement(core.types.HTMLELEMENTS.LEGEND);
         this.#legend.classList.add('GroupBoxLegend', this.themeName);
         this.HTMLElement.appendChild(this.#legend);
-        super.loaded();
         this.updateCaption();
+        super.loaded();
     }
     //#endregion loaded
     //#endregion Methods
 }
 Object.seal(GroupBox);
+Object.defineProperties(CustomLayout.prototype, {
+    'horizAlign': {
+        enumerable: !0
+    },
+    'layout': {
+        enumerable: !0
+    }
+});
 core.classes.register(core.types.CATEGORIES.CONTAINERS, GroupBox);
 //#endregion GroupBox
 //#region Templates

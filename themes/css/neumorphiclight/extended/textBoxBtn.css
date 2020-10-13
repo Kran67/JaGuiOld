@@ -1,4 +1,6 @@
-﻿@import url(/css/components/extended/textBoxBtn.css);
+﻿@import url(../../../../css/components/extended/textboxbtn.css);
+@import url(../common/button.css);
+@import url(../common/textbox.css);
 
 .neumorphiclight.TextBoxBtnButton:before {}
 

@@ -1,6 +1,6 @@
 ﻿@import url(../../../../css/components/extended/textboxclearbtn.css);
 @import url(textboxbtn.css);
-.carbon.TextBoxClearBtnButton {
+.carbon.Button.TextBoxClearBtnButton {
     border: none;
     background: none;
     font-family: jagui;

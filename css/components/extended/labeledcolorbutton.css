@@ -1,5 +1,10 @@
 ﻿@import url(../common/label.css);
 @import url(../color/colorbutton.css);
+.LabeledColorButton {
+    display:flex;
+    overflow:visible;
+}
+
 .LabeledColorButton .ColorButton {
     position: relative;
     flex: 1;

@@ -1,4 +1,5 @@
-﻿@import url(/css/components/color/bwSlider.css);
+﻿@import url(../../../../css/components/color/bwslider.css);
+@import url(../common/slider.css);
 
 .neumorphiclight.BWSlider {
 }

@@ -1,4 +1,5 @@
-﻿@import url(/css/components/common/treeView.css);
+﻿@import url(../../../../css/components/common/treeview.css);
+@import url('checkbox.css');
 
 .neumorphiclight.TreeViewItem .CheckboxCheck {
     position: relative;

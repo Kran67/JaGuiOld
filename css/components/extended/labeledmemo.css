@@ -1,5 +1,10 @@
 ﻿@import url(../common/label.css);
 @import url(../common/memo.css);
+.LabeledMemo {
+    display:flex;
+    overflow:visible;
+}
+
 .LabeledMemo .Memo {
     position: relative;
     height: 100% !important;

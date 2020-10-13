@@ -1,5 +1,10 @@
 @import url(../common/label.css);
 @import url(../common/dropdownlistbox.css);
+.LabeledDropDownListBox {
+    display:flex;
+    overflow:visible;
+}
+
 .LabeledDropDownListBox .DropDownListBox {
     position: relative;
     flex: 1;

@@ -1,4 +1,5 @@
-﻿@import url(/css/components/color/hueSlider.css);
+﻿@import url(../../../../css/components/color/hueslider.css);
+@import url(../common/slider.css);
 
 .neumorphiclight.HUESlider {
 }

@@ -1,4 +1,5 @@
-﻿@import url(/css/components/containers/pageControl.css);
+﻿@import url(../../../../css/components/containers/pagecontrol.css);
+@import url(tabcontrol.css);
 
 .neumorphiclight.PageContent {}
 

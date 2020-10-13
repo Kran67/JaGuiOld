@@ -1,3 +1,4 @@
-﻿@import url(/css/components/extended/flapperLabel.css);
+﻿@import url(../../../../css/components/extended/flapperlabel.css);
+@import url(../common/label.css);
 
 .neumorphiclight.flapperLabel {}
