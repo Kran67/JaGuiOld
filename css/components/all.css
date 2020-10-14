@@ -37,7 +37,7 @@
 @import url('common/progressbar.css');
 @import url('common/radiobutton.css');
 @import url('common/rating.css');
-@import url('common/shapes.css');
+/*@import url('common/shapes.css');*/
 @import url('common/slider.css');
 @import url('common/spinbox.css');
 @import url('common/splitter.css');
@@ -136,7 +136,7 @@
 /* menus components */
 @import url('menus/menus.css');
 /* toolbars components */
-@import url('toobars/splittoolbutton.css');
-@import url('toobars/statusbar.css');
-@import url('toobars/toolbar.css');
-@import url('toobars/toolbutton.css');
+@import url('toolbars/splittoolbutton.css');
+@import url('toolbars/statusbar.css');
+@import url('toolbars/toolbar.css');
+@import url('toolbars/toolbutton.css');

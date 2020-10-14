@@ -1,5 +1,5 @@
-﻿@import url(../common/label.css);
-@import url(../color/colorbutton.css);
+﻿/*@import url(../common/label.css);
+@import url(../color/colorbutton.css);*/
 .LabeledColorButton {
     display:flex;
     overflow:visible;

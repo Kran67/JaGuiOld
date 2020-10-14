@@ -1,4 +1,4 @@
-﻿@import url(../../../../css/components/containers/tabcontrol.css);
+﻿/*@import url(../../../../css/components/containers/tabcontrol.css);*/
 .carbon.Tab,
 .carbon.Tab.disabled:hover {
     border: 1px solid #303030;

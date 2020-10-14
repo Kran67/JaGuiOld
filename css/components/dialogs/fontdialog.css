@@ -1,9 +1,9 @@
-﻿@import url(commondialog.css);
+﻿/*@import url(commondialog.css);
 @import url(../common/dropdownlistbox.css);
 @import url(../color/dropdownlistboxcolor.css);
 @import url(../common/checkbox.css);
 @import url(../containers/groupbox.css);
-@import url(../common/label.css);
+@import url(../common/label.css);*/
 .FontDlg fieldset.GroupBox {
     border-bottom: none;
     border-left: none;

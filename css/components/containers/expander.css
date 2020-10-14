@@ -1,5 +1,5 @@
-﻿@import url('../common/checkbox.css');
-@import url('../common/button.css');
+﻿/*@import url('../common/checkbox.css');
+@import url('../common/button.css');*/
 .Expander {
     transition-property: height;
     transition-duration: 0.2s;

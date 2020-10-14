@@ -1,4 +1,4 @@
-﻿@import url(../../../../css/components/common/rating.css);
+﻿/*@import url(../../../../css/components/common/rating.css);*/
 .carbon.Rating {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAQCAYAAAAbBi9cAAAB2UlEQVQ4T52TTUsCYRDHd13f3zaDToGHCAIDQdQQFZQOQiB1DIKiPkGdgj5B0Kk+QVEQdDQ6eQgFEUnFU3uKDkInD+b762r/WdpQXLUamMPzMPN75j8zD8vMMbfbHaSQfD6fmhXKzgMFAoHYcDjk0ul09N8gl8vlsFqtrwSoVqvrhUJBmAabWZHf7781GAz7lNxqte5Q1cGfQeiNHZB3nuc5Sq5UKiJgK+hVUQk2VlEwGHR3Op0lnU5nHwwGuyaTaVOr1Up53W6XaTQazyqV6gExRcSUUqlUXoayTqdzzWKxxDmOs8MZlmUl12g0DJ1HTRRFptfrMWi+5HSGF2u1WkSqyOv1hvDCk9FoNBPgN0bAZrNZR3XRbDab/JFGsvBKHLBFWc40IMkEpITKt2R5Yz2icQMUN5vNy2q1WpHT7/eZer3+AVBkdB0mxk8yAUoAqAgCgEBhkjMaMAHy+XyHmNa1Xq9XBLXbbZreUSaTuZkJwhJeAnQs94maSiYP4XsNrrCcJ/NACXyLEPZIGjUS7ykB4D2CYY/ouyQBCs8EYXqfSOIhIQnIaS6Xe6EEj8ezgfsLSA7hvoJpLUwFORyOVZvNFsNunAHwqNQkALexc+flcnlHEIQ3OeYLMtLcwlsocVQAAAAASUVORK5CYII=);
 }

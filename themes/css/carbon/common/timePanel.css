@@ -1,5 +1,5 @@
-﻿@import url(../../../../css/components/common/timepanel.css);
-@import url(numberwheel.css);
+﻿/*@import url(../../../../css/components/common/timepanel.css);
+@import url(numberwheel.css);*/
 .carbon.TimePanel {
     background-color: #333;
     border: 1px solid #303030;

@@ -1,5 +1,5 @@
-﻿@import url(../../../../css/components/extended/circularprogressbar.css);
-@import url(../common/progressbar.css);
+﻿/*@import url(../../../../css/components/extended/circularprogressbar.css);
+@import url(../common/progressbar.css);*/
 .carbon.CircularProgressBar,
 .carbon.CircularProgressBar:after {
     border: 1px solid #303030;

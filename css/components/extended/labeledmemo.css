@@ -1,5 +1,5 @@
-﻿@import url(../common/label.css);
-@import url(../common/memo.css);
+﻿/*@import url(../common/label.css);
+@import url(../common/memo.css);*/
 .LabeledMemo {
     display:flex;
     overflow:visible;

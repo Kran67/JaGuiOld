@@ -1,6 +1,6 @@
-﻿@import url(../common/label.css);
+﻿/*@import url(../common/label.css);
 @import url(../extended/anglebutton.css);
-@import url(../extended/valuelabel.css);
+@import url(../extended/valuelabel.css);*/
 .LabeledAngleBar {
     display:flex;
     overflow:visible;

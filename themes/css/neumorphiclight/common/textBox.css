@@ -1,11 +1,15 @@
 ﻿@import url(../../../../css/components/common/textbox.css);
 
 .neumorphiclight.TextBox {
-    border: 1px solid #202020;
-    background-color: #333;
-    border-radius: 2px;
+    box-shadow: inset 0.2rem 0.2rem 0.5rem var(--neumorphiclight-darkshadow), inset -0.2rem -0.2rem 0.5rem var(--neumorphiclight-txtselection);
+    border-radius: 1.2rem;
+    overflow:visible;
 }
 
 .neumorphiclight.TextBox.focused {
-    box-shadow: 0 0 6px #F69E2D;
+    box-shadow: inset 0.2rem 0.2rem 0.5rem var(--neumorphiclight-darkshadow), inset -0.2rem -0.2rem 0.5rem var(--neumorphiclight-txtselection), 0.3rem 0.3rem 0.5rem var(--neumorphiclight-darkshadow), -0.2rem -0.2rem 0.4rem var(--neumorphiclight-txtselection);
 }
+
+/*.neumorphiclight.TextBox input {
+    border-radius: 1.2rem;
+}*/

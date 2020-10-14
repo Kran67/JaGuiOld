@@ -1,8 +1,8 @@
-﻿@import url(../color/colorpicker.css);
+﻿/*@import url(../color/colorpicker.css);
 @import url(../color/colorquad.css);
 @import url(../color/colorbox.css);
 @import url(../color/alphaslider.css);
-@import url(../color/hueslider.css);
+@import url(../color/hueslider.css);*/
 .ColorPanel {
     min-width: 100px;
     min-height: 100px;

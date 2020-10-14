@@ -1,5 +1,5 @@
-﻿@import url(../../../../css/components/common/speedbutton.css);
-@import url(button.css);
+﻿/*@import url(../../../../css/components/common/speedbutton.css);
+@import url(button.css);*/
 .carbon.SpeedButton,
 .carbon.SpeedButton.disabled:hover {
     border-radius: 3px;

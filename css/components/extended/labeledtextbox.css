@@ -1,5 +1,5 @@
-﻿@import url(../common/label.css);
-@import url(../common/textbox.css);
+﻿/*@import url(../common/label.css);
+@import url(../common/textbox.css);*/
 .LabeledTextBox {
     display:flex;
     overflow:visible;

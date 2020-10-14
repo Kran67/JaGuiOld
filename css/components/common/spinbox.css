@@ -1,5 +1,5 @@
-﻿@import url(textbox.css);
-@import url(button.css);
+﻿/*@import url(textbox.css);
+@import url(button.css);*/
 .SpinBox {
     display: flex;
     flex-direction: row;

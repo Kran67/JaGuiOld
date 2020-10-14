@@ -498,23 +498,24 @@ class Application extends BaseClass {
         let text = String.EMPTY;
         //#endregion Variables déclaration
         this.hideToolTip();
-        !obj.showToolTip && !obj.ownerShowToolTip && (exit = !0);
-        if (!String.isNullOrEmpty(obj.toolTip)) {
-            text = obj.toolTip;
-        } else if (obj.ownerShowToolTip) {
-            !String.isNullOrEmpty(obj.owner.toolTip) && (text = obj.owner.toolTip);
-        }
-        if (core.classes.CustomTextControl && obj instanceof core.classes.CustomTextControl) {
-            obj.hasError && (text = obj.errorMsg);
-        }
-        if (!text || typeof text !== core.types.CONSTANTS.STRING) {
-            return;
-        }
-        if (!String.isNullOrEmpty(text) && this.#toolTip) {
-            this.#toolTip.innerHTML = text;
-            this.placeToolTip(coord, useOffset);
-            this.closeToolTip();
-        }
+        if (obj.showToolTip || obj.ownerShowToolTip) {
+            if (!String.isNullOrEmpty(obj.toolTip)) {
+                text = obj.toolTip;
+            } else if (obj.ownerShowToolTip) {
+                !String.isNullOrEmpty(obj.owner.toolTip) && (text = obj.owner.toolTip);
+            }
+                if (core.classes.CustomTextControl && obj instanceof core.classes.CustomTextControl) {
+                    obj.hasError && (text = obj.errorMsg);
+                }
+                if (!text || typeof text !== core.types.CONSTANTS.STRING) {
+                    return;
+                }
+                if (!String.isNullOrEmpty(text) && this.#toolTip) {
+                    this.#toolTip.innerHTML = text;
+                    this.placeToolTip(coord, useOffset);
+                    this.closeToolTip();
+                }
+            }
     }
     /**
      * Move the tooltip

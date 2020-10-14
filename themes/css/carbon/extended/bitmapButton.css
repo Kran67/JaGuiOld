@@ -1,5 +1,5 @@
-﻿@import url(../../../../css/components/extended/bitmapbutton.css);
-@import url(../common/buttonglyph.css);
+﻿/*@import url(../../../../css/components/extended/bitmapbutton.css);
+@import url(../common/buttonglyph.css);*/
 .carbon.BitmapButton,
 .carbon.BitmapButton.disabled:hover {
     border-radius: 3px;

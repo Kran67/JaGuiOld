@@ -1,5 +1,5 @@
-﻿@import url(../../../../css/components/extended/cornerbutton.css);
-@import url(../common/button.css);
+﻿/*@import url(../../../../css/components/extended/cornerbutton.css);
+@import url(../common/button.css);*/
 :root {
     --first-corner-button-color: #222;
     --secondary-corner-button-color: #222;

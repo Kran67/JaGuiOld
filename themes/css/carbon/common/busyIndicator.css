@@ -1,4 +1,4 @@
-﻿@import url(../../../../css/components/common/busyindicator.css);
+﻿/*@import url(../../../../css/components/common/busyindicator.css);*/
 .carbon.spinIndic,
 .carbon.win8loader .win8circle:after {
     background-color: #E0E0E0;
