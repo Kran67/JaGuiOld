@@ -574,12 +574,12 @@ Object.defineProperties(MenuItem.prototype, {
 core.classes.register(core.types.CATEGORIES.INTERNAL, MenuItem);
 //#region Templates
 if (core.isHTMLRenderer) {
-    const MenuItemTpl = ['<jagui-menuitem id="{internalId}" class="Control MenuItem {theme} {inMainMenu}">',
+    const MenuItemTpl = ['<jagui-menuitem id="{internalId}" class="Control MenuItem {theme} {inMainMenu}"><div class="MenuItemEvent"></div>',
         '<jagui-menuitem-caption class="MenuItemCaption {theme} {inMainMenu}" {icon}>{caption}</jagui-menuitem-caption>',
         '<jagui-menuitem-shortcut class="MenuItemShortCut {theme} {inMainMenu}">{shortcut}</jagui-menuitem-shortcut>',
         '<jagui-menuitem-arrow class="MenuItemHasSubMenu {theme} {asChilds} {inMainMenu}"></jagui-menuitem-arrow>',
         '</jagui-menuitem>'].join(String.EMPTY);
-    const MenuItemSepTpl = '<jagui-menuitemsep id="{internalId}" class="MenuItemSep {theme}"></jagui-menuitemsep>';
+    const MenuItemSepTpl = '<jagui-menuitemsep id="{internalId}" class="MenuItemSep {theme}"><jagui-menuitemsepcell class="MenuItemSepCell {theme}"></jagui-menuitemsepcell></jagui-menuitemsep>';
     core.classes.registerTemplates([{ Class: MenuItem, template: MenuItemTpl }, { Class: 'MenuItemSep', template: MenuItemSepTpl }]);
 }
 //#endregion Templates
