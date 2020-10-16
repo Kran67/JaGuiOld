@@ -1,12 +1,13 @@
 ﻿//#region Import
-import { Component } from '/scripts/core/component.js';
+//import { Component } from '/scripts/core/component.js';
+import { Control } from '/scripts/components/control.js';
 import { Action } from '/scripts/components/actions/action.js';
 import { Text } from '/scripts/core/text.js';
 import { Events } from '/scripts/core/events.js';
 import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Import
 //#region Class MenuItem
-class MenuItem extends Component {
+class MenuItem extends Control /*Component*/ {
     //#region Private fields
     #caption;
     #inMainMenu;
@@ -33,6 +34,7 @@ class MenuItem extends Component {
         //#endregion Variables déclaration
         props = !props ? {} : props;
         if (owner) {
+            props.sizeByCss = !0;
             super(owner, props);
             this.#caption = props.hasOwnProperty('caption') && core.tools.isString(props.caption) ? props.caption : String.EMPTY;
             this.#inMainMenu = props.hasOwnProperty('inMainMenu') && core.tools.isBool(props.inMainMenu) ? props.inMainMenu : !1;
@@ -44,13 +46,6 @@ class MenuItem extends Component {
             this.#active = props.hasOwnProperty('active') && core.tools.isBool(props.active) ? props.active : !1;
             this.#enabled = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
             this.#checked = props.hasOwnProperty('checked') && core.tools.isBool(props.checked) ? props.checked : !1;
-            this.mouseEvents = new core.classes.MouseEvents({
-                mousemove: !0,
-                mouseover: !0,
-                mouseenter: !0,
-                mouseleave: !0,
-                mouseout: !0
-            });
             this.#items.convertToCollection(owner, MenuItem);
             this.createEventsAndBind(['onClick'], props);
         }
@@ -248,6 +243,18 @@ class MenuItem extends Component {
         return this.#popupMenu;
     }
     //#endregion popupMenu
+    //#region width
+    get width() {
+        return super.width;
+    }
+    set width(newValue) {}
+    //#endregion width
+    //#region height
+    get height() {
+        return super.height;
+    }
+    set height(newValue) {}
+    //#endregion height
     //#endregion Getters / Setters
     //#region Methods
     //#region getImageList
@@ -536,9 +543,11 @@ class MenuItem extends Component {
         }
     }
     //#endregion mouseEnter
-    mouseLeave() {
-        console.log(core.mouse.event);
-    }
+    //mouseLeave() {
+    //    console.log(core.mouse.event);
+    //}
+
+    resize() {}
     //#endregion Methods
 }
 Object.defineProperties(MenuItem.prototype, {
@@ -574,7 +583,7 @@ Object.defineProperties(MenuItem.prototype, {
 core.classes.register(core.types.CATEGORIES.INTERNAL, MenuItem);
 //#region Templates
 if (core.isHTMLRenderer) {
-    const MenuItemTpl = ['<jagui-menuitem id="{internalId}" class="Control MenuItem {theme} {inMainMenu}"><div class="MenuItemEvent"></div>',
+    const MenuItemTpl = ['<jagui-menuitem id="{internalId}" class="MenuItem {theme} {inMainMenu}">',
         '<jagui-menuitem-caption class="MenuItemCaption {theme} {inMainMenu}" {icon}>{caption}</jagui-menuitem-caption>',
         '<jagui-menuitem-shortcut class="MenuItemShortCut {theme} {inMainMenu}">{shortcut}</jagui-menuitem-shortcut>',
         '<jagui-menuitem-arrow class="MenuItemHasSubMenu {theme} {asChilds} {inMainMenu}"></jagui-menuitem-arrow>',

@@ -2250,16 +2250,16 @@ class BaseWindow extends ThemedControl {
         if (popups) {
             if (popups.length > 0) {
                 popups.reverse().forEach((popup, i) => {
-                    const refControl = popup.refControl;
-                    if (classes.MenuItem && refControl instanceof classes.MenuItem) {
-                        refControl.closeSubMenu();
-                    } else if (refControl) {
-                        if (classes.PopupBox && refControl.dropDownPopup instanceof classes.PopupBox) {
-                            refControl.destroyPopup();
-                            popup.refControl = null;
-                        }
-                    }
                     if (popup) {
+                        const refControl = popup.refControl;
+                        if (classes.MenuItem && refControl instanceof classes.MenuItem) {
+                            refControl.closeSubMenu();
+                        } else if (refControl) {
+                            if (classes.PopupBox && refControl.dropDownPopup instanceof classes.PopupBox) {
+                                refControl.destroyPopup();
+                                popup.refControl = null;
+                            }
+                        }
                         classes.PopupMenu && popup.owner instanceof classes.PopupMenu && popup.owner.close();
                         popups[i] = null;
                     }

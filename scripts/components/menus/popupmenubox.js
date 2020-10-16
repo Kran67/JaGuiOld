@@ -235,7 +235,7 @@ core.classes.register(core.types.CATEGORIES.INTERNAL, PopupMenuBox);
 //#region Templates
 if (core.isHTMLRenderer) {
 const PopupMenuBoxTpl = ['<jagui-popupmenubox id="{internalId}" data-class="PopupMenuBox" class="Control PopupMenuBox PopupBox csr_default animated {theme}"><properties>{ "name": "{name}" }</properties>',
-                         '<jagui-submenu class="Control subMenu {theme}">',
+                         '<jagui-submenu class="subMenu {theme}">',
                          '</jagui-submenu></jagui-popupmenubox>'].join(String.EMPTY);
     core.classes.registerTemplates([{ Class: PopupMenuBox, template: PopupMenuBoxTpl }]);
 }

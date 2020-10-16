@@ -220,7 +220,7 @@ core.classes.register(core.types.CATEGORIES.MENUS, MainMenu);
 if (core.isHTMLRenderer) {
     const MainMenuTpl = ['<jagui-mainmenu id="{internalId}" data-class="MainMenu" class="Control ShortCutIcon MainMenu">',
         '<properties>{ "name": "{name}" }</properties>',
-        '</jagui-menuitem>'].join(String.EMPTY);
+        '</jagui-mainmenu>'].join(String.EMPTY);
     core.classes.registerTemplates([{ Class: MainMenu, template: MainMenuTpl }]);
 }
 //#endregion Templates

@@ -13,7 +13,7 @@ class PopupBox extends ThemedControl {
         if (owner) {
             !props.height ? (props.height = -1) : null;
             !props.width ? (props.width = -1) : null;
-            props.mouseEvents = { mousedown: !0, mousemove: !0, mouseenter: !0 };
+            props.mouseEvents = { mousedown: !1, mousemove: !1, mouseenter: !1 };
             props.ownerShowToolTip = !1;
             props.showToolTip = !1;
             super(owner, props);
