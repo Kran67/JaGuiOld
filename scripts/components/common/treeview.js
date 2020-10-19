@@ -4,24 +4,44 @@ import { BaseClass } from '/scripts/core/baseclass.js';
 import { Events, NotifyEvent } from '/scripts/core/events.js';
 import { Mouse } from '/scripts/core/mouse.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
-import { Tools } from '/scripts/core/tools.js';
+import { Tools } from '/scripts/core/core.tools.js';
 import { Point } from '/scripts/core/geometry.js';
 import { Checkbox } from '/scripts/components/common/checkbox.js';
 //#endregion Import
 //#region TreeViewItem
 const TreeViewItem = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
-        }
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class CustomButton
+    //#region Private fields
+    #owner;
+    #parentNodes = [];
+    #html;
+    #root;
+    #icon;
+    #check;
+    #text;
+    #level = 0;
+    #checkedChildsNb = 0;
+    #order;
+    #stopEvent = !0;
+    //#props = {};
+    #caption;
+    #text = null;
+    #height;
+    #checked;
+    #allowGrayed;
+    #enabled;
+    #expanded;
+    #form;
+    #selected;
+    #visible;
+    #imageIndex;
+    #image;
+    #cssImage;
+    #items = [];
+    #css;
+    #hitTest;
+    #onlyRootExpand;
+    //#endregion Private fields
+    //#region Class TreeViewItem
     class TreeViewItem extends BaseClass {
         //#region constructor
         constructor(owner, props) {
@@ -30,24 +50,11 @@ const TreeViewItem = (() => {
             props = !props ? {} : props;
             if (owner) {
                 super(owner, props);
-                const priv = internal(this);
-                priv.owner = owner;
-                priv.parentNodes = [];
-                priv.html = null;
-                priv.root = null;
-                priv.icon = null;
-                priv.check = null;
-                priv.text = null;
-                priv.level = 0;
-                priv.checkedChildsNb = 0;
-                priv.order = null;
-                priv.stopEvent = !0;
-                priv.props = {};
-                priv.caption = props.hasOwnProperty('caption') ? props.caption : String.EMPTY;
-                priv.text = null;
-                priv.height = props.hasOwnProperty('height') ? props.height : owner.itemsHeight;
-                priv.checked = props.hasOwnProperty('checked') && Tools.isBool(props.checked) ? props.checked : !1;
-                Tools.addPropertyFromEnum({
+                this.#owner = owner;
+                this.#caption = props.hasOwnProperty('caption') ? props.caption : String.EMPTY;
+                this.#height = props.hasOwnProperty('height') ? props.height : owner.itemsHeight;
+                this.#checked = props.hasOwnProperty('checked') && core.tools.isBool(props.checked) ? props.checked : !1;
+                core.tools.addPropertyFromEnum({
                     component: this,
                     propName: 'state',
                     enum: Checkbox.CHECKBOXSTATES,
@@ -55,35 +62,34 @@ const TreeViewItem = (() => {
                     variable: priv,
                     value: props.hasOwnProperty('state') ? props.state : Checkbox.CHECKBOXSTATES.UNCHECKED
                 });
-                priv.allowGrayed = props.hasOwnProperty('allowGrayed') && Tools.isBool(props.allowGrayed) ? props.allowGrayed : !1;
-                priv.enabled = props.hasOwnProperty('enabled') && Tools.isBool(props.enabled) ? props.enabled : !0;
-                priv.expanded = props.hasOwnProperty('expanded') && Tools.isBool(props.expanded) ? props.expanded : !1;
-                priv.form = owner.form;
-                priv.selected = props.hasOwnProperty('selected') && Tools.isBool(props.selected) ? props.selected : !1;
-                priv.visible = props.hasOwnProperty('enabled') && Tools.isBool(props.enabled) ? props.enabled : !0;
-                priv.imageIndex = props.hasOwnProperty('imageIndex') && Tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
-                priv.image = props.hasOwnProperty('image') ? props.image : String.EMPTY;
-                priv.cssImage = props.hasOwnProperty('cssImage') ? props.cssImage : String.EMPTY;
-                priv.items = [];
-                priv.css = String.EMPTY;
-                priv.hitTest = { mouseWheel: !0 };
-                priv.onlyRootExpand = props.hasOwnProperty('onlyRootExpand') && Tools.isBool(props.onlyRootExpand) ? props.onlyRootExpand : !0;
+                this.#allowGrayed = props.hasOwnProperty('allowGrayed') && core.tools.isBool(props.allowGrayed) ? props.allowGrayed : !1;
+                this.#enabled = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
+                this.#expanded = props.hasOwnProperty('expanded') && core.tools.isBool(props.expanded) ? props.expanded : !1;
+                this.#form = owner.form;
+                this.#selected = props.hasOwnProperty('selected') && core.tools.isBool(props.selected) ? props.selected : !1;
+                this.#visible = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
+                this.#imageIndex = props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
+                this.#image = props.hasOwnProperty('image') ? props.image : String.EMPTY;
+                this.#cssImage = props.hasOwnProperty('cssImage') ? props.cssImage : String.EMPTY;
+                this.#css = String.EMPTY;
+                this.#hitTest = { mouseWheel: !0 };
+                this.#onlyRootExpand = props.hasOwnProperty('onlyRootExpand') && core.tools.isBool(props.onlyRootExpand) ? props.onlyRootExpand : !0;
                 owner.items.push(this);
                 if (parentNode) {
-                    priv.parentNodes.push.apply(priv.parentNodes, parentNode.parentNodes);
-                    priv.parentNodes.push(parentNode);
-                    priv.level = parentNode.level + 1;
+                    this.#parentNodes.push.apply(this.#parentNodes, parentNode.parentNodes);
+                    this.#parentNodes.push(parentNode);
+                    this.#level = parentNode.level + 1;
                     lastItem = parentNode.items.last;
                     if (!lastItem) {
                         lastItem = owner.items.last;
                     }
                     //if (lastItem) {
-                    //    priv.top = lastItem.top + lastItem.height;
+                    //    this.#top = lastItem.top + lastItem.height;
                     //}
                     parentNode.items.push(this);
-                    priv.order = parentNode.order + parentNode.items.indexOf(this).toString();
+                    this.#order = parentNode.order + parentNode.items.indexOf(this).toString();
                 } else {
-                    priv.order = owner.items.indexOf(this).toString();
+                    this.#order = owner.items.indexOf(this).toString();
                 }
                 if (owner.allowUpdate) {
                     //owner.updateVScrollBar();
@@ -99,15 +105,12 @@ const TreeViewItem = (() => {
         //#region Getters / Setters
         //#region onlyRootExpand
         get onlyRootExpand() {
-            return internal(this).onlyRootExpand;
+            return this.#onlyRootExpand;
         }
         set onlyRootExpand(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.onlyRootExpand !== newValue) {
-                    priv.onlyRootExpand = newValue;
+            if (core.tools.isBool(newValue)) {
+                if (this.#onlyRootExpand !== newValue) {
+                    this.#onlyRootExpand = newValue;
                     this.update();
                 }
             }
@@ -115,187 +118,131 @@ const TreeViewItem = (() => {
         //#endregion onlyRootExpand
         //#region checked
         get checked() {
-            return internal(this).checked;
+            return this.#checked;
         }
         set checked(newValue) {
             //#region Variables déclaration
-            const priv = internal(this);
             const checkboxStates = Checkbox.CHECKBOXSTATES;
             //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.checked !== newValue) {
-                    priv.checked = newValue;
-                    if (priv.checked) {
-                        priv.state = checkboxStates.CHECKED;
-                    } else {
-                        priv.state = checkboxStates.UNCHECKED;
-                    }
+            if (core.tools.isBool(newValue)) {
+                if (this.#checked !== newValue) {
+                    this.#checked = newValue;
+                    this.#state = this.#checked ? checkboxStates.CHECKED : checkboxStates.UNCHECKED;
                     this.update();
-                    this.updateChildsCheck(priv.checked);
-                    this.updateParentCheck(priv.checked);
+                    this.updateChildsCheck(this.#checked);
+                    this.updateParentCheck(this.#checked);
                 }
             }
         }
         //#endregion checked
         //#region enabled
         get enabled() {
-            return internal(this).enabled;
+            return this.#enabled;
         }
         set enabled(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (priv.enabled !== newValue) {
-                    priv.enabled = newValue;
-                    this.update();
-                }
+            if (core.tools.isBool(newValue) && this.#enabled !== newValue) {
+                this.#enabled = newValue;
+                this.update();
             }
         }
         //#endregion enabled
         //#region height
         get height() {
-            return internal(this).height;
+            return this.#height;
         }
         set height(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.height !== newValue) {
-                    priv.height = newValue;
-                    priv.owner.refreshInnerHeight();
-                }
+            if (core.tools.isNumber(newValue) && this.#height !== newValue) {
+                this.#height = newValue;
+                this.#owner.refreshInnerHeight();
             }
         }
         //#endregion height
         //#region caption
         get caption() {
-            return internal(this).caption;
+            return this.#caption;
         }
         set caption(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.caption !== newValue) {
-                    priv.caption = newValue;
-                    this.update();
-                }
+            if (core.tools.isString(newValue) && this.#caption !== newValue) {
+                this.#caption = newValue;
+                this.update();
             }
         }
         //#endregion caption
         //#region selected
         get selected() {
-            return internal(this).selected;
+            return this.#selected;
         }
         set selected(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isBool(newValue)) {
-                if (!priv.isHeader && priv.enabled) {
-                    if (priv.selected !== newValue) {
-                        priv.selected = newValue;
-                        this.update();
-                    }
-                }
+            if (core.tools.isBool(newValue) && !this.#isHeader && this.#enabled && this.#selected !== newValue) {
+                this.#selected = newValue;
+                this.update();
             }
         }
         //#endregion selected
         get expanded() {
-            return internal(this).expanded;
+            return this.#expanded;
         }
         set expanded(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            priv.expanded = !priv.expanded;
-            priv.items.forEach(item => {
-                item.visible = priv.expanded;
-                item.level = priv.level + 1;
-                if (item.html) {
-                    item.removeToHTML();
-                }
+            this.#expanded = !this.#expanded;
+            this.#items.forEach(item => {
+                item.visible = this.#expanded;
+                item.level = this.#level + 1;
+                item.html && item.removeToHTML();
                 this.items[i].updateDataSet();
             });
             //this.updateDataSet();
-            if (priv.owner.itemIndex > -1) {
-                const item = priv.owner.items[priv.owner.itemIndex];
+            if (this.#owner.itemIndex > -1) {
+                const item = this.#owner.items[this.#owner.itemIndex];
                 for (let i = item.parentNodes.length - 1; i >= 0; i--) {
                     if (item.parentNodes[i] === this) {
-                        priv.owner.itemIndex = priv.index;
+                        this.#owner.itemIndex = this.#index;
                         break;
                     }
                 }
             }
-            priv.owner.refreshInnerSize();
+            this.#owner.refreshInnerSize();
         }
         //#region imageIndex
         get imageIndex() {
-            return internal(this).imageIndex;
+            return this.#imageIndex;
         }
         set imageIndex(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isNumber(newValue)) {
-                if (priv.imageIndex !== newValue) {
-                    priv.imageIndex = newValue;
-                    if (priv.owner.allowUpdate) {
-                        this.update();
-                    }
-                }
+            if (core.tools.isNumber(newValue) && this.#imageIndex !== newValue) {
+                this.#imageIndex = newValue;
+                this.#owner.allowUpdate && this.update();
             }
         }
         //#endregion imageIndex
         //#region cssImage
         get cssImage() {
-            return internal(this).cssImage;
+            return this.#cssImage;
         }
         set cssImage(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.cssImage !== newValue) {
-                    priv.cssImage = newValue;
-                    if (priv.owner.allowUpdate) {
-                        this.update();
-                    }
-                }
+            if (core.tools.isString(newValue) && this.#cssImage !== newValue) {
+                this.#cssImage = newValue;
+                this.#owner.allowUpdate && this.update();
             }
         }
         //#endregion cssImage
         //#region image
         get image() {
-            return internal(this).image;
+            return this.#image;
         }
         set image(newValue) {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (Tools.isString(newValue)) {
-                if (priv.image !== newValue) {
-                    priv.image = newValue;
-                    if (priv.owner.allowUpdate) {
-                        this.update();
-                    }
-                }
+            if (core.tools.isString(newValue) && this.#image !== newValue) {
+                this.#image = newValue;
+                this.#owner.allowUpdate && this.update();
             }
         }
         //#endregion image
         //#region index
         get index() {
-            return internal(this).owner.items.indexOf(this);
+            return this.#owner.items.indexOf(this);
         }
         //#endregion index
         //#region enabled
         get enabled() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            return priv.enabled && priv.owner.isEnabled;
+            return this.#enabled && this.#owner.isEnabled;
         }
         //#endregion enabled
         //#region visible
@@ -303,104 +250,93 @@ const TreeViewItem = (() => {
             //#region Variables déclaration
             let ret = !0;
             //#endregion Variables déclaration
-            for (let i = priv.parentNodes.length - 1; i >= 0; i--) {
-                if (!priv.parentNodes[i].expanded) {
+            for (let i = this.#parentNodes.length - 1; i >= 0; i--) {
+                if (!this.#parentNodes[i].expanded) {
                     ret = !1;
                     break;
                 }
             }
-            return ret && priv.visible;
+            return ret && this.#visible;
         }
         //#endregion visible
         //#region expanded
         get expanded() {
-            return internal(this).expanded;
+            return this.#expanded;
         }
         //#endregion expanded
         //#region owner
         get owner() {
-            return internal(this).owner;
+            return this.#owner;
         }
         //#endregion owner
         //#region asChilds
         get asChilds() {
-            return internal(this).items.length > 0;
+            return this.#items.length > 0;
         }
         //#endregion asChilds
         //#region isEnabled
         get isEnabled() {
-            return internal(this).owner.enabled;
+            return this.#owner.enabled;
         }
         //#endregion isEnabled
         //#endregion Getters / Setters
         //#region Methods
         //#region mouseUp
         mouseUp() {
-            internal(this).owner.mouseUp();
+            this.#owner.mouseUp();
         }
         //#endregion mouseUp
         update() {
             //#region Variables déclaration
-            const priv = internal(this);
             const PX = Types.CSSUNITS.PX;
             const prop = 'Height';
             const propPos = 'top';
             //#endregion Variables déclaration
-            if (priv.html) {
-                priv.html.style[`min${prop}`] = `${priv.size}${PX}`;
-                priv.html.style[`max${prop}`] = `${priv.size}${PX}`;
-                priv.html.style[`${prop.toLowerCase()}`] = `${priv.size}${PX}`;
-                if (priv.owner.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
-                    priv.html.style[propPos] = `${priv.pos}${PX}`;
-                    priv.html.style.position = 'absolute';
+            if (this.#html) {
+                this.#html.style[`min${prop}`] = `${this.#size}${PX}`;
+                this.#html.style[`max${prop}`] = `${this.#size}${PX}`;
+                this.#html.style[`${prop.toLowerCase()}`] = `${this.#size}${PX}`;
+                if (this.#owner.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
+                    this.#html.style[propPos] = `${this.#pos}${PX}`;
+                    this.#html.style.position = 'absolute';
                 } else {
-                    priv.html.style.position = 'static';
+                    this.#html.style.position = 'static';
                 }
-                priv.html.classList.remove('disabled', 'TVIHasChild', 'selected');
-                if (priv.items.length > 0) {
-                    priv.root.classList.add('TVIHasChild');
-                    //if (priv.onlyRootExpand) {
-                    //    $j.tools.events.bind(this._root, $j.types.mouseEvents.UP, this.expandCollapse);
+                this.#html.classList.remove('disabled', 'TVIHasChild', 'selected');
+                if (this.#items.length > 0) {
+                    this.#root.classList.add('TVIHasChild');
+                    //if (this.#onlyRootExpand) {
+                    //    $j.core.tools.events.bind(this._root, $j.types.mouseEvents.UP, this.expandCollapse);
                     //} else {
-                    //    $j.tools.events.bind(this._html, $j.types.mouseEvents.UP, this.expandCollapse);
+                    //    $j.core.tools.events.bind(this._html, $j.types.mouseEvents.UP, this.expandCollapse);
                     //}
                 }
-                if (priv.owner.viewCheckboxes) {
-                    priv.check.classList.remove('grayed', 'checked');
-                    if (priv.check) {
-                        priv.check.classList.remove('checked');
-                    }
-                    if (priv.checked) {
-                        priv.check.classList.add('checked');
-                    } else if (priv.allowGrayed && priv.state === Types.CHECKBOXSTATES.GRAYED) {
-                        priv.check.classList.add('grayed');
+                if (this.#owner.viewCheckboxes) {
+                    this.#check.classList.remove('grayed', 'checked');
+                    this.#check && this.#check.classList.remove('checked');
+                    if (this.#checked) {
+                        this.#check.classList.add('checked');
+                    } else if (this.#allowGrayed && this.#state === Types.CHECKBOXSTATES.GRAYED) {
+                        this.#check.classList.add('grayed');
                     }
                 }
-                if (!priv.enabled) {
-                    priv.html.classList.add('disabled');
-                }
-                if (priv.selected) {
-                    priv.html.classList.add('selected');
-                }
-                if (!priv.parentNodes.isEmpty) {
-                    priv.html.classList.add('isChild');
-                }
-                priv.root.classList.remvoe('expanded');
-                if (priv.expanded) {
-                    priv.root.classList.add('expanded');
-                }
-                if (priv.icon) {
-                    priv.icon.classList.add('icon');
-                    if (!String.isNullOrEmpty(priv.cssImage)) {
-                        priv.icon.classList.add(priv.cssImage);
-                        priv.icon.style.backgroundSize = `${priv.size}${PX} ${priv.size}${PX}`;
-                    } else if (!String.isNullOrEmpty(priv.image)) {
-                        priv.icon.style.backgroundImage = `url(${priv.image})`;
-                        priv.icon.style.backgroundSize = `${priv.size}${PX} ${priv.size}${PX}`;
-                    } else if (priv.owner.images) {
-                        if (priv.imageIndex < priv.owner.images.images.length && priv.imageIndex > -1) {
-                            priv.icon.style.backgroundImage = `url(${priv.owner.images.images[priv.imageIndex]})`;
-                            priv.icon.style.backgroundSize = `${priv.owner.images.imageWidth}${PX} ${priv.owner.images.imageHeight}${PX}`;
+                !this.#enabled && this.#html.classList.add('disabled');
+                this.#selected && this.#html.classList.add('selected');
+                !this.#parentNodes.isEmpty && this.#html.classList.add('isChild');
+                this.#root.classList.remvoe('expanded');
+                this.#expanded && this.#root.classList.add('expanded');
+                if (this.#icon) {
+                    this.#icon.classList.add('icon');
+                    if (!String.isNullOrEmpty(this.#cssImage)) {
+                        this.#icon.classList.add(this.#cssImage);
+                        this.#icon.style.backgroundSize = `${this.#size}${PX} ${this.#size}${PX}`;
+                    } else if (!String.isNullOrEmpty(this.#image)) {
+                        this.#icon.style.backgroundImage = `url(${this.#image})`;
+                        this.#icon.style.backgroundSize = `${this.#size}${PX} ${this.#size}${PX}`;
+                    } else if (this.#owner.images) {
+                        if (this.#imageIndex < this.#owner.images.images.length && this.#imageIndex > -1) {
+                            this.#icon.style.backgroundImage = `url(${this.#owner.images.images[this.#imageIndex]})`;
+                            this.#icon.style.backgroundSize = `${this.#owner.images.imageWidth}${PX} ${this.#owner.images.imageHeight}${PX}`;
                         }
                     }
                 }
@@ -413,9 +349,9 @@ const TreeViewItem = (() => {
             //    this._root = $j.doc.createElement($j.types.HTMLElements.DIV);
             //    this._root.jsObj = this;
             //    this._html.appendChild(this._root);
-            //    //$j.tools.events.unBind(this._html,$j.types.mouseEvents.CLICK,this.click);
-            //    $j.tools.events.bind(this._html, $j.types.mouseEvents.CLICK, this.click);
-            //    //$j.tools.events.bind(this._html,$j.types.mouseEvents.DBLCLICK,this.dblClick);
+            //    //$j.core.tools.events.unBind(this._html,$j.types.mouseEvents.CLICK,this.click);
+            //    $j.core.tools.events.bind(this._html, $j.types.mouseEvents.CLICK, this.click);
+            //    //$j.core.tools.events.bind(this._html,$j.types.mouseEvents.DBLCLICK,this.dblClick);
             //    $j.CSS.addClass(this._root, "TreeViewRoot Control");
             //    this._root.style.height = this.height + $j.types.CSSUnits.PX;
             //    this._root.style.lineHeight = this.height + $j.types.CSSUnits.PX;
@@ -508,58 +444,50 @@ const TreeViewItem = (() => {
             //return { "nbChecked": nbC, "nbGrayed": nbG };
         }
         removeToHTML() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
-            if (priv.html) {
-                //$j.tools.events.unBind(this._html, $j.types.mouseEvents.DOWN, this._owner.selectItem);
-                //$j.tools.events.unBind(this._html, $j.types.mouseEvents.CLICK, this.click);
-                //$j.tools.events.unBind(this._html,$j.types.mouseEvents.DBLCLICK,this.dblClick);
-                //$j.tools.events.unBind(this._check, $j.types.mouseEvents.DOWN, this.checkUnCheck);
-                priv.html.parentNode.removeChild(priv.html);
-                priv.html = null;
-                priv.root = null;
-                if (priv.icon) {
-                    priv.html.removeChild(priv.icon);
-                }
-                priv.html.removeChild(priv.text);
-                priv.owner.HTMLElement.removeChild(priv.html);
-                priv.icon = null;
-                priv.check = null;
-                priv.text = null;
-                priv.checkbox = null;
+            if (this.#html) {
+                //$j.core.tools.events.unBind(this._html, $j.types.mouseEvents.DOWN, this._owner.selectItem);
+                //$j.core.tools.events.unBind(this._html, $j.types.mouseEvents.CLICK, this.click);
+                //$j.core.tools.events.unBind(this._html,$j.types.mouseEvents.DBLCLICK,this.dblClick);
+                //$j.core.tools.events.unBind(this._check, $j.types.mouseEvents.DOWN, this.checkUnCheck);
+                this.#html.parentNode.removeChild(this.#html);
+                this.#html = null;
+                this.#root = null;
+                this.#icon && this.#html.removeChild(this.#icon);
+                this.#html.removeChild(this.#text);
+                this.#owner.HTMLElement.removeChild(this.#html);
+                this.#icon = null;
+                this.#check = null;
+                this.#text = null;
+                this.#checkbox = null;
             }
         }
         destroy() {
-            //#region Variables déclaration
-            const priv = internal(this);
-            //#endregion Variables déclaration
             this.onDestroy.invoke();
             this.removeToHTML();
-            priv.owner.items.remove(this);
-            priv.owner = null;
-            priv.level = null;
-            priv.checkedChildsNb = null;
-            priv.text = null;
-            priv.caption = null;
-            priv.height = null;
-            priv.checked = null;
-            priv.state = null;
-            priv.allowGrayed = null;
-            priv.enabled = null;
-            priv.expanded = null;
-            priv.form = null;
-            priv.selected = null;
-            priv.visible = null;
-            priv.items = null;
-            priv.hitTest = null;
-            priv.parentNodes.destroy();
-            priv.parentNodes = null;
-            priv.level = null;
-            priv.order = null;
-            priv.imageIndex = null;
-            priv.image = null;
-            priv.cssImage = null;
+            this.#owner.items.remove(this);
+            this.#owner = null;
+            this.#level = null;
+            this.#checkedChildsNb = null;
+            this.#text = null;
+            this.#caption = null;
+            this.#height = null;
+            this.#checked = null;
+            this.#state = null;
+            this.#allowGrayed = null;
+            this.#enabled = null;
+            this.#expanded = null;
+            this.#form = null;
+            this.#selected = null;
+            this.#visible = null;
+            this.#items = null;
+            this.#hitTest = null;
+            this.#parentNodes.destroy();
+            this.#parentNodes = null;
+            this.#level = null;
+            this.#order = null;
+            this.#imageIndex = null;
+            this.#image = null;
+            this.#cssImage = null;
             this.onClick.destroy();
             this.onClick = null;
             this.onDblClick.destroy();
@@ -590,37 +518,23 @@ const TreeViewItem = (() => {
 })();
 //#endregion TreeViewItem
 //#region TreeView
-const TreeView = (() => {
-    //#region Private
-    const _private = new WeakMap();
-    const internal = (key) => {
-        // Initialize if not created
-        if (!_private.has(key)) {
-            _private.set(key, {});
+class TreeView extends ScrollControl {
+//#region Private
+//#endregion Private
+    //#region constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            super(owner, props);
         }
-        // Return private properties object
-        return _private.get(key);
-    };
-    //#endregion Private
-    //#region Class TreeView
-    class TreeView extends ScrollControl {
-        //#region constructor
-        constructor(owner, props) {
-            props = !props ? {} : props;
-            if (owner) {
-                super(owner, props);
-                const priv = internal(this);
-            }
-        }
-        //#endregion constructor
-        //#region Getters / Setters
-        //#endregion Getters / Setters
-        //#region Methods
-        //#endregion Methods
     }
-    return TreeView;
-    //#endregion TreeView
-})();
+    //#endregion constructor
+    //#region Getters / Setters
+    //#endregion Getters / Setters
+    //#region Methods
+    //#endregion Methods
+}
+return TreeView;
 //#endregion TreeView
 Object.seal(TreeView);
 Core.classes.register(Types.CATEGORIES.INTERNAL, TreeViewItem);
@@ -657,7 +571,7 @@ export { TreeViewItem, TreeView };
                 this.text = String.EMPTY;
                 this.height = owner.itemsHeight;
                 this.checked = false;
-                $j.tools.addPropertyFromSet(this, "state", $j.types.checkboxStates, $j.types.checkboxStates.UNCHECKED);
+                $j.core.tools.addPropertyFromSet(this, "state", $j.types.checkboxStates, $j.types.checkboxStates.UNCHECKED);
                 this.allowGrayed = false;
                 this.enabled = true;
                 this.expanded = false;
@@ -801,8 +715,8 @@ export { TreeViewItem, TreeView };
         mouseMove: function () {
             this._owner.mouseMove();
         },
-        mouseEnter: $j.tools.emptyFunc,
-        mouseLeave: $j.tools.emptyFunc,
+        mouseEnter: $j.core.tools.emptyFunc,
+        mouseLeave: $j.core.tools.emptyFunc,
         mouseDown: function () {
             this._owner.mouseDown();
         },
@@ -817,16 +731,16 @@ export { TreeViewItem, TreeView };
                 $j.CSS.removeClass(this._html, "disabled");
                 $j.CSS.removeClass(this._html, "selected");
                 $j.CSS.removeClass(this._root, "TVIHasChild");
-                $j.tools.events.unBind(this._root, $j.types.mouseEvents.UP, this.expandCollapse);
-                $j.tools.events.unBind(this._html, $j.types.mouseEvents.UP, this.expandCollapse);
+                $j.core.tools.events.unBind(this._root, $j.types.mouseEvents.UP, this.expandCollapse);
+                $j.core.tools.events.unBind(this._html, $j.types.mouseEvents.UP, this.expandCollapse);
                 if (this.items.length > 0) {
                     $j.CSS.addClass(this._root, "TVIHasChild");
-                    if (this.onlyRootExpand) $j.tools.events.bind(this._root, $j.types.mouseEvents.UP, this.expandCollapse);
-                    else $j.tools.events.bind(this._html, $j.types.mouseEvents.UP, this.expandCollapse);
+                    if (this.onlyRootExpand) $j.core.tools.events.bind(this._root, $j.types.mouseEvents.UP, this.expandCollapse);
+                    else $j.core.tools.events.bind(this._html, $j.types.mouseEvents.UP, this.expandCollapse);
                 }
                 if (this._owner.viewCheckboxes) {
-                    $j.tools.events.unBind(this._check, $j.types.mouseEvents.DOWN, this.checkUnCheck);
-                    $j.tools.events.bind(this._check, $j.types.mouseEvents.DOWN, this.checkUnCheck);
+                    $j.core.tools.events.unBind(this._check, $j.types.mouseEvents.DOWN, this.checkUnCheck);
+                    $j.core.tools.events.bind(this._check, $j.types.mouseEvents.DOWN, this.checkUnCheck);
                     $j.CSS.removeClass(this._check, "grayed checked");
                     if (this._check) $j.CSS.removeClass(this._check, "checked");
                     if (this.checked) $j.CSS.addClass(this._check, "checked");
@@ -843,8 +757,8 @@ export { TreeViewItem, TreeView };
                 if (!this._parentNodes.isEmpty()) $j.CSS.addClass(this._html, "isChild");
                 $j.CSS.removeClass(this._root, "expanded");
                 if (this.expanded) $j.CSS.addClass(this._root, "expanded");
-                $j.tools.events.unBind(this._html, $j.types.mouseEvents.DOWN, this._owner.selectItem);
-                $j.tools.events.bind(this._html, $j.types.mouseEvents.DOWN, this._owner.selectItem);
+                $j.core.tools.events.unBind(this._html, $j.types.mouseEvents.DOWN, this._owner.selectItem);
+                $j.core.tools.events.bind(this._html, $j.types.mouseEvents.DOWN, this._owner.selectItem);
                 if (this._owner.images && this.imageIndex > -1 || this.image !== String.EMPTY || this.cssImage != String.EMPTY) {
                     $j.CSS.addClass(this._icon, "icon");
                     if (this.cssImage !== String.EMPTY) {
@@ -906,9 +820,9 @@ export { TreeViewItem, TreeView };
                 this._root = $j.doc.createElement($j.types.HTMLElements.DIV);
                 this._root.jsObj = this;
                 this._html.appendChild(this._root);
-                //$j.tools.events.unBind(this._html,$j.types.mouseEvents.CLICK,this.click);
-                $j.tools.events.bind(this._html, $j.types.mouseEvents.CLICK, this.click);
-                //$j.tools.events.bind(this._html,$j.types.mouseEvents.DBLCLICK,this.dblClick);
+                //$j.core.tools.events.unBind(this._html,$j.types.mouseEvents.CLICK,this.click);
+                $j.core.tools.events.bind(this._html, $j.types.mouseEvents.CLICK, this.click);
+                //$j.core.tools.events.bind(this._html,$j.types.mouseEvents.DBLCLICK,this.dblClick);
                 $j.CSS.addClass(this._root, "TreeViewRoot Control");
                 this._root.style.height = this.height + $j.types.CSSUnits.PX;
                 this._root.style.lineHeight = this.height + $j.types.CSSUnits.PX;
@@ -1005,10 +919,10 @@ export { TreeViewItem, TreeView };
         },
         removeToHTML: function () {
             if (this._html) {
-                $j.tools.events.unBind(this._html, $j.types.mouseEvents.DOWN, this._owner.selectItem);
-                $j.tools.events.unBind(this._html, $j.types.mouseEvents.CLICK, this.click);
-                //$j.tools.events.unBind(this._html,$j.types.mouseEvents.DBLCLICK,this.dblClick);
-                $j.tools.events.unBind(this._check, $j.types.mouseEvents.DOWN, this.checkUnCheck);
+                $j.core.tools.events.unBind(this._html, $j.types.mouseEvents.DOWN, this._owner.selectItem);
+                $j.core.tools.events.unBind(this._html, $j.types.mouseEvents.CLICK, this.click);
+                //$j.core.tools.events.unBind(this._html,$j.types.mouseEvents.DBLCLICK,this.dblClick);
+                $j.core.tools.events.unBind(this._check, $j.types.mouseEvents.DOWN, this.checkUnCheck);
                 this._html.parentNode.removeChild(this._html);
                 this._html = null;
                 this._root = null;
