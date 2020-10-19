@@ -431,10 +431,10 @@ class MenuItem extends Control /*Component*/ {
     //#endregion click
     //#region closeSubMenu
     closeSubMenu() {
-        this.#popupMenu.items.forEach(item => {
-            item.active = !1;
-        });
         if (this.#popupMenu) {
+            this.#popupMenu.items.forEach(item => {
+                item.active = !1;
+            });
             this.#popupMenu.close();
             this.#popupMenu = null;
         }
@@ -463,7 +463,7 @@ class MenuItem extends Control /*Component*/ {
                 const container = document.createElement(core.types.HTMLELEMENTS.DIV);
                 container.innerHTML = tpl;
                 menuItem.HTMLElement = container.firstElementChild;
-                //menuItem.HTMLElement.jsObj = menuItem;
+                menuItem.HTMLElement.jsObj = menuItem;
                 menuItem.HTMLElementStyle = menuItem.HTMLElement.style;
                 menuItem.internalId = container.firstElementChild.id;
                 menuItem.loaded();

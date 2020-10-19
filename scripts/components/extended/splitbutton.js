@@ -8,7 +8,7 @@ class SplitButton extends ThemedControl {
     //#region Private fields
     #caption;
     #action = null;
-    #popupMenu;
+    //#popupMenu;
     #btn;
     #popupBtn;
     //#endregion Private fields
@@ -78,10 +78,10 @@ class SplitButton extends ThemedControl {
     //#region Methods
     //#region clickPopup
     clickPopup() {
-        if (this.#popupMenu && core.classes.PopupMenu && this.#popupMenu instanceof core.classes.PopupMenu) {
+        if (this.popupMenu && core.classes.PopupMenu && this.popupMenu instanceof core.classes.PopupMenu) {
             const pt = this.owner.clientToDocument();
-            this.#popupMenu.control = this.owner;
-            this.#popupMenu.show(pt.x, pt.y + this.owner.HTMLElement.offsetHeight);
+            this.popupMenu.control = this.owner;
+            this.popupMenu.show(pt.x, pt.y + this.owner.HTMLElement.offsetHeight);
         }
     }
     //#endregion clickPopup
