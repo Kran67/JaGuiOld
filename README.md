@@ -25,14 +25,14 @@ Javascript Advanced Graphical User Interface
 
 ### Controls todo :
 - [X] ActionList  (1)
-- [X] \(in progress) stdActions  (1)
-- [X] \(in progress) extActions  (1)
-- [X] \(in progress) ImageList	 (1)
+- [X] stdActions  (1)
+- [X] extActions  (1)
+- [X] ImageList	 (1)
 - [ ] Timers  (1)
-- [X] \(in progress) MainMenu  (1)
-- [X] \(in progress) MenuItem  (1)
-- [X] \(in progress) PopupMenu  (1)
-- [X] \(in progress) PopupMenuBox  (1)
+- [X] MainMenu  (1)
+- [X] MenuItem  (1)
+- [X] PopupMenu  (1)
+- [X] PopupMenuBox  (1)
 - [ ] TreeView  (1)
 - [ ] GradientEdit  (1)
   
