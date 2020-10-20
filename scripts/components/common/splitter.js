@@ -109,15 +109,15 @@ class Splitter extends ThemedControl {
                 style.transform = `translateX(${htmlElement.offsetLeft}${PX})`;
                 style.top = 0;
                 style.bottom = 0;
-                style.width = '5px';
+                style.width = `5${PX}`;
             } else {
                 style.transform = `translateY(${htmlElement.offsetTop}${PX})`;
                 style.left = 0;
                 style.right = 0;
-                style.height = '5px';
+                style.height = `5${PX}`;
             }
             style.zIndex = 99999;
-            resizeLine.classList.add('Control', 'ghostSplitter', this.themeName);
+            resizeLine.classList.add('Control', 'noEvents', 'ghostSplitter', this.themeName);
             resizeLine.jsObj = this;
             htmlElement.parentNode.appendChild(resizeLine);
             resizeLine.classList.add(this.#orientation === core.types.ORIENTATIONS.VERTICAL

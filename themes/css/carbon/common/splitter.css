@@ -29,3 +29,7 @@
 .carbon.Splitter:hover:before {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAJElEQVQIW2P8ulrjPwMDAwN36A1GRhgneK4CAyNI1MPDAywLAOY6CbLm3HvHAAAAAElFTkSuQmCC);
 }
+
+.carbon.ghostSplitter {
+    background-color: rgba(246,159,45,0.43);
+}

@@ -43,7 +43,3 @@
 .carbon.TabControlRightBtn:before {
     content: ")";
 }
-
-.carbon.ghostSplitter {
-    background-color: rgba(246,159,45,0.43);
-}

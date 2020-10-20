@@ -9,7 +9,7 @@ import { Point } from '/scripts/core/geometry.js';
 import { Checkbox } from '/scripts/components/common/checkbox.js';
 //#endregion Import
 //#region TreeViewItem
-const TreeViewItem = (() => {
+class TreeViewItem extends BaseClass {
     //#region Private fields
     #owner;
     #parentNodes = [];
@@ -41,486 +41,483 @@ const TreeViewItem = (() => {
     #hitTest;
     #onlyRootExpand;
     //#endregion Private fields
-    //#region Class TreeViewItem
-    class TreeViewItem extends BaseClass {
-        //#region constructor
-        constructor(owner, props) {
-            //#region Variables déclaration
-            //#endregion Variables déclaration
-            props = !props ? {} : props;
-            if (owner) {
-                super(owner, props);
-                this.#owner = owner;
-                this.#caption = props.hasOwnProperty('caption') ? props.caption : String.EMPTY;
-                this.#height = props.hasOwnProperty('height') ? props.height : owner.itemsHeight;
-                this.#checked = props.hasOwnProperty('checked') && core.tools.isBool(props.checked) ? props.checked : !1;
-                core.tools.addPropertyFromEnum({
-                    component: this,
-                    propName: 'state',
-                    enum: Checkbox.CHECKBOXSTATES,
-                    forceUpdate: !0,
-                    variable: priv,
-                    value: props.hasOwnProperty('state') ? props.state : Checkbox.CHECKBOXSTATES.UNCHECKED
-                });
-                this.#allowGrayed = props.hasOwnProperty('allowGrayed') && core.tools.isBool(props.allowGrayed) ? props.allowGrayed : !1;
-                this.#enabled = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
-                this.#expanded = props.hasOwnProperty('expanded') && core.tools.isBool(props.expanded) ? props.expanded : !1;
-                this.#form = owner.form;
-                this.#selected = props.hasOwnProperty('selected') && core.tools.isBool(props.selected) ? props.selected : !1;
-                this.#visible = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
-                this.#imageIndex = props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
-                this.#image = props.hasOwnProperty('image') ? props.image : String.EMPTY;
-                this.#cssImage = props.hasOwnProperty('cssImage') ? props.cssImage : String.EMPTY;
-                this.#css = String.EMPTY;
-                this.#hitTest = { mouseWheel: !0 };
-                this.#onlyRootExpand = props.hasOwnProperty('onlyRootExpand') && core.tools.isBool(props.onlyRootExpand) ? props.onlyRootExpand : !0;
-                owner.items.push(this);
-                if (parentNode) {
-                    this.#parentNodes.push.apply(this.#parentNodes, parentNode.parentNodes);
-                    this.#parentNodes.push(parentNode);
-                    this.#level = parentNode.level + 1;
-                    lastItem = parentNode.items.last;
-                    if (!lastItem) {
-                        lastItem = owner.items.last;
-                    }
-                    //if (lastItem) {
-                    //    this.#top = lastItem.top + lastItem.height;
-                    //}
-                    parentNode.items.push(this);
-                    this.#order = parentNode.order + parentNode.items.indexOf(this).toString();
-                } else {
-                    this.#order = owner.items.indexOf(this).toString();
+    //#region constructor
+    constructor(owner, props) {
+        props = !props ? {} : props;
+        if (owner) {
+            super(owner, props);
+            this.#owner = owner;
+            this.#caption = props.hasOwnProperty('caption') ? props.caption : String.EMPTY;
+            this.#height = props.hasOwnProperty('height') ? props.height : owner.itemsHeight;
+            this.#checked = props.hasOwnProperty('checked') && core.tools.isBool(props.checked) ? props.checked : !1;
+            this.#state = props.hasOwnProperty('state') ? props.state : Checkbox.CHECKBOXSTATES.UNCHECKED;
+            this.addPropertyEnum('state', Checkbox.CHECKBOXSTATES);
+            this.#allowGrayed = props.hasOwnProperty('allowGrayed') && core.tools.isBool(props.allowGrayed) ? props.allowGrayed : !1;
+            this.#enabled = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
+            this.#expanded = props.hasOwnProperty('expanded') && core.tools.isBool(props.expanded) ? props.expanded : !1;
+            this.#form = owner.form;
+            this.#selected = props.hasOwnProperty('selected') && core.tools.isBool(props.selected) ? props.selected : !1;
+            this.#visible = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
+            this.#imageIndex = props.hasOwnProperty('imageIndex') && core.tools.isNumber(props.imageIndex) ? props.imageIndex : -1;
+            this.#image = props.hasOwnProperty('image') ? props.image : String.EMPTY;
+            this.#cssImage = props.hasOwnProperty('cssImage') ? props.cssImage : String.EMPTY;
+            this.#css = String.EMPTY;
+            this.#hitTest = { mouseWheel: !0 };
+            this.#onlyRootExpand = props.hasOwnProperty('onlyRootExpand') && core.tools.isBool(props.onlyRootExpand) ? props.onlyRootExpand : !0;
+            owner.items.push(this);
+            if (parentNode) {
+                this.#parentNodes.push.apply(this.#parentNodes, parentNode.parentNodes);
+                this.#parentNodes.push(parentNode);
+                this.#level = parentNode.level + 1;
+                lastItem = parentNode.items.last;
+                if (!lastItem) {
+                    lastItem = owner.items.last;
                 }
-                if (owner.allowUpdate) {
-                    //owner.updateVScrollBar();
-                    owner.draw();
-                }
-                this.onClick = new NotifyEvent(this);
-                this.onDblClick = new NotifyEvent(this);
-                this.onDraw = new NotifyEvent(this);
-                this.onDestroy = new NotifyEvent(this);
+                //if (lastItem) {
+                //    this.#top = lastItem.top + lastItem.height;
+                //}
+                parentNode.items.push(this);
+                this.#order = parentNode.order + parentNode.items.indexOf(this).toString();
+            } else {
+                this.#order = owner.items.indexOf(this).toString();
             }
+            this.mouseEvents = new core.classes.MouseEvents();
+            this.onClick = new NotifyEvent(this);
+            this.onDblClick = new NotifyEvent(this);
+            this.onDraw = new NotifyEvent(this);
+            this.onDestroy = new NotifyEvent(this);
+            owner instanceof ListBox && owner.allowUpdate && owner.draw();
         }
-        //#endregion constructor
-        //#region Getters / Setters
-        //#region onlyRootExpand
-        get onlyRootExpand() {
-            return this.#onlyRootExpand;
+    }
+    //#endregion constructor
+    //#region Getters / Setters
+    //#region state
+    get state() {
+        return this.#state;
+    }
+    set state(newValue) {
+        if (core.tools.valueInSet(newValue, Checkbox.CHECKBOXSTATES) && this.#state !== newValue) {
+            this.#state = newValue;
+            this.update && !this.loading && !this.#form.creating && !this.#form.loading && this.update();
         }
-        set onlyRootExpand(newValue) {
-            if (core.tools.isBool(newValue)) {
-                if (this.#onlyRootExpand !== newValue) {
-                    this.#onlyRootExpand = newValue;
-                    this.update();
-                }
-            }
-        }
-        //#endregion onlyRootExpand
-        //#region checked
-        get checked() {
-            return this.#checked;
-        }
-        set checked(newValue) {
-            //#region Variables déclaration
-            const checkboxStates = Checkbox.CHECKBOXSTATES;
-            //#endregion Variables déclaration
-            if (core.tools.isBool(newValue)) {
-                if (this.#checked !== newValue) {
-                    this.#checked = newValue;
-                    this.#state = this.#checked ? checkboxStates.CHECKED : checkboxStates.UNCHECKED;
-                    this.update();
-                    this.updateChildsCheck(this.#checked);
-                    this.updateParentCheck(this.#checked);
-                }
-            }
-        }
-        //#endregion checked
-        //#region enabled
-        get enabled() {
-            return this.#enabled;
-        }
-        set enabled(newValue) {
-            if (core.tools.isBool(newValue) && this.#enabled !== newValue) {
-                this.#enabled = newValue;
+    }
+    //#endregion state
+    //#region onlyRootExpand
+    get onlyRootExpand() {
+        return this.#onlyRootExpand;
+    }
+    set onlyRootExpand(newValue) {
+        if (core.tools.isBool(newValue)) {
+            if (this.#onlyRootExpand !== newValue) {
+                this.#onlyRootExpand = newValue;
                 this.update();
             }
         }
-        //#endregion enabled
-        //#region height
-        get height() {
-            return this.#height;
-        }
-        set height(newValue) {
-            if (core.tools.isNumber(newValue) && this.#height !== newValue) {
-                this.#height = newValue;
-                this.#owner.refreshInnerHeight();
-            }
-        }
-        //#endregion height
-        //#region caption
-        get caption() {
-            return this.#caption;
-        }
-        set caption(newValue) {
-            if (core.tools.isString(newValue) && this.#caption !== newValue) {
-                this.#caption = newValue;
+    }
+    //#endregion onlyRootExpand
+    //#region checked
+    get checked() {
+        return this.#checked;
+    }
+    set checked(newValue) {
+        //#region Variables déclaration
+        const checkboxStates = Checkbox.CHECKBOXSTATES;
+        //#endregion Variables déclaration
+        if (core.tools.isBool(newValue)) {
+            if (this.#checked !== newValue) {
+                this.#checked = newValue;
+                this.#state = this.#checked ? checkboxStates.CHECKED : checkboxStates.UNCHECKED;
                 this.update();
+                this.updateChildsCheck(this.#checked);
+                this.updateParentCheck(this.#checked);
             }
         }
-        //#endregion caption
-        //#region selected
-        get selected() {
-            return this.#selected;
+    }
+    //#endregion checked
+    //#region enabled
+    get enabled() {
+        return this.#enabled;
+    }
+    set enabled(newValue) {
+        if (core.tools.isBool(newValue) && this.#enabled !== newValue) {
+            this.#enabled = newValue;
+            this.update();
         }
-        set selected(newValue) {
-            if (core.tools.isBool(newValue) && !this.#isHeader && this.#enabled && this.#selected !== newValue) {
-                this.#selected = newValue;
-                this.update();
-            }
+    }
+    //#endregion enabled
+    //#region height
+    get height() {
+        return this.#height;
+    }
+    set height(newValue) {
+        if (core.tools.isNumber(newValue) && this.#height !== newValue) {
+            this.#height = newValue;
+            this.#owner.refreshInnerHeight();
         }
-        //#endregion selected
-        get expanded() {
-            return this.#expanded;
+    }
+    //#endregion height
+    //#region caption
+    get caption() {
+        return this.#caption;
+    }
+    set caption(newValue) {
+        if (core.tools.isString(newValue) && this.#caption !== newValue) {
+            this.#caption = newValue;
+            this.update();
         }
-        set expanded(newValue) {
-            this.#expanded = !this.#expanded;
-            this.#items.forEach(item => {
-                item.visible = this.#expanded;
-                item.level = this.#level + 1;
-                item.html && item.removeToHTML();
-                this.items[i].updateDataSet();
-            });
-            //this.updateDataSet();
-            if (this.#owner.itemIndex > -1) {
-                const item = this.#owner.items[this.#owner.itemIndex];
-                for (let i = item.parentNodes.length - 1; i >= 0; i--) {
-                    if (item.parentNodes[i] === this) {
-                        this.#owner.itemIndex = this.#index;
-                        break;
-                    }
-                }
-            }
-            this.#owner.refreshInnerSize();
+    }
+    //#endregion caption
+    //#region selected
+    get selected() {
+        return this.#selected;
+    }
+    set selected(newValue) {
+        if (core.tools.isBool(newValue) && !this.#isHeader && this.#enabled && this.#selected !== newValue) {
+            this.#selected = newValue;
+            this.update();
         }
-        //#region imageIndex
-        get imageIndex() {
-            return this.#imageIndex;
-        }
-        set imageIndex(newValue) {
-            if (core.tools.isNumber(newValue) && this.#imageIndex !== newValue) {
-                this.#imageIndex = newValue;
-                this.#owner.allowUpdate && this.update();
-            }
-        }
-        //#endregion imageIndex
-        //#region cssImage
-        get cssImage() {
-            return this.#cssImage;
-        }
-        set cssImage(newValue) {
-            if (core.tools.isString(newValue) && this.#cssImage !== newValue) {
-                this.#cssImage = newValue;
-                this.#owner.allowUpdate && this.update();
-            }
-        }
-        //#endregion cssImage
-        //#region image
-        get image() {
-            return this.#image;
-        }
-        set image(newValue) {
-            if (core.tools.isString(newValue) && this.#image !== newValue) {
-                this.#image = newValue;
-                this.#owner.allowUpdate && this.update();
-            }
-        }
-        //#endregion image
-        //#region index
-        get index() {
-            return this.#owner.items.indexOf(this);
-        }
-        //#endregion index
-        //#region enabled
-        get enabled() {
-            return this.#enabled && this.#owner.isEnabled;
-        }
-        //#endregion enabled
-        //#region visible
-        get visible() {
-            //#region Variables déclaration
-            let ret = !0;
-            //#endregion Variables déclaration
-            for (let i = this.#parentNodes.length - 1; i >= 0; i--) {
-                if (!this.#parentNodes[i].expanded) {
-                    ret = !1;
+    }
+    //#endregion selected
+    get expanded() {
+        return this.#expanded;
+    }
+    set expanded(newValue) {
+        this.#expanded = !this.#expanded;
+        this.#items.forEach(item => {
+            item.visible = this.#expanded;
+            item.level = this.#level + 1;
+            item.html && item.removeToHTML();
+            this.items[i].updateDataSet();
+        });
+        //this.updateDataSet();
+        if (this.#owner.itemIndex > -1) {
+            const item = this.#owner.items[this.#owner.itemIndex];
+            for (let i = item.parentNodes.length - 1; i >= 0; i--) {
+                if (item.parentNodes[i] === this) {
+                    this.#owner.itemIndex = this.#index;
                     break;
                 }
             }
-            return ret && this.#visible;
         }
-        //#endregion visible
-        //#region expanded
-        get expanded() {
-            return this.#expanded;
-        }
-        //#endregion expanded
-        //#region owner
-        get owner() {
-            return this.#owner;
-        }
-        //#endregion owner
-        //#region asChilds
-        get asChilds() {
-            return this.#items.length > 0;
-        }
-        //#endregion asChilds
-        //#region isEnabled
-        get isEnabled() {
-            return this.#owner.enabled;
-        }
-        //#endregion isEnabled
-        //#endregion Getters / Setters
-        //#region Methods
-        //#region mouseUp
-        mouseUp() {
-            this.#owner.mouseUp();
-        }
-        //#endregion mouseUp
-        update() {
-            //#region Variables déclaration
-            const PX = Types.CSSUNITS.PX;
-            const prop = 'Height';
-            const propPos = 'top';
-            //#endregion Variables déclaration
-            if (this.#html) {
-                this.#html.style[`min${prop}`] = `${this.#size}${PX}`;
-                this.#html.style[`max${prop}`] = `${this.#size}${PX}`;
-                this.#html.style[`${prop.toLowerCase()}`] = `${this.#size}${PX}`;
-                if (this.#owner.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
-                    this.#html.style[propPos] = `${this.#pos}${PX}`;
-                    this.#html.style.position = 'absolute';
-                } else {
-                    this.#html.style.position = 'static';
-                }
-                this.#html.classList.remove('disabled', 'TVIHasChild', 'selected');
-                if (this.#items.length > 0) {
-                    this.#root.classList.add('TVIHasChild');
-                    //if (this.#onlyRootExpand) {
-                    //    $j.core.tools.events.bind(this._root, $j.types.mouseEvents.UP, this.expandCollapse);
-                    //} else {
-                    //    $j.core.tools.events.bind(this._html, $j.types.mouseEvents.UP, this.expandCollapse);
-                    //}
-                }
-                if (this.#owner.viewCheckboxes) {
-                    this.#check.classList.remove('grayed', 'checked');
-                    this.#check && this.#check.classList.remove('checked');
-                    if (this.#checked) {
-                        this.#check.classList.add('checked');
-                    } else if (this.#allowGrayed && this.#state === Types.CHECKBOXSTATES.GRAYED) {
-                        this.#check.classList.add('grayed');
-                    }
-                }
-                !this.#enabled && this.#html.classList.add('disabled');
-                this.#selected && this.#html.classList.add('selected');
-                !this.#parentNodes.isEmpty && this.#html.classList.add('isChild');
-                this.#root.classList.remvoe('expanded');
-                this.#expanded && this.#root.classList.add('expanded');
-                if (this.#icon) {
-                    this.#icon.classList.add('icon');
-                    if (!String.isNullOrEmpty(this.#cssImage)) {
-                        this.#icon.classList.add(this.#cssImage);
-                        this.#icon.style.backgroundSize = `${this.#size}${PX} ${this.#size}${PX}`;
-                    } else if (!String.isNullOrEmpty(this.#image)) {
-                        this.#icon.style.backgroundImage = `url(${this.#image})`;
-                        this.#icon.style.backgroundSize = `${this.#size}${PX} ${this.#size}${PX}`;
-                    } else if (this.#owner.images) {
-                        if (this.#imageIndex < this.#owner.images.images.length && this.#imageIndex > -1) {
-                            this.#icon.style.backgroundImage = `url(${this.#owner.images.images[this.#imageIndex]})`;
-                            this.#icon.style.backgroundSize = `${this.#owner.images.imageWidth}${PX} ${this.#owner.images.imageHeight}${PX}`;
-                        }
-                    }
-                }
-            }
-        }
-        draw() {
-            //var span;
-            //if (!this._html) {
-            //    this._html = $j.doc.createElement($j.types.HTMLElements.DIV);
-            //    this._root = $j.doc.createElement($j.types.HTMLElements.DIV);
-            //    this._root.jsObj = this;
-            //    this._html.appendChild(this._root);
-            //    //$j.core.tools.events.unBind(this._html,$j.types.mouseEvents.CLICK,this.click);
-            //    $j.core.tools.events.bind(this._html, $j.types.mouseEvents.CLICK, this.click);
-            //    //$j.core.tools.events.bind(this._html,$j.types.mouseEvents.DBLCLICK,this.dblClick);
-            //    $j.CSS.addClass(this._root, "TreeViewRoot Control");
-            //    this._root.style.height = this.height + $j.types.CSSUnits.PX;
-            //    this._root.style.lineHeight = this.height + $j.types.CSSUnits.PX;
-            //    if (this._owner.viewCheckboxes) {
-            //        this._check = $j.doc.createElement($j.types.HTMLElements.DIV);
-            //        this._check.jsObj = this;
-            //        $j.CSS.addClass(this._check, "CheckboxCheck" + String.SPACE + this._owner.getThemeName() + String.SPACE /+ /"Control");
-            //        this._html.appendChild(this._check);
-            //    }
-            //    if (this._owner.images || this.image !== String.EMPTY || this.cssImage !== String.EMPTY) {
-            //        this._icon = $j.doc.createElement($j.types.HTMLElements.DIV);
-            //        this._icon.jsObj = this;
-            //        this._html.appendChild(this._icon);
-            //        this._icon.style.height = this.height + $j.types.CSSUnits.PX;
-            //        this._icon.style.lineHeight = this.height + $j.types.CSSUnits.PX;
-            //    }
-            //    this._text = $j.doc.createElement($j.types.HTMLElements.SPAN);
-            //    this._html.dataset.theme = this._owner.getThemeName();
-            //    $j.CSS.addClass(this._html, this._owner.getThemeName());
-            //    this._html.appendChild(this._text);
-            //    this._text.innerHTML = this.text;
-            //    this._text.style.height = this.height + $j.types.CSSUnits.PX;
-            //    this._text.style.lineHeight = this.height + $j.types.CSSUnits.PX;
-            //    this._html.jsObj = this;
-            //    $j.CSS.addClass(this._html, this._ClassName + String.SPACE + "Control");
-            //    $j.CSS.addClass(this._html, this._owner._ClassName[0] + this._ClassName);
-            //    if (!this._parentNodes.isEmpty()) $j.CSS.addClass(this._html, "isChild");
-            //    this._owner._content.appendChild(this._html);
-            //}
-            //if (this._level > 0) {
-            //    this._root.style.marginLeft = (this._level * this._owner._offsetLevel) + $j.types.CSSUnits.PX;
-            //}
-            //this._html.style.transform = "translateY(" + (this._top - this._owner._scrollTop) + $j.types.CSSUnits.PX + ")";
-            //this._html.style.height = this.height + $j.types.CSSUnits.PX;
-            //$j.CSS.addClass(this._html, this.cssClass);
-            //this.update();
-            //this.onDraw.invoke(this._html);
-        }
-        updateChildsCheck(checked) {
-            //var item;
-            //if (this.items.length > 0) {
-            //    for (var i = 0, l = this.items.length; i < l; i++) {
-            //        item = this.items[i];
-            //        item.checked = checked;
-            //        if (item._html) {
-            //            $j.CSS.removeClass(item._check, "checked");
-            //            $j.CSS.removeClass(item._check, "grayed");
-            //        }
-            //        if (checked) {
-            //            item.state = $j.types.checkboxStates.CHECKED;
-            //            if (item._html) $j.CSS.addClass(item._check, "checked");
-            //        } else {
-            //            item.state = $j.types.checkboxStates.UNCHECKED;
-            //            if (item._html) $j.CSS.removeClass(item._check, "checked");
-            //        }
-            //        item.updateDataSet();
-            //        item.updateChildsCheck(checked);
-            //    }
-            //}
-        }
-        updateParentCheck() {
-            //var nbs = 0, p;
-            //for (var i = this._parentNodes.length - 1; i >= 0; i--) {
-            //    p = this._parentNodes[i];
-            //    nbs = p.getNbCheckedChilds();
-            //    p.checked = false;
-            //    if (p._html) {
-            //        $j.CSS.removeClass(p._check, "checked");
-            //        $j.CSS.removeClass(p._check, "grayed");
-            //    }
-            //    if (nbs.nbChecked === p.items.length) {
-            //        p.state = $j.types.checkboxStates.CHECKED;
-            //        p.checked = true;
-            //        if (p._html) $j.CSS.addClass(p._check, "checked");
-            //    } else if (nbs.nbChecked + nbs.nbGrayed !== 0) {
-            //        p.state = $j.types.checkboxStates.GRAYED;
-            //        if (p._html) $j.CSS.addClass(p._check, "grayed");
-            //    }
-            //    else if (nbs.nbChecked + nbs.nbGrayed === 0) p.state = $j.types.checkboxStates.UNCHECKED;
-            //    p.updateDataSet();
-            //}
-        }
-        getNbCheckedChilds() {
-            //var nbC = 0, nbG = 0, item;
-            //for (var i = 0, l = this.items.length; i < l; i++) {
-            //    item = this.items[i];
-            //    if (item.checked) nbC++;
-            //    else if (item.state === $j.types.checkboxStates.GRAYED) nbG++;
-            //}
-            //return { "nbChecked": nbC, "nbGrayed": nbG };
-        }
-        removeToHTML() {
-            if (this.#html) {
-                //$j.core.tools.events.unBind(this._html, $j.types.mouseEvents.DOWN, this._owner.selectItem);
-                //$j.core.tools.events.unBind(this._html, $j.types.mouseEvents.CLICK, this.click);
-                //$j.core.tools.events.unBind(this._html,$j.types.mouseEvents.DBLCLICK,this.dblClick);
-                //$j.core.tools.events.unBind(this._check, $j.types.mouseEvents.DOWN, this.checkUnCheck);
-                this.#html.parentNode.removeChild(this.#html);
-                this.#html = null;
-                this.#root = null;
-                this.#icon && this.#html.removeChild(this.#icon);
-                this.#html.removeChild(this.#text);
-                this.#owner.HTMLElement.removeChild(this.#html);
-                this.#icon = null;
-                this.#check = null;
-                this.#text = null;
-                this.#checkbox = null;
-            }
-        }
-        destroy() {
-            this.onDestroy.invoke();
-            this.removeToHTML();
-            this.#owner.items.remove(this);
-            this.#owner = null;
-            this.#level = null;
-            this.#checkedChildsNb = null;
-            this.#text = null;
-            this.#caption = null;
-            this.#height = null;
-            this.#checked = null;
-            this.#state = null;
-            this.#allowGrayed = null;
-            this.#enabled = null;
-            this.#expanded = null;
-            this.#form = null;
-            this.#selected = null;
-            this.#visible = null;
-            this.#items = null;
-            this.#hitTest = null;
-            this.#parentNodes.destroy();
-            this.#parentNodes = null;
-            this.#level = null;
-            this.#order = null;
-            this.#imageIndex = null;
-            this.#image = null;
-            this.#cssImage = null;
-            this.onClick.destroy();
-            this.onClick = null;
-            this.onDblClick.destroy();
-            this.onDblClick = null;
-            //this.onDraw.destroy();
-            //this.onDraw = null;
-            this.onDestroy.destroy();
-            this.onDestroy = null;
-            super.destroy();
-        }
-        click() {
-            //if (!this.enabled) return;
-            //this.onClick.invoke();
-        }
-        dblClick() {
-            //if (!this.enabled) return;
-            //this.onDblClick.invoke();
-        }
-        //#region clone
-        clone() {
-            return Object.create(this);
-        }
-        //#endregion clone
-        //#endregion Methods
+        this.#owner.refreshInnerSize();
     }
-    return TreeViewItem;
-    //#endregion TreeViewItem
-})();
+    //#region imageIndex
+    get imageIndex() {
+        return this.#imageIndex;
+    }
+    set imageIndex(newValue) {
+        if (core.tools.isNumber(newValue) && this.#imageIndex !== newValue) {
+            this.#imageIndex = newValue;
+            this.#owner.allowUpdate && this.update();
+        }
+    }
+    //#endregion imageIndex
+    //#region cssImage
+    get cssImage() {
+        return this.#cssImage;
+    }
+    set cssImage(newValue) {
+        if (core.tools.isString(newValue) && this.#cssImage !== newValue) {
+            this.#cssImage = newValue;
+            this.#owner.allowUpdate && this.update();
+        }
+    }
+    //#endregion cssImage
+    //#region image
+    get image() {
+        return this.#image;
+    }
+    set image(newValue) {
+        if (core.tools.isString(newValue) && this.#image !== newValue) {
+            this.#image = newValue;
+            this.#owner.allowUpdate && this.update();
+        }
+    }
+    //#endregion image
+    //#region index
+    get index() {
+        return this.#owner.items.indexOf(this);
+    }
+    //#endregion index
+    //#region enabled
+    get enabled() {
+        return this.#enabled && this.#owner.isEnabled;
+    }
+    //#endregion enabled
+    //#region visible
+    get visible() {
+        //#region Variables déclaration
+        let ret = !0;
+        //#endregion Variables déclaration
+        for (let i = this.#parentNodes.length - 1; i >= 0; i--) {
+            if (!this.#parentNodes[i].expanded) {
+                ret = !1;
+                break;
+            }
+        }
+        return ret && this.#visible;
+    }
+    //#endregion visible
+    //#region expanded
+    get expanded() {
+        return this.#expanded;
+    }
+    //#endregion expanded
+    //#region owner
+    get owner() {
+        return this.#owner;
+    }
+    //#endregion owner
+    //#region asChilds
+    get asChilds() {
+        return this.#items.length > 0;
+    }
+    //#endregion asChilds
+    //#region isEnabled
+    get isEnabled() {
+        return this.#owner.enabled;
+    }
+    //#endregion isEnabled
+    //#endregion Getters / Setters
+    //#region Methods
+    //#region mouseUp
+    mouseUp() {
+        this.#owner.mouseUp();
+    }
+    //#endregion mouseUp
+    update() {
+        //#region Variables déclaration
+        const PX = Types.CSSUNITS.PX;
+        const prop = 'Height';
+        const propPos = 'top';
+        //#endregion Variables déclaration
+        if (this.#html) {
+            this.#html.style[`min${prop}`] = `${this.#size}${PX}`;
+            this.#html.style[`max${prop}`] = `${this.#size}${PX}`;
+            this.#html.style[`${prop.toLowerCase()}`] = `${this.#size}${PX}`;
+            if (this.#owner.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
+                this.#html.style[propPos] = `${this.#pos}${PX}`;
+                this.#html.style.position = 'absolute';
+            } else {
+                this.#html.style.position = 'static';
+            }
+            this.#html.classList.remove('disabled', 'TVIHasChild', 'selected');
+            if (this.#items.length > 0) {
+                this.#root.classList.add('TVIHasChild');
+                //if (this.#onlyRootExpand) {
+                //    $j.core.tools.events.bind(this._root, $j.types.mouseEvents.UP, this.expandCollapse);
+                //} else {
+                //    $j.core.tools.events.bind(this._html, $j.types.mouseEvents.UP, this.expandCollapse);
+                //}
+            }
+            if (this.#owner.viewCheckboxes) {
+                this.#check.classList.remove('grayed', 'checked');
+                this.#check && this.#check.classList.remove('checked');
+                if (this.#checked) {
+                    this.#check.classList.add('checked');
+                } else if (this.#allowGrayed && this.#state === Types.CHECKBOXSTATES.GRAYED) {
+                    this.#check.classList.add('grayed');
+                }
+            }
+            !this.#enabled && this.#html.classList.add('disabled');
+            this.#selected && this.#html.classList.add('selected');
+            !this.#parentNodes.isEmpty && this.#html.classList.add('isChild');
+            this.#root.classList.remvoe('expanded');
+            this.#expanded && this.#root.classList.add('expanded');
+            if (this.#icon) {
+                this.#icon.classList.add('icon');
+                if (!String.isNullOrEmpty(this.#cssImage)) {
+                    this.#icon.classList.add(this.#cssImage);
+                    this.#icon.style.backgroundSize = `${this.#size}${PX} ${this.#size}${PX}`;
+                } else if (!String.isNullOrEmpty(this.#image)) {
+                    this.#icon.style.backgroundImage = `url(${this.#image})`;
+                    this.#icon.style.backgroundSize = `${this.#size}${PX} ${this.#size}${PX}`;
+                } else if (this.#owner.images) {
+                    if (this.#imageIndex < this.#owner.images.images.length && this.#imageIndex > -1) {
+                        this.#icon.style.backgroundImage = `url(${this.#owner.images.images[this.#imageIndex]})`;
+                        this.#icon.style.backgroundSize = `${this.#owner.images.imageWidth}${PX} ${this.#owner.images.imageHeight}${PX}`;
+                    }
+                }
+            }
+        }
+    }
+    draw() {
+        //var span;
+        //if (!this._html) {
+        //    this._html = $j.doc.createElement($j.types.HTMLElements.DIV);
+        //    this._root = $j.doc.createElement($j.types.HTMLElements.DIV);
+        //    this._root.jsObj = this;
+        //    this._html.appendChild(this._root);
+        //    //$j.core.tools.events.unBind(this._html,$j.types.mouseEvents.CLICK,this.click);
+        //    $j.core.tools.events.bind(this._html, $j.types.mouseEvents.CLICK, this.click);
+        //    //$j.core.tools.events.bind(this._html,$j.types.mouseEvents.DBLCLICK,this.dblClick);
+        //    $j.CSS.addClass(this._root, "TreeViewRoot Control");
+        //    this._root.style.height = this.height + $j.types.CSSUnits.PX;
+        //    this._root.style.lineHeight = this.height + $j.types.CSSUnits.PX;
+        //    if (this._owner.viewCheckboxes) {
+        //        this._check = $j.doc.createElement($j.types.HTMLElements.DIV);
+        //        this._check.jsObj = this;
+        //        $j.CSS.addClass(this._check, "CheckboxCheck" + String.SPACE + this._owner.getThemeName() + String.SPACE /+ /"Control");
+        //        this._html.appendChild(this._check);
+        //    }
+        //    if (this._owner.images || this.image !== String.EMPTY || this.cssImage !== String.EMPTY) {
+        //        this._icon = $j.doc.createElement($j.types.HTMLElements.DIV);
+        //        this._icon.jsObj = this;
+        //        this._html.appendChild(this._icon);
+        //        this._icon.style.height = this.height + $j.types.CSSUnits.PX;
+        //        this._icon.style.lineHeight = this.height + $j.types.CSSUnits.PX;
+        //    }
+        //    this._text = $j.doc.createElement($j.types.HTMLElements.SPAN);
+        //    this._html.dataset.theme = this._owner.getThemeName();
+        //    $j.CSS.addClass(this._html, this._owner.getThemeName());
+        //    this._html.appendChild(this._text);
+        //    this._text.innerHTML = this.text;
+        //    this._text.style.height = this.height + $j.types.CSSUnits.PX;
+        //    this._text.style.lineHeight = this.height + $j.types.CSSUnits.PX;
+        //    this._html.jsObj = this;
+        //    $j.CSS.addClass(this._html, this._ClassName + String.SPACE + "Control");
+        //    $j.CSS.addClass(this._html, this._owner._ClassName[0] + this._ClassName);
+        //    if (!this._parentNodes.isEmpty()) $j.CSS.addClass(this._html, "isChild");
+        //    this._owner._content.appendChild(this._html);
+        //}
+        //if (this._level > 0) {
+        //    this._root.style.marginLeft = (this._level * this._owner._offsetLevel) + $j.types.CSSUnits.PX;
+        //}
+        //this._html.style.transform = "translateY(" + (this._top - this._owner._scrollTop) + $j.types.CSSUnits.PX + ")";
+        //this._html.style.height = this.height + $j.types.CSSUnits.PX;
+        //$j.CSS.addClass(this._html, this.cssClass);
+        //this.update();
+        //this.onDraw.invoke(this._html);
+    }
+    updateChildsCheck(checked) {
+        //var item;
+        //if (this.items.length > 0) {
+        //    for (var i = 0, l = this.items.length; i < l; i++) {
+        //        item = this.items[i];
+        //        item.checked = checked;
+        //        if (item._html) {
+        //            $j.CSS.removeClass(item._check, "checked");
+        //            $j.CSS.removeClass(item._check, "grayed");
+        //        }
+        //        if (checked) {
+        //            item.state = $j.types.checkboxStates.CHECKED;
+        //            if (item._html) $j.CSS.addClass(item._check, "checked");
+        //        } else {
+        //            item.state = $j.types.checkboxStates.UNCHECKED;
+        //            if (item._html) $j.CSS.removeClass(item._check, "checked");
+        //        }
+        //        item.updateDataSet();
+        //        item.updateChildsCheck(checked);
+        //    }
+        //}
+    }
+    updateParentCheck() {
+        //var nbs = 0, p;
+        //for (var i = this._parentNodes.length - 1; i >= 0; i--) {
+        //    p = this._parentNodes[i];
+        //    nbs = p.getNbCheckedChilds();
+        //    p.checked = false;
+        //    if (p._html) {
+        //        $j.CSS.removeClass(p._check, "checked");
+        //        $j.CSS.removeClass(p._check, "grayed");
+        //    }
+        //    if (nbs.nbChecked === p.items.length) {
+        //        p.state = $j.types.checkboxStates.CHECKED;
+        //        p.checked = true;
+        //        if (p._html) $j.CSS.addClass(p._check, "checked");
+        //    } else if (nbs.nbChecked + nbs.nbGrayed !== 0) {
+        //        p.state = $j.types.checkboxStates.GRAYED;
+        //        if (p._html) $j.CSS.addClass(p._check, "grayed");
+        //    }
+        //    else if (nbs.nbChecked + nbs.nbGrayed === 0) p.state = $j.types.checkboxStates.UNCHECKED;
+        //    p.updateDataSet();
+        //}
+    }
+    getNbCheckedChilds() {
+        //var nbC = 0, nbG = 0, item;
+        //for (var i = 0, l = this.items.length; i < l; i++) {
+        //    item = this.items[i];
+        //    if (item.checked) nbC++;
+        //    else if (item.state === $j.types.checkboxStates.GRAYED) nbG++;
+        //}
+        //return { "nbChecked": nbC, "nbGrayed": nbG };
+    }
+    removeToHTML() {
+        if (this.#html) {
+            //$j.core.tools.events.unBind(this._html, $j.types.mouseEvents.DOWN, this._owner.selectItem);
+            //$j.core.tools.events.unBind(this._html, $j.types.mouseEvents.CLICK, this.click);
+            //$j.core.tools.events.unBind(this._html,$j.types.mouseEvents.DBLCLICK,this.dblClick);
+            //$j.core.tools.events.unBind(this._check, $j.types.mouseEvents.DOWN, this.checkUnCheck);
+            this.#html.parentNode.removeChild(this.#html);
+            this.#html = null;
+            this.#root = null;
+            this.#icon && this.#html.removeChild(this.#icon);
+            this.#html.removeChild(this.#text);
+            this.#owner.HTMLElement.removeChild(this.#html);
+            this.#icon = null;
+            this.#check = null;
+            this.#text = null;
+            this.#checkbox = null;
+        }
+    }
+    destroy() {
+        this.onDestroy.invoke();
+        this.removeToHTML();
+        this.#owner.items.remove(this);
+        this.#owner = null;
+        this.#level = null;
+        this.#checkedChildsNb = null;
+        this.#text = null;
+        this.#caption = null;
+        this.#height = null;
+        this.#checked = null;
+        this.#state = null;
+        this.#allowGrayed = null;
+        this.#enabled = null;
+        this.#expanded = null;
+        this.#form = null;
+        this.#selected = null;
+        this.#visible = null;
+        this.#items = null;
+        this.#hitTest = null;
+        this.#parentNodes.destroy();
+        this.#parentNodes = null;
+        this.#level = null;
+        this.#order = null;
+        this.#imageIndex = null;
+        this.#image = null;
+        this.#cssImage = null;
+        this.onClick.destroy();
+        this.onClick = null;
+        this.onDblClick.destroy();
+        this.onDblClick = null;
+        //this.onDraw.destroy();
+        //this.onDraw = null;
+        this.onDestroy.destroy();
+        this.onDestroy = null;
+        super.destroy();
+    }
+    click() {
+        //if (!this.enabled) return;
+        //this.onClick.invoke();
+    }
+    dblClick() {
+        //if (!this.enabled) return;
+        //this.onDblClick.invoke();
+    }
+    //#region clone
+    clone() {
+        return Object.create(this);
+    }
+    //#endregion clone
+    //#endregion Methods
+}
+return TreeViewItem;
 //#endregion TreeViewItem
 //#region TreeView
 class TreeView extends ScrollControl {
-//#region Private
-//#endregion Private
+    //#region Private fields
+    //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;

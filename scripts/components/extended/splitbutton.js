@@ -120,8 +120,8 @@ class SplitButton extends ThemedControl {
                 }
             });
             this.#popupBtn.click = this.clickPopup;
-            core.classes.PopupMenu && this.#popupMenu instanceof core.classes.PopupMenu
-                && (this.#popupBtn.popupMenu = this.#popupMenu);
+            core.classes.PopupMenu && this.popupMenu instanceof core.classes.PopupMenu
+                && (this.#popupBtn.popupMenu = this.popupMenu);
             this.#btn.glyphSize = 0;
             this.#btn.resize();
             this.#popupBtn.resize();
