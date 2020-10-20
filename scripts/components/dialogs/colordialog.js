@@ -259,6 +259,7 @@ class ColorDialog extends CommonDialog {
         props = !props ? {} : props;
         if (owner) {
             super(owner, props);
+            activeApp.isBusy = true;
         }
     }
     //#endregion constructor
@@ -268,6 +269,7 @@ class ColorDialog extends CommonDialog {
         //#region Variables déclaration
         let dlg;
         //#endregion Variables déclaration
+        activeApp.isBusy = !0;
         this.#control = control;
         dlg = core.classes.createComponent({
             class: ColorDlg,
@@ -282,6 +284,7 @@ class ColorDialog extends CommonDialog {
         callback && dlg.onClose.addListener(callback);
         super.execute();
         dlg.showModal();
+        activeApp.isBusy = !1;
     }
     //#endregion loaded
     //#endregion Methods

@@ -28,6 +28,7 @@ class Application extends BaseClass {
     #title = String.EMPTY;
     #locale = null;
     #themeManifest;
+    #isBusy = !1;
     //#endregion Private fields
     /**
      * Create a new instance of Application.
@@ -148,22 +149,20 @@ class Application extends BaseClass {
         let comps = null;
         const windows = this.#windows;
         //#endregion Variables déclaration
-        if (this.#locales[locale]) {
-            if (this.#locale !== locale) {
-                this.#locale = locale;
-                windows.forEach(win => {
-                    if (win.visible) {
-                        comps = this.#activeWindow.controls.filter(e => {
-                            return e instanceof core.classes.Control && e.autoTranslate && e.visible;
-                        });
-                        comps.forEach(comp => {
-                            (comp instanceof core.classes.CaptionControl
-                                || comp instanceof core.classes.CustomTextControl)
-                                && this.getLocalText(comp);
-                        });
-                    }
-                });
-            }
+        if (this.#locales[locale] && this.#locale !== locale) {
+            this.#locale = locale;
+            windows.forEach(win => {
+                if (win.visible) {
+                    comps = this.#activeWindow.controls.filter(e => {
+                        return e instanceof core.classes.Control && e.autoTranslate && e.visible;
+                    });
+                    comps.forEach(comp => {
+                        (comp instanceof core.classes.CaptionControl
+                            || comp instanceof core.classes.CustomTextControl)
+                            && this.getLocalText(comp);
+                    });
+                }
+            });
         }
     }
     //#endregion locale
@@ -176,6 +175,20 @@ class Application extends BaseClass {
             && (this.#themeManifest = newValue);
     }
     //#endregion themeManifest
+    //#region isBusy
+    get isBusy() {
+        return this.#isBusy;
+    }
+    set isBusy(newValue) {
+        const CUSTOMCURSORS = core.types.CUSTOMCURSORS;
+        core.tools.isBool(newValue) && this.#isBusy !== newValue
+            && (this.#isBusy = newValue);
+        this.#windows.forEach(win => {
+            win.HTMLElement.classList.remove(CUSTOMCURSORS.DEFAULT, CUSTOMCURSORS.WAIT);
+            this.#isBusy ? win.HTMLElement.classList.add(CUSTOMCURSORS.WAIT) : win.HTMLElement.classList.add(CUSTOMCURSORS.DEFAULT);
+        });
+    }
+    //#endregion
     //#endregion Getters / Setters
     //#region Methods
     /**

@@ -58,7 +58,10 @@ class ColorButton extends Button {
     //#region click
     click() {
         //#region Variables déclaration
-        const colorDlg = core.classes.createComponent({
+        let colorDlg;
+        //#endregion Variables déclaration
+        activeApp.isBusy = !0;
+        colorDlg = core.classes.createComponent({
             class: core.classes.ColorDlg,
             owner: activeApp,
             props: {
@@ -66,11 +69,11 @@ class ColorButton extends Button {
                 control: this
             }
         });
-        //#endregion Variables déclaration
         colorDlg.obj = this;
         colorDlg.onClose.addListener(this.updateColor);
         colorDlg.showModal();
         super.click();
+        activeApp.isBusy = !1;
     }
     //#endregion click
     //#region updateColor

@@ -1,17 +1,37 @@
 ﻿<!doctype html>
-<html>
+<html data-renderer="html">
 <head>
     <title>JaGui studio</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="Stylesheet" href="../../css/jagui.css" data-title="jagui" />
     <link rel="Stylesheet" href="../../css/components.css" data-title="jagui" />
-    <script type="text/javascript" src="../../gui/core/core.js"></script>
-    <script type="text/javascript">
-        $j.ready = function() {
-            $j.apps.createApp("studio");
+    <link rel="stylesheet" href="css/studio.css" />
+    <script src="/scripts/core/core.js"></script>
+    <script type="module">
+        import { Studio } from "./js/studio.js";
+        function launchApp() {
+            core.apps.createApp(Studio);
         }
+        const icon = document.querySelector(".themes_Icon");
+        icon.addEventListener("dblclick", launchApp);
+        const event = new MouseEvent("dblclick", {
+            "view": window,
+            "bubbles": true,
+            "cancelable": true
+        });
+        icon.dispatchEvent(event);
     </script>
+    <style type="text/css">
+        .themes_Icon {
+            background-image: url(data:image/png;base64,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);
+        }
+    </style>
 </head>
 <body>
+    <jagui-icon class="Control ShortCutIcon carbon horizontalCenter verticalCenter hidden" title="Double click to launch" name="Controls_shortCut">
+        <div class="ShortCutIconImg themes_Icon"></div>
+        <div class="ShortCutIconCaption">Studio</div>
+    </jagui-icon>
+    <object class="window mainWindow" id="window1" data="html/window1.html" type="text/html"></object>
 </body>
 </html>

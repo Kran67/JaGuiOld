@@ -503,7 +503,7 @@ class ListBox extends ScrollControl {
     get items() {
         return this.#items;
     }
-    //#ndregion items
+    //#endregion items
     //#region multiSelect
     get multiSelect() {
         return this.#multiSelect;
