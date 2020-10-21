@@ -151,14 +151,16 @@ class Window1 extends Window {
         confirm.onClose.addListener(this.form.createListBoxItems);
     }
     createListBoxItems() {
+        const lBox = this.app.activeWindow.ListBox2;
         if (this.modalResult === Window.MODALRESULTS.OK) {
             const t = new Date().getTime();
-            this.app.activeWindow.ListBox2.beginUpdate();
-            for (let i = 0; i < 1000000; i++) {
-                const span = new ListBoxItem(this.app.activeWindow.ListBox2, `item${i}`);
-                this.app.activeWindow.ListBox2.addItem(span);
-            }
-            this.app.activeWindow.ListBox2.endUpdate();
+                this.app.activeWindow.ListBox2.beginUpdate();
+                for (let i = 0; i < 1000000; i++) {
+                    const span = new ListBoxItem(lBox, `item${i}`);
+                    lBox.addItem(span);
+                }
+                this.app.activeWindow.ListBox2.endUpdate();
+            //dialogs.alert(`${new Date().getTime() - t}ms`);
             console.log(`${new Date().getTime() - t}ms`);
         }
     }
