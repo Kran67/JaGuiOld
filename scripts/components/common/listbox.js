@@ -16,7 +16,6 @@ class ListBoxItem extends BaseClass {
     #checked;
     #isHeader;
     #enabled;
-    #form;
     #selected;
     #css;
     #imageIndex;
@@ -27,10 +26,10 @@ class ListBoxItem extends BaseClass {
     #autoTranslate;
     #translationKey;
     #state;
-    #html;
     #check;
     #icon;
     #text;
+    #index;
     //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
@@ -46,7 +45,6 @@ class ListBoxItem extends BaseClass {
                 ? props.isHeader : !1;
             this.#enabled = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled)
                 ? props.enabled : !0;
-            this.#form = owner.form;
             this.#selected = props.hasOwnProperty('selected') && core.tools.isBool(props.selected)
                 ? props.selected : !1;
             this.#css = props.hasOwnProperty('css') ? props.css : String.EMPTY;
@@ -61,9 +59,9 @@ class ListBoxItem extends BaseClass {
                 ? props.autoTranslate : !0;
             this.#translationKey = props.hasOwnProperty('translationKey') ? props.translationKey : String.EMPTY;
             this.#autoTranslate && !String.isNullOrEmpty(this.#translationKey) && this.app.getLocalText(this);
-            this.mouseEvents = new core.classes.MouseEvents();
             this.#state = props.hasOwnProperty('state') ? props.state : Checkbox.CHECKBOXSTATES.UNCHECKED;
             this.addPropertyEnum('state', Checkbox.CHECKBOXSTATES);
+            this.#index = props.index;
             owner instanceof ListBox && owner.allowUpdate && owner.draw();
         }
     }
@@ -76,7 +74,7 @@ class ListBoxItem extends BaseClass {
     set state(newValue) {
         if (core.tools.valueInSet(newValue, Checkbox.CHECKBOXSTATES) && this.#state !== newValue) {
             this.#state = newValue;
-            this.update && !this.loading && !this.#form.creating && !this.#form.loading && this.update();
+            this.#owner.updateItem(this);
         }
     }
     //#endregion state
@@ -86,7 +84,7 @@ class ListBoxItem extends BaseClass {
     }
     set translationKey(newValue) {
         core.tools.isString(newValue) && this.#translationKey !== newValue
-            && (this.#translationKey = newValue);
+            && (this.#translationKey = newValue) && this.#owner.updateItem(this);
     }
     //#endregion translationKey
     //#region autoTranslate
@@ -95,7 +93,7 @@ class ListBoxItem extends BaseClass {
     }
     set autoTranslate(newValue) {
         core.tools.isBool(newValue) && this.#autoTranslate !== newValue
-            && (this.#autoTranslate = newValue);
+            && (this.#autoTranslate = newValue) && this.#owner.updateItem(this);
     }
     //#endregion autoTranslate
     //#region pos
@@ -103,24 +101,9 @@ class ListBoxItem extends BaseClass {
         return this.#pos;
     }
     set pos(newValue) {
-        core.tools.isNumber(newValue) && (this.#pos = newValue);
+        core.tools.isNumber(newValue) && (this.#pos = newValue) && this.#owner.updateItem(this);
     }
     //#endregion pos
-    //#region form
-    get form() {
-        return this.#form;
-    }
-    //#endregion form
-    //#region html
-    get html() {
-        return this.#html;
-    }
-    //#endregion html
-    //#region app
-    get app() {
-        return this.#owner.app;
-    }
-    //#endregion app
     //#region checked
     get checked() {
         return this.#checked;
@@ -154,12 +137,13 @@ class ListBoxItem extends BaseClass {
             }
             if (this.#checked !== newValue) {
                 this.#checked = newValue;
-                if (!this.#owner.loading && !this.#form.loading) {
+                this.#owner.updateItem(this);
+                if (!this.#owner.loading && !this.#owner.form.loading) {
                     if (!core.isHTMLRenderer) {
                         this.#owner.allowUpdate && this.#owner.update();
-                        this.redraw();
-                    } else {
-                        this.update();
+                        //this.redraw();
+                        //} else {
+                        //    this.update();
                     }
                 }
             }
@@ -173,7 +157,7 @@ class ListBoxItem extends BaseClass {
     set isHeader(newValue) {
         if (core.tools.isBool(newValue) && this.#isHeader !== newValue) {
             this.#isHeader = newValue;
-            this.update();
+            this.#owner.updateItem(this);
         }
     }
     //#endregion isHeader
@@ -184,7 +168,7 @@ class ListBoxItem extends BaseClass {
     set enabled(newValue) {
         if (core.tools.isBool(newValue) && this.#enabled !== newValue) {
             this.#enabled = newValue;
-            this.update();
+            this.#owner.updateItem(this);
         }
     }
     //#endregion enabled
@@ -195,7 +179,8 @@ class ListBoxItem extends BaseClass {
     set size(newValue) {
         if (core.tools.isNumber(newValue) && this.#size !== newValue) {
             this.#size = newValue;
-            this.#owner.refreshInnerSize();
+            this.#owner.updateItem(this);
+            this.#owner.draw();
         }
     }
     //#endregion height
@@ -206,7 +191,7 @@ class ListBoxItem extends BaseClass {
     set caption(newValue) {
         if (core.tools.isString(newValue) && this.#caption !== newValue) {
             this.#caption = newValue;
-            this.update();
+            this.#owner.updateItem(this);
         }
     }
     //#endregion caption
@@ -217,7 +202,7 @@ class ListBoxItem extends BaseClass {
     set selected(newValue) {
         if (core.tools.isBool(newValue) && !this.#isHeader && this.#enabled && this.#selected !== newValue) {
             this.#selected = newValue;
-            this.update();
+            this.#owner.updateItem(this);
         }
     }
     //#endregion selected
@@ -228,7 +213,7 @@ class ListBoxItem extends BaseClass {
     set imageIndex(newValue) {
         if (core.tools.isNumber(newValue) && this.#imageIndex !== newValue) {
             this.#imageIndex = newValue;
-            this.#owner.allowUpdate && this.update();
+            this.#owner.updateItem(this);
         }
     }
     //#endregion imageIndex
@@ -239,7 +224,7 @@ class ListBoxItem extends BaseClass {
     set cssImage(newValue) {
         if (core.tools.isString(newValue) && this.#cssImage !== newValue) {
             this.#cssImage = newValue;
-            this.#owner.allowUpdate && this.update();
+            this.#owner.updateItem(this);
         }
     }
     //#endregion cssImage
@@ -250,13 +235,13 @@ class ListBoxItem extends BaseClass {
     set image(newValue) {
         if (core.tools.isString(newValue) && this.#image !== newValue) {
             this.#image = newValue;
-            this.#owner.allowUpdate && this.update();
+            this.#owner.updateItem(this);
         }
     }
     //#endregion image
     //#region index
     get index() {
-        return this.#owner.items ? this.#owner.items.indexOf(this) : -1;
+        return this.#index;
     }
     //#endregion index
     //#region isEnabled
@@ -272,125 +257,7 @@ class ListBoxItem extends BaseClass {
     //#endregion Getters / Setters
     //#region Methods
     //#region update
-    update() {
-        //#region Variables déclaration
-        const PX = core.types.CSSUNITS.PX;
-        let prop;
-        let propPos;
-        //#endregion Variables déclaration
-        if (this.#html) {
-            if (this.#owner.orientation === core.types.ORIENTATIONS.VERTICAL) {
-                prop = 'Height';
-                propPos = 'top';
-            } else {
-                prop = 'Width';
-                propPos = 'left';
-            }
-            this.#html.style[`min${prop}`] = `${this.#size}${PX}`;
-            this.#html.style[`max${prop}`] = `${this.#size}${PX}`;
-            this.#html.style[`${prop.toLowerCase()}`] = `${this.#size}${PX}`;
-            if (this.#owner.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
-                this.#html.style[propPos] = `${this.#pos}${PX}`;
-                this.#html.style.position = 'absolute';
-            } else {
-                this.#html.style.position = 'static';
-            }
-            this.#html.classList.remove('disabled', 'isheader', 'selected');
-            !this.#enabled && this.#html.classList.add('disabled');
-            if (this.#owner.viewCheckboxes) {
-                this.#check.classList.remove('grayed', 'checked');
-                this.#check && this.#check.classList.remove('checked');
-                if (this.#checked) {
-                    this.#check.classList.add('checked');
-                } else if (this.#allowGrayed && this.#state === core.types.CHECKBOXSTATES.GRAYED) {
-                    this.#check.classList.add('grayed');
-                }
-            }
-            this.#isHeader && this.#html.classList.add('isheader');
-            this.#selected && this.#html.classList.add('selected');
-            this.#owner.useAlternateColor && this.index % 2 === 0 && this.#html.classList.add('alternate');
-            if (this.#icon) {
-                this.#icon.classList.add('icon');
-                if (!String.isNullOrEmpty(this.#cssImage)) {
-                    this.#icon.classList.add(this.#cssImage);
-                    this.#icon.style.backgroundSize = `${this.#size}${PX} ${this.#size}${PX}`;
-                } else if (!String.isNullOrEmpty(this.#image)) {
-                    this.#icon.style.backgroundImage = `url(${this.#image})`;
-                    this.#icon.style.backgroundSize = `${this.#size}${PX} ${this.#size}${PX}`;
-                } else if (this.#owner.images) {
-                    if (this.#imageIndex < this.#owner.images.images.length && this.#imageIndex > -1) {
-                        this.#icon.style.backgroundImage = `url(${this.#owner.images.images[this.#imageIndex]})`;
-                        this.#icon.style.backgroundSize
-                            = `${this.#owner.images.imageWidth}${PX} ${this.#owner.images.imageHeight}${PX}`;
-                    }
-                }
-            }
-        }
-    }
     //#endregion update
-    //#region draw
-    draw() {
-        //#region Variables déclaration
-        const name = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
-        const ORIENTATIONS = core.types.ORIENTATIONS;
-        //#endregion Variables déclaration
-        if (!this.#html) {
-            this.#html = document.createElement(`${name}`);
-            if (this.#owner.viewCheckboxes) {
-                this.#check = document.createElement(`${name}-check`);
-                this.#check.classList.add('CheckboxCheck', this.#owner.themeName);
-                this.#html.appendChild(this.#check);
-            }
-            if (this.#owner.images || !String.isNullOrEmpty(this.#image)
-                || !String.isNullOrEmpty(this.#cssImage)) {
-                this.#icon = document.createElement(`${name}-icon`);
-                this.#html.appendChild(this.#icon);
-            }
-            this.#text = document.createElement(`${name}-text`);
-            this.#text.classList.add(`${this.constructor.name}Caption`);
-            this.#text.innerHTML = this.#caption;
-            this.#html.appendChild(this.#text);
-            this.#html.classList.add('Control', this.constructor.name, this.#owner.themeName);
-            this.#owner.orientation === ORIENTATIONS.VERTICAL
-                ? this.#html.classList.add('VListBoxItem') : this.#html.classList.add('HListBoxItem');
-            this.#owner.HTMLElement.appendChild(this.#html);
-            !String.isNullOrEmpty(this.#css) && (this.#html.style.cssText += this.#css);
-            Events.bind(this.#html, Mouse.MOUSEEVENTS.DOWN, () => { this.#owner.selectItem(this); });
-        }
-        this.update();
-        if (!String.isNullOrEmpty(this.#css)) {
-            const cssPropsValues = this.#css.split(';');
-            cssPropsValues.forEach(cssProp => {
-                const cssPropValue = cssProp.split(':');
-                this.#html.style[cssPropValue[0]] = cssPropValue[1];
-            });
-        }
-        this.#owner.onDrawItem.invoke(this);
-    }
-    //#endregion draw
-    //#region removeToHTML
-    removeToHTML() {
-        if (this.#html) {
-            Events.unBind(this.#html, Mouse.MOUSEEVENTS.DOWN, () => { this.#owner.selectItem(this); });
-            this.#icon && this.html.removeChild(this.#icon);
-            this.#html.removeChild(this.#text);
-            this.#owner.HTMLElement.removeChild(this.#html);
-            this.#html = null;
-            this.#icon = null;
-            this.#text = null;
-        }
-    }
-    //#endregion removeToHTML
-    //#region destroy
-    destroy() {
-        this.removeToHTML();
-        this.#owner.items.remove(this);
-        this.mouseEvents.destroy();
-        this.mouseEvents = null;
-        delete this.mouseEvents;
-        super.destroy();
-    }
-    //#endregion destroy
     //#region clone
     clone() {
         return Object.create(this);
@@ -448,7 +315,6 @@ class ListBox extends ScrollControl {
     #itemsClass;
     #visibleItems = [];
     #scrollPos = 0;
-    #innerHeight = 0;
     #lastDelta = new Point;
     #downPos = new Point;
     #currentPos = new Point;
@@ -479,7 +345,7 @@ class ListBox extends ScrollControl {
             this.#itemsSize = props.hasOwnProperty('itemsSize') && core.tools.isNumber(props.itemsSize)
                 ? props.itemsSize : 16;
             this.#itemsClass = props.hasOwnProperty('itemsClass')
-                ? core.classes[props.itemsClass] : ListBoxItem;
+                ? core.classes[props.itemsClass] : Object;
             this.#useAlternateColor = props.hasOwnProperty('useAlternateColor')
                 && core.tools.isBool(props.useAlternateColor)
                 ? props.useAlternateColor : !1;
@@ -630,11 +496,78 @@ class ListBox extends ScrollControl {
     //#endregion images
     //#region count
     get count() {
-        return this.#items.count();
+        return this.#items.length;
     }
     //#endregion count
     //#endregion Getters / Setters
     //#region Methods
+    //#region innerHeight
+    #innerHeight() {
+        return this.count > 0 ? this.#items.reduce((accumulator, currentValue) => accumulator + currentValue.size, 0) : 0;
+    }
+    //#endregion innerHeight
+    //#region updateItem
+    #updateItem(item) {
+        console.log('updateItem', item);
+    }
+    //#endregion updateItem
+    //#region updateItemCss
+    #updateItemCss(item) {
+        //#region Variables déclaration
+        const PX = core.types.CSSUNITS.PX;
+        let prop;
+        let propPos;
+        //#endregion Variables déclaration
+        if (item.html) {
+            if (this.orientation === core.types.ORIENTATIONS.VERTICAL) {
+                prop = 'Height';
+                propPos = 'top';
+            } else {
+                prop = 'Width';
+                propPos = 'left';
+            }
+            item.html.style[`min${prop}`] = `${item.size}${PX}`;
+            item.html.style[`max${prop}`] = `${item.size}${PX}`;
+            item.html.style[`${prop.toLowerCase()}`] = `${item.size}${PX}`;
+            if (this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
+                item.html.style[propPos] = `${item.pos}${PX}`;
+                item.html.style.position = 'absolute';
+            } else {
+                item.html.style.position = 'static';
+            }
+            item.html.classList.remove('disabled', 'isheader', 'selected');
+            !item.enabled && item.html.classList.add('disabled');
+            if (this.viewCheckboxes) {
+                item.check.classList.remove('grayed', 'checked');
+                item.check && item.check.classList.remove('checked');
+                if (item.checked) {
+                    item.check.classList.add('checked');
+                } else if (item.allowGrayed && item.state === core.types.CHECKBOXSTATES.GRAYED) {
+                    item.check.classList.add('grayed');
+                }
+            }
+            item.isHeader && item.html.classList.add('isheader');
+            item.selected && item.html.classList.add('selected');
+            this.useAlternateColor && this.#items.indexOf(item) % 2 === 0 && item.html.classList.add('alternate');
+            if (item.icon) {
+                item.icon.classList.add('icon');
+                if (!String.isNullOrEmpty(item.cssImage)) {
+                    item.icon.classList.add(item.cssImage);
+                    item.icon.style.backgroundSize = `${item.size}${PX} ${item.size}${PX}`;
+                } else if (!String.isNullOrEmpty(item.image)) {
+                    item.icon.style.backgroundImage = `url(${item.image})`;
+                    item.icon.style.backgroundSize = `${item.size}${PX} ${item.size}${PX}`;
+                } else if (this.images) {
+                    if (item.imageIndex < this.images.images.length && item.imageIndex > -1) {
+                        item.icon.style.backgroundImage = `url(${this.images.images[item.imageIndex]})`;
+                        item.icon.style.backgroundSize
+                            = `${this.images.imageWidth}${PX} ${this.images.imageHeight}${PX}`;
+                    }
+                }
+            }
+        }
+    }
+    //#endregion updateItemCss
     //#region draw
     draw() {
         //#region Variables déclaration
@@ -646,10 +579,11 @@ class ListBox extends ScrollControl {
         let itemVisible = !1;
         const prop = vert ? 'Top' : 'Left';
         const propSize = vert ? 'Height' : 'Width';
+        const innerHeight = this.#innerHeight();
         //#endregion Variables déclaration
         if (!this.loading && !this.form.loading) {
             this.#scrollPos =
-                Math.max(Math.min(htmlElement[`scroll${prop}`], this.#innerHeight
+                Math.max(Math.min(htmlElement[`scroll${prop}`], innerHeight
                     - htmlElement[`offset${propSize}`]), 0);
             this.#visibleItems = [];
             let topIndex = 0;
@@ -658,7 +592,7 @@ class ListBox extends ScrollControl {
                 ? topIndex + oldVisibleItems.length * 2 : int(htmlElement.offsetHeight / this.#itemsSize) + 1;
             maxIndex = Math.min(maxIndex, items.length);
             !scrollModeNormal && (this.#scroller.style[propSize.toLowerCase()]
-                = `${this.#innerHeight}${core.types.CSSUNITS.PX}`);
+                = `${innerHeight}${core.types.CSSUNITS.PX}`);
             for (let i = topIndex; i < maxIndex; i++) {
                 const item = items[i];
                 if (scrollModeNormal) {
@@ -671,23 +605,77 @@ class ListBox extends ScrollControl {
                 }
                 if (itemVisible) {
                     this.dropDownPopup && (item.dropDownPopup = this.dropDownPopup);
-                    item.draw();
+                    this.#drawItem(item);
                     this.#visibleItems.push(item);
                 }
             }
             oldVisibleItems.forEach(item => {
-                this.#visibleItems.indexOf(item) === -1 && item.removeToHTML();
+                this.#visibleItems.indexOf(item) === -1 && this.#removeItemHTML(item);
             });
         }
     }
     //#endregion draw
+    //#region removeItemHTML
+    #removeItemHTML(item) {
+        if (item.html) {
+            Events.unBind(item.html, Mouse.MOUSEEVENTS.DOWN, () => { this.selectItem(this); }); // à voir
+            item.icon && item.html.removeChild(item.icon);
+            item.html.removeChild(item.text);
+            this.HTMLElement.removeChild(item.html);
+            item.html = null;
+            item.icon = null;
+            item.text = null;
+        }
+    }
+    //#endregion removeItemHTML
+    //#region drawItem
+    #drawItem(item) {
+        //#region Variables déclaration
+        const name = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}Item`;
+        const ORIENTATIONS = core.types.ORIENTATIONS;
+        //#endregion Variables déclaration
+        if (!item.html) {
+            item.html = document.createElement(`${name}`);
+            if (this.viewCheckboxes) {
+                item.check = document.createElement(`${name}-check`);
+                item.check.classList.add('CheckboxCheck', this.themeName);
+                item.html.appendChild(item.check);
+            }
+            if (this.images || !String.isNullOrEmpty(item.image)
+                || !String.isNullOrEmpty(item.cssImage)) {
+                item.icon = document.createElement(`${name}-icon`);
+                item.html.appendChild(item.icon);
+            }
+            item.text = document.createElement(`${name}-text`);
+            item.text.classList.add(`${this.constructor.name}ItemCaption`);
+            item.text.innerHTML = item.caption;
+            item.html.appendChild(item.text);
+            item.html.classList.add('Control', `${this.constructor.name}Item`, this.themeName);
+            this.orientation === ORIENTATIONS.VERTICAL
+                ? item.html.classList.add('VListBoxItem') : item.html.classList.add('HListBoxItem');
+            this.HTMLElement.appendChild(item.html);
+            !String.isNullOrEmpty(item.css) && (item.html.style.cssText += item.css);
+            Events.bind(item.html, Mouse.MOUSEEVENTS.DOWN, () => { this.selectItem(item); });
+        }
+        if (!String.isNullOrEmpty(item.css)) {
+            const cssPropsValues = item.css.split(';');
+            cssPropsValues.forEach(cssProp => {
+                const cssPropValue = cssProp.split(':');
+                item.html.style[cssPropValue[0]] = cssPropValue[1];
+            });
+        }
+        this.#updateItemCss(item);
+        this.onDrawItem.invoke(item);
+    }
+    //#endregion drawItem
     //#region selectItem
     selectItem(item) {
         if (!item.isHeader && item.enabled && this.enabled && this.mouseEvents.mousedown) {
-            this.multiSelect && !core.keyboard.ctrl && item.owner.clearSelection();
+            this.multiSelect && !core.keyboard.ctrl && this.clearSelection();
             this.multiSelect && core.keyboard.ctrl
-                ? item.selected = !item.selected : this.itemIndex = item.index;
+                ? item.selected = !item.selected : this.itemIndex = this.#items.indexOf(item);
             this.viewCheckboxes && (item.checked = !item.checked);
+            this.#updateItemCss(item);
             this.onSelectItem.hasListener && this.onSelectItem.invoke();
         }
         //this.mouseDown();
@@ -698,33 +686,31 @@ class ListBox extends ScrollControl {
         if (this.#itemIndex !== -1) {
             const item = this.#items[this.#itemIndex];
             item && (item.selected = !1);
+            this.#updateItemCss(item);
         }
     }
     //#endregion deselectItemIndex
-    //#region refreshInnerHeight
-    refreshInnerHeight() {
-        //#region Variables déclaration
-        const items = this.#items;
-        //#endregion Variables déclaration
-        this.#innerHeight = 0;
-        items.forEach(item => {
-            this.#innerHeight += item.size;
-        });
-        this.allowUpdate && this.draw();
-    }
-    //#endregion refreshInnerHeight
     //#region addItem
     addItem(item) {
-        if (item instanceof ListBoxItem) {
-            this.#innerHeight += item.size;
+        if (item instanceof this.#itemsClass) {
+            !item.size && (item.size = this.#itemsSize);
             item.pos = this.#items.last ? this.#items.last.pos + item.size : 0;
+            !item.enabled && (item.enabled = !0);
+            !item.checked && (item.checked = !1);
+            !item.isHeader && (item.isHeader = !1);
+            !item.imageIndex && (item.imageIndex = -1);
+            !item.allowGrayed && (item.allowGrayed = !1);
+            !item.autoTranslate && (item.autoTranslate = !1);
+            !item.translationKey && (item.translationKey = String.EMPTY);
+            !item.state && (item.state = Checkbox.CHECKBOXSTATES.UNCHECKED);
             this.#items.push(item);
+            //item.selected = this.#itemIndex === this.#items.indexOf(item);
         }
     }
     //#endregion addItem
     //#region deleteItem
     deleteItem(item) {
-        item instanceof ListBoxItem && this.#items.indexOf(item) !== -1 && this.#items.remove(item);
+        this.#items.indexOf(item) !== -1 && this.#items.remove(item);
     }
     //#endregion deleteItem
     //#region deleteAt
@@ -734,7 +720,7 @@ class ListBox extends ScrollControl {
     //#endregion deleteAt
     //#region moveItem
     moveItem(itemToMove, itemBefore) {
-        if (itemToMove instanceof ListBoxItem && itemBefore instanceof ListBoxItem) {
+        if (itemToMove instanceof ListBoxItem && itemBefore instanceof ListBoxItem) { // à revoir
             this.#visibleItems.indexOf(itemToMove) > -1 && this.#items.beginUpdate();
             this.#items.remove(itemToMove);
             this.#items.insert(itemBefore.index, itemToMove);
@@ -752,7 +738,7 @@ class ListBox extends ScrollControl {
     //#region endUpdate
     endUpdate() {
         super.endUpdate();
-        this.refreshInnerHeight();
+        this.draw();
         this.#items.endUpdate();
     }
     //#endregion endUpdate
@@ -761,7 +747,7 @@ class ListBox extends ScrollControl {
         this.#visibleItems.clear();
         if (this.#items) {
             while (this.#items.length > 0) {
-                this.#items.pop().destroy();
+                this.#items.pop();//.destroy();
             }
             this.#items.clear();
         }
@@ -771,6 +757,7 @@ class ListBox extends ScrollControl {
     clearSelection() {
         this.#items.forEach(item => {
             item.selected = !1;
+            this.#updateItemCss(item);
         });
     }
     //#endregion clearSelection
@@ -778,6 +765,7 @@ class ListBox extends ScrollControl {
     selectAll() {
         this.#items.forEach(item => {
             item.selected = !0;
+            this.#updateItemCss(item);
         });
     }
     //#endregion selectAll
@@ -785,7 +773,7 @@ class ListBox extends ScrollControl {
     destroy() {
         if (this.#items) {
             while (this.#items.length > 0) {
-                this.#items.last.destroy();
+                //this.#items.last.destroy();
                 this.#items.pop();
             }
             this.#items.destroy();
@@ -884,36 +872,24 @@ class ListBox extends ScrollControl {
         //#endregion Variables déclaration
         super.loaded();
         this.getImages();
-        this.#innerHeight = 0;
+        this.#useAlternateColor && htmlElement.classList.add('useAlternateColor');
         this.#scroller = document.createElement(`${name}-scroller`);
         this.#scroller.classList.add('listBoxScroller');
         htmlElement.appendChild(this.#scroller);
-        if (this.props.items) {
-            if (core.tools.isArray(this.props.items)) {
-                this.beginUpdate();
-                this.props.items.forEach((item, idx) => {
-                    const props = item;
-                    props.inForm = !1;
-                    props.selected = this.#itemIndex === idx;
-                    props.height = item.hasOwnProperty('height') && core.tools.isNumber(item.size)
-                        ? item.size : this.#itemsSize;
-                    const _item = core.classes.createComponent({
-                        class: this.#itemsClass,
-                        owner: this,
-                        props
-                    });
-                    this.addItem(_item);
-                });
-                this.endUpdate();
-            }
-        }
-        this.#useAlternateColor && htmlElement.classList.add('useAlternateColor');
         htmlElement.classList.add(`orientation-${this.#orientation}`);
         this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL
             && Events.bind(htmlElement, core.types.HTMLEVENTS.SCROLL, () => {
                 core.mouse.stopAllEvents(); this.setFocus(); this.draw();
             });
-        this.draw();
+        if (this.props.items) {
+            if (core.tools.isArray(this.props.items)) {
+                this.beginUpdate();
+                this.props.items.forEach(item => {
+                    this.addItem(item);
+                });
+                this.endUpdate();
+            }
+        }
     }
     //#endregion loaded
     //#region getImages
