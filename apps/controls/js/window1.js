@@ -152,15 +152,14 @@ class Window1 extends Window {
     }
     createListBoxItems() {
         const lBox = this.app.activeWindow.ListBox2;
+        const num = lBox.count + 1;
         if (this.modalResult === Window.MODALRESULTS.OK) {
             const t = new Date().getTime();
                 this.app.activeWindow.ListBox2.beginUpdate();
-                for (let i = 0; i < 1000000; i++) {
-                    const span = new ListBoxItem(lBox, `item${i}`);
-                    lBox.addItem(span);
+                for (let i = num; i < 1000000 + num; i++) {
+                    lBox.addItem({ caption: `item${i}`});
                 }
                 this.app.activeWindow.ListBox2.endUpdate();
-            //dialogs.alert(`${new Date().getTime() - t}ms`);
             console.log(`${new Date().getTime() - t}ms`);
         }
     }

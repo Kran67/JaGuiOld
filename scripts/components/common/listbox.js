@@ -62,6 +62,7 @@ class ListBoxItem extends BaseClass {
             this.#state = props.hasOwnProperty('state') ? props.state : Checkbox.CHECKBOXSTATES.UNCHECKED;
             this.addPropertyEnum('state', Checkbox.CHECKBOXSTATES);
             this.#index = props.index;
+            //this.#ref = props;
             owner instanceof ListBox && owner.allowUpdate && owner.draw();
         }
     }
@@ -235,7 +236,7 @@ class ListBoxItem extends BaseClass {
     set image(newValue) {
         if (core.tools.isString(newValue) && this.#image !== newValue) {
             this.#image = newValue;
-            this.#owner.updateItem(this);
+            this.#updateItem(this);
         }
     }
     //#endregion image
@@ -256,8 +257,16 @@ class ListBoxItem extends BaseClass {
     //#endregion owner
     //#endregion Getters / Setters
     //#region Methods
-    //#region update
-    //#endregion update
+    //#region updateItem
+    #updateItem() {
+        //#region Variables déclaration
+        const owner = this.#owner;
+        const index = owner.findItem(this);
+        //#endregion Variables déclaration
+
+        //owner.items[index]
+    }
+    //#endregion updateItem
     //#region clone
     clone() {
         return Object.create(this);
@@ -335,7 +344,7 @@ class ListBox extends ScrollControl {
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
-            !props.hasOwnProperty('scrollMode') ? props.scrollMode = ScrollControl.SCROLLMODES.VIRTUAL : null;
+            !props.hasOwnProperty('scrollMode') && (props.scrollMode = ScrollControl.SCROLLMODES.VIRTUAL);
             props.canFocused = !0;
             super(owner, props);
             this.#multiSelect = props.hasOwnProperty('multiSelect') && core.tools.isBool(props.multiSelect)
@@ -506,11 +515,6 @@ class ListBox extends ScrollControl {
         return this.count > 0 ? this.#items.reduce((accumulator, currentValue) => accumulator + currentValue.size, 0) : 0;
     }
     //#endregion innerHeight
-    //#region updateItem
-    #updateItem(item) {
-        console.log('updateItem', item);
-    }
-    //#endregion updateItem
     //#region updateItemCss
     #updateItemCss(item) {
         //#region Variables déclaration
