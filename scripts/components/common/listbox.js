@@ -353,7 +353,7 @@ class ListBox extends ScrollControl {
             this.#itemsSize = props.hasOwnProperty('itemsSize') && core.tools.isNumber(props.itemsSize)
                 ? props.itemsSize : 16;
             this.#itemsClass = props.hasOwnProperty('itemsClass')
-                ? core.classes[props.itemsClass] : /*Object*/ListBoxItem;
+                ? core.classes[props.itemsClass] : Object/*ListBoxItem*/;
             this.#useAlternateColor = props.hasOwnProperty('useAlternateColor')
                 && core.tools.isBool(props.useAlternateColor)
                 ? props.useAlternateColor : !1;
@@ -518,6 +518,7 @@ class ListBox extends ScrollControl {
     //#region Methods
     //#region innerHeight
     #innerHeight() {
+        this.#items.filter(item => !item.size).forEach(item => item.size = this.#itemsSize);
         return this.count > 0 ? this.#items.reduce((accumulator, currentValue) => accumulator + currentValue.size, 0) : 0;
     }
     //#endregion innerHeight
@@ -600,6 +601,8 @@ class ListBox extends ScrollControl {
                 = `${innerHeight}${core.types.CSSUNITS.PX}`;
             for (let i = topIndex; i < maxIndex; i++) {
                 const item = items[i];
+                !item.size && (item.size = this.#itemsSize);
+                item.pos = i > 0 ? i * item.size : 0;
                 itemVisible = !1;
                 ((item.pos + item.size >= this.#scrollPos)
                     && (item.pos < htmlElement[`offset${propSize}`] + this.#scrollPos))
@@ -619,7 +622,6 @@ class ListBox extends ScrollControl {
     //#region removeItemHTML
     #removeItemHTML(item) {
         if (item.html) {
-            Events.unBind(item.html, Mouse.MOUSEEVENTS.DOWN, () => { this.selectItem(this); }); // à voir
             item.icon && item.html.removeChild(item.icon);
             item.html.removeChild(item.text);
             this.HTMLElement.removeChild(item.html);
@@ -651,12 +653,11 @@ class ListBox extends ScrollControl {
             item.text.classList.add(`${this.constructor.name}ItemCaption`);
             item.text.innerHTML = item.caption;
             item.html.appendChild(item.text);
-            item.html.classList.add('Control', `${this.constructor.name}Item`, this.themeName);
+            item.html.classList.add(`${this.constructor.name}Item`, this.themeName);
             this.orientation === ORIENTATIONS.VERTICAL
                 ? item.html.classList.add('VListBoxItem') : item.html.classList.add('HListBoxItem');
             this.HTMLElement.appendChild(item.html);
             !String.isNullOrEmpty(item.css) && (item.html.style.cssText += item.css);
-            Events.bind(item.html, Mouse.MOUSEEVENTS.DOWN, () => { this.selectItem(item); });
         }
         if (!String.isNullOrEmpty(item.css)) {
             const cssPropsValues = item.css.split(';');
@@ -665,13 +666,21 @@ class ListBox extends ScrollControl {
                 item.html.style[cssPropValue[0]] = cssPropValue[1];
             });
         }
+        !core.tools.isBool(item.enabled) && (item.enabled = !0);
+        !core.tools.isBool(item.checked) && (item.checked = !1);
+        !core.tools.isBool(item.selected) && (item.selected = !1);
+        !core.tools.isBool(item.isHeader) && (item.isHeader = !1);
+        !core.tools.isBool(item.allowGrayed) && (item.allowGrayed = !1);
+        !core.tools.isBool(item.autoTranslate) && (item.autoTranslate = !0);
+        !core.tools.isBool(item.imageIndex) && (item.imageIndex = -1);
+        !item.state && (item.state = Checkbox.CHECKBOXSTATES.UNCHECKED);
         this.#updateItemCss(item);
         this.onDrawItem.invoke(item);
     }
     //#endregion drawItem
     //#region selectItem
     selectItem(item) {
-        if (!item.isHeader && item.enabled && this.enabled && this.mouseEvents.mousedown) {
+        if (!item.isHeader && item.enabled && this.enabled) {
             this.multiSelect && !core.keyboard.ctrl && this.clearSelection();
             this.multiSelect && core.keyboard.ctrl
                 ? item.selected = !item.selected : this.itemIndex = this.#items.indexOf(item);
@@ -694,18 +703,7 @@ class ListBox extends ScrollControl {
     //#region addItem
     addItem(item) {
         if (item instanceof this.#itemsClass) {
-            //!item.size && (item.size = this.#itemsSize);
-            item.pos = this.#items.last ? this.#items.last.pos + item.size : 0;
-            //!item.enabled && (item.enabled = !0);
-            //!item.checked && (item.checked = !1);
-            //!item.isHeader && (item.isHeader = !1);
-            //!item.imageIndex && (item.imageIndex = -1);
-            //!item.allowGrayed && (item.allowGrayed = !1);
-            //!item.autoTranslate && (item.autoTranslate = !1);
-            //!item.translationKey && (item.translationKey = String.EMPTY);
-            //!item.state && (item.state = Checkbox.CHECKBOXSTATES.UNCHECKED);
             this.#items.push(item);
-            //item.selected = this.#itemIndex === this.#items.indexOf(item);
         }
     }
     //#endregion addItem
@@ -748,7 +746,7 @@ class ListBox extends ScrollControl {
         this.#visibleItems.clear();
         if (this.#items) {
             while (this.#items.length > 0) {
-                this.#items.pop();//.destroy();
+                this.#items.pop();
             }
             this.#items.clear();
         }
@@ -774,7 +772,6 @@ class ListBox extends ScrollControl {
     destroy() {
         if (this.#items) {
             while (this.#items.length > 0) {
-                //this.#items.last.destroy();
                 this.#items.pop();
             }
             this.#items.destroy();
@@ -875,7 +872,7 @@ class ListBox extends ScrollControl {
             if (core.tools.isArray(this.props.items)) {
                 this.beginUpdate();
                 this.props.items.forEach(item => {
-                    this.addItem(new ListBoxItem(this, item));
+                    this.#items.push(item);
                 });
                 this.endUpdate();
             }
@@ -888,7 +885,7 @@ class ListBox extends ScrollControl {
     }
     //#endregion getImages
     //#region itemAtPos
-    itemAtPos(point) {
+    #itemAtPos(point) {
         //#region Variables déclaration
         let i = 0;
         let notFound = !0;
@@ -908,9 +905,19 @@ class ListBox extends ScrollControl {
             point.inRect(itemRect) && (notFound = !1);
             i++;
         }
-        return !notFound && item;
+        notFound && (item = null);
+        return item;
     }
     //#endregion itemAtPos
+    //#region mouseDown
+    mouseDown() {
+        //#region Variables déclaration
+        const item = this.#itemAtPos(core.mouse.target);
+        //#endregion Variables déclaration
+        super.mouseDown();
+        item && this.selectItem(item);
+    }
+    //#endregion mouseDown
     //#endregion Methods
 }
 Object.defineProperties(ListBox.prototype, {

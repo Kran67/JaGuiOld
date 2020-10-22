@@ -158,7 +158,7 @@ class Window1 extends Window {
             const t = new Date().getTime();
             for (let i = num; i < 1000000 + num; i++) {
                 //lBox.addItem(new ListBoxItem(lBox, { caption: `item${i}` }));
-                items.push({ caption: `item${i}`, size: lBox.itemsSize });
+                items.push({ caption: `item${i}` });
             }
             //lBox.beginUpdate();
             lBox.items = items;
