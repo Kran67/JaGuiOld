@@ -3,12 +3,6 @@ import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Point } from '/scripts/core/geometry.js';
 import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Imports
-//#region SCROLLMODES
-const SCROLLMODES = Object.freeze(Object.seal({
-    NORMAL: 'normal',
-    VIRTUAL: 'virtual'
-}));
-//#endregion SCROLLMODES
 //#region ScrollControl
 class ScrollControl extends ThemedControl {
     //#region Private fields
@@ -16,7 +10,6 @@ class ScrollControl extends ThemedControl {
     #downPos;
     #currentPos;
     #down = !1;
-    #scrollMode;
     //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
@@ -29,25 +22,10 @@ class ScrollControl extends ThemedControl {
             this.#lastDelta = new Point;
             this.#downPos = new Point;
             this.#currentPos = new Point;
-            this.#scrollMode = props.hasOwnProperty('scrollMode') ? props.scrollMode : SCROLLMODES.NORMAL;
         }
     }
     //#endregion constructor
     //#region Getters / Setters
-    //#region SCROLLMODES
-    static get SCROLLMODES() {
-        return SCROLLMODES;
-    }
-    //#endregion SCROLLMODES
-    //#region scrollMode
-    get scrollMode() {
-        return this.#scrollMode;
-    }
-    set scrollMode(newValue) {
-        core.tools.valueInSet(newValue, SCROLLMODES) && this.#scrollMode !== newValue
-            && (this.#scrollMode = newValue);
-    }
-    //#endregion scrollMode
     //#region hasHorizScrollBar
     get hasHorizScrollBar() {
         //#region Variables déclaration
@@ -136,11 +114,8 @@ class ScrollControl extends ThemedControl {
     //#endregion destroy
     //#endregion Methods
 }
-Object.defineProperties(ScrollControl.prototype, {
-    'scrollMode': {
-        enumerable: !0
-    }
-});
+//Object.defineProperties(ScrollControl.prototype, {
+//});
 Object.seal(ScrollControl);
 core.classes.register(core.types.CATEGORIES.INTERNAL, ScrollControl);
 //#endregion ScrollControl

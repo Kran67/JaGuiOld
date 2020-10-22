@@ -75,7 +75,7 @@ class ListBoxItem extends BaseClass {
     set state(newValue) {
         if (core.tools.valueInSet(newValue, Checkbox.CHECKBOXSTATES) && this.#state !== newValue) {
             this.#state = newValue;
-            this.#owner.updateItem(this);
+            //this.#updateItem(this);
         }
     }
     //#endregion state
@@ -85,7 +85,7 @@ class ListBoxItem extends BaseClass {
     }
     set translationKey(newValue) {
         core.tools.isString(newValue) && this.#translationKey !== newValue
-            && (this.#translationKey = newValue) && this.#owner.updateItem(this);
+            && (this.#translationKey = newValue);// && this.#updateItem(this);
     }
     //#endregion translationKey
     //#region autoTranslate
@@ -94,7 +94,7 @@ class ListBoxItem extends BaseClass {
     }
     set autoTranslate(newValue) {
         core.tools.isBool(newValue) && this.#autoTranslate !== newValue
-            && (this.#autoTranslate = newValue) && this.#owner.updateItem(this);
+            && (this.#autoTranslate = newValue);// && this.#updateItem(this);
     }
     //#endregion autoTranslate
     //#region pos
@@ -102,7 +102,7 @@ class ListBoxItem extends BaseClass {
         return this.#pos;
     }
     set pos(newValue) {
-        core.tools.isNumber(newValue) && (this.#pos = newValue) && this.#owner.updateItem(this);
+        core.tools.isNumber(newValue) && (this.#pos = newValue);// && this.#updateItem(this);
     }
     //#endregion pos
     //#region checked
@@ -138,7 +138,7 @@ class ListBoxItem extends BaseClass {
             }
             if (this.#checked !== newValue) {
                 this.#checked = newValue;
-                this.#owner.updateItem(this);
+                //this.#updateItem(this);
                 if (!this.#owner.loading && !this.#owner.form.loading) {
                     if (!core.isHTMLRenderer) {
                         this.#owner.allowUpdate && this.#owner.update();
@@ -158,7 +158,7 @@ class ListBoxItem extends BaseClass {
     set isHeader(newValue) {
         if (core.tools.isBool(newValue) && this.#isHeader !== newValue) {
             this.#isHeader = newValue;
-            this.#owner.updateItem(this);
+            //this.#updateItem(this);
         }
     }
     //#endregion isHeader
@@ -169,7 +169,7 @@ class ListBoxItem extends BaseClass {
     set enabled(newValue) {
         if (core.tools.isBool(newValue) && this.#enabled !== newValue) {
             this.#enabled = newValue;
-            this.#owner.updateItem(this);
+            //this.#updateItem(this);
         }
     }
     //#endregion enabled
@@ -180,7 +180,7 @@ class ListBoxItem extends BaseClass {
     set size(newValue) {
         if (core.tools.isNumber(newValue) && this.#size !== newValue) {
             this.#size = newValue;
-            this.#owner.updateItem(this);
+            //this.#updateItem(this);
             this.#owner.draw();
         }
     }
@@ -192,7 +192,7 @@ class ListBoxItem extends BaseClass {
     set caption(newValue) {
         if (core.tools.isString(newValue) && this.#caption !== newValue) {
             this.#caption = newValue;
-            this.#owner.updateItem(this);
+            //this.#updateItem(this);
         }
     }
     //#endregion caption
@@ -203,7 +203,7 @@ class ListBoxItem extends BaseClass {
     set selected(newValue) {
         if (core.tools.isBool(newValue) && !this.#isHeader && this.#enabled && this.#selected !== newValue) {
             this.#selected = newValue;
-            this.#owner.updateItem(this);
+            //this.#updateItem(this);
         }
     }
     //#endregion selected
@@ -214,7 +214,7 @@ class ListBoxItem extends BaseClass {
     set imageIndex(newValue) {
         if (core.tools.isNumber(newValue) && this.#imageIndex !== newValue) {
             this.#imageIndex = newValue;
-            this.#owner.updateItem(this);
+            //this.#updateItem(this);
         }
     }
     //#endregion imageIndex
@@ -225,7 +225,7 @@ class ListBoxItem extends BaseClass {
     set cssImage(newValue) {
         if (core.tools.isString(newValue) && this.#cssImage !== newValue) {
             this.#cssImage = newValue;
-            this.#owner.updateItem(this);
+            //this.#updateItem(this);
         }
     }
     //#endregion cssImage
@@ -236,7 +236,7 @@ class ListBoxItem extends BaseClass {
     set image(newValue) {
         if (core.tools.isString(newValue) && this.#image !== newValue) {
             this.#image = newValue;
-            this.#updateItem(this);
+            //this.#updateItem(this);
         }
     }
     //#endregion image
@@ -344,7 +344,6 @@ class ListBox extends ScrollControl {
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
-            !props.hasOwnProperty('scrollMode') && (props.scrollMode = ScrollControl.SCROLLMODES.VIRTUAL);
             props.canFocused = !0;
             super(owner, props);
             this.#multiSelect = props.hasOwnProperty('multiSelect') && core.tools.isBool(props.multiSelect)
@@ -354,7 +353,7 @@ class ListBox extends ScrollControl {
             this.#itemsSize = props.hasOwnProperty('itemsSize') && core.tools.isNumber(props.itemsSize)
                 ? props.itemsSize : 16;
             this.#itemsClass = props.hasOwnProperty('itemsClass')
-                ? core.classes[props.itemsClass] : Object;
+                ? core.classes[props.itemsClass] : /*Object*/ListBoxItem;
             this.#useAlternateColor = props.hasOwnProperty('useAlternateColor')
                 && core.tools.isBool(props.useAlternateColor)
                 ? props.useAlternateColor : !1;
@@ -377,6 +376,13 @@ class ListBox extends ScrollControl {
     //#region items
     get items() {
         return this.#items;
+    }
+    set items(newValue) {
+        if (core.tools.isArray(newValue)) {
+            this.#items = newValue;
+            this.#scrollPos = 0;
+            this.draw();
+        }
     }
     //#endregion items
     //#region multiSelect
@@ -533,12 +539,8 @@ class ListBox extends ScrollControl {
             item.html.style[`min${prop}`] = `${item.size}${PX}`;
             item.html.style[`max${prop}`] = `${item.size}${PX}`;
             item.html.style[`${prop.toLowerCase()}`] = `${item.size}${PX}`;
-            if (this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
-                item.html.style[propPos] = `${item.pos}${PX}`;
-                item.html.style.position = 'absolute';
-            } else {
-                item.html.style.position = 'static';
-            }
+            item.html.style[propPos] = `${item.pos}${PX}`;
+            item.html.style.position = 'absolute';
             item.html.classList.remove('disabled', 'isheader', 'selected');
             !item.enabled && item.html.classList.add('disabled');
             if (this.viewCheckboxes) {
@@ -578,7 +580,6 @@ class ListBox extends ScrollControl {
         const oldVisibleItems = this.#visibleItems;
         const items = this.#items;
         const vert = this.#orientation === core.types.ORIENTATIONS.VERTICAL;
-        const scrollModeNormal = this.scrollMode === ScrollControl.SCROLLMODES.NORMAL;
         const htmlElement = this.HTMLElement;
         let itemVisible = !1;
         const prop = vert ? 'Top' : 'Left';
@@ -595,18 +596,14 @@ class ListBox extends ScrollControl {
             let maxIndex = !oldVisibleItems.isEmpty
                 ? topIndex + oldVisibleItems.length * 2 : int(htmlElement.offsetHeight / this.#itemsSize) + 1;
             maxIndex = Math.min(maxIndex, items.length);
-            !scrollModeNormal && (this.#scroller.style[propSize.toLowerCase()]
-                = `${innerHeight}${core.types.CSSUNITS.PX}`);
+            this.#scroller.style[propSize.toLowerCase()]
+                = `${innerHeight}${core.types.CSSUNITS.PX}`;
             for (let i = topIndex; i < maxIndex; i++) {
                 const item = items[i];
-                if (scrollModeNormal) {
-                    itemVisible = !0;
-                } else {
-                    itemVisible = !1;
-                    ((item.pos + item.size >= this.#scrollPos)
-                        && (item.pos < htmlElement[`offset${propSize}`] + this.#scrollPos))
-                        && (itemVisible = !0);
-                }
+                itemVisible = !1;
+                ((item.pos + item.size >= this.#scrollPos)
+                    && (item.pos < htmlElement[`offset${propSize}`] + this.#scrollPos))
+                    && (itemVisible = !0);
                 if (itemVisible) {
                     this.dropDownPopup && (item.dropDownPopup = this.dropDownPopup);
                     this.#drawItem(item);
@@ -697,16 +694,16 @@ class ListBox extends ScrollControl {
     //#region addItem
     addItem(item) {
         if (item instanceof this.#itemsClass) {
-            !item.size && (item.size = this.#itemsSize);
+            //!item.size && (item.size = this.#itemsSize);
             item.pos = this.#items.last ? this.#items.last.pos + item.size : 0;
-            !item.enabled && (item.enabled = !0);
-            !item.checked && (item.checked = !1);
-            !item.isHeader && (item.isHeader = !1);
-            !item.imageIndex && (item.imageIndex = -1);
-            !item.allowGrayed && (item.allowGrayed = !1);
-            !item.autoTranslate && (item.autoTranslate = !1);
-            !item.translationKey && (item.translationKey = String.EMPTY);
-            !item.state && (item.state = Checkbox.CHECKBOXSTATES.UNCHECKED);
+            //!item.enabled && (item.enabled = !0);
+            //!item.checked && (item.checked = !1);
+            //!item.isHeader && (item.isHeader = !1);
+            //!item.imageIndex && (item.imageIndex = -1);
+            //!item.allowGrayed && (item.allowGrayed = !1);
+            //!item.autoTranslate && (item.autoTranslate = !1);
+            //!item.translationKey && (item.translationKey = String.EMPTY);
+            //!item.state && (item.state = Checkbox.CHECKBOXSTATES.UNCHECKED);
             this.#items.push(item);
             //item.selected = this.#itemIndex === this.#items.indexOf(item);
         }
@@ -847,24 +844,14 @@ class ListBox extends ScrollControl {
         const offsetPropSize = `offset${propSize}`;
         const offsetProp = `offset${prop}`;
         const itemHtml = this.#items[this.#itemIndex].html;
+        const nbrVisibleItems = int(htmlElement[offsetPropSize] / this.#itemsSize);
+        const base = ((nbrVisibleItems * this.#itemsSize) - htmlElement[offsetPropSize]) + this.#itemsSize;
         //#endregion Variables déclaration
-        if (this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL) {
-            const nbrVisibleItems = int(htmlElement[offsetPropSize] / this.#itemsSize);
-            const base = ((nbrVisibleItems * this.#itemsSize) - htmlElement[offsetPropSize]) + this.#itemsSize;
-            if (itemHtml[offsetProp] - htmlElement[scrollProp] < 0
-                || itemHtml[offsetProp] + itemHtml[offsetPropSize] - htmlElement[scrollProp] > htmlElement[`client${propSize}`]) {
-                htmlElement[scrollProp] = itemHtml[offsetProp] - htmlElement[scrollProp] < 0
-                    ? this.#itemIndex * this.#itemsSize
-                    : base + ((this.#itemIndex - nbrVisibleItems) * this.#itemsSize) + 2;
-            }
-        } else {
-            if (itemHtml[offsetProp] + itemHtml[offsetPropSize] >
-                htmlElement[offsetPropSize] + htmlElement[scrollProp]) {
-                htmlElement[scrollProp] = itemHtml[offsetPropSize] + itemHtml[offsetPropSize] + 2
-                    - htmlElement[offsetPropSize];
-            } else if (htmlElement[scrollProp] > itemHtml[offsetProp]) {
-                htmlElement[scrollProp] = itemHtml[offsetProp] - 1;
-            }
+        if (itemHtml[offsetProp] - htmlElement[scrollProp] < 0
+            || itemHtml[offsetProp] + itemHtml[offsetPropSize] - htmlElement[scrollProp] > htmlElement[`client${propSize}`]) {
+            htmlElement[scrollProp] = itemHtml[offsetProp] - htmlElement[scrollProp] < 0
+                ? this.#itemIndex * this.#itemsSize
+                : base + ((this.#itemIndex - nbrVisibleItems) * this.#itemsSize) + 2;
         }
     }
     //#endregion scrollToItem
@@ -881,15 +868,14 @@ class ListBox extends ScrollControl {
         this.#scroller.classList.add('listBoxScroller');
         htmlElement.appendChild(this.#scroller);
         htmlElement.classList.add(`orientation-${this.#orientation}`);
-        this.scrollMode === ScrollControl.SCROLLMODES.VIRTUAL
-            && Events.bind(htmlElement, core.types.HTMLEVENTS.SCROLL, () => {
-                core.mouse.stopAllEvents(); this.setFocus(); this.draw();
-            });
+        Events.bind(htmlElement, core.types.HTMLEVENTS.SCROLL, () => {
+            core.mouse.stopAllEvents(); this.setFocus(); this.draw();
+        });
         if (this.props.items) {
             if (core.tools.isArray(this.props.items)) {
                 this.beginUpdate();
                 this.props.items.forEach(item => {
-                    this.addItem(item);
+                    this.addItem(new ListBoxItem(this, item));
                 });
                 this.endUpdate();
             }
