@@ -523,7 +523,7 @@ class ListBox extends ScrollControl {
     }
     //#endregion innerHeight
     //#region updateItemCss
-    #updateItemCss(item) {
+    #updateItemCss(item, pos, html) {
         //#region Variables déclaration
         const PX = core.types.CSSUNITS.PX;
         let prop;
@@ -586,6 +586,7 @@ class ListBox extends ScrollControl {
         const prop = vert ? 'Top' : 'Left';
         const propSize = vert ? 'Height' : 'Width';
         const innerHeight = this.#innerHeight();
+        let x = 0;
         //#endregion Variables déclaration
         if (!this.loading && !this.form.loading) {
             this.#scrollPos =
@@ -601,6 +602,7 @@ class ListBox extends ScrollControl {
                 = `${innerHeight}${core.types.CSSUNITS.PX}`;
             for (let i = topIndex; i < maxIndex; i++) {
                 const item = items[i];
+                //html = htmlElement.children[x];
                 !item.size && (item.size = this.#itemsSize);
                 item.pos = i > 0 ? i * item.size : 0;
                 itemVisible = !1;
@@ -609,8 +611,9 @@ class ListBox extends ScrollControl {
                     && (itemVisible = !0);
                 if (itemVisible) {
                     this.dropDownPopup && (item.dropDownPopup = this.dropDownPopup);
-                    this.#drawItem(item);
+                    this.#drawItem(item/*, html*/);
                     this.#visibleItems.push(item);
+                    x++;
                 }
             }
             oldVisibleItems.forEach(item => {
@@ -674,8 +677,8 @@ class ListBox extends ScrollControl {
         !core.tools.isBool(item.autoTranslate) && (item.autoTranslate = !0);
         !core.tools.isBool(item.imageIndex) && (item.imageIndex = -1);
         !item.state && (item.state = Checkbox.CHECKBOXSTATES.UNCHECKED);
-        this.#updateItemCss(item);
-        this.onDrawItem.invoke(item);
+        this.#updateItemCss(item/*, pos, html*/);
+        this.onDrawItem.invoke(item/*, html*/);
     }
     //#endregion drawItem
     //#region selectItem
@@ -855,8 +858,12 @@ class ListBox extends ScrollControl {
     //#region loaded
     loaded() {
         //#region Variables déclaration
+        const ORIENTATIONS = core.types.ORIENTATIONS;
+        const propSize = this.#orientation === ORIENTATIONS.VERTICAL ? 'Height' : 'Width';
         const htmlElement = this.HTMLElement;
         const name = `${core.name.toLowerCase()}-${this.constructor.name.toLowerCase()}`;
+        const offsetPropSize = `offset${propSize}`;
+        const nbrVisibleItems = int(htmlElement[offsetPropSize] / this.#itemsSize);
         //#endregion Variables déclaration
         super.loaded();
         this.getImages();
@@ -876,6 +883,13 @@ class ListBox extends ScrollControl {
                 });
                 this.endUpdate();
             }
+        }
+        for (let i=0; i<nbrVisibleItems;i++) {
+            html = document.createElement(`${name}Item`);
+            this.orientation === ORIENTATIONS.VERTICAL
+                ? html.classList.add('VListBoxItem') : html.classList.add('HListBoxItem');
+            html.classList.add(name, this.themeName);
+            this.HTMLElement.appendChild(html);
         }
     }
     //#endregion loaded
