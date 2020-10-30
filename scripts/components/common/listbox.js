@@ -543,12 +543,9 @@ class ListBox extends ScrollControl {
             /*item.*/html.style[`max${prop}`] = `${item.size}${PX}`;
             /*item.*/html.style[`${prop.toLowerCase()}`] = `${item.size}${PX}`;
             /*item.*/html.style[propPos] = `${/*item.*/pos}${PX}`;
-            /*item.*/html.style.position = 'absolute';
-            /*item.*/html.classList.remove('disabled', 'isheader', 'selected');
+            /*item.*/html.classList.remove('disabled', 'isheader', 'selected', 'alternate', 'icon', 'grayed', 'checked');
             !item.enabled && item.html.classList.add('disabled');
             if (this.viewCheckboxes) {
-                item.check.classList.remove('grayed', 'checked');
-                item.check && item.check.classList.remove('checked');
                 if (item.checked) {
                     item.check.classList.add('checked');
                 } else if (item.allowGrayed && item.state === core.types.CHECKBOXSTATES.GRAYED) {
@@ -597,14 +594,15 @@ class ListBox extends ScrollControl {
             //this.#visibleItems = [];
             let topIndex = 0;
             topIndex = Math.max(0, int(this.#scrollPos / this.#itemsSize));
-            let maxIndex = this.#nbrVisibleItems;
+            let maxIndex = topIndex + this.#nbrVisibleItems;
             //!oldVisibleItems.isEmpty
             //? topIndex + oldVisibleItems.length * 2 : int(htmlElement.offsetHeight / this.#itemsSize) + 1;
-            //maxIndex = Math.min(maxIndex, items.length);
+            maxIndex = Math.min(maxIndex, items.length - 1);
             this.#scroller.style[propSize.toLowerCase()]
                 = `${innerHeight}${core.types.CSSUNITS.PX}`;
+            console.log(topIndex, maxIndex);
             for (let i = topIndex; i < maxIndex; i++) {
-                if (i<=items.length) {
+                if (i<items.length) {
                     const item = items[i];
                     const html = htmlElement.children[x];
                     !item.size && (item.size = this.#itemsSize);
