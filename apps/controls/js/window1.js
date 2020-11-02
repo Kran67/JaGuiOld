@@ -147,30 +147,34 @@ class Window1 extends Window {
         return Math.floor(Math.random() * (maxVal - minVal - 1)) + minVal;
     }
     Button1_onClick(sender) {
+        //#region Variables déclaration
         const confirm = dialogs.confirm('This operation takes several seconds.<br />It depends on your CPU.<br />Proceed?');
+        //#endregion Variables déclaration
         confirm.onClose.addListener(this.form.createListBoxItems);
     }
     createListBoxItems() {
+        //#region Variables déclaration
         const lBox = this.app.activeWindow.ListBox2;
         const num = lBox.count + 1;
         let items = [...lBox.items];
+        //#endregion Variables déclaration
         if (this.modalResult === Window.MODALRESULTS.OK) {
             const t = new Date().getTime();
             for (let i = num; i < 1000000 + num; i++) {
-                //lBox.addItem(new ListBoxItem(lBox, { caption: `item${i}` }));
                 items.push({ caption: `item${i}` });
             }
-            //lBox.beginUpdate();
             lBox.items = items;
-            //lBox.endUpdate();
-            console.log(`${new Date().getTime() - t}ms`);
         }
     }
     RoundButton1_onClick() {
+        //#region Variables déclaration
         const form = this.form;
+        //#endregion Variables déclaration
         form.OpenDialog1.onClose.clearListeners();
         form.OpenDialog1.onClose.addListener(availableFiles => {
+            //#region Variables déclaration
             const reader = new FileReader();
+            //#endregion Variables déclaration
             reader.addEventListener('load', (event) => {
                 form.ImageViewer1.image = event.target.result;
             });
@@ -191,17 +195,16 @@ class Window1 extends Window {
         }
     }
     PaintBox1_onClick() {
+        //#region Variables déclaration
         const form = this.form;
+        //#endregion Variables déclaration
         this.drawType++;
-        if (this.drawType > 2) {
-            this.drawType = 0;
-        }
+        this.drawType > 2 && (this.drawType = 0);
         form.STARS.clear();
-        if (this.drawType === 0) {
-            form.initStars();
-        }
+        this.drawType === 0 && form.initStars();
     }
     PaintBox1_onPaint() {
+        //#region Variables déclaration
         const htmlElement = this.HTMLElement;
         const halfWidth = htmlElement.offsetWidth / 2;
         const halfHeight = htmlElement.offsetHeight / 2;
@@ -209,6 +212,7 @@ class Window1 extends Window {
         const form = this.form;
         const stars = form.STARS;
         const ctx = this.ctx;
+        //#endregion Variables déclaration
         switch (this.drawType) {
             case 0:
                 ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.SOURCEOVER;
@@ -243,9 +247,7 @@ class Window1 extends Window {
                 ctx.fillRect(0, 0, htmlElement.offsetWidth, htmlElement.offsetHeight);
                 ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.LIGHTER;
 
-                if (Math.random() < 0.3) {
-                    stars.push(new Star(form, ctx));
-                }
+                Math.random() < 0.3 && stars.push(new Star(form, ctx));
 
                 for (let s = 0; s < stars.length; ++s) {
                     star = stars[s];
@@ -262,13 +264,10 @@ class Window1 extends Window {
                 ctx.globalCompositeOperation = canvas.GLOBALCOMPOSITEOPERATIONS.SOURCEOVER;
                 for (let i = 0; i < stars.length; ++i) {
                     stars[i].update(ctx);
-                    if (stars[i].pos.y < 0 || stars[i].pos.y > htmlElement.offsetHeight || stars[i].pos.x < 0 || stars[i].pos.x > htmlElement.offsetWidth) {
+                    (stars[i].pos.y < 0 || stars[i].pos.y > htmlElement.offsetHeight || stars[i].pos.x < 0 || stars[i].pos.x > htmlElement.offsetWidth) && 
                         stars.splice(i, 1);
-                    }
                 }
-                if (stars.length < total) {
-                    stars.push(new Circle(Math.random() - 0.5, Math.random() - 0.5, halfWidth, halfHeight));
-                }
+                stars.length < total && stars.push(new Circle(Math.random() - 0.5, Math.random() - 0.5, halfWidth, halfHeight));
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
                 ctx.fillRect(0, 0, htmlElement.offsetWidth, htmlElement.offsetHeight);
 
@@ -278,6 +277,7 @@ class Window1 extends Window {
         }
     }
     PlotGrid1_onPaint() {
+        //#region Variables déclaration
         let p = new Array(100);
         const htmlElement = this.HTMLElement;
         const frequency = this.frequency;
@@ -303,6 +303,7 @@ class Window1 extends Window {
                 p[i] = new core.classes.Point(htmlElement.offsetWidth / 2 + x * frequency, htmlElement.offsetHeight / 2 - y * frequency);
             }
         };
+        //#endregion Variables déclaration
         ctx.save();
         // Paint sin
         calc('sin');
@@ -335,7 +336,9 @@ class Window1 extends Window {
         this.app.newWindow('window2');
     }
     closeQuery() {
+        //#region Variables déclaration
         const dlg = dialogs.confirmation('Are you sure you want to quit?');
+        //#endregion Variables déclaration
         dlg.onClose.addListener(function () {
             core.apps.activeApplication.activeWindow.canClose = this.modalResult === Window.MODALRESULTS.OK;
         });
@@ -392,9 +395,7 @@ class Star {
         this.color = 'hsla(hue, 80%, brightness%, .15)'.replace('hue', form.frame % 360);
         this.rot = Math.random() * 2 * Math.PI;
         this.omega = this.#rand(form.ANGSPEED);
-        if (Math.random() < 0.5) {
-            this.omega *= -1;
-        }
+        Math.random() < 0.5 && (this.omega *= -1);
         this.form = form;
         this.ctx = ctx;
     }

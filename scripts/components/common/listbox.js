@@ -9,7 +9,7 @@ import { Checkbox } from '/scripts/components/common/checkbox.js';
 import { Convert } from '/scripts/core/convert.js';
 //#endregion Import
 //#region Class ListBoxItem
-class ListBoxItem extends BaseClass {
+class ListBoxItem /*extends BaseClass*/ {
     //#region Private fields
     #owner;
     #caption;
@@ -22,7 +22,6 @@ class ListBoxItem extends BaseClass {
     #imageIndex;
     #image;
     #cssImage;
-    #pos;
     #allowGrayed;
     #autoTranslate;
     #translationKey;
@@ -30,13 +29,12 @@ class ListBoxItem extends BaseClass {
     #check;
     #icon;
     #text;
-    #index;
     //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
         props = !props ? {} : props;
         if (owner) {
-            super(owner, props);
+            //super(owner, props);
             this.#owner = owner;
             this.#caption = props.hasOwnProperty('caption') ? props.caption : String.EMPTY;
             this.#size = props.hasOwnProperty('size') ? props.size : owner.itemsSize;
@@ -53,7 +51,6 @@ class ListBoxItem extends BaseClass {
                 ? props.imageIndex : -1;
             this.#image = props.hasOwnProperty('image') ? props.image : String.EMPTY;
             this.#cssImage = props.hasOwnProperty('cssImage') ? props.cssImage : String.EMPTY;
-            this.#pos = props.hasOwnProperty('pos') && core.tools.isNumber(props.pos) ? props.pos : 0;
             this.#allowGrayed = props.hasOwnProperty('allowGrayed') && core.tools.isBool(props.allowGrayed)
                 ? props.allowGrayed : !1;
             this.#autoTranslate = props.hasOwnProperty('autoTranslate') && core.tools.isBool(props.autoTranslate)
@@ -61,10 +58,8 @@ class ListBoxItem extends BaseClass {
             this.#translationKey = props.hasOwnProperty('translationKey') ? props.translationKey : String.EMPTY;
             this.#autoTranslate && !String.isNullOrEmpty(this.#translationKey) && this.app.getLocalText(this);
             this.#state = props.hasOwnProperty('state') ? props.state : Checkbox.CHECKBOXSTATES.UNCHECKED;
-            this.addPropertyEnum('state', Checkbox.CHECKBOXSTATES);
-            this.#index = props.index;
-            //this.#ref = props;
-            owner instanceof ListBox && owner.allowUpdate && owner.draw();
+            //this.addPropertyEnum('state', Checkbox.CHECKBOXSTATES);
+            //owner instanceof ListBox && owner.allowUpdate && owner.draw();
         }
     }
     //#endregion constructor
@@ -98,14 +93,6 @@ class ListBoxItem extends BaseClass {
             && (this.#autoTranslate = newValue);// && this.#updateItem(this);
     }
     //#endregion autoTranslate
-    //#region pos
-    get pos() {
-        return this.#pos;
-    }
-    set pos(newValue) {
-        core.tools.isNumber(newValue) && (this.#pos = newValue);// && this.#updateItem(this);
-    }
-    //#endregion pos
     //#region checked
     get checked() {
         return this.#checked;
@@ -174,6 +161,17 @@ class ListBoxItem extends BaseClass {
         }
     }
     //#endregion enabled
+    //#region allowGrayed
+    get allowGrayed() {
+        return this.#allowGrayed;
+    }
+    set allowGrayed(newValue) {
+        if (core.tools.isBool(newValue) && this.#allowGrayed !== newValue) {
+            this.#allowGrayed = newValue;
+            //this.#updateItem(this);
+        }
+    }
+    //#endregion allowGrayed
     //#region size
     get size() {
         return this.#size;
@@ -241,11 +239,6 @@ class ListBoxItem extends BaseClass {
         }
     }
     //#endregion image
-    //#region index
-    get index() {
-        return this.#index;
-    }
-    //#endregion index
     //#region isEnabled
     get isEnabled() {
         return this.#enabled && this.#owner.isEnabled;
@@ -268,11 +261,6 @@ class ListBoxItem extends BaseClass {
         //owner.items[index]
     }
     //#endregion updateItem
-    //#region clone
-    clone() {
-        return Object.create(this);
-    }
-    //#endregion clone
     //#endregion Methods
 }
 Object.defineProperties(ListBoxItem.prototype, {
@@ -513,7 +501,7 @@ class ListBox extends ScrollControl {
     //#endregion images
     //#region count
     get count() {
-        return this.#items.length;
+        return this.#items.filter(item => item.visible).length;
     }
     //#endregion count
     //#endregion Getters / Setters
