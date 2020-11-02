@@ -311,7 +311,6 @@ class ListBox extends ScrollControl {
     //#region Private fields
     #items = [];
     #itemsClass;
-    #visibleItems = [];
     #scrollPos = 0;
     #lastDelta = new Point;
     #downPos = new Point;
@@ -403,7 +402,7 @@ class ListBox extends ScrollControl {
     }
     set itemsSize(newValue) {
         if (core.tools.isNumber(newValue) && this.#itemsSize !== newValue) {
-            this.#items.forEach(item => {
+            this.#visibleItems().forEach(item => {
                 item.size === this.#itemsSize && (item.size = newValue);
             });
             this.#itemsSize = newValue;
@@ -448,18 +447,19 @@ class ListBox extends ScrollControl {
         const vert = this.#orientation === core.types.ORIENTATIONS.VERTICAL;
         const prop = vert ? 'Top' : 'Left';
         const htmlElement = this.HTMLElement;
+        const items = this.#visibleItems();
         //#endregion Variables déclaration
-        if (core.tools.isNumber(newValue) && newValue < this.#items.length && newValue >= 0) {
+        if (core.tools.isNumber(newValue) && newValue < items.length && newValue >= 0) {
             if (this.#itemIndex !== newValue) {
                 this.#itemIndex > -1 && this.deselectItemIndex();
-                let item = this.#items[newValue];
-                while ((item.isHeader || !item.enabled) && (newValue > -1 && newValue < this.#items.length)) {
+                let item = items[newValue];
+                while ((item.isHeader || !item.enabled) && (newValue > -1 && newValue < items.length)) {
                     this.#keyDir === core.types.DIRECTIONS.LEFT ? newValue-- : newValue++;
                     item = this.#items[newValue];
                 }
-                newValue = Math.min(Math.max(newValue, 0), this.#items.length - 1);
+                newValue = Math.min(Math.max(newValue, 0), items.length - 1);
                 this.#itemIndex = newValue;
-                item = this.#items[this.#itemIndex];
+                item = items[this.#itemIndex];
                 if (item) {
                     item.selected = !0;
                     if (this.owner instanceof core.classes.DropDownListBoxPopup) {
@@ -501,17 +501,25 @@ class ListBox extends ScrollControl {
     //#endregion images
     //#region count
     get count() {
-        return this.#items.filter(item => item.visible).length;
+        return this.#visibleItems().length;
     }
     //#endregion count
     //#endregion Getters / Setters
     //#region Methods
     //#region innerHeight
     #innerHeight() {
-        this.#items.filter(item => !item.size).forEach(item => item.size = this.#itemsSize);
-        return this.count > 0 ? this.#items.reduce((accumulator, currentValue) => accumulator + currentValue.size, 0) : 0;
+        //#region Variables déclaration
+        const items = this.#visibleItems();
+        //#endregion Variables déclaration
+        items.filter(item => !item.size).forEach(item => item.size = this.#itemsSize);
+        return this.count > 0 ? items.reduce((accumulator, currentValue) => accumulator + currentValue.size, 0) : 0;
     }
     //#endregion innerHeight
+    //#region visibleItems
+    #visibleItems() {
+        return this.#items.filter(item => !item.hasOwnProperty('visible') || item.visible);
+    }
+    //#endregion visibleItems
     //#region updateItemCss
     #updateItemCss(item, pos, html) {
         //#region Variables déclaration
@@ -542,7 +550,7 @@ class ListBox extends ScrollControl {
             }
             item.isHeader && html.classList.add('isheader');
             item.selected && html.classList.add('selected');
-            this.useAlternateColor && this.#items.indexOf(item) % 2 === 0 && html.classList.add('alternate');
+            this.useAlternateColor && this.#visibleItems().indexOf(item) % 2 === 0 && html.classList.add('alternate');
             if (item.icon) {
                 item.icon.classList.add('icon');
                 if (!String.isNullOrEmpty(item.cssImage)) {
@@ -565,7 +573,7 @@ class ListBox extends ScrollControl {
     //#region draw
     draw() {
         //#region Variables déclaration
-        const items = this.#items;
+        const items = this.#visibleItems();
         const vert = this.#orientation === core.types.ORIENTATIONS.VERTICAL;
         const htmlElement = this.HTMLElement;
         const prop = vert ? 'Top' : 'Left';
@@ -584,7 +592,7 @@ class ListBox extends ScrollControl {
             this.#scroller.style[propSize.toLowerCase()]
                 = `${innerHeight}${core.types.CSSUNITS.PX}`;
             for (let i = topIndex; i < maxIndex; i++) {
-                if (i<items.length) {
+                if (i < items.length) {
                     const item = items[i];
                     const html = htmlElement.children[x];
                     !item.size && (item.size = this.#itemsSize);
@@ -594,8 +602,8 @@ class ListBox extends ScrollControl {
                     x++;
                 }
             }
-            lastElementChild && (topIndex + this.#nbrVisibleItems > maxIndex) 
-                ? lastElementChild.classList.add('hidden') 
+            lastElementChild && (topIndex + this.#nbrVisibleItems > maxIndex)
+                ? lastElementChild.classList.add('hidden')
                 : lastElementChild.classList.remove('hidden');
         }
     }
@@ -624,7 +632,7 @@ class ListBox extends ScrollControl {
             html.appendChild(item.text);
             html.classList.add(`${this.constructor.name}Item`, this.themeName);
             this.orientation === ORIENTATIONS.VERTICAL
-                ? html.classList.add('VListBoxItem') 
+                ? html.classList.add('VListBoxItem')
                 : html.classList.add('HListBoxItem');
             !String.isNullOrEmpty(item.css) && (html.style.cssText += item.css);
         }
@@ -657,7 +665,7 @@ class ListBox extends ScrollControl {
         if (!item.isHeader && item.enabled && this.enabled && html) {
             this.multiSelect && !core.keyboard.ctrl && this.clearSelection();
             this.multiSelect && core.keyboard.ctrl
-                ? item.selected = !item.selected : (this.itemIndex = this.#items.indexOf(item)) && (item.selected = !0);
+                ? item.selected = !item.selected : (this.itemIndex = this.#visibleItems().indexOf(item)) && (item.selected = !0);
             this.viewCheckboxes && (item.checked = !item.checked);
 
             this.#updateItemCss(item, html[`offset${prop}`], html);
@@ -669,7 +677,7 @@ class ListBox extends ScrollControl {
     //#region deselectItemIndex
     deselectItemIndex() {
         if (this.#itemIndex !== -1) {
-            const item = this.#items[this.#itemIndex];
+            const item = this.#visibleItems()[this.#itemIndex];
             item && (item.selected = !1);
             this.#updateItemCss(item);
         }
@@ -694,7 +702,7 @@ class ListBox extends ScrollControl {
     //#endregion deleteAt
     //#region moveItem
     moveItem(itemToMove, itemBefore) {
-        if (itemToMove instanceof ListBoxItem && itemBefore instanceof ListBoxItem) { // à revoir
+        if (itemToMove instanceof Object && itemBefore instanceof Object) {
             this.#visibleItems.indexOf(itemToMove) > -1 && this.#items.beginUpdate();
             this.#items.remove(itemToMove);
             this.#items.insert(itemBefore.index, itemToMove);
@@ -795,7 +803,7 @@ class ListBox extends ScrollControl {
                 this.itemIndex = 0;
                 break;
             case VKEYSCODES.VK_END:
-                this.itemIndex = this.#items.length - 1;
+                this.itemIndex = this.#visibleItems().length - 1;
                 break;
             case VKEYSCODES.VK_PAGEUP:
                 this.itemIndex = this.#orientation === ORIENTATIONS.VERTICAL
@@ -826,13 +834,13 @@ class ListBox extends ScrollControl {
         const scrollProp = `scroll${prop}`;
         const offsetPropSize = `offset${propSize}`;
         const offsetProp = `offset${prop}`;
-        const item = this.#items[this.#itemIndex];
+        const item = this.#visibleItems()[this.#itemIndex];
         const html = Convert.nodeListToArray(this.HTMLElement.children).filter(child => child.item === item).first;
         //const nbrVisibleItems = int(htmlElement[offsetPropSize] / this.#itemsSize);
         const base = ((this.#nbrVisibleItems * this.#itemsSize) - htmlElement[offsetPropSize]) + this.#itemsSize;
         //#endregion Variables déclaration
-        if (html[offsetProp] - htmlElement[scrollProp] < 0
-            || html[offsetProp] + html[offsetPropSize] - htmlElement[scrollProp] > htmlElement[`client${propSize}`]) {
+        if (html && (html[offsetProp] - htmlElement[scrollProp] < 0
+            || html[offsetProp] + html[offsetPropSize] - htmlElement[scrollProp] > htmlElement[`client${propSize}`])) {
             htmlElement[scrollProp] = html[offsetProp] - htmlElement[scrollProp] < 0
                 ? this.#itemIndex * this.#itemsSize
                 : base + ((this.#itemIndex - this.#nbrVisibleItems) * this.#itemsSize) + 2;
@@ -859,7 +867,7 @@ class ListBox extends ScrollControl {
         Events.bind(htmlElement, core.types.HTMLEVENTS.SCROLL, () => {
             core.mouse.stopAllEvents(); this.setFocus(); this.draw();
         });
-        for (let i=0; i<this.#nbrVisibleItems;i++) {
+        for (let i = 0; i < this.#nbrVisibleItems; i++) {
             const html = document.createElement(`${name}Item`);
             this.orientation === ORIENTATIONS.VERTICAL
                 ? html.classList.add('VListBoxItem') : html.classList.add('HListBoxItem');
@@ -887,7 +895,7 @@ class ListBox extends ScrollControl {
         //#region Variables déclaration
         let i = 0;
         let notFound = !0;
-        let iHTMLElement/*item*/ = null;
+        let iHTMLElement = null;
         let itemRect = new core.classes.Rect();
         const htmlElement = this.HTMLElement;
         const offsetLeft = htmlElement.scrollLeft;
@@ -895,15 +903,14 @@ class ListBox extends ScrollControl {
         //#endregion Variables déclaration
         point.x += offsetLeft;
         point.y += offsetTop;
-        while (notFound && i < this.#nbrVisibleItems/*visibleItems.length*/) {
-            iHTMLElement/*item*/ = htmlElement.children[i+1]/*this.#visibleItems[i]*/;
-            //let iHTMLElement = item.html;
+        while (notFound && i < this.#nbrVisibleItems) {
+            iHTMLElement = htmlElement.children[i + 1];
             itemRect.setValues(iHTMLElement.offsetLeft, iHTMLElement.offsetTop,
                 iHTMLElement.offsetLeft + iHTMLElement.offsetWidth, iHTMLElement.offsetTop + iHTMLElement.offsetHeight);
             point.inRect(itemRect) && (notFound = !1);
             i++;
         }
-        notFound && (iHTMLElement/*item*/ = null);
+        notFound && (iHTMLElement = null);
         return iHTMLElement ? iHTMLElement.item : null;
     }
     //#endregion itemAtPos
