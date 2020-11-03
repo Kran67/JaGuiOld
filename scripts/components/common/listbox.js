@@ -322,7 +322,6 @@ class ListBox extends ScrollControl {
     #useAlternateColor;
     #viewCheckboxes;
     #itemIndex;
-    #columns;
     #images;
     #animated;
     #orientation;
@@ -351,12 +350,10 @@ class ListBox extends ScrollControl {
                 ? props.viewCheckboxes : !1;
             this.#itemIndex = props.hasOwnProperty('itemIndex') && core.tools.isNumber(props.itemIndex)
                 ? props.itemIndex : -1;
-            this.#columns = props.hasOwnProperty('columns') && core.tools.isNumber(props.columns)
-                ? props.columns : 1;
             this.#images = props.hasOwnProperty('images') ? props.images : null;
             this.#orientation = props.hasOwnProperty('orientation')
                 ? props.orientation : core.types.ORIENTATIONS.VERTICAL;
-            this.#items.convertToCollection(owner, this.#itemsClass);
+            this.#items.convertToCollection(owner, Object);
             this.createEventsAndBind(['onChange', 'onSelectItem', 'onDrawItem'], props);
         }
     }
@@ -451,7 +448,7 @@ class ListBox extends ScrollControl {
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && newValue < items.length && newValue >= 0) {
             if (this.#itemIndex !== newValue) {
-                this.#itemIndex > -1 && this.deselectItemIndex();
+                this.#itemIndex > -1 && this.#deselectItemIndex();
                 let item = items[newValue];
                 while ((item.isHeader || !item.enabled) && (newValue > -1 && newValue < items.length)) {
                     this.#keyDir === core.types.DIRECTIONS.LEFT ? newValue-- : newValue++;
@@ -466,7 +463,7 @@ class ListBox extends ScrollControl {
                         htmlElement[`scroll${prop}`] = this.#itemIndex * this.#itemsSize;
                         this.draw();
                     }
-                    this.scrollToItem();
+                    this.#scrollToItem();
                 }
             }
         }
@@ -656,7 +653,7 @@ class ListBox extends ScrollControl {
     }
     //#endregion drawItem
     //#region selectItem
-    selectItem(item) {
+    #selectItem(item) {
         //#region Variables déclaration
         const html = Convert.nodeListToArray(this.HTMLElement.children).filter(child => child.item === item).first;
         const ORIENTATIONS = core.types.ORIENTATIONS;
@@ -675,7 +672,7 @@ class ListBox extends ScrollControl {
     }
     //#endregion selectItem
     //#region deselectItemIndex
-    deselectItemIndex() {
+    #deselectItemIndex() {
         if (this.#itemIndex !== -1) {
             const item = this.#visibleItems()[this.#itemIndex];
             item && (item.selected = !1);
@@ -685,9 +682,7 @@ class ListBox extends ScrollControl {
     //#endregion deselectItemIndex
     //#region addItem
     addItem(item) {
-        if (item instanceof this.#itemsClass) {
-            this.#items.push(item);
-        }
+        item instanceof Object && this.#items.push(item);
     }
     //#endregion addItem
     //#region deleteItem
@@ -825,7 +820,7 @@ class ListBox extends ScrollControl {
     }
     //#endregion keyDown
     //#region scrollToItem
-    scrollToItem() {
+    #scrollToItem() {
         //#region Variables déclaration
         const ORIENTATIONS = core.types.ORIENTATIONS;
         const htmlElement = this.HTMLElement;
@@ -920,7 +915,7 @@ class ListBox extends ScrollControl {
         const item = this.#itemAtPos(core.mouse.target);
         //#endregion Variables déclaration
         super.mouseDown();
-        item && this.selectItem(item);
+        item && this.#selectItem(item);
     }
     //#endregion mouseDown
     //#endregion Methods
@@ -945,9 +940,6 @@ Object.defineProperties(ListBox.prototype, {
         enumerable: !0
     },
     'itemIndex': {
-        enumerable: !0
-    },
-    'columns': {
         enumerable: !0
     },
     'images': {
