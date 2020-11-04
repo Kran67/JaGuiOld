@@ -834,12 +834,13 @@ class ListBox extends ScrollControl {
         //const nbrVisibleItems = int(htmlElement[offsetPropSize] / this.#itemsSize);
         const base = ((this.#nbrVisibleItems * this.#itemsSize) - htmlElement[offsetPropSize]) + this.#itemsSize;
         //#endregion Variables déclaration
-        if (html && (html[offsetProp] - htmlElement[scrollProp] < 0
-            || html[offsetProp] + html[offsetPropSize] - htmlElement[scrollProp] > htmlElement[`client${propSize}`])) {
-            htmlElement[scrollProp] = html[offsetProp] - htmlElement[scrollProp] < 0
-                ? this.#itemIndex * this.#itemsSize
-                : base + ((this.#itemIndex - this.#nbrVisibleItems) * this.#itemsSize) + 2;
-        }
+        //if (html && (html[offsetProp] - htmlElement[scrollProp] < 0
+        //    || html[offsetProp] + html[offsetPropSize] - htmlElement[scrollProp] > htmlElement[`client${propSize}`])) {
+        //    htmlElement[scrollProp] = html[offsetProp] - htmlElement[scrollProp] < 0
+        //        ? this.#itemIndex * this.#itemsSize
+        //        : base + ((this.#itemIndex - this.#nbrVisibleItems) * this.#itemsSize) + 2;
+        //}
+
     }
     //#endregion scrollToItem
     //#region loaded
