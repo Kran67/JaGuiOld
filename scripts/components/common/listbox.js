@@ -459,10 +459,11 @@ class ListBox extends ScrollControl {
                 item = items[this.#itemIndex];
                 if (item) {
                     item.selected = !0;
-                    if (this.owner instanceof core.classes.DropDownListBoxPopup) {
-                        htmlElement[`scroll${prop}`] = this.#itemIndex * this.#itemsSize;
-                        this.draw();
-                    }
+                    //if (this.owner instanceof core.classes.DropDownListBoxPopup) {
+                    //    htmlElement[`scroll${prop}`] = this.#itemIndex * this.#itemsSize;
+                    //    this.draw();
+                    //}
+                    this.draw();
                     this.#scrollToItem();
                 }
             }
@@ -817,6 +818,7 @@ class ListBox extends ScrollControl {
                 }
                 break;
         }
+        core.keyboard.stopEvent();
     }
     //#endregion keyDown
     //#region scrollToItem
@@ -834,6 +836,7 @@ class ListBox extends ScrollControl {
         //const nbrVisibleItems = int(htmlElement[offsetPropSize] / this.#itemsSize);
         const base = ((this.#nbrVisibleItems * this.#itemsSize) - htmlElement[offsetPropSize]) + this.#itemsSize;
         //#endregion Variables déclaration
+        console.log(html, base, this.#itemIndex);
         //if (html && (html[offsetProp] - htmlElement[scrollProp] < 0
         //    || html[offsetProp] + html[offsetPropSize] - htmlElement[scrollProp] > htmlElement[`client${propSize}`])) {
         //    htmlElement[scrollProp] = html[offsetProp] - htmlElement[scrollProp] < 0
