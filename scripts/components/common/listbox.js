@@ -833,23 +833,14 @@ class ListBox extends ScrollControl {
         const offsetProp = `offset${prop}`;
         const item = this.#visibleItems()[this.#itemIndex];
         const html = Convert.nodeListToArray(this.HTMLElement.children).filter(child => child.item === item).first;
-        //const nbrVisibleItems = int(htmlElement[offsetPropSize] / this.#itemsSize);
         //#endregion Variables déclaration
-        console.log(html, html[offsetProp], htmlElement[offsetPropSize], html[offsetProp] - htmlElement[scrollProp]);
         if (html) {
-            if (html[offsetProp] >= htmlElement[offsetPropSize]) {
-                htmlElement[scrollProp] = html[offsetProp] - htmlElement[scrollProp];
+            if (html[offsetProp] + item.size - htmlElement[scrollProp] >= htmlElement[`client${propSize}`]) {
+                htmlElement[scrollProp] = (html[offsetProp] + item.size) - htmlElement[`client${propSize}`];
             } else {
-                htmlElement[scrollProp] = 0;
+                //htmlElement[scrollProp] = 0;
             }
         }
-        //if (html && (html[offsetProp] - htmlElement[scrollProp] < 0
-        //    || html[offsetProp] + html[offsetPropSize] - htmlElement[scrollProp] > htmlElement[`client${propSize}`])) {
-        //    htmlElement[scrollProp] = html[offsetProp] - htmlElement[scrollProp] < 0
-        //        ? this.#itemIndex * this.#itemsSize
-        //        : base + ((this.#itemIndex - this.#nbrVisibleItems) * this.#itemsSize) + 2;
-        //}
-
     }
     //#endregion scrollToItem
     //#region loaded
