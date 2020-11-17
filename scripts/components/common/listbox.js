@@ -829,16 +829,25 @@ class ListBox extends ScrollControl {
         const prop = this.#orientation === ORIENTATIONS.VERTICAL ? 'Top' : 'Left';
         const propSize = this.#orientation === ORIENTATIONS.VERTICAL ? 'Height' : 'Width';
         const scrollProp = `scroll${prop}`;
-        const offsetPropSize = `offset${propSize}`;
         const offsetProp = `offset${prop}`;
-        const item = this.#visibleItems()[this.#itemIndex];
-        const html = Convert.nodeListToArray(this.HTMLElement.children).filter(child => child.item === item).first;
+        let item = this.#visibleItems()[this.#itemIndex];
+        const htmlItems = Convert.nodeListToArray(this.HTMLElement.children);
+        const html = htmlItems.filter(child => child.item === item).first;
         //#endregion Variables déclaration
         if (html) {
             if (html[offsetProp] + item.size - htmlElement[scrollProp] >= htmlElement[`client${propSize}`]) {
                 htmlElement[scrollProp] = (html[offsetProp] + item.size) - htmlElement[`client${propSize}`];
-            } else {
-                //htmlElement[scrollProp] = 0;
+            } else if (html[offsetProp] - htmlElement[scrollProp] <= 0) {
+                htmlElement[scrollProp] -= htmlElement[scrollProp] - html[offsetProp];
+            }
+        } else if (this.#itemIndex >= 0) {
+            let firstItem = htmlItems[1].item;
+            let idx = this.#itemIndex;
+            let idx1 = this.items.indexOf(firstItem);
+            while (idx1 > idx && idx1 > -1) {
+                htmlElement[scrollProp] -= firstItem.size;
+                idx1--;
+                firstItem = this.items[idx1];
             }
         }
     }
