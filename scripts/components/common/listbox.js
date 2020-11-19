@@ -538,7 +538,7 @@ class ListBox extends ScrollControl {
             html.style[`${prop.toLowerCase()}`] = `${item.size}${PX}`;
             html.style[propPos] = `${pos}${PX}`;
             html.classList.remove('disabled', 'isheader', 'selected', 'alternate', 'icon', 'grayed', 'checked');
-            !item.enabled && item.html.classList.add('disabled');
+            !item.enabled && html.classList.add('disabled');
             if (this.viewCheckboxes) {
                 if (item.checked) {
                     item.check.classList.add('checked');
