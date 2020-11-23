@@ -441,23 +441,20 @@ class ListBox extends ScrollControl {
     }
     set itemIndex(newValue) {
         //#region Variables déclaration
-        const vert = this.#orientation === core.types.ORIENTATIONS.VERTICAL;
-        const prop = vert ? 'Top' : 'Left';
-        const htmlElement = this.HTMLElement;
         const items = this.#visibleItems();
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && newValue < items.length && newValue >= 0) {
             if (this.#itemIndex !== newValue) {
                 this.#itemIndex > -1 && this.#deselectItemIndex();
                 let item = items[newValue];
-                while ((item.isHeader || !item.enabled) && (newValue > -1 && newValue < items.length)) {
+                while (item && (item.isHeader || !item.enabled) && (newValue > -1 && newValue < items.length)) {
                     this.#keyDir === core.types.DIRECTIONS.LEFT ? newValue-- : newValue++;
                     item = this.#items[newValue];
                 }
                 newValue = Math.min(Math.max(newValue, 0), items.length - 1);
-                this.#itemIndex = newValue;
-                item = items[this.#itemIndex];
-                if (item) {
+                item = items[newValue];
+                if (item && !item.isHeader && item.enabled) {
+                    this.#itemIndex = newValue;
                     item.selected = !0;
                     //if (this.owner instanceof core.classes.DropDownListBoxPopup) {
                     //    htmlElement[`scroll${prop}`] = this.#itemIndex * this.#itemsSize;
@@ -683,7 +680,12 @@ class ListBox extends ScrollControl {
     //#endregion deselectItemIndex
     //#region addItem
     addItem(item) {
-        item instanceof Object && this.#items.push(item);
+        if (item instanceof Object) {
+            !item.hasOwnProperty('visible') && (item.visible = !0);
+            !item.hasOwnProperty('enabled') && (item.enabled = !0);
+            !item.hasOwnProperty('isHeader') && (item.isHeader = !1);
+            this.#items.push(item);
+        }
     }
     //#endregion addItem
     //#region deleteItem
@@ -830,25 +832,25 @@ class ListBox extends ScrollControl {
         const propSize = this.#orientation === ORIENTATIONS.VERTICAL ? 'Height' : 'Width';
         const scrollProp = `scroll${prop}`;
         const offsetProp = `offset${prop}`;
-        let item = this.#visibleItems()[this.#itemIndex];
+        const items = this.#visibleItems();
         const htmlItems = Convert.nodeListToArray(this.HTMLElement.children);
-        const html = htmlItems.filter(child => child.item === item).first;
+        const itemIndex = items[this.#itemIndex];
+        let scrollPos = 0;
+        let idx = 0;
+        let html;
         //#endregion Variables déclaration
-        if (html) {
-            if (html[offsetProp] + item.size - htmlElement[scrollProp] >= htmlElement[`client${propSize}`]) {
-                htmlElement[scrollProp] = (html[offsetProp] + item.size) - htmlElement[`client${propSize}`];
-            } else if (html[offsetProp] - htmlElement[scrollProp] <= 0) {
-                htmlElement[scrollProp] -= htmlElement[scrollProp] - html[offsetProp];
+        while (idx < items.length) {
+            const item = items[idx];
+            if (item == itemIndex) {
+                break;
             }
-        } else if (this.#itemIndex >= 0) {
-            let firstItem = htmlItems[1].item;
-            let idx = this.#itemIndex;
-            let idx1 = this.items.indexOf(firstItem);
-            while (idx1 > idx && idx1 > -1) {
-                htmlElement[scrollProp] -= firstItem.size;
-                idx1--;
-                firstItem = this.items[idx1];
-            }
+            scrollPos += item.size;
+            idx++;
+        }
+        html = htmlItems.filter(child => child.item === itemIndex).first;
+        if (!html || (html && html[offsetProp] + html.item.size - htmlElement[scrollProp] >= htmlElement[`client${propSize}`]) ||
+            html[offsetProp] - htmlElement[scrollProp] <= 0) {
+            htmlElement[scrollProp] = scrollPos;
         }
     }
     //#endregion scrollToItem
@@ -883,6 +885,9 @@ class ListBox extends ScrollControl {
             if (core.tools.isArray(this.props.items)) {
                 this.beginUpdate();
                 this.props.items.forEach(item => {
+                    !item.hasOwnProperty('visible') && (item.visible = !0);
+                    !item.hasOwnProperty('enabled') && (item.enabled = !0);
+                    !item.hasOwnProperty('isHeader') && (item.isHeader = !1);
                     this.#items.push(item);
                 });
                 this.endUpdate();
