@@ -20,3 +20,11 @@
 .carbon.CornerButton.focused {
     filter: drop-shadow(0 0 3px #F69E2D);
 }
+
+.carbon.CornerButton:hover .carbon.CornerButtonCaption {
+    background-image: linear-gradient(to bottom,#707070,#303030);
+}
+
+.carbon.CornerButton.pressed  .carbon.CornerButtonCaption {
+    background-image: linear-gradient(to bottom,#404040,#303030);
+}

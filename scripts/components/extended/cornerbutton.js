@@ -55,6 +55,7 @@ class CornerButton extends Button {
         props = !props ? {} : props;
         if (owner) {
             props.allowUpdateOnResize = !0;
+            props.canFocused = !1;
             super(owner, props);
             const topLeftCorner = props.hasOwnProperty('topLeftCorner') ? props.topLeftCorner : null;
             const topRightCorner = props.hasOwnProperty('topRightCorner') ? props.topRightCorner : null;
@@ -300,7 +301,7 @@ class CornerButton extends Button {
         //#endregion Variables déclaration
         this.HTMLElementStyle.clipPath = `url(#${this.name}Clip)`;
         if (!htmlElement.querySelector(captionTag)) {
-            div.classList.add('Button', 'CornerButton', this.themeName, 'includeCaption');
+            div.classList.add('Button', 'CornerButtonCaption', this.themeName, 'includeCaption');
             div.style = `clip-path:url(#${this.name}Clip);`;
             htmlElement.appendChild(div);
             svg.setAttribute('width', '100%');
