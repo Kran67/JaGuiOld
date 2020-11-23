@@ -575,26 +575,31 @@ class ListBox extends ScrollControl {
         const propSize = vert ? 'Height' : 'Width';
         const innerHeight = this.#innerHeight();
         let x = 1;
+        let t = 0;
+        let i;
+        let topIndex;
+        let maxIndex;
         const lastElementChild = htmlElement.lastElementChild;
         //#endregion Variables déclaration
         if (!this.loading && !this.form.loading) {
             this.#scrollPos =
                 Math.max(Math.min(htmlElement[`scroll${prop}`], innerHeight
                     - htmlElement[`offset${propSize}`]), 0);
-            let topIndex = Math.max(0, int(this.#scrollPos / this.#itemsSize));
-            let maxIndex = topIndex + this.#nbrVisibleItems;
-            maxIndex = Math.min(maxIndex, items.length);
+            topIndex = Math.max(0, int(this.#scrollPos / this.#itemsSize));
+            maxIndex = Math.min(topIndex + this.#nbrVisibleItems, items.length);
+            t = this.count > 0 ? items.slice(0, topIndex).reduce((accumulator, currentValue) => accumulator + currentValue.size, 0) : 0;
             this.#scroller.style[propSize.toLowerCase()]
                 = `${innerHeight}${core.types.CSSUNITS.PX}`;
-            for (let i = topIndex; i < maxIndex; i++) {
+            for (i = topIndex; i < maxIndex; i++) {
                 if (i < items.length) {
                     const item = items[i];
                     const html = htmlElement.children[x];
                     !item.size && (item.size = this.#itemsSize);
                     this.dropDownPopup && (item.dropDownPopup = this.dropDownPopup);
-                    this.#drawItem(item, i * item.size, html);
+                    this.#drawItem(item, t, html);
                     html.item = item;
                     x++;
+                    t += item.size;
                 }
             }
             lastElementChild && (topIndex + this.#nbrVisibleItems > maxIndex)
