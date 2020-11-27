@@ -327,6 +327,7 @@ class ListBox extends ScrollControl {
     #orientation;
     #scroller;
     #nbrVisibleItems;
+    #visibleItems = [];
     //#endregion Private fields
     //#region constructor
     constructor(owner, props) {
@@ -399,7 +400,7 @@ class ListBox extends ScrollControl {
     }
     set itemsSize(newValue) {
         if (core.tools.isNumber(newValue) && this.#itemsSize !== newValue) {
-            this.#visibleItems().forEach(item => {
+            this.#visibleItems.forEach(item => {
                 item.size === this.#itemsSize && (item.size = newValue);
             });
             this.#itemsSize = newValue;
@@ -441,7 +442,7 @@ class ListBox extends ScrollControl {
     }
     set itemIndex(newValue) {
         //#region Variables déclaration
-        const items = this.#visibleItems();
+        const items = this.#visibleItems;
         //#endregion Variables déclaration
         if (core.tools.isNumber(newValue) && newValue < items.length && newValue >= 0) {
             if (this.#itemIndex !== newValue) {
@@ -496,7 +497,7 @@ class ListBox extends ScrollControl {
     //#endregion images
     //#region count
     get count() {
-        return this.#visibleItems().length;
+        return this.#items.length;
     }
     //#endregion count
     //#endregion Getters / Setters
@@ -504,15 +505,17 @@ class ListBox extends ScrollControl {
     //#region innerHeight
     #innerHeight() {
         //#region Variables déclaration
-        const items = this.#visibleItems();
+        const items = this.#visibleItems;
         //#endregion Variables déclaration
-        items.filter(item => !item.size).forEach(item => item.size = this.#itemsSize);
+        items.filter(item => !item.size).forEach(item => {
+            item.size = this.#itemsSize;
+        });
         return this.count > 0 ? items.reduce((accumulator, currentValue) => accumulator + currentValue.size, 0) : 0;
     }
     //#endregion innerHeight
     //#region visibleItems
-    #visibleItems() {
-        return this.#items.filter(item => !item.hasOwnProperty('visible') || item.visible);
+    #checkVisibleItems() {
+        this.#visibleItems = this.#items.filter(item => !item.hasOwnProperty('visible') || item.visible);
     }
     //#endregion visibleItems
     //#region updateItemCss
@@ -545,7 +548,7 @@ class ListBox extends ScrollControl {
             }
             item.isHeader && html.classList.add('isheader');
             item.selected && html.classList.add('selected');
-            this.useAlternateColor && this.#visibleItems().indexOf(item) % 2 === 0 && html.classList.add('alternate');
+            this.useAlternateColor && this.#visibleItems.indexOf(item) % 2 === 0 && html.classList.add('alternate');
             if (item.icon) {
                 item.icon.classList.add('icon');
                 if (!String.isNullOrEmpty(item.cssImage)) {
@@ -568,7 +571,7 @@ class ListBox extends ScrollControl {
     //#region draw
     draw() {
         //#region Variables déclaration
-        const items = this.#visibleItems();
+        const items = this.#visibleItems;
         const vert = this.#orientation === core.types.ORIENTATIONS.VERTICAL;
         const htmlElement = this.HTMLElement;
         const prop = vert ? 'Top' : 'Left';
@@ -665,7 +668,7 @@ class ListBox extends ScrollControl {
         if (!item.isHeader && item.enabled && this.enabled && html) {
             this.multiSelect && !core.keyboard.ctrl && this.clearSelection();
             this.multiSelect && core.keyboard.ctrl
-                ? item.selected = !item.selected : (this.itemIndex = this.#visibleItems().indexOf(item)) && (item.selected = !0);
+                ? item.selected = !item.selected : (this.itemIndex = this.#visibleItems.indexOf(item)) && (item.selected = !0);
             this.viewCheckboxes && (item.checked = !item.checked);
 
             this.#updateItemCss(item, html[`offset${prop}`], html);
@@ -677,7 +680,7 @@ class ListBox extends ScrollControl {
     //#region deselectItemIndex
     #deselectItemIndex() {
         if (this.#itemIndex !== -1) {
-            const item = this.#visibleItems()[this.#itemIndex];
+            const item = this.#visibleItems[this.#itemIndex];
             item && (item.selected = !1);
             this.#updateItemCss(item);
         }
@@ -806,7 +809,7 @@ class ListBox extends ScrollControl {
                 this.itemIndex = 0;
                 break;
             case VKEYSCODES.VK_END:
-                this.itemIndex = this.#visibleItems().length - 1;
+                this.itemIndex = this.#visibleItems.length - 1;
                 break;
             case VKEYSCODES.VK_PAGEUP:
                 this.itemIndex = this.#orientation === ORIENTATIONS.VERTICAL
@@ -837,26 +840,26 @@ class ListBox extends ScrollControl {
         const propSize = this.#orientation === ORIENTATIONS.VERTICAL ? 'Height' : 'Width';
         const scrollProp = `scroll${prop}`;
         const offsetProp = `offset${prop}`;
-        const items = this.#visibleItems();
+        const items = this.#visibleItems;
         const htmlItems = Convert.nodeListToArray(this.HTMLElement.children);
         const itemIndex = items[this.#itemIndex];
         let scrollPos = 0;
         let idx = 0;
         let html;
         //#endregion Variables déclaration
-        while (idx < items.length) {
-            const item = items[idx];
-            if (item == itemIndex) {
-                break;
-            }
-            scrollPos += item.size;
-            idx++;
-        }
-        html = htmlItems.filter(child => child.item === itemIndex).first;
-        if (!html || (html && html[offsetProp] + html.item.size - htmlElement[scrollProp] >= htmlElement[`client${propSize}`]) ||
-            html[offsetProp] - htmlElement[scrollProp] <= 0) {
-            htmlElement[scrollProp] = scrollPos;
-        }
+        //while (idx < items.length) { // à remplacer
+        //    const item = items[idx];
+        //    if (item == itemIndex) {
+        //        break;
+        //    }
+        //    scrollPos += item.size;
+        //    idx++;
+        //}
+        //html = htmlItems.filter(child => child.item === itemIndex).first;
+        //if (!html || (html && html[offsetProp] + html.item.size - htmlElement[scrollProp] >= htmlElement[`client${propSize}`]) ||
+        //    html[offsetProp] - htmlElement[scrollProp] <= 0) {
+        //    htmlElement[scrollProp] = scrollPos;
+        //}
     }
     //#endregion scrollToItem
     //#region loaded
@@ -893,8 +896,14 @@ class ListBox extends ScrollControl {
                     !item.hasOwnProperty('visible') && (item.visible = !0);
                     !item.hasOwnProperty('enabled') && (item.enabled = !0);
                     !item.hasOwnProperty('isHeader') && (item.isHeader = !1);
-                    this.#items.push(item);
+                    this.#items.push(
+                        new Proxy(item, {
+                            set: function(target, property, value, receiver) {
+                                (property === "visible") && this.#checkVisibleItems();
+                            }
+                        }));
                 });
+                this.#checkVisibleItems();
                 this.endUpdate();
             }
         }
