@@ -473,7 +473,7 @@ class Application extends BaseClass {
             if (key) {
                 if (isToolTip) {
                     obj.toolTip = key;
-                } else if (obj instanceof core.classes.CaptionControl || obj instanceof core.classes.ListBoxItem) {
+                } else if (obj instanceof core.classes.CaptionControl || obj.hasOwnProperty('caption')) {
                     obj.caption = key;
                 } else if (obj instanceof core.classes.CustomTextControl) {
                     obj.placeHolder = key;

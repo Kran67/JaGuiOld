@@ -1,5 +1,4 @@
 ﻿//#region Imports
-import { BaseClass } from '/scripts/core/baseclass.js';
 //#endregion Imports
 //#region VKeysCodes
 /**
@@ -246,12 +245,12 @@ class Keyboard {
         this.#event.cancelBubble = !0;
         this.#event.stopPropagation();
         this.#event.preventDefault();
-        this.#ctrl = !1;
-        this.#alt = !1;
-        this.#shift = !1;
-        this.#key = Keyboard.VKEYSCODES.NONE;
-        this.#keyEvent = Keyboard.KEYBORDEVENTS.NONE;
-        this.#keyChar = String.EMPTY;
+        //this.#ctrl = !1;
+        //this.#alt = !1;
+        //this.#shift = !1;
+        //this.#key = Keyboard.VKEYSCODES.NONE;
+        //this.#keyEvent = Keyboard.KEYBORDEVENTS.NONE;
+        //this.#keyChar = String.EMPTY;
     }
     //#endregion stopEvent
     //#endregion

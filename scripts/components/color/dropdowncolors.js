@@ -1,5 +1,5 @@
 ﻿//#region Import
-import { ListBox, ListBoxItem } from '/scripts/components/common/listbox.js';
+import { ListBox } from '/scripts/components/common/listbox.js';
 import { DropDownListBox } from '/scripts/components/common/dropdownlistbox.js';
 import { Keyboard } from '/scripts/core/keyboard.js';
 import { Colors, Color } from '/scripts/core/color.js';

@@ -1,5 +1,5 @@
 ﻿//#region Import
-import { ListBox, ListBoxItem } from '/scripts/components/common/listbox.js';
+import { ListBox } from '/scripts/components/common/listbox.js';
 import { PopupBox } from '/scripts/core/popupbox.js';
 import { ThemedControl } from '/scripts/core/themedcontrol.js';
 import { Keyboard } from '/scripts/core/keyboard.js';

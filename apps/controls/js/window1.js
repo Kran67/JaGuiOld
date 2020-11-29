@@ -5,7 +5,6 @@ import '/scripts/components/common/label.js';
 import '/scripts/components/common/speedbutton.js';
 //import { Point } from '/scripts/core/geometry.js';
 import '/scripts/components/dialogs/dialogs.js';
-import { ListBoxItem } from '/scripts/components/common/listbox.js';
 import '/scripts/components/common/image.js';
 //import { Animation } from '/scripts/animation.js';
 import '/scripts/components/containers/groupbox.js';
@@ -159,7 +158,6 @@ class Window1 extends Window {
         let items = [...lBox.items];
         //#endregion Variables déclaration
         if (this.modalResult === Window.MODALRESULTS.OK) {
-            const t = new Date().getTime();
             for (let i = num; i < 1000000 + num; i++) {
                 items.push({ caption: `item${i}` });
             }
