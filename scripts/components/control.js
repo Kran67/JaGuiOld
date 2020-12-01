@@ -76,55 +76,55 @@ class Control extends Component {
         if (owner) {
             super(owner, props);
             const self = this;
-            this.#autoTranslate= props.hasOwnProperty('autoTranslate') && core.tools.isBool(props.autoTranslate)
+            this.#autoTranslate = props.hasOwnProperty('autoTranslate') && core.tools.isBool(props.autoTranslate)
                     ? props.autoTranslate : !1;
-            this.#translationKey= props.hasOwnProperty('translationKey') ? props.translationKey : String.EMPTY;
-            this.#closePopups= props.hasOwnProperty('closePopups') && core.tools.isBool(props.closePopups)
+            this.#translationKey = props.hasOwnProperty('translationKey') ? props.translationKey : String.EMPTY;
+            this.#closePopups = props.hasOwnProperty('closePopups') && core.tools.isBool(props.closePopups)
                     ? props.closePopups : !0;
-            this.#constraints= new core.classes.SizeConstraints(this);
-            this.#ownerShowToolTip= props.hasOwnProperty('ownerShowToolTip')
+            this.#constraints = new core.classes.SizeConstraints(this);
+            this.#ownerShowToolTip = props.hasOwnProperty('ownerShowToolTip')
                     && core.tools.isBool(props.ownerShowToolTip) ? props.ownerShowToolTip : !0;
-            this.#autoCapture= props.hasOwnProperty('autoCapture') && core.tools.isBool(props.autoCapture)
+            this.#autoCapture = props.hasOwnProperty('autoCapture') && core.tools.isBool(props.autoCapture)
                     ? props.autoCapture : !1;
-            this.#padding= new core.classes.Padding(this);
-            this.#margin= new core.classes.Margin(this);
-            this.#opacity= props.hasOwnProperty('opacity') && core.tools.isNumber(props.opacity) && (props.opacity);
-            this.#width= props.hasOwnProperty('width') && core.tools.isNumber(props.width) ? props.width : 50;
-            this.#height= props.hasOwnProperty('height') && core.tools.isNumber(props.height) ? props.height : 50;
-            this.#scale= new core.classes.Scale(this);
-            this.#canFocused= props.hasOwnProperty('canFocused') && core.tools.isBool(props.canFocused)
+            this.#padding = new core.classes.Padding(this);
+            this.#margin = new core.classes.Margin(this);
+            this.#opacity = props.hasOwnProperty('opacity') && core.tools.isNumber(props.opacity) && (props.opacity);
+            this.#width = props.hasOwnProperty('width') && core.tools.isNumber(props.width) ? props.width : 50;
+            this.#height = props.hasOwnProperty('height') && core.tools.isNumber(props.height) ? props.height : 50;
+            this.#scale = new core.classes.Scale(this);
+            this.#canFocused = props.hasOwnProperty('canFocused') && core.tools.isBool(props.canFocused)
                     ? props.canFocused : !1;
-            this.#showFocus= props.hasOwnProperty('showFocus') && core.tools.isBool(props.showFocus)
+            this.#showFocus = props.hasOwnProperty('showFocus') && core.tools.isBool(props.showFocus)
                     ? props.showFocus : !0;
-            this.#enabled= props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
-            this.#rotateCenter= new core.classes.RotateCenter(this);
-            this.#toolTip= props.hasOwnProperty('toolTip') ? props.toolTip : String.EMPTY;
-            this.#showToolTip= props.hasOwnProperty('showToolTip') && core.tools.isBool(props.showToolTip)
+            this.#enabled = props.hasOwnProperty('enabled') && core.tools.isBool(props.enabled) ? props.enabled : !0;
+            this.#rotateCenter = new core.classes.RotateCenter(this);
+            this.#toolTip = props.hasOwnProperty('toolTip') ? props.toolTip : String.EMPTY;
+            this.#showToolTip = props.hasOwnProperty('showToolTip') && core.tools.isBool(props.showToolTip)
                     ? props.showToolTip : !1;
-            this.#mouseEvents= new core.classes.MouseEvents(props.hasOwnProperty('mouseEvents')
+            this.#mouseEvents = new core.classes.MouseEvents(props.hasOwnProperty('mouseEvents')
                     ? props.mouseEvents : null);
-            this.#rotateAngle= props.hasOwnProperty('rotateAngle') && core.tools.isNumber(props.rotateAngle)
+            this.#rotateAngle = props.hasOwnProperty('rotateAngle') && core.tools.isNumber(props.rotateAngle)
                     ? props.rotateAngle : 0;
-            this.#cssClasses= props.hasOwnProperty('cssClasses') ? props.cssClasses : String.EMPTY;
-            this.#tabOrder= props.hasOwnProperty('tabOrder') && core.tools.isNumber(props.tabOrder)
+            this.#cssClasses = props.hasOwnProperty('cssClasses') ? props.cssClasses : String.EMPTY;
+            this.#tabOrder = props.hasOwnProperty('tabOrder') && core.tools.isNumber(props.tabOrder)
                 ? props.tabOrder : 0;
-            this.#right= props.hasOwnProperty('right') && core.tools.isNumber(props.right) ? props.right : null;
-            this.#bottom= props.hasOwnProperty('bottom') && core.tools.isNumber(props.bottom) ? props.bottom : null;
-            this.#forceDisplayVisibility= props.hasOwnProperty('forceDisplayVisibility')
+            this.#right = props.hasOwnProperty('right') && core.tools.isNumber(props.right) ? props.right : null;
+            this.#bottom = props.hasOwnProperty('bottom') && core.tools.isNumber(props.bottom) ? props.bottom : null;
+            this.#forceDisplayVisibility = props.hasOwnProperty('forceDisplayVisibility')
                 && core.tools.isBool(props.forceDisplayVisibility)
                 ? props.forceDisplayVisibility : !1;
-            this.#clipped= props.hasOwnProperty('clipped') && core.tools.isBool(props.clipped) ? props.clipped : !0;
-            this.#reflected= props.hasOwnProperty('reflected') && core.tools.isBool(props.reflected)
+            this.#clipped = props.hasOwnProperty('clipped') && core.tools.isBool(props.clipped) ? props.clipped : !0;
+            this.#reflected = props.hasOwnProperty('reflected') && core.tools.isBool(props.reflected)
                 ? props.reflected : !1;
-            this.#column= props.hasOwnProperty('column') && core.tools.isNumber(props.column) ? props.column : 0;
-            this.#row= props.hasOwnProperty('row') && core.tools.isNumber(props.row) ? props.row : 0;
-            this.#colSpan= props.hasOwnProperty('colSpan') && core.tools.isNumber(props.colSpan)
+            this.#column = props.hasOwnProperty('column') && core.tools.isNumber(props.column) ? props.column : 0;
+            this.#row = props.hasOwnProperty('row') && core.tools.isNumber(props.row) ? props.row : 0;
+            this.#colSpan = props.hasOwnProperty('colSpan') && core.tools.isNumber(props.colSpan)
                 ? props.colSpan : 0;
-            this.#rowSpan= props.hasOwnProperty('rowSpan') && core.tools.isNumber(props.rowSpan)
+            this.#rowSpan = props.hasOwnProperty('rowSpan') && core.tools.isNumber(props.rowSpan)
                 ? props.rowSpan : 0;
-            this.#allowUpdateOnResize= props.hasOwnProperty('allowUpdateOnResize')
+            this.#allowUpdateOnResize = props.hasOwnProperty('allowUpdateOnResize')
                 && core.tools.isBool(props.allowUpdateOnResize) ? props.allowUpdateOnResize : !1;
-            this.#allowRealignChildsOnResize= props.hasOwnProperty('allowRealignChildsOnResize')
+            this.#allowRealignChildsOnResize = props.hasOwnProperty('allowRealignChildsOnResize')
                 && core.tools.isBool(props.allowRealignChildsOnResize)
                 ? props.allowRealignChildsOnResize : !1;
             this.#resizer = new ResizeObserver(function () {
@@ -137,7 +137,7 @@ class Control extends Component {
                     this.oldHeight = obj.height;
                 }
             });
-            this.#updateCell= function () {
+            this.#updateCell = function () {
                 //#region Variables déclaration
                 const htmlElementStyle = self.HTMLElementStyle;
                 //#endregion Variables déclaration
@@ -162,7 +162,7 @@ class Control extends Component {
                 const margin = props.margin;
                 //#endregion Variables déclaration
                 core.tools.isNumber(margin)
-                    ? this.#padding.setValues(margin, margin, margin, margin)
+                    ? this.#margin.setValues(margin, margin, margin, margin)
                     : this.#margin.setValues(margin.left, margin.top, margin.right, margin.bottom);
             }
             this.createEventsAndBind(['onMouseDown', 'onMouseMove', 'onMouseUp', 'onClick', 'onDblClick',

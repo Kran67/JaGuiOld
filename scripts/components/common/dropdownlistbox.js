@@ -8,7 +8,7 @@ import { Events } from '/scripts/core/events.js';
 import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Import
 //#region ListBoxItemPopup
-class ListBoxItemPopup extends ListBoxItem {
+/*class ListBoxItemPopup extends ListBoxItem {
     //#region constructor
     constructor(owner, props) {
         //#region Variables déclaration
@@ -45,53 +45,54 @@ class ListBoxItemPopup extends ListBoxItem {
     }
     //#endregion draw
     //#endregion Methods
-}
+}*/
 //#endregion ListBoxItemPopup
 //#region ListBoxPopup
 class ListBoxPopup extends ListBox {
     //#region constructor
     constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
         props = !props ? {} : props;
         if (owner) {
             props.closePopups = !1;
-            props.itemsClass = 'ListBoxItemPopup';
             props.canFocused = !1;
-            props.scrollToItemMode = 'first';
             super(owner, props);
         }
     }
     //#endregion constructor
     //#region Methods
-    //#region refreshInnerHeight
-    refreshInnerHeight() {
+    //#region innerHeight
+    innerHeight() {
+        //#region Variables déclaration
         const items = this.items;
+        //#endregion Variables déclaration
         if (this.owner) {
             items.forEach(item => {
-                item.removeToHTML();
-                //item.owner = this;
+                //item.removeToHTML();
                 item.checked = !1;
                 item.selected = !1;
             });
-            super.refreshInnerHeight();
+            super.innerHeight();
         }
     }
-    //#endregion refreshInnerHeight
+    //#endregion innerHeight
     //#region selectItem
     selectItem(item) {
+        //#region Variables déclaration
         const dropDownListBox = item.owner.dropDownListBox;
+        //#endregion Variables déclaration
         if (!item.isHeader && item.enabled) {
             dropDownListBox.itemIndex = item.index;
             dropDownListBox.text = item.caption;
             !dropDownListBox.updating && dropDownListBox.onChange.invoke();
-            item.form.closePopups();
+            this.form.closePopups();
         }
     }
     //#endregion selectItem
     //#region keyUp
     keyUp() {
+        //#region Variables déclaration
         const VKEYSCODES = Keyboard.VKEYSCODES;
+        //#endregion Variables déclaration
         super.keyUp();
         switch (core.keyboard.key) {
             case VKEYSCODES.VK_ENTER:
@@ -100,6 +101,15 @@ class ListBoxPopup extends ListBox {
         }
     }
     //#endregion keyUp
+    //#region mouseMove
+    mouseMove() {
+        //#region Variables déclaration
+        const item = this.itemAtPos(core.mouse.target);
+        //#endregion Variables déclaration
+        super.mouseMove();
+        item && this.selectItem(item);
+    }
+    //#endregion mouseMove
     //#endregion Methods
 }
 Object.seal(ListBoxPopup);
@@ -225,7 +235,7 @@ class DropDownListBox extends ThemedControl {
             props.autoCapture = !0;
             super(owner, props);
             this.#opened = props.hasOwnProperty('opened') && core.tools.isBool(props.opened)
-                    ? props.opened : !1;
+                ? props.opened : !1;
             this.#text = props.hasOwnProperty('text') ? props.text : String.EMPTY;
             this.#dropDownCount = props.hasOwnProperty('dropDownCount')
                 && core.tools.isNumber(props.dropDownCount)
@@ -236,12 +246,12 @@ class DropDownListBox extends ThemedControl {
             this.#itemIndex = props.hasOwnProperty('itemIndex') && core.tools.isNumber(props.itemIndex)
                 ? props.itemIndex : -1;
             this.#itemsSize = props.hasOwnProperty('itemsSize') && core.tools.isNumber(props.itemsSize)
-            ? props.itemsSize : 13;
+                ? props.itemsSize : 13;
             this.#listBoxPopupClass = props.hasOwnProperty('listBoxPopupClass')
-            ? props.listBoxPopupClass : ListBoxPopup;
+                ? props.listBoxPopupClass : ListBoxPopup;
             this.#dropDownWidth = props.hasOwnProperty('dropDownWidth')
-            && core.tools.isNumber(props.dropDownWidth)
-            ? props.dropDownWidth : -1;
+                && core.tools.isNumber(props.dropDownWidth)
+                ? props.dropDownWidth : -1;
             this.createEventsAndBind(['onChange', 'onDrawItem'], props);
         }
     }
@@ -462,7 +472,7 @@ class DropDownListBox extends ThemedControl {
                     height: (this.#dropDownCount * this.#itemsSize) + 2,
                     itemsSize: this.#itemsSize,
                     items: [...this.#items],
-                    listBoxPopupClass: this.#listBoxPopupClass,
+                    listBoxPopupClass: this.#listBoxPopupClass
                 }
             });
             this.#dropDownPopup.HTMLElement.classList.remove('hidden');
@@ -561,11 +571,11 @@ class DropDownListBox extends ThemedControl {
     //#endregion findItemFromText
     //#region newItem
     newItem(props) {
-        const item = core.classes.createComponent({
-            class: ListBoxItem, // à voir ici
-            owner: this,
-            props
-            });
+        //const item = core.classes.createComponent({
+        //    class: ListBoxItem, // à voir ici
+        //    owner: this,
+        //    props
+        //    });
         this.#items.push(item);
         return item;
     }
@@ -628,7 +638,7 @@ Object.defineProperties(DropDownListBox.prototype, {
     }
 });
 Object.seal(DropDownListBox);
-core.classes.register(core.types.CATEGORIES.INTERNAL, DropDownListBoxPopup, ListBoxPopup, ListBoxItemPopup);
+core.classes.register(core.types.CATEGORIES.INTERNAL, DropDownListBoxPopup, ListBoxPopup);
 core.classes.register(core.types.CATEGORIES.COMMON, DropDownListBox);
 //#endregion DropDownListBox
 //#region Templates

@@ -10,7 +10,6 @@ import { Convert } from '/scripts/core/convert.js';
 class ListBox extends ScrollControl {
     //#region Private fields
     #items = [];
-    #itemsClass;
     #scrollPos = 0;
     #lastDelta = new Point;
     #downPos = new Point;
@@ -42,8 +41,6 @@ class ListBox extends ScrollControl {
                 ? props.sorted : !1;
             this.#itemsSize = props.hasOwnProperty('itemsSize') && core.tools.isNumber(props.itemsSize)
                 ? props.itemsSize : 16;
-            this.#itemsClass = props.hasOwnProperty('itemsClass')
-                ? core.classes[props.itemsClass] : Object;
             this.#useAlternateColor = props.hasOwnProperty('useAlternateColor')
                 && core.tools.isBool(props.useAlternateColor)
                 ? props.useAlternateColor : !1;
@@ -205,7 +202,7 @@ class ListBox extends ScrollControl {
     //#endregion Getters / Setters
     //#region Methods
     //#region innerHeight
-    #innerHeight() {
+    innerHeight() {
         //#region Variables déclaration
         const items = this.#items.filter(item => item.visible);
         //#endregion Variables déclaration
@@ -285,7 +282,7 @@ class ListBox extends ScrollControl {
         //#endregion Variables déclaration
         if (!this.loading && !this.form.loading && this.allowUpdate && !this.#isBusy) {
             this.#isBusy = !this.#isBusy;
-            innerHeight = this.#innerHeight();
+            innerHeight = this.innerHeight();
             this.#scrollPos =
                 Math.max(Math.min(htmlElement[`scroll${prop}`], innerHeight
                     - htmlElement[`offset${propSize}`]), 0);
@@ -353,7 +350,7 @@ class ListBox extends ScrollControl {
     }
     //#endregion drawItem
     //#region selectItem
-    #selectItem(item) {
+    selectItem(item) {
         //#region Variables déclaration
         const html = Convert.nodeListToArray(this.HTMLElement.children).filter(child => child.item === item).first;
         //#endregion Variables déclaration
@@ -449,18 +446,18 @@ class ListBox extends ScrollControl {
     //#endregion selectAll
     //#region destroy
     destroy() {
-        while (htmlElement.children.length > 0) {
+        //#region Variables déclaration
+        const htmlElement = this.HTMLElement;
+        //#endregion Variables déclaration
+        while (htmlElement.children.length > 1) {
             const child = htmlElement.children[htmlElement.children.length - 1];
             child.item = null;
             child.innerHTML = String.EMPTY;
-            child.parentNode.remove(child);
+            child.parentNode.removeChild(child);
         }
-        if (this.#items) {
-            while (this.#items.length > 0) {
-                this.#items.pop();
-            }
-            //this.#items.destroy();
-        }
+        this.#items.clear();
+        this.#items.destroy();
+        this.#visibleItems.clear();
         this.#visibleItems.destroy();
         this.#lastDelta.destroy();
         this.#downPos.destroy();
@@ -594,7 +591,7 @@ class ListBox extends ScrollControl {
     }
     //#endregion getImages
     //#region itemAtPos
-    #itemAtPos(point) {
+    itemAtPos(point) {
         //#region Variables déclaration
         let i = 0;
         let notFound = !0;
@@ -620,10 +617,10 @@ class ListBox extends ScrollControl {
     //#region mouseDown
     mouseDown() {
         //#region Variables déclaration
-        const item = this.#itemAtPos(core.mouse.target);
+        const item = this.itemAtPos(core.mouse.target);
         //#endregion Variables déclaration
         super.mouseDown();
-        item && this.#selectItem(item);
+        item && this.selectItem(item);
     }
     //#endregion mouseDown
     //#region createItemProxy
@@ -661,9 +658,6 @@ Object.defineProperties(ListBox.prototype, {
         enumerable: !0
     },
     'itemsSize': {
-        enumerable: !0
-    },
-    'itemsClass': {
         enumerable: !0
     },
     'useAlternateColor': {
