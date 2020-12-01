@@ -35,15 +35,15 @@
     box-shadow: 0 0 6px #F69E2D;
 }
 
-.carbon.PopupListBox .ListBoxItemPopup:hover,
-.carbon.ListBoxItemPopup.selected {
+.carbon.PopupListBox .ListBoxPopupItem:hover,
+.carbon.ListBoxPopupItem.selected {
     background-color: #936639;
 }
 
-.carbon.ListBox .ListBoxContent .ListBoxItemPopup {
+.carbon.ListBox .ListBoxContent .ListBoxPopupItem {
     border-radius: 3px;
 }
 
-.carbon.PopupListBox .ListBoxItemPopup.disabled:hover {
+.carbon.PopupListBox .ListBoxPopupItem.disabled:hover {
     background-color: transparent;
 }

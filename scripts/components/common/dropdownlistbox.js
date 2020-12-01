@@ -55,13 +55,14 @@ class ListBoxPopup extends ListBox {
         if (owner) {
             props.closePopups = !1;
             props.canFocused = !1;
+            props.mouseEvents = { mousemove: !0 };
             super(owner, props);
         }
     }
     //#endregion constructor
     //#region Methods
     //#region innerHeight
-    innerHeight() {
+    /*innerHeight() {
         //#region Variables déclaration
         const items = this.items;
         //#endregion Variables déclaration
@@ -73,7 +74,7 @@ class ListBoxPopup extends ListBox {
             });
             super.innerHeight();
         }
-    }
+    }*/
     //#endregion innerHeight
     //#region selectItem
     selectItem(item) {
@@ -107,7 +108,7 @@ class ListBoxPopup extends ListBox {
         const item = this.itemAtPos(core.mouse.target);
         //#endregion Variables déclaration
         super.mouseMove();
-        item && this.selectItem(item);
+        item && !item.selected && (item.selected = !item.selected);
     }
     //#endregion mouseMove
     //#endregion Methods
