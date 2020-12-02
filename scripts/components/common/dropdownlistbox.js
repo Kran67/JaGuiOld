@@ -51,9 +51,17 @@ class ListBoxPopup extends ListBox {
     mouseMove() {
         //#region Variables déclaration
         const item = this.itemAtPos(core.mouse.target);
+        let lastSelectedItem;
         //#endregion Variables déclaration
         super.mouseMove();
-        item && !item.selected && (item.selected = !item.selected);
+        if (item && !item.selected) {
+            lastSelectedItem = this.items.filter(e => e.selected);
+            lastSelectedItem && (lastSelectedItem = lastSelectedItem.first);
+            this.items.beginUpdate();
+            lastSelectedItem && (lastSelectedItem.selected = !lastSelectedItem.selected);
+            item.selected = !item.selected;
+            this.items.endUpdate();
+        }
     }
     //#endregion mouseMove
     //#endregion Methods
