@@ -7,46 +7,6 @@ import { Keyboard } from '/scripts/core/keyboard.js';
 import { Events } from '/scripts/core/events.js';
 import { Mouse } from '/scripts/core/mouse.js';
 //#endregion Import
-//#region ListBoxItemPopup
-/*class ListBoxItemPopup extends ListBoxItem {
-    //#region constructor
-    constructor(owner, props) {
-        //#region Variables déclaration
-        //#endregion Variables déclaration
-        props = !props ? {} : props;
-        if (owner) {
-            props.closePopups = !1;
-            super(owner, props);
-        }
-    }
-    //#endregion constructor
-    //#region Methods
-    //#region mouseLeave
-    mouseLeave() {
-        this.html.classList.remove('selected');
-    }
-    //#endregion mouseLeave
-    //#region mouseEnter
-    mouseEnter() {
-        const owner = this.owner;
-        const items = owner.items;
-        const itemIndex = owner.itemIndex;
-        if (itemIndex > -1) {
-            items[itemIndex].html && items[itemIndex].html.classList.remove('selected');
-            items[itemIndex].selected = !1;
-            owner.itemIndex = -1;
-        }
-    }
-    //#endregion mouseEnter
-    //#region draw
-    draw() {
-        super.draw();
-        this.html.classList.add('ListBoxItemPopup');
-    }
-    //#endregion draw
-    //#endregion Methods
-}*/
-//#endregion ListBoxItemPopup
 //#region ListBoxPopup
 class ListBoxPopup extends ListBox {
     //#region constructor
@@ -61,21 +21,6 @@ class ListBoxPopup extends ListBox {
     }
     //#endregion constructor
     //#region Methods
-    //#region innerHeight
-    /*innerHeight() {
-        //#region Variables déclaration
-        const items = this.items;
-        //#endregion Variables déclaration
-        if (this.owner) {
-            items.forEach(item => {
-                //item.removeToHTML();
-                item.checked = !1;
-                item.selected = !1;
-            });
-            super.innerHeight();
-        }
-    }*/
-    //#endregion innerHeight
     //#region selectItem
     selectItem(item) {
         //#region Variables déclaration
